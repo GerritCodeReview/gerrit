@@ -51,9 +51,4 @@ class MySql extends BaseDataSourceType {
   public boolean usePool() {
     return false;
   }
-
-  @Override
-  public ScriptRunner getNextValScript() throws IOException {
-    return getScriptRunner("mysql_nextval.sql");
-  }
 }

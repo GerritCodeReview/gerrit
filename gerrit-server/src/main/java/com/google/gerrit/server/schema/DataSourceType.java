@@ -33,12 +33,4 @@ public interface DataSourceType {
    * @throws IOException
    */
   public ScriptRunner getIndexScript() throws IOException;
-
-  /**
-   * Return a ScriptRunner that runs the nextVal script. Must not return
-   * <code>null</code>, but may return a ScriptRunner that does nothing.
-   *
-   * @throws IOException
-   */
-  public ScriptRunner getNextValScript() throws IOException;
 }

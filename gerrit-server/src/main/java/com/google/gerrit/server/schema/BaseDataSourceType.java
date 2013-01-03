@@ -42,11 +42,6 @@ public abstract class BaseDataSourceType implements DataSourceType {
     return getScriptRunner("index_generic.sql");
   }
 
-  @Override
-  public ScriptRunner getNextValScript() throws IOException {
-    return ScriptRunner.NOOP;
-  }
-
   protected static final ScriptRunner getScriptRunner(String path) throws IOException {
     if (path == null) {
       return ScriptRunner.NOOP;

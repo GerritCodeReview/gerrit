@@ -105,84 +105,86 @@ public class SideBySideTable extends AbstractPatchContentTable {
         lines.add(null);
       }
 
-      int lastA = 0;
-      int lastB = 0;
-      final boolean ignoreWS = script.isIgnoreWhitespace();
-      a = getSparseHtmlFileA(script);
-      b = getSparseHtmlFileB(script);
-      final boolean intraline =
-          script.getDiffPrefs().isIntralineDifference()
-              && script.hasIntralineDifference();
-      for (final EditList.Hunk hunk : script.getHunks()) {
-        if (!hunk.isStartOfFile()) {
-          appendSkipLine(nc, hunk.getCurB() - lastB);
-          lines.add(new SkippedLine(lastA, lastB, hunk.getCurB() - lastB));
-        }
+      if (hasDifferences(script)) {
+        int lastA = 0;
+        int lastB = 0;
+        final boolean ignoreWS = script.isIgnoreWhitespace();
+        a = getSparseHtmlFileA(script);
+        b = getSparseHtmlFileB(script);
+        final boolean intraline =
+            script.getDiffPrefs().isIntralineDifference()
+                && script.hasIntralineDifference();
+        for (final EditList.Hunk hunk : script.getHunks()) {
+          if (!hunk.isStartOfFile()) {
+            appendSkipLine(nc, hunk.getCurB() - lastB);
+            lines.add(new SkippedLine(lastA, lastB, hunk.getCurB() - lastB));
+          }
 
-        while (hunk.next()) {
-          if (hunk.isContextLine()) {
-            openLine(nc);
-            final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
-            appendLineNumber(nc, hunk.getCurA(), false);
-            appendLineText(nc, CONTEXT, ctx, false, false);
-            if (ignoreWS && b.contains(hunk.getCurB())) {
-              appendLineText(nc, CONTEXT, b, hunk.getCurB(), false);
-            } else {
-              appendLineText(nc, CONTEXT, ctx, false, false);
-            }
-            appendLineNumber(nc, hunk.getCurB(), true);
-            closeLine(nc);
-            hunk.incBoth();
-            lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
-
-          } else if (hunk.isModifiedLine()) {
-            final boolean del = hunk.isDeletedA();
-            final boolean ins = hunk.isInsertedB();
-            final boolean full =
-                intraline && hunk.getCurEdit().getType() != Edit.Type.REPLACE;
-            openLine(nc);
-
-            if (del) {
+          while (hunk.next()) {
+            if (hunk.isContextLine()) {
+              openLine(nc);
+              final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
               appendLineNumber(nc, hunk.getCurA(), false);
-              appendLineText(nc, DELETE, a, hunk.getCurA(), full);
-              hunk.incA();
-            } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
-              appendLineNumber(nc, false);
-              appendLineNone(nc, DELETE);
-            } else {
-              appendLineNumber(nc, false);
-              appendLineNone(nc, CONTEXT);
-            }
-
-            if (ins) {
-              appendLineText(nc, INSERT, b, hunk.getCurB(), full);
+              appendLineText(nc, CONTEXT, ctx, false, false);
+              if (ignoreWS && b.contains(hunk.getCurB())) {
+                appendLineText(nc, CONTEXT, b, hunk.getCurB(), false);
+              } else {
+                appendLineText(nc, CONTEXT, ctx, false, false);
+              }
               appendLineNumber(nc, hunk.getCurB(), true);
-              hunk.incB();
-            } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
-              appendLineNone(nc, INSERT);
-              appendLineNumber(nc, true);
-            } else {
-              appendLineNone(nc, CONTEXT);
-              appendLineNumber(nc, true);
-            }
+              closeLine(nc);
+              hunk.incBoth();
+              lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
 
-            closeLine(nc);
+            } else if (hunk.isModifiedLine()) {
+              final boolean del = hunk.isDeletedA();
+              final boolean ins = hunk.isInsertedB();
+              final boolean full =
+                  intraline && hunk.getCurEdit().getType() != Edit.Type.REPLACE;
+              openLine(nc);
 
-            if (del && ins) {
-              lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
-            } else if (del) {
-              lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
-            } else if (ins) {
-              lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
+              if (del) {
+                appendLineNumber(nc, hunk.getCurA(), false);
+                appendLineText(nc, DELETE, a, hunk.getCurA(), full);
+                hunk.incA();
+              } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
+                appendLineNumber(nc, false);
+                appendLineNone(nc, DELETE);
+              } else {
+                appendLineNumber(nc, false);
+                appendLineNone(nc, CONTEXT);
+              }
+
+              if (ins) {
+                appendLineText(nc, INSERT, b, hunk.getCurB(), full);
+                appendLineNumber(nc, hunk.getCurB(), true);
+                hunk.incB();
+              } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
+                appendLineNone(nc, INSERT);
+                appendLineNumber(nc, true);
+              } else {
+                appendLineNone(nc, CONTEXT);
+                appendLineNumber(nc, true);
+              }
+
+              closeLine(nc);
+
+              if (del && ins) {
+                lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
+              } else if (del) {
+                lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
+              } else if (ins) {
+                lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
+              }
             }
           }
+          lastA = hunk.getCurA();
+          lastB = hunk.getCurB();
         }
-        lastA = hunk.getCurA();
-        lastB = hunk.getCurB();
-      }
-      if (lastB != b.size()) {
-        appendSkipLine(nc, b.size() - lastB);
-        lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
+        if (lastB != b.size()) {
+          appendSkipLine(nc, b.size() - lastB);
+          lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
+        }
       }
     }else{
       // Display the patch header for binary
@@ -190,14 +192,19 @@ public class SideBySideTable extends AbstractPatchContentTable {
         appendFileHeader(nc, line);
       }
     }
+    if (!hasDifferences(script)) {
+      appendNoDifferences(nc);
+    }
     resetHtml(nc);
     populateTableHeader(script, detail);
-    initScript(script);
-    if (!isDisplayBinary) {
-      for (int row = 0; row < lines.size(); row++) {
-        setRowItem(row, lines.get(row));
-        if (lines.get(row) instanceof SkippedLine) {
-          createSkipLine(row, (SkippedLine) lines.get(row));
+    if (hasDifferences(script)) {
+      initScript(script);
+      if (!isDisplayBinary) {
+        for (int row = 0; row < lines.size(); row++) {
+          setRowItem(row, lines.get(row));
+          if (lines.get(row) instanceof SkippedLine) {
+            createSkipLine(row, (SkippedLine) lines.get(row));
+          }
         }
       }
     }

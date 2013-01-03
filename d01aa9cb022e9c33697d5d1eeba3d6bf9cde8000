@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Np-v2jx8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MySql.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-03T06:28:53Z",
+      "side": 1,
+      "message": "nit: This import is now unused.",
+      "revId": "d01aa9cb022e9c33697d5d1eeba3d6bf9cde8000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

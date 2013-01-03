@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
+
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -36,11 +38,8 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public abstract class ProjectAccessHandler<T> extends Handler<T> {
@@ -149,23 +148,6 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
     }
     config.replace(section);
     toDelete.remove(section.getName());
-  }
-
-  private static List<AccessSection> mergeSections(List<AccessSection> src) {
-    Map<String, AccessSection> map = new LinkedHashMap<String, AccessSection>();
-    for (AccessSection section : src) {
-      if (section.getPermissions().isEmpty()) {
-        continue;
-      }
-
-      AccessSection prior = map.get(section.getName());
-      if (prior != null) {
-        prior.mergeFrom(section);
-      } else {
-        map.put(section.getName(), section);
-      }
-    }
-    return new ArrayList<AccessSection>(map.values());
   }
 
   private static Set<String> scanSectionNames(ProjectConfig config) {

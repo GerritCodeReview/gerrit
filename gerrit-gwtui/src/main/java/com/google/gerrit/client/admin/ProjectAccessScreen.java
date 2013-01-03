@@ -19,6 +19,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -39,6 +40,7 @@ import com.google.gwtexpui.globalkey.client.NpTextArea;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ProjectAccessScreen extends ProjectScreen {
@@ -195,12 +197,14 @@ public class ProjectAccessScreen extends ProjectScreen {
 
           private Set<String> getDiffs(ProjectAccess wantedAccess,
               ProjectAccess newAccess) {
+            final List<AccessSection> wantedSections =
+                removeEmptyPermissionsAndSections(wantedAccess.getLocal());
             final HashSet<AccessSection> same =
-                new HashSet<AccessSection>(wantedAccess.getLocal());
+                new HashSet<AccessSection>(wantedSections);
             final HashSet<AccessSection> different =
-                new HashSet<AccessSection>(wantedAccess.getLocal().size()
+                new HashSet<AccessSection>(wantedSections.size()
                     + newAccess.getLocal().size());
-            different.addAll(wantedAccess.getLocal());
+            different.addAll(wantedSections);
             different.addAll(newAccess.getLocal());
             same.retainAll(newAccess.getLocal());
             different.removeAll(same);
@@ -210,6 +214,29 @@ public class ProjectAccessScreen extends ProjectScreen {
               differentNames.add(s.getName());
             }
             return differentNames;
+          }
+
+          private List<AccessSection> removeEmptyPermissionsAndSections(
+              final List<AccessSection> src) {
+            final Set<AccessSection> sectionsToRemove = new HashSet<AccessSection>();
+            for (final AccessSection section : src) {
+              final Set<Permission> permissionsToRemove = new HashSet<Permission>();
+              for (final Permission permission : section.getPermissions()) {
+                if (permission.getRules().isEmpty()) {
+                  permissionsToRemove.add(permission);
+                }
+              }
+              for (final Permission permissionToRemove : permissionsToRemove) {
+                section.remove(permissionToRemove);
+              }
+              if (section.getPermissions().isEmpty()) {
+                sectionsToRemove.add(section);
+              }
+            }
+            for (final AccessSection sectionToRemove : sectionsToRemove) {
+              src.remove(sectionToRemove);
+            }
+            return src;
           }
 
           @Override

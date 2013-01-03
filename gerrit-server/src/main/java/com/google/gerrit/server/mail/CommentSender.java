@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;

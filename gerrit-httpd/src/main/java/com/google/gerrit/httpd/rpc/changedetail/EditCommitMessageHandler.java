@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
-import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.common.errors.EmailException;
+
 import java.util.Collection;
 import java.util.Map;
 

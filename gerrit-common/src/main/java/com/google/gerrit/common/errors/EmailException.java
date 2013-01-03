@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.mail;
+package com.google.gerrit.common.errors;
 
 public class EmailException extends Exception {
   private static final long serialVersionUID = 1L;
 
+  public static final String MESSAGE = "Mail Error: ";
+
   public EmailException(String msg) {
-    super(msg);
+    super(MESSAGE + msg);
   }
 
   public EmailException(String msg, Throwable why) {
-    super(msg, why);
+    super(MESSAGE + msg, why);
   }
 }

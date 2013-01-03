@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -30,7 +31,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
-import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;

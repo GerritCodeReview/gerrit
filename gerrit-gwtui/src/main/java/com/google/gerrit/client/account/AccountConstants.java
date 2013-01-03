@@ -111,6 +111,7 @@ public interface AccountConstants extends Constants {
   String buttonCancel();
   String titleRegisterNewEmail();
   String descRegisterNewEmail();
+  String errorDialogTitleRegisterNewEmail();
 
   String newAgreement();
   String agreementStatus();

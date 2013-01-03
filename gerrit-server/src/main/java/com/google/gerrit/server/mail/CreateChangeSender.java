@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;

@@ -19,6 +19,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -300,7 +301,15 @@ class ContactPanelShort extends Composite {
           public void onFailure(final Throwable caught) {
             inEmail.setEnabled(true);
             register.setEnabled(true);
-            super.onFailure(caught);
+            if (caught.getMessage().startsWith(EmailException.MESSAGE)) {
+              final ErrorDialog d =
+                  new ErrorDialog(caught.getMessage().substring(
+                      EmailException.MESSAGE.length()));
+              d.setText(Util.C.errorDialogTitleRegisterNewEmail());
+              d.center();
+            } else {
+              super.onFailure(caught);
+            }
           }
         });
       }

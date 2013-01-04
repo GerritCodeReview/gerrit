@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.changedetail;
 
+import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 
 import com.google.gerrit.common.ChangeHooks;
@@ -23,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -51,6 +53,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -67,6 +70,7 @@ public class PublishDraft implements Callable<ReviewResult> {
   private final ChangeHooks hooks;
   private final GitRepositoryManager repoManager;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final ApprovalsUtil approvalsUtil;
   private final AccountResolver accountResolver;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
@@ -88,6 +92,7 @@ public class PublishDraft implements Callable<ReviewResult> {
     this.hooks = hooks;
     this.repoManager = repoManager;
     this.patchSetInfoFactory = patchSetInfoFactory;
+    this.approvalsUtil = approvalsUtil;
     this.accountResolver = accountResolver;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
@@ -170,6 +175,8 @@ public class PublishDraft implements Callable<ReviewResult> {
       recipients.remove(me);
 
       if (newChange) {
+        approvalsUtil.addReviewers(db, updatedChange, updatedPatchSet, info,
+            recipients.getReviewers(), Collections.<Account.Id> emptySet());
         try {
           CreateChangeSender cm = createChangeSenderFactory.create(updatedChange);
           cm.setFrom(me);
@@ -181,6 +188,12 @@ public class PublishDraft implements Callable<ReviewResult> {
           log.error("Cannot send email for new change " + updatedChange.getId(), e);
         }
       } else {
+        final List<PatchSetApproval> patchSetApprovals =
+            db.patchSetApprovals().byChange(updatedChange.getId()).toList();
+        final MailRecipients oldRecipients =
+            getRecipientsFromApprovals(patchSetApprovals);
+        approvalsUtil.addReviewers(db, updatedChange, updatedPatchSet, info,
+            recipients.getReviewers(), oldRecipients.getAll());
         final ChangeMessage msg =
             new ChangeMessage(new ChangeMessage.Key(updatedChange.getId(),
                 ChangeUtil.messageUUID(db)), me,

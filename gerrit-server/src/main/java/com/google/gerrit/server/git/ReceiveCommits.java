@@ -16,6 +16,8 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
+import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
+import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
@@ -40,7 +42,6 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -68,6 +69,7 @@ import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -143,8 +145,6 @@ public class ReceiveCommits {
   private static final Pattern NEW_PATCHSET =
       Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
-  private static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
-  private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private static final String COMMAND_REJECTION_MESSAGE_FOOTER =
@@ -739,16 +739,6 @@ public class ReceiveCommits {
       displayName = user.getAccount().getPreferredEmail();
     }
     return displayName;
-  }
-
-  private Account.Id toAccountId(final String nameOrEmail) throws OrmException,
-      NoSuchAccountException {
-    final Account a = accountResolver.findByNameOrEmail(nameOrEmail);
-    if (a == null) {
-      throw new NoSuchAccountException("\"" + nameOrEmail
-          + "\" is not registered");
-    }
-    return a.getId();
   }
 
   private void parseCommands(final Collection<ReceiveCommand> commands) {
@@ -1385,25 +1375,10 @@ public class ReceiveCommits {
 
     private void insertChange(ReviewDb db) throws OrmException {
       final Account.Id me = currentUser.getAccountId();
-      final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
-      final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
       final List<FooterLine> footerLines = commit.getFooterLines();
-      if (!ps.isDraft()) {
-        for (final FooterLine footerLine : footerLines) {
-          try {
-            if (isReviewer(footerLine)) {
-              reviewers.add(toAccountId(footerLine.getValue().trim()));
-            } else if (footerLine.matches(FooterKey.CC)) {
-              cc.add(toAccountId(footerLine.getValue().trim()));
-            }
-          } catch (NoSuchAccountException e) {
-            continue;
-          }
-        }
-      }
-      reviewers.remove(me);
-      cc.remove(me);
-      cc.removeAll(reviewers);
+      final MailRecipients recipients = new MailRecipients(reviewerId, ccId);
+      recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
+      recipients.remove(me);
 
       db.changes().beginTransaction(change.getId());
       try {
@@ -1412,7 +1387,7 @@ public class ReceiveCommits {
         db.changes().insert(Collections.singleton(change));
         ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
         approvalsUtil.addReviewers(db, change, ps, info,
-            reviewers, Collections.<Account.Id> emptySet());
+            recipients.getReviewers(), Collections.<Account.Id> emptySet());
         db.commit();
       } finally {
         db.rollback();
@@ -1430,8 +1405,8 @@ public class ReceiveCommits {
                 createChangeSenderFactory.create(change);
             cm.setFrom(me);
             cm.setPatchSet(ps, info);
-            cm.addReviewers(reviewers);
-            cm.addExtraCC(cc);
+            cm.addReviewers(recipients.getReviewers());
+            cm.addExtraCC(recipients.getCcOnly());
             cm.send();
           } catch (Exception e) {
             log.error("Cannot send email for new change " + change.getId(), e);
@@ -1444,13 +1419,6 @@ public class ReceiveCommits {
         }
       }));
     }
-  }
-
-  private static boolean isReviewer(final FooterLine candidateFooterLine) {
-    return candidateFooterLine.matches(FooterKey.SIGNED_OFF_BY)
-        || candidateFooterLine.matches(FooterKey.ACKED_BY)
-        || candidateFooterLine.matches(REVIEWED_BY)
-        || candidateFooterLine.matches(TESTED_BY);
   }
 
   private void preparePatchSetsForReplace() {
@@ -1698,28 +1666,10 @@ public class ReceiveCommits {
 
     PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException {
       final Account.Id me = currentUser.getAccountId();
-      final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
-      final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
       final List<FooterLine> footerLines = newCommit.getFooterLines();
-      if (!newPatchSet.isDraft()) {
-        for (final FooterLine footerLine : footerLines) {
-          try {
-            if (isReviewer(footerLine)) {
-              reviewers.add(toAccountId(footerLine.getValue().trim()));
-            } else if (footerLine.matches(FooterKey.CC)) {
-              cc.add(toAccountId(footerLine.getValue().trim()));
-            }
-          } catch (NoSuchAccountException e) {
-            continue;
-          }
-        }
-      }
-      reviewers.remove(me);
-      cc.remove(me);
-      cc.removeAll(reviewers);
-
-      final Set<Account.Id> oldReviewers = new HashSet<Account.Id>();
-      final Set<Account.Id> oldCC = new HashSet<Account.Id>();
+      final MailRecipients recipients = new MailRecipients(reviewerId, ccId);
+      recipients.add(getRecipientsFromFooters(accountResolver, newPatchSet, footerLines));
+      recipients.remove(me);
 
       db.changes().beginTransaction(change.getId());
       try {
@@ -1739,22 +1689,11 @@ public class ReceiveCommits {
 
         List<PatchSetApproval> patchSetApprovals =
             approvalsUtil.copyVetosToPatchSet(db, newPatchSet.getId());
-
-        final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
-        oldReviewers.clear();
-        oldCC.clear();
-
-        for (PatchSetApproval a : patchSetApprovals) {
-          haveApprovals.add(a.getAccountId());
-          if (a.getValue() != 0) {
-            oldReviewers.add(a.getAccountId());
-          } else {
-            oldCC.add(a.getAccountId());
-          }
-        }
-
+        final MailRecipients oldRecipients =
+            getRecipientsFromApprovals(patchSetApprovals);
         approvalsUtil.addReviewers(db, change, newPatchSet, info,
-            reviewers, haveApprovals);
+            recipients.getReviewers(), oldRecipients.getAll());
+        recipients.add(oldRecipients);
 
         msg =
             new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
@@ -1829,10 +1768,8 @@ public class ReceiveCommits {
             cm.setFrom(me);
             cm.setPatchSet(newPatchSet, info);
             cm.setChangeMessage(msg);
-            cm.addReviewers(reviewers);
-            cm.addExtraCC(cc);
-            cm.addReviewers(oldReviewers);
-            cm.addExtraCC(oldCC);
+            cm.addReviewers(recipients.getReviewers());
+            cm.addExtraCC(recipients.getCcOnly());
             cm.send();
           } catch (Exception e) {
             log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);

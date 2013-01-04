@@ -1388,18 +1388,17 @@ public class ReceiveCommits {
       final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
       final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
       final List<FooterLine> footerLines = commit.getFooterLines();
-      for (final FooterLine footerLine : footerLines) {
-        try {
-          if (ps.isDraft()) {
+      if (!ps.isDraft()) {
+        for (final FooterLine footerLine : footerLines) {
+          try {
+            if (isReviewer(footerLine)) {
+              reviewers.add(toAccountId(footerLine.getValue().trim()));
+            } else if (footerLine.matches(FooterKey.CC)) {
+              cc.add(toAccountId(footerLine.getValue().trim()));
+            }
+          } catch (NoSuchAccountException e) {
             continue;
           }
-          if (isReviewer(footerLine)) {
-            reviewers.add(toAccountId(footerLine.getValue().trim()));
-          } else if (footerLine.matches(FooterKey.CC)) {
-            cc.add(toAccountId(footerLine.getValue().trim()));
-          }
-        } catch (NoSuchAccountException e) {
-          continue;
         }
       }
       reviewers.remove(me);
@@ -1702,15 +1701,17 @@ public class ReceiveCommits {
       final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
       final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
       final List<FooterLine> footerLines = newCommit.getFooterLines();
-      for (final FooterLine footerLine : footerLines) {
-        try {
-          if (isReviewer(footerLine)) {
-            reviewers.add(toAccountId(footerLine.getValue().trim()));
-          } else if (footerLine.matches(FooterKey.CC)) {
-            cc.add(toAccountId(footerLine.getValue().trim()));
+      if (!newPatchSet.isDraft()) {
+        for (final FooterLine footerLine : footerLines) {
+          try {
+            if (isReviewer(footerLine)) {
+              reviewers.add(toAccountId(footerLine.getValue().trim()));
+            } else if (footerLine.matches(FooterKey.CC)) {
+              cc.add(toAccountId(footerLine.getValue().trim()));
+            }
+          } catch (NoSuchAccountException e) {
+            continue;
           }
-        } catch (NoSuchAccountException e) {
-          continue;
         }
       }
       reviewers.remove(me);

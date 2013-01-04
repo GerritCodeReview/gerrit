@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "NsfH2qB8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-01-04T13:33:29Z",
+      "side": 1,
+      "message": "Done.  Example output:\n\n [2013-01-03 11:10:04,391] WARN  com.google.gerrit.server.plugins.PluginLoader : Cannot load plugin static-avatar-provider\ncom.google.inject.ProvisionException: Guice provision errors:\n\n 1) Type FactoryProxy[key\u003dKey[type\u003dcom.google.gerrit.server.avatar.AvatarProvider, annotation\u003d@com.google.inject.internal.UniqueAnnotations$Internal(value\u003d95)], provider\u003dcom.google.inject.internal.ConstructorBindingImpl$Factory@1e5b02a6[Scopes.SINGLETON]]\n Using key Key[type\u003dcom.google.gerrit.extensions.registration.DynamicItem\u003ccom.google.gerrit.server.avatar.AvatarProvider\u003e, annotation\u003d[none]]\n Already provided by plugin: gravatar-provider\n\n 1 error\n\tat com.google.gerrit.extensions.registration.DynamicItem.set(DynamicItem.java:214)\n\tat com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.attachItems(PrivateInternals_DynamicTypes.java:99)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.attachItem(PluginGuiceEnvironment.java:209)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.onStartPlugin(PluginGuiceEnvironment.java:195)\n\tat com.google.gerrit.server.plugins.PluginLoader.runPlugin(PluginLoader.java:356)\n\tat com.google.gerrit.server.plugins.PluginLoader.rescan(PluginLoader.java:325)\n\tat com.google.gerrit.server.plugins.PluginLoader.start(PluginLoader.java:242)\n\tat com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:74)\n\tat com.google.gerrit.pgm.Daemon.run(Daemon.java:171)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:67)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n\tat java.lang.reflect.Method.invoke(Method.java:597)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:168)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:92)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:50)\n\tat Main.main(Main.java:25)",
+      "parentUuid": "NcXFPWGQ",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NKvgrcX8",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
         "patchSetId": 1
@@ -171,6 +189,24 @@
       "writtenOn": "2012-12-22T01:07:41Z",
       "side": 1,
       "message": "We probably do want to here, that would be an indication the main server is configured wrong in Guice.",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NsdHxJCo",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItemProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-01-04T13:33:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLhRKtFQ",
       "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

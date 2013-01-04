@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NsREQDFo",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItemProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-01-04T13:34:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure what to do in this case.  Currently I pass null for the plugin name.  The exception still has the correct data when we try to load multiple plugins providing the same DynamicItem.",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

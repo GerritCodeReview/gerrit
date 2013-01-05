@@ -121,6 +121,9 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
         if (pc.isOwner()) {
           local.add(section);
           ownerOf.add(name);
+
+        } else if (metaConfigControl.isVisible()) {
+          local.add(section);
         }
 
       } else if (RefConfigSection.isValid(name)) {

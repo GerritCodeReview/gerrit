@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
@@ -69,6 +70,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     add(RecipientType.CC, extraCC);
     rcptToAuthors(RecipientType.CC);
     bccStarredBy();
+    includeWatchers(NotifyType.NEW_PATCHSETS);
   }
 
   @Override

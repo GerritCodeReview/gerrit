@@ -92,6 +92,7 @@ Types of notifications to send. If not specified, all notifications
 are sent.
 +
 * `new_changes`: Only newly created changes.
+* `new_patchsets`: Only newly created patch sets.
 * `all_comments`: Only comments on existing changes.
 * `submitted_changes`: Only changes that have been submitted.
 * `all`: All notifications.

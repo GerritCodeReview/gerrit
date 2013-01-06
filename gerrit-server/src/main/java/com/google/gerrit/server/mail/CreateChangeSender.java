@@ -70,6 +70,8 @@ public class CreateChangeSender extends NewChangeSender {
       // who have a lower interest in the change.
       log.warn("Cannot notify watchers for new change", err);
     }
+
+    includeWatchers(NotifyType.NEW_PATCHSETS);
   }
 
   private boolean isOwnerOfProjectOrBranch(Account.Id user) {

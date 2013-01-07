@@ -284,6 +284,7 @@ public class ChangeScreen extends Screen
     neededBy.display(detail.getNeededBy());
     approvals.display(detail);
 
+    patchesList.clear();
     if (detail.getCurrentPatchSetDetail().getInfo().getParents().size() > 1) {
       patchesList.addItem(Util.C.autoMerge());
     } else {

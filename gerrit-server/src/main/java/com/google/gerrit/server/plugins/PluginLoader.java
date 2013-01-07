@@ -306,6 +306,10 @@ public class PluginLoader implements LifecycleListener {
     dropRemovedDisabledPlugins(jars);
 
     for (File jar : jars) {
+      if (jar.getName().endsWith(".disabled")) {
+        continue;
+      }
+
       String name = nameOf(jar);
       FileSnapshot brokenTime = broken.get(name);
       if (brokenTime != null && !brokenTime.isModified(jar)) {

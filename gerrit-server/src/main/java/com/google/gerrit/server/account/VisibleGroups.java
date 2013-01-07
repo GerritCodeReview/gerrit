@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -61,11 +60,11 @@ public class VisibleGroups {
     this.groupType = groupType;
   }
 
-  public GroupList get() {
-    return createGroupList(filterGroups(groupCache.all()));
+  public List<AccountGroup> get() {
+    return filterGroups(groupCache.all());
   }
 
-  public GroupList get(final Collection<ProjectControl> projects)
+  public List<AccountGroup> get(final Collection<ProjectControl> projects)
       throws NoSuchGroupException {
     Map<AccountGroup.UUID, AccountGroup> groups = Maps.newHashMap();
     for (final ProjectControl projectControl : projects) {
@@ -78,7 +77,7 @@ public class VisibleGroups {
         groups.put(group.getGroupUUID(), group);
       }
     }
-    return createGroupList(filterGroups(groups.values()));
+    return filterGroups(groups.values());
   }
 
   /**
@@ -87,7 +86,7 @@ public class VisibleGroups {
    * groups.
    * @See GroupMembership#getKnownGroups()
    */
-  public GroupList get(final IdentifiedUser user) throws NoSuchGroupException {
+  public List<AccountGroup> get(final IdentifiedUser user) throws NoSuchGroupException {
     if (identifiedUser.get().getAccountId().equals(user.getAccountId())
         || identifiedUser.get().getCapabilities().canAdministrateServer()) {
       Set<AccountGroup.UUID> mine = user.getEffectiveGroups().getKnownGroups();
@@ -98,7 +97,7 @@ public class VisibleGroups {
           groups.put(groupId, group);
         }
       }
-      return createGroupList(filterGroups(groups.values()));
+      return filterGroups(groups.values());
     } else {
       throw new NoSuchGroupException("Groups of user '" + user.getAccountId()
           + "' are not visible.");
@@ -124,10 +123,5 @@ public class VisibleGroups {
     }
     Collections.sort(filteredGroups, new GroupComparator());
     return filteredGroups;
-  }
-
-  private GroupList createGroupList(final List<AccountGroup> groups) {
-    return new GroupList(groups, identifiedUser.get()
-        .getCapabilities().canCreateGroup());
   }
 }

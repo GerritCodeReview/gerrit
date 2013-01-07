@@ -18,9 +18,9 @@ Specific projects may be watched, or the special project
 `All-Projects` can be watched to watch all projects that
 are visible to the user.
 
-Change search expressions can be used to filter change notifications
-to specific subsets, for example `branch:master` to only see changes
-proposed for the master branch.
+link:user-search.html[Change search expressions] can be used to filter
+change notifications to specific subsets, for example `branch:master`
+to only see changes proposed for the master branch.
 
 Project Level Settings
 ----------------------

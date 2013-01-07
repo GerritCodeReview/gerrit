@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -112,7 +111,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final VisibleGroups visibleGroups = visibleGroupsFactory.create();
       visibleGroups.setOnlyVisibleToAll(visibleToAll);
       visibleGroups.setGroupType(groupType);
-      final GroupList groupList;
+      final List<AccountGroup> groupList;
       if (!projects.isEmpty()) {
         groupList = visibleGroups.get(projects);
       } else if (user != null) {
@@ -123,7 +122,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
       if (stdout == null) {
         final Map<String, GroupInfo> output = Maps.newTreeMap();
-        for (final AccountGroup g : groupList.getGroups()) {
+        for (final AccountGroup g : groupList) {
           final GroupInfo info = new GroupInfo();
           info.name = g.getName();
           info.groupId = g.getId().get();
@@ -137,7 +136,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
             new TypeToken<Map<String, GroupInfo>>() {}.getType());
       } else {
         final ColumnFormatter formatter = new ColumnFormatter(stdout, '\t');
-        for (final AccountGroup g : groupList.getGroups()) {
+        for (final AccountGroup g : groupList) {
           formatter.addColumn(g.getName());
           if (verboseOutput) {
             formatter.addColumn(KeyUtil.decode(g.getGroupUUID().toString()));

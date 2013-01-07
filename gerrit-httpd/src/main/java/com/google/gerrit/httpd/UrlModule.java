@@ -27,6 +27,7 @@ import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.httpd.rpc.account.AccountsRestApiServlet;
 import com.google.gerrit.httpd.rpc.change.ChangesRestApiServlet;
 import com.google.gerrit.httpd.rpc.change.DeprecatedChangeQueryServlet;
+import com.google.gerrit.httpd.rpc.group.GroupsRestApiServlet;
 import com.google.gerrit.httpd.rpc.project.ProjectsRestApiServlet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -97,6 +98,7 @@ class UrlModule extends ServletModule {
     filter("/a/*").through(RequireIdentifiedUserFilter.class);
     serveRegex("^/(?:a/)?accounts/(.*)$").with(AccountsRestApiServlet.class);
     serveRegex("^/(?:a/)?changes/(.*)$").with(ChangesRestApiServlet.class);
+    serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
 
     if (cfg.deprecatedQuery) {

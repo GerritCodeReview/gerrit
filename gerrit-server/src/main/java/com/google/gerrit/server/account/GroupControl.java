@@ -84,6 +84,10 @@ public class GroupControl {
     this(who, GroupDescriptions.forAccountGroup(ag));
   }
 
+  public GroupDescription.Basic getGroup() {
+    return group;
+  }
+
   public CurrentUser getCurrentUser() {
     return user;
   }

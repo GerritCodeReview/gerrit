@@ -85,7 +85,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(MergeFailSender.Factory.class);
     factory(PerformCreateGroup.Factory.class);
     factory(PerformRenameGroup.Factory.class);
-    factory(VisibleGroups.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupMembers.Factory.class);
     factory(CreateProject.Factory.class);

@@ -243,6 +243,78 @@ To retrieve only the default dashboard, add `default` to the URL:
   }
 ----
 
+[[groups]]
+/groups/ (List Groups)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists the groups accessible by the caller. This is the same as
+using the link:cmd-ls-groups.html[ls-groups] command over SSH,
+and accepts the same options as query parameters.
+
+----
+  GET /groups/ HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "Administrators": {
+      "kind": "gerritcodereview#group",
+      "id": "uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
+      "uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+      "group_id": 1,
+      "description": "Gerrit Site Administrators",
+      "is_visible_to_all": false,
+      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    },
+    "Anonymous Users": {
+      "kind": "gerritcodereview#group",
+      "id": "uuid-global%3AAnonymous-Users",
+      "uuid": "global:Anonymous-Users",
+      "group_id": 2,
+      "description": "Any user, signed-in or not",
+      "is_visible_to_all": false,
+      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    },
+    "MyProject_Committers": {
+      "kind": "gerritcodereview#group",
+      "id": "uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "uuid": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "group_id": 6,
+      "is_visible_to_all": true,
+      "owner_uuid": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
+    },
+    "Non-Interactive Users": {
+      "kind": "gerritcodereview#group",
+      "id": "uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
+      "uuid": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
+      "group_id": 4,
+      "description": "Users who perform batch actions on Gerrit",
+      "is_visible_to_all": false,
+      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    },
+    "Project Owners": {
+      "kind": "gerritcodereview#group",
+      "id": "uuid-global%3AProject-Owners",
+      "uuid": "global:Project-Owners",
+      "group_id": 5,
+      "description": "Any owner of the project",
+      "is_visible_to_all": false,
+      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    },
+    "Registered Users": {
+      "kind": "gerritcodereview#group",
+      "id": "uuid-global%3ARegistered-Users",
+      "uuid": "global:Registered-Users",
+      "group_id": 3,
+      "description": "Any signed-in user",
+      "is_visible_to_all": false,
+      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    }
+  }
+----
+
 [[changes]]
 /changes/ (Query Changes)
 ~~~~~~~~~~~~~~~~~~~~~~~~~

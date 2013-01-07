@@ -15,10 +15,8 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.admin.GroupTable;
+import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-
-import java.util.List;
 
 public class MyGroupsScreen extends SettingsScreen {
   private GroupTable groups;
@@ -33,11 +31,11 @@ public class MyGroupsScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SEC.myGroups(new ScreenLoadCallback<List<AccountGroup>>(this) {
+    GroupMap.my(new ScreenLoadCallback<GroupMap>(this) {
       @Override
-      public void preDisplay(final List<AccountGroup> result) {
+      protected void preDisplay(final GroupMap result) {
         groups.display(result);
-      }
-    });
+        groups.finishDisplay();
+      }});
   }
 }

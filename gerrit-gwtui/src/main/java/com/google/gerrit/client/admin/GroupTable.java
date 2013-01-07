@@ -18,7 +18,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.groups.GroupMap;
-import com.google.gerrit.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -77,6 +77,10 @@ public class GroupTable extends NavigationTable<GroupInfo> {
   }
 
   public void display(final GroupMap groups) {
+    display(groups, null);
+  }
+
+  public void display(final GroupMap groups, final String toHighlight) {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 
@@ -91,14 +95,14 @@ public class GroupTable extends NavigationTable<GroupInfo> {
       final int row = table.getRowCount();
       table.insertRow(row);
       applyDataRowStyle(row);
-      populate(row, group);
+      populate(row, group, toHighlight);
     }
   }
 
-  void populate(final int row, final GroupInfo k) {
+  void populate(final int row, final GroupInfo k, final String toHighlight) {
     if (enableLink) {
-      table.setWidget(row, 1, new Hyperlink(k.name(),
-          Dispatcher.toGroup(k.getGroupId())));
+      table.setWidget(row, 1, new HighlightingInlineHyperlink(k.name(),
+          Dispatcher.toGroup(k.getGroupId()), toHighlight));
     } else {
       table.setText(row, 1, k.name());
     }

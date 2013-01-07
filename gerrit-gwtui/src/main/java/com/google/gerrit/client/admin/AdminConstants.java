@@ -97,6 +97,7 @@ public interface AdminConstants extends Constants {
   String groupItemHelp();
 
   String groupListTitle();
+  String groupFilter();
   String createGroupTitle();
   String groupTabGeneral();
   String groupTabMembers();

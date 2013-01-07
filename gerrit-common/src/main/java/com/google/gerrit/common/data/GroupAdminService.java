@@ -31,10 +31,6 @@ import java.util.Set;
 public interface GroupAdminService extends RemoteJsonService {
   @Audit
   @SignInRequired
-  void visibleGroups(AsyncCallback<GroupList> callback);
-
-  @Audit
-  @SignInRequired
   void createGroup(String newName, AsyncCallback<AccountGroup.Id> callback);
 
   @Audit

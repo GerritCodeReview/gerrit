@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.data.GroupOptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.InactiveAccountException;
@@ -69,7 +68,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private final CreateGroup.Factory createGroupFactory;
   private final RenameGroup.Factory renameGroupFactory;
   private final GroupDetailHandler.Factory groupDetailFactory;
-  private final VisibleGroupsHandler.Factory visibleGroupsFactory;
 
   @Inject
   GroupAdminServiceImpl(final Provider<ReviewDb> schema,
@@ -84,8 +82,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final GroupControl.Factory groupControlFactory,
       final CreateGroup.Factory createGroupFactory,
       final RenameGroup.Factory renameGroupFactory,
-      final GroupDetailHandler.Factory groupDetailFactory,
-      final VisibleGroupsHandler.Factory visibleGroupsFactory) {
+      final GroupDetailHandler.Factory groupDetailFactory) {
     super(schema, currentUser);
     this.accountCache = accountCache;
     this.groupIncludeCache = groupIncludeCache;
@@ -98,11 +95,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.createGroupFactory = createGroupFactory;
     this.renameGroupFactory = renameGroupFactory;
     this.groupDetailFactory = groupDetailFactory;
-    this.visibleGroupsFactory = visibleGroupsFactory;
-  }
-
-  public void visibleGroups(final AsyncCallback<GroupList> callback) {
-    visibleGroupsFactory.create().to(callback);
   }
 
   public void createGroup(final String newName,

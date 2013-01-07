@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
+import static com.google.gerrit.server.project.GroupResource.GROUP_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -24,9 +25,11 @@ public class Module extends RestApiModule {
   @Override
   protected void configure() {
     bind(ProjectsCollection.class);
+    bind(GroupsCollection.class);
     bind(DashboardsCollection.class);
 
     DynamicMap.mapOf(binder(), PROJECT_KIND);
+    DynamicMap.mapOf(binder(), GROUP_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
 
     get(PROJECT_KIND).to(GetProject.class);
@@ -36,6 +39,8 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "parent").to(GetParent.class);
     put(PROJECT_KIND, "parent").to(SetParent.class);
+
+    get(GROUP_KIND).to(GetGroup.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);

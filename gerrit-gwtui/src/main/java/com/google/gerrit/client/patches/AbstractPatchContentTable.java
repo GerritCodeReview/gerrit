@@ -58,6 +58,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -235,6 +236,27 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     idSideB = b;
 
     render(s, d);
+  }
+
+  protected boolean hasDifferences(final PatchScript script) {
+    // True if there are differences between the two patch sets
+    boolean hasEdits = !script.getEdits().isEmpty();
+    // True if this change is a mode change or a pure rename/copy
+    boolean hasMeta = !script.getPatchHeader().isEmpty();
+
+    return hasEdits || hasMeta;
+  }
+
+  protected void appendNoDifferences(SafeHtmlBuilder m) {
+    m.openTr();
+    m.openTd();
+    m.setAttribute("colspan", 5);
+    m.openDiv();
+    m.addStyleName(Gerrit.RESOURCES.css().patchNoDifference());
+    m.append(PatchUtil.C.noDifference());
+    m.closeDiv();
+    m.closeTd();
+    m.closeTr();
   }
 
   protected SparseHtmlFile getSparseHtmlFileA(PatchScript s) {

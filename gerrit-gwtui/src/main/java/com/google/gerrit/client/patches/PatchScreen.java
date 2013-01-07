@@ -39,7 +39,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -103,7 +102,6 @@ public abstract class PatchScreen extends Screen implements
   private HistoryTable historyTable;
   private FlowPanel topPanel;
   private FlowPanel contentPanel;
-  private Label noDifference;
   private AbstractPatchContentTable contentTable;
   private CommitMessageBlock commitMessageBlock;
   private NavLinks topNav;
@@ -250,10 +248,6 @@ public abstract class PatchScreen extends Screen implements
     topPanel = new FlowPanel();
     add(topPanel);
 
-    noDifference = new Label(PatchUtil.C.noDifference());
-    noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
-    noDifference.setVisible(false);
-
     contentTable = createContentTable();
     contentTable.fileList = fileList;
 
@@ -269,7 +263,6 @@ public abstract class PatchScreen extends Screen implements
       contentPanel.setStyleName(Gerrit.RESOURCES.css().unifiedTable());
     }
 
-    contentPanel.add(noDifference);
     contentPanel.add(contentTable);
     add(contentPanel);
     add(bottomNav);
@@ -433,7 +426,6 @@ public abstract class PatchScreen extends Screen implements
     // True if this change is a mode change or a pure rename/copy
     boolean hasMeta = !script.getPatchHeader().isEmpty();
 
-    boolean hasDifferences = hasEdits || hasMeta;
     boolean pureMetaChange = !hasEdits && hasMeta;
 
     if (contentTable instanceof SideBySideTable && pureMetaChange && !contentTable.isDisplayBinary) {
@@ -449,12 +441,11 @@ public abstract class PatchScreen extends Screen implements
       setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
     }
 
-    if (hasDifferences) {
-      contentTable.display(patchKey, idSideA, idSideB, script, patchSetDetail);
-      contentTable.display(script.getCommentDetail(), script.isExpandAllComments());
-      contentTable.finishDisplay();
-    }
-    showPatch(hasDifferences);
+    contentTable.display(patchKey, idSideA, idSideB, script, patchSetDetail);
+    contentTable.display(script.getCommentDetail(), script.isExpandAllComments());
+    contentTable.finishDisplay();
+    contentTable.setRegisterKeys(isCurrentView());
+
     settingsPanel.setEnableSmallFileFeatures(!script.isHugeFile());
     settingsPanel.setEnableIntralineDifference(script.hasIntralineDifference());
     settingsPanel.setEnabled(true);
@@ -494,12 +485,6 @@ public abstract class PatchScreen extends Screen implements
     if (topView != null && prefs.get().isRetainHeader()) {
       setTopView(topView);
     }
-  }
-
-  private void showPatch(final boolean showPatch) {
-    noDifference.setVisible(!showPatch);
-    contentTable.setVisible(showPatch);
-    contentTable.setRegisterKeys(isCurrentView() && showPatch);
   }
 
   public void setTopView(TopView tv) {

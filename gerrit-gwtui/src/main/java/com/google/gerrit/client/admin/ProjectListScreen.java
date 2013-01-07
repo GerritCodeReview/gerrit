@@ -52,7 +52,7 @@ public class ProjectListScreen extends Screen {
       protected void preDisplay(final ProjectMap result) {
         if ((mySubname == null && subname == null)
             || (mySubname != null && mySubname.equals(subname))) {
-          display(result);
+          projects.display(result);
         }
         // Else ignore the result, the user has already changed subname and
         // the result is not relevant anymore. If multiple RPC's are fired
@@ -60,11 +60,6 @@ public class ProjectListScreen extends Screen {
         // could overwrite the correct result if not ignored.
       }
     });
-  }
-
-  private void display(final ProjectMap result) {
-    projects.display(result);
-    projects.finishDisplay();
   }
 
   @Override

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "N2AoxG.w",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-07T09:23:00Z",
+      "side": 1,
+      "message": "\"and the name of the plugin that provides the item\"",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NsREQDFo",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItemProvider.java",
         "patchSetId": 2

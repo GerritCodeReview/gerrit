@@ -72,6 +72,9 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           "owner group UUID, and whether the group is visible to all")
   private boolean verboseOutput;
 
+  @Option(name = "-m", metaVar = "MATCH", usage = "match group substring")
+  private String matchSubstring;
+
   @Inject
   protected ListGroups(final GroupCache groupCache,
       final VisibleGroups.Factory visibleGroupsFactory,
@@ -111,6 +114,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final VisibleGroups visibleGroups = visibleGroupsFactory.create();
       visibleGroups.setOnlyVisibleToAll(visibleToAll);
       visibleGroups.setGroupType(groupType);
+      visibleGroups.setMatch(matchSubstring);
       final List<AccountGroup> groupList;
       if (!projects.isEmpty()) {
         groupList = visibleGroups.get(projects);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
@@ -27,6 +28,7 @@ import com.google.inject.Provider;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,6 +44,7 @@ public class VisibleGroups {
 
   private boolean onlyVisibleToAll;
   private AccountGroup.Type groupType;
+  private String match;
 
   @Inject
   VisibleGroups(final Provider<IdentifiedUser> currentUser,
@@ -58,6 +61,10 @@ public class VisibleGroups {
 
   public void setGroupType(final AccountGroup.Type groupType) {
     this.groupType = groupType;
+  }
+
+  public void setMatch(final String match) {
+    this.match = match;
   }
 
   public List<AccountGroup> get() {
@@ -109,6 +116,12 @@ public class VisibleGroups {
     final boolean isAdmin =
         identifiedUser.get().getCapabilities().canAdministrateServer();
     for (final AccountGroup group : groups) {
+      if (!Strings.isNullOrEmpty(match)) {
+        if (!group.getName().toLowerCase(Locale.US)
+            .contains(match.toLowerCase(Locale.US))) {
+          continue;
+        }
+      }
       if (!isAdmin) {
         final GroupControl c = groupControlFactory.controlFor(group);
         if (!c.isVisible()) {

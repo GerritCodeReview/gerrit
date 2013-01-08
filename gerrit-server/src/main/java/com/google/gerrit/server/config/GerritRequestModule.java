@@ -24,7 +24,6 @@ import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
-import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.git.AsyncReceiveCommits;

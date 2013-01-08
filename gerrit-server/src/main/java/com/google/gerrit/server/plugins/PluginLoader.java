@@ -447,9 +447,10 @@ public class PluginLoader implements LifecycleListener {
       URL[] urls = {tmp.toURI().toURL()};
       ClassLoader parentLoader = parentFor(type);
       ClassLoader pluginLoader = new URLClassLoader(urls, parentLoader);
-      cleanupHandles.put(
-          new CleanupHandle(tmp, jarFile, pluginLoader, cleanupQueue),
-          Boolean.TRUE);
+      final CleanupHandle cleanupHandle =
+          new CleanupHandle(tmp, jarFile, pluginLoader, cleanupQueue);
+      cleanupHandle.enqueue();
+      cleanupHandles.put(cleanupHandle, Boolean.TRUE);
 
       Class<? extends Module> sysModule = load(sysName, pluginLoader);
       Class<? extends Module> sshModule = load(sshName, pluginLoader);

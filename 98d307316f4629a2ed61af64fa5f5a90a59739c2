@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "N2EqK83A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-08T07:51:20Z",
+      "side": 1,
+      "message": "I would say \"does not support\" instead of \"lacks\".  Or is it like that already elsewhere?",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

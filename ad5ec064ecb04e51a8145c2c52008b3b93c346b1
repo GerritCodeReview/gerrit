@@ -16,6 +16,24 @@
       "revId": "ad5ec064ecb04e51a8145c2c52008b3b93c346b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "N18t9VWI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-01-08T16:14:50Z",
+      "side": 1,
+      "message": "Added some more info to the commit message.\n\n(It also helps the developers to easily distinguish which of the variables that are supposed to be supplied through a factory and which variables will be automatically injected by Guice.)\n\nDone.",
+      "parentUuid": "N1G60Lzs",
+      "revId": "ad5ec064ecb04e51a8145c2c52008b3b93c346b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

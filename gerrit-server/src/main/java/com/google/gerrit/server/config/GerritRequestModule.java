@@ -92,6 +92,5 @@ public class GerritRequestModule extends FactoryModule {
     factory(CreateProject.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
-    factory(CommitValidators.Factory.class);
   }
 }

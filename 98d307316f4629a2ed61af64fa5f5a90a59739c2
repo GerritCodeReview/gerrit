@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "N1wtavRs",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-08T13:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N2KrMT7o",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "N14ttDcM",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/GroupsRestApiServlet.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "N12tXAfQ",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/GroupsRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-08T13:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N14ttDcM",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "N1.ti0dA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetGroup.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-01-08T13:00:42Z",
       "side": 1,
       "message": "This file was created in the wrong package. It should be in .../server/group/\n\nThe same is true for the other new files created in this package.",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "N10tUxe0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-08T13:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N1.ti0dA",
       "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +171,24 @@
       "writtenOn": "2013-01-08T13:00:42Z",
       "side": 1,
       "message": "This Module is only for registering project related resources. For group related resources there should be a new Module in the .../server/group package.",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "N16uVaaI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-08T13:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N18tnFd8",
       "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

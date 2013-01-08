@@ -74,9 +74,9 @@ public class CommitValidators {
 
   @Inject
   CommitValidators(@GerritPersonIdent final PersonIdent gerritIdent,
-      final SshInfo sshInfo,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       final DynamicSet<CommitValidationListener> commitValidationListeners,
+      @Assisted final SshInfo sshInfo,
       @Assisted final Repository repo, @Assisted final RefControl refControl) {
     this.gerritIdent = gerritIdent;
     this.refControl = refControl;

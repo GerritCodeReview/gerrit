@@ -16,6 +16,24 @@
       "revId": "5948443a186a4bf70b32c880edec5165f9d5d773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "N1wunXQ8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-08T15:00:28Z",
+      "side": 1,
+      "message": "I initially wanted to do this, but there is a small difference, in line 73 \u0027id\u0027 is passed to the ResourceNotFoundException while in line 60 we use the default constructor of ResourceNotFoundException. It could still be a function, but it felt unnice to require \u0027id\u0027 as parameter for it.",
+      "parentUuid": "N1G5XD-Q",
+      "revId": "5948443a186a4bf70b32c880edec5165f9d5d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

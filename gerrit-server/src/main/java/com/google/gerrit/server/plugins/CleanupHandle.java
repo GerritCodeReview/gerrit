@@ -39,7 +39,9 @@ class CleanupHandle extends WeakReference<ClassLoader> {
     } catch (IOException err) {
     }
     if (!tmpFile.delete() && tmpFile.exists()) {
-      PluginLoader.log.warn("Cannot delete " + tmpFile.getAbsolutePath());
+      PluginLoader.log.warn("Cannot delete " + tmpFile.getAbsolutePath()
+          + ", retrying to delete it on termination of the virtual machine");
+      tmpFile.deleteOnExit();
     } else {
       PluginLoader.log.info("Cleaned plugin " + tmpFile.getName());
     }

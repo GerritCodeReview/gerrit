@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "N1G60Lzs",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-08T15:17:33Z",
+      "side": 1,
+      "message": "s/anotated/annotated\n\nCan you add explanation why this is needed?  I don\u0027t see any warnings about it.",
+      "revId": "ad5ec064ecb04e51a8145c2c52008b3b93c346b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -216,11 +216,18 @@ public class CreateProject {
     }
 
     if (createProjectArgs.getProjectName().endsWith(Constants.DOT_GIT_EXT)) {
-      createProjectArgs.setProjectName(createProjectArgs.getProjectName()
-          .substring(
-              0,
-              createProjectArgs.getProjectName().length()
-                  - Constants.DOT_GIT_EXT.length()));
+      String nameWithoutSuffix = createProjectArgs.getProjectName();
+      // Be nice and drop the trailing ".git" suffix, which we never keep
+      // in our database, but clients might mistakenly provide anyway.
+      //
+      nameWithoutSuffix = nameWithoutSuffix.substring(0, //
+          nameWithoutSuffix.length() - Constants.DOT_GIT_EXT.length());
+      while (nameWithoutSuffix.endsWith("/")) {
+        nameWithoutSuffix =
+            nameWithoutSuffix.substring(0, nameWithoutSuffix.length() - 1);
+      }
+
+      createProjectArgs.setProjectName(nameWithoutSuffix);
     }
 
     if (!currentUser.getCapabilities().canCreateProject()) {

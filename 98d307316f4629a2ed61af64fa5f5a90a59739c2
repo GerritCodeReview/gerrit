@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "N2KrMT7o",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-08T09:33:44Z",
+      "side": 1,
+      "message": "It would be nice to have more in the commit message.  I think the same text from the documentation at lines 249-251 would be enough.",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "N2EqK83A",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListGroups.java",
         "patchSetId": 1
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "Yes, this piece of code is copied from com.google.gerrit.server.project.ListProject#display(OutputStream).",
       "parentUuid": "N2EqK83A",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "N2Erfk2E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-08T09:33:44Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "N14tE7Uo",
       "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "N14ttDcM",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/GroupsRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-08T13:00:42Z",
+      "side": 1,
+      "message": "This file was created in the wrong package. It should be in .../rpc/group/",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "N1.ti0dA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-08T13:00:42Z",
+      "side": 1,
+      "message": "This file was created in the wrong package. It should be in .../server/group/\n\nThe same is true for the other new files created in this package.",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "N2EqK83A",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListGroups.java",
         "patchSetId": 1
@@ -66,6 +100,23 @@
       "side": 1,
       "message": "OK",
       "parentUuid": "N14tE7Uo",
+      "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "N18tnFd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-08T13:00:42Z",
+      "side": 1,
+      "message": "This Module is only for registering project related resources. For group related resources there should be a new Module in the .../server/group package.",
       "revId": "98d307316f4629a2ed61af64fa5f5a90a59739c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

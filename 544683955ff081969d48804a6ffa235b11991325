@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "N2CrBf38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-08T09:59:22Z",
+      "side": 1,
+      "message": "It might be better to say \"can fail\" rather than \"always fails\", and remove the \"(at least ... )\" part.",
+      "revId": "544683955ff081969d48804a6ffa235b11991325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

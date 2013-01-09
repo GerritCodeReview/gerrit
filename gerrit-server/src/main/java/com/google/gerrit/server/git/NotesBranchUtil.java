@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -47,13 +49,16 @@ import java.io.IOException;
  */
 public class NotesBranchUtil {
   public interface Factory {
-    NotesBranchUtil create(Repository db, ObjectInserter inserter);
+    NotesBranchUtil create(Project.NameKey project, Repository db,
+        ObjectInserter inserter);
   }
 
   private static final int MAX_LOCK_FAILURE_CALLS = 10;
   private static final int SLEEP_ON_LOCK_FAILURE_MS = 25;
 
-  private PersonIdent gerritIdent;
+  private final PersonIdent gerritIdent;
+  private final GitReferenceUpdated gitRefUpdated;
+  private final Project.NameKey project;
   private final Repository db;
   private final ObjectInserter inserter;
 
@@ -71,9 +76,13 @@ public class NotesBranchUtil {
 
   @Inject
   public NotesBranchUtil(@GerritPersonIdent final PersonIdent gerritIdent,
+      final GitReferenceUpdated gitRefUpdated,
+      @Assisted Project.NameKey project,
       @Assisted Repository db,
       @Assisted ObjectInserter inserter) {
     this.gerritIdent = gerritIdent;
+    this.gitRefUpdated = gitRefUpdated;
+    this.project = project;
     this.db = db;
     this.inserter = inserter;
   }
@@ -252,6 +261,7 @@ public class NotesBranchUtil {
         throw new IOException("Couldn't update " + notesBranch + ". "
             + result.name());
       } else {
+        gitRefUpdated.fire(project, notesBranch);
         break;
       }
     }

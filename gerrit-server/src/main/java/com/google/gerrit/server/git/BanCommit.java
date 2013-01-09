@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.server.git.GitRepositoryManager.REF_REJECT_COMMITS;
 
 import com.google.gerrit.common.errors.PermissionDeniedException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
@@ -74,8 +75,8 @@ public class BanCommit {
     final BanCommitResult result = new BanCommitResult();
     NoteMap banCommitNotes = NoteMap.newEmptyMap();
     // add a note for each banned commit to notes
-    final Repository repo =
-        repoManager.openRepository(projectControl.getProject().getNameKey());
+    final Project.NameKey project = projectControl.getProject().getNameKey();
+    final Repository repo = repoManager.openRepository(project);
     try {
       final RevWalk revWalk = new RevWalk(repo);
       final ObjectInserter inserter = repo.newObjectInserter();
@@ -92,8 +93,8 @@ public class BanCommit {
           banCommitNotes.set(commitToBan, createNoteContent(reason, inserter));
         }
         inserter.flush();
-        NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(repo,
-            inserter);
+        NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(project,
+            repo, inserter);
         NoteMap newlyCreated =
             notesBranchUtil.commitNewNotes(banCommitNotes, REF_REJECT_COMMITS,
                 createPersonIdent(), buildCommitMessage(commitsToBan, reason));

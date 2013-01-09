@@ -171,7 +171,7 @@ public class ExportReviewNotes extends SiteProgram {
       return;
     }
     try {
-      CreateCodeReviewNotes notes = codeReviewNotesFactory.create(db, git);
+      CreateCodeReviewNotes notes = codeReviewNotesFactory.create(db, project, git);
       notes.create(changes, null,
           "Exported prior reviews from Gerrit Code Review\n", monitor);
     } finally {

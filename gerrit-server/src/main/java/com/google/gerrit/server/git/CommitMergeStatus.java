@@ -28,7 +28,7 @@ enum CommitMergeStatus {
   ALREADY_MERGED(""),
 
   /** */
-  PATH_CONFLICT("Your change could not be merged due to a path conflict.\n"
+  PATH_CONFLICT("The change could not be merged due to a path conflict.\n"
                   + "\n"
                   + "Please rebase the change locally and upload the rebased commit for review."),
 
@@ -45,7 +45,7 @@ enum CommitMergeStatus {
   NO_SUBMIT_TYPE(""),
 
   /** */
-  CRISS_CROSS_MERGE("Your change requires a recursive merge to resolve.\n"
+  CRISS_CROSS_MERGE("The change requires a recursive merge to resolve.\n"
                   + "\n"
                   + "Please merge (or rebase) the change locally and upload the resolution for review."),
 

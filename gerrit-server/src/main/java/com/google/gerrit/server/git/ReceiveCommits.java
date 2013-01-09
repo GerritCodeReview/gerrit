@@ -126,7 +126,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
@@ -134,9 +133,6 @@ import javax.annotation.Nullable;
 public class ReceiveCommits {
   private static final Logger log =
       LoggerFactory.getLogger(ReceiveCommits.class);
-
-  private static final Pattern NEW_PATCHSET =
-      Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
@@ -764,7 +760,7 @@ public class ReceiveCommits {
         continue;
       }
 
-      final Matcher m = NEW_PATCHSET.matcher(cmd.getRefName());
+      final Matcher m = CommitValidators.NEW_PATCHSET.matcher(cmd.getRefName());
       if (m.matches()) {
         // The referenced change must exist and must still be open.
         //
@@ -1855,8 +1851,8 @@ public class ReceiveCommits {
         && !projectControl.getProjectState().isUseSignedOffBy()
         && Iterables.isEmpty(rejectCommits)
         && !GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())
-        && !(MagicBranch.isMagicBranch(cmd.getRefName())
-            || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
+        && !(MagicBranch.isMagicBranch(cmd.getRefName()) //
+        || CommitValidators.NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
       return;
     }
 

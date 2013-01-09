@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
@@ -58,7 +59,8 @@ import javax.annotation.Nullable;
  */
 public class CreateCodeReviewNotes {
   public interface Factory {
-    CreateCodeReviewNotes create(ReviewDb reviewDb, Repository db);
+    CreateCodeReviewNotes create(ReviewDb reviewDb, Project.NameKey project,
+        Repository db);
   }
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
@@ -68,6 +70,7 @@ public class CreateCodeReviewNotes {
   private final String canonicalWebUrl;
   private final String anonymousCowardName;
   private final ReviewDb schema;
+  private final Project.NameKey project;
   private final Repository db;
 
   private PersonIdent author;
@@ -85,8 +88,9 @@ public class CreateCodeReviewNotes {
       final @Nullable @CanonicalWebUrl String canonicalWebUrl,
       final @AnonymousCowardName String anonymousCowardName,
       final NotesBranchUtil.Factory notesBranchUtilFactory,
-      final @Assisted  ReviewDb reviewDb,
-      final @Assisted  Repository db) {
+      final @Assisted ReviewDb reviewDb,
+      final @Assisted Project.NameKey project,
+      final @Assisted Repository db) {
     this.author = gerritIdent;
     this.accountCache = accountCache;
     this.approvalTypes = approvalTypes;
@@ -94,6 +98,7 @@ public class CreateCodeReviewNotes {
     this.anonymousCowardName = anonymousCowardName;
     this.notesBranchUtilFactory = notesBranchUtilFactory;
     schema = reviewDb;
+    this.project = project;
     this.db = db;
   }
 
@@ -114,8 +119,8 @@ public class CreateCodeReviewNotes {
         message.append("* ").append(c.getShortMessage()).append("\n");
       }
 
-      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(db,
-          inserter);
+      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(project,
+          db, inserter);
       notesBranchUtil.commitAllNotes(notes, REFS_NOTES_REVIEW, author,
           message.toString());
       inserter.flush();
@@ -150,8 +155,8 @@ public class CreateCodeReviewNotes {
         notes.set(commitId, createNoteContent(c, commitId));
       }
 
-      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(db,
-          inserter);
+      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(project,
+          db, inserter);
       notesBranchUtil.commitAllNotes(notes, REFS_NOTES_REVIEW, author,
           commitMessage);
       inserter.flush();

@@ -22,7 +22,6 @@ User Guide
 * link:user-dashboards.html[Dashboards]
 * link:user-notify.html[Subscribing to Email Notifications]
 * link:user-submodules.html[Subscribing to Git Submodules]
-* link:refs-notes-review.html[The `refs/notes/review` namespace]
 * link:prolog-cookbook.html[Prolog Cookbook]
 * link:prolog-change-facts.html[Prolog Facts for Gerrit Changes]
 

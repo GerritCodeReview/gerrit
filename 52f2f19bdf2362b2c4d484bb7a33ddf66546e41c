@@ -16,6 +16,24 @@
       "revId": "52f2f19bdf2362b2c4d484bb7a33ddf66546e41c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "N9M77gwU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-09T15:01:42Z",
+      "side": 1,
+      "message": "I thought about that, but to me \"your change\" seems a bit odd.  If I\u0027m submitting or rebasing a change, it is not necessarily my change, it could be someone else\u0027s.\n\nIf we want to make it even more consistent I would suggest changing \"Your\" to \"The\" in the merge failed message.",
+      "parentUuid": "OBjxkUd0",
+      "revId": "52f2f19bdf2362b2c4d484bb7a33ddf66546e41c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

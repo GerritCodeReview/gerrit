@@ -32,6 +32,16 @@ public class GroupMap extends NativeMap<GroupInfo> {
         .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
+  public static void match(String match, AsyncCallback<GroupMap> cb) {
+    if (match == null || "".equals(match)) {
+      all(cb);
+    } else {
+      new RestApi("/groups/")
+          .addParameter("m", match)
+          .get(NativeMap.copyKeysIntoChildren(cb));
+    }
+  }
+
   protected GroupMap() {
   }
 }

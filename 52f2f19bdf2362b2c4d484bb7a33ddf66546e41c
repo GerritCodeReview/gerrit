@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OBjxkUd0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-09T14:47:53Z",
+      "side": 1,
+      "message": "Should it say \"Your change...\" to be even more consistent with the message on merge failure?\n\nThe merge failure message is:\n  \"Your change could not be merged due to a path conflict.\"",
+      "revId": "52f2f19bdf2362b2c4d484bb7a33ddf66546e41c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

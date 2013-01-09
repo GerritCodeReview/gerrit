@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OAUFN8m0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-09T04:47:37Z",
+      "side": 1,
+      "message": "The subname handling here is repeated now in 3 places.\n\n$ grep -r out-of-order .\n ./gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java:        // the results may come back out-of-order and a non-relevant result\n ./gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupListScreen.java:        // the results may come back out-of-order and a non-relevant result\n ./gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java:        // the results may come back out-of-order and a non-relevant result\n \nCould this possibly be refactored into a common method?",
+      "revId": "b76a0bb510b02653aaafa69b5bf2eb7a05d42767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

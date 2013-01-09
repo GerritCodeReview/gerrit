@@ -23,6 +23,7 @@ import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
 import static com.google.gerrit.server.git.MergeUtil.mergeOneCommit;
 import static com.google.gerrit.server.git.MergeUtil.getApprovalsForCommit;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -185,10 +186,11 @@ public class CherryPick extends SubmitStrategy {
     n.change.setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
     args.db.changes().update(Collections.singletonList(n.change));
 
+    final List<PatchSetApproval> approvals = Lists.newArrayList();
     for (PatchSetApproval a : getApprovalsForCommit(args.db, n)) {
-      args.db.patchSetApprovals().insert(
-          Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+      approvals.add(new PatchSetApproval(ps.getId(), a));
     }
+    args.db.patchSetApprovals().insert(approvals);
 
     final RefUpdate ru = args.repo.updateRef(ps.getRefName());
     ru.setExpectedOldObjectId(ObjectId.zeroId());

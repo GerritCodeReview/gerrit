@@ -16,6 +16,24 @@
       "revId": "b76a0bb510b02653aaafa69b5bf2eb7a05d42767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OBlz2-R4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-09T05:53:47Z",
+      "side": 1,
+      "message": "This would be nice, but it\u0027s not easy to find a good solution. I have an idea how to do it, but I would prefer to push it as a follow-up change so that it can be discussed independently.",
+      "parentUuid": "OAUFN8m0",
+      "revId": "b76a0bb510b02653aaafa69b5bf2eb7a05d42767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

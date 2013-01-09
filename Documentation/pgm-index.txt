@@ -30,9 +30,6 @@ version::
 Transition Utilities
 --------------------
 
-link:pgm-ExportReviewNotes.html[ExportReviewNotes]::
-	Export submitted review information to refs/notes/review.
-
 link:pgm-ScanTrackingIds.html[ScanTrackingIds]::
 	Rescan all changes after configuring trackingids.
 

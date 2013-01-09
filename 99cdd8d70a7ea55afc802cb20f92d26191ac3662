@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OASH2buw",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-09T07:56:08Z",
+      "side": 1,
+      "message": "Remove \"and\" and capitalise \"Login\".",
+      "revId": "99cdd8d70a7ea55afc802cb20f92d26191ac3662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OAQHbang",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-09T07:56:08Z",
+      "side": 1,
+      "message": "Make this final?",
+      "revId": "99cdd8d70a7ea55afc802cb20f92d26191ac3662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OAeHXZkg",
+        "filename": "gerrit-openid/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-09T07:56:08Z",
+      "side": 1,
+      "message": "We don\u0027t need to enter this loop if emailDomain is \"\".",
+      "revId": "99cdd8d70a7ea55afc802cb20f92d26191ac3662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

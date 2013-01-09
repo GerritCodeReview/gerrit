@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OBpxUhew",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-09T16:36:22Z",
+      "side": 1,
+      "message": "Should be abstract.",
+      "revId": "dfa63f8fe045bad01cfa40932757e6604a9506d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OBrxXQfA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-09T16:36:22Z",
+      "side": 1,
+      "message": "Is it okay to have subtypes of the returned Info class?\n\nThe MembersCollection#list() would return a list of MemberInfo, which contains GroupInfo and AccountInfo elements.",
+      "revId": "dfa63f8fe045bad01cfa40932757e6604a9506d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

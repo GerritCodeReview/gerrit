@@ -1696,6 +1696,9 @@ public class ReceiveCommits {
         markChangeMergedByPush(db, this);
       }
 
+      if (cmd.getResult() == NOT_ATTEMPTED) {
+        cmd.execute(rp);
+      }
       replication.fire(project.getNameKey(), newPatchSet.getRefName());
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       replaceProgress.update(1);

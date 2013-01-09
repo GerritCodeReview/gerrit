@@ -421,7 +421,7 @@ public class RebaseChange {
 
     if (merger.getResultTreeId() == null) {
       throw new PathConflictException(
-          "The rebase failed since conflicts occured during the merge.");
+          "The change could not be rebased due to a path conflict during merge.");
     }
 
     final CommitBuilder cb = new CommitBuilder();

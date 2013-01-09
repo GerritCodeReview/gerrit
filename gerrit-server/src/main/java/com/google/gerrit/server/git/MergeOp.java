@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.git.MergeUtil.computeMergeCommitAuthor;
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -39,7 +38,6 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -131,7 +129,6 @@ public class MergeOp {
   private final ChangeControl.GenericFactory changeControlFactory;
   private final MergeQueue mergeQueue;
 
-  private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
   private ProjectState destProject;
   private final ListMultimap<SubmitType, CodeReviewCommit> toMerge;
@@ -149,7 +146,6 @@ public class MergeOp {
   private final ChangeHooks hooks;
   private final AccountCache accountCache;
   private final TagCache tagCache;
-  private final CreateCodeReviewNotes.Factory codeReviewNotesFactory;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
   private final WorkQueue workQueue;
@@ -164,10 +160,9 @@ public class MergeOp {
       final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
       final IdentifiedUser.GenericFactory iuf,
       final ChangeControl.GenericFactory changeControlFactory,
-      @GerritPersonIdent final PersonIdent myIdent,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHooks hooks, final AccountCache accountCache,
-      final TagCache tagCache, final CreateCodeReviewNotes.Factory crnf,
+      final TagCache tagCache,
       final SubmitStrategyFactory submitStrategyFactory,
       final SubmoduleOp.Factory subOpFactory,
       final WorkQueue workQueue,
@@ -188,13 +183,11 @@ public class MergeOp {
     this.hooks = hooks;
     this.accountCache = accountCache;
     this.tagCache = tagCache;
-    codeReviewNotesFactory = crnf;
     this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
     this.workQueue = workQueue;
     this.requestScopePropagator = requestScopePropagator;
     this.allProjectsName = allProjectsName;
-    this.myIdent = myIdent;
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
@@ -770,17 +763,6 @@ public class MergeOp {
           setNew(c, message(c, "Unspecified merge failure: " + s.name()));
           break;
       }
-    }
-
-    CreateCodeReviewNotes codeReviewNotes =
-        codeReviewNotesFactory.create(db, destBranch.getParentKey(), repo);
-    try {
-      codeReviewNotes.create(
-          merged,
-          computeMergeCommitAuthor(db, identifiedUserFactory, myIdent, rw,
-              merged));
-    } catch (CodeReviewNoteCreationException e) {
-      log.error(e.getMessage());
     }
   }
 

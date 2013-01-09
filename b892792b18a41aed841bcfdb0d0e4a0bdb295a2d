@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OBlyafc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2013-01-09T16:48:00Z",
+      "side": 1,
+      "message": "If you change it like this, the ChangeIdValidator will not run when triggered from EditCommitMessage (it must match refs like \"refs/changes/23/19323/19\" too).\n\nPerhaps we should split it up to two different regex checks?",
+      "revId": "b892792b18a41aed841bcfdb0d0e4a0bdb295a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

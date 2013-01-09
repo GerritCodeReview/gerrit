@@ -36,7 +36,7 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
 /** It creates a popup containing all the projects. */
-public class ProjectListPopup {
+public class ProjectListPopup implements FilteredUserInterface {
   private HighlightingProjectsTable projectsTab;
   private PluginSafeDialogBox popup;
   private NpTextBox filterTxt;
@@ -174,27 +174,22 @@ public class ProjectListPopup {
   }
 
   protected void populateProjects() {
-    final String mySubname = subname;
-    ProjectMap.match(subname, new GerritCallback<ProjectMap>() {
-      @Override
-      public void onSuccess(final ProjectMap result) {
-        if ((mySubname == null && subname == null)
-            || (mySubname != null && mySubname.equals(subname))) {
-          display(result);
-        }
-        // Else ignore the result, the user has already changed subname and
-        // the result is not relevant anymore. If multiple RPC's are fired
-        // the results may come back out-of-order and a non-relevant result
-        // could overwrite the correct result if not ignored.
-      }
-    });
+    ProjectMap.match(subname,
+        new IgnoreOutdatedFilterResultsCallbackWrapper<ProjectMap>(this,
+            new GerritCallback<ProjectMap>() {
+              @Override
+              public void onSuccess(final ProjectMap result) {
+                projectsTab.display(result, subname);
+                if (firstPopupLoad) { // Display was delayed until table was loaded
+                  firstPopupLoad = false;
+                  displayPopup();
+                }
+              }
+            }));
   }
 
-  private void display(final ProjectMap result) {
-    projectsTab.display(result, subname);
-    if (firstPopupLoad) { // Display was delayed until table was loaded
-      firstPopupLoad = false;
-      displayPopup();
-    }
+  @Override
+  public String getCurrentFilter() {
+    return subname;
   }
 }

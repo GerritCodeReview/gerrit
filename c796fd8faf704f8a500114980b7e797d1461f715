@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OAQFNqjw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-01-09T22:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N9C4sB5g",
+      "revId": "c796fd8faf704f8a500114980b7e797d1461f715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "N9M4UY00",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-09T22:05:26Z",
       "side": 1,
       "message": "This will never find an entry. You are using an Integer to index into a Map keyed by AccountGroup.Id. You need to wrap the int into an AccountGroup.Id type.",
+      "revId": "c796fd8faf704f8a500114980b7e797d1461f715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OAaFTnto",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-01-09T22:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N9M4UY00",
       "revId": "c796fd8faf704f8a500114980b7e797d1461f715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "OAYFgmpw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-01-09T22:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N9O4ZH4I",
+      "revId": "c796fd8faf704f8a500114980b7e797d1461f715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "N9A4vS48",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-09T22:05:26Z",
       "side": 1,
       "message": "Can you line wrap this line? Maybe move the 2nd argument onto its own line?",
+      "revId": "c796fd8faf704f8a500114980b7e797d1461f715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OASFIriw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-01-09T22:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N9A4vS48",
       "revId": "c796fd8faf704f8a500114980b7e797d1461f715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "OAeFJpjA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-01-09T22:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N9E4pU4c",
+      "revId": "c796fd8faf704f8a500114980b7e797d1461f715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "N9G4mD7o",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
         "patchSetId": 9
@@ -98,6 +188,24 @@
       "writtenOn": "2013-01-09T22:05:26Z",
       "side": 1,
       "message": "I think the statement you make on line 59 should be closed:\n\n  Statement stmt \u003d conn.createStatement();\n  ResultSet oldGroupIncludes \u003d stmt.executeQuery(\"...\");\n  ...\n  oldGroupIncludes.close();\n  stmt.close();",
+      "revId": "c796fd8faf704f8a500114980b7e797d1461f715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OAcFWosw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-01-09T22:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "N9G4mD7o",
       "revId": "c796fd8faf704f8a500114980b7e797d1461f715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -82,7 +82,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -1697,14 +1696,7 @@ public class ReceiveCommits {
         markChangeMergedByPush(db, this);
       }
 
-      final RefUpdate ru = repo.updateRef(newPatchSet.getRefName());
-      ru.setNewObjectId(newCommit);
-      ru.disableRefLog();
-      if (ru.update(rp.getRevWalk()) != RefUpdate.Result.NEW) {
-        throw new IOException("Failed to create ref " + newPatchSet.getRefName() + " in "
-            + repo.getDirectory() + ": " + ru.getResult());
-      }
-      replication.fire(project.getNameKey(), ru.getName());
+      replication.fire(project.getNameKey(), newPatchSet.getRefName());
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       replaceProgress.update(1);
       if (mergedIntoRef != null) {

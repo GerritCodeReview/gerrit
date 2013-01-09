@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.GroupList;
 
 public class GroupListScreen extends AccountScreen {
   private GroupTable groups;
@@ -25,14 +25,12 @@ public class GroupListScreen extends AccountScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.GROUP_SVC
-        .visibleGroups(new ScreenLoadCallback<GroupList>(this) {
-          @Override
-          protected void preDisplay(GroupList result) {
-            groups.display(result.getGroups());
-            groups.finishDisplay();
-          }
-        });
+    GroupMap.all(new ScreenLoadCallback<GroupMap>(this) {
+      @Override
+      protected void preDisplay(final GroupMap result) {
+        groups.display(result);
+        groups.finishDisplay();
+      }});
   }
 
   @Override

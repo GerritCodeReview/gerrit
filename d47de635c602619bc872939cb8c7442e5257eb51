@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OAYGVOqA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-09T06:06:36Z",
+      "side": 1,
+      "message": "s/projects/project\u0027s",
+      "revId": "d47de635c602619bc872939cb8c7442e5257eb51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OAWGaNtA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-09T06:06:36Z",
+      "side": 1,
+      "message": "s/different/difference",
+      "revId": "d47de635c602619bc872939cb8c7442e5257eb51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OASGkLgw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-09T06:06:36Z",
+      "side": 1,
+      "message": "Replace the tabs with spaces?",
+      "revId": "d47de635c602619bc872939cb8c7442e5257eb51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OAUGfMr4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-09T06:06:36Z",
+      "side": 1,
+      "message": "Add a period at the end of the sentence.",
+      "revId": "d47de635c602619bc872939cb8c7442e5257eb51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

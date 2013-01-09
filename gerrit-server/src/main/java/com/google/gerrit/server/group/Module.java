@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import static com.google.gerrit.server.group.GroupResource.GROUP_KIND;
+import static com.google.gerrit.server.group.MemberResource.MEMBER_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -25,7 +26,10 @@ public class Module extends RestApiModule {
     bind(GroupsCollection.class);
 
     DynamicMap.mapOf(binder(), GROUP_KIND);
+    DynamicMap.mapOf(binder(), MEMBER_KIND);
 
     get(GROUP_KIND).to(GetGroup.class);
+
+    child(GROUP_KIND, "members").to(MembersCollection.class);
   }
 }

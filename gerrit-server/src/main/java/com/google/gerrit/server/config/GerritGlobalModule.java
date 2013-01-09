@@ -43,6 +43,7 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.IncludingGroupMembership;
@@ -153,6 +154,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeQueryBuilder.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
     factory(VisibleGroups.Factory.class);
+    factory(GroupDetailFactory.Factory.class);
     factory(InternalUser.Factory.class);
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);

@@ -18,6 +18,8 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.FilteredUserInterface;
+import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -25,7 +27,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
-public class GroupListScreen extends AccountScreen {
+public class GroupListScreen extends AccountScreen implements FilteredUserInterface {
   private GroupTable groups;
   private NpTextBox filterTxt;
   private String subname;
@@ -37,25 +39,20 @@ public class GroupListScreen extends AccountScreen {
   }
 
   private void refresh() {
-    final String mySubname = subname;
-    GroupMap.match(subname, new ScreenLoadCallback<GroupMap>(this) {
-      @Override
-      protected void preDisplay(final GroupMap result) {
-        if ((mySubname == null && subname == null)
-            || (mySubname != null && mySubname.equals(subname))) {
-          display(result);
-        }
-        // Else ignore the result, the user has already changed subname and
-        // the result is not relevant anymore. If multiple RPC's are fired
-        // the results may come back out-of-order and a non-relevant result
-        // could overwrite the correct result if not ignored.
-      }
-    });
+    GroupMap.match(subname,
+        new IgnoreOutdatedFilterResultsCallbackWrapper<GroupMap>(this,
+            new ScreenLoadCallback<GroupMap>(this) {
+              @Override
+              protected void preDisplay(final GroupMap result) {
+                groups.display(result, subname);
+                groups.finishDisplay();
+              }
+            }));
   }
 
-  private void display(final GroupMap result) {
-    groups.display(result, subname);
-    groups.finishDisplay();
+  @Override
+  public String getCurrentFilter() {
+    return subname;
   }
 
   @Override

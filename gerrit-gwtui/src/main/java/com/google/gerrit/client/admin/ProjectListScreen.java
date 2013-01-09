@@ -20,7 +20,9 @@ import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.FilteredUserInterface;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
+import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
 import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
@@ -34,7 +36,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
-public class ProjectListScreen extends Screen {
+public class ProjectListScreen extends Screen implements FilteredUserInterface {
   private ProjectsTable projects;
   private NpTextBox filterTxt;
   private String subname;
@@ -46,20 +48,19 @@ public class ProjectListScreen extends Screen {
   }
 
   private void refresh() {
-    final String mySubname = subname;
-    ProjectMap.match(subname, new ScreenLoadCallback<ProjectMap>(this) {
-      @Override
-      protected void preDisplay(final ProjectMap result) {
-        if ((mySubname == null && subname == null)
-            || (mySubname != null && mySubname.equals(subname))) {
-          projects.display(result);
-        }
-        // Else ignore the result, the user has already changed subname and
-        // the result is not relevant anymore. If multiple RPC's are fired
-        // the results may come back out-of-order and a non-relevant result
-        // could overwrite the correct result if not ignored.
-      }
-    });
+    ProjectMap.match(subname,
+        new IgnoreOutdatedFilterResultsCallbackWrapper<ProjectMap>(this,
+            new ScreenLoadCallback<ProjectMap>(this) {
+              @Override
+              protected void preDisplay(final ProjectMap result) {
+                projects.display(result);
+              }
+            }));
+  }
+
+  @Override
+  public String getCurrentFilter() {
+    return subname;
   }
 
   @Override

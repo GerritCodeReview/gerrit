@@ -95,6 +95,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -1635,7 +1636,7 @@ public class ReceiveCommits {
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
         @Override
-        public PatchSet.Id call() throws OrmException {
+        public PatchSet.Id call() throws OrmException, IOException {
           try {
             if (caller == Thread.currentThread()) {
               return insertPatchSet(db);
@@ -1657,7 +1658,7 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, ORM_EXCEPTION);
     }
 
-    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException {
+    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException, IOException {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
       final MailRecipients recipients = new MailRecipients(reviewerId, ccId);
@@ -1745,7 +1746,14 @@ public class ReceiveCommits {
         markChangeMergedByPush(db, this);
       }
 
-      replication.fire(project.getNameKey(), newPatchSet.getRefName());
+      final RefUpdate ru = repo.updateRef(newPatchSet.getRefName());
+      ru.setNewObjectId(newCommit);
+      ru.disableRefLog();
+      if (ru.update(rp.getRevWalk()) != RefUpdate.Result.NEW) {
+        throw new IOException("Failed to create ref " + newPatchSet.getRefName() + " in "
+            + repo.getDirectory() + ": " + ru.getResult());
+      }
+      replication.fire(project.getNameKey(), ru.getName());
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(

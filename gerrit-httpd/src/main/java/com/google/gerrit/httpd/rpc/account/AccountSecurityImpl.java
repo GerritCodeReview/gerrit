@@ -22,7 +22,6 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
@@ -86,7 +85,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final ChangeUserName.CurrentUser changeUserNameFactory;
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
-  private final MyGroupsFactory.Factory myGroupsFactory;
 
   private final ChangeHooks hooks;
   private final GroupCache groupCache;
@@ -104,7 +102,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ChangeUserName.CurrentUser changeUserNameFactory,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
-      final MyGroupsFactory.Factory myGroupsFactory,
       final ChangeHooks hooks, final GroupCache groupCache) {
     super(schema, currentUser);
     contactStore = cs;
@@ -126,7 +123,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.changeUserNameFactory = changeUserNameFactory;
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
-    this.myGroupsFactory = myGroupsFactory;
     this.hooks = hooks;
     this.groupCache = groupCache;
   }
@@ -209,16 +205,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
     externalIdDetailFactory.create().to(callback);
-  }
-
-  @Override
-  public void myGroups(final AsyncCallback<List<AccountGroup>> callback) {
-    run(callback, new Action<List<AccountGroup>>() {
-      public List<AccountGroup> run(final ReviewDb db) throws OrmException,
-          NoSuchGroupException, Failure {
-        return myGroupsFactory.create().call();
-      }
-    });
   }
 
   public void deleteExternalIds(final Set<AccountExternalId.Key> keys,

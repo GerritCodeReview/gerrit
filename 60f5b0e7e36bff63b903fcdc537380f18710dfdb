@@ -16,6 +16,24 @@
       "revId": "60f5b0e7e36bff63b903fcdc537380f18710dfdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OBjwSEV0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-09T08:45:47Z",
+      "side": 1,
+      "message": "Actually this blank line is intended, to be consistent with the code formatting that is used right below.",
+      "parentUuid": "OAWHTVlo",
+      "revId": "60f5b0e7e36bff63b903fcdc537380f18710dfdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

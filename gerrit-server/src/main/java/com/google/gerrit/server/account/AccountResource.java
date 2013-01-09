@@ -28,7 +28,7 @@ public class AccountResource implements RestResource {
 
   private final IdentifiedUser user;
 
-  AccountResource(IdentifiedUser user) {
+  public AccountResource(IdentifiedUser user) {
     this.user = user;
   }
 

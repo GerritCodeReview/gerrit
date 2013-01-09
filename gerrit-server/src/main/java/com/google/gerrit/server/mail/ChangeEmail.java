@@ -361,8 +361,8 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     for (AccountProjectWatch w : args.db.get().accountProjectWatches()
         .byProject(change.getProject())) {
-      projectWatchers.add(w.getAccountId());
       if (w.isNotify(type)) {
+        projectWatchers.add(w.getAccountId());
         add(matching, w);
       }
     }

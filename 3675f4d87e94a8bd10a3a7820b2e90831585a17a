@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OBjxDMRQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-10T14:42:43Z",
+      "side": 1,
+      "message": "this sentence is confusing :-)\n\nProposal:\n\nAs a result, a confusing message like:\n\"Only 0 of 0 new change refs created in xxx; aborting\"\ncould appear in the error log.",
+      "revId": "3675f4d87e94a8bd10a3a7820b2e90831585a17a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OAUFaku4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-10T00:51:21Z",
+      "side": 1,
+      "message": "Would it be worth mentioning that the check is case insensitive?",
+      "revId": "13c024bbf4b2068b2fc04be652600ae23e34b8d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

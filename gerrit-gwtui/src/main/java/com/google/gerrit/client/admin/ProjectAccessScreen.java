@@ -14,12 +14,14 @@
 
 package com.google.gerrit.client.admin;
 
+import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
+import static com.google.gerrit.common.ProjectAccessUtil.removeEmptyPermissionsAndSections;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -198,7 +200,7 @@ public class ProjectAccessScreen extends ProjectScreen {
           private Set<String> getDiffs(ProjectAccess wantedAccess,
               ProjectAccess newAccess) {
             final List<AccessSection> wantedSections =
-                removeEmptyPermissionsAndSections(wantedAccess.getLocal());
+                mergeSections(removeEmptyPermissionsAndSections(wantedAccess.getLocal()));
             final HashSet<AccessSection> same =
                 new HashSet<AccessSection>(wantedSections);
             final HashSet<AccessSection> different =
@@ -214,29 +216,6 @@ public class ProjectAccessScreen extends ProjectScreen {
               differentNames.add(s.getName());
             }
             return differentNames;
-          }
-
-          private List<AccessSection> removeEmptyPermissionsAndSections(
-              final List<AccessSection> src) {
-            final Set<AccessSection> sectionsToRemove = new HashSet<AccessSection>();
-            for (final AccessSection section : src) {
-              final Set<Permission> permissionsToRemove = new HashSet<Permission>();
-              for (final Permission permission : section.getPermissions()) {
-                if (permission.getRules().isEmpty()) {
-                  permissionsToRemove.add(permission);
-                }
-              }
-              for (final Permission permissionToRemove : permissionsToRemove) {
-                section.remove(permissionToRemove);
-              }
-              if (section.getPermissions().isEmpty()) {
-                sectionsToRemove.add(section);
-              }
-            }
-            for (final AccessSection sectionToRemove : sectionsToRemove) {
-              src.remove(sectionToRemove);
-            }
-            return src;
           }
 
           @Override

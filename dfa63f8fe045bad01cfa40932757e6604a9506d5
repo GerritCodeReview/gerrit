@@ -33,6 +33,24 @@
       "revId": "dfa63f8fe045bad01cfa40932757e6604a9506d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OBnx8GWc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-10T10:35:22Z",
+      "side": 1,
+      "message": "I figured out that it\u0027s much cleaner to have 2 seperate REST end points for retrieving included groups and included accounts (see next patch set).",
+      "parentUuid": "OBrxXQfA",
+      "revId": "dfa63f8fe045bad01cfa40932757e6604a9506d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

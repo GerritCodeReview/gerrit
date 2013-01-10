@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
@@ -59,9 +59,9 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
         groupDetailFactory.create(group.getId()).call();
 
     if (groupDetail.includes != null) {
-      for (final AccountGroupInclude groupInclude : groupDetail.includes) {
+      for (final AccountGroupIncludeByUuid groupInclude : groupDetail.includes) {
         final AccountGroup includedGroup =
-            groupCache.get(groupInclude.getIncludeId());
+            groupCache.get(groupInclude.getIncludeUUID());
         includedGroups.add(GetGroup.parse(GroupDescriptions
             .forAccountGroup(includedGroup)));
       }

@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
@@ -66,9 +66,9 @@ public class IncludedGroupsCollection implements
     final GroupDetail groupDetail =
         groupDetailFactory.create(group.getId()).call();
     if (groupDetail.includes != null) {
-      for (final AccountGroupInclude groupInclude : groupDetail.includes) {
+      for (final AccountGroupIncludeByUuid groupInclude : groupDetail.includes) {
         final AccountGroup includedGroup =
-            groupCache.get(groupInclude.getIncludeId());
+            groupCache.get(groupInclude.getIncludeUUID());
         if (includedGroup.getGroupUUID().equals(groupResource.getGroupUUID())) {
           return new IncludedGroupResource(groupResource.getControl());
         }

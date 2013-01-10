@@ -95,6 +95,8 @@ public class RebaseChange {
   /**
    * Rebases the change of the given patch set.
    *
+   * It is verified that the current user is allowed to do the rebase.
+   *
    * If the patch set has no dependency to an open change, then the change is
    * rebased on the tip of the destination branch.
    *
@@ -122,6 +124,11 @@ public class RebaseChange {
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl changeControl =
         changeControlFactory.validateFor(changeId);
+    if (!changeControl.canRebase()) {
+      throw new InvalidChangeOperationException(
+          "Cannot rebase: New patch sets are not allowed to be added to change: "
+              + changeId.toString());
+    }
     final Change change = changeControl.getChange();
     Repository git = null;
     RevWalk rw = null;
@@ -297,14 +304,6 @@ public class RebaseChange {
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
     Change change = chg;
-    final ChangeControl changeControl =
-        changeControlFactory.validateFor(change);
-    if (!changeControl.canRebase()) {
-      throw new InvalidChangeOperationException(
-          "Cannot rebase: New patch sets are not allowed to be added to change: "
-              + change.getId().toString());
-    }
-
     final PatchSet originalPatchSet = db.patchSets().get(patchSetId);
 
     final RevCommit rebasedCommit;

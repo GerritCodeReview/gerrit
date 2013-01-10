@@ -17,7 +17,9 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -27,6 +29,8 @@ import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -145,31 +149,52 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
+    final Set<Account.Id> allApprovers = new HashSet<Account.Id>();
+    final Set<Account.Id> approversThatVotedInCategory = new HashSet<Account.Id>();
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
+      allApprovers.add(p.getAccountId());
       if (p.getCategoryId().equals(category.getId())) {
-        int psVal = p.getValue();
-        if (test.match(psVal, expVal)) {
-          // Double check the value is still permitted for the user.
-          //
-          try {
-            ChangeControl cc = ccFactory.controlFor(object.change(dbProvider), //
-                userFactory.create(dbProvider, p.getAccountId()));
-            if (!cc.isVisible(dbProvider.get())) {
-              // The user can't see the change anymore.
-              //
-              continue;
-            }
-            psVal = cc.getRange(permissionName).squash(psVal);
-          } catch (NoSuchChangeException e) {
-            // The project has disappeared.
-            //
-            continue;
-          }
-
-          if (test.match(psVal, expVal)) {
-            return true;
-          }
+        approversThatVotedInCategory.add(p.getAccountId());
+        if (match(object.change(dbProvider), p.getValue(), p.getAccountId())) {
+          return true;
         }
+      }
+    }
+
+    final Set<Account.Id> approversThatDidNotVoteInCategory = new HashSet<Account.Id>(allApprovers);
+    approversThatDidNotVoteInCategory.removeAll(approversThatVotedInCategory);
+    for (final Account.Id a : approversThatDidNotVoteInCategory) {
+      if (match(object.change(dbProvider), 0, a)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private boolean match(final Change change, final int value,
+      final Account.Id approver) throws OrmException {
+    int psVal = value;
+    if (test.match(psVal, expVal)) {
+      // Double check the value is still permitted for the user.
+      //
+      try {
+        ChangeControl cc = ccFactory.controlFor(change, //
+            userFactory.create(dbProvider, approver));
+        if (!cc.isVisible(dbProvider.get())) {
+          // The user can't see the change anymore.
+          //
+          return false;
+        }
+        psVal = cc.getRange(permissionName).squash(psVal);
+      } catch (NoSuchChangeException e) {
+        // The project has disappeared.
+        //
+        return false;
+      }
+
+      if (test.match(psVal, expVal)) {
+        return true;
       }
     }
     return false;

@@ -679,7 +679,7 @@ public class ReceiveCommits {
       reject(newChange, "internal server error");
       log.error(String.format(
           "Only %d of %d new change refs created in %s; aborting",
-          okToInsert, newChanges.size(), project.getName()));
+          okToInsert, replaceCount + newChanges.size(), project.getName()));
       return;
     }
 

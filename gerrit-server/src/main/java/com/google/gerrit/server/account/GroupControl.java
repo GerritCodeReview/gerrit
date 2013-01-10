@@ -127,15 +127,15 @@ public class GroupControl {
     return canSeeMembers();
   }
 
-  public boolean canAddGroup(AccountGroup.Id id) {
+  public boolean canAddGroup(AccountGroup.UUID uuid) {
     return isOwner();
   }
 
-  public boolean canRemoveGroup(AccountGroup.Id id) {
+  public boolean canRemoveGroup(AccountGroup.UUID uuid) {
     return isOwner();
   }
 
-  public boolean canSeeGroup(AccountGroup.Id id) {
+  public boolean canSeeGroup(AccountGroup.UUID uuid) {
     return canSeeMembers();
   }
 

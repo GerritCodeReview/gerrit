@@ -18,7 +18,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 
 /** Summary information about an {@link AccountGroup}, for simple tabular displays. */
 public class GroupInfo {
-  protected AccountGroup.Id id;
+  protected AccountGroup.UUID uuid;
   protected String name;
   protected String description;
 
@@ -32,8 +32,8 @@ public class GroupInfo {
    * lookup has failed and a stale group id has been discovered in the data
    * store.
    */
-  public GroupInfo(final AccountGroup.Id id) {
-    this.id = id;
+  public GroupInfo(final AccountGroup.UUID uuid) {
+    this.uuid = uuid;
   }
 
   /**
@@ -42,14 +42,14 @@ public class GroupInfo {
    * @param a the data store record holding the specific group details.
    */
   public GroupInfo(final AccountGroup a) {
-    id = a.getId();
+    uuid = a.getGroupUUID();
     name = a.getName();
     description = a.getDescription();
   }
 
   /** @return the unique local id of the group */
-  public AccountGroup.Id getId() {
-    return id;
+  public AccountGroup.UUID getId() {
+    return uuid;
   }
 
   /** @return the name of the group; null if not supplied */

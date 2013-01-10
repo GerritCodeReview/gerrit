@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OBryyoUo",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-10T06:53:20Z",
+      "side": 1,
+      "message": "The documentation says this is used in case auth.type is set to \u0027OpenID\u0027, but here we are setting it if \u0027OpenID_SSO\u0027 is configured?",
+      "revId": "f4b5e51babd01cb89e4762ec46428619c232a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -66,6 +66,7 @@ import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
@@ -206,6 +207,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
+    factory(CommitValidators.Factory.class);
 
     bind(AnonymousUser.class);
 

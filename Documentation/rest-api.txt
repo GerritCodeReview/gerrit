@@ -245,7 +245,7 @@ To retrieve only the default dashboard, add `default` to the URL:
 
 [[groups]]
 /groups/ (List Groups)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 Lists the groups accessible by the caller. This is the same as
 using the link:cmd-ls-groups.html[ls-groups] command over SSH,
 and accepts the same options as query parameters.

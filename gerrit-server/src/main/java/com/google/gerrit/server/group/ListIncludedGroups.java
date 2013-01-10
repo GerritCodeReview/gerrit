@@ -14,59 +14,79 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.common.base.Strings.nullToEmpty;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.GroupDescriptions;
-import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.group.GetGroup.GroupInfo;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
+import org.slf4j.Logger;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ListIncludedGroups implements RestReadView<GroupResource> {
-  private final GroupControl.Factory groupControlFactory;
-  private final GroupCache groupCache;
-  private final GroupDetailFactory.Factory groupDetailFactory;
+  private static final Logger log = org.slf4j.LoggerFactory.getLogger(ListIncludedGroups.class);
+
+  private final GroupControl.Factory controlFactory;
+  private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  ListIncludedGroups(final GroupControl.Factory groupControlFactory,
-      final GroupCache groupCache,
-      final GroupDetailFactory.Factory groupDetailFactory) {
-    this.groupControlFactory = groupControlFactory;
-    this.groupCache = groupCache;
-    this.groupDetailFactory = groupDetailFactory;
+  ListIncludedGroups(GroupControl.Factory controlFactory,
+      Provider<ReviewDb> dbProvider) {
+    this.controlFactory = controlFactory;
+    this.dbProvider = dbProvider;
   }
 
   @Override
-  public List<GroupInfo> apply(final GroupResource resource)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
-    final List<GroupInfo> includedGroups = Lists.newArrayList();
-
-    final GroupControl groupControl =
-        groupControlFactory.validateFor(resource.getGroupUUID());
-    final AccountGroup group =
-        groupCache.get(groupControl.getGroup().getGroupUUID());
-    final GroupDetail groupDetail =
-        groupDetailFactory.create(group.getId()).call();
-
-    if (groupDetail.includes != null) {
-      for (final AccountGroupInclude groupInclude : groupDetail.includes) {
-        final AccountGroup includedGroup =
-            groupCache.get(groupInclude.getIncludeId());
-        includedGroups.add(GetGroup.parse(GroupDescriptions
-            .forAccountGroup(includedGroup)));
-      }
+  public List<GroupInfo> apply(GroupResource rsrc)
+      throws ResourceNotFoundException, OrmException {
+    if (!rsrc.isInternal()) {
+      throw new ResourceNotFoundException(rsrc.getGroupUUID().get());
     }
 
-    return includedGroups;
+    boolean ownerOfParent = rsrc.getControl().isOwner();
+    List<GroupInfo> included = Lists.newArrayList();
+    for (AccountGroupIncludeByUuid u : dbProvider.get()
+        .accountGroupIncludesByUuid()
+        .byGroup(groupId(rsrc))) {
+      try {
+        GroupControl i = controlFactory.controlFor(u.getIncludeUUID());
+        if (ownerOfParent || i.isVisible()) {
+          included.add(GetGroup.parse(i.getGroup()));
+        }
+      } catch (NoSuchGroupException notFound) {
+        log.warn(String.format("Group %s no longer available, included into ",
+            u.getIncludeUUID(),
+            rsrc.getGroup().getName()));
+        continue;
+      }
+    }
+    Collections.sort(included, new Comparator<GroupInfo>() {
+      @Override
+      public int compare(GroupInfo a, GroupInfo b) {
+        int cmp = nullToEmpty(a.name).compareTo(nullToEmpty(b.name));
+        if (cmp != 0) {
+          return cmp;
+        }
+        return nullToEmpty(a.id).compareTo(nullToEmpty(b.name));
+      }
+    });
+    return included;
+  }
+
+  private static AccountGroup.Id groupId(GroupResource rsrc) {
+    GroupDescription.Basic d = rsrc.getGroup();
+    return ((GroupDescription.Internal) d).getAccountGroup().getId();
   }
 }

@@ -25,7 +25,27 @@ public final class PatchSet {
 
   /** Is the reference name a change reference? */
   public static boolean isRef(final String name) {
-    return name.matches("^refs/changes/.*/[1-9][0-9]*/[1-9][0-9]*$");
+    if (name == null || !name.startsWith(REFS_CHANGES)) {
+      return false;
+    }
+    boolean accepted = false;
+    int numsFound = 0;
+    for (int i = name.length() - 1; i >= REFS_CHANGES.length() - 1; i--) {
+      char c = name.charAt(i);
+      if (c >= '0' && c <= '9') {
+        accepted = (c != '0');
+      } else if (c == '/') {
+        if (accepted) {
+          if (++numsFound == 2) {
+            return true;
+          }
+          accepted = false;
+        }
+      } else {
+        return false;
+      }
+    }
+    return false;
   }
 
   public static class Id extends IntKey<Change.Id> {

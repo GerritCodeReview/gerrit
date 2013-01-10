@@ -72,7 +72,12 @@ public class GroupsCollection implements
     } else if(!(user instanceof IdentifiedUser)) {
       throw new ResourceNotFoundException(id);
     }
+    return parse(id, groupControlFactory);
+  }
 
+  public static GroupResource parse(final String id,
+      final GroupControl.Factory groupControlFactory)
+      throws ResourceNotFoundException {
     final String decodedId = Url.decode(id);
     final GroupControl ctl;
     try {

@@ -28,14 +28,18 @@ class GetGroup implements RestReadView<GroupResource> {
   @Override
   public Object apply(GroupResource resource) throws AuthException,
       BadRequestException, ResourceConflictException, Exception {
-    GroupDescription.Basic group = resource.getControl().getGroup();
+    return parse(resource.getControl().getGroup());
+  }
+
+  public static GroupInfo parse(final GroupDescription.Basic group) {
     GroupInfo info = new GroupInfo();
-    info.name = resource.getName();
-    info.uuid = resource.getGroupUUID().get();
+    info.name = group.getName();
+    info.uuid = group.getGroupUUID().get();
     info.isVisibleToAll = group.isVisibleToAll();
     if (group instanceof GroupDescription.Internal) {
       final AccountGroup internalGroup =
           ((GroupDescription.Internal) group).getAccountGroup();
+      info.groupId = internalGroup.getId().get();
       info.description = Strings.emptyToNull(internalGroup.getDescription());
       info.ownerUuid = internalGroup.getOwnerGroupUUID().get();
     }
@@ -43,11 +47,12 @@ class GetGroup implements RestReadView<GroupResource> {
     return info;
   }
 
-  static class GroupInfo {
+  public static class GroupInfo {
     final String kind = "gerritcodereview#group";
     String id;
     String name;
     String uuid;
+    int groupId;
     String description;
     boolean isVisibleToAll;
     String ownerUuid;

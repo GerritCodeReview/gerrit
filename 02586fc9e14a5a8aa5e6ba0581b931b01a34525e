@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "OHkT2Lh8",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "These are requirements for running Gerrit on a given Tomcat servlet container.",
+      "parentUuid": "MAGLqNgQ",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MGCpi39A",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "OHiT7Mgc",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MGCpi39A",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MAELvMhI",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -64,6 +100,24 @@
       "writtenOn": "2012-11-28T20:10:44Z",
       "side": 1,
       "message": "Instead of using a hardcoded location, can we make this similar to the other install docs where we put a token in place?",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OHgQANgs",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "I guess, maybe we can update this later? I\u0027m not certain which doc you\u0027re referring to. I looked at the standalone, application, and quick install guides and didn\u0027t see any tokens.",
+      "parentUuid": "MAELvMhI",
       "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "OHuQE.iE",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "Not sure, I\u0027ve always created separate accounts for services because it protects your system from online exploits. However, I imagine the admin should know enough about system hardening to make decisions as such, rather to use passwords or not. I\u0027ll probably leave as is for now. Feel free to change later.",
+      "parentUuid": "MAALZKoA",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MAOLVJkQ",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "OHsQB-g8",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MAOLVJkQ",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MAELGEpo",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -132,6 +222,24 @@
       "writtenOn": "2012-11-28T20:10:44Z",
       "side": 1,
       "message": "Maybe this should be moved to the normal install?  It feels odd to be suggesting that in a doc aimed either at tomcat or at enterprise installations.",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OHqQOAj4",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "Probably, may I suggest refactoring later?",
+      "parentUuid": "MAELGEpo",
       "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +280,24 @@
     },
     {
       "key": {
+        "uuid": "OHoQLBi4",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MGGpo17I",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MAII7.qA",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -183,6 +309,24 @@
       "writtenOn": "2012-11-28T20:10:44Z",
       "side": 1,
       "message": "/var/data seems like a strange place for binaries and configs?",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OHmQYCn8",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "Well, I wasn\u0027t too sure about this, but at the time it seemed acceptable.  You\u0027re, right binary executables are usually in /bin or /usr/bin. It\u0027s just there\u0027s a hodgepodge of files created by the init process and it kind of just dumps them all in parent directory. The init process is generating data used by Gerrit. Configuration details, cache, databases, and other \u0027data\u0027 related files usually do reside in /var/data.  Postgres does the same with it\u0027s database structured, including the database and configuration files in /var/lib/pgsql/data. Now that i see that, it probably should be /var/lib/review_site/data instead.  We can probably provide instructions for configuring with binaries in proper location later if really needed. Thanks for pointing out though.",
+      "parentUuid": "MAII7.qA",
       "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +350,24 @@
     },
     {
       "key": {
+        "uuid": "OHkQdDm0",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "This should be fixed now. Everything this change needs is already approved in master.",
+      "parentUuid": "MGEr4cws",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MTPZVIOs",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -217,6 +379,24 @@
       "writtenOn": "2012-11-30T07:36:58Z",
       "side": 1,
       "message": "asciidoc fails with:\n\n FORMAT install-tomcat.html\n sh: cannot open /home/user/work/gerrit/contrib/images/service.png: No such file",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OHiQSEl0",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-01-11T22:20:49Z",
+      "side": 1,
+      "message": "Should be there now. Just reset/pull master to head and pick this change on top. Should build without problems.",
+      "parentUuid": "MTPZVIOs",
       "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

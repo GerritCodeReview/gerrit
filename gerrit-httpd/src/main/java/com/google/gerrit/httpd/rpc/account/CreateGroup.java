@@ -21,9 +21,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PerformCreateGroup;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.util.Collections;
 
@@ -34,13 +37,16 @@ class CreateGroup extends Handler<AccountGroup.Id> {
 
   private final PerformCreateGroup.Factory performCreateGroupFactory;
   private final IdentifiedUser user;
+  private final boolean visibleToAll;
   private final String groupName;
 
   @Inject
   CreateGroup(final PerformCreateGroup.Factory performCreateGroupFactory,
-      final IdentifiedUser user, @Assisted final String groupName) {
+      final IdentifiedUser user, @GerritServerConfig final Config cfg,
+      @Assisted final String groupName) {
     this.performCreateGroupFactory = performCreateGroupFactory;
     this.user = user;
+    this.visibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
     this.groupName = groupName;
   }
 
@@ -49,6 +55,7 @@ class CreateGroup extends Handler<AccountGroup.Id> {
       PermissionDeniedException {
     final PerformCreateGroup performCreateGroup = performCreateGroupFactory.create();
     final Account.Id me = user.getAccountId();
-    return performCreateGroup.createGroup(groupName, null, false, null, Collections.singleton(me), null);
+    return performCreateGroup.createGroup(groupName, null, visibleToAll, null,
+        Collections.singleton(me), null);
   }
 }

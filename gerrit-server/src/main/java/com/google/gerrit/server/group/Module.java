@@ -20,6 +20,7 @@ import static com.google.gerrit.server.group.MemberResource.MEMBER_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.group.PutMembers.PutMember;
 
 public class Module extends RestApiModule {
   @Override
@@ -34,6 +35,8 @@ public class Module extends RestApiModule {
 
     child(GROUP_KIND, "members").to(MembersCollection.class);
     get(MEMBER_KIND).to(GetMember.class);
+    put(GROUP_KIND, "members").to(PutMembers.class);
+    put(MEMBER_KIND).to(PutMember.class);
 
     child(GROUP_KIND, "groups").to(IncludedGroupsCollection.class);
     get(INCLUDED_GROUP_KIND).to(GetIncludedGroup.class);

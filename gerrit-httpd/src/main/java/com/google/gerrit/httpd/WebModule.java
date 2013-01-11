@@ -29,8 +29,6 @@ import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.ClearPassword;
 import com.google.gerrit.server.account.GeneratePassword;
 import com.google.gerrit.server.config.AuthConfig;
@@ -134,9 +132,6 @@ public class WebModule extends FactoryModule {
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);
 
-    bind(AccountManager.class);
-    bind(ChangeUserName.CurrentUser.class);
-    factory(ChangeUserName.Factory.class);
     factory(ClearPassword.Factory.class);
     install(new CmdLineParserModule());
     factory(GeneratePassword.Factory.class);

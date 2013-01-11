@@ -16,40 +16,51 @@ package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory;
+import com.google.gerrit.server.group.PutMembers.PutMember;
 import com.google.gerrit.server.util.Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class MembersCollection implements
-    ChildCollection<GroupResource, MemberResource> {
+    ChildCollection<GroupResource, MemberResource>,
+    AcceptsCreate<GroupResource>{
 
   private final DynamicMap<RestView<MemberResource>> views;
   private final Provider<ListMembers> list;
   private final IdentifiedUser.GenericFactory userGenericFactory;
   private final GroupCache groupCache;
   private final GroupDetailFactory.Factory groupDetailFactory;
+  private final AccountResolver accountResolver;
+  private final Provider<PutMembers> put;
 
   @Inject
   MembersCollection(final DynamicMap<RestView<MemberResource>> views,
       final Provider<ListMembers> list,
       final IdentifiedUser.GenericFactory userGenericFactory,
       final GroupCache groupCache,
-      final GroupDetailFactory.Factory groupDetailFactory) {
+      final GroupDetailFactory.Factory groupDetailFactory,
+      final AccountResolver accountResolver,
+      final Provider<PutMembers> put) {
     this.views = views;
     this.list = list;
     this.userGenericFactory = userGenericFactory;
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
+    this.accountResolver = accountResolver;
+    this.put = put;
   }
 
   @Override
@@ -61,10 +72,8 @@ public class MembersCollection implements
   @Override
   public MemberResource parse(final GroupResource parent, final String id)
       throws ResourceNotFoundException, Exception {
-    final Account.Id accountId;
-    try {
-      accountId = new Account.Id(Integer.parseInt(Url.decode(id)));
-    } catch (NumberFormatException e) {
+    final Account a = accountResolver.find(Url.decode(id));
+    if (a == null) {
       throw new ResourceNotFoundException(id);
     }
 
@@ -74,13 +83,19 @@ public class MembersCollection implements
         groupDetailFactory.create(group.getId()).call();
     if (groupDetail.members != null) {
       for (final AccountGroupMember member : groupDetail.members) {
-        if (member.getAccountId().equals(accountId)) {
-          return new MemberResource(
-              userGenericFactory.create(accountId));
+        if (member.getAccountId().equals(a.getId())) {
+          return new MemberResource(userGenericFactory.create(a.getId()));
         }
       }
     }
     throw new ResourceNotFoundException(id);
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public PutMember create(final GroupResource parent, final String id)
+      throws RestApiException {
+    return new PutMember(put, Url.decode(id));
   }
 
   @Override

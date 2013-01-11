@@ -1,0 +1,819 @@
+Gerrit Code Review - Tomcat Installation Guide
+==============================================
+
+This guide is tailored to larger deployment scenarios typical of an enterprise environment.
+
+[[requirements]]
+Requirements
+------------
+To run Gerrit on Tomcat, the following requirements must be met on
+the host:
+
+* A Platform supported by Tomcat. Preferably but not limited to:
+  - Linux - Recommendations: Ubuntu, Redhat, or CentOS
+  - Mac OS X
+  - Windows - Windows 7, and 2003/2008 Server
+* JDK, minimum version 1.6 (link:http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download])
+* Latest Tomcat Zip Archive Release 6 or 7 (link:http://tomcat.apache.org/download-60.cgi[Download])
+* link:http://www.postgresql.org/download/[PostgreSQL] 9+ or link:http://www.mysql.com/[MySQL]
+* If integrating with LDAP, you will need access to your local LDAP Provider
+* Native Git on Linux or MSYSGit on Windows
+
+[[prepare]]
+Prepare Deployment
+------------------
+
+First we need to set up the location to which we will deploy Gerrit. For maintenance
+purposes, it's good practice to separate your Application Server and Webapp into
+two distinct directories. This will enable you to deploy new releases of both
+Tomcat and Gerrit without overwriting existing instances or corrupting
+library dependencies. It would also be wise to provide a dedicated Tomcat instance
+for serving Gerrit, for a couple of practical reasons. Firstly, you have to shut down Tomcat
+to perform upgrades. Collocated webapps would bring each other offline any time there
+are upgrades to perform. Secondly, if one webapp crashes, it can bring the
+other webapps offline.
+
+[[linuxPrep]]
+Linux
+~~~~~
+
+Create the following directory layout to support Gerrit:
+
+* +/usr/local/review_site+ - Gerrit base directory
+* +/usr/local/review_site/tomcat+ - Tomcat Servlet Container, if not using package manager to deploy.
+* +/usr/local/review_site/gerrit-X.X+ - Gerrit war deployment
+* +/var/lib/review_site/data+ - Gerrit configuration and cache
+
+Install link:http://tomcat.apache.org/download-60.cgi[tomcat zip archive] to:
+
+----
+ /usr/local/review_site/tomcat
+----
+
+Create a user and group for Gerrit:
+
+====
+  $ sudo groupadd gerrit
+  $ sudo useradd -s /sbin/nologin -g gerrit -d /usr/local/review_site gerrit
+  $ sudo passwd gerrit
+====
+
+Adjust ownership for new user and group
+
+====
+  $ sudo chown -R gerrit.gerrit /usr/local/review_site
+  $ sudo chown -R gerrit.gerrit /var/lib/review_site/data
+  $ sudo find /usr/local/review_site -type d -exec chmod 660 {} \;
+  $ sudo find /var/lib/review_site/data -type f -exec chmod 660 {} \;
+  $ sudo chmod 770 /usr/local/review_site/tomcat/bin
+  $ sudo chmod 770 /var/lib/review_site/data/bin
+  $ su gerrit
+====
+
+[[WindowsPrep]]
+Windows
+~~~~~~~
+
+Create the following directory layout to support Gerrit:
+
+* +C:\Program Files\Gerrit+
+* +C:\Program Files\Gerrit\tomcat+
+* +C:\Program Files\Gerrit\gerrit-X.X+
+* +C:\Program Files\Gerrit\config+
+
+Install link:http://tomcat.apache.org/download-60.cgi[Tomcat] to:
+
+----
+ C:\Program Files\Gerrit\tomcat
+----
+
+[[RemoveExamples]]
+Remove Example Apps and Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After deploying Tomcat, make sure you remove all the existing example
+applications in the tomcat/webapp directory. Remove the following
+directories:
+
+* +docs+
+* +examples+
+* +host-manager+
+* +manager+
+
+[[Git]]
+Download and Install Git
+------------------------
+
+[[linuxGit]]
+Linux
+~~~~~
+
+For Linux, use the default package manager provided by
+the distribution you're using.
+
+For Redhat, use Package Manager. Select:
+Applications->System Settings->add/Remove Applications in the Menu.
+
+For Ubuntu, use the Synaptic Package Manager. Select:
+System->Administration->Synaptic Package Manager.
+
+[[WindowsGit]]
+Windows
+~~~~~~~
+
+Download and install link:http://code.google.com/p/msysgit/downloads/list?q=full+installer+official+git[MSysGit].
+
+[[Configuration]]
+Configure Git
+~~~~~~~~~~~~~
+
+Using command-line git, on your client, add your global configuration settings to git:
+
+====
+  $ git config --global user.name "Your Name"
+  $ git config --global user.email you@corporation.com
+====
+
+Make sure the credentials used here match the credentials you intend to use in
+Gerrit. Otherwise, Gerrit will reject your request.
+
+If you're running the Gerrit service under a different account, you may choose
+to assign a global user account for the Gerrit service.
+
+[[ConfigurationSandbox]]
+Configure Sandbox
+~~~~~~~~~~~~~~~~~
+
+While setting up Gerrit, it's helpful to set up a sandbox area so
+developers can test the new instance and experiment without touching official
+projects. Some of you may have this already. If that's the case, disregard this
+section.
+
+Otherwise, follow the instructions below to create a sandbox:
+
+====
+  $ mkdir sandbox.git
+  $ cd sandbox.git/
+  $ git --bare init
+====
+
+If you would rather wait until after the install process, you can use Gerrit
+to create your project:
+
+====
+  $ ssh gerrit-server-name-and-url-and-port gerrit create-project -p sandbox
+====
+
+Later, we can use this project to test Gerrit after the install.
+
+[[download]]
+Download Gerrit
+---------------
+
+Current and past binary releases of Gerrit can be obtained from
+the downloads page at the project site:
+
+* link:http://code.google.com/p/gerrit/downloads/list[Gerrit Downloads]
+
+It is recommend to download the latest `*.war` package.
+
+Copy the war file to your base Gerrit directory.
+
+Linux:
+
+----
+ /usr/local/review_site/gerrit-X.X
+----
+
+Windows:
+
+----
+ C:\Program Files\Gerrit\gerrit-X.X
+----
+
+If you would prefer to build Gerrit directly from source, review
+the notes under link:dev-readme.html[developer setup].
+
+include::database-setup.txt[]
+
+[[deploy]]
+Deploy Gerrit
+-------------
+
+Change directory to Gerrit base:
+
+Linux:
+
+====
+  $ cd /usr/local/review_site/
+====
+
+Windows:
+
+====
+  C:\>cd "C:\Program Files\Gerrit"
+====
+
+Execute the following to deploy Gerrit's initial configuration and working
+directory structure.
+
+[[linuxDeploy]]
+Linux
+~~~~~
+
+====
+  $ java -jar gerrit-X.X-rcX.war init -d /var/lib/review_site/data
+====
+
+On Linux, allow the initialization process to download Bouncy Castle:
+
+----
+Gerrit Code Review is not shipped with Bouncy Castle Crypto v144
+  If available, Gerrit can take advantage of features
+  in the library, but will also function without it.
+Download and install it now [Y/n]?
+Downloading link:http://www.bouncycastle.org/download/bcprov-jdk16-144.jar ...
+----
+
+After the process has completed, the service will startup automatically. Make
+sure the service is stopped before proceeding:
+
+====
+ $ /var/lib/review_site/data/bin/gerrit.sh stop
+====
+
+[[WindowsDeploy]]
+Windows Server 2008
+~~~~~~~~~~~~~~~~~~~
+
+====
+ $ java -jar gerrit-X.X-rcX.war init -d config
+====
+
+On Windows, you will have to download the <<BouncyCastle,Bouncy Castle jars separately>>. Don't
+have the initialization process deploy or you will encounter the following
+error:
+
+----
+C:\Users\Install\gerrit>java -jar gerrit-X.X-rcX.war init -d .
+
+*** Gerrit Code Review X.X-rcX
+***
+...
+
+Gerrit Code Review is not shipped with Bouncy Castle Crypto v144
+  If available, Gerrit can take advantage of features
+  in the library, but will also function without it.
+Download and install it now [Y/n]?
+Downloading http://www.bouncycastle.org/download/bcprov-jdk16-144.jar ... OK
+Checksum bcprov-jdk16-144.jar OK
+Generating SSH host key ... rsa...Exception in thread "main" java.io.IOException
+: Cannot run program "ssh-keygen": CreateProcess error=2, The system cannot find
+ the file specified
+----
+
+[[Terminal]]
+Terminal Configuration
+~~~~~~~~~~~~~~~~~~~~~~
+
+You will be guided through a questionnaire in the terminal:
+
+----
+C:\your_path\gerrit>java -jar gerrit-X.X-rcX.war init -d config
+*** Gerrit Code Review X.X-rcX
+***
+Create 'C:\your_path\gitserver\gerrit\config' [Y/n]? Y
+*** Git Repositories
+***
+Location of Git repositories   [git]: C:\your_path\gitserver\repository\ha
+*** SQL Database
+***
+Database server type           [H2/?]: postgresql
+Server hostname                [localhost]: database.corp.local
+Server port                    [(POSTGRESQL default)]:
+Database name                  [reviewdb]:
+Database username              [Administrator]: gerrit2
+gerrit2's password             :
+              confirm password :
+*** User Authentication
+***
+Authentication method          [OPENID/?]: LDAP
+LDAP server                    [ldap://localhost]: ldaps://ldap.corp.local:636
+LDAP username                  : CN=Administrator,CN=Users,DC=corp,DC=local
+CN=Administrator,CN=Users,DC=corp,DC=local's password :
+confirm password :
+Account BaseDN                 [DC=corp,DC=local:636]: CN=Users,DC=corp,DC=local
+Group BaseDN                   [CN=Users,DC=corp,DC=local]:
+*** Email Delivery
+***
+SMTP server hostname           [localhost]: smtp.corporation.com
+SMTP server port               [(default)]: 465
+SMTP encryption                [NONE/?]: SSL
+SMTP username                  [Administrator]: build@corporation.com
+build@corporation.com's password :
+confirm password :
+*** Container Process
+***
+Run as                         [Administrator]:
+Java runtime                   [C:\Program Files\Java\jre6]:
+Copy gerrit.war to C:\your_path\gitserver\gerrit\config\bin\gerrit.war [Y/n]?
+Copying gerrit.war to C:\your_path\gitserver\gerrit\config\bin\gerrit.war
+*** SSH Daemon
+***
+Listen on address              [*]:
+Listen on port                 [29418]:
+Gerrit Code Review is not shipped with Bouncy Castle Crypto v144
+  If available, Gerrit can take advantage of features
+  in the library, but will also function without it.
+Download and install it now [Y/n]? n
+Generating SSH host key ... rsa(simple)... done
+*** HTTP Daemon
+***
+Behind reverse proxy           [y/N]?
+Use SSL (https://)             [y/N]?
+Listen on address              [*]:
+Listen on port                 [8080]:
+Initialized C:\your_path\gitserver\gerrit\config
+Automatic startup not supported on Win32.
+----
+
+[[BouncyCastle]]
+Bouncy Castle
+~~~~~~~~~~~~~
+
+This step is only required for Windows or if you're running behind a firewall
+and require a proxy.
+
+Gerrit relies on Bouncy Castle's API for authentication purposes. You will need
+to download and install the latest jars from link:http://www.bouncycastle.org/latest_releases.html[bouncycastle.org].
+
+Copy the following jars to gerrit-X.X\WEB-INF\lib:
+
+* +bcmail-jdk15on-XXX.jar+
+* +bcpg-jdk15on-XXX.jar+
+* +bcpkix-jdk15on-XXX.jar+
+* +bcprov-jdk15on-XXX.jar+
+* +bcprov-ext-jdk15on-XXX.jar+
+
+include::config-gitweb.txt[]
+
+[[further]]
+Further Customizations
+----------------------
+
+The terminal wizard only defines the basics for starting Gerrit. You should
+consult with the link:https://gerrit-review.googlesource.com/Documentation/config-gerrit.html[Gerrit configuration documentation] to further integrate or
+customize features in Gerrit.
+
+Below are some common configuration examples for setting up Gerrit in an
+enterprise environment.
+
+[[httpDownload]]
+HTTP(S)
+~~~~~~~
+
+If you decide to serve developers over HTTP(S) instead of SSH, you will probably
+want to modify the scheme to use http:
+
+----
+$ git config -f etc/gerrit.config download.scheme http
+----
+
+Refer to the link:config-gerrit.html#_a_id_download_a_section_download[configuration documentation]
+for further details.
+
+[[ldap]]
+LDAP
+~~~~
+
+Now for LDAP, you will have to add a few additional settings to pick everything
+up from the LDAP directory. Add the following to your config:
+
+----
+$ git config -f etc/gerrit.config ldap.sslVerify true
+$ git config -f etc/gerrit.config ldap.server ldaps://ldap.corp.local:636
+$ git config -f etc/gerrit.config ldap.username CN=Administrator,CN=Users,DC=corp,DC=local
+$ git config -f etc/gerrit.config ldap.accountBase CN=Users,DC=corp,DC=local
+$ git config -f etc/gerrit.config ldap.accountPattern \(\&\(objectClass=person\)\(sAMAccountName=\${username}\)\)
+$ git config -f etc/gerrit.config ldap.accountFullName displayName
+$ git config -f etc/gerrit.config ldap.accountEmailAddress mail
+$ git config -f etc/gerrit.config ldap.accountSshUserName sAMAccountName
+$ git config -f etc/gerrit.config ldap.groupBase CN=Users,DC=corp,DC=local
+$ git config -f etc/gerrit.config ldap.groupMemberPattern \(sAMAccountName=\${username}\)
+$ git config -f etc/gerrit.config ldap.groupName cn
+----
+
+Note: These settings are specific to Active Directory. You may have to
+experiment a little to find your exact LDAP settings, specific to your
+local LDAP directory. For example, link:http://jxplorer.org[JXExplorer] is a
+popular tool for configuring and testing your LDAP connection settings.
+
+Further configuration details regarding LDAP can be found in the Gerrit
+link:config-gerrit.html#_a_id_ldap_a_section_ldap[Configuration Guide].
+
+[[deployTomcat]]
+Configure Tomcat
+----------------
+
+In Tomcat 6+, your contexts are typically stored separately for each webapp
+under:
+
+----
+tomcat/conf/Catalina/localhost/webapp-context.xml.
+----
+
+The default web application may be defined by using a file called ROOT.xml.
+Since we intend on making this a standalone install, we will want to use the
+ROOT.xml for storing our context settings.
+
+You can generate a stub xml file for your database by executing the following:
+
+For PostgreSQL:
+====
+  $ java -jar webapps/gerrit.war cat extra/tomcat/postgresql-ROOT.xml \
+  >$TOMCAT/conf/Catalina/localhost/ROOT.xml
+====
+
+For MySQL:
+====
+  $ java -jar webapps/gerrit.war cat extra/tomcat/mysql-ROOT.xml \
+  >$TOMCAT/conf/Catalina/localhost/ROOT.xml
+====
+
+Update Generated XML Settings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Context
+^^^^^^^
+In your generated XML configuration file, update the context for Gerrit and
+provide your database URL and credentials:
+
+----
+    <Context path="" docBase="C:\Program Files\gerrit\gerrit-X.X" debug="0"
+             reloadable="false">
+        <Resource
+           name="jdbc/ReviewDb"
+           type="javax.sql.DataSource"
+           username="gerrit2"
+           driverClassName="org.postgresql.Driver"
+           password="secret"
+           url="jdbc:postgresql://yourPsqlServer:5432/reviewdb"
+        />
+    </Context>
+----
+
+Further information regarding context attributes can be found in the
+link:http://tomcat.apache.org/tomcat-6.0-doc/config/context.html[Tomcat context documentation].
+
+Update Server.xml Settings
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following are your typical default settings for Tomcat, conf/server.xml:
+
+----
+<?xml version='1.0' encoding='utf-8'?>
+<Server port="8005" shutdown="SHUTDOWN">
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <Listener className="org.apache.catalina.core.JasperListener" />
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+
+  <GlobalNamingResources>
+    <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/tomcat-users.xml" />
+  </GlobalNamingResources>
+
+  <Service name="Catalina">
+    <Connector executor="tomcatThreadPool"
+               port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+    <!--
+    <Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
+               maxThreads="150" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS" />
+    -->
+
+    <!--
+    <Connector port="8009" protocol="AJP/1.3" />
+    -->
+
+    <Engine name="Catalina" defaultHost="localhost">
+      <Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true"
+            xmlValidation="false" xmlNamespaceAware="false">
+        <!--
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log." suffix=".txt" pattern="common" resolveHosts="false"/>
+        -->
+      </Host>
+    </Engine>
+  </Service>
+</Server>
+----
+
+HTTP Port
+^^^^^^^^^
+If you're configuring for a different port, update the HTTP connector:
+
+----
+    <Connector executor="tomcatThreadPool"
+               port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+----
+
+For HTTPS you will have to provide a certificate:
+----
+ <Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
+               maxThreads="150" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS"
+           keystoreFile="c:\mkyongkeystore"
+           keystorePass="password" />
+----
+
+Instructions for regarding generating and configuring Tomcat HTTPS, see the
+link:http://tomcat.apache.org/tomcat-6.0-doc/ssl-howto.html[Tomcat SSL configuration how-to].
+
+If you would like to further customize your connector, please refer to the
+link:http://tomcat.apache.org/tomcat-6.0-doc/config/http.html[Tomcat HTTP connector documentation].
+
+AJP Connector
+^^^^^^^^^^^^^
+Uncomment out the AJP connector if you intend to use Apache or
+other services for proxying requests:
+----
+<Connector port="8009" protocol="AJP/1.3" maxHttpHeaderSize="8192"
+           maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+           disableUploadTimeout="true" enableLookups="false"
+           acceptCount="100" URIEncoding="UTF-8" />
+
+----
+
+TIP: You don't need the AJP connector unless you intend on proxying with
+Apache HTTP Server. Many corporate environments use it to offload SSL
+encryption, load balancing, and managing CA certificates. Be sure to change
+your HTTP connector port to 80 if you intend to run standalone. If you would
+like to read more about AJP, check out the link:http://tomcat.apache.org/tomcat-6.0-doc/config/ajp.html[Tomcat AJP documentation].
+
+[[service]]
+Configure Service for Gerrit
+----------------------------
+
+At this point, you are now ready to configure Gerrit as a service and bring
+the review system online.
+
+Before we can do this, we must first:
+
+* Tweak Tomcat JVM Settings for Running Gerrit as a Service
+* Edit and install service startup scripts
+
+[[linuxService]]
+Linux
+~~~~~
+
+On Linux, you will need to deploy a startup script. Use the following script:
+
+----
+include::../contrib/tomcat[]
+----
+
+Download and copy link:../contrib/tomcat[this script] to your /etc/init.d directory:
+
+Update permissions on the tomcat startup script:
+
+====
+  $ sudo chown -R gerrit.gerrit /etc/init.d/tomcat
+  $ sudo chmod 755 -R /etc/init.d/tomcat
+====
+
+As a non-root user, you cannot listen on port 80. If you wish to have your
+services listen on port 80, you will have to relay traffic:
+
+====
+  $ sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8080
+  $ sudo iptables -t nat -I OUTPUT -p tcp --dport 80 -j REDIRECT --to-ports 8080
+====
+
+Start the service:
+
+====
+  $ sudo service tomcat start
+====
+
+[[WindowsService]]
+Windows
+~~~~~~~
+
+The JVM options are set separately for the Windows service. You must modify your
+service.bat file before installing the Windows service. This file resides in the
+tomcat/bin directory with the other startup.bat and shutdown scripts. Scroll
+down to the following section:
+
+----
+"%EXECUTABLE%"  //US//%SERVICE_NAME% \++JvmOptions \
+ "-Djava.io.tmpdir=%CATALINA_BASE%\temp; \
+  -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager; \
+  -Djava.util.logging.config.file=%CATALINA_BASE%\conf\logging.properties" \
+  \--JvmMs 128 \--JvmMx 256
+----
+
+Modify this line to match the following:
+
+----
+"%EXECUTABLE%" //US//%SERVICE_NAME% --JvmMs 512 --JvmMx 1024 \
+++JvmOptions="-Djava.io.tmpdir=%CATALINA_BASE%\temp" \
+++JvmOptions="-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager" \
+++JvmOptions="-Djava.util.logging.config.file=%CATALINA_BASE%\conf\logging.properties" \
+++JvmOptions="-XX:+UseConcMarkSweepGC" ++JvmOptions="-XX:+CMSClassUnloadingEnabled"
+----
+
+CMSClassUnloadingEnabled enables GC sweeping of the PermGen space, removing classes
+which are no longer used. For CMSClassUnloadingEnabled to have any impact on performance,
+UseConcMarkSweepGC must also be set.
+
+The UseConcMarkSweepGC setting tells the JVM to use the multithreaded version of the
+copying collector, link:http://www.oracle.com/technetwork/java/javase/gc-tuning-6-140523.html#available_collectors[which is more efficient than the original single-thread copying
+collector for multi-CPU machines (though not for single-CPU machines)]. Further details
+can be found in the Oracle's link:http://www.oracle.com/technetwork/java/javase/tech/memorymanagement-whitepaper-1-150020.pdf[memory management white paper].
+
+The initial memory, jvmMs, should definitely be set to 512Mb for Gerrit and, if needed,
+extend JvmMx to 1024Mb.
+
+Now you are ready to deploy Gerrit as a service under windows. Just execute
+the following:
+
+----
+  C:\your_path\gitserver\gerrit\tomcat\bin>service install gerrit
+  Installing the service 'gerrit' ...
+  Using CATALINA_HOME: "C:\your_path\gitserver\gerrit\tomcat"
+  Using CATALINA_BASE: "C:\your_path\gitserver\gerrit\tomcat"
+  Using JAVA_HOME: "C:\Program Files\Java\jdk1.6.0_31"
+  Using JVM: "C:\Program Files\Java\jdk1.6.0_31\jre\bin\server\jvm.dll"
+  The service 'gerrit' has been installed.
+
+  C:\your_path\gitserver\gerrit\tomcat\bin>
+----
+
+Go to your server manager and open the Services node. Open the properties for
+Gerrit and make sure you set the startup type to Automatic:
+
+.Windows Service
+image::images/service.png[Windows Service]
+
+Apply and Close Dialog.
+
+Now you're ready to start the service. Just highlight the Gerrit service and
+click the Start option to the left.
+
+[[ReviewLogs]]
+Review Logs
+~~~~~~~~~~~
+
+Review the logs under the tomcat/log directory. Resolve any outstanding
+errors. If you need help, please refer to <<Troubleshooting, the troubleshooting
+section for help>>.
+
+include::config-login-register.txt[]
+
+[[GerritLogin]]
+Gerrit Login
+~~~~~~~~~~~~
+
+Register a new account in Gerrit through the web interface with the email
+address of your choice. The first account registered will automatically be
+placed into the fully privileged Administrators group, permitting server
+management over the web and over SSH. Subsequent users will be automatically
+registered as unprivileged users.
+
+Once signed in as your user, you find a little wizard to get you started.
+The wizard helps you fill out:
+
+* Real name (visible name in Gerrit)
+* Register your email (it must be confirmed later)
+* Select a username with which to communicate with Gerrit over ssh+git
+* The server will ask you for an RSA public key. That's the key we generated above,
+and it's time to make sure that Gerrit knows about our new key and can identify us by it.
+
+----
+  $ cat .ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA1bidOd8LAp7Vp95M1b9z+LGO96OEWzdAgBPfZPq05jUh
+jw0mIdUuvg5lhwswnNsvmnFhGbsUoXZui6jdXj7xPUWOD8feX2NNEjTAEeX7DXOhnozNAkk/Z98WUV2B
+xUBqhRi8vhVmaCM8E+JkHzAc+7/HVYBTuPUS7lYPby5w95gs3zVxrX8d1++IXg/u/F/47zUxhdaELMw2
+deD8XLhrNPx2FQ83FxrjnVvEKQJyD2OoqxbC2KcUGYJ/3fhiupn/YpnZsl5+6mfQuZRJEoZ/FH2n4DEH
+wzgBBBagBr0ZZCEkl74s4KFZp6JJw/ZSjMRXsXXXWvwcTpaUEDii708HGw== John Doe@MACHINE
+----
+
+IMPORTANT: Please take note of the extra line-breaks introduced in the key above
+for formatting purposes. Please be sure to copy and paste your key without
+line-breaks.
+
+[[ConfigureHTTP]]
+Configure HTTP Access
+~~~~~~~~~~~~~~~~~~~~~
+
+If your project is open to the public, skip this section. Otherwise, you will
+want to configure HTTP access for registered users only. Check the Projects
+section under the Admin tab:
+
+https://localhost/#/admin/projects/
+
+.Access Permissions
+image::images/projects.png[Git Projects]
+
+[[GenerateHTTPPasswd]]
+Generate an HTTP Password
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Despite having configured your own login, you still have to generate a password
+for gerrit to server via http/https. Go to your Settings->HTTP Password
+configuration and click on 'Generate Password'. Use this password for all git
+operations over http(s).
+
+[[Test]]
+Test Gerrit
+-----------
+
+Now that we have Gerrit set up and online, we can test Gerrit via HTTP and SSH.
+You should be able to clone any projects existing in the repository you've
+referenced in the Gerrit config.
+
+[[TestHTTP]]
+Test HTTP
+~~~~~~~~~
+
+From msysgit console or terminal, execute the following git command:
+
+----
+  $ git clone https://review.corporation.com/sandbox
+  Cloning into 'sandbox'...
+  Username for 'https://review.corporation.com':
+  Password for 'https://username@review.corporation.com':
+  remote: Counting objects: 189, done
+  remote: Finding sources: 100% (189/189)
+  remote: Total 189 (delta 0), reused 6 (delta 0)Receiving objects:  69% (131/189)
+  Receiving objects:  70% (133/189)
+  Receiving objects: 100% (189/189), 24.62 KiB, done.
+----
+
+You should now have a project existing in your local workspace.
+
+[[TestSSH]]
+Test SSH
+~~~~~~~~
+
+Now for testing SSH, let's check your connection first:
+
+----
+  $ ssh username@review.corporation.com -p 29418
+
+  **** Welcome to Gerrit Code Review ****
+
+  Hi User, you have successfully connected over SSH.
+
+  Unfortunately, interactive shells are disabled.
+  To clone a hosted Git repository, use:
+
+  git clone ssh://username@review.corporation.com:29418/REPOSITORY_NAME.git
+
+  Connection to localhost closed.
+----
+
+To clone a project from Gerrit via SSH:
+
+----
+  $ git clone ssh://username@review.corporation.com:29418/sandbox
+  Cloning into 'sandbox'...
+  remote: Counting objects: 183, done
+  remote: Finding sources: 100% (183/183)
+  remote: Total 183 (delta 0), reused 0 (delta 0)Receiving objects: 50% (92/183)
+  Receiving objects: 52% (96/183)
+  Receiving objects: 100% (183/183), 23.76 KiB, done.
+----
+
+[[InstallComplete]]
+Installation Complete
+---------------------
+Congratulations, your Gerrit installation is now complete. You're now ready to
+begin using your new code review tool. For further information regarding using
+Gerrit, please consult the link:index.html[user guide].
+
+[[Troubleshooting]]
+Troubleshooting Resources
+-------------------------
+
+The following sources are recommended to help with any issues which may arise.
+
+* link:http://groups.google.com/group/repo-discuss[Gerrit Discussion]
+* link:http://code.google.com/p/gerrit/issues/list[Issue Tracking]
+* link:http://serverfault.com/questions/383573/how-do-i-install-gerrit-under-tomcat-with-ldap/385076#385076[ServerFault.com]
+* link:http://stackoverflow.com/questions/tagged/gerrit[StackOverflow.com]
+* IRC freenode #gerrit
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

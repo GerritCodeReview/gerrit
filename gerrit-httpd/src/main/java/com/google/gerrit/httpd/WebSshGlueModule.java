@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -29,18 +28,14 @@ import com.google.inject.Provider;
  */
 public class WebSshGlueModule extends AbstractModule {
   private final Provider<SshInfo> sshInfoProvider;
-  private final Provider<SshKeyCache> sshKeyCacheProvider;
 
   @Inject
-  WebSshGlueModule(Provider<SshInfo> sshInfoProvider,
-      Provider<SshKeyCache> sshKeyCacheProvider) {
+  WebSshGlueModule(Provider<SshInfo> sshInfoProvider) {
     this.sshInfoProvider = sshInfoProvider;
-    this.sshKeyCacheProvider = sshKeyCacheProvider;
   }
 
   @Override
   protected void configure() {
     bind(SshInfo.class).toProvider(sshInfoProvider);
-    bind(SshKeyCache.class).toProvider(sshKeyCacheProvider);
   }
 }

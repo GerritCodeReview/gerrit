@@ -22,8 +22,14 @@ import com.google.inject.TypeLiteral;
 public class MemberResource extends AccountResource {
   public static final TypeLiteral<RestView<MemberResource>> MEMBER_KIND =
       new TypeLiteral<RestView<MemberResource>>() {};
+  private final GroupResource parent;
 
-  public MemberResource(IdentifiedUser user) {
+  public MemberResource(GroupResource parent, IdentifiedUser user) {
     super(user);
+    this.parent = parent;
+  }
+
+  public GroupResource getParent() {
+    return parent;
   }
 }

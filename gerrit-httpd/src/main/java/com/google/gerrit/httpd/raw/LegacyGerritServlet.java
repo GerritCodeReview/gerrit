@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -66,9 +67,7 @@ public class LegacyGerritServlet extends HttpServlet {
       tosend = raw;
     }
 
-    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+    CacheHeaders.setNotCacheable(rsp);
     rsp.setContentType("text/html");
     rsp.setCharacterEncoding(HtmlDomUtil.ENC);
     rsp.setContentLength(tosend.length);

@@ -30,6 +30,7 @@ import com.google.gerrit.server.plugins.PluginsCollection;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -203,7 +204,7 @@ class HttpPluginServlet extends HttpServlet
     String name = parts.get(0);
     final PluginHolder holder = plugins.get(name);
     if (holder == null) {
-      noCache(res);
+      CacheHeaders.setNotCacheable(res);
       res.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
@@ -235,7 +236,7 @@ class HttpPluginServlet extends HttpServlet
       HttpServletRequest req,
       HttpServletResponse res) throws IOException {
     if (!"GET".equals(req.getMethod()) && !"HEAD".equals(req.getMethod())) {
-      noCache(res);
+      CacheHeaders.setNotCacheable(res);
       res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
       return;
     }
@@ -568,13 +569,6 @@ class HttpPluginServlet extends HttpServlet
       in.close();
     }
     return data;
-  }
-
-  static void noCache(HttpServletResponse res) {
-    res.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    res.setHeader("Pragma", "no-cache");
-    res.setHeader("Cache-Control", "no-cache, must-revalidate");
-    res.setHeader("Content-Disposition", "attachment");
   }
 
   private static class PluginHolder {

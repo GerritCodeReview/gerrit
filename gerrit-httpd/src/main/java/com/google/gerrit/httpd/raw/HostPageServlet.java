@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.linker.server.Permutation;
 import com.google.gwtexpui.linker.server.PermutationSelector;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
@@ -206,9 +207,7 @@ public class HostPageServlet extends HttpServlet {
       tosend = raw;
     }
 
-    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+    CacheHeaders.setNotCacheable(rsp);
     rsp.setContentType("text/html");
     rsp.setCharacterEncoding(HtmlDomUtil.ENC);
     rsp.setContentLength(tosend.length);

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.httpd.raw;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -26,7 +28,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.http.HttpServlet;
@@ -37,12 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class StaticServlet extends HttpServlet {
-  private static final long MAX_AGE = 12 * 60 * 60 * 1000L/* milliseconds */;
-  private static final String CACHE_CTRL =
-      "public, max-age=" + (MAX_AGE / 1000L);
-
-  private static final HashMap<String, String> MIME_TYPES =
-      new HashMap<String, String>();
+  private static final Map<String, String> MIME_TYPES = Maps.newHashMap();
   static {
     MIME_TYPES.put("html", "text/html");
     MIME_TYPES.put("htm", "text/html");
@@ -147,6 +145,7 @@ public class StaticServlet extends HttpServlet {
       final HttpServletResponse rsp) throws IOException {
     final File p = local(req);
     if (p == null) {
+      CacheHeaders.setNotCacheable(rsp);
       rsp.setStatus(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
@@ -161,8 +160,7 @@ public class StaticServlet extends HttpServlet {
       tosend = readFile(p);
     }
 
-    rsp.setHeader("Cache-Control", CACHE_CTRL);
-    rsp.setDateHeader("Expires", System.currentTimeMillis() + MAX_AGE);
+    CacheHeaders.setCacheable(req, rsp, 12, TimeUnit.HOURS);
     rsp.setDateHeader("Last-Modified", p.lastModified());
     rsp.setContentType(type);
     rsp.setContentLength(tosend.length);

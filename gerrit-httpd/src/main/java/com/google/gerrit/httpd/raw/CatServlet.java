@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.util.Url;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -226,9 +227,7 @@ public class CatServlet extends HttpServlet {
     final long when = fromCommit.getCommitTime() * 1000L;
 
     rsp.setDateHeader("Last-Modified", when);
-    rsp.setDateHeader("Expires", 0L);
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+    CacheHeaders.setNotCacheable(rsp);
 
     OutputStream out;
     ZipOutputStream zo;

@@ -23,6 +23,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -85,10 +86,7 @@ class HttpLoginServlet extends HttpServlet {
       return;
     }
 
-    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
-
+    CacheHeaders.setNotCacheable(rsp);
     final String user = getRemoteUser(req);
     if (user == null || "".equals(user)) {
       log.error("Unable to authenticate user by " + loginHeader

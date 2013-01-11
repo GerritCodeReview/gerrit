@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -44,9 +45,7 @@ class OpenIdLoginServlet extends HttpServlet {
   public void doPost(final HttpServletRequest req, final HttpServletResponse rsp)
       throws IOException {
     try {
-      rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-      rsp.setHeader("Pragma", "no-cache");
-      rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+      CacheHeaders.setNotCacheable(rsp);
       impl.doAuth(req, rsp);
     } catch (Exception e) {
       getServletContext().log("Unexpected error during authentication", e);

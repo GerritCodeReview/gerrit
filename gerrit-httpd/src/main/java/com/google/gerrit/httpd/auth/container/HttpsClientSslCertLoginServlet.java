@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -55,9 +56,7 @@ public class HttpsClientSslCertLoginServlet extends HttpServlet {
     rdr.append('#');
     rdr.append(getToken(req));
 
-    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+    CacheHeaders.setNotCacheable(rsp);
     rsp.sendRedirect(rdr.toString());
   }
 

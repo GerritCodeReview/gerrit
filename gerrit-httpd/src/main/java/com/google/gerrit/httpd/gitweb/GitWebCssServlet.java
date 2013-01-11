@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.gitweb;
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,10 +50,6 @@ abstract class GitWebCssServlet extends HttpServlet {
   }
 
   private static final String ENC = "UTF-8";
-  private static final long MAX_AGE =
-      TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES);
-  private static final String CACHE_CTRL =
-      "public, max-age=" + (MAX_AGE / 1000L);
 
   private final long modified;
   private final byte[] raw_css;
@@ -89,7 +86,6 @@ abstract class GitWebCssServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     if (raw_css != null) {
-      final long now = System.currentTimeMillis();
       rsp.setContentType("text/css");
       rsp.setCharacterEncoding(ENC);
       final byte[] toSend;
@@ -100,10 +96,8 @@ abstract class GitWebCssServlet extends HttpServlet {
         toSend = raw_css;
       }
       rsp.setContentLength(toSend.length);
-      rsp.setHeader("Cache-Control", CACHE_CTRL);
-      rsp.setDateHeader("Date", now);
-      rsp.setDateHeader("Expires", now + MAX_AGE);
       rsp.setDateHeader("Last-Modified", modified);
+      CacheHeaders.setCacheable(req, rsp, 5, TimeUnit.MINUTES);
 
       final ServletOutputStream os = rsp.getOutputStream();
       try {
@@ -112,6 +106,7 @@ abstract class GitWebCssServlet extends HttpServlet {
         os.close();
       }
     } else {
+      CacheHeaders.setNotCacheable(rsp);
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
   }

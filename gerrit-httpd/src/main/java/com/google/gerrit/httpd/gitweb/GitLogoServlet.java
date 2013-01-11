@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.gitweb;
 
 import com.google.gerrit.httpd.GitWebConfig;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -33,11 +34,6 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 class GitLogoServlet extends HttpServlet {
-  private static final long MAX_AGE =
-      TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES);
-  private static final String CACHE_CTRL =
-      "public, max-age=" + (MAX_AGE / 1000L);
-
   private final long modified;
   private final byte[] raw;
 
@@ -60,16 +56,18 @@ class GitLogoServlet extends HttpServlet {
   }
 
   @Override
+  protected long getLastModified(final HttpServletRequest req) {
+    return modified;
+  }
+
+  @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     if (raw != null) {
-      final long now = System.currentTimeMillis();
       rsp.setContentType("image/png");
       rsp.setContentLength(raw.length);
-      rsp.setHeader("Cache-Control", CACHE_CTRL);
-      rsp.setDateHeader("Date", now);
-      rsp.setDateHeader("Expires", now + MAX_AGE);
       rsp.setDateHeader("Last-Modified", modified);
+      CacheHeaders.setCacheable(req, rsp, 5, TimeUnit.MINUTES);
 
       final ServletOutputStream os = rsp.getOutputStream();
       try {
@@ -78,6 +76,7 @@ class GitLogoServlet extends HttpServlet {
         os.close();
       }
     } else {
+      CacheHeaders.setNotCacheable(rsp);
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
   }

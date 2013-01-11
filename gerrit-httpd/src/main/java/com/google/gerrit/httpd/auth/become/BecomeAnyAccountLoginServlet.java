@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
@@ -76,9 +77,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   @Override
   protected void doPost(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException, ServletException {
-    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+    CacheHeaders.setNotCacheable(rsp);
 
     final AuthResult res;
     if ("create_account".equals(req.getParameter("action"))) {

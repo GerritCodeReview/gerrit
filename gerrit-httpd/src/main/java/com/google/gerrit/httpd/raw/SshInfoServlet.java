@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -60,10 +61,6 @@ public class SshInfoServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
-
     final List<HostKey> hostKeys = sshd.getHostKeys();
     final String out;
     if (!hostKeys.isEmpty()) {
@@ -88,6 +85,7 @@ public class SshInfoServlet extends HttpServlet {
       out = "NOT_AVAILABLE";
     }
 
+    CacheHeaders.setNotCacheable(rsp);
     rsp.setCharacterEncoding("UTF-8");
     rsp.setContentType("text/plain");
     final PrintWriter w = rsp.getWriter();

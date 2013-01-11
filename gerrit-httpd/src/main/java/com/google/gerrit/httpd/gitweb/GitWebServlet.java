@@ -40,6 +40,7 @@ import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.Url;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -387,9 +388,7 @@ class GitWebServlet extends HttpServlet {
       return;
     }
     try {
-      rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-      rsp.setHeader("Pragma", "no-cache");
-      rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+      CacheHeaders.setNotCacheable(rsp);
       exec(req, rsp, project, repo);
     } finally {
       repo.close();

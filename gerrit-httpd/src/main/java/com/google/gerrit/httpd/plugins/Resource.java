@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.gwtexpui.server.CacheHeaders;
+
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +31,7 @@ abstract class Resource {
     @Override
     void send(HttpServletRequest req, HttpServletResponse res)
         throws IOException {
-      HttpPluginServlet.noCache(res);
+      CacheHeaders.setNotCacheable(res);
       res.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
   };

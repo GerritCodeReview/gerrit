@@ -63,7 +63,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
       try {
         GroupControl i = controlFactory.controlFor(u.getIncludeUUID());
         if (ownerOfParent || i.isVisible()) {
-          included.add(GetGroup.parse(i.getGroup()));
+          included.add(new GetGroup.GroupInfo(i.getGroup()));
         }
       } catch (NoSuchGroupException notFound) {
         log.warn(String.format("Group %s no longer available, included into ",

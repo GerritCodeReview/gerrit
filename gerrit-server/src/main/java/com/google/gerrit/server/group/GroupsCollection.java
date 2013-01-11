@@ -32,8 +32,6 @@ import com.google.inject.Provider;
 
 public class GroupsCollection implements
     RestCollection<TopLevelResource, GroupResource> {
-  public final static String UUID_PREFIX = "uuid-";
-
   private final DynamicMap<RestView<GroupResource>> views;
   private final Provider<ListGroups> list;
   private final GroupControl.Factory groupControlFactory;
@@ -75,30 +73,30 @@ public class GroupsCollection implements
     return parse(id, groupControlFactory);
   }
 
-  public static GroupResource parse(final String id,
-      final GroupControl.Factory groupControlFactory)
+  public static GroupResource parse(String id, GroupControl.Factory factory)
       throws ResourceNotFoundException {
-    final String decodedId = Url.decode(id);
-    final GroupControl ctl;
+    String uuid = Url.decode(id);
+    GroupControl ctl;
     try {
-      if (decodedId.startsWith(UUID_PREFIX)) {
-        final String uuid = decodedId.substring(UUID_PREFIX.length());
-        ctl = groupControlFactory.controlFor(new AccountGroup.UUID(uuid));
-      } else {
+      ctl = factory.controlFor(new AccountGroup.UUID(uuid));
+    } catch (NoSuchGroupException noSuchGroup) {
+      if (uuid.matches("^[1-9][0-9]*$")) {
+        // Might be a legacy AccountGroup.Id.
         try {
-          ctl = groupControlFactory.controlFor(
-              new AccountGroup.Id(Integer.parseInt(decodedId)));
-        } catch (NumberFormatException e) {
+          ctl = factory.controlFor(AccountGroup.Id.parse(uuid));
+        } catch (IllegalArgumentException invalidId) {
+          throw new ResourceNotFoundException(id);
+        } catch (NoSuchGroupException e) {
           throw new ResourceNotFoundException(id);
         }
+      } else {
+        throw new ResourceNotFoundException(id);
       }
-    } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(id);
     }
-    if (!ctl.isVisible() && !ctl.isOwner()) {
-      throw new ResourceNotFoundException(id);
+    if (ctl.isOwner()) {
+      return new GroupResource(ctl);
     }
-    return new GroupResource(ctl);
+    throw new ResourceNotFoundException(id);
   }
 
   @Override

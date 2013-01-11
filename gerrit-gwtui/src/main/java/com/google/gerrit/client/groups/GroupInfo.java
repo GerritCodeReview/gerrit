@@ -16,18 +16,32 @@ package com.google.gerrit.client.groups;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.http.client.URL;
 
 public class GroupInfo extends JavaScriptObject {
   public final AccountGroup.Id getGroupId() {
-    return new AccountGroup.Id(groupId());
+    return new AccountGroup.Id(group_id());
   }
 
-  public final native int groupId() /*-{ return this.group_id; }-*/;
+  public final AccountGroup.UUID getGroupUUID() {
+    return new AccountGroup.UUID(URL.decodePathSegment(id()));
+  }
+
+  public final native String id() /*-{ return this.id; }-*/;
   public final native String name() /*-{ return this.name; }-*/;
-  public final native String uuid() /*-{ return this.uuid; }-*/;
+  public final native boolean isVisibleToAll() /*-{ return this['visible_to_all'] ? true : false; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
-  public final native boolean isVisibleToAll() /*-{ return this['is_visible_to_all'] ? true : false; }-*/;
-  public final native String ownerUuid() /*-{ return this.owner_uuid; }-*/;
+
+  private final native int group_id() /*-{ return this.group_id; }-*/;
+  private final native String owner_uuid() /*-{ return this.owner_uuid; }-*/;
+
+  public final AccountGroup.UUID getOwnerUUID() {
+    String owner = owner_uuid();
+    if (owner != null) {
+        return new AccountGroup.UUID(URL.decodePathSegment(owner));
+    }
+    return null;
+  }
 
   protected GroupInfo() {
   }

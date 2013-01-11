@@ -261,56 +261,45 @@ and accepts the same options as query parameters.
   {
     "Administrators": {
       "kind": "gerritcodereview#group",
-      "id": "uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
-      "uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
-      "group_id": 1,
+      "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
       "description": "Gerrit Site Administrators",
-      "is_visible_to_all": false,
-      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "group_id": 1,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "Anonymous Users": {
       "kind": "gerritcodereview#group",
-      "id": "uuid-global%3AAnonymous-Users",
-      "uuid": "global:Anonymous-Users",
-      "group_id": 2,
+      "id": "global%3AAnonymous-Users",
       "description": "Any user, signed-in or not",
-      "is_visible_to_all": false,
-      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "group_id": 2,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "MyProject_Committers": {
       "kind": "gerritcodereview#group",
-      "id": "uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
-      "uuid": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "visible_to_all": true,
       "group_id": 6,
-      "is_visible_to_all": true,
-      "owner_uuid": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
+      "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
     },
     "Non-Interactive Users": {
       "kind": "gerritcodereview#group",
-      "id": "uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
-      "uuid": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
-      "group_id": 4,
+      "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "description": "Users who perform batch actions on Gerrit",
-      "is_visible_to_all": false,
-      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "group_id": 4,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "Project Owners": {
       "kind": "gerritcodereview#group",
-      "id": "uuid-global%3AProject-Owners",
-      "uuid": "global:Project-Owners",
-      "group_id": 5,
+      "id": "global%3AProject-Owners",
       "description": "Any owner of the project",
-      "is_visible_to_all": false,
-      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "group_id": 5,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     },
     "Registered Users": {
       "kind": "gerritcodereview#group",
-      "id": "uuid-global%3ARegistered-Users",
-      "uuid": "global:Registered-Users",
-      "group_id": 3,
+      "id": "global%3ARegistered-Users",
       "description": "Any signed-in user",
-      "is_visible_to_all": false,
-      "owner_uuid": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "group_id": 3,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
     }
   }
 ----
@@ -352,12 +341,10 @@ Lists the included groups of a group.
 [
   {
     "kind": "gerritcodereview#group",
-    "id": "uuid-7ca042f4d5847936fcb90ca91057673157fd06fc",
+    "id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
     "name": "MyProject-Verifiers",
-    "uuid": "7ca042f4d5847936fcb90ca91057673157fd06fc",
     "group_id": 38,
-    "is_visible_to_all": false,
-    "owner_uuid": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
   }
 ]
 ----

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OCbklH7A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-11T10:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OCRkAiws",
+      "revId": "d12590446dd592875ef14ce595629bec97371916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OCfkEtyE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-11T07:47:01Z",
       "side": 1,
       "message": "nit: unused import",
+      "revId": "d12590446dd592875ef14ce595629bec97371916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OCZkiW6Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-11T10:02:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OCfkEtyE",
       "revId": "d12590446dd592875ef14ce595629bec97371916",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

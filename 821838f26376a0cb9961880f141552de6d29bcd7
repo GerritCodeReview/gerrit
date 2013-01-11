@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OCfld1xM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-11T16:32:55Z",
+      "side": 1,
+      "message": "How can I have here a List\u003cString\u003e or String[] as parameter? How would the JavaScript code need to look like?",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

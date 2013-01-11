@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.reviewdb.client.Project;
+
 public class PermissionRule implements Comparable<PermissionRule> {
   public static final String FORCE_PUSH = "Force Push";
   public static final String FORCE_EDIT = "Force Edit";
@@ -28,11 +30,13 @@ public class PermissionRule implements Comparable<PermissionRule> {
   protected int min;
   protected int max;
   protected GroupReference group;
+  protected Project.NameKey project;
 
   public PermissionRule() {
   }
 
-  public PermissionRule(GroupReference group) {
+  public PermissionRule(Project.NameKey project, GroupReference group) {
+    this.project = project;
     this.group = group;
   }
 
@@ -99,6 +103,10 @@ public class PermissionRule implements Comparable<PermissionRule> {
 
   public GroupReference getGroup() {
     return group;
+  }
+
+  public Project.NameKey getProject() {
+    return project;
   }
 
   public void setGroup(GroupReference newGroup) {
@@ -196,9 +204,11 @@ public class PermissionRule implements Comparable<PermissionRule> {
     return r.toString();
   }
 
-  public static PermissionRule fromString(String src, boolean mightUseRange) {
+  public static PermissionRule fromString(Project.NameKey project, String src,
+      boolean mightUseRange) {
     final String orig = src;
     final PermissionRule rule = new PermissionRule();
+    rule.project = project;
 
     src = src.trim();
 

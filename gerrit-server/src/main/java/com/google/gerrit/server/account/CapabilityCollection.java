@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class CapabilityCollection {
   public final List<PermissionRule> priority;
   public final List<PermissionRule> queryLimit;
 
-  public CapabilityCollection(AccessSection section) {
+  public CapabilityCollection(Project.NameKey project, AccessSection section) {
     if (section == null) {
       section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
     }
@@ -60,7 +61,7 @@ public class CapabilityCollection {
         r.add(rule);
       }
     }
-    configureDefaults(tmp, section);
+    configureDefaults(tmp, section, project);
 
     Map<String, List<PermissionRule>> res =
         new HashMap<String, List<PermissionRule>>();
@@ -91,16 +92,17 @@ public class CapabilityCollection {
       "Anonymous Users");
 
   private static void configureDefaults(Map<String, List<PermissionRule>> out,
-      AccessSection section) {
-    configureDefault(out, section, GlobalCapability.QUERY_LIMIT, anonymous);
+      AccessSection section, Project.NameKey project) {
+    configureDefault(out, section, GlobalCapability.QUERY_LIMIT, project, anonymous);
   }
 
   private static void configureDefault(Map<String, List<PermissionRule>> out,
-      AccessSection section, String capName, GroupReference group) {
+      AccessSection section, String capName, Project.NameKey project,
+      GroupReference group) {
     if (doesNotDeclare(section, capName)) {
       PermissionRange.WithDefaults range = GlobalCapability.getRange(capName);
       if (range != null) {
-        PermissionRule rule = new PermissionRule(group);
+        PermissionRule rule = new PermissionRule(project, group);
         rule.setRange(range.getDefaultMin(), range.getDefaultMax());
         out.put(capName, Collections.singletonList(rule));
       }

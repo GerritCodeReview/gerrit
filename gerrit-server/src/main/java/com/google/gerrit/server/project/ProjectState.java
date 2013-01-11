@@ -97,7 +97,7 @@ public class ProjectState {
     this.rulesCache = rulesCache;
     this.config = config;
     this.capabilities = isAllProjects
-      ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
+      ? new CapabilityCollection(config.getProject().getNameKey(), config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
       : null;
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {

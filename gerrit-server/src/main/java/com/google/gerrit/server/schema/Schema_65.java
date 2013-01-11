@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
@@ -143,7 +144,7 @@ public class Schema_65 extends SchemaVersion {
           }
 
           ContributorAgreement agreement = agreements.get(aga.claId);
-          agreement.getAccepted().add(new PermissionRule(config.resolve(group)));
+          agreement.getAccepted().add(new PermissionRule(config.getProject().getNameKey(), config.resolve(group)));
           base.replace(agreement);
 
           PersonIdent ident = null;
@@ -320,7 +321,8 @@ public class Schema_65 extends SchemaVersion {
           String.format("Users who have accepted the %s CLA", agreement.getName()));
     }
     GroupReference group = config.resolve(ag);
-    agreement.setAccepted(Lists.newArrayList(new PermissionRule(group)));
+    Project.NameKey project = config.getProject().getNameKey();
+    agreement.setAccepted(Lists.newArrayList(new PermissionRule(project, group)));
     if (agreement.getAutoVerify() != null) {
       agreement.setAutoVerify(group);
     }
@@ -329,7 +331,7 @@ public class Schema_65 extends SchemaVersion {
     // other in same group visibility mode.
     List<PermissionRule> sameGroupVisibility =
         config.getAccountsSection().getSameGroupVisibility();
-    PermissionRule rule = new PermissionRule(group);
+    PermissionRule rule = new PermissionRule(project, group);
     rule.setDeny();
     if (!sameGroupVisibility.contains(rule)) {
       sameGroupVisibility.add(rule);

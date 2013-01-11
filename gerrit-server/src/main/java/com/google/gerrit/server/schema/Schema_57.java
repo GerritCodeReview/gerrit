@@ -93,8 +93,9 @@ public class Schema_57 extends SchemaVersion {
         AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
 
         // Move the Administrators group reference to All-Projects.
-        cap.getPermission(GlobalCapability.ADMINISTRATE_SERVER, true)
-            .add(new PermissionRule(config.resolve(db.accountGroups().get(sc.adminGroupId))));
+        cap.getPermission(GlobalCapability.ADMINISTRATE_SERVER, true).add(
+            new PermissionRule(config.getProject().getNameKey(), config
+                .resolve(db.accountGroups().get(sc.adminGroupId))));
 
         // Move the repository.*.createGroup to Create Project.
         String[] createGroupList = cfg.getStringList("repository", "*", "createGroup");
@@ -115,8 +116,9 @@ public class Schema_57 extends SchemaVersion {
             continue;
           }
 
-          cap.getPermission(GlobalCapability.CREATE_PROJECT, true)
-              .add(new PermissionRule(config.resolve(group)));
+          cap.getPermission(GlobalCapability.CREATE_PROJECT, true).add(
+              new PermissionRule(config.getProject().getNameKey(), config
+                  .resolve(group)));
         }
         if (createGroupList.length != 0) {
           ui.message("Moved repository.*.createGroup to 'Create Project' capability");
@@ -139,8 +141,8 @@ public class Schema_57 extends SchemaVersion {
           }
         } else if (batch != null) {
           cap.getPermission(GlobalCapability.PRIORITY, true)
-              .getRule(config.resolve(batch), true)
-              .setAction(Action.BATCH);
+              .getRule(config.getProject().getNameKey(), config.resolve(batch),
+                  true).setAction(Action.BATCH);
         }
 
         md.setMessage("Upgrade to Gerrit Code Review schema 57\n");

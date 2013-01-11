@@ -378,7 +378,7 @@ public class RefControlTest extends TestCase {
     GroupReference group = new GroupReference(groupUUID, groupUUID.get());
     group = project.resolve(group);
 
-    return new PermissionRule(group);
+    return new PermissionRule(project.getProject().getNameKey(), group);
   }
 
   private ProjectControl user(AccountGroup.UUID... memberOf) {

@@ -181,7 +181,7 @@ class Schema_53 extends SchemaVersion {
         if (config.getProject().getNameKey().equals(systemConfig.wildProjectName)) {
           AccessSection meta = config.getAccessSection(GitRepositoryManager.REF_CONFIG, true);
           Permission read = meta.getPermission(READ, true);
-          read.getRule(config.resolve(projectOwners), true);
+          read.getRule(config.getProject().getNameKey(), config.resolve(projectOwners), true);
         }
 
         md.setMessage("Import project configuration from SQL\n");
@@ -285,9 +285,10 @@ class Schema_53 extends SchemaVersion {
     for (OldRefRight old : myRights) {
       AccessSection section = config.getAccessSection(old.ref_pattern, true);
       GroupReference group = config.resolve(old.group);
+      Project.NameKey project = config.getProject().getNameKey();
 
       if (OLD_SUBMIT.equals(old.category)) {
-        PermissionRule submit = rule(group);
+        PermissionRule submit = rule(project, group);
         if (old.max_value <= 0) {
           submit.setDeny();
         }
@@ -299,29 +300,29 @@ class Schema_53 extends SchemaVersion {
           newChangePermission(config, old.ref_pattern).setExclusiveGroup(true);
         }
 
-        PermissionRule read = rule(group);
+        PermissionRule read = rule(project, group);
         if (old.max_value <= 0) {
           read.setDeny();
         }
         add(section, READ, old.exclusive, read);
 
         if (3 <= old.max_value) {
-          newMergePermission(config, old.ref_pattern).add(rule(group));
+          newMergePermission(config, old.ref_pattern).add(rule(project, group));
         } else if (3 <= inheritedMax(config, old)) {
-          newMergePermission(config, old.ref_pattern).add(deny(group));
+          newMergePermission(config, old.ref_pattern).add(deny(project, group));
         }
 
         if (2 <= old.max_value) {
-          newChangePermission(config, old.ref_pattern).add(rule(group));
+          newChangePermission(config, old.ref_pattern).add(rule(project, group));
         } else if (2 <= inheritedMax(config, old)) {
-          newChangePermission(config, old.ref_pattern).add(deny(group));
+          newChangePermission(config, old.ref_pattern).add(deny(project, group));
         }
 
       } else if (OLD_OWN.equals(old.category)) {
-        add(section, OWNER, false, rule(group));
+        add(section, OWNER, false, rule(project, group));
 
       } else if (OLD_PUSH_TAG.equals(old.category)) {
-        PermissionRule push = rule(group);
+        PermissionRule push = rule(project, group);
         if (old.max_value <= 0) {
           push.setDeny();
         }
@@ -333,7 +334,7 @@ class Schema_53 extends SchemaVersion {
           section.getPermission(CREATE, true).setExclusiveGroup(true);
         }
 
-        PermissionRule push = rule(group);
+        PermissionRule push = rule(project, group);
         if (old.max_value <= 0) {
           push.setDeny();
         }
@@ -341,9 +342,9 @@ class Schema_53 extends SchemaVersion {
         add(section, PUSH, old.exclusive, push);
 
         if (2 <= old.max_value) {
-          add(section, CREATE, old.exclusive, rule(group));
+          add(section, CREATE, old.exclusive, rule(project, group));
         } else if (2 <= inheritedMax(config, old)) {
-          add(section, CREATE, old.exclusive, deny(group));
+          add(section, CREATE, old.exclusive, deny(project, group));
         }
 
       } else if (OLD_FORGE_IDENTITY.equals(old.category)) {
@@ -354,23 +355,23 @@ class Schema_53 extends SchemaVersion {
         }
 
         if (1 <= old.max_value) {
-          add(section, FORGE_AUTHOR, old.exclusive, rule(group));
+          add(section, FORGE_AUTHOR, old.exclusive, rule(project, group));
         }
 
         if (2 <= old.max_value) {
-          add(section, FORGE_COMMITTER, old.exclusive, rule(group));
+          add(section, FORGE_COMMITTER, old.exclusive, rule(project, group));
         } else if (2 <= inheritedMax(config, old)) {
-          add(section, FORGE_COMMITTER, old.exclusive, deny(group));
+          add(section, FORGE_COMMITTER, old.exclusive, deny(project, group));
         }
 
         if (3 <= old.max_value) {
-          add(section, FORGE_SERVER, old.exclusive, rule(group));
+          add(section, FORGE_SERVER, old.exclusive, rule(project, group));
         } else if (3 <= inheritedMax(config, old)) {
-          add(section, FORGE_SERVER, old.exclusive, deny(group));
+          add(section, FORGE_SERVER, old.exclusive, deny(project, group));
         }
 
       } else {
-        PermissionRule rule = rule(group);
+        PermissionRule rule = rule(project, group);
         rule.setRange(old.min_value, old.max_value);
         if (old.min_value == 0 && old.max_value == 0) {
           rule.setDeny();
@@ -404,12 +405,12 @@ class Schema_53 extends SchemaVersion {
     return config.getAccessSection(name, true).getPermission(PUSH_MERGE, true);
   }
 
-  private static PermissionRule rule(GroupReference group) {
-    return new PermissionRule(group);
+  private static PermissionRule rule(Project.NameKey project, GroupReference group) {
+    return new PermissionRule(project, group);
   }
 
-  private static PermissionRule deny(GroupReference group) {
-    PermissionRule rule = rule(group);
+  private static PermissionRule deny(Project.NameKey project, GroupReference group) {
+    PermissionRule rule = rule(project, group);
     rule.setDeny();
     return rule;
   }

@@ -192,7 +192,7 @@ public class CreateProject {
           if (g != null) {
             GroupReference group = config.resolve(GroupReference.forGroup(g));
             all.getPermission(Permission.OWNER, true).add(
-                new PermissionRule(group));
+                new PermissionRule(newProject.getNameKey(), group));
           }
         }
       }

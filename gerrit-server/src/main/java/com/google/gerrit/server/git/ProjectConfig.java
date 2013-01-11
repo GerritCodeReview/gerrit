@@ -464,7 +464,7 @@ public class ProjectConfig extends VersionedMetaData {
     for (String ruleString : rc.getStringList(section, subsection, varName)) {
       PermissionRule rule;
       try {
-        rule = PermissionRule.fromString(ruleString, useRange);
+        rule = PermissionRule.fromString(projectName, ruleString, useRange);
       } catch (IllegalArgumentException notRule) {
         error(new ValidationError(PROJECT_CONFIG, "Invalid rule in "
             + section
@@ -577,7 +577,7 @@ public class ProjectConfig extends VersionedMetaData {
         if (ca.getAutoVerify().getUUID() != null) {
           keepGroups.add(ca.getAutoVerify().getUUID());
         }
-        String autoVerify = new PermissionRule(ca.getAutoVerify()).asString(false);
+        String autoVerify = new PermissionRule(projectName, ca.getAutoVerify()).asString(false);
         set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AUTO_VERIFY, autoVerify);
       } else {
         rc.unset(CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AUTO_VERIFY);
@@ -596,7 +596,7 @@ public class ProjectConfig extends VersionedMetaData {
         if (gr.getUUID() != null) {
           keepGroups.add(gr.getUUID());
         }
-        email.add(new PermissionRule(gr).asString(false));
+        email.add(new PermissionRule(projectName, gr).asString(false));
       }
       Collections.sort(email);
 

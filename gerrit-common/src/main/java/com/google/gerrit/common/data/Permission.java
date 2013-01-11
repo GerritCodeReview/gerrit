@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.reviewdb.client.Project;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -162,11 +164,12 @@ public class Permission implements Comparable<Permission> {
     }
   }
 
-  public PermissionRule getRule(GroupReference group) {
-    return getRule(group, false);
+  public PermissionRule getRule(Project.NameKey project, GroupReference group) {
+    return getRule(project, group, false);
   }
 
-  public PermissionRule getRule(GroupReference group, boolean create) {
+  public PermissionRule getRule(Project.NameKey project, GroupReference group,
+      boolean create) {
     initRules();
 
     for (PermissionRule r : rules) {
@@ -176,7 +179,7 @@ public class Permission implements Comparable<Permission> {
     }
 
     if (create) {
-      PermissionRule r = new PermissionRule(group);
+      PermissionRule r = new PermissionRule(project, group);
       rules.add(r);
       return r;
     } else {
@@ -186,7 +189,7 @@ public class Permission implements Comparable<Permission> {
 
   void mergeFrom(Permission src) {
     for (PermissionRule srcRule : src.getRules()) {
-      PermissionRule dstRule = getRule(srcRule.getGroup());
+      PermissionRule dstRule = getRule(srcRule.getProject(), srcRule.getGroup());
       if (dstRule != null) {
         dstRule.mergeFrom(srcRule);
       } else {

@@ -249,7 +249,7 @@ public class SchemaCreator {
   }
 
   private PermissionRule rule(ProjectConfig config, AccountGroup group) {
-    return new PermissionRule(config.resolve(group));
+    return new PermissionRule(config.getProject().getNameKey(), config.resolve(group));
   }
 
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {

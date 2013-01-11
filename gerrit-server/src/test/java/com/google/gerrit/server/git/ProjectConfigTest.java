@@ -136,14 +136,15 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     update(rev);
 
     ProjectConfig cfg = read(rev);
+    Project.NameKey project = cfg.getProject().getNameKey();
     AccessSection section = cfg.getAccessSection("refs/heads/*");
     cfg.getAccountsSection().setSameGroupVisibility(
-        Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
+        Collections.singletonList(new PermissionRule(project, cfg.resolve(staff))));
     Permission submit = section.getPermission(Permission.SUBMIT);
-    submit.add(new PermissionRule(cfg.resolve(staff)));
+    submit.add(new PermissionRule(project, cfg.resolve(staff)));
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
     ca.setRequireContactInformation(false);
-    ca.setAccepted(Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
+    ca.setAccepted(Collections.singletonList(new PermissionRule(project, cfg.resolve(staff))));
     ca.setAutoVerify(null);
     ca.setDescription("A new description");
     rev = commit(cfg);
@@ -180,7 +181,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     ProjectConfig cfg = read(rev);
     AccessSection section = cfg.getAccessSection("refs/heads/*");
     Permission submit = section.getPermission(Permission.SUBMIT);
-    submit.add(new PermissionRule(cfg.resolve(staff)));
+    submit.add(new PermissionRule(cfg.getProject().getNameKey(), cfg.resolve(staff)));
     rev = commit(cfg);
     assertEquals(""//
         + "[access \"refs/heads/*\"]\n" //

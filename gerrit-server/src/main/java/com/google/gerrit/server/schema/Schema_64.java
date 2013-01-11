@@ -102,7 +102,7 @@ public class Schema_64 extends SchemaVersion {
       Permission capability =
           section.getPermission(GlobalCapability.EMAIL_REVIEWERS, true);
       for (GroupReference group : groups) {
-        capability.getRule(config.resolve(group), true).setDeny();
+        capability.getRule(config.getProject().getNameKey(), config.resolve(group), true).setDeny();
       }
 
       md.setMessage("Upgrade to Gerrit Code Review schema 64\n");

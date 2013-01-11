@@ -209,8 +209,8 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
 
   private void addGroup(GroupReference ref) {
     if (ref.getUUID() != null) {
-      if (value.getRule(ref) == null) {
-        PermissionRule newRule = value.getRule(ref, true);
+      if (value.getRule(projectName, ref) == null) {
+        PermissionRule newRule = value.getRule(projectName, ref, true);
         if (validRange != null) {
           int min = validRange.getDefaultMin();
           int max = validRange.getDefaultMax();

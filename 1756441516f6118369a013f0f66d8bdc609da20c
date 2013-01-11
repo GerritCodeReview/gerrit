@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OChgAhQs",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitLogoServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-01-11T20:49:56Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to be used.",
+      "revId": "1756441516f6118369a013f0f66d8bdc609da20c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OCvgEsSE",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebJavaScriptServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-01-11T20:49:56Z",
+      "side": 1,
+      "message": "Is uncacheable the default, or is this a behavior change?",
+      "revId": "1756441516f6118369a013f0f66d8bdc609da20c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

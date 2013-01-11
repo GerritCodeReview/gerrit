@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OCRkAiws",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-11T07:47:01Z",
+      "side": 1,
+      "message": "If a branch gets deleted can newObjectId be null so that in this case ObjectId.zeroId() should be used as new objectId?",
+      "revId": "d12590446dd592875ef14ce595629bec97371916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OCfkEtyE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-11T07:47:01Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "d12590446dd592875ef14ce595629bec97371916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

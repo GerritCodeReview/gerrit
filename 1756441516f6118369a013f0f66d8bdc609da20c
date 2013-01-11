@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "OClgd3Ww",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitLogoServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-01-11T20:58:42Z",
+      "side": 1,
+      "message": "Ah, I see now. Thanks for explaining.",
+      "parentUuid": "OCpgLdS4",
+      "revId": "1756441516f6118369a013f0f66d8bdc609da20c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OCvgEsSE",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebJavaScriptServlet.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "The default is... I don\u0027t know. Its whatever the user agent does when no cache headers are included in the response. I have no idea how that is defined in the relevant RFCs, or even how many user agents adhere to the RFCs in that regard. Elsewhere in Gerrit we often try to do not cacheable on error responses, otherwise some user agents do cache the 404 Not Found and refuse to identify the resource exists later.",
       "parentUuid": "OCvgEsSE",
+      "revId": "1756441516f6118369a013f0f66d8bdc609da20c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OCjgSKV0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebJavaScriptServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-01-11T20:58:42Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "OCrgOOT4",
       "revId": "1756441516f6118369a013f0f66d8bdc609da20c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

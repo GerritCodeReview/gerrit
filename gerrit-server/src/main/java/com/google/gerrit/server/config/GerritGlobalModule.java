@@ -34,10 +34,12 @@ import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupBackend;
@@ -214,5 +216,9 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AnonymousUser.class);
 
     factory(NotesBranchUtil.Factory.class);
+
+    bind(AccountManager.class);
+    bind(ChangeUserName.CurrentUser.class);
+    factory(ChangeUserName.Factory.class);
   }
 }

@@ -46,6 +46,7 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.inject.AbstractModule;
@@ -238,6 +239,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
         return HttpCanonicalWebUrlProvider.class;
       }
     });
+    modules.add(SshKeyCacheImpl.module());
     modules.add(new MasterNodeStartup());
     return cfgInjector.createChildInjector(modules);
   }

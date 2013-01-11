@@ -16,6 +16,8 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.groups.GroupApi;
+import com.google.gerrit.client.groups.MemberInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountLink;
@@ -175,15 +177,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     addMemberBox.setEnabled(false);
-    Util.GROUP_SVC.addGroupMember(getGroupId(), nameEmail,
-        new GerritCallback<GroupDetail>() {
-          public void onSuccess(final GroupDetail result) {
-            addMemberBox.setEnabled(true);
-            addMemberBox.setText("");
-            if (result.accounts != null && result.members != null) {
-              accounts.merge(result.accounts);
-              members.display(result.members);
-            }
+    GroupApi.addMember(getGroupUUID(), nameEmail, new GerritCallback<MemberInfo>() {
+          public void onSuccess(final MemberInfo memberInfo) {
+            Gerrit.display(Dispatcher.toGroup(getGroupUUID(), AccountGroupScreen.MEMBERS));
           }
 
           @Override

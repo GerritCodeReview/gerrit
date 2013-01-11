@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OC3cYsH4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-11T08:59:44Z",
+      "side": 1,
+      "message": "\", so make this field an optional injection\" -\u003e \", this field is an optional injection\".",
+      "revId": "1cfc1428c07959ada3b4bdf26995653ab6004728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

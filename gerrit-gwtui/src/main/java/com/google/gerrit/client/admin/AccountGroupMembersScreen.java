@@ -16,7 +16,10 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.groups.GroupApi;
+import com.google.gerrit.client.groups.MemberInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.AddMemberBox;
@@ -39,6 +42,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtjsonrpc.common.VoidResult;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -175,15 +179,10 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     addMemberBox.setEnabled(false);
-    Util.GROUP_SVC.addGroupMember(getGroupId(), nameEmail,
-        new GerritCallback<GroupDetail>() {
-          public void onSuccess(final GroupDetail result) {
-            addMemberBox.setEnabled(true);
-            addMemberBox.setText("");
-            if (result.accounts != null && result.members != null) {
-              accounts.merge(result.accounts);
-              members.display(result.members);
-            }
+    GroupApi.addMembers(getGroupUUID(), Collections.singletonList(nameEmail),
+        new GerritCallback<NativeList<MemberInfo>>() {
+          public void onSuccess(final NativeList<MemberInfo> memberInfo) {
+            Gerrit.display(Dispatcher.toGroup(getGroupUUID(), AccountGroupScreen.MEMBERS));
           }
 
           @Override

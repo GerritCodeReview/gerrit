@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -27,12 +28,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VisibleGroups;
+import com.google.gerrit.server.group.GetGroup.GroupInfo;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.util.Url;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
-import com.google.gwtorm.client.KeyUtil;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
@@ -127,15 +127,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
       if (stdout == null) {
         final Map<String, GroupInfo> output = Maps.newTreeMap();
-        for (final AccountGroup g : groupList) {
-          final GroupInfo info = new GroupInfo();
-          info.name = g.getName();
-          info.groupId = g.getId().get();
-          info.setUuid(g.getGroupUUID());
-          info.description = g.getDescription();
-          info.isVisibleToAll = g.isVisibleToAll();
-          info.ownerUuid = g.getOwnerGroupUUID().get();
+        for (AccountGroup g : groupList) {
+          GroupInfo info = new GroupInfo(GroupDescriptions.forAccountGroup(g));
           output.put(info.name, info);
+          info.name = null;
         }
         return OutputFormat.JSON.newGson().toJsonTree(output,
             new TypeToken<Map<String, GroupInfo>>() {}.getType());
@@ -144,7 +139,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         for (final AccountGroup g : groupList) {
           formatter.addColumn(g.getName());
           if (verboseOutput) {
-            formatter.addColumn(KeyUtil.decode(g.getGroupUUID().toString()));
+            formatter.addColumn(g.getGroupUUID().get());
             formatter.addColumn(
                 g.getDescription() != null ? g.getDescription() : "");
             formatter.addColumn(g.getType().toString());
@@ -152,7 +147,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
                 groupCache.get(g.getOwnerGroupUUID());
             formatter.addColumn(
                 owningGroup != null ? owningGroup.getName() : "n/a");
-            formatter.addColumn(KeyUtil.decode(g.getOwnerGroupUUID().toString()));
+            formatter.addColumn(g.getOwnerGroupUUID().get());
             formatter.addColumn(Boolean.toString(g.isVisibleToAll()));
           }
           formatter.nextLine();
@@ -164,23 +159,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       if (stdout != null) {
         stdout.flush();
       }
-    }
-  }
-
-  static class GroupInfo {
-    final String kind = "gerritcodereview#group";
-
-    transient String name;
-    String id;
-    String uuid;
-    int groupId;
-    String description;
-    boolean isVisibleToAll;
-    String ownerUuid;
-
-    void setUuid(AccountGroup.UUID u) {
-      uuid = u.get();
-      id = Url.encode(GroupsCollection.UUID_PREFIX + uuid);
     }
   }
 }

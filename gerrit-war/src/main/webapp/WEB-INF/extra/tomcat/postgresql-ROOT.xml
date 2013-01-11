@@ -1,0 +1,8 @@
+<Context path="" docBase="/usr/local/review_site/gerrit-X.X" debug="0" reloadable="false">
+    <Resource name="jdbc/ReviewDb"
+              type="javax.sql.DataSource"
+              username="gerrit2"
+              driverClassName="org.postgresql.Driver"
+              password="secret"
+              url="dbc:postgresql://yourPsqlServer:5432/reviewdb" />
+</Context>

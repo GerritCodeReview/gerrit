@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OCfkrl4M",
+        "filename": "gerrit-package-plugins/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-11T08:13:44Z",
+      "side": 1,
+      "message": "Now this needs to be changed to \u00271.0-SNAPSHOT\u0027.",
+      "revId": "6401c9e06dd9ad02774ad8a028686952f50e673d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

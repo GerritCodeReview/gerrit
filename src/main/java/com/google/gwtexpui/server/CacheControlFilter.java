@@ -15,6 +15,7 @@
 package com.google.gwtexpui.server;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -61,16 +62,9 @@ public class CacheControlFilter implements Filter {
     final String pathInfo = pathInfo(req);
 
     if (cacheForever(pathInfo, req)) {
-      final long now = System.currentTimeMillis();
-      rsp.setHeader("Cache-Control", "max-age=31536000,public");
-      rsp.setDateHeader("Expires", now + 31536000000L);
-      rsp.setDateHeader("Date", now);
-
+      CacheHeaders.setCacheable(req, rsp, 365, TimeUnit.DAYS);
     } else if (nocache(pathInfo)) {
-      rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-      rsp.setHeader("Pragma", "no-cache");
-      rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
-      rsp.setDateHeader("Date", System.currentTimeMillis());
+      CacheHeaders.setNotCacheable(rsp);
     }
 
     chain.doFilter(req, rsp);

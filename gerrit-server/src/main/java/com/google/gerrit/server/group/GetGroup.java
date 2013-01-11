@@ -28,37 +28,36 @@ class GetGroup implements RestReadView<GroupResource> {
   @Override
   public Object apply(GroupResource resource) throws AuthException,
       BadRequestException, ResourceConflictException, Exception {
-    return parse(resource.getControl().getGroup());
-  }
-
-  public static GroupInfo parse(final GroupDescription.Basic group) {
-    GroupInfo info = new GroupInfo();
-    info.name = group.getName();
-    info.uuid = group.getGroupUUID().get();
-    info.isVisibleToAll = group.isVisibleToAll();
-    if (group instanceof GroupDescription.Internal) {
-      final AccountGroup internalGroup =
-          ((GroupDescription.Internal) group).getAccountGroup();
-      info.groupId = internalGroup.getId().get();
-      info.description = Strings.emptyToNull(internalGroup.getDescription());
-      info.ownerUuid = internalGroup.getOwnerGroupUUID().get();
-    }
-    info.finish();
-    return info;
+    return new GroupInfo(resource.getControl().getGroup());
   }
 
   public static class GroupInfo {
     final String kind = "gerritcodereview#group";
     String id;
     String name;
-    String uuid;
-    int groupId;
-    String description;
-    boolean isVisibleToAll;
-    String ownerUuid;
+    Boolean visibleToAll;
 
-    void finish() {
-      id = Url.encode(GroupsCollection.UUID_PREFIX + uuid);
+    // These fields are only supplied for internal groups.
+    String description;
+    Integer groupId;
+    String ownerId;
+
+    GroupInfo(GroupDescription.Basic group) {
+      id = Url.encode(group.getGroupUUID().get());
+      name = Strings.emptyToNull(group.getName());
+      visibleToAll = group.isVisibleToAll() ? true : null;
+
+      if (group instanceof GroupDescription.Internal) {
+        set(((GroupDescription.Internal) group).getAccountGroup());
+      }
+    }
+
+    private void set(AccountGroup d) {
+      description = Strings.emptyToNull(d.getDescription());
+      groupId = d.getId().get();
+      ownerId = d.getOwnerGroupUUID() != null
+          ? Url.encode(d.getOwnerGroupUUID().get())
+          : null;
     }
   }
 }

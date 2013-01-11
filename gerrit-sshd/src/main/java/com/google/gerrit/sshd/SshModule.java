@@ -22,8 +22,6 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -44,6 +42,7 @@ import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.eclipse.jgit.lib.Config;
+
 import java.net.SocketAddress;
 import java.util.Map;
 
@@ -69,7 +68,6 @@ public class SshModule extends FactoryModule {
     install(new CmdLineParserModule());
     configureAliases();
 
-    install(SshKeyCacheImpl.module());
     bind(SshLog.class);
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
     factory(DispatchCommand.Factory.class);
@@ -83,8 +81,6 @@ public class SshModule extends FactoryModule {
     bind(WorkQueue.Executor.class).annotatedWith(StreamCommandExecutor.class)
         .toProvider(StreamCommandExecutorProvider.class).in(SINGLETON);
     bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
-    bind(AccountManager.class);
-    factory(ChangeUserName.Factory.class);
 
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);

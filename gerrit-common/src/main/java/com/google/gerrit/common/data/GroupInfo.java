@@ -41,10 +41,14 @@ public class GroupInfo {
    *
    * @param a the data store record holding the specific group details.
    */
-  public GroupInfo(final AccountGroup a) {
+  public GroupInfo(GroupDescription.Basic a) {
     uuid = a.getGroupUUID();
     name = a.getName();
-    description = a.getDescription();
+
+    if (a instanceof GroupDescription.Internal) {
+      AccountGroup group = ((GroupDescription.Internal) a).getAccountGroup();
+      description = group.getDescription();
+    }
   }
 
   /** @return the unique local id of the group */

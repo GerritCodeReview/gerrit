@@ -136,23 +136,21 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     Collections.sort(groups, new Comparator<AccountGroupIncludeByUuid>() {
       public int compare(final AccountGroupIncludeByUuid o1,
           final AccountGroupIncludeByUuid o2) {
-        final AccountGroup a = gic.get(o1.getIncludeUUID());
-        final AccountGroup b = gic.get(o2.getIncludeUUID());
+        GroupDescription.Basic a = gic.get(o1.getIncludeUUID());
+        GroupDescription.Basic b = gic.get(o2.getIncludeUUID());
         return n(a).compareTo(n(b));
       }
 
-      private String n(final AccountGroup a) {
+      private String n (GroupDescription.Basic a) {
+        if (a == null) {
+          return "";
+        }
+
         String n = a.getName();
         if (n != null && n.length() > 0) {
           return n;
         }
-
-        n = a.getDescription();
-        if (n != null && n.length() > 0) {
-          return n;
-        }
-
-        return a.getId().toString();
+        return a.getGroupUUID().get();
       }
     });
 

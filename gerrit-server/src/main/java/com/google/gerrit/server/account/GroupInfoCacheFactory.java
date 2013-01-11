@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.GroupInfoCache;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,13 +31,13 @@ public class GroupInfoCacheFactory {
     GroupInfoCacheFactory create();
   }
 
-  private final GroupCache groupCache;
-  private final Map<AccountGroup.UUID, AccountGroup> out;
+  private final GroupBackend groupBackend;
+  private final Map<AccountGroup.UUID, GroupDescription.Basic> out;
 
   @Inject
-  GroupInfoCacheFactory(final GroupCache groupCache) {
-    this.groupCache = groupCache;
-    this.out = new HashMap<AccountGroup.UUID, AccountGroup>();
+  GroupInfoCacheFactory(GroupBackend groupBackend) {
+    this.groupBackend = groupBackend;
+    this.out = Maps.newHashMap();
   }
 
   /**
@@ -46,7 +47,7 @@ public class GroupInfoCacheFactory {
    */
   public void want(final AccountGroup.UUID uuid) {
     if (uuid != null && !out.containsKey(uuid)) {
-      out.put(uuid, groupCache.get(uuid));
+      out.put(uuid, groupBackend.get(uuid));
     }
   }
 
@@ -57,7 +58,7 @@ public class GroupInfoCacheFactory {
     }
   }
 
-  public AccountGroup get(final AccountGroup.UUID uuid) {
+  public GroupDescription.Basic get(final AccountGroup.UUID uuid) {
     want(uuid);
     return out.get(uuid);
   }
@@ -66,10 +67,11 @@ public class GroupInfoCacheFactory {
    * Create an GroupInfoCache with the currently loaded AccountGroup entities.
    * */
   public GroupInfoCache create() {
-    final List<GroupInfo> r = new ArrayList<GroupInfo>(out.size());
-    for (final AccountGroup a : out.values()) {
-      if (a == null) continue;
-      r.add(new GroupInfo(a));
+    List<GroupInfo> r = Lists.newArrayListWithCapacity(out.size());
+    for (GroupDescription.Basic a : out.values()) {
+      if (a != null) {
+        r.add(new GroupInfo(a));
+      }
     }
     return new GroupInfoCache(r);
   }

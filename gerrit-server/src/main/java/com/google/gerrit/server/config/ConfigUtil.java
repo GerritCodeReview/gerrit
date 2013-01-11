@@ -102,7 +102,7 @@ public class ConfigUtil {
       final String subsection, final String setting, String valueString,
       final T[] all) {
 
-    String n = valueString.replace(' ', '_');
+    String n = valueString.replace(' ', '_').replace('-', '_');
     for (final T e : all) {
       if (equalsIgnoreCase(e.name(), n)) {
         return e;

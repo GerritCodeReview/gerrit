@@ -22,7 +22,8 @@ import com.google.gwtorm.client.StringKey;
 public final class AccountProjectWatch {
 
   public enum NotifyType {
-    NEW_CHANGES, NEW_PATCHSETS, ALL_COMMENTS, SUBMITTED_CHANGES, ALL
+    NEW_CHANGES, NEW_PATCHSETS, ALL_COMMENTS, SUBMITTED_CHANGES,
+    ABANDONED_CHANGES, ALL
   }
 
   public static final String FILTER_ALL = "*";
@@ -112,6 +113,9 @@ public final class AccountProjectWatch {
   @Column(id = 5)
   protected boolean notifyNewPatchSets;
 
+  @Column(id = 6)
+  protected boolean notifyAbandonedChanges;
+
   protected AccountProjectWatch() {
   }
 
@@ -149,6 +153,9 @@ public final class AccountProjectWatch {
       case SUBMITTED_CHANGES:
         return notifySubmittedChanges;
 
+      case ABANDONED_CHANGES:
+        return notifyAbandonedChanges;
+
       case ALL:
         break;
     }
@@ -173,11 +180,16 @@ public final class AccountProjectWatch {
         notifySubmittedChanges = v;
         break;
 
+      case ABANDONED_CHANGES:
+        notifyAbandonedChanges = v;
+        break;
+
       case ALL:
         notifyNewChanges = v;
         notifyNewPatchSets = v;
         notifyAllComments = v;
         notifySubmittedChanges = v;
+        notifyAbandonedChanges = v;
         break;
     }
   }

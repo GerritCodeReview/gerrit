@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OM0-xjSQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-13T07:16:41Z",
+      "side": 1,
+      "message": "Thanks for checking on this. I was afraid that this would make more trouble to your environment.",
+      "parentUuid": "OMpAOtD4",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OCfld1xM",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "OM88EnSI",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-13T07:16:41Z",
+      "side": 1,
+      "message": "Thanks.\n\nDone.",
+      "parentUuid": "OMlDxLCQ",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OMnD2sB8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2013-01-13T03:28:30Z",
       "side": 1,
       "message": "FWIW I don\u0027t think @DefaultInput works on a List\u003cString\u003e. So you\u0027ll have to drop @DefaultInput if you are going to accept a List.\n\nOr accept both:\n\n  static class Input {\n    List\u003cString\u003e members;\n\n    @DefaultInput\n    String _oneMember;\n  }\n\nWith the assumption that JSON clients won\u0027t use _oneMember.",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OM2-20R8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-13T07:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OMnD2sB8",
       "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "OMw-7hQY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-13T07:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OMtAEPCI",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OMhD7pAY",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
         "patchSetId": 1
@@ -99,6 +171,24 @@
       "writtenOn": "2013-01-13T03:28:30Z",
       "side": 1,
       "message": "This doesn\u0027t go to the client. The client sees HTTP 500 \"Internal server error\".\n\nYou need to throw something that is or extends BadRequestException or ResourceConflictException. Those messages to go the client.",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OM.8BYQ8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-13T07:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OMhD7pAY",
       "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "OMy8AyQs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-13T07:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OMjAAKAw",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OMvABQA8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
         "patchSetId": 1
@@ -133,6 +241,24 @@
       "writtenOn": "2013-01-13T03:28:30Z",
       "side": 1,
       "message": "Like above this won\u0027t go to the client like you want.",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OM48OlT4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-13T07:16:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OMvABQA8",
       "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OMlAYTH4",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:32:31Z",
+      "side": 1,
+      "message": "This seems unused. I think you only need this inside of AuthConfig and can drop it from GerritConfig and GerritConfigProvider.",
+      "revId": "06c8dc37adf1e550a0a826b9bfcd39bfcc970b32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

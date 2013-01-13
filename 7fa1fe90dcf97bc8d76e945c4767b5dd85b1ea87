@@ -19,6 +19,193 @@
     },
     {
       "key": {
+        "uuid": "OMtAr3IM",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "Make the class static",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMjAXyE0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "This does not need to be public.",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMhASxFw",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "Make these fields final. Move them before the constructor.",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMpAlVLA",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "Just bind one item. No need for annotations.",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMvAoYIk",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "Because there is only a single item allowed, there is no reason to use annotations of any kind. So you can drop annotatedWith here and drop the next method altogether.",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMrAi2KM",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "Javadoc?",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMlBDbEQ",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "You don\u0027t want this ref object at all. You only need item.",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMnBI8F8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "No need for \"this.\"",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMhBN5G4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "Only do item.get() once in this failure path. Store the ItemAndPluginName into a local variable. Be careful, it can now be null if another thread cleared the item when you failed.\n\nSo maybe you want:\n\n  while (!item.compareAndSet(null, subItem)) {\n    ItemAndPluginName old \u003d item.get();\n    if (old \u003d\u003d null) {\n      continue;\n    }\n    throw new ProvisionException(String.format(\"\n      \"Key %s provided by plugin %s\",\n      key, old.pluginName));\n  }",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMjBSaAw",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "Actually:\n\n  item.compareAndSet(subItem, null);",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMtA2fOI",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "See above. :-)",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NsREQDFo",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItemProvider.java",
         "patchSetId": 2
@@ -30,6 +217,41 @@
       "writtenOn": "2013-01-04T13:34:46Z",
       "side": 1,
       "message": "I\u0027m not sure what to do in this case.  Currently I pass null for the plugin name.  The exception still has the correct data when we try to load multiple plugins providing the same DynamicItem.",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMvAzgO8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItemProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "Use \"gerrit\". The internal server plugin name is \"gerrit\".",
+      "parentUuid": "NsREQDFo",
+      "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMpBA9DI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:43:46Z",
+      "side": 1,
+      "message": "See my comment in DynamicItem. I don\u0027t think annotations really matter when only a single thing can be bound in the entire server. So it might be better to simplify this code and just match on the key.",
       "revId": "7fa1fe90dcf97bc8d76e945c4767b5dd85b1ea87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -68,6 +68,11 @@ final class CreateGroupCommand extends SshCommand {
   private PerformCreateGroup.Factory performCreateGroupFactory;
 
   @Override
+  protected String getDescription() {
+    return "Create a new account group";
+  }
+
+  @Override
   protected void run() throws Failure, OrmException {
     try {
       performCreateGroupFactory.create().createGroup(groupName,

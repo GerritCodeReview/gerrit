@@ -122,6 +122,11 @@ final class CreateProjectCommand extends SshCommand {
   private SuggestParentCandidates.Factory suggestParentCandidatesFactory;
 
   @Override
+  protected String getDescription() {
+    return "Create a new project and associated Git repository";
+  }
+
+  @Override
   protected void run() throws Exception {
     try {
       if (!suggestParent) {

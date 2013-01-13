@@ -49,6 +49,11 @@ final class ShowConnections extends SshCommand {
   private SshDaemon daemon;
 
   @Override
+  protected String getDescription() {
+    return "Display active client SSH connections";
+  }
+
+  @Override
   protected void run() throws Failure {
     final IoAcceptor acceptor = daemon.getIoAcceptor();
     if (acceptor == null) {

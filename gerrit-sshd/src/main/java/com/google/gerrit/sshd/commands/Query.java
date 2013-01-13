@@ -79,6 +79,11 @@ class Query extends SshCommand {
   private List<String> query;
 
   @Override
+  protected String getDescription() {
+    return "Query the change database";
+  }
+
+  @Override
   protected void run() throws Exception {
     processor.query(join(query, " "));
   }

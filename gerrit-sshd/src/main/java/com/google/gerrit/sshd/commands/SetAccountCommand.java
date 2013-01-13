@@ -94,6 +94,11 @@ final class SetAccountCommand extends BaseCommand {
   private Realm realm;
 
   @Override
+  protected String getDescription() {
+    return "Change an account's settings";
+  }
+
+  @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
       @Override

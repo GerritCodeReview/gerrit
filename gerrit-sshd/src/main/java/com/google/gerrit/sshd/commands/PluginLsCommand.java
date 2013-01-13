@@ -30,6 +30,11 @@ final class PluginLsCommand extends BaseCommand {
   private ListPlugins impl;
 
   @Override
+  protected String getDescription() {
+    return "List the installed plugins";
+  }
+
+  @Override
   public void start(Environment env) throws IOException {
     startThread(new CommandRunnable() {
       @Override

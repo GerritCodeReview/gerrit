@@ -101,6 +101,11 @@ final class StreamEvents extends BaseCommand {
   private PrintWriter stdout;
 
   @Override
+  protected String getDescription() {
+    return "Monitor events occurring in real time";
+  }
+
+  @Override
   public void start(final Environment env) throws IOException {
     try {
       parseCommandLine();

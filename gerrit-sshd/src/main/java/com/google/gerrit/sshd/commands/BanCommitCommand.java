@@ -48,6 +48,11 @@ public class BanCommitCommand extends SshCommand {
   private BanCommit.Factory banCommitFactory;
 
   @Override
+  protected String getDescription() {
+    return "Bans a commit from a project's repository";
+  }
+
+  @Override
   protected void run() throws Failure {
     try {
       final BanCommitResult result =

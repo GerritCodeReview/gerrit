@@ -47,6 +47,11 @@ final class KillCommand extends SshCommand {
   }
 
   @Override
+  protected String getDescription() {
+    return "Kills a scheduled or running task";
+  }
+
+  @Override
   protected void run() {
     for (final Integer id : taskIds) {
       final Task<?> task = workQueue.getTask(id);

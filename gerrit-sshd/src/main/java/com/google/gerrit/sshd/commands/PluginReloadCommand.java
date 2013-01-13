@@ -35,6 +35,11 @@ final class PluginReloadCommand extends SshCommand {
   private PluginLoader loader;
 
   @Override
+  protected String getDescription() {
+    return "Reload/Restart plugins";
+  }
+
+  @Override
   protected void run() throws UnloggedFailure {
     if (names == null || names.isEmpty()) {
       loader.rescan();

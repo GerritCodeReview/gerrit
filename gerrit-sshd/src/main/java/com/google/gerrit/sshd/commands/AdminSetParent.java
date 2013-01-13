@@ -70,6 +70,11 @@ final class AdminSetParent extends SshCommand {
   private Project.NameKey newParentKey = null;
 
   @Override
+  protected String getDescription() {
+    return "Change the project permissions are inherited from";
+  }
+
+  @Override
   protected void run() throws Failure {
     if (oldParent == null && children.isEmpty()) {
       throw new UnloggedFailure(1, "fatal: child projects have to be specified as " +

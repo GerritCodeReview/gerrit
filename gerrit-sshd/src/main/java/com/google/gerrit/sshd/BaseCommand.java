@@ -96,6 +96,9 @@ public abstract class BaseCommand implements Command {
   /** Text of the command line which lead up to invoking this instance. */
   private String commandName = "";
 
+  /** Description of this command. */
+  private String commandDescription = "";
+
   /** Unparsed command line options. */
   private String[] argv;
 
@@ -376,6 +379,14 @@ public abstract class BaseCommand implements Command {
       throw new UnloggedFailure(String.format(
           "%s and %s options are mutually exclusive.", arg1name, arg2name));
     }
+  }
+
+  protected String getDescription() {
+    return commandDescription;
+  }
+
+  public void setDescription(String commandDescription) {
+    this.commandDescription = commandDescription;
   }
 
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {

@@ -84,6 +84,11 @@ public class SetReviewersCommand extends SshCommand {
   private Set<Change.Id> changes = new HashSet<Change.Id>();
 
   @Override
+  protected String getDescription() {
+    return "Add or remove reviewers on a change";
+  }
+
+  @Override
   protected void run() throws UnloggedFailure {
     boolean ok = true;
     for (Change.Id changeId : changes) {

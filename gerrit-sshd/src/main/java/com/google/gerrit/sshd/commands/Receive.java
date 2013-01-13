@@ -70,6 +70,11 @@ final class Receive extends AbstractGitCommand {
   }
 
   @Override
+  protected String getDescription() {
+    return "Standard Git server side command for client side git push";
+  }
+
+  @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunReceivePack()) {
       throw new Failure(1, "fatal: receive-pack not permitted on this server");

@@ -36,6 +36,11 @@ final class AdminQueryShell extends SshCommand {
   private String query;
 
   @Override
+  protected String getDescription() {
+    return "Administrative interface to active database";
+  }
+
+  @Override
   protected void run() {
     final QueryShell shell = factory.create(in, out);
     shell.setOutputFormat(format);

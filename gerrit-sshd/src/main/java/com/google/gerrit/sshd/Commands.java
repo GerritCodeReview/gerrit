@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.inject.Key;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.sshd.server.Command;
 
 import java.lang.annotation.Annotation;
@@ -39,6 +40,11 @@ public class Commands {
   public static Key<Command> key(final CommandName parent,
       final String name) {
     return Key.get(Command.class, named(parent, name));
+  }
+
+  public static Key<Command> key(final CommandName parent,
+      final String name, final String descr) {
+    return Key.get(Command.class, named(parent, name, descr));
   }
 
   /** Create a CommandName annotation for the supplied name. */
@@ -78,6 +84,12 @@ public class Commands {
     return new NestedCommandNameImpl(parent, name);
   }
 
+  /** Create a CommandName annotation for the supplied name and description. */
+  public static CommandName named(final CommandName parent, final String name,
+      final String descr) {
+    return new NestedCommandNameImpl(parent, name, descr);
+  }
+
   /** Return the name of this command, possibly including any parents. */
   public static String nameOf(final CommandName name) {
     if (name instanceof NestedCommandNameImpl) {
@@ -104,18 +116,31 @@ public class Commands {
     return null;
   }
 
-  private static final class NestedCommandNameImpl implements CommandName {
+  static final class NestedCommandNameImpl implements CommandName {
     private final CommandName parent;
     private final String name;
+    private final String descr;
 
     NestedCommandNameImpl(final CommandName parent, final String name) {
       this.parent = parent;
       this.name = name;
+      this.descr = StringUtils.EMPTY;
+    }
+
+    NestedCommandNameImpl(final CommandName parent, final String name,
+        final String descr) {
+      this.parent = parent;
+      this.name = name;
+      this.descr = descr;
     }
 
     @Override
     public String value() {
       return name;
+    }
+
+    public String descr() {
+      return descr;
     }
 
     @Override

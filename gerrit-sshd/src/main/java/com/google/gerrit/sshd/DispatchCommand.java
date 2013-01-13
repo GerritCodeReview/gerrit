@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -29,6 +30,7 @@ import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,14 +41,14 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 final class DispatchCommand extends BaseCommand {
   interface Factory {
-    DispatchCommand create(Map<String, Provider<Command>> map);
+    DispatchCommand create(Map<String, CommandProvider> map);
   }
 
   private final Provider<CurrentUser> currentUser;
-  private final Map<String, Provider<Command>> commands;
+  private final Map<String, CommandProvider> commands;
   private final AtomicReference<Command> atomicCmd;
 
-  @Argument(index = 0, required = true, metaVar = "COMMAND", handler = SubcommandHandler.class)
+  @Argument(index = 0, required = false, metaVar = "COMMAND", handler = SubcommandHandler.class)
   private String commandName;
 
   @Argument(index = 1, multiValued = true, metaVar = "ARG")
@@ -54,13 +56,13 @@ final class DispatchCommand extends BaseCommand {
 
   @Inject
   DispatchCommand(final Provider<CurrentUser> cu,
-      @Assisted final Map<String, Provider<Command>> all) {
+      @Assisted final Map<String, CommandProvider> all) {
     currentUser = cu;
     commands = all;
     atomicCmd = Atomics.newReference();
   }
 
-  Map<String, Provider<Command>> getMap() {
+  Map<String, CommandProvider> getMap() {
     return commands;
   }
 
@@ -68,8 +70,13 @@ final class DispatchCommand extends BaseCommand {
   public void start(final Environment env) throws IOException {
     try {
       parseCommandLine();
+      if (Strings.isNullOrEmpty(commandName)) {
+        StringWriter msg = new StringWriter();
+        msg.write(usage());
+        throw new UnloggedFailure(1, msg.toString());
+      }
 
-      final Provider<Command> p = commands.get(commandName);
+      final CommandProvider p = commands.get(commandName);
       if (p == null) {
         String msg =
             (getName().isEmpty() ? "Gerrit Code Review" : getName()) + ": "
@@ -77,7 +84,7 @@ final class DispatchCommand extends BaseCommand {
         throw new UnloggedFailure(1, msg);
       }
 
-      final Command cmd = p.get();
+      final Command cmd = p.getProvider().get();
       checkRequiresCapability(cmd);
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
@@ -138,9 +145,17 @@ final class DispatchCommand extends BaseCommand {
     }
     usage.append(" are:\n");
     usage.append("\n");
+
+    int maxLength = -1;
+    for (String name : commands.keySet()) {
+      maxLength = Math.max(maxLength, name.length());
+    }
+    String format = "%-" + maxLength + "s   %s";
     for (String name : Sets.newTreeSet(commands.keySet())) {
+      final CommandProvider p = commands.get(name);
       usage.append("   ");
-      usage.append(name);
+      usage.append(String.format(format, name,
+          Strings.nullToEmpty(p.getDescription())));
       usage.append("\n");
     }
     usage.append("\n");

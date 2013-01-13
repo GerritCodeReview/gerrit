@@ -39,7 +39,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   private DispatchCommand.Factory factory;
 
   private final CommandName parent;
-  private volatile ConcurrentMap<String, Provider<Command>> map;
+  private volatile ConcurrentMap<String, CommandProvider> map;
 
   public DispatchCommandProvider(final CommandName cn) {
     this.parent = cn;
@@ -52,8 +52,8 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
 
   public RegistrationHandle register(final CommandName name,
       final Provider<Command> cmd) {
-    final ConcurrentMap<String, Provider<Command>> m = getMap();
-    if (m.putIfAbsent(name.value(), cmd) != null) {
+    final ConcurrentMap<String, CommandProvider> m = getMap();
+    if (m.putIfAbsent(name.value(), new CommandProvider(cmd, null)) != null) {
       throw new IllegalArgumentException(name.value() + " exists");
     }
     return new RegistrationHandle() {
@@ -66,8 +66,8 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
 
   public RegistrationHandle replace(final CommandName name,
       final Provider<Command> cmd) {
-    final ConcurrentMap<String, Provider<Command>> m = getMap();
-    m.put(name.value(), cmd);
+    final ConcurrentMap<String, CommandProvider> m = getMap();
+    m.put(name.value(), new CommandProvider(cmd, null));
     return new RegistrationHandle() {
       @Override
       public void remove() {
@@ -76,7 +76,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     };
   }
 
-  ConcurrentMap<String, Provider<Command>> getMap() {
+  ConcurrentMap<String, CommandProvider> getMap() {
     if (map == null) {
       synchronized (this) {
         if (map == null) {
@@ -88,14 +88,21 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   }
 
   @SuppressWarnings("unchecked")
-  private ConcurrentMap<String, Provider<Command>> createMap() {
-    ConcurrentMap<String, Provider<Command>> m = Maps.newConcurrentMap();
+  private ConcurrentMap<String, CommandProvider> createMap() {
+    ConcurrentMap<String, CommandProvider> m = Maps.newConcurrentMap();
     for (final Binding<?> b : allCommands()) {
       final Annotation annotation = b.getKey().getAnnotation();
       if (annotation instanceof CommandName) {
+        String descr = null;
+        if (annotation instanceof Commands.NestedCommandNameImpl) {
+          Commands.NestedCommandNameImpl impl =
+              ((Commands.NestedCommandNameImpl) annotation);
+          descr = impl.descr();
+        }
         final CommandName n = (CommandName) annotation;
         if (!Commands.CMD_ROOT.equals(n) && Commands.isChild(parent, n)) {
-          m.put(n.value(), (Provider<Command>) b.getProvider());
+          m.put(n.value(),
+              new CommandProvider((Provider<Command>) b.getProvider(), descr));
         }
       }
     }

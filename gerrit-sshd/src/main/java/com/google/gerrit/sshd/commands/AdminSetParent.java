@@ -23,6 +23,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
@@ -40,6 +41,7 @@ import java.util.List;
 import java.util.Set;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@CommandMetaData(name = "set-project-parent", descr = "Change the project permissions are inherited from")
 final class AdminSetParent extends SshCommand {
   private static final Logger log = LoggerFactory.getLogger(AdminSetParent.class);
 

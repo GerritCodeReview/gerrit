@@ -28,6 +28,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
@@ -47,6 +48,7 @@ import java.util.List;
 
 /** Create a new user account. **/
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
+@CommandMetaData(name = "create-account", descr = "Create a new batch/role account")
 final class CreateAccountCommand extends SshCommand {
   @Option(name = "--group", aliases = {"-g"}, metaVar = "GROUP", usage = "groups to add account to")
   private List<AccountGroup.Id> groups = new ArrayList<AccountGroup.Id>();

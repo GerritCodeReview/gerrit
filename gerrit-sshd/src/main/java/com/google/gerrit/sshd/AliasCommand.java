@@ -60,26 +60,26 @@ public class AliasCommand extends BaseCommand {
   }
 
   private void begin(Environment env) throws UnloggedFailure, IOException {
-    Map<String, Provider<Command>> map = root.getMap();
+    Map<String, CommandProvider> map = root.getMap();
     for (String name : chain(command)) {
-      Provider<? extends Command> p = map.get(name);
+      CommandProvider p = map.get(name);
       if (p == null) {
         throw new UnloggedFailure(1, getName() + ": not found");
       }
 
-      Command cmd = p.get();
+      Command cmd = p.getProvider().get();
       if (!(cmd instanceof DispatchCommand)) {
         throw new UnloggedFailure(1, getName() + ": not found");
       }
       map = ((DispatchCommand) cmd).getMap();
     }
 
-    Provider<? extends Command> p = map.get(command.value());
+    CommandProvider p = map.get(command.value());
     if (p == null) {
       throw new UnloggedFailure(1, getName() + ": not found");
     }
 
-    Command cmd = p.get();
+    Command cmd = p.getProvider().get();
     checkRequiresCapability(cmd);
     if (cmd instanceof BaseCommand) {
       BaseCommand bc = (BaseCommand)cmd;

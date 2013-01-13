@@ -35,6 +35,11 @@ public class RenameGroupCommand extends SshCommand {
   private PerformRenameGroup.Factory performRenameGroupFactory;
 
   @Override
+  protected String getDescription() {
+    return "Rename an account group";
+  }
+
+  @Override
   protected void run() throws Failure {
     try {
       performRenameGroupFactory.create().renameGroup(groupName, newGroupName);

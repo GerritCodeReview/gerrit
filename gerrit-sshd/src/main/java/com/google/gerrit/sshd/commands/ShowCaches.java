@@ -98,6 +98,11 @@ final class ShowCaches extends CacheCommand {
   }
 
   @Override
+  protected String getDescription() {
+    return "Display current cache statistics";
+  }
+
+  @Override
   protected void run() {
     nw = columns - 50;
     Date now = new Date();

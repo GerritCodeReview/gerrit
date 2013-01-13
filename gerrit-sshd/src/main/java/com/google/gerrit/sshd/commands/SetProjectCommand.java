@@ -113,6 +113,11 @@ final class SetProjectCommand extends SshCommand {
   private ProjectCache projectCache;
 
   @Override
+  protected String getDescription() {
+    return "Change a project's settings";
+  }
+
+  @Override
   protected void run() throws Failure {
     Project ctlProject = projectControl.getProject();
     Project.NameKey nameKey = ctlProject.getNameKey();

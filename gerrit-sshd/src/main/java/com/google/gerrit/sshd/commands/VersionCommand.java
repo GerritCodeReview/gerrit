@@ -18,6 +18,12 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.sshd.SshCommand;
 
 final class VersionCommand extends SshCommand {
+
+  @Override
+  protected String getDescription() {
+    return "Display gerrit version";
+  }
+
   @Override
   protected void run() throws Failure {
     String v = Version.getVersion();

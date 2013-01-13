@@ -34,6 +34,11 @@ final class PluginRemoveCommand extends SshCommand {
   private PluginLoader loader;
 
   @Override
+  protected String getDescription() {
+    return "Disable plugins";
+  }
+
+  @Override
   protected void run() {
     if (names != null && !names.isEmpty()) {
       loader.disablePlugins(Sets.newHashSet(names));

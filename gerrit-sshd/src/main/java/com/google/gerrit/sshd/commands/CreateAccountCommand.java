@@ -82,6 +82,11 @@ final class CreateAccountCommand extends SshCommand {
   private AccountByEmailCache byEmailCache;
 
   @Override
+  protected String getDescription() {
+    return "Create a new batch/role account";
+  }
+
+  @Override
   protected void run() throws OrmException, IOException,
       InvalidSshKeyException, UnloggedFailure {
     if (!username.matches(Account.USER_NAME_PATTERN)) {

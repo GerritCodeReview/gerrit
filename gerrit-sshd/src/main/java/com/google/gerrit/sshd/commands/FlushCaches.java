@@ -47,6 +47,11 @@ final class FlushCaches extends CacheCommand {
   IdentifiedUser currentUser;
 
   @Override
+  protected String getDescription() {
+    return "Flush some/all server caches from memory";
+  }
+
+  @Override
   protected void run() throws Failure {
     if (caches.contains(WEB_SESSIONS)
         && !currentUser.getCapabilities().canAdministrateServer()) {

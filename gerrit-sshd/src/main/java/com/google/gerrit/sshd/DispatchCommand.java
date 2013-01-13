@@ -14,12 +14,14 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.args4j.SubcommandHandler;
+import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -29,6 +31,7 @@ import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +49,7 @@ final class DispatchCommand extends BaseCommand {
   private final Map<String, Provider<Command>> commands;
   private final AtomicReference<Command> atomicCmd;
 
-  @Argument(index = 0, required = true, metaVar = "COMMAND", handler = SubcommandHandler.class)
+  @Argument(index = 0, required = false, metaVar = "COMMAND", handler = SubcommandHandler.class)
   private String commandName;
 
   @Argument(index = 1, multiValued = true, metaVar = "ARG")
@@ -68,6 +71,12 @@ final class DispatchCommand extends BaseCommand {
   public void start(final Environment env) throws IOException {
     try {
       parseCommandLine();
+      if (Strings.isNullOrEmpty(commandName)) {
+        StringWriter msg = new StringWriter();
+        msg.write(usage());
+        throw new UnloggedFailure(1, msg.toString());
+      }
+
 
       final Provider<Command> p = commands.get(commandName);
       if (p == null) {
@@ -138,9 +147,21 @@ final class DispatchCommand extends BaseCommand {
     }
     usage.append(" are:\n");
     usage.append("\n");
+
+    int maxLength = -1;
+    for (String name : commands.keySet()) {
+      maxLength = Math.max(maxLength, name.length());
+    }
+    String format = "%-" + maxLength + "s   %s";
     for (String name : Sets.newTreeSet(commands.keySet())) {
+      final Command cmd = commands.get(name).get();
       usage.append("   ");
-      usage.append(name);
+      if (cmd instanceof BaseCommand) {
+        BaseCommand bc = (BaseCommand)cmd;
+        usage.append(String.format(format, name, bc.getDescription()));
+      } else {
+        usage.append(name);
+      }
       usage.append("\n");
     }
     usage.append("\n");

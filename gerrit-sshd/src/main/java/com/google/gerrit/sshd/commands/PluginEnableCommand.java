@@ -35,6 +35,11 @@ final class PluginEnableCommand extends SshCommand {
   private PluginLoader loader;
 
   @Override
+  protected String getDescription() {
+    return "Enable plugins";
+  }
+
+  @Override
   protected void run() throws UnloggedFailure {
     if (names != null && !names.isEmpty()) {
       try {

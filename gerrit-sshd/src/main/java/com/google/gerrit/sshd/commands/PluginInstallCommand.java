@@ -50,6 +50,11 @@ final class PluginInstallCommand extends SshCommand {
   private PluginLoader loader;
 
   @Override
+  protected String getDescription() {
+    return "Install/Add a plugin";
+  }
+
+  @Override
   protected void run() throws UnloggedFailure {
     if (Strings.isNullOrEmpty(source)) {
       throw die("Argument \"-|URL\" is required");

@@ -82,6 +82,11 @@ final class ScpCommand extends BaseCommand {
   }
 
   @Override
+  protected String getDescription() {
+    return "Copy over ssh";
+  }
+
+  @Override
   public void start(final Environment env) {
     startThread(new Runnable() {
       public void run() {

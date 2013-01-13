@@ -69,6 +69,11 @@ final class ShowQueue extends SshCommand {
   }
 
   @Override
+  protected String getDescription() {
+    return "Display the background work queues, including replication";
+  }
+
+  @Override
   protected void run() {
     final List<Task<?>> pending = workQueue.getTasks();
     Collections.sort(pending, new Comparator<Task<?>>() {

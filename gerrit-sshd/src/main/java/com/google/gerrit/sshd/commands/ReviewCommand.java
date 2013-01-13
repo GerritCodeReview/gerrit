@@ -142,6 +142,11 @@ public class ReviewCommand extends SshCommand {
   private List<ApproveOption> optionList;
 
   @Override
+  protected String getDescription() {
+    return "Verify, approve and/or submit one or more patch sets";
+  }
+
+  @Override
   protected void run() throws UnloggedFailure {
     if (abandonChange) {
       if (restoreChange) {

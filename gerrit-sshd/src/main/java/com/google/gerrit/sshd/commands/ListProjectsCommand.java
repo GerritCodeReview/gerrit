@@ -25,6 +25,11 @@ final class ListProjectsCommand extends BaseCommand {
   private ListProjects impl;
 
   @Override
+  protected String getDescription() {
+    return "List projects visible to the caller";
+  }
+
+  @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
       @Override

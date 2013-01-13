@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "OMpAOtD4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:28:30Z",
+      "side": 1,
+      "message": "Yup this dependency sucks. But I don\u0027t see another good way to do this. It might actually be a little bit cleaner code in the end. Right now we bind the AccountManager twice apparently, now we bind it only once. I think I\u0027ll have to provide a dummy SshKeyCache in my environment, but that is a reasonable change.",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OCfld1xM",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
         "patchSetId": 1
@@ -13,6 +30,109 @@
       "writtenOn": "2013-01-11T16:32:55Z",
       "side": 1,
       "message": "How can I have here a List\u003cString\u003e or String[] as parameter? How would the JavaScript code need to look like?",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMlDxLCQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:28:30Z",
+      "side": 1,
+      "message": "You can do this:\n\n  private static class MemberInput extends JavaScriptObject {\n    final native void init() /*-{ this.members \u003d []; }-*/;\n    final native void add_member(String n) /*-{ this.members.push(n); }-*/;\n\n    static MemberInput create() {\n      MemberInput m \u003d (MemberInput) createObject();\n      m.init();\n      return m;\n    }\n    protected MemberInput() {}\n  }",
+      "parentUuid": "OCfld1xM",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMnD2sB8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:28:30Z",
+      "side": 1,
+      "message": "FWIW I don\u0027t think @DefaultInput works on a List\u003cString\u003e. So you\u0027ll have to drop @DefaultInput if you are going to accept a List.\n\nOr accept both:\n\n  static class Input {\n    List\u003cString\u003e members;\n\n    @DefaultInput\n    String _oneMember;\n  }\n\nWith the assumption that JSON clients won\u0027t use _oneMember.",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMtAEPCI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:28:30Z",
+      "side": 1,
+      "message": "This should return List\u003cMemberInfo\u003e if multiple members can be put at once.",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMhD7pAY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:28:30Z",
+      "side": 1,
+      "message": "This doesn\u0027t go to the client. The client sees HTTP 500 \"Internal server error\".\n\nYou need to throw something that is or extends BadRequestException or ResourceConflictException. Those messages to go the client.",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMjAAKAw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:28:30Z",
+      "side": 1,
+      "message": "This id argument needs to be the current user, not the id of the account being added.",
+      "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMvABQA8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-13T03:28:30Z",
+      "side": 1,
+      "message": "Like above this won\u0027t go to the client like you want.",
       "revId": "821838f26376a0cb9961880f141552de6d29bcd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

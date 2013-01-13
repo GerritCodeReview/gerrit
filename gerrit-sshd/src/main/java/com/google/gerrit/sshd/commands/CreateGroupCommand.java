@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.PerformCreateGroup;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -37,6 +38,7 @@ import java.util.Set;
  * Optionally, puts an initial set of user in the newly created group.
  */
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
+@CommandMetaData(name = "create-group", descr = "Create a new account group")
 final class CreateGroupCommand extends SshCommand {
   @Option(name = "--owner", aliases = {"-o"}, metaVar = "GROUP", usage = "owning group, if not specified the group will be self-owning")
   private AccountGroup.Id ownerGroupId;

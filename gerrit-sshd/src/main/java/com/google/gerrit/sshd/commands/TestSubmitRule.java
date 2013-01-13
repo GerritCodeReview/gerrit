@@ -24,6 +24,7 @@ import com.google.gerrit.server.events.SubmitLabelAttribute;
 import com.google.gerrit.server.events.SubmitRecordAttribute;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gson.reflect.TypeToken;
 
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -33,6 +34,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /** Command that allows testing of prolog submit-rules in a live instance. */
+@CommandMetaData(name = "rule", descr = "Test prolog submit rules")
 final class TestSubmitRule extends BaseTestSubmit {
 
   protected SubmitRuleEvaluator createEvaluator(PatchSet ps) throws Exception {

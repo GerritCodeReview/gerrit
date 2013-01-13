@@ -18,12 +18,14 @@ import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.server.account.PerformRenameGroup;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 
+@CommandMetaData(name = "rename-group", descr = "Rename an account group")
 public class RenameGroupCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of the group to be renamed")
   private String groupName;

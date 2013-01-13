@@ -25,6 +25,7 @@ import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
@@ -35,6 +36,7 @@ import java.util.List;
 
 /** Create a new project. **/
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
+@CommandMetaData(name = "create-project", descr = "Create a new project and associated Git repository")
 final class CreateProjectCommand extends SshCommand {
   @Option(name = "--name", aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created (deprecated option)")
   void setProjectNameFromOption(String name) {

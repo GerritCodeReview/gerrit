@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.PluginInstallException;
 import com.google.gerrit.server.plugins.PluginLoader;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
@@ -34,6 +35,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@CommandMetaData(name = "install", descr = "Install/Add a plugin")
 final class PluginInstallCommand extends SshCommand {
   @Option(name = "--name", aliases = {"-n"}, usage = "install under name")
   private String name;

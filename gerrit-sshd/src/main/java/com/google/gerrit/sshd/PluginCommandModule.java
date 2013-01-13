@@ -16,21 +16,17 @@ package com.google.gerrit.sshd;
 
 import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.gerrit.sshd.CommandName;
-import com.google.gerrit.sshd.Commands;
-import com.google.gerrit.sshd.DispatchCommandProvider;
-import com.google.inject.AbstractModule;
 import com.google.inject.binder.LinkedBindingBuilder;
 
 import org.apache.sshd.server.Command;
 
 import javax.inject.Inject;
 
-public abstract class PluginCommandModule extends AbstractModule {
+public abstract class PluginCommandModule extends CommandModule {
   private CommandName command;
 
   @Inject
-  void setPluginName(@PluginName String name) {
+  void setPluginName(@PluginName String name, final String descr) {
     this.command = Commands.named(name);
   }
 
@@ -46,4 +42,13 @@ public abstract class PluginCommandModule extends AbstractModule {
   protected LinkedBindingBuilder<Command> command(String subCmd) {
     return bind(Commands.key(command, subCmd));
   }
+
+  protected void command(Class<? extends BaseCommand> clazz) {
+    command(command, clazz);
+  }
+
+  protected void alias(final String name, Class<? extends BaseCommand> clazz) {
+    alias(command, name, clazz);
+  }
+
 }

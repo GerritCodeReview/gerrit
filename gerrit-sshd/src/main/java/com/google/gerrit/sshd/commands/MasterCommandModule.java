@@ -27,21 +27,23 @@ public class MasterCommandModule extends CommandModule {
     final CommandName gerrit = Commands.named("gerrit");
     final CommandName testSubmit = Commands.named(gerrit, "test-submit");
 
-    command(gerrit, "approve").to(ReviewCommand.class);
-    command(gerrit, "create-account").to(CreateAccountCommand.class);
-    command(gerrit, "create-group").to(CreateGroupCommand.class);
-    command(gerrit, "rename-group").to(RenameGroupCommand.class);
-    command(gerrit, "create-project").to(CreateProjectCommand.class);
-    command(gerrit, "gsql").to(AdminQueryShell.class);
-    command(gerrit, "set-reviewers").to(SetReviewersCommand.class);
-    command(gerrit, "receive-pack").to(Receive.class);
-    command(gerrit, "set-project-parent").to(AdminSetParent.class);
-    command(gerrit, "review").to(ReviewCommand.class);
-    command(gerrit, "set-account").to(SetAccountCommand.class);
-    command(gerrit, "set-project").to(SetProjectCommand.class);
+    command(gerrit, CreateAccountCommand.class);
+    command(gerrit, CreateGroupCommand.class);
+    command(gerrit, RenameGroupCommand.class);
+    command(gerrit, CreateProjectCommand.class);
+    command(gerrit, AdminQueryShell.class);
+    command(gerrit, TestSubmitRule.class);
+    command(gerrit, SetReviewersCommand.class);
+    command(gerrit, Receive.class);
+    command(gerrit, AdminSetParent.class);
+    command(gerrit, ReviewCommand.class);
+    // deprecated alias to review command
+    alias(gerrit, "approve", ReviewCommand.class);
+    command(gerrit, SetAccountCommand.class);
+    command(gerrit, SetProjectCommand.class);
 
     command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
-    command(testSubmit, "rule").to(TestSubmitRule.class);
-    command(testSubmit, "type").to(TestSubmitType.class);
+    command(testSubmit, TestSubmitRule.class);
+    command(testSubmit, TestSubmitType.class);
   }
 }

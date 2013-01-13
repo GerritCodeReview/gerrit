@@ -48,7 +48,7 @@ public abstract class CommandModule extends AbstractModule {
   /**
    * Configure a command to be invoked by name.
    *
-   *@param parent context of the parent command, that this command is a
+   * @param parent context of the parent command, that this command is a
    *        subcommand of.
    * @param name the name of the command the client will provide in order to
    *        call the command.
@@ -58,6 +58,42 @@ public abstract class CommandModule extends AbstractModule {
   protected LinkedBindingBuilder<Command> command(final CommandName parent,
       final String name) {
     return bind(Commands.key(parent, name));
+  }
+
+  /**
+   * Configure a command to be invoked by name. The command is bound to the passed class.
+   *
+   * @param parent context of the parent command, that this command is a
+   *        subcommand of.
+   * @param clazz class of the command with {@link CommandMetaData} annotation
+   *        to retrieve the name and the description from
+   */
+  protected void command(final CommandName parent,
+      final Class<? extends BaseCommand> clazz) {
+    CommandMetaData meta = (CommandMetaData)clazz.getAnnotation(CommandMetaData.class);
+    if (meta == null) {
+      throw new IllegalStateException("no CommandMetaData annotation found");
+    }
+    bind(Commands.key(parent, meta.name(), meta.descr())).to(clazz);
+  }
+
+  /**
+   * Alias one command to another. The alias is bound to the passed class.
+   *
+   * @param parent context of the parent command, that this command is a
+   *        subcommand of.
+   * @param name the name of the command the client will provide in order to
+   *        call the command.
+   * @param clazz class of the command with {@link CommandMetaData} annotation
+   *        to retrieve the description from
+   */
+  protected void alias(final CommandName parent, final String name,
+      final Class<? extends BaseCommand> clazz) {
+    CommandMetaData meta = (CommandMetaData)clazz.getAnnotation(CommandMetaData.class);
+    if (meta == null) {
+      throw new IllegalStateException("no CommandMetaData annotation found");
+    }
+    bind(Commands.key(parent, name, meta.descr())).to(clazz);
   }
 
   /**

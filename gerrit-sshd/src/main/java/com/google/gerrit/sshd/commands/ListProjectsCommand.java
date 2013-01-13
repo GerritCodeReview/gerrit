@@ -16,10 +16,12 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 
+@CommandMetaData(name = "ls-projects", descr = "List projects visible to the caller")
 final class ListProjectsCommand extends BaseCommand {
   @Inject
   private ListProjects impl;

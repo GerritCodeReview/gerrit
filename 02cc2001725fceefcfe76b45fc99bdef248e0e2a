@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OMlBqjK4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-14T21:55:20Z",
+      "side": 1,
+      "message": "This is unused. If you want to accept it maybe add something like this to the start of apply():\n\n  if (input \u003d\u003d null) {\n    input \u003d new Input();\n  }\n  if (!Strings.isNullOrEmpty(input._oneMember)) {\n    if (input.members \u003d\u003d null) {\n      input.members \u003d Lists.newArrayListWithCapacity(1);\n    }\n    input.members.add(input._oneMember);\n  }",
+      "revId": "02cc2001725fceefcfe76b45fc99bdef248e0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OMnBvkL0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-14T21:55:20Z",
+      "side": 1,
+      "message": "If the same account is named twice in the input this code will try to insert them twice, and fail with an OrmException.\n\nYou need to also keep a Set\u003cAccount.Id\u003e of users who are scheduled to be added. Or change the type of newAccountGroupMembers to be a Map\u003cAccount.Id, AccountGroupMember\u003e so that you can test if the user is already scheduled for addition and don\u0027t add them twice.",
+      "revId": "02cc2001725fceefcfe76b45fc99bdef248e0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -241,21 +241,20 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void deleteChecked() {
-      final HashSet<AccountGroupMember.Key> ids =
-          new HashSet<AccountGroupMember.Key>();
+      final HashSet<Account.Id> ids = new HashSet<Account.Id>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountGroupMember k = getRowItem(row);
         if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          ids.add(k.getKey());
+          ids.add(k.getAccountId());
         }
       }
       if (!ids.isEmpty()) {
-        Util.GROUP_SVC.deleteGroupMembers(getGroupId(), ids,
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(final VoidResult result) {
+        GroupApi.removeMembers(getGroupUUID(), ids,
+            new GerritCallback<com.google.gerrit.client.VoidResult>() {
+              public void onSuccess(final com.google.gerrit.client.VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
                   final AccountGroupMember k = getRowItem(row);
-                  if (k != null && ids.contains(k.getKey())) {
+                  if (k != null && ids.contains(k.getAccountId())) {
                     table.removeRow(row);
                   } else {
                     row++;

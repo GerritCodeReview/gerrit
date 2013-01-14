@@ -84,7 +84,8 @@ public class MembersCollection implements
     if (groupDetail.members != null) {
       for (final AccountGroupMember member : groupDetail.members) {
         if (member.getAccountId().equals(a.getId())) {
-          return new MemberResource(userGenericFactory.create(a.getId()));
+          return new MemberResource(parent,
+              userGenericFactory.create(a.getId()));
         }
       }
     }

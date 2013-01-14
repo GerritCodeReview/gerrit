@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ONU3xmSQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-14T07:00:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OBrxWIcs",
+      "revId": "b892792b18a41aed841bcfdb0d0e4a0bdb295a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OBlyafc8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-09T16:48:00Z",
       "side": 1,
       "message": "If you change it like this, the ChangeIdValidator will not run when triggered from EditCommitMessage (it must match refs like \"refs/changes/23/19323/19\" too).\n\nPerhaps we should split it up to two different regex checks?",
+      "revId": "b892792b18a41aed841bcfdb0d0e4a0bdb295a2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OBhxfVd4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-14T07:00:06Z",
+      "side": 1,
+      "message": "I change a bit to let it meet refs\u0027 pattern required in  \u0027git push\u0027 and \u0027ChangeIdValidator\u0027 now. :)",
+      "parentUuid": "OBlyafc8",
       "revId": "b892792b18a41aed841bcfdb0d0e4a0bdb295a2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -25,6 +25,8 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -121,7 +123,6 @@ public class ProjectWatch {
     }
   }
 
-  @SuppressWarnings("unchecked")
   private void add(Watchers matching, NotifyConfig nc, Project.NameKey project)
       throws OrmException, QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
@@ -141,30 +142,15 @@ public class ProjectWatch {
         continue;
       }
 
-      ChangeQueryBuilder qb = args.queryBuilder.create(new SingleGroupUser(
-          args.capabilityControlFactory,
-          ref.getUUID()));
-      qb.setAllowFile(true);
-      Predicate<ChangeData> p = qb.is_visible();
-      if (nc.getFilter() != null) {
-        p = Predicate.and(qb.parse(nc.getFilter()), p);
-        p = args.queryRewriter.get().rewrite(p);
-      }
-      if (p.match(changeData)) {
+      CurrentUser user = new SingleGroupUser(args.capabilityControlFactory,
+          ref.getUUID());
+      if (filterMatch(user, nc.getFilter())) {
         recursivelyAddAllAccounts(matching.list(nc.getHeader()), group);
       }
     }
 
     if (!nc.getAddresses().isEmpty()) {
-      if (nc.getFilter() != null) {
-        ChangeQueryBuilder qb = args.queryBuilder.create(args.anonymousUser);
-        qb.setAllowFile(true);
-        Predicate<ChangeData> p = qb.parse(nc.getFilter());
-        p = args.queryRewriter.get().rewrite(p);
-        if (p.match(changeData)) {
-          matching.list(nc.getHeader()).emails.addAll(nc.getAddresses());
-        }
-      } else {
+      if (filterMatch(args.anonymousUser, nc.getFilter())) {
         matching.list(nc.getHeader()).emails.addAll(nc.getAddresses());
       }
     }
@@ -196,26 +182,40 @@ public class ProjectWatch {
     }
   }
 
-  @SuppressWarnings("unchecked")
   private void add(Watchers matching, AccountProjectWatch w)
       throws OrmException {
     IdentifiedUser user =
         args.identifiedUserFactory.create(args.db, w.getAccountId());
-    ChangeQueryBuilder qb = args.queryBuilder.create(user);
-    Predicate<ChangeData> p = qb.is_visible();
-    if (w.getFilter() != null) {
-      try {
-        qb.setAllowFile(true);
-        p = Predicate.and(qb.parse(w.getFilter()), p);
-        p = args.queryRewriter.get().rewrite(p);
-        if (p.match(changeData)) {
-          matching.bcc.accounts.add(w.getAccountId());
-        }
-      } catch (QueryParseException e) {
-        // Ignore broken filter expressions.
+
+    try {
+      if (filterMatch(user, w.getFilter())) {
+        matching.bcc.accounts.add(w.getAccountId());
       }
-    } else if (p.match(changeData)) {
-      matching.bcc.accounts.add(w.getAccountId());
+    } catch (QueryParseException e) {
+      // Ignore broken filter expressions.
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private boolean filterMatch(CurrentUser user, String filter)
+      throws OrmException, QueryParseException {
+    ChangeQueryBuilder qb = args.queryBuilder.create(user);
+    Predicate<ChangeData> p = null;
+
+    if (!(user instanceof AnonymousUser)) {
+      p = qb.is_visible();
+    }
+
+    if (filter != null) {
+      qb.setAllowFile(true);
+      Predicate<ChangeData> filterPredicate = qb.parse(filter);
+      if (p == null) {
+        p = filterPredicate;
+      } else {
+        p = Predicate.and(filterPredicate, p);
+      }
+      p = args.queryRewriter.get().rewrite(p);
+    }
+    return p == null ? true : p.match(changeData);
   }
 }

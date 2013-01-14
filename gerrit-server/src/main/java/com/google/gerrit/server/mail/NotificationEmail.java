@@ -14,13 +14,23 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.server.mail.ProjectWatch.Watchers;
+import com.google.gwtorm.server.OrmException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Common class for notifications that are related to a project and branch
  */
 public abstract class NotificationEmail extends OutgoingEmail {
+  private static final Logger log =
+      LoggerFactory.getLogger(NotificationEmail.class);
+
   protected Project.NameKey project;
   protected Branch.NameKey branch;
 
@@ -30,6 +40,34 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
     this.project = project;
     this.branch = branch;
+  }
+
+  /** Include users and groups that want notification of events. */
+  protected void includeWatchers(NotifyType type) {
+    try {
+      Watchers matching = getWatches(type);
+      add(RecipientType.TO, matching.to);
+      add(RecipientType.CC, matching.cc);
+      add(RecipientType.BCC, matching.bcc);
+    } catch (OrmException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
+      log.warn("Cannot BCC watchers for " + type, err);
+    }
+  }
+
+  /** Returns all watches that are relevant */
+  protected abstract Watchers getWatches(NotifyType type) throws OrmException;
+
+  /** Add users or email addresses to the TO, CC, or BCC list. */
+  protected void add(RecipientType type, Watchers.List list) {
+    for (Account.Id user : list.accounts) {
+      add(type, user);
+    }
+    for (Address addr : list.emails) {
+      add(type, addr);
+    }
   }
 
   @Override

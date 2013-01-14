@@ -315,34 +315,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Include users and groups that want notification of events. */
-  protected void includeWatchers(NotifyType type) {
-    try {
-      Watchers matching = getWatchers(type);
-      add(RecipientType.TO, matching.to);
-      add(RecipientType.CC, matching.cc);
-      add(RecipientType.BCC, matching.bcc);
-    } catch (OrmException err) {
-      // Just don't CC everyone. Better to send a partial message to those
-      // we already have queued up then to fail deliver entirely to people
-      // who have a lower interest in the change.
-      log.warn("Cannot BCC watchers for " + type, err);
-    }
-  }
-
-  /** Add users or email addresses to the TO, CC, or BCC list. */
-  protected void add(RecipientType type, Watchers.List list) {
-    for (Account.Id user : list.accounts) {
-      add(type, user);
-    }
-    for (Address addr : list.emails) {
-      add(type, addr);
-    }
-  }
-
-  /** Returns all watchers that are relevant */
-  protected final Watchers getWatchers(NotifyType type) throws OrmException {
-    ProjectWatch watch = new ProjectWatch(args, project, projectState, changeData);
+  @Override
+  protected Watchers getWatchers(NotifyType type) throws OrmException {
+    ProjectWatch watch =
+        new ProjectWatch(args, project, projectState, changeData);
     return watch.getWatchers(type);
   }
 

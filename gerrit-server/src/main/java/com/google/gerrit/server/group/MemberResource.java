@@ -23,7 +23,14 @@ public class MemberResource extends AccountResource {
   public static final TypeLiteral<RestView<MemberResource>> MEMBER_KIND =
       new TypeLiteral<RestView<MemberResource>>() {};
 
-  public MemberResource(IdentifiedUser user) {
+  private final GroupResource parent;
+
+  public MemberResource(GroupResource parent, IdentifiedUser user) {
     super(user);
+    this.parent = parent;
+  }
+
+  public GroupResource getParent() {
+    return parent;
   }
 }

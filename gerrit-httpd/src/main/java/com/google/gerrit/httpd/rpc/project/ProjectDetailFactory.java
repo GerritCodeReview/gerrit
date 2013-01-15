@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.InheritedBoolean;
@@ -78,7 +79,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     useSignedOffBy.setValue(projectState.getProject().getUseSignedOffBy());
     useContentMerge.setValue(projectState.getProject().getUseContentMerge());
     requireChangeID.setValue(projectState.getProject().getRequireChangeID());
-    final ProjectState parentState = projectState.getParentState();
+    ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
     if (parentState != null) {
       useContributorAgreements.setInheritedValue(parentState
           .isUseContributorAgreements());

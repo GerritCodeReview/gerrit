@@ -33,6 +33,57 @@
       "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OS3f70AU",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-15T06:06:50Z",
+      "side": 1,
+      "message": "s/Bans/Ban",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OS1cATAw",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/KillCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-15T06:06:50Z",
+      "side": 1,
+      "message": "s/Kills/Kill",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OS7cESCE",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginRemoveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-15T06:06:50Z",
+      "side": 1,
+      "message": "Does this only disable the plugin, or actually remove it?",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

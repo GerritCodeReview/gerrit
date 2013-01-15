@@ -51,15 +51,17 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     fmt.setRowSpan(0, 2, 2);
     DOM.setElementProperty(fmt.getElement(0, 3), "align", "center");
 
-    fmt.setColSpan(0, 3, 4);
+    fmt.setColSpan(0, 3, 5);
     table.setText(1, 0, Util.C.watchedProjectColumnNewChanges());
     table.setText(1, 1, Util.C.watchedProjectColumnNewPatchSets());
     table.setText(1, 2, Util.C.watchedProjectColumnAllComments());
     table.setText(1, 3, Util.C.watchedProjectColumnSubmittedChanges());
+    table.setText(1, 4, Util.C.watchedProjectColumnAbandonedChanges());
     fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(1, 1, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(1, 2, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(1, 3, Gerrit.RESOURCES.css().dataHeader());
+    fmt.addStyleName(1, 4, Gerrit.RESOURCES.css().dataHeader());
   }
 
   public void deleteChecked() {
@@ -140,6 +142,7 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     addNotifyButton(AccountProjectWatch.NotifyType.NEW_PATCHSETS, info, row, 4);
     addNotifyButton(AccountProjectWatch.NotifyType.ALL_COMMENTS, info, row, 5);
     addNotifyButton(AccountProjectWatch.NotifyType.SUBMITTED_CHANGES, info, row, 6);
+    addNotifyButton(AccountProjectWatch.NotifyType.ABANDONED_CHANGES, info, row, 7);
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
@@ -148,6 +151,7 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(row, 6, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(row, 7, Gerrit.RESOURCES.css().dataCell());
 
     setRowItem(row, info);
   }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OTJYBTBE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-15T10:25:42Z",
+      "side": 1,
+      "message": "This sounds reasonable and I\u0027ve tried implementing it. Unfortuantely I couldn\u0027t get it working. It seems that AcceptsCreate is only respected for any collection under the top level resource, but not for a collection under another rest resource, such as a GroupResource? At least from looking at the code in RestApiServlet#service(...) I got this impression. I could also see that the MembersCollection.create(...) method is not invoked if MembersCollection.parse(...) fails with ResourceNotFoundException. If I change MembersCollection.parse(...) to always return a MemberResource (even if the user is not a member) then the creation of a new member with PUT on http://site/groups/group-id/members/nameOrMail succeeds. Am I missing anything?",
+      "parentUuid": "OOigXa00",
+      "revId": "02cc2001725fceefcfe76b45fc99bdef248e0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OMlBqjK4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "OTDbxWCY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-15T10:25:42Z",
+      "side": 1,
+      "message": "I have added this code to as static method to the Input class so that it can be reused from other places, e.g. DeleteMember will use the same Input class and needs the same logic.\n\nDone",
+      "parentUuid": "OMlBqjK4",
+      "revId": "02cc2001725fceefcfe76b45fc99bdef248e0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OMnBvkL0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2013-01-14T21:55:20Z",
       "side": 1,
       "message": "If the same account is named twice in the input this code will try to insert them twice, and fail with an OrmException.\n\nYou need to also keep a Set\u003cAccount.Id\u003e of users who are scheduled to be added. Or change the type of newAccountGroupMembers to be a Map\u003cAccount.Id, AccountGroupMember\u003e so that you can test if the user is already scheduled for addition and don\u0027t add them twice.",
+      "revId": "02cc2001725fceefcfe76b45fc99bdef248e0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTBb23B0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-15T10:25:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OMnBvkL0",
       "revId": "02cc2001725fceefcfe76b45fc99bdef248e0e2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

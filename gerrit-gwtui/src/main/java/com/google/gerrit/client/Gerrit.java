@@ -666,7 +666,14 @@ public class Gerrit implements EntryPoint {
     addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
     addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
 
-    projectsBar = new LinkMenuBar();
+    projectsBar = new LinkMenuBar() {
+      @Override
+      public void onScreenLoad(ScreenLoadEvent event) {
+        if (event.getScreen() instanceof ProjectScreen) {
+          menuLeft.selectTab(menuLeft.getWidgetIndex(this));
+        }
+      }
+    };
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
     addProjectLink(projectsBar, C.menuProjectsInfo(), ProjectScreen.INFO);
     addProjectLink(projectsBar, C.menuProjectsBranches(), ProjectScreen.BRANCH);

@@ -193,6 +193,16 @@ end with `$`) or be a simple prefix (any other string).
 By default, the list contains two values, `http://` and `https://`,
 allowing Gerrit to trust any OpenID it receives.
 
+[[auth.openIdDomain]]auth.openIdDomain::
++
+List of allowed OpenID email address domains. Only used if
+`auth.type` is set to "OPENID" or "OPENID_SSO".
++
+Domain is case insensitive and must be in the same form as it
+appears in the email address, for example, "example.com".
++
+By default, any domain is accepted.
+
 [[auth.maxOpenIdSessionAge]]auth.maxOpenIdSessionAge::
 +
 Time in seconds before an OpenID provider must force the user

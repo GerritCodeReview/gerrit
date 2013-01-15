@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "OTDYYOH4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-15T10:29:12Z",
+      "side": 1,
+      "message": "... then the creation of a new member with PUT on http://site/groups/group-id/members/nameOrMail succeeds but MembersCollection.create(...) is not invoked.",
+      "parentUuid": "OTJYBTBE",
+      "revId": "02cc2001725fceefcfe76b45fc99bdef248e0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OMlBqjK4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
         "patchSetId": 3

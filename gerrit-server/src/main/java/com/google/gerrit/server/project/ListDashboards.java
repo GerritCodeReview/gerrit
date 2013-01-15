@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.git.GitRepositoryManager.REFS_DASHBOARDS;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -39,7 +38,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 class ListDashboards implements RestReadView<ProjectResource> {
   private static final Logger log = LoggerFactory.getLogger(DashboardsCollection.class);
@@ -57,16 +55,16 @@ class ListDashboards implements RestReadView<ProjectResource> {
   @Override
   public Object apply(ProjectResource resource)
       throws ResourceNotFoundException, IOException {
-  ProjectControl ctl = resource.getControl();
+    ProjectControl ctl = resource.getControl();
     String project = ctl.getProject().getName();
     if (!inherited) {
       return scan(resource.getControl(), project, true);
     }
 
     List<List<DashboardInfo>> all = Lists.newArrayList();
-    Set<Project.NameKey> seen = Sets.newHashSet();
     boolean setDefault = true;
-    for (;;) {
+    for (ProjectState ps : ctl.getProjectState().tree()) {
+      ctl = ps.controlFor(ctl.getCurrentUser());
       if (ctl.isVisible()) {
         List<DashboardInfo> list = scan(ctl, project, setDefault);
         for (DashboardInfo d : list) {
@@ -78,12 +76,6 @@ class ListDashboards implements RestReadView<ProjectResource> {
           all.add(list);
         }
       }
-
-      ProjectState ps = ctl.getProjectState().getParentState();
-      if (ps == null || !seen.add(ps.getProject().getNameKey())) {
-        break;
-      }
-      ctl = ps.controlFor(ctl.getCurrentUser());
     }
     return all;
   }

@@ -239,7 +239,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
         ProjectInfo info = new ProjectInfo();
         if (type == FilterType.PARENT_CANDIDATES) {
-          ProjectState parentState = e.getParentState();
+          ProjectState parentState = Iterables.getFirst(e.parents(), null);
           if (parentState != null
               && !output.keySet().contains(parentState.getProject().getName())
               && !rejected.contains(parentState.getProject().getName())) {
@@ -272,7 +272,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
           info.setName(projectName.get());
           if (showTree && format.isJson()) {
-            ProjectState parent = e.getParentState();
+            ProjectState parent = Iterables.getFirst(e.parents(), null);
             if (parent != null) {
               ProjectControl parentCtrl = parent.controlFor(currentUser);
               if (parentCtrl.isVisible() || parentCtrl.isOwner()) {

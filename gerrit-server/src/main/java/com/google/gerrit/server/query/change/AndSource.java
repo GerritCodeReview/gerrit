@@ -35,14 +35,6 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
           int bi = b instanceof ChangeDataSource ? 0 : 1;
           int cmp = ai - bi;
 
-          if (cmp == 0 //
-              && a instanceof ChangeDataSource //
-              && b instanceof ChangeDataSource) {
-            ai = ((ChangeDataSource) a).hasChange() ? 0 : 1;
-            bi = ((ChangeDataSource) b).hasChange() ? 0 : 1;
-            cmp = ai - bi;
-          }
-
           if (cmp == 0) {
             cmp = a.getCost() - b.getCost();
           }
@@ -53,6 +45,14 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
             ChangeDataSource as = (ChangeDataSource) a;
             ChangeDataSource bs = (ChangeDataSource) b;
             cmp = as.getCardinality() - bs.getCardinality();
+          }
+
+          if (cmp == 0 //
+              && a instanceof ChangeDataSource //
+              && b instanceof ChangeDataSource) {
+            ai = ((ChangeDataSource) a).hasChange() ? 0 : 1;
+            bi = ((ChangeDataSource) b).hasChange() ? 0 : 1;
+            cmp = ai - bi;
           }
 
           return cmp;

@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "OTNZUZO0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-15T18:15:38Z",
+      "side": 1,
+      "message": "s/function/method\n\nand also couple of more places below",
+      "revId": "1cfc1428c07959ada3b4bdf26995653ab6004728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTJZa7Bg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-15T18:15:38Z",
+      "side": 1,
+      "message": "s/is/was\n\nWe use past tense to describe how it was before a change and present tense to describe how it is with that change.",
+      "revId": "1cfc1428c07959ada3b4bdf26995653ab6004728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTPZX4O4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-15T18:15:38Z",
+      "side": 1,
+      "message": "s/theirs/their\n\ns/is/was\n\ns/, now move/. Move",
+      "revId": "1cfc1428c07959ada3b4bdf26995653ab6004728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTLZdaBU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-15T18:15:38Z",
+      "side": 1,
+      "message": "Should this be javadoc comment?",
+      "revId": "1cfc1428c07959ada3b4bdf26995653ab6004728",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OC3cYsH4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
         "patchSetId": 3

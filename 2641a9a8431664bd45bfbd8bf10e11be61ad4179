@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OTHYSsF0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-15T13:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OOugoc4k",
+      "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OOkhDv0Q",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-15T01:38:46Z",
       "side": 1,
       "message": "This condition becomes redundant with my next comment.",
+      "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTLYrqIQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-15T13:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OOkhDv0Q",
       "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "OTFYXtEs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-15T13:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OOqgie6M",
+      "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OOoglN7A",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-15T01:38:46Z",
       "side": 1,
       "message": "Really? Why not just query the database table? You don\u0027t need all of the crap this detail factory creates.",
+      "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTJYoLIk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-15T13:49:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OOoglN7A",
       "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

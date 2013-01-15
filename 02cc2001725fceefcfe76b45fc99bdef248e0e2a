@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "OOigXa00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-15T01:24:59Z",
+      "side": 1,
+      "message": "I think you should also implement AcceptsCreate inside of MembersCollection. Have the create construct a new wrapper view that uses PutMember to add a single member as given in the URL.\n\nThis way you can do `curl -X PUT http://site/groups/group-id/members/sop@google.com` in addition to putting the member name to /members. Its more RESTful. I think its also more consistent with how we do PUT on /plugins/. See PluginsCollection if you want more of a concrete example.",
+      "revId": "02cc2001725fceefcfe76b45fc99bdef248e0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OMlBqjK4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMember.java",
         "patchSetId": 3

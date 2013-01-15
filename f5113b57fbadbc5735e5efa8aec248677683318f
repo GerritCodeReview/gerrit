@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OTjQYMH4",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1005842
+      },
+      "writtenOn": "2013-01-15T19:11:54Z",
+      "side": 1,
+      "message": "Can you add some explanation for these attributes? Specifically, the docBase is confusing. What is it pointing at? The gerrit \u0027site\u0027 directory (that has the sub-directories etc, bin,...)?",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTtQLvCw",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1005842
+      },
+      "writtenOn": "2013-01-15T19:11:54Z",
+      "side": 1,
+      "message": "The driverClassName should be \"com.mysql.jdbc.Driver\".\n\nMy understanding is that the MySQL project took over an external driver and when they did, they changed the driverClassName.  The old one works, but is depreciated.",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

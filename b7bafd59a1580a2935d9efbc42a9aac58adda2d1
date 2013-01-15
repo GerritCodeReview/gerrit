@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OTTXxUCY",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-01-15T12:53:24Z",
+      "side": 1,
+      "message": "\u003e... but some commands might have assumptions in their injection that may cause them to fail to build here.\n\nBut a Command instance would be needed in start() method anyway, line 80. It would fail there also, or am i missing something?",
+      "parentUuid": "OOqg9m70",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OOohA1zI",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-15T01:47:46Z",
       "side": 1,
       "message": "I don\u0027t like this hack. Why is this necessary?",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTRX21B0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-01-15T12:53:24Z",
+      "side": 1,
+      "message": "Well, plugin is a NestedCommand and as such is an instance of DispatchCommand itself. For one we can not derive an own plugin command from DispatchCommand class because it is final (to override getDescription()), for another it is strange to have descriptions for all ssh commands except plugin.",
+      "parentUuid": "OOohA1zI",
       "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

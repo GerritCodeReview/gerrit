@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CommitValidationException extends Exception {
@@ -28,12 +28,12 @@ public class CommitValidationException extends Exception {
 
   public CommitValidationException(String reason) {
     super(reason);
-    this.messages = new ArrayList<CommitValidationMessage>();
+    this.messages = Collections.emptyList();
   }
 
   public CommitValidationException(String reason, Throwable why) {
     super(reason, why);
-    this.messages = new ArrayList<CommitValidationMessage>();
+    this.messages = Collections.emptyList();
   }
 
   public List<CommitValidationMessage> getMessages() {

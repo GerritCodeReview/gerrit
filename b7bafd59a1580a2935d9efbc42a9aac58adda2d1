@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OOqg9m70",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-15T01:47:46Z",
+      "side": 1,
+      "message": "I am not OK with making the Command instance here. It might work, but some commands might have assumptions in their injection that may cause them to fail to build here.\n\nAt worst we wrap this and catch a ProvisionException and handle that gracefully. At best, find another way to provide the description. Maybe a runtime annotation on the Class implementation that we can extract as part of the Guice binding?",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OOohA1zI",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-15T01:47:46Z",
+      "side": 1,
+      "message": "I don\u0027t like this hack. Why is this necessary?",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

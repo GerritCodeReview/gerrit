@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OOugoc4k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-15T01:38:46Z",
+      "side": 1,
+      "message": "So this is weird. Right now we only use DELETE on a single resource, e.g. curl -XDELETE http://site/groups/group-id/members/sop@google.com`. I think you want to setup two bindings in your module, one on MEMBER_KIND to do this RESTful single member removal, and one on GROUP_KIND for the bulk operation.",
+      "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OOkhDv0Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-15T01:38:46Z",
+      "side": 1,
+      "message": "This condition becomes redundant with my next comment.",
+      "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OOqgie6M",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-15T01:38:46Z",
+      "side": 1,
+      "message": "Uhm no. Query the database in getMembers and return Map\u003cAccount.Id, AccountGroupMember\u003e. Then here you can do:\n\n  AccountGroupMember m \u003d members.remove(a.getId());\n  if (m !\u003d null) {\n    toRemove.add(m);\n  }",
+      "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OOoglN7A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-15T01:38:46Z",
+      "side": 1,
+      "message": "Really? Why not just query the database table? You don\u0027t need all of the crap this detail factory creates.",
+      "revId": "2641a9a8431664bd45bfbd8bf10e11be61ad4179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

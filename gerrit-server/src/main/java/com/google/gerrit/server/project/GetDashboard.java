@@ -17,10 +17,8 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.git.GitRepositoryManager.REFS_DASHBOARDS;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 import com.google.inject.Inject;
 
@@ -28,7 +26,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
-import java.util.Set;
 
 class GetDashboard implements RestReadView<DashboardResource> {
   private final DashboardsCollection dashboards;
@@ -78,10 +75,7 @@ class GetDashboard implements RestReadView<DashboardResource> {
       throw new ResourceNotFoundException();
     }
 
-    Set<Project.NameKey> seen = Sets.newHashSet();
-    seen.add(ctl.getProject().getNameKey());
-    ProjectState ps = ctl.getProjectState().getParentState();
-    while (ps != null && seen.add(ps.getProject().getNameKey())) {
+    for (ProjectState ps : ctl.getProjectState().tree()) {
       id = ps.getProject().getDefaultDashboard();
       if ("default".equals(id)) {
         throw new ResourceNotFoundException();
@@ -89,7 +83,6 @@ class GetDashboard implements RestReadView<DashboardResource> {
         ctl = ps.controlFor(ctl.getCurrentUser());
         return dashboards.parse(new ProjectResource(ctl), id);
       }
-      ps = ps.getParentState();
     }
     throw new ResourceNotFoundException();
   }

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -197,17 +201,15 @@ final class AdminSetParent extends SshCommand {
   }
 
   private Set<Project.NameKey> getAllParents(final Project.NameKey projectName) {
-    final Set<Project.NameKey> parents = new HashSet<Project.NameKey>();
-    Project.NameKey p = projectName;
-    while (p != null && parents.add(p)) {
-      final ProjectState e = projectCache.get(p);
-      if (e == null) {
-        // If we can't get it from the cache, pretend it's not present.
-        break;
-      }
-      p = e.getProject().getParent(allProjectsName);
-    }
-    return parents;
+    ProjectState ps = projectCache.get(projectName);
+    return ImmutableSet.copyOf(Iterables.transform(
+      ps != null ? ps.parents() : Collections.<ProjectState> emptySet(),
+      new Function<ProjectState, Project.NameKey> () {
+        @Override
+        public Project.NameKey apply(ProjectState in) {
+          return in.getProject().getNameKey();
+        }
+      }));
   }
 
   private List<Project> getChildren(final Project.NameKey parentName) {

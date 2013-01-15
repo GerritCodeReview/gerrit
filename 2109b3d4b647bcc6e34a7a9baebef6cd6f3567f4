@@ -16,6 +16,24 @@
       "revId": "2109b3d4b647bcc6e34a7a9baebef6cd6f3567f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OOghNx24",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-15T01:39:33Z",
+      "side": 1,
+      "message": "Yes Collections.emptyList() is the correct code here. Please fix.",
+      "parentUuid": "OMy8XaU0",
+      "revId": "2109b3d4b647bcc6e34a7a9baebef6cd6f3567f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

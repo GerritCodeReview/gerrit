@@ -130,6 +130,7 @@ class ListDashboards implements RestReadView<ProjectResource> {
                 ref.getName().substring(REFS_DASHBOARDS.length()),
                 tw.getPathString(),
                 new BlobBasedConfig(null, git, tw.getObjectId(0)),
+                null,
                 project,
                 setTypes));
           } catch (ConfigInvalidException e) {

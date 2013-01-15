@@ -54,7 +54,7 @@ public class GetDashboard implements RestReadView<DashboardResource> {
     String project = resource.getControl().getProject().getName();
     if (type != null) {
       // The type is not resolved to a definition yet.
-      resource = typeOf(resource.getControl(), type);
+      resource = typeOf(resource.getControl(), resource.getTokenizer(), type);
     }
 
     return DashboardsCollection.parse(
@@ -62,11 +62,13 @@ public class GetDashboard implements RestReadView<DashboardResource> {
         resource.getRefName().substring(REFS_DASHBOARDS.length()),
         resource.getPathName(),
         resource.getConfig(),
+        resource.getTokenizer(),
         project,
         Collections.singleton(type));
   }
 
-  private DashboardResource typeOf(ProjectControl ctl, Project.DashboardType type)
+  private DashboardResource typeOf(ProjectControl ctl, DashboardResource.Tokenizer
+      tokenizer, Project.DashboardType type)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
     String id = ctl.getProject().getLocalDashboard(type);
     if (Strings.isNullOrEmpty(id)) {
@@ -75,7 +77,7 @@ public class GetDashboard implements RestReadView<DashboardResource> {
     if (Project.DashboardType.fromId(id) != null) {
       throw new ResourceNotFoundException();
     } else if (!Strings.isNullOrEmpty(id)) {
-      return dashboards.parse(new ProjectResource(ctl), id);
+      return dashboards.parse(new ProjectResource(ctl), id, tokenizer);
     } else if (!inherited) {
       throw new ResourceNotFoundException();
     }

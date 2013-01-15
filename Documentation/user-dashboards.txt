@@ -171,6 +171,18 @@ the child projects.
   local-change = refs/meta/dashboards/main:local_change
 ----
 
+Change dashboard queries may contain the following additional tokens
+which will be replaced with change specific data:
+
+ ${branch}
+ ${change.id}
+ ${change.key}
+ ${project}
+ ${ref}
+ ${subject}
+ ${topic}
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -21,13 +21,32 @@ import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.util.HashMap;
+
 public class DashboardResource implements RestResource {
   public static final TypeLiteral<RestView<DashboardResource>> DASHBOARD_KIND =
       new TypeLiteral<RestView<DashboardResource>>() {};
 
+  public interface Tokenizer {
+    public String tokenize(String value);
+  }
+
+  public static class HashMapTokenizer extends HashMap<String, String>
+      implements Tokenizer {
+    @Override
+    public String tokenize(String value) {
+      return get(value);
+    }
+  }
+
   public static DashboardResource projectTyped(ProjectControl ctl,
       Project.DashboardType type) {
     return new DashboardResource(ctl, null, null, null, type);
+  }
+
+  public static DashboardResource projectTyped(ProjectControl ctl,
+      Project.DashboardType type, Tokenizer tokenizer) {
+    return new DashboardResource(ctl, null, null, null, type, tokenizer);
   }
 
   private final ProjectControl control;
@@ -35,6 +54,7 @@ public class DashboardResource implements RestResource {
   private final String pathName;
   private final Config config;
   private Project.DashboardType type;
+  private Tokenizer tokenizer;
 
   DashboardResource(ProjectControl control,
       String refName,
@@ -48,11 +68,21 @@ public class DashboardResource implements RestResource {
       String pathName,
       Config config,
       Project.DashboardType type) {
+    this(control, refName, pathName, config, null, null);
+  }
+
+  DashboardResource(ProjectControl control,
+      String refName,
+      String pathName,
+      Config config,
+      Project.DashboardType type,
+      Tokenizer tokenizer) {
     this.control = control;
     this.refName = refName;
     this.pathName = pathName;
     this.config = config;
     this.type = type;
+    this.tokenizer = tokenizer;
   }
 
   public ProjectControl getControl() {
@@ -73,5 +103,9 @@ public class DashboardResource implements RestResource {
 
   public Project.DashboardType getType() {
     return type;
+  }
+
+  public Tokenizer getTokenizer() {
+    return tokenizer;
   }
 }

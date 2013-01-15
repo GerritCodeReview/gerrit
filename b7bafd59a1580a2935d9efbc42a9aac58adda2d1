@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "OTVUATAw",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-01-15T23:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OOohA1zI",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OS3f70AU",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
         "patchSetId": 1
@@ -83,6 +101,24 @@
       "writtenOn": "2013-01-15T06:06:50Z",
       "side": 1,
       "message": "s/Bans/Ban",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTbUEQCE",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-01-15T23:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OS3f70AU",
       "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -106,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "OTZUBRBE",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/KillCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-01-15T23:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OS1cATAw",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OS7cESCE",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginRemoveCommand.java",
         "patchSetId": 1
@@ -117,6 +171,24 @@
       "writtenOn": "2013-01-15T06:06:50Z",
       "side": 1,
       "message": "Does this only disable the plugin, or actually remove it?",
+      "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTfUOuD4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginRemoveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-01-15T23:51:34Z",
+      "side": 1,
+      "message": "`remove` disables a plugin: move plugin.jar to plugin.jar.disabled.\n\n`enable` enables a plugin.\nThat\u0027s really confisung. \n\nWe should probably rename the class to \"PluginDisableCommand\" and rename the ssh command from `remove` to `disable`.",
+      "parentUuid": "OS7cESCE",
       "revId": "b7bafd59a1580a2935d9efbc42a9aac58adda2d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

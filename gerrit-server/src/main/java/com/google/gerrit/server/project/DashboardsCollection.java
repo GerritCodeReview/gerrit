@@ -21,7 +21,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -30,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.Url;
@@ -49,7 +49,6 @@ import org.eclipse.jgit.lib.Repository;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Set;
 
 class DashboardsCollection implements
     ChildCollection<ProjectResource, DashboardResource>,
@@ -99,13 +98,12 @@ class DashboardsCollection implements
       throw new ResourceNotFoundException(id);
     }
 
+    CurrentUser user = myCtl.getCurrentUser();
     String ref = Url.decode(parts.get(0));
     String path = Url.decode(parts.get(1));
-    ProjectControl ctl = myCtl;
-    Set<Project.NameKey> seen = Sets.newHashSet(ctl.getProject().getNameKey());
-    for (;;) {
+    for (ProjectState ps : myCtl.getProjectState().tree()) {
       try {
-        return parse(ctl, ref, path, myCtl);
+        return parse(ps.controlFor(user), ref, path, myCtl);
       } catch (AmbiguousObjectException e) {
         throw new ResourceNotFoundException(id);
       } catch (IncorrectObjectTypeException e) {
@@ -113,14 +111,10 @@ class DashboardsCollection implements
       } catch (ConfigInvalidException e) {
         throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
-        ProjectState ps = ctl.getProjectState().getParentState();
-        if (ps != null && seen.add(ps.getProject().getNameKey())) {
-          ctl = ps.controlFor(ctl.getCurrentUser());
-          continue;
-        }
         throw new ResourceNotFoundException(id);
       }
     }
+    throw new ResourceNotFoundException(id);
   }
 
   private DashboardResource parse(ProjectControl ctl, String ref, String path,

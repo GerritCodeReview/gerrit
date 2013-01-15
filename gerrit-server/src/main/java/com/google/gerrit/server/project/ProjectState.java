@@ -15,8 +15,9 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -230,23 +232,9 @@ public class ProjectState {
       return getLocalAccessSections();
     }
 
-    List<SectionMatcher> all = new ArrayList<SectionMatcher>();
-    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    ProjectState allProjects = projectCache.getAllProjects();
-    seen.add(getProject().getNameKey());
-
-    ProjectState s = this;
-    do {
+    List<SectionMatcher> all = Lists.newArrayList();
+    for (ProjectState s : tree()) {
       all.addAll(s.getLocalAccessSections());
-
-      Project.NameKey parent = s.getProject().getParent();
-      if (parent == null || !seen.add(parent)) {
-        break;
-      }
-      s = projectCache.get(parent);
-    } while (s != null);
-    if (seen.add(allProjects.getProject().getNameKey())) {
-      all.addAll(allProjects.getLocalAccessSections());
     }
     return all;
   }
@@ -258,16 +246,11 @@ public class ProjectState {
    *         that has local owners are returned
    */
   public Set<AccountGroup.UUID> getOwners() {
-    Project.NameKey parentName = getProject().getParent();
-    if (!localOwners.isEmpty() || parentName == null || isAllProjects) {
-      return localOwners;
+    for (ProjectState p : tree()) {
+      if (!p.localOwners.isEmpty()) {
+        return p.localOwners;
+      }
     }
-
-    ProjectState parent = projectCache.get(parentName);
-    if (parent != null) {
-      return parent.getOwners();
-    }
-
     return Collections.emptySet();
   }
 
@@ -275,23 +258,13 @@ public class ProjectState {
    * @return true if any of the groups listed in {@code groups} was declared to
    *         be an owner of this project, or one of its parent projects..
    */
-  boolean isOwner(GroupMembership groups) {
-    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    seen.add(getProject().getNameKey());
-
-    ProjectState s = this;
-    do {
-      if (groups.containsAnyOf(s.localOwners)) {
-        return true;
+  boolean isOwner(final GroupMembership groups) {
+    return Iterables.any(tree(), new Predicate<ProjectState>() {
+      @Override
+      public boolean apply(ProjectState in) {
+        return groups.containsAnyOf(in.localOwners);
       }
-
-      Project.NameKey parent = s.getProject().getParent();
-      if (parent == null || !seen.add(parent)) {
-        break;
-      }
-      s = projectCache.get(parent);
-    } while (s != null);
-    return false;
+    });
   }
 
   public ProjectControl controlFor(final CurrentUser user) {
@@ -299,15 +272,28 @@ public class ProjectState {
   }
 
   /**
-   * @return ProjectState of project's parent. If the project does not have a
-   *         parent, return state of the top level project, All-Projects. If
-   *         this project is All-Projects, return null.
+   * @return an iterable that walks through this project and then the parents of
+   *         this project. Starts from this project and progresses up the
+   *         hierarchy to All-Projects.
    */
-  public ProjectState getParentState() {
-    if (isAllProjects) {
-      return null;
-    }
-    return projectCache.get(getProject().getParent(allProjectsName));
+  public Iterable<ProjectState> tree() {
+    return new Iterable<ProjectState>() {
+      @Override
+      public Iterator<ProjectState> iterator() {
+        return new ProjectHierarchyIterator(
+            projectCache, allProjectsName,
+            ProjectState.this);
+      }
+    };
+  }
+
+  /**
+   * @return an iterable that walks through the parents of this project. Starts
+   *         from the immediate parent of this project and progresses up the
+   *         hierarchy to All-Projects.
+   */
+  public Iterable<ProjectState> parents() {
+    return Iterables.skip(tree(), 1);
   }
 
   public boolean isAllProjects() {
@@ -351,10 +337,7 @@ public class ProjectState {
   }
 
   private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {
-    Set<Project.NameKey> seen = Sets.newHashSet();
-    seen.add(getProject().getNameKey());
-    ProjectState s = this;
-    do {
+    for (ProjectState s : tree()) {
       switch (func.apply(s.getProject())) {
         case TRUE:
           return true;
@@ -362,14 +345,9 @@ public class ProjectState {
           return false;
         case INHERIT:
         default:
-          Project.NameKey parent = s.getProject().getParent(allProjectsName);
-          if (parent != null && seen.add(parent)) {
-            s = projectCache.get(parent);
-          } else {
-            s = null;
-          }
+          continue;
       }
-    } while (s != null);
+    }
     return false;
   }
 }

@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
@@ -31,9 +30,7 @@ import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -184,16 +181,8 @@ public class SubmitRuleEvaluator {
 
   private Term runSubmitFilters(Term results, PrologEnvironment env) throws RuleEvalException {
     ProjectState projectState = projectControl.getProjectState();
-    ProjectState parentState = projectState.getParentState();
     PrologEnvironment childEnv = env;
-    Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
-    projectsSeen.add(projectState.getProject().getNameKey());
-
-    while (parentState != null) {
-      if (!projectsSeen.add(parentState.getProject().getNameKey())) {
-        // parent has been seen before, stop walk up inheritance tree
-        break;
-      }
+    for (ProjectState parentState : projectState.parents()) {
       PrologEnvironment parentEnv;
       try {
         parentEnv = parentState.newPrologEnvironment();
@@ -223,11 +212,8 @@ public class SubmitRuleEvaluator {
             + " on change " + change.getId() + " of "
             + parentState.getProject().getName(), err);
       }
-
-      parentState = parentState.getParentState();
       childEnv = parentEnv;
     }
-
     return results;
   }
 

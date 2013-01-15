@@ -34,6 +34,24 @@
       "revId": "2109b3d4b647bcc6e34a7a9baebef6cd6f3567f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OSBr2-R0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-15T01:48:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OMy8XaU0",
+      "revId": "2109b3d4b647bcc6e34a7a9baebef6cd6f3567f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

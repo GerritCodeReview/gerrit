@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
@@ -42,6 +44,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /** Manages access control for Git references (aka branches, tags). */
@@ -117,18 +120,18 @@ public class RefControl {
    */
   public boolean isVisibleByRegisteredUsers() {
     List<PermissionRule> access = relevant.getPermission(Permission.READ);
+    Set<ProjectRef> allows = Sets.newHashSet();
+    Set<ProjectRef> blocks = Sets.newHashSet();
     for (PermissionRule rule : access) {
       if (rule.isBlock()) {
-        return false;
-      }
-    }
-    for (PermissionRule rule : access) {
-      if (rule.getGroup().getUUID().equals(AccountGroup.ANONYMOUS_USERS)
+        blocks.add(relevant.getRuleProps(rule));
+      } else if (rule.getGroup().getUUID().equals(AccountGroup.ANONYMOUS_USERS)
           || rule.getGroup().getUUID().equals(AccountGroup.REGISTERED_USERS)) {
-        return true;
+        allows.add(relevant.getRuleProps(rule));
       }
     }
-    return false;
+    blocks.removeAll(allows);
+    return blocks.isEmpty() && !allows.isEmpty();
   }
 
   /**
@@ -218,16 +221,7 @@ public class RefControl {
       // granting of powers beyond pushing to the configuration.
       return false;
     }
-    boolean result = false;
-    for (PermissionRule rule : access(Permission.PUSH)) {
-      if (rule.isBlock()) {
-        return false;
-      }
-      if (rule.getForce()) {
-        result = true;
-      }
-    }
-    return result;
+    return canForcePerform(Permission.PUSH);
   }
 
   /**
@@ -375,16 +369,7 @@ public class RefControl {
 
   /** @return true if this user can force edit topic names. */
   public boolean canForceEditTopicName() {
-    boolean result = false;
-    for (PermissionRule rule : access(Permission.EDIT_TOPIC_NAME)) {
-      if (rule.isBlock()) {
-        return false;
-      }
-      if (rule.getForce()) {
-        result = true;
-      }
-    }
-    return result;
+    return canForcePerform(Permission.EDIT_TOPIC_NAME);
   }
 
   /** All value ranges of any allowed label permission. */
@@ -416,39 +401,97 @@ public class RefControl {
     return null;
   }
 
-  private static PermissionRange toRange(String permissionName,
-      List<PermissionRule> ruleList) {
-    int min = 0;
-    int max = 0;
-    int blockMin = Integer.MIN_VALUE;
-    int blockMax = Integer.MAX_VALUE;
-    for (PermissionRule rule : ruleList) {
+  private static class AllowedRange {
+    private int allowMin = 0;
+    private int allowMax = 0;
+    private int blockMin = Integer.MIN_VALUE;
+    private int blockMax = Integer.MAX_VALUE;
+
+    void update(PermissionRule rule) {
       if (rule.isBlock()) {
         blockMin = Math.max(blockMin, rule.getMin());
         blockMax = Math.min(blockMax, rule.getMax());
       } else {
-        min = Math.min(min, rule.getMin());
-        max = Math.max(max, rule.getMax());
+        allowMin = Math.min(allowMin, rule.getMin());
+        allowMax = Math.max(allowMax, rule.getMax());
       }
     }
-    if (blockMin > Integer.MIN_VALUE) {
-      min = Math.max(min, blockMin + 1);
+
+    int getAllowMin() {
+      return allowMin;
     }
-    if (blockMax < Integer.MAX_VALUE) {
-      max = Math.min(max, blockMax - 1);
+    int getAllowMax() {
+      return allowMax;
     }
+    int getBlockMin() {
+      // ALLOW wins over BLOCK on the same project
+      return Math.min(blockMin, allowMin - 1);
+    }
+    int getBlockMax() {
+      // ALLOW wins over BLOCK on the same project
+      return Math.max(blockMax, allowMax + 1);
+    }
+  }
+
+  private PermissionRange toRange(String permissionName,
+      List<PermissionRule> ruleList) {
+    Map<ProjectRef, AllowedRange> ranges = Maps.newHashMap();
+    for (PermissionRule rule : ruleList) {
+      ProjectRef p = relevant.getRuleProps(rule);
+      AllowedRange r = ranges.get(p);
+      if (r == null) {
+        r = new AllowedRange();
+        ranges.put(p, r);
+      }
+      r.update(rule);
+    }
+    int allowMin = 0;
+    int allowMax = 0;
+    int blockMin = Integer.MIN_VALUE;
+    int blockMax = Integer.MAX_VALUE;
+    for (AllowedRange r : ranges.values()) {
+      allowMin = Math.min(allowMin, r.getAllowMin());
+      allowMax = Math.max(allowMax, r.getAllowMax());
+      blockMin = Math.max(blockMin, r.getBlockMin());
+      blockMax = Math.min(blockMax, r.getBlockMax());
+    }
+
+    // BLOCK wins over ALLOW across projects
+    int min = Math.max(allowMin, blockMin + 1);
+    int max = Math.min(allowMax, blockMax - 1);
     return new PermissionRange(permissionName, min, max);
   }
 
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
     List<PermissionRule> access = access(permissionName);
+    Set<ProjectRef> allows = Sets.newHashSet();
+    Set<ProjectRef> blocks = Sets.newHashSet();
     for (PermissionRule rule : access) {
       if (rule.isBlock() && !rule.getForce()) {
-        return false;
+        blocks.add(relevant.getRuleProps(rule));
+      } else {
+        allows.add(relevant.getRuleProps(rule));
       }
     }
-    return !access.isEmpty();
+    blocks.removeAll(allows);
+    return blocks.isEmpty() && !allows.isEmpty();
+  }
+
+  /** True if the user has force this permission. Works only for non labels. */
+  private boolean canForcePerform(String permissionName) {
+    List<PermissionRule> access = access(permissionName);
+    Set<ProjectRef> allows = Sets.newHashSet();
+    Set<ProjectRef> blocks = Sets.newHashSet();
+    for (PermissionRule rule : access) {
+      if (rule.isBlock()) {
+        blocks.add(relevant.getRuleProps(rule));
+      } else if (rule.getForce()) {
+        allows.add(relevant.getRuleProps(rule));
+      }
+    }
+    blocks.removeAll(allows);
+    return blocks.isEmpty() && !allows.isEmpty();
   }
 
   /** Rules for the given permission, or the empty list. */

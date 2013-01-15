@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.common.data.Permission.OWNER;
 import static com.google.gerrit.common.data.Permission.PUSH;
@@ -250,6 +251,139 @@ public class RefControlTest extends TestCase {
     PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertTrue("u can vote -1", range.contains(-1));
     assertTrue("u can vote +1", range.contains(1));
+    assertFalse("u can't vote -2", range.contains(-2));
+    assertFalse("u can't vote 2", range.contains(2));
+  }
+
+  public void testUnblockNoForce() {
+    grant(local, PUSH, anonymous, "refs/heads/*").setBlock();
+    grant(local, PUSH, devs, "refs/heads/*");
+
+    ProjectControl u = user(devs);
+    assertTrue("u can push", u.controlForRef("refs/heads/master").canUpdate());
+  }
+
+  public void testUnblockForce() {
+    PermissionRule r = grant(local, PUSH, anonymous, "refs/heads/*");
+    r.setBlock();
+    r.setForce(true);
+    grant(local, PUSH, devs, "refs/heads/*").setForce(true);
+
+    ProjectControl u = user(devs);
+    assertTrue("u can force push", u.controlForRef("refs/heads/master").canForceUpdate());
+  }
+
+  public void testUnblockForceWithAllowNoForce_NotPossible() {
+    PermissionRule r = grant(local, PUSH, anonymous, "refs/heads/*");
+    r.setBlock();
+    r.setForce(true);
+    grant(local, PUSH, devs, "refs/heads/*");
+
+    ProjectControl u = user(devs);
+    assertFalse("u can't force push", u.controlForRef("refs/heads/master").canForceUpdate());
+  }
+
+  public void testUnblockMoreSpecificRef_Fails() {
+    grant(local, PUSH, anonymous, "refs/heads/*").setBlock();
+    grant(local, PUSH, devs, "refs/heads/master");
+
+    ProjectControl u = user(devs);
+    assertFalse("u can't push", u.controlForRef("refs/heads/master").canUpdate());
+  }
+
+  public void testUnblockLargerScope_Fails() {
+    grant(local, PUSH, anonymous, "refs/heads/master").setBlock();
+    grant(local, PUSH, devs, "refs/heads/*");
+
+    ProjectControl u = user(devs);
+    assertFalse("u can't push", u.controlForRef("refs/heads/master").canUpdate());
+  }
+
+  public void testUnblockInLocal_Fails() {
+    grant(parent, PUSH, anonymous, "refs/heads/*").setBlock();
+    grant(local, PUSH, fixers, "refs/heads/*");
+
+    ProjectControl f = user(fixers);
+    assertFalse("u can't push", f.controlForRef("refs/heads/master").canUpdate());
+  }
+
+  public void testUnblockInParentBlockInLocal() {
+    grant(parent, PUSH, anonymous, "refs/heads/*").setBlock();
+    grant(parent, PUSH, devs, "refs/heads/*");
+    grant(local, PUSH, devs, "refs/heads/*").setBlock();
+
+    ProjectControl d = user(devs);
+    assertFalse("u can't push", d.controlForRef("refs/heads/master").canUpdate());
+  }
+
+  public void testUnblockVisibilityByRegisteredUsers() {
+    grant(local, READ, anonymous, "refs/heads/*").setBlock();
+    grant(local, READ, registered, "refs/heads/*");
+
+    ProjectControl u = user(registered);
+    assertTrue("u can read", u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers());
+  }
+
+  public void testUnblockInLocalVisibilityByRegisteredUsers_Fails() {
+    grant(parent, READ, anonymous, "refs/heads/*").setBlock();
+    grant(local, READ, registered, "refs/heads/*");
+
+    ProjectControl u = user(registered);
+    assertFalse("u can't read", u.controlForRef("refs/heads/master").isVisibleByRegisteredUsers());
+  }
+
+  public void testUnblockForceEditTopicName() {
+    grant(local, EDIT_TOPIC_NAME, anonymous, "refs/heads/*").setBlock();
+    grant(local, EDIT_TOPIC_NAME, devs, "refs/heads/*").setForce(true);
+
+    ProjectControl u = user(devs);
+    assertTrue("u can edit topic name", u.controlForRef("refs/heads/master").canForceEditTopicName());
+  }
+
+  public void testUnblockInLocalForceEditTopicName_Fails() {
+    grant(parent, EDIT_TOPIC_NAME, anonymous, "refs/heads/*").setBlock();
+    grant(local, EDIT_TOPIC_NAME, devs, "refs/heads/*").setForce(true);
+
+    ProjectControl u = user(registered);
+    assertFalse("u can't edit topic name", u.controlForRef("refs/heads/master").canForceEditTopicName());
+  }
+
+  public void testUnblockRange() {
+    grant(local, LABEL + "Code-Review", -1, +1, anonymous, "refs/heads/*").setBlock();
+    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*");
+
+    ProjectControl u = user(devs);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertTrue("u can vote -2", range.contains(-2));
+    assertTrue("u can vote +2", range.contains(2));
+  }
+
+  public void testUnblockRangeOnMoreSpecificRef_Fails() {
+    grant(local, LABEL + "Code-Review", -1, +1, anonymous, "refs/heads/*").setBlock();
+    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/master");
+
+    ProjectControl u = user(devs);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertFalse("u can't vote -2", range.contains(-2));
+    assertFalse("u can't vote +2", range.contains(-2));
+  }
+
+  public void testUnblockRangeOnLargerScope_Fails() {
+    grant(local, LABEL + "Code-Review", -1, +1, anonymous, "refs/heads/master").setBlock();
+    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*");
+
+    ProjectControl u = user(devs);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertFalse("u can't vote -2", range.contains(-2));
+    assertFalse("u can't vote +2", range.contains(-2));
+  }
+
+  public void testUnblockInLocalRange_Fails() {
+    grant(parent, LABEL + "Code-Review", -1, 1, anonymous, "refs/heads/*").setBlock();
+    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*");
+
+    ProjectControl u = user(devs);
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
     assertFalse("u can't vote -2", range.contains(-2));
     assertFalse("u can't vote 2", range.contains(2));
   }

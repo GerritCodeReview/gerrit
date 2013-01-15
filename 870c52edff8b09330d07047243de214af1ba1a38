@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OTHafUL4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-15T18:53:00Z",
+      "side": 1,
+      "message": "c/.java//",
+      "revId": "870c52edff8b09330d07047243de214af1ba1a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTFak1Aw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-15T18:53:00Z",
+      "side": 1,
+      "message": "s/\u0027NEW_PATCHSET\u0027 of CommitValidators.java/CommitValidators.NEW_PATCHSET",
+      "revId": "870c52edff8b09330d07047243de214af1ba1a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTJalzAk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-15T18:53:00Z",
+      "side": 1,
+      "message": "rephrase:\nso that refs like",
+      "revId": "870c52edff8b09330d07047243de214af1ba1a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTPayQEs",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-15T18:53:00Z",
+      "side": 1,
+      "message": "rephrase:\nare matched and the commit message validation part in CommitValidators.onCommitReceived() is not skipped.",
+      "revId": "870c52edff8b09330d07047243de214af1ba1a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OTBaaXM4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-15T18:53:00Z",
+      "side": 1,
+      "message": "This looks OK but I don\u0027t see why do we need the non-capturing groups here? As I see we only use the NEW_PATCHSET in one place and there we don\u0027t use value of any group from this regular expression. We could make it more readable by removing the non-capturing markers:\n\n ^refs/changes(/[0-9][0-9])?(/[1-9][0-9]*){1,2}(/new)?$\n\nHowever, what about ReceiveCommits.NEW_PATCHSET?\nIf you are already looking at this regex could you try to refactor this code and have only one definition?",
+      "revId": "870c52edff8b09330d07047243de214af1ba1a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

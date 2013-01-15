@@ -58,6 +58,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import static com.google.common.base.Objects.firstNonNull;
+
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -202,9 +204,20 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   }
 
   private void loadDashboard() {
+    DashboardResource.HashMapTokenizer tokenizer =
+        new DashboardResource.HashMapTokenizer();
+      Change change = detail.getChange();
+    tokenizer.put("branch", change.getDest().getShortName());
+    tokenizer.put("change.id", Integer.toString(change.getId().get()));
+    tokenizer.put("change.key", change.getKey().get());
+    tokenizer.put("project",change.getDest().getParentKey().toString());
+    tokenizer.put("ref", change.getDest().get());
+    tokenizer.put("subject", change.getSubject());
+    tokenizer.put("topic", firstNonNull(change.getTopic(), ""));
+
     GetDashboard getDashboard = dashboardProvider.get();
     DashboardResource resource = DashboardResource.projectTyped(
-        control.getProjectControl(), Project.DashboardType.CHANGE);
+        control.getProjectControl(), Project.DashboardType.CHANGE, tokenizer);
     try {
       DashboardInfo info = getDashboard.apply(resource);
       detail.setDashboardTitle(info.title);

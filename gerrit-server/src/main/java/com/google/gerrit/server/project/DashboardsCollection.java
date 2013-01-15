@@ -50,10 +50,14 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DashboardsCollection implements
     ChildCollection<ProjectResource, DashboardResource>,
     AcceptsCreate<ProjectResource>{
+  private static final Pattern TOKEN_RE = Pattern.compile("[$][{]([^}]*)[}]");
+
   private final GitRepositoryManager gitManager;
   private final DynamicMap<RestView<DashboardResource>> views;
   private final Provider<ListDashboards> list;
@@ -89,10 +93,16 @@ public class DashboardsCollection implements
   @Override
   public DashboardResource parse(ProjectResource parent, String id)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
+    return parse(parent, id, null);
+  }
+
+  public DashboardResource parse(ProjectResource parent, String id,
+      DashboardResource.Tokenizer tokenizer)
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
     ProjectControl myCtl = parent.getControl();
     Project.DashboardType type = Project.DashboardType.fromId(id);
     if (type != null) {
-      return DashboardResource.projectTyped(myCtl, type);
+      return DashboardResource.projectTyped(myCtl, type, tokenizer);
     }
 
     List<String> parts = Lists.newArrayList(
@@ -107,7 +117,7 @@ public class DashboardsCollection implements
     Set<Project.NameKey> seen = Sets.newHashSet(ctl.getProject().getNameKey());
     for (;;) {
       try {
-        return parse(ctl, ref, path, myCtl);
+        return parse(ctl, ref, path, myCtl, tokenizer);
       } catch (AmbiguousObjectException e) {
         throw new ResourceNotFoundException(id);
       } catch (IncorrectObjectTypeException e) {
@@ -124,7 +134,7 @@ public class DashboardsCollection implements
   }
 
   private DashboardResource parse(ProjectControl ctl, String ref, String path,
-      ProjectControl myCtl)
+      ProjectControl myCtl, DashboardResource.Tokenizer tokenizer)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
           IncorrectObjectTypeException, ConfigInvalidException {
     String id = ref + ":" + path;
@@ -148,7 +158,7 @@ public class DashboardsCollection implements
         throw new ResourceNotFoundException(id);
       }
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
-      return new DashboardResource(myCtl, ref, path, cfg);
+      return new DashboardResource(myCtl, ref, path, cfg, null, tokenizer);
     } finally {
       git.close();
     }
@@ -160,8 +170,8 @@ public class DashboardsCollection implements
   }
 
   static DashboardInfo parse(Project definingProject, String refName,
-      String path, Config config, String project,
-      Set<Project.DashboardType> setTypes)
+      String path, Config config, DashboardResource.Tokenizer tokenizer,
+      String project, Set<Project.DashboardType> setTypes)
       throws UnsupportedEncodingException {
     DashboardInfo info = new DashboardInfo(refName, path);
     info.project = project;
@@ -188,6 +198,7 @@ public class DashboardsCollection implements
       Section s = new Section();
       s.name = name;
       s.query = config.getString("section", name, "query");
+      s.query = tokenize(s.query, tokenizer);
       u.put(s.name, replace(project, s.query));
       info.sections.add(s);
     }
@@ -195,6 +206,23 @@ public class DashboardsCollection implements
     info.url = u.toString().replace("%3A", ":");
 
     return info;
+  }
+
+  private static String tokenize(String query, DashboardResource.Tokenizer tokenizer) {
+    if (tokenizer == null) {
+      return query;
+    }
+
+    Matcher m = TOKEN_RE.matcher(query);
+    StringBuffer newQuery = new StringBuffer();
+    while (m.find()) {
+      String replacement = tokenizer.tokenize(m.group(1));
+      if (replacement != null) {
+        m.appendReplacement(newQuery, replacement);
+      }
+    }
+    m.appendTail(newQuery);
+    return newQuery.toString();
   }
 
   private static String replace(String project, String query) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWMpUo.0",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-16T09:13:25Z",
+      "side": 1,
+      "message": "Under what conditions can it fail with an exception other than SystemExit?",
+      "revId": "165861103e7c2f251fe9c4a182f52cc737e3bd7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

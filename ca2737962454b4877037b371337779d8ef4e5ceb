@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OWckLES0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2013-01-16T02:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OTpQBRBE",
+      "revId": "ca2737962454b4877037b371337779d8ef4e5ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OTlQATAw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "OWYkBGRE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2013-01-16T02:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OTlQATAw",
+      "revId": "ca2737962454b4877037b371337779d8ef4e5ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OTrQEQCE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-01-15T14:32:55Z",
       "side": 1,
       "message": "getWatchers",
+      "revId": "ca2737962454b4877037b371337779d8ef4e5ceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWekO1T4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2013-01-16T02:55:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OTrQEQCE",
       "revId": "ca2737962454b4877037b371337779d8ef4e5ceb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

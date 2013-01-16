@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LinkMenuBar extends Composite {
+public class LinkMenuBar extends Composite implements ScreenLoadHandler {
   private final FlowPanel body;
 
   public LinkMenuBar() {
@@ -29,6 +29,7 @@ public class LinkMenuBar extends Composite {
     initWidget(body);
     setStyleName(Gerrit.RESOURCES.css().linkMenuBar());
     Roles.getMenubarRole().set(getElement());
+    Gerrit.EVENT_BUS.addHandler(ScreenLoadEvent.TYPE, this);
   }
 
   public void addItem(final String text, final Command imp) {
@@ -65,5 +66,8 @@ public class LinkMenuBar extends Composite {
       p.addStyleName(Gerrit.RESOURCES.css().linkMenuItemNotLast());
     }
     body.add(i);
+  }
+
+  public void onScreenLoad(ScreenLoadEvent event) {
   }
 }

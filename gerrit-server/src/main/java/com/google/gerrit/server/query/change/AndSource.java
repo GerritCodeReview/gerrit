@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.Lists;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,10 +70,12 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
     return r;
   }
 
+  private final Provider<ReviewDb> db;
   private int cardinality = -1;
 
-  AndSource(final Collection<? extends Predicate<ChangeData>> that) {
+  AndSource(Provider<ReviewDb> db, Collection<? extends Predicate<ChangeData>> that) {
     super(sort(that));
+    this.db = db;
   }
 
   @Override
@@ -86,22 +91,30 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
       throw new OrmException("No ChangeDataSource: " + this);
     }
 
-    // TODO(spearce) This probably should be more lazy.
-    //
-    ArrayList<ChangeData> r = new ArrayList<ChangeData>();
+    ResultSet<ChangeData> scanner = source.read();
+    List<ChangeData> r = Lists.newArrayList();
     ChangeData last = null;
     boolean skipped = false;
-    for (ChangeData data : source.read()) {
-      if (match(data)) {
-        r.add(data);
-      } else {
-        skipped = true;
+    for (;;) {
+      List<ChangeData> buffer = buffer(scanner);
+      if (buffer.isEmpty()) {
+        break;
       }
-      last = data;
+      if (!source.hasChange()) {
+        ChangeData.ensureChangeLoaded(db, buffer);
+      }
+      for (ChangeData data : buffer) {
+        if (match(data)) {
+          r.add(data);
+        } else {
+          skipped = true;
+        }
+        last = data;
+      }
     }
 
     if (skipped && last != null && source instanceof Paginated) {
-      // If we our source is a paginated source and we skipped at
+      // If our source is a paginated source and we skipped at
       // least one of its results, we may not have filled the full
       // limit the caller wants.  Restart the source and continue.
       //
@@ -110,18 +123,41 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
         ChangeData lastBeforeRestart = last;
         skipped = false;
         last = null;
-        for (ChangeData data : p.restart(lastBeforeRestart)) {
-          if (match(data)) {
-            r.add(data);
-          } else {
-            skipped = true;
+        scanner = p.restart(lastBeforeRestart);
+        for (;;) {
+          List<ChangeData> buffer = buffer(scanner);
+          if (buffer.isEmpty()) {
+            break;
           }
-          last = data;
+          if (!source.hasChange()) {
+            ChangeData.ensureChangeLoaded(db, buffer);
+          }
+          for (ChangeData data : buffer) {
+            if (match(data)) {
+              r.add(data);
+            } else {
+              skipped = true;
+            }
+            last = data;
+          }
         }
       }
     }
 
     return new ListResultSet<ChangeData>(r);
+  }
+
+  private static final int BUFFER_SIZE = 50;
+
+  private static List<ChangeData> buffer(ResultSet<ChangeData> scanner) {
+    List<ChangeData> buffer = Lists.newArrayListWithCapacity(BUFFER_SIZE);
+    for (ChangeData data : scanner) {
+      buffer.add(data);
+      if (buffer.size() == BUFFER_SIZE) {
+        break;
+      }
+    }
+    return buffer;
   }
 
   private ChangeDataSource source() {

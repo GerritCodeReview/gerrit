@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -36,6 +38,7 @@ import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +66,17 @@ public class ListMembers implements RestReadView<GroupResource> {
       Exception {
     final Map<Account.Id, MemberInfo> members =
         getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());
-    return Lists.newArrayList(members.values());
+    final List<MemberInfo> memberInfos = Lists.newArrayList(members.values());
+    Collections.sort(memberInfos, new Comparator<MemberInfo>() {
+      @Override
+      public int compare(MemberInfo a, MemberInfo b) {
+        return ComparisonChain.start()
+            .compare(a.fullName, b.fullName, Ordering.natural().nullsFirst())
+            .compare(a.preferredEmail, b.preferredEmail, Ordering.natural().nullsFirst())
+            .compare(a.id, b.id, Ordering.natural().nullsFirst()).result();
+      }
+    });
+    return memberInfos;
   }
 
   private Map<Account.Id, MemberInfo> getMembers(

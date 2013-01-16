@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "OWAo.u44",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-16T15:12:59Z",
+      "side": 1,
+      "message": "yes . we find a good reason of do not refactor ReceiveCommits.NEW_PATCHSET now :)",
+      "parentUuid": "OWqhd.xQ",
+      "revId": "344b3313bae7b7585ab92aa9cabad9d43eec0be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OWuhX8.4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 7
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "do you mean keep ReceiveCommits.NEW_PATCHSET without touch and remove this NEW_PATCHSET and line 170?\nthis is a good idea to check the  change-id anyway.",
       "parentUuid": "OWuhX8.4",
+      "revId": "344b3313bae7b7585ab92aa9cabad9d43eec0be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWGpD9xI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-16T15:12:59Z",
+      "side": 1,
+      "message": "\"Why should it check the ref?..... seems wrong\"\n\nsounds reasonable! it is strange for me too that it want just check the presence of the change-id only for those new changes and patchset  which  need review and can be recognized by \nrefs  : \n\n refs/for\n refs/publish\n refs/drafts\n refs/changes\n\n------------------------------\n\n\"My proposal: remove the NEW_PATCH set regex and remove the if-check at the line 170 completely.\"\n\nhow about let it be there before we make sure we need not these logic, at least it is not this patch\u0027s objective and we can carry them out in another feature",
+      "parentUuid": "OZB7xrSU",
       "revId": "344b3313bae7b7585ab92aa9cabad9d43eec0be7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

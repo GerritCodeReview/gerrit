@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OaBrxvSU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M63dCUKk",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M61dFTK4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-13T13:59:33Z",
       "side": 1,
       "message": "nit: unused import",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OaDr2gR4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M61dFTK4",
       "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "OaFr7NQU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M6zc42D8",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M65cNJKE",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-12-13T13:59:33Z",
       "side": 1,
       "message": "nit: all newly added imports are unused",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OaJorDYU",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M65cNJKE",
       "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "OaDpIQV8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M69cHnHo",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M6-cMoKE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-12-13T13:59:33Z",
       "side": 1,
       "message": "nit: this import is now unused",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OaFoSVV0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M6-cMoKE",
       "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "OaHoXGUw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M6xci9AY",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M6xc71D4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2012-12-13T13:59:33Z",
       "side": 1,
       "message": "Missing \u0027);\u0027 at the end of the line, looks like it was removed accidentally?",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OaDodoW4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M6xc71D4",
       "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "OaFpN9W0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Move it to the next change where it is used.",
+      "parentUuid": "M6zcf.MU",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M69d.vNY",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2012-12-13T13:59:33Z",
       "side": 1,
       "message": "I think this would be easier to understand if you would combine the last two line into a single line:\n\n if (Project.DashboardType.fromId(id) !\u003d null) {\n\nI was first confused why you need to re-set the type.",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OaBpDfUU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M69d.vNY",
       "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "OaLoo0Yg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListDashboards.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M6-eDwNU",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M6xdpFBs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListDashboards.java",
         "patchSetId": 1
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "OaPoiSaQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListDashboards.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "I am not sure that I understand everything here enough to verify all those corner cases to ensure that it is logically correct to do that.  I will skip that for now.",
+      "parentUuid": "M6xdpFBs",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M6zdmGEo",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetTypedDashboard.java",
         "patchSetId": 1
@@ -217,6 +433,24 @@
       "writtenOn": "2012-12-13T13:59:33Z",
       "side": 1,
       "message": "nit: unused import",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OaNolha8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetTypedDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T23:29:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M6zdmGEo",
       "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

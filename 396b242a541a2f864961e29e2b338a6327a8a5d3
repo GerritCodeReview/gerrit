@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWkj2-.w",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-16T15:02:14Z",
+      "side": 1,
+      "message": "Didn\u0027t you agree (in your answer in PS7) to remove this if condition?",
+      "revId": "396b242a541a2f864961e29e2b338a6327a8a5d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

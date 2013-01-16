@@ -15,26 +15,37 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.group.MembersCollection.MemberInfo;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.kohsuke.args4j.Option;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class ListMembers implements RestReadView<GroupResource> {
   private final GroupCache groupCache;
   private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountCache accountCache;
+
+  @Option(name = "--recursive", usage = "to resolve included groups recursively")
+  private boolean recursive;
 
   @Inject
   ListMembers(final GroupCache groupCache,
@@ -46,22 +57,42 @@ public class ListMembers implements RestReadView<GroupResource> {
   }
 
   @Override
-  public List<MemberInfo> apply(final GroupResource resource) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
-    final List<MemberInfo> members = Lists.newArrayList();
+  public List<MemberInfo> apply(final GroupResource resource)
+      throws AuthException, BadRequestException, ResourceConflictException,
+      Exception {
+    return Lists.newLinkedList(getMembers(resource.getGroupUUID(), recursive,
+        new HashSet<AccountGroup.UUID>()).values());
+  }
 
-    final AccountGroup group =
-        groupCache.get(resource.getGroupUUID());
+  private Map<Account.Id, MemberInfo> getMembers(
+      final AccountGroup.UUID groupUUID, final boolean recursive,
+      final HashSet<AccountGroup.UUID> seenGroups) throws OrmException,
+      NoSuchGroupException {
+    seenGroups.add(groupUUID);
+
+    final Map<Account.Id, MemberInfo> members = Maps.newHashMap();
+    final AccountGroup group = groupCache.get(groupUUID);
     final GroupDetail groupDetail =
         groupDetailFactory.create(group.getId()).call();
 
     if (groupDetail.members != null) {
       for (final AccountGroupMember member : groupDetail.members) {
-        final Account account = accountCache.get(member.getAccountId()).getAccount();
-        members.add(MembersCollection.parse(account));
+        final Account account =
+            accountCache.get(member.getAccountId()).getAccount();
+        members.put(account.getId(), MembersCollection.parse(account));
       }
     }
 
+    if (recursive) {
+      if (groupDetail.includes != null) {
+        for (final AccountGroupIncludeByUuid includedGroup : groupDetail.includes) {
+          if (!seenGroups.contains(includedGroup.getIncludeUUID())) {
+            members.putAll(getMembers(includedGroup.getIncludeUUID(),
+                recursive, seenGroups));
+          }
+        }
+      }
+    }
     return members;
   }
 }

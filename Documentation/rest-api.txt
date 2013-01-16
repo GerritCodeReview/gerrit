@@ -331,6 +331,45 @@ Lists the members of a group.
 ]
 ----
 
+To resolve the included groups of a group recursively and to list all
+members the parameter `recursive` can be set.
+
+----
+  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/?recursive HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "Jane Roe",
+      "id": "1000097",
+      "account_id": 1000097,
+      "preferred_email": "jane.roe@example.com",
+      "user_name": "jane"
+    },
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "John Doe",
+      "id": "1000096",
+      "account_id": 1000096,
+      "preferred_email": "john.doe@example.com",
+      "user_name": "doe"
+    },
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "Richard Roe",
+      "id": "1000098",
+      "account_id": 1000098,
+      "preferred_email": "richard.roe@example.com",
+      "user_name": "richard"
+    }
+  ]
+----
+
 [[included-groups]]
 /groups/*/groups/ (List Included Groups)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

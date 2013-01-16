@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWAqaO84",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-16T09:16:22Z",
+      "side": 1,
+      "message": "I don\u0027t see `plink` getting set anywhere, so won\u0027t this check always go into the else condition and thus always run with ssh?",
+      "revId": "6462aa0ed80d5867ad00bc57be907bbd1212c28b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

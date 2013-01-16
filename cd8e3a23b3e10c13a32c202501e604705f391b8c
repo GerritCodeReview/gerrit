@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWIoiq1U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AndSource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-01-16T19:14:33Z",
+      "side": 1,
+      "message": "I think you can reduce the logic change by adding a single method that does the buffered read:\n\n  private Iterable\u003cChangeData\u003e buffer(\n      final ChangeDataSource source, ResultSet\u003cChangeData\u003e scanner) {\n    return FluentIterable\n        .from(Iterables.partition(scanner, 50))\n        .transformAndConcat(new Function\u003cList\u003cChangeData\u003e, List\u003cChangeData\u003e\u003e() {\n          @Override\n          public List\u003cChangeData\u003e apply(List\u003cChangeData\u003e buffer) {\n            if (!source.hasChange()) {\n              ChangeData.ensureChangeLoaded(db, buffer);\n            }\n            return buffer;\n          }\n        });\n  }",
+      "revId": "cd8e3a23b3e10c13a32c202501e604705f391b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

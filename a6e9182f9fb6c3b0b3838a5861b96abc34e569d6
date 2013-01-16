@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "OZP4LISw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-01-16T17:23:43Z",
+      "side": 1,
+      "message": "Dave is right. Use AbstractIterator.",
+      "parentUuid": "OWIpw62U",
+      "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OZJ4E3SE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 2

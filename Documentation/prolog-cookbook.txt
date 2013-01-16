@@ -324,6 +324,9 @@ On the other hand, Prolog based submit rules get a limited amount of facts about
 the change exposed to them. Gerrit plugins get full access to Gerrit internals
 and can potentially check more things than Prolog based rules.
 
+From version 2.6 Gerrit plugins can contribute Prolog predicates. This way, we
+can make use of the plugin provided predicates when writing Prolog based rules.
+
 Examples - Submit Rule
 ----------------------
 The following examples should serve as a cookbook for developing own submit rules.

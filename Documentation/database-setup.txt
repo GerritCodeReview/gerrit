@@ -2,20 +2,21 @@
 Database Setup
 --------------
 
+During the init phase of Gerrit you will need to specify which database to use.
+
 [[createdb_h2]]
 H2
 ~~
 
-During the init phase of Gerrit you will need to specify which database to use.
 If you choose H2, Gerrit will automatically set up the embedded H2 database as
-backend so no set up in advance is necessary.  Also, no additional configuration is
-necessary.  Using the embedded H2 database is the easiest way to get a Gerrit
+backend so no set up or configuration is necessary.
+
+Using the embedded H2 database is the easiest way to get a Gerrit
 site up and running, making it ideal for proof of concepts or small team
 servers.  On the flip side, H2 is not the recommended option for large
 corporate installations. This is because there is no easy way to interact
 with the database while Gerrit is offline, it's not easy to backup the data,
 and it's not possible to set up H2 in a load balanced/hotswap configuration.
-
 
 If this option interests you, you might want to consider link:install-quick.html[the quick guide].
 

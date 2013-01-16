@@ -24,7 +24,7 @@ import com.google.inject.Provider;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
-class RegexBranchPredicate extends OperatorPredicate<ChangeData> {
+public class RegexBranchPredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
   private final RunAutomaton pattern;
 

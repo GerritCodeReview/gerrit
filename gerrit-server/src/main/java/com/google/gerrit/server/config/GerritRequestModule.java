@@ -32,6 +32,7 @@ import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.mail.DirectPushedSender;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RebasedPatchSetSender;
@@ -72,6 +73,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(CommitMessageEditedSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(DeleteDraftPatchSet.Factory.class);
+    factory(DirectPushedSender.Factory.class);
     factory(PublishDraft.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
     factory(RebasedPatchSetSender.Factory.class);

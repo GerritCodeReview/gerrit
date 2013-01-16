@@ -111,7 +111,7 @@ class DashboardsCollection implements
       } catch (ConfigInvalidException e) {
         throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
-        throw new ResourceNotFoundException(id);
+        continue;
       }
     }
     throw new ResourceNotFoundException(id);

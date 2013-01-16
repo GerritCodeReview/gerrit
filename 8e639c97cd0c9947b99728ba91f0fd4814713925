@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWmh2Y4Y",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-16T12:58:35Z",
+      "side": 1,
+      "message": "Could you explain a bit more *why* are you doing this",
+      "revId": "8e639c97cd0c9947b99728ba91f0fd4814713925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

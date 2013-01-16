@@ -375,8 +375,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       }
     }
 
-    ProjectState state = projectState;
-    while (state != null) {
+    for (ProjectState state : projectState.tree()) {
       for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
         if (nc.isNotify(type)) {
           try {
@@ -389,7 +388,6 @@ public abstract class ChangeEmail extends NotificationEmail {
           }
         }
       }
-      state = state.getParentState();
     }
 
     return matching;

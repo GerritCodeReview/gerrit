@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWYlauRg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-16T18:18:55Z",
+      "side": 1,
+      "message": "[optional] since this pattern occurs a few times, should it maybe become an own method in ProjectState (getParent or getFirstParent)?",
+      "revId": "75082a080ae2f81d59b830817e35839bb5496343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWelX9e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-16T18:18:55Z",
+      "side": 1,
+      "message": "s/Starts from the immediate parent of this project/Starts from this project",
+      "revId": "75082a080ae2f81d59b830817e35839bb5496343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

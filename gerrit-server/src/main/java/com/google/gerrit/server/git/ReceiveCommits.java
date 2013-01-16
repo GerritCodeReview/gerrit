@@ -135,7 +135,7 @@ public class ReceiveCommits {
   private static final Logger log =
       LoggerFactory.getLogger(ReceiveCommits.class);
 
-  private static final Pattern NEW_PATCHSET =
+  public static final Pattern NEW_PATCHSET =
       Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");

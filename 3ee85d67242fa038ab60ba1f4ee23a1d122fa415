@@ -16,6 +16,24 @@
       "revId": "3ee85d67242fa038ab60ba1f4ee23a1d122fa415",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWEox06E",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-16T19:12:14Z",
+      "side": 1,
+      "message": "I agree with this some of the time.  I think that in general if admins are positioned to setup sane defaults for most people that they should.  This potentially prevents a lot of effort duplication (one admin versus every user).  However, naturally there are times when users will know better.  I think the latter case is an add on feature for the future when we have better user customizations for dashboards in general.",
+      "parentUuid": "M63dwkP0",
+      "revId": "3ee85d67242fa038ab60ba1f4ee23a1d122fa415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

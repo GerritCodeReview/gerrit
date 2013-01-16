@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OWGr79wU",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/AvatarServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-16T01:42:04Z",
+      "side": 1,
+      "message": "1 year in either direction doesn\u0027t matter that much when copyright term is 70 or 90 years after the author\u0027s death.",
+      "parentUuid": "OS1cXrEs",
+      "revId": "6b8b40ce54b2dfad7230724099fd8a7ec96c88af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OS7crqIQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/avatar/AvatarProvider.java",
         "patchSetId": 3

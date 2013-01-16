@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWEpfE90",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-16T17:09:34Z",
+      "side": 1,
+      "message": "I\u0027d document the behavior in the case of cycles. Speaking of, don\u0027t you think this is something we\u0027d want to warn users about? Even if we don\u0027t do it directly, maybe at least log when a cycle is detected so an admin reviewing the logs can warn users?",
+      "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWAplG6s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-16T17:09:34Z",
+      "side": 1,
+      "message": "Optional: Guava\u0027s AbstractIterator may make this easier (though in this case it\u0027s simple enough it may not).",
+      "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

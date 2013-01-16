@@ -79,7 +79,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
         if (cmp != 0) {
           return cmp;
         }
-        return nullToEmpty(a.id).compareTo(nullToEmpty(b.name));
+        return nullToEmpty(a.id).compareTo(nullToEmpty(b.id));
       }
     });
     return included;

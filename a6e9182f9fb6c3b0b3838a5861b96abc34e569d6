@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "OWIpw62U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-16T17:14:06Z",
+      "side": 1,
+      "message": "I consider this a +1 to my comment since that\u0027s exactly how AbstractIterator works :)",
+      "parentUuid": "OZL4BmRA",
+      "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OZJ4E3SE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 2

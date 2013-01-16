@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWck90b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListIncludedGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-16T17:30:58Z",
+      "side": 1,
+      "message": "Shawn, one question about this. Is it new that the group owner can see included groups even if they are not visible? Sure it makes sense, but doesn\u0027t it mean that anyone who can see the group should also be able to see all included groups? I\u0027m asking because if group A contains group B and A is visible to me, but B not. Couldn\u0027t I create my own group C, add A and then see B?",
+      "revId": "6e6c5de54a6a36613f9ab18a076546a732028878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

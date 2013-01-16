@@ -21,6 +21,7 @@ import static com.google.gwt.http.client.RequestBuilder.PUT;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Request;
@@ -335,7 +336,7 @@ public class RestApi {
       req.setHeader("If-None-Match", ifNoneMatch);
     }
     req.setHeader("Accept", JSON_TYPE);
-    if (Gerrit.getAuthorization() != null) {
+    if (Gerrit.getConfig().getAuthType() != AuthType.HTTP_LDAP && Gerrit.getAuthorization() != null) {
       req.setHeader("Authorization", Gerrit.getAuthorization());
     }
     return req;

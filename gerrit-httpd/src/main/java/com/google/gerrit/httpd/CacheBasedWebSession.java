@@ -21,6 +21,7 @@ import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -96,6 +97,9 @@ public final class CacheBasedWebSession implements WebSession {
         okPaths.add(AccessPath.REST_API);
       } else {
         token = cookie;
+      }
+      if (authConfig.getAuthType() == AuthType.HTTP_LDAP) {
+        okPaths.add(AccessPath.REST_API);
       }
 
       if (token != null) {

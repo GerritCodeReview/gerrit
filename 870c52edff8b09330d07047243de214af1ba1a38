@@ -174,6 +174,24 @@
       "revId": "870c52edff8b09330d07047243de214af1ba1a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWugO0z4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-16T05:31:00Z",
+      "side": 1,
+      "message": "I find one case about \"why do we need the non-capturing groups here?\"\n\nrefer  Line 767 of ReceiveCommits:\n\nfinal Change.Id changeId \u003d Change.Id.parse(m.group(1));",
+      "parentUuid": "OWijxCyY",
+      "revId": "870c52edff8b09330d07047243de214af1ba1a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

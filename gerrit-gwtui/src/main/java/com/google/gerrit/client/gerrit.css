@@ -1235,6 +1235,12 @@ a:hover.downloadLink {
   color: grey;
 }
 
+.addBranch {
+  margin-top: 10px;
+  background-color: trimColor;
+  padding: 5px 5px 5px 5px;
+}
+
 .addSshKeyPanel {
   margin-top: 10px;
   background-color: trimColor;

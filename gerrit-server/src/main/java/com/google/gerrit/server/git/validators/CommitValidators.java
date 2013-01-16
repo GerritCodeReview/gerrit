@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -47,7 +48,6 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
@@ -56,9 +56,6 @@ public class CommitValidators {
       .getLogger(CommitValidators.class);
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
-
-  private static final Pattern NEW_PATCHSET = Pattern
-      .compile("^refs/changes/(?:[0-9][0-9])?(/[1-9][0-9]*){1,2}(?:/new)?$");
 
   public interface Factory {
     CommitValidators create(RefControl refControl, SshInfo sshInfo,
@@ -168,7 +165,8 @@ public class CommitValidators {
       final List<String> idList = receiveEvent.commit.getFooterLines(CHANGE_ID);
 
       if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
-          || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()) {
+          || ReceiveCommits.NEW_PATCHSET.matcher(
+              receiveEvent.command.getRefName()).matches()) {
         List<CommitValidationMessage> messages =
             new LinkedList<CommitValidationMessage>();
 

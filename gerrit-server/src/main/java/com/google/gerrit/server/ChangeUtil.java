@@ -41,6 +41,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
@@ -256,10 +257,16 @@ public class ChangeUtil {
       ps.setRevision(new RevId(revertCommit.name()));
 
       CommitReceivedEvent commitReceivedEvent =
-          new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-              revertCommit.getId(), ps.getRefName()), refControl
-              .getProjectControl().getProject(), refControl.getRefName(),
-              revertCommit, user);
+          new CommitReceivedEvent(//
+              new ReceiveCommand(//
+                  ObjectId.zeroId(),//
+                  revertCommit.getId(), //
+                  MagicBranch.NEW_PUBLISH_CHANGE
+                      + refControl.getProjectControl().getProject().getName()),//
+              refControl.getProjectControl().getProject(),//
+              refControl.getRefName(),//
+              revertCommit,//
+              user);
 
       try {
         commitValidators.validateForRevertCommits(commitReceivedEvent);
@@ -375,12 +382,16 @@ public class ChangeUtil {
 
       final PatchSetInfo info =
           patchSetInfoFactory.get(newCommit, newPatchSet.getId());
-
-      CommitReceivedEvent commitReceivedEvent =
-          new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-              newCommit.getId(), newPatchSet.getRefName()), refControl
-              .getProjectControl().getProject(), refControl.getRefName(),
-              newCommit, user);
+      final String refName = newPatchSet.getRefName();
+      CommitReceivedEvent commitReceivedEvent = new CommitReceivedEvent(//
+          new ReceiveCommand(//
+              ObjectId.zeroId(),//
+              newCommit.getId(), //
+              refName.substring(0, refName.lastIndexOf("/") + 1) + "new"), //
+          refControl.getProjectControl().getProject(), //
+          refControl.getRefName(),//
+          newCommit, //
+          user);
 
       try {
         commitValidators.validateForReceiveCommits(commitReceivedEvent);

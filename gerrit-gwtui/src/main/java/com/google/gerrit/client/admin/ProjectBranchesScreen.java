@@ -106,13 +106,13 @@ public class ProjectBranchesScreen extends ProjectScreen {
     super.onInitUI();
 
     addPanel = new FlowPanel();
-    addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
-    addPanel.setWidth("35em");
 
     final Grid addGrid = new Grid(2, 2);
+    addGrid.setStyleName(Gerrit.RESOURCES.css().addBranch());
+    final int texBoxLength = 50;
 
     nameTxtBox = new HintTextBox();
-    nameTxtBox.setVisibleLength(50);
+    nameTxtBox.setVisibleLength(texBoxLength);
     nameTxtBox.setHintText(Util.C.defaultBranchName());
     nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
@@ -126,7 +126,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
     addGrid.setWidget(0, 1, nameTxtBox);
 
     irevTxtBox = new HintTextBox();
-    irevTxtBox.setVisibleLength(50);
+    irevTxtBox.setVisibleLength(texBoxLength);
     irevTxtBox.setHintText(Util.C.defaultRevisionSpec());
     irevTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override

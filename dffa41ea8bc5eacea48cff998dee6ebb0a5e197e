@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWCoY330",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-16T03:55:31Z",
+      "side": 1,
+      "message": "The trick with create is you need to convert the String to the Account.Id here in create and embed it into the view instance you return to the caller. :-(",
+      "revId": "dffa41ea8bc5eacea48cff998dee6ebb0a5e197e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

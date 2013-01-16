@@ -16,6 +16,24 @@
       "revId": "b6cc121d3a96cee02a008dc5c0ec2e7be1e8f7d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWOoIh.Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-16T17:54:30Z",
+      "side": 1,
+      "message": "Dammit, that is a bug.",
+      "parentUuid": "OWQlv6b0",
+      "revId": "b6cc121d3a96cee02a008dc5c0ec2e7be1e8f7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

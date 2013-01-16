@@ -39,6 +39,9 @@ import json
 import re
 import subprocess
 
+ssh = 'ssh'
+sshPortFlag = '-p'
+
 class CheckCallError(OSError):
   """CheckCall() returned non-0."""
   def __init__(self, command, cwd, retcode, stdout, stderr=None):
@@ -55,7 +58,7 @@ def CheckCall(command, cwd=None):
   Works on python 2.4
   """
   try:
-    process = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE)
+    process = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     std_out, std_err = process.communicate()
   except OSError, e:
     raise CheckCallError(command, cwd, e.errno, None)
@@ -65,8 +68,8 @@ def CheckCall(command, cwd=None):
 
 def GsqlQuery(sql_query, server, port):
   """Runs a gerrit gsql query and returns the result"""
-  gsql_cmd = ['ssh', '-p', port, server, 'gerrit', 'gsql', '--format',
-              'JSON', '-c', sql_query]
+  gsql_cmd = [ssh, sshPortFlag, port, '-l', 'admin', server, 'gerrit',
+              'gsql', '--format', 'JSON', '-c', sql_query]
   try:
     (gsql_out, _gsql_stderr) = CheckCall(gsql_cmd)
   except CheckCallError, e:
@@ -119,7 +122,7 @@ def GetPatchId(revision):
   return patch_id_process.communicate(git_show_process.communicate()[0])[0]
 
 def SuExec(server, port, as_user, cmd):
-  suexec_cmd = ['ssh', '-l', "Gerrit Code Review", '-p', port, server,
+  suexec_cmd = [ssh, '-l', "Gerrit Code Review", sshPortFlag, port, server,
                 'suexec', '--as', as_user, '--', cmd]
   print 'running ' + ' '.join(suexec_cmd)
   CheckCall(suexec_cmd)
@@ -136,6 +139,8 @@ def DiffCommitMessages(commit1, commit2):
   return False
 
 def Main():
+  global ssh
+  global sshPortFlag
   server = 'localhost'
   usage = "%(prog)s <required options> [--server-port=PORT]"
   parser = argparse.ArgumentParser(usage=usage)
@@ -146,6 +151,7 @@ def Main():
   parser.add_argument("--server-port", dest="port", default='29418',
                       help="Port to connect to Gerrit's SSH daemon "
                            "[default: %(default)s]")
+  parser.add_argument("--plink", action="store_true")
 
   args = parser.parse_known_args()[0]
   try:
@@ -157,6 +163,11 @@ def Main():
   if args.patchset == 1:
     # Nothing to detect on first patchset
     exit(0)
+
+  if args.plink:
+    ssh = 'plink'
+    sshPortFlag = '-P'
+
   prev_revision = None
   prev_revision = FindPrevRev(changeId, args.patchset, server, args.port)
   if not prev_revision:
@@ -182,7 +193,7 @@ def Main():
     # commit message changed
     comment_msg = ("\'--message=New patchset patch-id matches previous patchset"
                    ", but commit message has changed.'")
-    comment_cmd = ['ssh', '-p', args.port, server, 'gerrit', 'approve',
+    comment_cmd = [ssh, sshPortFlag, args.port, server, 'gerrit', 'approve',
                    '--project', args.project, comment_msg, args.commit]
     CheckCall(comment_cmd)
     exit(0)

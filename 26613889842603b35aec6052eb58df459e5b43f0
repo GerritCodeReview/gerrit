@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWEqkMw0",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-16T09:21:54Z",
+      "side": 1,
+      "message": "Imports should be in alphabetical order.",
+      "revId": "26613889842603b35aec6052eb58df459e5b43f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWOqyR0s",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-16T09:21:54Z",
+      "side": 1,
+      "message": "This does not seem to be used any more.  Better to remove it?",
+      "revId": "26613889842603b35aec6052eb58df459e5b43f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWKqoT.E",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-16T09:21:54Z",
+      "side": 1,
+      "message": "Doesn\u0027t the regex need to be prefixed with `r`?",
+      "revId": "26613889842603b35aec6052eb58df459e5b43f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWIqliwk",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-16T09:21:54Z",
+      "side": 1,
+      "message": "Can this condition be removed, and the following 2 lines moved underneath the except at line 160?",
+      "revId": "26613889842603b35aec6052eb58df459e5b43f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

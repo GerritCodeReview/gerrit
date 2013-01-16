@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.common.base.Strings.nullToEmpty;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDetail;
@@ -35,6 +37,8 @@ import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -60,8 +64,25 @@ public class ListMembers implements RestReadView<GroupResource> {
   public List<MemberInfo> apply(final GroupResource resource)
       throws AuthException, BadRequestException, ResourceConflictException,
       Exception {
-    return Lists.newLinkedList(getMembers(resource.getGroupUUID(), recursive,
-        new HashSet<AccountGroup.UUID>()).values());
+    final List<MemberInfo> members =
+        Lists.newLinkedList(getMembers(resource.getGroupUUID(), recursive,
+            new HashSet<AccountGroup.UUID>()).values());
+    Collections.sort(members, new Comparator<MemberInfo>() {
+      @Override
+      public int compare(MemberInfo a, MemberInfo b) {
+        int cmp = nullToEmpty(a.fullName).compareTo(nullToEmpty(b.fullName));
+        if (cmp != 0) {
+          return cmp;
+        }
+        cmp = nullToEmpty(a.preferredEmail).compareTo(
+                nullToEmpty(b.preferredEmail));
+        if (cmp != 0) {
+          return cmp;
+        }
+        return nullToEmpty(a.id).compareTo(nullToEmpty(b.id));
+      }
+    });
+    return members;
   }
 
   private Map<Account.Id, MemberInfo> getMembers(

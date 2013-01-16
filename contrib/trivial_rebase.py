@@ -121,9 +121,10 @@ def GetPatchId(revision):
   git_show_process = subprocess.Popen(git_show_cmd, stdout=subprocess.PIPE)
   return patch_id_process.communicate(git_show_process.communicate()[0])[0]
 
-def SuExec(server, port, private_key, as_user, cmd):
-  suexec_cmd = ['ssh', '-l', "Gerrit Code Review", '-p', port, server, '-i',
-                private_key, 'suexec', '--as', as_user, '--', cmd]
+def SuExec(server, port, as_user, cmd):
+  suexec_cmd = ['ssh', '-l', "Gerrit Code Review", '-p', port, server,
+                'suexec', '--as', as_user, '--', cmd]
+  print 'running ' + ' '.join(suexec_cmd)
   CheckCall(suexec_cmd)
 
 def DiffCommitMessages(commit1, commit2):
@@ -145,8 +146,6 @@ def Main():
   parser.add_option("--project", help="Project path in Gerrit")
   parser.add_option("--commit", help="Git commit-ish for this patchset")
   parser.add_option("--patchset", type="int", help="The patchset number")
-  parser.add_option("--private-key-path", dest="private_key_path",
-                    help="Full path to Gerrit SSH daemon's private host key")
   parser.add_option("--server-port", dest="port", default='29418',
                     help="Port to connect to Gerrit's SSH daemon "
                          "[default: %default]")
@@ -214,8 +213,7 @@ def Main():
                           score, options.commit]
     email_addr = GetEmailFromAcctId(approval["account_id"], server,
                                     options.port)
-    SuExec(server, options.port, options.private_key_path, email_addr,
-           ' '.join(gerrit_approve_cmd))
+    SuExec(server, options.port, email_addr, ' '.join(gerrit_approve_cmd))
   exit(0)
 
 if __name__ == "__main__":

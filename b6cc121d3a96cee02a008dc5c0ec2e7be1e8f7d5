@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWQlv6b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-16T17:53:23Z",
+      "side": 1,
+      "message": "Is this correct? The parent of firstResult is marked as seen, if we start with firstResult wouldn\u0027t the iteration stop at its parent since it\u0027s already seen?",
+      "revId": "b6cc121d3a96cee02a008dc5c0ec2e7be1e8f7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

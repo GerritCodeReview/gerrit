@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "OWihqq60",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-01-16T09:27:58Z",
+      "side": 1,
+      "message": "It must parse all arguments. Otherwise, an exception is thrown. I just ignore most of them...",
+      "parentUuid": "OWOqyR0s",
+      "revId": "26613889842603b35aec6052eb58df459e5b43f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OWKqoT.E",
         "filename": "contrib/trivial_rebase.py",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "OWghv570",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-01-16T09:27:58Z",
+      "side": 1,
+      "message": "Both work for me. I\u0027ll change it.",
+      "parentUuid": "OWKqoT.E",
+      "revId": "26613889842603b35aec6052eb58df459e5b43f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OWIqliwk",
         "filename": "contrib/trivial_rebase.py",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2013-01-16T09:21:54Z",
       "side": 1,
       "message": "Can this condition be removed, and the following 2 lines moved underneath the except at line 160?",
+      "revId": "26613889842603b35aec6052eb58df459e5b43f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWmhko94",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-01-16T09:27:58Z",
+      "side": 1,
+      "message": "Makes sense :)",
+      "parentUuid": "OWIqliwk",
       "revId": "26613889842603b35aec6052eb58df459e5b43f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

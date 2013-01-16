@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWuhAkzM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-01-16T09:18:09Z",
+      "side": 1,
+      "message": "Does this not mean ReceiveCommits can accept pushes to refs/changes/32/5432/1 ?\n\nNot sure here.. Should ReceiveCommits accept replace requests that has PatchSet specified in the ref?",
+      "revId": "344b3313bae7b7585ab92aa9cabad9d43eec0be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "b46c9fb932498804e5ba2469720062870333e1d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWWlNxW4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-16T09:48:53Z",
+      "side": 1,
+      "message": "For the above block view is already null, in line 181 view is initialized with null and is not set when we reach this place in the above block.\n\nWhen we enter this block, view is already set to the ChildCollection. If the request is now a DELETE on a member of the ChildCollection, the RestResource is successfully parsed (since it exists) and the correct RestView to handle the delete request needs to be determined by the view method which is invoked below if view is null (line 232). If view is not changed in this block the while loop in line 206 would cause this block to be executed again. Since the path is now empty we would now get the RestReadView for listing the members of the ChildCollection (line 212). As result rsrc is set to a member RestResource while view is still pointing to the ChildCollection. Calling now view.apply(rsrc) (line 253) fails with a ClassCastException since the type of the resource is unexpected.",
+      "parentUuid": "OWIpaqxg",
+      "revId": "b46c9fb932498804e5ba2469720062870333e1d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "dffa41ea8bc5eacea48cff998dee6ebb0a5e197e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWWkS5V0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-16T04:05:20Z",
+      "side": 1,
+      "message": "Will it change anything? The problem is that the create method isn\u0027t invoked.",
+      "parentUuid": "OWCoY330",
+      "revId": "dffa41ea8bc5eacea48cff998dee6ebb0a5e197e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

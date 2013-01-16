@@ -52,7 +52,7 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @Override
   public Predicate<ChangeData> and(Collection<? extends Predicate<ChangeData>> l) {
-    return hasSource(l) ? new AndSource(l) : super.and(l);
+    return hasSource(l) ? new AndSource(dbProvider, l) : super.and(l);
   }
 
   @Override

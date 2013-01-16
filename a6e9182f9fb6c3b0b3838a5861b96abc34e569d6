@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OWAoQews",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-16T17:47:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWEpfE90",
+      "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OWAplG6s",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-16T17:09:34Z",
       "side": 1,
       "message": "Optional: Guava\u0027s AbstractIterator may make this easier (though in this case it\u0027s simple enough it may not).",
+      "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWGoVt-s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-16T17:47:26Z",
+      "side": 1,
+      "message": "I don\u0027t think it helps here. :-(",
+      "parentUuid": "OWAplG6s",
       "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "OWEoacy0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-16T17:47:26Z",
+      "side": 1,
+      "message": "No, using AbstractIterator makes the code worse. computeNext needs the current element. This isn\u0027t cleaner with AbstractIterator.",
+      "parentUuid": "OZP4LISw",
+      "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OZJ4E3SE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 2
@@ -100,6 +154,24 @@
       "writtenOn": "2013-01-16T17:10:39Z",
       "side": 1,
       "message": "nit: Iterables.skip(tree(), 1)",
+      "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWCoLv.Y",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-16T17:47:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OZJ4E3SE",
       "revId": "a6e9182f9fb6c3b0b3838a5861b96abc34e569d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

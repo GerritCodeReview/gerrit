@@ -347,7 +347,8 @@ regardless of the votes it has:
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Any-Label-Name', ok(_)))).
+  submit_rule(submit(W)) :-
+    W = label('Any-Label-Name', ok(_)).
 ====
 
 In this case we make no use of facts about the change. We don't need it as we are simply
@@ -365,7 +366,9 @@ every change submittable we want to enable voting in the standard
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Code-Review', ok(_)), label('Verified', ok(_)))).
+  submit_rule(submit(CR, V)) :-
+    CR = label('Code-Review', ok(_)),
+    V = label('Verified', ok(_)).
 ====
 
 Since for every change all label statuses are `'ok'` every change will be submittable.
@@ -380,7 +383,8 @@ votes they have.
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Any-Label-Name', reject(_)))).
+  submit_rule(submit(R)) :-
+    R = label('Any-Label-Name', reject(_)).
 ====
 
 Since for any change we return only one label with status `reject`, no change
@@ -396,13 +400,17 @@ In this example no change is submittable but here we show how to present 'Need
 [caption=""]
 ====
   % In the UI this will show: Need Any-Label-Name
-  submit_rule(submit(label('Any-Label-Name', need(_)))).
+  submit_rule(submit(N)) :-
+    N = label('Any-Label-Name', need(_)).
 
   % We could define more "need" labels by adding more rules
-  submit_rule(submit(label('Another-Label-Name', need(_)))).
+  submit_rule(submit(N)) :-
+    N = label('Another-Label-Name', need(_)).
 
   % or by providing more than one need label in the same rule
-  submit_rule(submit(label('X-Label-Name', need(_)), label('Y-Label-Name', need(_)))).
+  submit_rule(submit(NX, NY)) :-
+    NX = label('X-Label-Name', need(_)),
+    NY = label('Y-Label-Name', need(_)).
 ====
 
 In the UI this will show:
@@ -429,8 +437,11 @@ any of the previous `submit_rule(X)` solutions.
 .rules.pl
 [caption=""]
 ====
-  submit_rule(label('Some-Condition', need(_))).
-  submit_rule(label('Another-Condition', ok(_))).
+  submit_rule(submit(N)) :-
+    N = label('Some-Condition', need(_)).
+
+  submit_rule(submit(OK)) :-
+    OK = label('Another-Condition', ok(_)).
 ====
 
 The 'Need Some-Condition' will not be show in the UI because of the result of
@@ -441,8 +452,11 @@ The same is valid if the two rules are swapped:
 .rules.pl
 [caption=""]
 ====
-  submit_rule(label('Another-Condition', ok(_))).
-  submit_rule(label('Some-Condition', need(_))).
+  submit_rule(submit(OK)) :-
+    OK = label('Another-Condition', ok(_)).
+
+  submit_rule(submit(N)) :-
+    N = label('Some-Condition', need(_)).
 ====
 
 The result of the first rule will stop search for any further solutions.
@@ -459,7 +473,8 @@ submittable:
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
+  submit_rule(submit(Author)) :-
+    Author = label('Author-is-John-Doe', need(_)).
 ====
 
 This will show:
@@ -472,9 +487,12 @@ in the UI but no change will be submittable yet. Let's add another rule:
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
-  submit_rule(submit(label('Author-is-John-Doe', ok(_))))
-    :- gerrit:commit_author(_, 'John Doe', _).
+  submit_rule(submit(Author)) :-
+    Author = label('Author-is-John-Doe', need(_)).
+
+  submit_rule(submit(Author)) :-
+    gerrit:commit_author(_, 'John Doe', _),
+    Author = label('Author-is-John-Doe', ok(_)).
 ====
 
 In the second rule we return `ok` status for the `'Author-is-John-Doe'` label
@@ -490,9 +508,12 @@ Instead of checking by full name we could also check by the email address:
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
-  submit_rule(submit(label('Author-is-John-Doe', ok(_))))
-    :- gerrit:commit_author(_, _, 'john.doe@example.com').
+  submit_rule(submit(Author)) :-
+    Author = label('Author-is-John-Doe', need(_)).
+
+  submit_rule(submit(Author)) :-
+    gerrit:commit_author(_, _, 'john.doe@example.com'),
+    Author = label('Author-is-John-Doe', ok(_)).
 ====
 
 or by user id (assuming it is 1000000):
@@ -500,9 +521,12 @@ or by user id (assuming it is 1000000):
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
-  submit_rule(submit(label('Author-is-John-Doe', ok(_))))
-    :- gerrit:commit_author(user(1000000), _, _).
+  submit_rule(submit(Author)) :-
+    Author = label('Author-is-John-Doe', need(_)).
+
+  submit_rule(submit(Author)) :-
+    gerrit:commit_author(user(1000000), _, _),
+    Author = label('Author-is-John-Doe', ok(_)).
 ====
 
 or by a combination of these 3 attributes:
@@ -510,13 +534,16 @@ or by a combination of these 3 attributes:
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
-  submit_rule(submit(label('Author-is-John-Doe', ok(_))))
-    :- gerrit:commit_author(_, 'John Doe', 'john.doe@example.com').
+  submit_rule(submit(Author)) :-
+    Author = label('Author-is-John-Doe', need(_)).
+
+  submit_rule(submit(Author)) :-
+    gerrit:commit_author(_, 'John Doe', 'john.doe@example.com'),
+    Author = label('Author-is-John-Doe', ok(_)).
 ====
 
-Example 7: Make change submittable if commit message starts with "Trivial fix"
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example 7: Make change submittable if commit message starts with "Fix "
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Besides showing how to make use of the commit message text the purpose of this
 example is also to show how to match only a part of a string symbol. Similarly
 like commit author the commit message is provided as a string symbol which is
@@ -534,9 +561,12 @@ Let's implement both options:
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Commit-Message-starts-with-Trivial-Fix', need(_)))).
-  submit_rule(submit(label('Commit-Message-starts-with-Trivial-Fix', ok(_))))
-    :- gerrit:commit_message(M), name(M, L), starts_with(L, "Trivial Fix").
+  submit_rule(submit(Fix)) :-
+    Fix = label('Commit-Message-starts-with-Fix', need(_)).
+
+  submit_rule(submit(Fix)) :-
+    gerrit:commit_message(M), name(M, L), starts_with(L, "Fix "),
+    Fix = label('Commit-Message-starts-with-Fix', ok(_)).
 
   starts_with(L, []).
   starts_with([H|T1], [H|T2]) :- starts_with(T1, T2).
@@ -555,30 +585,74 @@ Using the `gerrit:commit_message_matches` predicate is probably more efficient:
 .rules.pl
 [caption=""]
 ====
-  submit_rule(submit(label('Commit-Message-starts-with-Trivial-Fix', need(_)))).
-  submit_rule(submit(label('Commit-Message-starts-with-Trivial-Fix', ok(_))))
-    :- gerrit:commit_message_matches('^Trivial Fix').
+  submit_rule(submit(Fix)) :-
+    Fix = label('Commit-Message-starts-with-Fix', need(_)).
+
+  submit_rule(submit(Fix)) :-
+    gerrit:commit_message_matches('^Fix '),
+    Fix = label('Commit-Message-starts-with-Fix', ok(_)).
 ====
 
-Reusing the default submit policy
----------------------------------
+The previous example could also be written so that it first checks if the commit
+message starts with 'Fix '. If true then it sets OK for that category and stops
+further backtracking by using the cut `!` operator:
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(Fix)) :-
+    gerrit:commit_message_matches('^Fix '),
+    Fix = label('Commit-Message-starts-with-Fix', ok(_)),
+    !.
+
+  % Message does not start with 'Fix ' so Fix is needed to submit
+  submit_rule(submit(Fix)) :-
+    Fix = label('Commit-Message-starts-with-Fix', need(_)).
+====
+
+The default submit policy
+-------------------------
 All examples until now concentrate on one particular aspect of change data.
 However, in real-life scenarios we would rather want to reuse Gerrit's default
-submit policy and extend/change it for our specific purpose. In other words, we
-would like to keep all the default policies (like the `Verified` category,
-vetoing change, etc...) and only extend/change an aspect of it. For example, we
-may want to disable the ability for change authors to approve their own changes
-but keep all other policies the same.
+submit policy and extend/change it for our specific purpose.  This could be
+done in one of the following ways:
 
+* understand how the default submit policy is implemented and use that as a
+  template for implementing custom submit rules,
+* invoke the default submit rule implementation and then perform further
+  actions on its return result.
+
+Default submit rule implementation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The default submit rule with the two default categories, `Code-Review` and
+`Verified`, can be implemented as:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(V, CR)) :-
+    gerrit:max_with_block(-2, 2, 'Code-Review', CR),
+    gerrit:max_with_block(-1, 1, 'Verified', V).
+====
+
+Once this implementation is understood it can be customized to implement
+project specific submit rules. Note, that this implementation hardcodes
+the two default categories. Introducing a new category in the database would
+require introducing the same category here or a `submit_filter` in a parent
+project would have to care about including the new category in the result of
+this `submit_rule`.  On the other side, this example is easy to read and
+understand.
+
+Reusing the default submit policy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To get results of Gerrits default submit policy we use the
-`gerrit:default_submit` predicate. This means that if we write a submit rule like:
+`gerrit:default_submit` predicate.  The `gerrit:default_submit(X)` includes all
+categories from the database.  This means that if we write a submit rule like:
 
 .rules.pl
 [caption=""]
 ====
   submit_rule(X) :- gerrit:default_submit(X).
 ====
-
 then this is equivalent to not using `rules.pl` at all. We just delegate to
 default logic. However, once we invoke the `gerrit:default_submit(X)` we can
 perform further actions on the return result `X` and apply our specific
@@ -592,7 +666,7 @@ logic. The following pattern illustrates this technique:
   project_specific_policy(R, S) :- ...
 ====
 
-The following examples build on top of the default submit policy.
+In the following examples both styles will be shown.
 
 Example 8: Make change submittable only if `Code-Review+2` is given by a non author
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -600,6 +674,8 @@ In this example we introduce a new label `Non-Author-Code-Review` and make it
 satisfied if there is at least one `Code-Review+2` from a non author. All other
 default policies like the `Verified` category and vetoing changes still apply.
 
+Reusing the `gerrit:default_submit`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 First, we invoke `gerrit:default_submit` to compute the result for the default
 submit policy and then add the `Non-Author-Code-Review` label to it.  The
 `Non-Author-Code-Review` label is added with status `ok` if such an approval
@@ -615,7 +691,8 @@ exists or with status `need` if it doesn't exist.
     S =.. [submit | R].
 
   add_non_author_approval(S1, S2) :-
-    gerrit:commit_author(A), gerrit:commit_label(label('Code-Review', 2), R),
+    gerrit:commit_author(A),
+    gerrit:commit_label(label('Code-Review', 2), R),
     R \= A, !,
     S2 = [label('Non-Author-Code-Review', ok(R)) | S1].
   add_non_author_approval(S1, [label('Non-Author-Code-Review', need(_)) | S1]).
@@ -638,6 +715,44 @@ is no non author `Code-Review+2`. The second rule will only be reached
 if the `cut` in the first rule is not reached and it only happens if a
 predicate before the `cut` fails.
 
+Don't use `gerrit:default_submit`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Let's implement the same submit rule the other way, without reusing the
+`gerrit:default_submit`:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(CR, V)) :-
+    base(CR, V),
+    CR = label(_, ok(Reviewer)),
+    gerrit:commit_author(Author),
+    Author \= Reviewer,
+    !.
+
+  submit_rule(submit(CR, V, N)) :-
+    base(CR, V),
+    N = label('Non-Author-Code-Review', need(_)).
+
+  base(CR, V) :-
+    gerrit:max_with_block(-2, 2, 'Code-Review', CR),
+    gerrit:max_with_block(-1, 1, 'Verified', V).
+====
+
+The latter implementation is probably easier to understand and the code looks
+cleaner. Note, however, that the latter implementation will always return the
+two standard categories only (`Code-Review` and `Verified`) even if a new
+category has beeen inserted into the database. To include the new category
+the `rules.pl` would need to be modified or a `submit_filter` in a parent
+project would have to care about including the new category in the result
+of this `submit_rule`.
+
+The former example, however, would include any newly added category as it
+invokes the `gerrit:default_submit` and then modifies its result.
+
+Which of these two behaviors is desired will always depend on how a particular
+Gerrit server is managed.
+
 Example 9: Remove the `Verified` category
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 A project has no build and test. It consists of only text files and needs only
@@ -645,6 +760,17 @@ code review.  We want to remove the `Verified` category from this project so
 that `Code-Review+2` is the only criteria for a change to become submittable.
 We also want the UI to not show the `Verified` category in the table with
 votes and on the voting screen.
+
+This is quite simple without reusing the 'gerrit:default_submit`:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(CR)) :-
+    gerrit:max_with_block(-2, 2, 'Code-Review', CR).
+====
+
+Implementing the same rule by reusing `gerrit:default_submit` is a bit more complex:
 
 .rules.pl
 [caption=""]
@@ -679,6 +805,27 @@ principle.  This means we want a combination of examples 7 and 8.
 The `remove_verified_category` and `add_non_author_approval` predicates are the
 same as defined in the previous two examples.
 
+Without reusing the `gerrit:default_submit` the same example may be implemented
+as:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(CR)) :-
+    base(CR),
+    CR = label(_, ok(Reviewer)),
+    gerrit:commit_author(Author),
+    Author \= Reviewer,
+    !.
+
+  submit_rule(submit(CR, N)) :-
+    base(CR),
+    N = label('Non-Author-Code-Review', need(_)).
+
+  base(CR) :-
+    gerrit:max_with_block(-2, 2, 'Code-Review', CR),
+====
+
 Example 11: Remove the `Verified` category from all projects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Example 9, implements `submit_rule` that removes the `Verified` category from
@@ -700,7 +847,32 @@ we have to do that in the `rules.pl` of the `All-Projects` project.
   remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
 ====
 
-Example 12: 1+1=2 Code-Review
+Example 12: On release branches require DrNo in addition to project rules
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A new category 'DrNo' is added to the database and is required for release
+branches. To mark a branch as a release branch we use `drno('refs/heads/branch')`.
+
+.rules.pl
+[caption=""]
+====
+  drno('refs/heads/master').
+  drno('refs/heads/stable-2.3').
+  drno('refs/heads/stable-2.4').
+  drno('refs/heads/stable-2.5').
+  drno('refs/heads/stable-2.5').
+
+  submit_filter(In, Out) :-
+    gerrit:change_branch(Branch),
+    drno(Branch),
+    !,
+    In =.. [submit | I],
+    gerrit:max_with_block(-1, 1, 'DrNo', DrNo),
+    Out =.. [submit, DrNo | I].
+
+  submit_filter(In, Out) :- In = Out.
+====
+
+Example 13: 1+1=2 Code-Review
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 In this example we introduce accumulative voting to determine if a change is
 submittable or not. We modify the standard Code-Review to be accumulative, and make the
@@ -736,7 +908,34 @@ gerrit:remove_label is a built-in helper that is implemented similarly to the
     S =.. [submit | Labels].
 ====
 
-Example 13: Master and apprentice
+Implementing the same example without using `gerrit:default_submit`:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(CR, V)) :-
+    sum(2, 'Code-Review', CR),
+    gerrit:max_with_block(-1, 1, 'Verified', V).
+
+  % Sum the votes in a category. Uses a helper function score/2
+  % to select out only the score values the given category.
+  sum(VotesNeeded, Category, label(Category, ok(_))) :-
+    findall(Score, score(Category, Score), All),
+    sum_list(All, Sum),
+    Sum >= VotesNeeded,
+    !.
+  sum(VotesNeeded, Category, label(Category, need(VotesNeeded))).
+
+  score(Category, Score) :-
+    gerrit:commit_label(label(Category, Score), User).
+
+  % Simple Prolog routine to sum a list of integers.
+  sum_list(List, Sum)   :- sum_list(List, 0, Sum).
+  sum_list([X|T], Y, S) :- Z is X + Y, sum_list(T, Z, S).
+  sum_list([], S, S).
+====
+
+Example 14: Master and apprentice
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The master and apprentice example allow you to specify a user (the `master`)
 that must approve all changes done by another user (the `apprentice`).
@@ -773,7 +972,7 @@ review by the associated `master`.
   add_apprentice_master(S, S).
 ====
 
-Example 14: Only allow Author to submit change
+Example 15: Only allow Author to submit change
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This example adds a new needed category `Patchset-Author` for any user that is
 not the author of the patch. This effectively blocks all users except the author

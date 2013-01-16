@@ -21,7 +21,7 @@ import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class BranchPredicate extends OperatorPredicate<ChangeData> {
+public class BranchPredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
 
   BranchPredicate(Provider<ReviewDb> dbProvider, String branch) {

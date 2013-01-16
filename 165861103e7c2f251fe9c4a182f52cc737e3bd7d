@@ -16,6 +16,24 @@
       "revId": "165861103e7c2f251fe9c4a182f52cc737e3bd7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWmhNw24",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-01-16T09:16:02Z",
+      "side": 1,
+      "message": "If the commit is empty. GetPatchId returns None IIRC. Isn\u0027t that clear from the commit message?",
+      "parentUuid": "OWMpUo.0",
+      "revId": "165861103e7c2f251fe9c4a182f52cc737e3bd7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

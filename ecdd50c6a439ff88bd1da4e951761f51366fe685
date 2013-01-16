@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OWIq.KwE",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-16T10:58:41Z",
+      "side": 1,
+      "message": "Why is `approve` changed to `review`?\n\n\nIf this change is needed it should be mentioned in the commit message, or done in a separate commit.",
+      "revId": "ecdd50c6a439ff88bd1da4e951761f51366fe685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWKrBb4E",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-16T10:58:41Z",
+      "side": 1,
+      "message": "`private_key` parameter was removed from the `SuExec` method, but is still being passed here.",
+      "revId": "ecdd50c6a439ff88bd1da4e951761f51366fe685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

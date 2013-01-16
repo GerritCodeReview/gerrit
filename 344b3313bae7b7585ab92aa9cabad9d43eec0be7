@@ -16,6 +16,41 @@
       "revId": "344b3313bae7b7585ab92aa9cabad9d43eec0be7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWqhd.xQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-16T10:19:56Z",
+      "side": 1,
+      "message": "I think Gustaf is right. We shouldn\u0027t extend the set of matched refs which ReceiveCommits will accept.\nSo, ReceiveCommits.NEW_PATCHSET probably shouldn\u0027t be touched by this change.",
+      "parentUuid": "OWuhAkzM",
+      "revId": "344b3313bae7b7585ab92aa9cabad9d43eec0be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OWuhX8.4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-16T10:19:56Z",
+      "side": 1,
+      "message": "The more I look at the code in this class I wonder if we need this regex at all?\n\nIt is only used from the ChangeIdValidator.onCommitReceived. The purpose of the ChangeIdValidator is to check the presence of the change-id in the commit message. Why should it check the ref?\nPut it other way: if ChangeIdValidator.onCommitReceived is invoked for a commit without change-id in the commit message and for refs/heads/master then it will not throw the CommitValidationException because NEW_PATCH set will not match this ref. This seems wrong.\n\nMy proposal: remove the NEW_PATCH set regex and remove the if-check at the line 170 completely.",
+      "revId": "344b3313bae7b7585ab92aa9cabad9d43eec0be7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

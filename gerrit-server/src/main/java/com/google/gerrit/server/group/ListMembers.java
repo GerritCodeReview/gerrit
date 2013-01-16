@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.group.MembersCollection.MemberInfo;
 import com.google.inject.Inject;
@@ -33,17 +32,14 @@ import com.google.inject.Inject;
 import java.util.List;
 
 public class ListMembers implements RestReadView<GroupResource> {
-  private final GroupControl.Factory groupControlFactory;
   private final GroupCache groupCache;
   private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountCache accountCache;
 
   @Inject
-  ListMembers(final GroupControl.Factory groupControlFactory,
-      final GroupCache groupCache,
+  ListMembers(final GroupCache groupCache,
       final GroupDetailFactory.Factory groupDetailFactory,
       final AccountCache accountCache) {
-    this.groupControlFactory = groupControlFactory;
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
     this.accountCache = accountCache;
@@ -54,10 +50,8 @@ public class ListMembers implements RestReadView<GroupResource> {
       BadRequestException, ResourceConflictException, Exception {
     final List<MemberInfo> members = Lists.newArrayList();
 
-    final GroupControl groupControl =
-        groupControlFactory.validateFor(resource.getGroupUUID());
     final AccountGroup group =
-        groupCache.get(groupControl.getGroup().getGroupUUID());
+        groupCache.get(resource.getGroupUUID());
     final GroupDetail groupDetail =
         groupDetailFactory.create(group.getId()).call();
 

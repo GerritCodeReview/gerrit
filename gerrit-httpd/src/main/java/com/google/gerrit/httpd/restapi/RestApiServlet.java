@@ -212,8 +212,24 @@ public class RestApiServlet extends HttpServlet {
           view = c.list();
           break;
         } else {
-          rsrc = c.parse(rsrc, path.remove(0));
-          view = view(c, req.getMethod(), path);
+          String id = path.remove(0);
+          try {
+            rsrc = c.parse(rsrc, id);
+          } catch (ResourceNotFoundException e) {
+            if (c instanceof AcceptsCreate
+                && ("POST".equals(req.getMethod())
+                    || "PUT".equals(req.getMethod()))) {
+              @SuppressWarnings("unchecked")
+              AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
+              view = ac.create(rsrc, id);
+              status = SC_CREATED;
+            } else {
+              throw e;
+            }
+          }
+          if (view == null) {
+            view = view(c, req.getMethod(), path);
+          }
         }
         checkAccessAnnotations(view.getClass());
       }

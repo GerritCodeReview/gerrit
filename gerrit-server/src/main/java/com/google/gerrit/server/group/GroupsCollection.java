@@ -93,7 +93,7 @@ public class GroupsCollection implements
         throw new ResourceNotFoundException(id);
       }
     }
-    if (ctl.isOwner()) {
+    if (ctl.isVisible()) {
       return new GroupResource(ctl);
     }
     throw new ResourceNotFoundException(id);

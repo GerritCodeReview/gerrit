@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Oe.fhwiE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T20:58:52Z",
+      "side": 1,
+      "message": "In the old implementation this was the name of the owner group, do you want to change it to the id?",
+      "revId": "9a1f67de429966556eddbe7c5a0b0543365bc2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

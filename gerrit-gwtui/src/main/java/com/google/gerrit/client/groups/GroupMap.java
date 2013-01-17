@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.groups;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,12 +22,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class GroupMap extends NativeMap<GroupInfo> {
   public static void all(AsyncCallback<GroupMap> callback) {
     new RestApi("/groups/")
-        .get(NativeMap.copyKeysIntoChildren(callback));
-  }
-
-  public static void my(AsyncCallback<GroupMap> callback) {
-    new RestApi("/groups/")
-        .addParameter("user", Gerrit.getUserAccount().getId().get())
         .get(NativeMap.copyKeysIntoChildren(callback));
   }
 

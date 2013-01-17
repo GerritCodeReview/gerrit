@@ -15,7 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.admin.GroupTable;
-import com.google.gerrit.client.groups.GroupMap;
+import com.google.gerrit.client.groups.GroupList;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 
 public class MyGroupsScreen extends SettingsScreen {
@@ -31,9 +31,9 @@ public class MyGroupsScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    GroupMap.my(new ScreenLoadCallback<GroupMap>(this) {
+    GroupList.my(new ScreenLoadCallback<GroupList>(this) {
       @Override
-      protected void preDisplay(final GroupMap result) {
+      protected void preDisplay(GroupList result) {
         groups.display(result);
         groups.finishDisplay();
       }});

@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupInfo;
+import com.google.gerrit.client.groups.GroupList;
 import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -76,15 +77,18 @@ public class GroupTable extends NavigationTable<GroupInfo> {
     History.newItem(Dispatcher.toGroup(getRowItem(row).getGroupId()));
   }
 
-  public void display(final GroupMap groups) {
-    display(groups, null);
+  public void display(GroupMap groups, String toHighlight) {
+    display(groups.values().asList(), toHighlight);
   }
 
-  public void display(final GroupMap groups, final String toHighlight) {
+  public void display(GroupList groups) {
+    display(groups.asList(), null);
+  }
+
+  public void display(List<GroupInfo> list, String toHighlight) {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 
-    List<GroupInfo> list = groups.values().asList();
     Collections.sort(list, new Comparator<GroupInfo>() {
       @Override
       public int compare(GroupInfo a, GroupInfo b) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OeydIOl8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T13:12:14Z",
+      "side": 1,
+      "message": "That was too easy :-D\n\nDone",
+      "parentUuid": "OfiSa8s4",
+      "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OfuRUWu0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMembers.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-17T07:23:10Z",
       "side": 1,
       "message": "batch the updates and inserts into two temporary lists in this method.",
+      "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Oe4c2RuE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMembers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T13:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OfuRUWu0",
       "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Oe0dNLm4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMembers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T13:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OfgSV9p0",
+      "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OfsRXXu8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MemberResource.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-17T07:23:10Z",
       "side": 1,
       "message": "getGroup(). I prefer to name the thing we are getting and less about the hierarchy of \"parent-ness\" in the REST space.",
+      "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Oe2dSMg0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MemberResource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T13:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OfsRXXu8",
       "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

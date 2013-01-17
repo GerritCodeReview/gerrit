@@ -30,6 +30,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
 
     child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);
+    get(ACCOUNT_KIND, "groups").to(GetGroups.class);
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
   }
 }

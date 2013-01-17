@@ -28,7 +28,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VisibleGroups;
-import com.google.gerrit.server.group.GetGroup.GroupInfo;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gson.JsonElement;

@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.group;
+package com.google.gerrit.client.groups;
 
-import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.client.rpc.NativeList;
+import com.google.gerrit.client.rpc.RestApi;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class GetIncludedGroup implements RestReadView<IncludedGroupResource>  {
-  @Override
-  public GroupInfo apply(IncludedGroupResource rsrc) {
-    return new GroupInfo(rsrc.getGroup());
+/** Groups available from {@code /groups/} or {@code /accounts/{id}/groups}. */
+public class GroupList extends NativeList<GroupInfo> {
+  public static void my(AsyncCallback<GroupList> callback) {
+    new RestApi("/accounts/self/groups").get(callback);
+  }
+
+  protected GroupList() {
   }
 }

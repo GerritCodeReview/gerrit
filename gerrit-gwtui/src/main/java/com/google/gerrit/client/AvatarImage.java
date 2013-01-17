@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
@@ -21,11 +22,8 @@ import com.google.gwt.user.client.ui.Image;
 
 public class AvatarImage extends Image {
 
-  /**
-   * An avatar image for the given account using a default size decided by the
-   * avatar provider
-   */
-  public AvatarImage(Account account) {
+  /** A default sized avatar image. */
+  public AvatarImage(Account.Id account) {
     this(account, 0);
   }
 
@@ -37,8 +35,8 @@ public class AvatarImage extends Image {
    *        on the avatar provider. A size <= 0 indicates to let the provider
    *        decide a default size.
    */
-  public AvatarImage(Account account, int size) {
-    super("/avatar/" + account.getId() + (size > 0 ? ("?size=" + size) : ""));
+  public AvatarImage(Account.Id account, int size) {
+    super(url(account, size));
 
     addErrorHandler(new ErrorHandler() {
       @Override
@@ -48,5 +46,19 @@ public class AvatarImage extends Image {
         setVisible(false);
       }
     });
+  }
+
+  private static String url(Account.Id id, int size) {
+    String u;
+    if (Gerrit.isSignedIn() && id.equals(Gerrit.getUserAccount().getId())) {
+      u = "self";
+    } else {
+      u = id.toString();
+    }
+    RestApi api = new RestApi("/accounts/" + u + "/avatar");
+    if (size > 0) {
+      api.addParameter("size", size);
+    }
+    return api.url();
   }
 }

@@ -19,7 +19,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;

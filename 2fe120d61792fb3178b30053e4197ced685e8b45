@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OewcYln0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T12:44:16Z",
+      "side": 1,
+      "message": "Good point, I\u0027ll fix it in an own change.",
+      "parentUuid": "OfqQzQvA",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OfsRAPjQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-17T07:16:26Z",
       "side": 1,
       "message": "Doesn\u0027t ever throw.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Oeycdmm4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T12:44:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OfsRAPjQ",
       "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Oe2cXkkw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T12:44:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OfiRvUr4",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OfkRkTt4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-17T07:16:26Z",
       "side": 1,
       "message": "default access, not public.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Oe0cSjl0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T12:44:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OfkRkTt4",
       "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "Oe4crpoQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T12:44:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OfmRpSrU",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OfoRdZhU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
         "patchSetId": 8
@@ -98,6 +188,24 @@
       "writtenOn": "2013-01-17T07:16:26Z",
       "side": 1,
       "message": "Should we at least log this in the server log for the admin?",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Oe.cioqQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T12:44:16Z",
+      "side": 1,
+      "message": "Actually I think it\u0027s not needed. This exception just means that the user who invoked the REST call, provided an invalid/non existing user to be added to the group. This is simply a bad request and the administrator doesn\u0027t need to be bothered with this by a warning in the log. It\u0027s enough that this users gets back the bad request response with the error message, saying that this user doesn\u0027t exist.",
+      "parentUuid": "OfoRdZhU",
       "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "Oe6coqog",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T12:44:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OfuQ9Or0",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OfgRqVq0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
         "patchSetId": 8
@@ -132,6 +258,24 @@
       "writtenOn": "2013-01-17T07:16:26Z",
       "side": 1,
       "message": "I have been trying to avoid throwing Exception in newer implementations. I find it ugly to declare anything can throw. I prefer to declare only what apply really can throw. Which means deleting the throws declaration and then letting Eclipse help me fill back in the throws.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Oe8clnq8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T12:44:16Z",
+      "side": 1,
+      "message": "Makes sense. I\u0027ll pay more attention to this in the future.\n\nDone",
+      "parentUuid": "OfgRqVq0",
       "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

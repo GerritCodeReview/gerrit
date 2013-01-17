@@ -124,6 +124,24 @@
       "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfeUilqQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-17T07:18:13Z",
+      "side": 1,
+      "message": "Hi Martin and Sasa\n\nMartin\u0027s above first paragraph is in fact the background of PS9 which is the foolproof way， with CommitValidators.NEW_PATCHSET we can know the exact situations.\n\n the discuss : https://gerrit-review.googlesource.com/#/c/40950/7..11/gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java\nhas 2 points \n\n1. Sasa think refs/heads  also need change-id checking. \n\n2. further more, I think Sasa want do change-id checking on every kind refs therefor CommitValidators.NEW_PATCHSET becomes unnecessary. \n\nmy test today have turn out   \u0027refs/heads/\u0027 never come here.\nand after checking \nLine 762~782 of ReceiveCommits.parseCommands()\nand \nReceiveCommits.validateNewCommits()\n\nI find the policy(do change-id checking only on new patchset/change for review , not on others type like refs/heads ...)\nis not under control of CommitValidators.onCommitReceived()\nand has nothing to do with this patch. \n\nIn other word remove CommitValidators.NEW_PATCHSET or not will never change the policy.  \n\nso I think PS12 has not different effective with PS9, \nwhich is better? I prefer to PS9, simple and 100% sure there is not bug.",
+      "parentUuid": "OfEZNMm4",
+      "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

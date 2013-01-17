@@ -38,6 +38,11 @@ public class AvatarImage extends Image {
   public AvatarImage(Account.Id account, int size) {
     super(url(account, size));
 
+    if (size > 0) {
+      // If the provider does not resize the image, force it in the browser.
+      setSize(size + "px", size + "px");
+    }
+
     addErrorHandler(new ErrorHandler() {
       @Override
       public void onError(ErrorEvent event) {

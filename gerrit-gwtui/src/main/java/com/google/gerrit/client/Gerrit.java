@@ -784,34 +784,43 @@ public class Gerrit implements EntryPoint {
     Account account = getUserAccount();
     final CurrentUserPopupPanel userPopup =
         new CurrentUserPopupPanel(account, canLogOut);
-    final InlineLabel l = new InlineLabel(FormatUtil.name(account) + " ▾");
-    l.setStyleName(RESOURCES.css().menuBarUserName());
-    l.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
+    final FlowPanel userSummaryPanel = new FlowPanel();
+    class PopupHandler implements KeyDownHandler, ClickHandler {
+      private void showHidePopup() {
         if (userPopup.isShowing() && userPopup.isVisible()) {
           userPopup.hide();
         } else {
-          userPopup.showRelativeTo(l);
+          userPopup.showRelativeTo(userSummaryPanel);
         }
       }
-    });
-    userPopup.addAutoHidePartner(l.getElement());
-    FocusPanel fp = new FocusPanel(l);
-    fp.setStyleName(RESOURCES.css().menuBarUserNameFocusPanel());
-    fp.addKeyDownHandler(new KeyDownHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+        showHidePopup();
+      }
+
       @Override
       public void onKeyDown(KeyDownEvent event) {
         if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-          if (userPopup.isShowing() && userPopup.isVisible()) {
-            userPopup.hide();
-          } else {
-            userPopup.showRelativeTo(l);
-          }
+          showHidePopup();
           event.preventDefault();
         }
       }
-    });
+    }
+    final PopupHandler popupHandler = new PopupHandler();
+    final InlineLabel l = new InlineLabel(FormatUtil.name(account));
+    l.setStyleName(RESOURCES.css().menuBarUserName());
+    final AvatarImage avatar = new AvatarImage(account, 26);
+    avatar.setStyleName(RESOURCES.css().menuBarUserNameAvatar());
+    userSummaryPanel.setStyleName(RESOURCES.css().menuBarUserNamePanel());
+    userSummaryPanel.add(l);
+    userSummaryPanel.add(avatar);
+    userSummaryPanel.add(new InlineLabel(" ▾"));
+    userPopup.addAutoHidePartner(userSummaryPanel.getElement());
+    FocusPanel fp = new FocusPanel(userSummaryPanel);
+    fp.setStyleName(RESOURCES.css().menuBarUserNameFocusPanel());
+    fp.addKeyDownHandler(popupHandler);
+    fp.addClickHandler(popupHandler);
     menuRight.add(fp);
   }
 

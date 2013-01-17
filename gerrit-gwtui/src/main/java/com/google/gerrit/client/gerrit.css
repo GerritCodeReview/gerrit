@@ -533,13 +533,6 @@ a:hover {
   background: selectionColor !important;
 }
 
-.changeTable .cID {
-  width: 3.5em;
-}
-.changeTable .dataCell.cID {
-  font-family: mono-font;
-}
-
 .changeTable .cSUBJECT div {
   text-overflow: ellipsis;
   overflow: hidden;

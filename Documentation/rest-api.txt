@@ -307,46 +307,58 @@ and accepts the same options as query parameters.
 [[group-members]]
 /groups/*/members/ (List Group Members)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Lists the members of a group.
+Lists the direct members of a group.
 
 ----
-)]}'
-[
-  {
-    "kind": "gerritcodereview#member",
-    "full_name": "Jane Roe",
-    "id": "1000097",
-    "account_id": 1000097,
-    "preferred_email": "jane.roe@example.com",
-    "user_name": "jane"
-  },
-  {
-    "kind": "gerritcodereview#member",
-    "full_name": "John Doe",
-    "id": "1000096",
-    "account_id": 1000096,
-    "preferred_email": "john.doe@example.com",
-    "user_name": "doe"
-  }
-]
+  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/ HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "Jane Roe",
+      "id": "1000097",
+      "account_id": 1000097,
+      "preferred_email": "jane.roe@example.com",
+      "user_name": "jane"
+    },
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "John Doe",
+      "id": "1000096",
+      "account_id": 1000096,
+      "preferred_email": "john.doe@example.com",
+      "user_name": "doe"
+    }
+  ]
 ----
 
 [[included-groups]]
 /groups/*/groups/ (List Included Groups)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Lists the included groups of a group.
+Lists the directly included groups of a group.
 
 ----
-)]}'
-[
-  {
-    "kind": "gerritcodereview#group",
-    "id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
-    "name": "MyProject-Verifiers",
-    "group_id": 38,
-    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
-  }
-]
+  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/groups/ HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#group",
+      "id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
+      "name": "MyProject-Verifiers",
+      "group_id": 38,
+      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+    }
+  ]
 ----
 
 [[changes]]

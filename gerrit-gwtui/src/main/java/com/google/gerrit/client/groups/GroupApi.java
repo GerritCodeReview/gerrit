@@ -14,8 +14,10 @@
 
 package com.google.gerrit.client.groups;
 
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.URL;
@@ -44,6 +46,17 @@ public class GroupApi {
       input.add_member(member);
     }
     call.data(input).put(cb);
+  }
+
+  /** Remove members from a group. */
+  public static void removeMembers(AccountGroup.UUID groupUUID,
+      Set<Account.Id> ids, AsyncCallback<VoidResult> cb) {
+    RestApi call = new RestApi(membersBase(groupUUID));
+    MemberInput input = MemberInput.create();
+    for (Account.Id id : ids) {
+      input.add_member(id.toString());
+    }
+    call.data(input).delete(cb);
   }
 
   private static String membersBase(AccountGroup.UUID groupUUID) {

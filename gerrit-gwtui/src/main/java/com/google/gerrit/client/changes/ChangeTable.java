@@ -60,13 +60,12 @@ import java.util.Set;
 
 public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final int C_STAR = 1;
-  private static final int C_ID = 2;
-  private static final int C_SUBJECT = 3;
-  private static final int C_OWNER = 4;
-  private static final int C_PROJECT = 5;
-  private static final int C_BRANCH = 6;
-  private static final int C_LAST_UPDATE = 7;
-  private static final int BASE_COLUMNS = 8;
+  private static final int C_SUBJECT = 2;
+  private static final int C_OWNER = 3;
+  private static final int C_PROJECT = 4;
+  private static final int C_BRANCH = 5;
+  private static final int C_LAST_UPDATE = 6;
+  private static final int BASE_COLUMNS = 7;
 
   private final List<Section> sections;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
@@ -92,7 +91,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
     sections = new ArrayList<Section>();
     table.setText(0, C_STAR, "");
-    table.setText(0, C_ID, Util.C.changeTableColumnID());
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
@@ -113,8 +111,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(0, C_STAR, Gerrit.RESOURCES.css().iconHeader());
-    fmt.addStyleName(0, C_ID, Gerrit.RESOURCES.css().cID());
-    for (int i = C_ID; i < columns; i++) {
+    for (int i = C_SUBJECT; i < columns; i++) {
       fmt.addStyleName(0, i, Gerrit.RESOURCES.css().dataHeader());
     }
 
@@ -172,10 +169,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     super.applyDataRowStyle(row);
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, C_STAR, Gerrit.RESOURCES.css().iconCell());
-    for (int i = C_ID; i < columns; i++) {
+    for (int i = C_SUBJECT; i < columns; i++) {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().dataCell());
     }
-    fmt.addStyleName(row, C_ID, Gerrit.RESOURCES.css().cID());
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
     fmt.addStyleName(row, C_OWNER, Gerrit.RESOURCES.css().cOWNER());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
@@ -189,12 +185,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     ChangeCache cache = ChangeCache.get(c.getId());
     cache.getChangeInfoCache().set(c);
 
-    final String idstr = c.getKey().abbreviate();
     table.setWidget(row, C_ARROW, null);
     if (Gerrit.isSignedIn()) {
       table.setWidget(row, C_STAR, StarredChanges.createIcon(c.getId(), c.isStarred()));
     }
-    table.setWidget(row, C_ID, new TableChangeLink(idstr, c));
 
     String s = Util.cropSubject(c.getSubject());
     if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {

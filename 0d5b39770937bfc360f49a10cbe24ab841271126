@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "Oe4eoBuI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T14:56:54Z",
+      "side": 1,
+      "message": "two things or three?",
+      "revId": "0d5b39770937bfc360f49a10cbe24ab841271126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Oe2ek8g0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T14:56:54Z",
+      "side": 1,
+      "message": "Are the last two points the same (in the sense that the third point includes the second)?",
+      "revId": "0d5b39770937bfc360f49a10cbe24ab841271126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OfmSk6g0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetGroups.java",
         "patchSetId": 1
@@ -13,6 +47,24 @@
       "writtenOn": "2013-01-17T07:56:53Z",
       "side": 1,
       "message": "I\u0027m not sure about this being a List or a Map result. Other places we tend to use a Map so I wonder if I am \"cheating\" by using a List here.",
+      "revId": "0d5b39770937bfc360f49a10cbe24ab841271126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Oe6elCgk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T14:56:54Z",
+      "side": 1,
+      "message": "Looks ok to me, if the map is not needed, maybe in the other places it should be a list as well?",
+      "parentUuid": "OfmSk6g0",
       "revId": "0d5b39770937bfc360f49a10cbe24ab841271126",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

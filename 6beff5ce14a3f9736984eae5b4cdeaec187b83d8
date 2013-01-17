@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OfkQVLvs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T21:40:52Z",
+      "side": 1,
+      "message": "In REST API views we use Provider\u003cReviewDb\u003e not ReviewDb directly. I forget why, its related to how the ReviewDb is magically available. We delay its provisioning further into the parse or apply methods if we use a Provider.",
+      "revId": "6beff5ce14a3f9736984eae5b4cdeaec187b83d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

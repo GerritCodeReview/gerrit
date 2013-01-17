@@ -36,7 +36,6 @@ public interface ChangeConstants extends Constants {
   String allAbandonedChanges();
   String allMergedChanges();
 
-  String changeTableColumnID();
   String changeTableColumnSubject();
   String changeTableColumnOwner();
   String changeTableColumnReviewers();

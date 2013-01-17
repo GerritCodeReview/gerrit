@@ -27,7 +27,8 @@ import org.kohsuke.args4j.Option;
 class GetAvatar implements RestReadView<AccountResource> {
   private final DynamicItem<AvatarProvider> avatarProvider;
 
-  @Option(name = "--size", usage = "size in pixels (height and width)")
+  @Option(name = "--size", aliases = {"-s"},
+      usage = "recommended size in pixels, height and width")
   private int size;
 
   @Inject

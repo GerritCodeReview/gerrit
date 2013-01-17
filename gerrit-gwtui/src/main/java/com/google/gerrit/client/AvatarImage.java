@@ -62,7 +62,7 @@ public class AvatarImage extends Image {
     }
     RestApi api = new RestApi("/accounts/" + u + "/avatar");
     if (size > 0) {
-      api.addParameter("size", size);
+      api.addParameter("s", size);
     }
     return api.url();
   }

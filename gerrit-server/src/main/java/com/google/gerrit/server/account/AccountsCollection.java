@@ -14,35 +14,51 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.util.Url;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import java.util.Set;
 
 public class AccountsCollection implements
     RestCollection<TopLevelResource, AccountResource> {
   private final Provider<CurrentUser> self;
+  private final AccountResolver resolver;
+  private final AccountControl.Factory accountControlFactory;
+  private final IdentifiedUser.GenericFactory userFactory;
   private final DynamicMap<RestView<AccountResource>> views;
 
   @Inject
   AccountsCollection(Provider<CurrentUser> self,
+      AccountResolver resolver,
+      AccountControl.Factory accountControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
       DynamicMap<RestView<AccountResource>> views) {
     this.self = self;
+    this.resolver = resolver;
+    this.accountControlFactory = accountControlFactory;
+    this.userFactory = userFactory;
     this.views = views;
   }
 
   @Override
   public AccountResource parse(TopLevelResource root, String id)
-      throws ResourceNotFoundException, AuthException {
+      throws ResourceNotFoundException, AuthException, OrmException {
+    CurrentUser user = self.get();
+
     if ("self".equals(id)) {
-      CurrentUser user = self.get();
       if (user instanceof IdentifiedUser) {
         return new AccountResource((IdentifiedUser) user);
       } else if (user instanceof AnonymousUser) {
@@ -50,6 +66,17 @@ public class AccountsCollection implements
       } else {
         throw new ResourceNotFoundException(id);
       }
+    }
+
+    Set<Account.Id> matches = resolver.findAll(Url.decode(id));
+    if (matches.size() != 1) {
+      throw new ResourceNotFoundException(id);
+    }
+
+    Account.Id a = Iterables.getOnlyElement(matches);
+    if (accountControlFactory.get().canSee(a)
+        || user.getCapabilities().canAdministrateServer()) {
+      return new AccountResource(userFactory.create(a));
     } else {
       throw new ResourceNotFoundException(id);
     }

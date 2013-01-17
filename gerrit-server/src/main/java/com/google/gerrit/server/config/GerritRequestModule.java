@@ -60,7 +60,6 @@ public class GerritRequestModule extends FactoryModule {
     bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
     bind(ChangeControl.Factory.class).in(SINGLETON);
     bind(ProjectControl.Factory.class).in(SINGLETON);
-    bind(AccountControl.Factory.class).in(SINGLETON);
 
     factory(SubmoduleOp.Factory.class);
     factory(MergeOp.Factory.class);

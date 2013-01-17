@@ -789,7 +789,7 @@ public class Gerrit implements EntryPoint {
     l.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
-        if (userPopup.isShowing()) {
+        if (userPopup.isShowing() && userPopup.isVisible()) {
           userPopup.hide();
         } else {
           userPopup.showRelativeTo(l);
@@ -803,7 +803,7 @@ public class Gerrit implements EntryPoint {
       @Override
       public void onKeyDown(KeyDownEvent event) {
         if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-          if (userPopup.isShowing()) {
+          if (userPopup.isShowing() && userPopup.isVisible()) {
             userPopup.hide();
           } else {
             userPopup.showRelativeTo(l);

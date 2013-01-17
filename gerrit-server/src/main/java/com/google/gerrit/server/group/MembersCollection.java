@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -24,10 +23,10 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.group.PutMembers.PutMember;
 import com.google.gerrit.server.util.Url;
 import com.google.inject.Inject;
@@ -41,8 +40,8 @@ public class MembersCollection implements
   private final Provider<ListMembers> list;
   private final IdentifiedUser.GenericFactory userGenericFactory;
   private final GroupCache groupCache;
-  private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountResolver accountResolver;
+  private final Provider<ReviewDb> db;
   private final Provider<PutMembers> put;
 
   @Inject
@@ -50,15 +49,15 @@ public class MembersCollection implements
       final Provider<ListMembers> list,
       final IdentifiedUser.GenericFactory userGenericFactory,
       final GroupCache groupCache,
-      final GroupDetailFactory.Factory groupDetailFactory,
       final AccountResolver accountResolver,
+      final Provider<ReviewDb> db,
       final Provider<PutMembers> put) {
     this.views = views;
     this.list = list;
     this.userGenericFactory = userGenericFactory;
     this.groupCache = groupCache;
-    this.groupDetailFactory = groupDetailFactory;
     this.accountResolver = accountResolver;
+    this.db = db;
     this.put = put;
   }
 
@@ -76,17 +75,14 @@ public class MembersCollection implements
       throw new ResourceNotFoundException(id);
     }
 
-    final AccountGroup group =
-        groupCache.get(parent.getControl().getGroup().getGroupUUID());
-    final GroupDetail groupDetail =
-        groupDetailFactory.create(group.getId()).call();
-    if (groupDetail.members != null) {
-      for (final AccountGroupMember member : groupDetail.members) {
-        if (member.getAccountId().equals(a.getId())) {
-          return new MemberResource(parent,
-              userGenericFactory.create(a.getId()));
-        }
-      }
+    AccountGroup group = groupCache.get(parent.getControl().getGroup().getGroupUUID());
+    if (group == null) {
+      throw new ResourceNotFoundException(id);
+    }
+
+    if (db.get().accountGroupMembers()
+        .get(new AccountGroupMember.Key(a.getId(), group.getId())) != null) {
+      return new MemberResource(parent, userGenericFactory.create(a.getId()));
     }
     throw new ResourceNotFoundException(id);
   }

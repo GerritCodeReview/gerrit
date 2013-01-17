@@ -14,11 +14,19 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.base.Function;
+import com.google.common.base.Throwables;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,10 +72,12 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
     return r;
   }
 
+  private final Provider<ReviewDb> db;
   private int cardinality = -1;
 
-  AndSource(final Collection<? extends Predicate<ChangeData>> that) {
+  AndSource(Provider<ReviewDb> db, Collection<? extends Predicate<ChangeData>> that) {
     super(sort(that));
+    this.db = db;
   }
 
   @Override
@@ -78,17 +88,24 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
+    try {
+      return readImpl();
+    } catch (OrmRuntimeException err) {
+      Throwables.propagateIfInstanceOf(err.getCause(), OrmException.class);
+      throw new OrmException(err);
+    }
+  }
+
+  private ResultSet<ChangeData> readImpl() throws OrmException {
     ChangeDataSource source = source();
     if (source == null) {
       throw new OrmException("No ChangeDataSource: " + this);
     }
 
-    // TODO(spearce) This probably should be more lazy.
-    //
-    ArrayList<ChangeData> r = new ArrayList<ChangeData>();
+    List<ChangeData> r = Lists.newArrayList();
     ChangeData last = null;
     boolean skipped = false;
-    for (ChangeData data : source.read()) {
+    for (ChangeData data : buffer(source, source.read())) {
       if (match(data)) {
         r.add(data);
       } else {
@@ -98,7 +115,7 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
     }
 
     if (skipped && last != null && source instanceof Paginated) {
-      // If we our source is a paginated source and we skipped at
+      // If our source is a paginated source and we skipped at
       // least one of its results, we may not have filled the full
       // limit the caller wants.  Restart the source and continue.
       //
@@ -107,7 +124,7 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
         ChangeData lastBeforeRestart = last;
         skipped = false;
         last = null;
-        for (ChangeData data : p.restart(lastBeforeRestart)) {
+        for (ChangeData data : buffer(source, p.restart(lastBeforeRestart))) {
           if (match(data)) {
             r.add(data);
           } else {
@@ -119,6 +136,27 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
     }
 
     return new ListResultSet<ChangeData>(r);
+  }
+
+  private Iterable<ChangeData> buffer(
+      ChangeDataSource source,
+      ResultSet<ChangeData> scanner) {
+    final boolean loadChange = !source.hasChange();
+    return FluentIterable
+      .from(Iterables.partition(scanner, 50))
+      .transformAndConcat(new Function<List<ChangeData>, List<ChangeData>>() {
+        @Override
+        public List<ChangeData> apply(List<ChangeData> buffer) {
+          if (loadChange) {
+            try {
+              ChangeData.ensureChangeLoaded(db, buffer);
+            } catch (OrmException e) {
+              throw new OrmRuntimeException(e);
+            }
+          }
+          return buffer;
+        }
+      });
   }
 
   private ChangeDataSource source() {

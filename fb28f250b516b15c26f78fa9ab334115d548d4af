@@ -160,6 +160,24 @@
       "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Oekif-70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-17T15:10:52Z",
+      "side": 1,
+      "message": "Thanks Sasa!\n\n if my understanding is right, now  you do not think the risk of removing the reference check from the ChangeIdValidator is too big and want remove that check just like PS 12. \n however  Martin worry about it and disagree PS12 ,he want PS9.\nboth sounds reasonable,  hmm, it is sad and strange for me why cores always can not reach to same point on my change  \n \nI prefer to fix the issue you said above in another change where I hope you can get same idea quickly.:)",
+      "parentUuid": "OfaUzPvA",
+      "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

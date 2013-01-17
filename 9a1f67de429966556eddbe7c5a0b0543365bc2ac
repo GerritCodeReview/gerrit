@@ -16,6 +16,24 @@
       "revId": "9a1f67de429966556eddbe7c5a0b0543365bc2ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfoT.RqI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T21:44:14Z",
+      "side": 1,
+      "message": "Whoops. That is a bug in the new version. I must have gotten confused updating the code and dropped the owner name field. I\u0027ll upload a fixed patch set.",
+      "parentUuid": "Oe.fhwiE",
+      "revId": "9a1f67de429966556eddbe7c5a0b0543365bc2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

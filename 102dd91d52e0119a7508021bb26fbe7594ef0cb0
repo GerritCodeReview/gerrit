@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OfuQLeiw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T06:39:25Z",
+      "side": 1,
+      "message": "Lists.newArrayList(). There isn\u0027t a good reason to use a LinkedList here. In general ArrayList performs better and uses less memory than LinkedList *unless* you are doing insertion or removal of elements in the middle fo the list.",
+      "revId": "102dd91d52e0119a7508021bb26fbe7594ef0cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfoQrpoQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T06:39:25Z",
+      "side": 1,
+      "message": "This is poorly formatted. Maybe put the getMembers result into a temporary Map and then pass the map.values() to the list construction?",
+      "revId": "102dd91d52e0119a7508021bb26fbe7594ef0cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfgQYln0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T06:39:25Z",
+      "side": 1,
+      "message": "recursive is an instance member value. you don\u0027t have to pass it as an argument.",
+      "revId": "102dd91d52e0119a7508021bb26fbe7594ef0cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfmQXikw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T06:39:25Z",
+      "side": 1,
+      "message": "I\u0027m really not convinced this code needs a GroupDetailFactory to help it make the result. But apparently it does. *sigh*",
+      "revId": "102dd91d52e0119a7508021bb26fbe7594ef0cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfiQdkm4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T06:39:25Z",
+      "side": 1,
+      "message": "When an external group (e.g. LDAP) is included in an internal group and recursive is true you NPE here during the recursion. External groups return null from groupCache.get(UUID) two lines above and your code doesn\u0027t handle it correctly.",
+      "revId": "102dd91d52e0119a7508021bb26fbe7594ef0cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfkQSjl0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T06:39:25Z",
+      "side": 1,
+      "message": "Only do this cache lookup if !members.containsKey(member.getAccountId()).\n\nWith recursive lookup a user may be included multiple times. Try to avoid doing the cache lookup and \"parse\" a second time. Specifically I am thinking of a bad case where the cache is sized for 4000 users but a recursive group inclusion produces results for 4020. There will be some cache evictions as a result of this lookup. But if there are lets say 10 paths to every user in the result set, you really are doing 40,200 cache lookups. That could be a lot of cache thrashing.",
+      "revId": "102dd91d52e0119a7508021bb26fbe7594ef0cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

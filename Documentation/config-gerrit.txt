@@ -1280,6 +1280,16 @@ using the property 'gitweb.pathSeparator'.
 +
 Valid values are the characters '*', '(' and ')'.
 
+[[groups]]Section groups
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[groups.newGroupsVisibleToAll]]groups.newGroupsVisibleToAll::
++
+Controls whether newly created groups should be by default visible to
+all registered users.
++
+By default, false.
+
 [[hooks]]Section hooks
 ~~~~~~~~~~~~~~~~~~~~~~
 

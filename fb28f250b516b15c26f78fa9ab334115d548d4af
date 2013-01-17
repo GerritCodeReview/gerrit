@@ -142,6 +142,24 @@
       "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfaUzPvA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-17T10:08:10Z",
+      "side": 1,
+      "message": "\u003e 1. Sasa think refs/heads also need change-id checking.\n\nI am only telling that, right now, the ChangeIdValidator cannot be used for these branches because of that reference name pattern check.\n\nIt doesn\u0027t look to me that the risk of removing the reference check from the ChangeIdValidator is too big. This validator is used from a couple of places only.\n\nThe ChangeIdValidator, as it is know, is buggy. If, for example,\nit would be used to check presence of Change-Id in commit message of a commit on refs/heads/master branch then it would fail to detect a missing Change-Id because of the (unnecessary) check for the reference name pattern. The caller would think that the Change-Id is present event when it is not.\n\nIf you don\u0027t want to fix this issue in this change I will push another change which removes that check.",
+      "parentUuid": "OfeUilqQ",
+      "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

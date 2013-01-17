@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OeggYp30",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/AvatarImage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-17T02:55:24Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "057dbcf5d5d827be74294fc0db91a6b7dac1181d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

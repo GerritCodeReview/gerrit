@@ -60,7 +60,7 @@ public class AccountResolver {
   }
 
   /**
-   * Locate exactly one account matching the name or name/email string.
+   * Find all accounts matching the name or name/email string.
    *
    * @param nameOrEmail a string of the format
    *        "Full Name &lt;email@example&gt;", just the email address

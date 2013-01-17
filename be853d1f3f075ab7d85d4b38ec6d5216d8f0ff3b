@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OfGYXjkw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-17T05:33:03Z",
+      "side": 1,
+      "message": "We are not supposed to use field injection for new classes:\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_design",
+      "revId": "be853d1f3f075ab7d85d4b38ec6d5216d8f0ff3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

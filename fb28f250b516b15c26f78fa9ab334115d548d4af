@@ -178,6 +178,24 @@
       "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfuSv.uQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-17T17:05:08Z",
+      "side": 1,
+      "message": "It is still unclear to me what the intent of this change is?  Is this an attempt to fix a regression caused by this change: https://gerrit-review.googlesource.com/#/c/40071/6/gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java\n\nCould you please clarify the latest commit message a bit, because even PS 13 is not clear to me and keeps me guessing a bit.  I don\u0027t want to have to guess, because I usually am wrong. :(",
+      "parentUuid": "Oekif-70",
+      "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

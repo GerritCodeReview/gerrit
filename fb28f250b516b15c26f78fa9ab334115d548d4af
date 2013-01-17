@@ -106,6 +106,24 @@
       "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfEZNMm4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-17T06:18:03Z",
+      "side": 1,
+      "message": "But it does affect other pieces of the policy and it is not clear which pieces.  The old code applied the policy in a few exact situations, now it is only applied when some other piece of code in gerrit applies it.  That still seems like a pretty big change and I don\u0027t get the feeling that the implications of this are well understood.\n\nPlease explain the motivation behind this change.   Is it to simply make the validator more generic, or is it to change policy?",
+      "parentUuid": "OfSUdjm4",
+      "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

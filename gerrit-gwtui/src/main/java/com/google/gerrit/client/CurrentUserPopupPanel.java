@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.GWT;
@@ -53,7 +54,9 @@ public class CurrentUserPopupPanel extends PluginSafePopupPanel {
     show();
     setVisible(false);
     setStyleName(Gerrit.RESOURCES.css().userInfoPopup());
-    avatar.setUrl("/avatar/" + account.getId() + "?size=100");
+    avatar.setUrl(new RestApi("/accounts/self/avatar")
+      .addParameter("size", 100)
+      .url());
     avatar.addErrorHandler(new ErrorHandler() {
       @Override
       public void onError(ErrorEvent event) {

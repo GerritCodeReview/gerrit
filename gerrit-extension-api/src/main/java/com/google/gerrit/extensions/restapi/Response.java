@@ -35,6 +35,11 @@ public abstract class Response<T> {
     return NONE;
   }
 
+  /** HTTP 302 Found: temporary redirect to another URL. */
+  public static Redirect redirect(String location) {
+    return new Redirect(location);
+  }
+
   @SuppressWarnings({"unchecked", "rawtypes"})
   public static <T> T unwrap(T obj) {
     while (obj instanceof Response) {
@@ -88,6 +93,35 @@ public abstract class Response<T> {
     @Override
     public String toString() {
       return "[204 No Content] None";
+    }
+  }
+
+  /** An HTTP redirect to another location. */
+  public static final class Redirect {
+    private final String location;
+
+    private Redirect(String url) {
+      this.location = url;
+    }
+
+    public String location() {
+      return location;
+    }
+
+    @Override
+    public int hashCode() {
+      return location.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return o instanceof Redirect
+        && ((Redirect) o).location.equals(location);
+    }
+
+    @Override
+    public String toString() {
+      return String.format("[302 Redirect] %s", location);
     }
   }
 }

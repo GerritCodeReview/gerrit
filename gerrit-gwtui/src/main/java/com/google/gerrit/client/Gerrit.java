@@ -15,8 +15,8 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.admin.ProjectScreen;
@@ -27,6 +27,7 @@ import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
@@ -55,6 +56,8 @@ import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ErrorEvent;
+import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -71,9 +74,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
@@ -108,7 +112,7 @@ public class Gerrit implements EntryPoint {
   private static String authorization;
 
   private static MorphingTabPanel menuLeft;
-  private static LinkMenuBar menuRight;
+  private static Grid menuBar;
   private static LinkMenuBar diffBar;
   private static LinkMenuBar projectsBar;
   private static RootPanel siteHeader;
@@ -501,24 +505,24 @@ public class Gerrit implements EntryPoint {
     gTopMenu.setStyleName(RESOURCES.css().gerritTopMenu());
     gBody.setStyleName(RESOURCES.css().gerritBody());
 
-    final Grid menuLine = new Grid(1, 3);
+    menuBar = new Grid(1, 4);
+    menuBar.setStyleName(RESOURCES.css().topmenu());
+    gTopMenu.add(menuBar);
+
     menuLeft = new MorphingTabPanel();
-    menuRight = new LinkMenuBar();
-    searchPanel = new SearchPanel();
     menuLeft.setStyleName(RESOURCES.css().topmenuMenuLeft());
-    menuLine.setStyleName(RESOURCES.css().topmenu());
-    gTopMenu.add(menuLine);
-    final FlowPanel menuRightPanel = new FlowPanel();
-    menuRightPanel.setStyleName(RESOURCES.css().topmenuMenuRight());
-    menuRightPanel.add(searchPanel);
-    menuRightPanel.add(menuRight);
-    menuLine.setWidget(0, 0, menuLeft);
-    menuLine.setWidget(0, 1, new FlowPanel());
-    menuLine.setWidget(0, 2, menuRightPanel);
-    final CellFormatter fmt = menuLine.getCellFormatter();
+
+    searchPanel = new SearchPanel();
+
+    menuBar.setWidget(0, 0, menuLeft);
+    menuBar.setWidget(0, 1, new FlowPanel());
+    menuBar.setWidget(0, 2, searchPanel);
+
+    CellFormatter fmt = menuBar.getCellFormatter();
     fmt.setStyleName(0, 0, RESOURCES.css().topmenuTDmenu());
     fmt.setStyleName(0, 1, RESOURCES.css().topmenuTDglue());
     fmt.setStyleName(0, 2, RESOURCES.css().topmenuTDmenu());
+    fmt.setStyleName(0, 3, RESOURCES.css().topmenuTDmenu());
 
     siteHeader = RootPanel.get("gerrit_header");
     siteFooter = RootPanel.get("gerrit_footer");
@@ -631,7 +635,6 @@ public class Gerrit implements EntryPoint {
 
   public static void refreshMenuBar() {
     menuLeft.clear();
-    menuRight.clear();
 
     final boolean signedIn = isSignedIn();
     final GerritConfig cfg = getConfig();
@@ -717,6 +720,10 @@ public class Gerrit implements EntryPoint {
     if (signedIn) {
       whoAmI(cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP);
     } else {
+      LinkMenuBar linkBar = new LinkMenuBar();
+      linkBar.addStyleName(RESOURCES.css().topmenuMenuRight());
+      menuBar.setWidget(0, 3, linkBar);
+
       switch (cfg.getAuthType()) {
         case HTTP:
         case HTTP_LDAP:
@@ -724,13 +731,13 @@ public class Gerrit implements EntryPoint {
           break;
 
         case OPENID:
-          menuRight.addItem(C.menuRegister(), new Command() {
+          linkBar.addItem(C.menuRegister(), new Command() {
             public void execute() {
               final String to = History.getToken();
               new OpenIdSignInDialog(SignInMode.REGISTER, to, null).center();
             }
           });
-          menuRight.addItem(C.menuSignIn(), new Command() {
+          linkBar.addItem(C.menuSignIn(), new Command() {
             public void execute() {
               doSignIn(History.getToken());
             }
@@ -738,7 +745,7 @@ public class Gerrit implements EntryPoint {
           break;
 
         case OPENID_SSO:
-          menuRight.addItem(C.menuSignIn(), new Command() {
+          linkBar.addItem(C.menuSignIn(), new Command() {
             public void execute() {
               doSignIn(History.getToken());
             }
@@ -750,9 +757,9 @@ public class Gerrit implements EntryPoint {
         case CUSTOM_EXTENSION:
           if (cfg.getRegisterUrl() != null) {
             final String registerText = cfg.getRegisterText() == null ? C.menuRegister() : cfg.getRegisterText();
-            menuRight.add(anchor(registerText, cfg.getRegisterUrl()));
+            linkBar.add(anchor(registerText, cfg.getRegisterUrl()));
           }
-          menuRight.addItem(C.menuSignIn(), new Command() {
+          linkBar.addItem(C.menuSignIn(), new Command() {
             public void execute() {
               doSignIn(History.getToken());
             }
@@ -760,7 +767,7 @@ public class Gerrit implements EntryPoint {
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          menuRight.add(anchor("Become", selfRedirect("/become")));
+          linkBar.add(anchor("Become", selfRedirect("/become")));
           break;
       }
     }
@@ -784,35 +791,61 @@ public class Gerrit implements EntryPoint {
     Account account = getUserAccount();
     final CurrentUserPopupPanel userPopup =
         new CurrentUserPopupPanel(account, canLogOut);
-    final InlineLabel l = new InlineLabel(FormatUtil.name(account) + " ▾");
-    l.setStyleName(RESOURCES.css().menuBarUserName());
-    l.addClickHandler(new ClickHandler() {
+
+    final FlowPanel info = new FlowPanel();
+    info.setStyleName(RESOURCES.css().topmenuUserInfo());
+    menuBar.setWidget(0, 3, info);
+    userPopup.addAutoHidePartner(info.getElement());
+
+    ClickHandler showPopup = new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         if (userPopup.isShowing()) {
           userPopup.hide();
         } else {
-          userPopup.showRelativeTo(l);
+          userPopup.showRelativeTo(info);
         }
       }
+    };
+
+    InlineLabel name = new InlineLabel(FormatUtil.name(account));
+    name.setStyleName(RESOURCES.css().menuBarUserName());
+    name.addClickHandler(showPopup);
+
+    int size = 27;
+    final Image avatar = new Image(
+      new RestApi("/accounts/self/avatar")
+        .addParameter("size", size)
+        .url());
+    avatar.setHeight(size + "px");
+    avatar.setWidth(size + "px");
+    avatar.addClickHandler(showPopup);
+    avatar.addErrorHandler(new ErrorHandler() {
+      @Override
+      public void onError(ErrorEvent event) {
+        avatar.setVisible(false);
+      }
     });
-    userPopup.addAutoHidePartner(l.getElement());
-    FocusPanel fp = new FocusPanel(l);
-    fp.setStyleName(RESOURCES.css().menuBarUserNameFocusPanel());
-    fp.addKeyDownHandler(new KeyDownHandler() {
+
+    FocusPanel arrow = new FocusPanel(new InlineLabel(" ▾"));
+    arrow.addClickHandler(showPopup);
+    arrow.addKeyDownHandler(new KeyDownHandler() {
       @Override
       public void onKeyDown(KeyDownEvent event) {
-        if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
           if (userPopup.isShowing()) {
             userPopup.hide();
           } else {
-            userPopup.showRelativeTo(l);
+            userPopup.showRelativeTo(info);
           }
           event.preventDefault();
         }
       }
     });
-    menuRight.add(fp);
+
+    info.add(name);
+    info.add(avatar);
+    info.add(arrow);
   }
 
   private static Anchor anchor(final String text, final String to) {

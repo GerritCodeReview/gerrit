@@ -301,8 +301,17 @@ a:hover {
 }
 
 .topmenuMenuRight {
-  float: right;
-  text-align: right;
+  padding-top: 5px;
+  display: block;
+}
+.topmenuUserInfo {
+  white-space: nowrap;
+}
+.topmenuUserInfo img {
+  vertical-align: middle;
+}
+.topmenuUserInfo div {
+  display: inline;
 }
 .menuBarUserName {
   font-weight: bold;
@@ -310,9 +319,6 @@ a:hover {
   padding-right: 5px;
   white-space: nowrap;
   cursor: pointer;
-}
-.menuBarUserNameFocusPanel {
-  display: inline;
 }
 .userInfoPopup {
   border: 1px solid black;

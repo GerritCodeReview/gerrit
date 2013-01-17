@@ -151,7 +151,6 @@ public interface GerritCss extends CssResource {
   String linkMenuBar();
   String linkMenuItemNotLast();
   String menuBarUserName();
-  String menuBarUserNameFocusPanel();
   String menuItem();
   String menuScreenMenuBar();
   String missingApproval();
@@ -216,6 +215,7 @@ public interface GerritCss extends CssResource {
   String topmenu();
   String topmenuMenuLeft();
   String topmenuMenuRight();
+  String topmenuUserInfo();
   String topmenuTDglue();
   String topmenuTDmenu();
   String topmost();

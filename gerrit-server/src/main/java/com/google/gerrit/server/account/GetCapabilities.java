@@ -32,13 +32,17 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.AccountResource.Capability;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
@@ -67,9 +71,21 @@ class GetCapabilities implements RestReadView<AccountResource> {
   }
   private Set<String> query;
 
+  private final Provider<CurrentUser> self;
+
+  @Inject
+  GetCapabilities(Provider<CurrentUser> self) {
+    this.self = self;
+  }
+
   @Override
   public Object apply(AccountResource resource)
       throws BadRequestException, Exception {
+    if (self.get() != resource.getUser()
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("restricted to administrator");
+    }
+
     CapabilityControl cc = resource.getUser().getCapabilities();
     Map<String, Object> have = Maps.newLinkedHashMap();
     for (String name : GlobalCapability.getAllNames()) {

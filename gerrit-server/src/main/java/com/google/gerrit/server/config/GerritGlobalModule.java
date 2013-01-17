@@ -34,6 +34,7 @@ import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountVisibility;
@@ -196,6 +197,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(ChangeControl.GenericFactory.class);
     bind(ProjectControl.GenericFactory.class);
+    bind(AccountControl.Factory.class);
     factory(FunctionState.Factory.class);
 
     install(new AuditModule());

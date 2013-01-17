@@ -16,7 +16,8 @@ limitations under the License.
 -->
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:gerrit='urn:import:com.google.gerrit.client'>
   <ui:with field='constants' type='com.google.gerrit.client.GerritConstants'/>
 
   <ui:style>
@@ -45,7 +46,7 @@ limitations under the License.
 
   <g:HTMLPanel styleName='{style.panel}'>
     <table><tr><td>
-      <g:Image ui:field='avatar' styleName='{style.avatar}' />
+      <gerrit:AvatarImage ui:field='avatar' styleName='{style.avatar}' />
     </td><td class='{style.infoCell}'>
       <g:Label ui:field='userName' styleName="{style.userName}" />
       <g:Label ui:field='userEmail' styleName="{style.email}" />

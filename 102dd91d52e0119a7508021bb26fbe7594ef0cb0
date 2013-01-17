@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "Oe2d7Em0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T18:01:50Z",
+      "side": 1,
+      "message": "Since my question on this other change didn\u0027t make much sense, please ignore this comment. Now I would rather stick to the usage of GroupDetails.",
+      "parentUuid": "Oe4ddZhU",
+      "revId": "102dd91d52e0119a7508021bb26fbe7594ef0cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OfiQdkm4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListMembers.java",
         "patchSetId": 1

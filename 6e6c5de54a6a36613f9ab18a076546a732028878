@@ -16,6 +16,24 @@
       "revId": "6e6c5de54a6a36613f9ab18a076546a732028878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OeyeBGls",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListIncludedGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-17T17:59:13Z",
+      "side": 1,
+      "message": "Sorry, I think I confused here something. This is correct since it\u0027s only the first level of included groups. The group owner can see the membership of this group in his group but can\u0027t drill down further. This was always like this. Please ignore :-)",
+      "parentUuid": "OWck90b0",
+      "revId": "6e6c5de54a6a36613f9ab18a076546a732028878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

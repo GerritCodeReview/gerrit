@@ -305,14 +305,20 @@ a:hover {
   text-align: right;
 }
 .menuBarUserName {
-  font-weight: bold;
   padding-left: 5px;
   padding-right: 5px;
   white-space: nowrap;
-  cursor: pointer;
+}
+.menuBarUserNameAvatar {
+  vertical-align: middle;
 }
 .menuBarUserNameFocusPanel {
   display: inline;
+}
+.menuBarUserNamePanel {
+  display: inline;
+  cursor: pointer;
+  font-weight: bold;
 }
 .userInfoPopup {
   border: 1px solid black;

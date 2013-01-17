@@ -34,6 +34,24 @@
       "revId": "dcc6fd0d0177475e6660d93e5ec7e317d57b7294",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OekhkX94",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-17T04:42:39Z",
+      "side": 1,
+      "message": "If not static, at least final?",
+      "parentUuid": "OfQXxciU",
+      "revId": "dcc6fd0d0177475e6660d93e5ec7e317d57b7294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

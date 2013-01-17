@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OfqQzQvA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:16:26Z",
+      "side": 1,
+      "message": "Not related to this change directly, but we shouldn\u0027t load all members of the group and iterate them to find the one member we want. The database primary key is the pair of group id and account id. You have both. Load the one record or fail.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfsRAPjQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MembersCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:16:26Z",
+      "side": 1,
+      "message": "Doesn\u0027t ever throw.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfiRvUr4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:16:26Z",
+      "side": 1,
+      "message": "FWIW I don\u0027t think all of this constructor mess is worth the 2 lines you saved in the bottom of the file in the little PutMember helper.\n\nJust do:\n\n  PutMembers.Input in \u003d new PutMembers.Input();\n  m._oneMember \u003d id;\n\nand drop these 7 lines of unnecessary constructor declarations.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfkRkTt4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:16:26Z",
+      "side": 1,
+      "message": "default access, not public.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfmRpSrU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:16:26Z",
+      "side": 1,
+      "message": "This turned out longer than I think is really necessary:\n\n  if (in \u003d\u003d null) {\n    in \u003d new Input();\n  }\n  if (in.members \u003d\u003d null) {\n    in.members \u003d Lists.newArrayListWithCapacity(1);\n  }\n  if (!Strings.isNullOrEmpty(in._oneMember)) {\n    in.members.add(in._oneMember);\n  }\n  return in;\n\nConcise is more important than avoiding the memory allocation on an empty input.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfoRdZhU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:16:26Z",
+      "side": 1,
+      "message": "Should we at least log this in the server log for the admin?",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfuQ9Or0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:16:26Z",
+      "side": 1,
+      "message": "final. The input parameter here can\u0027t change.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfgRqVq0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:16:26Z",
+      "side": 1,
+      "message": "I have been trying to avoid throwing Exception in newer implementations. I find it ugly to declare anything can throw. I prefer to declare only what apply really can throw. Which means deleting the throws declaration and then letting Eclipse help me fill back in the throws.",
+      "revId": "2fe120d61792fb3178b30053e4197ced685e8b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -182,7 +182,12 @@ public class SmtpEmailSender implements EmailSender {
 
         Writer w = client.sendMessageData();
         if (w == null) {
-          throw new EmailException("Server " + smtpHost + " rejected body");
+          /* Include rejected recipient error messages here to not lose that
+           * information. That piece of the puzzle is vital if zero recipients
+           * are accepted and the server consequently rejects the DATA command.
+           */
+          throw new EmailException(rejected + "Server " + smtpHost
+              + " rejected DATA command: " + client.getReplyString());
         }
         w = new BufferedWriter(w);
 
@@ -201,7 +206,8 @@ public class SmtpEmailSender implements EmailSender {
         w.close();
 
         if (!client.completePendingCommand()) {
-          throw new EmailException("Server " + smtpHost + " rejected body");
+          throw new EmailException("Server " + smtpHost
+              + " rejected message body: " + client.getReplyString());
         }
 
         client.logout();
@@ -237,7 +243,8 @@ public class SmtpEmailSender implements EmailSender {
       }
       if (!client.login()) {
         String e = client.getReplyString();
-        throw new EmailException("SMTP server rejected login: " + e);
+        throw new EmailException(
+            "SMTP server rejected HELO/EHLO greeting: " + e);
       }
 
       if (smtpEncryption == Encryption.TLS) {

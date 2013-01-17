@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -129,7 +130,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         final Map<String, GroupInfo> output = Maps.newTreeMap();
         for (AccountGroup g : groupList) {
           GroupInfo info = new GroupInfo(GroupDescriptions.forAccountGroup(g));
-          output.put(info.name, info);
+          output.put(Objects.firstNonNull(info.name, "Group " + info.id), info);
           info.name = null;
         }
         return OutputFormat.JSON.newGson().toJsonTree(output,

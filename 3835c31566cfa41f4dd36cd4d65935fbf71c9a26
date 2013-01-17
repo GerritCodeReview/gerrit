@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OfAZDOkU",
+        "filename": "contrib/git-exproll.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-17T05:55:56Z",
+      "side": 1,
+      "message": "I am concerned that this error code could overlap with an error code returned by git GC on line 510, but I am not sure it matters.  Why is it important to catch an error code here?  An error here indicates an incorrect usage of the script. I don\u0027t see how catching this would be useful since there is no way to \"correct\" the problem at runtime?",
+      "revId": "3835c31566cfa41f4dd36cd4d65935fbf71c9a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

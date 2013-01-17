@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OeOoLRyw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-01-17T15:04:18Z",
+      "side": 1,
+      "message": "Sorry, it looks like we stepped on each other\u0027s toes last night.  https://gerrit-review.googlesource.com/#/c/41270/ moves this to a dedicated Avatar class.",
+      "revId": "2d817a67bbe068ace20ccee29c3ba9bfb0b1bca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OeAoYm30",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetAvatar.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-01-17T15:04:18Z",
+      "side": 1,
+      "message": "Wow this is way cleaner than my version",
+      "revId": "2d817a67bbe068ace20ccee29c3ba9bfb0b1bca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OfiSa8s4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:23:10Z",
+      "side": 1,
+      "message": "id.toString() is also valid here. :-)",
+      "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfuRUWu0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMembers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:23:10Z",
+      "side": 1,
+      "message": "batch the updates and inserts into two temporary lists in this method.",
+      "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfgSV9p0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/DeleteMembers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:23:10Z",
+      "side": 1,
+      "message": "Inline this into the for loop and avoid the toList(). I don\u0027t think it improves readability here and it doesn\u0027t help runtime performance.",
+      "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfsRXXu8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/MemberResource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:23:10Z",
+      "side": 1,
+      "message": "getGroup(). I prefer to name the thing we are getting and less about the hierarchy of \"parent-ness\" in the REST space.",
+      "revId": "9e9e5cf549e4f87cf1a9d32a414679f6541d61d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

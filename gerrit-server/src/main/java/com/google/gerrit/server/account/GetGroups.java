@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 
 import java.util.List;
 
-class GetGroups implements RestReadView<AccountResource> {
+public class GetGroups implements RestReadView<AccountResource> {
   private final GroupControl.Factory groupControlFactory;
 
   @Inject

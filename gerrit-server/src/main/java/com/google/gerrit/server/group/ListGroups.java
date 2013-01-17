@@ -15,6 +15,8 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -27,13 +29,17 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.util.Url;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
@@ -52,6 +58,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final GroupCache groupCache;
   private final VisibleGroups.Factory visibleGroupsFactory;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final Provider<GetGroups> accountGetGroups;
 
   @Option(name = "--project", aliases = {"-p"},
       usage = "projects for which the groups should be listed")
@@ -79,10 +86,12 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   @Inject
   protected ListGroups(final GroupCache groupCache,
       final VisibleGroups.Factory visibleGroupsFactory,
-      final IdentifiedUser.GenericFactory userFactory) {
+      final IdentifiedUser.GenericFactory userFactory,
+      Provider<GetGroups> accountGetGroups) {
     this.groupCache = groupCache;
     this.visibleGroupsFactory = visibleGroupsFactory;
     this.userFactory = userFactory;
+    this.accountGetGroups = accountGetGroups;
   }
 
   public Account.Id getUser() {
@@ -112,43 +121,52 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
 
     try {
-      final VisibleGroups visibleGroups = visibleGroupsFactory.create();
-      visibleGroups.setOnlyVisibleToAll(visibleToAll);
-      visibleGroups.setGroupType(groupType);
-      visibleGroups.setMatch(matchSubstring);
-      final List<AccountGroup> groupList;
-      if (!projects.isEmpty()) {
-        groupList = visibleGroups.get(projects);
-      } else if (user != null) {
-        groupList = visibleGroups.get(userFactory.create(user));
+      List<GroupInfo> groups;
+      if (user != null) {
+        groups = accountGetGroups.get().apply(
+            new AccountResource(userFactory.create(user)));
       } else {
-        groupList = visibleGroups.get();
+        VisibleGroups visibleGroups = visibleGroupsFactory.create();
+        visibleGroups.setOnlyVisibleToAll(visibleToAll);
+        visibleGroups.setGroupType(groupType);
+        visibleGroups.setMatch(matchSubstring);
+        List<AccountGroup> groupList;
+        if (!projects.isEmpty()) {
+          groupList = visibleGroups.get(projects);
+        } else {
+          groupList = visibleGroups.get();
+        }
+        groups = Lists.newArrayListWithCapacity(groupList.size());
+        for (AccountGroup group : groupList) {
+          groups.add(new GroupInfo(GroupDescriptions.forAccountGroup(group)));
+        }
       }
 
       if (stdout == null) {
         final Map<String, GroupInfo> output = Maps.newTreeMap();
-        for (AccountGroup g : groupList) {
-          GroupInfo info = new GroupInfo(GroupDescriptions.forAccountGroup(g));
-          output.put(Objects.firstNonNull(info.name, "Group " + info.id), info);
+        for (GroupInfo info : groups) {
+          output.put(Objects.firstNonNull(
+              info.name,
+              "Group " + Url.decode(info.id)), info);
           info.name = null;
         }
         return OutputFormat.JSON.newGson().toJsonTree(output,
             new TypeToken<Map<String, GroupInfo>>() {}.getType());
       } else {
         final ColumnFormatter formatter = new ColumnFormatter(stdout, '\t');
-        for (final AccountGroup g : groupList) {
-          formatter.addColumn(g.getName());
+        for (GroupInfo info : groups) {
+          formatter.addColumn(info.name);
           if (verboseOutput) {
-            formatter.addColumn(g.getGroupUUID().get());
-            formatter.addColumn(
-                g.getDescription() != null ? g.getDescription() : "");
-            formatter.addColumn(g.getType().toString());
-            final AccountGroup owningGroup =
-                groupCache.get(g.getOwnerGroupUUID());
-            formatter.addColumn(
-                owningGroup != null ? owningGroup.getName() : "n/a");
-            formatter.addColumn(g.getOwnerGroupUUID().get());
-            formatter.addColumn(Boolean.toString(g.isVisibleToAll()));
+            AccountGroup o = info.ownerId != null
+                ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
+                : null;
+
+            formatter.addColumn(Url.decode(info.id));
+            formatter.addColumn(Strings.nullToEmpty(info.description));
+            formatter.addColumn(o != null ? o.getName() : "n/a");
+            formatter.addColumn(o != null ? o.getGroupUUID().get() : "");
+            formatter.addColumn(Boolean.toString(
+                Objects.firstNonNull(info.visibleToAll, Boolean.FALSE)));
           }
           formatter.nextLine();
         }

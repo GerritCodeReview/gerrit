@@ -810,7 +810,7 @@ public class Gerrit implements EntryPoint {
     final PopupHandler popupHandler = new PopupHandler();
     final InlineLabel l = new InlineLabel(FormatUtil.name(account));
     l.setStyleName(RESOURCES.css().menuBarUserName());
-    final AvatarImage avatar = new AvatarImage(account, 26);
+    final AvatarImage avatar = new AvatarImage(account.getId(), 26);
     avatar.setStyleName(RESOURCES.css().menuBarUserNameAvatar());
     userSummaryPanel.setStyleName(RESOURCES.css().menuBarUserNamePanel());
     userSummaryPanel.add(l);

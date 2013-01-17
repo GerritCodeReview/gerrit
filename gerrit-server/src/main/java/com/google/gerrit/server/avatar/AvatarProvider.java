@@ -15,8 +15,7 @@
 package com.google.gerrit.server.avatar;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.UserIdentity;
+import com.google.gerrit.server.IdentifiedUser;
 
 /**
  * Provide avatar URLs for specified user.
@@ -28,7 +27,7 @@ public interface AvatarProvider {
   /**
    * Get avatar URL.
    *
-   * @param account The user for which to load an avatar image
+   * @param forUser The user for which to load an avatar image
    * @param imageSize A requested image size, in pixels. An imageSize of 0
    *        indicates to use whatever default size the provider determines.
    *        AvatarProviders may ignore the requested image size. The web
@@ -38,7 +37,7 @@ public interface AvatarProvider {
    *         {@code null} is acceptable, and results in the server responding
    *         with a 404. This will hide the avatar image in the web UI.
    */
-  public String getUrl(Account account, int imageSize);
+  public String getUrl(IdentifiedUser forUser, int imageSize);
 
   /**
    * Gets a URL for a user to modify their avatar image.
@@ -47,5 +46,5 @@ public interface AvatarProvider {
    * @return a URL the user should visit to modify their avatar, or null if
    *         modification is not possible.
    */
-  public String getChangeAvatarUrl(UserIdentity user);
+  public String getChangeAvatarUrl(IdentifiedUser forUser);
 }

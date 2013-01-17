@@ -44,7 +44,7 @@ class GetAvatar implements RestReadView<AccountResource> {
       throw new ResourceNotFoundException();
     }
 
-    String url = impl.getUrl(rsrc.getUser().getAccount(), size);
+    String url = impl.getUrl(rsrc.getUser(), size);
     if (Strings.isNullOrEmpty(url)) {
       throw new ResourceNotFoundException();
     } else {

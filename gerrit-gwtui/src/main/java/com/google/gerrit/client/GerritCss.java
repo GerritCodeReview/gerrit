@@ -31,6 +31,7 @@ public interface GerritCss extends CssResource {
   String addReviewer();
   String removeReviewer();
   String removeReviewerCell();
+  String addBranch();
   String addSshKeyPanel();
   String addWatchPanel();
   String approvalCategoryList();

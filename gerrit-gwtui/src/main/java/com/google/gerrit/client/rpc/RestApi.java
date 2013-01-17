@@ -274,10 +274,14 @@ public class RestApi {
     send(POST, cb);
   }
 
+  public String url() {
+    return url.toString();
+  }
+
   public <T extends JavaScriptObject> void send(
       Method method,
       final AsyncCallback<T> cb) {
-    RequestBuilder req = new RequestBuilder(method, url.toString());
+    RequestBuilder req = new RequestBuilder(method, url());
     req.setHeader("Accept", JSON_TYPE);
     if (Gerrit.getAuthorization() != null) {
       req.setHeader("Authorization", Gerrit.getAuthorization());

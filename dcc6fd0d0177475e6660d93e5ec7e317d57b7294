@@ -52,6 +52,24 @@
       "revId": "dcc6fd0d0177475e6660d93e5ec7e317d57b7294",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfYUEgiE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-17T04:48:11Z",
+      "side": 1,
+      "message": "about final , in  my understanding it is unnecessary to make all  function internal variable to be final especially when there is not code to update this function internal variable.  :)",
+      "parentUuid": "OekhkX94",
+      "revId": "dcc6fd0d0177475e6660d93e5ec7e317d57b7294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

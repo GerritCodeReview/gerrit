@@ -416,7 +416,8 @@ class GitWebServlet extends HttpServlet {
       final Repository repo) throws IOException {
     final Process proc =
         Runtime.getRuntime().exec(new String[] {gitwebCgi.getAbsolutePath()},
-            makeEnv(req, project), repo.getDirectory());
+            makeEnv(req, project),
+            gitwebCgi.getAbsoluteFile().getParentFile());
 
     copyStderrToLog(proc.getErrorStream());
     if (0 < req.getContentLength()) {

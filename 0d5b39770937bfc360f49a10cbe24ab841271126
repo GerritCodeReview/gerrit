@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OfmSk6g0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-17T07:56:53Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this being a List or a Map result. Other places we tend to use a Map so I wonder if I am \"cheating\" by using a List here.",
+      "revId": "0d5b39770937bfc360f49a10cbe24ab841271126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

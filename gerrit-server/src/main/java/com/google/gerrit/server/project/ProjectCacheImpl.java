@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -36,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
@@ -168,6 +170,18 @@ public class ProjectCacheImpl implements ProjectCache {
       log.warn("Cannot list available projects", e);
       return Collections.emptyList();
     }
+  }
+
+  @Override
+  public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
+    Set<AccountGroup.UUID> groups = Sets.newHashSet();
+    for (Project.NameKey n : all()) {
+      ProjectState p = byName.getIfPresent(n);
+      if (p != null) {
+        groups.addAll(p.getConfig().getAllGroupUUIDs());
+      }
+    }
+    return groups;
   }
 
   @Override

@@ -32,6 +32,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
@@ -65,6 +66,7 @@ public class LdapGroupBackend implements GroupBackend {
   private final Helper helper;
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
   private final LoadingCache<String, Boolean> existsCache;
+  private final ProjectCache projectCache;
   private final Provider<CurrentUser> userProvider;
 
   @Inject
@@ -72,9 +74,11 @@ public class LdapGroupBackend implements GroupBackend {
       Helper helper,
       @Named(GROUP_CACHE) LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(GROUP_EXIST_CACHE) LoadingCache<String, Boolean> existsCache,
+      ProjectCache projectCache,
       Provider<CurrentUser> userProvider) {
     this.helper = helper;
     this.membershipCache = membershipCache;
+    this.projectCache = projectCache;
     this.existsCache = existsCache;
     this.userProvider = userProvider;
   }
@@ -174,7 +178,15 @@ public class LdapGroupBackend implements GroupBackend {
     }
 
     try {
-      return new ListGroupMembership(membershipCache.get(id));
+      final Set<AccountGroup.UUID> groups = membershipCache.get(id);
+      return new ListGroupMembership(groups) {
+        @Override
+        public Set<AccountGroup.UUID> getKnownGroups() {
+          Set<AccountGroup.UUID> g = Sets.newHashSet(groups);
+          g.retainAll(projectCache.guessRelevantGroupUUIDs());
+          return g;
+        }
+      };
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot lookup membershipsOf %s in LDAP", id), e);
       return GroupMembership.EMPTY;

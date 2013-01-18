@@ -27,6 +27,7 @@ import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.GroupInfoCache;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -356,19 +357,24 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void populate(final int row, final AccountGroupIncludeByUuid k) {
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+
       AccountGroup.UUID uuid = k.getIncludeUUID();
+      GroupInfo info = groups.get(uuid);
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
       if (AccountGroup.isInternalGroup(uuid)) {
         table.setWidget(row, 2,
-            new Hyperlink(groups.get(uuid).getName(), Dispatcher.toGroup(uuid)));
-        table.setText(row, 3, groups.get(uuid).getDescription());
+            new Hyperlink(info.getName(), Dispatcher.toGroup(uuid)));
+        fmt.getElement(row, 2).setTitle(null);
+        table.setText(row, 3, info.getDescription());
       } else {
-        table.setText(row, 2, uuid.get());
+        table.setText(row, 2, info.getName());
+        fmt.getElement(row, 2).setTitle("UUID " + uuid.get());
+        table.clearCell(row, 3);
       }
 
-      final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());

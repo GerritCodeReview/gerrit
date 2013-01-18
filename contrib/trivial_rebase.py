@@ -37,7 +37,6 @@
 import json
 from optparse import OptionParser
 import subprocess
-from sys import exit
 
 class CheckCallError(OSError):
   """CheckCall() returned non-0."""
@@ -68,7 +67,7 @@ def GsqlQuery(sql_query, server, port):
   gsql_cmd = ['ssh', '-p', port, server, 'gerrit', 'gsql', '--format',
               'JSON', '-c', sql_query]
   try:
-    (gsql_out, gsql_stderr) = CheckCall(gsql_cmd)
+    (gsql_out, _gsql_stderr) = CheckCall(gsql_cmd)
   except CheckCallError, e:
     print "return code is %s" % e.retcode
     print "stdout and stderr is\n%s%s" % (e.stdout, e.stderr)
@@ -99,9 +98,9 @@ def GetApprovals(changeId, patchset, server, port):
   gsql_out = GsqlQuery(sql_query, server, port)
   approvals = []
   for json_str in gsql_out:
-    dict = json.loads(json_str, strict=False)
-    if dict["type"] == "row":
-      approvals.append(dict["columns"])
+    data = json.loads(json_str, strict=False)
+    if data["type"] == "row":
+      approvals.append(data["columns"])
   return approvals
 
 def GetEmailFromAcctId(account_id, server, port):
@@ -151,7 +150,7 @@ def Main():
                     help="Port to connect to Gerrit's SSH daemon "
                          "[default: %default]")
 
-  (options, args) = parser.parse_args()
+  (options, _args) = parser.parse_args()
 
   if not options.changeId:
     parser.print_help()

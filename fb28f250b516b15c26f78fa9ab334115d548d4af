@@ -196,6 +196,24 @@
       "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OgMJM4nQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-18T10:23:45Z",
+      "side": 1,
+      "message": "My guess is that this change is trying to fix the issue that the ChangeIdValidator skips the check for the presence of the \u0027Change-Id\u0027 in the commit message returning a wrong result.\n\nThis happens because the ChangeIdValidator has an assumption on which references it should and on which it shouldn\u0027t be checked. For those references where it assumes that change-id should not be checked it returns an OK result regardless of the presence or absence of change-id in the commit message.\n\nThis could be fixed in two ways:\n\n1. by fixing the regex and, thus, include a couple of more references into the check.\n\n2. by removing the check for the reference pattern from the ChangeIdValidator.\n\nI am in favor of doing 2. since ChangeIdValidator, as its name says, should only check the presence of the change-id in a commit message. It shouldn\u0027t assume anything about the reference. It is wrong to do so as it returns wrong results for some references.\n\nIf 2. is considered too risky Bruce can only do 1.\nHowever, I would, anyway, like to to 2.",
+      "parentUuid": "OfuSv.uQ",
+      "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -228,6 +228,11 @@ public class ProjectConfig extends VersionedMetaData {
     return groupsByUUID.get(uuid);
   }
 
+  /** @return set of all groups used by this configuration. */
+  public Set<AccountGroup.UUID> getAllGroupUUIDs() {
+    return Collections.unmodifiableSet(groupsByUUID.keySet());
+  }
+
   /**
    * @return the project's rules.pl ObjectId, if present in the branch.
    *    Null if it doesn't exist.

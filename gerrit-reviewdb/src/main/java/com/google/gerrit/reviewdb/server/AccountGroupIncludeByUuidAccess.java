@@ -32,4 +32,7 @@ public interface AccountGroupIncludeByUuidAccess extends
 
   @Query("WHERE key.groupId = ?")
   ResultSet<AccountGroupIncludeByUuid> byGroup(AccountGroup.Id id) throws OrmException;
+
+  @Query("")
+  ResultSet<AccountGroupIncludeByUuid> all() throws OrmException;
 }

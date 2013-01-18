@@ -176,14 +176,9 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     public Set<AccountGroup.UUID> load(AccountGroup.UUID key) throws Exception {
       final ReviewDb db = schema.open();
       try {
-        List<AccountGroup> group = db.accountGroups().byUUID(key).toList();
-        if (group.size() != 1) {
-          return Collections.emptySet();
-        }
-
         Set<AccountGroup.Id> ids = Sets.newHashSet();
         for (AccountGroupIncludeByUuid agi : db.accountGroupIncludesByUuid()
-            .byIncludeUUID(group.get(0).getGroupUUID())) {
+            .byIncludeUUID(key)) {
           ids.add(agi.getGroupId());
         }
 

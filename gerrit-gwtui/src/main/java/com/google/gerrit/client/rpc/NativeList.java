@@ -21,6 +21,12 @@ import java.util.List;
 
 /** A read-only list of native JavaScript objects stored in a JSON array. */
 public class NativeList<T extends JavaScriptObject> extends JavaScriptObject {
+  public static <T extends JavaScriptObject> NativeList<T> of(T a) {
+    NativeList<T> list = createArray().cast();
+    list.add(a);
+    return list;
+  }
+
   protected NativeList() {
   }
 
@@ -51,5 +57,6 @@ public class NativeList<T extends JavaScriptObject> extends JavaScriptObject {
 
   public final native int size() /*-{ return this.length; }-*/;
   public final native T get(int i) /*-{ return this[i]; }-*/;
+  public final native void add(T v) /*-{ this.push(v); }-*/;
   private final native void set0(int i, T v) /*-{ this[i] = v; }-*/;
 }

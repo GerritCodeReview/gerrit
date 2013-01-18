@@ -82,7 +82,7 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
     setPageTitle(Util.C.groupListTitle());
     initPageHeader();
 
-    groups = new GroupTable(true /* hyperlink to admin */, PageLinks.ADMIN_GROUPS);
+    groups = new GroupTable(PageLinks.ADMIN_GROUPS);
     add(groups);
   }
 

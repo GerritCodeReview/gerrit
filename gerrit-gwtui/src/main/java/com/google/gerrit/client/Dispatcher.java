@@ -145,12 +145,12 @@ public class Dispatcher {
     return "/admin/groups/" + id.toString() + "," + panel;
   }
 
-  public static String toGroup(final AccountGroup.UUID uuid) {
-    return "/admin/groups/uuid-" + uuid.toString();
+  public static String toGroup(AccountGroup.UUID uuid) {
+    return PageLinks.toGroup(uuid);
   }
 
   public static String toGroup(AccountGroup.UUID uuid, String panel) {
-    return "/admin/groups/uuid-" + uuid.toString() + "," + panel;
+    return toGroup(uuid) + "," + panel;
   }
 
   public static String toProject(Project.NameKey n) {

@@ -306,6 +306,11 @@ public class RefControlTest extends TestCase {
       @Override
       public void onCreateProject(Project.NameKey newProjectName) {
       }
+
+      @Override
+      public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
+        return Collections.emptySet();
+      }
     };
 
     Injector injector = Guice.createInjector(new FactoryModule() {

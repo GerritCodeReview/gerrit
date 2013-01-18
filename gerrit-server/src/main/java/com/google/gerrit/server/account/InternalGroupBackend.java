@@ -28,9 +28,7 @@ import com.google.inject.Singleton;
 
 import java.util.Collection;
 
-/**
- * Implementation of GroupBackend for the internal group system.
- */
+/** Implementation of GroupBackend for the internal group system. */
 @Singleton
 public class InternalGroupBackend implements GroupBackend {
   private static final Function<AccountGroup, GroupReference> ACT_GROUP_TO_GROUP_REF =
@@ -44,7 +42,6 @@ public class InternalGroupBackend implements GroupBackend {
   private final GroupControl.Factory groupControlFactory;
   private final GroupCache groupCache;
   private final IncludingGroupMembership.Factory groupMembershipFactory;
-
 
   @Inject
   InternalGroupBackend(GroupControl.Factory groupControlFactory,
@@ -89,6 +86,6 @@ public class InternalGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    return groupMembershipFactory.create(user.state().getInternalGroups());
+    return groupMembershipFactory.create(user);
   }
 }

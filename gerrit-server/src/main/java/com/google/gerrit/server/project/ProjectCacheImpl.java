@@ -176,7 +176,7 @@ public class ProjectCacheImpl implements ProjectCache {
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
     Set<AccountGroup.UUID> groups = Sets.newHashSet();
     for (Project.NameKey n : all()) {
-      ProjectState p = byName.getIfPresent(n);
+      ProjectState p = byName.getIfPresent(n.get());
       if (p != null) {
         groups.addAll(p.getConfig().getAllGroupUUIDs());
       }

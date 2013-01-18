@@ -40,23 +40,33 @@ public class GroupApi {
   /** Add members to a group. */
   public static void addMembers(AccountGroup.UUID groupUUID,
       Set<String> members, AsyncCallback<NativeList<MemberInfo>> cb) {
-    RestApi call = new RestApi(membersBase(groupUUID));
-    MemberInput input = MemberInput.create();
-    for (String member : members) {
-      input.add_member(member);
+    if (members.size() == 1) {
+      String m = members.iterator().next();
+      new RestApi(membersBase(groupUUID) + "/" + m).put(cb);
+    } else {
+      RestApi call = new RestApi(membersBase(groupUUID));
+      MemberInput input = MemberInput.create();
+      for (String member : members) {
+        input.add_member(member);
+      }
+      call.data(input).put(cb);
     }
-    call.data(input).put(cb);
   }
 
   /** Remove members from a group. */
   public static void removeMembers(AccountGroup.UUID groupUUID,
       Set<Account.Id> ids, AsyncCallback<VoidResult> cb) {
-    RestApi call = new RestApi(membersBase(groupUUID));
-    MemberInput input = MemberInput.create();
-    for (Account.Id id : ids) {
-      input.add_member(id.toString());
+    if (ids.size() == 1) {
+      Account.Id u = ids.iterator().next();
+      new RestApi(membersBase(groupUUID) + "/" + u).delete(cb);
+    } else {
+      RestApi call = new RestApi(membersBase(groupUUID));
+      MemberInput input = MemberInput.create();
+      for (Account.Id id : ids) {
+        input.add_member(id.toString());
+      }
+      call.data(input).delete(cb);
     }
-    call.data(input).delete(cb);
   }
 
   private static String membersBase(AccountGroup.UUID groupUUID) {

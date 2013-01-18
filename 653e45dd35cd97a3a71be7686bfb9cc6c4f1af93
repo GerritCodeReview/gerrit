@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OfoTwBr8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-18T20:20:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OgKJovrI",
+      "revId": "653e45dd35cd97a3a71be7686bfb9cc6c4f1af93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Oegjnxz0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludingGroupMembership.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-18T18:55:33Z",
       "side": 1,
       "message": "this sequential lookup is going to stink for our backends.  perhaps this should be batched.",
+      "revId": "653e45dd35cd97a3a71be7686bfb9cc6c4f1af93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfmTs6u4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludingGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-18T20:20:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Oegjnxz0",
       "revId": "653e45dd35cd97a3a71be7686bfb9cc6c4f1af93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

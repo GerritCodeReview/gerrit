@@ -679,14 +679,36 @@ public class Dispatcher {
           Gerrit.display(token, new GroupListScreen());
 
         } else if (matchPrefix("/admin/groups/", token)) {
-          group();
+          String rest = skip(token);
+          if (rest.startsWith("?")) {
+            Gerrit.display(token, new GroupListScreen(rest.substring(1)));
+          } else {
+            group();
+          }
+
+        } else if (matchPrefix("/admin/groups", token)) {
+          String rest = skip(token);
+          if (rest.startsWith("?")) {
+            Gerrit.display(token, new GroupListScreen(rest.substring(1)));
+          }
 
         } else if (matchExact(ADMIN_PROJECTS, token)
             || matchExact("/admin/projects", token)) {
           Gerrit.display(token, new ProjectListScreen());
 
         } else if (matchPrefix("/admin/projects/", token)) {
-          Gerrit.display(token, selectProject());
+            String rest = skip(token);
+            if (rest.startsWith("?")) {
+              Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
+            } else {
+              Gerrit.display(token, selectProject());
+            }
+
+        } else if (matchPrefix("/admin/projects", token)) {
+          String rest = skip(token);
+          if (rest.startsWith("?")) {
+            Gerrit.display(token, new ProjectListScreen(rest.substring(1)));
+          }
 
         } else if (matchPrefix(ADMIN_PLUGINS, token)
             || matchExact("/admin/plugins", token)) {

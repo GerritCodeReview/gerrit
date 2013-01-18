@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -23,6 +25,7 @@ import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
@@ -32,6 +35,22 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
   private NpTextBox filterTxt;
   private String subname;
 
+  public GroupListScreen() {
+  }
+
+  public GroupListScreen(String params) {
+    for (String kvPair : params.split("[,;&]")) {
+      String[] kv = kvPair.split("=", 2);
+      if (kv.length != 2 || kv[0].isEmpty()) {
+        continue;
+      }
+
+      if ("filter".equals(kv[0])) {
+        subname = URL.decodeQueryString(kv[1]);
+      }
+    }
+  }
+
   @Override
   protected void onLoad() {
     super.onLoad();
@@ -39,6 +58,8 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
   }
 
   private void refresh() {
+    setToken(subname == null || "".equals(subname) ? ADMIN_GROUPS
+        : ADMIN_GROUPS + "?filter=" + URL.encodeQueryString(subname));
     GroupMap.match(subname,
         new IgnoreOutdatedFilterResultsCallbackWrapper<GroupMap>(this,
             new ScreenLoadCallback<GroupMap>(this) {
@@ -87,6 +108,9 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
   @Override
   public void onShowView() {
     super.onShowView();
+    if (subname != null) {
+      filterTxt.setCursorPos(subname.length());
+    }
     filterTxt.setFocus(true);
   }
 

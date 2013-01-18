@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
+
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
@@ -29,6 +31,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -41,6 +44,22 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
   private NpTextBox filterTxt;
   private String subname;
 
+  public ProjectListScreen() {
+  }
+
+  public ProjectListScreen(String params) {
+    for (String kvPair : params.split("[,;&]")) {
+      String[] kv = kvPair.split("=", 2);
+      if (kv.length != 2 || kv[0].isEmpty()) {
+        continue;
+      }
+
+      if ("filter".equals(kv[0])) {
+        subname = URL.decodeQueryString(kv[1]);
+      }
+    }
+  }
+
   @Override
   protected void onLoad() {
     super.onLoad();
@@ -48,6 +67,8 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
   }
 
   private void refresh() {
+    setToken(subname == null || "".equals(subname) ? ADMIN_PROJECTS
+        : ADMIN_PROJECTS + "?filter=" + URL.encodeQueryString(subname));
     ProjectMap.match(subname,
         new IgnoreOutdatedFilterResultsCallbackWrapper<ProjectMap>(this,
             new ScreenLoadCallback<ProjectMap>(this) {
@@ -141,6 +162,9 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
   @Override
   public void onShowView() {
     super.onShowView();
+    if (subname != null) {
+      filterTxt.setCursorPos(subname.length());
+    }
     filterTxt.setFocus(true);
   }
 

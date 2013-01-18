@@ -32,7 +32,6 @@ import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +43,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   private static final Logger log = LoggerFactory
       .getLogger(GroupIncludeCacheImpl.class);
   private static final String BYINCLUDE_NAME = "groups_byinclude";
+  private static final String MEMBERS_NAME = "groups_members";
 
   public static Module module() {
     return new CacheModule() {
@@ -52,7 +52,12 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
         cache(BYINCLUDE_NAME,
             AccountGroup.UUID.class,
             new TypeLiteral<Set<AccountGroup.UUID>>() {})
-          .loader(ByIncludeLoader.class);
+          .loader(MemberInLoader.class);
+
+        cache(MEMBERS_NAME,
+            AccountGroup.UUID.class,
+            new TypeLiteral<Set<AccountGroup.UUID>>() {})
+          .loader(MembersOfLoader.class);
 
         bind(GroupIncludeCacheImpl.class);
         bind(GroupIncludeCache.class).to(GroupIncludeCacheImpl.class);
@@ -60,35 +65,83 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     };
   }
 
-  private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> byInclude;
+  private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> membersOf;
+  private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> memberIn;
 
   @Inject
   GroupIncludeCacheImpl(
-      @Named(BYINCLUDE_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> byInclude) {
-    this.byInclude = byInclude;
+      @Named(MEMBERS_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> membersOf,
+      @Named(BYINCLUDE_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> memberIn) {
+    this.membersOf = membersOf;
+    this.memberIn = memberIn;
   }
 
-  public Collection<AccountGroup.UUID> getByInclude(AccountGroup.UUID groupId) {
+  public Set<AccountGroup.UUID> membersOf(AccountGroup.UUID groupId) {
     try {
-      return byInclude.get(groupId);
+      return membersOf.get(groupId);
+    } catch (ExecutionException e) {
+      log.warn("Cannot load members of group", e);
+      return Collections.emptySet();
+    }
+  }
+
+  public Set<AccountGroup.UUID> memberIn(AccountGroup.UUID groupId) {
+    try {
+      return memberIn.get(groupId);
     } catch (ExecutionException e) {
       log.warn("Cannot load included groups", e);
       return Collections.emptySet();
     }
   }
 
-  public void evictInclude(AccountGroup.UUID groupId) {
+  public void evictMembersOf(AccountGroup.UUID groupId) {
     if (groupId != null) {
-      byInclude.invalidate(groupId);
+      membersOf.invalidate(groupId);
     }
   }
 
-  static class ByIncludeLoader extends
+  public void evictMemberIn(AccountGroup.UUID groupId) {
+    if (groupId != null) {
+      memberIn.invalidate(groupId);
+    }
+  }
+
+  static class MembersOfLoader extends
       CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    ByIncludeLoader(final SchemaFactory<ReviewDb> sf) {
+    MembersOfLoader(final SchemaFactory<ReviewDb> sf) {
+      schema = sf;
+    }
+
+    @Override
+    public Set<AccountGroup.UUID> load(AccountGroup.UUID key) throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        List<AccountGroup> group = db.accountGroups().byUUID(key).toList();
+        if (group.size() != 1) {
+          return Collections.emptySet();
+        }
+
+        Set<AccountGroup.UUID> ids = Sets.newHashSet();
+        for (AccountGroupIncludeByUuid agi : db.accountGroupIncludesByUuid()
+            .byGroup(group.get(0).getId())) {
+          ids.add(agi.getIncludeUUID());
+        }
+        return ImmutableSet.copyOf(ids);
+      } finally {
+        db.close();
+      }
+    }
+  }
+
+  static class MemberInLoader extends
+      CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    MemberInLoader(final SchemaFactory<ReviewDb> sf) {
       schema = sf;
     }
 

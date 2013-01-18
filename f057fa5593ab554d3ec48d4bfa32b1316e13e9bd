@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OekjI36Y",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupDescription.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-18T23:09:25Z",
+      "side": 1,
+      "message": "This phrase is a bit awkward.",
+      "revId": "f057fa5593ab554d3ec48d4bfa32b1316e13e9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

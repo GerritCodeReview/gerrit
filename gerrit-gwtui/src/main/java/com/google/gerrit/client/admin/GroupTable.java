@@ -21,9 +21,12 @@ import com.google.gerrit.client.groups.GroupList;
 import com.google.gerrit.client.groups.GroupMap;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.client.ui.Util;
+import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
@@ -36,15 +39,12 @@ import java.util.List;
 public class GroupTable extends NavigationTable<GroupInfo> {
   private static final int NUM_COLS = 3;
 
-  private final boolean enableLink;
-
-  public GroupTable(final boolean enableLink) {
-    this(enableLink, null);
+  public GroupTable() {
+    this(null);
   }
 
-  public GroupTable(final boolean enableLink, final String pointerId) {
+  public GroupTable(final String pointerId) {
     super(Util.C.groupItemHelp());
-    this.enableLink = enableLink;
     setSavePointerId(pointerId);
 
     table.setText(0, 1, Util.C.columnGroupName());
@@ -104,11 +104,18 @@ public class GroupTable extends NavigationTable<GroupInfo> {
   }
 
   void populate(final int row, final GroupInfo k, final String toHighlight) {
-    if (enableLink) {
-      table.setWidget(row, 1, new HighlightingInlineHyperlink(k.name(),
-          Dispatcher.toGroup(k.getGroupId()), toHighlight));
+    if (k.url() != null) {
+      if (k.url().startsWith("#" + PageLinks.ADMIN_GROUPS)) {
+        table.setWidget(row, 1, new HighlightingInlineHyperlink(k.name(),
+            Dispatcher.toGroup(k.getGroupId()), toHighlight));
+      } else {
+        Anchor link = new Anchor();
+        link.setHTML(Util.highlight(k.name(), toHighlight));
+        link.setHref(k.url());
+        table.setWidget(row, 1, link);
+      }
     } else {
-      table.setText(row, 1, k.name());
+      table.setHTML(row, 1, Util.highlight(k.name(), toHighlight));
     }
     table.setText(row, 2, k.description());
     if (k.isVisibleToAll()) {

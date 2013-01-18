@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 import javax.annotation.Nullable;
@@ -51,6 +52,18 @@ public class GroupDescriptions {
       @Override
       public AccountGroup getAccountGroup() {
         return group;
+      }
+
+      @Override
+      @Nullable
+      public String getEmailAddress() {
+        return null;
+      }
+
+      @Override
+      @Nullable
+      public String getUrl() {
+        return "#" + PageLinks.toGroup(getGroupUUID());
       }
     };
   }

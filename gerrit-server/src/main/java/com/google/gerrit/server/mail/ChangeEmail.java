@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.EmailException;
@@ -418,22 +420,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   private void add(Watchers matching, NotifyConfig nc, Project.NameKey project)
       throws OrmException, QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
-      AccountGroup group =
-          GroupDescriptions.toAccountGroup(args.groupBackend.get(ref.getUUID()));
-      if (group == null) {
-        log.warn(String.format(
-            "Project %s has invalid group %s in notify section %s",
-            project.get(), ref.getName(), nc.getName()));
-        continue;
-      }
-
-      if (group.getType() != AccountGroup.Type.INTERNAL) {
-        log.warn(String.format(
-            "Project %s cannot use group %s of type %s in notify section %s",
-            project.get(), ref.getName(), group.getType(), nc.getName()));
-        continue;
-      }
-
+      GroupDescription.Basic group = args.groupBackend.get(ref.getUUID());
       ChangeQueryBuilder qb = args.queryBuilder.create(new SingleGroupUser(
           args.capabilityControlFactory,
           ref.getUUID()));
@@ -443,9 +430,29 @@ public abstract class ChangeEmail extends NotificationEmail {
         p = Predicate.and(qb.parse(nc.getFilter()), p);
         p = args.queryRewriter.get().rewrite(p);
       }
-      if (p.match(changeData)) {
-        recursivelyAddAllAccounts(matching.list(nc.getHeader()), group);
+      if (!p.match(changeData)) {
+        continue;
       }
+
+      if (Strings.isNullOrEmpty(group.getEmailAddress())) {
+        matching.list(nc.getHeader()).emails.add(new Address(group.getEmailAddress()));
+        continue;
+      }
+
+      AccountGroup ig = GroupDescriptions.toAccountGroup(group);
+      if (ig == null) {
+        log.warn(String.format(
+            "Project %s has invalid group %s in notify section %s",
+            project.get(), ref.getName(), nc.getName()));
+        continue;
+      }
+      if (ig.getType() != AccountGroup.Type.INTERNAL) {
+        log.warn(String.format(
+            "Project %s cannot use group %s of type %s in notify section %s",
+            project.get(), ref.getName(), ig.getType(), nc.getName()));
+        continue;
+      }
+      recursivelyAddAllAccounts(matching.list(nc.getHeader()), ig);
     }
 
     if (!nc.getAddresses().isEmpty()) {

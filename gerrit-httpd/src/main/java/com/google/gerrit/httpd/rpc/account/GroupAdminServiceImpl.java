@@ -223,7 +223,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
+        AccountGroup group = groupCache.get(groupId);
+        if (group.getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -244,7 +245,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
               Collections.singleton(new AccountGroupIncludeByUuidAudit(m,
                   getAccountId())));
           db.accountGroupIncludesByUuid().insert(Collections.singleton(m));
-          groupIncludeCache.evictInclude(incGroupUUID);
+          groupIncludeCache.evictMemberIn(incGroupUUID);
+          groupIncludeCache.evictMembersOf(group.getGroupUUID());
         }
 
         return groupDetailFactory.create(groupId).call();
@@ -313,7 +315,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
+        AccountGroup group = groupCache.get(groupId);
+        if (group.getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -353,7 +356,10 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           }
         }
         for (AccountGroup.UUID uuid : groupsToEvict) {
-          groupIncludeCache.evictInclude(uuid);
+          groupIncludeCache.evictMemberIn(uuid);
+        }
+        if (!groupsToEvict.isEmpty()) {
+          groupIncludeCache.evictMembersOf(group.getGroupUUID());
         }
         return VoidResult.INSTANCE;
       }

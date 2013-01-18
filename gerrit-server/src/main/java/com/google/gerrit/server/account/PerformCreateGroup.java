@@ -128,6 +128,7 @@ public class PerformCreateGroup {
 
     if (initialGroups != null) {
       addGroups(groupId, initialGroups);
+      groupIncludeCache.evictMembersOf(uuid);
     }
 
     groupCache.onCreateGroup(nameKey);
@@ -177,7 +178,7 @@ public class PerformCreateGroup {
     db.accountGroupIncludesByUuidAudit().insert(includesAudit);
 
     for (AccountGroup.UUID uuid : groups) {
-      groupIncludeCache.evictInclude(uuid);
+      groupIncludeCache.evictMemberIn(uuid);
     }
   }
 }

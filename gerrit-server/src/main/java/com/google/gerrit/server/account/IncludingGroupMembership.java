@@ -105,6 +105,24 @@ public class IncludingGroupMembership implements GroupMembership {
     return false;
   }
 
+  @Override
+  public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupIds) {
+    Set<AccountGroup.UUID> r = Sets.newHashSet();
+    for (AccountGroup.UUID id : groupIds) {
+      Boolean b = memberOf.get(id);
+      if (b == null) {
+        memberOf.put(id, false);
+        if (search(includeCache.membersOf(id))) {
+          memberOf.put(id, true);
+          r.add(id);
+        }
+      } else if (b) {
+        r.add(id);
+      }
+    }
+    return r;
+  }
+
   private boolean search(Set<AccountGroup.UUID> ids) {
     if (ids.isEmpty()) {
       return false;
@@ -123,8 +141,9 @@ public class IncludingGroupMembership implements GroupMembership {
     Set<AccountGroup.UUID> r = Sets.newHashSet(direct);
     List<AccountGroup.UUID> q = Lists.newArrayList(r);
 
-    for (AccountGroup.UUID g : includeCache.allExternalMembers()) {
-      if (membership.contains(g) && r.add(g)) {
+    for (AccountGroup.UUID g : membership.intersection(
+        includeCache.allExternalMembers())) {
+      if (r.add(g)) {
         q.add(g);
       }
     }

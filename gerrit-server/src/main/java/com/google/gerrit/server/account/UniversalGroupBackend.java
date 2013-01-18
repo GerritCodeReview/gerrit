@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMP
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
@@ -128,25 +129,31 @@ public class UniversalGroupBackend implements GroupBackend {
      return m.contains(uuid);
    }
 
-   @Override
-   public boolean containsAnyOf(Iterable<AccountGroup.UUID> uuids) {
-     Multimap<GroupMembership, AccountGroup.UUID> lookups =
-         ArrayListMultimap.create();
-     for (AccountGroup.UUID uuid : uuids) {
-       GroupMembership m = membership(uuid);
-       if (m == null) {
-         log.warn("Unknown GroupMembership for UUID: " + uuid);
-         continue;
-       }
-       lookups.put(m, uuid);
-     }
-     for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry :
-          lookups.asMap().entrySet()) {
-       if (entry.getKey().containsAnyOf(entry.getValue())) {
-         return true;
-       }
-     }
-     return false;
+    @Override
+    public boolean containsAnyOf(Iterable<AccountGroup.UUID> uuids) {
+      Multimap<GroupMembership, AccountGroup.UUID> lookups =
+          ArrayListMultimap.create();
+      for (AccountGroup.UUID uuid : uuids) {
+        GroupMembership m = membership(uuid);
+        if (m == null) {
+          log.warn("Unknown GroupMembership for UUID: " + uuid);
+          continue;
+        }
+        lookups.put(m, uuid);
+      }
+      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry
+          : lookups .asMap().entrySet()) {
+        GroupMembership m = entry.getKey();
+        Collection<AccountGroup.UUID> ids = entry.getValue();
+        if (ids.size() == 1) {
+          if (m.contains(Iterables.getOnlyElement(ids))) {
+            return true;
+          }
+        } else if (m.containsAnyOf(ids)) {
+          return true;
+        }
+      }
+      return false;
     }
 
     @Override

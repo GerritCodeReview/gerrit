@@ -24,7 +24,6 @@ import java.util.Set;
  * GroupMembership over an explicit list.
  */
 public class ListGroupMembership implements GroupMembership {
-
   private final Set<AccountGroup.UUID> groups;
 
   public ListGroupMembership(Iterable<AccountGroup.UUID> groupIds) {
@@ -44,6 +43,11 @@ public class ListGroupMembership implements GroupMembership {
       }
     }
     return false;
+  }
+
+  @Override
+  public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupIds) {
+    return Sets.intersection(ImmutableSet.copyOf(groupIds), groups);
   }
 
   @Override

@@ -70,6 +70,17 @@ public class IncludingGroupMembership implements GroupMembership {
     return findIncludedGroup(query);
   }
 
+  @Override
+  public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupIds) {
+    Set<AccountGroup.UUID> r = Sets.newHashSet();
+    for (AccountGroup.UUID id : groupIds) {
+      if (contains(id)) {
+        r.add(id);
+      }
+    }
+    return r;
+  }
+
   private boolean findIncludedGroup(Set<AccountGroup.UUID> query) {
     boolean found = false;
     while (!found && !groupQueue.isEmpty()) {

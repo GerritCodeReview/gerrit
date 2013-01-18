@@ -156,13 +156,33 @@ public class UniversalGroupBackend implements GroupBackend {
       return false;
     }
 
-   @Override
-   public Set<AccountGroup.UUID> getKnownGroups() {
-     Set<AccountGroup.UUID> groups = Sets.newHashSet();
-     for (GroupMembership m : memberships.values()) {
-       groups.addAll(m.getKnownGroups());
-     }
-     return groups;
-   }
+    @Override
+    public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> uuids) {
+      Multimap<GroupMembership, AccountGroup.UUID> lookups =
+          ArrayListMultimap.create();
+      for (AccountGroup.UUID uuid : uuids) {
+        GroupMembership m = membership(uuid);
+        if (m == null) {
+          log.warn("Unknown GroupMembership for UUID: " + uuid);
+          continue;
+        }
+        lookups.put(m, uuid);
+      }
+      Set<AccountGroup.UUID> groups = Sets.newHashSet();
+      for (Map.Entry<GroupMembership, Collection<AccountGroup.UUID>> entry
+          : lookups.asMap().entrySet()) {
+        groups.addAll(entry.getKey().intersection(entry.getValue()));
+      }
+      return groups;
+    }
+
+    @Override
+    public Set<AccountGroup.UUID> getKnownGroups() {
+      Set<AccountGroup.UUID> groups = Sets.newHashSet();
+      for (GroupMembership m : memberships.values()) {
+        groups.addAll(m.getKnownGroups());
+      }
+      return groups;
+    }
   }
 }

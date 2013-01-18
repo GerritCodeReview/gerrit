@@ -241,7 +241,7 @@ import javax.security.auth.login.LoginException;
     if (actual.isEmpty()) {
       return Collections.emptySet();
     } else {
-      return Collections.unmodifiableSet(actual);
+      return ImmutableSet.copyOf(actual);
     }
   }
 

@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+
+import java.util.Set;
 
 /** Cache of project information, including access rights. */
 public interface ProjectCache {
@@ -40,6 +43,13 @@ public interface ProjectCache {
 
   /** @return sorted iteration of projects. */
   public abstract Iterable<Project.NameKey> all();
+
+  /**
+   * @return estimated set of relevant groups extracted from hot project access
+   *         rules. If the cache is cold or too small for the entire project set
+   *         of the server, this set may be incomplete.
+   */
+  public abstract Set<AccountGroup.UUID> guessRelevantGroupUUIDs();
 
   /**
    * Filter the set of registered project names by common prefix.

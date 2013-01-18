@@ -44,6 +44,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       .getLogger(GroupIncludeCacheImpl.class);
   private static final String BYINCLUDE_NAME = "groups_byinclude";
   private static final String MEMBERS_NAME = "groups_members";
+  private static final String EXTERNAL_NAME = "groups_external";
 
   public static Module module() {
     return new CacheModule() {
@@ -59,6 +60,11 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
             new TypeLiteral<Set<AccountGroup.UUID>>() {})
           .loader(MembersOfLoader.class);
 
+        cache(EXTERNAL_NAME,
+            String.class,
+            new TypeLiteral<Set<AccountGroup.UUID>>() {})
+          .loader(AllExternalLoader.class);
+
         bind(GroupIncludeCacheImpl.class);
         bind(GroupIncludeCache.class).to(GroupIncludeCacheImpl.class);
       }
@@ -67,15 +73,19 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
   private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> membersOf;
   private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> memberIn;
+  private final LoadingCache<String, Set<AccountGroup.UUID>> external;
 
   @Inject
   GroupIncludeCacheImpl(
       @Named(MEMBERS_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> membersOf,
-      @Named(BYINCLUDE_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> memberIn) {
+      @Named(BYINCLUDE_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> memberIn,
+      @Named(EXTERNAL_NAME) LoadingCache<String, Set<AccountGroup.UUID>> external) {
     this.membersOf = membersOf;
     this.memberIn = memberIn;
+    this.external = external;
   }
 
+  @Override
   public Set<AccountGroup.UUID> membersOf(AccountGroup.UUID groupId) {
     try {
       return membersOf.get(groupId);
@@ -85,6 +95,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
+  @Override
   public Set<AccountGroup.UUID> memberIn(AccountGroup.UUID groupId) {
     try {
       return memberIn.get(groupId);
@@ -94,15 +105,31 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
   }
 
+  @Override
   public void evictMembersOf(AccountGroup.UUID groupId) {
     if (groupId != null) {
       membersOf.invalidate(groupId);
     }
   }
 
+  @Override
   public void evictMemberIn(AccountGroup.UUID groupId) {
     if (groupId != null) {
       memberIn.invalidate(groupId);
+
+      if (!AccountGroup.isInternalGroup(groupId)) {
+        external.invalidate(EXTERNAL_NAME);
+      }
+    }
+  }
+
+  @Override
+  public Set<AccountGroup.UUID> allExternalMembers() {
+    try {
+      return external.get(EXTERNAL_NAME);
+    } catch (ExecutionException e) {
+      log.warn("Cannot load set of non-internal groups", e);
+      return Collections.emptySet();
     }
   }
 
@@ -165,6 +192,32 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
           groupArray.add(g.getGroupUUID());
         }
         return ImmutableSet.copyOf(groupArray);
+      } finally {
+        db.close();
+      }
+    }
+  }
+
+  static class AllExternalLoader extends
+      CacheLoader<String, Set<AccountGroup.UUID>> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    AllExternalLoader(final SchemaFactory<ReviewDb> sf) {
+      schema = sf;
+    }
+
+    @Override
+    public Set<AccountGroup.UUID> load(String key) throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        Set<AccountGroup.UUID> ids = Sets.newHashSet();
+        for (AccountGroupIncludeByUuid agi : db.accountGroupIncludesByUuid().all()) {
+          if (!AccountGroup.isInternalGroup(agi.getIncludeUUID())) {
+            ids.add(agi.getIncludeUUID());
+          }
+        }
+        return ImmutableSet.copyOf(ids);
       } finally {
         db.close();
       }

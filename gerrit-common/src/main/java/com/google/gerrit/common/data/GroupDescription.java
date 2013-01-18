@@ -16,6 +16,8 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
+import javax.annotation.Nullable;
+
 /**
  * Group methods exposed by the GroupBackend.
  */
@@ -32,6 +34,22 @@ public class GroupDescription {
 
     /** @return whether the group is visible to all accounts. */
     boolean isVisibleToAll();
+
+    /**
+     * @return optional email address to send to the group's members. If
+     *         provided, Gerrit will use this email address to send
+     *         change notifications to the group.
+     */
+    @Nullable
+    String getEmailAddress();
+
+    /**
+     * @return optional URL to information about the group. Typically a URL to a
+     *         web page that permits users to apply to join the group, or manage
+     *         their membership.
+     */
+    @Nullable
+    String getUrl();
   }
 
   /**

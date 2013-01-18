@@ -21,6 +21,7 @@ public class GroupInfo {
   protected AccountGroup.UUID uuid;
   protected String name;
   protected String description;
+  protected String url;
 
   protected GroupInfo() {
   }
@@ -44,6 +45,7 @@ public class GroupInfo {
   public GroupInfo(GroupDescription.Basic a) {
     uuid = a.getGroupUUID();
     name = a.getName();
+    url = a.getUrl();
 
     if (a instanceof GroupDescription.Internal) {
       AccountGroup group = ((GroupDescription.Internal) a).getAccountGroup();
@@ -64,5 +66,9 @@ public class GroupInfo {
   /** @return the description of the group; null if not supplied */
   public String getDescription() {
     return description;
+  }
+
+  public String getUrl() {
+    return url;
   }
 }

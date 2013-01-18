@@ -31,6 +31,7 @@ public class GroupInfo extends JavaScriptObject {
   public final native String name() /*-{ return this.name; }-*/;
   public final native boolean isVisibleToAll() /*-{ return this['visible_to_all'] ? true : false; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
+  public final native String url() /*-{ return this.url; }-*/;
 
   private final native int group_id() /*-{ return this.group_id; }-*/;
   private final native String owner_uuid() /*-{ return this.owner_uuid; }-*/;

@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import javax.annotation.Nullable;
 import javax.naming.InvalidNameException;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
@@ -151,6 +152,18 @@ public class LdapGroupBackend implements GroupBackend {
       @Override
       public boolean isVisibleToAll() {
         return false;
+      }
+
+      @Override
+      @Nullable
+      public String getEmailAddress() {
+        return null;
+      }
+
+      @Override
+      @Nullable
+      public String getUrl() {
+        return null;
       }
     };
   }

@@ -35,6 +35,7 @@ import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -369,6 +370,14 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
             new Hyperlink(info.getName(), Dispatcher.toGroup(uuid)));
         fmt.getElement(row, 2).setTitle(null);
         table.setText(row, 3, info.getDescription());
+      } else if (info.getUrl() != null) {
+        Anchor a = new Anchor();
+        a.setText(info.getName());
+        a.setHref(info.getUrl());
+        a.setTitle("UUID " + uuid.get());
+        table.setWidget(row, 2, a);
+        fmt.getElement(row, 2).setTitle(null);
+        table.clearCell(row, 3);
       } else {
         table.setText(row, 2, info.getName());
         fmt.getElement(row, 2).setTitle("UUID " + uuid.get());

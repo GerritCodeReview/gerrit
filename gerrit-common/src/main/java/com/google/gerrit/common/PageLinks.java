@@ -15,6 +15,7 @@
 package com.google.gerrit.common;
 
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -99,6 +100,10 @@ public class PageLinks {
 
   public static String projectQuery(Project.NameKey proj, Status status) {
       return status(status) + " " + op("project", proj.get());
+  }
+
+  public static String toGroup(AccountGroup.UUID uuid) {
+    return ADMIN_GROUPS + "uuid-" + uuid;
   }
 
   private static String status(Status status) {

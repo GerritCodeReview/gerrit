@@ -16,12 +16,17 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
-import java.util.Collection;
+import java.util.Set;
 
 /** Tracks group inclusions in memory for efficient access. */
 public interface GroupIncludeCache {
-  public Collection<AccountGroup.UUID> getByInclude(AccountGroup.UUID groupId);
+  /** @return groups directly a member of the passed group. */
+  public Set<AccountGroup.UUID> membersOf(AccountGroup.UUID group);
 
-  public void evictInclude(AccountGroup.UUID groupId);
+  /** @return any groups the passed group belongs to. */
+  public Set<AccountGroup.UUID> memberIn(AccountGroup.UUID groupId);
+
+  public void evictMembersOf(AccountGroup.UUID groupId);
+  public void evictMemberIn(AccountGroup.UUID groupId);
 }
 

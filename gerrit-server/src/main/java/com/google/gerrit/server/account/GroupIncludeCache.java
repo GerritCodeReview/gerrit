@@ -26,7 +26,9 @@ public interface GroupIncludeCache {
   /** @return any groups the passed group belongs to. */
   public Set<AccountGroup.UUID> memberIn(AccountGroup.UUID groupId);
 
+  /** @return set of any UUIDs that are not internal groups. */
+  public Set<AccountGroup.UUID> allExternalMembers();
+
   public void evictMembersOf(AccountGroup.UUID groupId);
   public void evictMemberIn(AccountGroup.UUID groupId);
 }
-

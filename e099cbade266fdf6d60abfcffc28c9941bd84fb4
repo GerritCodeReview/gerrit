@@ -16,6 +16,24 @@
       "revId": "e099cbade266fdf6d60abfcffc28c9941bd84fb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OfkQsTk8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-18T12:51:31Z",
+      "side": 1,
+      "message": "oh, I just know it exists and can work before I2fb13ddb1,  but I do not know its history  :)",
+      "parentUuid": "OfsSy-ks",
+      "revId": "e099cbade266fdf6d60abfcffc28c9941bd84fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

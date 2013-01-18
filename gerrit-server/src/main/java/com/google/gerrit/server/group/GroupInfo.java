@@ -21,8 +21,9 @@ import com.google.gerrit.server.util.Url;
 
 public class GroupInfo {
   final String kind = "gerritcodereview#group";
-  public String id;
-  public String name;
+  String id;
+  String name;
+  String url;
   Boolean visibleToAll;
 
   // These fields are only supplied for internal groups.
@@ -33,6 +34,7 @@ public class GroupInfo {
   public GroupInfo(GroupDescription.Basic group) {
     id = Url.encode(group.getGroupUUID().get());
     name = Strings.emptyToNull(group.getName());
+    url = Strings.emptyToNull(group.getUrl());
     visibleToAll = group.isVisibleToAll() ? true : null;
 
     if (group instanceof GroupDescription.Internal) {

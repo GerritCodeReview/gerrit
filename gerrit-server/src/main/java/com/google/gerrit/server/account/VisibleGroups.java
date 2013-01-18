@@ -87,30 +87,6 @@ public class VisibleGroups {
     return filterGroups(groups.values());
   }
 
-  /**
-   * Returns visible list of known groups for the user. Depending on the group
-   * membership realms supported, this may only return a subset of the effective
-   * groups.
-   * @See GroupMembership#getKnownGroups()
-   */
-  public List<AccountGroup> get(final IdentifiedUser user) throws NoSuchGroupException {
-    if (identifiedUser.get().getAccountId().equals(user.getAccountId())
-        || identifiedUser.get().getCapabilities().canAdministrateServer()) {
-      Set<AccountGroup.UUID> mine = user.getEffectiveGroups().getKnownGroups();
-      Map<AccountGroup.UUID, AccountGroup> groups = Maps.newHashMap();
-      for (final AccountGroup.UUID groupId : mine) {
-        AccountGroup group = groupCache.get(groupId);
-        if (group != null) {
-          groups.put(groupId, group);
-        }
-      }
-      return filterGroups(groups.values());
-    } else {
-      throw new NoSuchGroupException("Groups of user '" + user.getAccountId()
-          + "' are not visible.");
-    }
-  }
-
   private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {
     final List<AccountGroup> filteredGroups = Lists.newArrayList();
     final boolean isAdmin =

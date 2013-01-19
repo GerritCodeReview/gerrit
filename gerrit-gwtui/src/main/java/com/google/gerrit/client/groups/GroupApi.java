@@ -67,17 +67,34 @@ public class GroupApi {
 
   /** Remove members from a group. */
   public static void removeMembers(AccountGroup.UUID groupUUID,
-      Set<Account.Id> ids, AsyncCallback<VoidResult> cb) {
-    if (ids.size() == 1) {
-      Account.Id u = ids.iterator().next();
-      new RestApi(membersBase(groupUUID) + "/" + u).delete(cb);
-    } else {
-      RestApi call = new RestApi(membersBase(groupUUID));
-      MemberInput input = MemberInput.create();
-      for (Account.Id id : ids) {
-        input.add_member(id.toString());
+      Set<Account.Id> ids, final AsyncCallback<VoidResult> cb) {
+    final int cnt = ids.size();
+    if (cnt == 0) {
+      cb.onSuccess(VoidResult.create());
+      return;
+    }
+
+    final AsyncCallback<VoidResult> state = new AsyncCallback<VoidResult>() {
+      private int remaining = cnt;
+      private boolean error;
+
+      @Override
+      public void onSuccess(VoidResult result) {
+        if (--remaining == 0 && !error) {
+          cb.onSuccess(result);
+        }
       }
-      call.data(input).delete(cb);
+
+      @Override
+      public void onFailure(Throwable caught) {
+        if (!error) {
+          error = true;
+          cb.onFailure(caught);
+        }
+      }
+    };
+    for (Account.Id u : ids) {
+      new RestApi(membersBase(groupUUID) + "/" + u).delete(state);
     }
   }
 

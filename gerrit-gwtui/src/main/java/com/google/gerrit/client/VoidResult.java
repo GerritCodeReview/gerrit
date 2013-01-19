@@ -19,4 +19,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 public final class VoidResult extends JavaScriptObject {
   protected VoidResult() {
   }
+
+  public static VoidResult create() {
+    return createObject().cast();
+  }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OoeHwJiQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/Module.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-19T01:54:05Z",
+      "side": 1,
+      "message": "FWIW this does not work on gerrit-review. We have an HTTP proxy between the user and the Gerrit server that rejects DELETE with a body. It unfortunately only accepts a body with POST and PUT.",
+      "revId": "3adce619c9799faa8f88c96e6d8f685c4132c9ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

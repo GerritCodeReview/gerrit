@@ -232,6 +232,24 @@
       "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OocH-Iu8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-19T05:51:09Z",
+      "side": 1,
+      "message": "I got it now, it is my fault I didn\u0027t make the message clear( my bad english:( ), thus make\nyou guys discuss towards different way.  In fact my intention is just to fix a regression.\n\n\n\n\nI think Sasa want \"refactor the validator for more generic uses\" just like\nPS12 to remove...,  which I think OK, however I am not sure about it 100%\nbecause I have not done a full test on it  by far.",
+      "parentUuid": "OhH438d4",
+      "revId": "fb28f250b516b15c26f78fa9ab334115d548d4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

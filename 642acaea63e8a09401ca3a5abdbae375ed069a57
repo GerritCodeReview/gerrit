@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OsdHwRCQ",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-20T12:19:03Z",
+      "side": 1,
+      "message": "Not related to this change, but is there a reason why all the error cases in this script exit with status 0?  Shouldn\u0027t error cases exit with non-zero?\n\nAlso, should the error messages not be printed to sys.stderr?",
+      "revId": "642acaea63e8a09401ca3a5abdbae375ed069a57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

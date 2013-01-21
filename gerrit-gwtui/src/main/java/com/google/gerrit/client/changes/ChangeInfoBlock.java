@@ -31,6 +31,9 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -170,7 +173,8 @@ public class ChangeInfoBlock extends Composite {
     return fp;
   }
 
-  private class AlterTopicDialog extends CommentedActionDialog<ChangeDetail> {
+  private class AlterTopicDialog extends CommentedActionDialog<ChangeDetail>
+      implements KeyPressHandler {
     TextBox newTopic;
     Change change;
 
@@ -180,6 +184,7 @@ public class ChangeInfoBlock extends Composite {
       change = chg;
 
       newTopic = new TextBox();
+      newTopic.addKeyPressHandler(this);
       setFocusOn(newTopic);
       panel.insert(newTopic, 0);
       panel.insert(new InlineLabel(Util.C.alterTopicLabel()), 0);
@@ -191,8 +196,7 @@ public class ChangeInfoBlock extends Composite {
       newTopic.setText(change.getTopic());
     }
 
-    @Override
-    public void onSend() {
+    private void doTopicEdit() {
       String topic = newTopic.getText();
       ChangeApi.topic(change.getId().get(), topic, getMessageText(),
         new GerritCallback<String>() {
@@ -208,6 +212,19 @@ public class ChangeInfoBlock extends Composite {
           enableButtons(true);
           super.onFailure(caught);
         }});
+    }
+
+    @Override
+    public void onSend() {
+      doTopicEdit();
+    }
+
+    @Override
+    public void onKeyPress(KeyPressEvent event) {
+      if (event.getSource() == newTopic
+          && event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+        doTopicEdit();
+      }
     }
   }
 }

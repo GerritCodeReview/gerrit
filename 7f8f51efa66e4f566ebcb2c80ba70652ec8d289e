@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OsREPrDw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-01-21T17:03:05Z",
+      "side": 1,
+      "message": "If this patch is trying to fix a regression, I would prefer to move this RE ref matching down to the callers.   The fact that this regression exists proves that it is too complicated to create one RE which anticipates all of the use cases in this validator, I suspect that is one reason Sasa does not want it here.\n\nSo, I am not suggesting to change the policy, just the implemtation.  I think the ref matching policy should be enforced by the callers and not this validator.  This way each caller can have a custom tailored RE which handles only its use case, without having to consider every other possible caller as the current approach requires.  Does this make sense to you Sasa?",
+      "revId": "7f8f51efa66e4f566ebcb2c80ba70652ec8d289e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

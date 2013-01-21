@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OsJL6vAA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-21T08:11:48Z",
+      "side": 1,
+      "message": "Due to a bug in GWT this doesn\u0027t work in Firfox [1].\n\nTo make it work with all browsers it should be:\n  event.getNativeEvent().getKeyCode() \u003d\u003d KeyCodes.KEY_ENTER\n\n[1] https://gerrit-review.googlesource.com/#/c/22942/",
+      "revId": "579d3b1d04a271ba02fd8cc24288a7bb7d4d143f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

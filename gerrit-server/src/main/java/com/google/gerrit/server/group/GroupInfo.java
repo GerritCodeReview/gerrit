@@ -21,15 +21,15 @@ import com.google.gerrit.server.util.Url;
 
 public class GroupInfo {
   final String kind = "gerritcodereview#group";
-  String id;
-  String name;
-  String url;
-  Boolean visibleToAll;
+  public String id;
+  public String name;
+  public String url;
+  public Boolean visibleToAll;
 
   // These fields are only supplied for internal groups.
-  String description;
-  Integer groupId;
-  String ownerId;
+  public String description;
+  public Integer groupId;
+  public String ownerId;
 
   public GroupInfo(GroupDescription.Basic group) {
     id = Url.encode(group.getGroupUUID().get());

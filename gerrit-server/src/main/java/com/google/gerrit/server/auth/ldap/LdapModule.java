@@ -23,6 +23,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.auth.AuthBackend;
+import com.google.gerrit.server.auth.RealmBackend;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
@@ -64,5 +66,7 @@ public class LdapModule extends CacheModule {
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
 
     DynamicSet.bind(binder(), GroupBackend.class).to(LdapGroupBackend.class);
+    DynamicSet.bind(binder(), AuthBackend.class).to(LdapAuthBackend.class);
+    DynamicSet.bind(binder(), RealmBackend.class).to(LdapRealmBackend.class);
   }
 }

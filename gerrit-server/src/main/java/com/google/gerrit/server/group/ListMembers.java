@@ -20,9 +20,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -48,11 +45,11 @@ public class ListMembers implements RestReadView<GroupResource> {
   private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountCache accountCache;
 
-  @Option(name = "--recursive", usage = "to resolve included groups recursively")
+  @Option(name = "--recursive", aliases = {"-r"}, usage = "to resolve included groups recursively")
   private boolean recursive;
 
   @Inject
-  ListMembers(final GroupCache groupCache,
+  public ListMembers(final GroupCache groupCache,
       final GroupDetailFactory.Factory groupDetailFactory,
       final AccountCache accountCache) {
     this.groupCache = groupCache;
@@ -62,8 +59,7 @@ public class ListMembers implements RestReadView<GroupResource> {
 
   @Override
   public List<MemberInfo> apply(final GroupResource resource)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
+      throws OrmException, NoSuchGroupException {
     final Map<Account.Id, MemberInfo> members =
         getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());
     final List<MemberInfo> memberInfos = Lists.newArrayList(members.values());

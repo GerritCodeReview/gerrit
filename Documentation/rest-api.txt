@@ -307,7 +307,9 @@ and accepts the same options as query parameters.
 [[group-members]]
 /groups/*/members/ (List Group Members)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Lists the direct members of a group.
+Lists the members of a group. This is the same as using the
+link:cmd-ls-members.html[ls-members] command over SSH, and accepts the
+same options as query parameters.
 
 ----
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/ HTTP/1.0

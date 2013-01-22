@@ -1,0 +1,70 @@
+gerrit ls-members
+=================
+
+NAME
+----
+gerrit ls-members - List the members of a group
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit ls-members'
+  [--recursive | -r]
+  [--verbose | -v]
+  <GROUP>
+
+DESCRIPTION
+-----------
+Displays the members of a group, if the group is visible to the calling
+user.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+All non-printable characters (ASCII value 31 or less) are escaped
+according to the conventions used in languages like C, Python, and Perl,
+employing standard sequences like `\n` and `\t`, and `\xNN` for all
+others. In shell scripts, the `printf` command can be used to unescape
+the output.
+
+If a member has no full name set the anonymous coward name is printed
+out for this user.
+
+OPTIONS
+-------
+<GROUP>::
+	Required; name of the group for which the members should be listed.
+
+--recursive::
+-r::
+	If specified the included groups will be resolved recursively. The
+	command then outputs a flat list with the contained members. The
+	flat list contains all members that are either direct or indirect
+	members of the specified group, but from the flat list it is
+	impossible to discern specifically whether they are direct or
+	indirect members.
+
+--verbose::
+-v::
+	Enable verbose output with tab-separated columns for the
+	full name, account id, username, and preferred email.
+
+EXAMPLES
+--------
+
+List all members of group 'MyGroup':
+=====
+	$ ssh -p 29418 review.example.com gerrit ls-members -r MyGroup
+	Jane Roe
+	John Doe
+	Richard Roe
+=====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

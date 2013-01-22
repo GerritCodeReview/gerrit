@@ -17,6 +17,8 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Iterators;
+
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 
@@ -24,7 +26,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -38,66 +42,66 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
 
   private final ProjectCache cache;
   private final AllProjectsName allProjectsName;
-  private final Set<Project.NameKey> seen;
-  private ProjectState next;
+  private final List<Project.NameKey> order;
+  private int index;
+
+  private final void visit(ProjectState st, Set<Project.NameKey> seen)
+  {
+    if (st == null) {
+      order.add(allProjectsName);
+      return;
+    }
+
+    Project pr = st.getProject();
+    if (pr == null)
+      return;
+
+    // add comes before seen checking on purpose.
+    // this visitlist is only for cycle checking
+
+    order.add(pr.getNameKey());
+
+    if (!seen.add(pr.getNameKey()))
+      return;
+
+    List<Project.NameKey> parents = pr.getParents();
+
+    if (parents == null || parents.size() < 1) {
+      order.add(allProjectsName);
+      return;
+    }
+
+    for (Project.NameKey parentKey : pr.getParents())
+      visit(cache.get(parentKey), seen);
+  }
 
   ProjectHierarchyIterator(ProjectCache c,
       AllProjectsName all,
       ProjectState firstResult) {
     cache = c;
     allProjectsName = all;
+    order = new ArrayList<Project.NameKey>();
+    index = 0;
 
-    seen = Sets.newLinkedHashSet();
-    seen.add(firstResult.getProject().getNameKey());
-    next = firstResult;
+    Set<Project.NameKey> seen = Sets.newLinkedHashSet();
+    visit(firstResult, seen);
+
+    seen.clear();
+    ListIterator<Project.NameKey> iter = order.listIterator(order.size());
+    while (iter.hasPrevious()) {
+      if (!seen.add(iter.previous()))
+        iter.remove();
+    }
   }
 
   @Override
   public boolean hasNext() {
-    return next != null;
+    return index < order.size();
   }
 
   @Override
   public ProjectState next() {
-    ProjectState n = next;
-    if (n == null) {
-      throw new NoSuchElementException();
-    }
-    next = computeNext(n);
-    return n;
-  }
-
-  private ProjectState computeNext(ProjectState n) {
-    Project.NameKey parentName = n.getProject().getParent();
-    if (parentName != null && visit(parentName)) {
-      ProjectState p = cache.get(parentName);
-      if (p != null) {
-        return p;
-      }
-    }
-
-    // Parent does not exist or was already visited.
-    // Fall back to visit All-Projects exactly once.
-    if (seen.add(allProjectsName)) {
-      return cache.get(allProjectsName);
-    }
-    return null;
-  }
-
-  private boolean visit(Project.NameKey parentName) {
-    if (seen.add(parentName)) {
-      return true;
-    }
-
-    List<String> order = Lists.newArrayListWithCapacity(seen.size() + 1);
-    for (Project.NameKey p : seen) {
-      order.add(p.get());
-    }
-    int idx = order.lastIndexOf(parentName.get());
-    order.add(parentName.get());
-    log.warn("Cycle detected in projects: "
-        + Joiner.on(" -> ").join(order.subList(idx, order.size())));
-    return false;
+    return cache.get(order.get(index++));
   }
 
   @Override

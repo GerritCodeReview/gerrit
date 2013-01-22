@@ -76,7 +76,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Option(name = "--verbose", aliases = {"-v"},
       usage = "verbose output format with tab-separated columns for the " +
-          "group name, UUID, description, type, owner group name, " +
+          "group name, UUID, description, owner group name, " +
           "owner group UUID, and whether the group is visible to all")
   private boolean verboseOutput;
 

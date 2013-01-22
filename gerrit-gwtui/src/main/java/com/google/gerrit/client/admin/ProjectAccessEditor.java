@@ -100,12 +100,20 @@ public class ProjectAccessEditor extends Composite implements
 
     this.value = value;
 
-    Project.NameKey parent = value.getInheritsFrom();
-    if (parent != null) {
+    List<Project.NameKey> parents = value.getInheritsFrom();
+    if (parents != null && parents.size() > 0) {
       inheritsFrom.getStyle().setDisplay(Display.BLOCK);
-      parentProject.setText(parent.get());
+
+      String text = new String();
+      for (int i = 0; i < parents.size(); i++) {
+          text += parents.get(i).get();
+          if (i + 1 < parents.size())
+              text += ", ";
+      }
+
+      parentProject.setText(text);
       parentProject.setTargetHistoryToken( //
-          Dispatcher.toProjectAdmin(parent, ProjectScreen.ACCESS));
+          Dispatcher.toProjectAdmin(parents.get(0), ProjectScreen.ACCESS));
     } else {
       inheritsFrom.getStyle().setDisplay(Display.NONE);
     }

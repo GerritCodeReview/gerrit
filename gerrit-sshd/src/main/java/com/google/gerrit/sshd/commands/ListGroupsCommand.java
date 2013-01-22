@@ -79,7 +79,7 @@ public class ListGroupsCommand extends BaseCommand {
     void display(final PrintWriter out) throws NoSuchGroupException {
       final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
       for (final GroupInfo info : get()) {
-        formatter.addColumn(info.name);
+        formatter.addColumn(info.name != null ? info.name : "n/a");
         if (verboseOutput) {
           AccountGroup o = info.ownerId != null
               ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))

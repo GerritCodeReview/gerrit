@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -191,7 +192,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       detail.setRevision(config.getRevision().name());
     }
 
-    detail.setInheritsFrom(config.getProject().getParent(allProjectsName));
+    detail.setInheritsFrom(config.getProject().getParents());
 
     if (projectName.equals(allProjectsName)) {
       if (pc.isOwner()) {

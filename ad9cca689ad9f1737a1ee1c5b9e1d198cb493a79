@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OsPJuqL8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-22T10:15:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OsVEsVJw",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OsXEpWIs",
         "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-22T09:47:05Z",
       "side": 1,
       "message": "\"a project\" or \"projects\"",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OsJJjnNY",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-22T10:15:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OsXEpWIs",
       "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "OsLJoILM",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-22T10:15:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OsREmzLo",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OsTEj0Ks",
         "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "OsFJelBA",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-22T10:15:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OsTEj0Ks",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OsdFChEA",
         "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2013-01-22T09:47:05Z",
       "side": 1,
       "message": "Can we add a sentence clarifying this?  I.e. where is the link that was broken?",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OsNJpJLo",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-22T10:15:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OsdFChEA",
       "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

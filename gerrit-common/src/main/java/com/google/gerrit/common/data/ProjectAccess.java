@@ -22,7 +22,7 @@ import java.util.Set;
 public class ProjectAccess {
   protected Project.NameKey projectName;
   protected String revision;
-  protected Project.NameKey inheritsFrom;
+  protected List<Project.NameKey> inheritsFrom;
   protected List<AccessSection> local;
   protected Set<String> ownerOf;
   protected boolean isConfigVisible;
@@ -47,12 +47,12 @@ public class ProjectAccess {
     revision = name;
   }
 
-  public Project.NameKey getInheritsFrom() {
+  public List<Project.NameKey> getInheritsFrom() {
     return inheritsFrom;
   }
 
-  public void setInheritsFrom(Project.NameKey name) {
-    inheritsFrom = name;
+  public void setInheritsFrom(List<Project.NameKey> names) {
+    inheritsFrom = names;
   }
 
   public List<AccessSection> getLocal() {

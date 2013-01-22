@@ -18,10 +18,17 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 
+import java.util.List;
+
 class GetParent implements RestReadView<ProjectResource> {
   @Override
   public Object apply(ProjectResource resource) {
     Project project = resource.getControl().getProject();
-    return Strings.nullToEmpty(project.getParentName());
+
+    List<String> parentNames = project.getParentNames();
+    if (parentNames == null || parentNames.size() < 1) {
+      return null;
+    }
+    return Strings.nullToEmpty(parentNames.get(0));
   }
 }

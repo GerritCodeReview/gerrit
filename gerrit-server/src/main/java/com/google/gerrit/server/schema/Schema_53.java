@@ -224,7 +224,8 @@ class Schema_53 extends SchemaVersion {
     project.setUseSignedOffBy(asInheritableBoolean(rs, "use_signed_off_by"));
     project.setRequireChangeID(asInheritableBoolean(rs, "require_change_id"));
     project.setUseContentMerge(asInheritableBoolean(rs, "use_content_merge"));
-    project.setParentName(rs.getString("parent_name"));
+
+    project.setParentNames(new String[] {rs.getString("parent_name")});
   }
 
   private static InheritableBoolean asInheritableBoolean(ResultSet rs, String col)
@@ -421,11 +422,14 @@ class Schema_53 extends SchemaVersion {
     String category = old.category;
     AccountGroup.UUID group = old.group.getUUID();
 
-    Project.NameKey project = config.getProject().getParent();
-    if (project == null) {
+    List<Project.NameKey> projectList = config.getProject().getParents();
+    Project.NameKey project;
+
+    if (projectList == null || projectList.size() < 1) {
       project = systemConfig.wildProjectName;
     }
     do {
+      project = projectList.get(0);
       List<OldRefRight> rights = rightsByProject.get(project);
       if (rights != null) {
         for (OldRefRight r : rights) {

@@ -64,11 +64,14 @@ public class SuggestParentCandidates {
     for (Project.NameKey p : projectCache.all()) {
       try {
         final ProjectControl control = projectControlFactory.controlFor(p);
-        final Project.NameKey parentK = control.getProject().getParent();
-        if (parentK != null) {
-          ProjectControl pControl = projectControlFactory.controlFor(parentK);
-          if (pControl.isVisible() || pControl.isOwner()) {
-            projects.add(pControl.getProject());
+        final List<Project.NameKey> parentKList = control.getProject().getParents();
+        if (parentKList != null && parentKList.size() > 0) {
+          final Project.NameKey parentK = parentKList.get(0);
+          if (parentK != null) {
+            ProjectControl pControl = projectControlFactory.controlFor(parentK);
+            if (pControl.isVisible() || pControl.isOwner()) {
+              projects.add(pControl.getProject());
+            }
           }
         }
       } catch (NoSuchProjectException e) {

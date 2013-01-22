@@ -146,7 +146,7 @@ public class RefControlTest extends TestCase {
   public void testInheritDuplicateSections() {
     grant(parent, READ, admin, "refs/*");
     grant(local, READ, devs, "refs/heads/*");
-    local.getProject().setParentName(parent.getProject().getName());
+    local.getProject().setParentNames(new String[]{parent.getProject().getName()});
     assertTrue("a can read", user("a", admin).isVisible());
 
     local = new ProjectConfig(new Project.NameKey("local"));

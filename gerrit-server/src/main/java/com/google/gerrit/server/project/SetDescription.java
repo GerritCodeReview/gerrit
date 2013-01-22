@@ -33,6 +33,8 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
+import java.util.List;
+
 class SetDescription implements RestModifyView<ProjectResource, Input> {
   static class Input {
     @DefaultInput
@@ -95,7 +97,10 @@ class SetDescription implements RestModifyView<ProjectResource, Input> {
 
         ListProjects.ProjectInfo info = new ListProjects.ProjectInfo();
         info.setName(resource.getName());
-        info.parent = project.getParentName();
+        List<String> parentNames = project.getParentNames();
+        if (parentNames != null && parentNames.size() > 0) {
+          info.parent = parentNames.get(0);
+        }
         info.description = project.getDescription();
         return info;
       } finally {

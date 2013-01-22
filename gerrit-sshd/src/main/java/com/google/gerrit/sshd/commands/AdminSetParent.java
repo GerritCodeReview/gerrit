@@ -94,12 +94,12 @@ final class AdminSetParent extends SshCommand {
 
       // Catalog all grandparents of the "parent", we want to
       // catch a cycle in the parent pointers before it occurs.
-      //
-      Project.NameKey gp = newParent.getProject().getParent();
-      while (gp != null && grandParents.add(gp)) {
-        final ProjectState s = projectCache.get(gp);
+
+      List<Project.NameKey> gp = newParent.getProject().getParents();
+      while (gp != null && grandParents.addAll(gp)) {
+        final ProjectState s = projectCache.get(gp.get(0));
         if (s != null) {
-          gp = s.getProject().getParent();
+          gp = s.getProject().getParents();
         } else {
           break;
         }
@@ -138,7 +138,9 @@ final class AdminSetParent extends SshCommand {
         MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
         try {
           ProjectConfig config = ProjectConfig.read(md);
-          config.getProject().setParentName(newParentKey);
+          List<Project.NameKey> parentNames = new ArrayList<Project.NameKey>();
+          parentNames.add(newParentKey);
+          config.getProject().setParents(parentNames);
           md.setMessage("Inherit access from "
               + (newParentKey != null ? newParentKey.get() : allProjectsName.get()) + "\n");
           config.commit(md);
@@ -221,7 +223,13 @@ final class AdminSetParent extends SshCommand {
         continue;
       }
 
-      if (parentName.equals(e.getProject().getParent(projectName))) {
+      Project.NameKey parentName2 = null;
+      List<Project.NameKey> parentName2List = e.getProject().getParents();
+      if (parentName2List != null && parentName2List.size() > 0) {
+        parentName2 = parentName2List.get(0);
+      }
+
+      if (parentName.equals(parentName2)) {
         childProjects.add(e.getProject());
       }
     }

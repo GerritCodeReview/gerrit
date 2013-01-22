@@ -14,15 +14,30 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.GetGroups;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.VisibleGroups;
+import com.google.gerrit.server.group.GroupInfo;
 import com.google.gerrit.server.group.ListGroups;
+import com.google.gerrit.server.ioutil.ColumnFormatter;
+import com.google.gerrit.server.util.Url;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
+
+import java.io.PrintWriter;
 
 public class ListGroupsCommand extends BaseCommand {
   @Inject
-  private ListGroups impl;
+  private MyListGroups impl;
 
   @Override
   public void start(final Environment env) {
@@ -33,8 +48,53 @@ public class ListGroupsCommand extends BaseCommand {
         if (impl.getUser() != null && !impl.getProjects().isEmpty()) {
           throw new UnloggedFailure(1, "fatal: --user and --project options are not compatible.");
         }
-        impl.display(out);
+        final PrintWriter stdout = toPrintWriter(out);
+        try {
+          impl.display(stdout);
+        } finally {
+          stdout.flush();
+        }
       }
     });
+  }
+
+  private static class MyListGroups extends ListGroups {
+    @Option(name = "--verbose", aliases = {"-v"},
+        usage = "verbose output format with tab-separated columns for the " +
+            "group name, UUID, description, owner group name, " +
+            "owner group UUID, and whether the group is visible to all")
+    private boolean verboseOutput;
+
+    private final GroupCache groupCache;
+
+    @Inject
+    MyListGroups(final VisibleGroups.Factory visibleGroupsFactory,
+        final IdentifiedUser.GenericFactory userFactory,
+        final Provider<GetGroups> accountGetGroups,
+        final GroupCache groupCache) {
+      super(visibleGroupsFactory, userFactory, accountGetGroups);
+      this.groupCache = groupCache;
+    }
+
+    void display(final PrintWriter out) throws NoSuchGroupException {
+      final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
+      for (final GroupInfo info : get()) {
+        formatter.addColumn(info.name);
+        if (verboseOutput) {
+          AccountGroup o = info.ownerId != null
+              ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
+              : null;
+
+          formatter.addColumn(Url.decode(info.id));
+          formatter.addColumn(Strings.nullToEmpty(info.description));
+          formatter.addColumn(o != null ? o.getName() : "n/a");
+          formatter.addColumn(o != null ? o.getGroupUUID().get() : "");
+          formatter.addColumn(Boolean.toString(
+              Objects.firstNonNull(info.visibleToAll, Boolean.FALSE)));
+        }
+        formatter.nextLine();
+      }
+      formatter.finish();
+    }
   }
 }

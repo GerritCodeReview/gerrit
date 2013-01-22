@@ -1,0 +1,60 @@
+gerrit ls-included-groups
+=========================
+
+NAME
+----
+gerrit ls-included-groups - List the included groups of a group
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit ls-included-groups'
+  [--verbose | -v]
+  <GROUP>
+
+DESCRIPTION
+-----------
+Displays the included groups of a group, if the group is visible to the
+calling user.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+All non-printable characters (ASCII value 31 or less) are escaped
+according to the conventions used in languages like C, Python, and Perl,
+employing standard sequences like `\n` and `\t`, and `\xNN` for all
+others. In shell scripts, the `printf` command can be used to unescape
+the output.
+
+If a group has no name set 'n/a' is printed out for this group.
+
+OPTIONS
+-------
+<GROUP>::
+	Required; name of the group for which the included groups should be
+	listed.
+
+--verbose::
+-v::
+	Enable verbose output with tab-separated columns for the group
+	name, UUID, description, owner group name, owner group UUID and
+	whether the group is visible to all (`true` or `false`).
+
+EXAMPLES
+--------
+
+List groups that are directly included in group 'MyGroup':
+=====
+	$ ssh -p 29418 review.example.com gerrit ls-included-groups MyGroup
+	OtherGroup
+	FooGroup
+=====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

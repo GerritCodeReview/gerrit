@@ -155,7 +155,9 @@ members the parameter `recursive` can be set.
 [[included-groups]]
 /groups/*/groups/ (List Included Groups)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Lists the directly included groups of a group.
+Lists the included groups of a group. This is the same as using the
+link:cmd-ls-included-groups.html[ls-included-groups] command over SSH,
+and accepts the same options as query parameters.
 
 ----
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/groups/ HTTP/1.0

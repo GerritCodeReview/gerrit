@@ -40,6 +40,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, "flush-caches").to(FlushCaches.class);
     command(gerrit, "ls-projects").to(ListProjectsCommand.class);
     command(gerrit, "ls-groups").to(ListGroupsCommand.class);
+    command(gerrit, "ls-included-groups").to(ListIncludedGroupsCommand.class);
     command(gerrit, "ls-members").to(ListMembersCommand.class);
     command(gerrit, "ls-user-refs").to(LsUserRefs.class);
     command(gerrit, "query").to(Query.class);

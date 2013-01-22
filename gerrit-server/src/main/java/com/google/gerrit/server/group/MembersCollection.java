@@ -107,14 +107,14 @@ public class MembersCollection implements
     return accountInfo;
   }
 
-  static class MemberInfo {
+  public static class MemberInfo {
     final String kind = "gerritcodereview#member";
 
-    String fullName;
-    String id;
-    int accountId;
-    String preferredEmail;
-    String userName;
+    public String fullName;
+    public String id;
+    public int accountId;
+    public String preferredEmail;
+    public String userName;
 
     void setId(Account.Id i) {
       accountId = i.get();

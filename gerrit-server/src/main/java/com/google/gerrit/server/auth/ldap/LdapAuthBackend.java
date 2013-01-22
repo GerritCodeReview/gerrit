@@ -42,12 +42,14 @@ public class LdapAuthBackend implements AuthBackend {
   private final Helper helper;
   private final AuthConfig authConfig;
   private final boolean lowerCaseUsername;
+  private final boolean isLdapBind;
 
   @Inject
   public LdapAuthBackend(Helper helper, AuthConfig authConfig, @GerritServerConfig Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
     this.lowerCaseUsername = config.getBoolean("ldap", "localUsernameToLowerCase", false);
+    isLdapBind = authConfig.getAuthType() == AuthType.LDAP_BIND;
   }
 
   @Override
@@ -67,7 +69,7 @@ public class LdapAuthBackend implements AuthBackend {
         lowerCaseUsername ? req.getUsername().toLowerCase(Locale.US) : req.getUsername();
     try {
       final DirContext ctx;
-      if (authConfig.getAuthType() == AuthType.LDAP_BIND) {
+      if (isLdapBind) {
         ctx = helper.authenticate(username, req.getPassword());
       } else {
         ctx = helper.open();
@@ -82,7 +84,11 @@ public class LdapAuthBackend implements AuthBackend {
           //
           helper.authenticate(m.getDN(), req.getPassword()).close();
         }
-        return new AuthUser(AuthUser.UUID.create(getDomain(), username), username);
+        AuthUser.UUID uuid = AuthUser.UUID.create(getDomain(), username);
+        if (isLdapBind) {
+          return new AuthUserLdapBind(uuid, username, req.getPassword());
+        }
+        return new AuthUser(uuid, username);
       } finally {
         try {
           ctx.close();

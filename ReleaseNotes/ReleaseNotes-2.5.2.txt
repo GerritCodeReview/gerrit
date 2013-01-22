@@ -1,0 +1,92 @@
+Release notes for Gerrit 2.5.2
+==============================
+
+Gerrit 2.5.2 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.5.2.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.5.2.war]
+
+There are no schema changes from 2.5, or 2.5.1.
+
+However, if upgrading from anything earlier version, follow the upgrade
+procedure in the 2.5 link:ReleaseNotes-2.5.html[Release Notes].
+
+Bug Fixes
+---------
+* Improve performance of ReceiveCommits for repos with many refs
++
+When validating the received commits all existing refs were added as
+uninteresting to the RevWalk. This resulted in bad performance when a
+repository had many refs (>100000). Putting existing 'refs/changes/'
+or 'refs/tags/' into the RevWalk is now avoided, which improves the
+performance.
+
+* Don't display all files from a merge-commit when auto-merge fails
++
+For merge commits Gerrit shows the difference to the automatic merge
+result. The creation of the auto-merge result may fail, e.g. when the
+merge commit has multiple merge bases (because JGit doesn't support
+this case yet). In this case Gerrit was showing all files from the
+merge commit. This caused several issues:
++
+--
+** the file list was too large for projects with a large number of
+   files
+** Gerrit would send too many false notification emails to users
+   watching changes under certain paths
+** both client and server needed a lot of resources in order to handle
+   such a large list of files
+--
++
+Now the file list for a merge commit will be empty when the creation
+of the auto-merge result fails.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1726[issue 1726]:
+  Create ref for new patch set on direct push
++
+If a change is in review and a new commit that has the Change-Id of
+this change in its commit message is pushed directly, then a new patch
+set for this commit is created and the change gets automatically
+closed. The problem was that no change ref for this new patch set was
+created and as result the change ref that was shown for the new patch
+set in the WebUI, and which was contained in the patchset-created
+event, was invalid.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1444[issue 1444]:
+  Remove 'Mailing-List' header from sent emails
++
+The non-standard 'Mailing-List' header that is included in the emails
+sent by Gerrit isn't allowed by the Amazon Simple Email Service and is
+now removed.
+
+* Improve SMTP client error messages
++
+The wording of the error messages in the SMTP client was changed to
+make it more clear at exactly what stage in the SMTP transaction the
+server returned an error. Also the server's response text is now
+always included.
++
+In addition it is now ensured that already rejected recipients are
+included in the error message when the server rejects the DATA
+command. Without this there is no way of debugging rejected
+recipients if all recipients are rejected since that typically
+results in a DATA command rejection. Because some SMTP servers (e.g.
+Postfix with the default configuration) delay rejection of HELO/EHLO
+and MAIL FROM commands to the RCPT TO stage, this can happen not only
+for bad recipients.
+
+* Allow time unit variables to be '0'
++
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html[
+Gerrit Configuration parameters] that expect a numerical time unit as
+value can now be set to '0'.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1076[issue 1076]:
+  Fix CLA hyperlink on account registration page
++
+The New Contributor Agreement hyperlink on the Account Registration page
+was malformed.
+
+* Fix broken link to repo command reference
++
+The link to the repo command reference in the 'repo upload' section of
+the 'Uploading Changes' documentation was broken.

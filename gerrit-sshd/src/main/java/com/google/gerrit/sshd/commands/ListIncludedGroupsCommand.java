@@ -1,0 +1,111 @@
+// Copyright (C) 2013 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.sshd.commands;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
+import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupInfo;
+import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.ListIncludedGroups;
+import com.google.gerrit.server.ioutil.ColumnFormatter;
+import com.google.gerrit.server.util.Url;
+import com.google.gerrit.sshd.BaseCommand;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+public class ListIncludedGroupsCommand extends BaseCommand {
+  @Inject
+  private MyListIncludedGroups impl;
+
+  @Override
+  public void start(Environment env) throws IOException {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine(impl);
+        final PrintWriter stdout = toPrintWriter(out);
+        try {
+          impl.display(stdout);
+        } finally {
+          stdout.flush();
+        }
+      }
+    });
+  }
+
+  private static class MyListIncludedGroups extends ListIncludedGroups {
+    @Argument(index = 0, required = true, metaVar = "GROUP",
+        usage = "name of group for which the members should be listed")
+    private AccountGroup.UUID groupUUID;
+
+    @Option(name = "--verbose", aliases = {"-v"},
+        usage = "verbose output format with tab-separated columns for the " +
+            "group name, UUID, description, owner group name, " +
+            "owner group UUID, and whether the group is visible to all")
+    private boolean verboseOutput;
+
+    private final GroupControl.Factory groupContralFactory;
+    private final GroupCache groupCache;
+
+    @Inject
+    MyListIncludedGroups(final GroupControl.Factory controlFactory,
+        final Provider<ReviewDb> dbProvider,
+        final GroupControl.Factory groupContralFactory,
+        final GroupCache groupCache) {
+      super(controlFactory, dbProvider);
+      this.groupContralFactory = groupContralFactory;
+      this.groupCache = groupCache;
+    }
+
+    void display(final PrintWriter out) throws ResourceNotFoundException,
+        OrmException, NoSuchGroupException {
+      final List<GroupInfo> groups =
+          apply(new GroupResource(groupContralFactory.controlFor(groupUUID)));
+      final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
+      for (final GroupInfo info : groups) {
+        formatter.addColumn(info.name != null ? info.name : "n/a");
+        if (verboseOutput) {
+          AccountGroup o = info.ownerId != null
+              ? groupCache.get(new AccountGroup.UUID(Url.decode(info.ownerId)))
+              : null;
+
+          formatter.addColumn(Url.decode(info.id));
+          formatter.addColumn(Strings.nullToEmpty(info.description));
+          formatter.addColumn(o != null ? o.getName() : "n/a");
+          formatter.addColumn(o != null ? o.getGroupUUID().get() : "");
+          formatter.addColumn(Boolean.toString(
+              Objects.firstNonNull(info.visibleToAll, Boolean.FALSE)));
+        }
+        formatter.nextLine();
+      }
+      formatter.finish();
+    }
+  }
+}

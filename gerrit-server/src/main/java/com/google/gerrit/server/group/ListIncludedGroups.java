@@ -41,7 +41,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  ListIncludedGroups(GroupControl.Factory controlFactory,
+  public ListIncludedGroups(GroupControl.Factory controlFactory,
       Provider<ReviewDb> dbProvider) {
     this.controlFactory = controlFactory;
     this.dbProvider = dbProvider;

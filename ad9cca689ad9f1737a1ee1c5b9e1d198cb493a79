@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OsVEsVJw",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-22T09:47:05Z",
+      "side": 1,
+      "message": "\"Putting existing \u0027refs/changes/\u0027 or \u0027refs/tags/\u0027 into the RevWalk is now avoided, which improves the performance.\"",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OsXEpWIs",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-22T09:47:05Z",
+      "side": 1,
+      "message": "\"a project\" or \"projects\"",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OsREmzLo",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-22T09:47:05Z",
+      "side": 1,
+      "message": "s/those/users",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OsTEj0Ks",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-22T09:47:05Z",
+      "side": 1,
+      "message": "This sentence is a bit long.  I suggest adding a couple of commas to break it up.\n\n\"in the WebUI, and which was contained in the patchset-created event, was invalid.\"",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OsdFChEA",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-22T09:47:05Z",
+      "side": 1,
+      "message": "Can we add a sentence clarifying this?  I.e. where is the link that was broken?",
+      "revId": "ad9cca689ad9f1737a1ee1c5b9e1d198cb493a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

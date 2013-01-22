@@ -21,7 +21,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.VisibleGroups;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupInfo;
 import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
@@ -65,15 +65,14 @@ public class ListGroupsCommand extends BaseCommand {
             "owner group UUID, and whether the group is visible to all")
     private boolean verboseOutput;
 
-    private final GroupCache groupCache;
-
     @Inject
-    MyListGroups(final VisibleGroups.Factory visibleGroupsFactory,
+    MyListGroups(final GroupCache groupCache,
+        final GroupControl.Factory groupControlFactory,
+        final Provider<IdentifiedUser> identifiedUser,
         final IdentifiedUser.GenericFactory userFactory,
-        final Provider<GetGroups> accountGetGroups,
-        final GroupCache groupCache) {
-      super(visibleGroupsFactory, userFactory, accountGetGroups);
-      this.groupCache = groupCache;
+        final Provider<GetGroups> accountGetGroups) {
+      super(groupCache, groupControlFactory, identifiedUser, userFactory,
+          accountGetGroups);
     }
 
     void display(final PrintWriter out) throws NoSuchGroupException {

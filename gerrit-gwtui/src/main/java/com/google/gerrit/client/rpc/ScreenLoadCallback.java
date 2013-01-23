@@ -16,6 +16,7 @@ package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotFoundScreen;
+import com.google.gerrit.client.NotSignedInDialog;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 
@@ -43,7 +44,11 @@ public abstract class ScreenLoadCallback<T> extends GerritCallback<T> {
   @Override
   public void onFailure(final Throwable caught) {
     if (isNoSuchEntity(caught)) {
-      Gerrit.display(screen.getToken(), new NotFoundScreen());
+      if (Gerrit.isSignedIn()) {
+        Gerrit.display(screen.getToken(), new NotFoundScreen());
+      } else {
+        new NotSignedInDialog().center();
+      }
     } else {
       super.onFailure(caught);
     }

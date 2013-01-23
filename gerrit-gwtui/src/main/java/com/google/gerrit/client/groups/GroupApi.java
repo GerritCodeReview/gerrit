@@ -79,14 +79,14 @@ public class GroupApi {
       private boolean error;
 
       @Override
-      public void onSuccess(VoidResult result) {
+      public synchronized void onSuccess(VoidResult result) {
         if (--remaining == 0 && !error) {
           cb.onSuccess(result);
         }
       }
 
       @Override
-      public void onFailure(Throwable caught) {
+      public synchronized void onFailure(Throwable caught) {
         if (!error) {
           error = true;
           cb.onFailure(caught);

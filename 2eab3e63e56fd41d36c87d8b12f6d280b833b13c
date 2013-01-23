@@ -16,6 +16,24 @@
       "revId": "2eab3e63e56fd41d36c87d8b12f6d280b833b13c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OsJKePMA",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-23T09:35:25Z",
+      "side": 1,
+      "message": "Right, the group visibility has to be checked. This is done in the new patch set.\n\nHaving `gerrit groups UUID members` makes totally sense to me. Though I\u0027m not sure what all needs to be done to support this kind of mapping in SSH. If I understand it correctly at the moment one can group commands under a parent command name, but this parent can\u0027t have own arguments and options? If this is a lot of work, we could leave this for later. Having all the REST functionality available over SSH doesn\u0027t have such a high prio. For us it is more important to make everything that is available over SSH to be available over REST.",
+      "parentUuid": "OoeFpBro",
+      "revId": "2eab3e63e56fd41d36c87d8b12f6d280b833b13c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

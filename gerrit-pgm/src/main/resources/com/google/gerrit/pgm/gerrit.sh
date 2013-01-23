@@ -403,7 +403,7 @@ case "$ACTION" in
       if test $UID = 0 -a -n "$GERRIT_USER" ; then 
         touch "$GERRIT_PID"
         chown $GERRIT_USER "$GERRIT_PID"
-        su - $GERRIT_USER -c "
+        su - $GERRIT_USER -s /bin/sh -c "
           JAVA='$JAVA' ; export JAVA ;
           $RUN_EXEC $RUN_Arg1 '$RUN_Arg2' $RUN_Arg3 $RUN_ARGS </dev/null >/dev/null 2>&1 &
           PID=\$! ;

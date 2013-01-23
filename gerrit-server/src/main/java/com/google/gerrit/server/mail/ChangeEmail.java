@@ -23,7 +23,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
@@ -35,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.StarredChange;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.patch.PatchList;
@@ -63,7 +63,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -420,7 +419,6 @@ public abstract class ChangeEmail extends NotificationEmail {
   private void add(Watchers matching, NotifyConfig nc, Project.NameKey project)
       throws OrmException, QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
-      GroupDescription.Basic group = args.groupBackend.get(ref.getUUID());
       ChangeQueryBuilder qb = args.queryBuilder.create(new SingleGroupUser(
           args.capabilityControlFactory,
           ref.getUUID()));
@@ -430,29 +428,9 @@ public abstract class ChangeEmail extends NotificationEmail {
         p = Predicate.and(qb.parse(nc.getFilter()), p);
         p = args.queryRewriter.get().rewrite(p);
       }
-      if (!p.match(changeData)) {
-        continue;
+      if (p.match(changeData)) {
+        deliverToMembers(matching.list(nc.getHeader()), ref.getUUID());
       }
-
-      if (Strings.isNullOrEmpty(group.getEmailAddress())) {
-        matching.list(nc.getHeader()).emails.add(new Address(group.getEmailAddress()));
-        continue;
-      }
-
-      AccountGroup ig = GroupDescriptions.toAccountGroup(group);
-      if (ig == null) {
-        log.warn(String.format(
-            "Project %s has invalid group %s in notify section %s",
-            project.get(), ref.getName(), nc.getName()));
-        continue;
-      }
-      if (ig.getType() != AccountGroup.Type.INTERNAL) {
-        log.warn(String.format(
-            "Project %s cannot use group %s of type %s in notify section %s",
-            project.get(), ref.getName(), ig.getType(), nc.getName()));
-        continue;
-      }
-      recursivelyAddAllAccounts(matching.list(nc.getHeader()), ig);
     }
 
     if (!nc.getAddresses().isEmpty()) {
@@ -470,27 +448,37 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  private void recursivelyAddAllAccounts(Watchers.List matching,
-      AccountGroup group) throws OrmException {
-    Set<AccountGroup.Id> seen = Sets.newHashSet();
-    Queue<AccountGroup.Id> scan = Lists.newLinkedList();
-    scan.add(group.getId());
-    seen.add(group.getId());
-    while (!scan.isEmpty()) {
-      AccountGroup.Id next = scan.remove();
-      for (AccountGroupMember m : args.db.get().accountGroupMembers()
-          .byGroup(next)) {
+  private void deliverToMembers(
+      Watchers.List matching,
+      AccountGroup.UUID startUUID) throws OrmException {
+    ReviewDb db = args.db.get();
+    Set<AccountGroup.UUID> seen = Sets.newHashSet();
+    List<AccountGroup.UUID> q = Lists.newArrayList();
+
+    seen.add(startUUID);
+    q.add(startUUID);
+
+    while (!q.isEmpty()) {
+      AccountGroup.UUID uuid = q.remove(q.size() - 1);
+      GroupDescription.Basic group = args.groupBackend.get(uuid);
+      if (!Strings.isNullOrEmpty(group.getEmailAddress())) {
+        // If the group has an email address, do not expand membership.
+        matching.emails.add(new Address(group.getEmailAddress()));
+        continue;
+      }
+
+      AccountGroup ig = GroupDescriptions.toAccountGroup(group);
+      if (ig == null) {
+        // Non-internal groups cannot be expanded by the server.
+        continue;
+      }
+
+      for (AccountGroupMember m : db.accountGroupMembers().byGroup(ig.getId())) {
         matching.accounts.add(m.getAccountId());
       }
-      for (AccountGroupIncludeByUuid m : args.db.get().accountGroupIncludesByUuid()
-          .byGroup(next)) {
-        List<AccountGroup> incGroup = args.db.get().accountGroups().
-            byUUID(m.getIncludeUUID()).toList();
-        if (incGroup.size() == 1) {
-          AccountGroup.Id includeId = incGroup.get(0).getId();
-          if (seen.add(includeId)) {
-            scan.add(includeId);
-          }
+      for (AccountGroup.UUID m : args.groupIncludes.membersOf(uuid)) {
+        if (seen.add(m)) {
+          q.add(m);
         }
       }
     }

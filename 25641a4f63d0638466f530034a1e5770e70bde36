@@ -16,6 +16,24 @@
       "revId": "25641a4f63d0638466f530034a1e5770e70bde36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ota3-Xe8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-01-23T14:26:05Z",
+      "side": 1,
+      "message": "Yes, embarrassing. I spotted it in the \"change has been merged\" email. At this point it might as well be left alone to keep the commits identical.",
+      "parentUuid": "OoaGenr8",
+      "revId": "25641a4f63d0638466f530034a1e5770e70bde36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

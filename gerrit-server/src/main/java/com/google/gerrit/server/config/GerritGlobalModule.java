@@ -54,7 +54,6 @@ import com.google.gerrit.server.account.IncludingGroupMembership;
 import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.UniversalGroupBackend;
-import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.InternalAuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
@@ -159,7 +158,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(CapabilityControl.Factory.class);
     factory(ChangeQueryBuilder.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
-    factory(VisibleGroups.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(InternalUser.Factory.class);
     factory(ProjectNode.Factory.class);

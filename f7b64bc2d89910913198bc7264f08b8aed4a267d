@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OoaFMXnM",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroupsCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-23T00:23:33Z",
+      "side": 1,
+      "message": "Objects.firstNonNull(info.name, \"n/a/\")",
+      "revId": "f7b64bc2d89910913198bc7264f08b8aed4a267d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

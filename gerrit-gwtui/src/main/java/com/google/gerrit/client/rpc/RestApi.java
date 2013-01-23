@@ -127,7 +127,8 @@ public class RestApi {
 
         T data;
         try {
-          data = cast(parseJson(res));
+          // javac generics bug
+          data = RestApi.<T>cast(parseJson(res));
         } catch (JSONException e) {
           RpcStatus.INSTANCE.onRpcComplete();
           cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE,

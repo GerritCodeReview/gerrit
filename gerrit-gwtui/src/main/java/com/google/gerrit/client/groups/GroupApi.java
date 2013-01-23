@@ -68,33 +68,17 @@ public class GroupApi {
   /** Remove members from a group. */
   public static void removeMembers(AccountGroup.UUID groupUUID,
       Set<Account.Id> ids, final AsyncCallback<VoidResult> cb) {
-    final int cnt = ids.size();
-    if (cnt == 0) {
-      cb.onSuccess(VoidResult.create());
-      return;
-    }
-
-    final AsyncCallback<VoidResult> state = new AsyncCallback<VoidResult>() {
-      private int remaining = cnt;
-      private boolean error;
-
-      @Override
-      public void onSuccess(VoidResult result) {
-        if (--remaining == 0 && !error) {
-          cb.onSuccess(result);
-        }
+    if (ids.size() == 1) {
+      Account.Id u = ids.iterator().next();
+      new RestApi(membersBase(groupUUID) + "/" + u).delete(cb);
+    } else {
+      RestApi call = new RestApi(membersBase(groupUUID));
+      MemberInput in = MemberInput.create();
+      in.method("DELETE");
+      for (Account.Id u : ids) {
+        in.add_member(u.toString());
       }
-
-      @Override
-      public void onFailure(Throwable caught) {
-        if (!error) {
-          error = true;
-          cb.onFailure(caught);
-        }
-      }
-    };
-    for (Account.Id u : ids) {
-      new RestApi(membersBase(groupUUID) + "/" + u).delete(state);
+      call.data(in).post(cb);
     }
   }
 
@@ -109,8 +93,8 @@ public class GroupApi {
 
   private static class MemberInput extends JavaScriptObject {
     final native void init() /*-{ this.members = []; }-*/;
-
     final native void add_member(String n) /*-{ this.members.push(n); }-*/;
+    final native void method(String n) /*-{ this.method = n; }-*/;
 
     static MemberInput create() {
       MemberInput m = (MemberInput) createObject();

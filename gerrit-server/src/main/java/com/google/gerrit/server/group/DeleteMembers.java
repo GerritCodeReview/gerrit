@@ -69,7 +69,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   @Override
   public Object apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, BadRequestException,
-      OrmException, NoSuchGroupException {
+      OrmException {
     final GroupDescription.Basic group = resource.getGroup();
     if (!(group instanceof GroupDescription.Internal)) {
       throw new MethodNotAllowedException();
@@ -140,7 +140,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   }
 
   private Map<Account.Id, AccountGroupMember> getMembers(
-      final AccountGroup.Id groupId) throws OrmException, NoSuchGroupException {
+      final AccountGroup.Id groupId) throws OrmException {
     final Map<Account.Id, AccountGroupMember> members = Maps.newHashMap();
     for (final AccountGroupMember m : db.accountGroupMembers().byGroup(groupId)) {
       members.put(m.getAccountId(), m);

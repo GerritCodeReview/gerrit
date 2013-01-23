@@ -52,6 +52,11 @@ Administrator that has authenticated with digest authentication:
   }
 ----
 
+.Get your own capabilities
+****
+get::/accounts/self/capabilities
+****
+
 To filter the set of global capabilities the `q` parameter can be used.
 Filtering may decrease the response time by avoiding looking at every
 possible alternative for the caller.
@@ -70,6 +75,11 @@ possible alternative for the caller.
 Most results are boolean, and a field is only present when its value
 is `true`. link:json.html#queryLimit[`queryLimit`] is a range and is
 presented as a nested JSON object with `min` and `max` members.
+
+.Check if you can create groups
+****
+get::/accounts/self/capabilities?q=createGroup
+****
 
 
 GERRIT

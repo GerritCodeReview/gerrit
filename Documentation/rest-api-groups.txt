@@ -68,6 +68,11 @@ and accepts the same options as query parameters.
   }
 ----
 
+.Get all groups
+****
+get::/groups/
+****
+
 [[group-members]]
 /groups/*/members/ (List Group Members)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,6 +105,11 @@ Lists the direct members of a group.
     }
   ]
 ----
+
+.Get all members of the 'Administrators' group (normally group id = 1)
+****
+get::/groups/1/members/
+****
 
 To resolve the included groups of a group recursively and to list all
 members the parameter `recursive` can be set.

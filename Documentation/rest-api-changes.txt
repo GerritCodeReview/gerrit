@@ -74,6 +74,11 @@ Clients are allowed to specify more than one query by setting the `q`
 parameter multiple times. In this case the result is an array of
 arrays, one per query in the same order the queries were given in.
 
+.Query for the 25 most recent open changes of the projects that you watch
+****
+get::/changes/?q=status:open+is:watched&n=25
+****
+
 Query that retrieves changes for a user's dashboard:
 ----
   GET /changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS HTTP/1.0
@@ -111,6 +116,11 @@ Query that retrieves changes for a user's dashboard:
     []
   ]
 ----
+
+.Query the changes for your user dashboard
+****
+get::/changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS
+****
 
 Additional fields can be obtained by adding `o` parameters, each
 option requires more database lookups and slows down the query

@@ -1,0 +1,137 @@
+Gerrit Code Review - '/projects/' REST API
+==========================================
+
+This page describes the project related REST endpoints.
+Please also take note of the general information on the
+link:rest-api.html[REST API].
+
+Endpoints
+---------
+
+/projects/ (List Projects)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists the projects accessible by the caller. This is the same as
+using the link:cmd-ls-projects.html[ls-projects] command over SSH,
+and accepts the same options as query parameters.
+
+----
+  GET /projects/?d HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "external/bison": {
+      "kind": "gerritcodereview#project",
+      "id": "external%2Fbison",
+      "description": "GNU parser generator"
+    },
+    "external/gcc": {
+      "kind": "gerritcodereview#project",
+      "id": "external%2Fgcc",
+    },
+    "external/openssl": {
+      "kind": "gerritcodereview#project",
+      "id": "external%2Fopenssl",
+      "description": "encryption\ncrypto routines"
+    },
+    "test": {
+      "kind": "gerritcodereview#project",
+      "id": "test",
+      "description": "\u003chtml\u003e is escaped"
+    }
+  }
+----
+
+[[suggest-projects]]
+The `/projects/` URL also accepts a prefix string in the `p` parameter.
+This limits the results to those projects that start with the specified
+prefix.
+List all projects that start with `platform/`:
+----
+  GET /projects/?p=platform%2F HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "platform/drivers": {
+      "kind": "gerritcodereview#project",
+      "id": "platform%2Fdrivers",
+    },
+    "platform/tools": {
+      "kind": "gerritcodereview#project",
+      "id": "platform%2Ftools",
+    }
+  }
+----
+E.g. this feature can be used by suggestion client UI's to limit results.
+
+/projects/*/dashboards/ (List Dashboards)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List custom dashboards for a project.
+
+The `/projects/{name}/dashboards/` URL expects the a URL encoded
+project name as part of the URL. If name contains / the correct
+encoding is to use `%2F`.
+
+List all dashboards for the `work/my-project` project:
+----
+  GET /projects/work%2Fmy-project/dashboards/ HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#dashboard",
+      "id": "main:closed",
+      "ref": "main",
+      "path": "closed",
+      "description": "Merged and abandoned changes in last 7 weeks",
+      "url": "/dashboard/?title\u003dClosed+changes\u0026Merged\u003dstatus:merged+age:7w\u0026Abandoned\u003dstatus:abandoned+age:7w",
+      "default": true,
+      "title": "Closed changes",
+      "sections": [
+        {
+          "name": "Merged",
+          "query": "status:merged age:7w"
+        },
+        {
+          "name": "Abandoned",
+          "query": "status:abandoned age:7w"
+        }
+      ]
+    }
+  ]
+----
+
+To retrieve only the default dashboard, add `default` to the URL:
+----
+  GET /projects/work%2Fmy-project/dashboards/default HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#dashboard",
+    "id": "main:closed",
+    "ref": "main",
+    "path": "closed",
+    "default": true,
+    ...
+  }
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

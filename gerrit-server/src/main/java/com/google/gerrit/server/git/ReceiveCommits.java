@@ -139,9 +139,7 @@ public class ReceiveCommits {
         DELETE("You need 'Push' rights with the 'Force Push'\n"
             + "flag set to delete references."),
         CODE_REVIEW("You need 'Push' rights to upload code review requests.\n"
-            + "Verify that you are pushing to the right branch."),
-        CREATE("You are not allowed to perform this operation.\n"
-            + "To create new references you need 'Create Reference' rights.");
+            + "Verify that you are pushing to the right branch.");
 
     private final String value;
 
@@ -831,7 +829,6 @@ public class ReceiveCommits {
       validateNewCommits(ctl, cmd);
       batch.addCommand(cmd);
     } else {
-      errors.put(Error.CREATE, ctl.getRefName());
       reject(cmd);
     }
   }

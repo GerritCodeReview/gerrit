@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OoeFpBro",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-23T00:35:42Z",
+      "side": 1,
+      "message": "I think you need to check the visibile flag on the control first. This is checked in GroupsCollection.parse() for the HTTP REST API.\n\nBut, you are actually starting to try to mirror the REST API in the SSH interface. That\u0027s good. Unfortunately I don\u0027t want to write a ton of these commands like this. I would sort of prefer to have a more dynamic mapping like RestApiServlet does over HTTP, but for SSH.\n\nSo this might actually be `gerrit groups UUID members`? Its a lot of work to define the mapping in SSH. But I think its the right thing to do.",
+      "revId": "2eab3e63e56fd41d36c87d8b12f6d280b833b13c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

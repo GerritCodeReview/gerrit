@@ -55,7 +55,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -73,13 +72,13 @@ public class ReviewCommand extends SshCommand {
     return parser;
   }
 
-  private final Set<PatchSet.Id> patchSetIds = new HashSet<PatchSet.Id>();
+  private final Set<PatchSet> patchSets = new HashSet<PatchSet>();
 
   @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}",
       usage = "list of commits or patch sets to review")
   void addPatchSetId(final String token) {
     try {
-      patchSetIds.addAll(parsePatchSetId(token));
+      patchSets.add(parsePatchSet(token));
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
     } catch (OrmException e) {
@@ -170,20 +169,20 @@ public class ReviewCommand extends SshCommand {
     }
 
     boolean ok = true;
-    for (final PatchSet.Id patchSetId : patchSetIds) {
+    for (final PatchSet patchSet : patchSets) {
       try {
-        approveOne(patchSetId);
+        approveOne(patchSet);
       } catch (UnloggedFailure e) {
         ok = false;
         writeError("error: " + e.getMessage() + "\n");
       } catch (NoSuchChangeException e) {
         ok = false;
-        writeError("no such change " + patchSetId.getParentKey().get());
+        writeError("no such change " + patchSet.getId().getParentKey().get());
       } catch (Exception e) {
         ok = false;
         writeError("fatal: internal server error while approving "
-            + patchSetId + "\n");
-        log.error("internal error while approving " + patchSetId, e);
+            + patchSet.getId() + "\n");
+        log.error("internal error while approving " + patchSet.getId(), e);
       }
     }
 
@@ -193,16 +192,15 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void applyReview(final ChangeControl ctl, final PatchSet.Id patchSetId,
+  private void applyReview(final ChangeControl ctl, final PatchSet patchSet,
       final PostReview.Input review) throws Exception {
     if (!review.labels.isEmpty()) {
       reviewProvider.get().apply(new RevisionResource(
-          new ChangeResource(ctl),
-          db.patchSets().get(patchSetId)), review);
+          new ChangeResource(ctl), patchSet), review);
     }
   }
 
-  private void approveOne(final PatchSet.Id patchSetId) throws Exception {
+  private void approveOne(final PatchSet patchSet) throws Exception {
 
     if (changeComment == null) {
       changeComment = "";
@@ -229,13 +227,13 @@ public class ReviewCommand extends SshCommand {
 
     try {
       ChangeControl ctl =
-          changeControlFactory.controlFor(patchSetId.getParentKey());
+          changeControlFactory.controlFor(patchSet.getId().getParentKey());
 
       if (abandonChange) {
         final Abandon abandon = abandonProvider.get();
         final Abandon.Input input = new Abandon.Input();
         input.message = changeComment;
-        applyReview(ctl, patchSetId, review);
+        applyReview(ctl, patchSet, review);
         try {
           abandon.apply(new ChangeResource(ctl), input);
         } catch(AuthException e) {
@@ -249,14 +247,14 @@ public class ReviewCommand extends SshCommand {
         input.message = changeComment;
         try {
           restore.apply(new ChangeResource(ctl), input);
-          applyReview(ctl, patchSetId, review);
+          applyReview(ctl, patchSet, review);
         } catch(AuthException e) {
           writeError("error: " + parseError(Type.RESTORE_NOT_PERMITTED) + "\n");
         } catch(ResourceConflictException e) {
           writeError("error: " + parseError(Type.CHANGE_NOT_ABANDONED) + "\n");
         }
       } else {
-        applyReview(ctl, patchSetId, review);
+        applyReview(ctl, patchSet, review);
       }
 
       if (submitChange) {
@@ -264,8 +262,7 @@ public class ReviewCommand extends SshCommand {
         Submit.Input input = new Submit.Input();
         input.waitForMerge = true;
         submit.apply(new RevisionResource(
-            new ChangeResource(ctl),
-            db.patchSets().get(patchSetId)),
+            new ChangeResource(ctl), patchSet),
           input);
       }
     } catch (InvalidChangeOperationException e) {
@@ -281,11 +278,12 @@ public class ReviewCommand extends SshCommand {
     }
 
     if (publishPatchSet) {
-      final ReviewResult result = publishDraftFactory.create(patchSetId).call();
+      final ReviewResult result =
+          publishDraftFactory.create(patchSet.getId()).call();
       handleReviewResultErrors(result);
     } else if (deleteDraftPatchSet) {
       final ReviewResult result =
-          deleteDraftPatchSetFactory.create(patchSetId).call();
+          deleteDraftPatchSetFactory.create(patchSet.getId()).call();
       handleReviewResultErrors(result);
     }
   }
@@ -332,7 +330,7 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private Set<PatchSet.Id> parsePatchSetId(final String patchIdentity)
+  private PatchSet parsePatchSet(final String patchIdentity)
       throws UnloggedFailure, OrmException {
     // By commit?
     //
@@ -345,17 +343,17 @@ public class ReviewCommand extends SshCommand {
         patches = db.patchSets().byRevisionRange(id, id.max());
       }
 
-      final Set<PatchSet.Id> matches = new HashSet<PatchSet.Id>();
+      final Set<PatchSet> matches = new HashSet<PatchSet>();
       for (final PatchSet ps : patches) {
         final Change change = db.changes().get(ps.getId().getParentKey());
         if (inProject(change)) {
-          matches.add(ps.getId());
+          matches.add(ps);
         }
       }
 
       switch (matches.size()) {
         case 1:
-          return matches;
+          return matches.iterator().next();
         case 0:
           throw error("\"" + patchIdentity + "\" no such patch set");
         default:
@@ -372,7 +370,8 @@ public class ReviewCommand extends SshCommand {
       } catch (IllegalArgumentException e) {
         throw error("\"" + patchIdentity + "\" is not a valid patch set");
       }
-      if (db.patchSets().get(patchSetId) == null) {
+      final PatchSet patchSet = db.patchSets().get(patchSetId);
+      if (patchSet == null) {
         throw error("\"" + patchIdentity + "\" no such patch set");
       }
       if (projectControl != null) {
@@ -382,7 +381,7 @@ public class ReviewCommand extends SshCommand {
               + projectControl.getProject().getName());
         }
       }
-      return Collections.singleton(patchSetId);
+      return patchSet;
     }
 
     throw error("\"" + patchIdentity + "\" is not a valid patch set");

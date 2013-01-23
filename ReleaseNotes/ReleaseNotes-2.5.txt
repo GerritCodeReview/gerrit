@@ -270,11 +270,11 @@ ad-hoc scripting use cases.
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html[Documentation of the REST API]
 
 * Support REST endpoints to
-** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#changes[query changes]
-** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#projects[list projects]
-** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#suggest-projects[suggest
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api-changes.html[query changes]
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api-projects.html[list projects]
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api-projects.html#suggest-projects[suggest
    projects]
-** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#accounts_self_capabilities[query
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api-accounts.html#accounts_self_capabilities[query
    the global capabilities of the calling user]
 
 * Support link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#authentication[anonymous
@@ -1376,7 +1376,7 @@ read every other reference in the repository.
 * Avoid second remote call to lookup approvals when loading change
   results
 +
-By using the new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#changes[`/changes/`]
+By using the new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api-changes.html[`/changes/`]
 REST endpoint the web UI client now obtains the label information
 during the query and avoids a second round trip to lookup the current
 approvals for each displayed change. For most users this should improve

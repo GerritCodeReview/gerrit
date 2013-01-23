@@ -1,0 +1,170 @@
+Gerrit Code Review - '/groups/' REST API
+========================================
+
+This page describes the group related REST endpoints.
+Please also take note of the general information on the
+link:rest-api.html[REST API].
+
+Endpoints
+---------
+
+/groups/ (List Groups)
+~~~~~~~~~~~~~~~~~~~~~~
+Lists the groups accessible by the caller. This is the same as
+using the link:cmd-ls-groups.html[ls-groups] command over SSH,
+and accepts the same options as query parameters.
+
+----
+  GET /groups/ HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "Administrators": {
+      "kind": "gerritcodereview#group",
+      "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+      "description": "Gerrit Site Administrators",
+      "group_id": 1,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    },
+    "Anonymous Users": {
+      "kind": "gerritcodereview#group",
+      "id": "global%3AAnonymous-Users",
+      "description": "Any user, signed-in or not",
+      "group_id": 2,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    },
+    "MyProject_Committers": {
+      "kind": "gerritcodereview#group",
+      "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "visible_to_all": true,
+      "group_id": 6,
+      "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
+    },
+    "Non-Interactive Users": {
+      "kind": "gerritcodereview#group",
+      "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
+      "description": "Users who perform batch actions on Gerrit",
+      "group_id": 4,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    },
+    "Project Owners": {
+      "kind": "gerritcodereview#group",
+      "id": "global%3AProject-Owners",
+      "description": "Any owner of the project",
+      "group_id": 5,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    },
+    "Registered Users": {
+      "kind": "gerritcodereview#group",
+      "id": "global%3ARegistered-Users",
+      "description": "Any signed-in user",
+      "group_id": 3,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    }
+  }
+----
+
+[[group-members]]
+/groups/*/members/ (List Group Members)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists the direct members of a group.
+
+----
+  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/ HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "Jane Roe",
+      "id": "1000097",
+      "account_id": 1000097,
+      "preferred_email": "jane.roe@example.com",
+      "user_name": "jane"
+    },
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "John Doe",
+      "id": "1000096",
+      "account_id": 1000096,
+      "preferred_email": "john.doe@example.com",
+      "user_name": "doe"
+    }
+  ]
+----
+
+To resolve the included groups of a group recursively and to list all
+members the parameter `recursive` can be set.
+
+----
+  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/?recursive HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "Jane Roe",
+      "id": "1000097",
+      "account_id": 1000097,
+      "preferred_email": "jane.roe@example.com",
+      "user_name": "jane"
+    },
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "John Doe",
+      "id": "1000096",
+      "account_id": 1000096,
+      "preferred_email": "john.doe@example.com",
+      "user_name": "doe"
+    },
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "Richard Roe",
+      "id": "1000098",
+      "account_id": 1000098,
+      "preferred_email": "richard.roe@example.com",
+      "user_name": "richard"
+    }
+  ]
+----
+
+[[included-groups]]
+/groups/*/groups/ (List Included Groups)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists the directly included groups of a group.
+
+----
+  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/groups/ HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#group",
+      "id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
+      "name": "MyProject-Verifiers",
+      "group_id": 38,
+      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+    }
+  ]
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

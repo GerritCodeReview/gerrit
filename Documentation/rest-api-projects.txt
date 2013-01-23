@@ -45,6 +45,11 @@ and accepts the same options as query parameters.
   }
 ----
 
+.Get all projects with their description
+****
+get::/projects/?d
+****
+
 [[suggest-projects]]
 The `/projects/` URL also accepts a prefix string in the `p` parameter.
 This limits the results to those projects that start with the specified
@@ -111,6 +116,11 @@ List all dashboards for the `work/my-project` project:
     }
   ]
 ----
+
+.Get all dashboards of the 'All-Projects' project
+****
+get::/projects/All-Projects/dashboards/
+****
 
 To retrieve only the default dashboard, add `default` to the URL:
 ----

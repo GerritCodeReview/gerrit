@@ -135,6 +135,21 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       // confuse the parser.
       //
       html = html.replaceAll("&#39;", "'");
+
+      // The prettify parser converts all line endings ('\r', '\n' and '\r\n')
+      // into 'br' tags.
+      // If a line is modified at its end and the line ending is changed from
+      // '\n' to '\r\n' then the '\r' of the new line is part of the modified
+      // text. If intraline diffs are highlighted the modified text is
+      // surrounded by a 'span' tag. As result '\r' and '\n' of the new line get
+      // separated by '</span>'. For the prettify parser this now looks like two
+      // separate line endings and 2 'br' tags are inserted. This messes up the
+      // line counting by 'br' tags which is done below, since we now have more
+      // 'br' tags than lines. As result we would run into an
+      // ArrayIndexOutOfBoundsException when trying to lookup the non-existing
+      // lines. Drop the '\r' to avoid this problem.
+      html = html.replace("\r</span>\n", "</span>\n");
+
       html = prettify(html, getFileType());
 
     } else {

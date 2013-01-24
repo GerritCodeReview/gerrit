@@ -16,6 +16,24 @@
       "revId": "350cb7bf7f47051eba99cd4e0b3337b58acd4a7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OtM4XQ00",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1012154
+      },
+      "writtenOn": "2013-01-24T15:57:54Z",
+      "side": 1,
+      "message": "haha. embarassing.",
+      "parentUuid": "OtU0suZw",
+      "revId": "350cb7bf7f47051eba99cd4e0b3337b58acd4a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

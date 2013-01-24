@@ -16,6 +16,24 @@
       "revId": "9c0f2c8242f88b602da556d9bddb5f5aef9fed86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OtI4RO1o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-24T19:02:47Z",
+      "side": 1,
+      "message": "PUT /groups/{id}/members returns a description for all users that were newly added to the group. Users that were already member of the group are ignored and we do not include a description for them into the result. Here it\u0027s the same, the user is already a member and hence there is no newly added member which should be returned.",
+      "parentUuid": "OoWFN9js",
+      "revId": "9c0f2c8242f88b602da556d9bddb5f5aef9fed86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

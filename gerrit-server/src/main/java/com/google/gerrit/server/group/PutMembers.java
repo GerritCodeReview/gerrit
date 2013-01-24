@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -213,7 +214,14 @@ class PutMembers implements RestModifyView<GroupResource, Input> {
         OrmException {
       PutMembers.Input in = new PutMembers.Input();
       in._oneMember = id;
-      return put.get().apply(resource, in);
+      List<MemberInfo> list = put.get().apply(resource, in);
+      if (list.isEmpty()) {
+        return Response.none();
+      } else if (list.size() == 1) {
+        return list.get(0);
+      } else {
+        throw new IllegalStateException();
+      }
     }
   }
 }

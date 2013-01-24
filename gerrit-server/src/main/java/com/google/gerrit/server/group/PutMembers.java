@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -213,6 +214,24 @@ class PutMembers implements RestModifyView<GroupResource, Input> {
       PutMembers.Input in = new PutMembers.Input();
       in._oneMember = id;
       return put.get().apply(resource, in);
+    }
+  }
+
+  static class UpdateMember implements RestModifyView<MemberResource, PutMember.Input> {
+    static class Input {
+    }
+
+    @Override
+    public Class<PutMember.Input> inputType() {
+      return PutMember.Input.class;
+    }
+
+    @Override
+    public Object apply(MemberResource resource, PutMember.Input input)
+        throws AuthException, MethodNotAllowedException, BadRequestException,
+        OrmException {
+      // nothing to do, the user is already a member of the group
+      return Response.none();
     }
   }
 }

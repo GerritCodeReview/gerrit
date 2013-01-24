@@ -34,6 +34,24 @@
       "revId": "e099cbade266fdf6d60abfcffc28c9941bd84fb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoUG50hY",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-24T08:00:59Z",
+      "side": 1,
+      "message": "about the \"\u0027new\u0027 syntax\", Its seems to be a long story, its first appearance is in d3a80782.\n\nI just trace back from current version step by step to https://gerrit-review.googlesource.com/#/c/6661/1/appjar/src/main/java/com/google/gerrit/server/ssh/Receive.java.   \n\nthe \u0027new\u0027  became optional in a later change and again later it is refactored into ReceiveCommit class in another change.",
+      "parentUuid": "OfkQsTk8",
+      "revId": "e099cbade266fdf6d60abfcffc28c9941bd84fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

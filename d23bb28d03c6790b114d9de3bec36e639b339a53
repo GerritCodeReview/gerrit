@@ -16,6 +16,24 @@
       "revId": "d23bb28d03c6790b114d9de3bec36e639b339a53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OsVGQ1KE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-24T14:50:04Z",
+      "side": 1,
+      "message": "Or use Joiner [1] and get rid of the iteration completely?\n\n import com.google.common.base.Joiner;\n ...\n String text \u003d Joiner.on(\", \").join(parents);\n\n[1] http://google-collections.googlecode.com/svn/trunk/javadoc/com/google/common/base/Joiner.html",
+      "parentUuid": "OtS0MzUQ",
+      "revId": "d23bb28d03c6790b114d9de3bec36e639b339a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

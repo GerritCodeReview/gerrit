@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OoWFN9js",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T18:58:47Z",
+      "side": 1,
+      "message": "This shouldn\u0027t return 204 no content, it should return 200 with a description of the member the way PUT /groups/{id}/members returns a description of the new members.",
+      "revId": "9c0f2c8242f88b602da556d9bddb5f5aef9fed86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

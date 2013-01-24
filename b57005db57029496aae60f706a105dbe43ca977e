@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OoWH-NqA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "Each of the parent names should be a link to that parent project. Here they all link to the 0th parent. :-(\n\nYou need to modify the widgets here so inheritsFrom is a panel and each parent is a link added to the panel.",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoYFxGms",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "new ArrayList\u003cString\u003e(parents.size())",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoWF0Flo",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "new ArrayList\u003cNameKey\u003e(names.length)",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoSFuDow",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary. Fix the old callers.",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoUFrEns",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary. Fix the old callers.",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoQEQqgs",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "In Gerrit we put curly braces around trivial statements like this.",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoeEKZuE",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "This comment makes no sense. Drop it.",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoaEUXgA",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "Collections.emptyList() might make more sense here than null.",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OocFeQuA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "This needs to do rc.setStringList(p.getParentNames()).",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoYH8uqo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "style: methods are declared after constructors. Curly brace cuddles onto the prior line.",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoSEJLuc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-24T19:10:43Z",
+      "side": 1,
+      "message": "I don\u0027t like how you are now reading the cache for every step of the parent path during the constructor. I preferred the old way where the iterator ran iteratively and only loaded the ProjectState once as it arrived at that project.",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

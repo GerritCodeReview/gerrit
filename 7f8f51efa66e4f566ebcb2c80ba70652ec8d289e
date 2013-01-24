@@ -16,6 +16,24 @@
       "revId": "7f8f51efa66e4f566ebcb2c80ba70652ec8d289e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OoWHC1oY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-01-24T06:43:22Z",
+      "side": 1,
+      "message": "based on all reviewer\u0027s ideas I add a new patch which fix the the issue in a way of shifting the \u0027refName\u0027 format of creating\nnew patchset/change ReceiveCommand from UI to keep it align with that from SSH command. I like it :)   does it make sense to you all too.",
+      "parentUuid": "OsREPrDw",
+      "revId": "7f8f51efa66e4f566ebcb2c80ba70652ec8d289e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

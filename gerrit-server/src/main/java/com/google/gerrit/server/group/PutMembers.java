@@ -215,4 +215,27 @@ class PutMembers implements RestModifyView<GroupResource, Input> {
       return put.get().apply(resource, in);
     }
   }
+
+  static class UpdateMember implements RestModifyView<MemberResource, PutMember.Input> {
+    static class Input {
+    }
+
+    private final Provider<GetMember> get;
+
+    @Inject
+    UpdateMember(Provider<GetMember> get) {
+      this.get = get;
+    }
+
+    @Override
+    public Class<PutMember.Input> inputType() {
+      return PutMember.Input.class;
+    }
+
+    @Override
+    public Object apply(MemberResource resource, PutMember.Input input) {
+      // Do nothing, the user is already a member.
+      return get.get().apply(resource);
+    }
+  }
 }

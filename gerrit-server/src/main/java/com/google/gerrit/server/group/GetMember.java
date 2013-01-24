@@ -14,17 +14,12 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.MembersCollection.MemberInfo;
 
 public class GetMember implements RestReadView<MemberResource> {
-
   @Override
-  public MemberInfo apply(final MemberResource resource) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
+  public MemberInfo apply(MemberResource resource) {
     return MembersCollection.parse(resource.getUser().getAccount());
   }
 }

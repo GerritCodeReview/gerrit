@@ -123,6 +123,7 @@ class PutMembers implements RestModifyView<GroupResource, Input> {
       final Account a = findAccount(nameOrEmail);
       if (a == null) {
         badRequest.addError(new NoSuchAccountException(nameOrEmail));
+        continue;
       }
 
       if (!a.isActive()) {

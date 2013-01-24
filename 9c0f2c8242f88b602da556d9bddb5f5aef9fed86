@@ -34,6 +34,24 @@
       "revId": "9c0f2c8242f88b602da556d9bddb5f5aef9fed86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OtE4ss5w",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutMembers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-24T19:05:42Z",
+      "side": 1,
+      "message": "We can of course also change the behaviour of PUT /groups/{id}/members, but both methods should treat already existing members the same way.",
+      "parentUuid": "OtI4RO1o",
+      "revId": "9c0f2c8242f88b602da556d9bddb5f5aef9fed86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

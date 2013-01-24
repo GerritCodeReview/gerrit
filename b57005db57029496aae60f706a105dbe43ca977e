@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OtA4mq7o",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1012154
+      },
+      "writtenOn": "2013-01-24T19:46:48Z",
+      "side": 1,
+      "message": "yeah i know. i just don\u0027t understand how :/\nwill look into it.",
+      "parentUuid": "OoWH-NqA",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OoYFxGms",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
         "patchSetId": 4
@@ -183,6 +201,24 @@
       "writtenOn": "2013-01-24T19:10:43Z",
       "side": 1,
       "message": "I don\u0027t like how you are now reading the cache for every step of the parent path during the constructor. I preferred the old way where the iterator ran iteratively and only loaded the ProjectState once as it arrived at that project.",
+      "revId": "b57005db57029496aae60f706a105dbe43ca977e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OtC4jZ6s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectHierarchyIterator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012154
+      },
+      "writtenOn": "2013-01-24T19:46:48Z",
+      "side": 1,
+      "message": "Yeah. Hm. The reason is the following code. I explained on the mailing list how the list has to flattened to make sense to the linear ACL evaluator. It needs to be scanned top down to eleminate short paths to the top.\n\nMaybe there is a way to walk the tree on the fly using some sort of peek and backtrack, but it will be significantly more code , slower, and much harder to understand. Are you absolutely sure i should do that?",
+      "parentUuid": "OoSEJLuc",
       "revId": "b57005db57029496aae60f706a105dbe43ca977e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

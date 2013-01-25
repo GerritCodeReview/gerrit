@@ -34,6 +34,24 @@
       "revId": "1d823b8eaf7b95038eb18640837fd2340a20a3c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OwEIskpw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2013-01-25T08:26:08Z",
+      "side": 1,
+      "message": "We can do it.\n\nDone",
+      "parentUuid": "OwGIMNkY",
+      "revId": "1d823b8eaf7b95038eb18640837fd2340a20a3c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

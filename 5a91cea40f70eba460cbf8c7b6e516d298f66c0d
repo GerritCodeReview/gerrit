@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "OzTU3EOA",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-25T11:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O1M5ow7Q",
+      "revId": "5a91cea40f70eba460cbf8c7b6e516d298f66c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O1C5epw8",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-25T10:49:20Z",
       "side": 1,
       "message": "I think it should to be mentioned that if auth.gitBasicAuth [1] is set, the HTTP password which is shown by Gerrit is not used, but instead the authentication is done the same way as for the WebUI, e.g. with LDAP credentials if LDAP is configured as auth type.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#auth.gitBasicAuth",
+      "revId": "5a91cea40f70eba460cbf8c7b6e516d298f66c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OzRU0lNc",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-25T11:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O1C5epw8",
       "revId": "5a91cea40f70eba460cbf8c7b6e516d298f66c0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

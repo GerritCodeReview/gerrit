@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "O1O5Mn3Q",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T10:07:36Z",
+      "side": 1,
+      "message": "Maybe a HorizontalPanel would be better?",
+      "revId": "6434fb1aacf0e114857caea3c1c69bdd600b5177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O1O4RP1k",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
         "patchSetId": 3

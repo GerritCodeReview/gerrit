@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OwCICLhQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-25T03:20:34Z",
+      "side": 1,
+      "message": "Instead pass null here for the user and have filterMatch recognize null as the special case where it uses anonymousUser to make the queryBuilder and avoids putting the is_visible predicate into the filter.",
+      "revId": "1d823b8eaf7b95038eb18640837fd2340a20a3c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

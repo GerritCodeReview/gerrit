@@ -56,6 +56,6 @@ class CreateGroup extends Handler<AccountGroup.Id> {
     final PerformCreateGroup performCreateGroup = performCreateGroupFactory.create();
     final Account.Id me = user.getAccountId();
     return performCreateGroup.createGroup(groupName, null, visibleToAll, null,
-        Collections.singleton(me), null);
+        Collections.singleton(me), null).getId();
   }
 }

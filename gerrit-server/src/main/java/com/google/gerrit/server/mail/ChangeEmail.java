@@ -14,17 +14,9 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -32,21 +24,15 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.StarredChange;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.git.NotifyConfig;
+import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -62,7 +48,6 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -333,7 +318,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Include users and groups that want notification of events. */
   protected void includeWatchers(NotifyType type) {
     try {
-      Watchers matching = getWatches(type);
+      Watchers matching = getWatchers(type);
       add(RecipientType.TO, matching.to);
       add(RecipientType.CC, matching.cc);
       add(RecipientType.BCC, matching.bcc);
@@ -355,156 +340,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Returns all watches that are relevant */
-  protected final Watchers getWatches(NotifyType type) throws OrmException {
-    Watchers matching = new Watchers();
-    Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
-
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(change.getProject())) {
-      if (w.isNotify(type)) {
-        projectWatchers.add(w.getAccountId());
-        add(matching, w);
-      }
-    }
-
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(args.allProjectsName)) {
-      if (!projectWatchers.contains(w.getAccountId()) && w.isNotify(type)) {
-        add(matching, w);
-      }
-    }
-
-    for (ProjectState state : projectState.tree()) {
-      for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
-        if (nc.isNotify(type)) {
-          try {
-            add(matching, nc, state.getProject().getNameKey());
-          } catch (QueryParseException e) {
-            log.warn(String.format(
-                "Project %s has invalid notify %s filter \"%s\": %s",
-                state.getProject().getName(), nc.getName(),
-                nc.getFilter(), e.getMessage()));
-          }
-        }
-      }
-    }
-
-    return matching;
-  }
-
-  protected static class Watchers {
-    static class List {
-      protected final Set<Account.Id> accounts = Sets.newHashSet();
-      protected final Set<Address> emails = Sets.newHashSet();
-    }
-    protected final List to = new List();
-    protected final List cc = new List();
-    protected final List bcc = new List();
-
-    List list(NotifyConfig.Header header) {
-      switch (header) {
-        case TO:
-          return to;
-        case CC:
-          return cc;
-        default:
-        case BCC:
-          return bcc;
-      }
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  private void add(Watchers matching, NotifyConfig nc, Project.NameKey project)
-      throws OrmException, QueryParseException {
-    for (GroupReference ref : nc.getGroups()) {
-      ChangeQueryBuilder qb = args.queryBuilder.create(new SingleGroupUser(
-          args.capabilityControlFactory,
-          ref.getUUID()));
-      qb.setAllowFile(true);
-      Predicate<ChangeData> p = qb.is_visible();
-      if (nc.getFilter() != null) {
-        p = Predicate.and(qb.parse(nc.getFilter()), p);
-        p = args.queryRewriter.get().rewrite(p);
-      }
-      if (p.match(changeData)) {
-        deliverToMembers(matching.list(nc.getHeader()), ref.getUUID());
-      }
-    }
-
-    if (!nc.getAddresses().isEmpty()) {
-      if (nc.getFilter() != null) {
-        ChangeQueryBuilder qb = args.queryBuilder.create(args.anonymousUser);
-        qb.setAllowFile(true);
-        Predicate<ChangeData> p = qb.parse(nc.getFilter());
-        p = args.queryRewriter.get().rewrite(p);
-        if (p.match(changeData)) {
-          matching.list(nc.getHeader()).emails.addAll(nc.getAddresses());
-        }
-      } else {
-        matching.list(nc.getHeader()).emails.addAll(nc.getAddresses());
-      }
-    }
-  }
-
-  private void deliverToMembers(
-      Watchers.List matching,
-      AccountGroup.UUID startUUID) throws OrmException {
-    ReviewDb db = args.db.get();
-    Set<AccountGroup.UUID> seen = Sets.newHashSet();
-    List<AccountGroup.UUID> q = Lists.newArrayList();
-
-    seen.add(startUUID);
-    q.add(startUUID);
-
-    while (!q.isEmpty()) {
-      AccountGroup.UUID uuid = q.remove(q.size() - 1);
-      GroupDescription.Basic group = args.groupBackend.get(uuid);
-      if (!Strings.isNullOrEmpty(group.getEmailAddress())) {
-        // If the group has an email address, do not expand membership.
-        matching.emails.add(new Address(group.getEmailAddress()));
-        continue;
-      }
-
-      AccountGroup ig = GroupDescriptions.toAccountGroup(group);
-      if (ig == null) {
-        // Non-internal groups cannot be expanded by the server.
-        continue;
-      }
-
-      for (AccountGroupMember m : db.accountGroupMembers().byGroup(ig.getId())) {
-        matching.accounts.add(m.getAccountId());
-      }
-      for (AccountGroup.UUID m : args.groupIncludes.membersOf(uuid)) {
-        if (seen.add(m)) {
-          q.add(m);
-        }
-      }
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  private void add(Watchers matching, AccountProjectWatch w)
-      throws OrmException {
-    IdentifiedUser user =
-        args.identifiedUserFactory.create(args.db, w.getAccountId());
-    ChangeQueryBuilder qb = args.queryBuilder.create(user);
-    Predicate<ChangeData> p = qb.is_visible();
-    if (w.getFilter() != null) {
-      try {
-        qb.setAllowFile(true);
-        p = Predicate.and(qb.parse(w.getFilter()), p);
-        p = args.queryRewriter.get().rewrite(p);
-        if (p.match(changeData)) {
-          matching.bcc.accounts.add(w.getAccountId());
-        }
-      } catch (QueryParseException e) {
-        // Ignore broken filter expressions.
-      }
-    } else if (p.match(changeData)) {
-      matching.bcc.accounts.add(w.getAccountId());
-    }
+  /** Returns all watchers that are relevant */
+  protected final Watchers getWatchers(NotifyType type) throws OrmException {
+    ProjectWatch watch = new ProjectWatch(args, project, projectState, changeData);
+    return watch.getWatchers(type);
   }
 
   /** Any user who has published comments on this change. */

@@ -16,6 +16,24 @@
       "revId": "baac42510de039b50c31624e5f7791ff7a1373b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OzVU.DLk",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-25T11:18:19Z",
+      "side": 1,
+      "message": "\"validated\" is correct here.  \"are validated\" would make it grammatically wrong.\n\n(This part of the sentence is copy pasted from config-gerritauth.gitBasicAuth.)",
+      "parentUuid": "O1G5YryE",
+      "revId": "baac42510de039b50c31624e5f7791ff7a1373b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

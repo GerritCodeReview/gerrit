@@ -278,6 +278,17 @@ when auth.type is `LDAP`.
 +
 If not set, defaults to "Register".
 
+[[auth.editFullNameUrl]]auth.editFullNameUrl::
++
+Target for the "Edit" button when the user is allowed to edit their
+full name.
+
+[[auth.httpPasswordUrl]]auth.httpPasswordUrl::
++
+Target for the "Obtain Password" link.  Used only when auth.type is
+`LDAP`, `LDAP_BIND` or `CUSTOM_EXTENSION`.
++
+
 [[auth.cookiePath]]auth.cookiePath::
 +
 Sets "path" attribute of the authentication cookie.

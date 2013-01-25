@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O1E4.k7k",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T10:33:20Z",
+      "side": 1,
+      "message": "nit: wrong indention",
+      "revId": "4c29230f6dcd30b42d681398725bf84cadf23cf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1G5BzzU",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T10:33:20Z",
+      "side": 1,
+      "message": "nit: missing space after comma",
+      "revId": "4c29230f6dcd30b42d681398725bf84cadf23cf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

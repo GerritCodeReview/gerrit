@@ -32,6 +32,17 @@ import java.util.Set;
  * Iterates from a project up through its parents to All-Projects.
  * <p>
  * If a cycle is detected the cycle is broken and All-Projects is visited.
+ * When multiple parents are defined for a project parents are visited in
+ * reverse order and only the first parent is recursed on. For example if
+ * project Child inherits from [A, B, C] then the iteration order will be:
+ * <ol>
+ * <li>Child</li>
+ * <li>C</li>
+ * <li>B</li>
+ * <li>A</li>
+ * <li>A's parent(s)</li>
+ * <li>All-Projects</li>
+ * </ol>
  */
 class ProjectHierarchyIterator implements Iterator<ProjectState> {
   private static final Logger log = LoggerFactory.getLogger(ProjectHierarchyIterator.class);
@@ -39,6 +50,7 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
   private final ProjectCache cache;
   private final AllProjectsName allProjectsName;
   private final Set<Project.NameKey> seen;
+  private List<Project.NameKey> parentQueue;
   private ProjectState next;
 
   ProjectHierarchyIterator(ProjectCache c,
@@ -68,11 +80,35 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
   }
 
   private ProjectState computeNext(ProjectState n) {
-    Project.NameKey parentName = n.getProject().getParent();
-    if (parentName != null && visit(parentName)) {
-      ProjectState p = cache.get(parentName);
+    // If more parents remain from the last project "n" is a mixin
+    // and its own parents are to be ignored. Recursion up the tree
+    // resumes when parentQueue drops to empty as "n" is now the first
+    // parent of the prior project.
+    if (parentQueue != null && !parentQueue.isEmpty()) {
+      ProjectState r = popParentQueue();
+      if (r != null) {
+        return r;
+      }
+    }
+
+    List<Project.NameKey> parents = n.getProject().getParents();
+    if (parents.size() == 1 && visit(parents.get(0))) {
+      ProjectState p = cache.get(parents.get(0));
       if (p != null) {
         return p;
+      }
+    } else if (parents.size() > 1) {
+      // With multiple parents visit them in reverse declaration order and
+      // recurse only on the first declared parent. For example inheritsFrom
+      // is [A, B, C] we visit C, then B, then A and recurse on A. C and B
+      // do not visit their parents.
+      if (parentQueue == null) {
+        parentQueue = Lists.newArrayListWithExpectedSize(parents.size());
+      }
+      parentQueue.addAll(parents);
+      ProjectState r = popParentQueue();
+      if (r != null) {
+        return r;
       }
     }
 
@@ -80,6 +116,17 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
     // Fall back to visit All-Projects exactly once.
     if (seen.add(allProjectsName)) {
       return cache.get(allProjectsName);
+    }
+    return null;
+  }
+
+  private ProjectState popParentQueue() {
+    Project.NameKey pn = parentQueue.remove(parentQueue.size() - 1);
+    if (visit(pn)) {
+      ProjectState p = cache.get(pn);
+      if (p != null) {
+        return p;
+      }
     }
     return null;
   }

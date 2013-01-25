@@ -61,14 +61,14 @@ public class SuggestParentCandidates {
         return o1.getName().compareTo(o2.getName());
       }
     });
-    for (Project.NameKey p : projectCache.all()) {
+    for (Project.NameKey name : projectCache.all()) {
       try {
-        final ProjectControl control = projectControlFactory.controlFor(p);
-        final Project.NameKey parentK = control.getProject().getParent();
-        if (parentK != null) {
-          ProjectControl pControl = projectControlFactory.controlFor(parentK);
-          if (pControl.isVisible() || pControl.isOwner()) {
-            projects.add(pControl.getProject());
+        ProjectControl control = projectControlFactory.controlFor(name);
+        List<Project.NameKey> parents = control.getProject().getParents();
+        if (!parents.isEmpty()) {
+          ProjectControl p = projectControlFactory.controlFor(parents.get(0));
+          if (p.isVisible() || p.isOwner()) {
+            projects.add(p.getProject());
           }
         }
       } catch (NoSuchProjectException e) {

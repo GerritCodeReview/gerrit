@@ -95,7 +95,9 @@ class SetDescription implements RestModifyView<ProjectResource, Input> {
 
         ListProjects.ProjectInfo info = new ListProjects.ProjectInfo();
         info.setName(resource.getName());
-        info.parent = project.getParentName();
+        if (!project.getParents().isEmpty()) {
+          info.parent = project.getParents().get(0).get();
+        }
         info.description = project.getDescription();
         return info;
       } finally {

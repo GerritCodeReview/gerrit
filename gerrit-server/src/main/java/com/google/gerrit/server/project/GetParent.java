@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 
@@ -22,6 +22,6 @@ class GetParent implements RestReadView<ProjectResource> {
   @Override
   public Object apply(ProjectResource resource) {
     Project project = resource.getControl().getProject();
-    return Strings.nullToEmpty(project.getParentName());
+    return Iterables.getFirst(project.getParentNames(), "");
   }
 }

@@ -821,8 +821,8 @@ public class ReceiveCommits {
                     + cmd.getNewId().name() + " for " + project.getName());
                 continue;
               }
-              Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
-              Project.NameKey oldParent = project.getParent(allProjectsName);
+              Project.NameKey newParent = cfg.getProject().getFirstParent(allProjectsName);
+              Project.NameKey oldParent = project.getFirstParent(allProjectsName);
               if (oldParent == null) {
                 // update of the 'All-Projects' project
                 if (newParent != null) {

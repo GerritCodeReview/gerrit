@@ -180,8 +180,8 @@ public class CreateProject {
       newProject.setUseContentMerge(createProjectArgs.contentMerge);
       newProject.setRequireChangeID(createProjectArgs.changeIdRequired);
       if (createProjectArgs.newParent != null) {
-        newProject.setParentName(createProjectArgs.newParent.getProject()
-            .getNameKey());
+        newProject.setParentNames(createProjectArgs.newParent.getProject()
+            .getNameKey().get());
       }
 
       if (!createProjectArgs.ownerIds.isEmpty()) {

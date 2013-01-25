@@ -17,6 +17,10 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
   /** Project name key */
@@ -103,7 +107,7 @@ public final class Project {
 
   protected State state;
 
-  protected NameKey parent;
+  protected List<Project.NameKey> parents;
 
   protected InheritableBoolean requireChangeID;
 
@@ -217,26 +221,26 @@ public final class Project {
   }
 
   /**
-   * Returns the name key of the parent project.
+   * Returns the name keys of the parent projects.
    *
-   * @return name key of the parent project, <code>null</code> if this project
-   *         is the wild project, <code>null</code> or the name key of the wild
-   *         project if this project is a direct child of the wild project
+   * @return names of the parent projects to inherit from, or empty list.
    */
-  public Project.NameKey getParent() {
-    return parent;
+  public List<Project.NameKey> getParents() {
+    return parents != null
+        ? parents
+        : Collections.<Project.NameKey> emptyList();
   }
 
   /**
-   * Returns the name key of the parent project.
+   * Returns the name key of the first parent project.
    *
    * @param allProjectsName name key of the wild project
    * @return name key of the parent project, <code>null</code> if this project
    *         is the wild project
    */
-  public Project.NameKey getParent(final Project.NameKey allProjectsName) {
-    if (parent != null) {
-      return parent;
+  public Project.NameKey getFirstParent(Project.NameKey allProjectsName) {
+    if (parents != null && !parents.isEmpty()) {
+      return parents.get(0);
     }
 
     if (name.equals(allProjectsName)) {
@@ -246,15 +250,25 @@ public final class Project {
     return allProjectsName;
   }
 
-  public String getParentName() {
-    return parent != null ? parent.get() : null;
+  public List<String> getParentNames() {
+    if (parents == null || parents.isEmpty()) {
+      return Collections.emptyList();
+    }
+    List<String> p = new ArrayList<String>(parents.size());
+    for (Project.NameKey k : parents) {
+      p.add(k.get());
+    }
+    return p;
   }
 
-  public void setParentName(String n) {
-    parent = n != null ? new NameKey(n) : null;
-  }
-
-  public void setParentName(NameKey n) {
-    parent = n;
+  public void setParentNames(String... n) {
+    if (n.length > 0) {
+      parents = new ArrayList<Project.NameKey>(n.length);
+      for (String name : n) {
+        parents.add(new Project.NameKey(name));
+      }
+    } else {
+      parents = null;
+    }
   }
 }

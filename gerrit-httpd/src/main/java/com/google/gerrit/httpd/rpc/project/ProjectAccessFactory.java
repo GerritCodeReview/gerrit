@@ -40,6 +40,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -191,7 +192,11 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       detail.setRevision(config.getRevision().name());
     }
 
-    detail.setInheritsFrom(config.getProject().getParent(allProjectsName));
+    detail.setInheritsFrom(config.getProject().getParents());
+    if (detail.getInheritsFrom().isEmpty()) {
+      detail.setInheritsFrom(
+        Collections.<Project.NameKey> singletonList(allProjectsName));
+    }
 
     if (projectName.equals(allProjectsName)) {
       if (pc.isOwner()) {

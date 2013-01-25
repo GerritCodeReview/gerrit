@@ -25,7 +25,9 @@ class GetProject implements RestReadView<ProjectResource> {
     Project project = resource.getControl().getProject();
     ProjectInfo info = new ProjectInfo();
     info.name = resource.getName();
-    info.parent = Strings.emptyToNull(project.getParentName());
+    if (!project.getParents().isEmpty()) {
+      info.parent = project.getParents().get(0).get();
+    }
     info.description = Strings.emptyToNull(project.getDescription());
     info.finish();
     return info;

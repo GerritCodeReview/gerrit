@@ -53,7 +53,7 @@ public class ProjectAccessEditor extends Composite implements
   DivElement inheritsFrom;
 
   @UiField
-  Hyperlink parentProject;
+  FlowPanel parentProjects;
 
   @UiField
   DivElement history;
@@ -100,12 +100,15 @@ public class ProjectAccessEditor extends Composite implements
 
     this.value = value;
 
-    Project.NameKey parent = value.getInheritsFrom();
-    if (parent != null) {
+    List<Project.NameKey> parents = value.getInheritsFrom();
+    if (parents != null && !parents.isEmpty()) {
       inheritsFrom.getStyle().setDisplay(Display.BLOCK);
-      parentProject.setText(parent.get());
-      parentProject.setTargetHistoryToken( //
-          Dispatcher.toProjectAdmin(parent, ProjectScreen.ACCESS));
+      parentProjects.clear();
+      for (Project.NameKey p : parents) {
+        parentProjects.add(new Hyperlink(
+          p.get(),
+          Dispatcher.toProjectAdmin(p, ProjectScreen.ACCESS)));
+      }
     } else {
       inheritsFrom.getStyle().setDisplay(Display.NONE);
     }

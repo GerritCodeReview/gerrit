@@ -255,7 +255,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     }
     if (inheritedIndex >= 0) {
-      if (project.getParent(Gerrit.getConfig().getWildProject()) == null) {
+      if (project.getFirstParent(Gerrit.getConfig().getWildProject()) == null) {
         if (box.getSelectedIndex() == inheritedIndex) {
           for (int i = 0; i < box.getItemCount(); i++) {
             if (box.getValue(i).equals(InheritableBoolean.FALSE.name())) {

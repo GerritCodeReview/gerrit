@@ -552,14 +552,14 @@ public class MergeOp {
           ProjectConfig cfg =
               new ProjectConfig(destProject.getProject().getNameKey());
           cfg.load(repo, commit);
-          newParent = cfg.getProject().getParent(allProjectsName);
+          newParent = cfg.getProject().getFirstParent(allProjectsName);
         } catch (Exception e) {
           commits.put(changeId, CodeReviewCommit
               .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION));
           continue;
         }
         final Project.NameKey oldParent =
-            destProject.getProject().getParent(allProjectsName);
+            destProject.getProject().getFirstParent(allProjectsName);
         if (oldParent == null) {
           // update of the 'All-Projects' project
           if (newParent != null) {

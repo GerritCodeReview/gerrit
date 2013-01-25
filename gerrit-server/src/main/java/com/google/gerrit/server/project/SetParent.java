@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -73,13 +72,19 @@ class SetParent implements RestModifyView<ProjectResource, Input> {
       try {
         ProjectConfig config = ProjectConfig.read(md);
         Project project = config.getProject();
-        project.setParentName(Strings.emptyToNull(input.parent));
+
+        Project.NameKey newParent;
+        if (Strings.isNullOrEmpty(input.parent)) {
+          project.setParentNames();
+          newParent = allProjects;
+        } else {
+          project.setParentNames(input.parent);
+          newParent = new Project.NameKey(input.parent);
+        }
 
         String msg = Strings.emptyToNull(input.commitMessage);
         if (msg == null) {
-          msg = String.format(
-              "Changed parent to %s.\n",
-              Objects.firstNonNull(project.getParentName(), allProjects.get()));
+          msg = String.format("Changed parent to %s.\n", newParent.get());
         } else if (!msg.endsWith("\n")) {
           msg += "\n";
         }
@@ -90,7 +95,9 @@ class SetParent implements RestModifyView<ProjectResource, Input> {
 
         ListProjects.ProjectInfo info = new ListProjects.ProjectInfo();
         info.setName(resource.getName());
-        info.parent = project.getParentName();
+        if (!project.getParents().isEmpty()) {
+          info.parent = project.getParents().get(0).get();
+        }
         info.description = project.getDescription();
         return info;
       } finally {

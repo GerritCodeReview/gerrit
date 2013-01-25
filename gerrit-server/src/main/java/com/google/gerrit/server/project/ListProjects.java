@@ -411,7 +411,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         continue;
       }
 
-      ProjectNode node = treeMap.get(key.getParentName());
+      ProjectNode node = treeMap.get(key.getFirstParentName());
       if (node != null) {
         node.addChild(key);
       } else {

@@ -29,8 +29,8 @@ limitations under the License.
   .parentTitle {
     font-weight: bold;
   }
-  .parentLink {
-    display: inline;
+  .parentLink .gwt-Hyperlink {
+    display: block;
   }
 
   .history {
@@ -55,7 +55,7 @@ limitations under the License.
 <g:HTMLPanel>
   <div ui:field='inheritsFrom' class='{style.inheritsFrom}'>
     <span class='{style.parentTitle}'><ui:msg>Rights Inherit From:</ui:msg></span>
-    <q:Hyperlink ui:field='parentProject' styleName='{style.parentLink}'/>
+    <q:FlowPanel ui:field='parentProjects' styleName='{style.parentLink}'/>
   </div>
   <div ui:field='history' class='{style.history}'>
     <span class='{style.historyTitle}'><ui:msg>History:</ui:msg></span>

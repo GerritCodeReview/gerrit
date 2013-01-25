@@ -290,7 +290,7 @@ public class ProjectConfig extends VersionedMetaData {
     if (p.getDescription() == null) {
       p.setDescription("");
     }
-    p.setParentName(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
+    p.setParentNames(rc.getStringList(ACCESS, null, KEY_INHERIT_FROM));
 
     p.setUseContributorAgreements(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, Project.InheritableBoolean.INHERIT));
     p.setUseSignedOffBy(getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, Project.InheritableBoolean.INHERIT));
@@ -539,7 +539,7 @@ public class ProjectConfig extends VersionedMetaData {
     } else {
       rc.unset(PROJECT, null, KEY_DESCRIPTION);
     }
-    set(rc, ACCESS, null, KEY_INHERIT_FROM, p.getParentName());
+    rc.setStringList(ACCESS, null, KEY_INHERIT_FROM, p.getParentNames());
 
     set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.getUseContributorAgreements(), Project.InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.getUseSignedOffBy(), Project.InheritableBoolean.INHERIT);

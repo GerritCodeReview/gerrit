@@ -224,7 +224,7 @@ class Schema_53 extends SchemaVersion {
     project.setUseSignedOffBy(asInheritableBoolean(rs, "use_signed_off_by"));
     project.setRequireChangeID(asInheritableBoolean(rs, "require_change_id"));
     project.setUseContentMerge(asInheritableBoolean(rs, "use_content_merge"));
-    project.setParentName(rs.getString("parent_name"));
+    project.setParentNames(rs.getString("parent_name"));
   }
 
   private static InheritableBoolean asInheritableBoolean(ResultSet rs, String col)
@@ -421,12 +421,12 @@ class Schema_53 extends SchemaVersion {
     String category = old.category;
     AccountGroup.UUID group = old.group.getUUID();
 
-    Project.NameKey project = config.getProject().getParent();
-    if (project == null) {
-      project = systemConfig.wildProjectName;
+    List<Project.NameKey> parents = config.getProject().getParents();
+    if (parents.isEmpty()) {
+      parents = Collections.singletonList(systemConfig.wildProjectName);
     }
     do {
-      List<OldRefRight> rights = rightsByProject.get(project);
+      List<OldRefRight> rights = rightsByProject.get(parents.get(0));
       if (rights != null) {
         for (OldRefRight r : rights) {
           if (r.ref_pattern.equals(ref) //
@@ -437,8 +437,9 @@ class Schema_53 extends SchemaVersion {
           }
         }
       }
-      project = parentsByProject.get(project);
-    } while (!project.equals(systemConfig.wildProjectName));
+      Project.NameKey next = parentsByProject.get(parents.get(0));
+      parents = Collections.singletonList(next);
+    } while (!parents.get(0).equals(systemConfig.wildProjectName));
 
     return max;
   }

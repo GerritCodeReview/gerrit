@@ -143,9 +143,8 @@ class PutMembers implements RestModifyView<GroupResource, Input> {
           newAccountGroupMembers.put(m.getAccountId(), m);
           newAccountGroupMemberAudits.add(new AccountGroupMemberAudit(m, me));
         }
-
-        newMembers.add(MembersCollection.parse(a));
       }
+      newMembers.add(MembersCollection.parse(a));
     }
 
     badRequest.failOnError();

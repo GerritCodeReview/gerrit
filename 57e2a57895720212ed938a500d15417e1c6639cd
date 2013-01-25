@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OzXUPyDs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-25T04:57:50Z",
+      "side": 1,
+      "message": "Is this reformatting necessary?  It just makes the diff view more messy.",
+      "revId": "57e2a57895720212ed938a500d15417e1c6639cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

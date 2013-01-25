@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O1G5YryE",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T11:11:05Z",
+      "side": 1,
+      "message": "s/validated/are validated",
+      "revId": "baac42510de039b50c31624e5f7791ff7a1373b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

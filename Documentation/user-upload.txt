@@ -7,8 +7,30 @@ Gerrit supports three methods of uploading changes:
 * Use `git push`, to create changes for review
 * Use `git push`, and bypass code review
 
-All three methods rely on SSH public key authentication, which must
-first be configured by the uploading user.
+All three methods rely on authentication, which must first be configured
+by the uploading user.
+
+Gerrit supports two methods of authenticating the uploading user.  SSH
+public key, and HTTP/HTTPS.
+
+HTTP/HTTPS
+----------
+
+On Gerrit installations that do not support SSH authentication, the
+user must authenticate via HTTP/HTTPS.
+
+When link:config-gerrit.html#auth.gitBasicAuth[gitBasicAuth] is enabled,
+the user is authenticated using standard BasicAuth and credentials validated
+using the same authentication method configured for the Gerrit Web UI.
+
+When gitBasicAuth is not configured, the user's HTTP credentials can be
+accessed within Gerrit by going to `Settings`, and then accessing the `HTTP
+Password` tab.
+
+For Gerrit installations where an link:config-gerrit.html#auth.httpPasswordUrl[HTTP password URL]
+is configured, the password can be obtained by clicking on `Obtain Password`
+and then following the site-specific instructions.  On sites where this URL is
+not configured, the password can be obtained by clicking on `Generate Password`.
 
 SSH
 ---

@@ -34,6 +34,24 @@
       "revId": "baac42510de039b50c31624e5f7791ff7a1373b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1K6UV6I",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T11:20:02Z",
+      "side": 1,
+      "message": "ok, godd to know :-)",
+      "parentUuid": "OzVU.DLk",
+      "revId": "baac42510de039b50c31624e5f7791ff7a1373b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

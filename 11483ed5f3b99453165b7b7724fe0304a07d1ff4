@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O1G4m77s",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T09:55:14Z",
+      "side": 1,
+      "message": "s/they/the",
+      "revId": "11483ed5f3b99453165b7b7724fe0304a07d1ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1E4jM6o",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T09:55:14Z",
+      "side": 1,
+      "message": "maybe log it as warning?",
+      "revId": "11483ed5f3b99453165b7b7724fe0304a07d1ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1K5Clz4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T09:55:14Z",
+      "side": 1,
+      "message": "Seems to be unrelated to this change. Can you make this fix as an own change?",
+      "revId": "11483ed5f3b99453165b7b7724fe0304a07d1ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

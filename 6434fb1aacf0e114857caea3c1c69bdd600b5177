@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O1G4PDzw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T09:30:38Z",
+      "side": 1,
+      "message": "[optional] I\u0027m not liking the term \u0027Dashboard Type\u0027 for this purpose too much. When first reading it, I thought it describes the type of the entities that are shown in the dashboard. So that a dashboard of dashboard type CHANGES would display changes and other types would display some other entities. I propose to name it \u0027Dashboard Kind\u0027.",
+      "revId": "6434fb1aacf0e114857caea3c1c69bdd600b5177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1M4WA08",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T09:30:38Z",
+      "side": 1,
+      "message": "Does the dashboard type id need to be encoded? It depends of course which characters are allowed in a dashboard type id. Maybe it\u0027s enough to document it somewhere.",
+      "revId": "6434fb1aacf0e114857caea3c1c69bdd600b5177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1C4s55s",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T09:30:38Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "6434fb1aacf0e114857caea3c1c69bdd600b5177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1O4RP1k",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T09:30:38Z",
+      "side": 1,
+      "message": "I think it\u0027s important that the dashboard type id doesn\u0027t contain a colon, isn\u0027t it?\n\nAccessing a dashboard by id is done by \u0027/projects/*/dashboards/\u003cdashboard-id\u003e\u0027 where dashboard id is \u0027\u003cref\u003e:\u003cpath\u003e\u0027.\n\nAccessing a dashboard by type is done by \u0027/projects/*/dashboards/\u003cdashboard-type-id\u003e\u0027.\n\nTo differentiate the 2 cases the dashboard type id shouldn\u0027t contain the colon. If this is the case, then we should probably document it here by a JavaDoc.\n\nAlso it looks like the first character of the dashboard type id should be unique, so that the types can be differentiated in the UI where only the first character is shown. This should maybe also be documented.\n\nAfter all, do we actually need to assign an explicit string as id? Wouldn\u0027t it be enough to use DashboardType.DEFAULT.name() as id? Then there wouldn\u0027t be a need for the asSet and fromId methods, but we could use DashboardType.values() and DashboardType.valueOf(id).",
+      "revId": "6434fb1aacf0e114857caea3c1c69bdd600b5177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "1d823b8eaf7b95038eb18640837fd2340a20a3c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OwGIMNkY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ProjectWatch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2013-01-25T03:42:15Z",
+      "side": 1,
+      "message": "the user is also used by queryBuilder factory at line 195 below, i\u0027m not sure whether it can accept null for user?",
+      "parentUuid": "OwCICLhQ",
+      "revId": "1d823b8eaf7b95038eb18640837fd2340a20a3c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

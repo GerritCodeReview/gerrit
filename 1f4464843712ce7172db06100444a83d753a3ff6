@@ -16,6 +16,24 @@
       "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1E4M00U",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-25T08:09:14Z",
+      "side": 1,
+      "message": "Taking the second approach would also make the POST request to delete several members at once obsolete, wouldn\u0027t it?",
+      "parentUuid": "O1C4FBxw",
+      "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

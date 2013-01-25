@@ -31,6 +31,13 @@ import java.util.Set;
  */
 public class GroupApi {
 
+  /** Create a new group */
+  public static void createGroup(String groupName, AsyncCallback<GroupInfo> cb) {
+    GroupInput in = GroupInput.create();
+    in.name(groupName);
+    new RestApi("/groups/").data(in).post(cb);
+  }
+
   /** Add member to a group. */
   public static void addMember(AccountGroup.UUID groupUUID,
       String member, AsyncCallback<MemberInfo> cb) {
@@ -99,6 +106,17 @@ public class GroupApi {
     }
 
     protected MemberInput() {
+    }
+  }
+
+  private static class GroupInput extends JavaScriptObject {
+    final native void name(String n) /*-{ if(n)this.name=n; }-*/;
+
+    static GroupInput create() {
+      return (GroupInput) createObject();
+    }
+
+    protected GroupInput() {
     }
   }
 }

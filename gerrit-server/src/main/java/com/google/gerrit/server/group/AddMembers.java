@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -117,7 +116,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
     final Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
     final List<AccountGroupMemberAudit> newAccountGroupMemberAudits = Lists.newLinkedList();
     final BadRequestHandler badRequest = new BadRequestHandler("adding new group members");
-    final List<MemberInfo> newMembers = Lists.newLinkedList();
+    final List<MemberInfo> result = Lists.newLinkedList();
     final Account.Id me = ((IdentifiedUser) self.get()).getAccountId();
 
     for (final String nameOrEmail : input.members) {
@@ -145,9 +144,8 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
           newAccountGroupMembers.put(m.getAccountId(), m);
           newAccountGroupMemberAudits.add(new AccountGroupMemberAudit(m, me));
         }
-
-        newMembers.add(MembersCollection.parse(a));
       }
+      result.add(MembersCollection.parse(a));
     }
 
     badRequest.failOnError();
@@ -158,7 +156,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
       accountCache.evict(m.getAccountId());
     }
 
-    return newMembers;
+    return result;
   }
 
   private Account findAccount(final String nameOrEmail) throws OrmException {
@@ -215,9 +213,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id;
       List<MemberInfo> list = put.get().apply(resource, in);
-      if (list.isEmpty()) {
-        return Response.none();
-      } else if (list.size() == 1) {
+      if (list.size() == 1) {
         return list.get(0);
       } else {
         throw new IllegalStateException();

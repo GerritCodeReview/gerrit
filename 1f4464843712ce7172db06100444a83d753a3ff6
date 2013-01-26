@@ -88,6 +88,24 @@
       "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OwCJbTiA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-26T18:04:40Z",
+      "side": 1,
+      "message": "OK. Give me a little bit and I\u0027ll post changes to fix the existing code.",
+      "parentUuid": "O1O51v3g",
+      "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

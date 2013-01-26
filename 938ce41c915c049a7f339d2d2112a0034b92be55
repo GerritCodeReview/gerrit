@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OwKKZHtw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-26T19:13:58Z",
+      "side": 1,
+      "message": "This is wrong. It accepts a unique prefix as a unique complete name. I will post a fix change in a minute.",
+      "revId": "938ce41c915c049a7f339d2d2112a0034b92be55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

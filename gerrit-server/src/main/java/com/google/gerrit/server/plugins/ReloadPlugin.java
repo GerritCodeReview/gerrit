@@ -38,11 +38,6 @@ class ReloadPlugin implements RestModifyView<PluginResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Object apply(PluginResource resource, Input input) throws ResourceConflictException {
     String name = resource.getName();
     try {

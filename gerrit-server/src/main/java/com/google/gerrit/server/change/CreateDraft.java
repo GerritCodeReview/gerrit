@@ -42,11 +42,6 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Response<GetDraft.Comment> apply(RevisionResource rsrc, Input in)
       throws AuthException, BadRequestException, ResourceConflictException, OrmException {
     if (Strings.isNullOrEmpty(in.path)) {

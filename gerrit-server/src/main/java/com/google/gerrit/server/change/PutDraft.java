@@ -56,11 +56,6 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Object apply(DraftResource rsrc, Input in) throws AuthException,
       BadRequestException, ResourceConflictException, OrmException {
     PatchLineComment c = rsrc.getComment();

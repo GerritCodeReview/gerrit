@@ -49,11 +49,6 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Object apply(ChangeResource req, Input input)
       throws BadRequestException, AuthException,
       ResourceConflictException, Exception {

@@ -44,11 +44,6 @@ class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Object apply(ReviewerResource rsrc, Input input)
       throws AuthException, ResourceNotFoundException, OrmException {
     ChangeControl control = rsrc.getControl();

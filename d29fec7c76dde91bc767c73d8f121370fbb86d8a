@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OzRWmVBM",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLNodeFindReplace.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-26T13:47:44Z",
+      "side": 1,
+      "message": "s/2009/2012",
+      "revId": "d29fec7c76dde91bc767c73d8f121370fbb86d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OzTWp0OU",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLReplaceProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-26T13:47:44Z",
+      "side": 1,
+      "message": "s/2009/2012",
+      "revId": "d29fec7c76dde91bc767c73d8f121370fbb86d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OzdWjPAQ",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/gitweb/HTMLReplaceProcessorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-26T13:47:44Z",
+      "side": 1,
+      "message": "No copyright header",
+      "revId": "d29fec7c76dde91bc767c73d8f121370fbb86d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

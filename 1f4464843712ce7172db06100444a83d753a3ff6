@@ -52,6 +52,24 @@
       "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OwGI.9rk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-26T17:44:29Z",
+      "side": 1,
+      "message": "I meant to say I also looked at all existing uses of PUT in Gerrit. This one on a member collection is the only one not consistent with Jonathan\u0027s comment about how PUT works in a REST API. So this one is broken and should be fixed.",
+      "parentUuid": "OwCI07tc",
+      "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

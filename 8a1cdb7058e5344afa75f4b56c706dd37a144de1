@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "OwAJkStw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-26T17:51:01Z",
+      "side": 1,
+      "message": "Why can\u0027t we make /groups/{id} also accept the name in the id position? Its just a simple change to the collection parser. Names are supposed to be unique. Check for the group by UUID first and if no group is found, check for it by name?\n\nThis somewhat matches with how we handle some other things like changes and accounts where we accept forms other than just Account.Id like an email address.\n\nClients that want to be unambiguous all of the time should use the id we advertise in JSON responses, aka the group UUID. But clients that are being user friendly could just use the name.",
+      "revId": "8a1cdb7058e5344afa75f4b56c706dd37a144de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OwKJuPr4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-26T17:51:01Z",
+      "side": 1,
+      "message": "Jonathan is correct. We need to accept PUT on /groups/ as the way to create a new group and have the server compute the UUID.\n\nIIRC this is not actually supported in RestApiServlet. There is no way to bind a view to handle PUT on a top level resource for the /groups/ collection. So some glue work is going to be necessary.",
+      "revId": "8a1cdb7058e5344afa75f4b56c706dd37a144de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

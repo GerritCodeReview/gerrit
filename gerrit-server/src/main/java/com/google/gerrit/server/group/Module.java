@@ -21,7 +21,7 @@ import static com.google.gerrit.server.group.MemberResource.MEMBER_KIND;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.group.DeleteMembers.DeleteMember;
-import com.google.gerrit.server.group.PutMembers.UpdateMember;
+import com.google.gerrit.server.group.AddMembers.UpdateMember;
 
 public class Module extends RestApiModule {
   @Override
@@ -33,11 +33,11 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), INCLUDED_GROUP_KIND);
 
     get(GROUP_KIND).to(GetGroup.class);
+    post(GROUP_KIND, "members.add").to(AddMembers.class);
+    post(GROUP_KIND, "members.delete").to(DeleteMembers.class);
 
     child(GROUP_KIND, "members").to(MembersCollection.class);
     get(MEMBER_KIND).to(GetMember.class);
-    post(GROUP_KIND, "members").to(PostMembers.class);
-    put(GROUP_KIND, "members").to(PutMembers.class);
     put(MEMBER_KIND).to(UpdateMember.class);
     delete(MEMBER_KIND).to(DeleteMember.class);
 

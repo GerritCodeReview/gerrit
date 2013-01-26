@@ -27,7 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.group.PutMembers.PutMember;
+import com.google.gerrit.server.group.AddMembers.PutMember;
 import com.google.gerrit.server.util.Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -42,7 +42,7 @@ public class MembersCollection implements
   private final GroupCache groupCache;
   private final AccountResolver accountResolver;
   private final Provider<ReviewDb> db;
-  private final Provider<PutMembers> put;
+  private final Provider<AddMembers> put;
 
   @Inject
   MembersCollection(final DynamicMap<RestView<MemberResource>> views,
@@ -51,7 +51,7 @@ public class MembersCollection implements
       final GroupCache groupCache,
       final AccountResolver accountResolver,
       final Provider<ReviewDb> db,
-      final Provider<PutMembers> put) {
+      final Provider<AddMembers> put) {
     this.views = views;
     this.list = list;
     this.userGenericFactory = userGenericFactory;

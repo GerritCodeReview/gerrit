@@ -43,7 +43,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.MembersCollection.MemberInfo;
-import com.google.gerrit.server.group.PutMembers.Input;
+import com.google.gerrit.server.group.AddMembers.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,7 +51,7 @@ import com.google.inject.Provider;
 import java.util.List;
 import java.util.Map;
 
-class PutMembers implements RestModifyView<GroupResource, Input> {
+class AddMembers implements RestModifyView<GroupResource, Input> {
   static class Input {
     @DefaultInput
     String _oneMember;
@@ -81,7 +81,7 @@ class PutMembers implements RestModifyView<GroupResource, Input> {
   private final Provider<CurrentUser> self;
 
   @Inject
-  PutMembers(final GroupControl.Factory groupControlFactory,
+  AddMembers(final GroupControl.Factory groupControlFactory,
       final AccountManager accountManager,
       final AuthConfig authConfig,
       final AccountResolver accountResolver,
@@ -195,10 +195,10 @@ class PutMembers implements RestModifyView<GroupResource, Input> {
     static class Input {
     }
 
-    private final Provider<PutMembers> put;
+    private final Provider<AddMembers> put;
     private final String id;
 
-    PutMember(final Provider<PutMembers> put, String id) {
+    PutMember(final Provider<AddMembers> put, String id) {
       this.put = put;
       this.id = id;
     }
@@ -212,7 +212,7 @@ class PutMembers implements RestModifyView<GroupResource, Input> {
     public Object apply(GroupResource resource, PutMember.Input input)
         throws AuthException, MethodNotAllowedException, BadRequestException,
         OrmException {
-      PutMembers.Input in = new PutMembers.Input();
+      AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id;
       List<MemberInfo> list = put.get().apply(resource, in);
       if (list.isEmpty()) {

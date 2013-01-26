@@ -56,12 +56,11 @@ public class GroupApi {
             }
           });
     } else {
-      RestApi call = new RestApi(membersBase(groupUUID));
       MemberInput input = MemberInput.create();
       for (String member : members) {
         input.add_member(member);
       }
-      call.data(input).put(cb);
+      new RestApi(membersBase(groupUUID) + ".add").data(input).post(cb);
     }
   }
 
@@ -72,13 +71,11 @@ public class GroupApi {
       Account.Id u = ids.iterator().next();
       new RestApi(membersBase(groupUUID) + "/" + u).delete(cb);
     } else {
-      RestApi call = new RestApi(membersBase(groupUUID));
       MemberInput in = MemberInput.create();
-      in.method("DELETE");
       for (Account.Id u : ids) {
         in.add_member(u.toString());
       }
-      call.data(in).post(cb);
+      new RestApi(membersBase(groupUUID) + ".delete").data(in).post(cb);
     }
   }
 
@@ -94,7 +91,6 @@ public class GroupApi {
   private static class MemberInput extends JavaScriptObject {
     final native void init() /*-{ this.members = []; }-*/;
     final native void add_member(String n) /*-{ this.members.push(n); }-*/;
-    final native void method(String n) /*-{ this.method = n; }-*/;
 
     static MemberInput create() {
       MemberInput m = (MemberInput) createObject();

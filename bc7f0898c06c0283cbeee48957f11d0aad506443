@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "O1C5NBz0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-26T21:30:59Z",
+      "side": 1,
+      "message": "This import cannot be resolved.",
+      "revId": "bc7f0898c06c0283cbeee48957f11d0aad506443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O1O5C3w0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/CreateGroup.java",
         "patchSetId": 4

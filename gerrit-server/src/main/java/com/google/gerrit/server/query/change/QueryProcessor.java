@@ -358,7 +358,7 @@ public class QueryProcessor {
 
   private int limit(Predicate<ChangeData> s) {
     int n = queryBuilder.hasLimit(s) ? queryBuilder.getLimit(s) : maxLimit;
-    return limit > 0 ? Math.min(n, limit) + 1 : n;
+    return limit > 0 ? Math.min(n, limit) + 1 : n + 1;
   }
 
   @SuppressWarnings("unchecked")

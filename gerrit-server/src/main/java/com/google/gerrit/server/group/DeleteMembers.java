@@ -35,7 +35,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.group.PutMembers.Input;
+import com.google.gerrit.server.group.AddMembers.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -168,7 +168,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     public Object apply(MemberResource resource, Input input)
         throws AuthException, MethodNotAllowedException, BadRequestException,
         OrmException, NoSuchGroupException {
-      PutMembers.Input in = new PutMembers.Input();
+      AddMembers.Input in = new AddMembers.Input();
       in._oneMember = resource.getUser().getAccountId().toString();
       return delete.get().apply(resource.getGroup(), in);
     }

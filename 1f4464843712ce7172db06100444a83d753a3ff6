@@ -70,6 +70,24 @@
       "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1O51v3g",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-26T17:54:16Z",
+      "side": 1,
+      "message": "+1 for dropping PUT and instead to rely on POST\n\nBoth proposals for POST look fine to me. I slighty prefer the variant with the subactions in the URL path (/group/{id}/add-members and /group/{id}/delete-members), but the method field in the body should work as well.",
+      "parentUuid": "OwGI.9rk",
+      "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

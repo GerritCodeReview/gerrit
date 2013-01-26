@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O1O7wH-I",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-26T18:34:18Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be post(cb) now?",
+      "revId": "3fb062f1d246cb28d4dceca440021a3634a73319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

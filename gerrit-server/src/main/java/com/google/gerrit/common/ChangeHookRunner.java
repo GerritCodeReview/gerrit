@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
@@ -152,9 +153,13 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       }
     }
 
-    /** Listeners to receive changes as they happen. */
+    /** Listeners to receive changes as they happen (limited by visibility
+     *  of holder's user). */
     private final Map<ChangeListener, ChangeListenerHolder> listeners =
       new ConcurrentHashMap<ChangeListener, ChangeListenerHolder>();
+
+    /** Listeners to receive all changes as they happen. */
+    private final DynamicSet<ChangeListener> unrestrictedListeners;
 
     /** Filename of the new patchset hook. */
     private final File patchsetCreatedHook;
@@ -229,7 +234,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final @AnonymousCowardName String anonymousCowardName,
       final SitePaths sitePath, final ProjectCache projectCache,
       final AccountCache accountCache, final ApprovalTypes approvalTypes,
-      final EventFactory eventFactory, final SitePaths sitePaths) {
+      final EventFactory eventFactory, final SitePaths sitePaths,
+      final DynamicSet<ChangeListener> unrestrictedListeners) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -238,6 +244,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         this.approvalTypes = approvalTypes;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
+        this.unrestrictedListeners = unrestrictedListeners;
 
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
@@ -556,12 +563,20 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       }
     }
 
+    private void fireEventForUnrestrictedListeners(final ChangeEvent event) {
+      for (ChangeListener listener : unrestrictedListeners) {
+          listener.onChangeEvent(event);
+      }
+    }
+
     private void fireEvent(final Change change, final ChangeEvent event, final ReviewDb db) throws OrmException {
       for (ChangeListenerHolder holder : listeners.values()) {
           if (isVisibleTo(change, holder.user, db)) {
               holder.listener.onChangeEvent(event);
           }
       }
+
+      fireEventForUnrestrictedListeners( event );
     }
 
     private void fireEvent(Branch.NameKey branchName, final ChangeEvent event) {
@@ -570,6 +585,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
               holder.listener.onChangeEvent(event);
           }
       }
+
+      fireEventForUnrestrictedListeners( event );
     }
 
     private boolean isVisibleTo(Change change, IdentifiedUser user, ReviewDb db) throws OrmException {

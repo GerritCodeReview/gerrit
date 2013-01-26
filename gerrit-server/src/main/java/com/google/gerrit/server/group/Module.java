@@ -33,6 +33,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), INCLUDED_GROUP_KIND);
 
     get(GROUP_KIND).to(GetGroup.class);
+    post(GROUP_KIND, "members").to(AddMembers.class);
     post(GROUP_KIND, "members.add").to(AddMembers.class);
     post(GROUP_KIND, "members.delete").to(DeleteMembers.class);
 

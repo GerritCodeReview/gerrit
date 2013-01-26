@@ -36,11 +36,6 @@ class DeleteDashboard implements RestModifyView<DashboardResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Object apply(DashboardResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
       Exception {

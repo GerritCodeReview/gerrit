@@ -52,11 +52,6 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Response<ListPlugins.PluginInfo> apply(TopLevelResource resource,
       Input input) throws BadRequestException, IOException {
     try {
@@ -103,11 +98,6 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     @Inject
     Overwrite(PluginLoader loader) {
       this.loader = loader;
-    }
-
-    @Override
-    public Class<Input> inputType() {
-      return Input.class;
     }
 
     @Override

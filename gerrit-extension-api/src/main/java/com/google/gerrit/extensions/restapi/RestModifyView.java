@@ -26,13 +26,6 @@ package com.google.gerrit.extensions.restapi;
  */
 public interface RestModifyView<R extends RestResource, I> extends RestView<R> {
   /**
-   * @return Java class object defining the input type. The JSON parser will
-   *         parse the supplied request body into a new instance of this class
-   *         before passing it to apply.
-   */
-  Class<I> inputType();
-
-  /**
    * Process the view operation by altering the resource.
    *
    * @param resource resource to modify.

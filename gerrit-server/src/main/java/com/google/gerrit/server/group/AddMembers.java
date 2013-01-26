@@ -96,11 +96,6 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public List<MemberInfo> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, BadRequestException,
       OrmException {
@@ -202,11 +197,6 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public Class<PutMember.Input> inputType() {
-      return PutMember.Input.class;
-    }
-
-    @Override
     public Object apply(GroupResource resource, PutMember.Input input)
         throws AuthException, MethodNotAllowedException, BadRequestException,
         OrmException {
@@ -230,11 +220,6 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
     @Inject
     UpdateMember(Provider<GetMember> get) {
       this.get = get;
-    }
-
-    @Override
-    public Class<PutMember.Input> inputType() {
-      return PutMember.Input.class;
     }
 
     @Override

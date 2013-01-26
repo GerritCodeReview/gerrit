@@ -126,11 +126,6 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Object apply(RevisionResource revision, Input input)
       throws AuthException, BadRequestException, OrmException {
     if (input.labels != null) {

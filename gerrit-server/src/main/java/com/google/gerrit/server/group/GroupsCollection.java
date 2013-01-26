@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -28,12 +27,11 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.util.Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.util.Collection;
 
 public class GroupsCollection implements
     RestCollection<TopLevelResource, GroupResource> {
@@ -99,11 +97,10 @@ public class GroupsCollection implements
       }
     }
 
-    // Might be a group name. Try to be nice and accept unique names.
-    Collection<GroupReference> suggestions = groupBackend.suggest(id);
-    if (suggestions.size() == 1) {
+    // Might be a group name, be nice and accept unique names.
+    GroupReference ref = GroupBackends.findExactSuggestion(groupBackend, id);
+    if (ref != null) {
       try {
-        GroupReference ref = Iterables.getOnlyElement(suggestions);
         return check(urlId, groupControlFactory.controlFor(ref.getUUID()));
       } catch (NoSuchGroupException e) {
       }

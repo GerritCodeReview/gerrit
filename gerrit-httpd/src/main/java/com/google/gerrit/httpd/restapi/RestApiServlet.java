@@ -92,6 +92,8 @@ import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -247,7 +249,7 @@ public class RestApiServlet extends HttpServlet {
         RestModifyView<RestResource, Object> m =
             (RestModifyView<RestResource, Object>) view;
 
-        result = m.apply(rsrc, parseRequest(req, m.inputType()));
+        result = m.apply(rsrc, parseRequest(req, inputType(m)));
       } else if (view instanceof RestReadView<?>) {
         result = ((RestReadView<RestResource>) view).apply(rsrc);
       } else {
@@ -291,7 +293,43 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private Object parseRequest(HttpServletRequest req, Class<Object> type)
+  private static Type inputType(RestModifyView<RestResource, Object> m) {
+    Type inputType = extractInputType(m.getClass());
+    if (inputType == null) {
+      throw new IllegalStateException(String.format(
+          "View %s does not correctly implement %s",
+          m.getClass(), RestModifyView.class.getSimpleName()));
+    }
+    return inputType;
+  }
+
+  @SuppressWarnings("rawtypes")
+  private static Type extractInputType(Class clazz) {
+    for (Type t : clazz.getGenericInterfaces()) {
+      if (t instanceof ParameterizedType
+          && ((ParameterizedType) t).getRawType() == RestModifyView.class) {
+        return ((ParameterizedType) t).getActualTypeArguments()[1];
+      }
+    }
+
+    if (clazz.getSuperclass() != null) {
+      Type i = extractInputType(clazz.getSuperclass());
+      if (i != null) {
+        return i;
+      }
+    }
+
+    for (Class t : clazz.getInterfaces()) {
+      Type i = extractInputType(t);
+      if (i != null) {
+        return i;
+      }
+    }
+
+    return null;
+  }
+
+  private Object parseRequest(HttpServletRequest req, Type type)
       throws IOException, BadRequestException, SecurityException,
       IllegalArgumentException, NoSuchMethodException, IllegalAccessException,
       InstantiationException, InvocationTargetException, MethodNotAllowedException {
@@ -316,7 +354,7 @@ public class RestApiServlet extends HttpServlet {
       return parsePutInput(req, type);
     } else if ("DELETE".equals(req.getMethod()) && hasNoBody(req)) {
       return null;
-    } else if (type.getDeclaredFields().length == 0 && hasNoBody(req)) {
+    } else if (isEmptyType(type) && hasNoBody(req)) {
       return createInstance(type);
     } else if (isType("text/plain", req.getContentType())) {
       BufferedReader br = req.getReader();
@@ -341,6 +379,19 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  @SuppressWarnings("rawtypes")
+  private static boolean isEmptyType(Type type) {
+    if (type == String.class) {
+      return false;
+    } else if (type instanceof Class) {
+      Class clazz = (Class) type;
+      Class base = clazz.getSuperclass();
+      return clazz.getDeclaredFields().length == 0
+          && (base == null || isEmptyType(base));
+    }
+    return false;
+  }
+
   private static boolean hasNoBody(HttpServletRequest req) {
     int len = req.getContentLength();
     String type = req.getContentType();
@@ -348,21 +399,24 @@ public class RestApiServlet extends HttpServlet {
         || (len == 0 && isType(FORM_TYPE, type));
   }
 
-  private static boolean acceptsPutInput(Class<Object> type) {
-    for (Field f : type.getDeclaredFields()) {
-      if (f.getType() == PutInput.class) {
-        return true;
+  @SuppressWarnings("rawtypes")
+  private static boolean acceptsPutInput(Type type) {
+    if (type instanceof Class) {
+      for (Field f : ((Class) type).getDeclaredFields()) {
+        if (f.getType() == PutInput.class) {
+          return true;
+        }
       }
     }
     return false;
   }
 
-  private Object parsePutInput(final HttpServletRequest req, Class<Object> type)
+  private Object parsePutInput(final HttpServletRequest req, Type type)
       throws SecurityException, NoSuchMethodException,
       IllegalArgumentException, InstantiationException, IllegalAccessException,
       InvocationTargetException, MethodNotAllowedException {
     Object obj = createInstance(type);
-    for (Field f : type.getDeclaredFields()) {
+    for (Field f : obj.getClass().getDeclaredFields()) {
       if (f.getType() == PutInput.class) {
         f.setAccessible(true);
         f.set(obj, new PutInput() {
@@ -387,12 +441,16 @@ public class RestApiServlet extends HttpServlet {
     throw new MethodNotAllowedException();
   }
 
-  private Object parseString(String value, Class<Object> type)
+  private Object parseString(String value, Type type)
       throws BadRequestException, SecurityException, NoSuchMethodException,
       IllegalArgumentException, IllegalAccessException, InstantiationException,
       InvocationTargetException {
+    if (type == String.class) {
+      return value;
+    }
+
     Object obj = createInstance(type);
-    Field[] fields = type.getDeclaredFields();
+    Field[] fields = obj.getClass().getDeclaredFields();
     if (fields.length == 0 && Strings.isNullOrEmpty(value)) {
       return obj;
     }
@@ -407,12 +465,17 @@ public class RestApiServlet extends HttpServlet {
     throw new BadRequestException("Expected JSON object");
   }
 
-  private static Object createInstance(Class<Object> type)
+  private static Object createInstance(Type type)
       throws NoSuchMethodException, InstantiationException,
       IllegalAccessException, InvocationTargetException {
-    Constructor<Object> c = type.getDeclaredConstructor();
-    c.setAccessible(true);
-    return c.newInstance();
+    if (type instanceof Class) {
+      @SuppressWarnings("unchecked")
+      Class<Object> clazz = (Class<Object>) type;
+      Constructor<Object> c = clazz.getDeclaredConstructor();
+      c.setAccessible(true);
+      return c.newInstance();
+    }
+    throw new InstantiationException("Cannot make " + type);
   }
 
   private static void replyJson(@Nullable HttpServletRequest req,

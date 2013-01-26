@@ -62,11 +62,6 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Object apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, BadRequestException,
       OrmException {
@@ -157,11 +152,6 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     @Inject
     DeleteMember(final Provider<DeleteMembers> delete) {
       this.delete = delete;
-    }
-
-    @Override
-    public Class<Input> inputType() {
-      return DeleteMember.Input.class;
     }
 
     @Override

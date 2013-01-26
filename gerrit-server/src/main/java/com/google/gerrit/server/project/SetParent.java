@@ -54,11 +54,6 @@ class SetParent implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Object apply(ProjectResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
       Exception {

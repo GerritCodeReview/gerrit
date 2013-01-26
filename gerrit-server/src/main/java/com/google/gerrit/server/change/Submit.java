@@ -83,11 +83,6 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Output apply(RevisionResource rsrc, Input input) throws AuthException,
       ResourceConflictException, RepositoryNotFoundException, IOException,
       OrmException {
@@ -303,11 +298,6 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
       this.dbProvider = dbProvider;
       this.submit = submit;
       this.json = json;
-    }
-
-    @Override
-    public Class<Input> inputType() {
-      return Input.class;
     }
 
     @Override

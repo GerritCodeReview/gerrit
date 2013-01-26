@@ -56,11 +56,6 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
   }
 
   @Override
-  public Class<Input> inputType() {
-    return Input.class;
-  }
-
-  @Override
   public Object apply(DashboardResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
       Exception {
@@ -135,11 +130,6 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
     @Inject
     CreateDefault(Provider<SetDefaultDashboard> setDefault) {
       this.setDefault = setDefault;
-    }
-
-    @Override
-    public Class<Input> inputType() {
-      return SetDashboard.Input.class;
     }
 
     @Override

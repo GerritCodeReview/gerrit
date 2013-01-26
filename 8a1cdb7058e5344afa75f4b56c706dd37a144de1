@@ -69,6 +69,24 @@
       "revId": "8a1cdb7058e5344afa75f4b56c706dd37a144de1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1K7mFz4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-26T18:13:59Z",
+      "side": 1,
+      "message": "Wait a minute, Jonathan was actually saying it should be POST on /groups/. POST sounds more correct, doesn\u0027t it?",
+      "parentUuid": "O1A6Nq4s",
+      "revId": "8a1cdb7058e5344afa75f4b56c706dd37a144de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

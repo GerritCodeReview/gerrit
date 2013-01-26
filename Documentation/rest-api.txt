@@ -21,6 +21,14 @@ Gerrit by default uses HTTP digest authentication. To authenticate,
 prefix the endpoint URL with `/a/`. For example to authenticate to
 `/projects/` request URL `/a/projects/`.
 
+[[preconditions]]
+Preconditions
+~~~~~~~~~~~~~
+Clients can request PUT to create a new resource and not overwrite
+an existing one by adding `If-None-Match: *` to the request HTTP
+headers. If the named resource already exists the server will respond
+with HTTP 412 Precondition Failed.
+
 [[output]]
 Output Format
 ~~~~~~~~~~~~~

@@ -91,6 +91,7 @@ public class RestApi {
       case 404: // Not Found
       case 405: // Method Not Allowed
       case 409: // Conflict
+      case 412: // Precondition Failed
       case 429: // Too Many Requests (RFC 6585)
         return true;
 
@@ -181,6 +182,7 @@ public class RestApi {
   private boolean hasQueryParams;
   private String contentType;
   private String contentData;
+  private String ifNoneMatch;
 
   /**
    * Initialize a new API call.
@@ -242,6 +244,15 @@ public class RestApi {
     return this;
   }
 
+  public RestApi ifNoneMatch() {
+    return ifNoneMatch("*");
+  }
+
+  public RestApi ifNoneMatch(String etag) {
+    ifNoneMatch = etag;
+    return this;
+  }
+
   public RestApi data(JavaScriptObject obj) {
     return data(new JSONObject(obj));
   }
@@ -283,6 +294,9 @@ public class RestApi {
       Method method,
       final AsyncCallback<T> cb) {
     RequestBuilder req = new RequestBuilder(method, url());
+    if (ifNoneMatch != null) {
+      req.setHeader("If-None-Match", ifNoneMatch);
+    }
     req.setHeader("Accept", JSON_TYPE);
     if (Gerrit.getAuthorization() != null) {
       req.setHeader("Authorization", Gerrit.getAuthorization());

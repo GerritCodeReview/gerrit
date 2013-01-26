@@ -24,9 +24,11 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMultimap;
@@ -46,6 +48,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.PutInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -195,6 +198,7 @@ public class RestApiServlet extends HttpServlet {
         String id = path.remove(0);
         try {
           rsrc = rc.parse(rsrc, id);
+          checkPreconditions(req, rsrc);
         } catch (ResourceNotFoundException e) {
           if (rc instanceof AcceptsCreate
               && ("POST".equals(req.getMethod())
@@ -233,6 +237,7 @@ public class RestApiServlet extends HttpServlet {
           String id = path.remove(0);
           try {
             rsrc = c.parse(rsrc, id);
+            checkPreconditions(req, rsrc);
             view = null;
           } catch (ResourceNotFoundException e) {
             if (c instanceof AcceptsCreate
@@ -299,6 +304,9 @@ public class RestApiServlet extends HttpServlet {
       replyError(res, SC_METHOD_NOT_ALLOWED, "Method not allowed");
     } catch (ResourceConflictException e) {
       replyError(res, SC_CONFLICT, e.getMessage());
+    } catch (PreconditionFailedException e) {
+      replyError(res, SC_PRECONDITION_FAILED,
+          Objects.firstNonNull(e.getMessage(), "Precondition failed"));
     } catch (ResourceNotFoundException e) {
       replyError(res, SC_NOT_FOUND, "Not found");
     } catch (AmbiguousViewException e) {
@@ -307,6 +315,13 @@ public class RestApiServlet extends HttpServlet {
       replyError(res, SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
     } catch (Exception e) {
       handleException(e, req, res);
+    }
+  }
+
+  private void checkPreconditions(HttpServletRequest req, RestResource rsrc)
+      throws PreconditionFailedException {
+    if ("*".equals(req.getHeader("If-None-Match"))) {
+      throw new PreconditionFailedException();
     }
   }
 

@@ -14,72 +14,106 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.PerformCreateGroup;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.CreateGroup.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.util.Collections;
 
-public class CreateGroup implements RestModifyView<TopLevelResource, Input> {
+@RequiresCapability(GlobalCapability.CREATE_GROUP)
+class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   static class Input {
-    @DefaultInput
     String name;
+    String description;
+    Boolean visibleToAll;
+    String ownerId;
   }
 
-  private final PerformCreateGroup.Factory performCreateGroupFactory;
-  private final GroupCache groupCache;
-  private final Provider<CurrentUser> self;
-  final boolean visibleToAll;
+  static interface Factory {
+    CreateGroup create(@Assisted String name);
+  }
 
-  CreateGroup(final PerformCreateGroup.Factory performCreateGroupFactory,
-      final GroupCache groupCache, final Provider<CurrentUser> self,
-      final Config cfg) {
-    this.performCreateGroupFactory = performCreateGroupFactory;
-    this.groupCache = groupCache;
+  private final Provider<IdentifiedUser> self;
+  private final GroupsCollection groups;
+  private final PerformCreateGroup.Factory op;
+  private final boolean defaultVisibleToAll;
+  private final String name;
+
+  CreateGroup(
+      Provider<IdentifiedUser> self,
+      GroupsCollection groups,
+      PerformCreateGroup.Factory performCreateGroupFactory,
+      @GerritServerConfig Config cfg,
+      @Assisted String name) {
     this.self = self;
-    this.visibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
+    this.groups = groups;
+    this.op = performCreateGroupFactory;
+    this.defaultVisibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
+    this.name = name;
   }
 
   @Override
   public GroupInfo apply(TopLevelResource resource, Input input)
       throws AuthException, BadRequestException, OrmException,
       NameAlreadyUsedException {
-    final IdentifiedUser me = ((IdentifiedUser) self.get());
-    if (!me.getCapabilities().canCreateGroup()) {
-      throw new AuthException("Cannot create group");
+    if (input == null) {
+      input = new Input();
+    }
+    if (input.name != null && !name.equals(input.name)) {
+      throw new BadRequestException("name must match URL");
     }
 
-    if (input == null || Strings.isNullOrEmpty(input.name)) {
-      throw new BadRequestException("group name missing");
-    }
-
-    AccountGroup group = groupCache.get(new AccountGroup.NameKey(input.name));
-    if (group != null) {
-      return new GroupInfo(GroupDescriptions.forAccountGroup(group));
-    }
-
+    AccountGroup.Id ownerId = owner(input);
+    AccountGroup group;
     try {
-      group = performCreateGroupFactory.create().createGroup(input.name, null,
-          visibleToAll, null, Collections.singleton(me.getAccountId()), null);
+      group = op.create().createGroup(
+          name,
+          Strings.emptyToNull(input.description),
+          Objects.firstNonNull(input.visibleToAll, defaultVisibleToAll),
+          ownerId,
+          ownerId == null
+            ? Collections.singleton(self.get().getAccountId())
+            : Collections.<Account.Id> emptySet(),
+          null);
     } catch (PermissionDeniedException e) {
       throw new AuthException(e.getMessage());
     }
     return new GroupInfo(GroupDescriptions.forAccountGroup(group));
+  }
+
+  private AccountGroup.Id owner(Input input) throws BadRequestException {
+    if (input.ownerId != null) {
+      try {
+        GroupResource rsrc = groups.parse(input.ownerId);
+        AccountGroup owner = GroupDescriptions.toAccountGroup(rsrc.getGroup());
+        if (owner == null) {
+          throw new BadRequestException("ownerId must be internal group");
+        }
+        return owner.getId();
+      } catch (ResourceNotFoundException e) {
+        throw new BadRequestException("ownerId cannot be resolved");
+      }
+    }
+    return null;
   }
 }

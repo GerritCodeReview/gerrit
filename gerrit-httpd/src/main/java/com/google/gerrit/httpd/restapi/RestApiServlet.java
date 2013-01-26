@@ -40,6 +40,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -179,7 +180,15 @@ public class RestApiServlet extends HttpServlet {
       RestResource rsrc = TopLevelResource.INSTANCE;
       RestView<RestResource> view = null;
       if (path.isEmpty()) {
-        view = rc.list();
+        if ("GET".equals(req.getMethod())) {
+          view = rc.list();
+        } else if (rc instanceof AcceptsPost && "POST".equals(req.getMethod())) {
+          @SuppressWarnings("unchecked")
+          AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) rc;
+          view = ac.post(rsrc);
+        } else {
+          throw new MethodNotAllowedException();
+        }
       } else {
         String id = path.remove(0);
         try {
@@ -208,7 +217,15 @@ public class RestApiServlet extends HttpServlet {
             (RestCollection<RestResource, RestResource>) view;
 
         if (path.isEmpty()) {
-          view = c.list();
+          if ("GET".equals(req.getMethod())) {
+            view = c.list();
+          } else if (c instanceof AcceptsPost && "POST".equals(req.getMethod())) {
+            @SuppressWarnings("unchecked")
+            AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
+            view = ac.post(rsrc);
+          } else {
+            throw new MethodNotAllowedException();
+          }
           break;
         } else {
           String id = path.remove(0);

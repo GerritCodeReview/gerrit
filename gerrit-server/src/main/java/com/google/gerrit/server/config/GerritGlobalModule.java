@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
+import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
@@ -212,6 +213,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
+    DynamicSet.setOf(binder(), ChangeListener.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
 

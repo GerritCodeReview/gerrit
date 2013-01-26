@@ -84,7 +84,7 @@ public class PerformCreateGroup {
    *         name already exists
    * @throws PermissionDeniedException user cannot create a group.
    */
-  public AccountGroup.Id createGroup(final String groupName,
+  public AccountGroup createGroup(final String groupName,
       final String groupDescription, final boolean visibleToAll,
       final AccountGroup.Id ownerGroupId,
       final Collection<? extends Account.Id> initialMembers,
@@ -133,7 +133,7 @@ public class PerformCreateGroup {
 
     groupCache.onCreateGroup(nameKey);
 
-    return groupId;
+    return group;
   }
 
   private void addMembers(final AccountGroup.Id groupId,

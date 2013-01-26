@@ -20,7 +20,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.account.GroupMembers;
-import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
@@ -79,7 +78,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(RemoveReviewer.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
-    factory(PerformCreateGroup.Factory.class);
     factory(PerformRenameGroup.Factory.class);
     factory(GroupMembers.Factory.class);
     factory(CreateProject.Factory.class);

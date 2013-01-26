@@ -20,12 +20,13 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotFoundScreen;
 import com.google.gerrit.client.account.AccountCapabilities;
+import com.google.gerrit.client.groups.GroupApi;
+import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -106,9 +107,10 @@ public class CreateGroupScreen extends Screen {
     }
 
     addNew.setEnabled(false);
-    Util.GROUP_SVC.createGroup(newName, new GerritCallback<AccountGroup.Id>() {
-      public void onSuccess(final AccountGroup.Id result) {
-        History.newItem(Dispatcher.toGroup(result, AccountGroupScreen.MEMBERS));
+    GroupApi.createGroup(newName, new GerritCallback<GroupInfo>() {
+      public void onSuccess(final GroupInfo result) {
+        History.newItem(Dispatcher.toGroup(result.getGroupId(),
+            AccountGroupScreen.MEMBERS));
       }
 
       @Override

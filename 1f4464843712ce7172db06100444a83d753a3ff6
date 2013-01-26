@@ -34,6 +34,24 @@
       "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "OwCI07tc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-26T17:43:45Z",
+      "side": 1,
+      "message": "Jonathan is right. In a REST API PUT replaces the entire contents. If we support PUT on a group, it overwrites the entire membership set with exactly what is contained in the request and anyone not mentioned is removed from the group.\n\nI\u0027m not sure that is really an important operation. So maybe we just drop PUT and rely on POST with the method field, and modify the method to be ADD and DELETE? Or modify the POST to be to subactions like /group/{id}/add-members and /group/{id}/delete-members?",
+      "parentUuid": "O1E4M00U",
+      "revId": "1f4464843712ce7172db06100444a83d753a3ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

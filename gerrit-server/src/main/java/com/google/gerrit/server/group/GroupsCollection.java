@@ -17,7 +17,7 @@ package com.google.gerrit.server.group;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsPost;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
@@ -29,44 +29,34 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.PerformCreateGroup;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.Config;
-
 public class GroupsCollection implements
     RestCollection<TopLevelResource, GroupResource>,
-    AcceptsPost<TopLevelResource> {
+    AcceptsCreate<TopLevelResource> {
   private final DynamicMap<RestView<GroupResource>> views;
   private final Provider<ListGroups> list;
+  private final CreateGroup.Factory createGroup;
   private final GroupControl.Factory groupControlFactory;
   private final GroupBackend groupBackend;
   private final Provider<CurrentUser> self;
-  private final PerformCreateGroup.Factory performCreateGroupFactory;
-  private final GroupCache groupCache;
-  private final Config cfg;
 
   @Inject
   GroupsCollection(final DynamicMap<RestView<GroupResource>> views,
       final Provider<ListGroups> list,
+      final CreateGroup.Factory createGroup,
       final GroupControl.Factory groupControlFactory,
       final GroupBackend groupBackend,
-      final Provider<CurrentUser> self,
-      final PerformCreateGroup.Factory performCreateGroupFactory,
-      final GroupCache groupCache, @GerritServerConfig final Config cfg) {
+      final Provider<CurrentUser> self) {
     this.views = views;
     this.list = list;
+    this.createGroup = createGroup;
     this.groupControlFactory = groupControlFactory;
     this.groupBackend = groupBackend;
     this.self = self;
-    this.performCreateGroupFactory = performCreateGroupFactory;
-    this.groupCache = groupCache;
-    this.cfg = cfg;
   }
 
   @Override
@@ -134,8 +124,8 @@ public class GroupsCollection implements
 
   @SuppressWarnings("unchecked")
   @Override
-  public CreateGroup post(TopLevelResource parent) {
-    return new CreateGroup(performCreateGroupFactory, groupCache, self, cfg);
+  public CreateGroup create(TopLevelResource root, String name) {
+    return createGroup.create(name);
   }
 
   @Override

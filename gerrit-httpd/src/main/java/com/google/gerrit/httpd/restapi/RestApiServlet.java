@@ -40,6 +40,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AcceptsPut;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -179,7 +180,16 @@ public class RestApiServlet extends HttpServlet {
       RestResource rsrc = TopLevelResource.INSTANCE;
       RestView<RestResource> view = null;
       if (path.isEmpty()) {
-        view = rc.list();
+        if ("GET".equals(req.getMethod())) {
+          view = rc.list();
+        } else if (rc instanceof AcceptsPut && "PUT".equals(req.getMethod())) {
+          @SuppressWarnings("unchecked")
+          AcceptsPut<RestResource> ac = (AcceptsPut<RestResource>) rc;
+          view = ac.create(rsrc);
+          status = SC_CREATED;
+        } else {
+          throw new MethodNotAllowedException();
+        }
       } else {
         String id = path.remove(0);
         try {
@@ -208,7 +218,16 @@ public class RestApiServlet extends HttpServlet {
             (RestCollection<RestResource, RestResource>) view;
 
         if (path.isEmpty()) {
-          view = c.list();
+          if ("GET".equals(req.getMethod())) {
+            view = c.list();
+          } else if (c instanceof AcceptsPut && "PUT".equals(req.getMethod())) {
+            @SuppressWarnings("unchecked")
+            AcceptsPut<RestResource> ac = (AcceptsPut<RestResource>) c;
+            view = ac.create(rsrc);
+            status = SC_CREATED;
+          } else {
+            throw new MethodNotAllowedException();
+          }
           break;
         } else {
           String id = path.remove(0);

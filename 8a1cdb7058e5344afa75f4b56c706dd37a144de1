@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "O1C6QZ6E",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-26T17:59:28Z",
+      "side": 1,
+      "message": "Agreed, let\u0027s support GET on \u0027/groups/\u003cgroup-name\u003e\u0027 the way you described it.",
+      "parentUuid": "OwAJkStw",
+      "revId": "8a1cdb7058e5344afa75f4b56c706dd37a144de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OwKJuPr4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-26T17:51:01Z",
       "side": 1,
       "message": "Jonathan is correct. We need to accept PUT on /groups/ as the way to create a new group and have the server compute the UUID.\n\nIIRC this is not actually supported in RestApiServlet. There is no way to bind a view to handle PUT on a top level resource for the /groups/ collection. So some glue work is going to be necessary.",
+      "revId": "8a1cdb7058e5344afa75f4b56c706dd37a144de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O1A6Nq4s",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-26T17:59:28Z",
+      "side": 1,
+      "message": "Thanks both of you, then let\u0027s try to make PUT work on /groups/.",
+      "parentUuid": "OwKJuPr4",
       "revId": "8a1cdb7058e5344afa75f4b56c706dd37a144de1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

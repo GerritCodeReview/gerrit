@@ -58,6 +58,12 @@ public class UserAgentRule implements Rule {
       Matcher m = msie.matcher(ua);
       if (m.matches() && m.groupCount() == 2) {
         int v = makeVersion(m);
+        if (v >= 10000) {
+          return "ie10";
+        }
+        if (v >= 9000) {
+          return "ie9";
+        }
         if (v >= 8000) {
           return "ie8";
         }

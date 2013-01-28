@@ -34,6 +34,24 @@
       "revId": "845689833e5a3e0df34e7488eb1266c43e4875fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O67duqL4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-28T10:12:30Z",
+      "side": 1,
+      "message": "Ah, missed that.  Sorry :)",
+      "parentUuid": "O7Lb1yBI",
+      "revId": "845689833e5a3e0df34e7488eb1266c43e4875fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

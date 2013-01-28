@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O6zemGBQ",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-28T11:20:47Z",
+      "side": 0,
+      "message": "This section of the text has been moved to rest-api-groups.txt",
+      "revId": "92a2ece905808c6692ea12bb3263c8ef0d14d29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

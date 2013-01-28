@@ -287,7 +287,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (name.length() == 0) return true; // no empty paths
     if (name.charAt(name.length() -1) == '/') return true; // no suffix
 
-    if (name.indexOf('\\') >= 0) return true; // no windows/dos stlye paths
+    if (name.indexOf('\\') >= 0) return true; // no windows/dos style paths
     if (name.charAt(0) == '/') return true; // no absolute paths
     if (new File(name).isAbsolute()) return true; // no absolute paths
 
@@ -298,7 +298,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (name.contains("?")) return true; // common unix wildcard
     if (name.contains("%")) return true; // wildcard or string parameter
     if (name.contains("*")) return true; // wildcard
-    if (name.contains(":")) return true; // Could be used for aboslute paths in windows?
+    if (name.contains(":")) return true; // Could be used for absolute paths in windows?
     if (name.contains("<")) return true; // redirect input
     if (name.contains(">")) return true; // redirect output
     if (name.contains("|")) return true; // pipe

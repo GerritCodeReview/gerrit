@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.errors;
 
-/** Indicats the user cannot perform this task. */
+/** Indicates the user cannot perform this task. */
 public class PermissionDeniedException extends Exception {
   private static final long serialVersionUID = 1L;
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O63c.0Lk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-28T10:00:22Z",
+      "side": 1,
+      "message": "detailMessage is only used at 210 and 213.  Better to declare as final String at 210?",
+      "revId": "845689833e5a3e0df34e7488eb1266c43e4875fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

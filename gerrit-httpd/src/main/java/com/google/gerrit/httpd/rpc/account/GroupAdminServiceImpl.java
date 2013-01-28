@@ -50,7 +50,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private final GroupIncludeCache groupIncludeCache;
   private final GroupControl.Factory groupControlFactory;
 
-  private final CreateGroup.Factory createGroupFactory;
   private final RenameGroup.Factory renameGroupFactory;
   private final GroupDetailHandler.Factory groupDetailFactory;
 
@@ -61,7 +60,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final GroupCache groupCache,
       final GroupBackend groupBackend,
       final GroupControl.Factory groupControlFactory,
-      final CreateGroup.Factory createGroupFactory,
       final RenameGroup.Factory renameGroupFactory,
       final GroupDetailHandler.Factory groupDetailFactory) {
     super(schema, currentUser);
@@ -69,14 +67,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.groupCache = groupCache;
     this.groupBackend = groupBackend;
     this.groupControlFactory = groupControlFactory;
-    this.createGroupFactory = createGroupFactory;
     this.renameGroupFactory = renameGroupFactory;
     this.groupDetailFactory = groupDetailFactory;
-  }
-
-  public void createGroup(final String newName,
-      final AsyncCallback<AccountGroup.Id> callback) {
-    createGroupFactory.create(newName).to(callback);
   }
 
   public void groupDetail(AccountGroup.Id groupId, AccountGroup.UUID groupUUID,

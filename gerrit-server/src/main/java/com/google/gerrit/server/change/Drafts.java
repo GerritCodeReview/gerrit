@@ -64,7 +64,7 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
     for (PatchLineComment c : dbProvider.get().patchComments()
         .draftByPatchSetAuthor(
             rev.getPatchSet().getId(),
-            rev.getAuthorId())) {
+            rev.getAccountId())) {
       if (uuid.equals(c.getKey().get())) {
         return new DraftResource(rev, c);
       }

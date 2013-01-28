@@ -57,7 +57,7 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
             new Patch.Key(rsrc.getPatchSet().getId(), in.path),
             ChangeUtil.messageUUID(db.get())),
         in.line != null ? in.line : 0,
-        rsrc.getAuthorId(),
+        rsrc.getAccountId(),
         Url.decode(in.inReplyTo));
     c.setStatus(Status.DRAFT);
     c.setSide(in.side == GetDraft.Side.PARENT ? (short) 0 : (short) 1);

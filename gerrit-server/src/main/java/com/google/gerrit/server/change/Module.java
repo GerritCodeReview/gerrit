@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.DraftResource.DRAFT_KIND;
+import static com.google.gerrit.server.change.PatchResource.PATCH_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 
@@ -32,6 +33,7 @@ public class Module extends RestApiModule {
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), DRAFT_KIND);
+    DynamicMap.mapOf(binder(), PATCH_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
     DynamicMap.mapOf(binder(), REVISION_KIND);
 
@@ -57,6 +59,9 @@ public class Module extends RestApiModule {
     get(DRAFT_KIND).to(GetDraft.class);
     put(DRAFT_KIND).to(PutDraft.class);
     delete(DRAFT_KIND).to(DeleteDraft.class);
+
+    child(REVISION_KIND, "files").to(Patches.class);
+    post(PATCH_KIND, "reviewed").to(MarkReviewed.class);
 
     install(new FactoryModule() {
       @Override

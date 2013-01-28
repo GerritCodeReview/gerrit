@@ -210,6 +210,10 @@ public class RestApi {
     return idRaw(URL.encodeQueryString(id));
   }
 
+  public RestApi id(int id) {
+    return idRaw(Integer.toString(id));
+  }
+
   public RestApi idRaw(String name) {
     if (hasQueryParams) {
       throw new IllegalStateException();

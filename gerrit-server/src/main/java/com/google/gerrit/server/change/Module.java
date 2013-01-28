@@ -16,11 +16,14 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.DraftResource.DRAFT_KIND;
+import static com.google.gerrit.server.change.PatchResource.PATCH_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.change.Reviewed.DeleteReviewed;
+import com.google.gerrit.server.change.Reviewed.PutReviewed;
 import com.google.gerrit.server.config.FactoryModule;
 
 public class Module extends RestApiModule {
@@ -29,9 +32,11 @@ public class Module extends RestApiModule {
     bind(Revisions.class);
     bind(Reviewers.class);
     bind(Drafts.class);
+    bind(Patches.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), DRAFT_KIND);
+    DynamicMap.mapOf(binder(), PATCH_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
     DynamicMap.mapOf(binder(), REVISION_KIND);
 
@@ -57,6 +62,10 @@ public class Module extends RestApiModule {
     get(DRAFT_KIND).to(GetDraft.class);
     put(DRAFT_KIND).to(PutDraft.class);
     delete(DRAFT_KIND).to(DeleteDraft.class);
+
+    child(REVISION_KIND, "files").to(Patches.class);
+    put(PATCH_KIND, "reviewed").to(PutReviewed.class);
+    delete(PATCH_KIND, "reviewed").to(DeleteReviewed.class);
 
     install(new FactoryModule() {
       @Override

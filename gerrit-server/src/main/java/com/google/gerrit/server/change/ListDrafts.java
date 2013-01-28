@@ -49,7 +49,7 @@ class ListDrafts implements RestReadView<RevisionResource> {
     for (PatchLineComment c : db.get().patchComments()
         .draftByPatchSetAuthor(
             rsrc.getPatchSet().getId(),
-            rsrc.getAuthorId())) {
+            rsrc.getAccountId())) {
       Comment o = new Comment(c);
       List<Comment> list = out.get(o.path);
       if (list == null) {

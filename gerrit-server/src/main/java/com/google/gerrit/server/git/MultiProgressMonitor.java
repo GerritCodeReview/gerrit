@@ -183,6 +183,7 @@ public class MultiProgressMonitor {
       final TimeUnit timeoutUnit) throws ExecutionException {
     long overallStart = System.nanoTime();
     long deadline;
+    String detailMessage = "";
     if (timeoutTime > 0) {
       deadline = overallStart + NANOSECONDS.convert(timeoutTime, timeoutUnit);
     } else {
@@ -204,10 +205,15 @@ public class MultiProgressMonitor {
         long now = System.nanoTime();
 
         if (deadline > 0 && now > deadline) {
-          log.warn(String.format(
-              "MultiProgressMonitor worker killed after %sms",
-              TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS)));
           workerFuture.cancel(true);
+          if (workerFuture.isCancelled()) {
+            detailMessage = String.format(
+                    "(timeout %sms, cancelled)",
+                    TimeUnit.MILLISECONDS.convert(now - deadline, NANOSECONDS));
+            log.warn(String.format(
+                    "MultiProgressMonitor worker killed after %sms" + detailMessage, //
+                    TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS)));
+          }
           break;
         }
 
@@ -235,7 +241,7 @@ public class MultiProgressMonitor {
     } catch (InterruptedException e) {
       throw new ExecutionException(e);
     } catch (CancellationException e) {
-      throw new ExecutionException(e);
+      throw new ExecutionException(detailMessage, e);
     } catch (TimeoutException e) {
       workerFuture.cancel(true);
       throw new ExecutionException(e);

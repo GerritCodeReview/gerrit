@@ -165,7 +165,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
           timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (ExecutionException e) {
       log.warn("Error in ReceiveCommits", e);
-      rc.addError("internal error while processing changes");
+      rc.addError("internal error while processing changes " + e.getMessage());
       // ReceiveCommits has tried its best to catch errors, so anything at this
       // point is very bad.
       for (final ReceiveCommand c : commands) {

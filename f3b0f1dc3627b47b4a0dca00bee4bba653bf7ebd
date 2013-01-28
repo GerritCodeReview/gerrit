@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O65d7ZG8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-28T20:58:30Z",
+      "side": 1,
+      "message": "maybe just call this \"groups\"?",
+      "revId": "f3b0f1dc3627b47b4a0dca00bee4bba653bf7ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O69d13Hg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/AddIncludedGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-28T20:58:30Z",
+      "side": 1,
+      "message": "_oneGroup?",
+      "revId": "f3b0f1dc3627b47b4a0dca00bee4bba653bf7ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O67eAaFg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/AddIncludedGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-28T20:58:30Z",
+      "side": 1,
+      "message": "just \"groups\"?",
+      "revId": "f3b0f1dc3627b47b4a0dca00bee4bba653bf7ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O6-d64Gc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/AddIncludedGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-28T20:58:30Z",
+      "side": 1,
+      "message": "The \"included\" part of the error message makes no sense. I would just drop it and say \"Cannot add group: %s\".",
+      "revId": "f3b0f1dc3627b47b4a0dca00bee4bba653bf7ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O6xeQNKE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/AddIncludedGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-28T20:58:30Z",
+      "side": 1,
+      "message": "How can name be null for a group?",
+      "revId": "f3b0f1dc3627b47b4a0dca00bee4bba653bf7ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O6zeNOIw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/AddIncludedGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-28T20:58:30Z",
+      "side": 1,
+      "message": "in.groups \u003d ImmutableList.of(id) ?",
+      "revId": "f3b0f1dc3627b47b4a0dca00bee4bba653bf7ebd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

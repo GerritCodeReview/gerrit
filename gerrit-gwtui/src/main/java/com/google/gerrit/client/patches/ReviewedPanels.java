@@ -15,23 +15,25 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PatchTable.PatchValidator;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 public class ReviewedPanels {
 
@@ -98,18 +100,28 @@ public class ReviewedPanels {
       fileList.updateReviewedStatus(patchKey, reviewed);
     }
 
-    PatchUtil.DETAIL_SVC.setReviewedByCurrentUser(patchKey, reviewed,
-        new AsyncCallback<VoidResult>() {
-          @Override
-          public void onFailure(Throwable arg0) {
-            // nop
-          }
+    PatchSet.Id ps = patchKey.getParentKey();
+    RestApi api = new RestApi("/changes/").id(ps.getParentKey().get())
+        .view("revisions").id(ps.get())
+        .view("files").id(patchKey.getFileName())
+        .view("reviewed");
 
-          @Override
-          public void onSuccess(VoidResult result) {
-            // nop
-          }
-        });
+    AsyncCallback<VoidResult> cb = new AsyncCallback<VoidResult>() {
+      @Override
+      public void onFailure(Throwable arg0) {
+        // nop
+      }
+
+      @Override
+      public void onSuccess(VoidResult result) {
+        // nop
+      }
+    };
+    if (reviewed) {
+      api.put(cb);
+    } else {
+      api.delete(cb);
+    }
   }
 
   public void go() {

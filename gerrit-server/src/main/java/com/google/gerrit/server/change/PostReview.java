@@ -161,7 +161,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
           input.notify,
           change,
           revision.getPatchSet(),
-          revision.getAuthorId(),
+          revision.getAccountId(),
           message,
           comments).sendAsync();
       fireCommentAddedHook(revision);
@@ -285,7 +285,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
                   new Patch.Key(rsrc.getPatchSet().getId(), path),
                   ChangeUtil.messageUUID(db)),
               c.line,
-              rsrc.getAuthorId(),
+              rsrc.getAccountId(),
               parent);
         } else if (parent != null) {
           e.setParentUuid(parent);
@@ -326,7 +326,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     Map<String, PatchLineComment> drafts = Maps.newHashMap();
     for (PatchLineComment c : db.patchComments().draftByPatchSetAuthor(
           rsrc.getPatchSet().getId(),
-          rsrc.getAuthorId())) {
+          rsrc.getAccountId())) {
       drafts.put(c.getKey().get(), c);
     }
     return drafts;
@@ -375,7 +375,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       } else if (c == null) {
         c = new PatchSetApproval(new PatchSetApproval.Key(
                 rsrc.getPatchSet().getId(),
-                rsrc.getAuthorId(),
+                rsrc.getAccountId(),
                 at.getCategory().getId()),
             ent.getValue());
         c.setGranted(timestamp);
@@ -405,7 +405,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         // as a reviewer by picking the first server-wide ApprovalType.
         PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
             rsrc.getPatchSet().getId(),
-            rsrc.getAuthorId(),
+            rsrc.getAccountId(),
             approvalTypes.getApprovalTypes().get(0).getCategory().getId()),
             (short) 0);
         c.setGranted(timestamp);
@@ -428,7 +428,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       List<PatchSetApproval> del) throws OrmException {
     Map<String, PatchSetApproval> current = Maps.newHashMap();
     for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(
-          rsrc.getPatchSet().getId(), rsrc.getAuthorId())) {
+          rsrc.getPatchSet().getId(), rsrc.getAccountId())) {
       if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
         continue;
       }
@@ -475,7 +475,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
     message = new ChangeMessage(
         new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
-        rsrc.getAuthorId(),
+        rsrc.getAccountId(),
         timestamp,
         rsrc.getPatchSet().getId());
     message.setMessage(String.format(

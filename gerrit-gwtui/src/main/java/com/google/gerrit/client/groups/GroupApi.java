@@ -86,8 +86,45 @@ public class GroupApi {
     }
   }
 
+  /** Include a group into a group. */
+  public static void addIncludedGroup(AccountGroup.UUID groupUUID,
+      String includedGroup, AsyncCallback<GroupInfo> cb) {
+    new RestApi(includedGroupsBase(groupUUID) + "/" + includedGroup).put(cb);
+  }
+
+  /** Include groups into a group. */
+  public static void addIncludedGroups(AccountGroup.UUID groupUUID,
+      Set<String> includedGroups,
+      final AsyncCallback<NativeList<GroupInfo>> cb) {
+    if (includedGroups.size() == 1) {
+      addIncludedGroup(groupUUID,
+          includedGroups.iterator().next(),
+          new AsyncCallback<GroupInfo>() {
+            @Override
+            public void onSuccess(GroupInfo result) {
+              cb.onSuccess(NativeList.of(result));
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+              cb.onFailure(caught);
+            }
+          });
+    } else {
+      IncludedGroupInput input = IncludedGroupInput.create();
+      for (String includedGroup : includedGroups) {
+        input.add_included_group(includedGroup);
+      }
+      new RestApi(includedGroupsBase(groupUUID) + ".add").data(input).post(cb);
+    }
+  }
+
   private static String membersBase(AccountGroup.UUID groupUUID) {
     return base(groupUUID) + "members";
+  }
+
+  private static String includedGroupsBase(AccountGroup.UUID groupUUID) {
+    return base(groupUUID) + "groups";
   }
 
   private static String base(AccountGroup.UUID groupUUID) {
@@ -106,6 +143,20 @@ public class GroupApi {
     }
 
     protected MemberInput() {
+    }
+  }
+
+  private static class IncludedGroupInput extends JavaScriptObject {
+    final native void init() /*-{ this.included_groups = []; }-*/;
+    final native void add_included_group(String n) /*-{ this.included_groups.push(n); }-*/;
+
+    static IncludedGroupInput create() {
+      IncludedGroupInput g = (IncludedGroupInput) createObject();
+      g.init();
+      return g;
+    }
+
+    protected IncludedGroupInput() {
     }
   }
 }

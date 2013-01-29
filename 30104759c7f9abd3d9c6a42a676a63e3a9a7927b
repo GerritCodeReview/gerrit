@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PBX1C10I",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-01-29T19:03:54Z",
+      "side": 1,
+      "message": "+\nFix plugins.checkFrequency can not be disabled by setting the time to 0.\nThis was not allowed in a time unit typed variable due to the\nregex requiring the value to start with a digit in the range 1-9. This is rectified by permitting 0 as a value.\n\nlink:https://gerrit-review.googlesource.com/#/c/41773/",
+      "revId": "30104759c7f9abd3d9c6a42a676a63e3a9a7927b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

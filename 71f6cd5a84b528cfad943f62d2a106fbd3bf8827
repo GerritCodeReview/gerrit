@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "PBF6ZVdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T14:05:47Z",
+      "side": 1,
+      "message": "Ah ok, patch set number makes more sense to me :-)",
+      "parentUuid": "O8XGwuEM",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PBJ48fcA",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "PBH6UEaM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T14:05:47Z",
+      "side": 1,
+      "message": "Makes more sense. Then it should be changed to \u0027change list\u0027 in the title line of this commit message as well.",
+      "parentUuid": "O8VGztFA",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PBN5bJRw",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "Should it be a column always displayed, or optionally with user preference? The latter would be much easier to implement, but it might be too much info to include all the time.",
       "parentUuid": "PBN5bJRw",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBD6eicE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T14:05:47Z",
+      "side": 1,
+      "message": "I\u0027m fine with having this column always displayed.",
+      "parentUuid": "O8ZF7XG8",
       "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -171,6 +225,24 @@
       "side": 1,
       "message": "It\u0027s supposed to be on the change list.  If it isn\u0027t, its because I did something wrong somewhere...",
       "parentUuid": "PBF5wNZk",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBB6jzQc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T14:05:47Z",
+      "side": 1,
+      "message": "Then you need to do it in ChangeTable2 class. We really should get rid of these two change table classes :-(",
+      "parentUuid": "O8bGAYFg",
       "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

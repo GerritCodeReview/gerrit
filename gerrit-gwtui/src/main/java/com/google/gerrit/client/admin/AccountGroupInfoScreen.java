@@ -15,6 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.OnEditEnabler;
@@ -170,9 +171,9 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       @Override
       public void onClick(final ClickEvent event) {
         final String txt = descTxt.getText().trim();
-        Util.GROUP_SVC.changeGroupDescription(getGroupId(), txt,
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(final VoidResult result) {
+        GroupApi.setGroupDescription(getGroupUUID(), txt,
+            new GerritCallback<com.google.gerrit.client.VoidResult>() {
+              public void onSuccess(final com.google.gerrit.client.VoidResult result) {
                 saveDesc.setEnabled(false);
               }
             });

@@ -88,7 +88,9 @@ public class GroupsCollection implements
     String id = Url.decode(urlId);
     try {
       AccountGroup.UUID uuid = new AccountGroup.UUID(id);
-      return check(urlId, groupControlFactory.controlFor(uuid));
+      if (groupBackend.handles(uuid)) {
+        return check(urlId, groupControlFactory.controlFor(uuid));
+      }
     } catch (NoSuchGroupException noSuchGroup) {
     }
 
@@ -125,7 +127,7 @@ public class GroupsCollection implements
   @SuppressWarnings("unchecked")
   @Override
   public CreateGroup create(TopLevelResource root, String name) {
-    return createGroup.create(name);
+    return createGroup.create(Url.decode(name));
   }
 
   @Override

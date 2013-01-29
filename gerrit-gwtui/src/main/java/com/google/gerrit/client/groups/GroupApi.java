@@ -35,6 +35,19 @@ public class GroupApi {
     new RestApi("/groups/").id(groupName).ifNoneMatch().put(in, cb);
   }
 
+  /** Set description for a group */
+  public static void setGroupDescription(AccountGroup.UUID group,
+      String description, AsyncCallback<VoidResult> cb) {
+    RestApi call = group(group).view("description");
+    if (description != null && !description.isEmpty()) {
+      GroupInput in = GroupInput.create();
+      in.description(description);
+      call.put(in, cb);
+    } else {
+      call.delete(cb);
+    }
+  }
+
   /** Add member to a group. */
   public static void addMember(AccountGroup.UUID group, String member,
       AsyncCallback<MemberInfo> cb) {
@@ -127,6 +140,18 @@ public class GroupApi {
   private static RestApi group(AccountGroup.UUID group) {
     return new RestApi("/groups/").id(group.get());
   }
+
+  private static class GroupInput extends JavaScriptObject {
+    final native void description(String d) /*-{ if(d)this.description=d; }-*/;
+
+    static GroupInput create() {
+      return (GroupInput) createObject();
+    }
+
+    protected GroupInput() {
+    }
+  }
+
 
   private static class MemberInput extends JavaScriptObject {
     final native void init() /*-{ this.members = []; }-*/;

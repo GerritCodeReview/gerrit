@@ -40,7 +40,8 @@ public class GroupApi {
   /** Add member to a group. */
   public static void addMember(AccountGroup.UUID groupUUID,
       String member, AsyncCallback<MemberInfo> cb) {
-    new RestApi(membersBase(groupUUID) + "/" + member).put(cb);
+    String n = URL.encodePathSegment(member);
+    new RestApi(membersBase(groupUUID) + "/" + n).put(cb);
   }
 
   /** Add members to a group. */
@@ -88,7 +89,8 @@ public class GroupApi {
   /** Include a group into a group. */
   public static void addIncludedGroup(AccountGroup.UUID groupUUID,
       String includedGroup, AsyncCallback<GroupInfo> cb) {
-    new RestApi(includedGroupsBase(groupUUID) + "/" + includedGroup).put(cb);
+    String n = URL.encodePathSegment(includedGroup);
+    new RestApi(includedGroupsBase(groupUUID) + "/" + n).put(cb);
   }
 
   /** Include groups into a group. */

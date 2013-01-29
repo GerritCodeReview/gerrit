@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O8fEZCDk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/ReviewedPanels.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T22:14:13Z",
+      "side": 1,
+      "message": "This seems like it should be a boolean property. Use PUT to set the flag true and DELETE to set the flag false. In both cases you don\u0027t need a body so there is no need for MarkReviewedInput.",
+      "revId": "f4545eeff72285bbefa5f735f0f2431f36152ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8RH-bKA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MarkReviewed.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T22:14:13Z",
+      "side": 1,
+      "message": "Copyright headers are required in Gerrit tree.",
+      "revId": "f4545eeff72285bbefa5f735f0f2431f36152ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8ZExnKg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MarkReviewed.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T22:14:13Z",
+      "side": 1,
+      "message": "Don\u0027t bother with a transaction here on a single record insert or delete.",
+      "revId": "f4545eeff72285bbefa5f735f0f2431f36152ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8bE2oJs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MarkReviewed.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T22:14:13Z",
+      "side": 1,
+      "message": "On delete return Response.none().\nOn put return Response.created(\"\") if its new;\nOn put return Response.ok(\"\") if it already existed.",
+      "revId": "f4545eeff72285bbefa5f735f0f2431f36152ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8XEG.NY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/MarkReviewed.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T22:14:13Z",
+      "side": 1,
+      "message": "Throw the AuthException here instead. That way we never get null and never have to check the result.\n\nBut actually RevisionResource has getAuthorId() which is maybe the better thing to use. Then we don\u0027t need CurrentUser in the constructor.",
+      "revId": "f4545eeff72285bbefa5f735f0f2431f36152ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8TH8cKk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T22:14:13Z",
+      "side": 1,
+      "message": "Bind put and delete to two different classes. It might make sense to have them be inside of a common container class as much of the implementation is identical.",
+      "revId": "f4545eeff72285bbefa5f735f0f2431f36152ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8VEJ9OU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T22:14:13Z",
+      "side": 1,
+      "message": "getPatchKey()",
+      "revId": "f4545eeff72285bbefa5f735f0f2431f36152ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

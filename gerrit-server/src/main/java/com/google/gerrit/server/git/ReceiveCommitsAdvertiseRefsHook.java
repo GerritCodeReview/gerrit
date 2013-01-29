@@ -22,10 +22,17 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /** Exposes only the non refs/changes/ reference names. */
 public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
+  Map<String, Ref> baseRefs = null;
+
+  public ReceiveCommitsAdvertiseRefsHook(Map<String, Ref> refs) {
+    baseRefs = refs;
+  }
+
   @Override
   public void advertiseRefs(UploadPack us) {
     throw new UnsupportedOperationException(
@@ -34,12 +41,18 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
 
   @Override
   public void advertiseRefs(BaseReceivePack rp) {
-    Map<String, Ref> oldRefs = rp.getAdvertisedRefs();
-    if (oldRefs == null) {
-      oldRefs = rp.getRepository().getAllRefs();
+    Map<String, Ref> refs = rp.getAdvertisedRefs();
+    if (baseRefs != null) {
+      if (refs == null) {
+        refs = baseRefs;
+      } else {
+        refs.putAll(baseRefs);
+      }
+    } else if (refs == null) {
+      refs = rp.getRepository().getAllRefs();
     }
-    Map<String, Ref> r = Maps.newHashMapWithExpectedSize(oldRefs.size());
-    for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {
+    Map<String, Ref> r = Maps.newHashMapWithExpectedSize(refs.size());
+    for (Map.Entry<String, Ref> e : refs.entrySet()) {
       String name = e.getKey();
       if (!skip(name)) {
         r.put(name, e.getValue());

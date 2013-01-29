@@ -125,7 +125,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     return filter(repository.getAllRefs());
   }
 
-  private Map<String, Ref> filter(Map<String, Ref> refs) {
+  public Map<String, Ref> filter(Map<String, Ref> refs) {
     return filter(refs, false);
   }
 

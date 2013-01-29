@@ -19,11 +19,11 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -73,7 +73,7 @@ public class GroupsCollection implements
   }
 
   @Override
-  public GroupResource parse(TopLevelResource parent, String id)
+  public GroupResource parse(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException, Exception {
     final CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
@@ -81,15 +81,14 @@ public class GroupsCollection implements
     } else if(!(user instanceof IdentifiedUser)) {
       throw new ResourceNotFoundException(id);
     }
-    return parse(id);
+    return parse(id.get());
   }
 
-  GroupResource parse(String urlId) throws ResourceNotFoundException {
-    String id = Url.decode(urlId);
+  GroupResource parse(String id) throws ResourceNotFoundException {
     try {
       AccountGroup.UUID uuid = new AccountGroup.UUID(id);
       if (groupBackend.handles(uuid)) {
-        return check(urlId, groupControlFactory.controlFor(uuid));
+        return check(id, groupControlFactory.controlFor(uuid));
       }
     } catch (NoSuchGroupException noSuchGroup) {
     }
@@ -98,7 +97,7 @@ public class GroupsCollection implements
     if (id.matches("^[1-9][0-9]*$")) {
       try {
         AccountGroup.Id legacyId = AccountGroup.Id.parse(id);
-        return check(urlId, groupControlFactory.controlFor(legacyId));
+        return check(id, groupControlFactory.controlFor(legacyId));
       } catch (IllegalArgumentException invalidId) {
       } catch (NoSuchGroupException e) {
       }
@@ -108,26 +107,26 @@ public class GroupsCollection implements
     GroupReference ref = GroupBackends.findExactSuggestion(groupBackend, id);
     if (ref != null) {
       try {
-        return check(urlId, groupControlFactory.controlFor(ref.getUUID()));
+        return check(id, groupControlFactory.controlFor(ref.getUUID()));
       } catch (NoSuchGroupException e) {
       }
     }
 
-    throw new ResourceNotFoundException(urlId);
+    throw new ResourceNotFoundException(id);
   }
 
-  private GroupResource check(String urlId, GroupControl ctl)
+  private static GroupResource check(String id, GroupControl ctl)
       throws ResourceNotFoundException {
     if (ctl.isVisible()) {
       return new GroupResource(ctl);
     }
-    throw new ResourceNotFoundException(urlId);
+    throw new ResourceNotFoundException(id);
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public CreateGroup create(TopLevelResource root, String name) {
-    return createGroup.create(Url.decode(name));
+  public CreateGroup create(TopLevelResource root, IdString name) {
+    return createGroup.create(name.get());
   }
 
   @Override

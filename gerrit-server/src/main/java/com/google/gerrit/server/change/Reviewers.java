@@ -18,6 +18,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -62,7 +63,7 @@ public class Reviewers implements
   }
 
   @Override
-  public ReviewerResource parse(ChangeResource rsrc, String id)
+  public ReviewerResource parse(ChangeResource rsrc, IdString id)
       throws OrmException, ResourceNotFoundException, AuthException {
     Account.Id accountId;
     if (id.equals("self")) {
@@ -74,8 +75,8 @@ public class Reviewers implements
       } else {
         throw new ResourceNotFoundException(id);
       }
-    } else if (id.matches("^[0-9]+$")) {
-      accountId = Account.Id.parse(id);
+    } else if (id.get().matches("^[0-9]+$")) {
+      accountId = Account.Id.parse(id.get());
     } else {
       throw new ResourceNotFoundException(id);
     }

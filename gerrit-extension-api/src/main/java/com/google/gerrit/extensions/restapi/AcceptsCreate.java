@@ -30,5 +30,5 @@ public interface AcceptsCreate<P extends RestResource> {
    *         into the newly returned view object, as it will not be passed.
    * @throws RestApiException the view cannot be constructed.
    */
-  <I> RestModifyView<P, I> create(P parent, String id) throws RestApiException;
+  <I> RestModifyView<P, I> create(P parent, IdString id) throws RestApiException;
 }

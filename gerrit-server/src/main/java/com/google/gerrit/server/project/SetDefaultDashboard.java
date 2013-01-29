@@ -18,9 +18,10 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
@@ -73,7 +74,9 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
     DashboardResource target = null;
     if (input.id != null) {
       try {
-        target = dashboards.parse(new ProjectResource(ctl), input.id);
+        target = dashboards.parse(
+            new ProjectResource(ctl),
+            IdString.fromUrl(input.id));
       } catch (ResourceNotFoundException e) {
         throw new BadRequestException("dashboard " + input.id + " not found");
       }

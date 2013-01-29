@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.Url;
@@ -68,9 +69,9 @@ public class MembersCollection implements
   }
 
   @Override
-  public MemberResource parse(final GroupResource parent, final String id)
+  public MemberResource parse(GroupResource parent, IdString id)
       throws ResourceNotFoundException, Exception {
-    final Account a = accountResolver.find(Url.decode(id));
+    Account a = accountResolver.find(id.get());
     if (a == null) {
       throw new ResourceNotFoundException(id);
     }
@@ -89,8 +90,8 @@ public class MembersCollection implements
 
   @SuppressWarnings("unchecked")
   @Override
-  public PutMember create(final GroupResource group, final String id) {
-    return new PutMember(put, Url.decode(id));
+  public PutMember create(GroupResource group, IdString id) {
+    return new PutMember(put, id.get());
   }
 
   @Override

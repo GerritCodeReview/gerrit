@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
@@ -47,17 +48,18 @@ class Capabilities implements
   }
 
   @Override
-  public Capability parse(AccountResource parent, String id)
+  public Capability parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, AuthException {
     if (self.get() != parent.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
 
+    String name = id.get();
     CapabilityControl cap = parent.getUser().getCapabilities();
-    if (cap.canPerform(id)
-        || (cap.canAdministrateServer() && GlobalCapability.isCapability(id))) {
-      return new AccountResource.Capability(parent.getUser(), id);
+    if (cap.canPerform(name)
+        || (cap.canAdministrateServer() && GlobalCapability.isCapability(name))) {
+      return new AccountResource.Capability(parent.getUser(), name);
     }
     throw new ResourceNotFoundException(id);
   }

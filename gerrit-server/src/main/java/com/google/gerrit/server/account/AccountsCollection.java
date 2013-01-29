@@ -17,11 +17,11 @@ package com.google.gerrit.server.account;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -54,11 +54,11 @@ public class AccountsCollection implements
   }
 
   @Override
-  public AccountResource parse(TopLevelResource root, String id)
+  public AccountResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, AuthException, OrmException {
     CurrentUser user = self.get();
 
-    if ("self".equals(id)) {
+    if (id.equals("self")) {
       if (user instanceof IdentifiedUser) {
         return new AccountResource((IdentifiedUser) user);
       } else if (user instanceof AnonymousUser) {
@@ -68,7 +68,7 @@ public class AccountsCollection implements
       }
     }
 
-    Set<Account.Id> matches = resolver.findAll(Url.decode(id));
+    Set<Account.Id> matches = resolver.findAll(id.get());
     if (matches.size() != 1) {
       throw new ResourceNotFoundException(id);
     }

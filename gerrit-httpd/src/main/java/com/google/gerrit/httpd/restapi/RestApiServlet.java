@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.PutInput;
@@ -178,7 +179,7 @@ public class RestApiServlet extends HttpServlet {
       int status = SC_OK;
       checkUserSession(req);
 
-      List<String> path = splitPath(req);
+      List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
       checkAccessAnnotations(rc.getClass());
 
@@ -195,7 +196,7 @@ public class RestApiServlet extends HttpServlet {
           throw new MethodNotAllowedException();
         }
       } else {
-        String id = path.remove(0);
+        IdString id = path.remove(0);
         try {
           rsrc = rc.parse(rsrc, id);
           checkPreconditions(req, rsrc);
@@ -234,7 +235,7 @@ public class RestApiServlet extends HttpServlet {
           }
           break;
         } else {
-          String id = path.remove(0);
+          IdString id = path.remove(0);
           try {
             rsrc = c.parse(rsrc, id);
             checkPreconditions(req, rsrc);
@@ -654,10 +655,12 @@ public class RestApiServlet extends HttpServlet {
 
   private RestView<RestResource> view(
       RestCollection<RestResource, RestResource> rc,
-      String method, List<String> path) throws ResourceNotFoundException,
+      String method, List<IdString> path) throws ResourceNotFoundException,
       MethodNotAllowedException, AmbiguousViewException {
     DynamicMap<RestView<RestResource>> views = rc.views();
-    final String projection = path.isEmpty() ? "/" : path.remove(0);
+    final IdString projection = path.isEmpty()
+        ? IdString.fromUrl("/")
+        : path.remove(0);
     if (!path.isEmpty()) {
       // If there are path components still remaining after this projection
       // is chosen, look for the projection based upon GET as the method as
@@ -707,20 +710,25 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static List<String> splitPath(HttpServletRequest req) {
+  private static List<IdString> splitPath(HttpServletRequest req) {
     String path = req.getPathInfo();
     if (Strings.isNullOrEmpty(path)) {
       return Collections.emptyList();
     }
-    List<String> out = Lists.newArrayList(Splitter.on('/').split(path));
+    List<IdString> out = Lists.newArrayList();
+    for (String p : Splitter.on('/').split(path)) {
+      out.add(IdString.fromUrl(p));
+    }
     if (out.size() > 0 && out.get(out.size() - 1).isEmpty()) {
       out.remove(out.size() - 1);
     }
     return out;
   }
 
-  private static List<String> splitProjection(String projection) {
-    return Lists.newArrayList(Splitter.on('~').limit(2).split(projection));
+  private static List<String> splitProjection(IdString projection) {
+    List<String> p = Lists.newArrayListWithCapacity(2);
+    Iterables.addAll(p, Splitter.on('~').limit(2).split(projection.get()));
+    return p;
   }
 
   private void checkUserSession(HttpServletRequest req)

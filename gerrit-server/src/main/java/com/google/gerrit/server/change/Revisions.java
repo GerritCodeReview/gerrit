@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
@@ -52,10 +53,10 @@ class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
   }
 
   @Override
-  public RevisionResource parse(ChangeResource change, String id)
-      throws ResourceNotFoundException, Exception {
+  public RevisionResource parse(ChangeResource change, IdString id)
+      throws ResourceNotFoundException, OrmException {
     List<PatchSet> match = Lists.newArrayListWithExpectedSize(2);
-    for (PatchSet ps : find(change, id)) {
+    for (PatchSet ps : find(change, id.get())) {
       Change.Id changeId = ps.getId().getParentKey();
       if (changeId.equals(change.getChange().getId())
           && change.getControl().isPatchVisible(ps, dbProvider.get())) {

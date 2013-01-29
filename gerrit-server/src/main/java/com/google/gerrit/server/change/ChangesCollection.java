@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -68,10 +69,10 @@ public class ChangesCollection implements
   }
 
   @Override
-  public ChangeResource parse(TopLevelResource root, String id)
+  public ChangeResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, OrmException,
       UnsupportedEncodingException {
-    ParsedId p = new ParsedId(id);
+    ParsedId p = new ParsedId(id.encoded());
     List<Change> changes = findChanges(p);
     if (changes.size() != 1) {
       throw new ResourceNotFoundException(id);

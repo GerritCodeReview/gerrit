@@ -83,7 +83,7 @@ public interface RestCollection<P extends RestResource, R extends RestResource> 
    * @throws Exception if the implementation had any errors converting to a
    *         resource handle. This results in an HTTP 500 Internal Server Error.
    */
-  R parse(P parent, String id) throws ResourceNotFoundException, Exception;
+  R parse(P parent, IdString id) throws ResourceNotFoundException, Exception;
 
   /**
    * Get the views that support this collection.

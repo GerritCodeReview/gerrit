@@ -26,4 +26,9 @@ public class ResourceNotFoundException extends RestApiException {
   public ResourceNotFoundException(String id) {
     super(id);
   }
+
+  /** @param id portion of the resource URI that does not exist. */
+  public ResourceNotFoundException(IdString id) {
+    super(id.get());
+  }
 }

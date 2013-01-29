@@ -16,11 +16,11 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -46,9 +46,9 @@ public class PluginsCollection implements
   }
 
   @Override
-  public PluginResource parse(TopLevelResource parent, String id)
-      throws ResourceNotFoundException, Exception {
-    Plugin p = loader.get(Url.decode(id));
+  public PluginResource parse(TopLevelResource parent, IdString id)
+      throws ResourceNotFoundException {
+    Plugin p = loader.get(id.get());
     if (p == null) {
       throw new ResourceNotFoundException(id);
     }
@@ -57,9 +57,9 @@ public class PluginsCollection implements
 
   @SuppressWarnings("unchecked")
   @Override
-  public InstallPlugin create(TopLevelResource parent, String id)
+  public InstallPlugin create(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException {
-    return new InstallPlugin(loader, Url.decode(id), true /* created */);
+    return new InstallPlugin(loader, id.get(), true /* created */);
   }
 
   @Override

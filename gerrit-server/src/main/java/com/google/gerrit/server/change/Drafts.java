@@ -17,9 +17,9 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -57,10 +57,10 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   }
 
   @Override
-  public DraftResource parse(RevisionResource rev, String id)
+  public DraftResource parse(RevisionResource rev, IdString id)
       throws ResourceNotFoundException, OrmException, AuthException {
     checkIdentifiedUser();
-    String uuid = Url.decode(id);
+    String uuid = id.get();
     for (PatchLineComment c : dbProvider.get().patchComments()
         .draftByPatchSetAuthor(
             rev.getPatchSet().getId(),

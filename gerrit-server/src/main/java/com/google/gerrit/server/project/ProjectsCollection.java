@@ -15,11 +15,11 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
@@ -50,12 +50,12 @@ public class ProjectsCollection implements
   }
 
   @Override
-  public ProjectResource parse(TopLevelResource parent, String id)
+  public ProjectResource parse(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException {
     ProjectControl ctl;
     try {
       ctl = controlFactory.controlFor(
-          new Project.NameKey(Url.decode(id)),
+          new Project.NameKey(id.get()),
           user.get());
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(id);

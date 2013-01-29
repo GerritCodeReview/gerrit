@@ -18,9 +18,9 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.AddIncludedGroups.PutIncludedGroup;
@@ -55,14 +55,14 @@ public class IncludedGroupsCollection implements
   }
 
   @Override
-  public IncludedGroupResource parse(GroupResource parent, String id)
+  public IncludedGroupResource parse(GroupResource parent, IdString id)
       throws ResourceNotFoundException, OrmException {
     if (!parent.isInternal()) {
       throw new ResourceNotFoundException(id);
     }
 
     GroupDescription.Internal p = (GroupDescription.Internal) parent.getGroup();
-    GroupResource included = groupsCollection.get().parse(id);
+    GroupResource included = groupsCollection.get().parse(id.get());
     AccountGroupIncludeByUuid in = dbProvider.get()
         .accountGroupIncludesByUuid().get(
           new AccountGroupIncludeByUuid.Key(
@@ -76,8 +76,8 @@ public class IncludedGroupsCollection implements
 
   @SuppressWarnings("unchecked")
   @Override
-  public PutIncludedGroup create(final GroupResource group, final String id) {
-    return new PutIncludedGroup(put, Url.decode(id));
+  public PutIncludedGroup create(GroupResource group, IdString id) {
+    return new PutIncludedGroup(put, id.get());
   }
 
   @Override

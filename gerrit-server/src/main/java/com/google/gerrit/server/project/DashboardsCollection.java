@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -77,30 +78,30 @@ class DashboardsCollection implements
   @SuppressWarnings("unchecked")
   @Override
   public RestModifyView<ProjectResource, ?> create(ProjectResource parent,
-      String id) throws RestApiException {
-    if ("default".equals(id)) {
+      IdString id) throws RestApiException {
+    if (id.equals("default")) {
       return createDefault.get();
     }
     throw new ResourceNotFoundException(id);
   }
 
   @Override
-  public DashboardResource parse(ProjectResource parent, String id)
+  public DashboardResource parse(ProjectResource parent, IdString id)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
     ProjectControl myCtl = parent.getControl();
-    if ("default".equals(id)) {
+    if (id.equals("default")) {
       return DashboardResource.projectDefault(myCtl);
     }
 
     List<String> parts = Lists.newArrayList(
-        Splitter.on(':').limit(2).split(id));
+        Splitter.on(':').limit(2).split(id.get()));
     if (parts.size() != 2) {
       throw new ResourceNotFoundException(id);
     }
 
     CurrentUser user = myCtl.getCurrentUser();
-    String ref = Url.decode(parts.get(0));
-    String path = Url.decode(parts.get(1));
+    String ref = parts.get(0);
+    String path = parts.get(1);
     for (ProjectState ps : myCtl.getProjectState().tree()) {
       try {
         return parse(ps.controlFor(user), ref, path, myCtl);

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
@@ -106,7 +107,7 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   private AccountGroup.Id owner(Input input) throws BadRequestException {
     if (input.ownerId != null) {
       try {
-        GroupResource rsrc = groups.parse(input.ownerId);
+        GroupResource rsrc = groups.parse(Url.decode(input.ownerId));
         AccountGroup owner = GroupDescriptions.toAccountGroup(rsrc.getGroup());
         if (owner == null) {
           throw new BadRequestException("ownerId must be internal group");

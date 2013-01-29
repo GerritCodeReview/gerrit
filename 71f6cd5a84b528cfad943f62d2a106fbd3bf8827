@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "O8XGwuEM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-29T13:53:37Z",
+      "side": 1,
+      "message": "It should be the patchset number.  The code is wrong...",
+      "parentUuid": "PBH5r8bA",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PBJ48fcA",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-29T13:20:57Z",
       "side": 1,
       "message": "Can you explain where in the change screen it is shown, it\u0027s in the dependencies table, isn\u0027t it?\n\nAlso please add a sentence about why this is useful.",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8VGztFA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-29T13:53:37Z",
+      "side": 1,
+      "message": "On the change list.",
+      "parentUuid": "PBJ48fcA",
       "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "O8ZF7XG8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-29T13:53:37Z",
+      "side": 1,
+      "message": "Should it be a column always displayed, or optionally with user preference? The latter would be much easier to implement, but it might be too much info to include all the time.",
+      "parentUuid": "PBN5bJRw",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PBD5MSXE",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "O8TGmMBQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-29T13:53:37Z",
+      "side": 1,
+      "message": "Sorry, that\u0027s a typo.  Should be 1637.",
+      "parentUuid": "PBD5MSXE",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PBF5wNZk",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2013-01-29T13:20:57Z",
       "side": 1,
       "message": "This is confusing. From this description one would expect to see it in the change list, e.g. in the all open changes list, but it\u0027s only shown in the change lists on the change screen (e.g. the dependencies list).",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8bGAYFg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-29T13:53:37Z",
+      "side": 1,
+      "message": "It\u0027s supposed to be on the change list.  If it isn\u0027t, its because I did something wrong somewhere...",
+      "parentUuid": "PBF5wNZk",
       "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -115,6 +205,24 @@
       "writtenOn": "2013-01-29T13:20:57Z",
       "side": 1,
       "message": "Are you aware that there is also the ChangeTable2 class?",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8dF15Hg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-29T13:53:37Z",
+      "side": 1,
+      "message": "I saw it but was not aware it needs changes.   The changes here are based on the similar change to add reviewer names in the approval column.\n\nI will check it.",
+      "parentUuid": "PBD5lads",
       "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

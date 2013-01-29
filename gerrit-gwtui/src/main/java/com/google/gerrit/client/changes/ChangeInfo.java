@@ -79,6 +79,7 @@ public class ChangeInfo extends JavaScriptObject {
   final native int _number() /*-{ return this._number; }-*/;
   final native boolean _more_changes()
   /*-{ return this._more_changes ? true : false; }-*/;
+  public final native String currentPatchset() /*-{ return this.currentPatchset; }-*/;
 
   protected ChangeInfo() {
   }

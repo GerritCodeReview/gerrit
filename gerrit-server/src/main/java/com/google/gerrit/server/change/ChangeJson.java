@@ -216,6 +216,7 @@ public class ChangeJson {
     out.owner = asAccountAttribute(in.getOwner());
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
+    out.currentPatchset = in.currentPatchSetId().get();
     out._number = in.getId().get();
     out._sortkey = in.getSortKey();
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
@@ -538,6 +539,7 @@ public class ChangeJson {
     Timestamp updated;
     Boolean starred;
     Boolean reviewed;
+    public int currentPatchset;
 
     String _sortkey;
     int _number;

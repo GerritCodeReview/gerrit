@@ -20,7 +20,6 @@ import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.Set;
@@ -30,27 +29,24 @@ import java.util.Set;
  * groups.
  */
 public class GroupApi {
-
   /** Create a new group */
   public static void createGroup(String groupName, AsyncCallback<GroupInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    String n = URL.encodePathSegment(groupName);
-    new RestApi("/groups/" + n).ifNoneMatch().data(in).put(cb);
+    new RestApi("/groups/").id(groupName).ifNoneMatch().data(in).put(cb);
   }
 
   /** Add member to a group. */
-  public static void addMember(AccountGroup.UUID groupUUID,
-      String member, AsyncCallback<MemberInfo> cb) {
-    String n = URL.encodePathSegment(member);
-    new RestApi(membersBase(groupUUID) + "/" + n).put(cb);
+  public static void addMember(AccountGroup.UUID group, String member,
+      AsyncCallback<MemberInfo> cb) {
+    members(group).id(member).put(cb);
   }
 
   /** Add members to a group. */
-  public static void addMembers(AccountGroup.UUID groupUUID,
+  public static void addMembers(AccountGroup.UUID group,
       Set<String> members,
       final AsyncCallback<NativeList<MemberInfo>> cb) {
     if (members.size() == 1) {
-      addMember(groupUUID,
+      addMember(group,
           members.iterator().next(),
           new AsyncCallback<MemberInfo>() {
             @Override
@@ -68,38 +64,37 @@ public class GroupApi {
       for (String member : members) {
         input.add_member(member);
       }
-      new RestApi(membersBase(groupUUID) + ".add").data(input).post(cb);
+      members(group).data(input).post(cb);
     }
   }
 
   /** Remove members from a group. */
-  public static void removeMembers(AccountGroup.UUID groupUUID,
+  public static void removeMembers(AccountGroup.UUID group,
       Set<Account.Id> ids, final AsyncCallback<VoidResult> cb) {
     if (ids.size() == 1) {
       Account.Id u = ids.iterator().next();
-      new RestApi(membersBase(groupUUID) + "/" + u).delete(cb);
+      members(group).id(u.toString()).delete(cb);
     } else {
       MemberInput in = MemberInput.create();
       for (Account.Id u : ids) {
         in.add_member(u.toString());
       }
-      new RestApi(membersBase(groupUUID) + ".delete").data(in).post(cb);
+      call(group).view("members.delete").data(in).post(cb);
     }
   }
 
   /** Include a group into a group. */
-  public static void addIncludedGroup(AccountGroup.UUID groupUUID,
-      String includedGroup, AsyncCallback<GroupInfo> cb) {
-    String n = URL.encodePathSegment(includedGroup);
-    new RestApi(includedGroupsBase(groupUUID) + "/" + n).put(cb);
+  public static void addIncludedGroup(AccountGroup.UUID group, String include,
+      AsyncCallback<GroupInfo> cb) {
+    groups(group).id(include).put(cb);
   }
 
   /** Include groups into a group. */
-  public static void addIncludedGroups(AccountGroup.UUID groupUUID,
+  public static void addIncludedGroups(AccountGroup.UUID group,
       Set<String> includedGroups,
       final AsyncCallback<NativeList<GroupInfo>> cb) {
     if (includedGroups.size() == 1) {
-      addIncludedGroup(groupUUID,
+      addIncludedGroup(group,
           includedGroups.iterator().next(),
           new AsyncCallback<GroupInfo>() {
             @Override
@@ -117,21 +112,20 @@ public class GroupApi {
       for (String includedGroup : includedGroups) {
         input.add_group(includedGroup);
       }
-      new RestApi(includedGroupsBase(groupUUID) + ".add").data(input).post(cb);
+      groups(group).data(input).post(cb);
     }
   }
 
-  private static String membersBase(AccountGroup.UUID groupUUID) {
-    return base(groupUUID) + "members";
+  private static RestApi members(AccountGroup.UUID group) {
+    return call(group).view("members");
   }
 
-  private static String includedGroupsBase(AccountGroup.UUID groupUUID) {
-    return base(groupUUID) + "groups";
+  private static RestApi groups(AccountGroup.UUID group) {
+    return call(group).view("groups");
   }
 
-  private static String base(AccountGroup.UUID groupUUID) {
-    String id = URL.encodePathSegment(groupUUID.get());
-    return "/groups/" + id + "/";
+  private static RestApi call(AccountGroup.UUID group) {
+    return new RestApi("/groups/").id(group.get());
   }
 
   private static class MemberInput extends JavaScriptObject {

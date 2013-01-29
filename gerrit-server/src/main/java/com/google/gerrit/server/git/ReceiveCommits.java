@@ -358,12 +358,16 @@ public class ReceiveCommits {
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
+    Map<String, Ref> refsToFilter = null;
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(config.checkReferencedObjectsAreReachable);
-      rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, false));
+      refsToFilter =
+          new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db,
+              false).filter(repo.getAllRefs());
     }
-    List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(3);
+    List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(2);
+
     advHooks.add(new AdvertiseRefsHook() {
       @Override
       public void advertiseRefs(BaseReceivePack rp) {
@@ -371,15 +375,14 @@ public class ReceiveCommits {
         if (allRefs == null) {
           allRefs = rp.getRepository().getAllRefs();
         }
-        rp.setAdvertisedRefs(allRefs, rp.getAdvertisedObjects());
       }
-
       @Override
       public void advertiseRefs(UploadPack uploadPack) {
       }
     });
+
     advHooks.add(rp.getAdvertiseRefsHook());
-    advHooks.add(new ReceiveCommitsAdvertiseRefsHook());
+    advHooks.add(new ReceiveCommitsAdvertiseRefsHook(refsToFilter));
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
   }
 

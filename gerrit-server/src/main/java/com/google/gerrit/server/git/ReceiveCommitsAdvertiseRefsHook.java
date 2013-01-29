@@ -22,10 +22,17 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /** Exposes only the non refs/changes/ reference names. */
 public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
+  Map<String, Ref> refsToFilter = null;
+
+  public ReceiveCommitsAdvertiseRefsHook(Map<String, Ref> refs) {
+    refsToFilter = refs;
+  }
+
   @Override
   public void advertiseRefs(UploadPack us) {
     throw new UnsupportedOperationException(
@@ -35,11 +42,25 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   @Override
   public void advertiseRefs(BaseReceivePack rp) {
     Map<String, Ref> oldRefs = rp.getAdvertisedRefs();
-    if (oldRefs == null) {
-      oldRefs = rp.getRepository().getAllRefs();
+    if (refsToFilter == null && oldRefs == null) {
+      // No filtered refs given as a starting point
+      // and no refs added to the BaseReceivePack from
+      // previous setAdvertisedRefs().
+      refsToFilter = new HashMap<String, Ref>();
+      refsToFilter.putAll(rp.getRepository().getAllRefs());
+    } else if (refsToFilter == null){
+      // No filtered refs given as a starting point
+      // but we have refs previously added to the
+      // BaseReceivePack from previous setAdvertisedRefs().
+      // Let's use them.
+      refsToFilter = oldRefs;
+    } else if (oldRefs != null) {
+      // Let's merge the previously filtered refs
+      // with the oldRefs
+      refsToFilter.putAll(oldRefs);
     }
-    Map<String, Ref> r = Maps.newHashMapWithExpectedSize(oldRefs.size());
-    for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {
+    Map<String, Ref> r = Maps.newHashMapWithExpectedSize(refsToFilter.size());
+    for (Map.Entry<String, Ref> e : refsToFilter.entrySet()) {
       String name = e.getKey();
       if (!skip(name)) {
         r.put(name, e.getValue());

@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O8ZFf3N4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:52:20Z",
+      "side": 1,
+      "message": "I would prefer to move this down 2 lines so its with the rest of the block you add at the beginning of the method.",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8bFk4K8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:52:20Z",
+      "side": 1,
+      "message": "requestBody",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8dFZZPo",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:52:20Z",
+      "side": 1,
+      "message": "I wonder if the Resource handle wouldn\u0027t be useful in the audit event. We in theory should make most if not all of them public, along with view input types, so that plugins can interact with the new REST API from Java in a way that is very simliar to the operations over HTTP.",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8bE9wJM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpAuditEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:52:20Z",
+      "side": 1,
+      "message": "Copyright header?",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8dFCRA4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/RpcAuditEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:52:20Z",
+      "side": 1,
+      "message": "Copyright header?",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8fFHSBs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/SshAuditEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:52:20Z",
+      "side": 1,
+      "message": "Copyright header?",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8TFKsCU",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:52:20Z",
+      "side": 1,
+      "message": "nit: use i++ to start the loop so it looks less like we declared a new i here. Also wrap the body in {}",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8XFUOMM",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:52:20Z",
+      "side": 1,
+      "message": "maybe just say break here since we know the outer loop won\u0027t continue?",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8RFNrDw",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:52:20Z",
+      "side": 1,
+      "message": "nit: space after if",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

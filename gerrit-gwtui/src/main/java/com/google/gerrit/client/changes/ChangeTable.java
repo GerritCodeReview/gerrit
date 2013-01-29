@@ -38,6 +38,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -64,8 +65,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final int C_OWNER = 3;
   private static final int C_PROJECT = 4;
   private static final int C_BRANCH = 5;
-  private static final int C_LAST_UPDATE = 6;
-  private static final int BASE_COLUMNS = 7;
+  private static final int C_PATCHSET_NUM = 6;
+  private static final int C_LAST_UPDATE = 7;
+  private static final int BASE_COLUMNS = 8;
 
   private final List<Section> sections;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
@@ -95,6 +97,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
+    table.setText(0, C_PATCHSET_NUM, Util.C.changeTableColumnPatchsetNumber());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
     for (int i = BASE_COLUMNS; i < columns; i++) {
       final ApprovalType type = approvalTypes.get(i - BASE_COLUMNS);
@@ -209,6 +212,12 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         .getStatus()));
     table.setWidget(row, C_BRANCH, new BranchLink(c.getProject().getKey(), c
         .getStatus(), c.getBranch(), c.getTopic()));
+    final PatchSet.Id patchSetId = c.getPatchSetId();
+    String patchSetNumber = "-";
+    if (patchSetId != null) {
+      patchSetNumber = "" + patchSetId.get();
+    }
+    table.setText(row, C_PATCHSET_NUM, patchSetNumber);
     table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
 
     setRowItem(row, c);

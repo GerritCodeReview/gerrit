@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.groups;
 
+import static com.google.gerrit.client.changes.ChangeApi.emptyToNull;
+
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
@@ -33,6 +35,19 @@ public class GroupApi {
   public static void createGroup(String groupName, AsyncCallback<GroupInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
     new RestApi("/groups/").id(groupName).ifNoneMatch().put(in, cb);
+  }
+
+  /** Set description for a group */
+  public static void setGroupDescription(AccountGroup.UUID group,
+      String description, AsyncCallback<VoidResult> cb) {
+    description = emptyToNull(description);
+    if (description != null) {
+      GroupDescriptionInput in = GroupDescriptionInput.create();
+      in.description(description);
+      group(group).view("description").put(in, cb);
+    } else {
+      group(group).view("description").delete(cb);
+    }
   }
 
   /** Add member to a group. */
@@ -127,6 +142,18 @@ public class GroupApi {
   private static RestApi group(AccountGroup.UUID group) {
     return new RestApi("/groups/").id(group.get());
   }
+
+  private static class GroupDescriptionInput extends JavaScriptObject {
+    final native void description(String d) /*-{ if(d)this.description=d; }-*/;
+
+    static GroupDescriptionInput create() {
+      return (GroupDescriptionInput) createObject();
+    }
+
+    protected GroupDescriptionInput() {
+    }
+  }
+
 
   private static class MemberInput extends JavaScriptObject {
     final native void init() /*-{ this.members = []; }-*/;

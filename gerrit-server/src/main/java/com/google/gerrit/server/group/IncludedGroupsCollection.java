@@ -69,7 +69,7 @@ public class IncludedGroupsCollection implements
               p.getAccountGroup().getId(),
               included.getGroupUUID()));
     if (in != null) {
-      return new IncludedGroupResource(included.getControl());
+      return new IncludedGroupResource(parent, included.getControl());
     }
     throw new ResourceNotFoundException(id);
   }

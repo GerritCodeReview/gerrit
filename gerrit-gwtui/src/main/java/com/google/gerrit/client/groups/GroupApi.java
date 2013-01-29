@@ -32,7 +32,7 @@ public class GroupApi {
   /** Create a new group */
   public static void createGroup(String groupName, AsyncCallback<GroupInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
-    new RestApi("/groups/").id(groupName).ifNoneMatch().data(in).put(cb);
+    new RestApi("/groups/").id(groupName).ifNoneMatch().put(in, cb);
   }
 
   /** Add member to a group. */
@@ -64,7 +64,7 @@ public class GroupApi {
       for (String member : members) {
         input.add_member(member);
       }
-      members(group).data(input).post(cb);
+      members(group).post(input, cb);
     }
   }
 
@@ -79,7 +79,7 @@ public class GroupApi {
       for (Account.Id u : ids) {
         in.add_member(u.toString());
       }
-      group(group).view("members.delete").data(in).post(cb);
+      group(group).view("members.delete").post(in, cb);
     }
   }
 
@@ -112,7 +112,7 @@ public class GroupApi {
       for (String includedGroup : includedGroups) {
         input.add_group(includedGroup);
       }
-      groups(group).data(input).post(cb);
+      groups(group).post(input, cb);
     }
   }
 

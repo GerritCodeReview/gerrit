@@ -28,21 +28,21 @@ public class ChangeApi {
   public static void abandon(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();
     input.message(emptyToNull(msg));
-    call(id, "abandon").data(input).post(cb);
+    call(id, "abandon").post(input, cb);
   }
 
   /** Restore a previously abandoned change to be open again. */
   public static void restore(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();
     input.message(emptyToNull(msg));
-    call(id, "restore").data(input).post(cb);
+    call(id, "restore").post(input, cb);
   }
 
   /** Create a new change that reverts the delta caused by this change. */
   public static void revert(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();
     input.message(emptyToNull(msg));
-    call(id, "revert").data(input).post(cb);
+    call(id, "revert").post(input, cb);
   }
 
   /** Update the topic of a change. */
@@ -54,7 +54,7 @@ public class ChangeApi {
       Input input = Input.create();
       input.topic(topic);
       input.message(msg);
-      call.data(input).put(NativeString.unwrap(cb));
+      call.put(input, NativeString.unwrap(cb));
     } else {
       call.delete(NativeString.unwrap(cb));
     }
@@ -64,7 +64,7 @@ public class ChangeApi {
   public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
     SubmitInput in = SubmitInput.create();
     in.wait_for_merge(true);
-    call(id, commit, "submit").data(in).post(cb);
+    call(id, commit, "submit").post(in, cb);
   }
 
   private static class Input extends JavaScriptObject {

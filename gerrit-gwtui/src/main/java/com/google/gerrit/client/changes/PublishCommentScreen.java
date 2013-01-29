@@ -371,8 +371,7 @@ public class PublishCommentScreen extends AccountScreen implements
     new RestApi("/changes/")
       .id(String.valueOf(patchSetId.getParentKey().get()))
       .view("revisions").id(revision).view("review")
-      .data(data)
-      .post(new GerritCallback<ReviewInput>() {
+      .post(data, new GerritCallback<ReviewInput>() {
           @Override
           public void onSuccess(ReviewInput result) {
             if (submit) {

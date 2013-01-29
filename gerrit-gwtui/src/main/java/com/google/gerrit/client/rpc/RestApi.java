@@ -43,6 +43,7 @@ public class RestApi {
   private static final int SC_BAD_TRANSPORT = 3;
   private static final int SC_BAD_RESPONSE = 4;
   private static final String JSON_TYPE = "application/json";
+  private static final String JSON_UTF8 = JSON_TYPE + "; charset=utf-8";
   private static final String TEXT_TYPE = "text/plain";
 
   /**
@@ -102,11 +103,11 @@ public class RestApi {
     }
   }
 
-  private static class MyRequestCallback<T extends JavaScriptObject>
+  private static class HttpCallback<T extends JavaScriptObject>
       implements RequestCallback {
     private final AsyncCallback<T> cb;
 
-    MyRequestCallback(AsyncCallback<T> cb) {
+    HttpCallback(AsyncCallback<T> cb) {
       this.cb = cb;
     }
 
@@ -180,8 +181,6 @@ public class RestApi {
 
   private StringBuilder url;
   private boolean hasQueryParams;
-  private String contentType;
-  private String contentData;
   private String ifNoneMatch;
 
   /**
@@ -272,46 +271,61 @@ public class RestApi {
     return this;
   }
 
-  public RestApi data(JavaScriptObject obj) {
-    return data(new JSONObject(obj));
+  public String url() {
+    return url.toString();
   }
-
-  public RestApi data(JSONObject obj) {
-    contentType = JSON_TYPE + "; charset=utf-8";
-    contentData = obj.toString();
-    return this;
-  }
-
-  public RestApi data(String data) {
-    contentType = TEXT_TYPE + "; charset=utf-8";
-    contentData = data;
-    return this;
-  }
-
 
   public <T extends JavaScriptObject> void get(AsyncCallback<T> cb) {
     send(GET, cb);
-  }
-
-  public <T extends JavaScriptObject> void put(AsyncCallback<T> cb) {
-    send(PUT, cb);
   }
 
   public <T extends JavaScriptObject> void delete(AsyncCallback<T> cb) {
     send(DELETE, cb);
   }
 
-  public <T extends JavaScriptObject> void post(AsyncCallback<T> cb) {
-    send(POST, cb);
+  private <T extends JavaScriptObject> void send(
+      Method method, AsyncCallback<T> cb) {
+    HttpCallback<T> httpCallback = new HttpCallback<T>(cb);
+    try {
+      RpcStatus.INSTANCE.onRpcStart();
+      request(method).sendRequest(null, httpCallback);
+    } catch (RequestException e) {
+      httpCallback.onError(null, e);
+    }
   }
 
-  public String url() {
-    return url.toString();
+  public <T extends JavaScriptObject> void post(
+      JavaScriptObject content,
+      AsyncCallback<T> cb) {
+    sendJSON(POST, content, cb);
   }
 
-  public <T extends JavaScriptObject> void send(
-      Method method,
-      final AsyncCallback<T> cb) {
+  public <T extends JavaScriptObject> void put(AsyncCallback<T> cb) {
+    send(PUT, cb);
+  }
+
+  public <T extends JavaScriptObject> void put(
+      JavaScriptObject content,
+      AsyncCallback<T> cb) {
+    sendJSON(PUT, content, cb);
+  }
+
+  private <T extends JavaScriptObject> void sendJSON(
+      Method method, JavaScriptObject content,
+      AsyncCallback<T> cb) {
+    HttpCallback<T> httpCallback = new HttpCallback<T>(cb);
+    try {
+      RpcStatus.INSTANCE.onRpcStart();
+      String body = new JSONObject(content).toString();
+      RequestBuilder req = request(method);
+      req.setHeader("Content-Type", JSON_UTF8);
+      req.sendRequest(body, httpCallback);
+    } catch (RequestException e) {
+      httpCallback.onError(null, e);
+    }
+  }
+
+  private RequestBuilder request(Method method) {
     RequestBuilder req = new RequestBuilder(method, url());
     if (ifNoneMatch != null) {
       req.setHeader("If-None-Match", ifNoneMatch);
@@ -320,16 +334,7 @@ public class RestApi {
     if (Gerrit.getAuthorization() != null) {
       req.setHeader("Authorization", Gerrit.getAuthorization());
     }
-    if (contentData != null) {
-      req.setHeader("Content-Type", contentType);
-    }
-    MyRequestCallback<T> httpCallback = new MyRequestCallback<T>(cb);
-    try {
-      RpcStatus.INSTANCE.onRpcStart();
-      req.sendRequest(contentData, httpCallback);
-    } catch (RequestException e) {
-      httpCallback.onError(null, e);
-    }
+    return req;
   }
 
   private static boolean isJsonBody(Response res) {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "O8VG8lAg",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:07:05Z",
+      "side": 1,
+      "message": "Why isn\u0027t this passed into the constructor of the Permission?\n\nI see what you are doing in the second change. But I am not sure this is the best way to get the project name into the access code to make the decision. PermissionRule doesn\u0027t have any information about a project in the config files. Its implied by its containers. This makes for cleaner code in most places.\n\nMaybe it would be better to create a new type inside of the server only that RefControl uses that makes the tuple of Project.NameKey and PermissionRule.\n\nAs I read the implementation of these two changes you can now do something like override a block in a different reference too:\n\n  [access \"refs/heads/master\"]\n    push \u003d block group Developers\n\n  [access \"refs/heads/*\"]\n    push \u003d group Leads\n\nthis is a change in behavior. Previously any member of both groups would have been denied push on master. Now Leads would be permitted.\n\nSo my question is, do we also need to consider the section name as part of the block override? If so its no longer just as simple as the Project.NameKey in the PermissionRule.",
+      "revId": "033a7343cbeb8a5ac089bba01c86b9e7373dafec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "O8XG5mBc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T20:07:05Z",
+      "side": 1,
+      "message": "This line is a bit too long now. Line wrap the arguments?",
+      "revId": "033a7343cbeb8a5ac089bba01c86b9e7373dafec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

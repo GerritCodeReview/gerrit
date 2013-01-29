@@ -60,7 +60,7 @@ public class AvatarImage extends Image {
     } else {
       u = id.toString();
     }
-    RestApi api = new RestApi("/accounts/" + u + "/avatar");
+    RestApi api = new RestApi("/accounts/").id(u).view("avatar");
     if (size > 0) {
       api.addParameter("s", size);
     }

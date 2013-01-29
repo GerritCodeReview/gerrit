@@ -368,8 +368,9 @@ public class PublishCommentScreen extends AccountScreen implements
     }
 
     enableForm(false);
-    new RestApi("/changes/" + patchSetId.getParentKey().get()
-        + "/revisions/" + revision + "/review")
+    new RestApi("/changes/")
+      .id(String.valueOf(patchSetId.getParentKey().get()))
+      .view("revisions").id(revision).view("review")
       .data(data)
       .post(new GerritCallback<ReviewInput>() {
           @Override

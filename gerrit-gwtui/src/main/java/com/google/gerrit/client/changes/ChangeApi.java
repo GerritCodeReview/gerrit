@@ -28,26 +28,26 @@ public class ChangeApi {
   public static void abandon(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();
     input.message(emptyToNull(msg));
-    api(id, "abandon").data(input).post(cb);
+    call(id, "abandon").data(input).post(cb);
   }
 
   /** Restore a previously abandoned change to be open again. */
   public static void restore(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();
     input.message(emptyToNull(msg));
-    api(id, "restore").data(input).post(cb);
+    call(id, "restore").data(input).post(cb);
   }
 
   /** Create a new change that reverts the delta caused by this change. */
   public static void revert(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();
     input.message(emptyToNull(msg));
-    api(id, "revert").data(input).post(cb);
+    call(id, "revert").data(input).post(cb);
   }
 
   /** Update the topic of a change. */
   public static void topic(int id, String topic, String msg, AsyncCallback<String> cb) {
-    RestApi call = api(id, "topic");
+    RestApi call = call(id, "topic");
     topic = emptyToNull(topic);
     msg = emptyToNull(msg);
     if (topic != null || msg != null) {
@@ -64,7 +64,7 @@ public class ChangeApi {
   public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
     SubmitInput in = SubmitInput.create();
     in.wait_for_merge(true);
-    api(id, commit, "submit").data(in).post(cb);
+    call(id, commit, "submit").data(in).post(cb);
   }
 
   private static class Input extends JavaScriptObject {
@@ -90,14 +90,17 @@ public class ChangeApi {
     }
   }
 
-  private static RestApi api(int id, String action) {
-    // TODO Switch to triplet project~branch~id format in URI.
-    return new RestApi("/changes/" + id + "/" + action);
+  private static RestApi call(int id, String action) {
+    return change(id).view(action);
   }
 
-  private static RestApi api(int id, String commit, String action) {
+  private static RestApi call(int id, String commit, String action) {
+    return change(id).view("revisions").id(commit).view(action);
+  }
+
+  private static RestApi change(int id) {
     // TODO Switch to triplet project~branch~id format in URI.
-    return new RestApi("/changes/" + id + "/revisions/" + commit + "/" + action);
+    return new RestApi("/changes/").id(String.valueOf(id));
   }
 
   public static String emptyToNull(String str) {

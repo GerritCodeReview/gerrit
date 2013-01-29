@@ -203,6 +203,25 @@ public class RestApi {
     url.append(name);
   }
 
+  public RestApi view(String name) {
+    return idRaw(name);
+  }
+
+  public RestApi id(String id) {
+    return idRaw(URL.encodeQueryString(id));
+  }
+
+  public RestApi idRaw(String name) {
+    if (hasQueryParams) {
+      throw new IllegalStateException();
+    }
+    if (url.charAt(url.length() - 1) != '/') {
+      url.append('/');
+    }
+    url.append(name);
+    return this;
+  }
+
   public RestApi addParameter(String name, String value) {
     return addParameterRaw(name, URL.encodeQueryString(value));
   }

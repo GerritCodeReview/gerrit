@@ -24,38 +24,31 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class DashboardList extends NativeList<DashboardInfo> {
   public static void all(Project.NameKey project,
       AsyncCallback<NativeList<DashboardList>> callback) {
-    new RestApi(base(project))
-      .addParameterTrue("inherited")
-      .get(callback);
+    base(project).addParameterTrue("inherited").get(callback);
   }
 
   public static void getDefault(Project.NameKey project,
       AsyncCallback<DashboardInfo> callback) {
-    new RestApi(base(project) + "default")
-      .addParameterTrue("inherited")
-      .get(callback);
+    base(project).view("default").addParameterTrue("inherited").get(callback);
   }
 
-  public static void get(Project.NameKey project, String dashboardId,
+  public static void get(Project.NameKey project, String id,
       AsyncCallback<DashboardInfo> callback) {
-    new RestApi(base(project) + encodeDashboardId(dashboardId))
-        .get(callback);
+    base(project).idRaw(encodeDashboardId(id)).get(callback);
   }
 
-  private static String base(Project.NameKey project) {
-    String name = URL.encodePathSegment(project.get());
-    return "/projects/" + name + "/dashboards/";
+  private static RestApi base(Project.NameKey project) {
+    return new RestApi("/projects/").id(project.get()).view("dashboards");
   }
 
-  private static String encodeDashboardId(String dashboardId) {
-    int c = dashboardId.indexOf(":");
+  private static String encodeDashboardId(String id) {
+    int c = id.indexOf(':');
     if (0 <= c) {
-      final String ref = URL.encodeQueryString(dashboardId.substring(0, c));
-      final String path = URL.encodeQueryString(dashboardId.substring(c + 1));
-      return ref + ":" + path;
-    } else {
-      return URL.encodeQueryString(dashboardId);
+      String ref = URL.encodeQueryString(id.substring(0, c));
+      String path = URL.encodeQueryString(id.substring(c + 1));
+      return ref + ':' + path;
     }
+    return URL.encodeQueryString(id);
   }
 
   protected DashboardList() {

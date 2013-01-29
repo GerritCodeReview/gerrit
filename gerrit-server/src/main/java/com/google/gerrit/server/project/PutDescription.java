@@ -21,19 +21,22 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.project.SetDescription.Input;
+import com.google.gerrit.server.project.PutDescription.Input;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
-class SetDescription implements RestModifyView<ProjectResource, Input> {
+import java.io.IOException;
+
+class PutDescription implements RestModifyView<ProjectResource, Input> {
   static class Input {
     @DefaultInput
     String description;
@@ -45,7 +48,7 @@ class SetDescription implements RestModifyView<ProjectResource, Input> {
   private final GitRepositoryManager gitMgr;
 
   @Inject
-  SetDescription(ProjectCache cache,
+  PutDescription(ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
       GitRepositoryManager gitMgr) {
     this.cache = cache;
@@ -54,11 +57,13 @@ class SetDescription implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public String apply(ProjectResource resource, Input input)
+  public Response<String> apply(ProjectResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
+      ResourceNotFoundException, IOException {
+    boolean delete = false;
     if (input == null) {
       input = new Input(); // Delete would set description to null.
+      delete = true;
     }
 
     ProjectControl ctl = resource.getControl();
@@ -88,7 +93,10 @@ class SetDescription implements RestModifyView<ProjectResource, Input> {
             resource.getNameKey(),
             project.getDescription());
 
-        return project.getDescription();
+        if (delete) {
+          return Response.none();
+        }
+        return Response.ok(Strings.nullToEmpty(project.getDescription()));
       } finally {
         md.close();
       }

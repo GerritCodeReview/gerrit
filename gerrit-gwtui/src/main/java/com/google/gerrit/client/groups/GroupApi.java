@@ -33,9 +33,8 @@ public class GroupApi {
 
   /** Create a new group */
   public static void createGroup(String groupName, AsyncCallback<GroupInfo> cb) {
-    JavaScriptObject in = JavaScriptObject.createObject();
     String n = URL.encodePathSegment(groupName);
-    new RestApi("/groups/" + n).ifNoneMatch().data(in).put(cb);
+    new RestApi("/groups/" + n).ifNoneMatch().put(cb);
   }
 
   /** Add member to a group. */

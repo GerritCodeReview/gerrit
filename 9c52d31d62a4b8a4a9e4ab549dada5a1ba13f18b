@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "O8RFejA8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/ResourceNotFoundException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-29T07:59:26Z",
+      "side": 1,
+      "message": "Good point. I had wanted this to be the encoded id, but maybe its cleaner to always use the decoded one. Fixed in next patch set.",
+      "parentUuid": "PBP4soZ0",
+      "revId": "9c52d31d62a4b8a4a9e4ab549dada5a1ba13f18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PBB4YbXk",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
         "patchSetId": 1

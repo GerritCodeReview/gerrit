@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PBT1MT3E",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-01-29T21:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O8ZFf3N4",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O8bFk4K8",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-29T20:52:20Z",
       "side": 1,
       "message": "requestBody",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBR1Rkwc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-01-29T21:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O8bFk4K8",
       "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "PBf01x9c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-01-29T21:06:46Z",
+      "side": 1,
+      "message": "Think it would be a bit dangerous: audit should just track evidence of what happened, without going deeply into the Gerrit object space.\n\nFrom a RESTFul perspective, once you know the identity of the user, HTTP Method, the URL, parameters and the body, you pretty know everything you have to audit :-)\n\nI would make a further extension after this commit for the TCP/IP specs, those would be definitely more important from an audit perspective, but it needs a lot more work to get them for all the protocols.",
+      "parentUuid": "O8dFZZPo",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O8bE9wJM",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpAuditEvent.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-29T20:52:20Z",
       "side": 1,
       "message": "Copyright header?",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBd0yC.4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/HttpAuditEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-01-29T21:06:46Z",
+      "side": 1,
+      "message": "Oops :-) Done",
+      "parentUuid": "O8bE9wJM",
       "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "PBb0-P7Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/RpcAuditEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-01-29T21:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O8dFCRA4",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O8fFHSBs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/SshAuditEvent.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2013-01-29T20:52:20Z",
       "side": 1,
       "message": "Copyright header?",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBZ08g8A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/SshAuditEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-01-29T21:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O8fFHSBs",
       "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "PBX1r97A",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-01-29T21:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O8TFKsCU",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O8XFUOMM",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 3
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "PBV1wO5k",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-01-29T21:06:46Z",
+      "side": 1,
+      "message": "Makes sense, more clear then :-)",
+      "parentUuid": "O8XFUOMM",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O8RFNrDw",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 3
@@ -149,6 +293,24 @@
       "writtenOn": "2013-01-29T20:52:20Z",
       "side": 1,
       "message": "nit: space after if",
+      "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBT1lb9s",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-01-29T21:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O8RFNrDw",
       "revId": "4ee3809dae0f70f681b6697f870659e85a3c5170",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

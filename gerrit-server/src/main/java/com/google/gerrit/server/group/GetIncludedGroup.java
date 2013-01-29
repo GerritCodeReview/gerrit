@@ -19,6 +19,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 public class GetIncludedGroup implements RestReadView<IncludedGroupResource>  {
   @Override
   public GroupInfo apply(IncludedGroupResource rsrc) {
-    return new GroupInfo(rsrc.getGroup());
+    return new GroupInfo(rsrc.getMemberDescription());
   }
 }

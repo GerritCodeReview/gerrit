@@ -14,15 +14,27 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.TypeLiteral;
 
 public class IncludedGroupResource extends GroupResource {
   public static final TypeLiteral<RestView<IncludedGroupResource>> INCLUDED_GROUP_KIND =
       new TypeLiteral<RestView<IncludedGroupResource>>() {};
 
-  IncludedGroupResource(final GroupControl control) {
-    super(control);
+  private final GroupDescription.Basic member;
+
+  IncludedGroupResource(GroupResource group, GroupDescription.Basic member) {
+    super(group);
+    this.member = member;
+  }
+
+  public AccountGroup.UUID getMember() {
+    return getMemberDescription().getGroupUUID();
+  }
+
+  public GroupDescription.Basic getMemberDescription() {
+    return member;
   }
 }

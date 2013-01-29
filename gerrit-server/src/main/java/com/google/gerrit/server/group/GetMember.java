@@ -20,6 +20,6 @@ import com.google.gerrit.server.group.MembersCollection.MemberInfo;
 public class GetMember implements RestReadView<MemberResource> {
   @Override
   public MemberInfo apply(MemberResource resource) {
-    return MembersCollection.parse(resource.getUser().getAccount());
+    return MembersCollection.parse(resource.getMember().getAccount());
   }
 }

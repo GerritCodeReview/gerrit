@@ -23,40 +23,34 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.AddMembers.PutMember;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class MembersCollection implements
     ChildCollection<GroupResource, MemberResource>,
-    AcceptsCreate<GroupResource>{
-
+    AcceptsCreate<GroupResource> {
   private final DynamicMap<RestView<MemberResource>> views;
   private final Provider<ListMembers> list;
   private final IdentifiedUser.GenericFactory userGenericFactory;
-  private final GroupCache groupCache;
   private final AccountResolver accountResolver;
   private final Provider<ReviewDb> db;
   private final Provider<AddMembers> put;
 
   @Inject
-  MembersCollection(final DynamicMap<RestView<MemberResource>> views,
-      final Provider<ListMembers> list,
-      final IdentifiedUser.GenericFactory userGenericFactory,
-      final GroupCache groupCache,
-      final AccountResolver accountResolver,
-      final Provider<ReviewDb> db,
-      final Provider<AddMembers> put) {
+  MembersCollection(DynamicMap<RestView<MemberResource>> views,
+      Provider<ListMembers> list,
+      IdentifiedUser.GenericFactory userGenericFactory,
+      AccountResolver accountResolver,
+      Provider<ReviewDb> db,
+      Provider<AddMembers> put) {
     this.views = views;
     this.list = list;
     this.userGenericFactory = userGenericFactory;
-    this.groupCache = groupCache;
     this.accountResolver = accountResolver;
     this.db = db;
     this.put = put;
@@ -71,19 +65,22 @@ public class MembersCollection implements
   @Override
   public MemberResource parse(GroupResource parent, IdString id)
       throws ResourceNotFoundException, Exception {
+    if (parent.toAccountGroup() == null) {
+      throw new ResourceNotFoundException(id);
+    }
+
     Account a = accountResolver.find(id.get());
     if (a == null) {
       throw new ResourceNotFoundException(id);
     }
 
-    AccountGroup group = groupCache.get(parent.getControl().getGroup().getGroupUUID());
-    if (group == null) {
-      throw new ResourceNotFoundException(id);
-    }
-
-    if (db.get().accountGroupMembers()
-        .get(new AccountGroupMember.Key(a.getId(), group.getId())) != null) {
-      return new MemberResource(parent, userGenericFactory.create(a.getId()));
+    AccountGroupMember.Key key = new AccountGroupMember.Key(
+          a.getId(),
+          parent.toAccountGroup().getId());
+    if (db.get().accountGroupMembers().get(key) != null
+        && parent.getControl().canSeeMember(a.getId())) {
+      IdentifiedUser user = userGenericFactory.create(a.getId());
+      return new MemberResource(parent, user);
     }
     throw new ResourceNotFoundException(id);
   }
@@ -99,8 +96,8 @@ public class MembersCollection implements
     return views;
   }
 
-  public static MemberInfo parse(final Account account) {
-    final MemberInfo accountInfo = new MemberInfo();
+  public static MemberInfo parse(Account account) {
+    MemberInfo accountInfo = new MemberInfo();
     accountInfo.setId(account.getId());
     accountInfo.fullName = account.getFullName();
     accountInfo.preferredEmail = account.getPreferredEmail();

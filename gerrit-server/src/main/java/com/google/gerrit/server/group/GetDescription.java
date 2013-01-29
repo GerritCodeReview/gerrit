@@ -15,7 +15,6 @@
 package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -23,10 +22,10 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 class GetDescription implements RestReadView<GroupResource> {
   @Override
   public String apply(GroupResource resource) throws ResourceNotFoundException {
-    if (!resource.isInternal()) {
+    AccountGroup group = resource.toAccountGroup();
+    if (group == null) {
       throw new ResourceNotFoundException();
     }
-    AccountGroup group = GroupDescriptions.toAccountGroup(resource.getGroup());
     return Strings.nullToEmpty(group.getDescription());
   }
 }

@@ -16,21 +16,20 @@ package com.google.gerrit.server.group;
 
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.TypeLiteral;
 
-public class MemberResource extends AccountResource {
+public class MemberResource extends GroupResource {
   public static final TypeLiteral<RestView<MemberResource>> MEMBER_KIND =
       new TypeLiteral<RestView<MemberResource>>() {};
 
-  private final GroupResource group;
+  private final IdentifiedUser user;
 
   public MemberResource(GroupResource group, IdentifiedUser user) {
-    super(user);
-    this.group = group;
+    super(group);
+    this.user = user;
   }
 
-  public GroupResource getGroup() {
-    return group;
+  public IdentifiedUser getMember() {
+    return user;
   }
 }

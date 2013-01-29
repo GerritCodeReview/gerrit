@@ -15,12 +15,11 @@
 package com.google.gerrit.server.group;
 
 import static com.google.common.base.Strings.nullToEmpty;
+
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
@@ -50,7 +49,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
   @Override
   public List<GroupInfo> apply(GroupResource rsrc)
       throws ResourceNotFoundException, OrmException {
-    if (!rsrc.isInternal()) {
+    if (rsrc.toAccountGroup() == null) {
       throw new ResourceNotFoundException(rsrc.getGroupUUID().get());
     }
 
@@ -58,7 +57,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
     List<GroupInfo> included = Lists.newArrayList();
     for (AccountGroupIncludeByUuid u : dbProvider.get()
         .accountGroupIncludesByUuid()
-        .byGroup(groupId(rsrc))) {
+        .byGroup(rsrc.toAccountGroup().getId())) {
       try {
         GroupControl i = controlFactory.controlFor(u.getIncludeUUID());
         if (ownerOfParent || i.isVisible()) {
@@ -82,10 +81,5 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
       }
     });
     return included;
-  }
-
-  private static AccountGroup.Id groupId(GroupResource rsrc) {
-    GroupDescription.Basic d = rsrc.getGroup();
-    return ((GroupDescription.Internal) d).getAccountGroup().getId();
   }
 }

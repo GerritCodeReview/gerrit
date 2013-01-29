@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.group.AddIncludedGroups.PutIncludedGroup;
@@ -55,23 +56,29 @@ public class IncludedGroupsCollection implements
   }
 
   @Override
-  public IncludedGroupResource parse(GroupResource parent, IdString id)
+  public IncludedGroupResource parse(GroupResource resource, IdString id)
       throws ResourceNotFoundException, OrmException {
-    if (!parent.isInternal()) {
+    AccountGroup parent = resource.toAccountGroup();
+    if (parent == null) {
       throw new ResourceNotFoundException(id);
     }
 
-    GroupDescription.Internal p = (GroupDescription.Internal) parent.getGroup();
-    GroupResource included = groupsCollection.get().parse(id.get());
-    AccountGroupIncludeByUuid in = dbProvider.get()
-        .accountGroupIncludesByUuid().get(
-          new AccountGroupIncludeByUuid.Key(
-              p.getAccountGroup().getId(),
-              included.getGroupUUID()));
-    if (in != null) {
-      return new IncludedGroupResource(included.getControl());
+    GroupDescription.Basic member =
+        groupsCollection.get().parse(id.get()).getGroup();
+
+    if (isMember(parent, member)
+        && resource.getControl().canSeeGroup(member.getGroupUUID())) {
+      return new IncludedGroupResource(resource, member);
     }
     throw new ResourceNotFoundException(id);
+  }
+
+  private boolean isMember(AccountGroup parent, GroupDescription.Basic member)
+      throws OrmException {
+    return dbProvider.get().accountGroupIncludesByUuid().get(
+        new AccountGroupIncludeByUuid.Key(
+            parent.getId(),
+            member.getGroupUUID())) != null;
   }
 
   @SuppressWarnings("unchecked")

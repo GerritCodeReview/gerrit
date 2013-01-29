@@ -17,7 +17,6 @@ package com.google.gerrit.server.group;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.InactiveAccountException;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -32,7 +31,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.BadRequestHandler;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
@@ -41,8 +39,8 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.group.MembersCollection.MemberInfo;
 import com.google.gerrit.server.group.AddMembers.Input;
+import com.google.gerrit.server.group.MembersCollection.MemberInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -71,51 +69,44 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  private final GroupControl.Factory groupControlFactory;
   private final AccountManager accountManager;
   private final AuthType authType;
   private final AccountResolver accountResolver;
   private final AccountCache accountCache;
   private final ReviewDb db;
-  private final Provider<CurrentUser> self;
 
   @Inject
-  AddMembers(final GroupControl.Factory groupControlFactory,
-      final AccountManager accountManager,
-      final AuthConfig authConfig,
-      final AccountResolver accountResolver,
-      final AccountCache accountCache, final ReviewDb db,
-      final Provider<CurrentUser> self) {
-    this.groupControlFactory = groupControlFactory;
+  AddMembers(AccountManager accountManager,
+      AuthConfig authConfig,
+      AccountResolver accountResolver,
+      AccountCache accountCache,
+      ReviewDb db) {
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
     this.accountResolver = accountResolver;
     this.accountCache = accountCache;
     this.db = db;
-    this.self = self;
   }
 
   @Override
   public List<MemberInfo> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, BadRequestException,
       OrmException {
-    final GroupDescription.Basic group = resource.getGroup();
-    if (!(group instanceof GroupDescription.Internal)) {
+    AccountGroup internalGroup = resource.toAccountGroup();
+    if (internalGroup == null) {
       throw new MethodNotAllowedException();
     }
-
     input = Input.init(input);
 
-    final AccountGroup internalGroup = ((GroupDescription.Internal) group).getAccountGroup();
-    final GroupControl control = groupControlFactory.controlFor(internalGroup);
-    final Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
-    final List<AccountGroupMemberAudit> newAccountGroupMemberAudits = Lists.newLinkedList();
-    final BadRequestHandler badRequest = new BadRequestHandler("adding new group members");
-    final List<MemberInfo> result = Lists.newLinkedList();
-    final Account.Id me = ((IdentifiedUser) self.get()).getAccountId();
+    GroupControl control = resource.getControl();
+    Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
+    List<AccountGroupMemberAudit> newAccountGroupMemberAudits = Lists.newLinkedList();
+    BadRequestHandler badRequest = new BadRequestHandler("adding new group members");
+    List<MemberInfo> result = Lists.newLinkedList();
+    Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
 
-    for (final String nameOrEmail : input.members) {
-      final Account a = findAccount(nameOrEmail);
+    for (String nameOrEmail : input.members) {
+      Account a = findAccount(nameOrEmail);
       if (a == null) {
         badRequest.addError(new NoSuchAccountException(nameOrEmail));
         continue;
@@ -131,7 +122,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
       }
 
       if (!newAccountGroupMembers.containsKey(a.getId())) {
-        final AccountGroupMember.Key key =
+        AccountGroupMember.Key key =
             new AccountGroupMember.Key(a.getId(), internalGroup.getId());
         AccountGroupMember m = db.accountGroupMembers().get(key);
         if (m == null) {
@@ -147,14 +138,14 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
 
     db.accountGroupMembersAudit().insert(newAccountGroupMemberAudits);
     db.accountGroupMembers().insert(newAccountGroupMembers.values());
-    for (final AccountGroupMember m : newAccountGroupMembers.values()) {
+    for (AccountGroupMember m : newAccountGroupMembers.values()) {
       accountCache.evict(m.getAccountId());
     }
 
     return result;
   }
 
-  private Account findAccount(final String nameOrEmail) throws OrmException {
+  private Account findAccount(String nameOrEmail) throws OrmException {
     Account r = accountResolver.find(nameOrEmail);
     if (r == null) {
       switch (authType) {
@@ -175,7 +166,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     try {
-      final AuthRequest req = AuthRequest.forUser(user);
+      AuthRequest req = AuthRequest.forUser(user);
       req.setSkipAuthentication(true);
       return accountCache.get(accountManager.authenticate(req).getAccountId())
           .getAccount();
@@ -191,7 +182,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
     private final Provider<AddMembers> put;
     private final String id;
 
-    PutMember(final Provider<AddMembers> put, String id) {
+    PutMember(Provider<AddMembers> put, String id) {
       this.put = put;
       this.id = id;
     }
@@ -205,9 +196,8 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
       List<MemberInfo> list = put.get().apply(resource, in);
       if (list.size() == 1) {
         return list.get(0);
-      } else {
-        throw new IllegalStateException();
       }
+      throw new IllegalStateException();
     }
   }
 

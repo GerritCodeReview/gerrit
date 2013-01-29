@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -31,6 +32,10 @@ public class GroupResource implements RestResource {
     this.control = control;
   }
 
+  GroupResource(GroupResource rsrc) {
+    this.control = rsrc.getControl();
+  }
+
   public GroupDescription.Basic getGroup() {
     return control.getGroup();
   }
@@ -43,8 +48,8 @@ public class GroupResource implements RestResource {
     return getGroup().getGroupUUID();
   }
 
-  public boolean isInternal() {
-    return getGroup() instanceof GroupDescription.Internal;
+  public AccountGroup toAccountGroup() {
+    return GroupDescriptions.toAccountGroup(getGroup());
   }
 
   public GroupControl getControl() {

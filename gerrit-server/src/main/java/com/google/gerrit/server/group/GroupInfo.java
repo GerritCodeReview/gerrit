@@ -16,6 +16,7 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
@@ -37,8 +38,9 @@ public class GroupInfo {
     url = Strings.emptyToNull(group.getUrl());
     visibleToAll = group.isVisibleToAll() ? true : null;
 
-    if (group instanceof GroupDescription.Internal) {
-      set(((GroupDescription.Internal) group).getAccountGroup());
+    AccountGroup internalGroup = GroupDescriptions.toAccountGroup(group);
+    if (internalGroup != null) {
+      set(internalGroup);
     }
   }
 

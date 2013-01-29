@@ -18,7 +18,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -32,7 +31,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.BadRequestHandler;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
@@ -65,54 +63,47 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  private final GroupControl.Factory groupControlFactory;
   private final Provider<GroupsCollection> groupsCollection;
   private final GroupIncludeCache groupIncludeCache;
   private final ReviewDb db;
-  private final Provider<CurrentUser> self;
 
   @Inject
-  public AddIncludedGroups(final GroupControl.Factory groupControlFactory,
-      final Provider<GroupsCollection> groupsCollection,
-      final GroupIncludeCache groupIncludeCache, final ReviewDb db,
-      final Provider<CurrentUser> self) {
-    this.groupControlFactory = groupControlFactory;
+  public AddIncludedGroups(Provider<GroupsCollection> groupsCollection,
+      GroupIncludeCache groupIncludeCache,
+      ReviewDb db) {
     this.groupsCollection = groupsCollection;
     this.groupIncludeCache = groupIncludeCache;
     this.db = db;
-    this.self = self;
   }
 
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
       OrmException {
-    final GroupDescription.Basic group = resource.getGroup();
-    if (!(group instanceof GroupDescription.Internal)) {
+    AccountGroup group = resource.toAccountGroup();
+    if (group == null) {
       throw new MethodNotAllowedException();
     }
-
     input = Input.init(input);
 
-    final AccountGroup internalGroup = ((GroupDescription.Internal) group).getAccountGroup();
-    final GroupControl control = groupControlFactory.controlFor(internalGroup);
-    final Map<AccountGroup.UUID, AccountGroupIncludeByUuid> newIncludedGroups = Maps.newHashMap();
-    final List<AccountGroupIncludeByUuidAudit> newIncludedGroupsAudits = Lists.newLinkedList();
-    final BadRequestHandler badRequest = new BadRequestHandler("adding groups");
-    final List<GroupInfo> result = Lists.newLinkedList();
-    final Account.Id me = ((IdentifiedUser) self.get()).getAccountId();
+    GroupControl control = resource.getControl();
+    Map<AccountGroup.UUID, AccountGroupIncludeByUuid> newIncludedGroups = Maps.newHashMap();
+    List<AccountGroupIncludeByUuidAudit> newIncludedGroupsAudits = Lists.newLinkedList();
+    BadRequestHandler badRequest = new BadRequestHandler("adding groups");
+    List<GroupInfo> result = Lists.newLinkedList();
+    Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
 
-    for (final String includedGroup : input.groups) {
+    for (String includedGroup : input.groups) {
       try {
-        final GroupResource includedGroupResource = groupsCollection.get().parse(includedGroup);
+        GroupResource includedGroupResource = groupsCollection.get().parse(includedGroup);
         if (!control.canAddGroup(includedGroupResource.getGroupUUID())) {
           throw new AuthException(String.format("Cannot add group: %s",
               includedGroupResource.getName()));
         }
 
         if (!newIncludedGroups.containsKey(includedGroupResource.getGroupUUID())) {
-          final AccountGroupIncludeByUuid.Key agiKey =
-              new AccountGroupIncludeByUuid.Key(internalGroup.getId(),
+          AccountGroupIncludeByUuid.Key agiKey =
+              new AccountGroupIncludeByUuid.Key(group.getId(),
                   includedGroupResource.getGroupUUID());
           AccountGroupIncludeByUuid agi = db.accountGroupIncludesByUuid().get(agiKey);
           if (agi == null) {
@@ -132,7 +123,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     if (!newIncludedGroups.isEmpty()) {
       db.accountGroupIncludesByUuidAudit().insert(newIncludedGroupsAudits);
       db.accountGroupIncludesByUuid().insert(newIncludedGroups.values());
-      for (final AccountGroupIncludeByUuid agi : newIncludedGroups.values()) {
+      for (AccountGroupIncludeByUuid agi : newIncludedGroups.values()) {
         groupIncludeCache.evictMemberIn(agi.getIncludeUUID());
       }
       groupIncludeCache.evictMembersOf(group.getGroupUUID());
@@ -148,7 +139,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     private final Provider<AddIncludedGroups> put;
     private final String id;
 
-    PutIncludedGroup(final Provider<AddIncludedGroups> put, String id) {
+    PutIncludedGroup(Provider<AddIncludedGroups> put, String id) {
       this.put = put;
       this.id = id;
     }
@@ -162,9 +153,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
       List<GroupInfo> list = put.get().apply(resource, in);
       if (list.size() == 1) {
         return list.get(0);
-      } else {
-        throw new IllegalStateException();
       }
+      throw new IllegalStateException();
     }
   }
 

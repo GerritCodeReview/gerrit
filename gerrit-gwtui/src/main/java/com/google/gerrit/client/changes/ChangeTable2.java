@@ -50,8 +50,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private static final int C_OWNER = 3;
   private static final int C_PROJECT = 4;
   private static final int C_BRANCH = 5;
-  private static final int C_LAST_UPDATE = 6;
-  private static final int BASE_COLUMNS = 7;
+  private static final int C_PATCHSET_NUM = 6;
+  private static final int C_LAST_UPDATE = 7;
+  private static final int BASE_COLUMNS = 8;
 
   private final List<Section> sections;
   private int columns;
@@ -72,6 +73,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
+    table.setText(0, C_PATCHSET_NUM, Util.C.changeTableColumnPatchsetNumber());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
@@ -208,6 +210,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         row, C_PROJECT, new ProjectLink(c.project_name_key(), c.status()));
     table.setWidget(row, C_BRANCH, new BranchLink(c.project_name_key(), c
         .status(), c.branch(), c.topic()));
+    table.setText(row, C_PATCHSET_NUM, "X");
     table.setText(row, C_LAST_UPDATE, shortFormat(c.updated()));
 
     boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()

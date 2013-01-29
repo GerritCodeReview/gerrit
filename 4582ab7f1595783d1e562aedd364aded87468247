@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PBF711RA",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DirectPushed.vm",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2013-01-29T03:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O6zc0WNg",
+      "revId": "4582ab7f1595783d1e562aedd364aded87468247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O6xc3VN8",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DirectPushed.vm",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-28T09:50:35Z",
       "side": 1,
       "message": "\"the repository\"",
+      "revId": "4582ab7f1595783d1e562aedd364aded87468247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBH7wkSI",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DirectPushed.vm",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2013-01-29T03:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "O6xc3VN8",
       "revId": "4582ab7f1595783d1e562aedd364aded87468247",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

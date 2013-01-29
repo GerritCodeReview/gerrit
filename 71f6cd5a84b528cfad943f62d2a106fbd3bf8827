@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PBH5r8bA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "What is actually the patchset level? Below you talk about the patch set number, but in the code it\u0027s actually the patch set id.",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBJ48fcA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "Can you explain where in the change screen it is shown, it\u0027s in the dependencies table, isn\u0027t it?\n\nAlso please add a sentence about why this is useful.",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBN5bJRw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "I would prefer it to be an own column :-)",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBD5MSXE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "Is this the correct issue? Seems to be unrelated.",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBF5wNZk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "This is confusing. From this description one would expect to see it in the change list, e.g. in the all open changes list, but it\u0027s only shown in the change lists on the change screen (e.g. the dependencies list).",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBN4yBe4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyPreferencesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "s/7/8",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBD5lads",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "Are you aware that there is also the ChangeTable2 class?",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBL4-ObQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBB5qrak",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "I\u0027m getting a NPE here if I\u0027m clicking on a change in the dependencies table. It looks like c.getPatchSetId() is null in this case.",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBP5e4Q0",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "showPatchsetLevel should be reset to the default value in this method.",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBF5HFVE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T13:20:57Z",
+      "side": 1,
+      "message": "s/Schema_75/Schema_76",
+      "revId": "71f6cd5a84b528cfad943f62d2a106fbd3bf8827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

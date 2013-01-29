@@ -30,6 +30,7 @@
 package com.google.gerrit.httpd.gitweb;
 
 import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.client.Project;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.util.Url;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

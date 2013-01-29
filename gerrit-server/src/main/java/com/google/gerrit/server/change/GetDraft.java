@@ -19,8 +19,8 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.server.util.Url;
 
 import java.sql.Timestamp;
 

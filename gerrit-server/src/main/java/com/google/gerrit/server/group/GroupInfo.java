@@ -16,8 +16,8 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.util.Url;
 
 public class GroupInfo {
   final String kind = "gerritcodereview#group";

@@ -16,8 +16,8 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.util.Url;
 
 class GetProject implements RestReadView<ProjectResource> {
   @Override

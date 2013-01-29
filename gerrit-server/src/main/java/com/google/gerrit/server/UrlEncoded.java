@@ -15,7 +15,7 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.server.util.Url;
+import com.google.gerrit.extensions.restapi.Url;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

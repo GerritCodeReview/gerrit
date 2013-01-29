@@ -123,6 +123,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 11)
   protected boolean showUsernameInReviewCategory;
 
+  @Column(id = 12)
+  protected boolean showPatchsetLevel;
+
   public AccountGeneralPreferences() {
   }
 
@@ -202,6 +205,14 @@ public final class AccountGeneralPreferences {
 
   public void setShowUsernameInReviewCategory(final boolean showUsernameInReviewCategory) {
     this.showUsernameInReviewCategory = showUsernameInReviewCategory;
+  }
+
+  public boolean isShowPatchsetLevel() {
+    return showPatchsetLevel;
+  }
+
+  public void setShowPatchsetLevel(final boolean showPatchsetLevel) {
+    this.showPatchsetLevel = showPatchsetLevel;
   }
 
   public DateFormat getDateFormat() {

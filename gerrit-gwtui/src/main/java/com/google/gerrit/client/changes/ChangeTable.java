@@ -38,6 +38,7 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -72,6 +73,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private final List<ApprovalType> approvalTypes;
   private final int columns;
 
+  private boolean showUsernameInReviewCategory;
+  private boolean showPatchsetLevel;
+
   public ChangeTable() {
     this(false);
   }
@@ -87,6 +91,16 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
+
+      AccountGeneralPreferences prefs = Gerrit.getUserAccount().getGeneralPreferences();
+
+      if (prefs.isShowUsernameInReviewCategory()) {
+        showUsernameInReviewCategory = true;
+      }
+
+      if (prefs.isShowPatchsetLevel()) {
+        showPatchsetLevel = true;
+      }
     }
 
     sections = new ArrayList<Section>();
@@ -209,7 +223,11 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         .getStatus()));
     table.setWidget(row, C_BRANCH, new BranchLink(c.getProject().getKey(), c
         .getStatus(), c.getBranch(), c.getTopic()));
-    table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
+    String lastUpdate = shortFormat(c.getLastUpdatedOn());
+    if (showPatchsetLevel) {
+      lastUpdate = "PS-" + c.getPatchSetId().toString() + " " + lastUpdate;
+    }
+    table.setText(row, C_LAST_UPDATE, lastUpdate);
 
     setRowItem(row, c);
   }
@@ -286,16 +304,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         summary.getApprovalMap();
     int col = BASE_COLUMNS;
     boolean haveReview = false;
-
-    boolean showUsernameInReviewCategory = false;
-
-    if (Gerrit.isSignedIn()) {
-      AccountGeneralPreferences prefs = Gerrit.getUserAccount().getGeneralPreferences();
-
-      if (prefs.isShowUsernameInReviewCategory()) {
-        showUsernameInReviewCategory = true;
-      }
-    }
 
     for (final ApprovalType type : approvalTypes) {
       final PatchSetApproval ca = approvals.get(type.getCategory().getId());

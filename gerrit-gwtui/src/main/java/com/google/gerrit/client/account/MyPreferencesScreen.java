@@ -42,6 +42,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox copySelfOnEmails;
   private CheckBox reversePatchSetOrder;
   private CheckBox showUsernameInReviewCategory;
+  private CheckBox showPatchsetLevel;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -56,6 +57,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
     reversePatchSetOrder = new CheckBox(Util.C.reversePatchSetOrder());
     showUsernameInReviewCategory = new CheckBox(Util.C.showUsernameInReviewCategory());
+    showPatchsetLevel = new CheckBox(Util.C.showPatchsetLevel());
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
@@ -117,6 +119,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, showUsernameInReviewCategory);
     row++;
 
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, showPatchsetLevel);
+    row++;
+
     formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
     formGrid.setWidget(row, fieldIdx, maximumPageSize);
     row++;
@@ -143,6 +149,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(copySelfOnEmails);
     e.listenTo(reversePatchSetOrder);
     e.listenTo(showUsernameInReviewCategory);
+    e.listenTo(showPatchsetLevel);
     e.listenTo(maximumPageSize);
     e.listenTo(dateFormat);
     e.listenTo(timeFormat);
@@ -164,6 +171,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     copySelfOnEmails.setEnabled(on);
     reversePatchSetOrder.setEnabled(on);
     showUsernameInReviewCategory.setEnabled(on);
+    showPatchsetLevel.setEnabled(on);
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
@@ -175,6 +183,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     copySelfOnEmails.setValue(p.isCopySelfOnEmails());
     reversePatchSetOrder.setValue(p.isReversePatchSetOrder());
     showUsernameInReviewCategory.setValue(p.isShowUsernameInReviewCategory());
+    showPatchsetLevel.setValue(p.isShowPatchsetLevel());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
         p.getDateFormat());
@@ -236,6 +245,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setCopySelfOnEmails(copySelfOnEmails.getValue());
     p.setReversePatchSetOrder(reversePatchSetOrder.getValue());
     p.setShowUsernameInReviewCategory(showUsernameInReviewCategory.getValue());
+    p.setShowPatchsetLevel(showPatchsetLevel.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.setDateFormat(getListBox(dateFormat,
         AccountGeneralPreferences.DateFormat.STD,

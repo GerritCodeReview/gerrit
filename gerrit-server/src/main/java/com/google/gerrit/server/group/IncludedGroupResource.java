@@ -22,7 +22,14 @@ public class IncludedGroupResource extends GroupResource {
   public static final TypeLiteral<RestView<IncludedGroupResource>> INCLUDED_GROUP_KIND =
       new TypeLiteral<RestView<IncludedGroupResource>>() {};
 
-  IncludedGroupResource(final GroupControl control) {
+  private final GroupResource parentGroup;
+
+  IncludedGroupResource(final GroupResource parentGroup, final GroupControl control) {
     super(control);
+    this.parentGroup = parentGroup;
+  }
+
+  public GroupResource getParentGroup() {
+    return parentGroup;
   }
 }

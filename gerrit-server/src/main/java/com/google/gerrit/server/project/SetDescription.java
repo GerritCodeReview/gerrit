@@ -54,7 +54,7 @@ class SetDescription implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public Object apply(ProjectResource resource, Input input)
+  public String apply(ProjectResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
       Exception {
     if (input == null) {
@@ -88,11 +88,7 @@ class SetDescription implements RestModifyView<ProjectResource, Input> {
             resource.getNameKey(),
             project.getDescription());
 
-        ListProjects.ProjectInfo info = new ListProjects.ProjectInfo();
-        info.setName(resource.getName());
-        info.parent = project.getParentName();
-        info.description = project.getDescription();
-        return info;
+        return project.getDescription();
       } finally {
         md.close();
       }

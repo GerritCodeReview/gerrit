@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.group.AddIncludedGroups.UpdateIncludedGroup;
 import com.google.gerrit.server.group.AddMembers.UpdateMember;
+import com.google.gerrit.server.group.DeleteIncludedGroups.DeleteIncludedGroup;
 import com.google.gerrit.server.group.DeleteMembers.DeleteMember;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
@@ -40,6 +41,7 @@ public class Module extends RestApiModule {
     post(GROUP_KIND, "members.delete").to(DeleteMembers.class);
     post(GROUP_KIND, "groups").to(AddIncludedGroups.class);
     post(GROUP_KIND, "groups.add").to(AddIncludedGroups.class);
+    post(GROUP_KIND, "groups.delete").to(DeleteIncludedGroups.class);
     get(GROUP_KIND, "description").to(GetDescription.class);
     put(GROUP_KIND, "description").to(PutDescription.class);
     delete(GROUP_KIND, "description").to(PutDescription.class);
@@ -52,6 +54,7 @@ public class Module extends RestApiModule {
     child(GROUP_KIND, "groups").to(IncludedGroupsCollection.class);
     get(INCLUDED_GROUP_KIND).to(GetIncludedGroup.class);
     put(INCLUDED_GROUP_KIND).to(UpdateIncludedGroup.class);
+    delete(INCLUDED_GROUP_KIND).to(DeleteIncludedGroup.class);
 
     install(new FactoryModuleBuilder().build(CreateGroup.Factory.class));
   }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PBP4soZ0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/ResourceNotFoundException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T07:45:52Z",
+      "side": 1,
+      "message": "Should this better be:\n  super(id.get())\n?\n\nAt least in some other places [1] we provide the decoded id to ResourceNotFoundException(String). Shouldn\u0027t it be the same in all places, either always the decoded id or always the encoded id?\n\n[1] https://gerrit-review.googlesource.com/#/c/41733/1/gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+      "revId": "9c52d31d62a4b8a4a9e4ab549dada5a1ba13f18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PBB4YbXk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-29T07:45:52Z",
+      "side": 1,
+      "message": "Here we are providing the decoded id to ResourceNotFoundException,\nbut ResourceNotFoundException(IdString) would use the encoded id.",
+      "revId": "9c52d31d62a4b8a4a9e4ab549dada5a1ba13f18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

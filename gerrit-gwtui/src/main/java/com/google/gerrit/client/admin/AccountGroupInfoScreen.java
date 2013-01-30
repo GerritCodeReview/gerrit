@@ -140,9 +140,9 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       public void onClick(final ClickEvent event) {
         final String newOwner = ownerTxt.getText().trim();
         if (newOwner.length() > 0) {
-          Util.GROUP_SVC.changeGroupOwner(getGroupId(), newOwner,
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(final VoidResult result) {
+          GroupApi.setGroupOwner(getGroupUUID(), newOwner,
+              new GerritCallback<com.google.gerrit.client.VoidResult>() {
+                public void onSuccess(final com.google.gerrit.client.VoidResult result) {
                   saveOwner.setEnabled(false);
                 }
               });

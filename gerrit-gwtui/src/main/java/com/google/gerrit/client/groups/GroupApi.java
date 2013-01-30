@@ -48,6 +48,14 @@ public class GroupApi {
     }
   }
 
+  /** Set owner for a group */
+  public static void setGroupOwner(AccountGroup.UUID group,
+      String owner, AsyncCallback<VoidResult> cb) {
+    GroupInput in = GroupInput.create();
+    in.owner(owner);
+    group(group).view("owner").put(in, cb);
+  }
+
   /** Add member to a group. */
   public static void addMember(AccountGroup.UUID group, String member,
       AsyncCallback<MemberInfo> cb) {
@@ -143,6 +151,7 @@ public class GroupApi {
 
   private static class GroupInput extends JavaScriptObject {
     final native void description(String d) /*-{ if(d)this.description=d; }-*/;
+    final native void owner(String o) /*-{ if(o)this.owner=o; }-*/;
 
     static GroupInput create() {
       return (GroupInput) createObject();

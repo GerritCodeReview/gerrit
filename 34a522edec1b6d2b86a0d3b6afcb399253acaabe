@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PC7exqEo",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-30T17:46:19Z",
+      "side": 1,
+      "message": "So it doesn\u0027t really disable the UI, it just doesn\u0027t bind the host page. Cute. I can see how that is useful if you had your own Guice environment and wanted to register something else for \"/\".",
+      "revId": "34a522edec1b6d2b86a0d3b6afcb399253acaabe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PC9ekHA4",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-30T17:46:19Z",
+      "side": 1,
+      "message": "This is the hazard of using @Named. The name you use here is not consistent with the name used in the other places. :-)\n\nPlease just define an new type to carry this information around like:\n\n  public class GerritUiOptions  {\n    public boolean enableDefaultUi() {\n      return !headless;\n    }\n  }\n\nand inject an instance of GerritUiOptions with bind(GerritUiOptions.class).toInstance(options);\n\nIf you really want to use @Named on a Boolean then at least define a public static final String somewhere that has the value used in the @Named annotation to reduce the risk there was a typo.",
+      "revId": "34a522edec1b6d2b86a0d3b6afcb399253acaabe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PIaE--rM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-30T14:15:11Z",
+      "side": 1,
+      "message": "c.getPatchSetId() returns null here. This is why clicking on a change in the dependencies list fails. The question is why ChangeDetailFactory is not always setting it.",
+      "revId": "aa61205818bea1bf955e9f64b713ea582e35571c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

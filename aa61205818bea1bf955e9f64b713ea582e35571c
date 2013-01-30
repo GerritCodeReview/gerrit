@@ -34,6 +34,24 @@
       "revId": "aa61205818bea1bf955e9f64b713ea582e35571c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PIWFrNrE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-30T14:38:06Z",
+      "side": 1,
+      "message": "It\u0027s not in the error_log, since the NPE happens on client side. I saw it when debugging the UI with gwtdebug mode.",
+      "parentUuid": "PDJYjTKo",
+      "revId": "aa61205818bea1bf955e9f64b713ea582e35571c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

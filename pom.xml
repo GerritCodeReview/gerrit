@@ -91,6 +91,8 @@ limitations under the License.
     <module>gerrit-extension-api</module>
 
     <module>gerrit-gwtui</module>
+
+    <module>gerrit-acceptance-tests</module>
   </modules>
 
   <profiles>
@@ -569,6 +571,12 @@ limitations under the License.
         <groupId>org.apache.sshd</groupId>
         <artifactId>sshd-core</artifactId>
         <version>0.5.1-r1095809</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.0</version>
       </dependency>
 
       <dependency>

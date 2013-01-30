@@ -127,6 +127,15 @@ public class Daemon extends SiteProgram {
   private Injector httpdInjector;
   private File runFile;
 
+  private Runnable serverStarted;
+
+  public Daemon() {
+  }
+
+  public Daemon(Runnable serverStarted) {
+    this.serverStarted = serverStarted;
+  }
+
   @Override
   public int run() throws Exception {
     mustHaveValidSite();
@@ -201,6 +210,10 @@ public class Daemon extends SiteProgram {
         } catch (IOException err) {
           log.warn("Cannot write --run-id to " + runFile, err);
         }
+      }
+
+      if (serverStarted != null) {
+        serverStarted.run();
       }
 
       RuntimeShutdown.waitFor();

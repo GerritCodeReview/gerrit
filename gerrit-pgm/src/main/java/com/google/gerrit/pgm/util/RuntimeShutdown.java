@@ -103,9 +103,7 @@ public class RuntimeShutdown {
           try {
             wait();
           } catch (InterruptedException e) {
-            log.warn("Thread " + Thread.currentThread().getName()
-                + " interrupted while waiting for graceful shutdown;"
-                + " ignoring interrupt request");
+            return;
           }
         }
       }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PElD1zBA",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-30T13:25:32Z",
+      "side": 1,
+      "message": "I agree that we should try to access the project name by creating a new type specifically for this purpose and keep the existing code clean.\n\n\u003e As I read the implementation of these two changes ... ...this is a change in behavior.\n\nA minimal usable feature that we initially conceived was something like:\n\n  [access \"refs/heads/master\"]\n    push \u003d block group X - Y\n\nwhich would block the push for all members of group X but not for members of Y.\nX - Y would represent a set difference. A concrete example would be:\n\n  [access \"refs/heads/master\"]\n    forgeCommitter \u003d block group \"Anonymous Users\" - \"Leads\"\n\nwhich would block everyone except Leads for forgeCommitter. Of course, one still\nneeds to allow Leads the forgeCommitter permission:\n\n    forgeCommitter \u003d group Leads\n\nbut the above block is not blocking that.\n\nHowever, it seemed like it would be easier to support overruling a block with allow (at the same project only) than introducing permission Groups arithmetic. Therefore we came to the approach you see in the follow-up change.\nThese two changes definitely introduce a change in behavior. We don\u0027t even need two access sections to show the change in behavior:\n\n  [access \"refs/heads/master\"]\n    push \u003d block group Developers\n    push \u003d group Leads\n\nPreviously any member of both groups would have been denied push on master (assuming Leads is a subset of Developers). Now Leads are permitted. Do you see a fundamental difference between this example and your example with two access sections?",
+      "parentUuid": "O8VG8lAg",
+      "revId": "033a7343cbeb8a5ac089bba01c86b9e7373dafec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O8XG5mBc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 1

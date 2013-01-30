@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PC7dYiCA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-30T13:58:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PIUFRUgY",
+      "revId": "048c556d77a2d7b318acb0e111fea3e943849163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PIeE1Btg",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-30T12:41:36Z",
       "side": 1,
       "message": "I\u0027m pretty sure this needs to be:\n  this.current_patchset",
+      "revId": "048c556d77a2d7b318acb0e111fea3e943849163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PC5dVhOo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-30T13:58:15Z",
+      "side": 1,
+      "message": "Thanks.  If I change it to that, the column contains the expected values.",
+      "parentUuid": "PIeE1Btg",
       "revId": "048c556d77a2d7b318acb0e111fea3e943849163",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -32,33 +32,23 @@ interface Resources extends ClientBundle {
   @Source("prettify.js")
   TextResource core();
 
-  @Source("lang-apollo.js")
-  TextResource lang_apollo();
-
-  @Source("lang-css.js")
-  TextResource lang_css();
-
-  @Source("lang-hs.js")
-  TextResource lang_hs();
-
-  @Source("lang-lisp.js")
-  TextResource lang_lisp();
-
-  @Source("lang-lua.js")
-  TextResource lang_lua();
-
-  @Source("lang-ml.js")
-  TextResource lang_ml();
-
-  @Source("lang-proto.js")
-  TextResource lang_proto();
-
-  @Source("lang-sql.js")
-  TextResource lang_sql();
-
-  @Source("lang-vb.js")
-  TextResource lang_vb();
-
-  @Source("lang-wiki.js")
-  TextResource lang_wiki();
+  @Source("lang-apollo.js") TextResource lang_apollo();
+  @Source("lang-clj.js") TextResource lang_clj();
+  @Source("lang-css.js") TextResource lang_css();
+  @Source("lang-dart.js") TextResource lang_dart();
+  @Source("lang-go.js") TextResource lang_go();
+  @Source("lang-hs.js") TextResource lang_hs();
+  @Source("lang-lisp.js") TextResource lang_lisp();
+  @Source("lang-lua.js") TextResource lang_lua();
+  @Source("lang-ml.js") TextResource lang_ml();
+  @Source("lang-n.js") TextResource lang_n();
+  @Source("lang-proto.js") TextResource lang_proto();
+  @Source("lang-scala.js") TextResource lang_scala();
+  @Source("lang-sql.js") TextResource lang_sql();
+  @Source("lang-tex.js") TextResource lang_tex();
+  @Source("lang-vb.js") TextResource lang_vb();
+  @Source("lang-vhdl.js") TextResource lang_vhdl();
+  @Source("lang-wiki.js") TextResource lang_wiki();
+  @Source("lang-xq.js") TextResource lang_xq();
+  @Source("lang-yaml.js") TextResource lang_yaml();
 }

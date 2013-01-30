@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PC9eNPIw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-30T21:13:14Z",
+      "side": 1,
+      "message": "\u003d\u003d null here?",
+      "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PC7eKyHA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-30T21:13:14Z",
+      "side": 1,
+      "message": "I don\u0027t think you want to give every callback every failure. I think you want to give a callback only its own failure and just stop processing. Most callbacks will show an error message to the user, and that\u0027s that.",
+      "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

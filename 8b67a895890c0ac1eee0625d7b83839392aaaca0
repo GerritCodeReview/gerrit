@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PIkAYbno",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettyFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1012192
+      },
+      "writtenOn": "2013-01-30T21:17:01Z",
+      "side": 1,
+      "message": "The comment above, and probably this line should be updated.",
+      "revId": "8b67a895890c0ac1eee0625d7b83839392aaaca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PIiAT6mI",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettyFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1012192
+      },
+      "writtenOn": "2013-01-30T21:17:01Z",
+      "side": 1,
+      "message": "Kill this?",
+      "revId": "8b67a895890c0ac1eee0625d7b83839392aaaca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

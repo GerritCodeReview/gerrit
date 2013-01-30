@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.rpc.account;
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupOptions;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -28,8 +27,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
@@ -46,7 +43,6 @@ import java.util.Set;
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
   private final GroupCache groupCache;
-  private final GroupBackend groupBackend;
   private final GroupIncludeCache groupIncludeCache;
   private final GroupControl.Factory groupControlFactory;
 
@@ -58,14 +54,12 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final Provider<IdentifiedUser> currentUser,
       final GroupIncludeCache groupIncludeCache,
       final GroupCache groupCache,
-      final GroupBackend groupBackend,
       final GroupControl.Factory groupControlFactory,
       final RenameGroup.Factory renameGroupFactory,
       final GroupDetailHandler.Factory groupDetailFactory) {
     super(schema, currentUser);
     this.groupIncludeCache = groupIncludeCache;
     this.groupCache = groupCache;
-    this.groupBackend = groupBackend;
     this.groupControlFactory = groupControlFactory;
     this.renameGroupFactory = renameGroupFactory;
     this.groupDetailFactory = groupDetailFactory;
@@ -103,27 +97,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroup group = db.accountGroups().get(groupId);
         assertAmGroupOwner(db, group);
         group.setVisibleToAll(groupOptions.isVisibleToAll());
-        db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
-  public void changeGroupOwner(final AccountGroup.Id groupId,
-      final String newOwnerName, final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final AccountGroup group = db.accountGroups().get(groupId);
-        assertAmGroupOwner(db, group);
-
-        GroupReference owner =
-            GroupBackends.findExactSuggestion(groupBackend, newOwnerName);
-        if (owner == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-
-        group.setOwnerGroupUUID(owner.getUUID());
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
         return VoidResult.INSTANCE;

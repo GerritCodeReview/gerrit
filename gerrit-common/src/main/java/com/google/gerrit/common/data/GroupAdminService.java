@@ -45,11 +45,6 @@ public interface GroupAdminService extends RemoteJsonService {
 
   @Audit
   @SignInRequired
-  void changeGroupOwner(AccountGroup.Id groupId, String newOwnerName,
-      AsyncCallback<VoidResult> callback);
-
-  @Audit
-  @SignInRequired
   void renameGroup(AccountGroup.Id groupId, String newName,
       AsyncCallback<GroupDetail> callback);
 

@@ -51,6 +51,24 @@
       "revId": "8b67a895890c0ac1eee0625d7b83839392aaaca0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PImBCUkM",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettyFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1012192
+      },
+      "writtenOn": "2013-01-30T21:21:54Z",
+      "side": 1,
+      "message": "Actually, it isn\u0027t clear to me what should be done with this replaceAll...maybe (\"\\n\", \"\u003cbr /\u003e\\n\") ? Does it even matter?",
+      "parentUuid": "PIiAT6mI",
+      "revId": "8b67a895890c0ac1eee0625d7b83839392aaaca0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

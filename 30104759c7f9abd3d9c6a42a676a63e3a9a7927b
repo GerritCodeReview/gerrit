@@ -16,6 +16,24 @@
       "revId": "30104759c7f9abd3d9c6a42a676a63e3a9a7927b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PISH6DgE",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.2.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-30T07:01:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PBX1C10I",
+      "revId": "30104759c7f9abd3d9c6a42a676a63e3a9a7927b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

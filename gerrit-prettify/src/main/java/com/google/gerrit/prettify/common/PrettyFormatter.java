@@ -136,25 +136,19 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       //
       html = html.replaceAll("&#39;", "'");
 
-      // The prettify parser converts all line endings ('\r', '\n' and '\r\n')
-      // into 'br' tags.
       // If a line is modified at its end and the line ending is changed from
       // '\n' to '\r\n' then the '\r' of the new line is part of the modified
       // text. If intraline diffs are highlighted the modified text is
       // surrounded by a 'span' tag. As result '\r' and '\n' of the new line get
       // separated by '</span>'. For the prettify parser this now looks like two
-      // separate line endings and 2 'br' tags are inserted. This messes up the
-      // line counting by 'br' tags which is done below, since we now have more
-      // 'br' tags than lines. As result we would run into an
-      // ArrayIndexOutOfBoundsException when trying to lookup the non-existing
-      // lines. Drop the '\r' to avoid this problem.
+      // separate line endings. This messes up the line counting below.
+      // Drop any '\r' to avoid this problem.
       html = html.replace("\r</span>\n", "</span>\n");
 
       html = prettify(html, getFileType());
 
     } else {
       html = expandTabs(html);
-      html = html.replaceAll("\n", "<br />");
     }
 
     int pos = 0;
@@ -167,8 +161,9 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     buf = new StringBuilder();
     while (pos <= html.length()) {
       int tagStart = html.indexOf('<', pos);
+      int lf = html.indexOf('\n', pos);
 
-      if (tagStart < 0) {
+      if (tagStart < 0 && lf < 0) {
         // No more tags remaining. What's left is plain text.
         //
         assert lastTag == Tag.NULL;
@@ -180,6 +175,22 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
           content.addLine(src.mapIndexToLine(lineIdx), buf.toString());
         }
         break;
+      }
+
+      // Line end occurs before the next HTML tag. Break the line.
+      if (0 <= lf && lf < tagStart) {
+        if (textChunkStart < lf) {
+          lastTag.open(buf, html);
+          htmlText(html.substring(textChunkStart, lf));
+        }
+        pos = lf + 1;
+        textChunkStart = pos;
+
+        lastTag.close(buf, html);
+        content.addLine(src.mapIndexToLine(lineIdx++), buf.toString());
+        buf = new StringBuilder();
+        col = 0;
+        continue;
       }
 
       // Assume no attribute contains '>' and that all tags
@@ -198,14 +209,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       }
       textChunkStart = pos;
 
-      if (isBR(html, tagStart, tagEnd)) {
-        lastTag.close(buf, html);
-        content.addLine(src.mapIndexToLine(lineIdx), buf.toString());
-        buf = new StringBuilder();
-        col = 0;
-        lineIdx++;
-
-      } else if (html.charAt(tagStart + 1) == '/') {
+      if (html.charAt(tagStart + 1) == '/') {
         lastTag = lastTag.pop(buf, html);
 
       } else if (html.charAt(tagEnd - 1) != '/') {
@@ -259,13 +263,6 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
 
   /** Run the prettify engine over the text and return the result. */
   protected abstract String prettify(String html, String type);
-
-  private static boolean isBR(String html, int tagStart, int tagEnd) {
-    return tagEnd - tagStart == 5 //
-        && html.charAt(tagStart + 1) == 'b' //
-        && html.charAt(tagStart + 2) == 'r' //
-        && html.charAt(tagStart + 3) == ' ';
-  }
 
   private static class Tag {
     static final Tag NULL = new Tag(null, 0, 0) {

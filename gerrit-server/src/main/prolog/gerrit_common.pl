@@ -244,6 +244,21 @@ legacy_submit_rule('NoBlock', Label, Id, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule('NoOp', Label, Id, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule(Fun, Label, Id, Min, Max, T) :- T = impossible(unsupported(Fun)).
 
+%% rule
+%%
+%% A convenient way to express a max_with_block rule when
+%% coding a rules.pl
+%%
+%% For example, the typical default submit rule can be implemented as:
+%%
+%%   submit_rule(submit(V, CR)) :-
+%%     rule(-2, 2, 'Code-Review', CR),
+%%     rule(-1, 1, 'Verified', V).
+%%
+:- public rule/4.
+%%
+rule(Min, Max, Label, label(Label, S)) :-
+  gerrit:max_with_block(Label, Min, Max, S).
 
 %% max_with_block:
 %%

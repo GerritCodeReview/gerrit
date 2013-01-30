@@ -19,6 +19,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.CacheBasedWebSession;
+import com.google.gerrit.httpd.GerritUiOptions;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.RequestContextFilter;
@@ -65,10 +66,12 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.name.Names;
 
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
@@ -112,6 +115,9 @@ public class Daemon extends SiteProgram {
 
   @Option(name = "--run-id", usage = "Cookie to store in $site_path/logs/gerrit.run")
   private String runId;
+
+  @Option(name = "--headless", usage = "Don't start the UI frontend")
+  private boolean headless;
 
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
@@ -315,6 +321,12 @@ public class Daemon extends SiteProgram {
     if (!slave) {
       modules.add(new MasterNodeStartup());
     }
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(GerritUiOptions.class).toInstance(new GerritUiOptions(headless));
+      }
+    });
     return cfgInjector.createChildInjector(modules);
   }
 

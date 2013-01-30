@@ -59,9 +59,11 @@ class UrlModule extends ServletModule {
   }
 
   private final UrlConfig cfg;
+  private boolean headless;
 
-  UrlModule(UrlConfig cfg) {
+  UrlModule(UrlConfig cfg, boolean headless) {
     this.cfg = cfg;
+    this.headless = headless;
   }
 
   @Override
@@ -69,9 +71,11 @@ class UrlModule extends ServletModule {
     filter("/*").through(Key.get(CacheControlFilter.class));
     bind(Key.get(CacheControlFilter.class)).in(SINGLETON);
 
-    serve("/").with(HostPageServlet.class);
-    serve("/Gerrit").with(LegacyGerritServlet.class);
-    serve("/Gerrit/*").with(legacyGerritScreen());
+    if (!headless) {
+      serve("/").with(HostPageServlet.class);
+      serve("/Gerrit").with(LegacyGerritServlet.class);
+      serve("/Gerrit/*").with(legacyGerritScreen());
+    }
     serve("/cat/*").with(CatServlet.class);
     serve("/logout").with(HttpLogoutServlet.class);
     serve("/signout").with(HttpLogoutServlet.class);

@@ -241,6 +241,12 @@ public class WebAppInitializer extends GuiceServletContextListener {
     });
     modules.add(SshKeyCacheImpl.module());
     modules.add(new MasterNodeStartup());
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bindConstant().annotatedWith(Names.named("Headless")).to(false);
+      }
+    });
     return cfgInjector.createChildInjector(modules);
   }
 

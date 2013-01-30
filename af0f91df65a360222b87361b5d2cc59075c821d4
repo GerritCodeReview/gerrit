@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PIoAedmg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-30T21:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PC9eNPIw",
+      "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PC7eKyHA",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-30T21:13:14Z",
       "side": 1,
       "message": "I don\u0027t think you want to give every callback every failure. I think you want to give a callback only its own failure and just stop processing. Most callbacks will show an error message to the user, and that\u0027s that.",
+      "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PIsAjHqk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-30T21:24:27Z",
+      "side": 1,
+      "message": "Remember the use case is:\n\n  .add(RPC callback A)\n  ...(more RPC callbacks)...\n  .add(RPC callback B is a ScreenLoadCallback)\n\nIf you\u0027re suggesting we call B.onSuccess() even if A failed, that won\u0027t work. In order to display either the screen or an error message, we must guarantee that either B.onSuccess() or B.onFailure() is called. If A fails but B succeeds, we would call B.onSuccess(), which will display a partially-filled-in screen. Not good.\n\nWhat I meant here (and hopefully I communicated in the javadoc) is to give _every_ callback the _first_ failure. This means if A fails, we call B.onFailure(A\u0027s exception). The point is we need to call B.onFailure() with _some_ exception to get the error dialog. We could try a little harder to match up callbacks to exceptions in the case of multiple successes and multiple failures, but that seemed like more effort than it\u0027s worth.\n\nObviously what I have here does do every failure to every callback, which is not what I meant. Fixed.",
+      "parentUuid": "PC7eKyHA",
       "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

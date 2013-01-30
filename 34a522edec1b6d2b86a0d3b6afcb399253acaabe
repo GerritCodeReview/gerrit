@@ -33,6 +33,24 @@
       "revId": "34a522edec1b6d2b86a0d3b6afcb399253acaabe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PIQFcqhM",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-01-30T21:08:05Z",
+      "side": 1,
+      "message": "Agreed. Created GerritUiOptions class.",
+      "parentUuid": "PC9ekHA4",
+      "revId": "34a522edec1b6d2b86a0d3b6afcb399253acaabe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

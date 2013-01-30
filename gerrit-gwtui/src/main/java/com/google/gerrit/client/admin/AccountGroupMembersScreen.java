@@ -377,11 +377,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         a.setTitle("UUID " + uuid.get());
         table.setWidget(row, 2, a);
         fmt.getElement(row, 2).setTitle(null);
-        table.clearCell(row, 3);
       } else {
         table.setText(row, 2, info.getName());
         fmt.getElement(row, 2).setTitle("UUID " + uuid.get());
-        table.clearCell(row, 3);
       }
 
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());

@@ -16,6 +16,24 @@
       "revId": "aa61205818bea1bf955e9f64b713ea582e35571c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PDJYjTKo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-30T14:30:57Z",
+      "side": 1,
+      "message": "I had a look in the error logs and didn\u0027t see any exceptions.\nI\u0027ll look into this some more tomorrow.\nThanks for the help.",
+      "parentUuid": "PIaE--rM",
+      "revId": "aa61205818bea1bf955e9f64b713ea582e35571c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

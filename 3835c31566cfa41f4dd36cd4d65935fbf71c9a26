@@ -16,6 +16,24 @@
       "revId": "3835c31566cfa41f4dd36cd4d65935fbf71c9a26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PDDZMeHE",
+        "filename": "contrib/git-exproll.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011107
+      },
+      "writtenOn": "2013-01-30T16:05:26Z",
+      "side": 1,
+      "message": "Tbh, mildly surprised this is a point of debate- the specific exit code returned, sure, that is arguable, but having the script return zero when it flat out *failed* due to a bad invocation is pretty contrary to standards/expectations.\n\nEither way, consider cronjob\u0027d runs of this on a gerrit server; it\u0027ll be a find loop.  Assuming the person wrote it as a proper cronjob, it likely will suppress the output- instead only letting output be mailed if the job exited with a non zero code (meaning, don\u0027t send cron spam, send cron email when something fails).\n\nNow, in a perfect world the find/bash loops I\u0027m referencing above always work, and the on disk structure has no corruption- meaning git-exproll.sh is never invoked on a broken/non-existent repo.  Real world, this crap happens on occasion and the only way to detect that the script bailed out is to grep the output looking for complaints.  That\u0027s not exactly optimal to say the least.\n\nRe: \"no way to correct the problem\"- exit codes aren\u0027t about \"if exit code 1, do xyz to fix it\"- they\u0027re \"shit went south\" w/ some codes being directly mappable to a specific fix.  Suspect I\u0027m being overly verbose here, but that line of argumentation isn\u0027t really valid from where I\u0027m sitting hence beating on it.\n\nAs for exit code, using 128 matches what git returns if invoked on a nonexistent repo; I\u0027d be fine w/ returning that since it avoids conflicting w/ other git exit codes.  I suspect that\u0027s a workable solution.\n\nCounter args?",
+      "parentUuid": "OfAZDOkU",
+      "revId": "3835c31566cfa41f4dd36cd4d65935fbf71c9a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

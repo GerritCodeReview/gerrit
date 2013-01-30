@@ -244,7 +244,6 @@ legacy_submit_rule('NoBlock', Label, Id, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule('NoOp', Label, Id, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule(Fun, Label, Id, Min, Max, T) :- T = impossible(unsupported(Fun)).
 
-
 %% max_with_block:
 %%
 %% - The minimum is never used.
@@ -252,6 +251,10 @@ legacy_submit_rule(Fun, Label, Id, Min, Max, T) :- T = impossible(unsupported(Fu
 %%
 :- public max_with_block/4.
 %%
+max_with_block(Min, Max, Label, label(Label, S)) :-
+  number(Min), number(Max), atom(Label),
+  !,
+  max_with_block(Label, Min, Max, S).
 max_with_block(Label, Min, Max, reject(Who)) :-
   check_label_range_permission(Label, Min, ok(Who)),
   !

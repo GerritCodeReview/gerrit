@@ -27,11 +27,9 @@ import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountPatchReview;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -167,34 +165,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
           throw new Failure(e);
         } catch (IOException e) {
           throw new Failure(e);
-        }
-      }
-    });
-  }
-
-  /**
-   * Update the reviewed status for the file by user @code{account}
-   */
-  public void setReviewedByCurrentUser(final Key patchKey,
-      final boolean reviewed, AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(ReviewDb db) throws OrmException {
-        Account.Id account = getAccountId();
-        AccountPatchReview.Key key =
-            new AccountPatchReview.Key(patchKey, account);
-        db.accounts().beginTransaction(account);
-        try {
-          AccountPatchReview apr = db.accountPatchReviews().get(key);
-          if (apr == null && reviewed) {
-            db.accountPatchReviews().insert(
-                Collections.singleton(new AccountPatchReview(patchKey, account)));
-          } else if (apr != null && !reviewed) {
-            db.accountPatchReviews().delete(Collections.singleton(apr));
-          }
-          db.commit();
-          return VoidResult.INSTANCE;
-        } finally {
-          db.rollback();
         }
       }
     });

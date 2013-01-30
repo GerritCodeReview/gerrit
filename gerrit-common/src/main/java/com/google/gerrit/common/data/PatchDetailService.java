@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -79,11 +78,4 @@ public interface PatchDetailService extends RemoteJsonService {
 
   void strongestApprovals(Set<Change.Id> cids,
       AsyncCallback<ApprovalSummarySet> callback);
-
-  /**
-   * Update the reviewed status for the patch.
-   */
-  @Audit
-  @SignInRequired
-  void setReviewedByCurrentUser(Key patchKey, boolean reviewed, AsyncCallback<VoidResult> callback);
 }

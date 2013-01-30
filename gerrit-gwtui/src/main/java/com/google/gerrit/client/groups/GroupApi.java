@@ -35,6 +35,14 @@ public class GroupApi {
     new RestApi("/groups/").id(groupName).ifNoneMatch().put(in, cb);
   }
 
+  /** Rename a group */
+  public static void renameGroup(AccountGroup.UUID group,
+      String newName, AsyncCallback<VoidResult> cb) {
+    GroupInput in = GroupInput.create();
+    in.name(newName);
+    group(group).view("name").put(in, cb);
+  }
+
   /** Set description for a group */
   public static void setGroupDescription(AccountGroup.UUID group,
       String description, AsyncCallback<VoidResult> cb) {
@@ -151,6 +159,7 @@ public class GroupApi {
 
   private static class GroupInput extends JavaScriptObject {
     final native void description(String d) /*-{ if(d)this.description=d; }-*/;
+    final native void name(String n) /*-{ if(n)this.name=n; }-*/;
     final native void owner(String o) /*-{ if(o)this.owner=o; }-*/;
 
     static GroupInput create() {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd;
 
-import static com.google.inject.Scopes.SINGLETON;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -43,6 +43,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
+import com.google.inject.name.Named;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 
@@ -55,15 +56,18 @@ public class WebModule extends FactoryModule {
   private final UrlModule.UrlConfig urlConfig;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
+  private final GerritUiOptions uiOptions;
 
   @Inject
   WebModule(final AuthConfig authConfig,
       final UrlModule.UrlConfig urlConfig,
       @CanonicalWebUrl @Nullable final String canonicalUrl,
+      GerritUiOptions uiOptions,
       final Injector creatingInjector) {
     this.authConfig = authConfig;
     this.urlConfig = urlConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
+    this.uiOptions = uiOptions;
 
     this.gitWebConfig =
         creatingInjector.createChildInjector(new AbstractModule() {
@@ -116,7 +120,7 @@ public class WebModule extends FactoryModule {
         throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
 
-    install(new UrlModule(urlConfig));
+    install(new UrlModule(urlConfig, uiOptions));
     install(new UiRpcModule());
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module());

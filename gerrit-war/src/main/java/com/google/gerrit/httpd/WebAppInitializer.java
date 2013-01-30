@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.httpd.GerritUiOptions;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -241,6 +242,12 @@ public class WebAppInitializer extends GuiceServletContextListener {
     });
     modules.add(SshKeyCacheImpl.module());
     modules.add(new MasterNodeStartup());
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(GerritUiOptions.class).toInstance(new GerritUiOptions(false));
+      }
+    });
     return cfgInjector.createChildInjector(modules);
   }
 

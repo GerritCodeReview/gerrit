@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "PIWEZ9oA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-30T08:23:17Z",
+      "side": 1,
+      "message": "I think you can\u0027t use String.format(...) on the client side.",
+      "revId": "7685f6ae38ac701594a7ad8703466bdbe9909f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PCxcYVHk",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 2
@@ -13,6 +30,24 @@
       "writtenOn": "2013-01-30T02:24:16Z",
       "side": 1,
       "message": "Not sure how to get the patch set number here.",
+      "revId": "7685f6ae38ac701594a7ad8703466bdbe9909f5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PIYEeemg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-01-30T08:23:17Z",
+      "side": 1,
+      "message": "I think you need to make the id of the current patch set available in com.google.gerrit.client.changes.ChangeInfo. This is the class that represents a change on the client side after it was received as json object from the server via REST. On server side you need to add a field for the current patch set in com.google.gerrit.server.change.ChangeJson.ChangeInfo and set it in com.google.gerrit.server.change.ChangeJson.toChangeInfo(ChangeData). From the change data the current patch set should be already available.\n\nI\u0027m not sure whether it is okay to always include the current patch set id for all changes returned via REST. You may need to add a parameter to explicitly request this information to be included. Similar like it\u0027s already done for other additional information, see [1] and search there for \u0027Additional fields\u0027.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html",
+      "parentUuid": "PCxcYVHk",
       "revId": "7685f6ae38ac701594a7ad8703466bdbe9909f5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

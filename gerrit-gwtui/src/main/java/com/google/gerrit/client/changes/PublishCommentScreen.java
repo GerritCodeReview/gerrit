@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.AbstractPatchContentTable;
 import com.google.gerrit.client.patches.CommentEditorContainer;
 import com.google.gerrit.client.patches.CommentEditorPanel;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -145,19 +146,22 @@ public class PublishCommentScreen extends AccountScreen implements
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.DETAIL_SVC.patchSetPublishDetail(patchSetId,
-        new ScreenLoadCallback<PatchSetPublishDetail>(this) {
-          @Override
-          protected void preDisplay(final PatchSetPublishDetail result) {
-            send.setEnabled(true);
-            display(result);
-          }
 
-          @Override
-          protected void postDisplay() {
-            message.setFocus(true);
-          }
-        });
+    CallbackGroup cbs = new CallbackGroup();
+    Util.DETAIL_SVC.patchSetPublishDetail(patchSetId, cbs.add(
+        (com.google.gwtjsonrpc.common.AsyncCallback<PatchSetPublishDetail>)
+          new ScreenLoadCallback<PatchSetPublishDetail>(this) {
+            @Override
+            protected void preDisplay(final PatchSetPublishDetail result) {
+              send.setEnabled(true);
+              display(result);
+            }
+
+            @Override
+            protected void postDisplay() {
+              message.setFocus(true);
+            }
+          }));
   }
 
   @Override

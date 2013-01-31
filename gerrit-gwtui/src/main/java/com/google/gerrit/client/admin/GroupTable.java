@@ -119,7 +119,7 @@ public class GroupTable extends NavigationTable<GroupInfo> {
       table.setHTML(row, 1, Util.highlight(k.name(), toHighlight));
     }
     table.setText(row, 2, k.description());
-    if (k.isVisibleToAll()) {
+    if (k.options().isVisibleToAll()) {
       table.setWidget(row, 3, new Image(Gerrit.RESOURCES.greenCheck()));
     }
 

@@ -29,7 +29,7 @@ public class GroupInfo extends JavaScriptObject {
 
   public final native String id() /*-{ return this.id; }-*/;
   public final native String name() /*-{ return this.name; }-*/;
-  public final native boolean isVisibleToAll() /*-{ return this['visible_to_all'] ? true : false; }-*/;
+  public final native GroupOptionsInfo options() /*-{ return this.options; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
   public final native String url() /*-{ return this.url; }-*/;
 
@@ -45,5 +45,12 @@ public class GroupInfo extends JavaScriptObject {
   }
 
   protected GroupInfo() {
+  }
+
+  public static class GroupOptionsInfo extends JavaScriptObject {
+    public final native boolean isVisibleToAll() /*-{ return this['is_visible_to_all'] ? true : false; }-*/;
+
+    protected GroupOptionsInfo() {
+    }
   }
 }

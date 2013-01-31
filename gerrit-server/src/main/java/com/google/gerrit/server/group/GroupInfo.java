@@ -25,7 +25,7 @@ public class GroupInfo {
   public String id;
   public String name;
   public String url;
-  public Boolean visibleToAll;
+  public GroupOptionsInfo options;
 
   // These fields are only supplied for internal groups.
   public String description;
@@ -36,7 +36,7 @@ public class GroupInfo {
     id = Url.encode(group.getGroupUUID().get());
     name = Strings.emptyToNull(group.getName());
     url = Strings.emptyToNull(group.getUrl());
-    visibleToAll = group.isVisibleToAll() ? true : null;
+    options = new GroupOptionsInfo(group);
 
     AccountGroup internalGroup = GroupDescriptions.toAccountGroup(group);
     if (internalGroup != null) {

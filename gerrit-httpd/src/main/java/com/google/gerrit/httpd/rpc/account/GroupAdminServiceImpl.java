@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.common.data.GroupOptions;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -80,20 +79,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroup group = db.accountGroups().get(groupId);
         assertAmGroupOwner(db, group);
         group.setDescription(description);
-        db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
-  public void changeGroupOptions(final AccountGroup.Id groupId,
-      final GroupOptions groupOptions, final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final AccountGroup group = db.accountGroups().get(groupId);
-        assertAmGroupOwner(db, group);
-        group.setVisibleToAll(groupOptions.isVisibleToAll());
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
         return VoidResult.INSTANCE;

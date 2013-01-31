@@ -286,11 +286,11 @@ public class QueryProcessor {
           if (includePatchSets) {
             if (includeFiles) {
               eventFactory.addPatchSets(c, d.patches(db),
-                includeApprovals ? d.approvalsMap(db) : null,
+                includeApprovals ? d.approvalsMap(db).asMap() : null,
                 includeFiles, d.change(db));
             } else {
               eventFactory.addPatchSets(c, d.patches(db),
-                  includeApprovals ? d.approvalsMap(db) : null);
+                  includeApprovals ? d.approvalsMap(db).asMap() : null);
             }
           }
 

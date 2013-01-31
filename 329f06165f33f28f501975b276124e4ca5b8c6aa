@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PDFbrdAc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutOwner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-31T01:43:04Z",
+      "side": 1,
+      "message": "input \u003d\u003d null || Strings.isNullOrEmpty(input.owner)",
+      "revId": "329f06165f33f28f501975b276124e4ca5b8c6aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PDDbw.O8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutOwner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-31T01:43:04Z",
+      "side": 1,
+      "message": "\"owner is required\"",
+      "revId": "329f06165f33f28f501975b276124e4ca5b8c6aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PDHbmcEM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/PutOwner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-31T01:43:04Z",
+      "side": 1,
+      "message": "At this point you want to re-read the AccountGroup directly from the database. The copy you got from the resource came from the cache. The cache may be stale. You re about to write back the entire group to the database. Someone else may have modified the description... and you would undo that edit here.\n\nYes yes I know this still isn\u0027t completely safe. But it narrows the race window. Our server runs a multi-master config where the account group cache is out of date by up to 15 minutes between servers. At least a re-read from the database makes the data race to be within seconds rather than the entire last 15 minutes.",
+      "revId": "329f06165f33f28f501975b276124e4ca5b8c6aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

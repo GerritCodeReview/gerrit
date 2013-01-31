@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -117,6 +118,7 @@ public class ChangeData {
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
+  private List<SubmitRecord> submitRecords;
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -331,5 +333,13 @@ public class ChangeData {
       messages = db.get().changeMessages().byChange(legacyId).toList();
     }
     return messages;
+  }
+
+  public void setSubmitRecords(List<SubmitRecord> records) {
+    submitRecords = records;
+  }
+
+  public List<SubmitRecord> getSubmitRecords() {
+    return submitRecords;
   }
 }

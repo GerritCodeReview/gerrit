@@ -71,7 +71,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import com.google.inject.name.Names;
 
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;

@@ -180,6 +180,12 @@ public class ChangeJson {
     return formatList2(ImmutableList.of(tmp)).get(0).get(0);
   }
 
+  public ChangeInfo format(RevisionResource rsrc) throws OrmException {
+    ChangeData cd = new ChangeData(rsrc.getControl());
+    cd.setPatchSets(ImmutableList.of(rsrc.getPatchSet().getId()));
+    return format(cd);
+  }
+
   public List<List<ChangeInfo>> formatList2(List<List<ChangeData>> in)
       throws OrmException {
     accountInfoCache =
@@ -227,7 +233,8 @@ public class ChangeJson {
     }
     out.finish();
 
-    if (options.contains(ALL_REVISIONS) || options.contains(CURRENT_REVISION)) {
+    if (options.contains(ALL_REVISIONS) || options.contains(CURRENT_REVISION)
+        || cd.getSpecifiedPatchSets() != null) {
       out.revisions = revisions(cd);
       for (String commit : out.revisions.keySet()) {
         if (out.revisions.get(commit).isCurrent) {
@@ -446,7 +453,7 @@ public class ChangeJson {
     }
 
     Collection<PatchSet> src;
-    if (options.contains(ALL_REVISIONS)) {
+    if (cd.getSpecifiedPatchSets() != null || options.contains(ALL_REVISIONS)) {
       src = cd.patches(db);
     } else {
       src = Collections.singletonList(cd.currentPatchSet(db));

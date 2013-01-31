@@ -88,21 +88,26 @@ public final class ApprovalCategoryValue {
     name = n;
   }
 
-  public String formatValue() {
-    if (getValue() < 0) {
-      return Short.toString(getValue());
-    } else if (getValue() == 0) {
+  public static String formatValue(short value) {
+    if (value < 0) {
+      return Short.toString(value);
+    } else if (value == 0) {
       return " 0";
     } else {
-      return "+" + Short.toString(getValue());
+      return "+" + Short.toString(value);
     }
   }
 
+  public String formatValue() {
+    return formatValue(getValue());
+  }
+
+  public static String format(String name, short value) {
+    return new StringBuilder().append(formatValue(value))
+        .append(' ').append(name).toString();
+  }
+
   public String format() {
-    final StringBuilder m = new StringBuilder();
-    m.append(formatValue());
-    m.append(' ');
-    m.append(getName());
-    return m.toString();
+    return format(getName(), getValue());
   }
 }

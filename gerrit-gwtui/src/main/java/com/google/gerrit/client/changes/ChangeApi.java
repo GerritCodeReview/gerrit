@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -58,6 +59,10 @@ public class ChangeApi {
     } else {
       call.delete(NativeString.unwrap(cb));
     }
+  }
+
+  public static RestApi revision(PatchSet.Id id) {
+    return change(id.getParentKey().get()).view("revisions").id(id.get());
   }
 
   /** Submit a specific revision of a change. */

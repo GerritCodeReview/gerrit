@@ -68,7 +68,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public final Set<String> labels() {
-    return Natives.keys(labels0());
+    return labels0().keySet();
   }
 
   public final native String id() /*-{ return this.id; }-*/;

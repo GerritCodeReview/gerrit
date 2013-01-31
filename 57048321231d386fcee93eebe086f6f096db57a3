@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PIoBwtpo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-31T01:17:11Z",
+      "side": 1,
+      "message": "The compiler needs some help because ScreenLoadCallback implements both AsyncCallbacks. But I can do that with a cast. Done. But I\u0027m not sure it\u0027s cleaner.",
+      "parentUuid": "PDNZbBBw",
+      "revId": "57048321231d386fcee93eebe086f6f096db57a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PDBZqnKk",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-31T01:09:39Z",
       "side": 1,
       "message": "This isn\u0027t worth the effort. If an exception happens during onSuccess just let it go up the call stack and crash the event loop.",
+      "revId": "57048321231d386fcee93eebe086f6f096db57a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PIiBlKts",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-31T01:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PDBZqnKk",
       "revId": "57048321231d386fcee93eebe086f6f096db57a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "PIkBqrqo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-31T01:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PDPZeAA4",
+      "revId": "57048321231d386fcee93eebe086f6f096db57a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PDDZlmNs",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-31T01:09:39Z",
       "side": 1,
       "message": "You do not throw the exception from onFailure(). Doing so will crash the event loop in the browser. Maybe doing it for caughtDuringOnFailure makes some sense, but do not throw the exception passed into a callback out of the callback.",
+      "revId": "57048321231d386fcee93eebe086f6f096db57a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PIuBeYg4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-31T01:17:11Z",
+      "side": 1,
+      "message": "I meant caughtDuringOnFailure. But since you just let it crash, I did that instead.",
+      "parentUuid": "PDDZlmNs",
       "revId": "57048321231d386fcee93eebe086f6f096db57a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

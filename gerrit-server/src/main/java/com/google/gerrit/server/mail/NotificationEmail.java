@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Common class for notifications that are related to a project and branch
@@ -40,6 +42,8 @@ public abstract class NotificationEmail extends OutgoingEmail {
   protected Project.NameKey project;
   protected Branch.NameKey branch;
   private SshInfo sshInfo;
+  protected Set<Account.Id> authors;
+  protected boolean emailOnlyAuthors;
 
   protected NotificationEmail(EmailArguments ea, String anonymousCowardName,
       String mc, Project.NameKey project, Branch.NameKey branch) {
@@ -49,8 +53,27 @@ public abstract class NotificationEmail extends OutgoingEmail {
     this.branch = branch;
   }
 
+  public void setFrom(final Account.Id id) {
+    super.setFrom(id);
+
+    /** Is the from user in an email squelching group? */
+    final IdentifiedUser user =  args.identifiedUserFactory.create(id);
+    emailOnlyAuthors = !user.getCapabilities().canEmailReviewers();
+  }
+
+  /** TO or CC all vested parties (change owner, patch set uploader, author). */
+  protected void rcptToAuthors(final RecipientType rt) {
+    for (final Account.Id id : authors) {
+      add(rt, id);
+    }
+  }
+
+  /** Find all users who are authors of any part of this change. */
+  protected abstract Set<Account.Id> getAuthors();
+
   @Override
   protected void init() throws EmailException {
+    authors = getAuthors();
     super.init();
     setListIdHeader();
   }
@@ -93,6 +116,18 @@ public abstract class NotificationEmail extends OutgoingEmail {
     for (Address addr : list.emails) {
       add(type, addr);
     }
+  }
+
+  @Override
+  protected void add(final RecipientType rt, final Account.Id to) {
+    if (! emailOnlyAuthors || authors.contains(to)) {
+      super.add(rt, to);
+    }
+  }
+
+  protected void addWithoutAuthorCheck(final RecipientType rt,
+      final Account.Id to) {
+      super.add(rt, to);
   }
 
   protected void setSshInfo(SshInfo si) {

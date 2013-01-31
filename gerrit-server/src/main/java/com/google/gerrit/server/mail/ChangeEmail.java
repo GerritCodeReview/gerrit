@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.StarredChange;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -62,23 +61,12 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   protected ProjectState projectState;
   protected ChangeData changeData;
-  protected Set<Account.Id> authors;
-  protected boolean emailOnlyAuthors;
 
   protected ChangeEmail(EmailArguments ea, final String anonymousCowardName,
       final Change c, final String mc) {
     super(ea, anonymousCowardName, mc, c.getProject(), c.getDest());
     change = c;
     changeData = new ChangeData(change);
-    emailOnlyAuthors = false;
-  }
-
-  public void setFrom(final Account.Id id) {
-    super.setFrom(id);
-
-    /** Is the from user in an email squelching group? */
-    final IdentifiedUser user =  args.identifiedUserFactory.create(id);
-    emailOnlyAuthors = !user.getCapabilities().canEmailReviewers();
   }
 
   public void setPatchSet(final PatchSet ps) {
@@ -126,6 +114,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
+  @Override
   protected void init() throws EmailException {
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject());
@@ -148,7 +137,6 @@ public abstract class ChangeEmail extends NotificationEmail {
         patchSetInfo = null;
       }
     }
-    authors = getAuthors();
 
     super.init();
 
@@ -278,13 +266,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     return r != null ? r.getOwners() : Collections.<AccountGroup.UUID> emptySet();
   }
 
-  /** TO or CC all vested parties (change owner, patch set uploader, author). */
-  protected void rcptToAuthors(final RecipientType rt) {
-    for (final Account.Id id : authors) {
-      add(rt, id);
-    }
-  }
-
   /** BCC any user who has starred this change. */
   protected void bccStarredBy() {
     try {
@@ -292,7 +273,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       //
       for (StarredChange w : args.db.get().starredChanges().byChange(
           change.getId())) {
-        super.add(RecipientType.BCC, w.getAccountId());
+        addWithoutAuthorCheck(RecipientType.BCC, w.getAccountId());
       }
     } catch (OrmException err) {
       // Just don't BCC everyone. Better to send a partial message to those
@@ -333,12 +314,6 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  protected void add(final RecipientType rt, final Account.Id to) {
-    if (! emailOnlyAuthors || authors.contains(to)) {
-      super.add(rt, to);
-    }
-  }
-
   protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return projectState == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))
@@ -346,6 +321,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   }
 
   /** Find all users who are authors of any part of this change. */
+  @Override
   protected Set<Account.Id> getAuthors() {
     Set<Account.Id> authors = new HashSet<Account.Id>();
 

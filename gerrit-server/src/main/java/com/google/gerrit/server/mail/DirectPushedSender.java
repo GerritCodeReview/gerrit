@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.project.ProjectState;
@@ -43,13 +44,18 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /** Send notice about change being pushed directly into the repository. */
 public class DirectPushedSender extends NotificationEmail {
-
+  private static final Logger log =
+      LoggerFactory.getLogger(DirectPushedSender.class);
   public static interface Factory {
     DirectPushedSender create(Project project, ReceiveCommand cmd,
         RevCommit commit);
@@ -57,14 +63,17 @@ public class DirectPushedSender extends NotificationEmail {
 
   protected final ReceiveCommand cmd;
   protected final RevCommit commit;
+  private final AccountResolver accountResolver;
 
   @Inject
   protected DirectPushedSender(EmailArguments ea,
       @AnonymousCowardName String anonymousCowardName, SshInfo si,
+      AccountResolver accountResolver,
       @Assisted Project project, @Assisted ReceiveCommand cmd,
       @Assisted RevCommit commit) {
     super(ea, anonymousCowardName, "direct-push", project.getNameKey(),
         new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
+    this.accountResolver = accountResolver;
     this.cmd = cmd;
     this.commit = commit;
     setSshInfo(si);
@@ -91,6 +100,28 @@ public class DirectPushedSender extends NotificationEmail {
     return watch.getWatchers(type);
   }
 
+  @Override
+  protected Set<Account.Id> getAuthors() {
+    Set<Account.Id> authors = new HashSet<Account.Id>();
+
+    try {
+      String author = commit.getAuthorIdent().getEmailAddress();
+      Account a = accountResolver.find(author);
+      if (a != null) {
+        authors.add(a.getId());
+      }
+
+      String committer = commit.getCommitterIdent().getEmailAddress();
+      a = accountResolver.find(committer);
+      if (a != null) {
+        authors.add(a.getId());
+      }
+    } catch (OrmException e) {
+      log.warn("Can't get authors of direct push", e);
+    }
+    return authors;
+  }
+
   /** Format the message body by calling {@link #appendText(String)}. */
   @Override
   protected void format() throws EmailException {
@@ -104,6 +135,7 @@ public class DirectPushedSender extends NotificationEmail {
     super.init();
 
     includeWatchers(NotifyType.DIRECT_PUSHES);
+    rcptToAuthors(RecipientType.CC);
     setSubjectHeader();
     setCommitIdHeader();
   }

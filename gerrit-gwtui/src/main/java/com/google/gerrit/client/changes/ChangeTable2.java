@@ -218,7 +218,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       String name = labelNames.get(idx);
       int col = BASE_COLUMNS + idx;
 
-      LabelInfo label = c.label(name);
+      LabelInfo label = (LabelInfo) c.label(name);
       if (label == null) {
         table.clearCell(row, col);
         continue;

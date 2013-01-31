@@ -19,6 +19,7 @@ import java.util.EnumSet;
 /** Output options available when using {@code /changes/} RPCs. */
 public enum ListChangesOption {
   LABELS(0),
+  DETAILED_LABELS(8),
 
   /** Return information on the current patch set of the change. */
   CURRENT_REVISION(1),

@@ -21,6 +21,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_ACCOUNTS;
+import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
@@ -31,9 +32,12 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -216,7 +220,11 @@ public class ChangeJson {
     out._sortkey = in.getSortKey();
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
     out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
-    out.labels = options.contains(LABELS) ? labelsFor(cd) : null;
+    if (options.contains(DETAILED_LABELS)) {
+      out.detailed_labels = detailedLabelsFor(cd);
+    } else if (options.contains(LABELS)) {
+      out.labels = labelsFor(cd);
+    }
     out.finish();
 
     if (options.contains(ALL_REVISIONS) || options.contains(CURRENT_REVISION)) {
@@ -287,6 +295,7 @@ public class ChangeJson {
             default:
               break;
           }
+
           n.optional = n._status == SubmitRecord.Label.Status.MAY ? true : null;
           labels.put(r.label, n);
         }
@@ -327,6 +336,69 @@ public class ChangeJson {
             e.getValue().value = val != -1 ? val : null;
           }
         }
+      }
+    }
+    return labels;
+  }
+
+  private Map<String, DetailedLabelInfo> detailedLabelsFor(ChangeData cd)
+      throws OrmException {
+    ChangeControl ctl = control(cd);
+    if (ctl == null) {
+      return Collections.emptyMap();
+    }
+
+    PatchSet ps = cd.currentPatchSet(db);
+    if (ps == null) {
+      return Collections.emptyMap();
+    }
+
+    Map<String, DetailedLabelInfo> labels = Maps.newLinkedHashMap();
+    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true, false)) {
+      if (rec.labels == null) {
+        continue;
+      }
+      for (SubmitRecord.Label r : rec.labels) {
+        DetailedLabelInfo p = labels.get(r.label);
+        if (p == null || p._status.compareTo(r.status) < 0) {
+          DetailedLabelInfo n = new DetailedLabelInfo();
+          n._status = r.status;
+          n.optional = n._status == SubmitRecord.Label.Status.MAY ? true : null;
+
+          ApprovalType at = approvalTypes.byLabel(r.label);
+          if (at != null) {
+            PermissionRange range = ctl.getRange(Permission.forLabel(r.label));
+            Map<String, String> values = Maps.newLinkedHashMap();
+            for (ApprovalCategoryValue acv : at.getValues()) {
+              if (range.contains(acv.getValue())) {
+                values.put(acv.formatValue(), acv.getName());
+              }
+            }
+            if (values.isEmpty() ||
+                (values.size() == 1 && values.containsKey(" 0"))) {
+              values = null;
+            }
+            n.permitted_values = values;
+          }
+          labels.put(r.label, n);
+        }
+      }
+    }
+
+    Collection<PatchSetApproval> approvals = cd.currentApprovals(db);
+    for (Map.Entry<String, DetailedLabelInfo> e : labels.entrySet()) {
+      ApprovalType at = approvalTypes.byLabel(e.getKey());
+      for (PatchSetApproval psa : approvals) {
+        if (!psa.getCategoryId().equals(at.getCategory().getId())) {
+          continue;
+        }
+        if (e.getValue().approvals == null) {
+          e.getValue().approvals = Lists.newArrayList();
+        }
+        ApprovalInfo app = new ApprovalInfo(psa.getAccountId());
+        app.value = psa.getValue();
+        accountInfoCache.put(app);
+        e.getValue().approvals.add(app);
       }
     }
     return labels;
@@ -528,6 +600,7 @@ public class ChangeJson {
 
     AccountInfo owner;
     Map<String, LabelInfo> labels;
+    Map<String, DetailedLabelInfo> detailed_labels;
     String current_revision;
     Map<String, RevisionInfo> revisions;
     public Boolean _moreChanges;
@@ -591,6 +664,21 @@ public class ChangeJson {
     AccountInfo recommended;
     AccountInfo disliked;
     Short value;
+    Boolean optional;
+  }
+
+  static class ApprovalInfo extends AccountInfo {
+    short value;
+
+    ApprovalInfo(Account.Id id) {
+      super(id);
+    }
+  }
+
+  static class DetailedLabelInfo {
+    transient SubmitRecord.Label.Status _status;
+    Map<String, String> permitted_values;
+    List<ApprovalInfo> approvals;
     Boolean optional;
   }
 }

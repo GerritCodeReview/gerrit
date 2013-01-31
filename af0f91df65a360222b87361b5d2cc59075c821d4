@@ -87,6 +87,24 @@
       "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PIgAzRvM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-31T00:58:04Z",
+      "side": 1,
+      "message": "I think what you mean is ScreenLoadCallback is coded that way. No matter what we do about failures here, you can\u0027t have multiple ScreenLoadCallbacks in a group, because of the implementation of onSuccess:\n\n  public final void onSuccess(final T result) {\n    if (screen.isAttached()) {\n      preDisplay(result);\n      screen.display();\n      postDisplay();\n    }\n  }\n\nCalling preDisplay/display/postDisplay multiple times is no good. That\u0027s what I meant in the commit message about ScreenLoadCallback \"owning\" the screen.\n\nSo the pattern instead is to use N-1 generic AsyncCallbacks and 1 ScreenLoadCallback:\n\n  private Result1 result1;\n  ...\n  CallbackGroup cbs \u003d new CallbackGroup();\n  cbs.add(new AsyncCallback\u003cResult1\u003e() {\n      @Override\n      public void onSuccess(Result1 r) {\n        result1 \u003d r;\n      }\n\n      @Override\n      public void onFailure(Throwable caught) {\n        // Do nothing, ScreenLoadCallback.onFailure handles.\n      }\n    });\n  cbs.add(new ScreenLoadCallback\u003cResult2\u003e(this) {...});\n\nIf everything succeeds, the ScreenLoadCallback\u0027s display1 gets called, and result1 is guaranteed to have been set. If either RPC fails, ScreenLoadCallback.onFailure gets called.\n\nThis is what I have now.\n\nNow, we could still do what you said and short-circuit on the first onFailure. But because of the onSuccess issue we can still only have one ScreenLoadCallback. So the various onFailures would just be:\n\n  @Override\n  public void onFailure(Throwable caught) {\n    myScreenLoadCallback.onFailure(caught);\n  }\n\nThen no matter which one gets called, we do the normal ScreenLoadCallback behavior of displaying an error message.\n\nI don\u0027t care too strongly here, but it seems easier to have N-1 empty onFailure methods than N-1 delegate calls.",
+      "parentUuid": "PC-fZYH4",
+      "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

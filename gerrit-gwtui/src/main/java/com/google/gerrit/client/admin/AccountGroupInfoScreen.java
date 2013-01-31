@@ -95,12 +95,12 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       @Override
       public void onClick(final ClickEvent event) {
         final String newName = groupNameTxt.getText().trim();
-        Util.GROUP_SVC.renameGroup(getGroupId(), newName,
-            new GerritCallback<GroupDetail>() {
-              public void onSuccess(final GroupDetail groupDetail) {
+        GroupApi.renameGroup(getGroupUUID(), newName,
+            new GerritCallback<com.google.gerrit.client.VoidResult>() {
+              public void onSuccess(final com.google.gerrit.client.VoidResult result) {
                 saveName.setEnabled(false);
-                setPageTitle(Util.M.group(groupDetail.group.getName()));
-                display(groupDetail);
+                setPageTitle(Util.M.group(newName));
+                groupNameTxt.setText(newName);
               }
             });
       }

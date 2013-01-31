@@ -14,15 +14,17 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.TrackingId;
@@ -48,9 +50,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ChangeData {
   public static void ensureChangeLoaded(
@@ -80,7 +82,9 @@ public class ChangeData {
       for (PatchSet ps : db.get().patchSets().get(missing.keySet())) {
         ChangeData cd = missing.get(ps.getId());
         cd.currentPatchSet = ps;
-        cd.patches = Lists.newArrayList(ps);
+        if (cd.limitedIds == null) {
+          cd.patches = Lists.newArrayList(ps);
+        }
       }
     }
   }
@@ -108,9 +112,9 @@ public class ChangeData {
   private Change change;
   private String commitMessage;
   private PatchSet currentPatchSet;
+  private Set<PatchSet.Id> limitedIds;
   private Collection<PatchSet> patches;
-  private Collection<PatchSetApproval> approvals;
-  private Map<PatchSet.Id,Collection<PatchSetApproval>> approvalsMap;
+  private Multimap<PatchSet.Id, PatchSetApproval> approvals;
   private Collection<PatchSetApproval> currentApprovals;
   private String[] currentFiles;
   private Collection<PatchLineComment> comments;
@@ -133,6 +137,21 @@ public class ChangeData {
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
+  }
+
+  public void limitToPatchSets(Collection<PatchSet.Id> ids) {
+    limitedIds = Sets.newLinkedHashSetWithExpectedSize(ids.size());
+    for (PatchSet.Id id : ids) {
+      if (!id.getParentKey().equals(legacyId)) {
+        throw new IllegalArgumentException(String.format(
+            "invalid patch set %s for change %s", id, legacyId));
+      }
+      limitedIds.add(id);
+    }
+  }
+
+  public Collection<PatchSet.Id> getLimitedPatchSets() {
+    return limitedIds;
   }
 
   public void setCurrentFilePaths(String[] filePaths) {
@@ -241,13 +260,9 @@ public class ChangeData {
       Change c = change(db);
       if (c == null) {
         currentApprovals = Collections.emptyList();
-      } else if (approvals != null) {
-        Map<Id, Collection<PatchSetApproval>> map = approvalsMap(db);
-        currentApprovals = map.get(c.currentPatchSetId());
-        if (currentApprovals == null) {
-          currentApprovals = Collections.emptyList();
-          map.put(c.currentPatchSetId(), currentApprovals);
-        }
+      } else if (approvals != null &&
+          (limitedIds == null || limitedIds.contains(c.currentPatchSetId()))) {
+        return approvals.get(c.currentPatchSetId());
       } else {
         currentApprovals = db.get().patchSetApprovals()
             .byPatchSet(c.currentPatchSetId()).toList();
@@ -278,37 +293,60 @@ public class ChangeData {
     return commitMessage;
   }
 
+  /**
+   * @param db review database.
+   * @return patches for the change. If {@link #limitToPatchSets(Collection)}
+   *     was previously called, only contains patches with the specified IDs.
+   * @throws OrmException an error occurred reading the database.
+   */
   public Collection<PatchSet> patches(Provider<ReviewDb> db)
       throws OrmException {
     if (patches == null) {
-      patches = db.get().patchSets().byChange(legacyId).toList();
+      if (limitedIds != null) {
+        patches = Lists.newArrayList();
+        for (PatchSet ps : db.get().patchSets().byChange(legacyId)) {
+          if (limitedIds.contains(ps.getId())) {
+            patches.add(ps);
+          }
+        }
+      } else {
+        patches = db.get().patchSets().byChange(legacyId).toList();
+      }
     }
     return patches;
   }
 
+  /**
+   * @param db review database.
+   * @return patch set approvals for the change. If
+   *     {@link #limitToPatchSets(Collection)} was previously called, only contains
+   *     patches with the specified IDs.
+   * @throws OrmException an error occurred reading the database.
+   */
   public Collection<PatchSetApproval> approvals(Provider<ReviewDb> db)
       throws OrmException {
-    if (approvals == null) {
-      approvals = db.get().patchSetApprovals().byChange(legacyId).toList();
-    }
-    return approvals;
+    return approvalsMap(db).values();
   }
 
-  public Map<PatchSet.Id,Collection<PatchSetApproval>> approvalsMap(Provider<ReviewDb> db)
-      throws OrmException {
-    if (approvalsMap == null) {
-      Collection<PatchSetApproval> all = approvals(db);
-      approvalsMap = new HashMap<PatchSet.Id,Collection<PatchSetApproval>>(all.size());
-      for (PatchSetApproval psa : all) {
-        Collection<PatchSetApproval> c = approvalsMap.get(psa.getPatchSetId());
-        if (c == null) {
-          c = new ArrayList<PatchSetApproval>();
-          approvalsMap.put(psa.getPatchSetId(), c);
+  /**
+   * @param db review database.
+   * @return patch set approvals for the change, keyed by ID. If
+   *     {@link #limitToPatchSets(Collection)} was previously called, only
+   *     contains patches with the specified IDs.
+   * @throws OrmException an error occurred reading the database.
+   */
+  public Multimap<PatchSet.Id,PatchSetApproval> approvalsMap(
+      Provider<ReviewDb> db) throws OrmException {
+    if (approvals == null) {
+      approvals = ArrayListMultimap.create();
+      for (PatchSetApproval psa :
+          db.get().patchSetApprovals().byChange(legacyId)) {
+        if (limitedIds == null || limitedIds.contains(legacyId)) {
+          approvals.put(psa.getPatchSetId(), psa);
         }
-        c.add(psa);
       }
     }
-    return approvalsMap;
+    return approvals;
   }
 
   public Collection<PatchLineComment> comments(Provider<ReviewDb> db)

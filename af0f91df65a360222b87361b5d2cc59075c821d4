@@ -105,6 +105,24 @@
       "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PDHZrELE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-31T01:03:10Z",
+      "side": 1,
+      "message": "OK, now I agree with you. I\u0027ll go read the latest patch set...",
+      "parentUuid": "PIgAzRvM",
+      "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

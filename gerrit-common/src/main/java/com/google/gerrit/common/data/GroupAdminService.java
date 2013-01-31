@@ -17,14 +17,11 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
-import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
-
-import java.util.Set;
+import com.google.gwtjsonrpc.common.VoidResult;
 
 @RpcImpl(version = Version.V2_0)
 public interface GroupAdminService extends RemoteJsonService {
@@ -52,9 +49,4 @@ public interface GroupAdminService extends RemoteJsonService {
   @SignInRequired
   void addGroupInclude(AccountGroup.Id groupId, AccountGroup.UUID incGroupUUID,
       String incGroupName, AsyncCallback<GroupDetail> callback);
-
-  @Audit
-  @SignInRequired
-  void deleteGroupIncludes(AccountGroup.Id groupId,
-      Set<AccountGroupIncludeByUuid.Key> keys, AsyncCallback<VoidResult> callback);
 }

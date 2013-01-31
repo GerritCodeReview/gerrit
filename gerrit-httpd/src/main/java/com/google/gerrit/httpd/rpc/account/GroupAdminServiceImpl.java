@@ -21,7 +21,6 @@ import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
@@ -37,8 +36,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
@@ -143,64 +140,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         return groupDetailFactory.create(groupId).call();
-      }
-    });
-  }
-
-  public void deleteGroupIncludes(final AccountGroup.Id groupId,
-      final Set<AccountGroupIncludeByUuid.Key> keys,
-      final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException,
-          NoSuchGroupException, Failure {
-        final GroupControl control = groupControlFactory.validateFor(groupId);
-        AccountGroup group = groupCache.get(groupId);
-        if (group.getType() != AccountGroup.Type.INTERNAL) {
-          throw new Failure(new NameAlreadyUsedException());
-        }
-
-        for (final AccountGroupIncludeByUuid.Key k : keys) {
-          if (!groupId.equals(k.getGroupId())) {
-            throw new Failure(new NoSuchEntityException());
-          }
-        }
-
-        final Account.Id me = getAccountId();
-        final Set<AccountGroup.UUID> groupsToEvict = new HashSet<AccountGroup.UUID>();
-        for (final AccountGroupIncludeByUuid.Key k : keys) {
-          final AccountGroupIncludeByUuid m =
-              db.accountGroupIncludesByUuid().get(k);
-          if (m != null) {
-            if (!control.canRemoveGroup(m.getIncludeUUID())) {
-              throw new Failure(new NoSuchEntityException());
-            }
-
-            AccountGroupIncludeByUuidAudit audit = null;
-            for (AccountGroupIncludeByUuidAudit a : db
-                .accountGroupIncludesByUuidAudit().byGroupInclude(
-                    m.getGroupId(), m.getIncludeUUID())) {
-              if (a.isActive()) {
-                audit = a;
-                break;
-              }
-            }
-
-            if (audit != null) {
-              audit.removed(me);
-              db.accountGroupIncludesByUuidAudit().update(
-                  Collections.singleton(audit));
-            }
-            db.accountGroupIncludesByUuid().delete(Collections.singleton(m));
-            groupsToEvict.add(k.getIncludeUUID());
-          }
-        }
-        for (AccountGroup.UUID uuid : groupsToEvict) {
-          groupIncludeCache.evictMemberIn(uuid);
-        }
-        if (!groupsToEvict.isEmpty()) {
-          groupIncludeCache.evictMembersOf(group.getGroupUUID());
-        }
-        return VoidResult.INSTANCE;
       }
     });
   }

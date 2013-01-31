@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
@@ -22,6 +23,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 public class ChangeInfo extends JavaScriptObject {
@@ -119,6 +121,38 @@ public class ChangeInfo extends JavaScriptObject {
     }-*/;
 
     protected LabelInfo() {
+    }
+  }
+
+  public static class ApprovalInfo extends JavaScriptObject {
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native String email() /*-{ return this.name; }-*/;
+    public final native short value() /*-{ return this.value; }-*/;
+
+    protected ApprovalInfo() {
+    }
+  }
+
+  public static class DetailedLabelInfo extends JavaScriptObject {
+    public final native String name() /*-{ return this._name; }-*/;
+
+    public final Set<String> permitted_values() {
+      return Natives.keys(_permitted_values());
+    }
+
+    public final native String value_text(String value)
+    /*-{ return this.permitted_values[value]; }-*/;
+
+    public final List<ApprovalInfo> approvals() {
+      return _approvals().asList();
+    }
+
+    private final native NativeList<ApprovalInfo> _permitted_values()
+    /*-{ return this.permitted_values; }-*/;
+    private final native NativeList<ApprovalInfo> _approvals()
+    /*-{ return this.approvals; }-*/;
+
+    protected DetailedLabelInfo() {
     }
   }
 }

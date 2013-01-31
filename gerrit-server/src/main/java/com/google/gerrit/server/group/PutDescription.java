@@ -16,6 +16,7 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -24,7 +25,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.group.PutDescription.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

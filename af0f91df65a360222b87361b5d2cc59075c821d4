@@ -123,6 +123,24 @@
       "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PIsA8fsE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-01-31T01:06:56Z",
+      "side": 1,
+      "message": "As a side note, the other reason I did it this way is that I figured that when you write an AsyncCallback, you are guaranteed that exactly one of onSuccess or onFailure is called. This implementation guarantees that. I wouldn\u0027t be surprised if it\u0027s not an issue in practice.",
+      "parentUuid": "PDHZrELE",
+      "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

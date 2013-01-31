@@ -96,6 +96,9 @@ public final class PatchSetApproval {
   @Column(id = 5, length = 16, notNull = false)
   protected String changeSortKey;
 
+  /** Label name copied from corresponding {@link ApprovalCategory}. */
+  protected String label;
+
   protected PatchSetApproval() {
   }
 
@@ -153,5 +156,13 @@ public final class PatchSetApproval {
   public void cache(final Change c) {
     changeOpen = c.open;
     changeSortKey = c.sortKey;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  public void setLabel(String label) {
+    this.label = label;
   }
 }

@@ -131,6 +131,10 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       given = db.patchSetApprovals() //
           .byPatchSetUser(patchSetId, user.getAccountId()) //
           .toList();
+      for (PatchSetApproval approval : given) {
+        approval.setLabel(approvalTypes.byId(
+            approval.getCategoryId()).getCategory().getLabelName());
+      }
 
       boolean couldSubmit = false;
       List<SubmitRecord> submitRecords = control.canSubmit(db, patchSet);

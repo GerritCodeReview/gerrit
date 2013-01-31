@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.NativeList;
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,6 +28,15 @@ import java.util.List;
 import java.util.Set;
 
 public class ChangeInfo extends JavaScriptObject {
+  public final void init() {
+    if (labels0() != null) {
+      labels0().copyKeysIntoChildren("_name");
+    }
+    if (detailed_labels0() != null) {
+      detailed_labels0().copyKeysIntoChildren("_name");
+    }
+  }
+
   public final Project.NameKey project_name_key() {
     return new Project.NameKey(project());
   }
@@ -60,11 +70,11 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public final Set<String> labels() {
-    return Natives.keys(labels0());
+    return labels0().keySet();
   }
 
   public final Set<String> detailed_labels() {
-    return Natives.keys(detailed_labels0());
+    return detailed_labels0().keySet();
   }
 
   public final native String id() /*-{ return this.id; }-*/;
@@ -80,10 +90,12 @@ public class ChangeInfo extends JavaScriptObject {
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
   public final native String _sortkey() /*-{ return this._sortkey; }-*/;
-  private final native JavaScriptObject labels0() /*-{ return this.labels; }-*/;
+  private final native NativeMap<LabelInfo> labels0() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
-  private final native JavaScriptObject detailed_labels0()
+
+  private final native NativeMap<DetailedLabelInfo> detailed_labels0()
   /*-{ return this.detailed_labels; }-*/;
+
   public final native DetailedLabelInfo detailed_label(String n)
   /*-{ return this.detailed_labels[n]; }-*/;
   final native int _number() /*-{ return this._number; }-*/;

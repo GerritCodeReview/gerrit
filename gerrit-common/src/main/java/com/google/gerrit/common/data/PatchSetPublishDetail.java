@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -123,9 +122,9 @@ public class PatchSetPublishDetail {
     return null;
   }
 
-  public PatchSetApproval getChangeApproval(ApprovalCategory.Id id) {
+  public PatchSetApproval getChangeApproval(String label) {
     for (PatchSetApproval a : given) {
-      if (a.getCategoryId().equals(id)) {
+      if (a.getLabel() != null && a.getLabel().equals(label)) {
         return a;
       }
     }

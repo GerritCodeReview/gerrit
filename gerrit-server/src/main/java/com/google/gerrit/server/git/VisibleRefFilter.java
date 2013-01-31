@@ -81,7 +81,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       } else if (PatchSet.isRef(ref.getName())) {
         // Reference to a patch set is visible if the change is visible.
         //
-        if (visibleChanges.contains(Change.Id.fromRef(ref.getName()))) {
+        if (showChanges && visibleChanges.contains(Change.Id.fromRef(ref.getName()))) {
           result.put(ref.getName(), ref);
         }
 

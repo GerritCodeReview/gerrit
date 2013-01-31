@@ -54,6 +54,7 @@ public class Module extends RestApiModule {
     delete(REVIEWER_KIND).to(DeleteReviewer.class);
 
     child(CHANGE_KIND, "revisions").to(Revisions.class);
+    get(REVISION_KIND, "review").to(GetReview.class);
     post(REVISION_KIND, "review").to(PostReview.class);
     post(REVISION_KIND, "submit").to(Submit.class);
 

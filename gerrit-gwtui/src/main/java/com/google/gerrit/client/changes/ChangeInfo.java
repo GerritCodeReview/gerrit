@@ -68,7 +68,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public final Set<String> labels() {
-    return Natives.keys(labels0());
+    return labels0().keySet();
   }
 
   public final native String id() /*-{ return this.id; }-*/;
@@ -84,7 +84,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
   public final native String _sortkey() /*-{ return this._sortkey; }-*/;
-  private final native JavaScriptObject labels0() /*-{ return this.labels; }-*/;
+  private final native NativeMap<LabelInfo> labels0() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
 
   private final native NativeMap<JavaScriptObject> _permitted_labels()

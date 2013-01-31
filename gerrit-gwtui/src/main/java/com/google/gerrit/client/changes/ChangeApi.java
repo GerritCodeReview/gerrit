@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -60,6 +61,10 @@ public class ChangeApi {
     }
   }
 
+  public static RestApi revision(PatchSet.Id id) {
+    return call(id);
+  }
+
   /** Submit a specific revision of a change. */
   public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
     SubmitInput in = SubmitInput.create();
@@ -96,6 +101,10 @@ public class ChangeApi {
 
   private static RestApi call(int id, String commit, String action) {
     return change(id).view("revisions").id(commit).view(action);
+  }
+
+  private static RestApi call(PatchSet.Id id) {
+    return change(id.getParentKey().get()).view("revisions").id(id.get());
   }
 
   private static RestApi change(int id) {

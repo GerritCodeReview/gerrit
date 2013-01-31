@@ -23,6 +23,5 @@ public class NoSshModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(SshInfo.class).to(NoSshInfo.class);
-    bind(SshKeyCache.class).to(NoSshKeyCache.class);
   }
 }

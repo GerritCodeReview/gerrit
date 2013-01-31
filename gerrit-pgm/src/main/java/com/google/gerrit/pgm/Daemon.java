@@ -57,6 +57,7 @@ import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.ssh.NoSshModule;
+import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
@@ -316,7 +317,11 @@ public class Daemon extends SiteProgram {
         }
       });
     }
-    modules.add(SshKeyCacheImpl.module());
+    if (sshd) {
+      modules.add(SshKeyCacheImpl.module());
+    } else {
+      modules.add(NoSshKeyCache.module());
+    }
     if (!slave) {
       modules.add(new MasterNodeStartup());
     }

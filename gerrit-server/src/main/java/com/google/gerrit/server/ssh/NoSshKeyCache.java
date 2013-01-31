@@ -16,8 +16,21 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
 
-class NoSshKeyCache implements SshKeyCache {
+
+public class NoSshKeyCache implements SshKeyCache {
+
+  public static Module module() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(SshKeyCache.class).to(NoSshKeyCache.class);
+      }
+    };
+  }
+
   @Override
   public void evict(String username) {
   }

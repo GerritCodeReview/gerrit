@@ -103,7 +103,16 @@ public class ChangeInfo extends JavaScriptObject {
       }
     }
 
-    public final native String name() /*-{ return this._name; }-*/;
+    public final native String category() /*-{ return this.category; }-*/;
+    public final native String id() /*-{ return this.id; }-*/;
+
+    public final Set<String> values() {
+      return Natives.keys(values0());
+    }
+
+    public final native JavaScriptObject values0() /*-{ return this.values; }-*/;
+    public final native String value(String n) /*-{ return this.values[n]; }-*/;
+
     public final native AccountInfo approved() /*-{ return this.approved; }-*/;
     public final native AccountInfo rejected() /*-{ return this.rejected; }-*/;
 

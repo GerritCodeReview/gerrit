@@ -52,6 +52,24 @@
       "revId": "aa61205818bea1bf955e9f64b713ea582e35571c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PC7fj6Co",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-31T01:35:22Z",
+      "side": 1,
+      "message": "ChangeDetailFactory only includes the patch set information on changes in the \"depends on\" list.  See at line 351:\n\n  dependsOn.add(newChangeInfo(ac, ancestorPatchIds));\n\nFor the \"needed by\" list it passes null (line 363):\n\n  neededBy.add(newChangeInfo(ac, null));\n\nI\u0027ve reworked my change to handle the null case and display \u0027-\u0027 instead.  New patch set coming in a few minutes.\n\nI don\u0027t think it\u0027s worth reworking the ChangeDetailFactory to include the data.  As a user, having the PS there for the \"depends on\" makes sense, but I don\u0027t think it adds any value to to know specifically which PS of an other change depends on my change.",
+      "parentUuid": "PIWFrNrE",
+      "revId": "aa61205818bea1bf955e9f64b713ea582e35571c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

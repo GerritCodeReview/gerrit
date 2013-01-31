@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PCzfw.O8",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-31T00:24:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure \"rule\" is the best name. Would require be better?\n\n  submit_rule(submit(V, CR)) :-\n    require(-2, 2, \u0027Code-Review\u0027, CR),\n    require(-1, 1, \u0027Verified\u0027, V).\n\nNope don\u0027t like that either because of the min side. rule in my examples were just a stupid name that was short. But in the standard library I think we need to do better.\n\nThe part that really matters here is the part in the predicate header, the \"Label, label(Label, S)\". Its awkward to do this with the max_with_block standard function.",
+      "revId": "bcbf7377450b8e7e6d7f6d9bc86d5fc505feef6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -69,6 +69,24 @@
       "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PC-fZYH4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-31T00:44:42Z",
+      "side": 1,
+      "message": "My suggestion was to call only a single onFailure(). Not all of them.\n\nUnder the assumption that every onFailure() is basically \"show the dialog and do nothing else\". Because almost all of them are coded that way.\n\nIf you call onFailure() for 2 callbacks, you\u0027ll get 2 dialogs up. One on top of the other. It looks pretty hideous.",
+      "parentUuid": "PIsAjHqk",
+      "revId": "af0f91df65a360222b87361b5d2cc59075c821d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

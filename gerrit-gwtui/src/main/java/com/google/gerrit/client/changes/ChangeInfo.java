@@ -14,17 +14,27 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 
 import java.sql.Timestamp;
 import java.util.Set;
 
 public class ChangeInfo extends JavaScriptObject {
+  public final void init() {
+    if (labels0() != null) {
+      labels0().copyKeysIntoChildren("_name");
+    }
+  }
+
   public final Project.NameKey project_name_key() {
     return new Project.NameKey(project());
   }
@@ -74,8 +84,17 @@ public class ChangeInfo extends JavaScriptObject {
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
   public final native String _sortkey() /*-{ return this._sortkey; }-*/;
-  private final native JavaScriptObject labels0() /*-{ return this.labels; }-*/;
+  private final native NativeMap<LabelInfo> labels0() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
+
+  private final native NativeMap<JavaScriptObject> _permitted_labels()
+  /*-{ return this.permitted_labels; }-*/;
+  public final Set<String> permitted_labels() {
+    return Natives.keys(_permitted_labels());
+  }
+  public final native JsArrayString permitted_values(String n)
+  /*-{ return this.permitted_labels[n]; }-*/;
+
   final native int _number() /*-{ return this._number; }-*/;
   final native boolean _more_changes()
   /*-{ return this._more_changes ? true : false; }-*/;
@@ -109,6 +128,15 @@ public class ChangeInfo extends JavaScriptObject {
 
     public final native AccountInfo recommended() /*-{ return this.recommended; }-*/;
     public final native AccountInfo disliked() /*-{ return this.disliked; }-*/;
+
+    public final native JsArray<ApprovalInfo> all() /*-{ return this.all; }-*/;
+
+    private final native NativeMap<NativeString> _values() /*-{ return this.values; }-*/;
+    public final Set<String> values() {
+      return Natives.keys(_values());
+    }
+    public final native String value_text(String n) /*-{ return this.values[n]; }-*/;
+
     public final native boolean optional() /*-{ return this.optional ? true : false; }-*/;
     final native short _value()
     /*-{
@@ -119,6 +147,16 @@ public class ChangeInfo extends JavaScriptObject {
     }-*/;
 
     protected LabelInfo() {
+    }
+  }
+
+  public static class ApprovalInfo extends JavaScriptObject {
+    public final native int _account_id() /*-{ return this._account_id || 0; }-*/;
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native String email() /*-{ return this.email; }-*/;
+    public final native short value() /*-{ return this.value; }-*/;
+
+    protected ApprovalInfo() {
     }
   }
 }

@@ -140,6 +140,10 @@ default. Optional fields are:
 * `LABELS`: a summary of each label required for submit, and
   approvers that have granted (or rejected) with that label.
 
+* `DETAILED_LABELS`: detailed label information, including numeric
+  values of all existing approvals, recognized label values, and
+  values permitted to be set by the current user.
+
 * `CURRENT_REVISION`: describe the current revision (patch set)
   of the change, including the commit SHA-1 and URLs to fetch from.
 

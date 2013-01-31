@@ -21,19 +21,25 @@ import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_ACCOUNTS;
+import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -219,7 +225,11 @@ public class ChangeJson {
     out._sortkey = in.getSortKey();
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
     out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
-    out.labels = options.contains(LABELS) ? labelsFor(cd) : null;
+    out.labels = labelsFor(cd, options.contains(LABELS),
+        options.contains(DETAILED_LABELS));
+    if (options.contains(DETAILED_LABELS)) {
+      out.permitted_labels = permittedLabels(cd);
+    }
     out.finish();
 
     if (options.contains(ALL_REVISIONS) || options.contains(CURRENT_REVISION)) {
@@ -259,7 +269,24 @@ public class ChangeJson {
     return ctrl;
   }
 
-  private Map<String, LabelInfo> labelsFor(ChangeData cd) throws OrmException {
+  private List<SubmitRecord> submitRecords(ChangeData cd) throws OrmException {
+    if (cd.getSubmitRecords() != null) {
+      return cd.getSubmitRecords();
+    }
+    ChangeControl ctl = control(cd);
+    if (ctl == null) {
+      return ImmutableList.of();
+    }
+    PatchSet ps = cd.currentPatchSet(db);
+    if (ps == null) {
+      return ImmutableList.of();
+    }
+    cd.setSubmitRecords(ctl.canSubmit(db.get(), ps, cd, true, false));
+    return cd.getSubmitRecords();
+  }
+
+  private Map<String, LabelInfo> labelsFor(ChangeData cd, boolean standard,
+      boolean detailed) throws OrmException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
       return Collections.emptyMap();
@@ -271,7 +298,31 @@ public class ChangeJson {
     }
 
     Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
-    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true, false)) {
+    initLabels(cd, labels, standard);
+
+    Collection<PatchSetApproval> approvals = null;
+    if (detailed) {
+      approvals = cd.currentApprovals(db);
+      setAllApprovals(labels, approvals);
+    }
+    for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
+      ApprovalType type = approvalTypes.byLabel(e.getKey());
+      if (type == null) {
+        continue; // TODO: Support arbitrary labels.
+      }
+      if (standard) {
+        approvals = setRecommendedAndDisliked(cd, approvals, type, e.getValue());
+      }
+      if (detailed) {
+        setLabelValues(type, e.getValue());
+      }
+    }
+    return labels;
+  }
+
+  private void initLabels(ChangeData cd, Map<String, LabelInfo> labels,
+      boolean standard) throws OrmException {
+    for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
       }
@@ -280,59 +331,127 @@ public class ChangeJson {
         if (p == null || p._status.compareTo(r.status) < 0) {
           LabelInfo n = new LabelInfo();
           n._status = r.status;
-          switch (r.status) {
-            case OK:
-              n.approved = accountLoader.get(r.appliedBy);
-              break;
-            case REJECT:
-              n.rejected = accountLoader.get(r.appliedBy);
-              break;
-            default:
-              break;
+          if (standard) {
+            switch (r.status) {
+              case OK:
+                n.approved = accountLoader.get(r.appliedBy);
+                break;
+              case REJECT:
+                n.rejected = accountLoader.get(r.appliedBy);
+                break;
+              default:
+                break;
+            }
           }
+
           n.optional = n._status == SubmitRecord.Label.Status.MAY ? true : null;
           labels.put(r.label, n);
         }
       }
     }
+  }
 
-    Collection<PatchSetApproval> approvals = null;
-    for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
-      if (e.getValue().approved != null || e.getValue().rejected != null) {
+  private Collection<PatchSetApproval> setRecommendedAndDisliked(ChangeData cd,
+      Collection<PatchSetApproval> approvals, ApprovalType type,
+      LabelInfo label) throws OrmException {
+    if (label.approved != null || label.rejected != null) {
+      return approvals;
+    }
+
+    if (type.getMin() == null || type.getMax() == null) {
+      // Unknown or misconfigured type can't have intermediate scores.
+      return approvals;
+    }
+
+    short min = type.getMin().getValue();
+    short max = type.getMax().getValue();
+    if (-1 <= min && max <= 1) {
+      // Types with a range of -1..+1 can't have intermediate scores.
+      return approvals;
+    }
+
+    if (approvals == null) {
+      approvals = cd.currentApprovals(db);
+    }
+    for (PatchSetApproval psa : approvals) {
+      short val = psa.getValue();
+      if (val != 0 && min < val && val < max
+          && psa.getCategoryId().equals(type.getCategory().getId())) {
+        if (0 < val) {
+          label.recommended = accountLoader.get(psa.getAccountId());
+          label.value = val != 1 ? val : null;
+        } else {
+          label.disliked = accountLoader.get(psa.getAccountId());
+          label.value = val != -1 ? val : null;
+        }
+      }
+    }
+    return approvals;
+  }
+
+  private void setAllApprovals(Map<String, LabelInfo> labels,
+      Collection<PatchSetApproval> approvals) {
+    for (PatchSetApproval psa : approvals) {
+      ApprovalType at = approvalTypes.byId(psa.getCategoryId());
+      if (at == null) {
         continue;
       }
+      LabelInfo p = labels.get(at.getCategory().getLabelName());
+      if (p == null) {
+        continue; // TODO: support arbitrary labels.
+      }
+      if (p.all == null) {
+        p.all = Lists.newArrayList();
+      }
+      ApprovalInfo ai = new ApprovalInfo(psa.getAccountId());
+      accountLoader.put(ai);
+      ai.value = psa.getValue();
+      p.all.add(ai);
+    }
+  }
 
-      ApprovalType type = approvalTypes.byLabel(e.getKey());
-      if (type == null || type.getMin() == null || type.getMax() == null) {
-        // Unknown or misconfigured type can't have intermediate scores.
+  private static boolean isOnlyZero(Collection<String> values) {
+    return values.isEmpty() || (values.size() == 1 && values.contains(" 0"));
+  }
+
+  private void setLabelValues(ApprovalType type, LabelInfo label) {
+    label.values = Maps.newLinkedHashMap();
+    for (ApprovalCategoryValue acv : type.getValues()) {
+      label.values.put(acv.formatValue(), acv.getName());
+    }
+    if (isOnlyZero(label.values.keySet())) {
+      label.values = null;
+    }
+  }
+
+
+  private Map<String, Collection<String>> permittedLabels(ChangeData cd)
+      throws OrmException {
+    ChangeControl ctl = control(cd);
+    ListMultimap<String, String> permitted = LinkedListMultimap.create();
+    for (SubmitRecord rec : submitRecords(cd)) {
+      if (rec.labels == null) {
         continue;
       }
-
-      short min = type.getMin().getValue();
-      short max = type.getMax().getValue();
-      if (-1 <= min && max <= 1) {
-        // Types with a range of -1..+1 can't have intermediate scores.
-        continue;
-      }
-
-      if (approvals == null) {
-        approvals = cd.currentApprovals(db);
-      }
-      for (PatchSetApproval psa : approvals) {
-        short val = psa.getValue();
-        if (val != 0 && min < val && val < max
-            && psa.getCategoryId().equals(type.getCategory().getId())) {
-          if (0 < val) {
-            e.getValue().recommended = accountLoader.get(psa.getAccountId());
-            e.getValue().value = val != 1 ? val : null;
-          } else {
-            e.getValue().disliked = accountLoader.get(psa.getAccountId());
-            e.getValue().value = val != -1 ? val : null;
+      for (SubmitRecord.Label r : rec.labels) {
+        ApprovalType type = approvalTypes.byLabel(r.label);
+        if (type == null) {
+          continue; // TODO: Support arbitrary labels.
+        }
+        PermissionRange range = ctl.getRange(Permission.forLabel(r.label));
+        for (ApprovalCategoryValue acv : type.getValues()) {
+          if (range.contains(acv.getValue())) {
+            permitted.put(r.label, acv.formatValue());
           }
         }
       }
     }
-    return labels;
+    for (Collection<String> values : permitted.asMap().values()) {
+      if (isOnlyZero(values)) {
+        values.clear();
+      }
+    }
+    return permitted.asMap();
   }
 
   private boolean isChangeReviewed(ChangeData cd) throws OrmException {
@@ -531,6 +650,7 @@ public class ChangeJson {
 
     AccountInfo owner;
     Map<String, LabelInfo> labels;
+    Map<String, Collection<String>> permitted_labels;
     String current_revision;
     Map<String, RevisionInfo> revisions;
     public Boolean _moreChanges;
@@ -588,12 +708,24 @@ public class ChangeJson {
 
   static class LabelInfo {
     transient SubmitRecord.Label.Status _status;
+
     AccountInfo approved;
     AccountInfo rejected;
-
     AccountInfo recommended;
     AccountInfo disliked;
+    List<ApprovalInfo> all;
+
+    Map<String, String> values;
+
     Short value;
     Boolean optional;
+  }
+
+  static class ApprovalInfo extends AccountInfo {
+    short value;
+
+    ApprovalInfo(Account.Id id) {
+      super(id);
+    }
   }
 }

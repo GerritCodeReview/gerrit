@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.MemberInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -41,7 +42,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -252,8 +252,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
       if (!ids.isEmpty()) {
         GroupApi.removeMembers(getGroupUUID(), ids,
-            new GerritCallback<com.google.gerrit.client.VoidResult>() {
-              public void onSuccess(final com.google.gerrit.client.VoidResult result) {
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
                   final AccountGroupMember k = getRowItem(row);
                   if (k != null && ids.contains(k.getAccountId())) {
@@ -329,7 +329,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         }
       }
       if (!keys.isEmpty()) {
-        Util.GROUP_SVC.deleteGroupIncludes(getGroupId(), keys,
+        GroupApi.removeIncludedGroups(getGroupUUID(), keys,
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {

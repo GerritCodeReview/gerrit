@@ -104,6 +104,16 @@ public class ChangeInfo extends JavaScriptObject {
     }
 
     public final native String name() /*-{ return this._name; }-*/;
+
+    public final Set<String> permitted_values() {
+      return Natives.keys(_permitted_values());
+    }
+
+    private final native JavaScriptObject _permitted_values()
+    /*-{ return this.permitted_values; }-*/;
+    public final native String value_text(String value)
+    /*-{ return this.permitted_values[n]; }-*/;
+
     public final native AccountInfo approved() /*-{ return this.approved; }-*/;
     public final native AccountInfo rejected() /*-{ return this.rejected; }-*/;
 

@@ -20,6 +20,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
@@ -30,9 +31,12 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -220,7 +224,9 @@ public class ChangeJson {
     out._sortkey = in.getSortKey();
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
     out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
-    out.labels = options.contains(LABELS) ? labelsFor(cd) : null;
+    if (options.contains(LABELS) || options.contains(DETAILED_LABELS)) {
+      out.labels = labelsFor(cd, options.contains(DETAILED_LABELS));
+    }
     out.finish();
 
     if (options.contains(ALL_REVISIONS) || options.contains(CURRENT_REVISION)) {
@@ -272,7 +278,8 @@ public class ChangeJson {
     return ctrl;
   }
 
-  private Map<String, LabelInfo> labelsFor(ChangeData cd) throws OrmException {
+  private Map<String, LabelInfo> labelsFor(ChangeData cd, boolean detailed)
+      throws OrmException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
       return Collections.emptyMap();
@@ -303,7 +310,25 @@ public class ChangeJson {
             default:
               break;
           }
+
           n.optional = n._status == SubmitRecord.Label.Status.MAY ? true : null;
+          if (detailed) {
+            ApprovalType at = approvalTypes.byLabel(r.label);
+            if (at != null) {
+              PermissionRange range = ctl.getRange(Permission.forLabel(r.label));
+              Map<String, String> values = Maps.newLinkedHashMap();
+              for (ApprovalCategoryValue acv : at.getValues()) {
+                if (range.contains(acv.getValue())) {
+                  values.put(acv.formatValue(), acv.getName());
+                }
+              }
+              if (values.isEmpty() ||
+                  (values.size() == 1 && values.containsKey(" 0"))) {
+                values = null;
+              }
+              n.permitted_values = values;
+            }
+          }
           labels.put(r.label, n);
         }
       }
@@ -601,6 +626,8 @@ public class ChangeJson {
 
   static class LabelInfo {
     transient SubmitRecord.Label.Status _status;
+
+    Map<String, String> permitted_values;
     AccountAttribute approved;
     AccountAttribute rejected;
 

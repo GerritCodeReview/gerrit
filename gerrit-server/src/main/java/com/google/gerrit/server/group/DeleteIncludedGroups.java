@@ -156,7 +156,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
         throws MethodNotAllowedException, AuthException, BadRequestException,
         OrmException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
-      in.groups = ImmutableList.of(resource.getMember().toString());
+      in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);
     }
   }

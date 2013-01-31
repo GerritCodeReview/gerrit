@@ -19,7 +19,6 @@ import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -148,14 +147,14 @@ public class GroupApi {
 
   /** Remove included groups from a group. */
   public static void removeIncludedGroups(AccountGroup.UUID group,
-      Set<AccountGroupIncludeByUuid.Key> ids, final AsyncCallback<VoidResult> cb) {
+      Set<AccountGroup.UUID> ids, final AsyncCallback<VoidResult> cb) {
     if (ids.size() == 1) {
-      AccountGroupIncludeByUuid.Key g = ids.iterator().next();
-      groups(group).id(g.getIncludeUUID().get()).delete(cb);
+      AccountGroup.UUID g = ids.iterator().next();
+      groups(group).id(g.get()).delete(cb);
     } else {
       IncludedGroupInput in = IncludedGroupInput.create();
-      for (AccountGroupIncludeByUuid.Key g : ids) {
-        in.add_group(g.getIncludeUUID().get());
+      for (AccountGroup.UUID g : ids) {
+        in.add_group(g.get());
       }
       group(group).view("groups.delete").post(in, cb);
     }

@@ -17,18 +17,13 @@ package com.google.gerrit.httpd.rpc.account;
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupOptions;
-import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmException;
@@ -40,7 +35,6 @@ import java.util.Collections;
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
   private final GroupCache groupCache;
-  private final GroupIncludeCache groupIncludeCache;
   private final GroupControl.Factory groupControlFactory;
 
   private final RenameGroup.Factory renameGroupFactory;
@@ -49,13 +43,11 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   @Inject
   GroupAdminServiceImpl(final Provider<ReviewDb> schema,
       final Provider<IdentifiedUser> currentUser,
-      final GroupIncludeCache groupIncludeCache,
       final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
       final RenameGroup.Factory renameGroupFactory,
       final GroupDetailHandler.Factory groupDetailFactory) {
     super(schema, currentUser);
-    this.groupIncludeCache = groupIncludeCache;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.renameGroupFactory = renameGroupFactory;
@@ -104,44 +96,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   public void renameGroup(final AccountGroup.Id groupId, final String newName,
       final AsyncCallback<GroupDetail> callback) {
     renameGroupFactory.create(groupId, newName).to(callback);
-  }
-
-  public void addGroupInclude(final AccountGroup.Id groupId,
-      final AccountGroup.UUID incGroupUUID, final String incGroupName,
-      final AsyncCallback<GroupDetail> callback) {
-    run(callback, new Action<GroupDetail>() {
-      public GroupDetail run(ReviewDb db) throws OrmException, Failure,
-          NoSuchGroupException {
-        final GroupControl control = groupControlFactory.validateFor(groupId);
-        AccountGroup group = groupCache.get(groupId);
-        if (group.getType() != AccountGroup.Type.INTERNAL) {
-          throw new Failure(new NameAlreadyUsedException());
-        }
-
-        if (incGroupUUID == null) {
-          throw new Failure(new NoSuchGroupException(incGroupName));
-        }
-
-        if (!control.canAddGroup(incGroupUUID)) {
-          throw new Failure(new NoSuchEntityException());
-        }
-
-        final AccountGroupIncludeByUuid.Key key =
-            new AccountGroupIncludeByUuid.Key(groupId, incGroupUUID);
-        AccountGroupIncludeByUuid m = db.accountGroupIncludesByUuid().get(key);
-        if (m == null) {
-          m = new AccountGroupIncludeByUuid(key);
-          db.accountGroupIncludesByUuidAudit().insert(
-              Collections.singleton(new AccountGroupIncludeByUuidAudit(m,
-                  getAccountId())));
-          db.accountGroupIncludesByUuid().insert(Collections.singleton(m));
-          groupIncludeCache.evictMemberIn(incGroupUUID);
-          groupIncludeCache.evictMembersOf(group.getGroupUUID());
-        }
-
-        return groupDetailFactory.create(groupId).call();
-      }
-    });
   }
 
   private void assertAmGroupOwner(final ReviewDb db, final AccountGroup group)

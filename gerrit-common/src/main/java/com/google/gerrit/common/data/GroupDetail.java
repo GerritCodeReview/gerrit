@@ -22,7 +22,6 @@ import java.util.List;
 
 public class GroupDetail {
   public AccountInfoCache accounts;
-  public GroupInfoCache groups;
   public AccountGroup group;
   public List<AccountGroupMember> members;
   public List<AccountGroupIncludeByUuid> includes;
@@ -34,10 +33,6 @@ public class GroupDetail {
 
   public void setAccounts(AccountInfoCache c) {
     accounts = c;
-  }
-
-  public void setGroups(GroupInfoCache c) {
-    groups = c;
   }
 
   public void setGroup(AccountGroup g) {

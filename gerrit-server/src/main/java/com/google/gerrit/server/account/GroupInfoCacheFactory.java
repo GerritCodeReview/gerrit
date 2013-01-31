@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.GroupInfoCache;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.Inject;
 
-import java.util.List;
 import java.util.Map;
 
 /** Efficiently builds a {@link GroupInfoCache}. */
@@ -61,18 +58,5 @@ public class GroupInfoCacheFactory {
   public GroupDescription.Basic get(final AccountGroup.UUID uuid) {
     want(uuid);
     return out.get(uuid);
-  }
-
-  /**
-   * Create an GroupInfoCache with the currently loaded AccountGroup entities.
-   * */
-  public GroupInfoCache create() {
-    List<GroupInfo> r = Lists.newArrayListWithCapacity(out.size());
-    for (GroupDescription.Basic a : out.values()) {
-      if (a != null) {
-        r.add(new GroupInfo(a));
-      }
-    }
-    return new GroupInfoCache(r);
   }
 }

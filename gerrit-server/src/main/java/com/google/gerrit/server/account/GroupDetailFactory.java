@@ -85,7 +85,6 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     }
     detail.setAccounts(aic.create());
     detail.setCanModify(control.isOwner());
-    detail.setGroups(gic.create());
     return detail;
   }
 

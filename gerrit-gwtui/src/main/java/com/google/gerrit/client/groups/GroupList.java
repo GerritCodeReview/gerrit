@@ -16,12 +16,18 @@ package com.google.gerrit.client.groups;
 
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Groups available from {@code /groups/} or {@code /accounts/{id}/groups}. */
 public class GroupList extends NativeList<GroupInfo> {
   public static void my(AsyncCallback<GroupList> callback) {
     new RestApi("/accounts/self/groups").get(callback);
+  }
+
+  public static void included(AccountGroup.UUID group,
+      AsyncCallback<GroupList> callback) {
+    new RestApi("/groups/").id(group.get()).view("groups").get(callback);
   }
 
   protected GroupList() {

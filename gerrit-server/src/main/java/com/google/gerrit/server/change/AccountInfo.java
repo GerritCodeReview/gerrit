@@ -50,6 +50,10 @@ public class AccountInfo {
       return info;
     }
 
+    public void put(AccountInfo info) {
+      pending.add(info);
+    }
+
     public void fill() throws OrmException {
       Set<Id> missing = Sets.newHashSetWithExpectedSize(pending.size());
       for (AccountInfo info : pending) {
@@ -82,7 +86,7 @@ public class AccountInfo {
 
   private transient Id _id;
 
-  public AccountInfo(Id id) {
+  protected AccountInfo(Id id) {
     _id = id;
   }
 

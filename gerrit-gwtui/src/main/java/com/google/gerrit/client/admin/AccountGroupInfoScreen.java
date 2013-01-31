@@ -24,14 +24,10 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupOptions;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
@@ -52,10 +48,6 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   private NpTextArea descTxt;
   private Button saveDesc;
 
-  private Label typeSystem;
-  private ListBox typeSelect;
-  private Button saveType;
-
   private CheckBox visibleToAllCheckBox;
   private Button saveGroupOptions;
 
@@ -71,14 +63,12 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     initOwner();
     initDescription();
     initGroupOptions();
-    initGroupType();
   }
 
   private void enableForm(final boolean canModify) {
     groupNameTxt.setEnabled(canModify);
     ownerTxtBox.setEnabled(canModify);
     descTxt.setEnabled(canModify);
-    typeSelect.setEnabled(canModify);
     visibleToAllCheckBox.setEnabled(canModify);
   }
 
@@ -219,93 +209,6 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     enabler.listenTo(visibleToAllCheckBox);
   }
 
-  private void initGroupType() {
-    typeSystem = new Label(Util.C.groupType_SYSTEM());
-
-    typeSelect = new ListBox();
-    typeSelect.setStyleName(Gerrit.RESOURCES.css().groupTypeSelectListBox());
-    typeSelect.addItem(Util.C.groupType_INTERNAL(), AccountGroup.Type.INTERNAL.name());
-    typeSelect.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(ChangeEvent event) {
-        saveType.setEnabled(true);
-      }
-    });
-
-    saveType = new Button(Util.C.buttonChangeGroupType());
-    saveType.setEnabled(false);
-    saveType.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        onSaveType();
-      }
-    });
-
-    switch (Gerrit.getConfig().getAuthType()) {
-      case HTTP_LDAP:
-      case LDAP:
-      case LDAP_BIND:
-      case CLIENT_SSL_CERT_LDAP:
-        break;
-      default:
-        return;
-    }
-
-    final VerticalPanel fp = new VerticalPanel();
-    fp.setStyleName(Gerrit.RESOURCES.css().groupTypePanel());
-    fp.add(new SmallHeading(Util.C.headingGroupType()));
-    fp.add(typeSystem);
-    fp.add(typeSelect);
-    fp.add(saveType);
-    add(fp);
-  }
-
-  private void setType(final AccountGroup.Type newType) {
-    final boolean system = newType == AccountGroup.Type.SYSTEM;
-
-    typeSystem.setVisible(system);
-    typeSelect.setVisible(!system);
-    saveType.setVisible(!system);
-
-    if (!system) {
-      for (int i = 0; i < typeSelect.getItemCount(); i++) {
-        if (newType.name().equals(typeSelect.getValue(i))) {
-          typeSelect.setSelectedIndex(i);
-          break;
-        }
-      }
-    }
-
-    saveType.setEnabled(false);
-
-    setMembersTabVisible(newType == AccountGroup.Type.INTERNAL);
-  }
-
-  private void onSaveType() {
-    final int idx = typeSelect.getSelectedIndex();
-    final AccountGroup.Type newType =
-        AccountGroup.Type.valueOf(typeSelect.getValue(idx));
-
-    typeSelect.setEnabled(false);
-    saveType.setEnabled(false);
-
-    Util.GROUP_SVC.changeGroupType(getGroupId(), newType,
-        new GerritCallback<VoidResult>() {
-          @Override
-          public void onSuccess(VoidResult result) {
-            typeSelect.setEnabled(true);
-            setType(newType);
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            typeSelect.setEnabled(true);
-            saveType.setEnabled(true);
-            super.onFailure(caught);
-          }
-        });
-  }
-
   @Override
   protected void display(final GroupDetail groupDetail) {
     final AccountGroup group = groupDetail.group;
@@ -317,16 +220,13 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       ownerTxt.setText(Util.M.deletedReference(group.getOwnerGroupUUID().get()));
     }
     descTxt.setText(group.getDescription());
-
     visibleToAllCheckBox.setValue(group.isVisibleToAll());
-
-    setType(group.getType());
+    setMembersTabVisible(group.getType() == AccountGroup.Type.INTERNAL);
 
     enableForm(groupDetail.canModify);
     saveName.setVisible(groupDetail.canModify);
     saveOwner.setVisible(groupDetail.canModify);
     saveDesc.setVisible(groupDetail.canModify);
     saveGroupOptions.setVisible(groupDetail.canModify);
-    saveType.setVisible(groupDetail.canModify);
   }
 }

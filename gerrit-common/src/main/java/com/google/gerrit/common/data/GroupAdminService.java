@@ -55,11 +55,6 @@ public interface GroupAdminService extends RemoteJsonService {
 
   @Audit
   @SignInRequired
-  void changeGroupType(AccountGroup.Id groupId, AccountGroup.Type newType,
-      AsyncCallback<VoidResult> callback);
-
-  @Audit
-  @SignInRequired
   void addGroupInclude(AccountGroup.Id groupId, AccountGroup.UUID incGroupUUID,
       String incGroupName, AsyncCallback<GroupDetail> callback);
 

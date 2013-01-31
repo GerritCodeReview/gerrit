@@ -131,7 +131,6 @@ public interface GerritCss extends CssResource {
   String groupOptionsPanel();
   String groupOwnerPanel();
   String groupOwnerTextBox();
-  String groupTypePanel();
   String groupTypeSelectListBox();
   String groupUUIDPanel();
   String header();

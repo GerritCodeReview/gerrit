@@ -55,7 +55,6 @@ public interface AdminConstants extends Constants {
   String headingOwner();
   String headingDescription();
   String headingProjectOptions();
-  String headingGroupType();
   String headingMembers();
   String headingIncludedGroups();
   String noMembersInfo();
@@ -74,10 +73,6 @@ public interface AdminConstants extends Constants {
   String projectState_ACTIVE();
   String projectState_READ_ONLY();
   String projectState_HIDDEN();
-
-  String groupType_SYSTEM();
-  String groupType_INTERNAL();
-  String groupType_LDAP();
 
   String columnMember();
   String columnEmailAddress();

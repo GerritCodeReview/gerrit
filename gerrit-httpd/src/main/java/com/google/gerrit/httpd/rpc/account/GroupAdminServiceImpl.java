@@ -136,20 +136,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     renameGroupFactory.create(groupId, newName).to(callback);
   }
 
-  public void changeGroupType(final AccountGroup.Id groupId,
-      final AccountGroup.Type newType, final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final AccountGroup group = db.accountGroups().get(groupId);
-        assertAmGroupOwner(db, group);
-        group.setType(newType);
-        db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
   public void addGroupInclude(final AccountGroup.Id groupId,
       final AccountGroup.UUID incGroupUUID, final String incGroupName,
       final AsyncCallback<GroupDetail> callback) {

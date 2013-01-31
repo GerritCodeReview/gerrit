@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PDNa-hPw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-31T01:56:03Z",
+      "side": 1,
+      "message": "use get() here not toString()",
+      "revId": "6694502b202fb55cabf7fc665a63bbc05980155e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PDLa8CAk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-31T01:56:03Z",
+      "side": 1,
+      "message": "get()",
+      "revId": "6694502b202fb55cabf7fc665a63bbc05980155e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

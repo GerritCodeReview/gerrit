@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PC3fPkLE",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java.BACKUP.46057.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-01-31T01:37:25Z",
+      "side": 1,
+      "message": "This file and other .BACKUP files should not be here...",
+      "revId": "a8716b1067d81f8a79642ac6ad02a1b93a86af54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

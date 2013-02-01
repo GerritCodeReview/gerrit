@@ -98,7 +98,10 @@ public class CommitValidators {
     validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
     validators.add(new CommitterUploaderValidator(refControl, canonicalWebUrl));
     validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
-    validators.add(new ChangeIdValidator(refControl, canonicalWebUrl, sshInfo));
+    if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
+        || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()) {
+      validators.add(new ChangeIdValidator(refControl, canonicalWebUrl, sshInfo));
+    }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
@@ -128,7 +131,10 @@ public class CommitValidators {
         refControl, gerritIdent));
     validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
     validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
-    validators.add(new ChangeIdValidator(refControl, canonicalWebUrl, sshInfo));
+    if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
+        || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()) {
+      validators.add(new ChangeIdValidator(refControl, canonicalWebUrl, sshInfo));
+    }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
 
@@ -167,30 +173,27 @@ public class CommitValidators {
       IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
       final List<String> idList = receiveEvent.commit.getFooterLines(CHANGE_ID);
 
-      if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
-          || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()) {
-        List<CommitValidationMessage> messages =
-            new LinkedList<CommitValidationMessage>();
+      List<CommitValidationMessage> messages =
+          new LinkedList<CommitValidationMessage>();
 
-        if (idList.isEmpty()) {
-          if (projectControl.getProjectState().isRequireChangeID()) {
-            String errMsg = "missing Change-Id in commit message footer";
-            messages.add(getFixedCommitMsgWithChangeId(errMsg, receiveEvent.commit,
-                currentUser, canonicalWebUrl, sshInfo));
-            throw new CommitValidationException(errMsg, messages);
-          }
-        } else if (idList.size() > 1) {
-          throw new CommitValidationException(
-              "multiple Change-Id lines in commit message footer", messages);
-        } else {
-          final String v = idList.get(idList.size() - 1).trim();
-          if (!v.matches("^I[0-9a-f]{8,}.*$")) {
-            final String errMsg =
-                "missing or invalid Change-Id line format in commit message footer";
-            messages.add(getFixedCommitMsgWithChangeId(errMsg, receiveEvent.commit,
-                currentUser, canonicalWebUrl, sshInfo));
-            throw new CommitValidationException(errMsg, messages);
-          }
+      if (idList.isEmpty()) {
+        if (projectControl.getProjectState().isRequireChangeID()) {
+          String errMsg = "missing Change-Id in commit message footer";
+          messages.add(getFixedCommitMsgWithChangeId(errMsg, receiveEvent.commit,
+              currentUser, canonicalWebUrl, sshInfo));
+          throw new CommitValidationException(errMsg, messages);
+        }
+      } else if (idList.size() > 1) {
+        throw new CommitValidationException(
+            "multiple Change-Id lines in commit message footer", messages);
+      } else {
+        final String v = idList.get(idList.size() - 1).trim();
+        if (!v.matches("^I[0-9a-f]{8,}.*$")) {
+          final String errMsg =
+              "missing or invalid Change-Id line format in commit message footer";
+          messages.add(getFixedCommitMsgWithChangeId(errMsg, receiveEvent.commit,
+              currentUser, canonicalWebUrl, sshInfo));
+          throw new CommitValidationException(errMsg, messages);
         }
       }
       return Collections.<CommitValidationMessage>emptyList();

@@ -16,6 +16,24 @@
       "revId": "8681d9f286a48b08f37b3a095330da16689e3693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PKHpwuZk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T20:10:15Z",
+      "side": 0,
+      "message": "Left name in there, it gets called now in the UI code since we ditched the category.",
+      "parentUuid": "PJb0Kvyc",
+      "revId": "8681d9f286a48b08f37b3a095330da16689e3693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

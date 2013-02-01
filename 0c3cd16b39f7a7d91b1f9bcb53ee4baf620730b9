@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "PKDpR4Qc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T20:10:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PJf0pJ4s",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PJX0ed2s",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Better name for the map of value -\u003e description? \"descriptions\"?",
       "parentUuid": "PJX0ed2s",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PKNo1Rdg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T20:10:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PJZ0m47o",
       "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -125,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "PKPoyie0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T20:10:15Z",
+      "side": 1,
+      "message": "Done.\n\nIt occurs to me that when this RPC is used to generate the ApprovalTable, we may need to include the abbreviated form in the JSON output. We could try to generate them on the client side, e.g. \"Abc-XyZ\" -\u003e \"AXZ\", not sure if that\u0027s always going to be a good idea though.",
+      "parentUuid": "PJtwDDRg",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PJd0DCxg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -136,6 +190,24 @@
       "writtenOn": "2013-02-01T05:04:42Z",
       "side": 1,
       "message": "I think this is a bit too short of a name. Maybe allowed_values , permitted_values, value_descriptions?",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PKJo-zbQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T20:10:15Z",
+      "side": 1,
+      "message": "Done. Went with permitted_values as a hint that what\u0027s displayed relates to what permissions are available. A bit long, but what can you do.",
+      "parentUuid": "PJd0DCxg",
       "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -159,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "PKLo8EcA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T20:10:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PJf0ARw0",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PJZ0Ng0Q",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -170,6 +260,24 @@
       "writtenOn": "2013-02-01T05:04:42Z",
       "side": 1,
       "message": "Why not set this to null and omit the map altogether? Same if the map is empty.",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PKFprdbA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T20:10:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PJZ0Ng0Q",
       "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

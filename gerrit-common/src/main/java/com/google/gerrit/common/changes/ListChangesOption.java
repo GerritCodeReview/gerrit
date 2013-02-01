@@ -30,7 +30,10 @@ public enum ListChangesOption {
 
   /** If a patch set is included, include the files of the patch set. */
   CURRENT_FILES(5),
-  ALL_FILES(6);
+  ALL_FILES(6),
+
+  /** If accounts are included, include detailed account info. */
+  DETAILED_ACCOUNTS(7);
 
   private final int value;
 

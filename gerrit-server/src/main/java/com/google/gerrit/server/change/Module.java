@@ -73,5 +73,11 @@ public class Module extends RestApiModule {
         factory(EmailReviewComments.Factory.class);
       }
     });
+    install(new FactoryModule() {
+      @Override
+      protected void configure() {
+        factory(AccountInfo.Loader.Factory.class);
+      }
+    });
   }
 }

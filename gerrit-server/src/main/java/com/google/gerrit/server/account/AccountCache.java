@@ -20,6 +20,8 @@ import com.google.gerrit.reviewdb.client.Account;
 public interface AccountCache {
   public AccountState get(Account.Id accountId);
 
+  public AccountState getIfPresent(Account.Id accountId);
+
   public AccountState getByUsername(String username);
 
   public void evict(Account.Id accountId);

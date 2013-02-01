@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PJ9s1U9g",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-01T13:32:09Z",
+      "side": 1,
+      "message": "The last three statements repeat what is inside the loop.\nI propose to use the loop only to find the row index where the insertRow should be done and then, after the loop perform the insert:\n\n  int row;\n  for (row \u003d 1; row \u003c table.getRowCount(); row++) {\n    final MemberInfo i \u003d getRowItem(row);\n    if (i !\u003d null \u0026\u0026 c.compare(info, i) \u003c 0) {\n      break;\n    }\n  }\n  table.insertRow(row);\n  applyDataRowStyle(row);\n  populate(row, info);\n\nSince the table is already sorted you may consider using a binary search for better performance.",
+      "revId": "d3d06098c40691638ac3ab0f680a4eb28782d9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

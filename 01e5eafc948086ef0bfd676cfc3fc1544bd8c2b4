@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PJ9sDExg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-01T09:04:28Z",
+      "side": 1,
+      "message": "Did you mean REST API?",
+      "revId": "01e5eafc948086ef0bfd676cfc3fc1544bd8c2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PJ-sATw0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-01T09:04:28Z",
+      "side": 1,
+      "message": "s/JSON/REST ?",
+      "revId": "01e5eafc948086ef0bfd676cfc3fc1544bd8c2b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

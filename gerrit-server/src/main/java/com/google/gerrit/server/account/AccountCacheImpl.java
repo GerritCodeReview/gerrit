@@ -87,6 +87,10 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
+  public AccountState getIfPresent(Account.Id accountId) {
+    return byId.getIfPresent(accountId);
+  }
+
   @Override
   public AccountState getByUsername(String username) {
     try {

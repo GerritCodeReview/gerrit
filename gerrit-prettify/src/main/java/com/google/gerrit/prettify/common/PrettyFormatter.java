@@ -178,7 +178,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       }
 
       // Line end occurs before the next HTML tag. Break the line.
-      if (0 <= lf && lf < tagStart) {
+      if (0 <= lf && (lf < tagStart || tagStart < 0)) {
         if (textChunkStart < lf) {
           lastTag.open(buf, html);
           htmlText(html.substring(textChunkStart, lf));

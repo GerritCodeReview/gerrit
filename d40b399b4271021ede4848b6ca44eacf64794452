@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PLHb1MBE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T23:40:46Z",
+      "side": 1,
+      "message": "Do you think we also need the account ID? In particular, I want to use this to look up the current user\u0027s previous vote for a label, and I\u0027m worried that email might not be unique.",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

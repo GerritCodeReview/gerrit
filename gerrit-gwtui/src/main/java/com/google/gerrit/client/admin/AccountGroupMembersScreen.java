@@ -192,7 +192,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     GroupApi.addMember(getGroupUUID(), nameEmail,
         new GerritCallback<MemberInfo>() {
           public void onSuccess(final MemberInfo memberInfo) {
-            Gerrit.display(Dispatcher.toGroup(getGroupUUID(), AccountGroupScreen.MEMBERS));
+            addMemberBox.setEnabled(true);
+            addMemberBox.setText("");
+            members.insert(memberInfo);
           }
 
           @Override
@@ -284,6 +286,46 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         applyDataRowStyle(row);
         populate(row, i);
       }
+    }
+
+    void insert(MemberInfo info) {
+      Comparator<MemberInfo> c = new Comparator<MemberInfo>() {
+        @Override
+        public int compare(MemberInfo a, MemberInfo b) {
+          int cmp = nullToEmpty(a.fullName()).compareTo(nullToEmpty(b.fullName()));
+          if (cmp != 0) {
+            return cmp;
+          }
+
+          cmp = nullToEmpty(a.preferredEmail()).compareTo(
+                  nullToEmpty(b.preferredEmail()));
+          if (cmp != 0) {
+            return cmp;
+          }
+
+          return a.getAccountId().get() - b.getAccountId().get();
+        }
+
+        public String nullToEmpty(String str) {
+          return str == null ? "" : str;
+        }
+      };
+      for (int row = 1; row < table.getRowCount(); row++) {
+        final MemberInfo i = getRowItem(row);
+        if (i != null) {
+          if (c.compare(info, i) < 0) {
+            table.insertRow(row);
+            applyDataRowStyle(row);
+            populate(row, info);
+            return;
+          }
+        }
+      }
+
+      final int row = table.getRowCount();
+      table.insertRow(row);
+      applyDataRowStyle(row);
+      populate(row, info);
     }
 
     void populate(final int row, final MemberInfo i) {

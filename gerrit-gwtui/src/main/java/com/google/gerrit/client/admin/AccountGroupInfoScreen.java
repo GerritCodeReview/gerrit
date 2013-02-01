@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -98,9 +99,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
         GroupApi.renameGroup(getGroupUUID(), newName,
             new GerritCallback<com.google.gerrit.client.VoidResult>() {
               public void onSuccess(final com.google.gerrit.client.VoidResult result) {
-                saveName.setEnabled(false);
-                setPageTitle(Util.M.group(newName));
-                groupNameTxt.setText(newName);
+                Gerrit.display(Dispatcher.toGroup(getGroupUUID(), AccountGroupScreen.INFO));
               }
             });
       }

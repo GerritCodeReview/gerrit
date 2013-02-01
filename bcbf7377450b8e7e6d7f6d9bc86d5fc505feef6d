@@ -16,6 +16,24 @@
       "revId": "bcbf7377450b8e7e6d7f6d9bc86d5fc505feef6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PJ1sZQ4A",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-01T12:59:38Z",
+      "side": 1,
+      "message": "How about not inventing a new name but implementing the \"rule\" as another max_with_block case:\n\n  max_with_block(Min, Max, Label, label(Label, S)) :-\n    max_with_block(Label, Min, Max, S).\n\nThen the submit rule example would be:\n\n  submit_rule(submit(V, CR)) :-\n    max_with_block(-2, 2, \u0027Code-Review\u0027, CR),\n    max_with_block(-1, 1, \u0027Verified\u0027, V).\n\nI like this better as \"max_with_block\" name is self explaining (compared to \"rule\" which could mean anything).\n\nUnfortunately, the new max_with_block predicate, as written above, causes infinite recursion from the \n\n  test(default_submit_fails)\n\nI guess this is because the predicate is left-recursive. The simplest solution is not to (re)use the max_with_block name. But I, too, don\u0027t have a better proposal than \"rule\" or \"require\".",
+      "parentUuid": "PCzfw.O8",
+      "revId": "bcbf7377450b8e7e6d7f6d9bc86d5fc505feef6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

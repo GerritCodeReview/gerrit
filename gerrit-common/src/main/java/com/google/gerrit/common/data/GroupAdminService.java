@@ -21,7 +21,6 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 @RpcImpl(version = Version.V2_0)
 public interface GroupAdminService extends RemoteJsonService {
@@ -29,9 +28,4 @@ public interface GroupAdminService extends RemoteJsonService {
   @SignInRequired
   void groupDetail(AccountGroup.Id groupId, AccountGroup.UUID uuid,
       AsyncCallback<GroupDetail> callback);
-
-  @Audit
-  @SignInRequired
-  void changeGroupDescription(AccountGroup.Id groupId, String description,
-      AsyncCallback<VoidResult> callback);
 }

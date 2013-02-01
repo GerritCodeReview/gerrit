@@ -11,8 +11,10 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit ls-groups'
   [--project <NAME> | -p <NAME>]
   [--user <NAME> | -u <NAME>]
+  [--owned]
   [--visible-to-all]
   [--type {internal | system}]
+  [-q <GROUP>]
   [--verbose | -v]
 
 DESCRIPTION
@@ -61,6 +63,11 @@ for other users.
 +
 This option can't be used together with the '--project' option.
 
+--owned::
+	Lists only the groups that are owned by the user that was specified
+	by the `--user` option or if no user was specified the groups that
+	are owned by the calling user.
+
 --visible-to-all::
 	Displays only groups that are visible to all registered users
 	(groups that are explicitly marked as visible to all registered
@@ -74,6 +81,14 @@ This option can't be used together with the '--project' option.
 `internal`:: Any group defined within Gerrit.
 `system`:: Any system defined and managed group.
 --
+
+-q::
+	Group that should be inspected. The `-q` option can be specified
+	multiple times to define several groups to be inspected. If
+	specified the listed groups will only contain groups that were
+	specified to be inspected. This is e.g. useful in combination with
+	the `--owned` and `--user` options to check whether a group is
+	owned by a user.
 
 --verbose::
 -v::
@@ -104,6 +119,21 @@ List all groups for which any permission is set for the project
 	MyProject_Committers
 	Project Owners
 	Registered Users
+=====
+
+List all groups which are owned by the calling user:
+=====
+	$ ssh -p 29418 review.example.com gerrit ls-groups --owned
+	MyProject_Committers
+	MyProject_Verifiers
+=====
+
+Check if the calling user owns the group `MyProject_Committers`. If
+`MyProject_Committers` is returned the calling user owns this group.
+If the result is empty, the calling user doesn't own the group.
+=====
+	$ ssh -p 29418 review.example.com gerrit ls-groups --owned -q MyProject_Committers
+	MyProject_Committers
 =====
 
 Extract the UUID of the 'Administrators' group:

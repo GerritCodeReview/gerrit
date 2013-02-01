@@ -18,6 +18,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -56,6 +57,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   protected final GroupCache groupCache;
 
   private final GroupControl.Factory groupControlFactory;
+  private final GroupControl.GenericFactory genericGroupControlFactory;
   private final Provider<IdentifiedUser> identifiedUser;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<GetGroups> accountGetGroups;
@@ -74,17 +76,30 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       usage = "user for which the groups should be listed")
   private Account.Id user;
 
+  @Option(name = "--owned", usage = "to list only groups that are owned by the specified user"
+      + " or by the calling user if no user was specifed")
+  private boolean owned;
+
+  private Set<AccountGroup.UUID> groupsToInspect = Sets.newHashSet();
+
+  @Option(name = "-q", usage = "group to inspect")
+  void addGroup(final AccountGroup.UUID id) {
+    groupsToInspect.add(id);
+  }
+
   @Option(name = "-m", metaVar = "MATCH", usage = "match group substring")
   private String matchSubstring;
 
   @Inject
   protected ListGroups(final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
+      final GroupControl.GenericFactory genericGroupControlFactory,
       final Provider<IdentifiedUser> identifiedUser,
       final IdentifiedUser.GenericFactory userFactory,
       final Provider<GetGroups> accountGetGroups) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
+    this.genericGroupControlFactory = genericGroupControlFactory;
     this.identifiedUser = identifiedUser;
     this.userFactory = userFactory;
     this.accountGetGroups = accountGetGroups;
@@ -115,32 +130,56 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   public List<GroupInfo> get() throws NoSuchGroupException {
     List<GroupInfo> groupInfos;
     if (user != null) {
-      groupInfos = accountGetGroups.get().apply(
-          new AccountResource(userFactory.create(user)));
-    } else {
-      List<AccountGroup> groupList;
-      if (!projects.isEmpty()) {
-        Map<AccountGroup.UUID, AccountGroup> groups = Maps.newHashMap();
-        for (final ProjectControl projectControl : projects) {
-          final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
-          for (final GroupReference groupRef : groupsRefs) {
-            final AccountGroup group = groupCache.get(groupRef.getUUID());
-            if (group == null) {
-              throw new NoSuchGroupException(groupRef.getUUID());
-            }
-            groups.put(group.getGroupUUID(), group);
-          }
-        }
-        groupList = filterGroups(groups.values());
+      if (owned) {
+        groupInfos = getGroupsOwnedBy(userFactory.create(user));
       } else {
-        groupList = filterGroups(groupCache.all());
+        groupInfos = accountGetGroups.get().apply(
+            new AccountResource(userFactory.create(user)));
       }
-      groupInfos = Lists.newArrayListWithCapacity(groupList.size());
-      for (AccountGroup group : groupList) {
-        groupInfos.add(new GroupInfo(GroupDescriptions.forAccountGroup(group)));
+    } else {
+      if (owned) {
+        groupInfos = getGroupsOwnedBy(identifiedUser.get());
+      } else {
+        List<AccountGroup> groupList;
+        if (!projects.isEmpty()) {
+          Map<AccountGroup.UUID, AccountGroup> groups = Maps.newHashMap();
+          for (final ProjectControl projectControl : projects) {
+            final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
+            for (final GroupReference groupRef : groupsRefs) {
+              final AccountGroup group = groupCache.get(groupRef.getUUID());
+              if (group == null) {
+                throw new NoSuchGroupException(groupRef.getUUID());
+              }
+              groups.put(group.getGroupUUID(), group);
+            }
+          }
+          groupList = filterGroups(groups.values());
+        } else {
+          groupList = filterGroups(groupCache.all());
+        }
+        groupInfos = Lists.newArrayListWithCapacity(groupList.size());
+        for (AccountGroup group : groupList) {
+          groupInfos.add(new GroupInfo(GroupDescriptions.forAccountGroup(group)));
+        }
       }
     }
     return groupInfos;
+  }
+
+  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) {
+    List<GroupInfo> groups = Lists.newArrayList();
+    for (AccountGroup g : filterGroups(groupCache.all())) {
+      GroupControl ctl = groupControlFactory.controlFor(g);
+      try {
+        if (genericGroupControlFactory.controlFor(user, g.getGroupUUID())
+            .isOwner()) {
+          groups.add(new GroupInfo(ctl.getGroup()));
+        }
+      } catch (NoSuchGroupException e) {
+        continue;
+      }
+    }
+    return groups;
   }
 
   private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {
@@ -162,6 +201,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       }
       if ((visibleToAll && !group.isVisibleToAll())
           || (groupType != null && !groupType.equals(group.getType()))) {
+        continue;
+      }
+      if (!groupsToInspect.isEmpty()
+          && !groupsToInspect.contains(group.getGroupUUID())) {
         continue;
       }
       filteredGroups.add(group);

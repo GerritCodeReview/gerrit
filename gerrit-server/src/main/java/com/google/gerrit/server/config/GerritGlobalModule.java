@@ -176,6 +176,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), AuthBackend.class);
 
     bind(GroupControl.Factory.class).in(SINGLETON);
+    bind(GroupControl.GenericFactory.class).in(SINGLETON);
     factory(IncludingGroupMembership.Factory.class);
     bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), GroupBackend.class);

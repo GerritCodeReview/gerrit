@@ -22,12 +22,29 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /** Groups available from {@code /groups/} or {@code /accounts/{id}/groups}. */
 public class GroupList extends NativeList<GroupInfo> {
   public static void my(AsyncCallback<GroupList> callback) {
-    new RestApi("/accounts/self/groups").get(callback);
+    myGroups().get(callback);
+  }
+
+  public static void myOwned(AsyncCallback<GroupList> callback) {
+    myOwnedGroups().get(callback);
+  }
+
+  public static void myOwned(String groupName,
+      AsyncCallback<GroupList> callback) {
+    myOwnedGroups().addParameter("group", groupName).get(callback);
   }
 
   public static void included(AccountGroup.UUID group,
       AsyncCallback<GroupList> callback) {
     new RestApi("/groups/").id(group.get()).view("groups").get(callback);
+  }
+
+  private static RestApi myOwnedGroups() {
+    return myGroups().addParameter("owned", true);
+  }
+
+  private static RestApi myGroups() {
+    return new RestApi("/accounts/self/groups");
   }
 
   protected GroupList() {

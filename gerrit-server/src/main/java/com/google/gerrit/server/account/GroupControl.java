@@ -23,9 +23,31 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 /** Access control management for a group of accounts managed in Gerrit. */
 public class GroupControl {
+
+  @Singleton
+  public static class GenericFactory {
+    private final GroupBackend groupBackend;
+
+    @Inject
+    GenericFactory(final GroupBackend gb) {
+      groupBackend = gb;
+    }
+
+    public GroupControl controlFor(final CurrentUser who,
+        final AccountGroup.UUID groupId)
+        throws NoSuchGroupException {
+      final GroupDescription.Basic group = groupBackend.get(groupId);
+      if (group == null) {
+        throw new NoSuchGroupException(groupId);
+      }
+      return new GroupControl(who, group);
+    }
+  }
+
   public static class Factory {
     private final GroupCache groupCache;
     private final Provider<CurrentUser> user;

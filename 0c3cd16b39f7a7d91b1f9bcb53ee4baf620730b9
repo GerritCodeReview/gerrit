@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PJV0ZO4A",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-01T05:04:42Z",
+      "side": 1,
+      "message": "This should be private or something. We shouldn\u0027t expose JavaScriptObject generally.",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PJX0ed2s",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-01T05:04:42Z",
+      "side": 1,
+      "message": "Value is confusing. Its actually the description text.",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PJT3-j-E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-01T05:04:42Z",
+      "side": 1,
+      "message": "I don\u0027t think we should be exporting category or id to the client.",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PJd0DCxg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-01T05:04:42Z",
+      "side": 1,
+      "message": "I think this is a bit too short of a name. Maybe allowed_values , permitted_values, value_descriptions?",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PJf0ARw0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-01T05:04:42Z",
+      "side": 1,
+      "message": "n.values.size() \u003d\u003d 1 \u0026\u0026 n.values.containsKey(\" 0\") is shorter and has the same function.",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PJZ0Ng0Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-01T05:04:42Z",
+      "side": 1,
+      "message": "Why not set this to null and omit the map altogether? Same if the map is empty.",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

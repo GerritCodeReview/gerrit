@@ -19,11 +19,12 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -51,7 +52,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   private CheckBox visibleToAllCheckBox;
   private Button saveGroupOptions;
 
-  public AccountGroupInfoScreen(final GroupDetail toShow, final String token) {
+  public AccountGroupInfoScreen(final GroupInfo toShow, final String token) {
     super(toShow, token);
   }
 
@@ -212,23 +213,34 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   }
 
   @Override
-  protected void display(final GroupDetail groupDetail) {
-    final AccountGroup group = groupDetail.group;
+  protected void display(final GroupInfo group, final boolean canModify) {
     groupUUIDLabel.setText(group.getGroupUUID().get());
-    groupNameTxt.setText(group.getName());
-    if (groupDetail.ownerGroup != null) {
-      ownerTxt.setText(groupDetail.ownerGroup.getName());
-    } else {
-      ownerTxt.setText(Util.M.deletedReference(group.getOwnerGroupUUID().get()));
-    }
-    descTxt.setText(group.getDescription());
-    visibleToAllCheckBox.setValue(group.isVisibleToAll());
-    setMembersTabVisible(group.getType() == AccountGroup.Type.INTERNAL);
+    groupNameTxt.setText(group.name());
 
-    enableForm(groupDetail.canModify);
-    saveName.setVisible(groupDetail.canModify);
-    saveOwner.setVisible(groupDetail.canModify);
-    saveDesc.setVisible(groupDetail.canModify);
-    saveGroupOptions.setVisible(groupDetail.canModify);
+    GroupApi.getGroupName(group.getOwnerUUID(), new GerritCallback<NativeString>() {
+      @Override
+      public void onSuccess(NativeString result) {
+        ownerTxt.setText(result.asString());
+      }
+      @Override
+      public void onFailure(Throwable caught) {
+        if (RestApi.isNotFound(caught)) {
+          ownerTxt.setText(Util.M.deletedReference(group.getOwnerUUID().get()));
+        } else {
+          super.onFailure(caught);
+        }
+      }
+    });
+
+    descTxt.setText(group.description());
+    visibleToAllCheckBox.setValue(group.options().isVisibleToAll());
+    setMembersTabVisible(AccountGroup.isInternalGroup(group.getGroupUUID())
+        && !AccountGroup.isSystemGroup(group.getGroupUUID()));
+
+    enableForm(canModify);
+    saveName.setVisible(canModify);
+    saveOwner.setVisible(canModify);
+    saveDesc.setVisible(canModify);
+    saveGroupOptions.setVisible(canModify);
   }
 }

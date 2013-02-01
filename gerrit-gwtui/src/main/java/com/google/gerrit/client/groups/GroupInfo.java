@@ -35,6 +35,7 @@ public class GroupInfo extends JavaScriptObject {
 
   private final native int group_id() /*-{ return this.group_id; }-*/;
   private final native String owner_id() /*-{ return this.owner_id; }-*/;
+  private final native void owner_id(String o) /*-{ if(o)this.owner_id=o; }-*/;
 
   public final AccountGroup.UUID getOwnerUUID() {
     String owner = owner_id();
@@ -42,6 +43,10 @@ public class GroupInfo extends JavaScriptObject {
         return new AccountGroup.UUID(URL.decodePathSegment(owner));
     }
     return null;
+  }
+
+  public final void setOwnerUUID(AccountGroup.UUID uuid) {
+    owner_id(URL.encodePathSegment(uuid.get()));
   }
 
   protected GroupInfo() {

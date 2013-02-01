@@ -60,7 +60,6 @@ import com.google.gerrit.client.admin.ProjectDashboardsScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
-import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
@@ -72,13 +71,14 @@ import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
+import com.google.gerrit.client.groups.GroupApi;
+import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -729,27 +729,26 @@ public class Dispatcher {
 
       private void group() {
         final String panel;
-        AccountGroup.Id groupId = null;
-        AccountGroup.UUID groupUUID = null;
+        final String group;
 
         if (matchPrefix("/admin/groups/uuid-", token)) {
           String p = skip(token);
           int c = p.indexOf(',');
           if (c < 0) {
-            groupUUID = AccountGroup.UUID.parse(p);
+            group = p;
             panel = null;
           } else {
-            groupUUID = AccountGroup.UUID.parse(p.substring(0, c));
+            group = p.substring(0, c);
             panel = p.substring(c + 1);
           }
         } else if (matchPrefix("/admin/groups/", token)) {
           String p = skip(token);
           int c = p.indexOf(',');
           if (c < 0) {
-            groupId = AccountGroup.Id.parse(p);
+            group = p;
             panel = null;
           } else {
-            groupId = AccountGroup.Id.parse(p.substring(0, c));
+            group = p.substring(0, c);
             panel = p.substring(c + 1);
           }
         } else {
@@ -757,37 +756,33 @@ public class Dispatcher {
           return;
         }
 
-        Util.GROUP_SVC.groupDetail(groupId, groupUUID,
-            new GerritCallback<GroupDetail>() {
-              @Override
-              public void onSuccess(GroupDetail groupDetail) {
-                if (panel == null || panel.isEmpty()) {
-                  // The token does not say which group screen should be shown,
-                  // as default for internal groups show the members, as default
-                  // for external and system groups show the info screen (since
-                  // for external and system groups the members cannot be
-                  // shown in the web UI).
-                  //
-                  if (groupDetail.group.getType() == AccountGroup.Type.INTERNAL) {
-                    Gerrit.display(toGroup(groupDetail.group.getId(),
-                        AccountGroupScreen.MEMBERS),
-                        new AccountGroupMembersScreen(groupDetail, token));
-                  } else {
-                    Gerrit.display(toGroup(groupDetail.group.getId(),
-                        AccountGroupScreen.INFO),
-                        new AccountGroupInfoScreen(groupDetail, token));
-                  }
-                } else if (AccountGroupScreen.INFO.equals(panel)) {
-                  Gerrit.display(token,
-                      new AccountGroupInfoScreen(groupDetail, token));
-                } else if (AccountGroupScreen.MEMBERS.equals(panel)) {
-                  Gerrit.display(token,
-                      new AccountGroupMembersScreen(groupDetail, token));
-                } else {
-                  Gerrit.display(token,new NotFoundScreen());
-                }
+        GroupApi.getGroup(group, new GerritCallback<GroupInfo>() {
+          @Override
+          public void onSuccess(GroupInfo group) {
+            if (panel == null || panel.isEmpty()) {
+              // The token does not say which group screen should be shown,
+              // as default for internal groups show the members, as default
+              // for external and system groups show the info screen (since
+              // for external and system groups the members cannot be
+              // shown in the web UI).
+              //
+              if (AccountGroup.isInternalGroup(group.getGroupUUID())
+                  && !AccountGroup.isSystemGroup(group.getGroupUUID())) {
+                Gerrit.display(toGroup(group.getGroupId(), AccountGroupScreen.MEMBERS),
+                    new AccountGroupMembersScreen(group, token));
+              } else {
+                Gerrit.display(toGroup(group.getGroupId(), AccountGroupScreen.INFO),
+                    new AccountGroupInfoScreen(group, token));
               }
-            });
+            } else if (AccountGroupScreen.INFO.equals(panel)) {
+              Gerrit.display(token, new AccountGroupInfoScreen(group, token));
+            } else if (AccountGroupScreen.MEMBERS.equals(panel)) {
+              Gerrit.display(token, new AccountGroupMembersScreen(group, token));
+            } else {
+              Gerrit.display(token, new NotFoundScreen());
+            }
+          }
+        });
       }
 
       private Screen selectProject() {

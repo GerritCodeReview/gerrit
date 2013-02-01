@@ -16,63 +16,64 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.client.Dispatcher.toGroup;
 
+import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.MenuScreen;
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 public abstract class AccountGroupScreen extends MenuScreen {
   public static final String INFO = "info";
   public static final String MEMBERS = "members";
 
-  private final GroupDetail groupDetail;
+  private final GroupInfo group;
   private final String membersTabToken;
 
-  public AccountGroupScreen(final GroupDetail toShow, final String token) {
+  public AccountGroupScreen(final GroupInfo toShow, final String token) {
     setRequiresSignIn(true);
 
-    this.groupDetail = toShow;
+    this.group = toShow;
     this.membersTabToken = getTabToken(token, MEMBERS);
 
     link(Util.C.groupTabGeneral(), getTabToken(token, INFO));
     link(Util.C.groupTabMembers(), membersTabToken,
-        groupDetail.group.getType() == AccountGroup.Type.INTERNAL);
+        AccountGroup.isInternalGroup(group.getGroupUUID())
+        && !AccountGroup.isSystemGroup(group.getGroupUUID()));
   }
 
   private String getTabToken(final String token, final String tab) {
     if (token.startsWith("/admin/groups/uuid-")) {
-      return toGroup(groupDetail.group.getGroupUUID(), tab);
+      return toGroup(group.getGroupUUID(), tab);
     } else {
-      return toGroup(groupDetail.group.getId(), tab);
+      return toGroup(group.getGroupId(), tab);
     }
   }
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    setPageTitle(Util.M.group(groupDetail.group.getName()));
+    setPageTitle(Util.M.group(group.name()));
     display();
-    display(groupDetail);
+    GroupApi.isGroupOwner(group.name(), new GerritCallback<Boolean>() {
+      @Override
+      public void onSuccess(Boolean result) {
+        display(group, result);
+      }
+    });
   }
 
-  protected abstract void display(final GroupDetail groupDetail);
-
-  protected AccountGroup.Id getGroupId() {
-    return groupDetail.group.getId();
-  }
+  protected abstract void display(final GroupInfo group, final boolean canModify);
 
   protected AccountGroup.UUID getGroupUUID() {
-    return groupDetail.group.getGroupUUID();
+    return group.getGroupUUID();
   }
 
   protected void updateOwnerGroup(GroupInfo ownerGroup) {
-    groupDetail.group.setOwnerGroupUUID(ownerGroup.getGroupUUID());
-    groupDetail.ownerGroup.setUUID(ownerGroup.getGroupUUID());
-    groupDetail.ownerGroup.setName(ownerGroup.name());
+    group.setOwnerUUID(ownerGroup.getGroupUUID());
   }
 
   protected AccountGroup.UUID getOwnerGroupUUID() {
-    return groupDetail.group.getOwnerGroupUUID();
+    return group.getOwnerUUID();
   }
 
   protected void setMembersTabVisible(final boolean visible) {

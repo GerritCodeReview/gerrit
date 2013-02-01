@@ -16,6 +16,7 @@ package com.google.gerrit.client.groups;
 
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -34,6 +35,16 @@ public class GroupApi {
   public static void createGroup(String groupName, AsyncCallback<GroupInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
     new RestApi("/groups/").id(groupName).ifNoneMatch().put(in, cb);
+  }
+
+  public static void getGroup(String group, AsyncCallback<GroupInfo> cb) {
+    group(group).get(cb);
+  }
+
+  /** Get the name of a group */
+  public static void getGroupName(AccountGroup.UUID group,
+      AsyncCallback<NativeString> cb) {
+    group(group).view("name").get(cb);
   }
 
   /** Check if the current user is owner of a group */
@@ -192,7 +203,11 @@ public class GroupApi {
   }
 
   private static RestApi group(AccountGroup.UUID group) {
-    return new RestApi("/groups/").id(group.get());
+    return group(group.get());
+  }
+
+  private static RestApi group(String group) {
+    return new RestApi("/groups/").id(group);
   }
 
   private static class GroupInput extends JavaScriptObject {

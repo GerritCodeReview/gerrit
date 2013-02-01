@@ -152,6 +152,9 @@ default. Optional fields are:
   `CURRENT_REVISION` was requested the only that commit's
   modified files will be output.
 
+* `DETAILED_ACCOUNTS`: include `_account_id` and `email` fields when
+  referencing accounts.
+
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES HTTP/1.0
 

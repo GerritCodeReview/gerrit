@@ -16,6 +16,24 @@
       "revId": "d3d06098c40691638ac3ab0f680a4eb28782d9bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PJ5s-y7Q",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-01T13:44:47Z",
+      "side": 1,
+      "message": "Adding a user to a group to which it already belongs will return success. this code should care not to insert insert a new row for a member that is already present in the table.",
+      "parentUuid": "PJ9s1U9g",
+      "revId": "d3d06098c40691638ac3ab0f680a4eb28782d9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

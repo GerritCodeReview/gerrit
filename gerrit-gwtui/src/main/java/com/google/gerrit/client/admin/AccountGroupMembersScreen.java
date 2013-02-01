@@ -21,6 +21,7 @@ import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.groups.GroupList;
 import com.google.gerrit.client.groups.MemberInfo;
+import com.google.gerrit.client.groups.MemberList;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountLink;
@@ -32,7 +33,6 @@ import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -154,7 +154,13 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     switch (groupDetail.group.getType()) {
       case INTERNAL:
         accounts = groupDetail.accounts;
-        members.display(groupDetail.members);
+
+        MemberList.all(getGroupUUID(), new GerritCallback<MemberList>() {
+          @Override
+          public void onSuccess(MemberList result) {
+            members.display(result.asList());
+          }
+        });
 
         GroupList.included(getGroupUUID(), new GerritCallback<GroupList>() {
           @Override
@@ -220,7 +226,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         });
   }
 
-  private class MemberTable extends FancyFlexTable<AccountGroupMember> {
+  private class MemberTable extends FancyFlexTable<MemberInfo> {
     private boolean enabled = true;
 
     MemberTable() {
@@ -236,8 +242,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     void setEnabled(final boolean enabled) {
       this.enabled = enabled;
       for (int row = 1; row < table.getRowCount(); row++) {
-        final AccountGroupMember k = getRowItem(row);
-        if (k != null) {
+        final MemberInfo i = getRowItem(row);
+        if (i != null) {
           ((CheckBox) table.getWidget(row, 1)).setEnabled(enabled);
         }
       }
@@ -246,9 +252,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     void deleteChecked() {
       final HashSet<Account.Id> ids = new HashSet<Account.Id>();
       for (int row = 1; row < table.getRowCount(); row++) {
-        final AccountGroupMember k = getRowItem(row);
-        if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          ids.add(k.getAccountId());
+        final MemberInfo i = getRowItem(row);
+        if (i != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
+          ids.add(i.getAccountId());
         }
       }
       if (!ids.isEmpty()) {
@@ -256,8 +262,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
-                  final AccountGroupMember k = getRowItem(row);
-                  if (k != null && ids.contains(k.getAccountId())) {
+                  final MemberInfo i = getRowItem(row);
+                  if (i != null && ids.contains(i.getAccountId())) {
                     table.removeRow(row);
                   } else {
                     row++;
@@ -268,20 +274,20 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
     }
 
-    void display(final List<AccountGroupMember> result) {
+    void display(final List<MemberInfo> result) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final AccountGroupMember k : result) {
+      for (final MemberInfo i : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
-        populate(row, k);
+        populate(row, i);
       }
     }
 
-    void populate(final int row, final AccountGroupMember k) {
-      final Account.Id accountId = k.getAccountId();
+    void populate(final int row, final MemberInfo i) {
+      final Account.Id accountId = i.getAccountId();
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
@@ -293,7 +299,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
 
-      setRowItem(row, k);
+      setRowItem(row, i);
     }
   }
 

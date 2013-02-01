@@ -55,9 +55,14 @@ public class PutName implements RestModifyView<GroupResource, Input> {
       throw new BadRequestException("name is required");
     }
 
+    final String newName = input.name.trim();
+    if (resource.toAccountGroup().getName().equals(newName)) {
+      return newName;
+    }
+
     try {
       return performRenameGroupFactory.create().renameGroup(
-          resource.toAccountGroup().getId(), input.name).group.getName();
+          resource.toAccountGroup().getId(), newName).group.getName();
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException();
     } catch (InvalidNameException e) {

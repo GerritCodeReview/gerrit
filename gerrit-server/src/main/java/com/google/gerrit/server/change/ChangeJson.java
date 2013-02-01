@@ -20,6 +20,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
@@ -47,7 +48,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.events.AccountAttribute;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -110,9 +110,9 @@ public class ChangeJson {
   private final Urls urls;
   private ChangeControl.Factory changeControlUserFactory;
   private SshInfo sshInfo;
-  private Map<Account.Id, AccountAttribute> accounts;
   private Map<Change.Id, ChangeControl> controls;
   private EnumSet<ListChangesOption> options;
+  private AccountInfo.Cache accountInfoCache;
 
   @Inject
   ChangeJson(
@@ -135,7 +135,6 @@ public class ChangeJson {
     this.urlProvider = curl;
     this.urls = urls;
 
-    accounts = Maps.newHashMap();
     controls = Maps.newHashMap();
     options = EnumSet.noneOf(ListChangesOption.class);
   }
@@ -179,6 +178,8 @@ public class ChangeJson {
 
   public List<List<ChangeInfo>> formatList2(List<List<ChangeData>> in)
       throws OrmException {
+    accountInfoCache =
+        new AccountInfo.Cache(db, !options.contains(DETAILED_ACCOUNTS));
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     for (List<ChangeData> changes : in) {
       ChangeData.ensureChangeLoaded(db, changes);
@@ -186,12 +187,7 @@ public class ChangeJson {
       ChangeData.ensureCurrentApprovalsLoaded(db, changes);
       res.add(toChangeInfo(changes));
     }
-    if (!accounts.isEmpty()) {
-      for (Account account : db.get().accounts().get(accounts.keySet())) {
-        AccountAttribute a = accounts.get(account.getId());
-        a.name = Strings.emptyToNull(account.getFullName());
-      }
-    }
+    accountInfoCache.fill();
     return res;
   }
 
@@ -213,7 +209,7 @@ public class ChangeJson {
     out.changeId = in.getKey().get();
     out.subject = in.getSubject();
     out.status = in.getStatus();
-    out.owner = asAccountAttribute(in.getOwner());
+    out.owner = accountInfoCache.get(in.getOwner());
     out.created = in.getCreatedOn();
     out.updated = in.getLastUpdatedOn();
     out._number = in.getId().get();
@@ -234,18 +230,6 @@ public class ChangeJson {
     }
 
     return out;
-  }
-
-  private AccountAttribute asAccountAttribute(Account.Id user) {
-    if (user == null) {
-      return null;
-    }
-    AccountAttribute a = accounts.get(user);
-    if (a == null) {
-      a = new AccountAttribute();
-      accounts.put(user, a);
-    }
-    return a;
   }
 
   private ChangeControl control(ChangeData cd) throws OrmException {
@@ -295,10 +279,10 @@ public class ChangeJson {
           n._status = r.status;
           switch (r.status) {
             case OK:
-              n.approved = asAccountAttribute(r.appliedBy);
+              n.approved = accountInfoCache.get(r.appliedBy);
               break;
             case REJECT:
-              n.rejected = asAccountAttribute(r.appliedBy);
+              n.rejected = accountInfoCache.get(r.appliedBy);
               break;
             default:
               break;
@@ -336,10 +320,10 @@ public class ChangeJson {
         if (val != 0 && min < val && val < max
             && psa.getCategoryId().equals(type.getCategory().getId())) {
           if (0 < val) {
-            e.getValue().recommended = asAccountAttribute(psa.getAccountId());
+            e.getValue().recommended = accountInfoCache.get(psa.getAccountId());
             e.getValue().value = val != 1 ? val : null;
           } else {
-            e.getValue().disliked = asAccountAttribute(psa.getAccountId());
+            e.getValue().disliked = accountInfoCache.get(psa.getAccountId());
             e.getValue().value = val != -1 ? val : null;
           }
         }
@@ -542,7 +526,7 @@ public class ChangeJson {
     String _sortkey;
     int _number;
 
-    AccountAttribute owner;
+    AccountInfo owner;
     Map<String, LabelInfo> labels;
     String current_revision;
     Map<String, RevisionInfo> revisions;
@@ -601,11 +585,11 @@ public class ChangeJson {
 
   static class LabelInfo {
     transient SubmitRecord.Label.Status _status;
-    AccountAttribute approved;
-    AccountAttribute rejected;
+    AccountInfo approved;
+    AccountInfo rejected;
 
-    AccountAttribute recommended;
-    AccountAttribute disliked;
+    AccountInfo recommended;
+    AccountInfo disliked;
     Short value;
     Boolean optional;
   }

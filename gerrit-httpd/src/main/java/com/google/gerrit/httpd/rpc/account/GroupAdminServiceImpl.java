@@ -16,25 +16,18 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupControl;
 import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtjsonrpc.common.VoidResult;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.util.Collections;
 
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
   private final GroupCache groupCache;
-  private final GroupControl.Factory groupControlFactory;
 
   private final GroupDetailHandler.Factory groupDetailFactory;
 
@@ -42,11 +35,9 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   GroupAdminServiceImpl(final Provider<ReviewDb> schema,
       final Provider<IdentifiedUser> currentUser,
       final GroupCache groupCache,
-      final GroupControl.Factory groupControlFactory,
       final GroupDetailHandler.Factory groupDetailFactory) {
     super(schema, currentUser);
     this.groupCache = groupCache;
-    this.groupControlFactory = groupControlFactory;
     this.groupDetailFactory = groupDetailFactory;
   }
 
@@ -59,30 +50,5 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       }
     }
     groupDetailFactory.create(groupId).to(callback);
-  }
-
-  public void changeGroupDescription(final AccountGroup.Id groupId,
-      final String description, final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final AccountGroup group = db.accountGroups().get(groupId);
-        assertAmGroupOwner(db, group);
-        group.setDescription(description);
-        db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
-  private void assertAmGroupOwner(final ReviewDb db, final AccountGroup group)
-      throws Failure {
-    try {
-      if (!groupControlFactory.controlFor(group.getId()).isOwner()) {
-        throw new Failure(new NoSuchGroupException(group.getId()));
-      }
-    } catch (NoSuchGroupException e) {
-      throw new Failure(new NoSuchGroupException(group.getId()));
-    }
   }
 }

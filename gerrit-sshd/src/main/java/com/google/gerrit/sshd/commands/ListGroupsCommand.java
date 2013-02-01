@@ -88,8 +88,8 @@ public class ListGroupsCommand extends BaseCommand {
           formatter.addColumn(Strings.nullToEmpty(info.description));
           formatter.addColumn(o != null ? o.getName() : "n/a");
           formatter.addColumn(o != null ? o.getGroupUUID().get() : "");
-          formatter.addColumn(Boolean.toString(
-              Objects.firstNonNull(info.visibleToAll, Boolean.FALSE)));
+          formatter.addColumn(Boolean.toString(Objects.firstNonNull(
+              info.options.isVisibleToAll, Boolean.FALSE)));
         }
         formatter.nextLine();
       }

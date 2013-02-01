@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
@@ -23,7 +24,6 @@ import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.common.data.GroupOptions;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,7 +34,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 public class AccountGroupInfoScreen extends AccountGroupScreen {
   private CopyableLabel groupUUIDLabel;
@@ -130,8 +129,8 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
         final String newOwner = ownerTxt.getText().trim();
         if (newOwner.length() > 0) {
           GroupApi.setGroupOwner(getGroupUUID(), newOwner,
-              new GerritCallback<com.google.gerrit.client.VoidResult>() {
-                public void onSuccess(final com.google.gerrit.client.VoidResult result) {
+              new GerritCallback<VoidResult>() {
+                public void onSuccess(final VoidResult result) {
                   saveOwner.setEnabled(false);
                 }
               });
@@ -161,8 +160,8 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       public void onClick(final ClickEvent event) {
         final String txt = descTxt.getText().trim();
         GroupApi.setGroupDescription(getGroupUUID(), txt,
-            new GerritCallback<com.google.gerrit.client.VoidResult>() {
-              public void onSuccess(final com.google.gerrit.client.VoidResult result) {
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
                 saveDesc.setEnabled(false);
               }
             });
@@ -190,10 +189,8 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     saveGroupOptions.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        final GroupOptions groupOptions =
-            new GroupOptions(visibleToAllCheckBox.getValue());
-        Util.GROUP_SVC.changeGroupOptions(getGroupId(), groupOptions,
-            new GerritCallback<VoidResult>() {
+        GroupApi.setGroupOptions(getGroupUUID(),
+            visibleToAllCheckBox.getValue(), new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
                 saveGroupOptions.setEnabled(false);
               }

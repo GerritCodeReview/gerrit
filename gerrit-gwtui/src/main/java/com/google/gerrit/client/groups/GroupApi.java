@@ -64,6 +64,14 @@ public class GroupApi {
     group(group).view("owner").put(in, cb);
   }
 
+  /** Set the options for a group */
+  public static void setGroupOptions(AccountGroup.UUID group,
+      boolean isVisibleToAll, AsyncCallback<VoidResult> cb) {
+    GroupOptionsInput in = GroupOptionsInput.create();
+    in.isVisibleToAll(isVisibleToAll);
+    group(group).view("options").put(in, cb);
+  }
+
   /** Add member to a group. */
   public static void addMember(AccountGroup.UUID group, String member,
       AsyncCallback<MemberInfo> cb) {
@@ -185,6 +193,16 @@ public class GroupApi {
     }
   }
 
+  private static class GroupOptionsInput extends JavaScriptObject {
+    final native void isVisibleToAll(boolean v) /*-{ if(v)this.is_visible_to_all=v; }-*/;
+
+    static GroupOptionsInput create() {
+      return (GroupOptionsInput) createObject();
+    }
+
+    protected GroupOptionsInput() {
+    }
+  }
 
   private static class MemberInput extends JavaScriptObject {
     final native void init() /*-{ this.members = []; }-*/;

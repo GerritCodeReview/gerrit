@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PJf0pJ4s",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T05:57:31Z",
+      "side": 1,
+      "message": "This is strictly following the example of ChangeInfo above. I can make it private though, not a big deal.",
+      "parentUuid": "PJV0ZO4A",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PJX0ed2s",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "PJZ0m47o",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T05:57:31Z",
+      "side": 1,
+      "message": "Better name for the map of value -\u003e description? \"descriptions\"?",
+      "parentUuid": "PJX0ed2s",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PJT3-j-E",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-02-01T05:04:42Z",
       "side": 1,
       "message": "I don\u0027t think we should be exporting category or id to the client.",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PJb0jn6k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-01T05:57:31Z",
+      "side": 1,
+      "message": "ID we can drop. It was used in some places in the publish comment screen client code for map keys and the like (see 2 changes down the road), but I should instead just change those to use the label name as the key.\n\nCategory we can\u0027t drop without changing the publish screen UI. Right now it looks like:\n\nCode Review:\no +1 yay\no 0 meh\no -1 boo\n\nTo render this we need the JSON to return \"Code-Review\": {\"category\": \"Code Review\"}. The label name is still the key, and there is no way to get \"Code Review\" from \"Code-Review\", the transformation goes the other way.\n\nWe could just change it to \"Code-Review:\" in the UI I guess and drop the name/label distinction entirely.",
+      "parentUuid": "PJT3-j-E",
       "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

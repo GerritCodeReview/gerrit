@@ -773,7 +773,7 @@ public class MergeOp {
     }
 
     CreateCodeReviewNotes codeReviewNotes =
-        codeReviewNotesFactory.create(db, repo);
+        codeReviewNotesFactory.create(db, destBranch.getParentKey(), repo);
     try {
       codeReviewNotes.create(
           merged,
@@ -782,8 +782,6 @@ public class MergeOp {
     } catch (CodeReviewNoteCreationException e) {
       log.error(e.getMessage());
     }
-    replication.fire(destBranch.getParentKey(),
-        GitRepositoryManager.REFS_NOTES_REVIEW);
   }
 
   private void updateSubscriptions(final List<Change> submitted) {

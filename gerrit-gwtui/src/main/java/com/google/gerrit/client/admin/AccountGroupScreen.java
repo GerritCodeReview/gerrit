@@ -71,6 +71,10 @@ public abstract class AccountGroupScreen extends MenuScreen {
     groupDetail.ownerGroup.setName(ownerGroup.name());
   }
 
+  protected AccountGroup.UUID getOwnerGroupUUID() {
+    return groupDetail.group.getOwnerGroupUUID();
+  }
+
   protected void setMembersTabVisible(final boolean visible) {
     setLinkVisible(membersTabToken, visible);
   }

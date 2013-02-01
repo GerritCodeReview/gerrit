@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -46,6 +47,24 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
     this.project = project;
     this.branch = branch;
+  }
+
+  @Override
+  protected void init() throws EmailException {
+    super.init();
+    setListIdHeader();
+  }
+
+  private void setListIdHeader() throws EmailException {
+    // Set a reasonable list id so that filters can be used to sort messages
+    setVHeader("List-Id", "<$email.listId.replace('@', '.')>");
+    if (getSettingsUrl() != null) {
+      setVHeader("List-Unsubscribe", "<$email.settingsUrl>");
+    }
+  }
+
+  public String getListId() throws EmailException {
+    return velocify("gerrit-$projectName.replace('/', '-')@$email.gerritHost");
   }
 
   /** Include users and groups that want notification of events. */

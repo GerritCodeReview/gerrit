@@ -157,21 +157,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
     setChangeSubjectHeader();
     setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
-    setListIdHeader();
     setChangeUrlHeader();
     setCommitIdHeader();
-  }
-
-  private void setListIdHeader() throws EmailException {
-    // Set a reasonable list id so that filters can be used to sort messages
-    setVHeader("List-Id", "<$email.listId.replace('@', '.')>");
-    if (getSettingsUrl() != null) {
-      setVHeader("List-Unsubscribe", "<$email.settingsUrl>");
-    }
-  }
-
-  public String getListId() throws EmailException {
-    return velocify("gerrit-$projectName.replace('/', '-')@$email.gerritHost");
   }
 
   private void setChangeUrlHeader() {

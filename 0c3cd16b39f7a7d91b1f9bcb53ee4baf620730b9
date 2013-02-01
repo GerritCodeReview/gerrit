@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "PJtwDDRg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-01T06:17:50Z",
+      "side": 1,
+      "message": "Yes, I was thinking the UI would just now say \"Code-Review\" and we would lose the space. :-)",
+      "parentUuid": "PJb0jn6k",
+      "revId": "0c3cd16b39f7a7d91b1f9bcb53ee4baf620730b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PJd0DCxg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2

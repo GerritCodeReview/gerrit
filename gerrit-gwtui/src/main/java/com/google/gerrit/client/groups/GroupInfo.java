@@ -34,10 +34,10 @@ public class GroupInfo extends JavaScriptObject {
   public final native String url() /*-{ return this.url; }-*/;
 
   private final native int group_id() /*-{ return this.group_id; }-*/;
-  private final native String owner_uuid() /*-{ return this.owner_uuid; }-*/;
+  private final native String owner_id() /*-{ return this.owner_id; }-*/;
 
   public final AccountGroup.UUID getOwnerUUID() {
-    String owner = owner_uuid();
+    String owner = owner_id();
     if (owner != null) {
         return new AccountGroup.UUID(URL.decodePathSegment(owner));
     }

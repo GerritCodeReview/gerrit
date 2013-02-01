@@ -58,7 +58,7 @@ public class GroupApi {
 
   /** Set owner for a group */
   public static void setGroupOwner(AccountGroup.UUID group,
-      String owner, AsyncCallback<VoidResult> cb) {
+      String owner, AsyncCallback<GroupInfo> cb) {
     GroupInput in = GroupInput.create();
     in.owner(owner);
     group(group).view("owner").put(in, cb);

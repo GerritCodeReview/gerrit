@@ -18,6 +18,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.groups.GroupApi;
+import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.OnEditEnabler;
@@ -129,8 +130,9 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
         final String newOwner = ownerTxt.getText().trim();
         if (newOwner.length() > 0) {
           GroupApi.setGroupOwner(getGroupUUID(), newOwner,
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(final VoidResult result) {
+              new GerritCallback<GroupInfo>() {
+                public void onSuccess(final GroupInfo result) {
+                  updateOwnerGroup(result);
                   saveOwner.setEnabled(false);
                 }
               });

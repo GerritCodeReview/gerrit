@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.client.Dispatcher.toGroup;
 
+import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -62,6 +63,12 @@ public abstract class AccountGroupScreen extends MenuScreen {
 
   protected AccountGroup.UUID getGroupUUID() {
     return groupDetail.group.getGroupUUID();
+  }
+
+  protected void updateOwnerGroup(GroupInfo ownerGroup) {
+    groupDetail.group.setOwnerGroupUUID(ownerGroup.getGroupUUID());
+    groupDetail.ownerGroup.setUUID(ownerGroup.getGroupUUID());
+    groupDetail.ownerGroup.setName(ownerGroup.name());
   }
 
   protected void setMembersTabVisible(final boolean visible) {

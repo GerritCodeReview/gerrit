@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "PU0--LfA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-02-03T17:16:12Z",
+      "side": 1,
+      "message": "Is this comparator logic already done somewhere else?  It seems like it should be shared with whatever logic sets up the ordering into the table in the first place.",
+      "revId": "d3d06098c40691638ac3ab0f680a4eb28782d9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PJ9s1U9g",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
         "patchSetId": 1

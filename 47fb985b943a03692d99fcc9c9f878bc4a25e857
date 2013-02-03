@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PUy-w6SE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-02-03T16:50:24Z",
+      "side": 1,
+      "message": "This message should probably explain whether it changes user facing behavior or whether it is just a refactoring.\n\nI am starting to wish we had \"file comments\" on commit messages also! :)",
+      "revId": "47fb985b943a03692d99fcc9c9f878bc4a25e857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

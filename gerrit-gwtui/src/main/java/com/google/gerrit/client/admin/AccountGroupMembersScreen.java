@@ -378,19 +378,25 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
           return str == null ? "" : str;
         }
       };
-      int insertPosition;
-      for (insertPosition = 1; insertPosition < table.getRowCount(); insertPosition++) {
-        final GroupInfo i = getRowItem(insertPosition);
-        if (i != null) {
-          if (c.compare(info, i) == 0) {
-            // group is already contained in the table
-            return;
-          }
-          if (c.compare(info, i) < 0) {
-            break;
-          }
+
+      int insertPosition = table.getRowCount();
+      int left = 1;
+      int right = table.getRowCount() - 1;
+      while (left <= right) {
+        int middle = (left + right) / 2;
+        GroupInfo i = getRowItem(middle);
+        int cmp = c.compare(i, info);
+
+        if (cmp < 0) {
+          left = middle + 1;
+        } else if (cmp > 0) {
+          right = middle - 1;
+        } else {
+          // group is already contained in the table
+          return;
         }
       }
+      insertPosition = left;
 
       table.insertRow(insertPosition);
       applyDataRowStyle(insertPosition);

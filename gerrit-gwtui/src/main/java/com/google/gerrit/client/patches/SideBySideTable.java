@@ -217,10 +217,10 @@ public class SideBySideTable extends AbstractPatchContentTable {
     table.setWidget(R_HEAD, B, headerSideB);
 
     // Populate icons to lineNumber column header.
-    if (headerSideA.isFile()) {
+    if (headerSideA.isFileOrCommitMessage()) {
       table.setWidget(R_HEAD, A - 1, iconA);
     }
-    if (headerSideB.isFile()) {
+    if (headerSideB.isFileOrCommitMessage()) {
       table.setWidget(R_HEAD, B + 1, iconB);
     }
   }

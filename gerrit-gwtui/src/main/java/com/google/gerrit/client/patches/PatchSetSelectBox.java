@@ -94,7 +94,7 @@ public class PatchSetSelectBox extends Composite {
 
     linkPanel.clear();
 
-    if (isFile()) {
+    if (isFileOrCommitMessage()) {
       linkPanel.setTitle(PatchUtil.C.addFileCommentByDoubleClick());
     }
 
@@ -177,15 +177,16 @@ public class PatchSetSelectBox extends Composite {
     return anchor;
   }
 
-  public boolean isFile() {
-    boolean isCommitMessage = Patch.COMMIT_MSG.equals(script.getNewName());
-    return !(isCommitMessage || //
-        (side == Side.A && 0 >= script.getA().size()) || //
+  public boolean isFileOrCommitMessage() {
+    return !((side == Side.A && 0 >= script.getA().size()) || //
     (side == Side.B && 0 >= script.getB().size()));
   }
 
   private Anchor createDownloadLink() {
-    if (!isFile()) {
+    boolean isCommitMessage = Patch.COMMIT_MSG.equals(script.getNewName());
+    if (isCommitMessage || //
+        (side == Side.A && 0 >= script.getA().size()) || //
+        (side == Side.B && 0 >= script.getB().size())) {
       return null;
     }
 

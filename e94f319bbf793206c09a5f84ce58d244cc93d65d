@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PU.-jgSk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T20:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PUy9rybE",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PU29l0do",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-04T16:09:48Z",
       "side": 1,
       "message": "Hmm. We usually return NativeList don\u0027t we?",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU..KYXE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T20:50:03Z",
+      "side": 1,
+      "message": "If we do I don\u0027t exactly see the point, since from a caller\u0027s perspective a Java List is better than a NativeList.",
+      "parentUuid": "PU29l0do",
       "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "PU8.HnWk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T20:50:03Z",
+      "side": 1,
+      "message": "Done. Looking at the implementation of Natives.keys() it may work on arrays, which would be why this didn\u0027t blow up.",
+      "parentUuid": "PUw9whZg",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PU09qjao",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-04T16:09:48Z",
       "side": 1,
       "message": "Why is this cast suddenly necessary?",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PUw-rZQg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T20:50:03Z",
+      "side": 1,
+      "message": "If you must know, it\u0027s because I was going to change ChangeInfo.labels() to return a list of either LabelInfo or DetailedLabelInfo. This turned out to be a bad idea.",
+      "parentUuid": "PU09qjao",
       "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "PU8-gPSA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T20:50:03Z",
+      "side": 1,
+      "message": "Worked this out in person. The commit description now contains a full example pasted from a running server.",
+      "parentUuid": "PU681.dg",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PU.8-AbM",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 7
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "PUy-PSbI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T20:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PU.8-AbM",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PU888vcE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 7
@@ -115,6 +223,24 @@
       "writtenOn": "2013-02-04T16:09:48Z",
       "side": 1,
       "message": "This is a good reason to have that pending list in the parent change, and support multiple objects per account. :-)",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PUw-UBUE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T20:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PU888vcE",
       "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,23 @@
       "revId": "47fb985b943a03692d99fcc9c9f878bc4a25e857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PVS3w7SE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-04T01:35:09Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the `Signed-off-by` line be in the last paragraph?",
+      "revId": "47fb985b943a03692d99fcc9c9f878bc4a25e857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

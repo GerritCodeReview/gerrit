@@ -14,6 +14,10 @@ Lists the projects accessible by the caller. This is the same as
 using the link:cmd-ls-projects.html[ls-projects] command over SSH,
 and accepts the same options as query parameters.
 
+As result a map is returned that maps the project names to
+link:#project-info[ProjectInfo] entries. The entries in the map are sorted
+by project name.
+
 ----
   GET /projects/?d HTTP/1.0
 
@@ -140,6 +144,32 @@ To retrieve only the default dashboard, add `default` to the URL:
     ...
   }
 ----
+
+[[json-entities]]
+JSON Entities
+-------------
+
+[[project-info]]
+ProjectInfo
+~~~~~~~~~~~
+The `ProjectInfo` entity contains information about a project.
+
+[options="header",width="50%",cols="1,^2,4"]
+|===========================
+|Field Name    ||Description
+|`kind`        ||`gerritcodereview#project`
+|`id`          ||The URL encoded project name.
+|`name`        |
+not set if returned in a map where the project name is used as map key|
+The name of the project.
+|`parent`      |optional, +
+not set for the root project|
+The name of the parent project. +
+`?-<n>` if the parent project is not visible (`<n>` is a number which
+is increased for each non-visible project).
+|`description` |optional|The description of the project.
+|`branches`    |optional|Map of branch names to HEAD revisions.
+|===========================
 
 
 GERRIT

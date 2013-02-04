@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PUw.Zpdg",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetPublishDetailFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T17:04:31Z",
+      "side": 1,
+      "message": "Be a bit more paranoid here and handle the case where a category id comes from the database but is not declared in approvalTypes.\n\nThe correct behavior is to pretend the record didn\u0027t exist and skip it.",
+      "revId": "1be66e21170e7988e5f7e08827a4afd991ae06fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

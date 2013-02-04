@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PV4sA7Qw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-04T07:34:22Z",
+      "side": 1,
+      "message": "The commit message should be updated to say that argparse is used instead of optparse to parse the command line options.\n\nIt should also mention that the change introduces dependency on Python 2.7 (or manual installation of the argparse module).",
+      "revId": "9fb0805057796e62652d55a73a21b12ae3cd8caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PV6sDKRg",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-04T07:34:22Z",
+      "side": 1,
+      "message": "Nit: imports should be in alphabetical order.",
+      "revId": "9fb0805057796e62652d55a73a21b12ae3cd8caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

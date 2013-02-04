@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "PVgz1NxI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-04T02:42:26Z",
+      "side": 1,
+      "message": "I think this is not a bugfix like https://gerrit-review.googlesource.com/#/c/40950/\nThis feature sounds reasonable, however it is changing a rule that current Gerrit only apply this ChangeIdValidator on NEW patchset, so should we firstly make clear the background of this rule?  hope Shawn give some light.",
+      "revId": "47fb985b943a03692d99fcc9c9f878bc4a25e857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PUy-w6SE",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

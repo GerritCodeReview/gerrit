@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "PU48pFY0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T15:19:29Z",
+      "side": 1,
+      "message": "You clear pending below. And if an account goes through get multiple times it gets multiple objects for the same Account.Id. Why not just drop pending and use the map?\n\nIts OK to have the AccountInfo be shared through the JSON graph. I didn\u0027t do that in the old code you are replacing because it was shorter code to just make a new object every time. Here because you are bulk loading from the database with a map to tell you what records to load it might be easier to reuse the objects.",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU28TEWI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T15:19:29Z",
+      "side": 1,
+      "message": "As I understand the code this can\u0027t happen. During get you didn\u0027t allow a null id. So why do we need this condition?",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU.8m4bo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T15:19:29Z",
+      "side": 1,
+      "message": "Maybe consider using the AccountCache and doing a getIfPresent() on it to fetch data, then perform a database read on anything missing? Right now we use the AccountCache to populate the fields. Its fast for hot records, but its bulk loading is slow.\n\nFWIW actually a lot of data should be present already. If we tested labels to see if a user can still use something in range we already cached their account.",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU08YzXo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T15:19:29Z",
+      "side": 1,
+      "message": "This is always true.",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU68s2Zw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T15:19:29Z",
+      "side": 1,
+      "message": "Because you clear pending below I\u0027m not sure this is useful. A future fill call won\u0027t revisit objects you already have.",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PUy8ZCYI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T15:19:29Z",
+      "side": 1,
+      "message": "Never import Id or Key directly. Always make sure you use Foo.Id, aka here Account.Id.",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PLHb1MBE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
         "patchSetId": 1
@@ -13,6 +115,24 @@
       "writtenOn": "2013-02-01T23:40:46Z",
       "side": 1,
       "message": "Do you think we also need the account ID? In particular, I want to use this to look up the current user\u0027s previous vote for a label, and I\u0027m worried that email might not be unique.",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PUw8exWk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T15:19:29Z",
+      "side": 1,
+      "message": "You are correct to worry, email is not promised to be unique in the server. Many things go wrong when its not unique but it can and does happen to have duplicates.\n\nI think we have little choice but to include the Account.Id. I would name it _account_id in the JSON because we are going to eventually replace it with some sort of UUID thing based on the account manager code that I am supposed to be reviewing/working on.",
+      "parentUuid": "PLHb1MBE",
       "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -247,7 +247,7 @@ public class ProjectControl {
   }
 
   private static Set<GroupReference> getGroups(
-      final List<SectionMatcher> sectionMatcherList) {
+      final Iterable<SectionMatcher> sectionMatcherList) {
     final Set<GroupReference> all = new HashSet<GroupReference>();
     for (final SectionMatcher matcher : sectionMatcherList) {
       final AccessSection section = matcher.section;

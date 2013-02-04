@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PVixCs0E",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-04T08:49:41Z",
+      "side": 1,
+      "message": "The value of the insertPosition will be the same as the value of the row after the loop finishes.\nCan we remove the insertPosition variable?",
+      "revId": "d880024ec937278383571ba0217d47e1b8bbe428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

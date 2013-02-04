@@ -212,7 +212,8 @@ public class ProjectState {
           section.setPermissions(copy);
         }
 
-        SectionMatcher matcher = SectionMatcher.wrap(section);
+        SectionMatcher matcher = SectionMatcher.wrap(getProject().getNameKey(),
+            section);
         if (matcher != null) {
           sm.add(matcher);
         }

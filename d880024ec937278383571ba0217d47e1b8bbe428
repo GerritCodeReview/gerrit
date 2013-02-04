@@ -16,6 +16,24 @@
       "revId": "d880024ec937278383571ba0217d47e1b8bbe428",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PVsw8z8E",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-04T09:43:44Z",
+      "side": 1,
+      "message": "Removed the \u0027insertPosition\u0027 variable and renamed the \u0027row\u0027 variable to \u0027insertPosition\u0027 ;-)\n\nDone",
+      "parentUuid": "PVixCs0E",
+      "revId": "d880024ec937278383571ba0217d47e1b8bbe428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

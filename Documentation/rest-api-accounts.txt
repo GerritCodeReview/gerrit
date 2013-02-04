@@ -9,8 +9,8 @@ Endpoints
 ---------
 
 [[accounts_self_capabilities]]
-/accounts/self/capabilities (Account Capabilities)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /accounts/self/capabilities (Account Capabilities)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Returns the global capabilities (such as `createProject` or
 `createGroup`) that are enabled for the calling user. This can be used
 by UI tools to discover if administrative features are available

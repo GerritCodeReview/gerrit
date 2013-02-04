@@ -378,6 +378,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
           return str == null ? "" : str;
         }
       };
+      int insertPosition = table.getRowCount();
       for (int row = 1; row < table.getRowCount(); row++) {
         final GroupInfo i = getRowItem(row);
         if (i != null) {
@@ -386,18 +387,15 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
             return;
           }
           if (c.compare(info, i) < 0) {
-            table.insertRow(row);
-            applyDataRowStyle(row);
-            populate(row, info);
-            return;
+            insertPosition = row;
+            break;
           }
         }
       }
 
-      final int row = table.getRowCount();
-      table.insertRow(row);
-      applyDataRowStyle(row);
-      populate(row, info);
+      table.insertRow(insertPosition);
+      applyDataRowStyle(insertPosition);
+      populate(insertPosition, info);
     }
 
     void populate(final int row, final GroupInfo i) {

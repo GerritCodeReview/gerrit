@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PVmwTG2I",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-04T07:35:21Z",
+      "side": 1,
+      "message": "The comparator logic is already available on the server side, but not sure how it can be easily shared, since on the server side we have a different MemberInfo class than here on the client side. Introducing a common interface for both MemberInfo\u0027s to enable a common comparator seems a bit overkill.",
+      "parentUuid": "PU0--LfA",
+      "revId": "d3d06098c40691638ac3ab0f680a4eb28782d9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PJ9s1U9g",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Adding a user to a group to which it already belongs will return success. this code should care not to insert insert a new row for a member that is already present in the table.",
       "parentUuid": "PJ9s1U9g",
+      "revId": "d3d06098c40691638ac3ab0f680a4eb28782d9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PVgwe12k",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-04T07:35:21Z",
+      "side": 1,
+      "message": "The same mistakes were already done for inserting an included group into the included groups table :-(\n\nI\u0027ve made fixes for the insert included groups code [1,2,3]. When they get accepted, I\u0027ll fix this change.\n\n [1] https://gerrit-review.googlesource.com/41960\n [2] https://gerrit-review.googlesource.com/41961\n [3] https://gerrit-review.googlesource.com/41962",
+      "parentUuid": "PJ5s-y7Q",
       "revId": "d3d06098c40691638ac3ab0f680a4eb28782d9bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

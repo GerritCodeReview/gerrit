@@ -16,6 +16,24 @@
       "revId": "1be66e21170e7988e5f7e08827a4afd991ae06fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PaBrw3SE",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetPublishDetailFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T23:13:45Z",
+      "side": 1,
+      "message": "This is actually unnecessary, it was before I had fully migrated the approvals code.",
+      "parentUuid": "PUw.Zpdg",
+      "revId": "1be66e21170e7988e5f7e08827a4afd991ae06fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

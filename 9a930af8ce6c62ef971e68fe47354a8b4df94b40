@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PV0sYxXo",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-04T09:28:30Z",
+      "side": 1,
+      "message": "The apostrophe is not needed.  I would change this to:\n\n link:#group-info[GroupInfo] entries",
+      "revId": "9a930af8ce6c62ef971e68fe47354a8b4df94b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PVwsevWk",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-04T09:28:30Z",
+      "side": 1,
+      "message": "s/but also/or",
+      "revId": "9a930af8ce6c62ef971e68fe47354a8b4df94b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PV2sTAWI",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-04T09:28:30Z",
+      "side": 1,
+      "message": "Nit: extra space in \"to a  web\"",
+      "revId": "9a930af8ce6c62ef971e68fe47354a8b4df94b40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

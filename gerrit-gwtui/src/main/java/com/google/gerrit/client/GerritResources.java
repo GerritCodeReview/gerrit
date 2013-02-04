@@ -46,8 +46,8 @@ public interface GerritResources extends ClientBundle {
   @Source("downloadIcon.png")
   public ImageResource downloadIcon();
 
-  @Source("queryProjectLink.png")
-  public ImageResource queryProjectLink();
+  @Source("queryIcon.png")
+  public ImageResource queryIcon();
 
   @Source("addFileComment.png")
   public ImageResource addFileComment();

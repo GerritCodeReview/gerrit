@@ -119,7 +119,7 @@ public class ProjectControl {
   private final PermissionCollection.Factory permissionFilter;
   private final Collection<ContributorAgreement> contributorAgreements;
 
-  private List<SectionMatcher> allSections;
+  private Map<SectionMatcher, Project.NameKey> allSections;
   private List<SectionMatcher> localSections;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
@@ -239,7 +239,7 @@ public class ProjectControl {
   }
 
   public Set<GroupReference> getAllGroups() {
-    return getGroups(access());
+    return getGroups(access().keySet());
   }
 
   public Set<GroupReference> getLocalGroups() {
@@ -247,7 +247,7 @@ public class ProjectControl {
   }
 
   private static Set<GroupReference> getGroups(
-      final List<SectionMatcher> sectionMatcherList) {
+      final Iterable<SectionMatcher> sectionMatcherList) {
     final Set<GroupReference> all = new HashSet<GroupReference>();
     for (final SectionMatcher matcher : sectionMatcherList) {
       final AccessSection section = matcher.section;
@@ -334,7 +334,7 @@ public class ProjectControl {
   }
 
   private boolean canPerformOnAnyRef(String permissionName) {
-    for (SectionMatcher matcher : access()) {
+    for (SectionMatcher matcher : access().keySet()) {
       AccessSection section = matcher.section;
       Permission permission = section.getPermission(permissionName);
       if (permission == null) {
@@ -384,7 +384,7 @@ public class ProjectControl {
 
   private Set<String> allRefPatterns(String permissionName) {
     Set<String> all = new HashSet<String>();
-    for (SectionMatcher matcher : access()) {
+    for (SectionMatcher matcher : access().keySet()) {
       AccessSection section = matcher.section;
       Permission permission = section.getPermission(permissionName);
       if (permission != null) {
@@ -394,7 +394,7 @@ public class ProjectControl {
     return all;
   }
 
-  private List<SectionMatcher> access() {
+  private Map<SectionMatcher, Project.NameKey> access() {
     if (allSections == null) {
       allSections = state.getAllSections();
     }

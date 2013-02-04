@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PV2v64QE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-04T04:25:32Z",
+      "side": 1,
+      "message": "I don\u0027t think the name of this method describes its purpose very well.\n\nCan we change it to something more descriptive?\n\nSomething like `canAddFileComment`?",
+      "revId": "eb542b7848034c0f2e0cdde1d774ca712199bf92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

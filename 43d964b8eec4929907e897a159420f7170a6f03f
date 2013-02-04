@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PU89V3ek",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:59:17Z",
+      "side": 1,
+      "message": "Is this dead now?",
+      "revId": "43d964b8eec4929907e897a159420f7170a6f03f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU.9YoSE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:59:17Z",
+      "side": 1,
+      "message": "The setter should match the getter. Maybe call this \"property\" limitToPatchSets?",
+      "revId": "43d964b8eec4929907e897a159420f7170a6f03f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU49b1Rw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:59:17Z",
+      "side": 1,
+      "message": "How do you ensure this method lazy loads the relevant data? It looks like right now its going to return an empty collection to the caller if something else didn\u0027t first get invoked to trigger loading.\n\nThat is a change in behavior. Did you verify all callers are OK with this assumption?",
+      "revId": "43d964b8eec4929907e897a159420f7170a6f03f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

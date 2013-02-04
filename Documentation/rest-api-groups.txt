@@ -82,6 +82,10 @@ GET /groups/*/members/ (List Group Members)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the direct members of a group.
 
+As result a list of link:#member-info[MemberInfo] entries is returned.
+The entries in the list are sorted by full name, preferred email and
+id.
+
 ----
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/ HTTP/1.0
 
@@ -228,6 +232,24 @@ Options of the group.
 Whether the group is visible to all registered users.
 |================================
 
+[[member-info]]
+MemberInfo
+~~~~~~~~~~
+The `MemberInfo` entity contains information about an account that is
+member of a group.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===============================
+|Field Name        ||Description
+|`kind`            ||`gerritcodereview#member`
+|`id`              ||The URL encoded ID of the account.
+|`account_id`      ||The numeric ID of the account.
+|`full_name`       |optional|
+The full name of the user ("Given-name Surname" style).
+|`preferred_email` |optional|
+The email address the user prefers to be contacted through.
+|`user_name`       ||The user name.
+|===============================
 
 GERRIT
 ------

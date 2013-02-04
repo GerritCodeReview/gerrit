@@ -16,10 +16,12 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.RefControl.isRE;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -52,7 +54,7 @@ public class PermissionCollection {
     /**
      * Get all permissions that apply to a reference.
      *
-     * @param matcherList collection of sections that should be considered, in
+     * @param matchers collection of sections that should be considered, in
      *        priority order (project specific definitions must appear before
      *        inherited ones).
      * @param ref reference being accessed.
@@ -64,7 +66,7 @@ public class PermissionCollection {
      * @return map of permissions that apply to this reference, keyed by
      *         permission name.
      */
-    PermissionCollection filter(Iterable<SectionMatcher> matcherList,
+    PermissionCollection filter(Map<SectionMatcher, Project.NameKey> matchers,
         String ref, String username) {
       if (isRE(ref)) {
         ref = RefControl.shortestExample(ref);
@@ -73,8 +75,8 @@ public class PermissionCollection {
       }
 
       boolean perUser = false;
-      List<AccessSection> sections = new ArrayList<AccessSection>();
-      for (SectionMatcher matcher : matcherList) {
+      Map<AccessSection, Project.NameKey> sectionToProject = Maps.newLinkedHashMap();
+      for (SectionMatcher matcher : matchers.keySet()) {
         // If the matcher has to expand parameters and its prefix matches the
         // reference there is a very good chance the reference is actually user
         // specific, even if the matcher does not match the reference. Since its
@@ -93,9 +95,11 @@ public class PermissionCollection {
         }
 
         if (matcher.match(ref, username)) {
-          sections.add(matcher.section);
+          sectionToProject.put(matcher.section, matchers.get(matcher));
         }
       }
+      List<AccessSection> sections = new ArrayList<AccessSection>(
+          sectionToProject.keySet());
       sorter.sort(ref, sections);
 
       Set<SeenRule> seen = new HashSet<SeenRule>();
@@ -104,7 +108,9 @@ public class PermissionCollection {
 
       HashMap<String, List<PermissionRule>> permissions =
           new HashMap<String, List<PermissionRule>>();
+      Map<PermissionRule, ProjectRef> ruleProps = Maps.newIdentityHashMap();
       for (AccessSection section : sections) {
+        Project.NameKey project = sectionToProject.get(section);
         for (Permission permission : section.getPermissions()) {
           boolean exclusivePermissionExists =
               exclusiveGroupPermissions.contains(permission.getName());
@@ -124,6 +130,7 @@ public class PermissionCollection {
                 permissions.put(permission.getName(), r);
               }
               r.add(rule);
+              ruleProps.put(rule, new ProjectRef(project, section.getName()));
             }
           }
 
@@ -133,16 +140,20 @@ public class PermissionCollection {
         }
       }
 
-      return new PermissionCollection(permissions, perUser ? username : null);
+      return new PermissionCollection(permissions, ruleProps,
+          perUser ? username : null);
     }
   }
 
   private final Map<String, List<PermissionRule>> rules;
+  private final Map<PermissionRule, ProjectRef> ruleProps;
   private final String username;
 
   private PermissionCollection(Map<String, List<PermissionRule>> rules,
+      Map<PermissionRule, ProjectRef> ruleProps,
       String username) {
     this.rules = rules;
+    this.ruleProps = ruleProps;
     this.username = username;
   }
 
@@ -165,6 +176,10 @@ public class PermissionCollection {
   public List<PermissionRule> getPermission(String permissionName) {
     List<PermissionRule> r = rules.get(permissionName);
     return r != null ? r : Collections.<PermissionRule> emptyList();
+  }
+
+  ProjectRef getRuleProps(PermissionRule rule) {
+    return ruleProps.get(rule);
   }
 
   /**

@@ -18,6 +18,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -50,6 +51,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /** Cached information on a project. */
@@ -227,14 +229,20 @@ public class ProjectState {
    * dynamically and is not cached. Callers should try to cache this result
    * per-request as much as possible.
    */
-  List<SectionMatcher> getAllSections() {
+  Map<SectionMatcher, Project.NameKey> getAllSections() {
+    Map<SectionMatcher, Project.NameKey> all = Maps.newLinkedHashMap();
+    Project.NameKey p = getProject().getNameKey();
     if (isAllProjects) {
-      return getLocalAccessSections();
+      for (SectionMatcher m : getLocalAccessSections()) {
+        all.put(m, p);
+      }
+      return all;
     }
 
-    List<SectionMatcher> all = Lists.newArrayList();
     for (ProjectState s : tree()) {
-      all.addAll(s.getLocalAccessSections());
+      for (SectionMatcher m : s.getLocalAccessSections()) {
+        all.put(m, s.getProject().getNameKey());
+      }
     }
     return all;
   }

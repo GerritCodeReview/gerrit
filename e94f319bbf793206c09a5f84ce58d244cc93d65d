@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PUy9rybE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:09:48Z",
+      "side": 1,
+      "message": "Currently this returns null if the caller doesn\u0027t have permission to use the requested value.",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU29l0do",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:09:48Z",
+      "side": 1,
+      "message": "Hmm. We usually return NativeList don\u0027t we?",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PUw9whZg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:09:48Z",
+      "side": 1,
+      "message": "This is the wrong type.",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU09qjao",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:09:48Z",
+      "side": 1,
+      "message": "Why is this cast suddenly necessary?",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU681.dg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:09:48Z",
+      "side": 1,
+      "message": "So permitted_values contains the map of what the current user can use on this label. It doesn\u0027t tell the UI the full range supported by the label.\n\nIt feels wrong to me to intermix the permitted range for the caller alongside of the data stored by other users.",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU.8-AbM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:09:48Z",
+      "side": 1,
+      "message": "at can be null if prolog returns a label not declared in the database table. You handle it above gracefully, but then NPE here if there is a stale or rogue database record in PatchSetApprovals.\n\nA simple if (at \u003d\u003d null) continue; would fix this.",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU888vcE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-04T16:09:48Z",
+      "side": 1,
+      "message": "This is a good reason to have that pending list in the parent change, and support multiple objects per account. :-)",
+      "revId": "e94f319bbf793206c09a5f84ce58d244cc93d65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,10 @@ Lists the groups accessible by the caller. This is the same as
 using the link:cmd-ls-groups.html[ls-groups] command over SSH,
 and accepts the same options as query parameters.
 
+As result a map is returned that maps the group names to
+link:#group-info[GroupInfo] entries. The entries in the map are sorted
+by group name.
+
 ----
   GET /groups/ HTTP/1.0
 
@@ -155,6 +159,9 @@ GET /groups/*/groups/ (List Included Groups)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the directly included groups of a group.
 
+As result a list of link:#group-info[GroupInfo] entries is returned.
+The entries in the list are sorted by group name and UUID.
+
 ----
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/groups/ HTTP/1.0
 
@@ -173,6 +180,44 @@ Lists the directly included groups of a group.
     }
   ]
 ----
+
+[[json-entities]]
+JSON Entities
+-------------
+
+[[group-info]]
+GroupInfo
+~~~~~~~~~
+The `GroupInfo` entity contains information about a group. This can be
+a Gerrit internal group, or an external group that is known to Gerrit.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`kind`        ||`gerritcodereview#group`
+|`id`          ||The URL encoded UUID of the group.
+|`name`        ||The name of the group.
+|`url`         |optional|
+URL to information about the group. Typically a URL to a web page that
+permits users to apply to join the group, or manage their membership.
+|`options`     ||link:#group-options-info[Options of the group]
+|`description` |only for internal groups|The description of the group.
+|`group_id`    |only for internal groups|The numeric ID of the group.
+|`owner_id`    |only for internal groups|The URL encoded UUID of the owner group.
+|===========================
+
+[[group-options-info]]
+GroupOptionsInfo
+~~~~~~~~~~~~~~~~
+Options of the group.
+
+[options="header",width="50%",cols="1,^1,5"]
+|================================
+|Field Name         ||Description
+|`kind`             ||`gerritcodereview#groupoptions`
+|`is_visible_to_all`|not set if `false`|
+Whether the group is visible to all registered users.
+|================================
 
 
 GERRIT

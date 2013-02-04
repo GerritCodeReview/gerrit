@@ -145,8 +145,9 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       // Drop any '\r' to avoid this problem.
       html = html.replace("\r</span>\n", "</span>\n");
 
+      html = html.replace("\n", "<lf>\n");
       html = prettify(html, getFileType());
-
+      html = html.replace("<lf>\n", "\n");
     } else {
       html = expandTabs(html);
     }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PVmxMu3I",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-04T09:01:09Z",
+      "side": 1,
+      "message": "You should start from 1 here as in the previous change.\nThe row at index 0 is the table header.",
+      "revId": "59b4b1a468f3f5df332bc0ed55fb62c8e0eb39c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PVkxR-wY",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-04T09:01:09Z",
+      "side": 1,
+      "message": "(left + right) / 2\n\nis probably more readable than the bit shift operation.",
+      "revId": "59b4b1a468f3f5df332bc0ed55fb62c8e0eb39c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

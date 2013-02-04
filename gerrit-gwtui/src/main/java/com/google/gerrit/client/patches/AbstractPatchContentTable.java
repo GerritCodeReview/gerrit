@@ -130,7 +130,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     headerSideA.addDoubleClickHandler(new DoubleClickHandler() {
       @Override
       public void onDoubleClick(DoubleClickEvent event) {
-        if (headerSideA.isFile()) {
+        if (headerSideA.isFileOrCommitMessae()) {
           createFileCommentEditorOnSideA();
         }
       }
@@ -140,7 +140,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     headerSideB.addDoubleClickHandler(new DoubleClickHandler() {
       @Override
       public void onDoubleClick(DoubleClickEvent event) {
-        if (headerSideB.isFile()) {
+        if (headerSideB.isFileOrCommitMessae()) {
           createFileCommentEditorOnSideB();
         }
       }

@@ -193,10 +193,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         Gerrit.RESOURCES.css().unifiedTableHeader());
 
     // Add icons to lineNumber column header
-    if (headerSideA.isFile()) {
+    if (headerSideA.isFileOrCommitMessae()) {
       table.setWidget(R_HEAD, 1, iconA);
     }
-    if (headerSideB.isFile()) {
+    if (headerSideB.isFileOrCommitMessae()) {
       table.setWidget(rowOfTableHeaderB, 2, iconB);
     }
   }

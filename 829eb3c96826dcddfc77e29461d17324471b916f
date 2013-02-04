@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PVyvw2SE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-04T02:55:52Z",
+      "side": 1,
+      "message": "s/Messae/Message\n\nIs this method needed any more?  Surely everything is either a file or commit message now?",
+      "revId": "829eb3c96826dcddfc77e29461d17324471b916f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

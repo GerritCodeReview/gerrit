@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PU8.ufek",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T18:14:53Z",
+      "side": 1,
+      "message": "Now using AccountInfoCache to do the lookups. That doesn\u0027t have a batch lookup facility but considering it\u0027s used elsewhere I\u0027m guessing that means bulk lookups aren\u0027t especially important; is that not a safe assumption?\n\nAs for reusing objects, I do that where possible now. Note that that only applies to AccountInfos returned by get(). For put(), we can\u0027t do reuse, because they may be of a subclass that has other data that cannot be shared. In particular later in this series there is an ApprovalInfo extends AccountInfo with an additional value field.",
+      "parentUuid": "PU48pFY0",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PU28TEWI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-04T15:19:29Z",
       "side": 1,
       "message": "As I understand the code this can\u0027t happen. During get you didn\u0027t allow a null id. So why do we need this condition?",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU098TWM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T18:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PU28TEWI",
       "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "PU6.QWaM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T18:14:53Z",
+      "side": 1,
+      "message": "Used AccountCache. It feels a bit weird that if we do a bulk load we have no way of setting the results on AccountCache. Perhaps that class should be extended so bulk loading is faster, but that is beyond this change. (Slight aside, Guava caches don\u0027t have any first-class bulk loading functionality, sadly.)",
+      "parentUuid": "PU.8m4bo",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PU08YzXo",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-04T15:19:29Z",
       "side": 1,
       "message": "This is always true.",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PUw.CRWA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T18:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PU08YzXo",
       "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "PU293kYI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T18:14:53Z",
+      "side": 1,
+      "message": "Well I was planning to reuse objects across calls but failed :)\n\nNow that I\u0027m using AccountCache directly, though, I decided to refill the objects on every call in case they were manually evicted or refreshed.",
+      "parentUuid": "PU68s2Zw",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PUy8ZCYI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-02-04T15:19:29Z",
       "side": 1,
       "message": "Never import Id or Key directly. Always make sure you use Foo.Id, aka here Account.Id.",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU4.kdQ0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T18:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PUy8ZCYI",
       "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +241,24 @@
       "side": 1,
       "message": "You are correct to worry, email is not promised to be unique in the server. Many things go wrong when its not unique but it can and does happen to have duplicates.\n\nI think we have little choice but to include the Account.Id. I would name it _account_id in the JSON because we are going to eventually replace it with some sort of UUID thing based on the account manager code that I am supposed to be reviewing/working on.",
       "parentUuid": "PLHb1MBE",
+      "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PU..xwUk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-04T18:14:53Z",
+      "side": 1,
+      "message": "Done.\n\nI knew emails weren\u0027t unique, we have had problems with this internally. I was more thinking since there are so many problems already what\u0027s one more here.",
+      "parentUuid": "PUw8exWk",
       "revId": "d40b399b4271021ede4848b6ca44eacf64794452",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

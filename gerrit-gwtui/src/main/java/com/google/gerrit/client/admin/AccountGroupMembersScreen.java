@@ -381,6 +381,10 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       for (int row = 1; row < table.getRowCount(); row++) {
         final GroupInfo i = getRowItem(row);
         if (i != null) {
+          if (c.compare(info, i) == 0) {
+            // group is already contained in the table
+            return;
+          }
           if (c.compare(info, i) < 0) {
             table.insertRow(row);
             applyDataRowStyle(row);

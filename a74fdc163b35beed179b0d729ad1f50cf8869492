@@ -16,6 +16,24 @@
       "revId": "a74fdc163b35beed179b0d729ad1f50cf8869492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PeoinNxE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-05T14:20:02Z",
+      "side": 1,
+      "message": "Well, I agree, but as you can see from the other Input classes all the setters are without the \u0027set\u0027 prefix, so I would do the same here to be consistent. Anyway I should rename the method now to \u0027visibleToAll\u0027.",
+      "parentUuid": "PfGYYbns",
+      "revId": "a74fdc163b35beed179b0d729ad1f50cf8869492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

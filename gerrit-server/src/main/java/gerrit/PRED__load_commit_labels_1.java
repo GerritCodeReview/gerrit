@@ -60,14 +60,14 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
           continue;
         }
 
-        ApprovalType t = types.byId(a.getCategoryId());
+        ApprovalType t = types.byId(a.getCategoryId().get());
         if (t == null) {
           continue;
         }
 
         StructureTerm labelTerm = new StructureTerm(
             sym_label,
-            SymbolTerm.intern(t.getCategory().getLabelName()),
+            SymbolTerm.intern(t.getName()),
             new IntegerTerm(a.getValue()));
 
         StructureTerm userTerm = new StructureTerm(

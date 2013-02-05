@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
+import com.google.gerrit.common.data.LabelValue;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -100,7 +100,7 @@ final class ApproveOption implements Option, Setter<Short> {
   }
 
   String getLabelName() {
-    return type.getCategory().getLabelName();
+    return type.getName();
   }
 
   public static class Handler extends OneArgumentOptionHandler<Short> {
@@ -121,8 +121,8 @@ final class ApproveOption implements Option, Setter<Short> {
       }
 
       final short value = Short.parseShort(argument);
-      final ApprovalCategoryValue min = cmdOption.type.getMin();
-      final ApprovalCategoryValue max = cmdOption.type.getMax();
+      final LabelValue min = cmdOption.type.getMin();
+      final LabelValue max = cmdOption.type.getMax();
 
       if (value < min.getValue() || value > max.getValue()) {
         final String name = cmdOption.name();

@@ -14,15 +14,13 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ApprovalTypes {
   protected List<ApprovalType> approvalTypes;
-  private transient Map<ApprovalCategory.Id, ApprovalType> byId;
+  private transient Map<String, ApprovalType> byId;
   private transient Map<String, ApprovalType> byLabel;
 
   protected ApprovalTypes() {
@@ -30,23 +28,23 @@ public class ApprovalTypes {
 
   public ApprovalTypes(final List<ApprovalType> approvals) {
     approvalTypes = approvals;
-    byCategory();
+    byId();
   }
 
   public List<ApprovalType> getApprovalTypes() {
     return approvalTypes;
   }
 
-  public ApprovalType byId(final ApprovalCategory.Id id) {
-    return byCategory().get(id);
+  public ApprovalType byId(String id) {
+    return byId().get(id);
   }
 
-  private Map<ApprovalCategory.Id, ApprovalType> byCategory() {
+  private Map<String, ApprovalType> byId() {
     if (byId == null) {
-      byId = new HashMap<ApprovalCategory.Id, ApprovalType>();
+      byId = new HashMap<String, ApprovalType>();
       if (approvalTypes != null) {
         for (final ApprovalType t : approvalTypes) {
-          byId.put(t.getCategory().getId(), t);
+          byId.put(t.getId(), t);
         }
       }
     }
@@ -62,7 +60,7 @@ public class ApprovalTypes {
       byLabel = new HashMap<String, ApprovalType>();
       if (approvalTypes != null) {
         for (ApprovalType t : approvalTypes) {
-          byLabel.put(t.getCategory().getLabelName().toLowerCase(), t);
+          byLabel.put(t.getName().toLowerCase(), t);
         }
       }
     }

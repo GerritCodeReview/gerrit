@@ -206,6 +206,15 @@ permits users to apply to join the group, or manage their membership.
 |`owner_id`    |only for internal groups|The URL encoded UUID of the owner group.
 |===========================
 
+The type of a group can be deduced from the group's UUID:
+[width="50%"]
+|============
+|UUID matches "^[0-9a-f]\{40\}$"|Gerrit internal group
+|UUID starts with "global:"|Gerrit system group
+|UUID starts with "ldap:"|LDAP group
+|UUID starts with "<prefix>:"|other external group
+|============
+
 [[group-options-info]]
 GroupOptionsInfo
 ~~~~~~~~~~~~~~~~

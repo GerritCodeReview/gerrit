@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PfMYmgrs",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-05T14:02:06Z",
+      "side": 1,
+      "message": "how about: \n\nThe `/projects/{project name}/dashboards/` expects an encoded project name is a part of this URL.",
+      "revId": "938101b99bdd575745ab90ccaba133da76fcebde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

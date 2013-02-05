@@ -27,18 +27,18 @@ Installation
   review_site/bin/gerrit.sh stop
 ----
 
-* Deploy the 'gerrit.war' file to your application server.
-+
-The deployment process differs between servers, but typically this
-can be accomplished by copying 'gerrit.war' into the 'webapps/'
-subdirectory of the container's installation.
-
 * Configure JNDI DataSource 'jdbc/ReviewDb'.
 +
 This DataSource must point to the database you created above.
 Don't forget to ensure your JNDI configuration can load the
 necessary JDBC drivers.  You may wish to ensure connection pooling
 is configured and enabled within the DataSource.
+
+* Deploy the 'gerrit.war' file to your application server.
++
+The deployment process differs between servers, but typically this
+can be accomplished by copying 'gerrit.war' into the 'webapps/'
+subdirectory of the container's installation.
 
 * ('Optional') Install Bouncy Castle Crypto API
 +

@@ -26,26 +26,59 @@ import java.util.List;
 import java.util.Map;
 
 public class ApprovalType {
-  protected ApprovalCategory category;
-  protected List<ApprovalCategoryValue> values;
+  public static ApprovalType fromApprovalCategory(ApprovalCategory ac,
+      List<ApprovalCategoryValue> acvs) {
+    List<LabelValue> values = new ArrayList<LabelValue>(acvs.size());
+    for (ApprovalCategoryValue acv : acvs) {
+      values.add(
+          new LabelValue(ac.getLabelName(), acv.getValue(), acv.getName()));
+    }
+    ApprovalType at = new ApprovalType(ac.getLabelName(), values);
+    at.setId(ac.getId().get());
+    at.setAbbreviatedName(ac.getAbbreviatedName());
+    at.setFunctionName(ac.getFunctionName());
+    at.setCopyMinScore(ac.isCopyMinScore());
+    at.setPosition(ac.getPosition());
+    return at;
+  }
+
+  public static ApprovalType withDefaultValues(String name) {
+    // TODO: validate/munge name
+    List<LabelValue> values = new ArrayList<LabelValue>(2);
+    values.add(new LabelValue(name, (short) 0, "Rejected"));
+    values.add(new LabelValue(name, (short) 1, "Approved"));
+    return new ApprovalType(name, values);
+  }
+
+  protected String name;
+
+  protected String id;
+  protected String abbreviatedName;
+  protected String functionName;
+  protected boolean copyMinScore;
+  protected short position;
+
+  protected List<LabelValue> values;
   protected short maxNegative;
   protected short maxPositive;
 
+
   private transient List<Integer> intList;
-  private transient Map<Short, ApprovalCategoryValue> byValue;
+  private transient Map<Short, LabelValue> byValue;
 
   protected ApprovalType() {
   }
 
-  public ApprovalType(final ApprovalCategory ac,
-      final List<ApprovalCategoryValue> valueList) {
-    category = ac;
-    values = new ArrayList<ApprovalCategoryValue>(valueList);
-    Collections.sort(values, new Comparator<ApprovalCategoryValue>() {
-      public int compare(ApprovalCategoryValue o1, ApprovalCategoryValue o2) {
+  public ApprovalType(String name, List<LabelValue> valueList) {
+    // TODO: validate/munge name
+    this.name = name;
+    values = new ArrayList<LabelValue>(valueList);
+    Collections.sort(values, new Comparator<LabelValue>() {
+      public int compare(LabelValue o1, LabelValue o2) {
         return o1.getValue() - o2.getValue();
       }
     });
+    functionName = "MaxWithBlock";
 
     maxNegative = Short.MIN_VALUE;
     maxPositive = Short.MAX_VALUE;
@@ -57,57 +90,58 @@ public class ApprovalType {
         maxPositive = values.get(values.size() - 1).getValue();
       }
     }
-
-    // Force the label name to pre-compute so we don't have data race conditions.
-    getCategory().getLabelName();
   }
 
-  public ApprovalCategory getCategory() {
-    return category;
+  public String getName() {
+    return name;
   }
 
-  public List<ApprovalCategoryValue> getValues() {
+  public String getId() {
+    return id;
+  }
+
+  public List<LabelValue> getValues() {
     return values;
   }
 
-  public ApprovalCategoryValue getMin() {
+  public LabelValue getMin() {
     if (values.isEmpty()) {
       return null;
     }
     return values.get(0);
   }
 
-  public ApprovalCategoryValue getMax() {
+  public LabelValue getMax() {
     if (values.isEmpty()) {
       return null;
     }
-    final ApprovalCategoryValue v = values.get(values.size() - 1);
+    final LabelValue v = values.get(values.size() - 1);
     return v.getValue() > 0 ? v : null;
   }
 
-  public boolean isMaxNegative(final PatchSetApproval ca) {
+  public boolean isMaxNegative(PatchSetApproval ca) {
     return maxNegative == ca.getValue();
   }
 
-  public boolean isMaxPositive(final PatchSetApproval ca) {
+  public boolean isMaxPositive(PatchSetApproval ca) {
     return maxPositive == ca.getValue();
   }
 
-  public ApprovalCategoryValue getValue(final short value) {
+  public LabelValue getValue(short value) {
     initByValue();
     return byValue.get(value);
   }
 
-  public ApprovalCategoryValue getValue(final PatchSetApproval ca) {
+  public LabelValue getValue(final PatchSetApproval ca) {
     initByValue();
     return byValue.get(ca.getValue());
   }
 
   private void initByValue() {
     if (byValue == null) {
-      byValue = new HashMap<Short, ApprovalCategoryValue>();
-      for (final ApprovalCategoryValue acv : values) {
-        byValue.put(acv.getValue(), acv);
+      byValue = new HashMap<Short, LabelValue>();
+      for (final LabelValue v : values) {
+        byValue.put(v.getValue(), v);
       }
     }
   }
@@ -115,12 +149,58 @@ public class ApprovalType {
   public List<Integer> getValuesAsList() {
     if (intList == null) {
       intList = new ArrayList<Integer>(values.size());
-      for (ApprovalCategoryValue acv : values) {
-        intList.add(Integer.valueOf(acv.getValue()));
+      for (LabelValue v : values) {
+        intList.add(Integer.valueOf(v.getValue()));
       }
       Collections.sort(intList);
       Collections.reverse(intList);
     }
     return intList;
+  }
+
+  public boolean isCopyMinScore() {
+    return copyMinScore;
+  }
+
+  public void setCopyMinScore(boolean copyMinScore) {
+    this.copyMinScore = copyMinScore;
+  }
+
+  @Deprecated
+  public ApprovalCategoryValue.Id getApprovalCategoryValueId(short value) {
+    return new ApprovalCategoryValue.Id(getApprovalCategoryId(), value);
+  }
+
+  @Deprecated
+  public ApprovalCategory.Id getApprovalCategoryId() {
+    return new ApprovalCategory.Id(getId());
+  }
+
+  public String getFunctionName() {
+    return functionName;
+  }
+
+  public String getAbbreviatedName() {
+    return abbreviatedName;
+  }
+
+  public short getPosition() {
+    return position;
+  }
+
+  public void setPosition(short position) {
+    this.position = position;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public void setFunctionName(String functionName) {
+    this.functionName = functionName;
+  }
+
+  public void setAbbreviatedName(String abbreviatedName) {
+    this.abbreviatedName = abbreviatedName;
   }
 }

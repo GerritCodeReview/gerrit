@@ -239,7 +239,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final FunctionState fs = functionState.create(control, psId, allApprovals);
 
       for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
-        CategoryFunction.forCategory(at.getCategory()).run(at, fs);
+        CategoryFunction.forType(at).run(at, fs);
       }
     }
 

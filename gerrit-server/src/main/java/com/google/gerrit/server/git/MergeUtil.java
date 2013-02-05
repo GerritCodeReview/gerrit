@@ -254,12 +254,15 @@ public class MergeUtil {
       } else if (VRIF.equals(a.getCategoryId())) {
         tag = "Tested-by";
       } else {
-        final ApprovalType at = approvalTypes.byId(a.getCategoryId());
+        final ApprovalType at = approvalTypes.byId(a.getCategoryId().get());
         if (at == null) {
           // A deprecated/deleted approval type, ignore it.
+          // TODO: Support arbitrary labels.
           continue;
         }
-        tag = at.getCategory().getName().replace(' ', '-');
+        // TODO: This is not strictly backwards compatible; it was:
+        //tag = at.getCategory().getName().replace(' ', '-');
+        tag = at.getName();
       }
 
       if (!contains(footers, new FooterKey(tag), identbuf.toString())) {

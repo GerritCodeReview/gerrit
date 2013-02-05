@@ -16,13 +16,10 @@ package com.google.gerrit.rules;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.inject.AbstractModule;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class GerritCommonTest extends PrologTestCase {
   @Override
@@ -43,39 +40,32 @@ public class GerritCommonTest extends PrologTestCase {
   }
 
   private static ApprovalType codeReviewCategory() {
-    ApprovalCategory cat = category(0, "CRVW", "Code Review");
-    List<ApprovalCategoryValue> vals = newList();
-    vals.add(value(cat, 2, "Looks good to me, approved"));
-    vals.add(value(cat, 1, "Looks good to me, but someone else must approve"));
-    vals.add(value(cat, 0, "No score"));
-    vals.add(value(cat, -1, "I would prefer that you didn't submit this"));
-    vals.add(value(cat, -2, "Do not submit"));
-    return new ApprovalType(cat, vals);
+    String name = "Code-Review";
+    return category(0, "CRVW", name,
+        value(name, 2, "Looks good to me, approved"),
+        value(name, 1, "Looks good to me, but someone else must approve"),
+        value(name, 0, "No score"),
+        value(name, -1, "I would prefer that you didn't submit this"),
+        value(name, -2, "Do not submit"));
   }
 
   private static ApprovalType verifiedCategory() {
-    ApprovalCategory cat = category(1, "VRIF", "Verified");
-    List<ApprovalCategoryValue> vals = newList();
-    vals.add(value(cat, 1, "Verified"));
-    vals.add(value(cat, 0, "No score"));
-    vals.add(value(cat, -1, "Fails"));
-    return new ApprovalType(cat, vals);
+    String name = "Verified";
+    return category(1, "VRIF", name,
+        value(name, 1, "Verified"),
+        value(name, 0, "No score"),
+        value(name, -1, "Fails"));
   }
 
-  private static ApprovalCategory category(int pos, String id, String name) {
-    ApprovalCategory cat;
-    cat = new ApprovalCategory(new ApprovalCategory.Id(id), name);
-    cat.setPosition((short) pos);
-    return cat;
+  private static LabelValue value(String labelName, int value, String text) {
+    return new LabelValue(labelName, (short) value, text);
   }
 
-  private static ArrayList<ApprovalCategoryValue> newList() {
-    return new ArrayList<ApprovalCategoryValue>();
-  }
-
-  private static ApprovalCategoryValue value(ApprovalCategory c, int v, String n) {
-    return new ApprovalCategoryValue(
-        new ApprovalCategoryValue.Id(c.getId(), (short) v),
-        n);
+  private static ApprovalType category(int pos, String id, String name,
+      LabelValue... values) {
+    ApprovalType type = new ApprovalType(name, Arrays.asList(values));
+    type.setId(id);
+    type.setPosition((short) pos);
+    return type;
   }
 }

@@ -15,7 +15,6 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.sql.Timestamp;
@@ -73,9 +72,9 @@ public class ApprovalDetail {
     return approvals;
   }
 
-  public PatchSetApproval getPatchSetApproval(ApprovalCategory.Id category) {
+  public PatchSetApproval getPatchSetApproval(String id) {
     for (PatchSetApproval psa : approvals) {
-      if (psa.getCategoryId().equals(category)) {
+      if (psa.getCategoryId().get().equals(id)) {
         return psa;
       }
     }

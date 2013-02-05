@@ -99,7 +99,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
 
     final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
     addReviewerCategoryId =
-        allTypes.get(allTypes.size() - 1).getCategory().getId();
+        allTypes.get(allTypes.size() - 1).getApprovalCategoryId();
 
     this.changeId = changeId;
     this.reviewers = reviewers;

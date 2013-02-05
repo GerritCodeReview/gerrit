@@ -213,11 +213,11 @@ public class ApprovalTable extends Composite {
     } else {
       for (ApprovalDetail ad : approvals) {
         for (PatchSetApproval psa : ad.getPatchSetApprovals()) {
-          ApprovalType legacyType = types.byId(psa.getCategoryId());
+          ApprovalType legacyType = types.byId(psa.getCategoryId().get());
           if (legacyType == null) {
             continue;
           }
-          String labelName = legacyType.getCategory().getLabelName();
+          String labelName = legacyType.getName();
           if (psa.getValue() != 0 ) {
             if (psa.getValue() == legacyType.getMax().getValue()) {
               ad.approved(labelName);
@@ -236,7 +236,7 @@ public class ApprovalTable extends Composite {
             ApprovalType b = types.byLabel(o2);
             int cmp = 0;
             if (a != null && b != null) {
-              cmp = a.getCategory().getPosition() - b.getCategory().getPosition();
+              cmp = a.getPosition() - b.getPosition();
             }
             if (cmp == 0) {
               cmp = o1.compareTo(o2);
@@ -417,7 +417,7 @@ public class ApprovalTable extends Composite {
           continue;
         }
 
-        PatchSetApproval ca = ad.getPatchSetApproval(legacyType.getCategory().getId());
+        PatchSetApproval ca = ad.getPatchSetApproval(legacyType.getId());
         if (ca == null || ca.getValue() == 0) {
           table.clearCell(row, col);
           col++;

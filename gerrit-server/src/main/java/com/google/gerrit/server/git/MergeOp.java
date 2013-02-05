@@ -975,7 +975,7 @@ public class MergeOp {
               identifiedUserFactory.create(c.getOwner())),
               merged, approvals);
       for (ApprovalType at : approvalTypes.getApprovalTypes()) {
-        CategoryFunction.forCategory(at.getCategory()).run(at, fs);
+        CategoryFunction.forType(at).run(at, fs);
       }
       for (PatchSetApproval a : approvals) {
         if (a.getValue() > 0

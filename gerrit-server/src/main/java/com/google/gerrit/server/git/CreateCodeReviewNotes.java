@@ -194,10 +194,10 @@ public class CreateCodeReviewNotes {
         } else if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
           submit = a;
         } else {
-          ApprovalType type = approvalTypes.byId(a.getCategoryId());
+          ApprovalType type = approvalTypes.byId(a.getCategoryId().get());
           if (type != null) {
             formatter.appendApproval(
-                type.getCategory(),
+                type,
                 a.getValue(),
                 accountCache.get(a.getAccountId()).getAccount());
           }

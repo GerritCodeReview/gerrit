@@ -16,14 +16,12 @@ package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.ApprovalCategory.Id;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
@@ -47,10 +45,9 @@ public class FunctionState {
   private final ApprovalTypes approvalTypes;
   private final IdentifiedUser.GenericFactory userFactory;
 
-  private final Map<ApprovalCategory.Id, Collection<PatchSetApproval>> approvals =
-      new HashMap<ApprovalCategory.Id, Collection<PatchSetApproval>>();
-  private final Map<ApprovalCategory.Id, Boolean> valid =
-      new HashMap<ApprovalCategory.Id, Boolean>();
+  private final Map<String, Collection<PatchSetApproval>> approvals =
+      new HashMap<String, Collection<PatchSetApproval>>();
+  private final Map<String, Boolean> valid = new HashMap<String, Boolean>();
   private final ChangeControl callerChangeControl;
   private final Change change;
 
@@ -70,7 +67,9 @@ public class FunctionState {
         Collection<PatchSetApproval> l = approvals.get(ca.getCategoryId());
         if (l == null) {
           l = new ArrayList<PatchSetApproval>();
-          approvals.put(ca.getCategoryId(), l);
+          // TODO: what if it's missing?
+          approvals.put(
+              approvalTypes.byId(ca.getCategoryId().get()).getName(), l);
         }
         l.add(ca);
       }
@@ -90,20 +89,20 @@ public class FunctionState {
   }
 
   public boolean isValid(final ApprovalType at) {
-    return isValid(id(at));
+    return isValid(at.getName());
   }
 
-  public boolean isValid(final ApprovalCategory.Id id) {
-    final Boolean b = valid.get(id);
+  public boolean isValid(final String labelName) {
+    final Boolean b = valid.get(labelName);
     return b != null && b;
   }
 
   public Collection<PatchSetApproval> getApprovals(final ApprovalType at) {
-    return getApprovals(id(at));
+    return getApprovals(at.getName());
   }
 
-  public Collection<PatchSetApproval> getApprovals(final ApprovalCategory.Id id) {
-    final Collection<PatchSetApproval> l = approvals.get(id);
+  public Collection<PatchSetApproval> getApprovals(final String labelName) {
+    final Collection<PatchSetApproval> l = approvals.get(labelName);
     return l != null ? l : Collections.<PatchSetApproval> emptySet();
   }
 
@@ -113,13 +112,13 @@ public class FunctionState {
    * <p>
    */
   private void applyTypeFloor(final ApprovalType at, final PatchSetApproval a) {
-    final ApprovalCategoryValue atMin = at.getMin();
+    final LabelValue atMin = at.getMin();
 
     if (atMin != null && a.getValue() < atMin.getValue()) {
       a.setValue(atMin.getValue());
     }
 
-    final ApprovalCategoryValue atMax = at.getMax();
+    final LabelValue atMax = at.getMax();
     if (atMax != null && a.getValue() > atMax.getValue()) {
       a.setValue(atMax.getValue());
     }
@@ -135,8 +134,7 @@ public class FunctionState {
    * <p>
    */
   private void applyRightFloor(final ApprovalType at, final PatchSetApproval a) {
-    final ApprovalCategory category = at.getCategory();
-    final String permission = Permission.forLabel(category.getLabelName());
+    final String permission = Permission.forLabel(at.getName());
     final IdentifiedUser user = userFactory.create(a.getAccountId());
     final PermissionRange range = controlFor(user).getRange(permission);
     a.setValue((short) range.squash(a.getValue()));
@@ -152,7 +150,7 @@ public class FunctionState {
     applyRightFloor(at, ca);
   }
 
-  private static Id id(final ApprovalType at) {
-    return at.getCategory().getId();
+  private static String id(final ApprovalType at) {
+    return at.getId();
   }
 }

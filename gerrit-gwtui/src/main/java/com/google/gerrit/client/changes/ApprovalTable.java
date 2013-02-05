@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
-import static com.google.gerrit.reviewdb.client.ApprovalCategoryValue.formatValue;
+import static com.google.gerrit.common.data.LabelValue.formatValue;
 
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;

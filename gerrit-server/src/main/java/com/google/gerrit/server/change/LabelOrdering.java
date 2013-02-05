@@ -26,7 +26,7 @@ class LabelOrdering {
           @Override
           public Short apply(String n) {
             ApprovalType at = approvalTypes.byLabel(n);
-            return at != null ? at.getCategory().getPosition() : null;
+            return at != null ? at.getPosition() : null;
           }
         });
   }

@@ -18,7 +18,6 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -58,34 +57,28 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     abstract boolean match(int psValue, int expValue);
   }
 
-  private static ApprovalCategory category(ApprovalTypes types, String toFind) {
+  private static ApprovalType type(ApprovalTypes types, String toFind) {
     if (types.byLabel(toFind) != null) {
-      return types.byLabel(toFind).getCategory();
+      return types.byLabel(toFind);
     }
 
-    if (types.byId(new ApprovalCategory.Id(toFind)) != null) {
-      return types.byId(new ApprovalCategory.Id(toFind)).getCategory();
+    if (types.byId(toFind) != null) {
+      return types.byId(toFind);
     }
 
     for (ApprovalType at : types.getApprovalTypes()) {
-      ApprovalCategory category = at.getCategory();
-
-      if (toFind.equalsIgnoreCase(category.getName())) {
-        return category;
-
-      } else if (toFind.equalsIgnoreCase(category.getName().replace(" ", ""))) {
-        return category;
+      if (toFind.equalsIgnoreCase(at.getName())) {
+        return at;
       }
     }
 
     for (ApprovalType at : types.getApprovalTypes()) {
-      ApprovalCategory category = at.getCategory();
-      if (toFind.equalsIgnoreCase(category.getAbbreviatedName())) {
-        return category;
+      if (toFind.equalsIgnoreCase(at.getAbbreviatedName())) {
+        return at;
       }
     }
 
-    return new ApprovalCategory(new ApprovalCategory.Id(toFind), toFind);
+    return ApprovalType.withDefaultValues(toFind);
   }
 
   private static Test op(String op) {
@@ -114,7 +107,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<ReviewDb> dbProvider;
   private final Test test;
-  private final ApprovalCategory category;
+  private final ApprovalType type;
   private final String permissionName;
   private final int expVal;
 
@@ -129,22 +122,22 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     Matcher m1 = Pattern.compile("(=|>=|<=)([+-]?\\d+)$").matcher(value);
     Matcher m2 = Pattern.compile("([+-]\\d+)$").matcher(value);
     if (m1.find()) {
-      category = category(types, value.substring(0, m1.start()));
+      type = type(types, value.substring(0, m1.start()));
       test = op(m1.group(1));
       expVal = value(m1.group(2));
 
     } else if (m2.find()) {
-      category = category(types, value.substring(0, m2.start()));
+      type = type(types, value.substring(0, m2.start()));
       test = Test.EQ;
       expVal = value(m2.group(1));
 
     } else {
-      category = category(types, value);
+      type = type(types, value);
       test = Test.EQ;
       expVal = 1;
     }
 
-    this.permissionName = Permission.forLabel(category.getLabelName());
+    this.permissionName = Permission.forLabel(type.getName());
   }
 
   @Override
@@ -153,7 +146,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     final Set<Account.Id> approversThatVotedInCategory = new HashSet<Account.Id>();
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
       allApprovers.add(p.getAccountId());
-      if (p.getCategoryId().equals(category.getId())) {
+      if (p.getCategoryId().equals(type.getId())) {
         approversThatVotedInCategory.add(p.getAccountId());
         if (match(object.change(dbProvider), p.getValue(), p.getAccountId())) {
           return true;

@@ -616,9 +616,9 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
             Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval) {
         ApprovalAttribute a = new ApprovalAttribute();
         a.type = approval.getKey().get();
-        ApprovalType at = approvalTypes.byId(approval.getKey());
+        ApprovalType at = approvalTypes.byId(approval.getKey().get());
         if (at != null) {
-          a.description = at.getCategory().getName();
+          a.description = at.getName();
         }
         a.value = Short.toString(approval.getValue().get());
         return a;

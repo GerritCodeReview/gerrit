@@ -8,8 +8,8 @@ link:rest-api.html[REST API].
 Endpoints
 ---------
 
-/groups/ (List Groups)
-~~~~~~~~~~~~~~~~~~~~~~
+GET /groups/ (List Groups)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the groups accessible by the caller. This is the same as
 using the link:cmd-ls-groups.html[ls-groups] command over SSH,
 and accepts the same options as query parameters.
@@ -74,8 +74,8 @@ get::/groups/
 ****
 
 [[group-members]]
-/groups/*/members/ (List Group Members)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /groups/*/members/ (List Group Members)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the direct members of a group.
 
 ----
@@ -151,8 +151,8 @@ members the parameter `recursive` can be set.
 ----
 
 [[included-groups]]
-/groups/*/groups/ (List Included Groups)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /groups/*/groups/ (List Included Groups)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the directly included groups of a group.
 
 ----

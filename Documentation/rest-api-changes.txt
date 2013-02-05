@@ -8,8 +8,8 @@ link:rest-api.html[REST API].
 Endpoints
 ---------
 
-/changes/ (Query Changes)
-~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /changes/ (Query Changes)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Queries changes visible to the caller. The query string must be
 provided by the `q` parameter. The `n` parameter can be used to limit
 the returned results.

@@ -8,8 +8,8 @@ link:rest-api.html[REST API].
 Endpoints
 ---------
 
-/projects/ (List Projects)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /projects/ (List Projects)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the projects accessible by the caller. This is the same as
 using the link:cmd-ls-projects.html[ls-projects] command over SSH,
 and accepts the same options as query parameters.
@@ -76,8 +76,8 @@ List all projects that start with `platform/`:
 ----
 E.g. this feature can be used by suggestion client UI's to limit results.
 
-/projects/*/dashboards/ (List Dashboards)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /projects/*/dashboards/ (List Dashboards)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 List custom dashboards for a project.
 
 The `/projects/{name}/dashboards/` URL expects the a URL encoded

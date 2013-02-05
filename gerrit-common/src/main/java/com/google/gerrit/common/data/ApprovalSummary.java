@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.util.Collections;
@@ -26,19 +25,21 @@ import java.util.Map;
  * category, with all of the approvals coming from a single patch set.
  */
 public class ApprovalSummary {
-  protected Map<ApprovalCategory.Id, PatchSetApproval> approvals;
+  protected Map<String, PatchSetApproval> approvals;
 
   protected ApprovalSummary() {
   }
 
   public ApprovalSummary(final Iterable<PatchSetApproval> list) {
-    approvals = new HashMap<ApprovalCategory.Id, PatchSetApproval>();
+    approvals = new HashMap<String, PatchSetApproval>();
     for (final PatchSetApproval a : list) {
-      approvals.put(a.getCategoryId(), a);
+      approvals.put(a.getCategoryId().get(), a);
     }
   }
 
-  public Map<ApprovalCategory.Id, PatchSetApproval> getApprovalMap() {
+  // TODO: Convert keys to label names.
+  /** @return a map of approvals keyed by ID string. */
+  public Map<String, PatchSetApproval> getApprovalMap() {
     return Collections.unmodifiableMap(approvals);
   }
 }

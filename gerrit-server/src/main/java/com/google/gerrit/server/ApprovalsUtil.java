@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.ApprovalType;
@@ -90,9 +91,9 @@ public class ApprovalsUtil {
     for (PatchSetApproval a : patchSetApprovals) {
       // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
       if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-        final ApprovalType type = approvalTypes.byId(a.getCategoryId());
+        final ApprovalType type = approvalTypes.byId(a.getCategoryId().get());
         if (a.getPatchSetId().equals(source) &&
-            type.getCategory().isCopyMinScore() &&
+            type.isCopyMinScore() &&
             type.isMaxNegative(a)) {
           db.patchSetApprovals().insert(
               Collections.singleton(new PatchSetApproval(dest, a)));
@@ -128,7 +129,8 @@ public class ApprovalsUtil {
     need.removeAll(existingReviewers);
 
     List<PatchSetApproval> cells = Lists.newArrayListWithCapacity(need.size());
-    ApprovalCategory.Id catId = allTypes.get(allTypes.size() - 1).getCategory().getId();
+    ApprovalCategory.Id catId =
+        Iterables.getLast(allTypes).getApprovalCategoryId();
     for (Account.Id account : need) {
       PatchSetApproval psa = new PatchSetApproval(
           new PatchSetApproval.Key(ps.getId(), account, catId),

@@ -189,7 +189,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
                 continue;
               }
               if (change.getStatus().isOpen()) {
-                fs.normalize(approvalTypes.byId(category), ca);
+                fs.normalize(approvalTypes.byId(category.get()), ca);
               }
               if (ca.getValue() == 0) {
                 continue;
@@ -235,7 +235,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
                 continue;
               }
               if (change.getStatus().isOpen()) {
-                fs.normalize(approvalTypes.byId(category), ca);
+                fs.normalize(approvalTypes.byId(category.get()), ca);
               }
               if (ca.getValue() == 0) {
                 continue;

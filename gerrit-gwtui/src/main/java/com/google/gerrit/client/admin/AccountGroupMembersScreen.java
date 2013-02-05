@@ -46,6 +46,8 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public class AccountGroupMembersScreen extends AccountGroupScreen {
 
   private AccountInfoCache accounts = AccountInfoCache.empty();
@@ -374,8 +376,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
           return a.getGroupUUID().compareTo(b.getGroupUUID());
         }
 
-        public String nullToEmpty(String str) {
-          return str == null ? "" : str;
+        private String nullToEmpty(@Nullable String str) {
+          return (str == null) ? "" : str;
         }
       };
 
@@ -383,7 +385,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       int left = 1;
       int right = table.getRowCount() - 1;
       while (left <= right) {
-        int middle = (left + right) / 2;
+        int middle = (left + right) >>> 1; // (left+right)/2
         GroupInfo i = getRowItem(middle);
         int cmp = c.compare(i, info);
 

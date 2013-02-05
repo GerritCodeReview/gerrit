@@ -378,26 +378,23 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
           return str == null ? "" : str;
         }
       };
-      for (int row = 1; row < table.getRowCount(); row++) {
-        final GroupInfo i = getRowItem(row);
+      int insertPosition;
+      for (insertPosition = 1; insertPosition < table.getRowCount(); insertPosition++) {
+        final GroupInfo i = getRowItem(insertPosition);
         if (i != null) {
           if (c.compare(info, i) == 0) {
             // group is already contained in the table
             return;
           }
           if (c.compare(info, i) < 0) {
-            table.insertRow(row);
-            applyDataRowStyle(row);
-            populate(row, info);
-            return;
+            break;
           }
         }
       }
 
-      final int row = table.getRowCount();
-      table.insertRow(row);
-      applyDataRowStyle(row);
-      populate(row, info);
+      table.insertRow(insertPosition);
+      applyDataRowStyle(insertPosition);
+      populate(insertPosition, info);
     }
 
     void populate(final int row, final GroupInfo i) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Peug8M8E",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-05T13:38:38Z",
+      "side": 1,
+      "message": "I agree, it\u0027s redundant. I have removed it now.\n\nDone",
+      "parentUuid": "PeekKdSg",
+      "revId": "ad7cee2cdee7b4af006aabba1e3c94cd434b22e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PeQkZiYE",
         "filename": "Documentation/rest-api-groups.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-05T13:32:52Z",
       "side": 1,
       "message": "s/has to be/must be",
+      "revId": "ad7cee2cdee7b4af006aabba1e3c94cd434b22e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PeghrR7E",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-05T13:38:38Z",
+      "side": 1,
+      "message": "Actually I think it should be \u0027can be\u0027. Because all the fields are optional, the body can also be skipped.\n\nDone.",
+      "parentUuid": "PeQkZiYE",
       "revId": "ad7cee2cdee7b4af006aabba1e3c94cd434b22e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

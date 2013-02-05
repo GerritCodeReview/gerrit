@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
@@ -367,15 +368,13 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       Comparator<GroupInfo> c = new Comparator<GroupInfo>() {
         @Override
         public int compare(GroupInfo a, GroupInfo b) {
-          int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
+          int cmp =
+              Strings.nullToEmpty(a.name()).compareTo(
+                  Strings.nullToEmpty(b.name()));
           if (cmp != 0) {
             return cmp;
           }
           return a.getGroupUUID().compareTo(b.getGroupUUID());
-        }
-
-        public String nullToEmpty(String str) {
-          return str == null ? "" : str;
         }
       };
 
@@ -383,7 +382,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       int left = 1;
       int right = table.getRowCount() - 1;
       while (left <= right) {
-        int middle = (left + right) / 2;
+        int middle = (left + right) >>> 1;
         GroupInfo i = getRowItem(middle);
         int cmp = c.compare(i, info);
 

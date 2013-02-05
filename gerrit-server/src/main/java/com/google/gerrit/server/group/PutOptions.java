@@ -30,7 +30,7 @@ import java.util.Collections;
 
 public class PutOptions implements RestModifyView<GroupResource, Input> {
   static class Input {
-    Boolean isVisibleToAll;
+    Boolean visibleToAll;
   }
 
   private final GroupCache groupCache;
@@ -55,8 +55,8 @@ public class PutOptions implements RestModifyView<GroupResource, Input> {
     if (input == null) {
       throw new BadRequestException("options are required");
     }
-    if (input.isVisibleToAll == null) {
-      input.isVisibleToAll = false;
+    if (input.visibleToAll == null) {
+      input.visibleToAll = false;
     }
 
     AccountGroup group = db.accountGroups().get(
@@ -65,7 +65,7 @@ public class PutOptions implements RestModifyView<GroupResource, Input> {
       throw new ResourceNotFoundException();
     }
 
-    group.setVisibleToAll(input.isVisibleToAll);
+    group.setVisibleToAll(input.visibleToAll);
     db.accountGroups().update(Collections.singleton(group));
     groupCache.evict(group);
 

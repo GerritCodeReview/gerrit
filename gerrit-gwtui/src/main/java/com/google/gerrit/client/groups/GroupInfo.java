@@ -48,7 +48,7 @@ public class GroupInfo extends JavaScriptObject {
   }
 
   public static class GroupOptionsInfo extends JavaScriptObject {
-    public final native boolean isVisibleToAll() /*-{ return this['is_visible_to_all'] ? true : false; }-*/;
+    public final native boolean isVisibleToAll() /*-{ return this['visible_to_all'] ? true : false; }-*/;
 
     protected GroupOptionsInfo() {
     }

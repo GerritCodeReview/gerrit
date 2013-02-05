@@ -69,6 +69,24 @@
       "revId": "48e1b5d15dd5a6e631909d537e73109553ce2ad4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PfOYKnig",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-05T13:39:54Z",
+      "side": 1,
+      "message": "this case is better \n-----\n     public static void main(String[] args) {\n\t\t// TODO Auto-generated method stub\n\t\tint left \u003d Integer.MAX_VALUE / 2 + 1;\n\t\tint right \u003d Integer.MAX_VALUE / 2 + 3;\n\t\tint middleV1 \u003d (left + right) / 2;\n\t\tint middleV2 \u003d (left + right) \u003e\u003e\u003e 1;\n\t\tSystem.out.println(\"Integer.MAX_VALUE/2    :\" + Integer.MAX_VALUE / 2);\n\t\tSystem.out.println(\"(left + right) / 2    :\" + middleV1);\n\t\tSystem.out.println(\"(left + right) \u003e\u003e\u003e 1   :\" + middleV2);\n\n\t}\n------\nInteger.MAX_VALUE/2    :1073741823\n(left + right) / 2    :-1073741823\n(left + right) \u003e\u003e\u003e 1   :1073741825",
+      "parentUuid": "PfIYDqhg",
+      "revId": "48e1b5d15dd5a6e631909d537e73109553ce2ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

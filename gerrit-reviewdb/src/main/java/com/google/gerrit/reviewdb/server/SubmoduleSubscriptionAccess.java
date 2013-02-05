@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
@@ -31,7 +32,39 @@ public interface SubmoduleSubscriptionAccess extends
   ResultSet<SubmoduleSubscription> bySuperProject(Branch.NameKey superProject)
       throws OrmException;
 
+  /**
+   * Fetches all <code>SubmoduleSubscription</code>s in which some branch of
+   * <code>superProject</code> subscribes a branch.
+   *
+   * Use {@link #bySuperproject(Branch.NameKey)} to fetch for a branch instead
+   * of a project.
+   *
+   * @param superProject the project to fetch subscriptions for
+   * @return <code>SubmoduleSubscription</code>s that are subscribed by some
+   * branch of <code>superProject</code>.
+   * @throws OrmException
+   */
+  @Query("WHERE key.superProject.projectName = ?")
+  ResultSet<SubmoduleSubscription> bySuperProjectProject(Project.NameKey superProject)
+      throws OrmException;
+
   @Query("WHERE submodule = ?")
   ResultSet<SubmoduleSubscription> bySubmodule(Branch.NameKey submodule)
+      throws OrmException;
+
+  /**
+   * Fetches all <code>SubmoduleSubscription</code>s in which some branch of
+   * <code>submodule</code> is subscribed.
+   *
+   * Use {@link #bySubmodule(Branch.NameKey)} to fetch for a branch instead of
+   * a project.
+   *
+   * @param submodule the project to fetch subscriptions for.
+   * @return <code>SubmoduleSubscription</code>s that subscribe some branch of
+   * <code>submodule</code>.
+   * @throws OrmException
+   */
+  @Query("WHERE submodule.projectName = ?")
+  ResultSet<SubmoduleSubscription> bySubmoduleProject(Project.NameKey submodule)
       throws OrmException;
 }

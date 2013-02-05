@@ -34,6 +34,24 @@
       "revId": "938101b99bdd575745ab90ccaba133da76fcebde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PfMY-YrM",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-05T14:33:19Z",
+      "side": 1,
+      "message": "...\u0027the similar sentence in the groups API doc also...\u0027 \n that would be better. :)\nI saw them (the \"similar sentence\"s ) so the right way is to update them in a another commit.",
+      "parentUuid": "PeYk1edk",
+      "revId": "938101b99bdd575745ab90ccaba133da76fcebde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

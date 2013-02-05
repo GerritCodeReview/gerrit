@@ -460,9 +460,9 @@ public class EventFactory {
     a.by = asAccountAttribute(approval.getAccountId());
     a.grantedOn = approval.getGranted().getTime() / 1000L;
 
-    ApprovalType at = approvalTypes.byId(approval.getCategoryId());
+    ApprovalType at = approvalTypes.byId(approval.getCategoryId().get());
     if (at != null) {
-      a.description = at.getCategory().getName();
+      a.description = at.getName();
     }
     return a;
   }

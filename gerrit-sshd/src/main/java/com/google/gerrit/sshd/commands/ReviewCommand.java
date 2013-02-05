@@ -18,13 +18,12 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ReviewResult.Error.Type;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -32,11 +31,11 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PostReview;
-import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Restore;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
-import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -403,15 +402,13 @@ public class ReviewCommand extends SshCommand {
 
     for (ApprovalType type : approvalTypes.getApprovalTypes()) {
       String usage = "";
-      final ApprovalCategory category = type.getCategory();
-      usage = "score for " + category.getName() + "\n";
+      usage = "score for " + type.getName() + "\n";
 
-      for (ApprovalCategoryValue v : type.getValues()) {
+      for (LabelValue v : type.getValues()) {
         usage += v.format() + "\n";
       }
 
-      final String name =
-          "--" + category.getName().toLowerCase().replace(' ', '-');
+      final String name = "--" + type.getName().toLowerCase();
       optionList.add(new ApproveOption(name, usage, type));
     }
 

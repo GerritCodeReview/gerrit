@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.reviewdb.client.ApprovalCategoryValue.formatValue;
+import static com.google.gerrit.common.data.LabelValue.formatValue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -85,7 +85,7 @@ public class ReviewerJson {
 
     FunctionState fs = functionState.create(ctl, psId, approvals);
     for (ApprovalType at : approvalTypes.getApprovalTypes()) {
-      CategoryFunction.forCategory(at.getCategory()).run(at, fs);
+      CategoryFunction.forType(at).run(at, fs);
     }
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
@@ -95,10 +95,9 @@ public class ReviewerJson {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {
           // TODO: Support arbitrary labels.
-          ApprovalType at = approvalTypes.byId(ca.getCategoryId());
+          ApprovalType at = approvalTypes.byId(ca.getCategoryId().get());
           if (at != null) {
-            out.approvals.put(at.getCategory().getLabelName(),
-                formatValue(ca.getValue())); }
+            out.approvals.put(at.getName(), formatValue(ca.getValue())); }
         }
       }
     }

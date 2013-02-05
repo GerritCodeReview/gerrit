@@ -185,6 +185,29 @@ The entries in the list are sorted by group name and UUID.
   ]
 ----
 
+[[create-group]]
+PUT /groups/* (Create Group)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Creates a new Gerrit internal group.
+
+The `/groups/{name}` URL expects a URL encoded group name as part of
+the URL. If the name contains `/` the correct encoding is to use `%2F`.
+
+In the request body additional data for the group has to be provided as
+link:#group-input[GroupInput].
+
+----
+  PUT /groups/MyProject-Committers HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "description": "contains all committers for MyProject",
+    "visible_to_all": true,
+    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+  }
+----
+
+
 [[json-entities]]
 JSON Entities
 -------------
@@ -218,6 +241,27 @@ The type of a group can be deduced from the group's UUID:
 |UUID starts with "ldap:"|LDAP group
 |UUID starts with "<prefix>:"|other external group
 |============
+
+[[group-input]]
+GroupInput
+~~~~~~~~~~
+The 'GroupInput' entity contains information for the creation of
+a new internal group.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`name`          |optional|The name of the group (not encoded). +
+If set, must match the group name in the URL.
+|`description`   |optional|The description of the group.
+|`visible_to_all`|optional|
+Whether the group is visible to all registered users. +
+`false` if not set.
+|`owner_id`|optional|The URL encoded ID of the owner group. +
+This can be a group UUID, a legacy numeric group ID or a unique group
+name. +
+If not set, the new group will be self-owned.
+|===========================
 
 [[group-options-info]]
 GroupOptionsInfo

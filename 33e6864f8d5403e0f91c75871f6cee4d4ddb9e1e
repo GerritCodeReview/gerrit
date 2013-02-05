@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PaXn-J-A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-05T01:19:17Z",
+      "side": 1,
+      "message": "maybe invert this and say detailed? Then there is less negation. The caller in passes in true if the detailed option was given, and the if conditional below is if (detailed) not if (!nameOnly)",
+      "revId": "33e6864f8d5403e0f91c75871f6cee4d4ddb9e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PaVn6YwE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-05T01:19:17Z",
+      "side": 1,
+      "message": "don\u0027t you need missing.get(account.getId()) here?",
+      "revId": "33e6864f8d5403e0f91c75871f6cee4d4ddb9e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PaZkDGxk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-05T01:19:17Z",
+      "side": 1,
+      "message": "bad rebase?",
+      "revId": "33e6864f8d5403e0f91c75871f6cee4d4ddb9e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PabkA3ww",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-05T01:19:17Z",
+      "side": 1,
+      "message": "Instead of making a new module, just combine this with the module that is a few lines above.",
+      "revId": "33e6864f8d5403e0f91c75871f6cee4d4ddb9e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

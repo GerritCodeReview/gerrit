@@ -269,12 +269,12 @@ GroupOptionsInfo
 Options of the group.
 
 [options="header",width="50%",cols="1,^1,5"]
-|================================
-|Field Name         ||Description
-|`kind`             ||`gerritcodereview#groupoptions`
-|`is_visible_to_all`|not set if `false`|
+|=============================
+|Field Name      ||Description
+|`kind`          ||`gerritcodereview#groupoptions`
+|`visible_to_all`|not set if `false`|
 Whether the group is visible to all registered users.
-|================================
+|=============================
 
 [[member-info]]
 MemberInfo

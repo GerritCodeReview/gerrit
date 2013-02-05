@@ -19,13 +19,13 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 
 public class GroupOptionsInfo {
   final String kind = "gerritcodereview#groupoptions";
-  public Boolean isVisibleToAll;
+  public Boolean visibleToAll;
 
   public GroupOptionsInfo(GroupDescription.Basic group) {
-    isVisibleToAll = group.isVisibleToAll() ? true : null;
+    visibleToAll = group.isVisibleToAll() ? true : null;
   }
 
   public GroupOptionsInfo(AccountGroup group) {
-    isVisibleToAll = group.isVisibleToAll() ? true : null;
+    visibleToAll = group.isVisibleToAll() ? true : null;
   }
 }

@@ -47,7 +47,7 @@ public class ApprovalTypesProvider implements Provider<ApprovalTypes> {
         for (final ApprovalCategory c : db.approvalCategories().all()) {
           final List<ApprovalCategoryValue> values =
               db.approvalCategoryValues().byCategory(c.getId()).toList();
-          types.add(new ApprovalType(c, values));
+          types.add(ApprovalType.fromApprovalCategory(c, values));
         }
       } finally {
         db.close();

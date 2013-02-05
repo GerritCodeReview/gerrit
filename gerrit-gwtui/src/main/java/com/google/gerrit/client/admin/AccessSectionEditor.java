@@ -228,8 +228,7 @@ public class AccessSectionEditor extends Composite implements
     } else if (RefConfigSection.isValid(value.getName())) {
       for (ApprovalType t : Gerrit.getConfig().getApprovalTypes()
           .getApprovalTypes()) {
-        String varName = Permission.LABEL + t.getCategory().getLabelName();
-        addPermission(varName, perms);
+        addPermission(Permission.LABEL + t.getName(), perms);
       }
       for (String varName : Util.C.permissionNames().keySet()) {
         addPermission(varName, perms);

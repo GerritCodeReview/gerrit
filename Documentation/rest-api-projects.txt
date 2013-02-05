@@ -88,6 +88,9 @@ The `/projects/{name}/dashboards/` URL expects the a URL encoded
 project name as part of the URL. If name contains / the correct
 encoding is to use `%2F`.
 
+As result a list of link:#dashboard-info[DashboardInfo] entries is
+returned.
+
 List all dashboards for the `work/my-project` project:
 ----
   GET /projects/work%2Fmy-project/dashboards/ HTTP/1.0
@@ -148,6 +151,59 @@ To retrieve only the default dashboard, add `default` to the URL:
 [[json-entities]]
 JSON Entities
 -------------
+
+[[dashboard-info]]
+DashboardInfo
+~~~~~~~~~~~~~
+The `DashboardInfo` entity contains information about a project
+dashboard.
+
+[options="header",width="50%",cols="1,^2,4"]
+|===============================
+|Field Name        ||Description
+|`kind`            ||`gerritcodereview#dashboard`
+|`id`              ||
+The ID of the dashboard. The ID has the format '<ref>:<path>',
+where ref and path are URL encoded.
+|`project`         ||
+The name of the project for which this dashboard is returned.
+|`defining_project`||
+The name of the project in which this dashboard is defined.
+This is different from `project` if the dashboard is inherited from a
+parent project.
+|`ref`             ||
+The name of the ref in which the dashboard is defined, without the
+`refs/meta/dashboards/` prefix, which is common for all dashboard refs.
+|`path`            ||
+The path of the file in which the dashboard is defined.
+|`description`     |optional|The description of the dashboard.
+|`foreach`         |optional|
+Subquery that applies to all sections in the dashboard. +
+Tokens such as `${project}` are not resolved.
+|`url`             ||
+The URL under which the dashboard can be opened in the Gerrit WebUI. +
+The URL is relative to the canonical web URL. +
+Tokens in the queries such as `${project}` are resolved.
+|`default`         |not set if `false`|
+Whether this is the default dashboard of the project.
+|`title`           |optional|The title of the dashboard.
+|`sections`        ||
+The list of link:#dashboard-section-info[sections] in the dashboard.
+|===============================
+
+[[dashboard-section-info]]
+DashboardSectionInfo
+~~~~~~~~~~~~~~~~~~~~
+The `DashboardSectionInfo` entity contains information about a section
+in a dashboard.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name    |Description
+|`name`        |The title of the section.
+|`query`       |The query of the section. +
+Tokens such as `${project}` are not resolved.
+|===========================
 
 [[project-info]]
 ProjectInfo

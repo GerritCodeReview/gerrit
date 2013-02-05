@@ -84,9 +84,8 @@ GET /projects/*/dashboards/ (List Dashboards)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 List custom dashboards for a project.
 
-The `/projects/{name}/dashboards/` URL expects the a URL encoded
-project name as part of the URL. If name contains / the correct
-encoding is to use `%2F`.
+The `/projects/{project-name}/dashboards/` URL expects an encoded
+project name as part of the URL.
 
 List all dashboards for the `work/my-project` project:
 ----

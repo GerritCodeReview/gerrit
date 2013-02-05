@@ -190,7 +190,7 @@ PUT /groups/* (Create Group)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Creates a new Gerrit internal group.
 
-The `/groups/{name}` URL expects a URL encoded group name as part of
+The `/groups/{group-name}` URL expects an encoded group name as part of
 the URL.
 
 In the request body additional data for the group can be provided as

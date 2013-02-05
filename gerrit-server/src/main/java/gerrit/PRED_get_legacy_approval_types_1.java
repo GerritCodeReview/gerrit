@@ -73,9 +73,9 @@ class PRED_get_legacy_approval_types_1 extends Predicate.P1 {
 
   static Term export(ApprovalType type) {
     return new StructureTerm(symApprovalType,
-        SymbolTerm.intern(type.getCategory().getLabelName()),
-        SymbolTerm.intern(type.getCategory().getId().get()),
-        SymbolTerm.intern(type.getCategory().getFunctionName()),
+        SymbolTerm.intern(type.getName()),
+        SymbolTerm.intern(type.getId()),
+        SymbolTerm.intern(type.getFunctionName()),
         new IntegerTerm(type.getMin().getValue()),
         new IntegerTerm(type.getMax().getValue()));
   }

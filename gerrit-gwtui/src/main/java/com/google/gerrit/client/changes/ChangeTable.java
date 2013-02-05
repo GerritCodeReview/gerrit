@@ -33,10 +33,9 @@ import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gwt.dom.client.Element;
@@ -98,14 +97,13 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
     for (int i = BASE_COLUMNS; i < columns; i++) {
       final ApprovalType type = approvalTypes.get(i - BASE_COLUMNS);
-      final ApprovalCategory cat = type.getCategory();
-      String text = cat.getAbbreviatedName();
+      String text = type.getAbbreviatedName();
       if (text == null) {
-        text = cat.getName();
+        text = type.getName();
       }
       table.setText(0, i, text);
       if (text != null) {
-        table.getCellFormatter().getElement(0, i).setTitle(cat.getName());
+        table.getCellFormatter().getElement(0, i).setTitle(type.getName());
       }
     }
 
@@ -282,8 +280,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private void displayApprovals(final int row, final ApprovalSummary summary,
       final AccountInfoCache aic, final boolean highlightUnreviewed) {
     final CellFormatter fmt = table.getCellFormatter();
-    final Map<ApprovalCategory.Id, PatchSetApproval> approvals =
-        summary.getApprovalMap();
+    final Map<String, PatchSetApproval> approvals = summary.getApprovalMap();
     int col = BASE_COLUMNS;
     boolean haveReview = false;
 
@@ -298,7 +295,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     for (final ApprovalType type : approvalTypes) {
-      final PatchSetApproval ca = approvals.get(type.getCategory().getId());
+      final PatchSetApproval ca = approvals.get(type.getId());
 
       fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().negscore());
       fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().posscore());
@@ -310,7 +307,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       } else {
         haveReview = true;
 
-        final ApprovalCategoryValue acv = type.getValue(ca);
+        final LabelValue v = type.getValue(ca);
         final AccountInfo ai = aic.get(ca.getAccountId());
 
         if (type.isMaxNegative(ca)) {
@@ -355,7 +352,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         // so we include a space before the newline to accommodate both.
         //
         fmt.getElement(row, col).setTitle(
-            acv.getName() + " \nby " + FormatUtil.nameEmail(ai));
+            v.getText() + " \nby " + FormatUtil.nameEmail(ai));
       }
 
       col++;

@@ -37,12 +37,12 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -402,7 +402,7 @@ public class ChangeJson {
     for (PatchSetApproval psa : approvals) {
       short val = psa.getValue();
       if (val != 0 && min < val && val < max
-          && psa.getCategoryId().equals(type.getCategory().getId())) {
+          && psa.getCategoryId().get().equals(type.getId())) {
         if (0 < val) {
           label.recommended = accountLoader.get(psa.getAccountId());
           label.value = val != 1 ? val : null;
@@ -422,25 +422,24 @@ public class ChangeJson {
     FunctionState fs =
         functionState.create(ctl, cd.change(db).currentPatchSetId(), approvals);
     for (ApprovalType at : approvalTypes.getApprovalTypes()) {
-      CategoryFunction.forCategory(at.getCategory()).run(at, fs);
+      CategoryFunction.forType(at).run(at, fs);
     }
 
     Multimap<Account.Id, String> existing =
         HashMultimap.create(approvals.size(), labels.size());
     for (PatchSetApproval psa : approvals) {
-      ApprovalType at = approvalTypes.byId(psa.getCategoryId());
+      ApprovalType at = approvalTypes.byId(psa.getCategoryId().get());
       if (at == null) {
         continue;
       }
-      String name = at.getCategory().getLabelName();
-      LabelInfo p = labels.get(name);
+      LabelInfo p = labels.get(at.getName());
       if (p == null) {
         continue; // TODO: support arbitrary labels.
       }
-      if (!getRange(ctl, psa.getAccountId(), name).isEmpty()) {
+      if (!getRange(ctl, psa.getAccountId(), at.getName()).isEmpty()) {
         p.addApproval(approvalInfo(psa.getAccountId(), psa.getValue()));
       }
-      existing.put(psa.getAccountId(), at.getCategory().getLabelName());
+      existing.put(psa.getAccountId(), at.getName());
     }
 
     // Add dummy approvals for all permitted labels for each user even if they
@@ -478,8 +477,8 @@ public class ChangeJson {
 
   private void setLabelValues(ApprovalType type, LabelInfo label) {
     label.values = Maps.newLinkedHashMap();
-    for (ApprovalCategoryValue acv : type.getValues()) {
-      label.values.put(acv.formatValue(), acv.getName());
+    for (LabelValue v : type.getValues()) {
+      label.values.put(v.formatValue(), v.getText());
     }
     if (isOnlyZero(label.values.keySet())) {
       label.values = null;
@@ -500,9 +499,9 @@ public class ChangeJson {
           continue; // TODO: Support arbitrary labels.
         }
         PermissionRange range = ctl.getRange(Permission.forLabel(r.label));
-        for (ApprovalCategoryValue acv : type.getValues()) {
-          if (range.contains(acv.getValue())) {
-            permitted.put(r.label, acv.formatValue());
+        for (LabelValue v : type.getValues()) {
+          if (range.contains(v.getValue())) {
+            permitted.put(r.label, v.formatValue());
           }
         }
       }

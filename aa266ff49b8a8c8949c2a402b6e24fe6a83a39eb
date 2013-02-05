@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PfAZCWkE",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-05T14:07:39Z",
+      "side": 1,
+      "message": "how about: \nThe data used for updating the group can be provide as",
+      "revId": "aa266ff49b8a8c8949c2a402b6e24fe6a83a39eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

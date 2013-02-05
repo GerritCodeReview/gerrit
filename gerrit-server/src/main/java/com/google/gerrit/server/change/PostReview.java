@@ -209,7 +209,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         }
       }
 
-      String name = at.getCategory().getLabelName();
+      String name = at.getName();
       PermissionRange range = ctl.getRange(Permission.forLabel(name));
       if (range == null || !range.contains(ent.getValue())) {
         if (strict) {
@@ -346,7 +346,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     for (Map.Entry<String, Short> ent : labels.entrySet()) {
       // TODO Support arbitrary label names.
       ApprovalType at = approvalTypes.byLabel(ent.getKey());
-      String name = at.getCategory().getLabelName();
+      String name = at.getName();
       if (change.getStatus().isClosed()) {
         // TODO Allow updating some labels even when closed.
         continue;
@@ -368,23 +368,23 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         upd.add(c);
         labelDelta.add(format(name, c.getValue()));
         categories.put(
-            at.getCategory().getId(),
-            at.getValue(c.getValue()).getId());
+            at.getApprovalCategoryId(),
+            at.getApprovalCategoryValueId(c.getValue()));
       } else if (c != null && c.getValue() == ent.getValue()) {
         current.put(name, c);
       } else if (c == null) {
         c = new PatchSetApproval(new PatchSetApproval.Key(
                 rsrc.getPatchSet().getId(),
                 rsrc.getAccountId(),
-                at.getCategory().getId()),
+                at.getApprovalCategoryId()),
             ent.getValue());
         c.setGranted(timestamp);
         c.cache(change);
         ins.add(c);
         labelDelta.add(format(name, c.getValue()));
         categories.put(
-            at.getCategory().getId(),
-            at.getValue(c.getValue()).getId());
+            at.getApprovalCategoryId(),
+            at.getApprovalCategoryValueId(c.getValue()));
       }
     }
 
@@ -406,7 +406,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
             rsrc.getPatchSet().getId(),
             rsrc.getAccountId(),
-            approvalTypes.getApprovalTypes().get(0).getCategory().getId()),
+            approvalTypes.getApprovalTypes().get(0).getApprovalCategoryId()),
             (short) 0);
         c.setGranted(timestamp);
         c.cache(change);
@@ -433,9 +433,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         continue;
       }
 
-      ApprovalType at = approvalTypes.byId(a.getCategoryId());
+      ApprovalType at = approvalTypes.byId(a.getCategoryId().get());
       if (at != null) {
-        current.put(at.getCategory().getLabelName(), a);
+        current.put(at.getName(), a);
       } else {
         del.add(a);
       }

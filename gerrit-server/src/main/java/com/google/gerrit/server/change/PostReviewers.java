@@ -115,8 +115,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     this.accountCache = accountCache;
     this.json = json;
 
-    this.addReviewerCategoryId = Iterables.getLast(
-        approvalTypes.getApprovalTypes()).getCategory().getId();
+    this.addReviewerCategoryId = new ApprovalCategory.Id(Iterables.getLast(
+        approvalTypes.getApprovalTypes()).getId());
   }
 
   @Override

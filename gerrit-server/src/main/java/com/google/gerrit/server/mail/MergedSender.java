@@ -16,11 +16,11 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gwtorm.server.OrmException;
@@ -98,7 +98,7 @@ public class MergedSender extends ReplyToChangeSender {
       txt.append(": ");
       boolean first = true;
       for (ApprovalType at : approvalTypes.getApprovalTypes()) {
-        final PatchSetApproval ca = l.get(at.getCategory().getId());
+        final PatchSetApproval ca = l.get(at.getId());
         if (ca == null) {
           continue;
         }
@@ -109,11 +109,11 @@ public class MergedSender extends ReplyToChangeSender {
           txt.append("; ");
         }
 
-        final ApprovalCategoryValue v = at.getValue(ca);
+        final LabelValue v = at.getValue(ca);
         if (v != null) {
-          txt.append(v.getName());
+          txt.append(v.getText());
         } else {
-          txt.append(at.getCategory().getName());
+          txt.append(at.getName());
           txt.append("=");
           if (ca.getValue() > 0) {
             txt.append("+");

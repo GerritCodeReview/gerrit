@@ -194,7 +194,7 @@ public class GroupApi {
   }
 
   private static class GroupOptionsInput extends JavaScriptObject {
-    final native void isVisibleToAll(boolean v) /*-{ if(v)this.is_visible_to_all=v; }-*/;
+    final native void isVisibleToAll(boolean v) /*-{ if(v)this.visible_to_all=v; }-*/;
 
     static GroupOptionsInput create() {
       return (GroupOptionsInput) createObject();

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -62,7 +62,7 @@ public class EventFactory {
   private static final Logger log = LoggerFactory.getLogger(EventFactory.class);
   private final AccountCache accountCache;
   private final Provider<String> urlProvider;
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
   private final PatchListCache patchListCache;
   private final SchemaFactory<ReviewDb> schema;
   private final PatchSetInfoFactory psInfoFactory;
@@ -71,13 +71,13 @@ public class EventFactory {
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      ApprovalTypes approvalTypes,
+      LabelTypes labelTypes,
       final PatchSetInfoFactory psif,
       PatchListCache patchListCache, SchemaFactory<ReviewDb> schema,
       @GerritPersonIdent PersonIdent myIdent) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
     this.patchListCache = patchListCache;
     this.schema = schema;
     this.psInfoFactory = psif;
@@ -460,9 +460,9 @@ public class EventFactory {
     a.by = asAccountAttribute(approval.getAccountId());
     a.grantedOn = approval.getGranted().getTime() / 1000L;
 
-    ApprovalType at = approvalTypes.byId(approval.getCategoryId().get());
-    if (at != null) {
-      a.description = at.getName();
+    LabelType lt = labelTypes.byId(approval.getCategoryId().get());
+    if (lt != null) {
+      a.description = lt.getName();
     }
     return a;
   }

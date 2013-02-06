@@ -15,6 +15,7 @@
 package com.google.gerrit.client.rpc;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.Set;
@@ -53,7 +54,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
     return Natives.keys(this);
   }
 
-  public final native NativeList<T> values()
+  public final native JsArray<T> values()
   /*-{
     var s = this;
     var v = [];

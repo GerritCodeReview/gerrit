@@ -16,9 +16,9 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.dashboards.DashboardsTable;
-import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ProjectDashboardsScreen extends ProjectScreen {
@@ -34,9 +34,9 @@ public class ProjectDashboardsScreen extends ProjectScreen {
   protected void onLoad() {
     super.onLoad();
     DashboardList.all(getProjectKey(),
-        new ScreenLoadCallback<NativeList<DashboardList>>(this) {
+        new ScreenLoadCallback<JsArray<DashboardList>>(this) {
       @Override
-      protected void preDisplay(NativeList<DashboardList> result) {
+      protected void preDisplay(JsArray<DashboardList> result) {
         dashes.display(result);
       }
     });

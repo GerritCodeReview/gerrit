@@ -14,21 +14,21 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.common.changes.ListChangesOption;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.EnumSet;
 
 /** List of changes available from {@code /changes/}. */
-public class ChangeList extends NativeList<ChangeInfo> {
+public class ChangeList extends JsArray<ChangeInfo> {
   private static final String URI = "/changes/";
 
   /** Run 2 or more queries in a single remote invocation. */
   public static void query(
-      AsyncCallback<NativeList<ChangeList>> callback, String... queries) {
+      AsyncCallback<JsArray<ChangeList>> callback, String... queries) {
     assert queries.length >= 2; // At least 2 is required for correct result.
     RestApi call = new RestApi(URI);
     for (String q : queries) {

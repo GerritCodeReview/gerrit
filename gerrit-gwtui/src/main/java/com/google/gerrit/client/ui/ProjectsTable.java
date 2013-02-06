@@ -17,6 +17,7 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import java.util.Collections;
@@ -55,7 +56,7 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 
-    List<ProjectInfo> list = projects.values().asList();
+    List<ProjectInfo> list = Natives.asList(projects.values());
     Collections.sort(list, new Comparator<ProjectInfo>() {
       @Override
       public int compare(ProjectInfo a, ProjectInfo b) {

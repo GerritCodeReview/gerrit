@@ -116,9 +116,9 @@ public abstract class PagedSingleListScreen extends Screen {
 
   protected void display(final ChangeList result) {
     changes = result;
-    if (!changes.isEmpty()) {
+    if (changes.length() != 0) {
       final ChangeInfo f = changes.get(0);
-      final ChangeInfo l = changes.get(changes.size() - 1);
+      final ChangeInfo l = changes.get(changes.length() - 1);
 
       prev.setTargetHistoryToken(anchorPrefix + ",p," + f._sortkey());
       next.setTargetHistoryToken(anchorPrefix + ",n," + l._sortkey());

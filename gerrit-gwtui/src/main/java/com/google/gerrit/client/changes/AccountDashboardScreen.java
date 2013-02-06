@@ -16,10 +16,11 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotFoundScreen;
-import com.google.gerrit.client.rpc.NativeList;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gwt.core.client.JsArray;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -64,9 +65,9 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     super.onLoad();
     String who = mine ? "self" : ownerId.toString();
     ChangeList.query(
-        new ScreenLoadCallback<NativeList<ChangeList>>(this) {
+        new ScreenLoadCallback<JsArray<ChangeList>>(this) {
           @Override
-          protected void preDisplay(NativeList<ChangeList> result) {
+          protected void preDisplay(JsArray<ChangeList> result) {
             display(result);
           }
         },
@@ -81,7 +82,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     table.setRegisterKeys(true);
   }
 
-  private void display(NativeList<ChangeList> result) {
+  private void display(JsArray<ChangeList> result) {
     if (!mine && !hasChanges(result)) {
       // When no results are returned and the data is not for the
       // current user, the target user is presumed to not exist.
@@ -112,7 +113,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
       }
     }
 
-    Collections.sort(out.asList(), outComparator());
+    Collections.sort(Natives.asList(out), outComparator());
 
     table.updateColumnsForLabels(out, in, done);
     outgoing.display(out);
@@ -132,9 +133,9 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     };
   }
 
-  private boolean hasChanges(NativeList<ChangeList> result) {
-    for (ChangeList list : result.asList()) {
-      if (!list.isEmpty()) {
+  private boolean hasChanges(JsArray<ChangeList> result) {
+    for (ChangeList list : Natives.asList(result)) {
+      if (list.length() != 0) {
         return true;
       }
     }
@@ -142,7 +143,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   }
 
   private static String guessName(ChangeList list) {
-    for (ChangeInfo change : list.asList()) {
+    for (ChangeInfo change : Natives.asList(list)) {
       if (change.owner() != null && change.owner().name() != null) {
         return change.owner().name();
       }

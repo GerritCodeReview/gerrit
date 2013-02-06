@@ -61,6 +61,12 @@ Responses will be gzip compressed by the server if the HTTP
 `Accept-Encoding` request header is set to `gzip`. This may
 save on network transfer time for larger responses.
 
+[[encoding]]
+Encoding
+~~~~~~~~
+All ID's that appear in the URL of a REST call (e.g. project name, group name)
+must be URL encoded.
+
 Endpoints
 ---------
 link:rest-api-accounts.html[/accounts/]::

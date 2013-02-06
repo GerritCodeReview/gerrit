@@ -186,12 +186,9 @@ The entries in the list are sorted by group name and UUID.
 ----
 
 [[create-group]]
-PUT /groups/* (Create Group)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+PUT /groups/{group-name} (Create Group)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Creates a new Gerrit internal group.
-
-The `/groups/{group-name}` URL expects an encoded group name as part of
-the URL.
 
 In the request body additional data for the group can be provided as
 link:#group-input[GroupInput].

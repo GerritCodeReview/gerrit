@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -47,7 +47,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private final PatchSetInfoFactory infoFactory;
   private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
   private final AccountInfoCacheFactory aic;
   private final IdentifiedUser user;
 
@@ -62,12 +62,12 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       final ReviewDb db,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeControl.Factory changeControlFactory,
-      final ApprovalTypes approvalTypes,
+      final LabelTypes labelTypes,
       final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
     this.infoFactory = infoFactory;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
     this.aic = accountInfoCacheFactory.create();
     this.user = user;
 
@@ -124,8 +124,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
             boolean canMakeOk = false;
             PermissionRange range = rangeByName.get(lbl.label);
             if (range != null) {
-              ApprovalType at = approvalTypes.byLabel(lbl.label);
-              if (at == null || at.getMax().getValue() == range.getMax()) {
+              LabelType lt = labelTypes.byLabel(lbl.label);
+              if (lt == null || lt.getMax().getValue() == range.getMax()) {
                 canMakeOk = true;
               }
             }

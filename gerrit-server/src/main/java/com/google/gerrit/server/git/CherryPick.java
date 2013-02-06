@@ -24,7 +24,7 @@ import static com.google.gerrit.server.git.MergeUtil.mergeOneCommit;
 import static com.google.gerrit.server.git.MergeUtil.getApprovalsForCommit;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
@@ -53,19 +53,19 @@ import java.util.Map;
 public class CherryPick extends SubmitStrategy {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<String> urlProvider;
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
   private final GitReferenceUpdated gitRefUpdated;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
   CherryPick(final SubmitStrategy.Arguments args,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final Provider<String> urlProvider, final ApprovalTypes approvalTypes,
+      final Provider<String> urlProvider, final LabelTypes labelTypes,
       final GitReferenceUpdated gitRefUpdated) {
     super(args);
 
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.urlProvider = urlProvider;
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
     this.gitRefUpdated = gitRefUpdated;
     this.newCommits = new HashMap<Change.Id, CodeReviewCommit>();
   }
@@ -163,7 +163,7 @@ public class CherryPick extends SubmitStrategy {
     }
 
     final String cherryPickCmtMsg =
-        createCherryPickCommitMessage(n, approvalTypes, urlProvider, args.db,
+        createCherryPickCommitMessage(n, labelTypes, urlProvider, args.db,
             args.identifiedUserFactory);
 
     final CodeReviewCommit newCommit =

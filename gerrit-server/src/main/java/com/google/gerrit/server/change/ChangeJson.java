@@ -35,8 +35,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.changes.ListChangesOption;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
@@ -112,7 +112,7 @@ public class ChangeJson {
   }
 
   private final Provider<ReviewDb> db;
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
   private final FunctionState.Factory functionState;
   private final CurrentUser user;
   private final AnonymousUser anonymous;
@@ -132,7 +132,7 @@ public class ChangeJson {
   @Inject
   ChangeJson(
       Provider<ReviewDb> db,
-      ApprovalTypes at,
+      LabelTypes at,
       FunctionState.Factory fs,
       CurrentUser u,
       AnonymousUser au,
@@ -144,7 +144,7 @@ public class ChangeJson {
       @CanonicalWebUrl Provider<String> curl,
       Urls urls) {
     this.db = db;
-    this.approvalTypes = at;
+    this.labelTypes = at;
     this.functionState = fs;
     this.user = u;
     this.anonymous = au;
@@ -319,7 +319,7 @@ public class ChangeJson {
     }
 
     Map<String, LabelInfo> labels =
-        Maps.newTreeMap(LabelOrdering.create(approvalTypes));
+        Maps.newTreeMap(LabelOrdering.create(labelTypes));
     initLabels(cd, labels, standard);
 
     Collection<PatchSetApproval> approvals = null;
@@ -328,7 +328,7 @@ public class ChangeJson {
       setAllApprovals(cd, labels, approvals);
     }
     for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
-      ApprovalType type = approvalTypes.byLabel(e.getKey());
+      LabelType type = labelTypes.byLabel(e.getKey());
       if (type == null) {
         continue; // TODO: Support arbitrary labels.
       }
@@ -374,7 +374,7 @@ public class ChangeJson {
   }
 
   private Collection<PatchSetApproval> setRecommendedAndDisliked(ChangeData cd,
-      Collection<PatchSetApproval> approvals, ApprovalType type,
+      Collection<PatchSetApproval> approvals, LabelType type,
       LabelInfo label) throws OrmException {
     if (label.approved != null || label.rejected != null) {
       return approvals;
@@ -417,25 +417,25 @@ public class ChangeJson {
     ChangeControl ctl = cd.changeControl();
     FunctionState fs =
         functionState.create(ctl, cd.change(db).currentPatchSetId(), approvals);
-    for (ApprovalType at : approvalTypes.getApprovalTypes()) {
-      CategoryFunction.forType(at).run(at, fs);
+    for (LabelType lt : labelTypes.getLabelTypes()) {
+      CategoryFunction.forType(lt).run(lt, fs);
     }
 
     Multimap<Account.Id, String> existing =
         HashMultimap.create(approvals.size(), labels.size());
     for (PatchSetApproval psa : approvals) {
-      ApprovalType at = approvalTypes.byId(psa.getCategoryId().get());
-      if (at == null) {
+      LabelType lt = labelTypes.byId(psa.getCategoryId().get());
+      if (lt == null) {
         continue;
       }
-      LabelInfo p = labels.get(at.getName());
+      LabelInfo p = labels.get(lt.getName());
       if (p == null) {
         continue; // TODO: support arbitrary labels.
       }
-      if (!getRange(ctl, psa.getAccountId(), at.getName()).isEmpty()) {
+      if (!getRange(ctl, psa.getAccountId(), lt.getName()).isEmpty()) {
         p.addApproval(approvalInfo(psa.getAccountId(), psa.getValue()));
       }
-      existing.put(psa.getAccountId(), at.getName());
+      existing.put(psa.getAccountId(), lt.getName());
     }
 
     // Add dummy approvals for all permitted labels for each user even if they
@@ -471,7 +471,7 @@ public class ChangeJson {
     return values.isEmpty() || (values.size() == 1 && values.contains(" 0"));
   }
 
-  private void setLabelValues(ApprovalType type, LabelInfo label) {
+  private void setLabelValues(LabelType type, LabelInfo label) {
     label.values = Maps.newLinkedHashMap();
     for (LabelValue v : type.getValues()) {
       label.values.put(v.formatValue(), v.getText());
@@ -490,7 +490,7 @@ public class ChangeJson {
         continue;
       }
       for (SubmitRecord.Label r : rec.labels) {
-        ApprovalType type = approvalTypes.byLabel(r.label);
+        LabelType type = labelTypes.byLabel(r.label);
         if (type == null) {
           continue; // TODO: Support arbitrary labels.
         }

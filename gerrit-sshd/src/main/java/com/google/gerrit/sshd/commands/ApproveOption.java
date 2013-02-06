@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -30,11 +30,11 @@ import java.lang.annotation.Annotation;
 final class ApproveOption implements Option, Setter<Short> {
   private final String name;
   private final String usage;
-  private final ApprovalType type;
+  private final LabelType type;
 
   private Short value;
 
-  ApproveOption(final String name, final String usage, final ApprovalType type) {
+  ApproveOption(final String name, final String usage, final LabelType type) {
     this.name = name;
     this.usage = usage;
     this.type = type;

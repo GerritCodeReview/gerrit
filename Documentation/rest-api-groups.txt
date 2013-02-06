@@ -279,11 +279,71 @@ describes the group member.
 The request also succeeds if the user is already a member of this
 group, but then the HTTP response code is `200 OK`.
 
+POST /groups/\{group-id\}/members (Add Group Members)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Same as link:#add-group-members[POST /groups/\{group-id\}/members.add].
+
+[[add-group-members]]
+POST /groups/\{group-id\}/members.add (Add Group Members)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Adds one or several users to a Gerrit internal group.
+
+The users to be added to the group have to be provided in the request
+body as link:#member-input[MemberInput] entity.
+
+.Request
+----
+  POST /groups/MyProject-Committers/members.add HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "members": {
+      "jane.roe@example.com",
+      "john.doe@example.com"
+    }
+  }
+----
+
+As response a list of link:#member-info[MemberInfo] entities is
+returned that describes the group members that were specified in the
+link:#member-input[MemberInput]. A link:#member-info[MemberInfo] entity
+is returned for each user specified in the input, independently of
+whether the user was newly added to the group or whether the user was
+already a member of the group.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "Jane Roe",
+      "id": "1000057",
+      "account_id": 1000057,
+      "preferred_email": "jane.roe@example.com",
+      "user_name": "jroe"
+    },
+    {
+      "kind": "gerritcodereview#member",
+      "full_name": "John Doe",
+      "id": "1000037",
+      "account_id": 1000037,
+      "preferred_email": "john.doe@example.com",
+      "user_name": "jdoe"
+    }
+  ]
+----
+
 
 [[ids]]
 IDs
 ---
 
+[[account-id]]
 \{account-id\}
 ~~~~~~~~~~~~~~
 Identifier for an account.
@@ -397,6 +457,23 @@ The full name of the user ("Given-name Surname" style).
 The email address the user prefers to be contacted through.
 |`user_name`       ||The user name.
 |===============================
+
+[[member-input]]
+MemberInput
+~~~~~~~~~~~
+The `MemberInput` entity contains information about accounts that should
+be added as members to a group.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==========================
+|Field Name   ||Description
+|`_one_member`|optional|
+The link:#account-id[id] of one account that should be added as member.
+|`members`    |optional|
+A list of link:#account-id[account ids] that identify the accounts that
+should be added as members.
+|==========================
+
 
 GERRIT
 ------

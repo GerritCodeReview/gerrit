@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -165,7 +165,7 @@ public class MergeUtil {
   }
 
   public static String createCherryPickCommitMessage(final CodeReviewCommit n,
-      final ApprovalTypes approvalTypes, final Provider<String> urlProvider,
+      final LabelTypes labelTypes, final Provider<String> urlProvider,
       final ReviewDb db, final IdentifiedUser.GenericFactory identifiedUserFactory) {
     final List<FooterLine> footers = n.getFooterLines();
     final StringBuilder msgbuf = new StringBuilder();
@@ -254,12 +254,12 @@ public class MergeUtil {
       } else if (VRIF.equals(a.getCategoryId())) {
         tag = "Tested-by";
       } else {
-        final ApprovalType at = approvalTypes.byId(a.getCategoryId().get());
-        if (at == null) {
+        final LabelType lt = labelTypes.byId(a.getCategoryId().get());
+        if (lt == null) {
           // TODO: Support arbitrary labels.
           continue;
         }
-        tag = at.getName();
+        tag = lt.getName();
       }
 
       if (!contains(footers, new FooterKey(tag), identbuf.toString())) {

@@ -16,8 +16,8 @@ package com.google.gerrit.server;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
@@ -45,12 +45,12 @@ import java.util.Set;
  */
 public class ApprovalsUtil {
   private final ReviewDb db;
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
 
   @Inject
-  public ApprovalsUtil(ReviewDb db, ApprovalTypes approvalTypes) {
+  public ApprovalsUtil(ReviewDb db, LabelTypes labelTypes) {
     this.db = db;
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
   }
 
   /**
@@ -90,7 +90,7 @@ public class ApprovalsUtil {
     for (PatchSetApproval a : patchSetApprovals) {
       // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
       if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-        final ApprovalType type = approvalTypes.byId(a.getCategoryId().get());
+        final LabelType type = labelTypes.byId(a.getCategoryId().get());
         if (a.getPatchSetId().equals(source) &&
             type.isCopyMinScore() &&
             type.isMaxNegative(a)) {
@@ -105,7 +105,7 @@ public class ApprovalsUtil {
   public void addReviewers(ReviewDb db, Change change, PatchSet ps,
       PatchSetInfo info, Set<Id> wantReviewers,
       Set<Account.Id> existingReviewers) throws OrmException {
-    List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
+    List<LabelType> allTypes = labelTypes.getLabelTypes();
     if (allTypes.isEmpty()) {
       return;
     }

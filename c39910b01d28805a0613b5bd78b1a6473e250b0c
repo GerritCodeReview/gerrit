@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PjRULNC8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/Natives.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-06T17:19:50Z",
+      "side": 1,
+      "message": "Oops.",
+      "revId": "c39910b01d28805a0613b5bd78b1a6473e250b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -246,10 +246,55 @@ describes the created group.
   }
 ----
 
+[[add-group-member]]
+PUT /groups/\{group-id\}/members/\{account-id\} (Add Group Member)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Adds a user as member to a Gerrit internal group.
+
+.Request
+----
+  PUT /groups/MyProject-Committers/members/John%20Doe HTTP/1.0
+----
+
+As response a link:#member-info[MemberInfo] entity is returned that
+describes the group member.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#member",
+    "full_name": "John Doe",
+    "id": "1000037",
+    "account_id": 1000037,
+    "preferred_email": "john.doe@example.com",
+    "user_name": "jdoe"
+  }
+----
+
+The request also succeeds if the user is already a member of this
+group, but then the HTTP response code is `200 OK`.
+
 
 [[ids]]
 ID's
 ----
+
+\{account-id\}
+~~~~~~~~~~~~~~
+Identifier for an account.
+
+This can be:
+
+* a string of the format "Full Name <email@example.com>"
+* just the email address ("email@example")
+* a full name ("Full Name")
+* an account id ("18419")
+* a user name ("username")
 
 \{group-id\}
 ~~~~~~~~~~~~

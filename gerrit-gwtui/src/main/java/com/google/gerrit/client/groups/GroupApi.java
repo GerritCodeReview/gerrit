@@ -15,11 +15,12 @@
 package com.google.gerrit.client.groups;
 
 import com.google.gerrit.client.VoidResult;
-import com.google.gerrit.client.rpc.NativeList;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.Set;
@@ -81,14 +82,14 @@ public class GroupApi {
   /** Add members to a group. */
   public static void addMembers(AccountGroup.UUID group,
       Set<String> members,
-      final AsyncCallback<NativeList<MemberInfo>> cb) {
+      final AsyncCallback<JsArray<MemberInfo>> cb) {
     if (members.size() == 1) {
       addMember(group,
           members.iterator().next(),
           new AsyncCallback<MemberInfo>() {
             @Override
             public void onSuccess(MemberInfo result) {
-              cb.onSuccess(NativeList.of(result));
+              cb.onSuccess(Natives.arrayOf(result));
             }
 
             @Override
@@ -129,14 +130,14 @@ public class GroupApi {
   /** Include groups into a group. */
   public static void addIncludedGroups(AccountGroup.UUID group,
       Set<String> includedGroups,
-      final AsyncCallback<NativeList<GroupInfo>> cb) {
+      final AsyncCallback<JsArray<GroupInfo>> cb) {
     if (includedGroups.size() == 1) {
       addIncludedGroup(group,
           includedGroups.iterator().next(),
           new AsyncCallback<GroupInfo>() {
             @Override
             public void onSuccess(GroupInfo result) {
-              cb.onSuccess(NativeList.of(result));
+              cb.onSuccess(Natives.arrayOf(result));
             }
 
             @Override

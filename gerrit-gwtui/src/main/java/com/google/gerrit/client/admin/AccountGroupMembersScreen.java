@@ -23,6 +23,7 @@ import com.google.gerrit.client.groups.GroupList;
 import com.google.gerrit.client.groups.MemberInfo;
 import com.google.gerrit.client.groups.MemberList;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.AddMemberBox;
@@ -160,14 +161,14 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         MemberList.all(getGroupUUID(), new GerritCallback<MemberList>() {
           @Override
           public void onSuccess(MemberList result) {
-            members.display(result.asList());
+            members.display(Natives.asList(result));
           }
         });
 
         GroupList.included(getGroupUUID(), new GerritCallback<GroupList>() {
           @Override
           public void onSuccess(GroupList result) {
-            includes.display(result.asList());
+            includes.display(Natives.asList(result));
           }
         });
 

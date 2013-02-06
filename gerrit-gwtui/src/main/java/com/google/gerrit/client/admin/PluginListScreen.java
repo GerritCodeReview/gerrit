@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.plugins.PluginInfo;
 import com.google.gerrit.client.plugins.PluginMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.ui.Anchor;
@@ -73,7 +74,7 @@ public class PluginListScreen extends PluginScreen {
         table.removeRow(table.getRowCount() - 1);
       }
 
-      for (final PluginInfo p : plugins.values().asList()) {
+      for (final PluginInfo p : Natives.asList(plugins.values())) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);

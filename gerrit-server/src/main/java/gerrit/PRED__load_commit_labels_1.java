@@ -2,8 +2,8 @@
 
 package gerrit;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -46,7 +46,7 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
       ReviewDb db = StoredValues.REVIEW_DB.get(engine);
       PatchSet patchSet = StoredValues.PATCH_SET.get(engine);
       ChangeData cd = StoredValues.CHANGE_DATA.getOrNull(engine);
-      ApprovalTypes types = env.getInjector().getInstance(ApprovalTypes.class);
+      LabelTypes types = env.getInjector().getInstance(LabelTypes.class);
 
       Iterable<PatchSetApproval> approvals;
       if (cd != null) {
@@ -60,7 +60,7 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
           continue;
         }
 
-        ApprovalType t = types.byId(a.getCategoryId().get());
+        LabelType t = types.byId(a.getCategoryId().get());
         if (t == null) {
           continue;
         }

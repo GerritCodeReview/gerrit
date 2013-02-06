@@ -18,8 +18,8 @@ import static com.google.gerrit.common.data.LabelValue.formatValue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -42,17 +42,17 @@ import java.util.TreeMap;
 
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
   private final FunctionState.Factory functionState;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
-      ApprovalTypes approvalTypes,
+      LabelTypes labelTypes,
       FunctionState.Factory functionState,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
     this.functionState = functionState;
     this.accountLoaderFactory = accountLoaderFactory;
   }
@@ -84,18 +84,18 @@ public class ReviewerJson {
     }
 
     FunctionState fs = functionState.create(ctl, psId, approvals);
-    for (ApprovalType at : approvalTypes.getApprovalTypes()) {
+    for (LabelType at : labelTypes.getLabelTypes()) {
       CategoryFunction.forType(at).run(at, fs);
     }
 
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     out.approvals = new TreeMap<String,String>(LabelOrdering.create(
-        approvalTypes));
+        labelTypes));
     for (PatchSetApproval ca : approvals) {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {
           // TODO: Support arbitrary labels.
-          ApprovalType at = approvalTypes.byId(ca.getCategoryId().get());
+          LabelType at = labelTypes.byId(ca.getCategoryId().get());
           if (at != null) {
             out.approvals.put(at.getName(), formatValue(ca.getValue())); }
         }

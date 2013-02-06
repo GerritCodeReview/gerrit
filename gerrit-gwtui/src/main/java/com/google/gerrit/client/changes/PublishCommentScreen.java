@@ -14,8 +14,6 @@
 
 package com.google.gerrit.client.changes;
 
-import static com.google.gerrit.client.changes.ApprovalTable.parseLabelValue;
-
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
@@ -466,7 +464,11 @@ public class PublishCommentScreen extends AccountScreen implements
     }
 
     short parseValue() {
-      return parseLabelValue(value);
+      String value = this.value;
+      if (value.startsWith(" ") || value.startsWith("+")) {
+        value = value.substring(1);
+      }
+      return Short.parseShort(value);
     }
   }
 

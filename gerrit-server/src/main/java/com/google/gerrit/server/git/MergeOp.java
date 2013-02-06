@@ -26,8 +26,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -130,7 +130,7 @@ public class MergeOp {
   private final GitReferenceUpdated gitRefUpdated;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -164,7 +164,7 @@ public class MergeOp {
       final ProjectCache pc, final FunctionState.Factory fs,
       final GitReferenceUpdated gru, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
-      final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
+      final LabelTypes labelTypes, final PatchSetInfoFactory psif,
       final IdentifiedUser.GenericFactory iuf,
       final ChangeControl.GenericFactory changeControlFactory,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
@@ -182,7 +182,7 @@ public class MergeOp {
     gitRefUpdated = gru;
     mergedSenderFactory = msf;
     mergeFailSenderFactory = mfsf;
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
     this.changeControlFactory = changeControlFactory;
@@ -936,8 +936,8 @@ public class MergeOp {
               c,
               identifiedUserFactory.create(c.getOwner())),
               merged, approvals);
-      for (ApprovalType at : approvalTypes.getApprovalTypes()) {
-        CategoryFunction.forType(at).run(at, fs);
+      for (LabelType lt : labelTypes.getLabelTypes()) {
+        CategoryFunction.forType(lt).run(lt, fs);
       }
       for (PatchSetApproval a : approvals) {
         if (a.getValue() > 0

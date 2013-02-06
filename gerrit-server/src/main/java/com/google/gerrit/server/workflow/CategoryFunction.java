@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.workflow;
 
-import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
@@ -43,7 +43,7 @@ public abstract class CategoryFunction {
    * @return the function implementation; {@link NoOpFunction} if the function
    *         is not known to Gerrit and thus cannot be executed.
    */
-  public static CategoryFunction forType(ApprovalType type) {
+  public static CategoryFunction forType(LabelType type) {
     CategoryFunction r = all.get(type.getFunctionName());
     return r != null ? r : new NoOpFunction();
   }
@@ -85,9 +85,9 @@ public abstract class CategoryFunction {
    * state.valid(at, !neg &amp;&amp; pos);
    * </pre>
    *
-   * @param at the cached category description to process.
+   * @param lt the cached category description to process.
    * @param state state to read approvals and project rights from, and to update
    *        the valid status into.
    */
-  public abstract void run(ApprovalType at, FunctionState state);
+  public abstract void run(LabelType lt, FunctionState state);
 }

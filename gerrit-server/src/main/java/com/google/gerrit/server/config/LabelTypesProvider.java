@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -29,17 +29,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ApprovalTypesProvider implements Provider<ApprovalTypes> {
+public class LabelTypesProvider implements Provider<LabelTypes> {
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject
-  ApprovalTypesProvider(final SchemaFactory<ReviewDb> sf) {
+  LabelTypesProvider(final SchemaFactory<ReviewDb> sf) {
     schema = sf;
   }
 
   @Override
-  public ApprovalTypes get() {
-    List<ApprovalType> types = new ArrayList<ApprovalType>(2);
+  public LabelTypes get() {
+    List<LabelType> types = new ArrayList<LabelType>(2);
 
     try {
       final ReviewDb db = schema.open();
@@ -47,7 +47,7 @@ public class ApprovalTypesProvider implements Provider<ApprovalTypes> {
         for (final ApprovalCategory c : db.approvalCategories().all()) {
           final List<ApprovalCategoryValue> values =
               db.approvalCategoryValues().byCategory(c.getId()).toList();
-          types.add(ApprovalType.fromApprovalCategory(c, values));
+          types.add(LabelType.fromApprovalCategory(c, values));
         }
       } finally {
         db.close();
@@ -56,6 +56,6 @@ public class ApprovalTypesProvider implements Provider<ApprovalTypes> {
       throw new ProvisionException("Cannot query approval categories", e);
     }
 
-    return new ApprovalTypes(Collections.unmodifiableList(types));
+    return new LabelTypes(Collections.unmodifiableList(types));
   }
 }

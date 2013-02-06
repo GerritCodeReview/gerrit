@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PjpQXREw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-06T10:36:41Z",
+      "side": 1,
+      "message": "This is now different. Now, the ChangeIdValidator would be skipped (not instantiated).",
+      "revId": "72d43af3702efda27718e47b1ceb450dbb206077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PjnQtyJY",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-06T10:36:41Z",
+      "side": 1,
+      "message": "signed-off-by ?",
+      "revId": "72d43af3702efda27718e47b1ceb450dbb206077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PjrQSQFw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-06T10:36:41Z",
+      "side": 1,
+      "message": "This looks strange. This will build a refName like:\n\n  refs/publish/my/project/name",
+      "revId": "72d43af3702efda27718e47b1ceb450dbb206077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

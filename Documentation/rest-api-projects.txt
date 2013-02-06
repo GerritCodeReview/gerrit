@@ -141,6 +141,16 @@ To retrieve only the default dashboard, add `default` to the URL:
   }
 ----
 
+
+[[ids]]
+ID's
+----
+
+\{project-name\}
+~~~~~~~~~~~~~~~~
+The name of the project.
+
+
 [[json-entities]]
 JSON Entities
 -------------

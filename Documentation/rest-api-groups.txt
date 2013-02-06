@@ -78,8 +78,8 @@ get::/groups/
 ****
 
 [[group-members]]
-GET /groups/*/members/ (List Group Members)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /groups/\{group-id\}/members/ (List Group Members)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the direct members of a group.
 
 As result a list of link:#member-info[MemberInfo] entries is returned.
@@ -159,8 +159,8 @@ members the parameter `recursive` can be set.
 ----
 
 [[included-groups]]
-GET /groups/*/groups/ (List Included Groups)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /groups/\{group-id\}/groups/ (List Included Groups)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the directly included groups of a group.
 
 As result a list of link:#group-info[GroupInfo] entries is returned.
@@ -203,6 +203,25 @@ link:#group-input[GroupInput].
     "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
   }
 ----
+
+
+[[ids]]
+ID's
+----
+
+\{group-id\}
+~~~~~~~~~~~~
+Identifier for a group.
+
+This can be:
+
+* the UUID of the group
+* the legacy numeric ID of the group
+* the name of the group if it is unique
+
+\{group-name\}
+~~~~~~~~~~~~~~
+Group name that uniquely identifies one group.
 
 
 [[json-entities]]

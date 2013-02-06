@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "PjXUEqCA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-06T10:50:30Z",
+      "side": 1,
+      "message": "Is this needed?  We (Sony Mobile contributors) have never added it, and it\u0027s not required on the gerrit project at gerrit-review.",
+      "parentUuid": "PjnQtyJY",
+      "revId": "72d43af3702efda27718e47b1ceb450dbb206077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PjrQSQFw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 19

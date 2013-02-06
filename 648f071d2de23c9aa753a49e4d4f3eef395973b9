@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PjpRphLc",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/changes/ListChangesOption.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-06T19:37:07Z",
+      "side": 1,
+      "message": "I know the REST API documentation is still quite incomplete, but since all the other ListChangesOption are already documented, could you add a sentence about this new option in rest-api-changes.txt?",
+      "revId": "648f071d2de23c9aa753a49e4d4f3eef395973b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PjrRkgN8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-06T19:37:07Z",
+      "side": 1,
+      "message": "This seems to be unused?\n\nAlso why is it needed to differentiate between created and provided AccountInfo instances?",
+      "revId": "648f071d2de23c9aa753a49e4d4f3eef395973b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PjnRfCAs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-06T19:37:07Z",
+      "side": 1,
+      "message": "I know we have already some field names starting with \u0027_\u0027, but it\u0027s not clear to me when or why we are doing this. So why, is this not simply named \u0027accountId\u0027 (which would be \u0027account_id\u0027 in json)?",
+      "revId": "648f071d2de23c9aa753a49e4d4f3eef395973b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

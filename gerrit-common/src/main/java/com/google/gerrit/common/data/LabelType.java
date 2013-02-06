@@ -25,29 +25,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ApprovalType {
-  public static ApprovalType fromApprovalCategory(ApprovalCategory ac,
+public class LabelType {
+  public static LabelType fromApprovalCategory(ApprovalCategory ac,
       List<ApprovalCategoryValue> acvs) {
     List<LabelValue> values = new ArrayList<LabelValue>(acvs.size());
     for (ApprovalCategoryValue acv : acvs) {
       values.add(
           new LabelValue(acv.getValue(), acv.getName()));
     }
-    ApprovalType at = new ApprovalType(ac.getLabelName(), values);
-    at.setId(ac.getId().get());
-    at.setAbbreviatedName(ac.getAbbreviatedName());
-    at.setFunctionName(ac.getFunctionName());
-    at.setCopyMinScore(ac.isCopyMinScore());
-    at.setPosition(ac.getPosition());
-    return at;
+    LabelType lt = new LabelType(ac.getLabelName(), values);
+    lt.setId(ac.getId().get());
+    lt.setAbbreviatedName(ac.getAbbreviatedName());
+    lt.setFunctionName(ac.getFunctionName());
+    lt.setCopyMinScore(ac.isCopyMinScore());
+    lt.setPosition(ac.getPosition());
+    return lt;
   }
 
-  public static ApprovalType withDefaultValues(String name) {
+  public static LabelType withDefaultValues(String name) {
     checkLabelName(name);
     List<LabelValue> values = new ArrayList<LabelValue>(2);
     values.add(new LabelValue((short) 0, "Rejected"));
     values.add(new LabelValue((short) 1, "Approved"));
-    return new ApprovalType(name, values);
+    return new LabelType(name, values);
   }
 
   private static void checkLabelName(String name) {
@@ -92,10 +92,10 @@ public class ApprovalType {
   private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
-  protected ApprovalType() {
+  protected LabelType() {
   }
 
-  public ApprovalType(String name, List<LabelValue> valueList) {
+  public LabelType(String name, List<LabelValue> valueList) {
     checkLabelName(name);
     this.name = name;
     values = new ArrayList<LabelValue>(valueList);

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -51,7 +51,7 @@ class ReviewNoteHeaderFormatter {
     sb.append("Change-Id: ").append(changeKey.get()).append("\n");
   }
 
-  void appendApproval(ApprovalType type, short value, Account user) {
+  void appendApproval(LabelType type, short value, Account user) {
     sb.append(type.getName());
     sb.append(value < 0 ? "-" : "+").append(Math.abs(value)).append(": ");
     appendUserData(user);

@@ -14,8 +14,8 @@
 
 package gerrit;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.rules.PrologEnvironment;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -54,9 +54,9 @@ class PRED_get_legacy_approval_types_1 extends Predicate.P1 {
     Term a1 = arg1.dereference();
 
     PrologEnvironment env = (PrologEnvironment) engine.control;
-    ApprovalTypes types = env.getInjector().getInstance(ApprovalTypes.class);
+    LabelTypes types = env.getInjector().getInstance(LabelTypes.class);
 
-    List<ApprovalType> list = types.getApprovalTypes();
+    List<LabelType> list = types.getLabelTypes();
     Term head = Prolog.Nil;
     for (int idx = list.size() - 1; 0 <= idx; idx--) {
       head = new ListTerm(export(list.get(idx)), head);
@@ -71,7 +71,7 @@ class PRED_get_legacy_approval_types_1 extends Predicate.P1 {
   static final SymbolTerm symApprovalType = SymbolTerm.intern(
       "approval_type", 5);
 
-  static Term export(ApprovalType type) {
+  static Term export(LabelType type) {
     return new StructureTerm(symApprovalType,
         SymbolTerm.intern(type.getName()),
         SymbolTerm.intern(type.getId()),

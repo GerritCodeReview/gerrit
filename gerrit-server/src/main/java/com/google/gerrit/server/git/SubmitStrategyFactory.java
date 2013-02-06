@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -49,7 +49,7 @@ public class SubmitStrategyFactory {
   private final PersonIdent myIdent;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<String> urlProvider;
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
   private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
 
@@ -59,13 +59,13 @@ public class SubmitStrategyFactory {
       @GerritPersonIdent final PersonIdent myIdent,
       final PatchSetInfoFactory patchSetInfoFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final ApprovalTypes approvalTypes, final GitReferenceUpdated gitRefUpdated,
+      final LabelTypes labelTypes, final GitReferenceUpdated gitRefUpdated,
       final RebaseChange rebaseChange) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.urlProvider = urlProvider;
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
     this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
   }
@@ -82,7 +82,7 @@ public class SubmitStrategyFactory {
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args, patchSetInfoFactory, urlProvider,
-            approvalTypes, gitRefUpdated);
+            labelTypes, gitRefUpdated);
       case FAST_FORWARD_ONLY:
         return new FastForwardOnly(args);
       case MERGE_ALWAYS:

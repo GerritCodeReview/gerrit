@@ -80,12 +80,9 @@ List all projects that start with `platform/`:
 ----
 E.g. this feature can be used by suggestion client UI's to limit results.
 
-GET /projects/*/dashboards/ (List Dashboards)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GET /projects/\{project-name\}/dashboards/ (List Dashboards)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 List custom dashboards for a project.
-
-The `/projects/{project-name}/dashboards/` URL expects an encoded
-project name as part of the URL.
 
 List all dashboards for the `work/my-project` project:
 ----

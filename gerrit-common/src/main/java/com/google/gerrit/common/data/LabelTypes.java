@@ -18,32 +18,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ApprovalTypes {
-  protected List<ApprovalType> approvalTypes;
-  private transient Map<String, ApprovalType> byId;
-  private transient Map<String, ApprovalType> byLabel;
+public class LabelTypes {
+  protected List<LabelType> labelTypes;
+  private transient Map<String, LabelType> byId;
+  private transient Map<String, LabelType> byLabel;
 
-  protected ApprovalTypes() {
+  protected LabelTypes() {
   }
 
-  public ApprovalTypes(final List<ApprovalType> approvals) {
-    approvalTypes = approvals;
+  public LabelTypes(final List<LabelType> approvals) {
+    labelTypes = approvals;
     byId();
   }
 
-  public List<ApprovalType> getApprovalTypes() {
-    return approvalTypes;
+  public List<LabelType> getLabelTypes() {
+    return labelTypes;
   }
 
-  public ApprovalType byId(String id) {
+  public LabelType byId(String id) {
     return byId().get(id);
   }
 
-  private Map<String, ApprovalType> byId() {
+  private Map<String, LabelType> byId() {
     if (byId == null) {
-      byId = new HashMap<String, ApprovalType>();
-      if (approvalTypes != null) {
-        for (final ApprovalType t : approvalTypes) {
+      byId = new HashMap<String, LabelType>();
+      if (labelTypes != null) {
+        for (final LabelType t : labelTypes) {
           byId.put(t.getId(), t);
         }
       }
@@ -51,15 +51,15 @@ public class ApprovalTypes {
     return byId;
   }
 
-  public ApprovalType byLabel(String labelName) {
+  public LabelType byLabel(String labelName) {
     return byLabel().get(labelName.toLowerCase());
   }
 
-  private Map<String, ApprovalType> byLabel() {
+  private Map<String, LabelType> byLabel() {
     if (byLabel == null) {
-      byLabel = new HashMap<String, ApprovalType>();
-      if (approvalTypes != null) {
-        for (ApprovalType t : approvalTypes) {
+      byLabel = new HashMap<String, LabelType>();
+      if (labelTypes != null) {
+        for (LabelType t : labelTypes) {
           byLabel.put(t.getName().toLowerCase(), t);
         }
       }

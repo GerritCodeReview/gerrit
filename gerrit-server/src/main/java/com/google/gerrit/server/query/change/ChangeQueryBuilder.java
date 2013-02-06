@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -110,7 +110,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final AccountResolver accountResolver;
     final GroupBackend groupBackend;
-    final ApprovalTypes approvalTypes;
+    final LabelTypes labelTypes;
     final AllProjectsName allProjectsName;
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
@@ -124,7 +124,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.GenericFactory changeControlGenericFactory,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
-        ApprovalTypes approvalTypes,
+        LabelTypes labelTypes,
         AllProjectsName allProjectsName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
@@ -136,7 +136,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.accountResolver = accountResolver;
       this.groupBackend = groupBackend;
-      this.approvalTypes = approvalTypes;
+      this.labelTypes = labelTypes;
       this.allProjectsName = allProjectsName;
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
@@ -302,7 +302,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> label(String name) {
     return new LabelPredicate(args.changeControlGenericFactory,
-        args.userFactory, args.dbProvider, args.approvalTypes, name);
+        args.userFactory, args.dbProvider, args.labelTypes, name);
   }
 
   @Operator

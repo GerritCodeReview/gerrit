@@ -31,7 +31,7 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
-import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Account;
@@ -68,7 +68,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   private final List<Section> sections;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
-  private final List<ApprovalType> approvalTypes;
+  private final List<LabelType> labelTypes;
   private final int columns;
 
   public ChangeTable() {
@@ -77,9 +77,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   public ChangeTable(boolean showApprovals) {
     super(Util.C.changeItemHelp());
-    approvalTypes = Gerrit.getConfig().getApprovalTypes().getApprovalTypes();
+    labelTypes = Gerrit.getConfig().getLabelTypes().getLabelTypes();
     if (showApprovals) {
-      columns = BASE_COLUMNS + approvalTypes.size();
+      columns = BASE_COLUMNS + labelTypes.size();
     } else {
       columns = BASE_COLUMNS;
     }
@@ -96,7 +96,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
     for (int i = BASE_COLUMNS; i < columns; i++) {
-      final ApprovalType type = approvalTypes.get(i - BASE_COLUMNS);
+      final LabelType type = labelTypes.get(i - BASE_COLUMNS);
       String text = type.getAbbreviatedName();
       if (text == null) {
         text = type.getName();
@@ -294,7 +294,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       }
     }
 
-    for (final ApprovalType type : approvalTypes) {
+    for (final LabelType type : labelTypes) {
       final PatchSetApproval ca = approvals.get(type.getId());
 
       fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().negscore());

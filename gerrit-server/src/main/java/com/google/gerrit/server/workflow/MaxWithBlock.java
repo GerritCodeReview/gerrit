@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.workflow;
 
-import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
@@ -45,19 +45,19 @@ public class MaxWithBlock extends CategoryFunction {
   public static String NAME = "MaxWithBlock";
 
   @Override
-  public void run(final ApprovalType at, final FunctionState state) {
+  public void run(final LabelType lt, final FunctionState state) {
     boolean rejected = false;
     boolean passed = false;
-    for (final PatchSetApproval a : state.getApprovals(at)) {
-      state.normalize(at, a);
+    for (final PatchSetApproval a : state.getApprovals(lt)) {
+      state.normalize(lt, a);
 
-      rejected |= at.isMaxNegative(a);
-      passed |= at.isMaxPositive(a);
+      rejected |= lt.isMaxNegative(a);
+      passed |= lt.isMaxPositive(a);
     }
 
     // The type must not have had its max negative (a forceful reject)
     // and must have at least one max positive (a full accept).
     //
-    state.valid(at, !rejected && passed);
+    state.valid(lt, !rejected && passed);
   }
 }

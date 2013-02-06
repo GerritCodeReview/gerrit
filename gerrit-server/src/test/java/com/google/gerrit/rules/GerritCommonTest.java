@@ -14,8 +14,8 @@
 
 package com.google.gerrit.rules;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.inject.AbstractModule;
 
@@ -26,7 +26,7 @@ public class GerritCommonTest extends PrologTestCase {
   public void setUp() throws Exception {
     super.setUp();
 
-    final ApprovalTypes types = new ApprovalTypes(Arrays.asList(
+    final LabelTypes types = new LabelTypes(Arrays.asList(
         category(0, "CRVW", "Code-Review",
             value(2, "Looks good to me, approved"),
             value(1, "Looks good to me, but someone else must approve"),
@@ -42,7 +42,7 @@ public class GerritCommonTest extends PrologTestCase {
     load("gerrit", "gerrit_common_test.pl", new AbstractModule() {
       @Override
       protected void configure() {
-        bind(ApprovalTypes.class).toInstance(types);
+        bind(LabelTypes.class).toInstance(types);
       }
     });
   }
@@ -51,9 +51,9 @@ public class GerritCommonTest extends PrologTestCase {
     return new LabelValue((short) value, text);
   }
 
-  private static ApprovalType category(int pos, String id, String name,
+  private static LabelType category(int pos, String id, String name,
       LabelValue... values) {
-    ApprovalType type = new ApprovalType(id, name, Arrays.asList(values));
+    LabelType type = new LabelType(id, name, Arrays.asList(values));
     type.setPosition((short) pos);
     return type;
   }

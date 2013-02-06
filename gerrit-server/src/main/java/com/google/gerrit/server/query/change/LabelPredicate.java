@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -57,7 +57,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     abstract boolean match(int psValue, int expValue);
   }
 
-  private static ApprovalType type(ApprovalTypes types, String toFind) {
+  private static LabelType type(LabelTypes types, String toFind) {
     if (types.byLabel(toFind) != null) {
       return types.byLabel(toFind);
     }
@@ -66,15 +66,15 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
       return types.byId(toFind);
     }
 
-    for (ApprovalType at : types.getApprovalTypes()) {
-      if (toFind.equalsIgnoreCase(at.getName())) {
-        return at;
+    for (LabelType lt : types.getLabelTypes()) {
+      if (toFind.equalsIgnoreCase(lt.getName())) {
+        return lt;
       }
     }
 
-    for (ApprovalType at : types.getApprovalTypes()) {
-      if (toFind.equalsIgnoreCase(at.getAbbreviatedName())) {
-        return at;
+    for (LabelType lt : types.getLabelTypes()) {
+      if (toFind.equalsIgnoreCase(lt.getAbbreviatedName())) {
+        return lt;
       }
     }
 
@@ -107,13 +107,13 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<ReviewDb> dbProvider;
   private final Test test;
-  private final ApprovalType type;
+  private final LabelType type;
   private final String permissionName;
   private final int expVal;
 
   LabelPredicate(ChangeControl.GenericFactory ccFactory,
       IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      ApprovalTypes types, String value) {
+      LabelTypes types, String value) {
     super(ChangeQueryBuilder.FIELD_LABEL, value);
     this.ccFactory = ccFactory;
     this.userFactory = userFactory;

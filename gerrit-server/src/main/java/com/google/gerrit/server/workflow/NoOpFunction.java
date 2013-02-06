@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.workflow;
 
-import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.LabelType;
 
 /** A function that does nothing. */
 public class NoOpFunction extends CategoryFunction {
   public static String NAME = "NoOp";
 
   @Override
-  public void run(final ApprovalType at, final FunctionState state) {
+  public void run(final LabelType lt, final FunctionState state) {
   }
 }

@@ -20,6 +20,12 @@ repository had many refs (>100000). Putting existing 'refs/changes/'
 or 'refs/tags/' into the RevWalk is now avoided, which improves the
 performance.
 
+* Improve Push performance by discarding 'cache-automerge/*' refs
+  early in VisibleRefFilter
++
+For a typical large Git repository, with many refs and lots of cached
+merges, the push time goes down significantly.
+
 * Don't display all files from a merge-commit when auto-merge fails
 +
 For merge commits Gerrit shows the difference to the automatic merge
@@ -50,6 +56,32 @@ closed. The problem was that no change ref for this new patch set was
 created and as result the change ref that was shown for the new patch
 set in the WebUI, and which was contained in the patchset-created
 event, was invalid.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1767[issue 1767]:
+  Remove wrong error message when pushing a new ref fails
++
+If pushing a new ref was rejected because the user was not allowed to
+create it the error message always told the user that he's missing the
+'Create Reference' access right. This message was incorrect in some
+cases. Users that have the 'Create Reference' access right assigned
+are e.g. not allowed to create the ref if:
++
+--
+** they are pushing an annotated tag without having the
+   'Push Annotated Tag' access right
+** they are pushing a signed tag without having the 'Push Signed Tag'
+   access right
+** the project state is set to 'Read Only'
+--
++
+Now the error message just says 'Prohibited by Gerrit'. This generic
+error message is better than a more concrete error message which is
+wrong in same cases because a wrong message is misleading and
+confuses the user.
++
+In addition the description of the 'Prohibited by Gerrit' error in the
+documentation has been updated to explain some additional cases in
+which the 'Prohibited by Gerrit' error occurs.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=1444[issue 1444]:
   Remove 'Mailing-List' header from sent emails

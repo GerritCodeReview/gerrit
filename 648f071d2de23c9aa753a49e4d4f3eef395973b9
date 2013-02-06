@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "PjXUtyJY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-06T19:52:25Z",
+      "side": 1,
+      "message": "Used downstream in I97e97fa0. The idea is you may have AccountInfo subclasses that have other fields that cannot be reused across instances, in that case the value of an approval.\n\n(One could reasonably argue we shouldn\u0027t be using inheritance in this way, but it\u0027s the only way to keep the resulting JSON structure flat, unless we enter the murky waters of allowing plugins to provide custom GSON type adapters.)",
+      "parentUuid": "PjrRkgN8",
+      "revId": "648f071d2de23c9aa753a49e4d4f3eef395973b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PjnRfCAs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2013-02-06T19:37:07Z",
       "side": 1,
       "message": "I know we have already some field names starting with \u0027_\u0027, but it\u0027s not clear to me when or why we are doing this. So why, is this not simply named \u0027accountId\u0027 (which would be \u0027account_id\u0027 in json)?",
+      "revId": "648f071d2de23c9aa753a49e4d4f3eef395973b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PjVUqzIA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/AccountInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-06T19:52:25Z",
+      "side": 1,
+      "message": "See Shawn\u0027s comment on patch set 1: \"I would name it _account_id in the JSON because we are going to eventually replace it with some sort of UUID thing\"",
+      "parentUuid": "PjnRfCAs",
       "revId": "648f071d2de23c9aa753a49e4d4f3eef395973b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

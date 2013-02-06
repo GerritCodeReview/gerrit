@@ -90,3 +90,17 @@ was malformed.
 +
 The link to the repo command reference in the 'repo upload' section of
 the 'Uploading Changes' documentation was broken.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1569[issue 1569]:
+Fix unexpected behaviour in the commit-msg hook caused by `GREP_OPTIONS`
++
+If `GREP_OPTIONS` was set, it caused unexpected behaviour in the
+commit-msg hook.  For example if it included a setting like
+`--exclude=".git/*"` it caused a new `Change-Id` line to be appended
+to the commit message on every amend.
++
+`GREP_OPTIONS` is now unset at the beginning of the commit-msg script
+to prevent such problems from occurring.
++
+The `GREP_OPTIONS` setting in the user's environment is unaffected
+by this change.

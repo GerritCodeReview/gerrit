@@ -16,8 +16,8 @@ package com.google.gerrit.server.mail;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -34,12 +34,12 @@ public class MergedSender extends ReplyToChangeSender {
     public MergedSender create(Change change);
   }
 
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
 
   @Inject
-  public MergedSender(EmailArguments ea, ApprovalTypes at, @Assisted Change c) {
+  public MergedSender(EmailArguments ea, LabelTypes lt, @Assisted Change c) {
     super(ea, c, "merged");
-    approvalTypes = at;
+    labelTypes = lt;
   }
 
   @Override
@@ -63,7 +63,7 @@ public class MergedSender extends ReplyToChangeSender {
       Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();
       for (PatchSetApproval ca : args.db.get().patchSetApprovals()
           .byPatchSet(patchSet.getId())) {
-        ApprovalType lt = approvalTypes.byId(ca.getCategoryId().get());
+        LabelType lt = labelTypes.byId(ca.getCategoryId().get());
         if (lt == null) {
           continue;
         }
@@ -93,7 +93,7 @@ public class MergedSender extends ReplyToChangeSender {
       txt.append(getNameFor(id));
       txt.append(": ");
       boolean first = true;
-      for (ApprovalType lt : approvalTypes.getApprovalTypes()) {
+      for (LabelType lt : labelTypes.getLabelTypes()) {
         PatchSetApproval ca = approvals.get(id, lt.getName());
         if (ca == null) {
           continue;

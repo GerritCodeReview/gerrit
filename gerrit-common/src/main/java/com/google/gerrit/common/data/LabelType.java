@@ -25,29 +25,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ApprovalType {
-  public static ApprovalType fromApprovalCategory(ApprovalCategory ac,
+public class LabelType {
+  public static LabelType fromApprovalCategory(ApprovalCategory ac,
       List<ApprovalCategoryValue> acvs) {
     List<LabelValue> values = new ArrayList<LabelValue>(acvs.size());
     for (ApprovalCategoryValue acv : acvs) {
       values.add(
           new LabelValue(acv.getValue(), acv.getName()));
     }
-    ApprovalType at =
-        new ApprovalType(ac.getId().get(), ac.getLabelName(), values);
-    at.setAbbreviatedName(ac.getAbbreviatedName());
-    at.setFunctionName(ac.getFunctionName());
-    at.setCopyMinScore(ac.isCopyMinScore());
-    at.setPosition(ac.getPosition());
-    return at;
+    LabelType lt = new LabelType(ac.getId().get(), ac.getLabelName(), values);
+    lt.setAbbreviatedName(ac.getAbbreviatedName());
+    lt.setFunctionName(ac.getFunctionName());
+    lt.setCopyMinScore(ac.isCopyMinScore());
+    lt.setPosition(ac.getPosition());
+    return lt;
   }
 
-  public static ApprovalType withDefaultValues(String id, String name) {
+  public static LabelType withDefaultValues(String id, String name) {
+    checkId(id);
     checkName(name);
     List<LabelValue> values = new ArrayList<LabelValue>(2);
     values.add(new LabelValue((short) 0, "Rejected"));
     values.add(new LabelValue((short) 1, "Approved"));
-    return new ApprovalType(id, name, values);
+    return new LabelType(id, name, values);
   }
 
   private static String checkId(String id) {
@@ -101,10 +101,10 @@ public class ApprovalType {
   private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
-  protected ApprovalType() {
+  protected LabelType() {
   }
 
-  public ApprovalType(String id, String name, List<LabelValue> valueList) {
+  public LabelType(String id, String name, List<LabelValue> valueList) {
     this.id = checkId(id);
     this.name = checkName(name);
     values = new ArrayList<LabelValue>(valueList);

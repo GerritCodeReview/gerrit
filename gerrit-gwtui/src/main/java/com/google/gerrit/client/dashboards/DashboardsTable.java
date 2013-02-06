@@ -15,10 +15,11 @@
 package com.google.gerrit.client.dashboards;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.NativeList;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -53,13 +54,13 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
   }
 
   public void display(DashboardList dashes) {
-    display(dashes.asList());
+    display(Natives.asList(dashes));
   }
 
-  public void display(NativeList<DashboardList> in) {
+  public void display(JsArray<DashboardList> in) {
     Map<String, DashboardInfo> map = new HashMap<String, DashboardInfo>();
-    for (DashboardList list : in.asList()) {
-      for (DashboardInfo d : list.asList()) {
+    for (DashboardList list : Natives.asList(in)) {
+      for (DashboardInfo d : Natives.asList(list)) {
         if (!map.containsKey(d.id())) {
           map.put(d.id(), d);
         }

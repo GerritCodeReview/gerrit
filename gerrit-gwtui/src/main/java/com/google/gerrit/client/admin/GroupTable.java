@@ -15,11 +15,13 @@
 package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.client.admin.Util.C;
+
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.groups.GroupList;
 import com.google.gerrit.client.groups.GroupMap;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.Util;
@@ -79,11 +81,11 @@ public class GroupTable extends NavigationTable<GroupInfo> {
   }
 
   public void display(GroupMap groups, String toHighlight) {
-    display(groups.values().asList(), toHighlight);
+    display(Natives.asList(groups.values()), toHighlight);
   }
 
   public void display(GroupList groups) {
-    display(groups.asList(), null);
+    display(Natives.asList(groups), null);
   }
 
   public void display(List<GroupInfo> list, String toHighlight) {

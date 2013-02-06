@@ -16,9 +16,10 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.NativeList;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.http.client.URL;
 
 import java.util.ArrayList;
@@ -91,13 +92,13 @@ public class DashboardTable extends ChangeTable2 {
         });
     } else if (! queries.isEmpty()) {
       ChangeList.query(
-          new GerritCallback<NativeList<ChangeList>>() {
+          new GerritCallback<JsArray<ChangeList>>() {
             @Override
-            public void onSuccess(NativeList<ChangeList> result) {
-              updateColumnsForLabels(
-                  result.asList().toArray(new ChangeList[result.size()]));
-              for (int i = 0; i < result.size(); i++) {
-                sections.get(i).display(result.get(i));
+            public void onSuccess(JsArray<ChangeList> result) {
+              List<ChangeList> cls = Natives.asList(result);
+              updateColumnsForLabels(cls.toArray(new ChangeList[cls.size()]));
+              for (int i = 0; i < cls.size(); i++) {
+                sections.get(i).display(cls.get(i));
               }
               finishDisplay();
             }

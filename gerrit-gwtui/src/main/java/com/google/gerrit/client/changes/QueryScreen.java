@@ -52,7 +52,7 @@ public class QueryScreen extends PagedSingleListScreen implements
       @Override
       public final void onSuccess(ChangeList result) {
         if (isAttached()) {
-          if (result.size() == 1 && isSingleQuery(query)) {
+          if (result.length() == 1 && isSingleQuery(query)) {
             ChangeInfo c = result.get(0);
             Change.Id id = c.legacy_id();
             Gerrit.display(PageLinks.toChange(id), new ChangeScreen(id));

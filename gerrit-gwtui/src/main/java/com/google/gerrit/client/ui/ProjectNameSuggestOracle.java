@@ -17,6 +17,7 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 
 /** Suggestion Oracle for Project.NameKey entities. */
 public class ProjectNameSuggestOracle extends SuggestAfterTypingNCharsOracle {
@@ -29,7 +30,7 @@ public class ProjectNameSuggestOracle extends SuggestAfterTypingNCharsOracle {
             new GerritCallback<ProjectMap>() {
               @Override
               public void onSuccess(ProjectMap map) {
-                callback.onSuggestionsReady(req, new Response(map.values().asList()));
+                callback.onSuggestionsReady(req, new Response(Natives.asList(map.values())));
               }
             });
       }

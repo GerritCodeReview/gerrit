@@ -16,17 +16,17 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 
 class LabelOrdering {
-  public static Ordering<String> create(final ApprovalTypes approvalTypes) {
+  public static Ordering<String> create(final LabelTypes labelTypes) {
     return Ordering.natural().nullsLast().onResultOf(
         new Function<String, Short>() {
           @Override
           public Short apply(String n) {
-            ApprovalType at = approvalTypes.byLabel(n);
-            return at != null ? at.getPosition() : null;
+            LabelType lt = labelTypes.byLabel(n);
+            return lt != null ? lt.getPosition() : null;
           }
         }).compound(Ordering.natural());
   }

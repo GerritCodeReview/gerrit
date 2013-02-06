@@ -16,8 +16,16 @@ Returns the global capabilities (such as `createProject` or
 by UI tools to discover if administrative features are available
 to the caller, so they can hide (or show) relevant UI actions.
 
+.Request
 ----
   GET /accounts/self/capabilities HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
 
   )]}'
   {
@@ -29,9 +37,18 @@ to the caller, so they can hide (or show) relevant UI actions.
 ----
 
 Administrator that has authenticated with digest authentication:
+
+.Request
 ----
   GET /a/accounts/self/capabilities HTTP/1.0
   Authorization: Digest username="admin", realm="Gerrit Code Review", nonce="...
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
 
   )]}'
   {
@@ -61,9 +78,17 @@ To filter the set of global capabilities the `q` parameter can be used.
 Filtering may decrease the response time by avoiding looking at every
 possible alternative for the caller.
 
+.Request
 ----
   GET /a/accounts/self/capabilities?q=createAccount&q=createGroup HTTP/1.0
   Authorization: Digest username="admin", realm="Gerrit Code Review", nonce="...
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
 
   )]}'
   {

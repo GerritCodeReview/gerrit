@@ -18,9 +18,13 @@ As result a map is returned that maps the project names to
 link:#project-info[ProjectInfo] entries. The entries in the map are sorted
 by project name.
 
+.Request
 ----
   GET /projects/?d HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
@@ -59,9 +63,14 @@ The `/projects/` URL also accepts a prefix string in the `p` parameter.
 This limits the results to those projects that start with the specified
 prefix.
 List all projects that start with `platform/`:
+
+.Request
 ----
   GET /projects/?p=platform%2F HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
@@ -88,9 +97,14 @@ As result a list of link:#dashboard-info[DashboardInfo] entries is
 returned.
 
 List all dashboards for the `work/my-project` project:
+
+.Request
 ----
   GET /projects/work%2Fmy-project/dashboards/ HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
@@ -126,9 +140,14 @@ get::/projects/All-Projects/dashboards/
 ****
 
 To retrieve only the default dashboard, add `default` to the URL:
+
+.Request
 ----
   GET /projects/work%2Fmy-project/dashboards/default HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8

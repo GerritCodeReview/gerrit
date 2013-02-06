@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -36,12 +36,12 @@ public class MergedSender extends ReplyToChangeSender {
     public MergedSender create(Change change);
   }
 
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
 
   @Inject
-  public MergedSender(EmailArguments ea, ApprovalTypes at, @Assisted Change c) {
+  public MergedSender(EmailArguments ea, LabelTypes lt, @Assisted Change c) {
     super(ea, c, "merged");
-    approvalTypes = at;
+    labelTypes = lt;
   }
 
   @Override
@@ -97,8 +97,8 @@ public class MergedSender extends ReplyToChangeSender {
       txt.append(getNameFor(ent.getKey()));
       txt.append(": ");
       boolean first = true;
-      for (ApprovalType at : approvalTypes.getApprovalTypes()) {
-        final PatchSetApproval ca = l.get(at.getId());
+      for (LabelType lt : labelTypes.getLabelTypes()) {
+        final PatchSetApproval ca = l.get(lt.getId());
         if (ca == null) {
           continue;
         }
@@ -109,11 +109,11 @@ public class MergedSender extends ReplyToChangeSender {
           txt.append("; ");
         }
 
-        final LabelValue v = at.getValue(ca);
+        final LabelValue v = lt.getValue(ca);
         if (v != null) {
           txt.append(v.getText());
         } else {
-          txt.append(at.getName());
+          txt.append(lt.getName());
           txt.append("=");
           if (ca.getValue() > 0) {
             txt.append("+");

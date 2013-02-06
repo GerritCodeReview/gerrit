@@ -16,7 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.RefConfigSection;
@@ -226,8 +226,7 @@ public class AccessSectionEditor extends Composite implements
         addPermission(varName, perms);
       }
     } else if (RefConfigSection.isValid(value.getName())) {
-      for (ApprovalType t : Gerrit.getConfig().getApprovalTypes()
-          .getApprovalTypes()) {
+      for (LabelType t : Gerrit.getConfig().getLabelTypes().getLabelTypes()) {
         addPermission(Permission.LABEL + t.getName(), perms);
       }
       for (String varName : Util.C.permissionNames().keySet()) {

@@ -74,7 +74,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     final List<Ref> deferredTags = new ArrayList<Ref>();
 
     for (Ref ref : refs.values()) {
-      if (PatchSet.isRef(ref.getName())) {
+      if (ref.getName().startsWith(GitRepositoryManager.REFS_CACHE_AUTOMERGE)) {
+        continue;
+      } else if (PatchSet.isRef(ref.getName())) {
         // Reference to a patch set is visible if the change is visible.
         //
         if (visibleChanges.contains(Change.Id.fromRef(ref.getName()))) {

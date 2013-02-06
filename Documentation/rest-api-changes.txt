@@ -15,9 +15,14 @@ provided by the `q` parameter. The `n` parameter can be used to limit
 the returned results.
 
 Query for open changes of watched projects:
+
+.Request
 ----
   GET /changes/?q=status:open+is:watched&n=2 HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
@@ -80,9 +85,14 @@ get::/changes/?q=status:open+is:watched&n=25
 ****
 
 Query that retrieves changes for a user's dashboard:
+
+.Request
 ----
   GET /changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
@@ -152,9 +162,13 @@ default. Optional fields are:
   `CURRENT_REVISION` was requested the only that commit's
   modified files will be output.
 
+.Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8

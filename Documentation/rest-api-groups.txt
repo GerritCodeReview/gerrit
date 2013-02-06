@@ -18,9 +18,13 @@ As result a map is returned that maps the group names to
 link:#group-info[GroupInfo] entries. The entries in the map are sorted
 by group name.
 
+.Request
 ----
   GET /groups/ HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
@@ -86,9 +90,13 @@ As result a list of link:#member-info[MemberInfo] entries is returned.
 The entries in the list are sorted by full name, preferred email and
 id.
 
+.Request
 ----
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/ HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
@@ -122,9 +130,13 @@ get::/groups/1/members/
 To resolve the included groups of a group recursively and to list all
 members the parameter `recursive` can be set.
 
+.Request
 ----
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/?recursive HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
@@ -166,9 +178,13 @@ Lists the directly included groups of a group.
 As result a list of link:#group-info[GroupInfo] entries is returned.
 The entries in the list are sorted by group name and UUID.
 
+.Request
 ----
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/groups/ HTTP/1.0
+----
 
+.Response
+----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
   Content-Type: application/json;charset=UTF-8
@@ -193,6 +209,7 @@ Creates a new Gerrit internal group.
 In the request body additional data for the group can be provided as
 link:#group-input[GroupInput].
 
+.Request
 ----
   PUT /groups/MyProject-Committers HTTP/1.0
   Content-Type: application/json;charset=UTF-8
@@ -200,6 +217,31 @@ link:#group-input[GroupInput].
   {
     "description": "contains all committers for MyProject",
     "visible_to_all": true,
+    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+  }
+----
+
+As response the link:#group-info[GroupInfo] entity is returned that
+describes the created group.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#group",
+    "id": "9999c971bb4ab872aab759d8c49833ee6b9ff320",
+    "name": "MyProject-Committers",
+    "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
+    "options": {
+      "kind": "gerritcodereview#groupoptions",
+      "visible_to_all": true
+    },
+    "description":"contains all committers for MyProject",
+    "group_id": 551,
     "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
   }
 ----

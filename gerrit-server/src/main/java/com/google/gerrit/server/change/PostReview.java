@@ -19,8 +19,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -102,7 +102,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   }
 
   private final ReviewDb db;
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
   private final EmailReviewComments.Factory email;
   @Deprecated private final ChangeHooks hooks;
 
@@ -116,11 +116,11 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   @Inject
   PostReview(ReviewDb db,
-      ApprovalTypes approvalTypes,
+      LabelTypes labelTypes,
       EmailReviewComments.Factory email,
       ChangeHooks hooks) {
     this.db = db;
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
     this.email = email;
     this.hooks = hooks;
   }
@@ -180,8 +180,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       Map.Entry<String, Short> ent = itr.next();
 
       // TODO Support more generic label assignments.
-      ApprovalType at = approvalTypes.byLabel(ent.getKey());
-      if (at == null) {
+      LabelType lt = labelTypes.byLabel(ent.getKey());
+      if (lt == null) {
         if (strict) {
           throw new BadRequestException(String.format(
               "label \"%s\" is not a configured ApprovalCategory",
@@ -198,7 +198,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         continue;
       }
 
-      if (at.getValue(ent.getValue()) == null) {
+      if (lt.getValue(ent.getValue()) == null) {
         if (strict) {
           throw new BadRequestException(String.format(
               "label \"%s\": %d is not a valid value",
@@ -209,7 +209,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         }
       }
 
-      String name = at.getName();
+      String name = lt.getName();
       PermissionRange range = ctl.getRange(Permission.forLabel(name));
       if (range == null || !range.contains(ent.getValue())) {
         if (strict) {
@@ -345,8 +345,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
     for (Map.Entry<String, Short> ent : labels.entrySet()) {
       // TODO Support arbitrary label names.
-      ApprovalType at = approvalTypes.byLabel(ent.getKey());
-      String name = at.getName();
+      LabelType lt = labelTypes.byLabel(ent.getKey());
+      String name = lt.getName();
       if (change.getStatus().isClosed()) {
         // TODO Allow updating some labels even when closed.
         continue;
@@ -368,23 +368,23 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         upd.add(c);
         labelDelta.add(format(name, c.getValue()));
         categories.put(
-            at.getApprovalCategoryId(),
-            at.getApprovalCategoryValueId(c.getValue()));
+            lt.getApprovalCategoryId(),
+            lt.getApprovalCategoryValueId(c.getValue()));
       } else if (c != null && c.getValue() == ent.getValue()) {
         current.put(name, c);
       } else if (c == null) {
         c = new PatchSetApproval(new PatchSetApproval.Key(
                 rsrc.getPatchSet().getId(),
                 rsrc.getAccountId(),
-                at.getApprovalCategoryId()),
+                lt.getApprovalCategoryId()),
             ent.getValue());
         c.setGranted(timestamp);
         c.cache(change);
         ins.add(c);
         labelDelta.add(format(name, c.getValue()));
         categories.put(
-            at.getApprovalCategoryId(),
-            at.getApprovalCategoryValueId(c.getValue()));
+            lt.getApprovalCategoryId(),
+            lt.getApprovalCategoryValueId(c.getValue()));
       }
     }
 
@@ -402,11 +402,11 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       // TODO Find another way to link reviewers to changes.
       if (del.isEmpty()) {
         // If no existing label is being set to 0, hack in the caller
-        // as a reviewer by picking the first server-wide ApprovalType.
+        // as a reviewer by picking the first server-wide LabelType.
         PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
             rsrc.getPatchSet().getId(),
             rsrc.getAccountId(),
-            approvalTypes.getApprovalTypes().get(0).getApprovalCategoryId()),
+            labelTypes.getLabelTypes().get(0).getApprovalCategoryId()),
             (short) 0);
         c.setGranted(timestamp);
         c.cache(change);
@@ -433,9 +433,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         continue;
       }
 
-      ApprovalType at = approvalTypes.byId(a.getCategoryId().get());
-      if (at != null) {
-        current.put(at.getName(), a);
+      LabelType lt = labelTypes.byId(a.getCategoryId().get());
+      if (lt != null) {
+        current.put(lt.getName(), a);
       } else {
         del.add(a);
       }

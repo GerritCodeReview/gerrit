@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.workflow;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
@@ -42,7 +42,7 @@ public class FunctionState {
         Collection<PatchSetApproval> all);
   }
 
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
   private final IdentifiedUser.GenericFactory userFactory;
 
   private final Map<String, Collection<PatchSetApproval>> approvals =
@@ -52,11 +52,11 @@ public class FunctionState {
   private final Change change;
 
   @Inject
-  FunctionState(final ApprovalTypes approvalTypes,
+  FunctionState(final LabelTypes labelTypes,
       final IdentifiedUser.GenericFactory userFactory,
       @Assisted final ChangeControl c, @Assisted final PatchSet.Id psId,
       @Assisted final Collection<PatchSetApproval> all) {
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
     this.userFactory = userFactory;
 
     callerChangeControl = c;
@@ -67,10 +67,10 @@ public class FunctionState {
         Collection<PatchSetApproval> l = approvals.get(ca.getCategoryId());
         if (l == null) {
           l = new ArrayList<PatchSetApproval>();
-          ApprovalType at = approvalTypes.byId(ca.getCategoryId().get());
-          if (at != null) {
+          LabelType lt = labelTypes.byId(ca.getCategoryId().get());
+          if (lt != null) {
             // TODO: Support arbitrary labels
-            approvals.put(at.getName(), l);
+            approvals.put(lt.getName(), l);
           }
         }
         l.add(ca);
@@ -78,20 +78,20 @@ public class FunctionState {
     }
   }
 
-  List<ApprovalType> getApprovalTypes() {
-    return approvalTypes.getApprovalTypes();
+  List<LabelType> getLabelTypes() {
+    return labelTypes.getLabelTypes();
   }
 
   Change getChange() {
     return change;
   }
 
-  public void valid(final ApprovalType at, final boolean v) {
-    valid.put(id(at), v);
+  public void valid(final LabelType lt, final boolean v) {
+    valid.put(id(lt), v);
   }
 
-  public boolean isValid(final ApprovalType at) {
-    return isValid(at.getName());
+  public boolean isValid(final LabelType lt) {
+    return isValid(lt.getName());
   }
 
   public boolean isValid(final String labelName) {
@@ -99,8 +99,8 @@ public class FunctionState {
     return b != null && b;
   }
 
-  public Collection<PatchSetApproval> getApprovals(final ApprovalType at) {
-    return getApprovals(at.getName());
+  public Collection<PatchSetApproval> getApprovals(final LabelType lt) {
+    return getApprovals(lt.getName());
   }
 
   public Collection<PatchSetApproval> getApprovals(final String labelName) {
@@ -113,14 +113,14 @@ public class FunctionState {
    * case the type was modified since the approval was originally granted.
    * <p>
    */
-  private void applyTypeFloor(final ApprovalType at, final PatchSetApproval a) {
-    final LabelValue atMin = at.getMin();
+  private void applyTypeFloor(final LabelType lt, final PatchSetApproval a) {
+    final LabelValue atMin = lt.getMin();
 
     if (atMin != null && a.getValue() < atMin.getValue()) {
       a.setValue(atMin.getValue());
     }
 
-    final LabelValue atMax = at.getMax();
+    final LabelValue atMax = lt.getMax();
     if (atMax != null && a.getValue() > atMax.getValue()) {
       a.setValue(atMax.getValue());
     }
@@ -135,8 +135,8 @@ public class FunctionState {
    * of them is used.
    * <p>
    */
-  private void applyRightFloor(final ApprovalType at, final PatchSetApproval a) {
-    final String permission = Permission.forLabel(at.getName());
+  private void applyRightFloor(final LabelType lt, final PatchSetApproval a) {
+    final String permission = Permission.forLabel(lt.getName());
     final IdentifiedUser user = userFactory.create(a.getAccountId());
     final PermissionRange range = controlFor(user).getRange(permission);
     a.setValue((short) range.squash(a.getValue()));
@@ -147,12 +147,12 @@ public class FunctionState {
   }
 
   /** Run <code>applyTypeFloor</code>, <code>applyRightFloor</code>. */
-  public void normalize(final ApprovalType at, final PatchSetApproval ca) {
-    applyTypeFloor(at, ca);
-    applyRightFloor(at, ca);
+  public void normalize(final LabelType lt, final PatchSetApproval ca) {
+    applyTypeFloor(lt, ca);
+    applyRightFloor(lt, ca);
   }
 
-  private static String id(final ApprovalType at) {
-    return at.getId();
+  private static String id(final LabelType lt) {
+    return lt.getId();
   }
 }

@@ -16,8 +16,8 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ReviewResult.Error.Type;
@@ -114,7 +114,7 @@ public class ReviewCommand extends SshCommand {
   private ReviewDb db;
 
   @Inject
-  private ApprovalTypes approvalTypes;
+  private LabelTypes labelTypes;
 
   @Inject
   private DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
@@ -398,7 +398,7 @@ public class ReviewCommand extends SshCommand {
   protected void parseCommandLine() throws UnloggedFailure {
     optionList = new ArrayList<ApproveOption>();
 
-    for (ApprovalType type : approvalTypes.getApprovalTypes()) {
+    for (LabelType type : labelTypes.getLabelTypes()) {
       String usage = "";
       usage = "score for " + type.getName() + "\n";
 

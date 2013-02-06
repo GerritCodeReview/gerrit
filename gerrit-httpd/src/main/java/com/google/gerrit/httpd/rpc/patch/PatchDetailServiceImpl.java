@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.rpc.patch;
 
 import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchDetailService;
 import com.google.gerrit.common.data.PatchScript;
@@ -56,7 +56,7 @@ import java.util.Set;
 
 class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
-  private final ApprovalTypes approvalTypes;
+  private final LabelTypes labelTypes;
 
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
   private final ChangeControl.Factory changeControlFactory;
@@ -69,7 +69,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
-      final ApprovalTypes approvalTypes,
+      final LabelTypes labelTypes,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeControl.Factory changeControlFactory,
       final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory,
@@ -78,7 +78,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final SaveDraft.Factory saveDraftFactory,
       final ChangeDetailFactory.Factory changeDetailFactory) {
     super(schema, currentUser);
-    this.approvalTypes = approvalTypes;
+    this.labelTypes = labelTypes;
 
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.changeControlFactory = changeControlFactory;
@@ -189,7 +189,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
                 continue;
               }
               if (change.getStatus().isOpen()) {
-                fs.normalize(approvalTypes.byId(category.get()), ca);
+                fs.normalize(labelTypes.byId(category.get()), ca);
               }
               if (ca.getValue() == 0) {
                 continue;
@@ -235,7 +235,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
                 continue;
               }
               if (change.getStatus().isOpen()) {
-                fs.normalize(approvalTypes.byId(category.get()), ca);
+                fs.normalize(labelTypes.byId(category.get()), ca);
               }
               if (ca.getValue() == 0) {
                 continue;

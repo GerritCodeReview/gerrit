@@ -18,7 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SuggestUtil;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -260,12 +260,12 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     this.value = value;
 
     if (value.isLabel()) {
-      ApprovalType at = Gerrit.getConfig().getApprovalTypes().byLabel(value.getLabel());
-      if (at != null) {
+      LabelType lt = Gerrit.getConfig().getLabelTypes().byLabel(value.getLabel());
+      if (lt != null) {
         validRange = new PermissionRange.WithDefaults(
             value.getName(),
-            at.getMin().getValue(), at.getMax().getValue(),
-            at.getMin().getValue(), at.getMax().getValue());
+            lt.getMin().getValue(), lt.getMax().getValue(),
+            lt.getMin().getValue(), lt.getMax().getValue());
       }
     } else if (GlobalCapability.isCapability(value.getName())) {
       validRange = GlobalCapability.getRange(value.getName());

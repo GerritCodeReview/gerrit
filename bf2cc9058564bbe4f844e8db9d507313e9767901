@@ -16,6 +16,24 @@
       "revId": "bf2cc9058564bbe4f844e8db9d507313e9767901",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PocEXIks",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-07T10:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PjNYdxG0",
+      "revId": "bf2cc9058564bbe4f844e8db9d507313e9767901",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

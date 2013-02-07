@@ -16,6 +16,24 @@
       "revId": "5b21b09dbbe8bd99b9857dcbd760f8ec3187b02d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PoQFwqpg",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-07T14:30:00Z",
+      "side": 1,
+      "message": "actually it\u0027s one entity that contains a list of members",
+      "parentUuid": "Po--0Pxc",
+      "revId": "5b21b09dbbe8bd99b9857dcbd760f8ec3187b02d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

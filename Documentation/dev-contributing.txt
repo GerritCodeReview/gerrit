@@ -91,6 +91,23 @@ A sample good Gerrit commit message:
   Change-Id: Ic4a7c07eeb98cdeaf44e9d231a65a51f3fceae52
 ====
 
+The Change-Id is, as usual, created by a local git hook.  To install it, simply
+copy one from the checkout:
+
+====
+  cp ./gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg .git/hooks/
+====
+
+To set up git's remote for easy pushing, run the following:
+
+====
+  git remote add gerrit https://gerrit.googlesource.com/gerrit
+====
+
+The HTTPS access requires proper username and password; this can be obtained
+by clicking the "Obtain Password" link at
+https://gerrit-review.googlesource.com/#/settings/http-password .
+
 
 Style
 -----

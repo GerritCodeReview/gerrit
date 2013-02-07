@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PoQEeamk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-07T10:07:44Z",
+      "side": 1,
+      "message": "[optional] Having this method doesn\u0027t safe anything. I would inline it into the revision(PatchSet.Id) method.",
+      "revId": "db55a2b896a477610fbc1afb81fdd896bf9f30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

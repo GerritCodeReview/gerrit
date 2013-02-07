@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Po78Xl0s",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-07T18:30:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PocH.QvM",
+      "revId": "c3e94692a1777f5541123178520c9a3a36a95992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PoaH5vg0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "Po18tK5Y",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-07T18:30:57Z",
+      "side": 1,
+      "message": "Done. I ended up making LABELS and DETAILED_LABELS both possible; I don\u0027t know of a use case where someone would want that, but since they\u0027re different options, it didn\u0027t make sense to restrict them.",
+      "parentUuid": "PoaH5vg0",
+      "revId": "c3e94692a1777f5541123178520c9a3a36a95992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PoeHvxkI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 13
@@ -47,6 +83,24 @@
       "writtenOn": "2013-02-07T08:38:46Z",
       "side": 1,
       "message": "I\u0027m getting an NPE here when I\u0027m having a draft patch set as current patch set of the change. In this case rec.labels is null.\n\nI guess you need to add\n  if (rec.labels \u003d\u003d null) {\n    continue;\n  }\nbefore this line.",
+      "revId": "c3e94692a1777f5541123178520c9a3a36a95992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Po38qb4E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-07T18:30:57Z",
+      "side": 1,
+      "message": "Good catch, done. That check is already there in setApprovedAndRejected, which is the only other place in this class where rec.labels is accessed.",
+      "parentUuid": "PoeHvxkI",
       "revId": "c3e94692a1777f5541123178520c9a3a36a95992",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PoUELEi4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-07T09:14:41Z",
+      "side": 1,
+      "message": "Maybe say for which use case we will need to serve information about a single revision. At the moment the ChangeJson.format(RevisionResource rsrc) seems to be unused.",
+      "revId": "db45d8fc47bae97f360a5d7f500c4eb34ba5d713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PoYEBGhI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-07T09:14:41Z",
+      "side": 1,
+      "message": "s/patches/approvals for the patches",
+      "revId": "db45d8fc47bae97f360a5d7f500c4eb34ba5d713",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -379,6 +379,148 @@ body as a link:#member-input[MemberInput] entity.
   HTTP/1.1 204 No Content
 ----
 
+[[include-group]]
+PUT /groups/\{group-id\}/groups/\{group-id\} (Include Group)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Includes a group into a Gerrit internal group.
+
+.Request
+----
+  PUT /groups/MyProject-Committers/groups/MyGroup HTTP/1.0
+----
+
+As response a link:#group-info[GroupInfo] entity is returned that
+describes the included group.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#group",
+    "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "name": "MyGroup",
+    "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "options": {
+      "kind": "gerritcodereview#groupoptions"
+    },
+    "group_id": 8,
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+  }
+----
+
+The request also succeeds if the group is already included in this
+group, but then the HTTP response code is `200 OK`.
+
+POST /groups/\{group-id\}/groups (Include Groups)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Same as link:#include-groups[POST /groups/\{group-id\}/groups.add].
+
+[[include-groups]]
+POST /groups/\{group-id\}/groups.add (Include Groups)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Includes one or several groups into a Gerrit internal group.
+
+The groups to be included into the group must be provided in the
+request body as a link:#groups-input[GroupsInput] entity.
+
+.Request
+----
+  POST /groups/MyProject-Committers/groups.add HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "groups": {
+      "MyGroup",
+      "MyOtherGroup"
+    }
+  }
+----
+
+As response a list of link:#group-info[GroupInfo] entities is
+returned that describes the groups that were specified in the
+link:#groups-input[GroupsInput]. A link:#group-info[GroupInfo] entity
+is returned for each group specified in the input, independently of
+whether the group was newly included into the group or whether the
+group was already included in the group.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#group",
+      "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+      "name": "MyGroup",
+      "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
+      "options": {
+        "kind": "gerritcodereview#groupoptions"
+      },
+      "group_id": 8,
+      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    },
+    {
+      "kind": "gerritcodereview#group",
+      "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
+      "name": "MyOtherGroup",
+      "url": "#/admin/groups/uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
+      "options": {
+        "kind": "gerritcodereview#groupoptions"
+      },
+      "group_id": 10,
+      "owner_id": "5057f3cbd3519d6ab69364429a89ffdffba50f73"
+    }
+  ]
+----
+
+[[delete-included-group]]
+DELETE /groups/\{group-id\}/groups/\{group-id\} (Delete Included Group)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deletes an included group from a Gerrit internal group.
+
+.Request
+----
+  DELETE /groups/MyProject-Committers/groups/MyGroup HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-included-groups]]
+POST /groups/\{group-id\}/groups.delete (Delete Included Groups)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete one or several included groups from a Gerrit internal group.
+
+The groups to be deleted from the group must be provided in the request
+body as a link:#groups-input[GroupsInput] entity.
+
+.Request
+----
+  POST /groups/MyProject-Committers/groups.delete HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "members": {
+      "MyGroup",
+      "MyOtherGroup"
+    }
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 
 [[ids]]
 IDs
@@ -397,6 +539,7 @@ This can be:
 * an account id ("18419")
 * a user name ("username")
 
+[[group-id]]
 \{group-id\}
 ~~~~~~~~~~~~
 Identifier for a group.
@@ -466,6 +609,22 @@ This can be a group UUID, a legacy numeric group ID or a unique group
 name. +
 If not set, the new group will be self-owned.
 |===========================
+
+[[groups-input]]
+GroupsInput
+~~~~~~~~~~~
+The `GroupsInput` entity contains information about groups that should
+be included into a group or that should be deleted from a group.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==========================
+|Field Name   ||Description
+|`_one_group` |optional|
+The link:#group-id[id] of one group that should be included or deleted.
+|`groups`     |optional|
+A list of link:#group-id[group ids] that identify the groups that
+should be included or deleted.
+|==========================
 
 [[group-options-info]]
 GroupOptionsInfo

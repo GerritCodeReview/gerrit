@@ -338,6 +338,47 @@ already a member of the group.
   ]
 ----
 
+[[delete-group-member]]
+DELETE /groups/\{group-id\}/members/\{account-id\} (Delete Group Member)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deletes a user from a Gerrit internal group.
+
+.Request
+----
+  DELETE /groups/MyProject-Committers/members/John%20Doe HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-group-members]]
+POST /groups/\{group-id\}/members.delete (Delete Group Members)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete one or several users from a Gerrit internal group.
+
+The users to be deleted from the group have to be provided in the
+request body as link:#member-input[MemberInput] entity.
+
+.Request
+----
+  POST /groups/MyProject-Committers/members.delete HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "members": {
+      "jane.roe@example.com",
+      "john.doe@example.com"
+    }
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 
 [[ids]]
 IDs
@@ -462,16 +503,17 @@ The email address the user prefers to be contacted through.
 MemberInput
 ~~~~~~~~~~~
 The `MemberInput` entity contains information about accounts that should
-be added as members to a group.
+be added as members to a group or that should be deleted from the group.
 
 [options="header",width="50%",cols="1,^1,5"]
 |==========================
 |Field Name   ||Description
 |`_one_member`|optional|
-The link:#account-id[id] of one account that should be added as member.
+The link:#account-id[id] of one account that should be added or
+deleted.
 |`members`    |optional|
 A list of link:#account-id[account ids] that identify the accounts that
-should be added as members.
+should be added or deleted.
 |==========================
 
 

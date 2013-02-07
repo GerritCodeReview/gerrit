@@ -16,6 +16,24 @@
       "revId": "4efcd4a15ce0742ac80a0389cb0307120e16f51b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Po7-.t-E",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-07T15:26:32Z",
+      "side": 1,
+      "message": "Hi, Sasa \n\n Thanks for giving some light on this commit and provide new proposal!\n \n In fact the reason I tweak the refs is I find these refnames of \n ReceiveCommand  triggered from UI\u0027s revert and edit-commit-message\n are wrong, because I think no matter where the new patchset come \n from they should abide the same rule for new patchset: \n ReceiveCommits.NEW_PATCHSET.\n\n I think this is the root reason, so for keeping them to be consistent \n with those of new patchset pushed via ssh command I create the\n PS-22 . I think it is a reasonble and simple way to fix this issue and   \n abiding the same rule is easy to maintenance.\n\n will you please think it again? :) \n\n /Bruce",
+      "parentUuid": "PouDvwkI",
+      "revId": "4efcd4a15ce0742ac80a0389cb0307120e16f51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PocF7omo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-07T19:47:09Z",
+      "side": 1,
+      "message": "s/-R (--no-createdb)/-R (--no-createrole)",
+      "revId": "3a5db03210f3732d9cdba74a313788c33ea3e7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

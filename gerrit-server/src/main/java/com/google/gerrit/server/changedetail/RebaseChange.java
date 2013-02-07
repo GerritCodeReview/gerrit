@@ -244,8 +244,7 @@ public class RebaseChange {
         depPatchSetList = db.patchSets().byRevision(ancestorRev).toList();
       }
 
-      if (!depPatchSetList.isEmpty()) {
-        PatchSet depPatchSet = depPatchSetList.get(0);
+      for (PatchSet depPatchSet : depPatchSetList) {
 
         Change.Id depChangeId = depPatchSet.getId().getParentKey();
         Change depChange;
@@ -254,6 +253,9 @@ public class RebaseChange {
           depChange = db.changes().get(depChangeId);
         } else {
           depChange = depChangeList.get(0);
+        }
+        if (!depChange.getDest().equals(destBranch)) {
+          continue;
         }
 
         if (depChange.getStatus() == Status.ABANDONED) {
@@ -270,6 +272,7 @@ public class RebaseChange {
               db.patchSets().get(depChange.currentPatchSetId());
           baseRev = latestDepPatchSet.getRevision().get();
         }
+        break;
       }
 
       if (baseRev == null) {

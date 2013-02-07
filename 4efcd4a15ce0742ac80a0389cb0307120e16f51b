@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PouDvwkI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-07T10:24:43Z",
+      "side": 1,
+      "message": "I know it is already PS-22 but I have one more suggestion.\n\nYou tweak the refs in order to make sure the ref pattern check in validateForReceiveCommits will match this ref. So, a modified ref is used as a mean to pass the information to the validateForReceiveCommits that it should check for the change-id in the commit message. This looks like a workaround.\n\nMy proposal is to define new method(s) in CommitValidators: validateForEditCommit and validateForRevertCommit. Inside these methods you can simply use the ChangeIdValidator (along with other necessary validators) without performing any ref pattern check. All is clean, no need to tweak refs and method names clearly indicate in which context the validation is used.\n\nWhat do you think?",
+      "revId": "4efcd4a15ce0742ac80a0389cb0307120e16f51b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

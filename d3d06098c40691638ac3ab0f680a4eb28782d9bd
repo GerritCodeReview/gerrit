@@ -87,6 +87,24 @@
       "revId": "d3d06098c40691638ac3ab0f680a4eb28782d9bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PoQGZitg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-07T16:52:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "PVgwe12k",
+      "revId": "d3d06098c40691638ac3ab0f680a4eb28782d9bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

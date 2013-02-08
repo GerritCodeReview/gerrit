@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Psw8nhbg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-08T04:41:54Z",
+      "side": 1,
+      "message": "REST APIs often use \"q\" to mean a query term to filter the results. I think that is a better variable for this collection than group.",
+      "revId": "6d8a59dddc151f50485c505a3c7184f2691789e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ps28q0YE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-08T04:41:54Z",
+      "side": 1,
+      "message": "addParameterTrue(\"owned\"). This leaves out the \u003dtrue part from the URL and makes the URL a tad shorter. Which we like to show in examples. See ProjectMap.",
+      "revId": "6d8a59dddc151f50485c505a3c7184f2691789e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Psy8kybA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-08T04:41:54Z",
+      "side": 1,
+      "message": "I have to admit this just feels wrong to me. GET /groups/ returns all groups. Why isn\u0027t this \"GET /groups/?owned\" to identify the groups you own? You may not be a member of a group, but you can still own it.",
+      "revId": "6d8a59dddc151f50485c505a3c7184f2691789e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

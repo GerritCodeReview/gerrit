@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,8 +35,7 @@ class ListReviewers implements RestReadView<ChangeResource> {
   private final ReviewerJson json;
 
   @Inject
-  ListReviewers(AccountCache accountCache,
-      Provider<ReviewDb> dbProvider,
+  ListReviewers(AccountCache accountCache, Provider<ReviewDb> dbProvider,
       ReviewerJson json) {
     this.accountCache = accountCache;
     this.dbProvider = dbProvider;
@@ -44,7 +44,7 @@ class ListReviewers implements RestReadView<ChangeResource> {
 
   @Override
   public Object apply(ChangeResource rsrc) throws BadRequestException,
-      OrmException {
+      OrmException, NoSuchChangeException {
     Map<Account.Id, Object> reviewers = Maps.newLinkedHashMap();
     ReviewDb db = dbProvider.get();
     Change.Id changeId = rsrc.getChange().getId();

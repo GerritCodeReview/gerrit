@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PtQ0nkbg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/Natives.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-08T10:30:03Z",
+      "side": 1,
+      "message": "arr.length() delivers \u0027undefined\u0027 for an empty array. Any idea how to fix this?",
+      "revId": "fb23297f0f922ae966762f38b73eefe249a28a49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

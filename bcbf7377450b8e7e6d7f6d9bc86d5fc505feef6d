@@ -52,6 +52,24 @@
       "revId": "bcbf7377450b8e7e6d7f6d9bc86d5fc505feef6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PtkwEvyA",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-08T11:49:55Z",
+      "side": 1,
+      "message": "This works, thanks!\n\nJust int(...) actually has to be number(...)",
+      "parentUuid": "Ps68XWUs",
+      "revId": "bcbf7377450b8e7e6d7f6d9bc86d5fc505feef6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

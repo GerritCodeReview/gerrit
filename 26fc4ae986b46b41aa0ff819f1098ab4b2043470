@@ -16,6 +16,24 @@
       "revId": "26fc4ae986b46b41aa0ff819f1098ab4b2043470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Psw9ZxSM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-08T15:38:04Z",
+      "side": 1,
+      "message": "Good catch, that is a bug I introduced in this change. I will upload a new patch set.",
+      "parentUuid": "PtS09rbo",
+      "revId": "26fc4ae986b46b41aa0ff819f1098ab4b2043470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

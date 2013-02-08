@@ -186,7 +186,9 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     GroupApi.addMember(getGroupUUID(), nameEmail,
         new GerritCallback<MemberInfo>() {
           public void onSuccess(final MemberInfo memberInfo) {
-            Gerrit.display(Dispatcher.toGroup(getGroupUUID(), AccountGroupScreen.MEMBERS));
+            addMemberBox.setEnabled(true);
+            addMemberBox.setText("");
+            members.insert(memberInfo);
           }
 
           @Override
@@ -278,6 +280,52 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         applyDataRowStyle(row);
         populate(row, i);
       }
+    }
+
+    void insert(MemberInfo info) {
+      Comparator<MemberInfo> c = new Comparator<MemberInfo>() {
+        @Override
+        public int compare(MemberInfo a, MemberInfo b) {
+          int cmp = nullToEmpty(a.fullName()).compareTo(nullToEmpty(b.fullName()));
+          if (cmp != 0) {
+            return cmp;
+          }
+
+          cmp = nullToEmpty(a.preferredEmail()).compareTo(
+                  nullToEmpty(b.preferredEmail()));
+          if (cmp != 0) {
+            return cmp;
+          }
+
+          return a.getAccountId().get() - b.getAccountId().get();
+        }
+
+        public String nullToEmpty(String str) {
+          return str == null ? "" : str;
+        }
+      };
+      int insertPosition = table.getRowCount();
+      int left = 1;
+      int right = table.getRowCount() - 1;
+      while (left <= right) {
+        int middle = (left + right) >>> 1; // (left+right)/2
+        MemberInfo i = getRowItem(middle);
+        int cmp = c.compare(i, info);
+
+        if (cmp < 0) {
+          left = middle + 1;
+        } else if (cmp > 0) {
+          right = middle - 1;
+        } else {
+          // group is already contained in the table
+          return;
+        }
+      }
+      insertPosition = left;
+
+      table.insertRow(insertPosition);
+      applyDataRowStyle(insertPosition);
+      populate(insertPosition, info);
     }
 
     void populate(final int row, final MemberInfo i) {

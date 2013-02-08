@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ps..B4Vw",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-08T16:35:55Z",
+      "side": 1,
+      "message": "The source script is not executable. So you need to add a chmod here:\n\n  chmod +x .git/hooks/commit-msg",
+      "revId": "0568c1811b24033c8890c740728765e4530c4023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

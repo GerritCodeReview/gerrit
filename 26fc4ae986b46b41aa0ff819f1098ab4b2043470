@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PtS09rbo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-08T15:36:27Z",
+      "side": 1,
+      "message": "So we are now failing here for all external groups?\n\nWhat if I want to retrieve the name of an external group by GET /groups/\u003cuuid-of-external-group\u003e/name ? Is this not possible anymore?",
+      "revId": "26fc4ae986b46b41aa0ff819f1098ab4b2043470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

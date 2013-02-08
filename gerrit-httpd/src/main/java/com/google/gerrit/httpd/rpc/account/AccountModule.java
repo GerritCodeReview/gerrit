@@ -32,12 +32,10 @@ public class AccountModule extends RpcServletModule {
         factory(AgreementInfoFactory.Factory.class);
         factory(DeleteExternalIds.Factory.class);
         factory(ExternalIdDetailFactory.Factory.class);
-        factory(GroupDetailHandler.Factory.class);
         factory(RegisterNewEmailSender.Factory.class);
       }
     });
     rpc(AccountSecurityImpl.class);
     rpc(AccountServiceImpl.class);
-    rpc(GroupAdminServiceImpl.class);
   }
 }

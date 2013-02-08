@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -27,7 +28,8 @@ public class GetReviewer implements RestReadView<ReviewerResource> {
   }
 
   @Override
-  public Object apply(ReviewerResource reviewerResource) throws OrmException {
-    return json.format(reviewerResource);
+  public Object apply(ReviewerResource rsrc) throws OrmException,
+      NoSuchChangeException {
+    return json.format(rsrc);
   }
 }

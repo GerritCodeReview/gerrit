@@ -16,20 +16,37 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 public class ReviewerResource extends ChangeResource {
   public static final TypeLiteral<RestView<ReviewerResource>> REVIEWER_KIND =
       new TypeLiteral<RestView<ReviewerResource>>() {};
 
-  private final Account account;
-
-  public ReviewerResource(ChangeResource changeResource, Account account) {
-    super(changeResource);
-    this.account = account;
+  static interface Factory {
+    ReviewerResource create(ChangeResource rsrc, IdentifiedUser user);
+    ReviewerResource create(ChangeResource rsrc, Account account);
   }
 
-  public Account getAccount() {
-    return account;
+  private final IdentifiedUser user;
+
+  @AssistedInject
+  ReviewerResource(@Assisted ChangeResource rsrc,
+      @Assisted IdentifiedUser user) {
+    super(rsrc);
+    this.user = user;
+  }
+
+  @AssistedInject
+  ReviewerResource(IdentifiedUser.GenericFactory userFactory,
+      @Assisted ChangeResource rsrc,
+      @Assisted Account account) {
+    this(rsrc, userFactory.create(account.getId()));
+  }
+
+  public IdentifiedUser getUser() {
+    return user;
   }
 }

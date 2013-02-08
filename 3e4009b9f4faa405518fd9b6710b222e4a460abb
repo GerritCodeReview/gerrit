@@ -16,6 +16,24 @@
       "revId": "3e4009b9f4faa405518fd9b6710b222e4a460abb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Psy.ISXg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-08T18:56:09Z",
+      "side": 1,
+      "message": "Yea I could have done that but I don\u0027t think its really worth the effort to upload a new patch set for. :-)",
+      "parentUuid": "PtY1k4d8",
+      "revId": "3e4009b9f4faa405518fd9b6710b222e4a460abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,8 +30,6 @@ import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.common.data.AccountInfoCache;
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -51,7 +49,6 @@ import javax.annotation.Nullable;
 
 public class AccountGroupMembersScreen extends AccountGroupScreen {
 
-  private AccountInfoCache accounts = AccountInfoCache.empty();
   private MemberTable members;
   private IncludeTable includes;
 
@@ -65,7 +62,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
   private FlowPanel noMembersInfo;
 
-  public AccountGroupMembersScreen(final GroupDetail toShow, final String token) {
+  public AccountGroupMembersScreen(final GroupInfo toShow, final String token) {
     super(toShow, token);
   }
 
@@ -153,36 +150,30 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   }
 
   @Override
-  protected void display(final GroupDetail groupDetail) {
-    switch (groupDetail.group.getType()) {
-      case INTERNAL:
-        accounts = groupDetail.accounts;
-
-        MemberList.all(getGroupUUID(), new GerritCallback<MemberList>() {
-          @Override
-          public void onSuccess(MemberList result) {
-            members.display(Natives.asList(result));
-          }
-        });
-
-        GroupList.included(getGroupUUID(), new GerritCallback<GroupList>() {
-          @Override
-          public void onSuccess(GroupList result) {
-            includes.display(Natives.asList(result));
-          }
-        });
-
-        break;
-      default:
-        memberPanel.setVisible(false);
-        includePanel.setVisible(false);
-        noMembersInfo.setVisible(true);
-        break;
+  protected void display(final GroupInfo group, final boolean canModify) {
+    if (AccountGroup.isInternalGroup(group.getGroupUUID())
+        && !AccountGroup.isSystemGroup(group.getGroupUUID())) {
+      MemberList.all(getGroupUUID(), new GerritCallback<MemberList>() {
+        @Override
+        public void onSuccess(MemberList result) {
+          members.display(Natives.asList(result));
+        }
+      });
+      GroupList.included(getGroupUUID(), new GerritCallback<GroupList>() {
+        @Override
+        public void onSuccess(GroupList result) {
+          includes.display(Natives.asList(result));
+        }
+      });
+    } else {
+      memberPanel.setVisible(false);
+      includePanel.setVisible(false);
+      noMembersInfo.setVisible(true);
     }
 
-    enableForm(groupDetail.canModify);
-    delMember.setVisible(groupDetail.canModify);
-    delInclude.setVisible(groupDetail.canModify);
+    enableForm(canModify);
+    delMember.setVisible(canModify);
+    delInclude.setVisible(canModify);
   }
 
   void doAddNewMember() {
@@ -290,12 +281,11 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void populate(final int row, final MemberInfo i) {
-      final Account.Id accountId = i.getAccountId();
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
-      table.setWidget(row, 2, AccountLink.link(accounts, accountId));
-      table.setText(row, 3, accounts.get(accountId).getPreferredEmail());
+      table.setWidget(row, 2, new AccountLink(i));
+      table.setText(row, 3, i.preferredEmail());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());

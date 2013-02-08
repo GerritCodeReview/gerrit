@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ps6-.efE",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-08T02:31:59Z",
+      "side": 1,
+      "message": "- Extra space before the period\n- It would be better to make this a link:\n\n by clicking the \"Obtain Password\" link on the\n link:https://gerrit-review.googlesource.com/#/settings/http-password[HTTP Password tab of the user settings page].",
+      "revId": "10cea70207799525e5f2e16633db944a5a0ead93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

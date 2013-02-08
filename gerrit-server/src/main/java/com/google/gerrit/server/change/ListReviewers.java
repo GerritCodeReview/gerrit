@@ -32,20 +32,23 @@ class ListReviewers implements RestReadView<ChangeResource> {
   private final AccountCache accountCache;
   private final Provider<ReviewDb> dbProvider;
   private final ReviewerJson json;
+  private final ReviewerResource.Factory resourceFactory;
 
   @Inject
   ListReviewers(AccountCache accountCache,
       Provider<ReviewDb> dbProvider,
+      ReviewerResource.Factory resourceFactory,
       ReviewerJson json) {
     this.accountCache = accountCache;
     this.dbProvider = dbProvider;
+    this.resourceFactory = resourceFactory;
     this.json = json;
   }
 
   @Override
   public Object apply(ChangeResource rsrc) throws BadRequestException,
       OrmException {
-    Map<Account.Id, Object> reviewers = Maps.newLinkedHashMap();
+    Map<Account.Id, ReviewerResource> reviewers = Maps.newLinkedHashMap();
     ReviewDb db = dbProvider.get();
     Change.Id changeId = rsrc.getChange().getId();
     for (PatchSetApproval patchSetApproval
@@ -53,10 +56,9 @@ class ListReviewers implements RestReadView<ChangeResource> {
       Account.Id accountId = patchSetApproval.getAccountId();
       if (!reviewers.containsKey(accountId)) {
         Account account = accountCache.get(accountId).getAccount();
-        reviewers.put(accountId,
-                      json.format(new ReviewerResource(rsrc, account)));
+        reviewers.put(accountId, resourceFactory.create(rsrc, account));
       }
     }
-    return reviewers.values();
+    return json.format(reviewers.values());
   }
 }

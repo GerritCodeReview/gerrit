@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PtW0q1YE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-08T13:53:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Psw8nhbg",
+      "revId": "6d8a59dddc151f50485c505a3c7184f2691789e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ps28q0YE",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupList.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "PtU0tmZY",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-08T13:53:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ps28q0YE",
+      "revId": "6d8a59dddc151f50485c505a3c7184f2691789e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Psy8kybA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetGroups.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-02-08T04:41:54Z",
       "side": 1,
       "message": "I have to admit this just feels wrong to me. GET /groups/ returns all groups. Why isn\u0027t this \"GET /groups/?owned\" to identify the groups you own? You may not be a member of a group, but you can still own it.",
+      "revId": "6d8a59dddc151f50485c505a3c7184f2691789e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Pta0XXUs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-08T13:53:33Z",
+      "side": 1,
+      "message": "Listing owned groups is now available as \"GET /groups/?owned\".\n\nDone",
+      "parentUuid": "Psy8kybA",
       "revId": "6d8a59dddc151f50485c505a3c7184f2691789e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

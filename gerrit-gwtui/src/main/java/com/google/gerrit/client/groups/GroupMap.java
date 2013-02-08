@@ -21,18 +21,32 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 /** Groups available from {@code /groups/}. */
 public class GroupMap extends NativeMap<GroupInfo> {
   public static void all(AsyncCallback<GroupMap> callback) {
-    new RestApi("/groups/")
-        .get(NativeMap.copyKeysIntoChildren(callback));
+    groups().get(NativeMap.copyKeysIntoChildren(callback));
   }
 
   public static void match(String match, AsyncCallback<GroupMap> cb) {
     if (match == null || "".equals(match)) {
       all(cb);
     } else {
-      new RestApi("/groups/")
-          .addParameter("m", match)
-          .get(NativeMap.copyKeysIntoChildren(cb));
+      groups().addParameter("m", match).get(NativeMap.copyKeysIntoChildren(cb));
     }
+  }
+
+  public static void myOwned(AsyncCallback<GroupMap> cb) {
+    myOwnedGroups().get(NativeMap.copyKeysIntoChildren(cb));
+  }
+
+  public static void myOwned(String groupName, AsyncCallback<GroupMap> cb) {
+    myOwnedGroups().addParameter("q", groupName).get(
+        NativeMap.copyKeysIntoChildren(cb));
+  }
+
+  private static RestApi myOwnedGroups() {
+    return groups().addParameterTrue("owned");
+  }
+
+  private static RestApi groups() {
+    return new RestApi("/groups/");
   }
 
   protected GroupMap() {

@@ -68,11 +68,12 @@ public class ListGroupsCommand extends BaseCommand {
     @Inject
     MyListGroups(final GroupCache groupCache,
         final GroupControl.Factory groupControlFactory,
+        final GroupControl.GenericFactory genericGroupControlFactory,
         final Provider<IdentifiedUser> identifiedUser,
         final IdentifiedUser.GenericFactory userFactory,
         final Provider<GetGroups> accountGetGroups) {
-      super(groupCache, groupControlFactory, identifiedUser, userFactory,
-          accountGetGroups);
+      super(groupCache, groupControlFactory, genericGroupControlFactory,
+          identifiedUser, userFactory, accountGetGroups);
     }
 
     void display(final PrintWriter out) throws NoSuchGroupException {

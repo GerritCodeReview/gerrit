@@ -36,6 +36,20 @@ public class GroupApi {
     new RestApi("/groups/").id(groupName).ifNoneMatch().put(in, cb);
   }
 
+  /** Check if the current user is owner of a group */
+  public static void isGroupOwner(String groupName, final AsyncCallback<Boolean> cb) {
+    GroupMap.myOwned(groupName, new AsyncCallback<GroupMap>() {
+      @Override
+      public void onSuccess(GroupMap result) {
+        cb.onSuccess(!result.isEmpty());
+      }
+      @Override
+      public void onFailure(Throwable caught) {
+        cb.onFailure(caught);
+      }
+    });
+  }
+
   /** Rename a group */
   public static void renameGroup(AccountGroup.UUID group,
       String newName, AsyncCallback<VoidResult> cb) {

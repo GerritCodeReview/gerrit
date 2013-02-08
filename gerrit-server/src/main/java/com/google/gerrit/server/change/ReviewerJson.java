@@ -14,25 +14,104 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.workflow.CategoryFunction;
+import com.google.gerrit.server.workflow.FunctionState;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class ReviewerJson {
-  ReviewerJson() {
+  private final Provider<ReviewDb> db;
+  private final ApprovalTypes approvalTypes;
+  private final FunctionState.Factory functionState;
+  private final AccountInfo.Loader.Factory accountLoaderFactory;
+
+  @Inject
+  ReviewerJson(Provider<ReviewDb> db,
+      ApprovalTypes approvalTypes,
+      FunctionState.Factory functionState,
+      AccountInfo.Loader.Factory accountLoaderFactory) {
+    this.db = db;
+    this.approvalTypes = approvalTypes;
+    this.functionState = functionState;
+    this.accountLoaderFactory = accountLoaderFactory;
   }
 
-  public ReviewerInfo format(ReviewerResource reviewerResource) {
-    ReviewerInfo reviewerInfo = new ReviewerInfo();
-    Account account = reviewerResource.getAccount();
-    reviewerInfo.id = account.getId().toString();
-    reviewerInfo.email = account.getPreferredEmail();
-    reviewerInfo.name = account.getFullName();
-    return reviewerInfo;
+  public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs) throws OrmException {
+    List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
+    AccountInfo.Loader loader = accountLoaderFactory.create(true);
+    for (ReviewerResource rsrc : rsrcs) {
+      ReviewerInfo info = formatOne(rsrc);
+      loader.put(info);
+      infos.add(info);
+    }
+    loader.fill();
+    return infos;
   }
 
-  public static class ReviewerInfo {
+  public List<ReviewerInfo> format(ReviewerResource rsrc) throws OrmException {
+    return format(ImmutableList.<ReviewerResource> of(rsrc));
+  }
+
+  private ReviewerInfo formatOne(ReviewerResource rsrc) throws OrmException {
+    Account.Id id = rsrc.getUser().getAccountId();
+    ReviewerInfo out = new ReviewerInfo(id);
+
+    Change change = rsrc.getChange();
+    PatchSet.Id psId = change.currentPatchSetId();
+
+    List<PatchSetApproval> approvals = db.get().patchSetApprovals()
+        .byPatchSetUser(psId, id).toList();
+
+    ChangeControl control = rsrc.getControl().forUser(rsrc.getUser());
+    FunctionState fs = functionState.create(control, psId, approvals);
+    for (ApprovalType at : approvalTypes.getApprovalTypes()) {
+      CategoryFunction.forCategory(at.getCategory()).run(at, fs);
+    }
+
+    out.approvals = Maps.newHashMapWithExpectedSize(approvals.size());
+    for (PatchSetApproval ca : approvals) {
+      for (PermissionRange pr : control.getLabelRanges()) {
+        if (pr.getMin() != 0 || pr.getMax() != 0) {
+          // TODO: Support arbitrary labels.
+          ApprovalType at = approvalTypes.byId(ca.getCategoryId());
+          if (at != null) {
+            out.approvals.put(at.getCategory().getLabelName(),
+                ApprovalCategoryValue.formatValue(ca.getValue()));
+          }
+        }
+      }
+    }
+    if (out.approvals.isEmpty()) {
+      out.approvals = null;
+    }
+
+    return out;
+  }
+
+  public static class ReviewerInfo extends AccountInfo {
     final String kind = "gerritcodereview#reviewer";
-    String id;
-    String email;
-    String name;
+    Map<String, String> approvals;
+
+    protected ReviewerInfo(Account.Id id) {
+      super(id);
+    }
   }
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -81,23 +83,34 @@ public class GroupsCollection implements
     } else if(!(user instanceof IdentifiedUser)) {
       throw new ResourceNotFoundException(id);
     }
-    return parse(id.get());
+
+    GroupDescription.Basic d = parse(id.get());
+    AccountGroup group = GroupDescriptions.toAccountGroup(d);
+    if (group == null) {
+      throw new ResourceNotFoundException(id);
+    }
+
+    GroupControl ctl = groupControlFactory.controlFor(group);
+    if (!ctl.isVisible()) {
+      throw new ResourceNotFoundException(id);
+    }
+    return new GroupResource(ctl);
   }
 
-  GroupResource parse(String id) throws ResourceNotFoundException {
-    try {
-      AccountGroup.UUID uuid = new AccountGroup.UUID(id);
-      if (groupBackend.handles(uuid)) {
-        return check(id, groupControlFactory.controlFor(uuid));
+  GroupDescription.Basic parse(String id) throws ResourceNotFoundException {
+    AccountGroup.UUID uuid = new AccountGroup.UUID(id);
+    if (groupBackend.handles(uuid)) {
+      GroupDescription.Basic d = groupBackend.get(uuid);
+      if (d != null) {
+        return d;
       }
-    } catch (NoSuchGroupException noSuchGroup) {
     }
 
     // Might be a legacy AccountGroup.Id.
     if (id.matches("^[1-9][0-9]*$")) {
       try {
         AccountGroup.Id legacyId = AccountGroup.Id.parse(id);
-        return check(id, groupControlFactory.controlFor(legacyId));
+        return groupControlFactory.controlFor(legacyId).getGroup();
       } catch (IllegalArgumentException invalidId) {
       } catch (NoSuchGroupException e) {
       }
@@ -106,20 +119,12 @@ public class GroupsCollection implements
     // Might be a group name, be nice and accept unique names.
     GroupReference ref = GroupBackends.findExactSuggestion(groupBackend, id);
     if (ref != null) {
-      try {
-        return check(id, groupControlFactory.controlFor(ref.getUUID()));
-      } catch (NoSuchGroupException e) {
+      GroupDescription.Basic d = groupBackend.get(ref.getUUID());
+      if (d != null) {
+        return d;
       }
     }
 
-    throw new ResourceNotFoundException(id);
-  }
-
-  private static GroupResource check(String id, GroupControl ctl)
-      throws ResourceNotFoundException {
-    if (ctl.isVisible()) {
-      return new GroupResource(ctl);
-    }
     throw new ResourceNotFoundException(id);
   }
 

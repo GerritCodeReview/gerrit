@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 public class GroupOptionsInfo {
@@ -22,7 +23,8 @@ public class GroupOptionsInfo {
   public Boolean visibleToAll;
 
   public GroupOptionsInfo(GroupDescription.Basic group) {
-    visibleToAll = group.isVisibleToAll() ? true : null;
+    AccountGroup ag = GroupDescriptions.toAccountGroup(group);
+    visibleToAll = ag != null && ag.isVisibleToAll() ? true : null;
   }
 
   public GroupOptionsInfo(AccountGroup group) {

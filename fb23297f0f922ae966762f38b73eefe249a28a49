@@ -16,6 +16,24 @@
       "revId": "fb23297f0f922ae966762f38b73eefe249a28a49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ptc1BiT4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/Natives.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-08T13:32:41Z",
+      "side": 1,
+      "message": "Actually all is fine with this code, I got fooled by trying to parse a map as list :-(",
+      "parentUuid": "PtQ0nkbg",
+      "revId": "fb23297f0f922ae966762f38b73eefe249a28a49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

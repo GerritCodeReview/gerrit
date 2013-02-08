@@ -45,7 +45,7 @@ public class GroupControl {
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(user.get(), group);
+      return controlFor(GroupDescriptions.forAccountGroup(group));
     }
 
     public GroupControl controlFor(final AccountGroup.UUID groupId)
@@ -54,10 +54,14 @@ public class GroupControl {
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(user.get(), group);
+      return controlFor(group);
     }
 
-    public GroupControl controlFor(final AccountGroup group) {
+    public GroupControl controlFor(AccountGroup group) {
+      return controlFor(GroupDescriptions.forAccountGroup(group));
+    }
+
+    public GroupControl controlFor(GroupDescription.Basic group) {
       return new GroupControl(user.get(), group);
     }
 
@@ -87,10 +91,6 @@ public class GroupControl {
   GroupControl(CurrentUser who, GroupDescription.Basic gd) {
     user = who;
     group =  gd;
-  }
-
-  GroupControl(CurrentUser who, AccountGroup ag) {
-    this(who, GroupDescriptions.forAccountGroup(ag));
   }
 
   public GroupDescription.Basic getGroup() {

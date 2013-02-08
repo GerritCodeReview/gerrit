@@ -17,6 +17,7 @@ package com.google.gerrit.server.group;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
@@ -107,8 +108,8 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   private AccountGroup.Id owner(Input input) throws BadRequestException {
     if (input.ownerId != null) {
       try {
-        GroupResource rsrc = groups.parse(Url.decode(input.ownerId));
-        AccountGroup owner = GroupDescriptions.toAccountGroup(rsrc.getGroup());
+        GroupDescription.Basic d = groups.parse(Url.decode(input.ownerId));
+        AccountGroup owner = GroupDescriptions.toAccountGroup(d);
         if (owner == null) {
           throw new BadRequestException("ownerId must be internal group");
         }

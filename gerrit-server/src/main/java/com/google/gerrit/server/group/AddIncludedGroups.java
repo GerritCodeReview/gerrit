@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -94,28 +95,31 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
 
     for (String includedGroup : input.groups) {
+      GroupDescription.Basic d;
       try {
-        GroupResource includedGroupResource = groupsCollection.get().parse(includedGroup);
-        if (!control.canAddGroup(includedGroupResource.getGroupUUID())) {
-          throw new AuthException(String.format("Cannot add group: %s",
-              includedGroupResource.getName()));
-        }
-
-        if (!newIncludedGroups.containsKey(includedGroupResource.getGroupUUID())) {
-          AccountGroupIncludeByUuid.Key agiKey =
-              new AccountGroupIncludeByUuid.Key(group.getId(),
-                  includedGroupResource.getGroupUUID());
-          AccountGroupIncludeByUuid agi = db.accountGroupIncludesByUuid().get(agiKey);
-          if (agi == null) {
-            agi = new AccountGroupIncludeByUuid(agiKey);
-            newIncludedGroups.put(includedGroupResource.getGroupUUID(), agi);
-            newIncludedGroupsAudits.add(new AccountGroupIncludeByUuidAudit(agi, me));
-          }
-        }
-        result.add(new GroupInfo(includedGroupResource.getGroup()));
+        d = groupsCollection.get().parse(includedGroup);
       } catch (ResourceNotFoundException e) {
         badRequest.addError(new NoSuchGroupException(includedGroup));
+        continue;
       }
+
+      if (!control.canAddGroup(d.getGroupUUID())) {
+        throw new AuthException(String.format("Cannot add group: %s",
+            d.getName()));
+      }
+
+      if (!newIncludedGroups.containsKey(d.getGroupUUID())) {
+        AccountGroupIncludeByUuid.Key agiKey =
+            new AccountGroupIncludeByUuid.Key(group.getId(),
+                d.getGroupUUID());
+        AccountGroupIncludeByUuid agi = db.accountGroupIncludesByUuid().get(agiKey);
+        if (agi == null) {
+          agi = new AccountGroupIncludeByUuid(agiKey);
+          newIncludedGroups.put(d.getGroupUUID(), agi);
+          newIncludedGroupsAudits.add(new AccountGroupIncludeByUuidAudit(agi, me));
+        }
+      }
+      result.add(new GroupInfo(d));
     }
 
     badRequest.failOnError();

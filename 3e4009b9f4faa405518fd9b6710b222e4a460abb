@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PtY1k4d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-08T18:52:19Z",
+      "side": 1,
+      "message": "return controlFor(group)",
+      "revId": "3e4009b9f4faa405518fd9b6710b222e4a460abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

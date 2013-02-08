@@ -38,15 +38,18 @@ public class Reviewers implements
     ChildCollection<ChangeResource, ReviewerResource> {
   private final DynamicMap<RestView<ReviewerResource>> views;
   private final Provider<ReviewDb> dbProvider;
+  private final ReviewerResource.Factory resourceFactory;
   private final AccountCache accountCache;
   private final Provider<ListReviewers> list;
 
   @Inject
   Reviewers(Provider<ReviewDb> dbProvider,
-            DynamicMap<RestView<ReviewerResource>> views,
-            AccountCache accountCache,
-            Provider<ListReviewers> list) {
+      ReviewerResource.Factory resourceFactory,
+      DynamicMap<RestView<ReviewerResource>> views,
+      AccountCache accountCache,
+      Provider<ListReviewers> list) {
     this.dbProvider = dbProvider;
+    this.resourceFactory = resourceFactory;
     this.views = views;
     this.accountCache = accountCache;
     this.list = list;
@@ -69,7 +72,7 @@ public class Reviewers implements
     if (id.equals("self")) {
       CurrentUser user = rsrc.getControl().getCurrentUser();
       if (user instanceof IdentifiedUser) {
-        accountId = ((IdentifiedUser)user).getAccountId();
+        accountId = ((IdentifiedUser) user).getAccountId();
       } else if (user instanceof AnonymousUser) {
         throw new AuthException("Authentication required");
       } else {
@@ -84,7 +87,7 @@ public class Reviewers implements
     // See if the id exists as a reviewer for this change
     if (fetchAccountIds(rsrc).contains(accountId)) {
       Account account = accountCache.get(accountId).getAccount();
-      return new ReviewerResource(rsrc, account);
+      return resourceFactory.create(rsrc, account);
     }
     throw new ResourceNotFoundException(id);
   }

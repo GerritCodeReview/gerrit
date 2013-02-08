@@ -77,7 +77,7 @@ class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
         new Predicate<PatchSetApproval>() {
           @Override
           public boolean apply(PatchSetApproval input) {
-            return input.getAccountId().equals(rsrc.getAccount().getId());
+            return input.getAccountId().equals(rsrc.getUser().getAccountId());
           }
         });
   }

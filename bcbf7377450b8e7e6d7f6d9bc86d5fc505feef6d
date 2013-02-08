@@ -34,6 +34,24 @@
       "revId": "bcbf7377450b8e7e6d7f6d9bc86d5fc505feef6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ps68XWUs",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-08T04:32:36Z",
+      "side": 1,
+      "message": "This is a hack but:\n\n  max_with_block(Min, Max, Label, label(Label, S)) :-\n    int(Min), int(Max), atom(Label), !,\n    max_with_block(Label, Min, Max, S).\n\nshouldn\u0027t cause an infinite loop. On the recursion this head won\u0027t match anymore and it will backtrack and try another alternative.",
+      "parentUuid": "PJ1sZQ4A",
+      "revId": "bcbf7377450b8e7e6d7f6d9bc86d5fc505feef6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

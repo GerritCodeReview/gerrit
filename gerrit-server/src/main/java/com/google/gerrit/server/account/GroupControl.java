@@ -103,7 +103,8 @@ public class GroupControl {
 
   /** Can this user see this group exists? */
   public boolean isVisible() {
-    return group.isVisibleToAll()
+    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
+    return (accountGroup != null && accountGroup.isVisibleToAll())
       || user.getEffectiveGroups().contains(group.getGroupUUID())
       || isOwner();
   }
@@ -149,6 +150,8 @@ public class GroupControl {
   }
 
   private boolean canSeeMembers() {
-    return group.isVisibleToAll() || isOwner();
+    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
+    return (accountGroup != null && accountGroup.isVisibleToAll())
+        || isOwner();
   }
 }

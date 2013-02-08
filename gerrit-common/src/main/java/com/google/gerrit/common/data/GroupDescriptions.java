@@ -45,11 +45,6 @@ public class GroupDescriptions {
       }
 
       @Override
-      public boolean isVisibleToAll() {
-        return group.isVisibleToAll();
-      }
-
-      @Override
       public AccountGroup getAccountGroup() {
         return group;
       }

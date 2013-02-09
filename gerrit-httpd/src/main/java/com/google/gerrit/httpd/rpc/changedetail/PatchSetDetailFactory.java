@@ -14,20 +14,28 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -38,6 +46,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -67,6 +76,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final ReviewDb db;
   private final PatchListCache patchListCache;
   private final ChangeControl.Factory changeControlFactory;
+  private final Revisions revisions;
+  private final GerritConfig gerritConfig;
 
   private Project.NameKey projectKey;
   private final PatchSet.Id psIdBase;
@@ -83,6 +94,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
       final PatchListCache patchListCache,
       final ChangeControl.Factory changeControlFactory,
+      final Revisions revisions,
+      final GerritConfig gerritConfig,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
       @Assisted @Nullable final AccountDiffPreference diffPrefs) {
@@ -90,6 +103,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.db = db;
     this.patchListCache = patchListCache;
     this.changeControlFactory = changeControlFactory;
+    this.revisions = revisions;
+    this.gerritConfig = gerritConfig;
 
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
@@ -164,7 +179,53 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       }
     }
 
+    if (gerritConfig.isUiCommandsEnabled()) {
+      RevisionResource rev =
+          new RevisionResource(new ChangeResource(control), patchSet);
+      detail.setCommands(buildCommands(rev));
+    }
     return detail;
+  }
+
+  private Map<String, UiCommandDetail> buildCommands(RevisionResource rev) {
+    Map<String, UiCommandDetail> all = Maps.newTreeMap();
+    for (String plugin : revisions.views().plugins()) {
+      for (Map.Entry<String, Provider<RestView<RevisionResource>>> e
+            : revisions.views().byPlugin(plugin).entrySet()) {
+        int d = e.getKey().indexOf('.');
+        if (d < 0) {
+          continue;
+        }
+        String method = e.getKey().substring(0, d);
+        String name = e.getKey().substring(d + 1);
+        String id = plugin + '.' + e.getKey();
+        RestView<RevisionResource> view;
+        try {
+          view = e.getValue().get();
+        } catch (RuntimeException err) {
+          log.error(String.format("error in view %s", id), err);
+          continue;
+        }
+        if (!(view instanceof UiCommand)) {
+          continue;
+        }
+
+        UiCommand<RevisionResource> cmd = (UiCommand<RevisionResource>) view;
+        if (cmd.getPlace() != UiCommand.Place.PATCHSET_ACTION_PANEL
+            || !cmd.isVisible(rev)) {
+          continue;
+        }
+
+        UiCommandDetail dsc = new UiCommandDetail();
+        dsc.id = plugin + '~' + name;
+        dsc.method = method;
+        dsc.label = cmd.getLabel(rev);
+        dsc.title = cmd.getTitle(rev);
+        dsc.enabled = cmd.isEnabled(rev);
+        all.put(dsc.id, dsc);
+      }
+    }
+    return all.isEmpty() ? null : all;
   }
 
   private ObjectId toObjectId(final PatchSet.Id psId) throws OrmException,

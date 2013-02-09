@@ -143,6 +143,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       config.setSshdAddress(sshInfo.getHostKeys().get(0).getHost());
     }
 
+    config.setUiCommandsEnabled(cfg.getBoolean("ui-commands",
+        "enabled", false));
     return config;
   }
 

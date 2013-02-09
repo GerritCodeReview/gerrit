@@ -19,13 +19,16 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class PatchSetDetail {
   protected PatchSet patchSet;
   protected PatchSetInfo info;
   protected List<Patch> patches;
   protected Project.NameKey project;
+  protected Map<String, UiCommandDetail> commands;
 
   public PatchSetDetail() {
   }
@@ -60,5 +63,16 @@ public class PatchSetDetail {
 
   public void setProject(final Project.NameKey p) {
     project = p;
+  }
+
+  public Map<String, UiCommandDetail> getCommands() {
+    if (commands != null) {
+      return commands;
+    }
+    return Collections.emptyMap();
+  }
+
+  public void setCommands(Map<String, UiCommandDetail> m) {
+    commands = m;
   }
 }

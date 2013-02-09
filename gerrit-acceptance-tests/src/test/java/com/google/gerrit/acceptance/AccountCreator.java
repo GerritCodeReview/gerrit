@@ -15,8 +15,6 @@
 package com.google.gerrit.acceptance;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
@@ -34,11 +32,9 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
-import com.jcraft.jsch.Session;
 
 class AccountCreator {
 
@@ -59,8 +55,8 @@ class AccountCreator {
     this.byEmailCache = byEmailCache;
   }
 
-  TestAccount create(String username, String email, String fullName,
-      String... groups)
+  AccountForTestAcceptance create(String username, String email,
+      String fullName, String... groups)
       throws OrmException, UnsupportedEncodingException, JSchException {
     ReviewDb db = reviewDbProvider.open();
     try {
@@ -100,7 +96,8 @@ class AccountCreator {
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);
 
-      return new TestAccount(username, email, fullName, sshKey, httpPass);
+      return new AccountForTestAcceptance(username, email, fullName, sshKey,
+          httpPass);
     } finally {
       db.close();
     }

@@ -25,10 +25,10 @@ import com.jcraft.jsch.Session;
 
 class SshSession {
 
-  private final TestAccount account;
+  private final AccountForTestAcceptance account;
   private Session session;
 
-  SshSession(TestAccount account) {
+  SshSession(AccountForTestAcceptance account) {
     this.account = account;
   }
 

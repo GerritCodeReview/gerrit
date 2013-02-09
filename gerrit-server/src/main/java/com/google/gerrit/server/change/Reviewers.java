@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -38,17 +40,20 @@ public class Reviewers implements
     ChildCollection<ChangeResource, ReviewerResource> {
   private final DynamicMap<RestView<ReviewerResource>> views;
   private final Provider<ReviewDb> dbProvider;
+  private final AccountResolver resolver;
   private final ReviewerResource.Factory resourceFactory;
   private final AccountCache accountCache;
   private final Provider<ListReviewers> list;
 
   @Inject
   Reviewers(Provider<ReviewDb> dbProvider,
+      AccountResolver resolver,
       ReviewerResource.Factory resourceFactory,
       DynamicMap<RestView<ReviewerResource>> views,
       AccountCache accountCache,
       Provider<ListReviewers> list) {
     this.dbProvider = dbProvider;
+    this.resolver = resolver;
     this.resourceFactory = resourceFactory;
     this.views = views;
     this.accountCache = accountCache;
@@ -78,10 +83,12 @@ public class Reviewers implements
       } else {
         throw new ResourceNotFoundException(id);
       }
-    } else if (id.get().matches("^[0-9]+$")) {
-      accountId = Account.Id.parse(id.get());
     } else {
-      throw new ResourceNotFoundException(id);
+      Set<Account.Id> matches = resolver.findAll(id.get());
+      if (matches.size() != 1) {
+        throw new ResourceNotFoundException(id);
+      }
+      accountId = Iterables.getOnlyElement(matches);
     }
 
     // See if the id exists as a reviewer for this change

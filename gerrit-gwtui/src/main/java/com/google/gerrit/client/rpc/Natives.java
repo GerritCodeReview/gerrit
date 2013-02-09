@@ -37,6 +37,9 @@ public class Natives {
 
   public static <T extends JavaScriptObject> List<T> asList(
       final JsArray<T> arr) {
+    if (arr == null) {
+      return null;
+    }
     return new AbstractList<T>() {
       @Override
       public T set(int index, T element) {

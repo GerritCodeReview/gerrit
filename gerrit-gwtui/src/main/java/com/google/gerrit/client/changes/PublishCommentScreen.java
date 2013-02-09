@@ -267,10 +267,12 @@ public class PublishCommentScreen extends AccountScreen implements
     vp.setStyleName(Gerrit.RESOURCES.css().approvalCategoryList());
 
     Short prior = null;
-    for (ApprovalInfo app : Natives.asList(label.all())) {
-      if (app._account_id() == Gerrit.getUserAccount().getId().get()) {
-        prior = app.value();
-        break;
+    if (label.all() != null) {
+      for (ApprovalInfo app : Natives.asList(label.all())) {
+        if (app._account_id() == Gerrit.getUserAccount().getId().get()) {
+          prior = app.value();
+          break;
+        }
       }
     }
 

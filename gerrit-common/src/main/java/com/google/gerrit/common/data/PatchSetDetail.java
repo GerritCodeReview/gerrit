@@ -19,11 +19,13 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public class PatchSetDetail {
   protected PatchSet patchSet;
   protected PatchSetInfo info;
   protected List<Patch> patches;
+  protected Map<String, ActionDetail> actionDetails;
 
   public PatchSetDetail() {
   }
@@ -50,5 +52,13 @@ public class PatchSetDetail {
 
   public void setPatches(final List<Patch> p) {
     patches = p;
+  }
+
+  public Map<String, ActionDetail> getActionDetail() {
+    return actionDetails;
+  }
+
+  public void setActionDetails(Map<String, ActionDetail> m) {
+    actionDetails = m;
   }
 }

@@ -15,8 +15,8 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.admin.ProjectScreen;
@@ -39,6 +39,7 @@ import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.common.data.HostPageData;
+import com.google.gerrit.common.data.PluginAction;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -71,9 +72,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
@@ -90,6 +91,7 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
@@ -118,6 +120,11 @@ public class Gerrit implements EntryPoint {
   private static ViewSite<Screen> body;
   private static PatchScreen patchScreen;
   private static String lastChangeListToken;
+  private static List<PluginAction> actions = new ArrayList<PluginAction>();
+
+  public static List<PluginAction> getPluginActions() {
+    return actions;
+  }
 
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
@@ -399,6 +406,7 @@ public class Gerrit implements EntryPoint {
         Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
         myConfig = result.config;
         myTheme = result.theme;
+        actions = result.actions;
         if (result.account != null) {
           myAccount = result.account;
           authorization = result.authorization;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PwQH6igA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-09T01:15:27Z",
+      "side": 1,
+      "message": "Whoops, realized this should say \"as null\". Oh well.",
+      "revId": "b32df3609e3be35660a80af58dfa8b79e10c955b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

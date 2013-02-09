@@ -94,10 +94,12 @@ public class Plugin {
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
   private Class<? extends Module> httpModule;
+  private Class<? extends Module> actionModule;
 
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector httpInjector;
+  private Injector actionInjector;
   private LifecycleManager manager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
@@ -111,7 +113,8 @@ public class Plugin {
       ClassLoader classLoader,
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule,
-      @Nullable Class<? extends Module> httpModule) {
+      @Nullable Class<? extends Module> httpModule,
+      @Nullable Class<? extends Module> actionModule) {
     this.cacheKey = new CacheKey(name);
     this.name = name;
     this.srcJar = srcJar;
@@ -125,6 +128,7 @@ public class Plugin {
     this.sysModule = sysModule;
     this.sshModule = sshModule;
     this.httpModule = httpModule;
+    this.actionModule = actionModule;
   }
 
   File getSrcJar() {
@@ -213,12 +217,19 @@ public class Plugin {
       if (apiType == ApiType.PLUGIN) {
         modules.add(env.getHttpModule());
       }
-      if (httpModule != null) {
-        modules.add(sysInjector.getInstance(httpModule));
+      if (httpModule != null || actionModule != null) {
+        if (httpModule != null) {
+          modules.add(sysInjector.getInstance(httpModule));
+        }
+        if (actionModule != null) {
+          modules.add(sysInjector.getInstance(actionModule));
+        }
         httpInjector = sysInjector.createChildInjector(modules);
         manager.add(httpInjector);
       } else if (auto != null && auto.httpModule != null) {
-        modules.add(auto.httpModule);
+        if (auto.httpModule != null) {
+          modules.add(auto.httpModule);
+        }
         httpInjector = sysInjector.createChildInjector(modules);
         manager.add(httpInjector);
       }
@@ -290,6 +301,11 @@ public class Plugin {
   @Nullable
   public Injector getHttpInjector() {
     return httpInjector;
+  }
+
+  @Nullable
+  public Injector getActionInjector() {
+    return actionInjector;
   }
 
   public void add(RegistrationHandle handle) {

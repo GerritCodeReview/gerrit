@@ -28,6 +28,7 @@ import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.common.data.PluginAction;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
@@ -165,6 +166,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           if (changeDetail.isCurrentPatchSet(detail)) {
             populateActions(detail);
           }
+          populatePluginActions(detail);
         }
         if (detail.getPatchSet().isDraft()) {
           if (changeDetail.canPublish()) {
@@ -484,6 +486,32 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           b.setEnabled(false);
           Util.MANAGE_SVC.rebaseChange(patchSet.getId(),
               new ChangeDetailCache.GerritWidgetCallback(b));
+        }
+      });
+      actionsPanel.add(b);
+    }
+  }
+
+  private void populatePluginActions(final PatchSetDetail detail) {
+    final List<PluginAction> actions = Gerrit.getPluginActions();
+    if (actions == null) {
+      return;
+    }
+    for (final PluginAction action : actions) {
+      // right place?
+      if (!PluginAction.Place.isPatchSetActionPanel(action.getPlace())) {
+        continue;
+      }
+      // current patch set only?
+      if (action.isCurrentPatchSet() && !changeDetail.isCurrentPatchSet(detail)) {
+        continue;
+      }
+      final Button b = new Button(action.getName());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          Util.ACTION_SVC.fire(patchSet.getId(), action.getName(), null);
         }
       });
       actionsPanel.add(b);

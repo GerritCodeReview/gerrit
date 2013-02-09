@@ -14,17 +14,20 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.ActionDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -34,6 +37,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.plugins.actions.Action;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -67,6 +71,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final ReviewDb db;
   private final PatchListCache patchListCache;
   private final ChangeControl.Factory changeControlFactory;
+  private final DynamicSet<Action> actions;
 
   private Project.NameKey projectKey;
   private final PatchSet.Id psIdBase;
@@ -78,11 +83,13 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private PatchSetDetail detail;
   ChangeControl control;
   PatchSet patchSet;
+  Map<String, ActionDetail> actionDetails;
 
   @Inject
   PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
       final PatchListCache patchListCache,
       final ChangeControl.Factory changeControlFactory,
+      final DynamicSet<Action> actions,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
       @Assisted @Nullable final AccountDiffPreference diffPrefs) {
@@ -90,6 +97,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.db = db;
     this.patchListCache = patchListCache;
     this.changeControlFactory = changeControlFactory;
+    this.actions = actions;
 
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
@@ -163,6 +171,20 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
         }
       }
     }
+
+    for (Action a : actions) {
+      if (actionDetails == null) {
+        actionDetails = Maps.newHashMap();
+      }
+      ActionDetail ad = actionDetails.get(a.getName());
+      if (ad == null) {
+        ad = new ActionDetail();
+        actionDetails.put(a.getName(), ad);
+      }
+      ad.setEnabled(a.isEnabled(patchSet.getId()));
+      ad.setTitle(a.getTitle(patchSet.getId()));
+    }
+    detail.setActionDetails(actionDetails);
 
     return detail;
   }

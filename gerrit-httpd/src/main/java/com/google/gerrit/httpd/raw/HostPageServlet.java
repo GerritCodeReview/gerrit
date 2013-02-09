@@ -14,12 +14,13 @@
 
 package com.google.gerrit.httpd.raw;
 
+import com.google.common.collect.Lists;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
-import com.google.common.collect.Lists;
 import com.google.common.primitives.Bytes;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
+import com.google.gerrit.common.data.PluginAction;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.plugins.actions.Action;
 import com.google.gwtexpui.linker.server.Permutation;
 import com.google.gwtexpui.linker.server.PermutationSelector;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -72,6 +74,7 @@ public class HostPageServlet extends HttpServlet {
   private final Provider<WebSession> session;
   private final GerritConfig config;
   private final DynamicSet<WebUiPlugin> plugins;
+  private final DynamicSet<Action> actions;
   private final HostPageData.Theme signedOutTheme;
   private final HostPageData.Theme signedInTheme;
   private final SitePaths site;
@@ -86,12 +89,14 @@ public class HostPageServlet extends HttpServlet {
       final SitePaths sp, final ThemeFactory themeFactory,
       final GerritConfig gc, final ServletContext servletContext,
       final DynamicSet<WebUiPlugin> webUiPlugins,
+      final DynamicSet<Action> pluginActions,
       @GerritServerConfig final Config cfg)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
     config = gc;
     plugins = webUiPlugins;
+    actions = pluginActions;
     signedOutTheme = themeFactory.getSignedOutTheme();
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
@@ -196,6 +201,7 @@ public class HostPageServlet extends HttpServlet {
       w.write(";");
     }
     plugins(w);
+    actions(w);
 
     final byte[] hpd = w.toString().getBytes("UTF-8");
     final byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
@@ -244,6 +250,24 @@ public class HostPageServlet extends HttpServlet {
       return pg.get(null);
     }
     return pg.get(selector.select(req));
+  }
+
+  private void actions(StringWriter w) {
+    List<PluginAction> actionItems = Lists.newArrayList();
+    for (Action a : actions) {
+      if (a.isVisible()) {
+        PluginAction pa = new PluginAction();
+        pa.setName(a.getName());
+        pa.setPlace(a.getPlace());
+        pa.setCurrentPatchSet(a.isCurrentPatchSet());
+        actionItems.add(pa);
+      }
+    }
+    if (!actionItems.isEmpty()) {
+      w.write(HPD_ID + ".actions=");
+      json(actionItems, w);
+      w.write(";");
+    }
   }
 
   private static class FileInfo {

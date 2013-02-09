@@ -456,6 +456,7 @@ public class PluginLoader implements LifecycleListener {
       String sysName = main.getValue("Gerrit-Module");
       String sshName = main.getValue("Gerrit-SshModule");
       String httpName = main.getValue("Gerrit-HttpModule");
+      String actionName = main.getValue("Gerrit-ActionModule");
 
       if (!Strings.isNullOrEmpty(sshName) && type != Plugin.ApiType.PLUGIN) {
         throw new InvalidPluginException(String.format(
@@ -469,11 +470,12 @@ public class PluginLoader implements LifecycleListener {
       Class<? extends Module> sysModule = load(sysName, pluginLoader);
       Class<? extends Module> sshModule = load(sshName, pluginLoader);
       Class<? extends Module> httpModule = load(httpName, pluginLoader);
+      Class<? extends Module> actionModule = load(actionName, pluginLoader);
       Plugin plugin = new Plugin(name, pluginUserFactory.create(name),
           srcJar, snapshot,
           jarFile, manifest,
           new File(dataDir, name), type, pluginLoader,
-          sysModule, sshModule, httpModule);
+          sysModule, sshModule, httpModule, actionModule);
       cleanupHandles.put(plugin, new CleanupHandle(tmp, jarFile));
       keep = true;
       return plugin;

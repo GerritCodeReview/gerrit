@@ -123,14 +123,16 @@ modules in the manifest. Up to three modules can be named in the
 manifest. `Gerrit-Module` supplies bindings to the core server;
 `Gerrit-SshModule` supplies SSH commands to the SSH server (if
 enabled); `Gerrit-HttpModule` supplies servlets and filters to the HTTP
-server (if enabled). If no modules are named automatic registration
+server (if enabled); `Gerrit-ActionModule` supplies UI components to be
+placed on core Gerrit pages. If no modules are named automatic registration
 will be performed by scanning all classes in the plugin JAR for
 `@Listen` and `@Export("")` annotations.
 
 ====
-  Gerrit-Module:     tld.example.project.CoreModuleClassName
-  Gerrit-SshModule:  tld.example.project.SshModuleClassName
-  Gerrit-HttpModule: tld.example.project.HttpModuleClassName
+  Gerrit-Module:       tld.example.project.CoreModuleClassName
+  Gerrit-SshModule:    tld.example.project.SshModuleClassName
+  Gerrit-HttpModule:   tld.example.project.HttpModuleClassName
+  Gerrit-ActionModule: tld.example.project.ActionModuleClassName
 ====
 
 [[reload_method]]

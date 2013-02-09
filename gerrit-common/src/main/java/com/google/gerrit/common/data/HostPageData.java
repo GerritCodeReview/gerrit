@@ -27,6 +27,7 @@ public class HostPageData {
   public GerritConfig config;
   public Theme theme;
   public List<String> plugins;
+  public List<PluginAction> actions;
 
   public static class Theme {
     public String backgroundColor;

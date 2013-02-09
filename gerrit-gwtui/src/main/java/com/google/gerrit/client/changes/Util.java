@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.common.data.ActionService;
 import com.google.gerrit.common.data.ChangeDetailService;
 import com.google.gerrit.common.data.ChangeListService;
 import com.google.gerrit.common.data.ChangeManageService;
@@ -29,6 +30,7 @@ public class Util {
   public static final ChangeDetailService DETAIL_SVC;
   public static final ChangeListService LIST_SVC;
   public static final ChangeManageService MANAGE_SVC;
+  public static final ActionService ACTION_SVC;
 
   private static final int SUBJECT_MAX_LENGTH = 80;
   private static final String SUBJECT_CROP_APPENDIX = "...";
@@ -43,6 +45,9 @@ public class Util {
 
     MANAGE_SVC = GWT.create(ChangeManageService.class);
     JsonUtil.bind(MANAGE_SVC, "rpc/ChangeManageService");
+
+    ACTION_SVC = GWT.create(ActionService.class);
+    JsonUtil.bind(ACTION_SVC, "rpc/ActionService");
   }
 
   public static String toLongString(final Change.Status status) {

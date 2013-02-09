@@ -1328,6 +1328,15 @@ This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size.
 
 
+[[capability_renameProject]]
+Rename Project
+~~~~~~~~~~~~~~
+
+Allow renaming of projects. This capability allows the granted group to to
+rename projects either over link:cmd-rename-project.html[ssh], via
+link:rest-api-projects.html#put-projects-name-name[REST], or via the web UI.
+
+
 [[capability_startReplication]]
 Start Replication
 ~~~~~~~~~~~~~~~~~

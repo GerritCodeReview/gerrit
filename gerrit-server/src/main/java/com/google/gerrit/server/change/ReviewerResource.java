@@ -23,13 +23,20 @@ public class ReviewerResource extends ChangeResource {
       new TypeLiteral<RestView<ReviewerResource>>() {};
 
   private final Account account;
+  private final String id;
 
-  public ReviewerResource(ChangeResource changeResource, Account account) {
+  public ReviewerResource(ChangeResource changeResource, Account account,
+      String id) {
     super(changeResource);
     this.account = account;
+    this.id = id;
   }
 
   public Account getAccount() {
     return account;
+  }
+
+  public String getOriginalId() {
+    return id;
   }
 }

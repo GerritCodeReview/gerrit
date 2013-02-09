@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
@@ -33,6 +35,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -42,37 +45,55 @@ public class ReviewerJson {
   private final ChangeControl.GenericFactory controlFactory;
   private final ApprovalTypes approvalTypes;
   private final FunctionState.Factory functionState;
+  private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
       IdentifiedUser.GenericFactory userFactory,
       ChangeControl.GenericFactory controlFactory,
       ApprovalTypes approvalTypes,
-      FunctionState.Factory functionState) {
+      FunctionState.Factory functionState,
+      AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
     this.userFactory = userFactory;
     this.controlFactory = controlFactory;
     this.approvalTypes = approvalTypes;
     this.functionState = functionState;
+    this.accountLoaderFactory = accountLoaderFactory;
   }
 
-  public ReviewerInfo format(ReviewerResource rsrc) throws OrmException,
+  public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
+      throws OrmException, NoSuchChangeException {
+    List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
+    AccountInfo.Loader loader = accountLoaderFactory.create(true);
+    for (ReviewerResource rsrc : rsrcs) {
+      ReviewerInfo info = formatOne(rsrc);
+      loader.put(info);
+      infos.add(info);
+    }
+    loader.fill();
+    return infos;
+  }
+
+  public List<ReviewerInfo> format(ReviewerResource rsrc) throws OrmException,
       NoSuchChangeException {
-    ReviewerInfo out = new ReviewerInfo();
-    Account account = rsrc.getAccount();
-    out.id = account.getId().toString();
-    out.email = account.getPreferredEmail();
-    out.name = account.getFullName();
+    return format(ImmutableList.<ReviewerResource> of(rsrc));
+  }
+
+  private ReviewerInfo formatOne(ReviewerResource rsrc) throws OrmException,
+      NoSuchChangeException {
+    Account.Id id = rsrc.getAccount().getId();
+    ReviewerInfo out = new ReviewerInfo(id);
 
     Change change = rsrc.getChange();
     PatchSet.Id psId = change.currentPatchSetId();
 
     List<PatchSetApproval> approvals = db.get().patchSetApprovals()
-        .byPatchSetUser(psId, account.getId()).toList();
+        .byPatchSetUser(psId, id).toList();
 
     // TODO: Support arbitrary labels.
     ChangeControl control = controlFactory.controlFor(change,
-        userFactory.create(account.getId()));
+        userFactory.create(id));
     FunctionState fs = functionState.create(control, psId, approvals);
     for (ApprovalType at : approvalTypes.getApprovalTypes()) {
       CategoryFunction.forCategory(at.getCategory()).run(at, fs);
@@ -88,16 +109,15 @@ public class ReviewerJson {
         }
       }
     }
-
     return out;
   }
 
-  public static class ReviewerInfo {
+  public static class ReviewerInfo extends AccountInfo {
     final String kind = "gerritcodereview#reviewer";
-    String id;
-    String email;
-    String name;
-
     Map<String, String> approvals;
+
+    protected ReviewerInfo(Account.Id id) {
+      super(id);
+    }
   }
 }

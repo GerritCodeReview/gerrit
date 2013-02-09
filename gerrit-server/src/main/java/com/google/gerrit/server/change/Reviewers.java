@@ -28,6 +28,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,16 +41,19 @@ public class Reviewers implements
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache accountCache;
   private final Provider<ListReviewers> list;
+  private final AccountResolver accountResolver;
 
   @Inject
   Reviewers(Provider<ReviewDb> dbProvider,
             DynamicMap<RestView<ReviewerResource>> views,
             AccountCache accountCache,
-            Provider<ListReviewers> list) {
+            Provider<ListReviewers> list,
+            AccountResolver accountResolver) {
     this.dbProvider = dbProvider;
     this.views = views;
     this.accountCache = accountCache;
     this.list = list;
+    this.accountResolver = accountResolver;
   }
 
   @Override
@@ -65,6 +69,7 @@ public class Reviewers implements
   @Override
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
       throws OrmException, ResourceNotFoundException, AuthException {
+    Account account = null;
     Account.Id accountId;
     if (id.equals("self")) {
       CurrentUser user = rsrc.getControl().getCurrentUser();
@@ -78,13 +83,20 @@ public class Reviewers implements
     } else if (id.get().matches("^[0-9]+$")) {
       accountId = Account.Id.parse(id.get());
     } else {
-      throw new ResourceNotFoundException(id);
+      account = accountResolver.find(id.get());
+      if (account != null) {
+        accountId = account.getId();
+      } else {
+        throw new ResourceNotFoundException(id);
+      }
     }
 
     // See if the id exists as a reviewer for this change
     if (fetchAccountIds(rsrc).contains(accountId)) {
-      Account account = accountCache.get(accountId).getAccount();
-      return new ReviewerResource(rsrc, account);
+      if (account == null) {
+        account = accountCache.get(accountId).getAccount();
+      }
+      return new ReviewerResource(rsrc, account, id.get());
     }
     throw new ResourceNotFoundException(id);
   }

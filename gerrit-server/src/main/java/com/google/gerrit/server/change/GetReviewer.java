@@ -28,8 +28,8 @@ public class GetReviewer implements RestReadView<ReviewerResource> {
   }
 
   @Override
-  public Object apply(ReviewerResource reviewerResource) throws OrmException,
+  public Object apply(ReviewerResource rsrc) throws OrmException,
       NoSuchChangeException {
-    return json.format(reviewerResource);
+    return json.format(rsrc);
   }
 }

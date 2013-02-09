@@ -45,7 +45,7 @@ class ListReviewers implements RestReadView<ChangeResource> {
   @Override
   public Object apply(ChangeResource rsrc) throws BadRequestException,
       OrmException, NoSuchChangeException {
-    Map<Account.Id, Object> reviewers = Maps.newLinkedHashMap();
+    Map<Account.Id, ReviewerResource> reviewers = Maps.newLinkedHashMap();
     ReviewDb db = dbProvider.get();
     Change.Id changeId = rsrc.getChange().getId();
     for (PatchSetApproval patchSetApproval
@@ -53,10 +53,9 @@ class ListReviewers implements RestReadView<ChangeResource> {
       Account.Id accountId = patchSetApproval.getAccountId();
       if (!reviewers.containsKey(accountId)) {
         Account account = accountCache.get(accountId).getAccount();
-        reviewers.put(accountId,
-                      json.format(new ReviewerResource(rsrc, account)));
+        reviewers.put(accountId, new ReviewerResource(rsrc, account, null));
       }
     }
-    return reviewers.values();
+    return json.format(reviewers.values());
   }
 }

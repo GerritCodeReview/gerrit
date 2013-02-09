@@ -62,7 +62,7 @@ public class RenameProjectTest extends LoggingMockingTestCase {
   public void testPermissionCheck() throws NameAlreadyUsedException,
       NoSuchProjectException, ProjectRenamingFailedException {
     reset(capabilityControl);
-    expect(capabilityControl.canAdministrateServer()).andReturn(false).anyTimes();
+    expect(capabilityControl.canRenameProject()).andReturn(false).anyTimes();
 
     // Done with setting up mocks
     replayMocks();
@@ -409,7 +409,7 @@ public class RenameProjectTest extends LoggingMockingTestCase {
     expect(identifiedUser.getCapabilities()).andReturn(capabilityControl)
         .anyTimes();
 
-    expect(capabilityControl.canAdministrateServer()).andReturn(true).anyTimes();
+    expect(capabilityControl.canRenameProject()).andReturn(true).anyTimes();
 
     expect(projectCache.get(new Project.NameKey("dummysource")))
         .andReturn(sourceProjectState).anyTimes();

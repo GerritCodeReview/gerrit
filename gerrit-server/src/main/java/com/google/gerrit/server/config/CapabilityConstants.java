@@ -32,6 +32,7 @@ public class CapabilityConstants extends TranslationBundle {
   public String killTask;
   public String priority;
   public String queryLimit;
+  public String renameProject;
   public String runAs;
   public String runGC;
   public String startReplication;

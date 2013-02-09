@@ -76,6 +76,9 @@ public class GlobalCapability {
   /** Can run the Git garbage collection. */
   public static final String RUN_GC = "runGC";
 
+  /** Can rename projects on the server. */
+  public static final String RENAME_PROJECT = "renameProject";
+
   /** Forcefully restart replication to any configured destination. */
   public static final String START_REPLICATION = "startReplication";
 
@@ -108,6 +111,7 @@ public class GlobalCapability {
     NAMES_ALL.add(QUERY_LIMIT);
     NAMES_ALL.add(RUN_AS);
     NAMES_ALL.add(RUN_GC);
+    NAMES_ALL.add(RENAME_PROJECT);
     NAMES_ALL.add(START_REPLICATION);
     NAMES_ALL.add(STREAM_EVENTS);
     NAMES_ALL.add(VIEW_CACHES);

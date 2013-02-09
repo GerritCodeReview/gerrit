@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
-import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.RENAME_PROJECT;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
@@ -64,13 +64,13 @@ public class RenameProjectScreen extends Screen {
     AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
       @Override
       public void onSuccess(AccountCapabilities ac) {
-        if (ac.canPerform(ADMINISTRATE_SERVER)) {
+        if (ac.canPerform(RENAME_PROJECT)) {
           display();
         } else {
           Gerrit.display(PageLinks.ADMIN_RENAME_PROJECT, new NotFoundScreen());
         }
       }
-    }, ADMINISTRATE_SERVER);
+    }, RENAME_PROJECT);
   }
 
   @Override

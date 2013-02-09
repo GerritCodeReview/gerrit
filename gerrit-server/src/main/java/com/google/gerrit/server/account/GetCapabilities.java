@@ -23,6 +23,7 @@ import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_GC;
+import static com.google.gerrit.common.data.GlobalCapability.RENAME_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.START_REPLICATION;
 import static com.google.gerrit.common.data.GlobalCapability.STREAM_EVENTS;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
@@ -107,6 +108,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     have.put(START_REPLICATION, cc.canStartReplication());
     have.put(STREAM_EVENTS, cc.canStreamEvents());
     have.put(ACCESS_DATABASE, cc.canAccessDatabase());
+    have.put(RENAME_PROJECT, cc.canRenameProject());
 
     QueueProvider.QueueType queue = cc.getQueueType();
     if (queue != QueueProvider.QueueType.INTERACTIVE

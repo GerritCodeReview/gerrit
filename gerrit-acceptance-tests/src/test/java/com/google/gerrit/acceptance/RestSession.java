@@ -26,10 +26,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 class RestSession {
 
-  private final TestAccount account;
+  private final UserAccount account;
   DefaultHttpClient client;
 
-  RestSession(TestAccount account) {
+  RestSession(UserAccount account) {
     this.account = account;
   }
 

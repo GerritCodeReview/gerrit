@@ -19,14 +19,14 @@ import java.io.ByteArrayOutputStream;
 import com.jcraft.jsch.KeyPair;
 
 
-public class TestAccount {
+public class UserAccount {
   final String username;
   final String email;
   final String fullName;
   final KeyPair sshKey;
   final String httpPassword;
 
-  TestAccount(String username, String email, String fullName,
+  UserAccount(String username, String email, String fullName,
       KeyPair sshKey, String httpPassword) {
     this.username = username;
     this.email = email;

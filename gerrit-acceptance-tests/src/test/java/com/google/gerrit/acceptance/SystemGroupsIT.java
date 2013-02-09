@@ -49,7 +49,7 @@ public class SystemGroupsIT extends AbstractDaemonTest {
   @Inject
   private AccountCreator accounts;
 
-  protected TestAccount admin;
+  protected UserAccount admin;
 
   @Before
   public void setUp() throws Exception {

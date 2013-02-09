@@ -1373,6 +1373,15 @@ Access Database
 Allow users to access the database using the `gsql` command.
 
 
+[[capability_renameProject]]
+Rename Project
+~~~~~~~~~~~~~~
+
+Allow renaming of projects. This capability allows the granted group to rename
+projects either over link:cmd-rename-project.html[ssh], via
+link:rest-api-projects.html#rename-project[REST], or via the web UI.
+
+
 [[capability_startReplication]]
 Start Replication
 ~~~~~~~~~~~~~~~~~

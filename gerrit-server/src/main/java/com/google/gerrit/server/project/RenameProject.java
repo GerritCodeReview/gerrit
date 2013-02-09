@@ -91,7 +91,7 @@ public class RenameProject {
     final ProjectState sourceProjectState;
     final Project sourceProject;
 
-    if (!currentUser.getCapabilities().canAdministrateServer()) {
+    if (!currentUser.getCapabilities().canRenameProject()) {
       throw new PermissionDeniedException(String.format(
           "%s does not have \"Rename Project\" capability.",
           currentUser.getUserName()));

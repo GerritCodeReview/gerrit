@@ -76,7 +76,8 @@ Administrator that has authenticated with digest authentication:
     "flushCaches": true,
     "viewConnections": true,
     "viewQueue": true,
-    "startReplication": true
+    "startReplication": true,
+    "renameProject": true
   }
 ----
 
@@ -303,6 +304,9 @@ link:access-control.html#capability_emailReviewers[Email Reviewers]
 capability.
 |`killTask`          |not set if `false`|Whether the user has the
 link:access-control.html#capability_kill[Kill Task] capability.
+|`renameProject`     |not set if `false`|Whether the user has the
+link:access-control.html#capability_renameProject[Rename Project]
+capability.
 |`viewCaches`        |not set if `false`|Whether the user has the
 link:access-control.html#capability_viewCaches[View Caches] capability.
 |`flushCaches`       |not set if `false`|Whether the user has the

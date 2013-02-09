@@ -100,6 +100,12 @@ public class CapabilityControl {
     return canEmailReviewers;
   }
 
+  /** @return true if the user can rename a project. */
+  public boolean canRenameProject() {
+    return canPerform(GlobalCapability.RENAME_PROJECT)
+      || canAdministrateServer();
+  }
+
   /** @return true if the user can kill any running task. */
   public boolean canKillTask() {
     return canPerform(GlobalCapability.KILL_TASK)

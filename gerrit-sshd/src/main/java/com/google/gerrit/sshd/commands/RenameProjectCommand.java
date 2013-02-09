@@ -28,7 +28,7 @@ import com.google.inject.Inject;
 import org.kohsuke.args4j.Argument;
 
 /** Rename a project. **/
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.RENAME_PROJECT)
 @CommandMetaData(name = "rename-project", descr = "Rename a project")
 final class RenameProjectCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "PROJECT",

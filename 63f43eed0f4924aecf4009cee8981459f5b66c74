@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PwUEEkiA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-09T22:43:35Z",
+      "side": 1,
+      "message": "You should move the \u0027,\u0027 to the end of the line above:\n\n ... as a test class,\n and then require that ...",
+      "revId": "63f43eed0f4924aecf4009cee8981459f5b66c74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

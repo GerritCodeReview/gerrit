@@ -28,7 +28,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 
 /** Rename a project. **/
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.RENAME_PROJECT)
 final class RenameProjectCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "PROJECT",
       usage = "name of the project to be renamed")

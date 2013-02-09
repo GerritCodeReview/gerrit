@@ -27,7 +27,7 @@ import com.google.gerrit.server.project.SetName.Input;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.RENAME_PROJECT)
 class SetName implements RestModifyView<ProjectResource, Input> {
   static class Input {
     @DefaultInput

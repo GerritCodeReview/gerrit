@@ -435,6 +435,7 @@ requests.
   HTTP/1.1 204 No Content
 ----
 
+[[put-projects-name-name]]
 PUT /projects/\{project-name\}/name (Rename Project)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Renames a project.

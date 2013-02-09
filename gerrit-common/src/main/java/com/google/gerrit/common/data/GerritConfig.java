@@ -46,6 +46,7 @@ public class GerritConfig implements Cloneable {
   protected boolean testChangeMerge;
   protected String anonymousCowardName;
   protected int suggestFrom;
+  protected boolean uiCommandsEnabled;
 
   public String getRegisterUrl() {
     return registerUrl;
@@ -225,4 +226,13 @@ public class GerritConfig implements Cloneable {
     }
     return true;
   }
+
+  public boolean isUiCommandsEnabled() {
+    return uiCommandsEnabled;
+  }
+
+  public void setUiCommandsEnabled(final boolean enabled) {
+    uiCommandsEnabled = enabled;
+  }
+
 }

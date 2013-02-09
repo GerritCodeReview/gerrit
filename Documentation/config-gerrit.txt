@@ -2698,6 +2698,14 @@ on the server. One or more groups can be set.
 If no groups are added, any user will be allowed to execute
 'upload-pack' on the server.
 
+[[ui-commands]]Section UI commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[ui-commands.enable]]ui-commands.enable::
++
+If true, Gerrit will expose the UI commands that defined by plugins.
++
+Default is false, no UI commands are exposed.
 
 [[user]] Section user
 ~~~~~~~~~~~~~~~~~~~~~

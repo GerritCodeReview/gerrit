@@ -123,6 +123,9 @@ link:cmd-set-project-parent.html[gerrit set-project-parent]::
 link:cmd-ls-user-refs.html[gerrit ls-user-refs]::
 	Lists refs visible for a specified user.
 
+link:cmd-rename-project.html[gerrit rename-project]::
+	Renames a project.
+
 link:cmd-show-caches.html[gerrit show-caches]::
 	Display current cache statistics.
 

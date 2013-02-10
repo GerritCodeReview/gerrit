@@ -56,6 +56,10 @@ public final class Branch {
       return projectName;
     }
 
+    public void setParentKey(Project.NameKey projectNameKey) {
+      projectName = projectNameKey;
+    }
+
     public String getShortName() {
       final String n = get();
 

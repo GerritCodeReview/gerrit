@@ -39,6 +39,7 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, "review").to(ReviewCommand.class);
     command(gerrit, "set-account").to(SetAccountCommand.class);
     command(gerrit, "set-project").to(SetProjectCommand.class);
+    command(gerrit, "rename-project").to(RenameProjectCommand.class);
 
     command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
     command(testSubmit, "rule").to(TestSubmitRule.class);

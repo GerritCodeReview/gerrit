@@ -455,6 +455,10 @@ public final class Change {
     return dest.getParentKey();
   }
 
+  public void setProject(Project.NameKey projectNameKey) {
+    dest.setParentKey(projectNameKey);
+  }
+
   public String getSubject() {
     return subject;
   }

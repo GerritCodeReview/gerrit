@@ -28,8 +28,19 @@ public class ProjectApi {
     input.setParent(parent);
     input.setPermissionsOnly(permissionsOnly);
     input.setCreateEmptyCommit(createEmptyCcommit);
-    new RestApi("/projects/").id(projectName).ifNoneMatch()
-        .put(input, asyncCallback);
+    project(projectName).ifNoneMatch().put(input, asyncCallback);
+  }
+
+  /** Rename a project*/
+  public static void renameProject(String sourceName,
+      String destinationName, AsyncCallback<VoidResult> cb) {
+    ProjectInput in = ProjectInput.create();
+    in.setName(destinationName);
+    project(sourceName).view("name").put(in, cb);
+  }
+
+  private static RestApi project(String project) {
+    return new RestApi("/projects/").id(project);
   }
 
   private static class ProjectInput extends JavaScriptObject {

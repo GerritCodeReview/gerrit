@@ -432,6 +432,34 @@ requests.
   HTTP/1.1 204 No Content
 ----
 
+PUT /projects/\{project-name\}/name (Rename Project)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Renames a project.
+
+The new project name must be provided in the request body.
+
+.Request
+----
+  PUT /projects/oldProjectName/name HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "name":"newProjectName"
+  }
+----
+
+As response the new project name is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "newProjectName"
+----
+
 
 [[ids]]
 IDs

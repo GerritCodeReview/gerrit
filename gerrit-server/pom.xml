@@ -32,6 +32,10 @@ limitations under the License.
     Commons server routines
   </description>
 
+  <properties>
+    <powermock.version>1.5</powermock.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>log4j</groupId>
@@ -178,6 +182,20 @@ limitations under the License.
     <dependency>
       <groupId>org.pegdown</groupId>
       <artifactId>pegdown</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-easymock</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

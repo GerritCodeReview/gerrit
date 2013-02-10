@@ -19,6 +19,7 @@ import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
+import static com.google.gerrit.common.PageLinks.ADMIN_RENAME_PROJECT;
 import static com.google.gerrit.common.PageLinks.DASHBOARDS;
 import static com.google.gerrit.common.PageLinks.MINE;
 import static com.google.gerrit.common.PageLinks.PROJECTS;
@@ -60,6 +61,7 @@ import com.google.gerrit.client.admin.ProjectDashboardsScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.admin.RenameProjectScreen;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
@@ -717,6 +719,10 @@ public class Dispatcher {
         } else if (matchExact(ADMIN_CREATE_PROJECT, token)
             || matchExact("/admin/create-project", token)) {
           Gerrit.display(token, new CreateProjectScreen());
+
+        } else if (matchExact(ADMIN_RENAME_PROJECT, token)
+            || matchExact("/admin/rename-project", token)) {
+          Gerrit.display(token, new RenameProjectScreen());
 
         } else if (matchExact(ADMIN_CREATE_GROUP, token)
             || matchExact("/admin/create-group", token)) {

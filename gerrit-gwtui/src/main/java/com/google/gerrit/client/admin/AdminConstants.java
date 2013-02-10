@@ -34,6 +34,7 @@ public interface AdminConstants extends Constants {
   String buttonCreateProject();
   String buttonChangeGroupOwner();
   String buttonChangeGroupType();
+  String buttonRenameProject();
   String buttonSelectGroup();
   String buttonSaveChanges();
   String checkBoxEmptyCommit();
@@ -62,6 +63,7 @@ public interface AdminConstants extends Constants {
   String headingCreateGroup();
   String headingParentProjectName();
   String columnProjectName();
+  String newNameLabel();
   String headingAgreements();
 
   String projectSubmitType_FAST_FORWARD_ONLY();
@@ -99,6 +101,7 @@ public interface AdminConstants extends Constants {
   String projectListTitle();
   String projectFilter();
   String createProjectTitle();
+  String renameProjectTitle();
   String projectListQueryLink();
 
   String plugins();

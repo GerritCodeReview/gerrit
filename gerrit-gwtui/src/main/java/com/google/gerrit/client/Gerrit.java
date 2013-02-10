@@ -693,6 +693,9 @@ public class Gerrit implements EntryPoint {
           if (result.canPerform(CREATE_PROJECT)) {
             addLink(projectsBar, C.menuProjectsCreate(), PageLinks.ADMIN_CREATE_PROJECT);
           }
+          if (result.canPerform(ADMINISTRATE_SERVER)) {
+            addLink(projectsBar, C.menuProjectsRename(), PageLinks.ADMIN_RENAME_PROJECT);
+          }
           if (result.canPerform(CREATE_GROUP)) {
             addLink(peopleBar, C.menuPeopleGroupsCreate(), PageLinks.ADMIN_CREATE_GROUP);
           }

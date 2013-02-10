@@ -16,6 +16,24 @@
       "revId": "63f43eed0f4924aecf4009cee8981459f5b66c74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Pxtz.zfI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-10T04:16:52Z",
+      "side": 1,
+      "message": "Thank you ! Nasser and David. :)\n\nDone",
+      "parentUuid": "PwUEEkiA",
+      "revId": "63f43eed0f4924aecf4009cee8981459f5b66c74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

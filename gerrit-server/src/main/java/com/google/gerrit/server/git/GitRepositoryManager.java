@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.common.errors.ProjectRenamingFailedException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Singleton;
 
@@ -109,4 +110,24 @@ public interface GitRepositoryManager {
    */
   public abstract void setProjectDescription(Project.NameKey name,
       final String description);
+
+  /**
+   * Renames a repository
+   * <p>
+   * This method does not fix up data in the database, project subscriptions,
+   * replication, etc. This method only moves the repository on disk from
+   * {@code source} to {@code destination}.
+   *
+   * @param source the repository to rename. The repository must not be held
+   *         in open state by the caller.
+   * @param destination the destination of the renaming. The repository must
+   *         not be held in open state by the caller.
+   * @throws RepositoryNotFoundException source is not a valid repository.
+   * @throws ProjectRenamingFailedException other unspecified problem while
+   *         moving the repository.
+   */
+  public void renameRepository(final Project.NameKey source,
+      final Project.NameKey destination) throws RepositoryNotFoundException,
+      ProjectRenamingFailedException;
+
 }

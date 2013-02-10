@@ -97,6 +97,7 @@ import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RenameProject;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
@@ -185,6 +186,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RebasedPatchSetSender.Factory.class);
+    factory(RenameProject.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
     factory(PerformCreateProject.Factory.class);
     bind(PermissionCollection.Factory.class);
@@ -231,6 +233,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.change.Module());
     install(new com.google.gerrit.server.group.Module());
     install(new com.google.gerrit.server.project.Module());
+    install(new com.google.gerrit.server.project.renaming.TaskModule());
 
     bind(GitReferenceUpdated.class);
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});

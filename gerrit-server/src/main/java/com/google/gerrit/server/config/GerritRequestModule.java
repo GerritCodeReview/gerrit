@@ -40,6 +40,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RenameProject;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.inject.servlet.RequestScoped;
 
@@ -79,5 +80,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(CreateProject.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
+    factory(RenameProject.Factory.class);
   }
 }

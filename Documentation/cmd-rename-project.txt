@@ -1,0 +1,45 @@
+gerrit rename-project
+=====================
+
+NAME
+----
+gerrit rename-project - Rename a project.
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit rename-project'
+  <PROJECT>
+  <NEWNAME>
+
+DESCRIPTION
+-----------
+Renames a project.
+
+ACCESS
+------
+Caller must have 'renameProject' capabilities.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+<PROJECT>::
+	Required; name of the project to be renamed.
+
+<NEWNAME>::
+	Required; new name of the project.
+
+EXAMPLES
+--------
+Rename the project "oldProjectName" to "newProjectName".
+
+====
+	$ ssh -p 29418 user@review.example.com gerrit rename-project oldProjectName newProjectName
+====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

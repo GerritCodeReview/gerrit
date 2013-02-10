@@ -163,6 +163,34 @@ To retrieve only the default dashboard, add `default` to the URL:
   }
 ----
 
+PUT /projects/\{project-name\}/name (Rename Project)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Renames a project.
+
+The new project name must be provided in the request body.
+
+.Request
+----
+  PUT /projects/oldParentProject%2FoldProject/name HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "name":"newParentProject/newProject"
+  }
+----
+
+As response the new project name is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "newParentProject/newProject"
+----
+
 
 [[ids]]
 IDs

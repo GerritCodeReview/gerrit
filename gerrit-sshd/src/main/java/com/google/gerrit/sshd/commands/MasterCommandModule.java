@@ -40,6 +40,7 @@ public class MasterCommandModule extends CommandModule {
     alias(gerrit, "approve", ReviewCommand.class);
     command(gerrit, SetAccountCommand.class);
     command(gerrit, SetProjectCommand.class);
+    command(gerrit, RenameProjectCommand.class);
 
     command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
     command(testSubmit, TestSubmitRuleCommand.class);

@@ -61,6 +61,9 @@ public class ListMembers implements RestReadView<GroupResource> {
   @Override
   public List<MemberInfo> apply(final GroupResource resource)
       throws ResourceNotFoundException, OrmException {
+    if (resource.toAccountGroup() == null) {
+      throw new ResourceNotFoundException(resource.getGroupUUID().get());
+    }
     try {
       final Map<Account.Id, MemberInfo> members =
           getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());

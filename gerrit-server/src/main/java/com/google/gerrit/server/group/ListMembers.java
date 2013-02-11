@@ -20,9 +20,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -62,21 +60,24 @@ public class ListMembers implements RestReadView<GroupResource> {
 
   @Override
   public List<MemberInfo> apply(final GroupResource resource)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
-    final Map<Account.Id, MemberInfo> members =
-        getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());
-    final List<MemberInfo> memberInfos = Lists.newArrayList(members.values());
-    Collections.sort(memberInfos, new Comparator<MemberInfo>() {
-      @Override
-      public int compare(MemberInfo a, MemberInfo b) {
-        return ComparisonChain.start()
-            .compare(a.fullName, b.fullName, Ordering.natural().nullsFirst())
-            .compare(a.preferredEmail, b.preferredEmail, Ordering.natural().nullsFirst())
-            .compare(a.id, b.id, Ordering.natural().nullsFirst()).result();
-      }
-    });
-    return memberInfos;
+      throws ResourceNotFoundException, OrmException {
+    try {
+      final Map<Account.Id, MemberInfo> members =
+          getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());
+      final List<MemberInfo> memberInfos = Lists.newArrayList(members.values());
+      Collections.sort(memberInfos, new Comparator<MemberInfo>() {
+        @Override
+        public int compare(MemberInfo a, MemberInfo b) {
+          return ComparisonChain.start()
+              .compare(a.fullName, b.fullName, Ordering.natural().nullsFirst())
+              .compare(a.preferredEmail, b.preferredEmail, Ordering.natural().nullsFirst())
+              .compare(a.id, b.id, Ordering.natural().nullsFirst()).result();
+        }
+      });
+      return memberInfos;
+    } catch (NoSuchGroupException e) {
+      throw new ResourceNotFoundException(resource.getGroupUUID().get());
+    }
   }
 
   private Map<Account.Id, MemberInfo> getMembers(

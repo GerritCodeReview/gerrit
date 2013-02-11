@@ -82,6 +82,40 @@ by group name.
 get::/groups/
 ****
 
+[[get-group]]
+GET /groups/\{group-id\} (Get Group)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves a group.
+
+.Request
+----
+  GET /groups/6a1e70e1a88782771a91808c8af9bbb7a9871389 HTTP/1.0
+----
+
+As response a link:#group-info[GroupInfo] entity is returned that
+describes the group.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#group",
+    "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "name": "Administrators",
+    "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "options": {
+      "kind": "gerritcodereview#groupoptions"
+    },
+    "description": "Gerrit Site Administrators",
+    "group_id": 1,
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+  }
+----
+
 [[create-group]]
 PUT /groups/\{group-name\} (Create Group)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -468,6 +502,36 @@ members the parameter `recursive` can be set.
   ]
 ----
 
+[[get-group-member]]
+GET /groups/\{group-id\}/members/\{account-id\} (Get Group Member)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves a group member.
+
+.Request
+----
+  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/1000096 HTTP/1.0
+----
+
+As response a link:#member-info[MemberInfo] entity is returned that
+describes the group member.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#member",
+    "full_name": "John Doe",
+    "id": "1000096",
+    "account_id": 1000096,
+    "preferred_email": "john.doe@example.com",
+    "user_name": "doe"
+  }
+----
+
 [[add-group-member]]
 PUT /groups/\{group-id\}/members/\{account-id\} (Add Group Member)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -634,6 +698,39 @@ The entries in the list are sorted by group name and UUID.
       "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
     }
   ]
+----
+
+[[get-included-group]]
+GET /groups/\{group-id\}/groups/\{group-id\} (Get Included Group)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves an included group.
+
+.Request
+----
+  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/groups/7ca042f4d5847936fcb90ca91057673157fd06fc HTTP/1.0
+----
+
+As response a link:#group-info[GroupInfo] entity is returned that
+describes the included group.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#group",
+    "id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
+    "name": "MyProject-Verifiers",
+    "url": "#/admin/groups/uuid-7ca042f4d5847936fcb90ca91057673157fd06fc",
+    "options": {
+      "kind": "gerritcodereview#groupoptions"
+    },
+    "group_id": 38,
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+  }
 ----
 
 [[include-group]]

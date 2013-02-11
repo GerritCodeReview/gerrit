@@ -64,6 +64,9 @@ public class ListMembers implements RestReadView<GroupResource> {
   public List<MemberInfo> apply(final GroupResource resource)
       throws AuthException, BadRequestException, ResourceConflictException,
       Exception {
+    if (resource.toAccountGroup() == null) {
+      throw new ResourceNotFoundException(resource.getGroupUUID().get());
+    }
     final Map<Account.Id, MemberInfo> members =
         getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());
     final List<MemberInfo> memberInfos = Lists.newArrayList(members.values());

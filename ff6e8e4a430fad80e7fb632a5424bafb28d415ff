@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "PxhwBVRA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-11T14:53:56Z",
+      "side": 1,
+      "message": "I find it when I run \u0027mvn clean package\u0027 , in fact it is about \u0027mvn test\u0027\n\n $ git checkout -b retrigger b32df3609e3be35660a80af58dfa8b79e10c955b\n $ mvn test\n ...\n ...\n ...\n -------------------------------------------------------\n T E S T S\n -------------------------------------------------------\n Running com.google.gerrit.acceptance.TestAccount\n Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.045 sec \u003c\u003c\u003c   \n FAILURE!\n\n Results :\n\n Tests in error: \n   initializationError(com.google.gerrit.acceptance.TestAccount)\n   initializationError(com.google.gerrit.acceptance.TestAccount)\n\n Tests run: 2, Failures: 0, Errors: 2, Skipped: 0\n\n [INFO] ------------------------------------------------------------------------\n [ERROR] BUILD FAILURE\n [INFO] ------------------------------------------------------------------------\n [INFO] There are test failures.\n\n Please refer to /home/xing-yi/gerrit-code/google/gerrit/gerrit-acceptance-tests/target /surefire-reports for the individual test results.\n [INFO] ------------------------------------------------------------------------\n [INFO] For more information, run Maven with the -e switch \n [INFO] ------------------------------------------------------------------------\n [INFO] Total time: 1 minute 32 seconds\n [INFO] Finished at: Mon Feb 11 22:33:52 CST 2013\n [INFO] Final Memory: 66M/375M\n [INFO] ------------------------------------------------------------------------\n\n$ more /home/xing-yi/gerrit-code/google/gerrit/gerrit-acceptance-tests/target/surefire-reports/com.google.gerrit.acceptance.TestAccount.txt \n-------------------------------------------------------------------------------\nTest set: com.google.gerrit.acceptance.TestAccount\n-------------------------------------------------------------------------------\nTests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.061 sec \u003c\u003c\u003c FAILURE!\ninitializationError(com.google.gerrit.acceptance.TestAccount)  Time elapsed: 0.007 sec  \u003c\u003c\u003c ERROR!\njava.lang.Exception: Test class should have exactly one public constructor\n\tat org.junit.runners.BlockJUnit4ClassRunner.validateOnlyOneConstructor(BlockJUnit4ClassRunner.java:136)\n\tat org.junit.runners.BlockJUnit4ClassRunner.validateConstructor(BlockJUnit4ClassRunner.java:125)\n\tat org.junit.runners.BlockJUnit4ClassRunner.collectInitializationErrors(BlockJUnit4ClassRunner.java:114)\n\tat org.junit.runners.ParentRunner.validate(ParentRunner.java:269)\n\tat org.junit.runners.ParentRunner.\u003cinit\u003e(ParentRunner.java:66)\n\tat org.junit.runners.BlockJUnit4ClassRunner.\u003cinit\u003e(BlockJUnit4ClassRunner.java:59)\n\tat org.junit.internal.builders.JUnit4Builder.runnerForClass(JUnit4Builder.java:13)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:29)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.requests.ClassRequest.getRunner(ClassRequest.java:24)\n\tat org.apache.maven.surefire.junit4.JUnit4TestSet.\u003cinit\u003e(JUnit4TestSet.java:45)\n\tat org.apache.maven.surefire.junit4.JUnit4DirectoryTestSuite.createTestSet(JUnit4DirectoryTestSuite.java:56)\n\tat org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.locateTestSets(AbstractDirectoryTestSuite.java:96)\n\tat org.apache.maven.surefire.Surefire.createSuiteFromDefinition(Surefire.java:209)\n\tat org.apache.maven.surefire.Surefire.run(Surefire.java:156)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n\tat java.lang.reflect.Method.invoke(Method.java:597)\n\tat org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:345)\n\tat org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:1009)\n\ninitializationError(com.google.gerrit.acceptance.TestAccount)  Time elapsed: 0.001 sec  \u003c\u003c\u003c ERROR!\njava.lang.Exception: No runnable methods\n\tat org.junit.runners.BlockJUnit4ClassRunner.validateInstanceMethods(BlockJUnit4ClassRunner.java:171)\n\tat org.junit.runners.BlockJUnit4ClassRunner.collectInitializationErrors(BlockJUnit4ClassRunner.java:115)\n\tat org.junit.runners.ParentRunner.validate(ParentRunner.java:269)\n\tat org.junit.runners.ParentRunner.\u003cinit\u003e(ParentRunner.java:66)\n\tat org.junit.runners.BlockJUnit4ClassRunner.\u003cinit\u003e(BlockJUnit4ClassRunner.java:59)\n\tat org.junit.internal.builders.JUnit4Builder.runnerForClass(JUnit4Builder.java:13)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:29)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.requests.ClassRequest.getRunner(ClassRequest.java:24)\n\tat org.apache.maven.surefire.junit4.JUnit4TestSet.\u003cinit\u003e(JUnit4TestSet.java:45)\n\tat org.apache.maven.surefire.junit4.JUnit4DirectoryTestSuite.createTestSet(JUnit4DirectoryTestSuite.java:56)\n\tat org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.locateTestSets(AbstractDirectoryTestSuite.java:96)\n\tat org.apache.maven.surefire.Surefire.createSuiteFromDefinition(Surefire.java:209)\n\tat org.apache.maven.surefire.Surefire.run(Surefire.java:156)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n\tat java.lang.reflect.Method.invoke(Method.java:597)\n\tat org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:345)\n\tat org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:1009)\n\n \n\nI am not sure it is only a my personal case, so I add this patch",
+      "parentUuid": "PtqwXY0s",
+      "revId": "ff6e8e4a430fad80e7fb632a5424bafb28d415ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PtowSp1w",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AccountForTestAcceptance.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-11T12:57:33Z",
       "side": 1,
       "message": "This name is ugly.\nHow about UserAccount?",
+      "revId": "ff6e8e4a430fad80e7fb632a5424bafb28d415ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PxnwOmT8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AccountForTestAcceptance.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-11T14:53:56Z",
+      "side": 1,
+      "message": "yeah . UserAccount sounds better.",
+      "parentUuid": "PtowSp1w",
       "revId": "ff6e8e4a430fad80e7fb632a5424bafb28d415ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

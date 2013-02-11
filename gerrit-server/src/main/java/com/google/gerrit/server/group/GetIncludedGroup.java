@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
+
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.inject.Inject;
@@ -28,6 +30,6 @@ public class GetIncludedGroup implements RestReadView<IncludedGroupResource>  {
 
   @Override
   public GroupInfo apply(IncludedGroupResource rsrc) {
-    return json.format(rsrc.getMemberDescription());
+    return json.addOption(OWNER).format(rsrc.getMemberDescription());
   }
 }

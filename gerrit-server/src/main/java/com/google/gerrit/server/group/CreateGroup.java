@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -102,7 +104,7 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
     } catch (PermissionDeniedException e) {
       throw new AuthException(e.getMessage());
     }
-    return json.format(GroupDescriptions.forAccountGroup(group));
+    return json.addOption(OWNER).format(GroupDescriptions.forAccountGroup(group));
   }
 
   private AccountGroup.Id owner(Input input) throws BadRequestException {

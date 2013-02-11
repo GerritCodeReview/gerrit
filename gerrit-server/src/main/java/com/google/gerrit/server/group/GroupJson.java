@@ -14,20 +14,39 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
+import com.google.gerrit.common.groups.ListGroupsOption;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.inject.Inject;
 
+import java.util.Collection;
+import java.util.EnumSet;
+
 public class GroupJson {
   private final GroupCache groupCache;
+  private EnumSet<ListGroupsOption> options;
 
   @Inject
   GroupJson(GroupCache groupCache) {
     this.groupCache = groupCache;
+
+    options = EnumSet.noneOf(ListGroupsOption.class);
+  }
+
+  public GroupJson addOption(ListGroupsOption o) {
+    options.add(o);
+    return this;
+  }
+
+  public GroupJson addOptions(Collection<ListGroupsOption> o) {
+    options.addAll(o);
+    return this;
   }
 
   public GroupInfo format(GroupDescription.Basic group) {
@@ -41,7 +60,7 @@ public class GroupJson {
     if (g != null) {
       info.description = Strings.emptyToNull(g.getDescription());
       info.groupId = g.getId().get();
-      if (g.getOwnerGroupUUID() != null) {
+      if (options.contains(OWNER) && g.getOwnerGroupUUID() != null) {
         info.ownerId = Url.encode(g.getOwnerGroupUUID().get());
         AccountGroup o = groupCache.get(g.getOwnerGroupUUID());
         if (o != null) {

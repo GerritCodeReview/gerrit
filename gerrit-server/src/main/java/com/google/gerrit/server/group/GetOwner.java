@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
+
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -41,7 +43,7 @@ public class GetOwner implements RestReadView<GroupResource> {
     }
     try {
       GroupControl c = controlFactory.validateFor(group.getOwnerGroupUUID());
-      return json.format(c.getGroup());
+      return json.addOption(OWNER).format(c.getGroup());
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException();
     }

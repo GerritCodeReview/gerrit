@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.PutOwner.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -44,14 +45,16 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
   private final GroupCache groupCache;
   private final GroupControl.Factory controlFactory;
   private final ReviewDb db;
+  private final GroupJson json;
 
   @Inject
   PutOwner(Provider<GroupsCollection> groupsCollection, GroupCache groupCache,
-      GroupControl.Factory controlFactory, ReviewDb db) {
+      GroupControl.Factory controlFactory, ReviewDb db, GroupJson json) {
     this.groupsCollection = groupsCollection;
     this.groupCache = groupCache;
     this.controlFactory = controlFactory;
     this.db = db;
+    this.json = json;
   }
 
   @Override
@@ -88,7 +91,7 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
       }
-      return new GroupInfo(c.getGroup());
+      return json.format(c.getGroup());
     } catch (NoSuchGroupException e) {
       throw new BadRequestException(String.format("No such group: %s", input.owner));
     }

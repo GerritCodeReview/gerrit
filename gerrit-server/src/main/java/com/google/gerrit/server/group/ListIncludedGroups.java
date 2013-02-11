@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -38,12 +39,14 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
 
   private final GroupControl.Factory controlFactory;
   private final Provider<ReviewDb> dbProvider;
+  private final GroupJson json;
 
   @Inject
   ListIncludedGroups(GroupControl.Factory controlFactory,
-      Provider<ReviewDb> dbProvider) {
+      Provider<ReviewDb> dbProvider, GroupJson json) {
     this.controlFactory = controlFactory;
     this.dbProvider = dbProvider;
+    this.json = json;
   }
 
   @Override
@@ -61,7 +64,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
       try {
         GroupControl i = controlFactory.controlFor(u.getIncludeUUID());
         if (ownerOfParent || i.isVisible()) {
-          included.add(new GroupInfo(i.getGroup()));
+          included.add(json.format(i.getGroup()));
         }
       } catch (NoSuchGroupException notFound) {
         log.warn(String.format("Group %s no longer available, included into ",

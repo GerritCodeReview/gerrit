@@ -19,26 +19,29 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.inject.Inject;
 
 public class GetOwner implements RestReadView<GroupResource> {
 
   private final GroupControl.Factory controlFactory;
+  private final GroupJson json;
 
   @Inject
-  GetOwner(GroupControl.Factory controlFactory) {
+  GetOwner(GroupControl.Factory controlFactory, GroupJson json) {
     this.controlFactory = controlFactory;
+    this.json = json;
   }
 
   @Override
-  public Object apply(GroupResource resource) throws ResourceNotFoundException {
+  public GroupInfo apply(GroupResource resource) throws ResourceNotFoundException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new ResourceNotFoundException();
     }
     try {
       GroupControl c = controlFactory.validateFor(group.getOwnerGroupUUID());
-      return new GroupInfo(c.getGroup());
+      return json.format(c.getGroup());
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException();
     }

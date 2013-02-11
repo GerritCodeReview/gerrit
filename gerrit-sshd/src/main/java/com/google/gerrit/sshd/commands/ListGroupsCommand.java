@@ -23,7 +23,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.group.GroupInfo;
+import com.google.gerrit.server.group.GroupJson;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.BaseCommand;
@@ -73,9 +74,10 @@ public class ListGroupsCommand extends BaseCommand {
         final GroupControl.GenericFactory genericGroupControlFactory,
         final Provider<IdentifiedUser> identifiedUser,
         final IdentifiedUser.GenericFactory userFactory,
-        final Provider<GetGroups> accountGetGroups) {
+        final Provider<GetGroups> accountGetGroups,
+        final GroupJson json) {
       super(groupCache, groupControlFactory, genericGroupControlFactory,
-          identifiedUser, userFactory, accountGetGroups);
+          identifiedUser, userFactory, accountGetGroups, json);
     }
 
     void display(final PrintWriter out) throws NoSuchGroupException {

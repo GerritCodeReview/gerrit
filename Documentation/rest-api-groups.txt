@@ -37,7 +37,6 @@ by group name.
       "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
       "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
       "options": {
-        "kind": "gerritcodereview#groupoptions"
       },
       "description": "Gerrit Site Administrators",
       "group_id": 1,
@@ -48,7 +47,6 @@ by group name.
       "id": "global%3AAnonymous-Users",
       "url": "#/admin/groups/uuid-global%3AAnonymous-Users",
       "options": {
-        "kind": "gerritcodereview#groupoptions"
       },
       "description": "Any user, signed-in or not",
       "group_id": 2,
@@ -59,7 +57,6 @@ by group name.
       "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "url": "#/admin/groups/uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "options": {
-        "kind": "gerritcodereview#groupoptions"
         "visible_to_all": true,
       },
       "group_id": 6,
@@ -70,7 +67,6 @@ by group name.
       "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "url": "#/admin/groups/uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "options": {
-        "kind": "gerritcodereview#groupoptions"
       },
       "description": "Users who perform batch actions on Gerrit",
       "group_id": 4,
@@ -81,7 +77,6 @@ by group name.
       "id": "global%3AProject-Owners",
       "url": "#/admin/groups/uuid-global%3AProject-Owners",
       "options": {
-        "kind": "gerritcodereview#groupoptions"
       },
       "description": "Any owner of the project",
       "group_id": 5,
@@ -92,7 +87,6 @@ by group name.
       "id": "global%3ARegistered-Users",
       "url": "#/admin/groups/uuid-global%3ARegistered-Users",
       "options": {
-        "kind": "gerritcodereview#groupoptions"
       },
       "description": "Any signed-in user",
       "group_id": 3,
@@ -132,7 +126,6 @@ describes the group.
     "name": "Administrators",
     "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
     "options": {
-      "kind": "gerritcodereview#groupoptions"
     },
     "description": "Gerrit Site Administrators",
     "group_id": 1,
@@ -176,7 +169,6 @@ describes the created group.
     "name": "MyProject-Committers",
     "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
     "options": {
-      "kind": "gerritcodereview#groupoptions",
       "visible_to_all": true
     },
     "description":"contains all committers for MyProject",
@@ -319,7 +311,6 @@ returned that describes the options of the group.
 
   )]}'
   {
-    "kind": "gerritcodereview#groupoptions",
     "visible_to_all": true
   }
 ----
@@ -353,7 +344,6 @@ link:#group-options-info[GroupOptionsInfo] entity.
 
   )]}'
   {
-    "kind": "gerritcodereview#groupoptions",
     "visible_to_all": true
   }
 ----
@@ -384,7 +374,6 @@ describes the owner group.
     "name": "Administrators",
     "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
     "options": {
-      "kind": "gerritcodereview#groupoptions"
     },
     "description": "Gerrit Site Administrators",
     "group_id": 1,
@@ -425,7 +414,6 @@ describes the new owner group.
     "name": "Administrators",
     "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
     "options": {
-      "kind": "gerritcodereview#groupoptions"
     },
     "description": "Gerrit Site Administrators",
     "group_id": 1,
@@ -720,7 +708,6 @@ The entries in the list are sorted by group name and UUID.
       "name": "MyProject-Verifiers",
       "url": "#/admin/groups/uuid-7ca042f4d5847936fcb90ca91057673157fd06fc",
       "options": {
-        "kind": "gerritcodereview#groupoptions"
       },
       "group_id": 38,
       "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
@@ -754,7 +741,6 @@ describes the included group.
     "name": "MyProject-Verifiers",
     "url": "#/admin/groups/uuid-7ca042f4d5847936fcb90ca91057673157fd06fc",
     "options": {
-      "kind": "gerritcodereview#groupoptions"
     },
     "group_id": 38,
     "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
@@ -787,7 +773,6 @@ describes the included group.
     "name": "MyGroup",
     "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
     "options": {
-      "kind": "gerritcodereview#groupoptions"
     },
     "group_id": 8,
     "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
@@ -843,7 +828,6 @@ group was already included in the group.
       "name": "MyGroup",
       "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
       "options": {
-        "kind": "gerritcodereview#groupoptions"
       },
       "group_id": 8,
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
@@ -854,7 +838,6 @@ group was already included in the group.
       "name": "MyOtherGroup",
       "url": "#/admin/groups/uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "options": {
-        "kind": "gerritcodereview#groupoptions"
       },
       "group_id": 10,
       "owner_id": "5057f3cbd3519d6ab69364429a89ffdffba50f73"
@@ -1016,7 +999,6 @@ Options of the group.
 [options="header",width="50%",cols="1,^1,5"]
 |=============================
 |Field Name      ||Description
-|`kind`          ||`gerritcodereview#groupoptions`
 |`visible_to_all`|not set if `false`|
 Whether the group is visible to all registered users.
 |=============================

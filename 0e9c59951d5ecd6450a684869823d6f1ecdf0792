@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ptgwnl7g",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-11T15:05:28Z",
+      "side": 1,
+      "message": "Actually some REST endpoints that are not supported for external groups are failing with MethodNotAllowedException (e.g. PutOptions). What is the correct behaviour, to throw ResourceNotFoundException or to throw MethodNotAllowedException? I think the behaviour should be consistent across the different endpoints.",
+      "revId": "0e9c59951d5ecd6450a684869823d6f1ecdf0792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

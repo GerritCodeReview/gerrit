@@ -127,6 +127,254 @@ describes the created group.
   }
 ----
 
+[[get-group-name]]
+GET /groups/\{group-id\}/name (Get Group Name)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieve the name of a group.
+
+.Request
+----
+  GET /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/name HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "MyProject-Committers"
+----
+
+[[rename-group]]
+PUT /groups/\{group-id\}/name (Rename Group)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Rename a Gerrit internal group.
+
+The new group name must be provided in the request body.
+
+.Request
+----
+  PUT /groups/MyProject-Committers/name HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "name": "My-Project-Committers"
+  }
+----
+
+As response the new group name is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "My-Project-Committers"
+----
+
+[[get-group-description]]
+GET /groups/\{group-id\}/description (Get Group Description)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieve the description of a group.
+
+.Request
+----
+  GET /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/description HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "contains all committers for MyProject"
+----
+
+[[set-group-description]]
+PUT /groups/\{group-id\}/description (Set Group Description)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the description of a Gerrit internal group.
+
+The new group description must be provided in the request body.
+
+.Request
+----
+  PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/description HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "description": "The committers of MyProject."
+  }
+----
+
+As response the new group description is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "The committers of MyProject."
+----
+
+[[delete-group-description]]
+DELETE /groups/\{group-id\}/description (Delete Group Description)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deletes the description of a Gerrit internal group.
+
+.Request
+----
+  DELETE /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/description HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[get-group-options]]
+GET /groups/\{group-id\}/options (Get Group Options)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieve the options of a group.
+
+.Request
+----
+  GET /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/options HTTP/1.0
+----
+
+As response a link:#group-options-info[GroupOptionsInfo] entity is
+returned that describes the options of the group.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#groupoptions",
+    "visible_to_all": true
+  }
+----
+
+[[set-group-options]]
+PUT /groups/\{group-id\}/options (Set Group Options)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the options of a Gerrit internal group.
+
+The new group options must be provided in the request body as a
+link:#group-options-input[GroupOptionsInput] entity.
+
+.Request
+----
+  PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/options HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "visible_to_all": true
+  }
+----
+
+As response the new group options are returned as a
+link:#group-options-info[GroupOptionsInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#groupoptions",
+    "visible_to_all": true
+  }
+----
+
+[[get-group-owner]]
+GET /groups/\{group-id\}/owner (Get Group Owner)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieve the owner group of a Gerrit internal group.
+
+.Request
+----
+  GET /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/owner HTTP/1.0
+----
+
+As response a link:#group-info[GroupInfo] entity is returned that
+describes the owner group.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#group",
+    "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "name": "Administrators",
+    "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "options": {
+      "kind": "gerritcodereview#groupoptions"
+    },
+    "description": "Gerrit Site Administrators",
+    "group_id": 1,
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+  }
+----
+
+[[set-group-owner]]
+PUT /groups/\{group-id\}/owner (Set Group Owner)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the owner group of a Gerrit internal group.
+
+The new owner group must be provided in the request body.
+
+.Request
+----
+  PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/description HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "owner": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+  }
+----
+
+As response a link:#group-info[GroupInfo] entity is returned that
+describes the new owner group.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#group",
+    "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "name": "Administrators",
+    "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "options": {
+      "kind": "gerritcodereview#groupoptions"
+    },
+    "description": "Gerrit Site Administrators",
+    "group_id": 1,
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+  }
+----
+
 [[group-member-endpoints]]
 Group Member Endpoints
 ----------------------
@@ -644,6 +892,18 @@ Options of the group.
 |=============================
 |Field Name      ||Description
 |`kind`          ||`gerritcodereview#groupoptions`
+|`visible_to_all`|not set if `false`|
+Whether the group is visible to all registered users.
+|=============================
+
+[[group-options-input]]
+GroupOptionsInput
+~~~~~~~~~~~~~~~~~
+New options for a group.
+
+[options="header",width="50%",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
 |`visible_to_all`|not set if `false`|
 Whether the group is visible to all registered users.
 |=============================

@@ -22,9 +22,11 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.common.groups.ListGroupsOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gson.reflect.TypeToken;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -47,6 +50,7 @@ import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,6 +67,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<GetGroups> accountGetGroups;
   private final GroupJson json;
+  private EnumSet<ListGroupsOption> options;
 
   @Option(name = "--project", aliases = {"-p"},
       usage = "projects for which the groups should be listed")
@@ -92,6 +97,16 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   @Option(name = "-m", metaVar = "MATCH", usage = "match group substring")
   private String matchSubstring;
 
+  @Option(name = "-o", multiValued = true, usage = "Output options per group")
+  public void addOption(ListGroupsOption o) {
+    options.add(o);
+  }
+
+  @Option(name = "-O", usage = "Output option flags, in hex")
+  void setOptionFlagsHex(String hex) {
+    options.addAll(ListGroupsOption.fromBits(Integer.parseInt(hex, 16)));
+  }
+
   @Inject
   protected ListGroups(final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
@@ -106,6 +121,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.userFactory = userFactory;
     this.accountGetGroups = accountGetGroups;
     this.json = json;
+    this.options = EnumSet.noneOf(ListGroupsOption.class);
   }
 
   public Account.Id getUser() {
@@ -130,7 +146,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         new TypeToken<Map<String, GroupInfo>>() {}.getType());
   }
 
-  public List<GroupInfo> get() throws NoSuchGroupException {
+  public List<GroupInfo> get() throws ResourceNotFoundException, OrmException {
     List<GroupInfo> groupInfos;
     if (user != null) {
       if (owned) {
@@ -151,7 +167,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
             for (final GroupReference groupRef : groupsRefs) {
               final AccountGroup group = groupCache.get(groupRef.getUUID());
               if (group == null) {
-                throw new NoSuchGroupException(groupRef.getUUID());
+                throw new ResourceNotFoundException(groupRef.getUUID().get());
               }
               groups.put(group.getGroupUUID(), group);
             }
@@ -162,21 +178,23 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         }
         groupInfos = Lists.newArrayListWithCapacity(groupList.size());
         for (AccountGroup group : groupList) {
-          groupInfos.add(json.format(GroupDescriptions.forAccountGroup(group)));
+          groupInfos.add(json.addOptions(options).format(
+              GroupDescriptions.forAccountGroup(group)));
         }
       }
     }
     return groupInfos;
   }
 
-  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) {
+  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
+      throws ResourceNotFoundException, OrmException {
     List<GroupInfo> groups = Lists.newArrayList();
     for (AccountGroup g : filterGroups(groupCache.all())) {
       GroupControl ctl = groupControlFactory.controlFor(g);
       try {
         if (genericGroupControlFactory.controlFor(user, g.getGroupUUID())
             .isOwner()) {
-          groups.add(json.format(ctl.getGroup()));
+          groups.add(json.addOptions(options).format(ctl.getGroup()));
         }
       } catch (NoSuchGroupException e) {
         continue;

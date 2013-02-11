@@ -107,6 +107,23 @@ by group name.
 get::/groups/
 ****
 
+[[group-options]]
+Group Options
+^^^^^^^^^^^^^
+Additional fields can be obtained by adding `o` parameters, each option
+requires more lookups and slows down the query response time to the
+client so they are generally disabled by default. Optional fields are:
+
+[[includes]]
+--
+* `INCLUDES`: include list of directly included groups.
+--
+
+[[members]]
+--
+* `MEMBERS`: include list of direct group members.
+--
+
 Check if a group is owned by the calling user
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 By setting the option `owned` and specifying a group to inspect with
@@ -223,6 +240,60 @@ describes the created group.
     "group_id": 551,
     "owner": "MyProject-Owners",
     "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+  }
+----
+
+[[get-group-detail]]
+GET /groups/\{group-id\}/detail (Get Group Detail)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves a group with the direct link:#members[members] and the
+directly link:#includes[included groups].
+
+.Request
+----
+  GET /groups/6a1e70e1a88782771a91808c8af9bbb7a9871389/detail HTTP/1.0
+----
+
+As response a link:#group-info[GroupInfo] entity is returned that
+describes the group.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#group",
+    "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "name": "Administrators",
+    "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "options": {
+    },
+    "description": "Gerrit Site Administrators",
+    "group_id": 1,
+    "owner": "Administrators",
+    "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+    "members": [
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "Jane Roe",
+        "id": "1000097",
+        "account_id": 1000097,
+        "preferred_email": "jane.roe@example.com",
+        "user_name": "jane"
+      },
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "John Doe",
+        "id": "1000096",
+        "account_id": 1000096,
+        "preferred_email": "john.doe@example.com",
+        "user_name": "doe"
+      }
+    ],
+    "includes": []
   }
 ----
 
@@ -1003,6 +1074,14 @@ permits users to apply to join the group, or manage their membership.
 |`group_id`    |only for internal groups|The numeric ID of the group.
 |`owner`       |only for internal groups|The name of the owner group.
 |`owner_id`    |only for internal groups|The URL encoded UUID of the owner group.
+|`members`     |optional, only for internal groups|
+A list of link:#member-info[MemberInfo] entities describing the direct
+members. +
+Only set if link:#members[members] are requested.
+|`includes`    |optional, only for internal groups|
+A list of link:#group-info[GroupInfo] entities describing the directly
+included groups. +
+Only set if link:#includes[included groups] are requested.
 |===========================
 
 The type of a group can be deduced from the group's UUID:

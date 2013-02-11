@@ -37,8 +37,8 @@ public class GroupApi {
     new RestApi("/groups/").id(groupName).ifNoneMatch().put(in, cb);
   }
 
-  public static void getGroup(String group, AsyncCallback<GroupInfo> cb) {
-    group(group).get(cb);
+  public static void getGroupDetail(String group, AsyncCallback<GroupInfo> cb) {
+    group(group).view("detail").get(cb);
   }
 
   /** Get the name of a group */

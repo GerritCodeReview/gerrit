@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.common.groups.ListGroupsOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -47,6 +48,7 @@ import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,6 +65,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<GetGroups> accountGetGroups;
   private final GroupJson json;
+  private EnumSet<ListGroupsOption> options;
 
   @Option(name = "--project", aliases = {"-p"},
       usage = "projects for which the groups should be listed")
@@ -92,6 +95,16 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   @Option(name = "-m", metaVar = "MATCH", usage = "match group substring")
   private String matchSubstring;
 
+  @Option(name = "-o", multiValued = true, usage = "Output options per group")
+  public void addOption(ListGroupsOption o) {
+    options.add(o);
+  }
+
+  @Option(name = "-O", usage = "Output option flags, in hex")
+  void setOptionFlagsHex(String hex) {
+    options.addAll(ListGroupsOption.fromBits(Integer.parseInt(hex, 16)));
+  }
+
   @Inject
   protected ListGroups(final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
@@ -106,6 +119,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.userFactory = userFactory;
     this.accountGetGroups = accountGetGroups;
     this.json = json;
+
+    options = EnumSet.noneOf(ListGroupsOption.class);
   }
 
   public Account.Id getUser() {
@@ -162,7 +177,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         }
         groupInfos = Lists.newArrayListWithCapacity(groupList.size());
         for (AccountGroup group : groupList) {
-          groupInfos.add(json.format(GroupDescriptions.forAccountGroup(group)));
+          groupInfos.add(json.addOptions(options).format(
+              GroupDescriptions.forAccountGroup(group)));
         }
       }
     }
@@ -176,7 +192,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       try {
         if (genericGroupControlFactory.controlFor(user, g.getGroupUUID())
             .isOwner()) {
-          groups.add(json.format(ctl.getGroup()));
+          groups.add(json.addOptions(options).format(ctl.getGroup()));
         }
       } catch (NoSuchGroupException e) {
         continue;

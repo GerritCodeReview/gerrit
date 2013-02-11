@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -91,7 +93,7 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
       }
-      return json.format(c.getGroup());
+      return json.addOption(OWNER).format(c.getGroup());
     } catch (NoSuchGroupException e) {
       throw new BadRequestException(String.format("No such group: %s", input.owner));
     }

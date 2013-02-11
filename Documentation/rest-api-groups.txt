@@ -39,6 +39,90 @@ by group name.
       "options": {
       },
       "description": "Gerrit Site Administrators",
+      "group_id": 1
+    },
+    "Anonymous Users": {
+      "kind": "gerritcodereview#group",
+      "id": "global%3AAnonymous-Users",
+      "url": "#/admin/groups/uuid-global%3AAnonymous-Users",
+      "options": {
+      },
+      "description": "Any user, signed-in or not",
+      "group_id": 2
+    },
+    "MyProject_Committers": {
+      "kind": "gerritcodereview#group",
+      "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "url": "#/admin/groups/uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "options": {
+        "visible_to_all": true,
+      },
+      "group_id": 6
+    },
+    "Non-Interactive Users": {
+      "kind": "gerritcodereview#group",
+      "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
+      "url": "#/admin/groups/uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
+      "options": {
+      },
+      "description": "Users who perform batch actions on Gerrit",
+      "group_id": 4
+    },
+    "Project Owners": {
+      "kind": "gerritcodereview#group",
+      "id": "global%3AProject-Owners",
+      "url": "#/admin/groups/uuid-global%3AProject-Owners",
+      "options": {
+      },
+      "description": "Any owner of the project",
+      "group_id": 5
+    },
+    "Registered Users": {
+      "kind": "gerritcodereview#group",
+      "id": "global%3ARegistered-Users",
+      "url": "#/admin/groups/uuid-global%3ARegistered-Users",
+      "options": {
+      },
+      "description": "Any signed-in user",
+      "group_id": 3
+    }
+  }
+----
+
+.Get all groups
+****
+get::/groups/
+****
+
+[[group-labels]]
+Group Labels
+^^^^^^^^^^^^
+Additional fields can be obtained by adding `o` parameters, each option
+requires more lookups and slows down the query response time to the
+client so they are generally disabled by default. Optional fields are:
+
+* `OWNER`: include UUID and name of the owner group.
+
+.Request
+----
+  GET /groups/?o=OWNER HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "Administrators": {
+      "kind": "gerritcodereview#group",
+      "id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
+      "url": "#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389",
+      "options": {
+      },
+      "description": "Gerrit Site Administrators",
       "group_id": 1,
       "owner": "Administrators",
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
@@ -101,11 +185,6 @@ by group name.
   }
 ----
 
-.Get all groups
-****
-get::/groups/
-****
-
 Check if a group is owned by the calling user
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 By setting the option `owned` and specifying a group to inspect with
@@ -138,9 +217,7 @@ returned.
         "visible_to_all": true
       },
       "description":"contains all committers for MyProject",
-      "group_id": 551,
-      "owner": "MyProject-Owners",
-      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+      "group_id": 551
     }
   }
 ----
@@ -759,12 +836,13 @@ The entries in the list are sorted by group name and UUID.
       "url": "#/admin/groups/uuid-7ca042f4d5847936fcb90ca91057673157fd06fc",
       "options": {
       },
-      "group_id": 38,
-      "owner": "MyProject-Verifiers",
-      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+      "group_id": 38
     }
   ]
 ----
+
+Additional fields can be obtained by adding link:group-labels[Group
+Labels] to the request.
 
 [[get-included-group]]
 GET /groups/\{group-id\}/groups/\{group-id\} (Get Included Group)
@@ -997,8 +1075,12 @@ permits users to apply to join the group, or manage their membership.
 |`options`     ||link:#group-options-info[Options of the group]
 |`description` |only for internal groups|The description of the group.
 |`group_id`    |only for internal groups|The numeric ID of the group.
-|`owner`       |only for internal groups|The name of the owner group.
-|`owner_id`    |only for internal groups|The URL encoded UUID of the owner group.
+|`owner`       |optional, only for internal groups|
+The name of the owner group. +
+By default not set when listing groups.
+|`owner_id`    |optional, only for internal groups|
+The URL encoded UUID of the owner group. +
+By default not set when listing groups.
 |===========================
 
 The type of a group can be deduced from the group's UUID:

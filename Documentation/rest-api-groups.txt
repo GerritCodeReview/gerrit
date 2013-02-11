@@ -602,7 +602,7 @@ Group Member Endpoints
 [[group-members]]
 GET /groups/\{group-id\}/members/ (List Group Members)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Lists the direct members of a group.
+Lists the direct members of a Gerrit internal group.
 
 As result a list of link:#member-info[MemberInfo] entries is returned.
 The entries in the list are sorted by full name, preferred email and

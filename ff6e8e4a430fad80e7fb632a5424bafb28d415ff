@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "PtqwXY0s",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-11T12:57:33Z",
+      "side": 1,
+      "message": "How to do reproduce this error?\n\nI tried:\n\n  $ mvn test\n\nboth from the gerrit-acceptance-tests project and from the parent project and couldn\u0027t get any errors.",
+      "revId": "ff6e8e4a430fad80e7fb632a5424bafb28d415ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "PtowSp1w",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AccountForTestAcceptance.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-11T12:57:33Z",
+      "side": 1,
+      "message": "This name is ugly.\nHow about UserAccount?",
+      "revId": "ff6e8e4a430fad80e7fb632a5424bafb28d415ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
@@ -28,6 +28,7 @@ import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.ListGroups;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.sshd.BaseCommand;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -78,7 +79,7 @@ public class ListGroupsCommand extends BaseCommand {
           identifiedUser, userFactory, accountGetGroups, json);
     }
 
-    void display(final PrintWriter out) throws NoSuchGroupException {
+    void display(final PrintWriter out) throws ResourceNotFoundException, OrmException {
       final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
       for (final GroupInfo info : get()) {
         formatter.addColumn(Objects.firstNonNull(info.name, "n/a"));

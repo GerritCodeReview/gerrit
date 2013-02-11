@@ -20,7 +20,13 @@ import java.util.EnumSet;
 /** Output options available when using {@code /groups/} RPCs. */
 public enum ListGroupsOption {
   /** Return information on the owner of the group. */
-  OWNER(0);
+  OWNER(0),
+
+  /** Return information on the direct group members. */
+  MEMBERS(1),
+
+  /** Return information on the directly included groups. */
+  INCLUDES(2);
 
   private final int value;
 

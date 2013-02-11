@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.INCLUDES;
+import static com.google.gerrit.common.groups.ListGroupsOption.MEMBERS;
 import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
 
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -22,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 public class GetOwner implements RestReadView<GroupResource> {
@@ -36,14 +39,16 @@ public class GetOwner implements RestReadView<GroupResource> {
   }
 
   @Override
-  public GroupInfo apply(GroupResource resource) throws ResourceNotFoundException {
+  public GroupInfo apply(GroupResource resource)
+      throws ResourceNotFoundException, OrmException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new ResourceNotFoundException();
     }
     try {
       GroupControl c = controlFactory.validateFor(group.getOwnerGroupUUID());
-      return json.addOption(OWNER).format(c.getGroup());
+      return json.addOption(MEMBERS).addOption(INCLUDES).addOption(OWNER)
+          .format(c.getGroup());
     } catch (NoSuchGroupException e) {
       throw new ResourceNotFoundException();
     }

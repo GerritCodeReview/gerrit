@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.INCLUDES;
+import static com.google.gerrit.common.groups.ListGroupsOption.MEMBERS;
 import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
 
 import com.google.common.base.Objects;
@@ -80,8 +82,8 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
 
   @Override
   public GroupInfo apply(TopLevelResource resource, Input input)
-      throws AuthException, BadRequestException, OrmException,
-      NameAlreadyUsedException {
+      throws ResourceNotFoundException, AuthException, BadRequestException,
+      OrmException, NameAlreadyUsedException {
     if (input == null) {
       input = new Input();
     }
@@ -104,7 +106,8 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
     } catch (PermissionDeniedException e) {
       throw new AuthException(e.getMessage());
     }
-    return json.addOption(OWNER).format(GroupDescriptions.forAccountGroup(group));
+    return json.addOption(MEMBERS).addOption(INCLUDES).addOption(OWNER)
+        .format(GroupDescriptions.forAccountGroup(group));
   }
 
   private AccountGroup.Id owner(Input input) throws BadRequestException {

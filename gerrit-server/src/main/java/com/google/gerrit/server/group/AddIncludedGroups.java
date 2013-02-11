@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.INCLUDES;
+import static com.google.gerrit.common.groups.ListGroupsOption.MEMBERS;
 import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
 
 import com.google.common.base.Strings;
@@ -84,8 +86,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
-      throws MethodNotAllowedException, AuthException, BadRequestException,
-      OrmException {
+      throws ResourceNotFoundException, MethodNotAllowedException,
+      AuthException, BadRequestException, OrmException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();
@@ -124,7 +126,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
           newIncludedGroupsAudits.add(new AccountGroupIncludeByUuidAudit(agi, me));
         }
       }
-      result.add(json.addOption(OWNER).format(d));
+      result.add(json.addOption(MEMBERS).addOption(INCLUDES).addOption(OWNER)
+          .format(d));
     }
 
     badRequest.failOnError();
@@ -155,8 +158,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public GroupInfo apply(GroupResource resource, Input input)
-        throws MethodNotAllowedException, AuthException, BadRequestException,
-        OrmException {
+        throws ResourceNotFoundException, MethodNotAllowedException,
+        AuthException, BadRequestException, OrmException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(id);
       List<GroupInfo> list = put.get().apply(resource, in);
@@ -179,7 +182,9 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public Object apply(IncludedGroupResource resource, PutIncludedGroup.Input input) {
+    public Object apply(IncludedGroupResource resource,
+        PutIncludedGroup.Input input) throws ResourceNotFoundException,
+        OrmException {
       // Do nothing, the group is already included.
       return get.get().apply(resource);
     }

@@ -101,6 +101,10 @@ Additional fields can be obtained by adding `o` parameters, each option
 requires more lookups and slows down the query response time to the
 client so they are generally disabled by default. Optional fields are:
 
+* `INCLUDES`: include list of directly included groups.
+
+* `MEMBERS`: include list of direct group members.
+
 * `OWNER`: include UUID and name of the owner group.
 
 .Request
@@ -253,6 +257,25 @@ describes the group.
     "group_id": 1,
     "owner": "Administrators",
     "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    "members": [
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "Jane Roe",
+        "id": "1000097",
+        "account_id": 1000097,
+        "preferred_email": "jane.roe@example.com",
+        "user_name": "jane"
+      },
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "John Doe",
+        "id": "1000096",
+        "account_id": 1000096,
+        "preferred_email": "john.doe@example.com",
+        "user_name": "doe"
+      }
+    ],
+    "includes": []
   }
 ----
 
@@ -299,6 +322,8 @@ describes the created group.
     "group_id": 551,
     "owner": "MyProject-Owners",
     "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+    "members": [],
+    "includes": []
   }
 ----
 
@@ -504,6 +529,17 @@ describes the owner group.
     "group_id": 1,
     "owner": "Administrators",
     "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    "members": [
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "John Doe",
+        "id": "1000096",
+        "account_id": 1000096,
+        "preferred_email": "john.doe@example.com",
+        "user_name": "doe"
+      }
+    ],
+    "includes": []
   }
 ----
 
@@ -545,6 +581,17 @@ describes the new owner group.
     "group_id": 1,
     "owner": "Administrators",
     "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    "members": [
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "John Doe",
+        "id": "1000096",
+        "account_id": 1000096,
+        "preferred_email": "john.doe@example.com",
+        "user_name": "doe"
+      }
+    ],
+    "includes": []
   }
 ----
 
@@ -874,6 +921,25 @@ describes the included group.
     "group_id": 38,
     "owner": "Administrators",
     "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    "members": [
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "Jane Roe",
+        "id": "1000097",
+        "account_id": 1000097,
+        "preferred_email": "jane.roe@example.com",
+        "user_name": "jane"
+      },
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "John Doe",
+        "id": "1000096",
+        "account_id": 1000096,
+        "preferred_email": "john.doe@example.com",
+        "user_name": "doe"
+      }
+    ],
+    "includes": []
   }
 ----
 
@@ -907,6 +973,25 @@ describes the included group.
     "group_id": 8,
     "owner": "Administrators",
     "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+    "members": [
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "Jane Roe",
+        "id": "1000097",
+        "account_id": 1000097,
+        "preferred_email": "jane.roe@example.com",
+        "user_name": "jane"
+      },
+      {
+        "kind": "gerritcodereview#member",
+        "full_name": "John Doe",
+        "id": "1000096",
+        "account_id": 1000096,
+        "preferred_email": "john.doe@example.com",
+        "user_name": "doe"
+      }
+    ],
+    "includes": []
   }
 ----
 
@@ -963,6 +1048,25 @@ group was already included in the group.
       "group_id": 8,
       "owner": "Administrators",
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "members": [
+        {
+          "kind": "gerritcodereview#member",
+          "full_name": "Jane Roe",
+          "id": "1000097",
+          "account_id": 1000097,
+          "preferred_email": "jane.roe@example.com",
+          "user_name": "jane"
+        },
+        {
+          "kind": "gerritcodereview#member",
+          "full_name": "John Doe",
+          "id": "1000096",
+          "account_id": 1000096,
+          "preferred_email": "john.doe@example.com",
+          "user_name": "doe"
+        }
+      ],
+      "includes": []
     },
     {
       "kind": "gerritcodereview#group",
@@ -974,6 +1078,17 @@ group was already included in the group.
       "group_id": 10,
       "owner": "MyOtherGroup",
       "owner_id": "5057f3cbd3519d6ab69364429a89ffdffba50f73"
+      "members": [
+        {
+          "kind": "gerritcodereview#member",
+          "full_name": "John Doe",
+          "id": "1000096",
+          "account_id": 1000096,
+          "preferred_email": "john.doe@example.com",
+          "user_name": "doe"
+        }
+      ],
+      "includes": []
     }
   ]
 ----
@@ -1080,6 +1195,14 @@ The name of the owner group. +
 By default not set when listing groups.
 |`owner_id`    |optional, only for internal groups|
 The URL encoded UUID of the owner group. +
+By default not set when listing groups.
+|`members`     |optional, only for internal groups|
+A list of link:#member-info[MemberInfo] entities describing the direct
+members. +
+By default not set when listing groups.
+|`includes`    |optional, only for internal groups|
+A list of link:#group-info[GroupInfo] entities describing the directly
+included groups. +
 By default not set when listing groups.
 |===========================
 

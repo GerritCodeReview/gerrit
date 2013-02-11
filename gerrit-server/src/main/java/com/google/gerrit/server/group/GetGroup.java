@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.INCLUDES;
+import static com.google.gerrit.common.groups.ListGroupsOption.MEMBERS;
 import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
 
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 class GetGroup implements RestReadView<GroupResource> {
@@ -29,7 +33,9 @@ class GetGroup implements RestReadView<GroupResource> {
   }
 
   @Override
-  public GroupInfo apply(GroupResource resource) {
-    return json.addOption(OWNER).format(resource.getGroup());
+  public GroupInfo apply(GroupResource resource)
+      throws ResourceNotFoundException, OrmException {
+    return json.addOption(MEMBERS).addOption(INCLUDES).addOption(OWNER)
+        .format(resource.getGroup());
   }
 }

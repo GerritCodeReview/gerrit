@@ -26,6 +26,7 @@ import com.google.gerrit.common.groups.ListGroupsOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gson.reflect.TypeToken;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -145,7 +147,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         new TypeToken<Map<String, GroupInfo>>() {}.getType());
   }
 
-  public List<GroupInfo> get() throws NoSuchGroupException {
+  public List<GroupInfo> get() throws ResourceNotFoundException, OrmException {
     List<GroupInfo> groupInfos;
     if (user != null) {
       if (owned) {
@@ -166,7 +168,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
             for (final GroupReference groupRef : groupsRefs) {
               final AccountGroup group = groupCache.get(groupRef.getUUID());
               if (group == null) {
-                throw new NoSuchGroupException(groupRef.getUUID());
+                throw new ResourceNotFoundException(groupRef.getUUID().get());
               }
               groups.put(group.getGroupUUID(), group);
             }
@@ -185,7 +187,8 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return groupInfos;
   }
 
-  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user) {
+  private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
+      throws ResourceNotFoundException, OrmException {
     List<GroupInfo> groups = Lists.newArrayList();
     for (AccountGroup g : filterGroups(groupCache.all())) {
       GroupControl ctl = groupControlFactory.controlFor(g);

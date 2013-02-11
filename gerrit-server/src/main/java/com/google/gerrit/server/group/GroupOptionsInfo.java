@@ -19,7 +19,6 @@ import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 public class GroupOptionsInfo {
-  final String kind = "gerritcodereview#groupoptions";
   public Boolean visibleToAll;
 
   public GroupOptionsInfo(GroupDescription.Basic group) {

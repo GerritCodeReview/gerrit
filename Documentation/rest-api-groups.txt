@@ -5,8 +5,9 @@ This page describes the group related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
-Endpoints
----------
+[[group-endpoints]]
+Group Endpoints
+---------------
 
 GET /groups/ (List Groups)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,6 +81,55 @@ by group name.
 ****
 get::/groups/
 ****
+
+[[create-group]]
+PUT /groups/\{group-name\} (Create Group)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Creates a new Gerrit internal group.
+
+In the request body additional data for the group can be provided as
+link:#group-input[GroupInput].
+
+.Request
+----
+  PUT /groups/MyProject-Committers HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "description": "contains all committers for MyProject",
+    "visible_to_all": true,
+    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+  }
+----
+
+As response the link:#group-info[GroupInfo] entity is returned that
+describes the created group.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#group",
+    "id": "9999c971bb4ab872aab759d8c49833ee6b9ff320",
+    "name": "MyProject-Committers",
+    "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
+    "options": {
+      "kind": "gerritcodereview#groupoptions",
+      "visible_to_all": true
+    },
+    "description":"contains all committers for MyProject",
+    "group_id": 551,
+    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+  }
+----
+
+[[group-member-endpoints]]
+Group Member Endpoints
+----------------------
 
 [[group-members]]
 GET /groups/\{group-id\}/members/ (List Group Members)
@@ -168,82 +218,6 @@ members the parameter `recursive` can be set.
       "user_name": "richard"
     }
   ]
-----
-
-[[included-groups]]
-GET /groups/\{group-id\}/groups/ (List Included Groups)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Lists the directly included groups of a group.
-
-As result a list of link:#group-info[GroupInfo] entries is returned.
-The entries in the list are sorted by group name and UUID.
-
-.Request
-----
-  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/groups/ HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
-
-  )]}'
-  [
-    {
-      "kind": "gerritcodereview#group",
-      "id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
-      "name": "MyProject-Verifiers",
-      "group_id": 38,
-      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
-    }
-  ]
-----
-
-[[create-group]]
-PUT /groups/\{group-name\} (Create Group)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Creates a new Gerrit internal group.
-
-In the request body additional data for the group can be provided as
-link:#group-input[GroupInput].
-
-.Request
-----
-  PUT /groups/MyProject-Committers HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
-
-  {
-    "description": "contains all committers for MyProject",
-    "visible_to_all": true,
-    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
-  }
-----
-
-As response the link:#group-info[GroupInfo] entity is returned that
-describes the created group.
-
-.Response
-----
-  HTTP/1.1 201 Created
-  Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
-
-  )]}'
-  {
-    "kind": "gerritcodereview#group",
-    "id": "9999c971bb4ab872aab759d8c49833ee6b9ff320",
-    "name": "MyProject-Committers",
-    "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
-    "options": {
-      "kind": "gerritcodereview#groupoptions",
-      "visible_to_all": true
-    },
-    "description":"contains all committers for MyProject",
-    "group_id": 551,
-    "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
-  }
 ----
 
 [[add-group-member]]
@@ -377,6 +351,41 @@ body as a link:#member-input[MemberInput] entity.
 .Response
 ----
   HTTP/1.1 204 No Content
+----
+
+[[group-include-endpoints]]
+Group Include Endpoints
+-----------------------
+
+[[included-groups]]
+GET /groups/\{group-id\}/groups/ (List Included Groups)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists the directly included groups of a group.
+
+As result a list of link:#group-info[GroupInfo] entries is returned.
+The entries in the list are sorted by group name and UUID.
+
+.Request
+----
+  GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/groups/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#group",
+      "id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
+      "name": "MyProject-Verifiers",
+      "group_id": 38,
+      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+    }
+  ]
 ----
 
 [[include-group]]

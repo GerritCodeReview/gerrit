@@ -106,6 +106,45 @@ by group name.
 get::/groups/
 ****
 
+Check if a group is owned by the calling user
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+By setting the option `owned` and specifying a group to inspect with
+the option `q`, it is possible to find out, if this group is owned by
+the calling user.
+
+.Request
+----
+  GET /groups/?owned&q=MyProject-Committers HTTP/1.0
+----
+
+If the group is owned by the calling user, the returned map contains
+this group. If the calling user doesn't own this group an empty map is
+returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "MyProject-Committers": {
+      "kind": "gerritcodereview#group",
+      "id": "9999c971bb4ab872aab759d8c49833ee6b9ff320",
+      "name": "MyProject-Committers",
+      "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
+      "options": {
+        "kind": "gerritcodereview#groupoptions",
+        "visible_to_all": true
+      },
+      "description":"contains all committers for MyProject",
+      "group_id": 551,
+      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc"
+    }
+  }
+----
+
 [[get-group]]
 GET /groups/\{group-id\} (Get Group)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "PxrwYIX8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-11T16:27:32Z",
+      "side": 1,
+      "message": "my maven version is Apache Maven 2.2.1 (r801777; 2009-08-07 03:16:01+0800)\nbut the reason is not the maven version , because just had a test again after \u0027rebasing on \n[1]\u0027 and  find [1] can work. I guess  maybe this is the reason that you cannot retrigger this\n issue in your local workspace, however it is impossible for me to find [1] when I created \nthis commit at Feb 9, 2013 5:31 PM, because [1] appears at  Feb 11, 2013 9:23 PM and \nmerged at Feb 11, 2013 11:23 PM. anyway I prefer to discard this commit as I think [1] \nis a better way to fix this issue, thus developer  will be free to give class name.\nonly a bit regret to find [1] has not any background information in its commit message.",
+      "parentUuid": "PtsxBjz4",
+      "revId": "ff6e8e4a430fad80e7fb632a5424bafb28d415ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PtowSp1w",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AccountForTestAcceptance.java",
         "patchSetId": 4

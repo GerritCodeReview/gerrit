@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.GetGroups;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupComparator;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -61,6 +62,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final Provider<IdentifiedUser> identifiedUser;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<GetGroups> accountGetGroups;
+  private final GroupJson json;
 
   @Option(name = "--project", aliases = {"-p"},
       usage = "projects for which the groups should be listed")
@@ -96,13 +98,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final GroupControl.GenericFactory genericGroupControlFactory,
       final Provider<IdentifiedUser> identifiedUser,
       final IdentifiedUser.GenericFactory userFactory,
-      final Provider<GetGroups> accountGetGroups) {
+      final Provider<GetGroups> accountGetGroups, GroupJson json) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.genericGroupControlFactory = genericGroupControlFactory;
     this.identifiedUser = identifiedUser;
     this.userFactory = userFactory;
     this.accountGetGroups = accountGetGroups;
+    this.json = json;
   }
 
   public Account.Id getUser() {
@@ -159,7 +162,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         }
         groupInfos = Lists.newArrayListWithCapacity(groupList.size());
         for (AccountGroup group : groupList) {
-          groupInfos.add(new GroupInfo(GroupDescriptions.forAccountGroup(group)));
+          groupInfos.add(json.format(GroupDescriptions.forAccountGroup(group)));
         }
       }
     }
@@ -173,7 +176,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       try {
         if (genericGroupControlFactory.controlFor(user, g.getGroupUUID())
             .isOwner()) {
-          groups.add(new GroupInfo(ctl.getGroup()));
+          groups.add(json.format(ctl.getGroup()));
         }
       } catch (NoSuchGroupException e) {
         continue;

@@ -15,10 +15,19 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.inject.Inject;
 
 public class GetIncludedGroup implements RestReadView<IncludedGroupResource>  {
+  private final GroupJson json;
+
+  @Inject
+  GetIncludedGroup(GroupJson json) {
+    this.json = json;
+  }
+
   @Override
   public GroupInfo apply(IncludedGroupResource rsrc) {
-    return new GroupInfo(rsrc.getMemberDescription());
+    return json.format(rsrc.getMemberDescription());
   }
 }

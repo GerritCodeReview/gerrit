@@ -36,6 +36,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.AddIncludedGroups.Input;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -67,14 +68,16 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
   private final Provider<GroupsCollection> groupsCollection;
   private final GroupIncludeCache groupIncludeCache;
   private final ReviewDb db;
+  private final GroupJson json;
 
   @Inject
   public AddIncludedGroups(Provider<GroupsCollection> groupsCollection,
       GroupIncludeCache groupIncludeCache,
-      ReviewDb db) {
+      ReviewDb db, GroupJson json) {
     this.groupsCollection = groupsCollection;
     this.groupIncludeCache = groupIncludeCache;
     this.db = db;
+    this.json = json;
   }
 
   @Override
@@ -119,7 +122,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
           newIncludedGroupsAudits.add(new AccountGroupIncludeByUuidAudit(agi, me));
         }
       }
-      result.add(new GroupInfo(d));
+      result.add(json.format(d));
     }
 
     badRequest.failOnError();

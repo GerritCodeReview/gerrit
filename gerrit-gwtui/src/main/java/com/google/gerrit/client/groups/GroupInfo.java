@@ -32,6 +32,8 @@ public class GroupInfo extends JavaScriptObject {
   public final native GroupOptionsInfo options() /*-{ return this.options; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
   public final native String url() /*-{ return this.url; }-*/;
+  public final native String owner() /*-{ return this.owner; }-*/;
+  public final native void owner(String o) /*-{ if(o)this.owner=o; }-*/;
 
   private final native int group_id() /*-{ return this.group_id; }-*/;
   private final native String owner_id() /*-{ return this.owner_id; }-*/;

@@ -20,17 +20,20 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.group.GroupInfo;
+import com.google.gerrit.server.group.GroupJson;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.inject.Inject;
 
 import java.util.List;
 
 public class GetGroups implements RestReadView<AccountResource> {
   private final GroupControl.Factory groupControlFactory;
+  private final GroupJson json;
 
   @Inject
-  GetGroups(GroupControl.Factory groupControlFactory) {
+  GetGroups(GroupControl.Factory groupControlFactory, GroupJson json) {
     this.groupControlFactory = groupControlFactory;
+    this.json = json;
   }
 
   @Override
@@ -46,7 +49,7 @@ public class GetGroups implements RestReadView<AccountResource> {
         continue;
       }
       if (ctl.isVisible() && ctl.canSeeMember(userId)) {
-        groups.add(new GroupInfo(ctl.getGroup()));
+        groups.add(json.format(ctl.getGroup()));
       }
     }
     return groups;

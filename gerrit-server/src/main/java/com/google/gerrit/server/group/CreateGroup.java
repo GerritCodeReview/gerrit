@@ -34,6 +34,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.CreateGroup.Input;
+import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -59,19 +60,18 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
   private final Provider<IdentifiedUser> self;
   private final GroupsCollection groups;
   private final PerformCreateGroup.Factory op;
+  private final GroupJson json;
   private final boolean defaultVisibleToAll;
   private final String name;
 
   @Inject
-  CreateGroup(
-      Provider<IdentifiedUser> self,
-      GroupsCollection groups,
-      PerformCreateGroup.Factory performCreateGroupFactory,
-      @GerritServerConfig Config cfg,
-      @Assisted String name) {
+  CreateGroup(Provider<IdentifiedUser> self, GroupsCollection groups,
+      PerformCreateGroup.Factory performCreateGroupFactory, GroupJson json,
+      @GerritServerConfig Config cfg, @Assisted String name) {
     this.self = self;
     this.groups = groups;
     this.op = performCreateGroupFactory;
+    this.json = json;
     this.defaultVisibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
     this.name = name;
   }
@@ -102,7 +102,7 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
     } catch (PermissionDeniedException e) {
       throw new AuthException(e.getMessage());
     }
-    return new GroupInfo(GroupDescriptions.forAccountGroup(group));
+    return json.format(GroupDescriptions.forAccountGroup(group));
   }
 
   private AccountGroup.Id owner(Input input) throws BadRequestException {

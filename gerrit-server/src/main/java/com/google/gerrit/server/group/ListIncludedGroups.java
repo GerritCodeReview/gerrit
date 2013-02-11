@@ -18,6 +18,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.common.groups.ListGroupsOption;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
@@ -28,10 +29,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.List;
 
 public class ListIncludedGroups implements RestReadView<GroupResource> {
@@ -40,6 +43,17 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
   private final GroupControl.Factory controlFactory;
   private final Provider<ReviewDb> dbProvider;
   private final GroupJson json;
+  private EnumSet<ListGroupsOption> options;
+
+  @Option(name = "-o", multiValued = true, usage = "Output options per group")
+  public void addOption(ListGroupsOption o) {
+    options.add(o);
+  }
+
+  @Option(name = "-O", usage = "Output option flags, in hex")
+  void setOptionFlagsHex(String hex) {
+    options.addAll(ListGroupsOption.fromBits(Integer.parseInt(hex, 16)));
+  }
 
   @Inject
   ListIncludedGroups(GroupControl.Factory controlFactory,
@@ -47,6 +61,8 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
     this.controlFactory = controlFactory;
     this.dbProvider = dbProvider;
     this.json = json;
+
+    options = EnumSet.noneOf(ListGroupsOption.class);
   }
 
   @Override
@@ -64,7 +80,7 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
       try {
         GroupControl i = controlFactory.controlFor(u.getIncludeUUID());
         if (ownerOfParent || i.isVisible()) {
-          included.add(json.format(i.getGroup()));
+          included.add(json.addOptions(options).format(i.getGroup()));
         }
       } catch (NoSuchGroupException notFound) {
         log.warn(String.format("Group %s no longer available, included into ",

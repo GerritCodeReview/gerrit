@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.OWNER;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -122,7 +124,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
           newIncludedGroupsAudits.add(new AccountGroupIncludeByUuidAudit(agi, me));
         }
       }
-      result.add(json.format(d));
+      result.add(json.addOption(OWNER).format(d));
     }
 
     badRequest.failOnError();

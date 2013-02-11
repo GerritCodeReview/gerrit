@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "PtW1cFRU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-11T21:49:13Z",
+      "side": 1,
+      "message": "\u003e regret to find [1] has not any background information in its commit message.\n\nIn pom.xml we specify version of all used plugins but we didn\u0027t specify a version of the maven-surefire-plugin (which is used to run unit tests). Looks like no one was aware of this.\n\nWithout a fixed version of the surefire plugin we had different behaviour because we used different maven versions (I used maven 3) which probably used different default version of the surefire plugin.",
+      "parentUuid": "PxrwYIX8",
+      "revId": "ff6e8e4a430fad80e7fb632a5424bafb28d415ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PtowSp1w",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AccountForTestAcceptance.java",
         "patchSetId": 4

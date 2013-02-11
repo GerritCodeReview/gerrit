@@ -756,7 +756,7 @@ public class Dispatcher {
           return;
         }
 
-        GroupApi.getGroup(group, new GerritCallback<GroupInfo>() {
+        GroupApi.getGroupDetail(group, new GerritCallback<GroupInfo>() {
           @Override
           public void onSuccess(GroupInfo group) {
             if (panel == null || panel.isEmpty()) {

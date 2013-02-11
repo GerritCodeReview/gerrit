@@ -20,8 +20,6 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
-import com.google.gerrit.client.groups.GroupList;
-import com.google.gerrit.client.groups.MemberList;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
@@ -152,18 +150,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   protected void display(final GroupInfo group, final boolean canModify) {
     if (AccountGroup.isInternalGroup(group.getGroupUUID())
         && !AccountGroup.isSystemGroup(group.getGroupUUID())) {
-      MemberList.all(getGroupUUID(), new GerritCallback<MemberList>() {
-        @Override
-        public void onSuccess(MemberList result) {
-          members.display(Natives.asList(result));
-        }
-      });
-      GroupList.included(getGroupUUID(), new GerritCallback<GroupList>() {
-        @Override
-        public void onSuccess(GroupList result) {
-          includes.display(Natives.asList(result));
-        }
-      });
+      members.display(Natives.asList(group.members()));
+      includes.display(Natives.asList(group.includes()));
     } else {
       memberPanel.setVisible(false);
       includePanel.setVisible(false);

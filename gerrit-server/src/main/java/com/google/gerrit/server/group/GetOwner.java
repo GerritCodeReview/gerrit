@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 public class GetOwner implements RestReadView<GroupResource> {
@@ -34,7 +35,8 @@ public class GetOwner implements RestReadView<GroupResource> {
   }
 
   @Override
-  public GroupInfo apply(GroupResource resource) throws ResourceNotFoundException {
+  public GroupInfo apply(GroupResource resource)
+      throws ResourceNotFoundException, OrmException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new ResourceNotFoundException();

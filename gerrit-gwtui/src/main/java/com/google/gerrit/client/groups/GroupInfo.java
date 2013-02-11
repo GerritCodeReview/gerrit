@@ -14,8 +14,10 @@
 
 package com.google.gerrit.client.groups;
 
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.http.client.URL;
 
 public class GroupInfo extends JavaScriptObject {
@@ -34,6 +36,8 @@ public class GroupInfo extends JavaScriptObject {
   public final native String url() /*-{ return this.url; }-*/;
   public final native String owner() /*-{ return this.owner; }-*/;
   public final native void owner(String o) /*-{ if(o)this.owner=o; }-*/;
+  public final native JsArray<AccountInfo> members() /*-{ return this.members; }-*/;
+  public final native JsArray<GroupInfo> includes() /*-{ return this.includes; }-*/;
 
   private final native int group_id() /*-{ return this.group_id; }-*/;
   private final native String owner_id() /*-{ return this.owner_id; }-*/;

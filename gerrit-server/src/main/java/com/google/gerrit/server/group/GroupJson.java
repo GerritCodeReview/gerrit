@@ -14,23 +14,75 @@
 
 package com.google.gerrit.server.group;
 
+import static com.google.gerrit.common.groups.ListGroupsOption.INCLUDES;
+import static com.google.gerrit.common.groups.ListGroupsOption.MEMBERS;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
+import com.google.gerrit.common.groups.ListGroupsOption;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupControl;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.List;
 
 public class GroupJson {
   private final GroupCache groupCache;
+  private final GroupControl.Factory groupControlFactory;
+  private final Provider<ListMembers> listMembers;
+  private final Provider<ListIncludedGroups> listIncludes;
+  private EnumSet<ListGroupsOption> options;
 
   @Inject
-  GroupJson(GroupCache groupCache) {
+  GroupJson(GroupCache groupCache, GroupControl.Factory groupControlFactory,
+      Provider<ListMembers> listMembers,
+      Provider<ListIncludedGroups> listIncludes) {
     this.groupCache = groupCache;
+    this.groupControlFactory = groupControlFactory;
+    this.listMembers = listMembers;
+    this.listIncludes = listIncludes;
+
+    options = EnumSet.noneOf(ListGroupsOption.class);
   }
 
-  public GroupInfo format(GroupDescription.Basic group) {
+  public GroupJson addOption(ListGroupsOption o) {
+    options.add(o);
+    return this;
+  }
+
+  public GroupJson addOptions(Collection<ListGroupsOption> o) {
+    options.addAll(o);
+    return this;
+  }
+
+  public GroupInfo format(GroupResource rsrc) throws ResourceNotFoundException,
+      OrmException {
+    GroupInfo info = init(rsrc.getGroup());
+    initMembersAndIncludes(rsrc, info);
+    return info;
+  }
+
+  public GroupInfo format(GroupDescription.Basic group)
+      throws ResourceNotFoundException, OrmException {
+    GroupInfo info = init(group);
+    if (options.contains(MEMBERS) || options.contains(INCLUDES)) {
+      GroupResource rsrc =
+          new GroupResource(groupControlFactory.controlFor(group));
+      initMembersAndIncludes(rsrc, info);
+    }
+    return info;
+  }
+
+  private GroupInfo init(GroupDescription.Basic group) {
     GroupInfo info = new GroupInfo();
     info.id = Url.encode(group.getGroupUUID().get());
     info.name = Strings.emptyToNull(group.getName());
@@ -53,6 +105,18 @@ public class GroupJson {
     return info;
   }
 
+  private GroupInfo initMembersAndIncludes(GroupResource rsrc, GroupInfo info)
+      throws ResourceNotFoundException, OrmException {
+    if (options.contains(MEMBERS)) {
+      info.members = listMembers.get().apply(rsrc);
+    }
+
+    if (options.contains(INCLUDES)) {
+      info.includes = listIncludes.get().apply(rsrc);
+    }
+    return info;
+  }
+
   public static class GroupInfo {
     final String kind = "gerritcodereview#group";
     public String id;
@@ -65,5 +129,9 @@ public class GroupJson {
     public Integer groupId;
     public String owner;
     public String ownerId;
+
+    // These fields are only supplied for internal groups, but only if requested
+    public List<AccountInfo> members;
+    public List<GroupInfo> includes;
   }
 }

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "PtsxBjz4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-11T15:07:54Z",
+      "side": 1,
+      "message": "Can you try rebasing on [1] and then reproducing the \u0027mvn test\u0027 error?\n\nWhich maven version are you using?\n\n[1] https://gerrit-review.googlesource.com/42193",
+      "parentUuid": "PxhwBVRA",
+      "revId": "ff6e8e4a430fad80e7fb632a5424bafb28d415ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "PtowSp1w",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/AccountForTestAcceptance.java",
         "patchSetId": 4

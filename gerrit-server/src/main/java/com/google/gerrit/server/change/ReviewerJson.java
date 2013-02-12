@@ -67,7 +67,7 @@ public class ReviewerJson {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
     AccountInfo.Loader loader = accountLoaderFactory.create(true);
     for (ReviewerResource rsrc : rsrcs) {
-      ReviewerInfo info = formatOne(rsrc);
+      ReviewerInfo info = format(rsrc, null);
       loader.put(info);
       infos.add(info);
     }
@@ -80,20 +80,19 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource> of(rsrc));
   }
 
-  private ReviewerInfo formatOne(ReviewerResource rsrc) throws OrmException,
+  public ReviewerInfo format(ReviewerInfo out, Change change,
+      List<PatchSetApproval> approvals) throws OrmException,
       NoSuchChangeException {
-    Account.Id id = rsrc.getAccount().getId();
-    ReviewerInfo out = new ReviewerInfo(id);
-
-    Change change = rsrc.getChange();
     PatchSet.Id psId = change.currentPatchSetId();
 
-    List<PatchSetApproval> approvals = db.get().patchSetApprovals()
-        .byPatchSetUser(psId, id).toList();
+    if (approvals == null) {
+      approvals = db.get().patchSetApprovals()
+          .byPatchSetUser(psId, out._id).toList();
+    }
 
     // TODO: Support arbitrary labels.
     ChangeControl control = controlFactory.controlFor(change,
-        userFactory.create(id));
+        userFactory.create(out._id));
     FunctionState fs = functionState.create(control, psId, approvals);
     for (ApprovalType at : approvalTypes.getApprovalTypes()) {
       CategoryFunction.forCategory(at.getCategory()).run(at, fs);
@@ -112,6 +111,13 @@ public class ReviewerJson {
     return out;
   }
 
+  private ReviewerInfo format(ReviewerResource rsrc,
+      List<PatchSetApproval> approvals) throws OrmException,
+      NoSuchChangeException {
+    return format(new ReviewerInfo(rsrc.getAccount().getId()),
+        rsrc.getChange(), approvals);
+  }
+
   public static class ReviewerInfo extends AccountInfo {
     final String kind = "gerritcodereview#reviewer";
     Map<String, String> approvals;
@@ -119,5 +125,11 @@ public class ReviewerJson {
     protected ReviewerInfo(Account.Id id) {
       super(id);
     }
+  }
+
+  public static class PutResult {
+    List<ReviewerInfo> reviewers;
+    Boolean confirm;
+    String error;
   }
 }

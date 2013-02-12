@@ -24,16 +24,16 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-class RestSession {
+public class RestSession {
 
   private final TestAccount account;
   DefaultHttpClient client;
 
-  RestSession(TestAccount account) {
+  public RestSession(TestAccount account) {
     this.account = account;
   }
 
-  Reader get(String endPoint) throws IOException {
+  public Reader get(String endPoint) throws IOException {
     HttpGet get = new HttpGet("http://localhost:8080/a" + endPoint);
     HttpResponse response = getClient().execute(get);
     Reader reader = new InputStreamReader(response.getEntity().getContent());
@@ -41,7 +41,7 @@ class RestSession {
     return reader;
   }
 
-  Reader post(String endPoint) {
+  public Reader post(String endPoint) {
     // TODO
     return null;
   }

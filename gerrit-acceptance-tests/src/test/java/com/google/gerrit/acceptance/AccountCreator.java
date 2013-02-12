@@ -36,7 +36,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 
-class AccountCreator {
+public class AccountCreator {
 
   private SchemaFactory<ReviewDb> reviewDbProvider;
   private GroupCache groupCache;
@@ -55,7 +55,7 @@ class AccountCreator {
     this.byEmailCache = byEmailCache;
   }
 
-  TestAccount create(String username, String email, String fullName,
+  public TestAccount create(String username, String email, String fullName,
       String... groups)
       throws OrmException, UnsupportedEncodingException, JSchException {
     ReviewDb db = reviewDbProvider.open();

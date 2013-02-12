@@ -35,7 +35,7 @@ public class TestAccount {
     this.httpPassword = httpPassword;
   }
 
-  byte[] privateKey() {
+  public byte[] privateKey() {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     sshKey.writePrivateKey(out);
     return out.toByteArray();

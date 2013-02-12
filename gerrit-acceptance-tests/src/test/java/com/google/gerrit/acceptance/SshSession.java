@@ -23,16 +23,16 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-class SshSession {
+public class SshSession {
 
   private final TestAccount account;
   private Session session;
 
-  SshSession(TestAccount account) {
+  public SshSession(TestAccount account) {
     this.account = account;
   }
 
-  String exec(String command) throws JSchException, IOException {
+  public String exec(String command) throws JSchException, IOException {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     try {
       channel.setCommand(command);
@@ -47,7 +47,7 @@ class SshSession {
     }
   }
 
-  void close() {
+  public void close() {
     if (session != null) {
       session.disconnect();
       session = null;

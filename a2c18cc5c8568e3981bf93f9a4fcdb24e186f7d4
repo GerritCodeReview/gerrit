@@ -16,6 +16,24 @@
       "revId": "a2c18cc5c8568e3981bf93f9a4fcdb24e186f7d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P22cOEkA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-12T22:45:54Z",
+      "side": 1,
+      "message": "Shawn says to make the second RPC.",
+      "parentUuid": "P2ycEGiA",
+      "revId": "a2c18cc5c8568e3981bf93f9a4fcdb24e186f7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "P3IZGqlI",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-12T15:14:48Z",
+      "side": 1,
+      "message": "Done but in a bit different way.",
+      "parentUuid": "P2kg937k",
+      "revId": "8d857a567ae653fec817f5ab4712e96113d89be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P2qhqm6o",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-12T14:09:20Z",
       "side": 1,
       "message": "s/in a corporate in a corporate/in a corporate",
+      "revId": "8d857a567ae653fec817f5ab4712e96113d89be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3OZLHlk",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-12T15:14:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2qhqm6o",
       "revId": "8d857a567ae653fec817f5ab4712e96113d89be8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

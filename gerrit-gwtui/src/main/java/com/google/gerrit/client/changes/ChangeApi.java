@@ -65,6 +65,14 @@ public class ChangeApi {
     return change(id.getParentKey().get()).view("revisions").id(id.get());
   }
 
+  public static RestApi reviewer(int id, int reviewer) {
+    return change(id).view("reviewers").id(reviewer);
+  }
+
+  public static RestApi reviewer(int id, String reviewer) {
+    return change(id).view("reviewers").id(reviewer);
+  }
+
   /** Submit a specific revision of a change. */
   public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
     SubmitInput in = SubmitInput.create();

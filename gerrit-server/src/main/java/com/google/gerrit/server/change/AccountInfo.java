@@ -28,6 +28,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -89,6 +90,14 @@ public class AccountInfo {
       }
     }
 
+    public void fill(Collection<? extends AccountInfo> infos)
+        throws OrmException {
+      for (AccountInfo info : infos) {
+        put(info);
+      }
+      fill();
+    }
+
     private void fill(AccountInfo info, Account account) {
       info.name = account.getFullName();
       if (detailed) {
@@ -98,7 +107,7 @@ public class AccountInfo {
     }
   }
 
-  private transient Account.Id _id;
+  transient Account.Id _id;
 
   protected AccountInfo(Account.Id id) {
     _id = id;

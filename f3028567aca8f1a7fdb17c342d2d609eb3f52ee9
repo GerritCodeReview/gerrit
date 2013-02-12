@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P2wcz1vM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-12T23:22:30Z",
+      "side": 1,
+      "message": "What is this used for? Elsewhere in the API we never track the original id from the request. We always echo the \"true\" internal id as the id field in the response JSON, even when that doesn\u0027t exactly match what the client gave us.",
+      "revId": "f3028567aca8f1a7fdb17c342d2d609eb3f52ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2yc22uM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-12T23:22:30Z",
+      "side": 1,
+      "message": "This is handled inside of the AccountResolver. For a better example of the code you want see AccountsCollection.parse().",
+      "revId": "f3028567aca8f1a7fdb17c342d2d609eb3f52ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

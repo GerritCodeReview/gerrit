@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
@@ -79,5 +80,13 @@ public class GerritRequestModule extends FactoryModule {
     factory(CreateProject.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
+
+    // Built-in REST API endpoints may depend on request-scoped data or
+    // factories bound above.
+    install(new AuditModule());
+    install(new com.google.gerrit.server.account.Module());
+    install(new com.google.gerrit.server.change.Module());
+    install(new com.google.gerrit.server.group.Module());
+    install(new com.google.gerrit.server.project.Module());
   }
 }

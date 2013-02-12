@@ -22,7 +22,6 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -58,7 +57,7 @@ public class ReviewerJson {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
     AccountInfo.Loader loader = accountLoaderFactory.create(true);
     for (ReviewerResource rsrc : rsrcs) {
-      ReviewerInfo info = formatOne(rsrc);
+      ReviewerInfo info = format(rsrc, null);
       loader.put(info);
       infos.add(info);
     }
@@ -70,17 +69,15 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource> of(rsrc));
   }
 
-  private ReviewerInfo formatOne(ReviewerResource rsrc) throws OrmException {
-    Account.Id id = rsrc.getUser().getAccountId();
-    ReviewerInfo out = new ReviewerInfo(id);
+  public ReviewerInfo format(ReviewerInfo out, ChangeControl control,
+      List<PatchSetApproval> approvals) throws OrmException {
+    PatchSet.Id psId = control.getChange().currentPatchSetId();
 
-    Change change = rsrc.getChange();
-    PatchSet.Id psId = change.currentPatchSetId();
+    if (approvals == null) {
+      approvals = db.get().patchSetApprovals()
+          .byPatchSetUser(psId, out._id).toList();
+    }
 
-    List<PatchSetApproval> approvals = db.get().patchSetApprovals()
-        .byPatchSetUser(psId, id).toList();
-
-    ChangeControl control = rsrc.getControl().forUser(rsrc.getUser());
     FunctionState fs = functionState.create(control, psId, approvals);
     for (ApprovalType at : approvalTypes.getApprovalTypes()) {
       CategoryFunction.forCategory(at.getCategory()).run(at, fs);
@@ -106,6 +103,12 @@ public class ReviewerJson {
     return out;
   }
 
+  private ReviewerInfo format(ReviewerResource rsrc,
+      List<PatchSetApproval> approvals) throws OrmException {
+    return format(new ReviewerInfo(rsrc.getUser().getAccountId()),
+        rsrc.getUserControl(), approvals);
+  }
+
   public static class ReviewerInfo extends AccountInfo {
     final String kind = "gerritcodereview#reviewer";
     Map<String, String> approvals;
@@ -113,5 +116,11 @@ public class ReviewerJson {
     protected ReviewerInfo(Account.Id id) {
       super(id);
     }
+  }
+
+  public static class PostResult {
+    List<ReviewerInfo> reviewers;
+    Boolean confirm;
+    String error;
   }
 }

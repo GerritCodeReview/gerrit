@@ -57,7 +57,7 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @Override
   public Predicate<ChangeData> or(Collection<? extends Predicate<ChangeData>> l) {
-    return hasSource(l) ? new OrSource(l) : super.or(l);
+    return hasOnlySources(l) ? new OrSource(l) : super.or(l);
   }
 
   @Rewrite("-status:open")
@@ -625,6 +625,15 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
       }
     }
     return false;
+  }
+
+  private static boolean hasOnlySources(Collection<? extends Predicate<ChangeData>> l) {
+    for (Predicate<ChangeData> p : l) {
+      if (!(p instanceof ChangeDataSource)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private abstract static class Source extends RewritePredicate<ChangeData>

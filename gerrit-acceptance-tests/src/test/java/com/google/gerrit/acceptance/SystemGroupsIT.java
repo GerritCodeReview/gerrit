@@ -75,8 +75,8 @@ public class SystemGroupsIT extends AbstractDaemonTest {
     String name;
     String url;
     String description;
-    Integer groupId;
-    String ownerId;
+    Integer group_id;
+    String owner_id;
   };
 
   @Test

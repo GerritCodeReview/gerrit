@@ -1081,6 +1081,84 @@ Suggested access rights to grant:
 
 * <<examples_project-owner,Project owner rights>>
 
+Enforcing site wide access policies
+-----------------------------------
+
+By granting the <<category_owner,`Owner`>> access right on the `refs/*` to a
+group, Gerrit administrators can delegate the responsibility of maintaining
+access rights for that project to that group.
+
+In a corporate deployment it is often necessary to enforce some access
+policies. An example could be that no-one can update or delete a tag, not even
+the project owners. The 'ALLOW' and 'DENY' rules are not enough for this
+purpose as project owners can grant themselves any access right they wish and,
+thus, effectively override any inherited access rights from the
+"`All-Projects`" or some other common parent project.
+
+What is needed is a mechanism to block a permission in a parent project so
+that even project owners cannot allow a blocked permission in their child
+project. Still, project owners should retain the possibility to manage all
+non-blocked rules as they wish. This gives best of both worlds:
+
+* Gerrit administrators can concentrate on enforcing site wide policies
+  and providing a meaningful set of default access permissions
+* Project owners can manage access rights of their projects without a danger
+  of violating a site wide policy
+
+'BLOCK' access rule
+~~~~~~~~~~~~~~~~~~~
+
+The 'BLOCK' rule blocks a permission globally. An inherited 'BLOCK' rule cannot
+be overridden in the inheriting project. Any 'ALLOW' rule which conflicts with
+an inherited 'BLOCK' rule will not be honored.  Searching for 'BLOCK' rules, in
+the chain of parent projects, ignores the Exclusive flag that is normally
+applied to access sections.
+
+A 'BLOCK' rule that blocks the 'push' permission blocks any type of push,
+force or not. A 'BLOCK' which blocks force 'push' blocks only 'push', but
+allows non-forced 'push' if an 'ALLOW' rule would have permitted it.
+
+It is also possible to block label ranges.  To block a group 'X' from voting
+'-2' and '+2', but keep their existing voting permissions for the '-1..+1'
+range intact we would define:
+
+====
+  [access "refs/heads/*"]
+    label-Code-Review = block -2..+2 group X
+====
+
+The interpretation of the 'min..max' range in case of a blocking rule is: block
+every vote from '-INFINITE..min' and 'max..INFINITE'. For the example above it
+means that the range '-1..+1' is not affected by this block.
+
+Examples
+~~~~~~~~
+
+The following examples show some possible use cases for the 'BLOCK' rules.
+
+Make sure no one can update or delete a tag
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This requirement is quite common in a corporate in a corporate deployment where
+reproducibility of a build must be guaranteed. To achieve that we block 'push'
+permission for the <<anonymous_users,'Anonymous Users'>> in "`All-Projects`":
+
+====
+  [access "refs/tags/*"]
+    push = block group Anonymous Users
+====
+
+By blocking the <<anonymous_users,'Anonymous Users'>> we effectively block
+everyone as everyone is a member of that group. Note that the permission to
+create a tag is still necessary. Assuming that only <<category_owner,project
+owners>> are allowed to create tags, we would extend the example above:
+
+====
+  [access "refs/tags/*"]
+    push = block group Anonymous Users
+    create = group Project Owners
+    pushTag = group Project Owners
+====
 
 [[conversion_table]]
 Conversion table from 2.1.x series to 2.2.x series

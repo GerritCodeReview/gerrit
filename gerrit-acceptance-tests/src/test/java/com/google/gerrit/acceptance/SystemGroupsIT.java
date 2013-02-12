@@ -87,7 +87,6 @@ public class SystemGroupsIT extends AbstractDaemonTest {
         gson.fromJson(r, new TypeToken<Map<String, Group>>() {}.getType());
     Set<String> names = result.keySet();
     assertTrue(names.contains("Administrators"));
-    assertTrue(names.contains("Administrators"));
     assertTrue(names.contains("Anonymous Users"));
     assertTrue(names.contains("Non-Interactive Users"));
     assertTrue(names.contains("Project Owners"));
@@ -102,7 +101,6 @@ public class SystemGroupsIT extends AbstractDaemonTest {
       for (AccountGroup g : db.accountGroups().all()) {
         names.add(g.getName());
       }
-      assertTrue(names.contains("Administrators"));
       assertTrue(names.contains("Administrators"));
       assertTrue(names.contains("Anonymous Users"));
       assertTrue(names.contains("Non-Interactive Users"));

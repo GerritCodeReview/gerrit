@@ -15,8 +15,6 @@
 package com.google.gerrit.acceptance;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
@@ -34,11 +32,9 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
-import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
-import com.jcraft.jsch.Session;
 
 class AccountCreator {
 

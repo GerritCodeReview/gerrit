@@ -16,6 +16,24 @@
       "revId": "79d054a6fb0c4f4ba4f84c60ae1326bc287b2480",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P0w8BJRA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-02-12T23:15:44Z",
+      "side": 1,
+      "message": "Indeed, wasn\u0027t paying close enough attention. Fixed in PS2.",
+      "parentUuid": "P28cX-ko",
+      "revId": "79d054a6fb0c4f4ba4f84c60ae1326bc287b2480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

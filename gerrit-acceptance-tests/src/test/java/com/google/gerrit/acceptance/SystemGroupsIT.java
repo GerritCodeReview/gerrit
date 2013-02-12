@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
+import com.google.gerrit.acceptance.rest.group.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gson.Gson;
@@ -69,24 +70,14 @@ public class SystemGroupsIT extends AbstractDaemonTest {
     session.close();
   }
 
-  @SuppressWarnings("unused")
-  private static class Group {
-    String id;
-    String name;
-    String url;
-    String description;
-    Integer group_id;
-    String owner_id;
-  };
-
   @Test
   public void systemGroupsCreated_rest() throws IOException {
     RestSession session = new RestSession(admin);
     Reader r = session.get("/groups/");
     Gson gson = new Gson();
     @SuppressWarnings("serial")
-    Map<String, Group> result =
-        gson.fromJson(r, new TypeToken<Map<String, Group>>() {}.getType());
+    Map<String, GroupInfo> result =
+        gson.fromJson(r, new TypeToken<Map<String, GroupInfo>>() {}.getType());
     Set<String> names = result.keySet();
     assertTrue(names.contains("Administrators"));
     assertTrue(names.contains("Anonymous Users"));

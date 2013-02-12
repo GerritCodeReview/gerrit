@@ -69,6 +69,7 @@ public class SystemGroupsIT extends AbstractDaemonTest {
     session.close();
   }
 
+  @SuppressWarnings("unused")
   private static class Group {
     String id;
     String name;
@@ -83,6 +84,7 @@ public class SystemGroupsIT extends AbstractDaemonTest {
     RestSession session = new RestSession(admin);
     Reader r = session.get("/groups/");
     Gson gson = new Gson();
+    @SuppressWarnings("serial")
     Map<String, Group> result =
         gson.fromJson(r, new TypeToken<Map<String, Group>>() {}.getType());
     Set<String> names = result.keySet();

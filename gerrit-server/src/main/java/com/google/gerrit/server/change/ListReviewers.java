@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -30,17 +29,14 @@ import com.google.inject.Provider;
 import java.util.Map;
 
 class ListReviewers implements RestReadView<ChangeResource> {
-  private final AccountCache accountCache;
   private final Provider<ReviewDb> dbProvider;
   private final ReviewerJson json;
   private final ReviewerResource.Factory resourceFactory;
 
   @Inject
-  ListReviewers(AccountCache accountCache,
-      Provider<ReviewDb> dbProvider,
+  ListReviewers(Provider<ReviewDb> dbProvider,
       ReviewerResource.Factory resourceFactory,
       ReviewerJson json) {
-    this.accountCache = accountCache;
     this.dbProvider = dbProvider;
     this.resourceFactory = resourceFactory;
     this.json = json;
@@ -56,8 +52,7 @@ class ListReviewers implements RestReadView<ChangeResource> {
          : db.patchSetApprovals().byChange(changeId)) {
       Account.Id accountId = patchSetApproval.getAccountId();
       if (!reviewers.containsKey(accountId)) {
-        Account account = accountCache.get(accountId).getAccount();
-        reviewers.put(accountId, resourceFactory.create(rsrc, account));
+        reviewers.put(accountId, resourceFactory.create(rsrc, accountId));
       }
     }
     return json.format(reviewers.values());

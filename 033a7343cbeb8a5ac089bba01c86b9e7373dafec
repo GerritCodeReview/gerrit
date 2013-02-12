@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "P3IYdCm8",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-12T13:43:47Z",
+      "side": 1,
+      "message": "I see your point. The second change (in this topic) will only apply the allow-overrides-block policy when both rules are in the same section.",
+      "parentUuid": "O8VG8lAg",
+      "revId": "033a7343cbeb8a5ac089bba01c86b9e7373dafec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "O8XG5mBc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 1

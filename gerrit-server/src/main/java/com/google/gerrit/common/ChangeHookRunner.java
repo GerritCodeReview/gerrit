@@ -774,7 +774,12 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         }
       }
 
-      log.info("hook[" + getName() + "] exitValue:" + result.getExitValue());
+      final int exitValue = result.getExitValue();
+      if (exitValue == 0) {
+        log.debug("hook[" + getName() + "] exitValue:" + exitValue);
+      } else {
+        log.info("hook[" + getName() + "] exitValue:" + exitValue);
+      }
 
       BufferedReader br =
           new BufferedReader(new StringReader(result.getOutput()));

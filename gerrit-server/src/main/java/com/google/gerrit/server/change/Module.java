@@ -46,10 +46,11 @@ public class Module extends RestApiModule {
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
     post(CHANGE_KIND, "restore").to(Restore.class);
-    child(CHANGE_KIND, "reviewers").to(Reviewers.class);
     post(CHANGE_KIND, "revert").to(Revert.class);
     post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
 
+    post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
+    child(CHANGE_KIND, "reviewers").to(Reviewers.class);
     get(REVIEWER_KIND).to(GetReviewer.class);
     delete(REVIEWER_KIND).to(DeleteReviewer.class);
 

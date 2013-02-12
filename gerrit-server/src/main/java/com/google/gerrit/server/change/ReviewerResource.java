@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -27,7 +28,7 @@ public class ReviewerResource extends ChangeResource {
 
   static interface Factory {
     ReviewerResource create(ChangeResource rsrc, IdentifiedUser user);
-    ReviewerResource create(ChangeResource rsrc, Account account);
+    ReviewerResource create(ChangeResource rsrc, Account.Id id);
   }
 
   private final IdentifiedUser user;
@@ -42,11 +43,19 @@ public class ReviewerResource extends ChangeResource {
   @AssistedInject
   ReviewerResource(IdentifiedUser.GenericFactory userFactory,
       @Assisted ChangeResource rsrc,
-      @Assisted Account account) {
-    this(rsrc, userFactory.create(account.getId()));
+      @Assisted Account.Id id) {
+    this(rsrc, userFactory.create(id));
   }
 
   public IdentifiedUser getUser() {
     return user;
+  }
+
+  /**
+   * @return the control for the reviewer's user (as opposed to the caller's
+   *     user as returned by {@link #getControl()}).
+   */
+  public ChangeControl getUserControl() {
+    return getControl().forUser(user);
   }
 }

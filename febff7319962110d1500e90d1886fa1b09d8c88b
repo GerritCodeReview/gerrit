@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P24cdBm8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-12T23:02:33Z",
+      "side": 1,
+      "message": "What happens in this case? We wind up with a standard Or node that does not implement OrSource. This means the top level query execution can\u0027t scan the database. So it rewrites the query as \"(status:open AND $original_query)\". Which makes sense for the example you give but doesn\u0027t for something else.\n\nMaybe the answer is to do something like what the top level executor does, but only the individual predicates:\n\n  List\u003cPredicate\u003e t \u003d Lists.newArrayList();\n  for (Predicate p : l) {\n    if (!(p instanceof ChangeDataSource)) {\n      p \u003d (status:open AND p);\n    }\n    t.add(p);\n  }\n  return new OrSource(t);\n\nThis should work better for queries like \"(project:foo status:merged) OR (project:bar status:submitted)\".",
+      "revId": "febff7319962110d1500e90d1886fa1b09d8c88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

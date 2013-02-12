@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P28cX-ko",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-12T23:03:36Z",
+      "side": 1,
+      "message": "I think you have the condition inverted. If the hook exits non-zero this is a failure in the hook. It should be logged for the admin to look at. By default debug level messages are discarded.",
+      "revId": "79d054a6fb0c4f4ba4f84c60ae1326bc287b2480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

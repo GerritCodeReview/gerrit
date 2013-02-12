@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P2wcqtn8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-12T23:14:51Z",
+      "side": 1,
+      "message": "I think you should change ReviewerResource to be constructed with an IdentifiedUser. Then you don\u0027t need this factory inside of things like this.",
+      "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P22cnMrg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-12T23:14:51Z",
+      "side": 1,
+      "message": "ReviewerResource extends ChangeResource which includes a ChangeControl for the API caller. You can cast that to a ChangeControl for the reviewer with .forUser(IdentifiedUser).",
+      "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P20ckrrE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-12T23:14:51Z",
+      "side": 1,
+      "message": "If this map is empty at the end maybe null it back out?",
+      "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P26dBKj8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-12T23:14:51Z",
+      "side": 1,
+      "message": "Should we guard against a null type here?",
+      "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

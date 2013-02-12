@@ -35,6 +35,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
@@ -55,6 +56,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /** Displays a table of {@link ApprovalDetail} objects for a change record. */
 public class ApprovalTable extends Composite {
@@ -64,10 +66,12 @@ public class ApprovalTable extends Composite {
   private final Panel addReviewer;
   private final ReviewerSuggestOracle reviewerSuggestOracle;
   private final AddMemberBox addMemberBox;
+  private final Map<Integer, Integer> rows;
   private Change.Id changeId;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ApprovalTable() {
+    rows = new HashMap<Integer, Integer>();
     types = Gerrit.getConfig().getApprovalTypes();
     table = new Grid(1, 3);
     table.addStyleName(Gerrit.RESOURCES.css().infoTable());
@@ -247,6 +251,7 @@ public class ApprovalTable extends Composite {
       }
     }
 
+    rows.clear();
     if (approvals.isEmpty()) {
       table.setVisible(false);
     } else {
@@ -371,6 +376,7 @@ public class ApprovalTable extends Composite {
 
   private void displayRow(final int row, final ApprovalDetail ad,
       final Change change, List<String> columns) {
+    rows.put(ad.getAccount().get(), row);
     final CellFormatter fmt = table.getCellFormatter();
     int col = 0;
 
@@ -440,28 +446,16 @@ public class ApprovalTable extends Composite {
     fmt.addStyleName(row, col - 1, Gerrit.RESOURCES.css().rightmost());
   }
 
-  private void doRemove(final ApprovalDetail ad, final PushButton remove) {
+  private void doRemove(ApprovalDetail ad, final PushButton remove) {
     remove.setEnabled(false);
-    PatchUtil.DETAIL_SVC.removeReviewer(changeId, ad.getAccount(),
-        new GerritCallback<ReviewerResult>() {
+    final int changeId = ad.getAccount().get();
+    ChangeApi.reviewer(changeId, changeId).delete(
+        new GerritCallback<JavaScriptObject>() {
           @Override
-          public void onSuccess(ReviewerResult result) {
-            if (result.getErrors().isEmpty()) {
-              final ChangeDetail r = result.getChange();
-              display(r);
-            } else {
-              final ReviewerResult.Error resultError =
-                  result.getErrors().get(0);
-              String message;
-              switch (resultError.getType()) {
-                case REMOVE_NOT_PERMITTED:
-                  message = Util.C.approvalTableRemoveNotPermitted();
-                  break;
-                case COULD_NOT_REMOVE:
-                default:
-                  message = Util.C.approvalTableCouldNotRemove();
-              }
-              new ErrorDialog(message + " " + resultError.getName()).center();
+          public void onSuccess(JavaScriptObject result) {
+            Integer row = rows.remove(changeId);
+            if (row != null) {
+              table.removeRow(row);
             }
           }
 

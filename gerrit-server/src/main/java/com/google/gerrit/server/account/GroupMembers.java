@@ -114,7 +114,7 @@ public class GroupMembers {
       for (final AccountGroupIncludeByUuid groupInclude : groupDetail.includes) {
         final AccountGroup includedGroup =
             groupCache.get(groupInclude.getIncludeUUID());
-        if (!seen.contains(includedGroup.getGroupUUID())) {
+        if (includedGroup != null && !seen.contains(includedGroup.getGroupUUID())) {
           members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
         }
       }

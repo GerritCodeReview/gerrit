@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.args4j;
 
+import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.lib.Constants;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -58,18 +58,7 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
       projectName = projectName.substring(1);
     }
 
-    String nameWithoutSuffix = projectName;
-    if (nameWithoutSuffix.endsWith(Constants.DOT_GIT_EXT)) {
-      // Be nice and drop the trailing ".git" suffix, which we never keep
-      // in our database, but clients might mistakenly provide anyway.
-      //
-      nameWithoutSuffix = nameWithoutSuffix.substring(0, //
-          nameWithoutSuffix.length() - Constants.DOT_GIT_EXT.length());
-      while (nameWithoutSuffix.endsWith("/")) {
-        nameWithoutSuffix =
-            nameWithoutSuffix.substring(0, nameWithoutSuffix.length() - 1);
-      }
-    }
+    String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
 
     final ProjectControl control;
     try {

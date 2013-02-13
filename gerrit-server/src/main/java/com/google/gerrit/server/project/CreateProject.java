@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
@@ -213,20 +214,8 @@ public class CreateProject {
       throw new ProjectCreationFailedException("Project name is required");
     }
 
-    if (createProjectArgs.getProjectName().endsWith(Constants.DOT_GIT_EXT)) {
-      String nameWithoutSuffix = createProjectArgs.getProjectName();
-      // Be nice and drop the trailing ".git" suffix, which we never keep
-      // in our database, but clients might mistakenly provide anyway.
-      //
-      nameWithoutSuffix = nameWithoutSuffix.substring(0, //
-          nameWithoutSuffix.length() - Constants.DOT_GIT_EXT.length());
-      while (nameWithoutSuffix.endsWith("/")) {
-        nameWithoutSuffix =
-            nameWithoutSuffix.substring(0, nameWithoutSuffix.length() - 1);
-      }
-
-      createProjectArgs.setProjectName(nameWithoutSuffix);
-    }
+    String nameWithoutSuffix = ProjectUtil.stripGitSuffix(createProjectArgs.getProjectName());
+    createProjectArgs.setProjectName(nameWithoutSuffix);
 
     if (!currentUser.getCapabilities().canCreateProject()) {
       throw new ProjectCreationFailedException(String.format(

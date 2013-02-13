@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P2gjXZ0s",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:23:38Z",
+      "side": 1,
+      "message": "Projects names can contain \u0027/\u0027, but they do not reflect the project hierarchy. Means if a project is named \u0027foo/bar\u0027 it doesn\u0027t mean that it is a child project of the project \u0027foo\u0027. I would change the example project name above because it makes the impression that the project hierarchy is reflected in the name and that you could even change the parent project by renaming the project.",
+      "revId": "9ed6c49f63df690a7ddf830651f68f8de5c94c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

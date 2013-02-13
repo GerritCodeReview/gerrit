@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P28fNPrY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-02-13T20:14:54Z",
+      "side": 1,
+      "message": "I would have just created a copy of the values, but this works too.",
+      "revId": "1844b7b21c3f36e662c1753bc2099f285ffef6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

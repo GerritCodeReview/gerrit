@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.changes;
 
+import static com.google.gerrit.client.changes.ApprovalTable.parseLabelValue;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
@@ -242,14 +244,13 @@ public class PublishCommentScreen extends AccountScreen implements
     mwrap.add(message);
   }
 
-  private void initApprovals(final PatchSetPublishDetail r, final Panel body) {
+  private void initApprovals(Panel body) {
     for (String labelName : change.labels()) {
-      initLabel(r, labelName, body);
+      initLabel(labelName, body);
     }
   }
 
-  private void initLabel(PatchSetPublishDetail r, String labelName,
-      Panel body) {
+  private void initLabel(String labelName, Panel body) {
     JsArrayString nativeValues = change.permitted_values(labelName);
     if (nativeValues == null || nativeValues.length() == 0) {
       return;
@@ -302,10 +303,8 @@ public class PublishCommentScreen extends AccountScreen implements
         r.getSubmitTypeRecord());
 
     if (r.getChange().getStatus().isOpen()) {
-      initApprovals(r, approvalPanel);
-
-      approvals.setAccountInfoCache(r.getAccounts());
-      approvals.display(r);
+      initApprovals(approvalPanel);
+      approvals.display(change);
     } else {
       approvals.setVisible(false);
     }
@@ -449,13 +448,6 @@ public class PublishCommentScreen extends AccountScreen implements
   private void goChange() {
     final Change.Id ck = patchSetId.getParentKey();
     Gerrit.display(PageLinks.toChange(ck), new ChangeScreen(ck));
-  }
-
-  private static short parseLabelValue(String value) {
-    if (value.charAt(0) == ' ' || value.charAt(0) == '+') {
-      value = value.substring(1);
-    }
-    return Short.parseShort(value);
   }
 
   private static class ValueRadioButton extends RadioButton {

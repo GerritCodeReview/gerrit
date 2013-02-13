@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P3OZkvuA",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-13T09:08:31Z",
+      "side": 1,
+      "message": "optional: s/testListingAllGroups/testListAllGroups",
+      "revId": "c29eef48eaa70d8ae7f1868297d0d04359da1684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3EY90rk",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-13T09:08:31Z",
+      "side": 1,
+      "message": "Indentation level should be 4 spaces less?",
+      "revId": "c29eef48eaa70d8ae7f1868297d0d04359da1684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3KZqxqo",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-13T09:08:31Z",
+      "side": 1,
+      "message": "This method will check presence of every member of the result.keySet in the expectedGroups. Why is expectedGroups a List instead of a HashSet? The lookup into a HashSet is much faster than lookup into a List.",
+      "revId": "c29eef48eaa70d8ae7f1868297d0d04359da1684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3IZvyro",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-13T09:08:31Z",
+      "side": 1,
+      "message": "Set\u003cString\u003e expectedGroups \u003d Maps.newHashSet();",
+      "revId": "c29eef48eaa70d8ae7f1868297d0d04359da1684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3MZpwrY",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-13T09:08:31Z",
+      "side": 1,
+      "message": "optional: the test method name could tell more what does it really test.",
+      "revId": "c29eef48eaa70d8ae7f1868297d0d04359da1684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3CZf9gs",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-13T09:08:31Z",
+      "side": 1,
+      "message": "it would be more readable if groups would be accessed by name. The AccountCreator uses groupCache to access groups by their NameKey.",
+      "revId": "c29eef48eaa70d8ae7f1868297d0d04359da1684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

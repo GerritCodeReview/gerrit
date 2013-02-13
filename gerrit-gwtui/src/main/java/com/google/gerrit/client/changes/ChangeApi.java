@@ -61,6 +61,10 @@ public class ChangeApi {
     }
   }
 
+  public static void detail(int id, AsyncCallback<ChangeInfo> cb) {
+    call(id, "detail").get(cb);
+  }
+
   public static RestApi revision(PatchSet.Id id) {
     return change(id.getParentKey().get()).view("revisions").id(id.get());
   }

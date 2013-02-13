@@ -106,13 +106,6 @@ public class ChangeInfo extends JavaScriptObject {
   protected ChangeInfo() {
   }
 
-  public static class AccountInfo extends JavaScriptObject {
-    public final native String name() /*-{ return this.name; }-*/;
-
-    protected AccountInfo() {
-    }
-  }
-
   public static class LabelInfo extends JavaScriptObject {
     public final SubmitRecord.Label.Status status() {
       if (approved() != null) {
@@ -136,6 +129,7 @@ public class ChangeInfo extends JavaScriptObject {
     public final native JsArray<ApprovalInfo> all() /*-{ return this.all; }-*/;
 
     private final native NativeMap<NativeString> _values() /*-{ return this.values; }-*/;
+
     public final Set<String> values() {
       return Natives.keys(_values());
     }
@@ -154,10 +148,7 @@ public class ChangeInfo extends JavaScriptObject {
     }
   }
 
-  public static class ApprovalInfo extends JavaScriptObject {
-    public final native int _account_id() /*-{ return this._account_id || 0; }-*/;
-    public final native String name() /*-{ return this.name; }-*/;
-    public final native String email() /*-{ return this.email; }-*/;
+  public static class ApprovalInfo extends AccountInfo {
     public final native short value() /*-{ return this.value; }-*/;
 
     protected ApprovalInfo() {

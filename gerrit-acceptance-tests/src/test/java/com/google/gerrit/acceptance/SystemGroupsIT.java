@@ -16,14 +16,6 @@ package com.google.gerrit.acceptance;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.Map;
-import java.util.Set;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gerrit.acceptance.rest.group.GroupInfo;
@@ -33,7 +25,15 @@ import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+
 import com.jcraft.jsch.JSchException;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * An example test that tests presence of system groups in a newly initialized
@@ -73,11 +73,11 @@ public class SystemGroupsIT extends AbstractDaemonTest {
   @Test
   public void systemGroupsCreated_rest() throws IOException {
     RestSession session = new RestSession(admin);
-    Reader r = session.get("/groups/");
+    RestResponse r = session.get("/groups/");
     Gson gson = new Gson();
     @SuppressWarnings("serial")
     Map<String, GroupInfo> result =
-        gson.fromJson(r, new TypeToken<Map<String, GroupInfo>>() {}.getType());
+        gson.fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
     Set<String> names = result.keySet();
     assertTrue(names.contains("Administrators"));
     assertTrue(names.contains("Anonymous Users"));

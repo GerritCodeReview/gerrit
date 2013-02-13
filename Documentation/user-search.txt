@@ -333,6 +333,9 @@ A label name is any of the following:
 * The one or two character abbreviation shown in the column header
   of change list pages.  Example: `label:R` or `label:V`.
 
+* The category name followed by a '~' followed by a reviewer where the category name
+  and reviewer combination is enclosed in double quotes.
+
 A label name must be followed by a score, or an operator and a score.
 The easiest way to explain this is by example.
 
@@ -359,9 +362,20 @@ Scores of +2 are not matched, even though they are higher.
 +
 Matches changes with either a +1, +2, or any higher score.
 
+'label:"CodeReview=2~jsmith"'::
++
+Matches changes with a +2 code review where the reviewer is jsmith
+NOTE: Tilde is used to separate the code review value from the reviewer.
+      Currently it only works within quotes and with label:
+      (default shortcuts such as Verified+1 don't work).
+
 `label:CodeReview<=-1`::
 +
 Matches changes with either a -1, -2, or any lower score.
+
+'CodeReview=+2'::
++
+Matches change with a score of +2.
 
 `is:open CodeReview+2 Verified+1 -Verified-1 -CodeReview-2`::
 +

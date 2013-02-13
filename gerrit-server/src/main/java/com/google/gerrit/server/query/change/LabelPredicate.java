@@ -26,6 +26,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
@@ -33,6 +34,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import java.util.Collections;
+import java.util.Set;
 
 class LabelPredicate extends OperatorPredicate<ChangeData> {
   private static enum Test {
@@ -117,14 +121,16 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   private final ApprovalCategory category;
   private final String permissionName;
   private final int expVal;
+  private final Set<Account.Id> accounts;
 
   LabelPredicate(ChangeControl.GenericFactory ccFactory,
       IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      ApprovalTypes types, String value) {
+      ApprovalTypes types, String value, Set<Account.Id> accounts) {
     super(ChangeQueryBuilder.FIELD_LABEL, value);
     this.ccFactory = ccFactory;
     this.userFactory = userFactory;
     this.dbProvider = dbProvider;
+    this.accounts = accounts;
 
     Matcher m1 = Pattern.compile("(=|>=|<=)([+-]?\\d+)$").matcher(value);
     Matcher m2 = Pattern.compile("([+-]\\d+)$").matcher(value);
@@ -152,6 +158,9 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     final Set<Account.Id> allApprovers = new HashSet<Account.Id>();
     final Set<Account.Id> approversThatVotedInCategory = new HashSet<Account.Id>();
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
+      if (accounts != null && ! accounts.contains(p.getAccountId())) {
+        continue;
+      }
       allApprovers.add(p.getAccountId());
       if (p.getCategoryId().equals(category.getId())) {
         approversThatVotedInCategory.add(p.getAccountId());

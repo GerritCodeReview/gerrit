@@ -300,9 +300,21 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> label(String name) {
+  public Predicate<ChangeData> label(String name) throws QueryParseException,
+      OrmException {
+    Set<Account.Id> accounts = null;
+
+    String splitReviewer[] = name.split("~");
+    name = splitReviewer[0];
+
+    if (splitReviewer.length > 2) {
+      throw new QueryParseException("more than one user specified");
+    } else if (splitReviewer.length == 2) {
+      accounts = parseAccount(splitReviewer[1]);
+    }
+
     return new LabelPredicate(args.changeControlGenericFactory,
-        args.userFactory, args.dbProvider, args.approvalTypes, name);
+        args.userFactory, args.dbProvider, args.approvalTypes, name, accounts);
   }
 
   @Operator
@@ -514,7 +526,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
 
     } else if (PAT_LABEL.matcher(query).find()) {
-      return label(query);
+      try {
+        return label(query);
+      } catch (OrmException err) {
+        throw error("Cannot lookup user", err);
+      }
 
     } else {
       // Try to match a project name by substring query.

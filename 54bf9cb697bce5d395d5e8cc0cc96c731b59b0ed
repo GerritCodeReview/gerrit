@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P26eT6ro",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-13T00:39:14Z",
+      "side": 1,
+      "message": "Use `PermissionDeniedException`?",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P28eiXgI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-13T00:39:14Z",
+      "side": 1,
+      "message": "nit:  the `-` characters are unnecessary",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P24eYZtY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-13T00:39:14Z",
+      "side": 1,
+      "message": "We need to check if a project with `destinationName` already exists, and raise `NameAlreadyUsedException`.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2.ed4sQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-13T00:39:14Z",
+      "side": 1,
+      "message": "s/performs/Performs",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

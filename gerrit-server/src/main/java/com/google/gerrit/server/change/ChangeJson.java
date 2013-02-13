@@ -31,6 +31,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
@@ -82,6 +83,7 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
@@ -222,6 +224,7 @@ public class ChangeJson {
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
     out.changeId = in.getKey().get();
+    out.mergeable = in.isMergeable();
     out.subject = in.getSubject();
     out.status = in.getStatus();
     out.owner = accountLoader.get(in.getOwner());
@@ -235,6 +238,7 @@ public class ChangeJson {
         options.contains(DETAILED_LABELS));
     if (options.contains(DETAILED_LABELS)) {
       out.permitted_labels = permittedLabels(cd);
+      out.removable_reviewers = removableReviewers(cd);
     }
     out.finish();
 
@@ -435,7 +439,6 @@ public class ChangeJson {
     }
   }
 
-
   private Map<String, Collection<String>> permittedLabels(ChangeData cd)
       throws OrmException {
     ChangeControl ctl = control(cd);
@@ -469,6 +472,36 @@ public class ChangeJson {
       permitted.removeAll(label);
     }
     return permitted.asMap();
+  }
+
+  private Collection<AccountInfo> removableReviewers(ChangeData cd)
+      throws OrmException {
+    ChangeControl ctl = control(cd);
+    if (ctl == null) {
+      return ImmutableList.of();
+    }
+    Change change = ctl.getChange();
+    if (!change.getStatus().isOpen() ||
+        !(ctl.getCurrentUser() instanceof IdentifiedUser)) {
+      return ImmutableList.of();
+    }
+
+    Set<Account.Id> fixed = Sets.newHashSet();
+    Set<Account.Id> removable = Sets.newHashSet();
+    for (PatchSetApproval app : cd.currentApprovals(db)) {
+      if (ctl.canRemoveReviewer(app)) {
+        removable.add(app.getAccountId());
+      } else {
+        fixed.add(app.getAccountId());
+      }
+    }
+    removable.removeAll(fixed);
+
+    List<AccountInfo> result = Lists.newArrayListWithCapacity(removable.size());
+    for (Account.Id id : removable) {
+      result.add(accountLoader.get(id));
+    }
+    return result;
   }
 
   private boolean isChangeReviewed(ChangeData cd) throws OrmException {
@@ -661,13 +694,17 @@ public class ChangeJson {
     Timestamp updated;
     Boolean starred;
     Boolean reviewed;
+    Boolean mergeable;
 
     String _sortkey;
     int _number;
 
     AccountInfo owner;
+
     Map<String, LabelInfo> labels;
     Map<String, Collection<String>> permitted_labels;
+    Collection<AccountInfo> removable_reviewers;
+
     String current_revision;
     Map<String, RevisionInfo> revisions;
     public Boolean _moreChanges;

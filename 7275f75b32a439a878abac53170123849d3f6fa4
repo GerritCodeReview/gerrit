@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "P26dqyqo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-13T00:24:32Z",
+      "side": 1,
+      "message": "Done. Assuming what you mean is to just push the factory into Reviewers.",
+      "parentUuid": "P2wcqtn8",
+      "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P22cnMrg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-12T23:14:51Z",
       "side": 1,
       "message": "ReviewerResource extends ChangeResource which includes a ChangeControl for the API caller. You can cast that to a ChangeControl for the reviewer with .forUser(IdentifiedUser).",
+      "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2.dkwuA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-13T00:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P22cnMrg",
       "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "P28dpvrY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-13T00:24:32Z",
+      "side": 1,
+      "message": "Done. Note that we don\u0027t exclude approvals with value zero, and will in fact use those in the approval table to set the votable bit on the cell.",
+      "parentUuid": "P20ckrrE",
+      "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P26dBKj8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-12T23:14:51Z",
       "side": 1,
       "message": "Should we guard against a null type here?",
+      "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2ydf.gs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-13T00:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P26dBKj8",
       "revId": "7275f75b32a439a878abac53170123849d3f6fa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

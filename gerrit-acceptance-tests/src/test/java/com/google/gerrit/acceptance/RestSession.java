@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.gerrit.httpd.restapi.RestApiServlet;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -37,7 +39,7 @@ public class RestSession {
     HttpGet get = new HttpGet("http://localhost:8080/a" + endPoint);
     HttpResponse response = getClient().execute(get);
     Reader reader = new InputStreamReader(response.getEntity().getContent());
-    reader.skip(4);
+    reader.skip(RestApiServlet.JSON_MAGIC.length);
     return reader;
   }
 

@@ -17,8 +17,9 @@ package com.google.gerrit.server.index;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -45,7 +46,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 10;
+  public static final int SCHEMA_VERSION = 11;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -210,18 +211,27 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
+          Set<String> allApprovals = Sets.newHashSet();
           Set<String> distinctApprovals = Sets.newHashSet();
           for (PatchSetApproval a : input.currentApprovals(args.db)) {
             if (a.getValue() != 0) {
+              allApprovals.add(formatLabel(a.getLabel(), a.getValue(),
+                  a.getAccountId()));
               distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
             }
           }
-          return distinctApprovals;
+          allApprovals.addAll(distinctApprovals);
+          return allApprovals;
         }
       };
 
   public static String formatLabel(String label, int value) {
-    return label.toLowerCase() + (value >= 0 ? "+" : "") + value;
+    return formatLabel(label, value, null);
+  }
+
+  public static String formatLabel(String label, int value, Account.Id accountId) {
+    return label.toLowerCase() + (value >= 0 ? "+" : "") + value
+        + (accountId != null ? "," + accountId.get() : "");
   }
 
   public static final ImmutableMap<String, FieldDef<ChangeData, ?>> ALL;

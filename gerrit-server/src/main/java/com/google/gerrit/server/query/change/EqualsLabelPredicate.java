@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -38,18 +39,23 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
   private final String label;
   private final int expVal;
+  private final Account.Id account;
+  private final AccountGroup.UUID group;
 
   EqualsLabelPredicate(ProjectCache projectCache,
       ChangeControl.GenericFactory ccFactory,
       IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      String label, int expVal) {
-    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal));
+      String label, int expVal, Account.Id account,
+      AccountGroup.UUID group) {
+    super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
     this.ccFactory = ccFactory;
     this.projectCache = projectCache;
     this.userFactory = userFactory;
     this.dbProvider = dbProvider;
     this.label = label;
     this.expVal = expVal;
+    this.account = account;
+    this.group = group;
   }
 
   @Override
@@ -110,9 +116,9 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
     if (psVal == expVal) {
       // Double check the value is still permitted for the user.
       //
+      IdentifiedUser reviewer = userFactory.create(dbProvider, approver);
       try {
-        ChangeControl cc = ccFactory.controlFor(change, //
-            userFactory.create(dbProvider, approver));
+        ChangeControl cc = ccFactory.controlFor(change, reviewer);
         if (!cc.isVisible(dbProvider.get())) {
           // The user can't see the change anymore.
           //
@@ -125,6 +131,14 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
         return false;
       }
 
+      if (account != null && !account.equals(approver)) {
+        return false;
+      }
+
+      if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
+        return false;
+      }
+
       if (psVal == expVal) {
         return true;
       }
@@ -134,6 +148,6 @@ class EqualsLabelPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public int getCost() {
-    return 1;
+    return 1 + (group == null ? 0 : 1);
   }
 }

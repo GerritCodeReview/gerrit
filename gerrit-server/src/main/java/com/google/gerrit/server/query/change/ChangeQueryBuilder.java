@@ -52,6 +52,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -99,6 +100,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_TR = "tr";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
+
+  public static final String ARG_ID_USER = "user";
+  public static final String ARG_ID_GROUP = "group";
+
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<ChangeData, ChangeQueryBuilder>(
@@ -320,10 +325,57 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> label(String name) {
+  public Predicate<ChangeData> label(String name) throws QueryParseException,
+      OrmException {
+    Set<Account.Id> accounts = null;
+    AccountGroup.UUID group = null;
+
+    // Parse for:
+    // label:CodeReview=1,user=jsmith or
+    // label:CodeReview=1,jsmith or
+    // label:CodeReview=1,group=android_approvers or
+    // label:CodeReview=1,android_approvers
+    //  user/groups without a label will first attempt to match user
+    String[] splitReviewer = name.split(",", 2);
+    name = splitReviewer[0];        // remove all but the vote piece, e.g.'CodeReview=1'
+
+    if (splitReviewer.length == 2) {
+      // process the user/group piece
+      PredicateArgs lblArgs = new PredicateArgs(splitReviewer[1]);
+
+      for (Map.Entry<String, String> pair : lblArgs.keyValue.entrySet()) {
+        if (pair.getKey().equalsIgnoreCase(ARG_ID_USER)) {
+          accounts = parseAccount(pair.getValue());
+        } else if (pair.getKey().equalsIgnoreCase(ARG_ID_GROUP)) {
+          group = parseGroup(pair.getValue()).getUUID();
+        } else {
+          throw new QueryParseException(
+              "Invalid argument identifier '"   + pair.getKey() + "'");
+        }
+      }
+
+      for (String value : lblArgs.positional) {
+       if (accounts != null || group != null) {
+          throw new QueryParseException("more than one user/group specified (" +
+              value + ")");
+        }
+        try {
+          accounts = parseAccount(value);
+        } catch (QueryParseException qpex) {
+          // If it doesn't match an account, see if it matches a group
+          // (accounts get precedence)
+          try {
+            group = parseGroup(value).getUUID();
+          } catch (QueryParseException e) {
+            throw error("Neither user nor group " + value + " found");
+          }
+        }
+      }
+    }
+
     return new LabelPredicate(args.projectCache,
         args.changeControlGenericFactory, args.userFactory, args.dbProvider,
-        name);
+        name, accounts, group);
   }
 
   @Operator
@@ -535,7 +587,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
 
     } else if (PAT_LABEL.matcher(query).find()) {
-      return label(query);
+      try {
+        return label(query);
+      } catch (OrmException err) {
+        throw error("Cannot lookup user or group", err);
+      }
 
     } else {
       // Try to match a project name by substring query.
@@ -570,6 +626,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw error("User " + who + " not found");
     }
     return matches;
+  }
+
+  private GroupReference parseGroup(String group) throws QueryParseException {
+    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend,
+        group);
+    if (g == null) {
+      throw error("Group " + group + " not found");
+    }
+    return g;
   }
 
   private Account.Id self() {

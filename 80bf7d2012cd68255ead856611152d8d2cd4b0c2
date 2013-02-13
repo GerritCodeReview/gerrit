@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "P2sj0L.Y",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:15:24Z",
+      "side": 1,
+      "message": "Yes, IT stands for Integration Test.\n\nAs far as I know it\u0027s the standard Maven convention to use IT to the mark integration tests so that they are executed in the Maven verify phase. We could use another naming pattern, but then in the pom.xml we must make Maven aware of this.",
+      "parentUuid": "P2.fvohA",
+      "revId": "80bf7d2012cd68255ead856611152d8d2cd4b0c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P24fqJgI",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-13T06:40:22Z",
       "side": 1,
       "message": "Nit: trailing blank line",
+      "revId": "80bf7d2012cd68255ead856611152d8d2cd4b0c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2ujvcxA",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:15:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P24fqJgI",
       "revId": "80bf7d2012cd68255ead856611152d8d2cd4b0c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

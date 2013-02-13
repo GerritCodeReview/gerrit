@@ -7,7 +7,7 @@ link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.5.2.war
 
 There are no schema changes from 2.5, or 2.5.1.
 
-However, if upgrading from anything earlier version, follow the upgrade
+However, if upgrading from any earlier version, follow the upgrade
 procedure in the 2.5 link:ReleaseNotes-2.5.html[Release Notes].
 
 Bug Fixes

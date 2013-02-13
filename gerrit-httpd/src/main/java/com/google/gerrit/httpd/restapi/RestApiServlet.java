@@ -132,7 +132,7 @@ public class RestApiServlet extends HttpServlet {
    * HTTP interface will need to always strip the first line of response data to
    * remove this magic header.
    */
-  private static final byte[] JSON_MAGIC;
+  public static final byte[] JSON_MAGIC;
 
   static {
     JSON_MAGIC = ")]}'\n".getBytes(UTF_8);

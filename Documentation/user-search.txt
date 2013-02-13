@@ -327,6 +327,12 @@ A label name is any of the following:
 * The one or two character abbreviation shown in the column header
   of change list pages.  Example: `label:R` or `label:V`.
 
+* The category name followed by a ',' followed by a reviewer id or a
+  group id.  To make it clear whether a user or group is being looked
+  for, precede the value by a user or group argument identifier
+  ('user=' or 'group=').  If an LDAP group is being referenced make
+  sure to use 'ldap/<groupname>'.
+
 A label name must be followed by a score, or an operator and a score.
 The easiest way to explain this is by example.
 
@@ -353,7 +359,20 @@ Scores of +2 are not matched, even though they are higher.
 +
 Matches changes with either a +1, +2, or any higher score.
 
-`label:Code-Review<=-1`::
+`label:CodeReview=+2,aname`::
++
+Matches changes with a +2 code review where the reviewer or group is aname.
+
+`label:CodeReview=2,user=jsmith`::
++
+Matches changes with a +2 code review where the reviewer is jsmith.
+
+`label:CodeReview=+1,group=ldap/linux.workflow`::
++
+Matches changes with a +1 code review where the reviewer is in the
+ldap/linux.workflow group.
+
+`label:CodeReview<=-1`::
 +
 Matches changes with either a -1, -2, or any lower score.
 

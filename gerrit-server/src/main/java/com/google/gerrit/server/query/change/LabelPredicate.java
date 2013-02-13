@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -108,17 +109,23 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   private final Test test;
   private final String type;
   private final int expVal;
+  private final Set<Account.Id> accounts;
+  private final AccountGroup.UUID group;
 
   LabelPredicate(ProjectCache projectCache,
       ChangeControl.GenericFactory ccFactory,
       IdentifiedUser.GenericFactory userFactory,
       Provider<ReviewDb> dbProvider,
-      String value) {
+      String value,
+      Set<Account.Id> accounts,
+      AccountGroup.UUID group) {
     super(ChangeQueryBuilder.FIELD_LABEL, value);
     this.ccFactory = ccFactory;
     this.projectCache = projectCache;
     this.userFactory = userFactory;
     this.dbProvider = dbProvider;
+    this.accounts = accounts;
+    this.group = group;
 
     Matcher m1 = Pattern.compile("(=|>=|<=)([+-]?\\d+)$").matcher(value);
     Matcher m2 = Pattern.compile("([+-]\\d+)$").matcher(value);
@@ -184,9 +191,10 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     if (test.match(psVal, expVal)) {
       // Double check the value is still permitted for the user.
       //
+      IdentifiedUser reviewer = userFactory.create(dbProvider, approver);
       try {
-        ChangeControl cc = ccFactory.controlFor(change, //
-            userFactory.create(dbProvider, approver));
+
+        ChangeControl cc = ccFactory.controlFor(change, reviewer);
         if (!cc.isVisible(dbProvider.get())) {
           // The user can't see the change anymore.
           //
@@ -199,6 +207,14 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
         return false;
       }
 
+      if (accounts != null && ! accounts.contains(approver)) {
+        return false;
+      }
+
+      if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
+        return false;
+      }
+
       if (test.match(psVal, expVal)) {
         return true;
       }
@@ -208,6 +224,6 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public int getCost() {
-    return 2;
+    return 2 + (group == null ? 0 : 2);
   }
 }

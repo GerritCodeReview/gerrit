@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P2.fvohA",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-13T06:40:22Z",
+      "side": 1,
+      "message": "What does IT mean?  Integration Test?\n\nIf so, is there any reason we need to name the classes as ...IT instead of ...IntegrationTest?",
+      "revId": "80bf7d2012cd68255ead856611152d8d2cd4b0c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P24fqJgI",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-13T06:40:22Z",
+      "side": 1,
+      "message": "Nit: trailing blank line",
+      "revId": "80bf7d2012cd68255ead856611152d8d2cd4b0c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

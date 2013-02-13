@@ -41,6 +41,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), REVISION_KIND);
 
     get(CHANGE_KIND).to(GetChange.class);
+    get(CHANGE_KIND, "detail").to(GetDetail.class);
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);

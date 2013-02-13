@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "P3EZWcvU",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-13T10:25:54Z",
+      "side": 1,
+      "message": "testAllGroupInfoFieldsSetCorrectly ?",
+      "parentUuid": "P2ghJJy8",
+      "revId": "c29eef48eaa70d8ae7f1868297d0d04359da1684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P3CZf9gs",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupsIT.java",
         "patchSetId": 3

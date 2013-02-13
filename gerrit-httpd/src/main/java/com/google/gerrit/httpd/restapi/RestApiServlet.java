@@ -401,7 +401,7 @@ public class RestApiServlet extends HttpServlet {
       return parsePutInput(req, type);
     } else if ("DELETE".equals(req.getMethod()) && hasNoBody(req)) {
       return null;
-    } else if (isEmptyType(type) && hasNoBody(req)) {
+    } else if (hasNoBody(req)) {
       return createInstance(type);
     } else if (isType("text/plain", req.getContentType())) {
       BufferedReader br = req.getReader();
@@ -424,19 +424,6 @@ public class RestApiServlet extends HttpServlet {
     } else {
       throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
     }
-  }
-
-  @SuppressWarnings("rawtypes")
-  private static boolean isEmptyType(Type type) {
-    if (type == String.class) {
-      return false;
-    } else if (type instanceof Class) {
-      Class clazz = (Class) type;
-      Class base = clazz.getSuperclass();
-      return clazz.getDeclaredFields().length == 0
-          && (base == null || isEmptyType(base));
-    }
-    return false;
   }
 
   private static boolean hasNoBody(HttpServletRequest req) {

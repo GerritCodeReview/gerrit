@@ -36,6 +36,74 @@
     },
     {
       "key": {
+        "uuid": "P2qh8W2Y",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:08:32Z",
+      "side": 1,
+      "message": "throw NoSuchProjectException",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2oiBl14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:08:32Z",
+      "side": 1,
+      "message": "Unnecessary check, this should never happen.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2uh2U4Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:08:32Z",
+      "side": 1,
+      "message": "You must ensure in a finally block that the repository gets closed. At the moment it is only closed in the purgeCache method, but this method is not invoked if an exception occurs.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2sh7j2o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:08:32Z",
+      "side": 1,
+      "message": "Unnecessary check, repoManager.openRepository(...) will never return null.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P24eYZtY",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 1
@@ -47,6 +115,91 @@
       "writtenOn": "2013-02-13T00:39:14Z",
       "side": 1,
       "message": "We need to check if a project with `destinationName` already exists, and raise `NameAlreadyUsedException`.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2giOR4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:08:32Z",
+      "side": 1,
+      "message": "Computing the directory for a given project name is already implemented in LocalDiskRepositoryManager when creating a new repository. I think this code should be reused, see also my comment below in line 174.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2iiRi6c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:08:32Z",
+      "side": 1,
+      "message": "I think the rename of the repository should be implemented in LocalDiskRepositoryManager. Add a \u0027renameRepository\u0027 method to GitRepositoryManager. LocalDiskRepositoryManager caches a list with the repository names that needs to be updated on rename.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2qjlezY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:08:32Z",
+      "side": 1,
+      "message": "If replication is used, you also need to ensure that the project is renamed in the replication targets.\n\nIn addition you miss to update the the parent information for all child projects of the renamed project. The child projects store the name of their parent project in their project.config file in the refs/meta/config branch.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2miLg3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:08:32Z",
+      "side": 1,
+      "message": "LocalDiskRepositoryManager.isUnreasonableName(...) should be used to check the destinationName. This would already prevent any \u0027..\u0027.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P2kiIP3k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-13T07:08:32Z",
+      "side": 1,
+      "message": "You must ensure that no other git operations are executed on the repository while doing the rename (at least no other git operation from Gerrit, you can\u0027t check for operations done from native git). I guess you need some kind of locking here. Have a look at [1].\n\n[1] https://gerrit-review.googlesource.com/17167",
       "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

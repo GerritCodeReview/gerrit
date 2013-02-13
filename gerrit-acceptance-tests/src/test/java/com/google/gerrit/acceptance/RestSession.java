@@ -14,17 +14,18 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
+import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
-import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
+
+import java.io.IOException;
 
 public class RestSession {
 
@@ -35,15 +36,25 @@ public class RestSession {
     this.account = account;
   }
 
-  public Reader get(String endPoint) throws IOException {
+  public RestResponse get(String endPoint) throws IOException {
     HttpGet get = new HttpGet("http://localhost:8080/a" + endPoint);
-    HttpResponse response = getClient().execute(get);
-    Reader reader = new InputStreamReader(response.getEntity().getContent());
-    reader.skip(JSON_MAGIC.length);
-    return reader;
+    return new RestResponse(getClient().execute(get));
   }
 
-  public Reader post(String endPoint) {
+  public RestResponse put(String endPoint) throws IOException {
+    return put(endPoint, null);
+  }
+
+  public RestResponse put(String endPoint, Object content) throws IOException {
+    HttpPut put = new HttpPut("http://localhost:8080/a" + endPoint);
+    if (content != null) {
+      put.addHeader(new BasicHeader("Content-Type", "application/json"));
+      put.setEntity(new StringEntity((new Gson()).toJson(content), HTTP.UTF_8));
+    }
+    return new RestResponse(getClient().execute(put));
+  }
+
+  public RestResponse post(String endPoint) {
     // TODO
     return null;
   }

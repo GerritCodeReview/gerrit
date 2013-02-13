@@ -69,6 +69,10 @@ public class ChangeApi {
     return change(id.getParentKey().get()).view("revisions").id(id.get());
   }
 
+  public static RestApi reviewers(int id) {
+    return change(id).view("reviewers");
+  }
+
   public static RestApi reviewer(int id, int reviewer) {
     return change(id).view("reviewers").id(reviewer);
   }

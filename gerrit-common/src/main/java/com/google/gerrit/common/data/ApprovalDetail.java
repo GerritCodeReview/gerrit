@@ -21,8 +21,10 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ApprovalDetail {
@@ -46,6 +48,7 @@ public class ApprovalDetail {
 
   private transient Set<String> approved;
   private transient Set<String> rejected;
+  private transient Map<String, Integer> values;
   private transient int hasNonZero;
   private transient Timestamp sortOrder = EG_D;
 
@@ -69,10 +72,12 @@ public class ApprovalDetail {
     canRemove = removeable;
   }
 
+  @Deprecated
   public List<PatchSetApproval> getPatchSetApprovals() {
     return approvals;
   }
 
+  @Deprecated
   public PatchSetApproval getPatchSetApproval(ApprovalCategory.Id category) {
     for (PatchSetApproval psa : approvals) {
       if (psa.getCategoryId().equals(category)) {
@@ -87,12 +92,15 @@ public class ApprovalDetail {
     sortOrder = ApprovalDetail.EG_0;
   }
 
+  @Deprecated
   public void add(final PatchSetApproval ca) {
     approvals.add(ca);
 
     final Timestamp g = ca.getGranted();
     if (g != null && g.compareTo(sortOrder) < 0) {
       sortOrder = g;
+      // Value is not set, but code calling this deprecated method does not
+      // call getValue.
     }
     if (ca.getValue() != 0) {
       hasNonZero = 1;
@@ -120,6 +128,13 @@ public class ApprovalDetail {
     votable.add(label);
   }
 
+  public void value(String label, int value) {
+    if (values == null) {
+      values = new HashMap<String, Integer>();
+    }
+    values.put(label, value);
+  }
+
   public boolean isApproved(String label) {
     return approved != null && approved.contains(label);
   }
@@ -130,5 +145,13 @@ public class ApprovalDetail {
 
   public boolean canVote(String label) {
     return votable != null && votable.contains(label);
+  }
+
+  public int getValue(String label) {
+    if (values == null) {
+      return 0;
+    }
+    Integer v = values.get(label);
+    return v != null ? v : 0;
   }
 }

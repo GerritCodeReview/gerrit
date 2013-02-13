@@ -76,6 +76,7 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String branch() /*-{ return this.branch; }-*/;
   public final native String topic() /*-{ return this.topic; }-*/;
   public final native String change_id() /*-{ return this.change_id; }-*/;
+  public final native boolean mergeable() /*-{ return this.mergeable; }-*/;
   private final native String statusRaw() /*-{ return this.status; }-*/;
   public final native String subject() /*-{ return this.subject; }-*/;
   public final native AccountInfo owner() /*-{ return this.owner; }-*/;
@@ -94,6 +95,9 @@ public class ChangeInfo extends JavaScriptObject {
   }
   public final native JsArrayString permitted_values(String n)
   /*-{ return this.permitted_labels[n]; }-*/;
+
+  public final native JsArray<AccountInfo> removable_reviewers()
+  /*-{ return this.removable_reviewers; }-*/;
 
   final native int _number() /*-{ return this._number; }-*/;
   final native boolean _more_changes()

@@ -14,28 +14,29 @@
 
 package com.google.gerrit.client.changes;
 
+import static com.google.gerrit.reviewdb.client.ApprovalCategoryValue.formatValue;
+
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.ErrorDialog;
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.patches.PatchUtil;
+import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
+import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AccountLink;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AddMemberBox;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ReviewerSuggestOracle;
-import com.google.gerrit.common.data.AccountInfoCache;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.common.data.ChangeDetail;
-import com.google.gerrit.common.data.PatchSetPublishDetail;
-import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
@@ -51,24 +52,34 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /** Displays a table of {@link ApprovalDetail} objects for a change record. */
 public class ApprovalTable extends Composite {
+  static short parseLabelValue(String value) {
+    if (value.charAt(0) == ' ' || value.charAt(0) == '+') {
+      value = value.substring(1);
+    }
+    return Short.parseShort(value);
+  }
+
   private final ApprovalTypes types;
   private final Grid table;
   private final Widget missing;
   private final Panel addReviewer;
   private final ReviewerSuggestOracle reviewerSuggestOracle;
   private final AddMemberBox addMemberBox;
-  private Change.Id changeId;
-  private AccountInfoCache accountCache = AccountInfoCache.empty();
+  private ChangeInfo lastChange;
+  private Map<Integer, Integer> rows;
 
   public ApprovalTable() {
+    rows = new HashMap<Integer, Integer>();
     types = Gerrit.getConfig().getApprovalTypes();
     table = new Grid(1, 3);
     table.addStyleName(Gerrit.RESOURCES.css().infoTable());
@@ -104,7 +115,7 @@ public class ApprovalTable extends Composite {
     setStyleName(Gerrit.RESOURCES.css().approvalTable());
   }
 
-  private void displayHeader(List<String> labels) {
+  private void displayHeader(Collection<String> labels) {
     table.resizeColumns(2 + labels.size());
 
     final CellFormatter fmt = table.getCellFormatter();
@@ -126,263 +137,212 @@ public class ApprovalTable extends Composite {
     fmt.addStyleName(0, col - 1, Gerrit.RESOURCES.css().rightmost());
   }
 
-  public void setAccountInfoCache(final AccountInfoCache aic) {
-    assert aic != null;
-    accountCache = aic;
-  }
+  void display(ChangeInfo change) {
+    lastChange = change;
+    reviewerSuggestOracle.setChange(change.legacy_id());
+    Map<Integer, ApprovalDetail> byUser =
+        new LinkedHashMap<Integer, ApprovalDetail>();
+    Map<Integer, AccountInfo> accounts =
+        new LinkedHashMap<Integer, AccountInfo>();
+    List<String> missingLabels = initLabels(change, accounts, byUser);
 
-  private AccountLink link(final Account.Id id) {
-    return AccountLink.link(accountCache, id);
-  }
-
-  void display(PatchSetPublishDetail detail) {
-    doDisplay(detail.getChange(), detail.getApprovals(),
-        detail.getSubmitRecords());
-  }
-
-  void display(ChangeDetail detail) {
-    doDisplay(detail.getChange(), detail.getApprovals(),
-        detail.getSubmitRecords());
-  }
-
-  private void doDisplay(Change change, List<ApprovalDetail> approvals,
-      List<SubmitRecord> submitRecords) {
-    changeId = change.getId();
-    reviewerSuggestOracle.setChange(changeId);
-
-    List<String> columns = new ArrayList<String>();
-
-    final Element missingList = missing.getElement();
-    while (DOM.getChildCount(missingList) > 0) {
-      DOM.removeChild(missingList, DOM.getChild(missingList, 0));
-    }
-    missing.setVisible(false);
-
-    if (submitRecords != null) {
-      HashSet<String> reportedMissing = new HashSet<String>();
-
-      HashMap<Account.Id, ApprovalDetail> byUser =
-          new HashMap<Account.Id, ApprovalDetail>();
-      for (ApprovalDetail ad : approvals) {
-        byUser.put(ad.getAccount(), ad);
-      }
-
-      for (SubmitRecord rec : submitRecords) {
-        if (rec.labels == null) {
-          continue;
-        }
-
-        for (SubmitRecord.Label lbl : rec.labels) {
-          if (!columns.contains(lbl.label)) {
-            columns.add(lbl.label);
-          }
-
-          switch (lbl.status) {
-            case OK: {
-              ApprovalDetail ad = byUser.get(lbl.appliedBy);
-              if (ad != null) {
-                ad.approved(lbl.label);
-              }
-              break;
-            }
-
-            case REJECT: {
-              ApprovalDetail ad = byUser.get(lbl.appliedBy);
-              if (ad != null) {
-                ad.rejected(lbl.label);
-              }
-              break;
-            }
-
-            case MAY:
-              break;
-
-            case NEED:
-            case IMPOSSIBLE:
-              if (reportedMissing.add(lbl.label)) {
-                Element li = DOM.createElement("li");
-                li.setClassName(Gerrit.RESOURCES.css().missingApproval());
-                DOM.setInnerText(li, Util.M.needApproval(lbl.label));
-                DOM.appendChild(missingList, li);
-              }
-              break;
-          }
-        }
-      }
-      missing.setVisible(!reportedMissing.isEmpty());
-
-    } else {
-      for (ApprovalDetail ad : approvals) {
-        for (PatchSetApproval psa : ad.getPatchSetApprovals()) {
-          ApprovalType legacyType = types.byId(psa.getCategoryId());
-          if (legacyType == null) {
-            continue;
-          }
-          String labelName = legacyType.getCategory().getLabelName();
-          if (psa.getValue() != 0 ) {
-            if (psa.getValue() == legacyType.getMax().getValue()) {
-              ad.approved(labelName);
-            } else if (psa.getValue() == legacyType.getMin().getValue()) {
-              ad.rejected(labelName);
-            }
-          }
-          if (!columns.contains(labelName)) {
-            columns.add(labelName);
-          }
-        }
-        Collections.sort(columns, new Comparator<String>() {
-          @Override
-          public int compare(String o1, String o2) {
-            ApprovalType a = types.byLabel(o1);
-            ApprovalType b = types.byLabel(o2);
-            int cmp = 0;
-            if (a != null && b != null) {
-              cmp = a.getCategory().getPosition() - b.getCategory().getPosition();
-            }
-            if (cmp == 0) {
-              cmp = o1.compareTo(o2);
-            }
-            return cmp;
-          }
-        });
-      }
+    removeAllChildren(missing.getElement());
+    for (String label : missingLabels) {
+      addMissingLabel(Util.M.needApproval(label));
     }
 
-    if (approvals.isEmpty()) {
+    if (byUser.isEmpty()) {
       table.setVisible(false);
     } else {
-      displayHeader(columns);
-      table.resizeRows(1 + approvals.size());
-      for (int i = 0; i < approvals.size(); i++) {
-        displayRow(i + 1, approvals.get(i), change, columns);
+      displayHeader(change.labels());
+      table.resizeRows(1 + byUser.size());
+      int i = 1;
+      for (ApprovalDetail ad : byUser.values()) {
+        displayRow(i++, ad, change, accounts.get(ad.getAccount().get()));
       }
       table.setVisible(true);
     }
 
-    addReviewer.setVisible(Gerrit.isSignedIn());
-
     if (Gerrit.getConfig().testChangeMerge()
-        && !change.isMergeable()) {
-      Element li = DOM.createElement("li");
-      li.setClassName(Gerrit.RESOURCES.css().missingApproval());
-      DOM.setInnerText(li, Util.C.messageNeedsRebaseOrHasDependency());
-      DOM.appendChild(missingList, li);
-      missing.setVisible(true);
+        && !change.mergeable()) {
+      addMissingLabel(Util.C.messageNeedsRebaseOrHasDependency());
     }
+    missing.setVisible(DOM.getChildCount(missing.getElement()) > 0);
+    addReviewer.setVisible(Gerrit.isSignedIn());
+  }
+
+  private void removeAllChildren(Element el) {
+    for (int i = DOM.getChildCount(el) - 1; i >= 0; i--) {
+      DOM.removeChild(el, DOM.getChild(el, i));
+    }
+  }
+
+  private void addMissingLabel(String text) {
+    Element li = DOM.createElement("li");
+    li.setClassName(Gerrit.RESOURCES.css().missingApproval());
+    DOM.setInnerText(li, text);
+    DOM.appendChild(missing.getElement(), li);
+  }
+
+  private Set<Integer> removableReviewers(ChangeInfo change) {
+    Set<Integer> result =
+        new HashSet<Integer>(change.removable_reviewers().length());
+    for (int i = 0; i < change.removable_reviewers().length(); i++) {
+      result.add(change.removable_reviewers().get(i)._account_id());
+    }
+    return result;
+  }
+
+  private List<String> initLabels(ChangeInfo change,
+      Map<Integer, AccountInfo> accounts,
+      Map<Integer, ApprovalDetail> byUser) {
+    Set<Integer> removableReviewers = removableReviewers(change);
+    List<String> missing = new ArrayList<String>();
+    for (String name : change.labels()) {
+      LabelInfo label = change.label(name);
+
+      String min = null;
+      String max = null;
+      for (String v : label.values()) {
+        if (min == null) {
+          min = v;
+        }
+        if (v.startsWith("+")) {
+          max = v;
+        }
+      }
+
+      if (label.status() == SubmitRecord.Label.Status.NEED) {
+        missing.add(name);
+      }
+
+      if (label.all() != null) {
+        for (ApprovalInfo ai : Natives.asList(label.all())) {
+          if (!accounts.containsKey(ai._account_id())) {
+            accounts.put(ai._account_id(), ai);
+          }
+          int id = ai._account_id();
+          ApprovalDetail ad = byUser.get(id);
+          if (ad == null) {
+            ad = new ApprovalDetail(new Account.Id(id));
+            ad.setCanRemove(removableReviewers.contains(id));
+            byUser.put(id, ad);
+          }
+          ad.votable(name);
+          ad.value(name, ai.value());
+          if (formatValue(ai.value()).equals(max)) {
+            ad.approved(name);
+          } else if (formatValue(ai.value()).equals(min)) {
+            ad.rejected(name);
+          }
+        }
+      }
+    }
+    return missing;
   }
 
   private void doAddReviewer() {
-    final String reviewer = addMemberBox.getText();
-    if (reviewer.length() == 0) {
-      return;
+    String reviewer = addMemberBox.getText();
+    if (!reviewer.isEmpty()) {
+      addMemberBox.setEnabled(false);
+      addReviewer(reviewer, false);
     }
-
-    addMemberBox.setEnabled(false);
-    final List<String> reviewers = new ArrayList<String>();
-    reviewers.add(reviewer);
-
-    addReviewers(reviewers, false);
   }
 
-  private void addReviewers(final List<String> reviewers,
-      final boolean confirmed) {
-    PatchUtil.DETAIL_SVC.addReviewers(changeId, reviewers, confirmed,
-        new GerritCallback<ReviewerResult>() {
-          public void onSuccess(final ReviewerResult result) {
+  private static class PostInput extends JavaScriptObject {
+    static PostInput create(String reviewer, boolean confirmed) {
+      PostInput input = createObject().cast();
+      input.init(reviewer, confirmed);
+      return input;
+    }
+
+    private native void init(String reviewer, boolean confirmed) /*-{
+      this.reviewer = reviewer;
+      if (confirmed) {
+        this.confirmed = true;
+      }
+    }-*/;
+
+    protected PostInput() {
+    }
+  }
+
+  private static class ReviewerInfo extends AccountInfo {
+    final Set<String> approvals() {
+      return Natives.keys(_approvals());
+    }
+    final native String approval(String l) /*-{ return this.approvals[l]; }-*/;
+    private final native NativeMap<NativeString> _approvals() /*-{ return this.approvals; }-*/;
+
+    protected ReviewerInfo() {
+    }
+  }
+
+  private static class PostResult extends JavaScriptObject {
+    final native JsArray<ReviewerInfo> reviewers() /*-{ return this.reviewers; }-*/;
+    final native boolean confirm() /*-{ return this.confirm || false; }-*/;
+    final native String error() /*-{ return this.error; }-*/;
+
+    protected PostResult() {
+    }
+  }
+
+  private void addReviewer(final String reviewer, boolean confirmed) {
+    ChangeApi.reviewers(lastChange.legacy_id().get()).post(
+        PostInput.create(reviewer, confirmed),
+        new GerritCallback<PostResult>() {
+          public void onSuccess(PostResult result) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
-
-            final ChangeDetail changeDetail = result.getChange();
-            if (changeDetail != null) {
-              setAccountInfoCache(changeDetail.getAccounts());
-              display(changeDetail);
-            }
-
-            if (!result.getErrors().isEmpty()) {
-              final SafeHtmlBuilder r = new SafeHtmlBuilder();
-              for (final ReviewerResult.Error e : result.getErrors()) {
-                switch (e.getType()) {
-                  case REVIEWER_NOT_FOUND:
-                    r.append(Util.M.reviewerNotFound(e.getName()));
-                    break;
-
-                  case ACCOUNT_INACTIVE:
-                    r.append(Util.M.accountInactive(e.getName()));
-                    break;
-
-                  case CHANGE_NOT_VISIBLE:
-                    r.append(Util.M.changeNotVisibleTo(e.getName()));
-                    break;
-
-                  case GROUP_EMPTY:
-                    r.append(Util.M.groupIsEmpty(e.getName()));
-                    break;
-
-                  case GROUP_HAS_TOO_MANY_MEMBERS:
-                    if (result.askForConfirmation() && !confirmed) {
-                      askForConfirmation(e.getName(), result.getMemberCount());
-                      return;
-                    } else {
-                      r.append(Util.M.groupHasTooManyMembers(e.getName()));
-                    }
-                    break;
-
-                  case GROUP_NOT_ALLOWED:
-                    r.append(Util.M.groupIsNotAllowed(e.getName()));
-                    break;
-
-                  default:
-                    r.append(e.getName());
-                    r.append(" - ");
-                    r.append(e.getType());
-                    r.br();
-                    break;
-                }
-              }
-              new ErrorDialog(r).center();
+            if (result.error() == null) {
+              reload();
+            } else if (result.confirm()) {
+              askForConfirmation(result.error());
+            } else {
+              new ErrorDialog(new SafeHtmlBuilder().append(result.error()));
             }
           }
 
-          private void askForConfirmation(final String groupName,
-              final int memberCount) {
-            final SafeHtmlBuilder b = new SafeHtmlBuilder();
-            b.openElement("b");
-            b.append(Util.M
-                .groupManyMembersConfirmation(groupName, memberCount));
-            b.closeElement("b");
-            final ConfirmationDialog confirmationDialog =
-                new ConfirmationDialog(Util.C
-                    .approvalTableAddManyReviewersConfirmationDialogTitle(),
-                    b.toSafeHtml(), new ConfirmationCallback() {
-                      @Override
-                      public void onOk() {
-                        addReviewers(reviewers, true);
-                      }
-                    });
+          private void askForConfirmation(String text) {
+            String title = Util.C
+                .approvalTableAddManyReviewersConfirmationDialogTitle();
+            ConfirmationDialog confirmationDialog = new ConfirmationDialog(
+                title, new SafeHtmlBuilder().append(text),
+                new ConfirmationCallback() {
+                  @Override
+                  public void onOk() {
+                    addReviewer(reviewer, true);
+                  }
+                });
             confirmationDialog.center();
           }
 
           @Override
           public void onFailure(final Throwable caught) {
             addMemberBox.setEnabled(true);
-            super.onFailure(caught);
+            if (isNoSuchEntity(caught)) {
+              new ErrorDialog(Util.M.reviewerNotFound(reviewer)).center();
+            } else {
+              super.onFailure(caught);
+            }
           }
         });
   }
 
-  private void displayRow(final int row, final ApprovalDetail ad,
-      final Change change, List<String> columns) {
+  private void displayRow(int row, final ApprovalDetail ad, ChangeInfo change,
+      AccountInfo account) {
     final CellFormatter fmt = table.getCellFormatter();
     int col = 0;
 
-    table.setWidget(row, col++, link(ad.getAccount()));
+    table.setWidget(row, col++, new InlineHyperlink(account.name(),
+        PageLinks.toAccountQuery(account.name())));
+    rows.put(account._account_id(), row);
 
     if (ad.canRemove()) {
       final PushButton remove = new PushButton( //
           new Image(Util.R.removeReviewerNormal()), //
           new Image(Util.R.removeReviewerPressed()));
-      remove.setTitle(Util.M.removeReviewer( //
-          FormatUtil.name(accountCache.get(ad.getAccount()))));
+      remove.setTitle(Util.M.removeReviewer(account.name()));
       remove.setStyleName(Gerrit.RESOURCES.css().removeReviewer());
       remove.addStyleName(Gerrit.RESOURCES.css().link());
       remove.addClickHandler(new ClickHandler() {
@@ -397,7 +357,7 @@ public class ApprovalTable extends Composite {
     }
     fmt.setStyleName(row, col++, Gerrit.RESOURCES.css().removeReviewerCell());
 
-    for (String labelName : columns) {
+    for (String labelName : change.labels()) {
       fmt.setStyleName(row, col, Gerrit.RESOURCES.css().approvalscore());
       if (!ad.canVote(labelName)) {
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().notVotable());
@@ -411,6 +371,7 @@ public class ApprovalTable extends Composite {
         table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
 
       } else {
+        // TODO: support arbitrary labels.
         ApprovalType legacyType = types.byLabel(labelName);
         if (legacyType == null) {
           table.clearCell(row, col);
@@ -418,15 +379,14 @@ public class ApprovalTable extends Composite {
           continue;
         }
 
-        PatchSetApproval ca = ad.getPatchSetApproval(legacyType.getCategory().getId());
-        if (ca == null || ca.getValue() == 0) {
+        int v = ad.getValue(labelName);
+        if (v == 0) {
           table.clearCell(row, col);
           col++;
           continue;
         }
-
-        String vstr = String.valueOf(ca.getValue());
-        if (ca.getValue() > 0) {
+        String vstr = String.valueOf(ad.getValue(labelName));
+        if (v > 0) {
           vstr = "+" + vstr;
           fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
         } else {
@@ -442,19 +402,19 @@ public class ApprovalTable extends Composite {
   }
 
   private void reload() {
-    Util.DETAIL_SVC.changeDetail(changeId,
-        new GerritCallback<ChangeDetail>() {
+    ChangeApi.detail(lastChange.legacy_id().get(),
+        new GerritCallback<ChangeInfo>() {
           @Override
-          public void onSuccess(ChangeDetail result) {
+          public void onSuccess(ChangeInfo result) {
             display(result);
           }
-      });
+        });
   }
 
   private void doRemove(ApprovalDetail ad, final PushButton remove) {
     remove.setEnabled(false);
-    ChangeApi.reviewer(changeId.get(), ad.getAccount().get()).delete(
-        new GerritCallback<JavaScriptObject>() {
+    ChangeApi.reviewer(lastChange.legacy_id().get(), ad.getAccount().get())
+      .delete(new GerritCallback<JavaScriptObject>() {
           @Override
           public void onSuccess(JavaScriptObject result) {
             reload();

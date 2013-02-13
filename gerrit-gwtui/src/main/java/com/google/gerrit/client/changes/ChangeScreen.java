@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
@@ -62,6 +63,7 @@ public class ChangeScreen extends Screen
   private final Change.Id changeId;
   private final PatchSet.Id openPatchSetId;
   private ChangeDetailCache detailCache;
+  private com.google.gerrit.client.changes.ChangeInfo changeInfo;
 
   private ChangeDescriptionBlock descriptionBlock;
   private ApprovalTable approvals;
@@ -255,9 +257,20 @@ public class ChangeScreen extends Screen
   }
 
   @Override
-  public void onValueChange(ValueChangeEvent<ChangeDetail> event) {
+  public void onValueChange(final ValueChangeEvent<ChangeDetail> event) {
     if (isAttached()) {
-      display(event.getValue());
+      // Until this screen is fully migrated to the new API, this call must be
+      // sequential, because we can't start an async get at the source of every
+      // call that might trigger a value change.
+      ChangeApi.detail(event.getValue().getChange().getId().get(),
+          new GerritCallback<com.google.gerrit.client.changes.ChangeInfo>() {
+            @Override
+            public void onSuccess(
+                com.google.gerrit.client.changes.ChangeInfo result) {
+              changeInfo = result;
+              display(event.getValue());
+            }
+          });
     }
   }
 
@@ -273,7 +286,6 @@ public class ChangeScreen extends Screen
     }
 
     dependencies.setAccountInfoCache(detail.getAccounts());
-    approvals.setAccountInfoCache(detail.getAccounts());
 
     descriptionBlock.display(detail.getChange(),
         detail.isStarred(),
@@ -282,7 +294,7 @@ public class ChangeScreen extends Screen
         detail.getAccounts(), detail.getSubmitTypeRecord());
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
-    approvals.display(detail);
+    approvals.display(changeInfo);
 
     patchesList.clear();
     if (detail.getCurrentPatchSetDetail().getInfo().getParents().size() > 1) {

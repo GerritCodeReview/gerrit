@@ -453,10 +453,16 @@ public class ChangeJson {
         }
       }
     }
-    for (Collection<String> values : permitted.asMap().values()) {
-      if (isOnlyZero(values)) {
-        values.clear();
+    List<String> toClear =
+      Lists.newArrayListWithCapacity(permitted.keySet().size());
+    for (Map.Entry<String, Collection<String>> e
+        : permitted.asMap().entrySet()) {
+      if (isOnlyZero(e.getValue())) {
+        toClear.add(e.getKey());
       }
+    }
+    for (String label : toClear) {
+      permitted.removeAll(label);
     }
     return permitted.asMap();
   }

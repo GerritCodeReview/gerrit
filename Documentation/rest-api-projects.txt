@@ -8,6 +8,10 @@ link:rest-api.html[REST API].
 Endpoints
 ---------
 
+[[project-endpoints]]
+Project Endpoints
+-----------------
+
 GET /projects/ (List Projects)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the projects accessible by the caller. This is the same as
@@ -88,6 +92,10 @@ List all projects that start with `platform/`:
   }
 ----
 E.g. this feature can be used by suggestion client UI's to limit results.
+
+[[dashboard-endpoints]]
+Dashboard Endpoints
+-------------------
 
 GET /projects/\{project-name\}/dashboards/ (List Dashboards)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

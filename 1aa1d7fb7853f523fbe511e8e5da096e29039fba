@@ -34,6 +34,24 @@
       "revId": "1aa1d7fb7853f523fbe511e8e5da096e29039fba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4aF8nmY",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-14T02:02:31Z",
+      "side": 1,
+      "message": "I can\u0027t find it in my development history. I remember having a problem with Guice being able to construct the DynamicMap correctly to register the views. Maybe I wanted a plugin to be able to supply a view in its SysModule and not an HttpModule or SshModule? I can\u0027t remember.\n\nI did want to try and make a lot of the REST API view code the sort of \"default internal interface\" to things too. Plugins and even some core server code should be hitting the REST views in the future, rather than the underlying objects. If the REST API is going to be stable long-term for external clients to poke, then making it also a part of our internal stable API makes it easier for plugins and extensions to program to that and be less likely to break through iterations of Gerrit. I have some ideas on how to expose this better than just injecting a view object but haven\u0027t been able to write them down or write code for them. But I doubt this was my motivation for putting the views in the system module.\n\nI have liked that the views aren\u0027t tied to anything that is request scope bound. The two request scopes are really messy. The way the views work most data is curried through the resource handles, whose instances are are per-invocation and not tracked at all by Guice. CurrentUser/IdentifiedUser is an exception, an exception allowed because we already have them in the GroupBackend. ReviewDb is also an exception because they are normally somewhat limited in number and expensive to acquire/borrow. But everything else should be built on the fly, or singleton scope in the server.\n\nLong term it might be nice to get rid of the request scope altogether since its a mess to have HTTP, SSH, and our own internal one in our hosted server. It certainly would simplify the Gerrit code considerably if we didn\u0027t have request scope.\n\nSo I\u0027m still sort of pushing back on the idea of moving these to be request scoped. Why do we need the request scope for the view implementations? What can\u0027t we fix of an existing type that is needed in a view?",
+      "parentUuid": "P7ZXv5EM",
+      "revId": "1aa1d7fb7853f523fbe511e8e5da096e29039fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,21 +14,17 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
-
-import com.jcraft.jsch.HostKey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * Common class for notifications that are related to a project and branch
@@ -39,7 +35,6 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
   protected Project.NameKey project;
   protected Branch.NameKey branch;
-  private SshInfo sshInfo;
 
   protected NotificationEmail(EmailArguments ea,
       String mc, Project.NameKey project, Branch.NameKey branch) {
@@ -95,20 +90,11 @@ public abstract class NotificationEmail extends OutgoingEmail {
     }
   }
 
-  protected void setSshInfo(SshInfo si) {
-    this.sshInfo = si;
-  }
-
   public String getSshHost() {
-    if (sshInfo == null) {
+    String host = Iterables.getFirst(args.sshAddresses, null);
+    if (host == null) {
       return null;
     }
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-    if (hostKeys.isEmpty()) {
-      return null;
-    }
-
-    final String host = hostKeys.get(0).getHost();
     if (host.startsWith("*:")) {
       return getGerritHost() + host.substring(1);
     }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
+
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -21,7 +23,9 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.ssh.SshListenAddresses;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
@@ -114,13 +118,10 @@ import java.util.List;
  */
 @Singleton
 public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
-  private static final int IANA_SSH_PORT = 22;
-  public static final int DEFAULT_PORT = 29418;
-
   private static final Logger log = LoggerFactory.getLogger(SshDaemon.class);
 
   private final List<SocketAddress> listen;
-  private final List<String> advertisedAddress;
+  private final List<String> advertised;
   private final boolean keepAlive;
   private final List<HostKey> hostKeys;
   private volatile IoAcceptor acceptor;
@@ -129,11 +130,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   SshDaemon(final CommandFactory commandFactory, final NoShell noShell,
       final PublickeyAuthenticator userAuth,
       final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
-      @GerritServerConfig final Config cfg, final SshLog sshLog) {
+      @GerritServerConfig final Config cfg, final SshLog sshLog,
+      @SshListenAddresses final List<SocketAddress> listen,
+      @SshAdvertisedAddresses final List<String> advertised) {
     setPort(IANA_SSH_PORT /* never used */);
 
-    listen = parseListen(cfg);
-    advertisedAddress = parseAdvertisedAddress(cfg);
+    this.listen = listen;
+    this.advertised = advertised;
     reuseAddress = cfg.getBoolean("sshd", "reuseaddress", true);
     keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
 
@@ -268,7 +271,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       buf.putRawPublicKey(pub);
       final byte[] keyBin = buf.getCompactData();
 
-      for (final String addr : myAdvertisedAddresses()) {
+      for (final String addr : advertised) {
         try {
           r.add(new HostKey(addr, keyBin));
         } catch (JSchException e) {
@@ -277,36 +280,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
     }
     return Collections.unmodifiableList(r);
-  }
-
-  private List<String> myAdvertisedAddresses() {
-    if (advertisedAddress != null) {
-      return advertisedAddress;
-    } else {
-      List<InetSocketAddress> addrs = myAddresses();
-      List<String> strAddrs = new ArrayList<String>(addrs.size());
-      for (final InetSocketAddress addr : addrs) {
-        strAddrs.add(SocketUtil.format(addr, IANA_SSH_PORT));
-      }
-      return strAddrs;
-    }
-  }
-
-  private List<InetSocketAddress> myAddresses() {
-    ArrayList<InetSocketAddress> pub = new ArrayList<InetSocketAddress>();
-    ArrayList<InetSocketAddress> local = new ArrayList<InetSocketAddress>();
-
-    for (final SocketAddress addr : listen) {
-      if (addr instanceof InetSocketAddress) {
-        final InetSocketAddress inetAddr = (InetSocketAddress) addr;
-        if (inetAddr.getAddress().isLoopbackAddress()) {
-          local.add(inetAddr);
-        } else {
-          pub.add(inetAddr);
-        }
-      }
-    }
-    return pub.isEmpty() ? local : pub;
   }
 
   private List<PublicKey> myHostKeys() {
@@ -334,42 +307,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
     }
     return r.toString();
-  }
-
-  private List<String> parseAdvertisedAddress(final Config cfg) {
-    final String[] want = cfg.getStringList("sshd", null, "advertisedaddress");
-    if (want.length == 0) {
-      return null;
-    }
-    return Arrays.asList(want);
-  }
-
-  private List<SocketAddress> parseListen(final Config cfg) {
-    final ArrayList<SocketAddress> bind = new ArrayList<SocketAddress>(2);
-    final String[] want = cfg.getStringList("sshd", null, "listenaddress");
-    if (want == null || want.length == 0) {
-      bind.add(new InetSocketAddress(DEFAULT_PORT));
-      return bind;
-    }
-
-    if (want.length == 1 && isOff(want[0])) {
-      return bind;
-    }
-
-    for (final String desc : want) {
-      try {
-        bind.add(SocketUtil.resolve(desc, DEFAULT_PORT));
-      } catch (IllegalArgumentException e) {
-        log.error("Bad sshd.listenaddress: " + desc + ": " + e.getMessage());
-      }
-    }
-    return bind;
-  }
-
-  private static boolean isOff(String listenHostname) {
-    return "off".equalsIgnoreCase(listenHostname)
-        || "none".equalsIgnoreCase(listenHostname)
-        || "no".equalsIgnoreCase(listenHostname);
   }
 
   @SuppressWarnings("unchecked")

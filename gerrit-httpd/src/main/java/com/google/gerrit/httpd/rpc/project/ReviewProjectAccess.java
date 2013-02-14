@@ -27,14 +27,17 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -58,14 +61,16 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final AddReviewer.Factory addReviewerFactory;
+  private final Provider<PostReviewers> reviewersProvider;
+  private final ChangeControl.GenericFactory changeFactory;
 
   @Inject
   ReviewProjectAccess(final ProjectControl.Factory projectControlFactory,
       final GroupBackend groupBackend,
       final MetaDataUpdate.User metaDataUpdateFactory, final ReviewDb db,
       final IdentifiedUser user, final PatchSetInfoFactory patchSetInfoFactory,
-      final AddReviewer.Factory addReviewerFactory,
+      final Provider<PostReviewers> reviewersProvider,
+      final ChangeControl.GenericFactory changeFactory,
 
       @Assisted final Project.NameKey projectName,
       @Nullable @Assisted final ObjectId base,
@@ -76,7 +81,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.db = db;
     this.user = user;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.addReviewerFactory = addReviewerFactory;
+    this.reviewersProvider = reviewersProvider;
+    this.changeFactory = changeFactory;
   }
 
   @Override
@@ -111,7 +117,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       insertAncestors(ps.getId(), commit);
       db.patchSets().insert(Collections.singleton(ps));
       db.changes().insert(Collections.singleton(change));
-      addProjectOwnersAsReviewers(changeId);
+      addProjectOwnersAsReviewers(change);
       db.commit();
     } finally {
       db.rollback();
@@ -133,12 +139,15 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     db.patchSetAncestors().insert(toInsert);
   }
 
-  private void addProjectOwnersAsReviewers(final Change.Id changeId) {
+  private void addProjectOwnersAsReviewers(final Change change) {
     final String projectOwners =
         groupBackend.get(AccountGroup.PROJECT_OWNERS).getName();
     try {
-      addReviewerFactory.create(changeId, Collections.singleton(projectOwners),
-          false).call();
+      ChangeResource rsrc =
+          new ChangeResource(changeFactory.controlFor(change, user));
+      PostReviewers.Input input = new PostReviewers.Input();
+      input.reviewer = projectOwners;
+      reviewersProvider.get().apply(rsrc, input);
     } catch (Exception e) {
       // one of the owner groups is not visible to the user and this it why it
       // can't be added as reviewer

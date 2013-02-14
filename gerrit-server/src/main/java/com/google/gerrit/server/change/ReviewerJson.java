@@ -14,18 +14,23 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.reviewdb.client.ApprovalCategoryValue.formatValue;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.OrmException;
@@ -38,22 +43,26 @@ import java.util.Map;
 
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
+  private final IdentifiedUser.GenericFactory userFactory;
   private final ApprovalTypes approvalTypes;
   private final FunctionState.Factory functionState;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
+      IdentifiedUser.GenericFactory userFactory,
       ApprovalTypes approvalTypes,
       FunctionState.Factory functionState,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
+    this.userFactory = userFactory;
     this.approvalTypes = approvalTypes;
     this.functionState = functionState;
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
-  public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs) throws OrmException {
+  public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
+      throws OrmException {
     List<ReviewerInfo> infos = Lists.newArrayListWithCapacity(rsrcs.size());
     AccountInfo.Loader loader = accountLoaderFactory.create(true);
     for (ReviewerResource rsrc : rsrcs) {
@@ -69,33 +78,49 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource> of(rsrc));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, ChangeControl control,
+  public ReviewerInfo format(ReviewerInfo out, ChangeControl ctl,
       List<PatchSetApproval> approvals) throws OrmException {
-    PatchSet.Id psId = control.getChange().currentPatchSetId();
+    PatchSet.Id psId = ctl.getChange().currentPatchSetId();
 
     if (approvals == null) {
       approvals = db.get().patchSetApprovals()
           .byPatchSetUser(psId, out._id).toList();
     }
 
-    FunctionState fs = functionState.create(control, psId, approvals);
+    FunctionState fs = functionState.create(ctl, psId, approvals);
     for (ApprovalType at : approvalTypes.getApprovalTypes()) {
       CategoryFunction.forCategory(at.getCategory()).run(at, fs);
     }
 
     out.approvals = Maps.newHashMapWithExpectedSize(approvals.size());
     for (PatchSetApproval ca : approvals) {
-      for (PermissionRange pr : control.getLabelRanges()) {
-        if (pr.getMin() != 0 || pr.getMax() != 0) {
+      for (PermissionRange pr : ctl.getLabelRanges()) {
+        if (!pr.isEmpty()) {
           // TODO: Support arbitrary labels.
           ApprovalType at = approvalTypes.byId(ca.getCategoryId());
           if (at != null) {
             out.approvals.put(at.getCategory().getLabelName(),
-                ApprovalCategoryValue.formatValue(ca.getValue()));
+                formatValue(ca.getValue())); }
+        }
+      }
+    }
+
+    // Add dummy approvals for all permitted labels for the user even if they
+    // do not exist in the DB.
+    ChangeData cd = new ChangeData(ctl);
+    PatchSet ps = cd.currentPatchSet(db);
+    if (ps != null) {
+      for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true, false)) {
+        for (SubmitRecord.Label label : rec.labels) {
+          String name = label.label;
+          if (!out.approvals.containsKey(name)
+              && !ctl.getRange(Permission.forLabel(name)).isEmpty()) {
+            out.approvals.put(name, formatValue((short) 0));
           }
         }
       }
     }
+
     if (out.approvals.isEmpty()) {
       out.approvals = null;
     }

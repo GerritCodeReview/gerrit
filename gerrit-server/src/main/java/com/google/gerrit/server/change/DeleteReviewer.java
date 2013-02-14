@@ -32,8 +32,8 @@ import com.google.inject.Provider;
 
 import java.util.List;
 
-class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
-  static class Input {
+public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
+  public static class Input {
   }
 
   private final Provider<ReviewDb> dbProvider;

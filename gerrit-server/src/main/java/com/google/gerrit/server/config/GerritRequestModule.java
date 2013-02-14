@@ -19,7 +19,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
-import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
@@ -61,7 +60,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(DeleteDraftPatchSet.Factory.class);
     factory(PublishDraft.Factory.class);
     factory(RemoveReviewer.Factory.class);
-    factory(GroupMembers.Factory.class);
     factory(CreateProject.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);

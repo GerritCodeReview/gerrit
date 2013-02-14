@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P4UEz0vI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:21:38Z",
+      "side": 1,
+      "message": "Shouldn\u0027t \"JSON\" be \"REST\"?",
+      "revId": "5962c4f469366efc1932b34c21ecb87ce1a71725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

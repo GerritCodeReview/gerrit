@@ -25,7 +25,7 @@ import org.kohsuke.args4j.Option;
 
 /** Opens a query processor. */
 @AdminHighPriorityCommand
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.ACCESS_DB)
 @CommandMetaData(name = "gsql", descr = "Administrative interface to active database")
 final class AdminQueryShell extends SshCommand {
   @Inject

@@ -21,6 +21,9 @@ import java.util.List;
 
 /** Server wide capabilities. Represented as {@link Permission} objects. */
 public class GlobalCapability {
+  /** Ability to access the database (with gsql). */
+  public static final String ACCESS_DB = "accessDB";
+
   /**
    * Denotes the server's administrators.
    * <p>
@@ -81,6 +84,7 @@ public class GlobalCapability {
 
   static {
     NAMES_ALL = new ArrayList<String>();
+    NAMES_ALL.add(ACCESS_DB);
     NAMES_ALL.add(ADMINISTRATE_SERVER);
     NAMES_ALL.add(CREATE_ACCOUNT);
     NAMES_ALL.add(CREATE_GROUP);

@@ -130,6 +130,12 @@ public class CapabilityControl {
       || canAdministrateServer();
   }
 
+
+  /** @return true if the user can access the database (with gsql). */
+  public boolean canAccessDB() {
+    return canPerform(GlobalCapability.ACCESS_DB);
+  }
+
   /** @return true if the user can force replication to any configured destination. */
   public boolean canStartReplication() {
     return canPerform(GlobalCapability.START_REPLICATION)

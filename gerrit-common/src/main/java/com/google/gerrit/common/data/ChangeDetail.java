@@ -19,9 +19,6 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /** Detail necessary to display a change. */
@@ -40,7 +37,6 @@ public class ChangeDetail {
   protected List<ChangeInfo> dependsOn;
   protected List<ChangeInfo> neededBy;
   protected List<PatchSet> patchSets;
-  protected List<ApprovalDetail> approvals;
   protected List<SubmitRecord> submitRecords;
   protected Project.SubmitType submitType;
   protected SubmitTypeRecord submitTypeRecord;
@@ -189,15 +185,6 @@ public class ChangeDetail {
 
   public void setPatchSets(List<PatchSet> s) {
     patchSets = s;
-  }
-
-  public List<ApprovalDetail> getApprovals() {
-    return approvals;
-  }
-
-  public void setApprovals(Collection<ApprovalDetail> list) {
-    approvals = new ArrayList<ApprovalDetail>(list);
-    Collections.sort(approvals, ApprovalDetail.SORT);
   }
 
   public void setSubmitRecords(List<SubmitRecord> all) {

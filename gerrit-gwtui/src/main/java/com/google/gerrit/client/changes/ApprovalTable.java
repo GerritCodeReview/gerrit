@@ -53,6 +53,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -156,8 +157,11 @@ public class ApprovalTable extends Composite {
     } else {
       displayHeader(change.labels());
       table.resizeRows(1 + byUser.size());
+      List<ApprovalDetail> sorted =
+          new ArrayList<ApprovalDetail>(byUser.values());
+      Collections.sort(sorted, ApprovalDetail.SORT);
       int i = 1;
-      for (ApprovalDetail ad : byUser.values()) {
+      for (ApprovalDetail ad : sorted) {
         displayRow(i++, ad, change, accounts.get(ad.getAccount().get()));
       }
       table.setVisible(true);

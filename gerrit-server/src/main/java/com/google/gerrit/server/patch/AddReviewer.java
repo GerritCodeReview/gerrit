@@ -129,8 +129,8 @@ public class AddReviewer implements Callable<ReviewerResult> {
           continue;
         }
 
-        final Set<Account> members =
-            groupMembersFactory.create().listAccounts(group.getGroupUUID(),
+        final Set<Account> members = groupMembersFactory.create(currentUser)
+            .listAccounts(group.getGroupUUID(),
                 control.getProject().getNameKey());
         if (members == null || members.size() == 0) {
           result.addError(new ReviewerResult.Error(

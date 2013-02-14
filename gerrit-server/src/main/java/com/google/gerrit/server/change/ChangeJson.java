@@ -318,7 +318,8 @@ public class ChangeJson {
       return Collections.emptyMap();
     }
 
-    Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
+    Map<String, LabelInfo> labels =
+        Maps.newTreeMap(LabelOrdering.create(approvalTypes));
     initLabels(cd, labels, standard);
 
     Collection<PatchSetApproval> approvals = null;

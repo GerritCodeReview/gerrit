@@ -15,12 +15,9 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,19 +25,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class ApprovalDetail {
-  public static final Comparator<ApprovalDetail> SORT =
-      new Comparator<ApprovalDetail>() {
-        public int compare(final ApprovalDetail o1, final ApprovalDetail o2) {
-          int cmp;
-          cmp = o2.hasNonZero - o1.hasNonZero;
-          if (cmp != 0) return cmp;
-          return o1.sortOrder.compareTo(o2.sortOrder);
-        }
-      };
-
-  static final Timestamp EG_0 = new Timestamp(0);
-  static final Timestamp EG_D = new Timestamp(Long.MAX_VALUE);
-
   protected Account.Id account;
   protected List<PatchSetApproval> approvals;
   protected boolean canRemove;
@@ -49,8 +33,6 @@ public class ApprovalDetail {
   private transient Set<String> approved;
   private transient Set<String> rejected;
   private transient Map<String, Integer> values;
-  private transient int hasNonZero;
-  private transient Timestamp sortOrder = EG_D;
 
   protected ApprovalDetail() {
   }
@@ -70,41 +52,6 @@ public class ApprovalDetail {
 
   public void setCanRemove(boolean removeable) {
     canRemove = removeable;
-  }
-
-  @Deprecated
-  public List<PatchSetApproval> getPatchSetApprovals() {
-    return approvals;
-  }
-
-  @Deprecated
-  public PatchSetApproval getPatchSetApproval(ApprovalCategory.Id category) {
-    for (PatchSetApproval psa : approvals) {
-      if (psa.getCategoryId().equals(category)) {
-        return psa;
-      }
-    }
-    return null;
-  }
-
-  public void sortFirst() {
-    hasNonZero = 1;
-    sortOrder = ApprovalDetail.EG_0;
-  }
-
-  @Deprecated
-  public void add(final PatchSetApproval ca) {
-    approvals.add(ca);
-
-    final Timestamp g = ca.getGranted();
-    if (g != null && g.compareTo(sortOrder) < 0) {
-      sortOrder = g;
-      // Value is not set, but code calling this deprecated method does not
-      // call getValue.
-    }
-    if (ca.getValue() != 0) {
-      hasNonZero = 1;
-    }
   }
 
   public void approved(String label) {

@@ -14,14 +14,12 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -34,8 +32,6 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.workflow.CategoryFunction;
-import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -53,10 +49,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
 
   private final PatchSetInfoFactory infoFactory;
   private final ReviewDb db;
-  private final FunctionState.Factory functionState;
   private final ChangeControl.Factory changeControlFactory;
-  private final ChangeControl.GenericFactory changeControlGenericFactory;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ApprovalTypes approvalTypes;
   private final AccountInfoCacheFactory aic;
   private final IdentifiedUser user;
@@ -71,18 +64,12 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
       final ReviewDb db,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final FunctionState.Factory functionState,
       final ChangeControl.Factory changeControlFactory,
-      final ChangeControl.GenericFactory changeControlGenericFactory,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
       final ApprovalTypes approvalTypes,
       final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
     this.infoFactory = infoFactory;
     this.db = db;
-    this.functionState = functionState;
     this.changeControlFactory = changeControlFactory;
-    this.changeControlGenericFactory = changeControlGenericFactory;
-    this.identifiedUserFactory = identifiedUserFactory;
     this.approvalTypes = approvalTypes;
     this.aic = accountInfoCacheFactory.create();
     this.user = user;
@@ -194,62 +181,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
 
     detail.setLabels(allowed);
     detail.setGiven(given);
-    loadApprovals(detail, control);
-
     detail.setAccounts(aic.create());
 
     return detail;
-  }
-
-  private void loadApprovals(final PatchSetPublishDetail detail,
-      final ChangeControl control) throws OrmException, NoSuchChangeException {
-    final PatchSet.Id psId = detail.getChange().currentPatchSetId();
-    final Change.Id changeId = patchSetId.getParentKey();
-    final List<PatchSetApproval> allApprovals =
-        db.patchSetApprovals().byChange(changeId).toList();
-
-    if (detail.getChange().getStatus().isOpen()) {
-      final FunctionState fs = functionState.create(control, psId, allApprovals);
-
-      for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
-        CategoryFunction.forCategory(at.getCategory()).run(at, fs);
-      }
-    }
-
-    final boolean canRemoveReviewers = detail.getChange().getStatus().isOpen() //
-        && control.getCurrentUser() instanceof IdentifiedUser;
-    final HashMap<Account.Id, ApprovalDetail> ad =
-        new HashMap<Account.Id, ApprovalDetail>();
-    for (PatchSetApproval ca : allApprovals) {
-      ApprovalDetail d = ad.get(ca.getAccountId());
-      if (d == null) {
-        d = new ApprovalDetail(ca.getAccountId());
-        d.setCanRemove(canRemoveReviewers);
-        ad.put(d.getAccount(), d);
-      }
-      if (d.canRemove()) {
-        d.setCanRemove(control.canRemoveReviewer(ca));
-      }
-      if (ca.getPatchSetId().equals(psId)) {
-        d.add(ca);
-      }
-      final ChangeControl chgCtrl =
-          changeControlGenericFactory.controlFor(detail.getChange(),
-              identifiedUserFactory.create(ca.getAccountId()));
-      for (PermissionRange pr : chgCtrl.getLabelRanges()) {
-        if (pr.getMin() != 0 || pr.getMax() != 0) {
-          d.votable(pr.getLabel());
-        }
-      }
-    }
-
-    final Account.Id owner = detail.getChange().getOwner();
-    if (ad.containsKey(owner)) {
-      // Ensure the owner always sorts to the top of the table
-      ad.get(owner).sortFirst();
-    }
-
-    aic.want(ad.keySet());
-    detail.setApprovals(ad.values());
   }
 }

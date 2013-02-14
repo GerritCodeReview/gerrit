@@ -75,9 +75,16 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.mail.AddReviewerSender;
+import com.google.gerrit.server.mail.CommitMessageEditedSender;
+import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
+import com.google.gerrit.server.mail.MergeFailSender;
+import com.google.gerrit.server.mail.MergedSender;
+import com.google.gerrit.server.mail.RebasedPatchSetSender;
+import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.VelocityRuntimeProvider;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -91,6 +98,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
+import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -152,21 +160,29 @@ public class GerritGlobalModule extends FactoryModule {
     install(new EmailModule());
     install(new GitModule());
     install(new PrologModule());
+    install(new SshAddressesModule());
     install(ThreadLocalRequestContext.module());
 
     bind(AccountResolver.class);
     bind(ChangeQueryRewriter.class);
 
     factory(AccountInfoCacheFactory.Factory.class);
+    factory(AddReviewerSender.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(ChangeQueryBuilder.Factory.class);
-    factory(GroupInfoCacheFactory.Factory.class);
+    factory(CommitMessageEditedSender.Factory.class);
+    factory(CreateChangeSender.Factory.class);
     factory(GroupDetailFactory.Factory.class);
+    factory(GroupInfoCacheFactory.Factory.class);
+    factory(InternalUser.Factory.class);
+    factory(MergedSender.Factory.class);
+    factory(MergeFailSender.Factory.class);
     factory(PerformCreateGroup.Factory.class);
     factory(PerformRenameGroup.Factory.class);
-    factory(InternalUser.Factory.class);
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
+    factory(RebasedPatchSetSender.Factory.class);
+    factory(ReplacePatchSetSender.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)

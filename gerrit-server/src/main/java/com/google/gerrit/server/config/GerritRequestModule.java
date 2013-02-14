@@ -27,13 +27,6 @@ import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.SubmoduleOp;
-import com.google.gerrit.server.mail.AddReviewerSender;
-import com.google.gerrit.server.mail.CommitMessageEditedSender;
-import com.google.gerrit.server.mail.CreateChangeSender;
-import com.google.gerrit.server.mail.MergeFailSender;
-import com.google.gerrit.server.mail.MergedSender;
-import com.google.gerrit.server.mail.RebasedPatchSetSender;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
@@ -65,16 +58,9 @@ public class GerritRequestModule extends FactoryModule {
     // easily park this stuff.
     //
     factory(AddReviewer.Factory.class);
-    factory(AddReviewerSender.Factory.class);
-    factory(CommitMessageEditedSender.Factory.class);
-    factory(CreateChangeSender.Factory.class);
     factory(DeleteDraftPatchSet.Factory.class);
     factory(PublishDraft.Factory.class);
-    factory(ReplacePatchSetSender.Factory.class);
-    factory(RebasedPatchSetSender.Factory.class);
     factory(RemoveReviewer.Factory.class);
-    factory(MergedSender.Factory.class);
-    factory(MergeFailSender.Factory.class);
     factory(GroupMembers.Factory.class);
     factory(CreateProject.Factory.class);
     factory(SuggestParentCandidates.Factory.class);

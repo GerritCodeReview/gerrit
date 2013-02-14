@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.RenameGroupOp;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -89,17 +88,21 @@ public class PerformRenameGroup {
     try {
       final AccountGroupName id = new AccountGroupName(key, groupId);
       db.accountGroupNames().insert(Collections.singleton(id));
-    } catch (OrmDuplicateKeyException dupeErr) {
-      // If we are using this identity, don't report the exception.
-      //
+    } catch (OrmException e) {
       AccountGroupName other = db.accountGroupNames().get(key);
-      if (other != null && other.getId().equals(groupId)) {
-        return groupDetailFactory.create(groupId).call();
-      }
+      if (other != null) {
+        // If we are using this identity, don't report the exception.
+        //
+        if (other.getId().equals(groupId)) {
+          return groupDetailFactory.create(groupId).call();
+        }
 
-      // Otherwise, someone else has this identity.
-      //
-      throw new NameAlreadyUsedException();
+        // Otherwise, someone else has this identity.
+        //
+        throw new NameAlreadyUsedException();
+      } else {
+        throw e;
+      }
     }
 
     group.setNameKey(key);

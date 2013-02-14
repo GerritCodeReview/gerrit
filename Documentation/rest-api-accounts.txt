@@ -8,13 +8,16 @@ link:rest-api.html[REST API].
 Endpoints
 ---------
 
-[[accounts_self_capabilities]]
-GET /accounts/self/capabilities (Account Capabilities)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[list-account-capabilities]]
+GET /accounts/\{account-id\}/capabilities (List Account Capabilities)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Returns the global capabilities (such as `createProject` or
-`createGroup`) that are enabled for the calling user. This can be used
-by UI tools to discover if administrative features are available
-to the caller, so they can hide (or show) relevant UI actions.
+`createGroup`) that are enabled for the specified user.
+
+If the global capabilities for the calling user should be listed,
+`self` can be used as account-id. This can be used by UI tools to
+discover if administrative features are available to the caller, so
+they can hide (or show) relevant UI actions.
 
 .Request
 ----
@@ -105,6 +108,25 @@ presented as a nested JSON object with `min` and `max` members.
 ****
 get::/accounts/self/capabilities?q=createGroup
 ****
+
+
+[[ids]]
+IDs
+---
+
+[[account-id]]
+\{account-id\}
+~~~~~~~~~~~~~~
+Identifier that uniquely identifies one account.
+
+This can be:
+
+* a string of the format "Full Name <email@example.com>"
+* just the email address ("email@example")
+* a full name if it is unique ("Full Name")
+* an account ID ("18419")
+* a user name ("username")
+* `self` for the calling user
 
 
 GERRIT

@@ -274,7 +274,7 @@ ad-hoc scripting use cases.
 ** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api-projects.html[list projects]
 ** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api-projects.html#suggest-projects[suggest
    projects]
-** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api-accounts.html#accounts_self_capabilities[query
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api-accounts.html#list-account-capabilities[query
    the global capabilities of the calling user]
 
 * Support link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#authentication[anonymous

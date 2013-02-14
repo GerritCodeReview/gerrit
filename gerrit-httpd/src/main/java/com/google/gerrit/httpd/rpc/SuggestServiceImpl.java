@@ -33,8 +33,8 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembers;
+import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -273,7 +273,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   private boolean suggestGroupAsReviewer(final Project.NameKey project,
       final GroupReference group) throws OrmException {
-    if (!AddReviewer.isLegalReviewerGroup(group.getUUID())) {
+    if (!PostReviewers.isLegalReviewerGroup(group.getUUID())) {
       return false;
     }
 
@@ -287,7 +287,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
       final int maxAllowed =
           cfg.getInt("addreviewer", "maxAllowed",
-              AddReviewer.DEFAULT_MAX_REVIEWERS);
+              PostReviewers.DEFAULT_MAX_REVIEWERS);
       if (maxAllowed > 0 && members.size() > maxAllowed) {
         return false;
       }

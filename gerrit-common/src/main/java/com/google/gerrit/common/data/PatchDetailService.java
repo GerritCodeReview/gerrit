@@ -28,7 +28,6 @@ import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
 import com.google.gwtjsonrpc.common.VoidResult;
 
-import java.util.List;
 import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
@@ -62,16 +61,6 @@ public interface PatchDetailService extends RemoteJsonService {
   @Audit
   @SignInRequired
   void deleteDraftPatchSet(PatchSet.Id psid, AsyncCallback<ChangeDetail> callback);
-
-  @Audit
-  @SignInRequired
-  void addReviewers(Change.Id id, List<String> reviewers, boolean confirmed,
-      AsyncCallback<ReviewerResult> callback);
-
-  @Audit
-  @SignInRequired
-  void removeReviewer(Change.Id id, Account.Id reviewerId,
-      AsyncCallback<ReviewerResult> callback);
 
   void userApprovals(Set<Change.Id> cids, Account.Id aid,
       AsyncCallback<ApprovalSummarySet> callback);

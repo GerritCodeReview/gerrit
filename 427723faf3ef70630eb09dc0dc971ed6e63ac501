@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7jRcUBQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-14T17:46:40Z",
+      "side": 1,
+      "message": "Actually I missed that SetReviewersCommand in sshd uses the multiple-reviewers form, but I\u0027m just going to change that to run it in a loop. It really simplifies the code in PostReviewer.",
+      "revId": "427723faf3ef70630eb09dc0dc971ed6e63ac501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

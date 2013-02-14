@@ -130,6 +130,12 @@ public class CapabilityControl {
       || canAdministrateServer();
   }
 
+
+  /** @return true if the user can perform raw queries. */
+  public boolean canPerformRawQuery() {
+    return canPerform(GlobalCapability.RAW_QUERY);
+  }
+
   /** @return true if the user can force replication to any configured destination. */
   public boolean canStartReplication() {
     return canPerform(GlobalCapability.START_REPLICATION)

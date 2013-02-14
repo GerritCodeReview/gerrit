@@ -1250,6 +1250,14 @@ This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size.
 
 
+[[capability_rawQuery]]
+Perform Raw Queries
+~~~~~~~~~~~~~~~~~~~
+
+Allow users to perform raw queries against the database,
+using the `gsql` command.
+
+
 [[capability_startReplication]]
 Start Replication
 ~~~~~~~~~~~~~~~~~

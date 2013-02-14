@@ -24,7 +24,7 @@ import org.kohsuke.args4j.Option;
 
 /** Opens a query processor. */
 @AdminHighPriorityCommand
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.RAW_QUERY)
 final class AdminQueryShell extends SshCommand {
   @Inject
   private QueryShell.Factory factory;

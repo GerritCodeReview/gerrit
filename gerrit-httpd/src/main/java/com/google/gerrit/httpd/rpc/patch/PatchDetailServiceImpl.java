@@ -21,7 +21,6 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchDetailService;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.ReviewResult;
-import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
@@ -52,7 +51,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -61,10 +59,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final ApprovalTypes approvalTypes;
 
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
-  private final AddReviewerHandler.Factory addReviewerHandlerFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
-  private final RemoveReviewerHandler.Factory removeReviewerHandlerFactory;
   private final FunctionState.Factory functionStateFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
@@ -75,8 +71,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser,
       final ApprovalTypes approvalTypes,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final AddReviewerHandler.Factory addReviewerHandlerFactory,
-      final RemoveReviewerHandler.Factory removeReviewerHandlerFactory,
       final ChangeControl.Factory changeControlFactory,
       final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory,
       final FunctionState.Factory functionStateFactory,
@@ -87,8 +81,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.approvalTypes = approvalTypes;
 
     this.accountInfoCacheFactory = accountInfoCacheFactory;
-    this.addReviewerHandlerFactory = addReviewerHandlerFactory;
-    this.removeReviewerHandlerFactory = removeReviewerHandlerFactory;
     this.changeControlFactory = changeControlFactory;
     this.deleteDraftPatchSetFactory = deleteDraftPatchSetFactory;
     this.functionStateFactory = functionStateFactory;
@@ -168,16 +160,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         }
       }
     });
-  }
-
-  public void addReviewers(final Change.Id id, final List<String> reviewers,
-      final boolean confirmed, final AsyncCallback<ReviewerResult> callback) {
-    addReviewerHandlerFactory.create(id, reviewers, confirmed).to(callback);
-  }
-
-  public void removeReviewer(final Change.Id id, final Account.Id reviewerId,
-      final AsyncCallback<ReviewerResult> callback) {
-    removeReviewerHandlerFactory.create(id, reviewerId).to(callback);
   }
 
   public void userApprovals(final Set<Change.Id> cids, final Account.Id aid,

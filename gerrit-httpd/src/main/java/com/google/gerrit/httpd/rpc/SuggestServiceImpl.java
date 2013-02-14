@@ -278,8 +278,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     }
 
     try {
-      final Set<Account> members =
-          groupMembersFactory.create().listAccounts(group.getUUID(), project);
+      final Set<Account> members = groupMembersFactory.create(getCurrentUser())
+          .listAccounts(group.getUUID(), project);
 
       if (members.isEmpty()) {
         return false;

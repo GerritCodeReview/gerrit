@@ -167,6 +167,58 @@ link:#set-project-description[PUT] to delete the description.
   HTTP/1.1 204 No Content
 ----
 
+[[get-project-parent]]
+GET /projects/\{project-name\}/parent (Get Project Parent)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves the name of a project's parent project. For the
+`All-Projects` root project an empty string is returned.
+
+.Request
+----
+  GET /projects/plugins%2Freplication/parent HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "All-Projects"
+----
+
+[[set-project-parent]]
+PUT /projects/\{project-name\}/parent (Set Project Parent)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the parent project for a project.
+
+The new name of the parent project must be provided in the request body
+inside a link:#project-parent-input[ProjectParentInput] entity.
+
+.Request
+----
+  PUT /projects/plugins%2Freplication/parent HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "parent": "Public-Plugins",
+    "commit_message": "Update the project parent"
+  }
+----
+
+As response the new parent project name is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "Public-Plugins"
+----
+
 [[dashboard-endpoints]]
 Dashboard Endpoints
 -------------------
@@ -350,6 +402,21 @@ is increased for each non-visible project).
 |`description` |optional|The description of the project.
 |`branches`    |optional|Map of branch names to HEAD revisions.
 |===========================
+
+[[project-parent-input]]
+ProjectParentInput
+~~~~~~~~~~~~~~~~~~
+The `ProjectParentInput` entity contains information for setting a
+project parent.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`parent`        ||The name of the parent project.
+|`commit_message`|optional|
+Message that should be used to commit the change of the project parent
+in the `project.config` file to the `refs/meta/config` branch.
+|=============================
 
 
 GERRIT

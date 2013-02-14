@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8bFGoFI",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-14T14:18:28Z",
+      "side": 1,
+      "message": "s/so that first checks/so that it first checks",
+      "revId": "9f397a0ccb209fbc92cc3e29999426d671988035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8dFLJFk",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-14T14:18:28Z",
+      "side": 1,
+      "message": "s/probably//",
+      "revId": "9f397a0ccb209fbc92cc3e29999426d671988035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

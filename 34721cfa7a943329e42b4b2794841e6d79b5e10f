@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P4eH5Rg0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-14T00:41:51Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be thrown. The change resource was already verified to exist by ChangesCollection. Who is throwing this?",
+      "revId": "34721cfa7a943329e42b4b2794841e6d79b5e10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

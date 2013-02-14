@@ -93,6 +93,80 @@ List all projects that start with `platform/`:
 ----
 E.g. this feature can be used by suggestion client UI's to limit results.
 
+[[get-project-description]]
+GET /projects/\{project-name\}/description (Get Project Description)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves the description of a project.
+
+.Request
+----
+  GET /projects/plugins%2Freplication/description HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "Copies to other servers using the Git protocol"
+----
+
+[[set-project-description]]
+PUT /projects/\{project-name\}/description (Set Project Description)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the description of a project.
+
+The new project description must be provided in the request body inside
+a link:#project-description-input[ProjectDescriptionInput] entity.
+
+.Request
+----
+  PUT /projects/plugins%2Freplication/description HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "description": "Plugin for Gerrit that handles the replication.",
+    "commit_message": "Update the project description"
+  }
+----
+
+As response the new project description is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "Plugin for Gerrit that handles the replication."
+----
+
+[[delete-project-description]]
+DELETE /projects/\{project-name\}/description (Delete Project Description)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deletes the description of a project.
+
+A message to commit the change of the project description can be
+specified in the request body inside a
+link:#project-description-input[ProjectDescriptionInput] entity.
+
+Please note, that some proxies prohibit request bodies for DELETE
+requests. In this case, if you want to specify a commit message, use
+link:#set-project-description[PUT] to delete the description.
+
+.Request
+----
+  DELETE /projects/plugins%2Freplication/description HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[dashboard-endpoints]]
 Dashboard Endpoints
 -------------------
@@ -237,6 +311,23 @@ in a dashboard.
 |`query`       |The query of the section. +
 Tokens such as `${project}` are not resolved.
 |===========================
+
+[[project-description-input]]
+ProjectDescriptionInput
+~~~~~~~~~~~~~~~~~~~~~~~
+The `ProjectDescriptionInput` entity contains information for setting a
+project description.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`description`   |optional|The project description. +
+The project description will be deleted if not set.
+|`commit_message`|optional|
+Message that should be used to commit the change of the project
+description in the `project.config` file to the `refs/meta/config`
+branch.
+|=============================
 
 [[project-info]]
 ProjectInfo

@@ -23,6 +23,7 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -50,6 +51,7 @@ class EmailArguments {
   final IdentifiedUser.GenericFactory identifiedUserFactory;
   final CapabilityControl.Factory capabilityControlFactory;
   final AnonymousUser anonymousUser;
+  final String anonymousCowardName;
   final Provider<String> urlProvider;
   final AllProjectsName allProjectsName;
 
@@ -68,6 +70,7 @@ class EmailArguments {
       GenericFactory identifiedUserFactory,
       CapabilityControl.Factory capabilityControlFactory,
       AnonymousUser anonymousUser,
+      @AnonymousCowardName String anonymousCowardName,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder.Factory queryBuilder,
@@ -86,6 +89,7 @@ class EmailArguments {
     this.identifiedUserFactory = identifiedUserFactory;
     this.capabilityControlFactory = capabilityControlFactory;
     this.anonymousUser = anonymousUser;
+    this.anonymousCowardName = anonymousCowardName;
     this.urlProvider = urlProvider;
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;

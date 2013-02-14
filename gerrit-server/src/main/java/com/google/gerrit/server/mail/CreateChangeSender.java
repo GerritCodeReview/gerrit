@@ -19,9 +19,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -39,11 +37,8 @@ public class CreateChangeSender extends NewChangeSender {
   }
 
   @Inject
-  public CreateChangeSender(EmailArguments ea,
-      @AnonymousCowardName String anonymousCowardName, SshInfo si,
-      @Assisted Change c) {
-    super(ea, anonymousCowardName, c);
-    setSshInfo(si);
+  public CreateChangeSender(EmailArguments ea, @Assisted Change c) {
+    super(ea, c);
   }
 
   @Override

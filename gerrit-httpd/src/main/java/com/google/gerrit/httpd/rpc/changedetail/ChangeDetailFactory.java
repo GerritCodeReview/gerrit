@@ -14,12 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.data.ApprovalDetail;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -28,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -45,8 +40,6 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.workflow.CategoryFunction;
-import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -71,11 +64,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     ChangeDetailFactory create(Change.Id id);
   }
 
-  private final ApprovalTypes approvalTypes;
   private final ChangeControl.Factory changeControlFactory;
-  private final ChangeControl.GenericFactory changeControlGenericFactory;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final FunctionState.Factory functionState;
   private final PatchSetDetailFactory.Factory patchSetDetail;
   private final AccountInfoCacheFactory aic;
   private final AnonymousUser anonymousUser;
@@ -96,26 +85,19 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private List<Change> currentDepChanges;
 
   @Inject
-  ChangeDetailFactory(final ApprovalTypes approvalTypes,
-      final FunctionState.Factory functionState,
+  ChangeDetailFactory(
       final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
       final GitRepositoryManager repoManager,
       final ChangeControl.Factory changeControlFactory,
-      final ChangeControl.GenericFactory changeControlGenericFactory,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final AnonymousUser anonymousUser,
       final MergeOp.Factory opFactory,
       @GerritServerConfig final Config cfg,
       @Assisted final Change.Id id) {
-    this.approvalTypes = approvalTypes;
-    this.functionState = functionState;
     this.patchSetDetail = patchSetDetail;
     this.db = db;
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
-    this.changeControlGenericFactory = changeControlGenericFactory;
-    this.identifiedUserFactory = identifiedUserFactory;
     this.anonymousUser = anonymousUser;
     this.aic = accountInfoCacheFactory.create();
 
@@ -230,55 +212,6 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
         testMerge) {
       ChangeUtil.testMerge(opFactory, detail.getChange());
     }
-
-    final PatchSet.Id psId = detail.getChange().currentPatchSetId();
-    final List<PatchSetApproval> allApprovals =
-        db.patchSetApprovals().byChange(changeId).toList();
-
-    if (detail.getChange().getStatus().isOpen()) {
-      final FunctionState fs = functionState.create(control, psId, allApprovals);
-
-      for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
-        CategoryFunction.forCategory(at.getCategory()).run(at, fs);
-      }
-    }
-
-    final boolean canRemoveReviewers = detail.getChange().getStatus().isOpen() //
-        && control.getCurrentUser() instanceof IdentifiedUser;
-    final HashMap<Account.Id, ApprovalDetail> ad =
-        new HashMap<Account.Id, ApprovalDetail>();
-    for (PatchSetApproval ca : allApprovals) {
-      ApprovalDetail d = ad.get(ca.getAccountId());
-      if (d == null) {
-        d = new ApprovalDetail(ca.getAccountId());
-        d.setCanRemove(canRemoveReviewers);
-        ad.put(d.getAccount(), d);
-      }
-      if (d.canRemove()) {
-        d.setCanRemove(control.canRemoveReviewer(ca));
-      }
-      if (ca.getPatchSetId().equals(psId)) {
-        d.add(ca);
-      }
-      final ChangeControl chgCtrl =
-          changeControlGenericFactory.controlFor(detail.getChange(),
-              identifiedUserFactory.create(ca.getAccountId()));
-      for (PermissionRange pr : chgCtrl.getLabelRanges()) {
-        if (pr.getMin() != 0 || pr.getMax() != 0) {
-          d.votable(pr.getLabel());
-        }
-      }
-    }
-
-    final Account.Id owner = detail.getChange().getOwner();
-    if (ad.containsKey(owner)) {
-      // Ensure the owner always sorts to the top of the table
-      //
-      ad.get(owner).sortFirst();
-    }
-
-    aic.want(ad.keySet());
-    detail.setApprovals(ad.values());
   }
 
   private boolean isReviewer(Change change) {

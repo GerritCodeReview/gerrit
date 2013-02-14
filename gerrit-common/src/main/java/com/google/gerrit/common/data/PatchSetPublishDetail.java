@@ -16,12 +16,8 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class PatchSetPublishDetail {
@@ -29,37 +25,9 @@ public class PatchSetPublishDetail {
   protected PatchSetInfo patchSetInfo;
   protected Change change;
   protected List<PatchLineComment> drafts;
-  protected List<PermissionRange> labels;
-  protected List<ApprovalDetail> approvals;
   protected List<SubmitRecord> submitRecords;
   protected SubmitTypeRecord submitTypeRecord;
-  protected List<PatchSetApproval> given;
   protected boolean canSubmit;
-
-  public List<PermissionRange> getLabels() {
-    return labels;
-  }
-
-  public void setLabels(List<PermissionRange> labels) {
-    this.labels = labels;
-  }
-
-  public List<ApprovalDetail> getApprovals() {
-    return approvals;
-  }
-
-  public void setApprovals(Collection<ApprovalDetail> list) {
-    approvals = new ArrayList<ApprovalDetail>(list);
-    Collections.sort(approvals, ApprovalDetail.SORT);
-  }
-
-  public void setSubmitRecords(List<SubmitRecord> all) {
-    submitRecords = all;
-  }
-
-  public List<SubmitRecord> getSubmitRecords() {
-    return submitRecords;
-  }
 
   public void setSubmitTypeRecord(SubmitTypeRecord submitTypeRecord) {
     this.submitTypeRecord = submitTypeRecord;
@@ -67,14 +35,6 @@ public class PatchSetPublishDetail {
 
   public SubmitTypeRecord getSubmitTypeRecord() {
     return submitTypeRecord;
-  }
-
-  public List<PatchSetApproval> getGiven() {
-    return given;
-  }
-
-  public void setGiven(List<PatchSetApproval> given) {
-    this.given = given;
   }
 
   public void setAccounts(AccountInfoCache accounts) {
@@ -111,24 +71,6 @@ public class PatchSetPublishDetail {
 
   public List<PatchLineComment> getDrafts() {
     return drafts;
-  }
-
-  public PermissionRange getRange(final String permissionName) {
-    for (PermissionRange s : labels) {
-      if (s.getName().equals(permissionName)) {
-        return s;
-      }
-    }
-    return null;
-  }
-
-  public PatchSetApproval getChangeApproval(String label) {
-    for (PatchSetApproval a : given) {
-      if (a.getLabel() != null && a.getLabel().equals(label)) {
-        return a;
-      }
-    }
-    return null;
   }
 
   public boolean canSubmit() {

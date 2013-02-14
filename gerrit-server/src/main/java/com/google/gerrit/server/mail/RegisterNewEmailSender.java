@@ -16,7 +16,6 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -33,10 +32,9 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   @Inject
   public RegisterNewEmailSender(EmailArguments ea,
       EmailTokenVerifier etv,
-      @AnonymousCowardName String anonymousCowardName,
       IdentifiedUser callingUser,
       @Assisted final String address) {
-    super(ea, anonymousCowardName, "registernewemail");
+    super(ea, "registernewemail");
     tokenVerifier = etv;
     user = callingUser;
     addr = address;

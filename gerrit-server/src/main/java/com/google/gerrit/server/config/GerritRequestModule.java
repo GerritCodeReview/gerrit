@@ -26,7 +26,6 @@ import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.SubmoduleOp;
-import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CreateProject;
@@ -56,7 +55,6 @@ public class GerritRequestModule extends FactoryModule {
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.
     //
-    factory(AddReviewer.Factory.class);
     factory(DeleteDraftPatchSet.Factory.class);
     factory(PublishDraft.Factory.class);
     factory(RemoveReviewer.Factory.class);

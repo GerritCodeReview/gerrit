@@ -32,7 +32,8 @@ to the caller, so they can hide (or show) relevant UI actions.
     "queryLimit": {
       "min": 0,
       "max": 500
-    }
+    },
+    "emailReviewers": true
   }
 ----
 
@@ -60,6 +61,7 @@ Administrator that has authenticated with digest authentication:
     "createAccount": true,
     "createGroup": true,
     "createProject": true,
+    "emailReviewers": true,
     "killTask": true,
     "viewCaches": true,
     "flushCaches": true,

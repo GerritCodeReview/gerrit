@@ -15,9 +15,8 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
-import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -29,9 +28,8 @@ public class AbandonedSender extends ReplyToChangeSender {
   }
 
   @Inject
-  public AbandonedSender(EmailArguments ea,
-      @AnonymousCowardName String anonymousCowardName, @Assisted Change c) {
-    super(ea, anonymousCowardName, c, "abandon");
+  public AbandonedSender(EmailArguments ea, @Assisted Change c) {
+    super(ea, c, "abandon");
   }
 
   @Override

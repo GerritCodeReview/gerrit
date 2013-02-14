@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.change.PostReview.NotifyHandling;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -47,10 +46,9 @@ public class CommentSender extends ReplyToChangeSender {
 
   @Inject
   public CommentSender(EmailArguments ea,
-      @AnonymousCowardName String anonymousCowardName,
       @Assisted NotifyHandling notify,
       @Assisted Change c) {
-    super(ea, anonymousCowardName, c, "comment");
+    super(ea, c, "comment");
     this.notify = notify;
   }
 

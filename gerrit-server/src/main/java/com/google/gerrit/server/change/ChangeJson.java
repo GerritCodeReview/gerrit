@@ -26,11 +26,13 @@ import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.data.ApprovalType;
@@ -65,6 +67,8 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.workflow.CategoryFunction;
+import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -109,8 +113,10 @@ public class ChangeJson {
 
   private final Provider<ReviewDb> db;
   private final ApprovalTypes approvalTypes;
+  private final FunctionState.Factory functionState;
   private final CurrentUser user;
   private final AnonymousUser anonymous;
+  private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeControl.GenericFactory changeControlGenericFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchListCache patchListCache;
@@ -127,9 +133,11 @@ public class ChangeJson {
   ChangeJson(
       Provider<ReviewDb> db,
       ApprovalTypes at,
+      FunctionState.Factory fs,
       CurrentUser u,
       AnonymousUser au,
-      ChangeControl.GenericFactory gf,
+      IdentifiedUser.GenericFactory uf,
+      ChangeControl.GenericFactory ccf,
       PatchSetInfoFactory psi,
       PatchListCache plc,
       AccountInfo.Loader.Factory ailf,
@@ -137,9 +145,11 @@ public class ChangeJson {
       Urls urls) {
     this.db = db;
     this.approvalTypes = at;
+    this.functionState = fs;
     this.user = u;
     this.anonymous = au;
-    this.changeControlGenericFactory = gf;
+    this.userFactory = uf;
+    this.changeControlGenericFactory = ccf;
     this.patchSetInfoFactory = psi;
     this.patchListCache = plc;
     this.accountLoaderFactory = ailf;
@@ -314,7 +324,7 @@ public class ChangeJson {
     Collection<PatchSetApproval> approvals = null;
     if (detailed) {
       approvals = cd.currentApprovals(db);
-      setAllApprovals(labels, approvals);
+      setAllApprovals(cd, labels, approvals);
     }
     for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
       ApprovalType type = approvalTypes.byLabel(e.getKey());
@@ -400,25 +410,61 @@ public class ChangeJson {
     return approvals;
   }
 
-  private void setAllApprovals(Map<String, LabelInfo> labels,
-      Collection<PatchSetApproval> approvals) {
+  private void setAllApprovals(ChangeData cd,
+      Map<String, LabelInfo> labels,
+      Collection<PatchSetApproval> approvals) throws OrmException {
+    ChangeControl ctl = cd.changeControl();
+    FunctionState fs =
+        functionState.create(ctl, cd.change(db).currentPatchSetId(), approvals);
+    for (ApprovalType at : approvalTypes.getApprovalTypes()) {
+      CategoryFunction.forCategory(at.getCategory()).run(at, fs);
+    }
+
+    Multimap<Account.Id, String> existing =
+        HashMultimap.create(approvals.size(), labels.size());
     for (PatchSetApproval psa : approvals) {
       ApprovalType at = approvalTypes.byId(psa.getCategoryId());
       if (at == null) {
         continue;
       }
-      LabelInfo p = labels.get(at.getCategory().getLabelName());
+      String name = at.getCategory().getLabelName();
+      LabelInfo p = labels.get(name);
       if (p == null) {
         continue; // TODO: support arbitrary labels.
       }
-      if (p.all == null) {
-        p.all = Lists.newArrayList();
+      if (!getRange(ctl, psa.getAccountId(), name).isEmpty()) {
+        p.addApproval(approvalInfo(psa.getAccountId(), psa.getValue()));
       }
-      ApprovalInfo ai = new ApprovalInfo(psa.getAccountId());
-      accountLoader.put(ai);
-      ai.value = psa.getValue();
-      p.all.add(ai);
+      existing.put(psa.getAccountId(), at.getCategory().getLabelName());
     }
+
+    // Add dummy approvals for all permitted labels for each user even if they
+    // do not exist in the DB.
+    for (Map.Entry<Account.Id, Collection<String>> ue
+        : existing.asMap().entrySet()) {
+      for (Map.Entry<String, LabelInfo> le : labels.entrySet()) {
+        if (ue.getValue().contains(le.getKey())) {
+          continue;
+        }
+        LabelInfo p = le.getValue();
+        if (!getRange(ctl, ue.getKey(), le.getKey()).isEmpty()) {
+          p.addApproval(approvalInfo(ue.getKey(), (short) 0));
+        }
+      }
+    }
+  }
+
+  private PermissionRange getRange(ChangeControl control, Account.Id user,
+      String label) {
+    return control.forUser(userFactory.create(user))
+        .getRange(Permission.forLabel(label));
+  }
+
+  private ApprovalInfo approvalInfo(Account.Id id, short value) {
+    ApprovalInfo ai = new ApprovalInfo(id);
+    ai.value = value;
+    accountLoader.put(ai);
+    return ai;
   }
 
   private static boolean isOnlyZero(Collection<String> values) {
@@ -769,6 +815,13 @@ public class ChangeJson {
 
     Short value;
     Boolean optional;
+
+    void addApproval(ApprovalInfo ai) {
+      if (all == null) {
+        all = Lists.newArrayList();
+      }
+      all.add(ai);
+    }
   }
 
   static class ApprovalInfo extends AccountInfo {

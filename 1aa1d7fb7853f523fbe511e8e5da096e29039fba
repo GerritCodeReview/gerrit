@@ -52,6 +52,24 @@
       "revId": "1aa1d7fb7853f523fbe511e8e5da096e29039fba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7nQ96Lk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-14T16:03:51Z",
+      "side": 1,
+      "message": "Ok, I will look into modifying the two classes we need from GerritRequestModule to not depend on request scopes. It will probably just involve another method in the factory to construct from a Change/RevisionResource.",
+      "parentUuid": "P4aF8nmY",
+      "revId": "1aa1d7fb7853f523fbe511e8e5da096e29039fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

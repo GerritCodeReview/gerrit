@@ -1935,6 +1935,20 @@ behavior of Gerrit's 'receive-pack' mechanism.
   maxObjectSizeLimit = 40 m
 ----
 
+[[receive.checkReferencedObjectsAreReachable]]receive.checkReferencedObjectsAreReachable::
++
+If set to true, Gerrit will validate that all referenced objects that
+are not included in the received pack are reachable by the user.
++
+Carrying out this check on gits with many refs and commits can be a
+very CPU-heavy operation. For non public Gerrit-servers this check may
+be overkill.
++
+Only disable this check if you trust the clients not to forge SHA1
+references to access commits intended to be hidden from the user.
++
+Default is true
+
 [[receive.allowGroup]]receive.allowGroup::
 +
 Name of the groups of users that are allowed to execute

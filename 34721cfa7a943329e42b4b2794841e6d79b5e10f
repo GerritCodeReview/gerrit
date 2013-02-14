@@ -16,6 +16,24 @@
       "revId": "34721cfa7a943329e42b4b2794841e6d79b5e10f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7dX5XA0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-14T01:09:34Z",
+      "side": 1,
+      "message": "Must have been something in formatOne at some point. Not sure why Eclipse didn\u0027t warn me. Done.",
+      "parentUuid": "P4eH5Rg0",
+      "revId": "34721cfa7a943329e42b4b2794841e6d79b5e10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

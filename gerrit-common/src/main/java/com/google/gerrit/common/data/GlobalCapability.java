@@ -64,6 +64,9 @@ public class GlobalCapability {
   /** Maximum result limit per executed query. */
   public static final String QUERY_LIMIT = "queryLimit";
 
+  /** Ability to use the raw query shell (gsql). */
+  public static final String RAW_QUERY = "rawQuery";
+
   /** Forcefully restart replication to any configured destination. */
   public static final String START_REPLICATION = "startReplication";
 
@@ -90,6 +93,7 @@ public class GlobalCapability {
     NAMES_ALL.add(KILL_TASK);
     NAMES_ALL.add(PRIORITY);
     NAMES_ALL.add(QUERY_LIMIT);
+    NAMES_ALL.add(RAW_QUERY);
     NAMES_ALL.add(START_REPLICATION);
     NAMES_ALL.add(VIEW_CACHES);
     NAMES_ALL.add(VIEW_CONNECTIONS);

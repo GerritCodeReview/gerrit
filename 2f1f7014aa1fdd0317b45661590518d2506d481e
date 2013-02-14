@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7tQSPF0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T14:57:14Z",
+      "side": 1,
+      "message": "I think \"Retrieves the name of a project\u0027s parent project.\" sounds a bit better.",
+      "revId": "2f1f7014aa1fdd0317b45661590518d2506d481e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7vQXOEo",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T14:57:14Z",
+      "side": 1,
+      "message": "Maybe \"as parent name\" can be removed here.",
+      "revId": "2f1f7014aa1fdd0317b45661590518d2506d481e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

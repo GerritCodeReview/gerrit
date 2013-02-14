@@ -51,6 +51,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
+import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.IncludingGroupMembership;
 import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.PerformCreateGroup;
@@ -172,6 +173,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(CreateChangeSender.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
+    factory(GroupMembers.Factory.class);
     factory(InternalUser.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);

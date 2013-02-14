@@ -14,14 +14,16 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.data.ReviewerResult;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.patch.AddReviewer;
-import com.google.gerrit.server.patch.RemoveReviewer;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.DeleteReviewer;
+import com.google.gerrit.server.change.PostReviewers;
+import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -30,6 +32,7 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -37,7 +40,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -74,10 +76,13 @@ public class SetReviewersCommand extends SshCommand {
   private ReviewDb db;
 
   @Inject
-  private AddReviewer.Factory addReviewerFactory;
+  private ReviewerResource.Factory reviewerFactory;
 
   @Inject
-  private RemoveReviewer.Factory removeReviewerFactory;
+  private Provider<PostReviewers> postReviewersProvider;
+
+  @Inject
+  private Provider<DeleteReviewer> deleteReviewerProvider;
 
   @Inject
   private ChangeControl.Factory changeControlFactory;
@@ -104,62 +109,48 @@ public class SetReviewersCommand extends SshCommand {
   }
 
   private boolean modifyOne(Change.Id changeId) throws Exception {
-    changeControlFactory.validateFor(changeId);
-
-    ReviewerResult result;
+    ChangeResource changeRsrc =
+        new ChangeResource(changeControlFactory.validateFor(changeId));
     boolean ok = true;
 
     // Remove reviewers
     //
-    result = removeReviewerFactory.create(changeId, toRemove).call();
-    ok &= result.getErrors().isEmpty();
-    for (ReviewerResult.Error resultError : result.getErrors()) {
-      String message;
-      switch (resultError.getType()) {
-        case REMOVE_NOT_PERMITTED:
-          message = "not permitted to remove {0} from {1}";
-          break;
-        case COULD_NOT_REMOVE:
-          message = "could not remove {0} from {1}";
-          break;
-        default:
-          message = "could not remove {0}: {2}";
+    DeleteReviewer delete = deleteReviewerProvider.get();
+    for (Account.Id reviewer : toRemove) {
+      ReviewerResource rsrc = reviewerFactory.create(changeRsrc, reviewer);
+      String error = null;;
+      try {
+        delete.apply(rsrc, new DeleteReviewer.Input());
+      } catch (ResourceNotFoundException e) {
+        error = String.format("could not remove %s: not found", reviewer);
+      } catch (Exception e) {
+        error = String.format("could not remove %s: %s",
+            reviewer, e.getMessage());
       }
-      writeError("error", MessageFormat.format(message,
-          resultError.getName(), changeId, resultError.getType()));
+      if (error != null) {
+        ok = false;
+        writeError("error", error);
+      }
     }
 
     // Add reviewers
     //
-    result =
-        addReviewerFactory.create(changeId, toAdd, true).call();
-    ok &= result.getErrors().isEmpty();
-    for (ReviewerResult.Error resultError : result.getErrors()) {
-      String message;
-      switch (resultError.getType()) {
-        case REVIEWER_NOT_FOUND:
-          message = "account or group {0} not found";
-          break;
-        case ACCOUNT_INACTIVE:
-          message = "account {0} inactive";
-          break;
-        case CHANGE_NOT_VISIBLE:
-          message = "change {1} not visible to {0}";
-          break;
-        case GROUP_EMPTY:
-          message = "group {0} is empty";
-          break;
-        case GROUP_HAS_TOO_MANY_MEMBERS:
-          message = "group {0} has too many members";
-          break;
-        case GROUP_NOT_ALLOWED:
-          message = "group {0} is not allowed as reviewer";
-          break;
-        default:
-          message = "could not add {0}: {2}";
+    PostReviewers post = postReviewersProvider.get();
+    for (String reviewer : toAdd) {
+      PostReviewers.Input input = new PostReviewers.Input();
+      input.reviewer = reviewer;
+      String error;
+      try {
+        error = post.apply(changeRsrc, input).error;
+      } catch (ResourceNotFoundException e) {
+        error = String.format("could not add %s: not found", reviewer);
+      } catch (Exception e) {
+        error = String.format("could not add %s: %s", reviewer, e.getMessage());
       }
-      writeError("error", MessageFormat.format(message,
-          resultError.getName(), changeId, resultError.getType()));
+      if (error != null) {
+        ok = false;
+        writeError("error", error);
+      }
     }
 
     return ok;

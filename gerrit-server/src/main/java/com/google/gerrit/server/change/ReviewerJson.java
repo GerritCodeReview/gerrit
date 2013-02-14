@@ -144,8 +144,8 @@ public class ReviewerJson {
   }
 
   public static class PostResult {
-    List<ReviewerInfo> reviewers;
+    public List<ReviewerInfo> reviewers;
+    public String error;
     Boolean confirm;
-    String error;
   }
 }

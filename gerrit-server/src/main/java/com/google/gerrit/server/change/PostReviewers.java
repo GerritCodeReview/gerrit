@@ -57,13 +57,13 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 
-class PostReviewers implements RestModifyView<ChangeResource, Input> {
+public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   public final static int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public final static int DEFAULT_MAX_REVIEWERS = 20;
 
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String reviewer;
+    public String reviewer;
     Boolean confirmed;
 
     boolean confirmed() {

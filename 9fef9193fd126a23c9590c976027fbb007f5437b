@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P4QFqqqk",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "s/ui/UI",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4SFfrgs",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "s/gerrit/Gerrit",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4UFcshQ",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ActionDetail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "Copyright header is missing.",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4WFZtiM",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ActionService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "s/2008/2013",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4YFWuvI",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PluginAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "2/2008/2013",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4aGTvro",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/annotations/ActionName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "s/2008/2013",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4cGYwtc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "Why is this commented out?",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4eGdxsQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "Why is this commented out?",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4QGjigc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/actions/ActionServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "s/2008/2013",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4SGojt8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/actions/Action.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "s/2008/2013",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4UGlkgY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/actions/ActionPluginModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "s/2008/2013",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4WGylk8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/actions/Actions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T01:37:29Z",
+      "side": 1,
+      "message": "s/2009/2013",
+      "revId": "9fef9193fd126a23c9590c976027fbb007f5437b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

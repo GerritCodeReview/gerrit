@@ -16,6 +16,24 @@
       "revId": "1aa1d7fb7853f523fbe511e8e5da096e29039fba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7ZXv5EM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-14T00:59:32Z",
+      "side": 1,
+      "message": "Fair enough, but I strongly believe that when we\u0027re writing REST API handlers we should have access to request scoped stuff. If not, it\u0027s going to be annoying at best and impossible at worst to port all of the relevant code in the classes bound in GerritRequestModule to not use request scope.\n\nDo you have any idea what I could do to poke this and see what breaks?",
+      "parentUuid": "P4WEOFkA",
+      "revId": "1aa1d7fb7853f523fbe511e8e5da096e29039fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

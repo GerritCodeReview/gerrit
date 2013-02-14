@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P4YE92rw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetReviewer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-14T01:25:02Z",
+      "side": 1,
+      "message": "Unnecessary delta.",
+      "revId": "29b082711b3329e4630a20bdcd00cda7f73ba62d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P4aFq3qo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-14T01:25:02Z",
+      "side": 1,
+      "message": "Don\u0027t throw.",
+      "revId": "29b082711b3329e4630a20bdcd00cda7f73ba62d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

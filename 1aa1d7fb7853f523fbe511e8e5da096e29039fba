@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P4WEOFkA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-14T00:46:20Z",
+      "side": 1,
+      "message": "I didn\u0027t want to do this. I don\u0027t remember why. But I went through hell to get ReviewDb exposed as a ThreadLocal in the global sys injector so the REST API modules didn\u0027t have to be in the request scope bindings.\n\nSo I\u0027m negative on this change, but I can\u0027t put my finger on what will go wrong if we do this.",
+      "revId": "1aa1d7fb7853f523fbe511e8e5da096e29039fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

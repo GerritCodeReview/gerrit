@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7pQYxH8",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T14:42:20Z",
+      "side": 1,
+      "message": "Does the identifier need to uniquely identify one account?  For example there may be more than one account that matches \"Full Name\" - what happens then?",
+      "revId": "03c3ef515a1fc6e1de14e4f9aa0efa1b346d0ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7nQLKC4",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-14T14:42:20Z",
+      "side": 1,
+      "message": "s/id/ID",
+      "revId": "03c3ef515a1fc6e1de14e4f9aa0efa1b346d0ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

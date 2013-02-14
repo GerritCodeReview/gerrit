@@ -29,9 +29,8 @@ public abstract class NewChangeSender extends ChangeEmail {
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
-  protected NewChangeSender(EmailArguments ea, String anonymousCowardName,
-      Change c) {
-    super(ea, anonymousCowardName, c, "newchange");
+  protected NewChangeSender(EmailArguments ea, Change c) {
+    super(ea, c, "newchange");
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {

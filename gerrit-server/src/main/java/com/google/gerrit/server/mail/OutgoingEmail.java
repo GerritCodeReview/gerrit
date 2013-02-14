@@ -60,14 +60,11 @@ public abstract class OutgoingEmail {
   protected VelocityContext velocityContext;
 
   protected final EmailArguments args;
-  private final String anonymousCowardName;
   protected Account.Id fromId;
 
 
-  protected OutgoingEmail(EmailArguments ea, final String anonymousCowardName,
-      final String mc) {
+  protected OutgoingEmail(EmailArguments ea, String mc) {
     args = ea;
-    this.anonymousCowardName = anonymousCowardName;
     messageClass = mc;
     headers = new LinkedHashMap<String, EmailHeader>();
   }
@@ -236,7 +233,7 @@ public abstract class OutgoingEmail {
   /** Lookup a human readable name for an account, usually the "full name". */
   protected String getNameFor(final Account.Id accountId) {
     if (accountId == null) {
-      return anonymousCowardName;
+      return args.anonymousCowardName;
     }
 
     final Account userAccount = args.accountCache.get(accountId).getAccount();
@@ -245,7 +242,7 @@ public abstract class OutgoingEmail {
       name = userAccount.getPreferredEmail();
     }
     if (name == null) {
-      name = anonymousCowardName + " #" + accountId;
+      name = args.anonymousCowardName + " #" + accountId;
     }
     return name;
   }
@@ -264,7 +261,7 @@ public abstract class OutgoingEmail {
       return email;
 
     } else /* (name == null && email == null) */{
-      return anonymousCowardName + " #" + accountId;
+      return args.anonymousCowardName + " #" + accountId;
     }
   }
 

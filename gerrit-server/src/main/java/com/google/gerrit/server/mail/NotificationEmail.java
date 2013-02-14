@@ -41,9 +41,9 @@ public abstract class NotificationEmail extends OutgoingEmail {
   protected Branch.NameKey branch;
   private SshInfo sshInfo;
 
-  protected NotificationEmail(EmailArguments ea, String anonymousCowardName,
+  protected NotificationEmail(EmailArguments ea,
       String mc, Project.NameKey project, Branch.NameKey branch) {
-    super(ea, anonymousCowardName, mc);
+    super(ea, mc);
 
     this.project = project;
     this.branch = branch;

@@ -21,11 +21,12 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -33,21 +34,21 @@ import java.util.Set;
 
 public class GroupMembers {
   public interface Factory {
-    GroupMembers create();
+    GroupMembers create(CurrentUser currentUser);
   }
 
   private final GroupCache groupCache;
   private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountCache accountCache;
   private final ProjectControl.GenericFactory projectControl;
-  private final IdentifiedUser currentUser;
+  private final CurrentUser currentUser;
 
   @Inject
   GroupMembers(final GroupCache groupCache,
       final GroupDetailFactory.Factory groupDetailFactory,
       final AccountCache accountCache,
       final ProjectControl.GenericFactory projectControl,
-      final IdentifiedUser currentUser) {
+      @Assisted final CurrentUser currentUser) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
     this.accountCache = accountCache;

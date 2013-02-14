@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.common.data.GlobalCapability.ACCESS_DATABASE;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_ACCOUNT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
@@ -109,6 +110,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     have.put(VIEW_CONNECTIONS, cc.canViewConnections());
     have.put(VIEW_QUEUE, cc.canViewQueue());
     have.put(START_REPLICATION, cc.canStartReplication());
+    have.put(ACCESS_DATABASE, cc.canAccessDatabase());
 
     QueueProvider.QueueType queue = cc.getQueueType();
     if (queue != QueueProvider.QueueType.INTERACTIVE

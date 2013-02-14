@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +26,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class ApprovalDetail {
+  public static final Comparator<ApprovalDetail> SORT =
+      new Comparator<ApprovalDetail>() {
+        public int compare(ApprovalDetail o1, ApprovalDetail o2) {
+          return o1.hasNonZero - o2.hasNonZero;
+        }
+      };
+
   protected Account.Id account;
   protected List<PatchSetApproval> approvals;
   protected boolean canRemove;
@@ -33,6 +41,7 @@ public class ApprovalDetail {
   private transient Set<String> approved;
   private transient Set<String> rejected;
   private transient Map<String, Integer> values;
+  private transient int hasNonZero;
 
   protected ApprovalDetail() {
   }
@@ -59,6 +68,7 @@ public class ApprovalDetail {
       approved = new HashSet<String>();
     }
     approved.add(label);
+    hasNonZero = 1;
   }
 
   public void rejected(String label) {
@@ -66,6 +76,7 @@ public class ApprovalDetail {
       rejected = new HashSet<String>();
     }
     rejected.add(label);
+    hasNonZero = 1;
   }
 
   public void votable(String label) {
@@ -80,6 +91,9 @@ public class ApprovalDetail {
       values = new HashMap<String, Integer>();
     }
     values.put(label, value);
+    if (value != 0) {
+      hasNonZero = 1;
+    }
   }
 
   public boolean isApproved(String label) {

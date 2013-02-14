@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
@@ -46,6 +48,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -55,6 +58,19 @@ import java.util.Map;
 import java.util.Set;
 
 public class ChangeData {
+  private static Ordering<PatchSetApproval> SORT_APPROVALS = Ordering.natural()
+      .onResultOf(new Function<PatchSetApproval, Timestamp>() {
+            @Override
+            public Timestamp apply(PatchSetApproval a) {
+              return a.getGranted();
+            }
+          });
+
+  public static List<PatchSetApproval> sortApprovals(
+      Iterable<PatchSetApproval> approvals) {
+    return SORT_APPROVALS.sortedCopy(approvals);
+  }
+
   public static void ensureChangeLoaded(
       Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
     Map<Change.Id, ChangeData> missing = Maps.newHashMap();
@@ -102,7 +118,7 @@ public class ChangeData {
       int idx = 0;
       for (ChangeData cd : changes) {
         if (cd.currentApprovals == null && cd.approvals == null) {
-          cd.currentApprovals = pending.get(idx++).toList();
+          cd.currentApprovals = sortApprovals(pending.get(idx++));
         }
       }
     }
@@ -114,8 +130,8 @@ public class ChangeData {
   private PatchSet currentPatchSet;
   private Set<PatchSet.Id> limitedIds;
   private Collection<PatchSet> patches;
-  private Multimap<PatchSet.Id, PatchSetApproval> approvals;
-  private Collection<PatchSetApproval> currentApprovals;
+  private ListMultimap<PatchSet.Id, PatchSetApproval> approvals;
+  private List<PatchSetApproval> currentApprovals;
   private String[] currentFiles;
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
@@ -254,7 +270,7 @@ public class ChangeData {
     return currentPatchSet;
   }
 
-  public Collection<PatchSetApproval> currentApprovals(Provider<ReviewDb> db)
+  public List<PatchSetApproval> currentApprovals(Provider<ReviewDb> db)
       throws OrmException {
     if (currentApprovals == null) {
       Change c = change(db);
@@ -264,8 +280,8 @@ public class ChangeData {
           (limitedIds == null || limitedIds.contains(c.currentPatchSetId()))) {
         return approvals.get(c.currentPatchSetId());
       } else {
-        currentApprovals = db.get().patchSetApprovals()
-            .byPatchSet(c.currentPatchSetId()).toList();
+        currentApprovals = sortApprovals(db.get().patchSetApprovals()
+            .byPatchSet(c.currentPatchSetId()));
       }
     }
     return currentApprovals;
@@ -318,29 +334,30 @@ public class ChangeData {
 
   /**
    * @param db review database.
-   * @return patch set approvals for the change. If
+   * @return patch set approvals for the change in timestamp order. If
    *     {@link #limitToPatchSets(Collection)} was previously called, only contains
    *     approvals for the patches with the specified IDs.
    * @throws OrmException an error occurred reading the database.
    */
-  public Collection<PatchSetApproval> approvals(Provider<ReviewDb> db)
+  public List<PatchSetApproval> approvals(Provider<ReviewDb> db)
       throws OrmException {
-    return approvalsMap(db).values();
+    return sortApprovals(approvalsMap(db).values());
   }
 
   /**
    * @param db review database.
-   * @return patch set approvals for the change, keyed by ID. If
+   * @return patch set approvals for the change, keyed by ID, ordered by
+   *     timestamp within each patch set. If
    *     {@link #limitToPatchSets(Collection)} was previously called, only
    *     contains approvals for the patches with the specified IDs.
    * @throws OrmException an error occurred reading the database.
    */
-  public Multimap<PatchSet.Id,PatchSetApproval> approvalsMap(
+  public ListMultimap<PatchSet.Id,PatchSetApproval> approvalsMap(
       Provider<ReviewDb> db) throws OrmException {
     if (approvals == null) {
       approvals = ArrayListMultimap.create();
-      for (PatchSetApproval psa :
-          db.get().patchSetApprovals().byChange(legacyId)) {
+      for (PatchSetApproval psa : sortApprovals(
+          db.get().patchSetApprovals().byChange(legacyId))) {
         if (limitedIds == null || limitedIds.contains(legacyId)) {
           approvals.put(psa.getPatchSetId(), psa);
         }

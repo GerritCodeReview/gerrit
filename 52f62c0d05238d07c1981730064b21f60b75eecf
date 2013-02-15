@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "P8jAqqIA",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-02-15T12:50:28Z",
+      "side": 1,
+      "message": "I thought I was being consistent with replication below.",
+      "parentUuid": "P8PJpCLY",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P7vTNeLU",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminQueryShell.java",
         "patchSetId": 1
@@ -100,6 +118,24 @@
       "side": 1,
       "message": "\u003e Having it as a standalone capability will help manage granting access only to those who truly need it.\n\nI agree.  But then it needs to be documented that admins do not have this permission by default.",
       "parentUuid": "P7lRvDIY",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8hAtpJc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminQueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-02-15T12:50:28Z",
+      "side": 1,
+      "message": "That was the indention, to remove it from administrators and make it a standalone thing.\n\nHow/where would you suggest documenting it fully so people aren\u0027t hit unawares?",
+      "parentUuid": "P7rQOoPE",
       "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

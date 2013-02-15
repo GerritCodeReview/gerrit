@@ -53,7 +53,7 @@ public class LabelTypesProvider implements Provider<LabelTypes> {
         db.close();
       }
     } catch (OrmException e) {
-      throw new ProvisionException("Cannot query approval categories", e);
+      throw new ProvisionException("Cannot query label categories", e);
     }
 
     return new LabelTypes(Collections.unmodifiableList(types));

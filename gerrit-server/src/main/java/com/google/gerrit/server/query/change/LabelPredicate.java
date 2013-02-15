@@ -24,6 +24,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
@@ -103,52 +105,61 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     return Integer.parseInt(value);
   }
 
+  private final ProjectCache projectCache;
   private final ChangeControl.GenericFactory ccFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<ReviewDb> dbProvider;
   private final Test test;
-  private final LabelType type;
-  private final String permissionName;
+  private final String type;
   private final int expVal;
 
-  LabelPredicate(ChangeControl.GenericFactory ccFactory,
-      IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      LabelTypes types, String value) {
+  LabelPredicate(ProjectCache projectCache,
+      ChangeControl.GenericFactory ccFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      Provider<ReviewDb> dbProvider,
+      String value) {
     super(ChangeQueryBuilder.FIELD_LABEL, value);
     this.ccFactory = ccFactory;
+    this.projectCache = projectCache;
     this.userFactory = userFactory;
     this.dbProvider = dbProvider;
 
     Matcher m1 = Pattern.compile("(=|>=|<=)([+-]?\\d+)$").matcher(value);
     Matcher m2 = Pattern.compile("([+-]\\d+)$").matcher(value);
     if (m1.find()) {
-      type = type(types, value.substring(0, m1.start()));
+      type = value.substring(0, m1.start());
       test = op(m1.group(1));
       expVal = value(m1.group(2));
 
     } else if (m2.find()) {
-      type = type(types, value.substring(0, m2.start()));
+      type = value.substring(0, m2.start());
       test = Test.EQ;
       expVal = value(m2.group(1));
 
     } else {
-      type = type(types, value);
+      type = value;
       test = Test.EQ;
       expVal = 1;
     }
-
-    this.permissionName = Permission.forLabel(type.getName());
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
+    final Change c = object.getChange();
+    final ProjectState project = projectCache.get(c.getDest().getParentKey());
+    if (project == null) {
+      // The project has disappeared.
+      //
+      return false;
+    }
+    final LabelType labelType = type(project.getLabelTypes(), type);
     final Set<Account.Id> allApprovers = new HashSet<Account.Id>();
     final Set<Account.Id> approversThatVotedInCategory = new HashSet<Account.Id>();
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
       allApprovers.add(p.getAccountId());
-      if (p.getCategoryId().equals(type.getId())) {
+      if (p.getCategoryId().equals(labelType.getId())) {
         approversThatVotedInCategory.add(p.getAccountId());
-        if (match(object.change(dbProvider), p.getValue(), p.getAccountId())) {
+        if (match(c, p.getValue(), p.getAccountId(), labelType)) {
           return true;
         }
       }
@@ -156,8 +167,8 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
 
     final Set<Account.Id> approversThatDidNotVoteInCategory = new HashSet<Account.Id>(allApprovers);
     approversThatDidNotVoteInCategory.removeAll(approversThatVotedInCategory);
-    for (final Account.Id a : approversThatDidNotVoteInCategory) {
-      if (match(object.change(dbProvider), 0, a)) {
+    for (Account.Id a : approversThatDidNotVoteInCategory) {
+      if (match(c, 0, a, labelType)) {
         return true;
       }
     }
@@ -166,7 +177,8 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   }
 
   private boolean match(final Change change, final int value,
-      final Account.Id approver) throws OrmException {
+      final Account.Id approver, final LabelType type)
+      throws OrmException {
     int psVal = value;
     if (test.match(psVal, expVal)) {
       // Double check the value is still permitted for the user.
@@ -179,7 +191,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
           //
           return false;
         }
-        psVal = cc.getRange(permissionName).squash(psVal);
+        psVal = cc.getRange(Permission.forLabel(type.getName())).squash(psVal);
       } catch (NoSuchChangeException e) {
         // The project has disappeared.
         //

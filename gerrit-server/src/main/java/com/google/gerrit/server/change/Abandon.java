@@ -101,7 +101,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
       }
       message = newMessage(input, caller, change);
       db.changeMessages().insert(Collections.singleton(message));
-      new ApprovalsUtil(db, null).syncChangeStatus(change);
+      new ApprovalsUtil(db).syncChangeStatus(change);
       db.commit();
     } finally {
       db.rollback();

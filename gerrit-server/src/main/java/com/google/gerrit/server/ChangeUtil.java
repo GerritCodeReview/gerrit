@@ -39,6 +39,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -174,7 +175,8 @@ public class ChangeUtil {
     db.trackingIds().delete(toDelete);
   }
 
-  public static void testMerge(MergeOp.Factory opFactory, Change change) {
+  public static void testMerge(MergeOp.Factory opFactory, Change change)
+      throws NoSuchProjectException {
     opFactory.create(change.getDest()).verifyMergeability(change);
   }
 

@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -179,6 +180,10 @@ public class ProjectControl {
 
   public Project getProject() {
     return state.getProject();
+  }
+
+  public LabelTypes getLabelTypes() {
+    return state.getLabelTypes();
   }
 
   private boolean isHidden() {

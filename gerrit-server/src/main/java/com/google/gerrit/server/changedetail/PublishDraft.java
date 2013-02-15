@@ -19,6 +19,7 @@ import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -108,6 +109,7 @@ public class PublishDraft implements Callable<ReviewResult> {
     final Change.Id changeId = patchSetId.getParentKey();
     result.setChangeId(changeId);
     final ChangeControl control = changeControlFactory.validateFor(changeId);
+    final LabelTypes labelTypes = control.getLabelTypes();
     final PatchSet patch = db.patchSets().get(patchSetId);
     if (patch == null) {
       throw new NoSuchChangeException(changeId);
@@ -147,7 +149,8 @@ public class PublishDraft implements Callable<ReviewResult> {
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, db);
 
         sendNotifications(control.getChange().getStatus() == Change.Status.DRAFT,
-            (IdentifiedUser) control.getCurrentUser(), updatedChange, updatedPatchSet);
+            (IdentifiedUser) control.getCurrentUser(), updatedChange, updatedPatchSet,
+            labelTypes);
       }
     }
 
@@ -156,8 +159,8 @@ public class PublishDraft implements Callable<ReviewResult> {
 
   private void sendNotifications(final boolean newChange,
       final IdentifiedUser currentUser, final Change updatedChange,
-      final PatchSet updatedPatchSet) throws OrmException, IOException,
-      PatchSetInfoNotAvailableException {
+      final PatchSet updatedPatchSet, final LabelTypes labelTypes)
+      throws OrmException, IOException, PatchSetInfoNotAvailableException {
     final Repository git = repoManager.openRepository(updatedChange.getProject());
     try {
       final RevWalk revWalk = new RevWalk(git);
@@ -175,7 +178,7 @@ public class PublishDraft implements Callable<ReviewResult> {
       recipients.remove(me);
 
       if (newChange) {
-        approvalsUtil.addReviewers(db, updatedChange, updatedPatchSet, info,
+        approvalsUtil.addReviewers(db, labelTypes, updatedChange, updatedPatchSet, info,
             recipients.getReviewers(), Collections.<Account.Id> emptySet());
         try {
           CreateChangeSender cm = createChangeSenderFactory.create(updatedChange);
@@ -192,7 +195,7 @@ public class PublishDraft implements Callable<ReviewResult> {
             db.patchSetApprovals().byChange(updatedChange.getId()).toList();
         final MailRecipients oldRecipients =
             getRecipientsFromApprovals(patchSetApprovals);
-        approvalsUtil.addReviewers(db, updatedChange, updatedPatchSet, info,
+        approvalsUtil.addReviewers(db, labelTypes, updatedChange, updatedPatchSet, info,
             recipients.getReviewers(), oldRecipients.getAll());
         final ChangeMessage msg =
             new ChangeMessage(new ChangeMessage.Key(updatedChange.getId(),

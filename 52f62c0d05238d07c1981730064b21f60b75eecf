@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "P8rBGmFI",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-02-15T16:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P7tTIfKg",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8pBBlD8",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-02-15T16:53:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P8BJfbAs",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P8PJpCLY",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -154,6 +190,24 @@
       "side": 1,
       "message": "In access-control.txt there\u0027s already a paragraph at the top stating that membership of the admin group does not imply rights.\n\nAdding a similar paragraph in the documentation for this parameter might be redundant.\n\nI would suggest just updating the commit message to make the implication of this change clear.  And it should also be clearly mentioned in the 2.6 release notes.",
       "parentUuid": "P8hAtpJc",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8nAkMLI",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminQueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-02-15T16:53:22Z",
+      "side": 1,
+      "message": "Made the commit msg more clear in PS2.",
+      "parentUuid": "P7tS3nO8",
       "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

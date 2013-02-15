@@ -137,6 +137,27 @@ If the user doesn't have the global capability the response is
 get::/accounts/self/capabilities/createGroup
 ****
 
+[[get-avatar]]
+GET /accounts/\{account-id\}/avatar (Get Avatar)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves the avatar image of the user.
+
+With the `size` option (alias `s`) you can specify the preferred size
+in pixels (height and width).
+
+.Request
+----
+  GET /a/accounts/john.doe@example.com/avatar?s=20 HTTP/1.0
+----
+
+The response redirects to the URL of the avatar image.
+
+.Response
+----
+  HTTP/1.1 302 Found
+  Location: https://profiles/avatar/john_doe.jpeg?s=20x20
+----
+
 
 [[ids]]
 IDs

@@ -114,7 +114,6 @@ public class ChangeJson {
   }
 
   private final Provider<ReviewDb> db;
-  private final LabelTypes labelTypes;
   private final CurrentUser user;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -133,7 +132,6 @@ public class ChangeJson {
   @Inject
   ChangeJson(
       Provider<ReviewDb> db,
-      LabelTypes at,
       CurrentUser u,
       AnonymousUser au,
       IdentifiedUser.GenericFactory uf,
@@ -144,7 +142,6 @@ public class ChangeJson {
       @CanonicalWebUrl Provider<String> curl,
       Urls urls) {
     this.db = db;
-    this.labelTypes = at;
     this.user = u;
     this.anonymous = au;
     this.userFactory = uf;
@@ -321,16 +318,18 @@ public class ChangeJson {
       return null;
     }
 
+    LabelTypes labelTypes = ctl.getLabelTypes();
     if (cd.getChange().getStatus().isOpen()) {
-      return labelsForOpenChange(cd, standard, detailed);
+      return labelsForOpenChange(cd, labelTypes, standard, detailed);
     } else {
-      return labelsForClosedChange(cd, standard, detailed);
+      return labelsForClosedChange(cd, labelTypes, standard, detailed);
     }
   }
 
   private Map<String, LabelInfo> labelsForOpenChange(ChangeData cd,
-      boolean standard, boolean detailed) throws OrmException {
-    Map<String, LabelInfo> labels = initLabels(cd, standard);
+      LabelTypes labelTypes, boolean standard, boolean detailed)
+      throws OrmException {
+    Map<String, LabelInfo> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
       setAllApprovals(cd, labels);
     }
@@ -349,8 +348,8 @@ public class ChangeJson {
     return labels;
   }
 
-  private Map<String, LabelInfo> initLabels(ChangeData cd, boolean standard)
-      throws OrmException {
+  private Map<String, LabelInfo> initLabels(ChangeData cd,
+      LabelTypes labelTypes, boolean standard) throws OrmException {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels =
         new TreeMap<String, LabelInfo>(LabelOrdering.create(labelTypes));
@@ -448,7 +447,7 @@ public class ChangeJson {
       }
       for (PatchSetApproval psa : current.get(accountId)) {
         // TODO Support arbitrary labels placed by a reviewer.
-        LabelType lt = labelTypes.byId(psa.getCategoryId().get());
+        LabelType lt = ctl.getLabelTypes().byId(psa.getCategoryId().get());
         if (lt == null) {
           continue;
         }
@@ -465,7 +464,8 @@ public class ChangeJson {
   }
 
   private Map<String, LabelInfo> labelsForClosedChange(ChangeData cd,
-      boolean standard, boolean detailed) throws OrmException {
+      LabelTypes labelTypes, boolean standard, boolean detailed)
+      throws OrmException {
     Set<Account.Id> allUsers = Sets.newHashSet();
     for (PatchSetApproval psa : cd.allApprovals(db)) {
       allUsers.add(psa.getAccountId());
@@ -570,6 +570,7 @@ public class ChangeJson {
       return null;
     }
 
+    LabelTypes labelTypes = ctl.getLabelTypes();
     ListMultimap<String, String> permitted = LinkedListMultimap.create();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {

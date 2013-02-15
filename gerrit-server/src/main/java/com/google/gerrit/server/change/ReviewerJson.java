@@ -43,17 +43,14 @@ import java.util.TreeMap;
 
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
-  private final LabelTypes labelTypes;
   private final FunctionState.Factory functionState;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
-      LabelTypes labelTypes,
       FunctionState.Factory functionState,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
-    this.labelTypes = labelTypes;
     this.functionState = functionState;
     this.accountLoaderFactory = accountLoaderFactory;
   }
@@ -84,6 +81,7 @@ public class ReviewerJson {
           .byPatchSetUser(psId, out._id));
     }
 
+    LabelTypes labelTypes = ctl.getLabelTypes();
     FunctionState fs = functionState.create(ctl, psId, approvals);
     for (LabelType at : labelTypes.getLabelTypes()) {
       CategoryFunction.forType(at).run(at, fs);

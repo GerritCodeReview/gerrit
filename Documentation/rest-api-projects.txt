@@ -12,6 +12,7 @@ Endpoints
 Project Endpoints
 -----------------
 
+[[list-projects]]
 GET /projects/ (List Projects)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the projects accessible by the caller. This is the same as
@@ -223,6 +224,7 @@ As response the new parent project name is returned.
 Dashboard Endpoints
 -------------------
 
+[[list-dashboards]]
 GET /projects/\{project-name\}/dashboards/ (List Dashboards)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 List custom dashboards for a project.

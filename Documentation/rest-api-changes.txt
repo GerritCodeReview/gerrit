@@ -8,6 +8,7 @@ link:rest-api.html[REST API].
 Endpoints
 ---------
 
+[[list-changes]]
 GET /changes/ (Query Changes)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Queries changes visible to the caller. The query string must be

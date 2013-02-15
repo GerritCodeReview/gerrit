@@ -9,6 +9,7 @@ link:rest-api.html[REST API].
 Group Endpoints
 ---------------
 
+[[list-groups]]
 GET /groups/ (List Groups)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the groups accessible by the caller. This is the same as

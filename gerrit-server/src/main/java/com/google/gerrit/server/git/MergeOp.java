@@ -15,11 +15,15 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
+
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.DAYS;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
@@ -115,6 +119,9 @@ public class MergeOp {
 
   private static final long LOCK_FAILURE_RETRY_DELAY =
       MILLISECONDS.convert(15, SECONDS);
+
+  private static final long DUPLICATE_MESSAGE_INTERVAL =
+      MILLISECONDS.convert(1, DAYS);
 
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -1039,8 +1046,31 @@ public class MergeOp {
     sendMergeFail(c, msg, true);
   }
 
+  private boolean isDuplicate(ChangeMessage msg) {
+    try {
+      ChangeMessage last = Iterables.getLast(db.changeMessages().byChange(
+          msg.getPatchSetId().getParentKey()), null);
+      if (last != null) {
+        long lastMs = last.getWrittenOn().getTime();
+        long msgMs = msg.getWrittenOn().getTime();
+        if (Objects.equal(last.getAuthor(), msg.getAuthor())
+            && Objects.equal(last.getMessage(), msg.getMessage())
+            && msgMs - lastMs < DUPLICATE_MESSAGE_INTERVAL) {
+          return true;
+        }
+      }
+    } catch (OrmException err) {
+      log.warn("Cannot check previous merge failure message", err);
+    }
+    return false;
+  }
+
   private void sendMergeFail(final Change c, final ChangeMessage msg,
       final boolean makeNew) {
+    if (isDuplicate(msg)) {
+      return;
+    }
+
     try {
       db.changeMessages().insert(Collections.singleton(msg));
     } catch (OrmException err) {

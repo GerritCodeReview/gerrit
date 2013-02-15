@@ -40,11 +40,9 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
     this.projectControlFactory = projectControlFactory;
   }
 
-  @Override
-  public final int parseArguments(final Parameters params)
-      throws CmdLineException {
-    String projectName = params.getParameter(0);
-
+  public static ProjectControl parseString(String projectName,
+      final ProjectControl.Factory projectControlFactory)
+      throws NoSuchProjectException {
     while (projectName.endsWith("/")) {
       projectName = projectName.substring(0, projectName.length() - 1);
     }
@@ -59,17 +57,20 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
     }
 
     String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
+    Project.NameKey nameKey = new Project.NameKey(nameWithoutSuffix);
+    return projectControlFactory.validateFor(nameKey, ProjectControl.OWNER | ProjectControl.VISIBLE);
+  }
 
-    final ProjectControl control;
+  @Override
+  public final int parseArguments(final Parameters params)
+      throws CmdLineException {
+    String projectName = params.getParameter(0);
     try {
-      Project.NameKey nameKey = new Project.NameKey(nameWithoutSuffix);
-      control = projectControlFactory.validateFor(nameKey, ProjectControl.OWNER | ProjectControl.VISIBLE);
+      setter.addValue(parseString(projectName, projectControlFactory));
+      return 1;
     } catch (NoSuchProjectException e) {
       throw new CmdLineException(owner, "'" + projectName + "': is not a Gerrit project");
     }
-
-    setter.addValue(control);
-    return 1;
   }
 
   @Override

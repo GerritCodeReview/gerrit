@@ -97,7 +97,7 @@ public abstract class BaseCommand implements Command {
   private String commandName = "";
 
   /** Unparsed command line options. */
-  private String[] argv;
+  protected String[] argv;
 
   public BaseCommand() {
     task = Atomics.newReference();

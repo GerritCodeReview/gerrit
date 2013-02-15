@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7tTIfKg",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T02:38:49Z",
+      "side": 1,
+      "message": "s/databse/database",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7vTNeLU",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminQueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T02:38:49Z",
+      "side": 1,
+      "message": "This change means that administrators can no longer by default use gsql.  If this is the intended behaviour it should be mentioned in both the commit message and the documentation.\n\nIt might be better to let administrators use it by default (same as previous behaviour) and allow other users if they have the `RAW_QUERY` access permission.",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
@@ -42,6 +43,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -264,6 +266,7 @@ public class ReceiveCommits {
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
   private MagicBranchInput magicBranch;
+  private LabelTypes labelTypes;
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -1117,6 +1120,7 @@ public class ReceiveCommits {
       reject(cmd, "cannot upload review");
       return;
     }
+    labelTypes = projectControl.getLabelTypes();
 
     // Validate that the new commits are connected with the target
     // branch.  If they aren't, we want to abort. We do this check by
@@ -1464,7 +1468,7 @@ public class ReceiveCommits {
         db.patchSets().insert(Collections.singleton(ps));
         db.changes().insert(Collections.singleton(change));
         ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
-        approvalsUtil.addReviewers(db, change, ps, info,
+        approvalsUtil.addReviewers(db, labelTypes, change, ps, info,
             recipients.getReviewers(), Collections.<Account.Id> emptySet());
         db.commit();
       } finally {
@@ -1770,10 +1774,10 @@ public class ReceiveCommits {
         }
 
         List<PatchSetApproval> patchSetApprovals =
-            approvalsUtil.copyVetosToPatchSet(db, newPatchSet.getId());
+            approvalsUtil.copyVetosToPatchSet(db, labelTypes, newPatchSet.getId());
         final MailRecipients oldRecipients =
             getRecipientsFromApprovals(patchSetApprovals);
-        approvalsUtil.addReviewers(db, change, newPatchSet, info,
+        approvalsUtil.addReviewers(db, labelTypes, change, newPatchSet, info,
             recipients.getReviewers(), oldRecipients.getAll());
         recipients.add(oldRecipients);
 
@@ -2162,7 +2166,7 @@ public class ReceiveCommits {
       @Override
       public void run() {
         try {
-          final MergedSender cm = mergedSenderFactory.create(result.change);
+          final MergedSender cm = mergedSenderFactory.create(result.changeCtl);
           cm.setFrom(currentUser.getAccountId());
           cm.setPatchSet(result.newPatchSet, result.info);
           cm.send();

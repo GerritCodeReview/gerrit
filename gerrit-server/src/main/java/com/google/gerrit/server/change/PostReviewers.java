@@ -23,7 +23,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -82,7 +81,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   private final Provider<ReviewDb> db;
   private final IdentifiedUser currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final ApprovalCategory.Id addReviewerCategoryId;
   private final Config cfg;
   private final ChangeHooks hooks;
   private final AccountCache accountCache;
@@ -98,7 +96,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       Provider<ReviewDb> db,
       IdentifiedUser currentUser,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      LabelTypes labelTypes,
       @GerritServerConfig Config cfg,
       ChangeHooks hooks,
       AccountCache accountCache,
@@ -116,9 +113,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     this.hooks = hooks;
     this.accountCache = accountCache;
     this.json = json;
-
-    this.addReviewerCategoryId = Iterables.getLast(labelTypes.getLabelTypes())
-        .getApprovalCategoryId();
   }
 
   @Override
@@ -229,7 +223,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
         continue;
       }
       ChangeControl control = rsrc.getControl().forUser(user);
-      PatchSetApproval psa = dummyApproval(control.getChange(), psid, id);
+      PatchSetApproval psa = dummyApproval(control, psid, id);
       result.reviewers.add(json.format(
           new ReviewerInfo(id), control, ImmutableList.of(psa)));
       toInsert.add(psa);
@@ -278,12 +272,13 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
              || AccountGroup.REGISTERED_USERS.equals(groupUUID));
   }
 
-  private PatchSetApproval dummyApproval(Change change, PatchSet.Id patchSetId,
-      Account.Id reviewerId) {
-    PatchSetApproval dummyApproval =
-        new PatchSetApproval(new PatchSetApproval.Key(patchSetId, reviewerId,
-            addReviewerCategoryId), (short) 0);
-    dummyApproval.cache(change);
+  private PatchSetApproval dummyApproval(ChangeControl ctl,
+      PatchSet.Id patchSetId, Account.Id reviewerId) {
+    ApprovalCategory.Id id = new ApprovalCategory.Id(
+        Iterables.getLast(ctl.getLabelTypes().getLabelTypes()).getId());
+    PatchSetApproval dummyApproval = new PatchSetApproval(
+        new PatchSetApproval.Key(patchSetId, reviewerId, id), (short) 0);
+    dummyApproval.cache(ctl.getChange());
     return dummyApproval;
   }
 }

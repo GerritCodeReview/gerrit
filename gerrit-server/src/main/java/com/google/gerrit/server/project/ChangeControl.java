@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -209,6 +210,11 @@ public class ChangeControl {
   public boolean canRestore() {
     return canAbandon() // Anyone who can abandon the change can restore it back
         && getRefControl().canUpload(); // as long as you can upload too
+  }
+
+  /** All available label types for this project. */
+  public LabelTypes getLabelTypes() {
+    return getProjectControl().getLabelTypes();
   }
 
   /** All value ranges of any allowed label permission. */

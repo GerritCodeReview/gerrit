@@ -16,6 +16,7 @@ package com.google.gerrit.server.changedetail;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -373,7 +374,10 @@ public class RebaseChange {
             "Change %s was modified", change.getId()));
       }
 
-      approvalsUtil.copyVetosToPatchSet(db, change.currentPatchSetId());
+      final LabelTypes labelTypes = changeControlFactory.controlFor(change)
+          .getLabelTypes();
+      approvalsUtil.copyVetosToPatchSet(db, labelTypes,
+          change.currentPatchSetId());
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),

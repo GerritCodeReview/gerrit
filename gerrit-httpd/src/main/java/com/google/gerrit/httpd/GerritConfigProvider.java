@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
@@ -52,7 +51,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final GitWebConfig gitWebConfig;
   private final AllProjectsName wildProject;
   private final SshInfo sshInfo;
-  private final LabelTypes labelTypes;
 
   private EmailSender emailSender;
   private final ContactStore contactStore;
@@ -62,7 +60,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   @Inject
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
       final AuthConfig ac, final GitWebConfig gwc, final AllProjectsName wp,
-      final SshInfo si, final LabelTypes at, final ContactStore cs,
+      final SshInfo si, final ContactStore cs,
       final ServletContext sc, final DownloadConfig dc,
       final @AnonymousCowardName String acn) {
     realm = r;
@@ -72,7 +70,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     gitWebConfig = gwc;
     sshInfo = si;
     wildProject = wp;
-    labelTypes = at;
     contactStore = cs;
     servletContext = sc;
     anonymousCowardName = acn;
@@ -123,7 +120,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setDownloadCommands(downloadConfig.getDownloadCommands());
     config.setAuthType(authConfig.getAuthType());
     config.setWildProject(wildProject);
-    config.setLabelTypes(labelTypes);
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);
     config.setTestChangeMerge(cfg.getBoolean("changeMerge",

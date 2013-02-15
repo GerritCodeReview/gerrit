@@ -204,6 +204,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setCanUpload(pc.isOwner()
         || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
     detail.setConfigVisible(pc.isOwner() || metaConfigControl.isVisible());
+    detail.setLabelTypes(pc.getLabelTypes());
     return detail;
   }
 

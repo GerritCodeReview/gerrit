@@ -27,6 +27,7 @@ public class ProjectAccess {
   protected Set<String> ownerOf;
   protected boolean isConfigVisible;
   protected boolean canUpload;
+  protected LabelTypes labelTypes;
 
   public ProjectAccess() {
   }
@@ -102,5 +103,13 @@ public class ProjectAccess {
 
   public void setCanUpload(boolean canUpload) {
     this.canUpload = canUpload;
+  }
+
+  public LabelTypes getLabelTypes() {
+    return labelTypes;
+  }
+
+  public void setLabelTypes(LabelTypes labelTypes) {
+    this.labelTypes = labelTypes;
   }
 }

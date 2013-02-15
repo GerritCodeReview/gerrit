@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.patch;
 
 import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchDetailService;
 import com.google.gerrit.common.data.PatchScript;
@@ -39,6 +38,7 @@ import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -56,8 +56,6 @@ import java.util.Set;
 
 class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
-  private final LabelTypes labelTypes;
-
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
@@ -69,7 +67,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
-      final LabelTypes labelTypes,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeControl.Factory changeControlFactory,
       final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory,
@@ -78,7 +75,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final SaveDraft.Factory saveDraftFactory,
       final ChangeDetailFactory.Factory changeDetailFactory) {
     super(schema, currentUser);
-    this.labelTypes = labelTypes;
 
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.changeControlFactory = changeControlFactory;
@@ -149,6 +145,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
           return changeDetailFactory.create(result.getChangeId()).call();
         } catch (NoSuchChangeException e) {
           throw new Failure(new NoSuchChangeException(result.getChangeId()));
+        } catch (NoSuchProjectException e) {
+          throw new Failure(e);
         } catch (NoSuchEntityException e) {
           throw new Failure(e);
         } catch (PatchSetInfoNotAvailableException e) {
@@ -189,7 +187,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
                 continue;
               }
               if (change.getStatus().isOpen()) {
-                fs.normalize(labelTypes.byId(category.get()), ca);
+                fs.normalize(cc.getLabelTypes().byId(category.get()), ca);
               }
               if (ca.getValue() == 0) {
                 continue;
@@ -235,7 +233,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
                 continue;
               }
               if (change.getStatus().isOpen()) {
-                fs.normalize(labelTypes.byId(category.get()), ca);
+                fs.normalize(cc.getLabelTypes().byId(category.get()), ca);
               }
               if (ca.getValue() == 0) {
                 continue;

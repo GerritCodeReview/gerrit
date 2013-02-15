@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -25,6 +26,8 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.PatchSetAttribute;
 import com.google.gerrit.server.events.QueryStats;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
@@ -93,6 +96,7 @@ public class QueryProcessor {
   private final ChangeQueryRewriter queryRewriter;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
+  private final ChangeControl.Factory changeControlFactory;
   private final int maxLimit;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -116,12 +120,14 @@ public class QueryProcessor {
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      ChangeControl.Factory changeControlFactory) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
     this.repoManager = repoManager;
+    this.changeControlFactory = changeControlFactory;
     this.maxLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
@@ -267,6 +273,8 @@ public class QueryProcessor {
         List<ChangeData> results = queryChanges(queryString);
         ChangeAttribute c = null;
         for (ChangeData d : results) {
+          LabelTypes labelTypes = changeControlFactory.controlFor(d.getChange())
+              .getLabelTypes();
           c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
           eventFactory.addTrackingIds(c, d.trackingIds(db));
@@ -287,10 +295,11 @@ public class QueryProcessor {
             if (includeFiles) {
               eventFactory.addPatchSets(c, d.patches(db),
                 includeApprovals ? d.approvalsMap(db).asMap() : null,
-                includeFiles, d.change(db));
+                includeFiles, d.change(db), labelTypes);
             } else {
               eventFactory.addPatchSets(c, d.patches(db),
-                  includeApprovals ? d.approvalsMap(db).asMap() : null);
+                  includeApprovals ? d.approvalsMap(db).asMap() : null,
+                  labelTypes);
             }
           }
 
@@ -298,8 +307,8 @@ public class QueryProcessor {
             PatchSet current = d.currentPatchSet(db);
             if (current != null) {
               c.currentPatchSet = eventFactory.asPatchSetAttribute(current);
-              eventFactory.addApprovals(c.currentPatchSet, //
-                  d.currentApprovals(db));
+              eventFactory.addApprovals(c.currentPatchSet,
+                  d.currentApprovals(db), labelTypes);
 
               if (includeFiles) {
                 eventFactory.addPatchSetFileNames(c.currentPatchSet,
@@ -341,6 +350,11 @@ public class QueryProcessor {
       } catch (QueryParseException e) {
         ErrorMessage m = new ErrorMessage();
         m.message = e.getMessage();
+        show(m);
+      } catch (NoSuchChangeException e) {
+        log.error("Missing change: " + e.getMessage(), e);
+        ErrorMessage m = new ErrorMessage();
+        m.message = "missing change " + e.getMessage();
         show(m);
       }
     } finally {

@@ -46,7 +46,6 @@ public class GerritConfig implements Cloneable {
   protected String sshdAddress;
   protected String editFullNameUrl;
   protected Project.NameKey wildProject;
-  protected LabelTypes labelTypes;
   protected Set<Account.FieldName> editableAccountFields;
   protected List<RegexFindReplace> commentLinks;
   protected boolean documentationAvailable;
@@ -194,14 +193,6 @@ public class GerritConfig implements Cloneable {
 
   public void setWildProject(final Project.NameKey wp) {
     wildProject = wp;
-  }
-
-  public LabelTypes getLabelTypes() {
-    return labelTypes;
-  }
-
-  public void setLabelTypes(final LabelTypes at) {
-    labelTypes = at;
   }
 
   public boolean canEdit(final Account.FieldName f) {

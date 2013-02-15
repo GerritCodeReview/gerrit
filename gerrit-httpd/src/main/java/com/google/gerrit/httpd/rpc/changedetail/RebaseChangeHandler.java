@@ -24,6 +24,7 @@ import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -60,7 +61,7 @@ class RebaseChangeHandler extends Handler<ChangeDetail> {
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
       EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException {
+      InvalidChangeOperationException, NoSuchProjectException {
     rebaseChange.rebase(patchSetId, currentUser.getAccountId());
     return changeDetailFactory.create(patchSetId.getParentKey()).call();
   }

@@ -45,20 +45,17 @@ import java.util.Set;
  */
 public class ApprovalsUtil {
   private final ReviewDb db;
-  private final LabelTypes labelTypes;
 
   @Inject
-  public ApprovalsUtil(ReviewDb db, LabelTypes labelTypes) {
+  public ApprovalsUtil(ReviewDb db) {
     this.db = db;
-    this.labelTypes = labelTypes;
   }
 
   /**
    * Resync the changeOpen status which is cached in the approvals table for
    * performance reasons
    */
-  public void syncChangeStatus(final Change change)
-      throws OrmException {
+  public void syncChangeStatus(final Change change) throws OrmException {
     final List<PatchSetApproval> approvals =
         db.patchSetApprovals().byChange(change.getId()).toList();
     for (PatchSetApproval a : approvals) {
@@ -77,7 +74,7 @@ public class ApprovalsUtil {
    * @return List<PatchSetApproval> The previous approvals
    */
   public List<PatchSetApproval> copyVetosToPatchSet(ReviewDb db,
-      PatchSet.Id dest) throws OrmException {
+      LabelTypes labelTypes, PatchSet.Id dest) throws OrmException {
     PatchSet.Id source;
     if (dest.get() > 1) {
       source = new PatchSet.Id(dest.getParentKey(), dest.get() - 1);
@@ -102,8 +99,8 @@ public class ApprovalsUtil {
     return patchSetApprovals;
   }
 
-  public void addReviewers(ReviewDb db, Change change, PatchSet ps,
-      PatchSetInfo info, Set<Id> wantReviewers,
+  public void addReviewers(ReviewDb db, LabelTypes labelTypes, Change change,
+      PatchSet ps, PatchSetInfo info, Set<Id> wantReviewers,
       Set<Account.Id> existingReviewers) throws OrmException {
     List<LabelType> allTypes = labelTypes.getLabelTypes();
     if (allTypes.isEmpty()) {

@@ -113,7 +113,6 @@ public class ChangeJson {
   }
 
   private final Provider<ReviewDb> db;
-  private final LabelTypes labelTypes;
   private final FunctionState.Factory functionState;
   private final CurrentUser user;
   private final AnonymousUser anonymous;
@@ -133,7 +132,6 @@ public class ChangeJson {
   @Inject
   ChangeJson(
       Provider<ReviewDb> db,
-      LabelTypes at,
       FunctionState.Factory fs,
       CurrentUser u,
       AnonymousUser au,
@@ -145,7 +143,6 @@ public class ChangeJson {
       @CanonicalWebUrl Provider<String> curl,
       Urls urls) {
     this.db = db;
-    this.labelTypes = at;
     this.functionState = fs;
     this.user = u;
     this.anonymous = au;
@@ -323,16 +320,18 @@ public class ChangeJson {
       return Collections.emptyMap();
     }
 
+    LabelTypes labelTypes = ctl.getLabelTypes();
     if (cd.getChange().getStatus().isOpen()) {
-      return labelsForOpenChange(cd, standard, detailed);
+      return labelsForOpenChange(cd, labelTypes, standard, detailed);
     } else {
-      return labelsForClosedChange(cd, standard, detailed);
+      return labelsForClosedChange(cd, labelTypes, standard, detailed);
     }
   }
 
   private Map<String, LabelInfo> labelsForOpenChange(ChangeData cd,
-      boolean standard, boolean detailed) throws OrmException {
-    Map<String, LabelInfo> labels = initLabels(cd, standard);
+      LabelTypes labelTypes, boolean standard, boolean detailed)
+      throws OrmException {
+    Map<String, LabelInfo> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
       setAllApprovals(cd, labels);
     }
@@ -351,8 +350,8 @@ public class ChangeJson {
     return labels;
   }
 
-  private Map<String, LabelInfo> initLabels(ChangeData cd, boolean standard)
-      throws OrmException {
+  private Map<String, LabelInfo> initLabels(ChangeData cd,
+      LabelTypes labelTypes, boolean standard) throws OrmException {
     Map<String, LabelInfo> labels =
         Maps.newTreeMap(LabelOrdering.create(labelTypes));
     for (SubmitRecord rec : submitRecords(cd)) {
@@ -425,6 +424,7 @@ public class ChangeJson {
     Collection<PatchSetApproval> approvals = cd.currentApprovals(db);
     FunctionState fs =
         functionState.create(ctl, cd.change(db).currentPatchSetId(), approvals);
+    LabelTypes labelTypes = ctl.getLabelTypes();
     for (LabelType lt : labelTypes.getLabelTypes()) {
       CategoryFunction.forType(lt).run(lt, fs);
     }
@@ -463,7 +463,8 @@ public class ChangeJson {
   }
 
   private Map<String, LabelInfo> labelsForClosedChange(ChangeData cd,
-      boolean standard, boolean detailed) throws OrmException {
+      LabelTypes labelTypes, boolean standard, boolean detailed)
+      throws OrmException {
     // We can only approximately reconstruct what the submit rule evaluator
     // would have done. These should really come from a stored submit record.
     Map<String, LabelInfo> labels =
@@ -542,6 +543,7 @@ public class ChangeJson {
   private Map<String, Collection<String>> permittedLabels(ChangeData cd)
       throws OrmException {
     ChangeControl ctl = control(cd);
+    LabelTypes labelTypes = ctl.getLabelTypes();
     ListMultimap<String, String> permitted = LinkedListMultimap.create();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {

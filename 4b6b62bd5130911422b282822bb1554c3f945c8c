@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7tS.vNM",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T09:17:58Z",
+      "side": 1,
+      "message": "Should this be \"/a/accounts\" like on line 24?",
+      "revId": "4b6b62bd5130911422b282822bb1554c3f945c8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

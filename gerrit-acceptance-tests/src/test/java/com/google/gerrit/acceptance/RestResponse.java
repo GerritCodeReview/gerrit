@@ -25,15 +25,25 @@ import java.io.Reader;
 public class RestResponse {
 
   private HttpResponse response;
+  private Reader reader;
 
   RestResponse(HttpResponse response) {
     this.response = response;
   }
 
   public Reader getReader() throws IllegalStateException, IOException {
-    Reader reader = new InputStreamReader(response.getEntity().getContent());
-    reader.skip(JSON_MAGIC.length);
+    if (reader == null && response.getEntity() != null) {
+      reader = new InputStreamReader(response.getEntity().getContent());
+      reader.skip(JSON_MAGIC.length);
+    }
     return reader;
+  }
+
+  public void consume() throws IllegalStateException, IOException {
+    Reader reader = getReader();
+    if (reader != null) {
+      while (reader.read() != -1);
+    }
   }
 
   public int getStatusCode() {

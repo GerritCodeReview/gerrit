@@ -11,8 +11,8 @@ Endpoints
 [[list-account-capabilities]]
 GET /accounts/\{account-id\}/capabilities (List Account Capabilities)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Returns the global capabilities (such as `createProject` or
-`createGroup`) that are enabled for the specified user.
+Returns the global capabilities that are enabled for the specified
+user.
 
 If the global capabilities for the calling user should be listed,
 `self` can be used as account-id. This can be used by UI tools to
@@ -23,6 +23,9 @@ they can hide (or show) relevant UI actions.
 ----
   GET /accounts/self/capabilities HTTP/1.0
 ----
+
+As response the global capabilities of the user are returned as a
+link:#capability-info[CapabilityInfo] entity.
 
 .Response
 ----
@@ -102,10 +105,6 @@ possible alternative for the caller.
   }
 ----
 
-Most results are boolean, and a field is only present when its value
-is `true`. link:json.html#queryLimit[`queryLimit`] is a range and is
-presented as a nested JSON object with `min` and `max` members.
-
 .Check if you can create groups
 ****
 get::/accounts/self/capabilities?q=createGroup
@@ -129,6 +128,67 @@ This can be:
 * an account ID ("18419")
 * a user name ("username")
 * `self` for the calling user
+
+
+[[json-entities]]
+JSON Entities
+-------------
+
+[[capability-info]]
+CapabilityInfo
+~~~~~~~~~~~~~~
+The `CapabilityInfo` entity contains information about the global
+capabilities of a user.
+
+[options="header",width="50%",cols="1,^1,5"]
+|=================================
+|Field Name          ||Description
+|`administrateServer`|not set if `false`|Whether the user has the
+link:access-control.html#capability_administrateServer[Administrate
+Server] capability.
+|`queryLimit`||The link:access-control.html#capability_queryLimit[Query
+Limit] of the user as link:#query-limit-info[QueryLimitInfo].
+|`createAccount`     |not set if `false`|Whether the user has the
+link:access-control.html#capability_createAccount[Create Account]
+capability.
+|`createGroup`       |not set if `false`|Whether the user has the
+link:access-control.html#capability_createGroup[Create Group]
+capability.
+|`createProject`     |not set if `false`|Whether the user has the
+link:access-control.html#capability_createProject[Create Project]
+capability.
+|`emailReviewers`    |not set if `false`|Whether the user has the
+link:access-control.html#capability_emailReviewers[Email Reviewers]
+capability.
+|`killTask`          |not set if `false`|Whether the user has the
+link:access-control.html#capability_kill[Kill Task] capability.
+|`viewCaches`        |not set if `false`|Whether the user has the
+link:access-control.html#capability_viewCaches[View Caches] capability.
+|`flushCaches`       |not set if `false`|Whether the user has the
+link:access-control.html#capability_flushCaches[Flush Caches]
+capability.
+|`viewConnections`   |not set if `false`|Whether the user has the
+link:access-control.html#capability_viewConnections[View Connections]
+capability.
+|`viewQueue`         |not set if `false`|Whether the user has the
+link:access-control.html#capability_viewQueue[View Queue] capability.
+|`startReplication`  |not set if `false`|Whether the user has the
+link:access-control.html#capability_startReplication[Start Replication]
+capability.
+|=================================
+
+[[query-limit-info]]
+QueryLimitInfo
+~~~~~~~~~~~~~~
+The `QueryLimitInfo` entity contains information about the
+link:access-control.html#capability_queryLimit[Query Limit] of a user.
+
+[options="header",width="50%",cols="1,6"]
+|================================
+|Field Name          |Description
+|`min`               |Lower limit.
+|`max`               |Upper limit.
+|================================
 
 
 GERRIT

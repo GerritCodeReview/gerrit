@@ -34,6 +34,7 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -107,7 +108,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
       EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException {
+      InvalidChangeOperationException, NoSuchProjectException {
 
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8BLaDHM",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/CreateGroupIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-15T13:03:20Z",
+      "side": 1,
+      "message": "maybe name the test with \"_Forbidden\" as suffix:\n\n  testCreateGroupWithoutCapability_Forbidden",
+      "revId": "1e901b44373dbcf7fba9d2be8425943cd9baa722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8DLXEEw",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/CreateGroupIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-15T13:03:20Z",
+      "side": 1,
+      "message": "Change the test name to:\n\n  testCreateGroupWhenGroupAlreadyExists_PreconditionFailed",
+      "revId": "1e901b44373dbcf7fba9d2be8425943cd9baa722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

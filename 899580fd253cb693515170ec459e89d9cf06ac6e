@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7vQYGDU",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "s/2009/2013",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7jT7cLM",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "Do we need \"\u003cp\u003e\"?",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7hT.dKI",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "Nit: trailing blank lines",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7lQI7OE",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "s/2009/2013",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7nQF6Mg",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "Remove the commented-out part",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7pQyhKo",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7rQ3gJk",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "Nit: too many blank lines",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7tQs-E8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommandProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "Indentation.",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7vQx.KQ",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "s/paren/parent",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7hQnVGo",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/BanCommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "s/Bans/Ban",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7jQkUGM",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "Indentation.\n\nIs a line break actually needed?  Other commands with longer description do not have a line break.",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7lQhzFE",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:02:59Z",
+      "side": 1,
+      "message": "s/rules/type",
+      "revId": "899580fd253cb693515170ec459e89d9cf06ac6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

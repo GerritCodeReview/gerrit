@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7rTgYPU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T06:18:10Z",
+      "side": 1,
+      "message": "This info should also go in Documentation/rest-api-changes.txt",
+      "revId": "0b5f5c9948117bff429a64dc502afe0bc02eec21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

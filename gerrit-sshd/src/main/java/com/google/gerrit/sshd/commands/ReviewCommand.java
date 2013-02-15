@@ -15,7 +15,12 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
@@ -28,6 +33,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.args4j.ProjectControlHandler;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PostReview;
@@ -39,6 +45,7 @@ import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
@@ -53,14 +60,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ReviewCommand extends SshCommand {
-  private static final Logger log =
-      LoggerFactory.getLogger(ReviewCommand.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(ReviewCommand.class);
 
   @Override
   protected final CmdLineParser newCmdLineParser(Object options) {
@@ -73,8 +81,7 @@ public class ReviewCommand extends SshCommand {
 
   private final Set<PatchSet> patchSets = new HashSet<PatchSet>();
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}",
-      usage = "list of commits or patch sets to review")
+  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "list of commits or patch sets to review")
   void addPatchSetId(final String token) {
     try {
       patchSets.add(parsePatchSet(token));
@@ -118,6 +125,9 @@ public class ReviewCommand extends SshCommand {
 
   @Inject
   private DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
+
+  @Inject
+  private ProjectControl.Factory projectControlFactory;
 
   @Inject
   private ChangeControl.Factory changeControlFactory;
@@ -194,8 +204,8 @@ public class ReviewCommand extends SshCommand {
   private void applyReview(final ChangeControl ctl, final PatchSet patchSet,
       final PostReview.Input review) throws Exception {
     if (!review.labels.isEmpty()) {
-      reviewProvider.get().apply(new RevisionResource(
-          new ChangeResource(ctl), patchSet), review);
+      reviewProvider.get().apply(
+          new RevisionResource(new ChangeResource(ctl), patchSet), review);
     }
   }
 
@@ -235,9 +245,9 @@ public class ReviewCommand extends SshCommand {
         applyReview(ctl, patchSet, review);
         try {
           abandon.apply(new ChangeResource(ctl), input);
-        } catch(AuthException e) {
+        } catch (AuthException e) {
           writeError("error: " + parseError(Type.ABANDON_NOT_PERMITTED) + "\n");
-        } catch(ResourceConflictException e) {
+        } catch (ResourceConflictException e) {
           writeError("error: " + parseError(Type.CHANGE_IS_CLOSED) + "\n");
         }
       } else if (restoreChange) {
@@ -247,9 +257,9 @@ public class ReviewCommand extends SshCommand {
         try {
           restore.apply(new ChangeResource(ctl), input);
           applyReview(ctl, patchSet, review);
-        } catch(AuthException e) {
+        } catch (AuthException e) {
           writeError("error: " + parseError(Type.RESTORE_NOT_PERMITTED) + "\n");
-        } catch(ResourceConflictException e) {
+        } catch (ResourceConflictException e) {
           writeError("error: " + parseError(Type.CHANGE_NOT_ABANDONED) + "\n");
         }
       } else {
@@ -260,9 +270,8 @@ public class ReviewCommand extends SshCommand {
         Submit submit = submitProvider.get();
         Submit.Input input = new Submit.Input();
         input.waitForMerge = true;
-        submit.apply(new RevisionResource(
-            new ChangeResource(ctl), patchSet),
-          input);
+        submit.apply(new RevisionResource(new ChangeResource(ctl), patchSet),
+            input);
       }
     } catch (InvalidChangeOperationException e) {
       throw error(e.getMessage());
@@ -394,20 +403,116 @@ public class ReviewCommand extends SshCommand {
     return projectControl.getProject().getNameKey().equals(change.getProject());
   }
 
-  @Override
-  protected void parseCommandLine() throws UnloggedFailure {
-    optionList = new ArrayList<ApproveOption>();
+  private List<ProjectControl> getProjects() throws NoSuchProjectException,
+      OrmException, UnloggedFailure {
+    Set<String> names = Sets.newHashSet();
+    Set<Change.Id> changes = Sets.newHashSet();
+    try {
+      boolean parsing = true;
+      for (int i = 0; i < argv.length; i++) {
+        String name = null;
+        if (argv[i].equals("--")) {
+          parsing = false;
+        } else if (!parsing || !argv[i].startsWith("-")) {
+          changes.add(parsePatchSet(argv[i]).getId().getParentKey());
+        } else if ((argv[i].equals("-p") || argv[i].equals("--project"))
+            && i < argv.length - 1) {
+          name = argv[++i];
+        } else if (argv[i].startsWith("--project=")) {
+          name = argv[i].substring("--project=".length());
+        }
+        if (name != null && projectControl == null) {
+          names.add(name);
+          projectControl =
+              ProjectControlHandler.parseString(name, projectControlFactory);
+        }
+      }
+    } finally {
+      projectControl = null;
+    }
 
-    for (LabelType type : labelTypes.getLabelTypes()) {
-      String usage = "";
-      usage = "score for " + type.getName() + "\n";
+    for (Change change : db.changes().get(changes)) {
+      names.add(change.getDest().getParentKey().get());
+    }
 
-      for (LabelValue v : type.getValues()) {
-        usage += v.format() + "\n";
+    List<ProjectControl> controls =
+        Lists.newArrayListWithCapacity(names.size());
+    for (String name : names) {
+      controls.add(
+          ProjectControlHandler.parseString(name, projectControlFactory));
+    }
+    return controls;
+  }
+
+  private List<LabelType> commonLabelTypes(List<ProjectControl> projects) {
+    if (projects.size() == 1) {
+      return Iterables.getOnlyElement(projects).getLabelTypes().getLabelTypes();
+    }
+    Multimap<String, LabelType> allTypes = ArrayListMultimap.create();
+    for (ProjectControl pc : projects) {
+      for (LabelType type : pc.getLabelTypes().getLabelTypes()) {
+        allTypes.put(type.getName(), type);
+      }
+    }
+
+    // Intersect all label types.
+    List<LabelType> commonTypes = Lists.newArrayList();
+    for (Map.Entry<String, Collection<LabelType>> e
+        : allTypes.asMap().entrySet()) {
+      if (e.getValue().size() != projects.size()) {
+        continue;
+      }
+      Multimap<Short, LabelValue> allValues = ArrayListMultimap.create();
+      for (LabelType type : e.getValue()) {
+        for (LabelValue value : type.getValues()) {
+          allValues.put(value.getValue(), value);
+        }
       }
 
-      final String name = "--" + type.getName().toLowerCase();
-      optionList.add(new ApproveOption(name, usage, type));
+      // Intersect values within a label.
+      List<LabelValue> commonValues = Lists.newArrayList();
+      for (Map.Entry<Short, Collection<LabelValue>> ve
+          : allValues.asMap().entrySet()) {
+        if (ve.getValue().size() != projects.size()) {
+          continue;
+        }
+        LabelValue first = Iterables.getFirst(ve.getValue(), null);
+        String text = first.getText();
+        for (LabelValue value : ve.getValue()) {
+          if (!text.equals(value.getText())) {
+            text = "(multiple descriptions)";
+            break;
+          }
+        }
+        commonValues.add(new LabelValue(first.getValue(), text));
+      }
+      if (!commonValues.isEmpty()) {
+        commonTypes.add(new LabelType(e.getKey(), commonValues));
+      }
+    }
+    return commonTypes;
+  }
+
+  @Override
+  protected void parseCommandLine() throws UnloggedFailure {
+    optionList = Lists.newArrayList();
+    try {
+      for (LabelType type : commonLabelTypes(getProjects())) {
+        String usage = "";
+        usage = "score for " + type.getName() + "\n";
+
+        for (LabelValue v : type.getValues()) {
+          usage += v.format() + "\n";
+        }
+
+        final String name = "--" + type.getName().toLowerCase();
+        optionList.add(new ApproveOption(name, usage, type));
+      }
+    } catch (NoSuchProjectException e) {
+      throw new UnloggedFailure("error reading labels for project "
+          + e.getMessage());
+    } catch (OrmException e) {
+      throw new UnloggedFailure("error reading project labels");
     }
 
     super.parseCommandLine();

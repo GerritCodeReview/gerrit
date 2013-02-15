@@ -31,8 +31,6 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ReviewerSuggestOracle;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalDetail;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -62,7 +60,6 @@ import java.util.Set;
 
 /** Displays a table of {@link ApprovalDetail} objects for a change record. */
 public class ApprovalTable extends Composite {
-  private final LabelTypes types;
   private final Grid table;
   private final Widget missing;
   private final Panel addReviewer;
@@ -73,7 +70,6 @@ public class ApprovalTable extends Composite {
 
   public ApprovalTable() {
     rows = new HashMap<Integer, Integer>();
-    types = Gerrit.getConfig().getLabelTypes();
     table = new Grid(1, 3);
     table.addStyleName(Gerrit.RESOURCES.css().infoTable());
 
@@ -365,13 +361,6 @@ public class ApprovalTable extends Composite {
         table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
 
       } else {
-        LabelType legacyType = types.byLabel(labelName);
-        if (legacyType == null) {
-          table.clearCell(row, col);
-          col++;
-          continue;
-        }
-
         int v = ad.getValue(labelName);
         if (v == 0) {
           table.clearCell(row, col);

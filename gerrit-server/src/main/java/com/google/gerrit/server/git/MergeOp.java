@@ -26,9 +26,9 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
@@ -52,6 +52,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -130,7 +131,6 @@ public class MergeOp {
   private final GitReferenceUpdated gitRefUpdated;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
-  private final LabelTypes labelTypes;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -182,7 +182,6 @@ public class MergeOp {
     gitRefUpdated = gru;
     mergedSenderFactory = msf;
     mergeFailSenderFactory = mfsf;
-    this.labelTypes = labelTypes;
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
     this.changeControlFactory = changeControlFactory;
@@ -201,7 +200,7 @@ public class MergeOp {
     commits = new HashMap<Change.Id, CodeReviewCommit>();
   }
 
-  public void verifyMergeability(Change change) {
+  public void verifyMergeability(Change change) throws NoSuchProjectException {
     try {
       setDestProject();
       openRepository();
@@ -269,7 +268,7 @@ public class MergeOp {
     }
   }
 
-  public void merge() throws MergeException {
+  public void merge() throws MergeException, NoSuchProjectException {
     setDestProject();
     try {
       openSchema();
@@ -389,7 +388,8 @@ public class MergeOp {
     commits.putAll(strategy.getNewCommits());
   }
 
-  private SubmitStrategy createStrategy(final SubmitType submitType) throws MergeException {
+  private SubmitStrategy createStrategy(final SubmitType submitType)
+      throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
         canMergeFlag, getAlreadyAccepted(branchTip), destBranch,
         destProject.isUseContentMerge());
@@ -929,12 +929,11 @@ public class MergeOp {
       c.setStatus(Change.Status.MERGED);
       final List<PatchSetApproval> approvals =
           db.patchSetApprovals().byChange(changeId).toList();
+      final ChangeControl control = changeControlFactory.controlFor(c,
+          identifiedUserFactory.create(c.getOwner()));
       final FunctionState fs = functionState.create(
-          changeControlFactory.controlFor(
-              c,
-              identifiedUserFactory.create(c.getOwner())),
-              merged, approvals);
-      for (LabelType lt : labelTypes.getLabelTypes()) {
+          control, merged, approvals);
+      for (LabelType lt : control.getLabelTypes().getLabelTypes()) {
         CategoryFunction.forType(lt).run(lt, fs);
       }
       for (PatchSetApproval a : approvals) {
@@ -985,7 +984,9 @@ public class MergeOp {
         }
 
         try {
-          final MergedSender cm = mergedSenderFactory.create(c);
+          final ChangeControl control = changeControlFactory.controlFor(c,
+              identifiedUserFactory.create(c.getOwner()));
+          final MergedSender cm = mergedSenderFactory.create(control);
           if (from != null) {
             cm.setFrom(from.getAccountId());
           }

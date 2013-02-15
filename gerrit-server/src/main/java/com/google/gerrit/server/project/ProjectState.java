@@ -20,6 +20,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -65,6 +66,7 @@ public class ProjectState {
   private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
   private final RulesCache rulesCache;
+  private final LabelTypes labelTypes;
 
   private final ProjectConfig config;
   private final Set<AccountGroup.UUID> localOwners;
@@ -89,6 +91,7 @@ public class ProjectState {
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
       final RulesCache rulesCache,
+      final LabelTypes labelTypes,
       @Assisted final ProjectConfig config) {
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
@@ -101,6 +104,7 @@ public class ProjectState {
     this.capabilities = isAllProjects
       ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
       : null;
+    this.labelTypes = labelTypes;
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -335,6 +339,10 @@ public class ProjectState {
         return input.getRequireChangeID();
       }
     });
+  }
+
+  public LabelTypes getLabelTypes() {
+    return labelTypes;
   }
 
   private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {

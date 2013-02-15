@@ -24,6 +24,8 @@ import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -49,9 +51,9 @@ public class SubmitStrategyFactory {
   private final PersonIdent myIdent;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<String> urlProvider;
-  private final LabelTypes labelTypes;
   private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
+  private final ProjectControl.Factory projectFactory;
 
   @Inject
   SubmitStrategyFactory(
@@ -59,28 +61,30 @@ public class SubmitStrategyFactory {
       @GerritPersonIdent final PersonIdent myIdent,
       final PatchSetInfoFactory patchSetInfoFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final LabelTypes labelTypes, final GitReferenceUpdated gitRefUpdated,
-      final RebaseChange rebaseChange) {
+      final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
+      final ProjectControl.Factory projectFactory) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.urlProvider = urlProvider;
-    this.labelTypes = labelTypes;
     this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
+    this.projectFactory = projectFactory;
   }
 
   public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
       final Repository repo, final RevWalk rw, final ObjectInserter inserter,
       final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
       final Branch.NameKey destBranch, final boolean useContentMerge)
-      throws MergeException {
+      throws MergeException, NoSuchProjectException {
     final SubmitStrategy.Arguments args =
         new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db, repo,
             rw, inserter, canMergeFlag, alreadyAccepted, destBranch,
             useContentMerge);
     switch (submitType) {
       case CHERRY_PICK:
+        LabelTypes labelTypes =
+            projectFactory.controlFor(destBranch.getParentKey()).getLabelTypes();
         return new CherryPick(args, patchSetInfoFactory, urlProvider,
             labelTypes, gitRefUpdated);
       case FAST_FORWARD_ONLY:

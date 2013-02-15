@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7nSIiHk",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1950,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T01:02:07Z",
+      "side": 1,
+      "message": "Missing period at the end of the sentence.",
+      "revId": "49ee5ca17f6d1d737b24e2b1267bafdb2c364714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

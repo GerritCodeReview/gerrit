@@ -14,13 +14,13 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SuggestUtil;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -102,16 +102,19 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   private final Project.NameKey projectName;
   private final boolean readOnly;
   private final AccessSection section;
+  private final LabelTypes labelTypes;
   private Permission value;
   private PermissionRange.WithDefaults validRange;
   private boolean isDeleted;
 
   public PermissionEditor(Project.NameKey projectName,
       boolean readOnly,
-      AccessSection section) {
+      AccessSection section,
+      LabelTypes labelTypes) {
     this.readOnly = readOnly;
     this.section = section;
     this.projectName = projectName;
+    this.labelTypes = labelTypes;
 
     normalName = new ValueLabel<String>(PermissionNameRenderer.INSTANCE);
     deletedName = new ValueLabel<String>(PermissionNameRenderer.INSTANCE);
@@ -260,7 +263,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     this.value = value;
 
     if (value.isLabel()) {
-      LabelType lt = Gerrit.getConfig().getLabelTypes().byLabel(value.getLabel());
+      LabelType lt = labelTypes.byLabel(value.getLabel());
       if (lt != null) {
         validRange = new PermissionRange.WithDefaults(
             value.getName(),

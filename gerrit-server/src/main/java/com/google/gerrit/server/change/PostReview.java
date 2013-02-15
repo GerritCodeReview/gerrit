@@ -102,7 +102,6 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   }
 
   private final ReviewDb db;
-  private final LabelTypes labelTypes;
   private final EmailReviewComments.Factory email;
   @Deprecated private final ChangeHooks hooks;
 
@@ -116,11 +115,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   @Inject
   PostReview(ReviewDb db,
-      LabelTypes labelTypes,
       EmailReviewComments.Factory email,
       ChangeHooks hooks) {
     this.db = db;
-    this.labelTypes = labelTypes;
     this.email = email;
     this.hooks = hooks;
   }
@@ -180,7 +177,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       Map.Entry<String, Short> ent = itr.next();
 
       // TODO Support more generic label assignments.
-      LabelType lt = labelTypes.byLabel(ent.getKey());
+      LabelType lt = revision.getControl().getLabelTypes()
+          .byLabel(ent.getKey());
       if (lt == null) {
         if (strict) {
           throw new BadRequestException(String.format(
@@ -343,6 +341,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     List<PatchSetApproval> upd = Lists.newArrayList();
     Map<String, PatchSetApproval> current = scanLabels(rsrc, del);
 
+    LabelTypes labelTypes = rsrc.getControl().getLabelTypes();
     for (Map.Entry<String, Short> ent : labels.entrySet()) {
       // TODO Support arbitrary label names.
       LabelType lt = labelTypes.byLabel(ent.getKey());
@@ -406,7 +405,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
             rsrc.getPatchSet().getId(),
             rsrc.getAccountId(),
-            labelTypes.getLabelTypes().get(0).getApprovalCategoryId()),
+            rsrc.getControl().getLabelTypes().getLabelTypes().get(0)
+                .getApprovalCategoryId()),
             (short) 0);
         c.setGranted(timestamp);
         c.cache(change);
@@ -426,6 +426,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   private Map<String, PatchSetApproval> scanLabels(RevisionResource rsrc,
       List<PatchSetApproval> del) throws OrmException {
+    LabelTypes labelTypes = rsrc.getControl().getLabelTypes();
     Map<String, PatchSetApproval> current = Maps.newHashMap();
     for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(
           rsrc.getPatchSet().getId(), rsrc.getAccountId())) {

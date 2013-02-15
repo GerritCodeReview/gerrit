@@ -59,6 +59,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -90,6 +91,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -250,6 +252,7 @@ public class ReceiveCommits {
   private final RequestScopePropagator requestScopePropagator;
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
+  private final Config config;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -306,6 +309,7 @@ public class ReceiveCommits {
       final RequestScopePropagator requestScopePropagator,
       final SshInfo sshInfo,
       final AllProjectsName allProjectsName,
+      final @GerritServerConfig Config config,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
       final SubmoduleOp.Factory subOpFactory) throws IOException {
@@ -331,6 +335,7 @@ public class ReceiveCommits {
     this.requestScopePropagator = requestScopePropagator;
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
+    this.config = config;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -348,7 +353,8 @@ public class ReceiveCommits {
     rp.setCheckReceivedObjects(true);
 
     if (!projectControl.allRefsAreVisible()) {
-      rp.setCheckReferencedObjectsAreReachable(true);
+      rp.setCheckReferencedObjectsAreReachable(config.getBoolean("receive",
+          null, "checkReferencedObjectsAreReachable", true));
       rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, false));
     }
     List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(3);

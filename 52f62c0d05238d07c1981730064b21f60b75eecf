@@ -51,6 +51,24 @@
       "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7rQOoPE",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminQueryShell.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-15T05:48:54Z",
+      "side": 1,
+      "message": "\u003e Having it as a standalone capability will help manage granting access only to those who truly need it.\n\nI agree.  But then it needs to be documented that admins do not have this permission by default.",
+      "parentUuid": "P7lRvDIY",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

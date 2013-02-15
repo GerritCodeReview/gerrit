@@ -16,6 +16,24 @@
       "revId": "066e183994ff3971c95ba7a5231eb44d39b224fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8THXEEw",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-15T21:37:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P8NJBZAw",
+      "revId": "066e183994ff3971c95ba7a5231eb44d39b224fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

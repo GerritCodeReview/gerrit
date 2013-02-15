@@ -427,6 +427,9 @@ Sets the owner group of a Gerrit internal group.
 
 The new owner group must be provided in the request body.
 
+The new owner can be specified by name, by group UUID or by the legacy
+numeric group ID.
+
 .Request
 ----
   PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/description HTTP/1.0

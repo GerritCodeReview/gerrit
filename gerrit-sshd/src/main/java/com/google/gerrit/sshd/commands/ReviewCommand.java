@@ -14,10 +14,11 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ReviewResult.Error.Type;
@@ -36,9 +37,11 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -57,6 +60,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @CommandMetaData(name = "review", descr = "Verify, approve and/or submit one or more patch sets")
@@ -75,8 +79,7 @@ public class ReviewCommand extends SshCommand {
 
   private final Set<PatchSet> patchSets = new HashSet<PatchSet>();
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}",
-      usage = "list of commits or patch sets to review")
+  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "list of commits or patch sets to review")
   void addPatchSetId(final String token) {
     try {
       patchSets.add(parsePatchSet(token));
@@ -112,14 +115,33 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--delete", usage = "delete the specified draft patch set(s)")
   private boolean deleteDraftPatchSet;
 
+  @Option(name = "--label", aliases = "-l", usage = "custom label(s) to assign", metaVar = "LABEL=VALUE")
+  void addLabel(final String token) {
+    List<String> parts = ImmutableList.copyOf(Splitter.on('=').split(token));
+    if (parts.size() != 2) {
+      throw new IllegalArgumentException("invalid custom label " + token);
+    }
+    short value;
+    try {
+      value = Short.parseShort(parts.get(1));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("invalid custom label value "
+          + parts.get(1));
+    }
+    customLabels.put(parts.get(0), value);
+  }
+
   @Inject
   private ReviewDb db;
 
   @Inject
-  private LabelTypes labelTypes;
+  private DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
 
   @Inject
-  private DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
+  private ProjectControl.Factory projectControlFactory;
+
+  @Inject
+  private AllProjectsName allProjects;
 
   @Inject
   private ChangeControl.Factory changeControlFactory;
@@ -140,6 +162,7 @@ public class ReviewCommand extends SshCommand {
   private Provider<Submit> submitProvider;
 
   private List<ApproveOption> optionList;
+  private Map<String, Short> customLabels;
 
   @Override
   protected void run() throws UnloggedFailure {
@@ -218,6 +241,7 @@ public class ReviewCommand extends SshCommand {
         review.labels.put(ao.getLabelName(), v);
       }
     }
+    review.labels.putAll(customLabels);
 
     // If review labels are being applied, the comment will be included
     // on the review note. We don't need to add it again on the abandon
@@ -237,9 +261,9 @@ public class ReviewCommand extends SshCommand {
         applyReview(ctl, patchSet, review);
         try {
           abandon.apply(new ChangeResource(ctl), input);
-        } catch(AuthException e) {
+        } catch (AuthException e) {
           writeError("error: " + parseError(Type.ABANDON_NOT_PERMITTED) + "\n");
-        } catch(ResourceConflictException e) {
+        } catch (ResourceConflictException e) {
           writeError("error: " + parseError(Type.CHANGE_IS_CLOSED) + "\n");
         }
       } else if (restoreChange) {
@@ -249,9 +273,9 @@ public class ReviewCommand extends SshCommand {
         try {
           restore.apply(new ChangeResource(ctl), input);
           applyReview(ctl, patchSet, review);
-        } catch(AuthException e) {
+        } catch (AuthException e) {
           writeError("error: " + parseError(Type.RESTORE_NOT_PERMITTED) + "\n");
-        } catch(ResourceConflictException e) {
+        } catch (ResourceConflictException e) {
           writeError("error: " + parseError(Type.CHANGE_NOT_ABANDONED) + "\n");
         }
       } else {
@@ -399,8 +423,16 @@ public class ReviewCommand extends SshCommand {
   @Override
   protected void parseCommandLine() throws UnloggedFailure {
     optionList = new ArrayList<ApproveOption>();
+    customLabels = Maps.newHashMap();
 
-    for (LabelType type : labelTypes.getLabelTypes()) {
+    ProjectControl allProjectsControl;
+    try {
+      allProjectsControl = projectControlFactory.controlFor(allProjects);
+    } catch (NoSuchProjectException e) {
+      throw new UnloggedFailure("missing " + allProjects.get());
+    }
+
+    for (LabelType type : allProjectsControl.getLabelTypes().getLabelTypes()) {
       String usage = "";
       usage = "score for " + type.getName() + "\n";
 

@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -53,7 +54,8 @@ class PublishAction extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
       IllegalStateException, PatchSetInfoNotAvailableException,
-      NoSuchChangeException, RepositoryNotFoundException, IOException {
+      NoSuchChangeException, RepositoryNotFoundException, IOException,
+      NoSuchProjectException {
     final ReviewResult result = publishFactory.create(patchSetId).call();
     if (result.getErrors().size() > 0) {
       throw new IllegalStateException("Cannot publish patchset");

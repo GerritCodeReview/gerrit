@@ -110,6 +110,33 @@ possible alternative for the caller.
 get::/accounts/self/capabilities?q=createGroup
 ****
 
+[[check-account-capability]]
+GET /accounts/\{account-id\}/capabilities/\{capability-id\} (Check Account Capability)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Checks if a user has a certain global capability.
+
+.Request
+----
+  GET /accounts/self/capabilities/createGroup HTTP/1.0
+----
+
+If the user has the global capability the string `ok` is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+
+  ok
+----
+
+If the user doesn't have the global capability the response is
+`404 Not Found`.
+
+.Check if you can create groups
+****
+get::/accounts/self/capabilities/createGroup
+****
+
 
 [[ids]]
 IDs
@@ -128,6 +155,12 @@ This can be:
 * an account ID ("18419")
 * a user name ("username")
 * `self` for the calling user
+
+[[capability-id]]
+\{capability-id\}
+~~~~~~~~~~~~~~~~~
+Identifier of a global capability. Valid values are all field names of
+the link:#capability-info[CapabilityInfo] entity.
 
 
 [[json-entities]]

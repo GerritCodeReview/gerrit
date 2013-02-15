@@ -39,6 +39,7 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -110,7 +111,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
       PatchSetInfoNotAvailableException, NoSuchChangeException,
-      RepositoryNotFoundException, IOException {
+      RepositoryNotFoundException, IOException, NoSuchProjectException {
     control = changeControlFactory.validateFor(changeId);
     final Change change = control.getChange();
     final PatchSet patch = db.patchSets().get(change.currentPatchSetId());
@@ -206,7 +207,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     }
   }
 
-  private void load() throws OrmException, NoSuchChangeException {
+  private void load() throws OrmException, NoSuchChangeException,
+      NoSuchProjectException {
     final Change.Status status = detail.getChange().getStatus();
     if ((status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) &&
         testMerge) {

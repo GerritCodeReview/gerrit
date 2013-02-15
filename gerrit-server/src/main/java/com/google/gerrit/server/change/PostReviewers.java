@@ -21,7 +21,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -79,7 +78,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   private final Provider<ReviewDb> db;
   private final IdentifiedUser currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
-  private final ApprovalCategory.Id addReviewerCategoryId;
   private final Config cfg;
   private final ChangeHooks hooks;
   private final AccountCache accountCache;
@@ -95,7 +93,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       Provider<ReviewDb> db,
       IdentifiedUser currentUser,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      LabelTypes labelTypes,
       @GerritServerConfig Config cfg,
       ChangeHooks hooks,
       AccountCache accountCache,
@@ -113,9 +110,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     this.hooks = hooks;
     this.accountCache = accountCache;
     this.json = json;
-
-    this.addReviewerCategoryId = new ApprovalCategory.Id(Iterables.getLast(
-        labelTypes.getLabelTypes()).getId());
   }
 
   @Override
@@ -233,7 +227,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     // Add the reviewers to the database
     //
     List<PatchSetApproval> toInsert = ImmutableList.of(
-        dummyApproval(change, psid, id));
+        dummyApproval(control, psid, id));
     db.get().patchSetApprovals().insert(toInsert);
     ReviewerInfo info = new ReviewerInfo(id);
     return json.format(info, control, toInsert);
@@ -284,12 +278,13 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
         db.get().patchSetApprovals().byPatchSetUser(patchSetId, reviewerId));
   }
 
-  private PatchSetApproval dummyApproval(Change change, PatchSet.Id patchSetId,
-      Account.Id reviewerId) {
-    PatchSetApproval dummyApproval =
-        new PatchSetApproval(new PatchSetApproval.Key(patchSetId, reviewerId,
-            addReviewerCategoryId), (short) 0);
-    dummyApproval.cache(change);
+  private PatchSetApproval dummyApproval(ChangeControl ctl,
+      PatchSet.Id patchSetId, Account.Id reviewerId) {
+    ApprovalCategory.Id id = new ApprovalCategory.Id(
+        Iterables.getLast(ctl.getLabelTypes().getLabelTypes()).getId());
+    PatchSetApproval dummyApproval = new PatchSetApproval(
+        new PatchSetApproval.Key(patchSetId, reviewerId, id), (short) 0);
+    dummyApproval.cache(ctl.getChange());
     return dummyApproval;
   }
 }

@@ -226,7 +226,7 @@ public class AccessSectionEditor extends Composite implements
         addPermission(varName, perms);
       }
     } else if (RefConfigSection.isValid(value.getName())) {
-      for (LabelType t : Gerrit.getConfig().getLabelTypes().getLabelTypes()) {
+      for (LabelType t : projectAccess.getLabelTypes().getLabelTypes()) {
         addPermission(Permission.LABEL + t.getName(), perms);
       }
       for (String varName : Util.C.permissionNames().keySet()) {
@@ -282,7 +282,8 @@ public class AccessSectionEditor extends Composite implements
     @Override
     public PermissionEditor create(int index) {
       PermissionEditor subEditor =
-          new PermissionEditor(projectAccess.getProjectName(), readOnly, value);
+          new PermissionEditor(projectAccess.getProjectName(), readOnly, value,
+              projectAccess.getLabelTypes());
       permissionContainer.insert(subEditor, index);
       return subEditor;
     }

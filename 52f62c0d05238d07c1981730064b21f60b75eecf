@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "P8BJfbAs",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-15T07:52:06Z",
+      "side": 1,
+      "message": "[optional] For all the other capabilities it says \u0027Allow\u0027 instead of \u0027Allows\u0027. Maybe we should stay consistent here.",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8PJpCLY",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-15T07:52:06Z",
+      "side": 1,
+      "message": "[optional] link to cmd-gsql.html",
+      "revId": "52f62c0d05238d07c1981730064b21f60b75eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P7vTNeLU",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminQueryShell.java",
         "patchSetId": 1

@@ -87,9 +87,9 @@ class SearchPanel extends Composite {
         }
       }
     });
-    searchBox.addFocusHandler(new FocusHandler() {
+    searchBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
-      public void onFocus(FocusEvent event) {
+      public void onKeyPress(KeyPressEvent event) {
         if(searchBox.getVisibleLength() == SMALL_SIZE) {
           sizeAnimation.run(true);
         }

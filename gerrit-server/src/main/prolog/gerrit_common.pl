@@ -214,21 +214,21 @@ locate_submit_type(RuleName) :-
 :- public default_submit/1.
 %%
 default_submit(P) :-
-  get_legacy_approval_types(ApprovalTypes),
-  default_submit(ApprovalTypes, P).
+  get_legacy_label_types(LabelTypes),
+  default_submit(LabelTypes, P).
 
 % Apply the old "all approval categories must be satisfied"
-% loop by scanning over all of the approval types to build
-% up the submit record.
+% loop by scanning over all of the label types to build up the
+% submit record.
 %
-default_submit(ApprovalTypes, P) :-
-  default_submit(ApprovalTypes, [], Tmp),
+default_submit(LabelTypes, P) :-
+  default_submit(LabelTypes, [], Tmp),
   reverse(Tmp, Ls),
   P =.. [ submit | Ls].
 
 default_submit([], Out, Out).
 default_submit([Type | Types], Tmp, Out) :-
-  approval_type(Label, Id, Fun, Min, Max) = Type,
+  label_type(Label, Id, Fun, Min, Max) = Type,
   legacy_submit_rule(Fun, Label, Id, Min, Max, Status),
   R = label(Label, Status),
   default_submit(Types, [R | Tmp], Out).

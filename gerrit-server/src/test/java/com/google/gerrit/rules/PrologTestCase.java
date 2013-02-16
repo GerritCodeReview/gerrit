@@ -79,6 +79,9 @@ public abstract class PrologTestCase extends TestCase {
     machine = PrologMachineCopy.save(env);
   }
 
+  protected void setUpEnvironment(PrologEnvironment env) {
+  }
+
   private PrologMachineCopy newMachine() {
     BufferingPrologControl ctl = new BufferingPrologControl();
     ctl.setMaxDatabaseSize(16 * 1024);
@@ -117,6 +120,7 @@ public abstract class PrologTestCase extends TestCase {
 
     for (Term test : tests) {
       PrologEnvironment env = envFactory.create(machine);
+      setUpEnvironment(env);
       env.setEnabled(Prolog.Feature.IO, true);
 
       System.out.format("Prolog %-60s ...", removePackage(test));

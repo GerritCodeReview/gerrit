@@ -805,25 +805,20 @@ public class MergeOp {
       // dependencies are also submitted. Perhaps the user just
       // forgot to submit those.
       //
-      String txt =
-          "Change could not be merged because of a missing dependency.";
-      if (!isAlreadySent(c, txt)) {
-        StringBuilder m = new StringBuilder();
-        m.append(txt);
-        m.append("\n");
+      StringBuilder m = new StringBuilder();
+      m.append("Change could not be merged because of a missing dependency.");
+      m.append("\n");
 
-        m.append("\n");
+      m.append("\n");
 
-        m.append("The following changes must also be submitted:\n");
+      m.append("The following changes must also be submitted:\n");
+      m.append("\n");
+      for (CodeReviewCommit missingCommit : commit.missing) {
+        m.append("* ");
+        m.append(missingCommit.change.getKey().get());
         m.append("\n");
-        for (CodeReviewCommit missingCommit : commit.missing) {
-          m.append("* ");
-          m.append(missingCommit.change.getKey().get());
-          m.append("\n");
-        }
-        txt = m.toString();
       }
-      capable = new Capable(txt);
+      capable = new Capable(m.toString());
     } else {
       // It is impossible to submit this change as-is. The author
       // needs to rebase it in order to work around the missing
@@ -871,30 +866,6 @@ public class MergeOp {
         }
       } catch (OrmException e) {
       }
-    }
-  }
-
-  private boolean isAlreadySent(final Change c, final String prefix) {
-    try {
-      final List<ChangeMessage> msgList =
-          db.changeMessages().byChange(c.getId()).toList();
-      if (msgList.size() > 0) {
-        final ChangeMessage last = msgList.get(msgList.size() - 1);
-        if (last.getAuthor() == null && last.getMessage().startsWith(prefix)) {
-          // The last message was written by us, and it said this
-          // same message already. Its unlikely anything has changed
-          // that would cause us to need to repeat ourselves.
-          //
-          return true;
-        }
-      }
-
-      // The last message was not sent by us, or doesn't match the text
-      // we are about to send.
-      //
-      return false;
-    } catch (OrmException e) {
-      return true;
     }
   }
 

@@ -16,6 +16,24 @@
       "revId": "49e6ac5c1d42acced581189617c485ebb2bc8ab7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7nSCSAw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-16T00:00:19Z",
+      "side": 1,
+      "message": "Yeah, I forgot about isAlreadySent. I\u0027m thinking we should just ditch the isAlreadySent checks and always pass the full message text through. Since we\u0027re down to once a day I think it\u0027s probably ok to be a bit more repeaty.",
+      "parentUuid": "P8vBpALY",
+      "revId": "49e6ac5c1d42acced581189617c485ebb2bc8ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,8 +15,10 @@
 package gerrit;
 
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.rules.PrologEnvironment;
+import com.google.gerrit.rules.StoredValues;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
@@ -31,19 +33,19 @@ import com.googlecode.prolog_cafe.lang.Term;
 import java.util.List;
 
 /**
- * Obtain a list of approval types from the server configuration.
+ * Obtain a list of label types from the server configuration.
  * <p>
- * Unifies to a Prolog list of: {@code approval_type(Label, Id, Fun, Min, Max)}
+ * Unifies to a Prolog list of: {@code label_type(Label, Id, Fun, Min, Max)}
  * where:
  * <ul>
  * <li>{@code Label} - the newer style label name</li>
- * <li>{@code Id} - the legacy ApprovalCategory.Id from the database</li>
+ * <li>{@code Id} - the legacy LabelCategory.Id from the database</li>
  * <li>{@code Fun} - legacy function name</li>
  * <li>{@code Min, Max} - the smallest and largest configured values.</li>
  * </ul>
  */
-class PRED_get_legacy_approval_types_1 extends Predicate.P1 {
-  PRED_get_legacy_approval_types_1(Term a1, Operation n) {
+class PRED_get_legacy_label_types_1 extends Predicate.P1 {
+  PRED_get_legacy_label_types_1(Term a1, Operation n) {
     arg1 = a1;
     cont = n;
   }
@@ -54,9 +56,12 @@ class PRED_get_legacy_approval_types_1 extends Predicate.P1 {
     Term a1 = arg1.dereference();
 
     PrologEnvironment env = (PrologEnvironment) engine.control;
-    LabelTypes types = env.getInjector().getInstance(LabelTypes.class);
-
-    List<LabelType> list = types.getLabelTypes();
+    ProjectState state = env.getInjector().getInstance(ProjectCache.class)
+        .get(StoredValues.CHANGE.get(engine).getDest().getParentKey());
+    if (state == null) {
+      return engine.fail();
+    }
+    List<LabelType> list = state.getLabelTypes().getLabelTypes();
     Term head = Prolog.Nil;
     for (int idx = list.size() - 1; 0 <= idx; idx--) {
       head = new ListTerm(export(list.get(idx)), head);
@@ -68,11 +73,11 @@ class PRED_get_legacy_approval_types_1 extends Predicate.P1 {
     return cont;
   }
 
-  static final SymbolTerm symApprovalType = SymbolTerm.intern(
-      "approval_type", 5);
+  static final SymbolTerm symLabelType = SymbolTerm.intern(
+      "label_type", 5);
 
   static Term export(LabelType type) {
-    return new StructureTerm(symApprovalType,
+    return new StructureTerm(symLabelType,
         SymbolTerm.intern(type.getName()),
         SymbolTerm.intern(type.getId()),
         SymbolTerm.intern(type.getFunctionName()),

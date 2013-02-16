@@ -84,7 +84,7 @@ public class ProjectState {
   private final CapabilityCollection capabilities;
 
   @Inject
-  protected ProjectState(
+  public ProjectState(
       final ProjectCache projectCache,
       final AllProjectsName allProjectsName,
       final ProjectControl.AssistedFactory projectControlFactory,

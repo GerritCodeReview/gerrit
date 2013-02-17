@@ -20,8 +20,8 @@ import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
@@ -187,7 +187,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     if (realm.allowsEdit(Account.FieldName.USER_NAME)) {
       Handler.wrap(changeUserNameFactory.create(newName)).to(callback);
     } else {
-      callback.onFailure(new NameAlreadyUsedException());
+      callback.onFailure(new PermissionDeniedException("Permission denied to "
+          + " change user name"));
     }
   }
 

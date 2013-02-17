@@ -252,7 +252,6 @@ public class ReceiveCommits {
   private final RequestScopePropagator requestScopePropagator;
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
-  private final Config config;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -335,7 +334,6 @@ public class ReceiveCommits {
     this.requestScopePropagator = requestScopePropagator;
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
-    this.config = config;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();

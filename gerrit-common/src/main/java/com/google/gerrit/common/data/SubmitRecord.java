@@ -42,7 +42,22 @@ public class SubmitRecord {
 
   public Status status;
   public List<Label> labels;
+  public List<Condition> conditions;
   public String errorMessage;
+
+  public static class Condition {
+    public static enum Status {
+      OK,
+      NEED;
+    }
+    public String name;
+    public Status status;
+
+    @Override
+    public String toString() {
+      return name + ": " + status;
+    }
+  }
 
   public static class Label {
     public static enum Status {
@@ -108,6 +123,13 @@ public class SubmitRecord {
       String delimiter = "";
       for (Label label : labels) {
         sb.append(delimiter).append(label);
+        delimiter = ", ";
+      }
+    }
+    if (conditions != null) {
+      String delimiter = "";
+      for (Condition c : conditions) {
+        sb.append(delimiter).append(c);
         delimiter = ", ";
       }
     }

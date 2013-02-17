@@ -123,7 +123,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
         // Otherwise, someone else has this identity.
         //
-        throw new NameAlreadyUsedException();
+        throw new NameAlreadyUsedException(newUsername);
       }
     }
 

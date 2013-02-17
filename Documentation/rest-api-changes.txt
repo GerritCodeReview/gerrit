@@ -71,8 +71,8 @@ updated to oldest update.
 If the `n` query parameter is supplied and additional changes exist
 that match the query beyond the end, the last change object has a
 `_more_changes: true` JSON field set. Callers can resume a query with
-the `n` query parameter, supplying the last change's `_sortkey` field
-as the value. When going in the reverse direction with the `p` query
+the `N` query parameter, supplying the last change's `_sortkey` field
+as the value. When going in the reverse direction with the `P` query
 parameter a `_more_changes: true` is put in the first change object if
 there are results *before* the first change returned.
 

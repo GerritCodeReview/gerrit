@@ -425,38 +425,59 @@ public class ChangeControl {
         return logInvalidResult(submitRule, submitRecord);
       }
 
+      rec.conditions = new ArrayList<SubmitRecord.Condition> (submitRecord.arity());
       rec.labels = new ArrayList<SubmitRecord.Label> (submitRecord.arity());
 
       for (Term state : ((StructureTerm) submitRecord).args()) {
-        if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
+        if (!state.isStructure() || 2 != state.arity() || (!"label".equals(state.name())
+            && !"condition".equals(state.name()))) {
           return logInvalidResult(submitRule, submitRecord);
         }
 
-        SubmitRecord.Label lbl = new SubmitRecord.Label();
-        rec.labels.add(lbl);
+        if ("label".equals(state.name())) {
+          SubmitRecord.Label lbl = new SubmitRecord.Label();
+          rec.labels.add(lbl);
 
-        lbl.label = state.arg(0).name();
-        Term status = state.arg(1);
+          lbl.label = state.arg(0).name();
+          Term status = state.arg(1);
 
-        if ("ok".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.OK;
-          appliedBy(lbl, status);
+          if ("ok".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.OK;
+            appliedBy(lbl, status);
 
-        } else if ("reject".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.REJECT;
-          appliedBy(lbl, status);
+          } else if ("reject".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.REJECT;
+            appliedBy(lbl, status);
 
-        } else if ("need".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.NEED;
+          } else if ("need".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.NEED;
 
-        } else if ("may".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.MAY;
+          } else if ("may".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.MAY;
 
-        } else if ("impossible".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
+          } else if ("impossible".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
 
-        } else {
-          return logInvalidResult(submitRule, submitRecord);
+          } else {
+            return logInvalidResult(submitRule, submitRecord);
+          }
+
+        } else if ("condition".equals(state.name())) {
+          SubmitRecord.Condition c = new SubmitRecord.Condition();
+          rec.conditions.add(c);
+
+          c.name = state.arg(0).name();
+          Term status = state.arg(1);
+
+          if ("ok".equals(status.name())) {
+            c.status = SubmitRecord.Condition.Status.OK;
+
+          } else if ("need".equals(status.name())) {
+            c.status = SubmitRecord.Condition.Status.NEED;
+
+          } else {
+            return logInvalidResult(submitRule, submitRecord);
+          }
         }
       }
 

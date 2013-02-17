@@ -542,13 +542,9 @@ public class RestApiServlet extends HttpServlet {
     }.setContentType(JSON_TYPE).setCharacterEncoding(UTF_8.name()));
   }
 
-  private static final FieldNamingPolicy NAMING =
-      FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
-
   private static Gson newGson(Multimap<String, String> config,
       @Nullable HttpServletRequest req) {
-    GsonBuilder gb = OutputFormat.JSON_COMPACT.newGsonBuilder()
-      .setFieldNamingPolicy(NAMING);
+    GsonBuilder gb = OutputFormat.JSON_COMPACT.newGsonBuilder();
 
     enablePrettyPrint(gb, config, req);
     enablePartialGetFields(gb, config);
@@ -590,8 +586,9 @@ public class RestApiServlet extends HttpServlet {
             // Names are supplied by Gson in terms of Java source.
             // Translate and cache the JSON lower_case_style used.
             try {
-              name = NAMING.translateName(
-                  field.getDeclaringClass().getDeclaredField(field.getName()));
+              name =
+                  FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES.translateName(//
+                      field.getDeclaringClass().getDeclaredField(field.getName()));
               names.put(field.getName(), name);
             } catch (SecurityException e) {
               return true;

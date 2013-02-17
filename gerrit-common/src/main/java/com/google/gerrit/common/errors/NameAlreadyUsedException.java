@@ -23,4 +23,8 @@ public class NameAlreadyUsedException extends Exception {
   public NameAlreadyUsedException() {
     super(MESSAGE);
   }
+
+  public NameAlreadyUsedException(String name) {
+    super(MESSAGE + ": " + name);
+  }
 }

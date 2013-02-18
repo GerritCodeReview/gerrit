@@ -99,7 +99,7 @@ public class PerformRenameGroup {
 
         // Otherwise, someone else has this identity.
         //
-        throw new NameAlreadyUsedException();
+        throw new NameAlreadyUsedException(newName);
       } else {
         throw e;
       }

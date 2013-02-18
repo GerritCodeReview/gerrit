@@ -120,7 +120,7 @@ public class PerformCreateGroup {
     try {
       db.accountGroupNames().insert(Collections.singleton(gn));
     } catch (OrmDuplicateKeyException e) {
-      throw new NameAlreadyUsedException();
+      throw new NameAlreadyUsedException(groupName);
     }
     db.accountGroups().insert(Collections.singleton(group));
 

@@ -37,6 +37,7 @@ public class LabelType {
     lt.setAbbreviatedName(ac.getAbbreviatedName());
     lt.setFunctionName(ac.getFunctionName());
     lt.setCopyMinScore(ac.isCopyMinScore());
+    lt.setCanOverride(false);
     return lt;
   }
 
@@ -96,6 +97,7 @@ public class LabelType {
   protected short maxNegative;
   protected short maxPositive;
 
+  private transient boolean canOverride;
   private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
@@ -149,6 +151,14 @@ public class LabelType {
 
   public void setFunctionName(String functionName) {
     this.functionName = functionName;
+  }
+
+  public boolean canOverride() {
+    return canOverride;
+  }
+
+  public void setCanOverride(boolean canOverride) {
+    this.canOverride = canOverride;
   }
 
   public List<LabelValue> getValues() {

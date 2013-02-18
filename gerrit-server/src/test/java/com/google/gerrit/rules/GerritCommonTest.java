@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -31,31 +32,24 @@ import java.util.Arrays;
 import java.util.Set;
 
 public class GerritCommonTest extends PrologTestCase {
-  private ProjectState project;
+  private Projects projects;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
-
-    LabelTypes types =
-        new LabelTypes(Arrays.asList(
-            category("CRVW", "Code-Review",
-                value(2, "Looks good to me, approved"),
-                value(1, "Looks good to me, but someone else must approve"),
-                value(0, "No score"),
-                value(-1, "I would prefer that you didn't submit this"),
-                value(-2, "Do not submit")),
-            category("VRIF", "Verified", value(1, "Verified"),
-                value(0, "No score"), value(-1, "Fails"))));
-    ProjectConfig config = new ProjectConfig(new Project.NameKey("myproject"));
-    config.createInMemory();
-    project = new ProjectState(null, null, null, null, null,
-        null, types, config);
-
+    projects = new Projects(new LabelTypes(Arrays.asList(
+        category("CRVW", "Code-Review",
+            value(2, "Looks good to me, approved"),
+            value(1, "Looks good to me, but someone else must approve"),
+            value(0, "No score"),
+            value(-1, "I would prefer that you didn't submit this"),
+            value(-2, "Do not submit")),
+        category("VRIF", "Verified", value(1, "Verified"),
+            value(0, "No score"), value(-1, "Fails")))));
     load("gerrit", "gerrit_common_test.pl", new AbstractModule() {
       @Override
       protected void configure() {
-        bind(ProjectCache.class).toInstance(new Projects(project));
+        bind(ProjectCache.class).toInstance(projects);
       }
     });
   }
@@ -64,11 +58,17 @@ public class GerritCommonTest extends PrologTestCase {
   protected void setUpEnvironment(PrologEnvironment env) {
     env.set(StoredValues.CHANGE, new Change(
         new Change.Key("Ibeef"), new Change.Id(1), new Account.Id(2),
-        new Branch.NameKey(project.getProject().getNameKey(), "master")));
+        new Branch.NameKey(projects.allProjectsName, "master")));
   }
 
   private static LabelValue value(int value, String text) {
     return new LabelValue((short) value, text);
+  }
+
+  private static ProjectConfig config(String name) {
+    ProjectConfig config = new ProjectConfig(new Project.NameKey(name));
+    config.createInMemory();
+    return config;
   }
 
   private static LabelType category(String id, String name,
@@ -77,10 +77,13 @@ public class GerritCommonTest extends PrologTestCase {
   }
 
   private static class Projects implements ProjectCache {
-    private final ProjectState project;
+    private final AllProjectsName allProjectsName;
+    private final ProjectState allProjects;
 
-    private Projects(ProjectState project) {
-      this.project = project;
+    private Projects(LabelTypes labelTypes) {
+      allProjectsName = new AllProjectsName("All-Projects");
+      allProjects = new ProjectState(this, allProjectsName, null,
+          null, null, null, labelTypes, config(allProjectsName.get()));
     }
 
     @Override
@@ -90,8 +93,8 @@ public class GerritCommonTest extends PrologTestCase {
 
     @Override
     public ProjectState get(Project.NameKey projectName) {
-      assertEquals(project.getProject().getNameKey(), projectName);
-      return project;
+      assertEquals(allProjectsName, projectName);
+      return allProjects;
     }
 
     @Override

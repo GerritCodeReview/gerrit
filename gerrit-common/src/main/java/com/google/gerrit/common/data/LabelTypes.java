@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class LabelTypes {
   protected List<LabelType> labelTypes;
   private transient Map<String, LabelType> byId;
   private transient Map<String, LabelType> byLabel;
+  private transient Map<String, Integer> positions;
 
   protected LabelTypes() {
   }
@@ -70,5 +72,39 @@ public class LabelTypes {
   @Override
   public String toString() {
     return labelTypes.toString();
+  }
+
+  public Comparator<String> nameComparator() {
+    final Map<String, Integer> positions = positions();
+    return new Comparator<String>() {
+      @Override
+      public int compare(String left, String right) {
+        int lp = position(left);
+        int rp = position(right);
+        int cmp = lp - rp;
+        if (cmp == 0) {
+          cmp = left.compareTo(right);
+        }
+        return cmp;
+      }
+
+      private int position(String name) {
+        Integer p = positions.get(name);
+        return p != null ? p : positions.size();
+      }
+    };
+  }
+
+  private Map<String, Integer> positions() {
+    if (positions == null) {
+      positions = new HashMap<String, Integer>();
+      if (labelTypes != null) {
+        int i = 0;
+        for (LabelType t : labelTypes) {
+          positions.put(t.getName(), i++);
+        }
+      }
+    }
+    return positions;
   }
 }

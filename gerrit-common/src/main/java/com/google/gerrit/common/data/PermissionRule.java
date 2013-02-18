@@ -252,7 +252,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
     return rule;
   }
 
-  private static int parseInt(String value) {
+  public static int parseInt(String value) {
     if (value.startsWith("+")) {
       value = value.substring(1);
     }

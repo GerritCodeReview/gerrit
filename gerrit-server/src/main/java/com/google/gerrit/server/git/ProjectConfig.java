@@ -16,13 +16,20 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.common.data.Permission.isPermission;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Objects;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -35,6 +42,7 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.workflow.CategoryFunction;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -54,6 +62,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class ProjectConfig extends VersionedMetaData {
   private static final String PROJECT_CONFIG = "project.config";
@@ -98,6 +107,15 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_DEFAULT = "default";
   private static final String KEY_LOCAL_DEFAULT = "local-default";
 
+  private static final String LABEL = "label";
+  private static final String KEY_ID = "id";
+  private static final String KEY_ABBREVIATION = "abbreviation";
+  private static final String KEY_FUNCTION = "function";
+  private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
+  private static final String KEY_VALUE = "value";
+
+  private static final Pattern PAT_LABEL_ID = Pattern.compile("^[A-Z]{4}$");
+
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;
   private static final State defaultStateValue =
@@ -110,6 +128,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<String, AccessSection> accessSections;
   private Map<String, ContributorAgreement> contributorAgreements;
   private Map<String, NotifyConfig> notifySections;
+  private Map<String, LabelType> labelSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
 
@@ -206,6 +225,10 @@ public class ProjectConfig extends VersionedMetaData {
 
   public Collection<NotifyConfig> getNotifyConfigs() {
     return notifySections.values();
+  }
+
+  public Collection<LabelType> getLabelSections() {
+    return labelSections.values();
   }
 
   public GroupReference resolve(AccountGroup group) {
@@ -307,6 +330,7 @@ public class ProjectConfig extends VersionedMetaData {
     loadContributorAgreements(rc, groupsByName);
     loadAccessSections(rc, groupsByName);
     loadNotifySections(rc, groupsByName);
+    loadLabelSections(rc);
   }
 
   private void loadAccountsSection(
@@ -493,6 +517,68 @@ public class ProjectConfig extends VersionedMetaData {
 
       rule.setGroup(ref);
       perm.add(rule);
+    }
+  }
+
+  private static LabelValue parseLabelValue(String src) {
+    List<String> parts = ImmutableList.copyOf(
+        Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings().limit(2)
+        .split(src));
+    if (parts.isEmpty()) {
+      throw new IllegalArgumentException("empty value");
+    }
+    return new LabelValue(
+        Shorts.checkedCast(PermissionRule.parseInt(parts.get(0))),
+        parts.get(1));
+  }
+
+  private void loadLabelSections(Config rc) throws IOException {
+    labelSections = Maps.newLinkedHashMap();
+    for (String name : rc.getSubsections(LABEL)) {
+      List<LabelValue> values = Lists.newArrayList();
+      for (String value : rc.getStringList(LABEL, name, KEY_VALUE)) {
+        try {
+          values.add(parseLabelValue(value));
+        } catch (IllegalArgumentException notValue) {
+          error(new ValidationError(PROJECT_CONFIG, String.format(
+              "Invalid %s \"%s\" for label \"%s\": %s",
+              KEY_VALUE, value, name, notValue.getMessage())));
+        }
+      }
+
+      LabelType label;
+      String id = rc.getString(LABEL, name, KEY_ID);
+      if (id == null || !PAT_LABEL_ID.matcher(id).matches()) {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Invalid label ID \"%s\" for label \"%s\": "
+           + "Label ID must be a 4-character uppercase string", id, name)));
+        continue;
+      }
+      try {
+        label = new LabelType(id, name, values);
+      } catch (IllegalArgumentException badName) {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Invalid label \"%s\"", name)));
+        continue;
+      }
+
+      String abbr = rc.getString(LABEL, name, KEY_ABBREVIATION);
+      if (abbr != null) {
+        label.setAbbreviatedName(abbr);
+      }
+
+      String functionName = Objects.firstNonNull(
+          rc.getString(LABEL, name, KEY_FUNCTION), "MaxWithBlock");
+      if (CategoryFunction.forName(functionName) != null) {
+        label.setFunctionName(functionName);
+      } else {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Invalid %s for label \"%s\"", KEY_FUNCTION, name)));
+        label.setFunctionName(null);
+      }
+      label.setCopyMinScore(
+          rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, false));
+      labelSections.put(name, label);
     }
   }
 

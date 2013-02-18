@@ -355,7 +355,7 @@ public class ChangeJson {
       LabelTypes labelTypes, boolean standard) throws OrmException {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels =
-        new TreeMap<String, LabelInfo>(LabelOrdering.create(labelTypes));
+        new TreeMap<String, LabelInfo>(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
@@ -476,7 +476,7 @@ public class ChangeJson {
     //
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels =
-        new TreeMap<String, LabelInfo>(LabelOrdering.create(labelTypes));
+        new TreeMap<String, LabelInfo>(labelTypes.nameComparator());
     for (PatchSetApproval psa : cd.currentApprovals(db)) {
       LabelType type = labelTypes.byId(psa.getCategoryId().get());
       if (type == null) {

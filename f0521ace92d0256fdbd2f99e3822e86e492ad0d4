@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7tTbHBc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-18T08:27:49Z",
+      "side": 1,
+      "message": "- \"Not allowed to\" would be more consistent with other messages.\n\n- s/user name/username",
+      "revId": "f0521ace92d0256fdbd2f99e3822e86e492ad0d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

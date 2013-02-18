@@ -14,23 +14,31 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
-import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 
 import junit.framework.TestCase;
 
+import org.eclipse.jgit.lib.Repository;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.List;
 
 public class SchemaCreatorTest extends TestCase {
-  private ApprovalCategory.Id codeReview = new ApprovalCategory.Id("CRVW");
   private InMemoryDatabase db;
 
   @Override
@@ -79,53 +87,58 @@ public class SchemaCreatorTest extends TestCase {
     assertEquals(sitePath.getCanonicalPath(), db.getSystemConfig().sitePath);
   }
 
-  public void testCreateSchema_ApprovalCategory_CodeReview()
-      throws OrmException {
-    final ReviewDb c = db.create().open();
+  private LabelTypes getLabelTypes() throws Exception {
+    db.create();
+    AllProjectsName allProjects = db.getInstance(AllProjectsName.class);
+    ProjectConfig c = new ProjectConfig(allProjects);
+    Repository repo = db.getInstance(GitRepositoryManager.class)
+        .openRepository(allProjects);
     try {
-      final ApprovalCategory cat;
-
-      cat = c.approvalCategories().get(codeReview);
-      assertNotNull(cat);
-      assertEquals(codeReview, cat.getId());
-      assertEquals("Code Review", cat.getName());
-      assertEquals("R", cat.getAbbreviatedName());
-      assertEquals("MaxWithBlock", cat.getFunctionName());
-      assertTrue(cat.isCopyMinScore());
-      assertTrue(0 <= cat.getPosition());
+      c.load(repo);
+      return new LabelTypes(
+          ImmutableList.copyOf(c.getLabelSections().values()));
     } finally {
-      c.close();
+      repo.close();
     }
-    assertValueRange(codeReview, -2, -1, 0, 1, 2);
   }
 
-  private void assertValueRange(ApprovalCategory.Id cat, int... range)
-      throws OrmException {
-    final HashSet<ApprovalCategoryValue.Id> act =
-        new HashSet<ApprovalCategoryValue.Id>();
-    final ReviewDb c = db.open();
-    try {
-      for (ApprovalCategoryValue v : c.approvalCategoryValues().byCategory(cat)) {
-        assertNotNull(v.getId());
-        assertNotNull(v.getName());
-        assertEquals(cat, v.getCategoryId());
-        assertFalse(v.getName().isEmpty());
-
-        act.add(v.getId());
-      }
-    } finally {
-      c.close();
+  public void testCreateSchema_LabelTypes() throws Exception {
+    List<String> labels = Lists.newArrayList();
+    for (LabelType label : getLabelTypes().getLabelTypes()) {
+      labels.add(label.getName());
     }
+    assertEquals(ImmutableList.of("Verified", "Code-Review"), labels);
+  }
 
-    for (int value : range) {
-      final ApprovalCategoryValue.Id exp =
-          new ApprovalCategoryValue.Id(cat, (short) value);
-      if (!act.remove(exp)) {
-        fail("Category " + cat + " lacks value " + value);
-      }
-    }
-    if (!act.isEmpty()) {
-      fail("Category " + cat + " has additional values: " + act);
+  public void testCreateSchema_Label_Verified() throws Exception {
+    LabelType verified = getLabelTypes().byLabel("Verified");
+    assertNotNull(verified);
+    assertEquals("VRIF", verified.getId());
+    assertEquals("Verified", verified.getName());
+    assertEquals("V", verified.getAbbreviatedName());
+    assertEquals("MaxWithBlock", verified.getFunctionName());
+    assertFalse(verified.isCopyMinScore());
+    assertValueRange(verified, 1, 0, -1);
+  }
+
+  public void testCreateSchema_Label_CodeReview() throws Exception {
+    LabelType codeReview = getLabelTypes().byLabel("Code-Review");
+    assertNotNull(codeReview);
+    assertEquals("CRVW", codeReview.getId());
+    assertEquals("Code-Review", codeReview.getName());
+    assertEquals("R", codeReview.getAbbreviatedName());
+    assertEquals("MaxWithBlock", codeReview.getFunctionName());
+    assertTrue(codeReview.isCopyMinScore());
+    assertValueRange(codeReview, 2, 1, 0, -1, -2);
+  }
+
+  private void assertValueRange(LabelType label, Integer... range) {
+    assertEquals(Arrays.asList(range), label.getValuesAsList());
+    assertEquals(range[0], Integer.valueOf(label.getMax().getValue()));
+    assertEquals(range[range.length - 1],
+      Integer.valueOf(label.getMin().getValue()));
+    for (LabelValue v : label.getValues()) {
+      assertFalse(Strings.isNullOrEmpty(v.getText()));
     }
   }
 }

@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
@@ -64,8 +65,9 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
       return types.byLabel(toFind);
     }
 
-    if (types.byId(toFind) != null) {
-      return types.byId(toFind);
+    LabelId id = new LabelId(toFind);
+    if (types.byId(id) != null) {
+      return types.byId(id);
     }
 
     for (LabelType lt : types.getLabelTypes()) {
@@ -157,7 +159,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     final Set<Account.Id> approversThatVotedInCategory = new HashSet<Account.Id>();
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
       allApprovers.add(p.getAccountId());
-      if (p.getCategoryId().get().equals(labelType.getId())) {
+      if (p.getLabelId().get().equals(labelType.getId())) {
         approversThatVotedInCategory.add(p.getAccountId());
         if (match(c, p.getValue(), p.getAccountId(), labelType)) {
           return true;

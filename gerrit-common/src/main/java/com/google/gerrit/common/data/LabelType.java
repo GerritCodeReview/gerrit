@@ -14,9 +14,8 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,21 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 public class LabelType {
-  public static LabelType fromApprovalCategory(ApprovalCategory ac,
-      List<ApprovalCategoryValue> acvs) {
-    List<LabelValue> values = new ArrayList<LabelValue>(acvs.size());
-    for (ApprovalCategoryValue acv : acvs) {
-      values.add(
-          new LabelValue(acv.getValue(), acv.getName()));
-    }
-    LabelType lt = new LabelType(ac.getId().get(), ac.getLabelName(), values);
-    lt.setAbbreviatedName(ac.getAbbreviatedName());
-    lt.setFunctionName(ac.getFunctionName());
-    lt.setCopyMinScore(ac.isCopyMinScore());
-    lt.setBlock(false);
-    return lt;
-  }
-
   public static LabelType withDefaultValues(String id, String name) {
     checkId(id);
     checkName(name);
@@ -72,7 +56,7 @@ public class LabelType {
     return name;
   }
 
-  private static String defaultAbbreviation(String name) {
+  public static String defaultAbbreviation(String name) {
     StringBuilder abbr = new StringBuilder();
     for (int i = 0; i < name.length(); i++) {
       char c = name.charAt(i);
@@ -227,14 +211,8 @@ public class LabelType {
     return intList;
   }
 
-  @Deprecated
-  public ApprovalCategoryValue.Id getApprovalCategoryValueId(short value) {
-    return new ApprovalCategoryValue.Id(getApprovalCategoryId(), value);
-  }
-
-  @Deprecated
-  public ApprovalCategory.Id getApprovalCategoryId() {
-    return new ApprovalCategory.Id(getId());
+  public LabelId getLabelId() {
+    return new LabelId(getId());
   }
 
   @Override

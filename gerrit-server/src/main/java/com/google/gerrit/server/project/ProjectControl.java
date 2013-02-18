@@ -125,6 +125,7 @@ public class ProjectControl {
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
 
+  private volatile LabelTypes labelTypes;
 
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
@@ -183,7 +184,16 @@ public class ProjectControl {
   }
 
   public LabelTypes getLabelTypes() {
-    return state.getLabelTypes();
+    LabelTypes lt = labelTypes;
+    if (lt == null) {
+      synchronized (this) {
+        if (labelTypes == null) {
+          lt = state.getLabelTypes();
+          labelTypes = lt;
+        }
+      }
+    }
+    return lt;
   }
 
   private boolean isHidden() {

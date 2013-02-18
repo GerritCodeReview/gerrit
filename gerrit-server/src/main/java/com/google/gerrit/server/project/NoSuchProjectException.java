@@ -20,11 +20,13 @@ import com.google.gerrit.reviewdb.client.Project;
 public class NoSuchProjectException extends Exception {
   private static final long serialVersionUID = 1L;
 
+  private static final String MESSAGE = "Project not found: ";
+
   public NoSuchProjectException(final Project.NameKey key) {
     this(key, null);
   }
 
   public NoSuchProjectException(final Project.NameKey key, final Throwable why) {
-    super(key.toString(), why);
+    super(MESSAGE + key.toString(), why);
   }
 }

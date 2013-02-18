@@ -428,7 +428,7 @@ public abstract class BaseCommand implements Command {
           try {
             thunk.run();
           } catch (NoSuchProjectException e) {
-            throw new UnloggedFailure(1, e.getMessage() + " no such project");
+            throw new UnloggedFailure(1, e.getMessage());
           } catch (NoSuchChangeException e) {
             throw new UnloggedFailure(1, e.getMessage() + " no such change");
           }

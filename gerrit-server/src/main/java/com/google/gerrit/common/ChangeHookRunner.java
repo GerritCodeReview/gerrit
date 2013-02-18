@@ -416,7 +416,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         for (Map.Entry<String, Short> approval : approvals.entrySet()) {
           LabelType lt = labelTypes.byLabel(approval.getKey());
           if (lt != null) {
-            addArg(args, "--" + lt.getId(), Short.toString(approval.getValue()));
+            addArg(args, "--" + lt.getName(), Short.toString(approval.getValue()));
           }
         }
 

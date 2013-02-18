@@ -45,7 +45,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -403,8 +402,7 @@ public class ChangeJson {
 
     for (PatchSetApproval psa : cd.currentApprovals(db)) {
       short val = psa.getValue();
-      if (val != 0 && min < val && val < max
-          && psa.getCategoryId().get().equals(type.getId())) {
+      if (val != 0 && min < val && val < max && type.matches(psa)) {
         if (0 < val) {
           label.recommended = accountLoader.get(psa.getAccountId());
           label.value = val != 1 ? val : null;
@@ -447,7 +445,7 @@ public class ChangeJson {
       }
       for (PatchSetApproval psa : current.get(accountId)) {
         // TODO Support arbitrary labels placed by a reviewer.
-        LabelType lt = ctl.getLabelTypes().byId(psa.getCategoryId().get());
+        LabelType lt = ctl.getLabelTypes().byLabel(psa.getLabelId());
         if (lt == null) {
           continue;
         }
@@ -471,11 +469,12 @@ public class ChangeJson {
       allUsers.add(psa.getAccountId());
     }
 
-    Set<ApprovalCategory.Id> categories = Sets.newHashSet();
+    Set<String> labelNames = Sets.newHashSet();
     Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
     for (PatchSetApproval a : cd.currentApprovals(db)) {
-      if (a.getValue() != 0) {
-        categories.add(a.getCategoryId());
+      LabelType type = labelTypes.byLabel(a.getLabelId());
+      if (type != null && a.getValue() != 0) {
+        labelNames.add(type.getName());
         current.put(a.getAccountId(), a);
       }
     }
@@ -486,15 +485,13 @@ public class ChangeJson {
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels =
         new TreeMap<String, LabelInfo>(labelTypes.nameComparator());
-    for (ApprovalCategory.Id id : categories) {
-      LabelType type = labelTypes.byId(id.get());
-      if (type != null) {
-        LabelInfo li = new LabelInfo();
-        if (detailed) {
-          setLabelValues(type, li);
-        }
-        labels.put(type.getName(), li);
+    for (String name : labelNames) {
+      LabelType type = labelTypes.byLabel(name);
+      LabelInfo li = new LabelInfo();
+      if (detailed) {
+        setLabelValues(type, li);
       }
+      labels.put(type.getName(), li);
     }
 
     for (Account.Id accountId : allUsers) {
@@ -509,7 +506,7 @@ public class ChangeJson {
         }
       }
       for (PatchSetApproval psa : current.get(accountId)) {
-        LabelType type = labelTypes.byId(psa.getCategoryId().get());
+        LabelType type = labelTypes.byLabel(psa.getLabelId());
         if (type == null) {
           continue;
         }

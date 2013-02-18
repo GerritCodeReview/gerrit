@@ -16,10 +16,10 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -81,9 +81,6 @@ public class MergeUtil {
 
   private static final String R_HEADS_MASTER =
       Constants.R_HEADS + Constants.MASTER;
-
-  private static final String CRVW = "CRVW";
-  private static final String VRIF = "VRIF";
 
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
@@ -171,7 +168,7 @@ public class MergeUtil {
       final List<PatchSetApproval> approvals =
           reviewDb.patchSetApprovals().byPatchSet(c).toList();
       for (PatchSetApproval a : approvals) {
-        if (a.getValue() > 0 && ApprovalCategory.isSubmit(a)) {
+        if (a.getValue() > 0 && a.isSubmit()) {
           if (submitter == null
               || a.getGranted().compareTo(submitter.getGranted()) > 0) {
             submitter = a;
@@ -257,7 +254,7 @@ public class MergeUtil {
         continue;
       }
 
-      if (ApprovalCategory.isSubmit(a)) {
+      if (a.isSubmit()) {
         // Submit is treated specially, below (becomes committer)
         //
         if (submitAudit == null
@@ -294,13 +291,12 @@ public class MergeUtil {
       }
 
       final String tag;
-      if (CRVW.equals(a.getCategoryId().get())) {
+      if (isCodeReview(a.getLabelId())) {
         tag = "Reviewed-by";
-      } else if (VRIF.equals(a.getCategoryId().get())) {
+      } else if (isVerified(a.getLabelId())) {
         tag = "Tested-by";
       } else {
-        final LabelType lt =
-            project.getLabelTypes().byId(a.getCategoryId().get());
+        final LabelType lt = project.getLabelTypes().byLabel(a.getLabelId());
         if (lt == null) {
           // TODO: Support arbitrary labels.
           continue;
@@ -317,6 +313,14 @@ public class MergeUtil {
     }
 
     return msgbuf.toString();
+  }
+
+  private static boolean isCodeReview(LabelId id) {
+    return "CRVW".equals(id.get()) || "Code-Review".equalsIgnoreCase(id.get());
+  }
+
+  private static boolean isVerified(LabelId id) {
+    return "VRIF".equals(id.get()) || "Verified".equalsIgnoreCase(id.get());
   }
 
   public List<PatchSetApproval> getApprovalsForCommit(final CodeReviewCommit n) {

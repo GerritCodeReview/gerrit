@@ -38,13 +38,13 @@ public class GerritCommonTest extends PrologTestCase {
   public void setUp() throws Exception {
     super.setUp();
     projects = new Projects(new LabelTypes(Arrays.asList(
-        category("CRVW", "Code-Review",
+        category("Code-Review",
             value(2, "Looks good to me, approved"),
             value(1, "Looks good to me, but someone else must approve"),
             value(0, "No score"),
             value(-1, "I would prefer that you didn't submit this"),
             value(-2, "Do not submit")),
-        category("VRIF", "Verified", value(1, "Verified"),
+        category("Verified", value(1, "Verified"),
             value(0, "No score"), value(-1, "Fails")))));
     load("gerrit", "gerrit_common_test.pl", new AbstractModule() {
       @Override
@@ -65,15 +65,8 @@ public class GerritCommonTest extends PrologTestCase {
     return new LabelValue((short) value, text);
   }
 
-  private static ProjectConfig config(String name) {
-    ProjectConfig config = new ProjectConfig(new Project.NameKey(name));
-    config.createInMemory();
-    return config;
-  }
-
-  private static LabelType category(String id, String name,
-      LabelValue... values) {
-    return new LabelType(id, name, Arrays.asList(values));
+  private static LabelType category(String name, LabelValue... values) {
+    return new LabelType(name, Arrays.asList(values));
   }
 
   private static class Projects implements ProjectCache {
@@ -82,8 +75,13 @@ public class GerritCommonTest extends PrologTestCase {
 
     private Projects(LabelTypes labelTypes) {
       allProjectsName = new AllProjectsName("All-Projects");
+      ProjectConfig config = new ProjectConfig(allProjectsName);
+      config.createInMemory();
+      for (LabelType label : labelTypes.getLabelTypes()) {
+        config.getLabelSections().put(label.getName(), label);
+      }
       allProjects = new ProjectState(this, allProjectsName, null,
-          null, null, null, labelTypes, config(allProjectsName.get()));
+          null, null, null, config);
     }
 
     @Override

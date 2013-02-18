@@ -75,7 +75,6 @@ public class GerritCommonTest extends PrologTestCase {
       LabelValue... values) {
     LabelType type = new LabelType(name, Arrays.asList(values));
     type.setId(id);
-    type.setPosition((short) pos);
     return type;
   }
 

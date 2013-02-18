@@ -456,12 +456,12 @@ public class EventFactory {
   public ApprovalAttribute asApprovalAttribute(PatchSetApproval approval,
       LabelTypes labelTypes) {
     ApprovalAttribute a = new ApprovalAttribute();
-    a.type = approval.getCategoryId().get();
+    a.type = approval.getLabelId().get();
     a.value = Short.toString(approval.getValue());
     a.by = asAccountAttribute(approval.getAccountId());
     a.grantedOn = approval.getGranted().getTime() / 1000L;
 
-    LabelType lt = labelTypes.byId(approval.getCategoryId().get());
+    LabelType lt = labelTypes.byLabel(approval.getLabelId());
     if (lt != null) {
       a.description = lt.getName();
     }

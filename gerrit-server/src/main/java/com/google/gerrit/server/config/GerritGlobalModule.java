@@ -19,7 +19,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.ChangeListener;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -141,8 +140,6 @@ public class GerritGlobalModule extends FactoryModule {
         break;
     }
 
-    bind(LabelTypes.class).toProvider(LabelTypesProvider.class).in(
-        SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
 

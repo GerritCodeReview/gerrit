@@ -69,7 +69,6 @@ public class ProjectState {
   private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
   private final RulesCache rulesCache;
-  private final LabelTypes dbLabelTypes;
 
   private final ProjectConfig config;
   private final Set<AccountGroup.UUID> localOwners;
@@ -97,7 +96,6 @@ public class ProjectState {
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
       final RulesCache rulesCache,
-      final LabelTypes labelTypes,
       @Assisted final ProjectConfig config) {
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
@@ -110,7 +108,6 @@ public class ProjectState {
     this.capabilities = isAllProjects
       ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
       : null;
-    this.dbLabelTypes = labelTypes;
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -347,13 +344,6 @@ public class ProjectState {
     });
   }
 
-  private void putLabelType(Map<String, LabelType> types, LabelType type) {
-    LabelType old = types.get(type.getName());
-    if (old == null || !old.isBlock()) {
-      types.put(type.getName(), type);
-    }
-  }
-
   public LabelTypes getLabelTypes() {
     if (labelTypes == null) {
       synchronized (this) {
@@ -361,14 +351,14 @@ public class ProjectState {
           return labelTypes;
         }
         Map<String, LabelType> types = Maps.newLinkedHashMap();
-        for (LabelType type : dbLabelTypes.getLabelTypes()) {
-          putLabelType(types, type);
-        }
         List<ProjectState> projects = Lists.newArrayList(tree());
         Collections.reverse(projects);
         for (ProjectState s : projects) {
-          for (LabelType type : s.getConfig().getLabelSections()) {
-            putLabelType(types, type);
+          for (LabelType type : s.getConfig().getLabelSections().values()) {
+            LabelType old = types.get(type.getName());
+            if (old == null || !old.isBlock()) {
+              types.put(type.getName(), type);
+            }
           }
         }
         List<LabelType> all = Lists.newArrayListWithCapacity(types.size());

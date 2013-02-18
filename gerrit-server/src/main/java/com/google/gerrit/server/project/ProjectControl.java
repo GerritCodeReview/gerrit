@@ -122,9 +122,9 @@ public class ProjectControl {
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
+  private LabelTypes labelTypes;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
-
 
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
@@ -183,7 +183,10 @@ public class ProjectControl {
   }
 
   public LabelTypes getLabelTypes() {
-    return state.getLabelTypes();
+    if (labelTypes == null) {
+      labelTypes = state.getLabelTypes();
+    }
+    return labelTypes;
   }
 
   private boolean isHidden() {

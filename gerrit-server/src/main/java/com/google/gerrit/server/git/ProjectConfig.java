@@ -22,6 +22,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -225,8 +226,8 @@ public class ProjectConfig extends VersionedMetaData {
     return notifySections.values();
   }
 
-  public Collection<LabelType> getLabelSections() {
-    return labelSections.values();
+  public Map<String, LabelType> getLabelSections() {
+    return labelSections;
   }
 
   public GroupReference resolve(AccountGroup group) {
@@ -545,21 +546,14 @@ public class ProjectConfig extends VersionedMetaData {
       }
 
       LabelType label;
-      String id = rc.getString(LABEL, name, KEY_ID);
-      if (id == null || id.length() > 4) {
-        error(new ValidationError(PROJECT_CONFIG, String.format(
-            "Invalid label ID \"%s\" for label \"%s\": "
-           + "Label ID may have at most 4 characters", id, name)));
-        continue;
-      }
       try {
-        label = new LabelType(id, name, values);
+        label = new LabelType(name, values);
       } catch (IllegalArgumentException badName) {
         error(new ValidationError(PROJECT_CONFIG, String.format(
             "Invalid label \"%s\"", name)));
         continue;
       }
-
+      label.setId(rc.getString(LABEL, name, KEY_ID));
       String abbr = rc.getString(LABEL, name, KEY_ABBREVIATION);
       if (abbr != null) {
         label.setAbbreviatedName(abbr);
@@ -645,6 +639,7 @@ public class ProjectConfig extends VersionedMetaData {
     saveAccessSections(rc, keepGroups);
     saveNotifySections(rc, keepGroups);
     groupsByUUID.keySet().retainAll(keepGroups);
+    saveLabelSections(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
@@ -811,6 +806,53 @@ public class ProjectConfig extends VersionedMetaData {
       if (RefConfigSection.isValid(name) && !accessSections.containsKey(name)) {
         rc.unsetSection(ACCESS, name);
       }
+    }
+  }
+
+  private void saveLabelSections(Config rc) {
+    List<String> existing = Lists.newArrayList(rc.getSubsections(LABEL));
+    if (!Lists.newArrayList(labelSections.keySet()).equals(existing)) {
+      // Order of sections changed, remove and rewrite them all.
+      for (String name : existing) {
+        rc.unsetSection(LABEL, name);
+      }
+    }
+
+    Set<String> toUnset = Sets.newHashSet(existing);
+    for (Map.Entry<String, LabelType> e : labelSections.entrySet()) {
+      String name = e.getKey();
+      LabelType label = e.getValue();
+      toUnset.remove(name);
+      rc.setString(LABEL, name, KEY_FUNCTION, label.getFunctionName());
+
+      if (!LabelType.defaultAbbreviation(name)
+          .equals(label.getAbbreviatedName())) {
+        rc.setString(
+            LABEL, name, KEY_ABBREVIATION, label.getAbbreviatedName());
+      } else {
+        rc.unset(LABEL, name, KEY_ABBREVIATION);
+      }
+      if (label.isCopyMinScore()) {
+        rc.setBoolean(LABEL, name, KEY_COPY_MIN_SCORE, true);
+      } else {
+        rc.unset(LABEL, name, KEY_COPY_MIN_SCORE);
+      }
+      if (!label.canOverride()) {
+        rc.setBoolean(LABEL, name, KEY_CAN_OVERRIDE, false);
+      } else {
+        rc.unset(LABEL, name, KEY_CAN_OVERRIDE);
+      }
+
+      List<String> values =
+          Lists.newArrayListWithCapacity(label.getValues().size());
+      for (LabelValue value : label.getValues()) {
+        values.add(value.format());
+      }
+      rc.setStringList(LABEL, name, KEY_VALUE, values);
+    }
+
+    for (String name : toUnset) {
+      rc.unsetSection(LABEL, name);
     }
   }
 

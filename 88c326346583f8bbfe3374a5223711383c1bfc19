@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8hCRJKc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-18T12:12:03Z",
+      "side": 1,
+      "message": "This should probably also be changed, in another commit...",
+      "revId": "88c326346583f8bbfe3374a5223711383c1bfc19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

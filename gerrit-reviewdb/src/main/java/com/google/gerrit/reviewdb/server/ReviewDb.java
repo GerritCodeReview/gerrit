@@ -43,11 +43,9 @@ public interface ReviewDb extends Schema {
   @Relation(id = 2)
   SystemConfigAccess systemConfig();
 
-  @Relation(id = 3)
-  ApprovalCategoryAccess approvalCategories();
+  // Deleted @Relation(id = 3)
 
-  @Relation(id = 4)
-  ApprovalCategoryValueAccess approvalCategoryValues();
+  // Deleted @Relation(id = 4)
 
   @Relation(id = 6)
   AccountAccess accounts();

@@ -35,11 +35,10 @@ import java.util.List;
 /**
  * Obtain a list of label types from the server configuration.
  * <p>
- * Unifies to a Prolog list of: {@code label_type(Label, Id, Fun, Min, Max)}
+ * Unifies to a Prolog list of: {@code label_type(Label, Fun, Min, Max)}
  * where:
  * <ul>
  * <li>{@code Label} - the newer style label name</li>
- * <li>{@code Id} - the legacy LabelCategory.Id from the database</li>
  * <li>{@code Fun} - legacy function name</li>
  * <li>{@code Min, Max} - the smallest and largest configured values.</li>
  * </ul>
@@ -74,12 +73,11 @@ class PRED_get_legacy_label_types_1 extends Predicate.P1 {
   }
 
   static final SymbolTerm symLabelType = SymbolTerm.intern(
-      "label_type", 5);
+      "label_type", 4);
 
   static Term export(LabelType type) {
     return new StructureTerm(symLabelType,
         SymbolTerm.intern(type.getName()),
-        SymbolTerm.intern(type.getId()),
         SymbolTerm.intern(type.getFunctionName()),
         new IntegerTerm(type.getMin().getValue()),
         new IntegerTerm(type.getMax().getValue()));

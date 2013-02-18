@@ -60,15 +60,14 @@ public class FunctionState {
 
     for (final PatchSetApproval ca : all) {
       if (psId.equals(ca.getPatchSetId())) {
-        Collection<PatchSetApproval> l =
-            approvals.get(ca.getCategoryId().get());
+        LabelType lt = c.getLabelTypes().byLabel(ca.getLabelId());
+        if (lt == null) {
+          continue;
+        }
+        Collection<PatchSetApproval> l = approvals.get(lt.getName());
         if (l == null) {
           l = new ArrayList<PatchSetApproval>();
-          LabelType lt = c.getLabelTypes().byId(ca.getCategoryId().get());
-          if (lt != null) {
-            // TODO: Support arbitrary labels
-            approvals.put(lt.getName(), l);
-          }
+          approvals.put(lt.getName(), l);
         }
         l.add(ca);
       }
@@ -84,7 +83,7 @@ public class FunctionState {
   }
 
   public void valid(final LabelType lt, final boolean v) {
-    valid.put(id(lt), v);
+    valid.put(lt.getName(), v);
   }
 
   public boolean isValid(final LabelType lt) {
@@ -147,9 +146,5 @@ public class FunctionState {
   public void normalize(final LabelType lt, final PatchSetApproval ca) {
     applyTypeFloor(lt, ca);
     applyRightFloor(lt, ca);
-  }
-
-  private static String id(final LabelType lt) {
-    return lt.getId();
   }
 }

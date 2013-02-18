@@ -14,6 +14,10 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -21,36 +25,25 @@ import java.util.Map;
 
 public class LabelTypes {
   protected List<LabelType> labelTypes;
-  private transient Map<String, LabelType> byId;
   private transient Map<String, LabelType> byLabel;
+  private transient Map<String, LabelType> byId;
   private transient Map<String, Integer> positions;
 
   protected LabelTypes() {
   }
 
-  public LabelTypes(final List<LabelType> approvals) {
-    labelTypes = approvals;
-    byId();
+  public LabelTypes(final List<? extends LabelType> approvals) {
+    labelTypes =
+        Collections.unmodifiableList(new ArrayList<LabelType>(approvals));
   }
 
   public List<LabelType> getLabelTypes() {
     return labelTypes;
   }
 
-  public LabelType byId(String id) {
-    return byId().get(id);
-  }
-
-  private Map<String, LabelType> byId() {
-    if (byId == null) {
-      byId = new HashMap<String, LabelType>();
-      if (labelTypes != null) {
-        for (final LabelType t : labelTypes) {
-          byId.put(t.getId(), t);
-        }
-      }
-    }
-    return byId;
+  public LabelType byLabel(LabelId labelId) {
+    LabelType t = byId().get(labelId.get());
+    return t != null ? t : byLabel().get(labelId.get().toLowerCase());
   }
 
   public LabelType byLabel(String labelName) {
@@ -67,6 +60,20 @@ public class LabelTypes {
       }
     }
     return byLabel;
+  }
+
+  private Map<String, LabelType> byId() {
+    if (byId == null) {
+      byId = new HashMap<String, LabelType>();
+      if (labelTypes != null) {
+        for (LabelType t : labelTypes) {
+          if (t.getId() != null) {
+            byId.put(t.getId(), t);
+          }
+        }
+      }
+    }
+    return byId;
   }
 
   @Override

@@ -228,8 +228,8 @@ default_submit(LabelTypes, P) :-
 
 default_submit([], Out, Out).
 default_submit([Type | Types], Tmp, Out) :-
-  label_type(Label, Id, Fun, Min, Max) = Type,
-  legacy_submit_rule(Fun, Label, Id, Min, Max, Status),
+  label_type(Label, Fun, Min, Max) = Type,
+  legacy_submit_rule(Fun, Label, Min, Max, Status),
   R = label(Label, Status),
   default_submit(Types, [R | Tmp], Out).
 
@@ -238,11 +238,11 @@ default_submit([Type | Types], Tmp, Out) :-
 %%
 %% Apply the old -2..+2 style logic.
 %%
-legacy_submit_rule('MaxWithBlock', Label, Id, Min, Max, T) :- !, max_with_block(Label, Min, Max, T).
-legacy_submit_rule('MaxNoBlock', Label, Id, Min, Max, T) :- !, max_no_block(Label, Max, T).
-legacy_submit_rule('NoBlock', Label, Id, Min, Max, T) :- !, T = may(_).
-legacy_submit_rule('NoOp', Label, Id, Min, Max, T) :- !, T = may(_).
-legacy_submit_rule(Fun, Label, Id, Min, Max, T) :- T = impossible(unsupported(Fun)).
+legacy_submit_rule('MaxWithBlock', Label, Min, Max, T) :- !, max_with_block(Label, Min, Max, T).
+legacy_submit_rule('MaxNoBlock', Label, Min, Max, T) :- !, max_no_block(Label, Max, T).
+legacy_submit_rule('NoBlock', Label, Min, Max, T) :- !, T = may(_).
+legacy_submit_rule('NoOp', Label, Min, Max, T) :- !, T = may(_).
+legacy_submit_rule(Fun, Label, Min, Max, T) :- T = impossible(unsupported(Fun)).
 
 %% max_with_block:
 %%

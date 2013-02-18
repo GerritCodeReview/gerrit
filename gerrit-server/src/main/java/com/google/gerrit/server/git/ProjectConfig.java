@@ -113,6 +113,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_FUNCTION_NAME = "functionName";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   private static final String KEY_VALUE = "value";
+  private static final String KEY_BLOCK = "block";
 
   private static final Pattern PAT_LABEL_ID = Pattern.compile("^[A-Z]{4}$");
 
@@ -579,6 +580,8 @@ public class ProjectConfig extends VersionedMetaData {
       }
       label.setCopyMinScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, false));
+      label.setBlock(
+          rc.getBoolean(LABEL, name, KEY_BLOCK, false));
       labelSections.put(name, label);
     }
   }

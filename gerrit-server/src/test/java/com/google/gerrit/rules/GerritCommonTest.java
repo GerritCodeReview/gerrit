@@ -39,13 +39,13 @@ public class GerritCommonTest extends PrologTestCase {
 
     LabelTypes types =
         new LabelTypes(Arrays.asList(
-            category(0, "CRVW", "Code-Review",
+            category("CRVW", "Code-Review",
                 value(2, "Looks good to me, approved"),
                 value(1, "Looks good to me, but someone else must approve"),
                 value(0, "No score"),
                 value(-1, "I would prefer that you didn't submit this"),
                 value(-2, "Do not submit")),
-            category(1, "VRIF", "Verified", value(1, "Verified"),
+            category("VRIF", "Verified", value(1, "Verified"),
                 value(0, "No score"), value(-1, "Fails"))));
     ProjectConfig config = new ProjectConfig(new Project.NameKey("myproject"));
     config.createInMemory();
@@ -71,11 +71,9 @@ public class GerritCommonTest extends PrologTestCase {
     return new LabelValue((short) value, text);
   }
 
-  private static LabelType category(int pos, String id, String name,
+  private static LabelType category(String id, String name,
       LabelValue... values) {
-    LabelType type = new LabelType(id, name, Arrays.asList(values));
-    type.setPosition((short) pos);
-    return type;
+    return new LabelType(id, name, Arrays.asList(values));
   }
 
   private static class Projects implements ProjectCache {

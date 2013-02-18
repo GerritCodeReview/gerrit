@@ -25,7 +25,6 @@ import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.MergeOp;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
@@ -37,7 +36,6 @@ import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.PerformCreateProject;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
@@ -50,7 +48,6 @@ public class GerritRequestModule extends FactoryModule {
     bind(RequestCleanup.class).in(RequestScoped.class);
     bind(RequestScopedReviewDbProvider.class);
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
-    bind(MetaDataUpdate.User.class).in(RequestScoped.class);
     bind(ApprovalsUtil.class);
 
     bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
@@ -76,7 +73,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(GroupMembers.Factory.class);
-    factory(PerformCreateProject.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
   }

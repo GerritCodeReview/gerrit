@@ -65,12 +65,6 @@ public class GerritCommonTest extends PrologTestCase {
     return new LabelValue((short) value, text);
   }
 
-  private static ProjectConfig config(String name) {
-    ProjectConfig config = new ProjectConfig(new Project.NameKey(name));
-    config.createInMemory();
-    return config;
-  }
-
   private static LabelType category(String id, String name,
       LabelValue... values) {
     return new LabelType(id, name, Arrays.asList(values));
@@ -82,8 +76,13 @@ public class GerritCommonTest extends PrologTestCase {
 
     private Projects(LabelTypes labelTypes) {
       allProjectsName = new AllProjectsName("All-Projects");
+      ProjectConfig config = new ProjectConfig(allProjectsName);
+      config.createInMemory();
+      for (LabelType label : labelTypes.getLabelTypes()) {
+        config.getLabelSections().put(label.getName(), label);
+      }
       allProjects = new ProjectState(this, allProjectsName, null,
-          null, null, null, labelTypes, config(allProjectsName.get()));
+          null, null, null, config);
     }
 
     @Override

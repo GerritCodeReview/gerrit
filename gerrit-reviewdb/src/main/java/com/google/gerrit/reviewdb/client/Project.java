@@ -66,15 +66,30 @@ public final class Project {
   }
 
   public static enum SubmitType {
-    FAST_FORWARD_ONLY,
+    FAST_FORWARD_ONLY(0),
 
-    MERGE_IF_NECESSARY,
+    MERGE_IF_NECESSARY(1),
 
-    REBASE_IF_NECESSARY,
+    REBASE_IF_NECESSARY(2),
 
-    MERGE_ALWAYS,
+    MERGE_ALWAYS(3),
 
-    CHERRY_PICK;
+    CHERRY_PICK(4);
+
+    private int key;
+
+    private SubmitType(int key) {
+      this.key = key;
+    }
+
+    public static SubmitType findByAbbr(int key) {
+      for (SubmitType c : values()) {
+        if (c.key == key) {
+          return c;
+        }
+      }
+      return null;
+    }
   }
 
   public static enum State {

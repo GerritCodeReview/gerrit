@@ -347,6 +347,13 @@ public class ProjectState {
     });
   }
 
+  private void putLabelType(Map<String, LabelType> types, LabelType type) {
+    LabelType old = types.get(type.getName());
+    if (old == null || !old.isBlock()) {
+      types.put(type.getName(), type);
+    }
+  }
+
   public LabelTypes getLabelTypes() {
     if (labelTypes == null) {
       synchronized (this) {
@@ -355,13 +362,13 @@ public class ProjectState {
         }
         Map<String, LabelType> types = Maps.newLinkedHashMap();
         for (LabelType type : dbLabelTypes.getLabelTypes()) {
-          types.put(type.getName(), type);
+          putLabelType(types, type);
         }
         List<ProjectState> projects = Lists.newArrayList(tree());
         Collections.reverse(projects);
         for (ProjectState s : projects) {
           for (LabelType type : s.getConfig().getLabelSections()) {
-            types.put(type.getName(), type);
+            putLabelType(types, type);
           }
         }
         List<LabelType> all = Lists.newArrayListWithCapacity(types.size());

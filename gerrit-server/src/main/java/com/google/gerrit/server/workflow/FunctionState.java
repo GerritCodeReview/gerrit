@@ -61,10 +61,10 @@ public class FunctionState {
     for (final PatchSetApproval ca : all) {
       if (psId.equals(ca.getPatchSetId())) {
         Collection<PatchSetApproval> l =
-            approvals.get(ca.getCategoryId().get());
+            approvals.get(ca.getLabelId().get());
         if (l == null) {
           l = new ArrayList<PatchSetApproval>();
-          LabelType lt = c.getLabelTypes().byId(ca.getCategoryId().get());
+          LabelType lt = c.getLabelTypes().byId(ca.getLabelId());
           if (lt != null) {
             // TODO: Support arbitrary labels
             approvals.put(lt.getName(), l);

@@ -22,6 +22,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -228,8 +229,8 @@ public class ProjectConfig extends VersionedMetaData {
     return notifySections.values();
   }
 
-  public Collection<LabelType> getLabelSections() {
-    return labelSections.values();
+  public Map<String, LabelType> getLabelSections() {
+    return labelSections;
   }
 
   public GroupReference resolve(AccountGroup group) {
@@ -648,6 +649,7 @@ public class ProjectConfig extends VersionedMetaData {
     saveAccessSections(rc, keepGroups);
     saveNotifySections(rc, keepGroups);
     groupsByUUID.keySet().retainAll(keepGroups);
+    saveLabelSections(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
@@ -814,6 +816,58 @@ public class ProjectConfig extends VersionedMetaData {
       if (RefConfigSection.isValid(name) && !accessSections.containsKey(name)) {
         rc.unsetSection(ACCESS, name);
       }
+    }
+  }
+
+  private void saveLabelSections(Config rc) {
+    List<String> existing = Lists.newArrayList(rc.getSubsections(LABEL));
+    if (!Lists.newArrayList(labelSections.keySet()).equals(existing)) {
+      // Order of sections changed, remove and rewrite them all.
+      for (String name : existing) {
+        rc.unsetSection(LABEL, name);
+      }
+    }
+
+    Set<String> toUnset = Sets.newHashSet(existing);
+    for (Map.Entry<String, LabelType> e : labelSections.entrySet()) {
+      String name = e.getKey();
+      LabelType label = e.getValue();
+      toUnset.remove(name);
+      if (label.getId() != null) {
+        rc.setString(LABEL, name, KEY_ID, label.getId());
+      } else {
+        rc.unset(LABEL, name, KEY_ID);
+      }
+      rc.setString(LABEL, name, KEY_FUNCTION_NAME, label.getFunctionName());
+
+      if (!LabelType.defaultAbbreviation(name)
+          .equals(label.getAbbreviatedName())) {
+        rc.setString(
+            LABEL, name, KEY_ABBREVIATED_NAME, label.getAbbreviatedName());
+      } else {
+        rc.unset(LABEL, name, KEY_ABBREVIATED_NAME);
+      }
+      if (label.isCopyMinScore()) {
+        rc.setBoolean(LABEL, name, KEY_COPY_MIN_SCORE, true);
+      } else {
+        rc.unset(LABEL, name, KEY_COPY_MIN_SCORE);
+      }
+      if (label.isBlock()) {
+        rc.setBoolean(LABEL, name, KEY_BLOCK, true);
+      } else {
+        rc.unset(LABEL, name, KEY_BLOCK);
+      }
+
+      List<String> values =
+          Lists.newArrayListWithCapacity(label.getValues().size());
+      for (LabelValue value : label.getValues()) {
+        values.add(value.format());
+      }
+      rc.setStringList(LABEL, name, KEY_VALUE, values);
+    }
+
+    for (String name : toUnset) {
+      rc.unsetSection(LABEL, name);
     }
   }
 

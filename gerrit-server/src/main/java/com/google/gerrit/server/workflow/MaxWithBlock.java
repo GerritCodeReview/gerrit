@@ -15,7 +15,6 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 /**

@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
@@ -319,6 +320,9 @@ public class RestApiServlet extends HttpServlet {
           Objects.firstNonNull(e.getMessage(), "Precondition failed"));
     } catch (ResourceNotFoundException e) {
       replyError(res, status = SC_NOT_FOUND, "Not found");
+    } catch (UnprocessableEntityException e) {
+      replyError(res, status = 422,
+          Objects.firstNonNull(e.getMessage(), "Unprocessable Entity"));
     } catch (AmbiguousViewException e) {
       replyError(res, status = SC_NOT_FOUND, e.getMessage());
     } catch (MalformedJsonException e) {

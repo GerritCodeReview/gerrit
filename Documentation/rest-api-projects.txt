@@ -129,6 +129,50 @@ describes the project.
   }
 ----
 
+[[create-project]]
+Create Project
+~~~~~~~~~~~~~~
+[verse]
+'PUT /projects/link:#project-name[\{project-name\}]'
+
+Creates a new project.
+
+In the request body additional data for the project can be provided as
+link:#project-input[ProjectInput].
+
+.Request
+----
+  PUT /projects/MyProject HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "description": "This is a demo project.",
+    "submit_type": "CHERRY_PICK",
+    "owners": [
+      "MyProject-Owners"
+    ]
+  }
+----
+
+As response the link:#project-info[ProjectInfo] entity is returned that
+describes the created project.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#project",
+    "id": "MyProject",
+    "name": "MyProject",
+    "parent": "All-Projects",
+    "description": "This is a demo project."
+  }
+----
+
 [[get-project-description]]
 Get Project Description
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -626,6 +670,56 @@ is increased for each non-visible project).
 |`description` |optional|The description of the project.
 |`branches`    |optional|Map of branch names to HEAD revisions.
 |===========================
+
+[[project-input]]
+ProjectInput
+~~~~~~~~~~~~
+The `ProjectInput` entity contains information for the creation of
+a new project.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=========================================
+|Field Name                  ||Description
+|`name`                      |optional|
+The name of the project (not encoded). +
+If set, must match the project name in the URL.
+|`parent`                    |optional|
+The name of the parent project. +
+If not set, the `All-Projects` project will be the parent project.
+|`description`               |optional|The description of the project.
+|`permissions_only`          |`false` if not set|
+Whether a permission-only project should be created.
+|`create_empty_commit`       |`false` if not set|
+Whether an empty initial commit should be created.
+|`submit_type`               |optional|
+The submit type that should be set for the project
+(`MERGE_IF_NECESSARY`, `REBASE_IF_NECESSARY`, `FAST_FORWARD_ONLY`,
+`MERGE_ALWAYS`, `CHERRY_PICK`). +
+If not set, `MERGE_IF_NECESSARY` is set as submit type.
+|`branches`                  |optional|
+A list of branches that should be initially created. +
+For the branch names the `refs/heads/` prefix can be omitted.
+|`owners`                    |optional|
+A list of groups that should be assigned as project owner. +
+Each group in the list must be specified as
+link:rest-api-groups.html#group-id[group-id]. +
+If not set, the link:config-gerrit.html#repository.name.ownerGroup[
+groups that are configured as default owners] are set as project
+owners.
+|`use_contributor_agreements`|`INHERIT` if not set|
+Whether contributor agreements should be used for the project  (`TRUE`,
+`FALSE`, `INHERIT`).
+|`use_signed_off_by`         |`INHERIT` if not set|
+Whether the usage of 'Signed-Off-By' footers is required for the
+project (`TRUE`, `FALSE`, `INHERIT`).
+|`use_content_merge`         |`INHERIT` if not set|
+Whether content merge should be enabled for the project (`TRUE`,
+`FALSE`, `INHERIT`). +
+`FALSE`, if the `submit_type` is `FAST_FORWARD_ONLY`.
+|`require_change_id`         |`INHERIT` if not set|
+Whether the usage of Change-Ids is required for the project (`TRUE`,
+`FALSE`, `INHERIT`).
+|=========================================
 
 [[project-parent-input]]
 ProjectParentInput

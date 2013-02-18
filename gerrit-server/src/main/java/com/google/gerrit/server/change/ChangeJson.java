@@ -317,7 +317,7 @@ public class ChangeJson {
 
     LabelTypes labelTypes = ctl.getLabelTypes();
     Map<String, LabelInfo> labels =
-        Maps.newTreeMap(LabelOrdering.create(labelTypes));
+        Maps.newTreeMap(labelTypes.nameComparator());
     initLabels(cd, labels, standard);
 
     Collection<PatchSetApproval> approvals = null;

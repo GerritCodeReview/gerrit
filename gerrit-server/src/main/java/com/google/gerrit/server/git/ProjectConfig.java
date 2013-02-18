@@ -112,6 +112,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_FUNCTION = "function";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   private static final String KEY_VALUE = "value";
+  private static final String KEY_CAN_OVERRIDE = "canOverride";
 
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;
@@ -575,6 +576,8 @@ public class ProjectConfig extends VersionedMetaData {
       }
       label.setCopyMinScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, false));
+      label.setCanOverride(
+          rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, true));
       labelSections.put(name, label);
     }
   }

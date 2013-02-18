@@ -19,6 +19,8 @@ import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.project.CreateProject;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class Module extends RestApiModule {
   @Override
@@ -29,6 +31,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), PROJECT_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
 
+    put(PROJECT_KIND).to(PutProject.class);
     get(PROJECT_KIND).to(GetProject.class);
     get(PROJECT_KIND, "description").to(GetDescription.class);
     put(PROJECT_KIND, "description").to(PutDescription.class);
@@ -41,5 +44,6 @@ public class Module extends RestApiModule {
     get(DASHBOARD_KIND).to(GetDashboard.class);
     put(DASHBOARD_KIND).to(SetDashboard.class);
     delete(DASHBOARD_KIND).to(DeleteDashboard.class);
+    install(new FactoryModuleBuilder().build(CreateProject.Factory.class));
   }
 }

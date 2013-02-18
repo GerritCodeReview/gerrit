@@ -487,11 +487,12 @@ public class SideBySideTable extends AbstractPatchContentTable {
       table.setHTML(row + i, A - 1, "<a href=\"javascript:;\">" + (lineA + 1) + "</a>");
       fmt.addStyleName(row + i, A - 1, Gerrit.RESOURCES.css().lineNumber());
 
-      table.setHTML(row + i, A, a.getSafeHtmlLine(lineA).asString());
+      String expandedLine = a.getSafeHtmlLine(lineA).asString();
+      table.setHTML(row + i, A, expandedLine);
       fmt.addStyleName(row + i, A, Gerrit.RESOURCES.css().fileLine());
       fmt.addStyleName(row + i, A, Gerrit.RESOURCES.css().fileLineCONTEXT());
 
-      table.setHTML(row + i, B, b.getSafeHtmlLine(lineB).asString());
+      table.setHTML(row + i, B, expandedLine);
       fmt.addStyleName(row + i, B, Gerrit.RESOURCES.css().fileLine());
       fmt.addStyleName(row + i, B, Gerrit.RESOURCES.css().fileLineCONTEXT());
 

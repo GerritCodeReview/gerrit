@@ -14,9 +14,8 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,39 +25,30 @@ import java.util.List;
 import java.util.Map;
 
 public class LabelType {
-  public static LabelType fromApprovalCategory(ApprovalCategory ac,
-      List<ApprovalCategoryValue> acvs) {
-    List<LabelValue> values = new ArrayList<LabelValue>(acvs.size());
-    for (ApprovalCategoryValue acv : acvs) {
-      values.add(
-          new LabelValue(acv.getValue(), acv.getName()));
-    }
-    LabelType lt = new LabelType(ac.getId().get(), ac.getLabelName(), values);
-    lt.setAbbreviatedName(ac.getAbbreviatedName());
-    lt.setFunctionName(ac.getFunctionName());
-    lt.setCopyMinScore(ac.isCopyMinScore());
-    lt.setCanOverride(true);
-    return lt;
-  }
-
-  public static LabelType withDefaultValues(String id, String name) {
-    checkId(id);
+  public static LabelType withDefaultValues(String name) {
     checkName(name);
     List<LabelValue> values = new ArrayList<LabelValue>(2);
     values.add(new LabelValue((short) 0, "Rejected"));
     values.add(new LabelValue((short) 1, "Approved"));
-    return new LabelType(id, name, values);
+    LabelType type = new LabelType(name, values);
+    return type;
   }
 
   private static String checkId(String id) {
-    if (id == null || id.length() > 4) {
-      throw new IllegalArgumentException(
-          "Illegal label ID \"" + id + "\"");
+    if ("SUBM".equals(id)) {
+      throw new IllegalArgumentException("Reserved label ID \"" + id + "\"");
+    }
+    if (id != null && id.length() > 4) {
+      throw new IllegalArgumentException("Illegal label ID \"" + id + "\"");
     }
     return id;
   }
 
   private static String checkName(String name) {
+    if ("SUBM".equals(name)) {
+      throw new IllegalArgumentException(
+          "Reserved label name \"" + name + "\"");
+    }
     for (int i = 0; i < name.length(); i++) {
       char c = name.charAt(i);
       if (!((c >= 'a' && c <= 'z') ||
@@ -72,7 +62,7 @@ public class LabelType {
     return name;
   }
 
-  private static String defaultAbbreviation(String name) {
+  public static String defaultAbbreviation(String name) {
     StringBuilder abbr = new StringBuilder();
     for (int i = 0; i < name.length(); i++) {
       char c = name.charAt(i);
@@ -87,8 +77,8 @@ public class LabelType {
   }
 
   protected String name;
-
   protected String id;
+
   protected String abbreviatedName;
   protected String functionName;
   protected boolean copyMinScore;
@@ -104,8 +94,7 @@ public class LabelType {
   protected LabelType() {
   }
 
-  public LabelType(String id, String name, List<LabelValue> valueList) {
-    this.id = checkId(id);
+  public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);
     canOverride = true;
     values = new ArrayList<LabelValue>(valueList);
@@ -134,8 +123,21 @@ public class LabelType {
     return name;
   }
 
+  @Deprecated
   public String getId() {
     return id;
+  }
+
+  @Deprecated
+  public void setId(String id) {
+    this.id = checkId(id);
+  }
+
+  public boolean matches(PatchSetApproval psa) {
+    if (id != null && psa.getLabelId().get().equals(id)) {
+      return true;
+    }
+    return psa.getLabelId().get().equalsIgnoreCase(name);
   }
 
   public String getAbbreviatedName() {
@@ -228,14 +230,8 @@ public class LabelType {
     return intList;
   }
 
-  @Deprecated
-  public ApprovalCategoryValue.Id getApprovalCategoryValueId(short value) {
-    return new ApprovalCategoryValue.Id(getApprovalCategoryId(), value);
-  }
-
-  @Deprecated
-  public ApprovalCategory.Id getApprovalCategoryId() {
-    return new ApprovalCategory.Id(getId());
+  public LabelId getLabelId() {
+    return new LabelId(id != null ? id : name);
   }
 
   @Override
@@ -243,12 +239,6 @@ public class LabelType {
     StringBuilder sb = new StringBuilder(name).append('[');
     LabelValue min = getMin();
     LabelValue max = getMax();
-    if (id != null) {
-      sb.append(id);
-      if (min != null || max != null) {
-        sb.append(", ");
-      }
-    }
     if (min != null && max != null) {
       sb.append(new PermissionRange(Permission.forLabel(name), min.getValue(),
           max.getValue()).toString().trim());

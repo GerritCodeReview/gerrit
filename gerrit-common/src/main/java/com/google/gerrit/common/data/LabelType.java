@@ -38,6 +38,7 @@ public class LabelType {
     lt.setAbbreviatedName(ac.getAbbreviatedName());
     lt.setFunctionName(ac.getFunctionName());
     lt.setCopyMinScore(ac.isCopyMinScore());
+    lt.setBlock(false);
     return lt;
   }
 
@@ -87,6 +88,7 @@ public class LabelType {
   protected short maxNegative;
   protected short maxPositive;
 
+  private transient boolean block;
   private transient List<Integer> intList;
   private transient Map<Short, LabelValue> byValue;
 
@@ -144,6 +146,14 @@ public class LabelType {
 
   public void setFunctionName(String functionName) {
     this.functionName = functionName;
+  }
+
+  public boolean isBlock() {
+    return block;
+  }
+
+  public void setBlock(boolean block) {
+    this.block = block;
   }
 
   public List<LabelValue> getValues() {

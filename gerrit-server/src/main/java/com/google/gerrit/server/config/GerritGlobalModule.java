@@ -83,6 +83,7 @@ import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.PerformCreateProject;
 import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectControl;
@@ -167,6 +168,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(InternalUser.Factory.class);
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
+    factory(PerformCreateProject.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)

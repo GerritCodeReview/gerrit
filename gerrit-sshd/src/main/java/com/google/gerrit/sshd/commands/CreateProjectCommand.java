@@ -21,7 +21,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
-import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.PerformCreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
@@ -116,7 +116,7 @@ final class CreateProjectCommand extends SshCommand {
   }
 
   @Inject
-  private CreateProject.Factory CreateProjectFactory;
+  private PerformCreateProject.Factory factory;
 
   @Inject
   private SuggestParentCandidates.Factory suggestParentCandidatesFactory;
@@ -142,8 +142,7 @@ final class CreateProjectCommand extends SshCommand {
         args.branch = branch;
         args.createEmptyCommit = createEmptyCommit;
 
-        final CreateProject createProject =
-            CreateProjectFactory.create(args);
+        final PerformCreateProject createProject = factory.create(args);
         createProject.createProject();
       } else {
         List<Project.NameKey> parentCandidates =

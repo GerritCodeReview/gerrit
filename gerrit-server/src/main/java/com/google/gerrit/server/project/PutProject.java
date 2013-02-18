@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.server.project;
 
-/** Error indicating entity name is already taken by another entity. */
-public class NameAlreadyUsedException extends Exception {
-  private static final long serialVersionUID = 1L;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.project.CreateProject.Input;
 
-  public static final String MESSAGE = "Name Already Used";
-
-  public NameAlreadyUsedException() {
-    super(MESSAGE);
-  }
-
-  public NameAlreadyUsedException(String name) {
-    super("Name: " + name + " Already Used");
+public class PutProject implements RestModifyView<ProjectResource, Input> {
+  @Override
+  public Object apply(ProjectResource resource, Input input)
+      throws PreconditionFailedException {
+    throw new PreconditionFailedException("Resource already exists");
   }
 }

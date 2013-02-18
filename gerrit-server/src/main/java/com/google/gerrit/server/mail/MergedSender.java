@@ -63,7 +63,7 @@ public class MergedSender extends ReplyToChangeSender {
       Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();
       for (PatchSetApproval ca : args.db.get().patchSetApprovals()
           .byPatchSet(patchSet.getId())) {
-        LabelType lt = labelTypes.byId(ca.getCategoryId().get());
+        LabelType lt = labelTypes.byId(ca.getLabelId());
         if (lt == null) {
           continue;
         }

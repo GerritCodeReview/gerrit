@@ -296,7 +296,7 @@ public class SparseFileContent {
 
     @Override
     public String toString() {
-      return "Range[" + base + "," + end() + ")";
+      return "Range[" + base + "," + end() + "]";
     }
   }
 }

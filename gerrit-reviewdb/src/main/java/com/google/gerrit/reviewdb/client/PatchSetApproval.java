@@ -16,11 +16,52 @@ package com.google.gerrit.reviewdb.client;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
+import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
 
 /** An approval (or negative approval) on a patch set. */
 public final class PatchSetApproval {
+  public static class LabelId extends
+      StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    public static final LabelId SUBMIT = new LabelId("SUBM");
+
+    @Column(id = 1)
+    protected String id;
+
+    protected LabelId() {
+    }
+
+    public LabelId(final String n) {
+      id = n;
+    }
+
+    @Override
+    public String get() {
+      return id;
+    }
+
+    @Override
+    protected void set(String newValue) {
+      id = newValue;
+    }
+
+    @Override
+    public int hashCode() {
+      return get().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object b) {
+      if (b instanceof LabelId) {
+        return get().equals(((LabelId) b).get());
+      }
+      return false;
+    }
+  }
+
   public static class Key extends CompoundKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -31,16 +72,16 @@ public final class PatchSetApproval {
     protected Account.Id accountId;
 
     @Column(id = 3)
-    protected ApprovalCategory.Id categoryId;
+    protected LabelId categoryId;
 
     protected Key() {
       patchSetId = new PatchSet.Id();
       accountId = new Account.Id();
-      categoryId = new ApprovalCategory.Id();
+      categoryId = new LabelId();
     }
 
     public Key(final PatchSet.Id ps, final Account.Id a,
-        final ApprovalCategory.Id c) {
+        final LabelId c) {
       this.patchSetId = ps;
       this.accountId = a;
       this.categoryId = c;
@@ -55,7 +96,7 @@ public final class PatchSetApproval {
       return accountId;
     }
 
-    public ApprovalCategory.Id getCategoryId() {
+    public LabelId getLabelId() {
       return categoryId;
     }
 
@@ -111,7 +152,7 @@ public final class PatchSetApproval {
 
   public PatchSetApproval(final PatchSet.Id psId, final PatchSetApproval src) {
     key =
-        new PatchSetApproval.Key(psId, src.getAccountId(), src.getCategoryId());
+        new PatchSetApproval.Key(psId, src.getAccountId(), src.getLabelId());
     changeOpen = true;
     value = src.getValue();
     granted = src.granted;
@@ -129,7 +170,7 @@ public final class PatchSetApproval {
     return key.accountId;
   }
 
-  public ApprovalCategory.Id getCategoryId() {
+  public LabelId getLabelId() {
     return key.categoryId;
   }
 
@@ -164,5 +205,9 @@ public final class PatchSetApproval {
 
   public void setLabel(String label) {
     this.label = label;
+  }
+
+  public boolean isSubmit() {
+    return LabelId.SUBMIT.get().equals(getLabelId().get());
   }
 }

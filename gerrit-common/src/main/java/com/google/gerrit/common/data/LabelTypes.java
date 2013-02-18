@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +39,8 @@ public class LabelTypes {
     return labelTypes;
   }
 
-  public LabelType byId(String id) {
-    return byId().get(id);
+  public LabelType byId(LabelId id) {
+    return byId().get(id.get());
   }
 
   private Map<String, LabelType> byId() {

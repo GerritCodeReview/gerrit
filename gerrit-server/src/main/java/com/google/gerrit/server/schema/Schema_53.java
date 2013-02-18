@@ -28,10 +28,12 @@ import static com.google.gerrit.common.data.Permission.SUBMIT;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.SystemConfig;
@@ -68,7 +70,7 @@ class Schema_53 extends SchemaVersion {
 
   private SystemConfig systemConfig;
   private Map<AccountGroup.Id, GroupReference> groupMap;
-  private Map<ApprovalCategory.Id, ApprovalCategory> categoryMap;
+  private LabelTypes labelTypes;
   private GroupReference projectOwners;
 
   private Map<Project.NameKey, Project.NameKey> parentsByProject;
@@ -93,7 +95,7 @@ class Schema_53 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException,
       SQLException {
     systemConfig = db.systemConfig().get(new SystemConfig.Key());
-    categoryMap = db.approvalCategories().toMap(db.approvalCategories().all());
+    labelTypes = Schema_77.getLegacyTypes(db);
 
     assignGroupUUIDs(db);
     readOldRefRights(db);
@@ -104,13 +106,17 @@ class Schema_53 extends SchemaVersion {
   }
 
   private void deleteActionCategories(ReviewDb db) throws OrmException {
-    List<ApprovalCategory> delete = new ArrayList<ApprovalCategory>();
-    for (ApprovalCategory category : categoryMap.values()) {
-      if (category.getPosition() < 0) {
-        delete.add(category);
+    try {
+      Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
+      try {
+        stmt.executeUpdate(
+            "DELETE FROM approval_categories WHERE position < 0");
+      } finally {
+        stmt.close();
       }
+    } catch (SQLException e) {
+      throw new OrmException(e);
     }
-    db.approvalCategories().delete(delete);
   }
 
   private void assignGroupUUIDs(ReviewDb db) throws OrmException {
@@ -375,7 +381,9 @@ class Schema_53 extends SchemaVersion {
         if (old.min_value == 0 && old.max_value == 0) {
           rule.setDeny();
         }
-        add(section, LABEL + varNameOf(old.category), old.exclusive, rule);
+        LabelType type = labelTypes.byId(new LabelId(old.category));
+        String name = type != null ? type.getName() : old.category;
+        add(section, LABEL + name, old.exclusive, rule);
       }
     }
   }
@@ -441,14 +449,6 @@ class Schema_53 extends SchemaVersion {
     } while (!project.equals(systemConfig.wildProjectName));
 
     return max;
-  }
-
-  private String varNameOf(String id) {
-    ApprovalCategory category = categoryMap.get(new ApprovalCategory.Id(id));
-    if (category == null) {
-      category = new ApprovalCategory(new ApprovalCategory.Id(id), id);
-    }
-    return category.getLabelName();
   }
 
   private static void add(AccessSection section, String name,

@@ -406,7 +406,7 @@ public class ChangeJson {
     for (PatchSetApproval psa : cd.currentApprovals(db)) {
       short val = psa.getValue();
       if (val != 0 && min < val && val < max
-          && psa.getCategoryId().get().equals(type.getId())) {
+          && psa.getLabelId().get().equals(type.getId())) {
         if (0 < val) {
           label.recommended = accountLoader.get(psa.getAccountId());
           label.value = val != 1 ? val : null;
@@ -434,7 +434,7 @@ public class ChangeJson {
     Multimap<Account.Id, String> existing =
         HashMultimap.create(approvals.size(), labels.size());
     for (PatchSetApproval psa : approvals) {
-      LabelType lt = labelTypes.byId(psa.getCategoryId().get());
+      LabelType lt = labelTypes.byId(psa.getLabelId());
       if (lt == null) {
         continue;
       }
@@ -475,7 +475,7 @@ public class ChangeJson {
     TreeMap<String, LabelInfo> labels =
         Maps.newTreeMap(labelTypes.nameComparator());
     for (PatchSetApproval psa : cd.currentApprovals(db)) {
-      LabelType type = labelTypes.byId(psa.getCategoryId().get());
+      LabelType type = labelTypes.byId(psa.getLabelId());
       if (type == null) {
         continue;
       }

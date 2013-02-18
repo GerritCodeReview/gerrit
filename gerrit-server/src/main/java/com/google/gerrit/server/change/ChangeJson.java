@@ -354,7 +354,7 @@ public class ChangeJson {
   private Map<String, LabelInfo> initLabels(ChangeData cd,
       LabelTypes labelTypes, boolean standard) throws OrmException {
     TreeMap<String, LabelInfo> labels =
-        Maps.newTreeMap(LabelOrdering.create(labelTypes));
+        Maps.newTreeMap(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
@@ -473,7 +473,7 @@ public class ChangeJson {
     // We can only approximately reconstruct what the submit rule evaluator
     // would have done. These should really come from a stored submit record.
     TreeMap<String, LabelInfo> labels =
-        Maps.newTreeMap(LabelOrdering.create(labelTypes));
+        Maps.newTreeMap(labelTypes.nameComparator());
     for (PatchSetApproval psa : cd.currentApprovals(db)) {
       LabelType type = labelTypes.byId(psa.getCategoryId().get());
       if (type == null) {

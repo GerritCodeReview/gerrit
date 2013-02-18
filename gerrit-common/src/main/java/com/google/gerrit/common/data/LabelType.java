@@ -37,7 +37,6 @@ public class LabelType {
     lt.setAbbreviatedName(ac.getAbbreviatedName());
     lt.setFunctionName(ac.getFunctionName());
     lt.setCopyMinScore(ac.isCopyMinScore());
-    lt.setPosition(ac.getPosition());
     return lt;
   }
 
@@ -92,7 +91,6 @@ public class LabelType {
   protected String abbreviatedName;
   protected String functionName;
   protected boolean copyMinScore;
-  protected short position;
 
   protected List<LabelValue> values;
   protected short maxNegative;
@@ -151,14 +149,6 @@ public class LabelType {
 
   public void setFunctionName(String functionName) {
     this.functionName = functionName;
-  }
-
-  public short getPosition() {
-    return position;
-  }
-
-  public void setPosition(short position) {
-    this.position = position;
   }
 
   public List<LabelValue> getValues() {

@@ -86,7 +86,7 @@ public class ReviewerJson {
       CategoryFunction.forType(at).run(at, fs);
     }
 
-    out.approvals = Maps.newTreeMap(LabelOrdering.create(labelTypes));
+    out.approvals = Maps.newTreeMap(labelTypes.nameComparator());
     for (PatchSetApproval ca : approvals) {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {

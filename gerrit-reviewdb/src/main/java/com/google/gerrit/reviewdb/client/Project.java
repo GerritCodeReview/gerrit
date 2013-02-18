@@ -66,29 +66,76 @@ public final class Project {
   }
 
   public static enum SubmitType {
-    FAST_FORWARD_ONLY,
+    FAST_FORWARD_ONLY(0),
 
-    MERGE_IF_NECESSARY,
+    MERGE_IF_NECESSARY(1),
 
-    REBASE_IF_NECESSARY,
+    REBASE_IF_NECESSARY(2),
 
-    MERGE_ALWAYS,
+    MERGE_ALWAYS(3),
 
-    CHERRY_PICK;
+    CHERRY_PICK(4);
+
+    private int key;
+
+    private SubmitType(int key) {
+      this.key = key;
+    }
+
+    public static SubmitType findByAbbr(int key) {
+      for (SubmitType c : values()) {
+        if (c.key == key) {
+          return c;
+        }
+      }
+      return null;
+    }
   }
 
   public static enum State {
-    ACTIVE,
+    ACTIVE(0),
 
-    READ_ONLY,
+    READ_ONLY(1),
 
-    HIDDEN;
+    HIDDEN(2);
+
+    private int key;
+
+    private State(int key) {
+      this.key = key;
+    }
+
+    public static State findByAbbr(int key) {
+      for (State c : values()) {
+        if (c.key == key) {
+          return c;
+        }
+      }
+      return null;
+    }
   }
 
   public static enum InheritableBoolean {
-    TRUE,
-    FALSE,
-    INHERIT;
+    FALSE(0),
+
+    TRUE(1),
+
+    INHERIT(2);
+
+    private int key;
+
+    private InheritableBoolean(int key) {
+      this.key = key;
+    }
+
+    public static InheritableBoolean findByAbbr(int key) {
+      for (InheritableBoolean c : values()) {
+        if (c.key == key) {
+          return c;
+        }
+      }
+      return null;
+    }
   }
 
   protected NameKey name;

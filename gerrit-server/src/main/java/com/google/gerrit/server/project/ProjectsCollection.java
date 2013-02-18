@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
@@ -27,21 +28,24 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class ProjectsCollection implements
-    RestCollection<TopLevelResource, ProjectResource> {
+    RestCollection<TopLevelResource, ProjectResource>,
+    AcceptsCreate<TopLevelResource> {
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<ListProjects> list;
   private final ProjectControl.GenericFactory controlFactory;
   private final Provider<CurrentUser> user;
+  private final CreateProject.Factory createProjectFactory;
 
   @Inject
   ProjectsCollection(DynamicMap<RestView<ProjectResource>> views,
       Provider<ListProjects> list,
       ProjectControl.GenericFactory controlFactory,
-      Provider<CurrentUser> user) {
+      CreateProject.Factory factory, Provider<CurrentUser> user) {
     this.views = views;
     this.list = list;
     this.controlFactory = controlFactory;
     this.user = user;
+    this.createProjectFactory = factory;
   }
 
   @Override
@@ -69,5 +73,11 @@ public class ProjectsCollection implements
   @Override
   public DynamicMap<RestView<ProjectResource>> views() {
     return views;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public CreateProject create(TopLevelResource parent, IdString name) {
+    return createProjectFactory.create(name.get());
   }
 }

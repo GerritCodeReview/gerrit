@@ -175,6 +175,7 @@ public class PerformCreateProject {
       Project newProject = config.getProject();
       newProject.setDescription(createProjectArgs.projectDescription);
       newProject.setSubmitType(createProjectArgs.submitType);
+      newProject.setState(createProjectArgs.state);
       newProject
           .setUseContributorAgreements(createProjectArgs.contributorAgreements);
       newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);

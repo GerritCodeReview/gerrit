@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 
 import java.util.List;
@@ -35,12 +36,15 @@ public class CreateProjectArgs {
   public InheritableBoolean contentMerge;
   public InheritableBoolean changeIdRequired;
   public boolean createEmptyCommit;
+  public State state;
 
   public CreateProjectArgs() {
     contributorAgreements = InheritableBoolean.INHERIT;
     signedOffBy = InheritableBoolean.INHERIT;
     contentMerge = InheritableBoolean.INHERIT;
     changeIdRequired = InheritableBoolean.INHERIT;
+    state = State.ACTIVE;
+    submitType = SubmitType.MERGE_IF_NECESSARY;
   }
 
   public Project.NameKey getProject() {

@@ -41,6 +41,7 @@ public class CreateProjectArgs {
     signedOffBy = InheritableBoolean.INHERIT;
     contentMerge = InheritableBoolean.INHERIT;
     changeIdRequired = InheritableBoolean.INHERIT;
+    submitType = SubmitType.MERGE_IF_NECESSARY;
   }
 
   public Project.NameKey getProject() {

@@ -99,7 +99,7 @@ public class PerformCreateProject {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
   }
 
-  public void createProject() throws ProjectCreationFailedException {
+  public Project createProject() throws ProjectCreationFailedException {
     validateParameters();
     final Project.NameKey nameKey = createProjectArgs.getProject();
     try {
@@ -133,6 +133,8 @@ public class PerformCreateProject {
             && createProjectArgs.createEmptyCommit) {
           createEmptyCommits(repo, nameKey, createProjectArgs.branch);
         }
+
+        return projectCache.get(nameKey).getProject();
       } finally {
         repo.close();
       }
@@ -150,6 +152,7 @@ public class PerformCreateProject {
           if (repo.getObjectDatabase().exists()) {
             throw new ProjectCreationFailedException("project \"" + nameKey + "\" exists");
           }
+          throw err;
         } finally {
           repo.close();
         }

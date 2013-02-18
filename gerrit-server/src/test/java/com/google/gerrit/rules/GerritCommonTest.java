@@ -85,7 +85,7 @@ public class GerritCommonTest extends PrologTestCase {
     private Projects(LabelTypes labelTypes) {
       allProjectsName = new AllProjectsName("All-Projects");
       allProjects = new ProjectState(this, allProjectsName, null,
-          null, null, null, labelTypes, config(allProjectsName.get()));
+          null, null, null, config(allProjectsName.get()));
     }
 
     @Override

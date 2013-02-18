@@ -15,7 +15,6 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.util.HashMap;
@@ -45,18 +44,6 @@ public abstract class CategoryFunction {
    */
   public static CategoryFunction forType(LabelType type) {
     CategoryFunction r = all.get(type.getFunctionName());
-    return r != null ? r : new NoOpFunction();
-  }
-
-  /**
-   * Locate a function by category.
-   *
-   * @param category the category the function is for.
-   * @return the function implementation; {@link NoOpFunction} if the function
-   *         is not known to Gerrit and thus cannot be executed.
-   */
-  public static CategoryFunction forCategory(final ApprovalCategory category) {
-    final CategoryFunction r = all.get(category.getFunctionName());
     return r != null ? r : new NoOpFunction();
   }
 

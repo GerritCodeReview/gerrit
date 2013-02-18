@@ -14,15 +14,16 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -51,7 +52,6 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 
 /** Creates the current database schema and populates initial code rows. */
@@ -109,15 +109,8 @@ public class SchemaCreator {
     sVer.versionNbr = versionNbr;
     db.schemaVersion().insert(Collections.singleton(sVer));
 
-    final SystemConfig sConfig = initSystemConfig(db);
-    initVerifiedCategory(db);
-    initCodeReviewCategory(db, sConfig);
-
-    if (mgr != null) {
-      // TODO This should never be null when initializing a site.
-      initWildCardProject();
-    }
-
+    initSystemConfig(db);
+    initWildCardProject();
     dataSourceType.getIndexScript().run(db);
   }
 
@@ -241,6 +234,9 @@ public class SchemaCreator {
       metaReadPermission.setExclusiveGroup(true);
       metaReadPermission.add(rule(config, owners));
 
+      initVerifiedCategory(config);
+      initCodeReviewCategory(config);
+
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
       config.commit(md);
     } finally {
@@ -252,43 +248,25 @@ public class SchemaCreator {
     return new PermissionRule(config.resolve(group));
   }
 
-  private void initVerifiedCategory(final ReviewDb c) throws OrmException {
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(new ApprovalCategory.Id("VRIF"), "Verified");
-    cat.setPosition((short) 0);
-    cat.setAbbreviatedName("V");
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, 1, "Verified"));
-    vals.add(value(cat, 0, "No score"));
-    vals.add(value(cat, -1, "Fails"));
-    c.approvalCategories().insert(Collections.singleton(cat));
-    c.approvalCategoryValues().insert(vals);
+  private void initVerifiedCategory(ProjectConfig c) {
+    LabelType type = new LabelType("Verified", ImmutableList.of(
+        new LabelValue((short) 1, "Verified"),
+        new LabelValue((short) 0, "No score"),
+        new LabelValue((short) -1, "Fails")));
+    type.setId("VRIF");
+    c.getLabelSections().put(type.getName(), type);
   }
 
-  private void initCodeReviewCategory(final ReviewDb c,
-      final SystemConfig sConfig) throws OrmException {
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(new ApprovalCategory.Id("CRVW"), "Code Review");
-    cat.setPosition((short) 1);
-    cat.setAbbreviatedName("R");
-    cat.setCopyMinScore(true);
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, 2, "Looks good to me, approved"));
-    vals.add(value(cat, 1, "Looks good to me, but someone else must approve"));
-    vals.add(value(cat, 0, "No score"));
-    vals.add(value(cat, -1, "I would prefer that you didn't submit this"));
-    vals.add(value(cat, -2, "Do not submit"));
-    c.approvalCategories().insert(Collections.singleton(cat));
-    c.approvalCategoryValues().insert(vals);
-  }
-
-  private static ApprovalCategoryValue value(final ApprovalCategory cat,
-      final int value, final String name) {
-    return new ApprovalCategoryValue(new ApprovalCategoryValue.Id(cat.getId(),
-        (short) value), name);
+  private void initCodeReviewCategory(ProjectConfig c) {
+    LabelType type = new LabelType("Code-Review", ImmutableList.of(
+        new LabelValue((short) 2, "Looks good to me, approved"),
+        new LabelValue((short) 1, "Looks good to me, but someone else must approve"),
+        new LabelValue((short) 0, "No score"),
+        new LabelValue((short) -1, "I would prefer that you didn't submit this"),
+        new LabelValue((short) -2, "Do not submit")));
+    type.setId("CRVW");
+    type.setAbbreviatedName("R");
+    type.setCopyMinScore(true);
+    c.getLabelSections().put(type.getName(), type);
   }
 }

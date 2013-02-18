@@ -14,14 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
-
 public class LabelValue {
-  @Deprecated
-  public static LabelValue fromApprovalCategoryValue(ApprovalCategoryValue acv) {
-    return new LabelValue(acv.getValue(), acv.getName());
-  }
-
   public static String formatValue(short value) {
     if (value < 0) {
       return Short.toString(value);

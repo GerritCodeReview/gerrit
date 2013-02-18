@@ -92,7 +92,7 @@ public class ReviewerJson {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {
           // TODO: Support arbitrary labels.
-          LabelType at = labelTypes.byId(ca.getCategoryId().get());
+          LabelType at = labelTypes.byLabel(ca.getLabelId());
           if (at != null) {
             out.approvals.put(at.getName(), formatValue(ca.getValue())); }
         }

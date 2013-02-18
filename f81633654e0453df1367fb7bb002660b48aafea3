@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7jS6kL4",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/NameAlreadyUsedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-18T08:23:50Z",
+      "side": 1,
+      "message": "This change is already done in [1]\n\n[1] https://gerrit-review.googlesource.com/#/c/42369/1",
+      "revId": "f81633654e0453df1367fb7bb002660b48aafea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7hS9lLU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-18T08:23:50Z",
+      "side": 1,
+      "message": "s/Ccommit/Commit",
+      "revId": "f81633654e0453df1367fb7bb002660b48aafea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7lS3DNU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-18T08:23:50Z",
+      "side": 1,
+      "message": "Copyright date should not be changed.",
+      "revId": "f81633654e0453df1367fb7bb002660b48aafea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7nS0CNA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-18T08:23:50Z",
+      "side": 1,
+      "message": "s/2011/2013",
+      "revId": "f81633654e0453df1367fb7bb002660b48aafea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

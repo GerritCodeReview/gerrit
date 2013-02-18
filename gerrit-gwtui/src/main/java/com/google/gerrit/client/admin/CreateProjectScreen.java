@@ -20,7 +20,9 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotFoundScreen;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.account.AccountCapabilities;
+import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -38,6 +40,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -45,7 +48,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 public class CreateProjectScreen extends Screen {
   private Grid grid;
@@ -231,9 +233,8 @@ public class CreateProjectScreen extends Screen {
     }
 
     enableForm(false);
-    Util.PROJECT_SVC.createNewProject(projectName, parentName,
-        emptyCommit.getValue(), permissionsOnly.getValue(),
-        new GerritCallback<VoidResult>() {
+    ProjectApi.createProject(projectName, parentName, emptyCommit.getValue(),
+        permissionsOnly.getValue(), new AsyncCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
             String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);

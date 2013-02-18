@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.extensions.restapi;
 
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Inject;
+/** Resource referenced in the request body is not found (HTTP 422 Unprocessable Entity). */
+public class UnprocessableEntityException extends RestApiException {
+  private static final long serialVersionUID = 1L;
 
-class GetProject implements RestReadView<ProjectResource> {
-
-  private final ProjectJson json;
-
-  @Inject
-  GetProject(ProjectJson json) {
-    this.json = json;
-  }
-
-  @Override
-  public Object apply(ProjectResource rsrc) {
-    return json.format(rsrc);
+  public UnprocessableEntityException(String msg)  {
+    super(msg);
   }
 }

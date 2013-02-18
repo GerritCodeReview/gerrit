@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,20 +14,15 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.inject.Inject;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.project.CreateProject.Input;
 
-class GetProject implements RestReadView<ProjectResource> {
-
-  private final ProjectJson json;
-
-  @Inject
-  GetProject(ProjectJson json) {
-    this.json = json;
-  }
-
+public class PutProject implements RestModifyView<ProjectResource, Input> {
   @Override
-  public Object apply(ProjectResource rsrc) {
-    return json.format(rsrc);
+  public Object apply(ProjectResource resource, Input input)
+      throws ResourceConflictException {
+    throw new ResourceConflictException("Project \"" + resource.getName()
+        + "\" already exists");
   }
 }

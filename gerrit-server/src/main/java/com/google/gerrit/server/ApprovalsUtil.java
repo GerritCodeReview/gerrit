@@ -20,10 +20,10 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
@@ -85,7 +85,7 @@ public class ApprovalsUtil {
     List<PatchSetApproval> patchSetApprovals =
         db.patchSetApprovals().byChange(dest.getParentKey()).toList();
     for (PatchSetApproval a : patchSetApprovals) {
-      LabelType type = labelTypes.byId(a.getCategoryId().get());
+      LabelType type = labelTypes.byLabel(a.getLabelId());
       if (type != null && a.getPatchSetId().equals(source) &&
           type.isCopyMinScore() &&
           type.isMaxNegative(a)) {
@@ -122,11 +122,10 @@ public class ApprovalsUtil {
     need.removeAll(existingReviewers);
 
     List<PatchSetApproval> cells = Lists.newArrayListWithCapacity(need.size());
-    ApprovalCategory.Id catId = new ApprovalCategory.Id(
-        allTypes.get(allTypes.size() - 1).getId());
+    LabelId labelId = allTypes.get(allTypes.size() - 1).getLabelId();
     for (Account.Id account : need) {
       PatchSetApproval psa = new PatchSetApproval(
-          new PatchSetApproval.Key(ps.getId(), account, catId),
+          new PatchSetApproval.Key(ps.getId(), account, labelId),
           (short) 0);
       psa.cache(change);
       cells.add(psa);

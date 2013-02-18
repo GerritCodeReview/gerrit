@@ -24,11 +24,11 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -187,7 +187,7 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
       new Predicate<PatchSetApproval>() {
         @Override
         public boolean apply(PatchSetApproval input) {
-          return ApprovalCategory.SUBMIT_ID.equals(input.getCategoryId().get());
+          return input.isSubmit();
         }
       }), null);
     if (submit == null) {
@@ -195,7 +195,7 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
           new PatchSetApproval.Key(
               rev.getId(),
               caller.getAccountId(),
-              new ApprovalCategory.Id(ApprovalCategory.SUBMIT_ID)),
+              LabelId.SUBMIT),
           (short) 1);
     }
     submit.setValue((short) 1);

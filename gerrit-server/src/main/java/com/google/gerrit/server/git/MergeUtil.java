@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -120,7 +119,7 @@ public class MergeUtil {
       final List<PatchSetApproval> approvals =
           reviewDb.patchSetApprovals().byPatchSet(c).toList();
       for (PatchSetApproval a : approvals) {
-        if (a.getValue() > 0 && ApprovalCategory.isSubmit(a)) {
+        if (a.getValue() > 0 && a.isSubmit()) {
           if (submitter == null
               || a.getGranted().compareTo(submitter.getGranted()) > 0) {
             submitter = a;
@@ -209,7 +208,7 @@ public class MergeUtil {
         continue;
       }
 
-      if (ApprovalCategory.isSubmit(a)) {
+      if (a.isSubmit()) {
         // Submit is treated specially, below (becomes committer)
         //
         if (submitAudit == null
@@ -246,12 +245,12 @@ public class MergeUtil {
       }
 
       final String tag;
-      if (CRVW.equals(a.getCategoryId().get())) {
+      if (CRVW.equals(a.getLabelId().get())) {
         tag = "Reviewed-by";
-      } else if (VRIF.equals(a.getCategoryId().get())) {
+      } else if (VRIF.equals(a.getLabelId().get())) {
         tag = "Tested-by";
       } else {
-        final LabelType lt = labelTypes.byId(a.getCategoryId().get());
+        final LabelType lt = labelTypes.byLabel(a.getLabelId());
         if (lt == null) {
           // TODO: Support arbitrary labels.
           continue;

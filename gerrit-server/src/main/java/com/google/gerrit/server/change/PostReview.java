@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -180,8 +179,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       if (lt == null) {
         if (strict) {
           throw new BadRequestException(String.format(
-              "label \"%s\" is not a configured ApprovalCategory",
-              ent.getKey()));
+              "label \"%s\" is not a configured label", ent.getKey()));
         } else {
           itr.remove();
           continue;
@@ -371,7 +369,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         c = new PatchSetApproval(new PatchSetApproval.Key(
                 rsrc.getPatchSet().getId(),
                 rsrc.getAccountId(),
-                lt.getApprovalCategoryId()),
+                lt.getLabelId()),
             ent.getValue());
         c.setGranted(timestamp);
         c.cache(change);
@@ -400,7 +398,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
             rsrc.getPatchSet().getId(),
             rsrc.getAccountId(),
             rsrc.getControl().getLabelTypes().getLabelTypes().get(0)
-                .getApprovalCategoryId()),
+                .getLabelId()),
             (short) 0);
         c.setGranted(timestamp);
         c.cache(change);
@@ -424,11 +422,11 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     Map<String, PatchSetApproval> current = Maps.newHashMap();
     for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(
           rsrc.getPatchSet().getId(), rsrc.getAccountId())) {
-      if (ApprovalCategory.SUBMIT_ID.equals(a.getCategoryId().get())) {
+      if (a.isSubmit()) {
         continue;
       }
 
-      LabelType lt = labelTypes.byId(a.getCategoryId().get());
+      LabelType lt = labelTypes.byLabel(a.getLabelId());
       if (lt != null) {
         current.put(lt.getName(), a);
       } else {

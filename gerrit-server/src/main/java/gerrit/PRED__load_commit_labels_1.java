@@ -59,7 +59,7 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
           continue;
         }
 
-        LabelType t = types.byId(a.getCategoryId().get());
+        LabelType t = types.byLabel(a.getLabelId());
         if (t == null) {
           continue;
         }

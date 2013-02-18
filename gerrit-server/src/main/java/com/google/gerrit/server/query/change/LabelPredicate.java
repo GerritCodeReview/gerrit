@@ -64,10 +64,6 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
       return types.byLabel(toFind);
     }
 
-    if (types.byId(toFind) != null) {
-      return types.byId(toFind);
-    }
-
     for (LabelType lt : types.getLabelTypes()) {
       if (toFind.equalsIgnoreCase(lt.getName())) {
         return lt;
@@ -80,7 +76,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
       }
     }
 
-    return LabelType.withDefaultValues(toFind.substring(0, 4), toFind);
+    return LabelType.withDefaultValues(toFind);
   }
 
   private static Test op(String op) {
@@ -157,7 +153,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     final Set<Account.Id> approversThatVotedInCategory = new HashSet<Account.Id>();
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
       allApprovers.add(p.getAccountId());
-      if (p.getCategoryId().get().equals(labelType.getId())) {
+      if (p.getLabelId().get().equalsIgnoreCase(labelType.getName())) {
         approversThatVotedInCategory.add(p.getAccountId());
         if (match(c, p.getValue(), p.getAccountId(), labelType)) {
           return true;

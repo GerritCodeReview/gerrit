@@ -31,10 +31,10 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -274,8 +274,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
 
   private PatchSetApproval dummyApproval(ChangeControl ctl,
       PatchSet.Id patchSetId, Account.Id reviewerId) {
-    ApprovalCategory.Id id = new ApprovalCategory.Id(
-        Iterables.getLast(ctl.getLabelTypes().getLabelTypes()).getId());
+    LabelId id =
+        Iterables.getLast(ctl.getLabelTypes().getLabelTypes()).getLabelId();
     PatchSetApproval dummyApproval = new PatchSetApproval(
         new PatchSetApproval.Key(patchSetId, reviewerId, id), (short) 0);
     dummyApproval.cache(ctl.getChange());

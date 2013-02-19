@@ -101,7 +101,7 @@ public abstract class GerritCallback<T> implements
 
   private static boolean isNameAlreadyUsed(final Throwable caught) {
     return caught instanceof RemoteJsonException
-        && caught.getMessage().equals(NameAlreadyUsedException.MESSAGE);
+        && caught.getMessage().startsWith(NameAlreadyUsedException.MESSAGE);
   }
 
   private static boolean isNoSuchGroup(final Throwable caught) {

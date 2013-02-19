@@ -296,6 +296,7 @@ public class SparseFileContent {
 
     @Override
     public String toString() {
+      // Usage of [ and ) is intentional to denote inclusive/exclusive range
       return "Range[" + base + "," + end() + ")";
     }
   }

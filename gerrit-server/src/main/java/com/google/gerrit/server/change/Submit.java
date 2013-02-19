@@ -187,7 +187,7 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
       new Predicate<PatchSetApproval>() {
         @Override
         public boolean apply(PatchSetApproval input) {
-          return ApprovalCategory.SUBMIT.equals(input.getCategoryId());
+          return ApprovalCategory.SUBMIT_ID.equals(input.getCategoryId().get());
         }
       }), null);
     if (submit == null) {
@@ -195,7 +195,7 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
           new PatchSetApproval.Key(
               rev.getId(),
               caller.getAccountId(),
-              ApprovalCategory.SUBMIT),
+              new ApprovalCategory.Id(ApprovalCategory.SUBMIT_ID)),
           (short) 1);
     }
     submit.setValue((short) 1);

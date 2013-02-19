@@ -14,21 +14,19 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
@@ -61,18 +59,18 @@ public class MergedSender extends ReplyToChangeSender {
 
   public String getApprovals() {
     try {
-      final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> pos =
-          new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
-
-      final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> neg =
-          new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
-
+      Table<Account.Id, String, PatchSetApproval> pos = HashBasedTable.create();
+      Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();
       for (PatchSetApproval ca : args.db.get().patchSetApprovals()
           .byPatchSet(patchSet.getId())) {
+        LabelType lt = labelTypes.byId(ca.getCategoryId().get());
+        if (lt == null) {
+          continue;
+        }
         if (ca.getValue() > 0) {
-          insert(pos, ca);
+          pos.put(ca.getAccountId(), lt.getName(), ca);
         } else if (ca.getValue() < 0) {
-          insert(neg, ca);
+          neg.put(ca.getAccountId(), lt.getName(), ca);
         }
       }
 
@@ -83,22 +81,20 @@ public class MergedSender extends ReplyToChangeSender {
     return "";
   }
 
-  private String format(final String type,
-      final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> list) {
+  private String format(String type,
+      Table<Account.Id, String, PatchSetApproval> approvals) {
     StringBuilder txt = new StringBuilder();
-    if (list.isEmpty()) {
+    if (approvals.isEmpty()) {
       return "";
     }
-    txt.append(type + ":\n");
-    for (final Map.Entry<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> ent : list
-        .entrySet()) {
-      final Map<ApprovalCategory.Id, PatchSetApproval> l = ent.getValue();
+    txt.append(type).append(":\n");
+    for (Account.Id id : approvals.rowKeySet()) {
       txt.append("  ");
-      txt.append(getNameFor(ent.getKey()));
+      txt.append(getNameFor(id));
       txt.append(": ");
       boolean first = true;
       for (LabelType lt : labelTypes.getLabelTypes()) {
-        final PatchSetApproval ca = l.get(lt.getId());
+        PatchSetApproval ca = approvals.get(id, lt.getName());
         if (ca == null) {
           continue;
         }
@@ -109,32 +105,18 @@ public class MergedSender extends ReplyToChangeSender {
           txt.append("; ");
         }
 
-        final LabelValue v = lt.getValue(ca);
+        LabelValue v = lt.getValue(ca);
         if (v != null) {
           txt.append(v.getText());
         } else {
           txt.append(lt.getName());
-          txt.append("=");
-          if (ca.getValue() > 0) {
-            txt.append("+");
-          }
-          txt.append("" + ca.getValue());
+          txt.append('=');
+          txt.append(LabelValue.formatValue(ca.getValue()));
         }
       }
-      txt.append("\n");
+      txt.append('\n');
     }
-    txt.append("\n");
+    txt.append('\n');
     return txt.toString();
-  }
-
-  private void insert(
-      final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> list,
-      final PatchSetApproval ca) {
-    Map<ApprovalCategory.Id, PatchSetApproval> m = list.get(ca.getAccountId());
-    if (m == null) {
-      m = new HashMap<ApprovalCategory.Id, PatchSetApproval>();
-      list.put(ca.getAccountId(), m);
-    }
-    m.put(ca.getCategoryId(), ca);
   }
 }

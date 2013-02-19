@@ -294,6 +294,10 @@ public class ChangeJson {
 
   private Map<String, LabelInfo> labelsFor(ChangeData cd, boolean standard,
       boolean detailed) throws OrmException {
+    if (!standard && !detailed) {
+      return null;
+    }
+
     ChangeControl ctl = control(cd);
     if (ctl == null) {
       return Collections.emptyMap();

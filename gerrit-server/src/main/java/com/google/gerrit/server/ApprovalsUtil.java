@@ -86,15 +86,12 @@ public class ApprovalsUtil {
     List<PatchSetApproval> patchSetApprovals =
         db.patchSetApprovals().byChange(dest.getParentKey()).toList();
     for (PatchSetApproval a : patchSetApprovals) {
-      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
-      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-        final LabelType type = labelTypes.byId(a.getCategoryId().get());
-        if (a.getPatchSetId().equals(source) &&
-            type.isCopyMinScore() &&
-            type.isMaxNegative(a)) {
-          db.patchSetApprovals().insert(
-              Collections.singleton(new PatchSetApproval(dest, a)));
-        }
+      LabelType type = labelTypes.byId(a.getCategoryId().get());
+      if (type != null && a.getPatchSetId().equals(source) &&
+          type.isCopyMinScore() &&
+          type.isMaxNegative(a)) {
+        db.patchSetApprovals().insert(
+            Collections.singleton(new PatchSetApproval(dest, a)));
       }
     }
     return patchSetApprovals;

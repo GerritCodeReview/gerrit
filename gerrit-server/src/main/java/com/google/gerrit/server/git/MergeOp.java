@@ -939,7 +939,7 @@ public class MergeOp {
       }
       for (PatchSetApproval a : approvals) {
         if (a.getValue() > 0
-            && ApprovalCategory.SUBMIT.equals(a.getCategoryId())
+            && ApprovalCategory.SUBMIT_ID.equals(a.getCategoryId().get())
             && a.getPatchSetId().equals(merged)) {
           if (submitter == null
               || a.getGranted().compareTo(submitter.getGranted()) > 0) {

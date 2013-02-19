@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.6
+#!/usr/bin/env python
 
 # Copyright (c) 2010, Code Aurora Forum. All rights reserved.
 #

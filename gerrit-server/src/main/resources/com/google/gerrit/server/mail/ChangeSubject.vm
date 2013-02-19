@@ -31,7 +31,7 @@
 ## The ChangeSubject.vm template will determine the contents of the email
 ## subject line for ALL emails related to changes.
 ##
-#macro(elipses $length $str)
+#macro(ellipsis $length $str)
 #if($str.length() > $length)#set($length = $length - 3)${str.substring(0,$length)}...#else$str#end
 #end
-Change in $projectName.replaceAll('/.*/', '...')[$branch.shortName]: #elipses(63, $change.subject)
+Change in $projectName.replaceAll('/.*/', '...')[$branch.shortName]: #ellipsis(63, $change.subject)

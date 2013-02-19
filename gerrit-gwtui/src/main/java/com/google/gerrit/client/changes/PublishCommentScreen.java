@@ -263,7 +263,7 @@ public class PublishCommentScreen extends AccountScreen implements
     body.add(new SmallHeading(label.name() + ":"));
 
     VerticalPanel vp = new VerticalPanel();
-    vp.setStyleName(Gerrit.RESOURCES.css().approvalCategoryList());
+    vp.setStyleName(Gerrit.RESOURCES.css().labelList());
 
     Short prior = null;
     if (label.all() != null) {

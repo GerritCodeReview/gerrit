@@ -68,10 +68,8 @@ public class MergeUtil {
   private static final String R_HEADS_MASTER =
       Constants.R_HEADS + Constants.MASTER;
 
-  private static final ApprovalCategory.Id CRVW = //
-      new ApprovalCategory.Id("CRVW");
-  private static final ApprovalCategory.Id VRIF = //
-      new ApprovalCategory.Id("VRIF");
+  private static final String CRVW = "CRVW";
+  private static final String VRIF = "VRIF";
 
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
@@ -122,8 +120,7 @@ public class MergeUtil {
       final List<PatchSetApproval> approvals =
           reviewDb.patchSetApprovals().byPatchSet(c).toList();
       for (PatchSetApproval a : approvals) {
-        if (a.getValue() > 0
-            && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+        if (a.getValue() > 0 && ApprovalCategory.isSubmit(a)) {
           if (submitter == null
               || a.getGranted().compareTo(submitter.getGranted()) > 0) {
             submitter = a;
@@ -212,7 +209,7 @@ public class MergeUtil {
         continue;
       }
 
-      if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+      if (ApprovalCategory.isSubmit(a)) {
         // Submit is treated specially, below (becomes committer)
         //
         if (submitAudit == null
@@ -249,9 +246,9 @@ public class MergeUtil {
       }
 
       final String tag;
-      if (CRVW.equals(a.getCategoryId())) {
+      if (CRVW.equals(a.getCategoryId().get())) {
         tag = "Reviewed-by";
-      } else if (VRIF.equals(a.getCategoryId())) {
+      } else if (VRIF.equals(a.getCategoryId().get())) {
         tag = "Tested-by";
       } else {
         final LabelType lt = labelTypes.byId(a.getCategoryId().get());

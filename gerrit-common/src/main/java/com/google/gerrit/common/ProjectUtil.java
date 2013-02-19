@@ -14,23 +14,20 @@
 
 package com.google.gerrit.common;
 
-import org.eclipse.jgit.lib.Constants;
-
 public class ProjectUtil {
   public static String stripGitSuffix(String name) {
-    String nameWithoutSuffix = name;
-
-    if (nameWithoutSuffix.endsWith(Constants.DOT_GIT_EXT)) {
+    if (name.endsWith(".git")) {
       // Be nice and drop the trailing ".git" suffix, which we never keep
       // in our database, but clients might mistakenly provide anyway.
       //
-      nameWithoutSuffix = nameWithoutSuffix.substring(0, //
-          nameWithoutSuffix.length() - Constants.DOT_GIT_EXT.length());
-      while (nameWithoutSuffix.endsWith("/")) {
-        nameWithoutSuffix =
-            nameWithoutSuffix.substring(0, nameWithoutSuffix.length() - 1);
+      name = name.substring(0, name.length() - 4);
+      while (name.endsWith("/")) {
+        name = name.substring(0, name.length() - 1);
       }
     }
-    return nameWithoutSuffix;
+    return name;
+  }
+
+  private ProjectUtil() {
   }
 }

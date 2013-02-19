@@ -17,13 +17,11 @@ package com.google.gerrit.common;
 import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 
@@ -65,12 +63,12 @@ public interface ChangeHooks {
    * @param patchSet The patchset this comment is related to.
    * @param account The gerrit user who added the comment.
    * @param comment The comment given.
-   * @param approvals Map of Approval Categories and Scores
+   * @param approvals Map of label IDs to scores
    * @throws OrmException
    */
   public void doCommentAddedHook(Change change, Account account,
       PatchSet patchSet, String comment,
-      Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvals, ReviewDb db)
+      Map<String, Short> approvals, ReviewDb db)
       throws OrmException;
 
   /**

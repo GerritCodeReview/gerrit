@@ -1,5 +1,5 @@
-not a Gerrit project
-====================
+Project not found: ...
+======================
 
 With this error message Gerrit rejects to push a commit if the git
 repository to which the push is done does not exist as a project in

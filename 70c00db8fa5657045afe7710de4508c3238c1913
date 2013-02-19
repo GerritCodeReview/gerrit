@@ -16,6 +16,24 @@
       "revId": "70c00db8fa5657045afe7710de4508c3238c1913",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8VEh9FE",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-19T17:33:29Z",
+      "side": 1,
+      "message": "Good point.\n\nNot sure if I have a final opinion about this, but I can share some of my thoughts about this.\n\nIf we have different fields with the same semantic, I think these fields should have the same type. So if we have label values in different places, it would be good to have them everywhere with the same type.\n\nIf I could choose between int and string for the label values, I would also go for ints.\n\nAs you\u0027ve pointed out, we cannot use int as keys for the \u0027values\u0027 map above. Maybe instead of the map we could have a list of ValueInfo entities, that have two fields: \u0027value\u0027 as int and \u0027description\u0027 as string? Would this solve the problem?\n\nIf we go for strings, I would probably prefer to do the formatting on client side as there can be different clients that would have different ideas about how the formatting should be done.",
+      "parentUuid": "P7pReBHE",
+      "revId": "70c00db8fa5657045afe7710de4508c3238c1913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1344,10 +1344,10 @@ a:hover.downloadLink {
   width: 45em;
 }
 
-.projectAdminApprovalCategoryRangeLine {
+.projectAdminLabelRangeLine {
   white-space: nowrap;
 }
-.projectAdminApprovalCategoryValue {
+.projectAdminLabelValue {
   font-family: mono-font;
   font-size: small;
 }
@@ -1359,7 +1359,7 @@ a:hover.downloadLink {
   font-weight: bold;
   white-space: nowrap;
 }
-.publishCommentsScreen .approvalCategoryList {
+.publishCommentsScreen .labelList {
   margin-bottom: 10px;
   margin-left: 10px;
   background: trimColor;
@@ -1375,7 +1375,7 @@ a:hover.downloadLink {
 .publishCommentsScreen .coverMessage textarea {
   font-size: small;
 }
-.publishCommentsScreen .approvalCategoryList .gwt-RadioButton {
+.publishCommentsScreen .labelList .gwt-RadioButton {
   font-size: smaller;
 }
 .publishCommentsScreen .patchComments {

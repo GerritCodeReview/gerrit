@@ -16,6 +16,24 @@
       "revId": "17daae9934941bc6db6b372a04433f19186d5972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7hQ4ND0",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/SparseFileContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-19T00:50:04Z",
+      "side": 1,
+      "message": "Ah.  Sorry.  I did not realise it was used in that way.",
+      "parentUuid": "P8lDkjDI",
+      "revId": "17daae9934941bc6db6b372a04433f19186d5972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

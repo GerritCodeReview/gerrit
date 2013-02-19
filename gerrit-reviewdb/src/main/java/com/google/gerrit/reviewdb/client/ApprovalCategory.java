@@ -21,8 +21,11 @@ import com.google.gwtorm.client.StringKey;
 /** Types of approvals that can be associated with a {@link Change}. */
 public final class ApprovalCategory {
   /** Id of the special "Submit" action (and category). */
-  public static final ApprovalCategory.Id SUBMIT =
-      new ApprovalCategory.Id("SUBM");
+  public static final String SUBMIT_ID = "SUBM";
+
+  public static boolean isSubmit(PatchSetApproval a) {
+    return SUBMIT_ID.equals(a.getCategoryId().get());
+  }
 
   public static class Id extends StringKey<Key<?>> {
     private static final long serialVersionUID = 1L;

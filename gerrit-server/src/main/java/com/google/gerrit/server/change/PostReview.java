@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -110,8 +109,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   private Timestamp timestamp;
   private List<PatchLineComment> comments = Lists.newArrayList();
   private List<String> labelDelta = Lists.newArrayList();
-  @Deprecated private Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> categories
-    = Maps.newHashMap();
+  private Map<String, Short> categories = Maps.newHashMap();
 
   @Inject
   PostReview(ReviewDb db,
@@ -366,9 +364,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         c.cache(change);
         upd.add(c);
         labelDelta.add(format(name, c.getValue()));
-        categories.put(
-            lt.getApprovalCategoryId(),
-            lt.getApprovalCategoryValueId(c.getValue()));
+        categories.put(name, c.getValue());
       } else if (c != null && c.getValue() == ent.getValue()) {
         current.put(name, c);
       } else if (c == null) {
@@ -381,9 +377,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         c.cache(change);
         ins.add(c);
         labelDelta.add(format(name, c.getValue()));
-        categories.put(
-            lt.getApprovalCategoryId(),
-            lt.getApprovalCategoryValueId(c.getValue()));
+        categories.put(name, c.getValue());
       }
     }
 
@@ -430,7 +424,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     Map<String, PatchSetApproval> current = Maps.newHashMap();
     for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(
           rsrc.getPatchSet().getId(), rsrc.getAccountId())) {
-      if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+      if (ApprovalCategory.SUBMIT_ID.equals(a.getCategoryId().get())) {
         continue;
       }
 

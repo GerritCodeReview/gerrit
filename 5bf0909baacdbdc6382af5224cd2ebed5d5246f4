@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8TH7kLM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-19T10:04:08Z",
+      "side": 1,
+      "message": "For case-insensitive filesystems (e.g. on Windows) this check is not sufficient. If a project \u0027myProject\u0027 exists, and the users tries to access \u0027MYPROJECT\u0027 this is supposed to fail with RepositoryNotFoundException. The check above ignores the case of the project name and hence the lookup by a project name in a wrong case now always succeeds if the filesystem is case insensitive.",
+      "revId": "5bf0909baacdbdc6382af5224cd2ebed5d5246f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

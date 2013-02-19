@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8LLgYPU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/GerritCallback.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-19T09:02:54Z",
+      "side": 1,
+      "message": "NameAlreadyUsedException appends \": \" to MESSAGE, so we should add 2 to the length to snip that \": \" away as well.",
+      "revId": "f497c843776933c188f2a6a8305d0b135c14a008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

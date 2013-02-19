@@ -142,13 +142,14 @@ def DiffCommitMessages(commit1, commit2):
   return False
 
 def Main():
-  server = 'localhost'
   usage = "%(prog)s <required options> [--server-port=PORT]"
   parser = argparse.ArgumentParser(usage=usage)
   parser.add_argument("--change-url", dest="changeUrl", help="Change URL")
   parser.add_argument("--project", help="Project path in Gerrit")
   parser.add_argument("--commit", help="Git commit-ish for this patchset")
   parser.add_argument("--patchset", type=int, help="The patchset number")
+  parser.add_argument("--server", default='localhost',
+                      help="Gerrit SSH server [default: %(default)s]")
   parser.add_argument("--server-port", dest="port", default='29418',
                       help="Port to connect to Gerrit's SSH daemon "
                            "[default: %(default)s]")
@@ -167,7 +168,7 @@ def Main():
     exit(0)
 
   prev_revision = None
-  prev_revision = FindPrevRev(changeId, args.patchset, args.ssh, args.ssh_port_flag, server, args.port)
+  prev_revision = FindPrevRev(changeId, args.patchset, args.ssh, args.ssh_port_flag, args.server, args.port)
   if not prev_revision:
     # Couldn't find a previous revision
     exit(0)
@@ -191,14 +192,14 @@ def Main():
     # commit message changed
     comment_msg = ("\'--message=New patchset patch-id matches previous patchset"
                    ", but commit message has changed.'")
-    comment_cmd = [args.ssh, args.ssh_port_flag, args.port, server, 'gerrit', 'approve',
+    comment_cmd = [args.ssh, args.ssh_port_flag, args.port, args.server, 'gerrit', 'approve',
                    '--project', args.project, comment_msg, args.commit]
     CheckCall(comment_cmd)
     exit(0)
 
   # Need to get all approvals on prior patch set, then suexec them onto
   # this patchset.
-  approvals = GetApprovals(changeId, args.patchset, args.ssh, args.ssh_port_flag, server, args.port)
+  approvals = GetApprovals(changeId, args.patchset, args.ssh, args.ssh_port_flag, args.server, args.port)
   gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                         "detection script.\'")
   acct_approvals = dict()
@@ -222,8 +223,8 @@ def Main():
   for acct, flags in acct_approvals.items():
     gerrit_approve_cmd = ['gerrit', 'approve', '--project', args.project,
                           '--message', gerrit_approve_msg, flags, args.commit]
-    email_addr = GetEmailFromAcctId(acct, args.ssh, args.ssh_port_flag, server, args.port)
-    SuExec(args.ssh, args.ssh_port_flag, server, args.port, email_addr, ' '.join(gerrit_approve_cmd))
+    email_addr = GetEmailFromAcctId(acct, args.ssh, args.ssh_port_flag, args.server, args.port)
+    SuExec(args.ssh, args.ssh_port_flag, args.server, args.port, email_addr, ' '.join(gerrit_approve_cmd))
   exit(0)
 
 if __name__ == "__main__":

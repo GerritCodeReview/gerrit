@@ -224,4 +224,17 @@ public final class Account {
   public void setUserName(final String userName) {
     this.userName = userName;
   }
+
+  @Override
+  public boolean equals(Object o) {
+   if(!(o instanceof Account)) {
+     return false;
+   }
+   return ((Account) o).getId().equals(getId());
+  }
+
+  @Override
+  public int hashCode() {
+    return getId().get();
+  }
 }

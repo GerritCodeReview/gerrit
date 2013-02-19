@@ -18,13 +18,9 @@ package com.google.gerrit.common.errors;
 public class NameAlreadyUsedException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public static final String MESSAGE = "Name Already Used";
-
-  public NameAlreadyUsedException() {
-    super(MESSAGE);
-  }
+  public static final String MESSAGE = "Name Already Used: ";
 
   public NameAlreadyUsedException(String name) {
-    super(MESSAGE + ": " + name);
+    super(MESSAGE + name);
   }
 }

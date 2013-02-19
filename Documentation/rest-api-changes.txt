@@ -15,6 +15,10 @@ Queries changes visible to the caller. The query string must be
 provided by the `q` parameter. The `n` parameter can be used to limit
 the returned results.
 
+As result a list of link:#change-info[ChangeInfo] entries is returned.
+The change output is sorted by the last update time, most recently
+updated to oldest updated.
+
 Query for open changes of watched projects:
 
 .Request
@@ -64,9 +68,6 @@ Query for open changes of watched projects:
     "_more_changes": true
   }
 ----
-
-The change output is sorted by the last update time, most recently
-updated to oldest update.
 
 If the `n` query parameter is supplied and additional changes exist
 that match the query beyond the end, the last change object has a
@@ -138,38 +139,65 @@ option requires more database lookups and slows down the query
 response time to the client so they are generally disabled by
 default. Optional fields are:
 
+[[labels]]
+--
 * `LABELS`: a summary of each label required for submit, and
   approvers that have granted (or rejected) with that label.
+--
 
+[[detailed-labels]]
+--
 * `DETAILED_LABELS`: detailed label information, including numeric
   values of all existing approvals, recognized label values, values
   permitted to be set by the current user, and reviewers that may be
   removed by the current user.
+--
 
+[[current-revision]]
+--
 * `CURRENT_REVISION`: describe the current revision (patch set)
   of the change, including the commit SHA-1 and URLs to fetch from.
+--
 
+[[all-revisions]]
+--
 * `ALL_REVISIONS`: describe all revisions, not just current.
+--
 
+[[current-commit]]
+--
 * `CURRENT_COMMIT`: parse and output all header fields from the
   commit object, including message. Only valid when the current
   revision or all revisions are selected.
+--
 
+[[all-commits]]
+--
 * `ALL_COMMITS`: parse and output all header fields from the
   output revisions. If only `CURRENT_REVISION` was requested
   then only the current revision's commit data will be output.
+--
 
+[[current-files]]
+--
 * `CURRENT_FILES`: list files modified by the commit, including
   basic line counts inserted/deleted per file. Only valid when
   the current revision or all revisions are selected.
+--
 
+[[all-files]]
+--
 * `ALL_FILES`: list files modified by the commit, including
   basic line counts inserted/deleted per file. If only the
   `CURRENT_REVISION` was requested the only that commit's
   modified files will be output.
+--
 
+[[detailed-accounts]]
+--
 * `DETAILED_ACCOUNTS`: include `_account_id` and `email` fields when
   referencing accounts.
+--
 
 .Request
 ----
@@ -267,6 +295,241 @@ default. Optional fields are:
     }
   ]
 ----
+
+[[json-entities]]
+JSON Entities
+-------------
+
+[[account-info]]
+AccountInfo
+~~~~~~~~~~~
+The `AccountInfo` entity contains information about an account.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`_account_id` ||The numeric ID of the account.
+|`name`        |optional|The full name of the user. +
+Only set if link:#detailed-accounts[detailed account information] is
+requested.
+|`email`       |optional|
+The email address the user prefers to be contacted through. +
+Only set if link:#detailed-accounts[detailed account information] is
+requested.
+|===========================
+
+[[approval-info]]
+ApprovalInfo
+~~~~~~~~~~~~
+The `ApprovalInfo` entity contains information about an approval from a
+user for a label on a change.
+
+`ApprovalInfo` has the same fields as link:#account-info[AccountInfo].
+In addition `ApprovalInfo` has the following fields:
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`value`       ||The vote that the user has given for the label.
+|===========================
+
+[[change-info]]
+ChangeInfo
+~~~~~~~~~~
+The `ChangeInfo` entity contains information about a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==================================
+|Field Name           ||Description
+|`kind`               ||`gerritcodereview#change`
+|`id`                 ||
+The ID of the change in the format "'<project>\~<branch>~<Change-Id>'",
+where project, branch and Change-Id are URL encoded. For branch the
+`refs/heads/` prefix is omitted.
+|`project`            ||The name of the project.
+|`branch`             ||
+The name of the target branch. +
+The `refs/heads/` prefix is omitted.
+|`topic`              ||The topic to which this change belongs.
+|`change_id`          ||The Change-Id of the change.
+|`subject`            ||
+The subject of the change (header line of the commit message).
+|`status`             ||
+The status of the change (`NEW`, `SUBMITTED`, `MERGED`, `ABANDONED`,
+`DRAFT`).
+|`created`            ||
+The link:rest-api.html#timestamp[timestamp] of when the change was
+created.
+|`updated`            ||
+The link:rest-api.html#timestamp[timestamp] of when the change was last
+updated.
+|`starred`            |not set if `false`|
+Whether the calling user has starred this change.
+|`reviewed`           |not set if `false`|
+Whether the change was reviewed by the calling user.
+|`mergeable`          ||Whether the change is mergeable.
+|`_sortkey`           ||The sortkey of the change.
+|`_number`            ||The legacy numeric ID of the change.
+|`owner`              ||
+The owner of the change as an link:#account-info[AccountInfo] entity.
+|`labels`             |optional|
+The labels of the change as a map that maps the label names to
+link:#label-info[LabelInfo] entries. +
+Only set if link:#labels[labels] or link:#detailed-labels[detailed
+labels] are requested.
+|`permitted_labels`   |optional|
+A map of the permitted labels that maps a label name to the list of
+values that are allowed for that label. +
+Only set if link:#detailed-labels[detailed labels] are requested.
+|`removable_reviewers`|optional|
+The reviewers that can be removed by the calling user as a list of
+link:#account-info[AccountInfo] entities. +
+Only set if link:#detailed-labels[detailed labels] are requested.
+|`current_revision`   |optional|
+The commit ID of the current patch set of this change. +
+Only set if link:#current-revision[the current revision] is requested
+or if link:#all-revisions[all revisions] are requested.
+|`revisions`          |optional|
+All patch sets of this changes as a map that maps the commit ID of the
+patch set to a link:#revision-info[RevisionInfo] entity. +
+Only set if link:#all-revisions[all revisions] are requested.
+|`_more_changes`      |optional, not set if `false`|
+Whether the query would deliver more results if not limited. +
+Only set on either the last or the first change that is returned.
+|==================================
+
+[[commit-info]]
+CommitInfo
+~~~~~~~~~~
+The `CommitInfo` entity contains information about a commit.
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`commit`      |The commit ID.
+|`parent`      |
+The parent commits of this commit as a list of
+link:#commit-info[CommitInfo] entities.
+|`author`      |The author of the commit as a
+link:#git-person-info[GitPersonInfo] entity.
+|`committer`   |The committer of the commit as a
+link:#git-person-info[GitPersonInfo] entity.
+|`subject`     |
+The subject of the commit (header line of the commit message).
+|`message`     |The commit message.
+|==========================
+
+[[fetch-info]]
+FetchInfo
+~~~~~~~~~
+The `FetchInfo` entity contains information about how to fetch a patch
+set via a certain protocol.
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`url`         |The URL of the project.
+|`ref`         |The ref of the patch set.
+|==========================
+
+[[file-info]]
+FileInfo
+~~~~~~~~
+The `FileInfo` entity contains information about a file in a patch set.
+
+[options="header",width="50%",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`status`        |optional|
+The status of the file ("`A`"=Added, "`D`"=Deleted, "`R`"=Renamed,
+"`C`"=Copied, "`W`"=Rewritten). +
+Not set if the file was Modified ("`M`").
+|`binary`        |not set if `false`|Whether the file is binary.
+|`old_path`      |optional|
+The old file path. +
+Only set if file was renamed or copied.
+|`lines_inserted`|optional|
+Number of inserted lines. +
+Not set for binary files or if no lines were inserted.
+|`lines_deleted` |optional|
+Number of deleted lines. +
+Not set for binary files or if no lines were deleted.
+|=============================
+
+[[git-person-info]]
+GitPersonInfo
+~~~~~~~~~~~~~
+The `GitPersonInfo` entity contains information about the
+author/committer of a commit.
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`name`        |The name of the author/committer.
+|`email`       |The email address of the author/committer.
+|`date`        |The link:rest-api.html#timestamp[timestamp] of when
+this identity was constructed.
+|`tz`          |The timezone offset from UTC of when this identity was
+constructed.
+|==========================
+
+[[label-info]]
+LabelInfo
+~~~~~~~~~
+The `LabelInfo` entity contains information about a label on a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`approved`    |optional|The user who approved this label on the change
+as a link:#account-info[AccountInfo] entity. +
+Only set if link:#labels[labels] are requested.
+|`rejected`    |optional|The user who rejected this label on the change
+as a link:#account-info[AccountInfo] entity. +
+Only set if link:#labels[labels] are requested.
+|`recommended` |optional|The user who recommended this label on the
+change as a link:#account-info[AccountInfo] entity. +
+Only set if link:#labels[labels] are requested.
+|`disliked`    |optional|The user who disliked this label on the change
+as a link:#account-info[AccountInfo] entity. +
+Only set if link:#labels[labels] are requested.
+|`value`       |optional|The voting value of the user who
+recommended/disliked this label on the change if it is not
+"`+1`"/"`-1`". +
+Only set if link:#labels[labels] are requested.
+|`optional`    |not set if `false`|
+Whether the label is optional. Optional means the label may be set, but
+it's neither necessary for submission nor does it block submission if
+set.
+|`all`         |optional|List of all approvals for this label as a list
+of link:#approval-info[ApprovalInfo] entities. +
+Only set if link:#detailed-labels[detailed labels] are requested.
+|`values`      |optional|A map of all values that are allowed for this
+label. The map maps the values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`")
+to the value descriptions. +
+Only set if link:#detailed-labels[detailed labels] are requested.
+|===========================
+
+[[revision-info]]
+RevisionInfo
+~~~~~~~~~~~~
+The `RevisionInfo` entity contains information about a patch set.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`draft`       |not set if `false`|Whether the patch set is a draft.
+|`_number`     ||The patch set number.
+|`fetch`       ||
+Information about how to fetch this patch set. The fetch information is
+provided as a map that maps the protocol name ("`git`", "`http`",
+"`ssh`") to link:#fetch-info[FetchInfo] entities.
+|`commit`      ||The commit of the patch set as
+link:#commit-info[CommitInfo] entity.
+|`files`       ||
+The files of the patch set as a map that maps the file names to
+link:#file-info[FileInfo] entities.
+|===========================
 
 
 GERRIT

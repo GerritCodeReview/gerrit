@@ -34,6 +34,24 @@
       "revId": "70c00db8fa5657045afe7710de4508c3238c1913",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7tRYfIY",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-19T17:38:54Z",
+      "side": 1,
+      "message": "Yes, I considered making the \"values\" field a list of objects as you suggest. It just seems so verbose. (Though elsewhere I\u0027ve called the description \"text\", which is a tiny bit less verbose I suppose.)\n\nI think I agree now that formatting should be done on the client side in any case.",
+      "parentUuid": "P8VEh9FE",
+      "revId": "70c00db8fa5657045afe7710de4508c3238c1913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

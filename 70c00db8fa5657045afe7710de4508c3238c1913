@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7pReBHE",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-19T16:44:19Z",
+      "side": 1,
+      "message": "I realized this weekend that we are inconsistent in using strings for label values in some places (\"-1\", \"0\", \"+1\") and numbers in others. I would be in favor of using numbers everywhere, except for this pesky field, which is an object and thus only has string keys.\n\nPart of me wants to say hey, it\u0027s JS, there\u0027s automatic conversion, we can just convert these string keys back to numbers and then format them with +/- on the client side. And things like indexing permitted_labels into this object, which I want to work, still would.\n\nThe other part of me says if we\u0027re using strings, they should be properly-formatted strings and we shouldn\u0027t need to convert them back to numbers.\n\nRegardless, we need to settle on something before this documentation lands :)\n\nThoughts?",
+      "revId": "70c00db8fa5657045afe7710de4508c3238c1913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

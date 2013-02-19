@@ -14,15 +14,13 @@
 
 package com.google.gerrit.common;
 
+import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -385,8 +383,8 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     }
 
     public void doCommentAddedHook(final Change change, final Account account,
-          final PatchSet patchSet, final String comment, final Map<ApprovalCategory.Id,
-          ApprovalCategoryValue.Id> approvals, final ReviewDb db) throws OrmException {
+          final PatchSet patchSet, final String comment, final Map<String, Short> approvals,
+          final ReviewDb db) throws OrmException {
         final CommentAddedEvent event = new CommentAddedEvent();
 
         event.change = eventFactory.asChangeAttribute(change);
@@ -398,7 +396,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         if (approvals.size() > 0) {
             event.approvals = new ApprovalAttribute[approvals.size()];
             int i = 0;
-            for (Map.Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval : approvals.entrySet()) {
+            for (Map.Entry<String, Short> approval : approvals.entrySet()) {
                 event.approvals[i++] = getApprovalAttribute(labelTypes, approval);
             }
         }
@@ -414,8 +412,11 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         addArg(args, "--author", getDisplayName(account));
         addArg(args, "--commit", event.patchSet.revision);
         addArg(args, "--comment", comment == null ? "" : comment);
-        for (Map.Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval : approvals.entrySet()) {
-            addArg(args, "--" + approval.getKey().get(), Short.toString(approval.getValue().get()));
+        for (Map.Entry<String, Short> approval : approvals.entrySet()) {
+          LabelType lt = labelTypes.byLabel(approval.getKey());
+          if (lt != null) {
+            addArg(args, "--" + lt.getId(), Short.toString(approval.getValue()));
+          }
         }
 
         runHook(change.getProject(), commentAddedHook, args);
@@ -613,14 +614,14 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
      * @return object suitable for serialization to JSON
      */
     private ApprovalAttribute getApprovalAttribute(LabelTypes labelTypes,
-            Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval) {
+            Entry<String, Short> approval) {
         ApprovalAttribute a = new ApprovalAttribute();
-        a.type = approval.getKey().get();
-        LabelType lt = labelTypes.byId(approval.getKey().get());
+        a.type = approval.getKey();
+        LabelType lt = labelTypes.byLabel(approval.getKey());
         if (lt != null) {
           a.description = lt.getName();
         }
-        a.value = Short.toString(approval.getValue().get());
+        a.value = Short.toString(approval.getValue());
         return a;
     }
 

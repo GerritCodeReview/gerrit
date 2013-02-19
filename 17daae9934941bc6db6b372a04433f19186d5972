@@ -34,6 +34,24 @@
       "revId": "17daae9934941bc6db6b372a04433f19186d5972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8DLtUOc",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/SparseFileContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-02-19T12:26:17Z",
+      "side": 1,
+      "message": "Sorry. I had to do some parsing of output from SpareFileContent and the brackets throw me off. I am facepalming myself right now.",
+      "parentUuid": "P7hQ4ND0",
+      "revId": "17daae9934941bc6db6b372a04433f19186d5972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

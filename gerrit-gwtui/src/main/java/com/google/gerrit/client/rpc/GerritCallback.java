@@ -54,7 +54,13 @@ public abstract class GerritCallback<T> implements
       d.center();
 
     } else if (isNameAlreadyUsed(caught)) {
-      new ErrorDialog(Gerrit.C.nameAlreadyUsedBody()).center();
+      final String msg = caught.getMessage();
+      if (msg.equals(NameAlreadyUsedException.MESSAGE)) {
+        new ErrorDialog(Gerrit.C.nameAlreadyUsedBody()).center();
+      } else {
+        final String alreadyUsedName = msg.substring(NameAlreadyUsedException.MESSAGE.length());
+        new ErrorDialog(Gerrit.M.nameAlreadyUsedBody(alreadyUsedName)).center();
+      }
 
     } else if (isNoSuchGroup(caught)) {
       final String msg = caught.getMessage();
@@ -101,7 +107,7 @@ public abstract class GerritCallback<T> implements
 
   private static boolean isNameAlreadyUsed(final Throwable caught) {
     return caught instanceof RemoteJsonException
-        && caught.getMessage().equals(NameAlreadyUsedException.MESSAGE);
+        && caught.getMessage().startsWith(NameAlreadyUsedException.MESSAGE);
   }
 
   private static boolean isNoSuchGroup(final Throwable caught) {

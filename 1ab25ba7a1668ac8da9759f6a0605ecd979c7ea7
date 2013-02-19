@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "P8XFsOJE",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-02-19T08:40:22Z",
+      "side": 1,
+      "message": "This was actually added in 2.5",
+      "revId": "1ab25ba7a1668ac8da9759f6a0605ecd979c7ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALaX////4\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
         "patchSetId": 2

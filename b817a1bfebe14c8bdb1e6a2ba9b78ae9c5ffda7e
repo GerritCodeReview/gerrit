@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "P7lSxzI8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-20T22:24:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P8bGE4BQ",
+      "revId": "b817a1bfebe14c8bdb1e6a2ba9b78ae9c5ffda7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P8dGJZCs",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-20T12:29:43Z",
       "side": 1,
       "message": "[optional] Change this to\n  return this.mergeable? true : false;\nso that we are not breaking if mergeable is not set.",
+      "revId": "b817a1bfebe14c8bdb1e6a2ba9b78ae9c5ffda7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7nSuyDI",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-20T22:24:09Z",
+      "side": 1,
+      "message": "It\u0027s always set; see ChangeJson.toChangeInfo. The other boolean methods on this object correspond to flags that are not always set in that method.",
+      "parentUuid": "P8dGJZCs",
       "revId": "b817a1bfebe14c8bdb1e6a2ba9b78ae9c5ffda7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

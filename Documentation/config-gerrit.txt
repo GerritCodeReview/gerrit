@@ -684,6 +684,7 @@ access. Values can be specified using standard time unit abbreviations
 ('ms', 'sec', 'min', etc.).
 +
 If set to 0, checks occur every time, which may slow down operations.
+If set to 'disabled' or 'off', no check will ever be done.
 Administrators may force the cache to flush with
 link:cmd-flush-caches.html[gerrit flush-caches].
 +

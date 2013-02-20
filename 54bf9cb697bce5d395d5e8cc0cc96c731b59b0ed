@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "P8XHhmCE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P26eT6ro",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P28eiXgI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-13T00:39:14Z",
       "side": 1,
       "message": "nit:  the `-` characters are unnecessary",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3EavkuU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P28eiXgI",
       "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "P8ZHO-LI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2qh8W2Y",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P2oiBl14",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-13T07:08:32Z",
       "side": 1,
       "message": "Unnecessary check, this should never happen.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3KZ8hmY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2oiBl14",
       "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "P8bHTAFo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2uh2U4Q",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P2sh7j2o",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-02-13T07:08:32Z",
       "side": 1,
       "message": "Unnecessary check, repoManager.openRepository(...) will never return null.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3IaBil4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2sh7j2o",
       "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,42 @@
     },
     {
       "key": {
+        "uuid": "P8fHNiLU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P22fkUjM",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8THA8Hs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "That check occurs indirectly when creating the directory for the repository, so we have the non-atomic file system operations closer together. But I now added an upfront check through projectCache as well.\n\nNow that we handle exceptions differently, we should throw a NameAlreadyUsedException. Done.",
+      "parentUuid": "P24eYZtY",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P2giOR4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 1
@@ -149,6 +293,24 @@
       "writtenOn": "2013-02-13T07:08:32Z",
       "side": 1,
       "message": "Computing the directory for a given project name is already implemented in LocalDiskRepositoryManager when creating a new repository. I think this code should be reused, see also my comment below in line 174.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8BLwTL4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2giOR4c",
       "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "P8VG9dAI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2iiRi6c",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P2qjlezY",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 1
@@ -183,6 +363,24 @@
       "writtenOn": "2013-02-13T07:08:32Z",
       "side": 1,
       "message": "If replication is used, you also need to ensure that the project is renamed in the replication targets.\n\nIn addition you miss to update the the parent information for all child projects of the renamed project. The child projects store the name of their parent project in their project.config file in the refs/meta/config branch.",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8PLq6NA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "\u003e [ replication ]\n\nIs there a way replicate with current upstream gerrit without the plugin?\nOtherwise I\u0027d skip that, as I think it\u0027s a bad idea to make upstream\ndependent of a plugin.\n\nBut we could add something \"rename project\" events and allow plugins to register for them.\n\n\u003e [ parent information ]\n\nDone.\nPatch set 2 updates the inheritFrom setting.",
+      "parentUuid": "P2qjlezY",
       "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "P8XG6eA0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2miLg3c",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P2kiIP3k",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 1
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "P8HLQuBg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2kiIP3k",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P2.ed4sQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 1
@@ -234,6 +468,24 @@
       "writtenOn": "2013-02-13T00:39:14Z",
       "side": 1,
       "message": "s/performs/Performs",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P3OZ2foQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-20T16:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P2.ed4sQ",
       "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

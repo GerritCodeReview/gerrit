@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8VGeVF0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T14:54:53Z",
+      "side": 0,
+      "message": "Why is this onFailure method removed?\n\nShouldn\u0027t we still enable \u0027remove\u0027 on failure so that the user can retry?",
+      "revId": "b817a1bfebe14c8bdb1e6a2ba9b78ae9c5ffda7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

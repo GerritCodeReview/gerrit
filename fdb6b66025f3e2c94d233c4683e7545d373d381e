@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8XGbWGw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T14:54:53Z",
+      "side": 1,
+      "message": "If a user has not done any vote on a label yet, you never mark this label as votable, even if the user has permissions to vote on that label. As result this box in the appoval table is wrongly greyed out with the tooltip \"User cannot vote in this category\". I\u0027m not even sure if the information about which users can vote on which label is already returned to the client.",
+      "revId": "fdb6b66025f3e2c94d233c4683e7545d373d381e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

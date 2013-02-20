@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8RHGjEE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T20:05:52Z",
+      "side": 1,
+      "message": "Can you update the documentation of this parameter in config-gerrit.txt?",
+      "revId": "0958a29b0ecb5a674a89ec0d56d3d529707e923c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

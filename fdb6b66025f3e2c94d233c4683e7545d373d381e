@@ -16,6 +16,24 @@
       "revId": "fdb6b66025f3e2c94d233c4683e7545d373d381e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7rSeoA8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-20T18:36:11Z",
+      "side": 1,
+      "message": "This is reconciled in the following change, Ia65c9f8. I can just squash that into this one if you prefer.",
+      "parentUuid": "P8XGbWGw",
+      "revId": "fdb6b66025f3e2c94d233c4683e7545d373d381e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

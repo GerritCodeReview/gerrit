@@ -16,6 +16,24 @@
       "revId": "ee7ff53cbb24f31bc2ff3389c02eb7a163b47866",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8tATHBg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-20T00:43:15Z",
+      "side": 1,
+      "message": "Well this code had the same problem in my build for gerrit-review.googlesource.com. :-(",
+      "parentUuid": "P7pTH5BA",
+      "revId": "ee7ff53cbb24f31bc2ff3389c02eb7a163b47866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

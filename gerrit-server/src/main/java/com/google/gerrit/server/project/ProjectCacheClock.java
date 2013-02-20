@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -34,29 +35,24 @@ public class ProjectCacheClock {
 
   @Inject
   public ProjectCacheClock(@GerritServerConfig Config serverConfig) {
-    this(TimeUnit.MILLISECONDS.convert(
-        ConfigUtil.getTimeUnit(serverConfig,
-            "cache", "projects", "checkFrequency",
-            5, TimeUnit.MINUTES), TimeUnit.MINUTES));
+    this(checkFrequency(serverConfig));
   }
 
   public ProjectCacheClock(long checkFrequencyMillis) {
-    if (10 < checkFrequencyMillis) {
+    if (checkFrequencyMillis == Long.MAX_VALUE) {
+      // Start with generation 1 (to avoid magic 0 below).
+      // Do not begin background thread, disabling the clock.
+      generation = 1;
+    } else if (10 < checkFrequencyMillis) {
       // Start with generation 1 (to avoid magic 0 below).
       generation = 1;
-      ThreadFactory factory = new ThreadFactory() {
-        private final AtomicInteger id = new AtomicInteger();
-
-        @Override
-        public Thread newThread(Runnable runnable) {
-          Thread thread = Executors.defaultThreadFactory().newThread(runnable);
-          thread.setName(String.format("ProjectCacheClock-%d", id.incrementAndGet()));
-          thread.setDaemon(true);
-          thread.setPriority(Thread.MIN_PRIORITY);
-          return thread;
-        }
-      };
-      ScheduledExecutorService executor = Executors.newScheduledThreadPool(1, factory);
+      ScheduledExecutorService executor = Executors.newScheduledThreadPool(
+          1,
+          new ThreadFactoryBuilder()
+            .setNameFormat("ProjectCacheClock-%d")
+            .setDaemon(true)
+            .setPriority(Thread.MIN_PRIORITY)
+            .build());
       executor.scheduleAtFixedRate(new Runnable() {
         @Override
         public void run() {
@@ -74,5 +70,17 @@ public class ProjectCacheClock {
 
   long read() {
     return generation;
+  }
+
+  private static long checkFrequency(Config serverConfig) {
+    String freq = serverConfig.getString("cache", "projects", "checkFrequency");
+    if (freq != null
+        && ("disabled".equalsIgnoreCase(freq) || "off".equalsIgnoreCase(freq))) {
+      return Long.MAX_VALUE;
+    }
+    return TimeUnit.MILLISECONDS.convert(
+        ConfigUtil.getTimeUnit(serverConfig,
+            "cache", "projects", "checkFrequency",
+            5, TimeUnit.MINUTES), TimeUnit.MINUTES);
   }
 }

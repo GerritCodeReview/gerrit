@@ -16,6 +16,24 @@
       "revId": "761be95268e3221049a7a6ec2d4481257d4be47c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8rCyGAE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-02-20T20:42:32Z",
+      "side": 1,
+      "message": "Well, the whole point was to make it so administrators don\u0027t get this anymore, so we\u0027ll probably need to fix it so the summary is true.",
+      "parentUuid": "P8DKI8Co",
+      "revId": "761be95268e3221049a7a6ec2d4481257d4be47c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

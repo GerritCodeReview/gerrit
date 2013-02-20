@@ -37,7 +37,7 @@ import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.PerformCreateProject;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
@@ -76,7 +76,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(GroupMembers.Factory.class);
-    factory(CreateProject.Factory.class);
+    factory(PerformCreateProject.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
   }

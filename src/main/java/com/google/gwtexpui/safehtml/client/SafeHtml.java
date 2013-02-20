@@ -120,7 +120,7 @@ public abstract class SafeHtml {
           "(?:[(]" + part + "*" + "[)])*" +
           part + "*" +
         ")",
-        "<a href=\"$1\">$1</a>");
+        "<a href=\"$1\" target=\"_blank\">$1</a>");
   }
 
   /**

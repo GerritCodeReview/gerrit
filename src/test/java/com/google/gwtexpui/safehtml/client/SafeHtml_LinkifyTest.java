@@ -21,35 +21,35 @@ public class SafeHtml_LinkifyTest extends TestCase {
     final SafeHtml o = html("A http://go.here/ B");
     final SafeHtml n = o.linkify();
     assertNotSame(o, n);
-    assertEquals("A <a href=\"http://go.here/\">http://go.here/</a> B", n.asString());
+    assertEquals("A <a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a> B", n.asString());
   }
 
   public void testLinkify_SimpleHttps2() {
     final SafeHtml o = html("A https://go.here/ B");
     final SafeHtml n = o.linkify();
     assertNotSame(o, n);
-    assertEquals("A <a href=\"https://go.here/\">https://go.here/</a> B", n.asString());
+    assertEquals("A <a href=\"https://go.here/\" target=\"_blank\">https://go.here/</a> B", n.asString());
   }
 
   public void testLinkify_Parens1() {
     final SafeHtml o = html("A (http://go.here/) B");
     final SafeHtml n = o.linkify();
     assertNotSame(o, n);
-    assertEquals("A (<a href=\"http://go.here/\">http://go.here/</a>) B", n.asString());
+    assertEquals("A (<a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a>) B", n.asString());
   }
 
   public void testLinkify_Parens() {
     final SafeHtml o = html("A http://go.here/#m() B");
     final SafeHtml n = o.linkify();
     assertNotSame(o, n);
-    assertEquals("A <a href=\"http://go.here/#m()\">http://go.here/#m()</a> B", n.asString());
+    assertEquals("A <a href=\"http://go.here/#m()\" target=\"_blank\">http://go.here/#m()</a> B", n.asString());
   }
 
   public void testLinkify_AngleBrackets1() {
     final SafeHtml o = html("A <http://go.here/> B");
     final SafeHtml n = o.linkify();
     assertNotSame(o, n);
-    assertEquals("A &lt;<a href=\"http://go.here/\">http://go.here/</a>&gt; B", n.asString());
+    assertEquals("A &lt;<a href=\"http://go.here/\" target=\"_blank\">http://go.here/</a>&gt; B", n.asString());
   }
 
   private static SafeHtml html(String text) {

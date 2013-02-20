@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8ZGW-FE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddReviewerSender.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T10:05:50Z",
+      "side": 0,
+      "message": "Why is SshInfo removed and how is it related to moving @AnonymousCowardName into EmailArguments?",
+      "revId": "73028d7d2c4af8e479508e681b00bddac9c63ed7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

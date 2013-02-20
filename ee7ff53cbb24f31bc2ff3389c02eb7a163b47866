@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7pTH5BA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-20T00:41:15Z",
+      "side": 1,
+      "message": "In I5e52e16d6f87aca22181e0fe0220a68635e6d789 there is no UI code touched; only code in gerrit_server.\n\nI explicitly didn\u0027t use the newly added utility method in the one other place where the same code is repeated (gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java) and that\u0027s what I meant with the comment in the commit message.",
+      "revId": "ee7ff53cbb24f31bc2ff3389c02eb7a163b47866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

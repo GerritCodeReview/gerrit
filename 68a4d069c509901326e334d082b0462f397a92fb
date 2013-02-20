@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8rDgWPU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-20T08:24:52Z",
+      "side": 1,
+      "message": "You should query all approvals at once for the patch set and then test that collection for Account.Ids that already exist.",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8pDbVEo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-20T08:24:52Z",
+      "side": 1,
+      "message": "When you are adding an expanded group, this really should be a list of all members of that group are are being added together. Not called once per member.",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

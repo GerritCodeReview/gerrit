@@ -18,7 +18,7 @@ import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
-import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.PerformCreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -37,7 +37,7 @@ public class CreateProjectHandler extends Handler<VoidResult> {
         @Assisted("permissionsOnly") boolean permissionsOnly);
   }
 
-  private final CreateProject.Factory createProjectFactory;
+  private final PerformCreateProject.Factory createProjectFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final String projectName;
   private final String parentName;
@@ -45,7 +45,7 @@ public class CreateProjectHandler extends Handler<VoidResult> {
   private final boolean permissionsOnly;
 
   @Inject
-  public CreateProjectHandler(final CreateProject.Factory createProjectFactory,
+  public CreateProjectHandler(final PerformCreateProject.Factory createProjectFactory,
       final ProjectControl.Factory projectControlFactory,
       @Assisted("projectName") final String projectName,
       @Assisted("parentName") final String parentName,
@@ -78,7 +78,7 @@ public class CreateProjectHandler extends Handler<VoidResult> {
     args.createEmptyCommit = emptyCommit;
     args.permissionsOnly = permissionsOnly;
 
-    final CreateProject createProject = createProjectFactory.create(args);
+    final PerformCreateProject createProject = createProjectFactory.create(args);
     createProject.createProject();
     return VoidResult.INSTANCE;
   }

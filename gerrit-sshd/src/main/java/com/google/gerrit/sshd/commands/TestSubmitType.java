@@ -19,12 +19,14 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.sshd.CommandMetaData;
 
 import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
 import java.util.List;
 
+@CommandMetaData(name = "type", descr = "Test prolog submit type")
 final class TestSubmitType extends BaseTestSubmit {
 
   @Override

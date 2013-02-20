@@ -41,6 +41,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.OrmException;
@@ -59,6 +60,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@CommandMetaData(name = "review", descr = "Verify, approve and/or submit one or more patch sets")
 public class ReviewCommand extends SshCommand {
   private static final Logger log =
       LoggerFactory.getLogger(ReviewCommand.class);

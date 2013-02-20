@@ -29,6 +29,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -46,6 +47,7 @@ import java.util.Collections;
 import java.util.List;
 
 /** Set a user's account settings. **/
+@CommandMetaData(name = "set-account", descr = "Change an account's settings")
 final class SetAccountCommand extends BaseCommand {
 
   @Argument(index = 0, required = true, metaVar = "USER", usage = "full name, email-address, ssh username or account id")

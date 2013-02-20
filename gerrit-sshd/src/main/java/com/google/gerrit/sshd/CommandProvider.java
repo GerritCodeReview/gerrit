@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.commands;
+package com.google.gerrit.sshd;
 
-import com.google.gerrit.common.Version;
-import com.google.gerrit.sshd.CommandMetaData;
-import com.google.gerrit.sshd.SshCommand;
+import com.google.inject.Provider;
 
-@CommandMetaData(name = "version", descr = "Display gerrit version")
-final class VersionCommand extends SshCommand {
+import org.apache.sshd.server.Command;
 
-  @Override
-  protected void run() throws Failure {
-    String v = Version.getVersion();
-    if (v == null) {
-      throw new Failure(1, "fatal: version unavailable");
-    }
+final class CommandProvider {
 
-    stdout.println("gerrit version " + v);
+  private final Provider<Command> provider;
+  private final String description;
+
+  CommandProvider(final Provider<Command> p, final String d) {
+    this.provider = p;
+    this.description = d;
+  }
+
+  public Provider<Command> getProvider() {
+    return provider;
+  }
+
+  public String getDescription() {
+    return description;
   }
 }

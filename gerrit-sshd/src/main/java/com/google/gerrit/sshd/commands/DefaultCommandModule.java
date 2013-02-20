@@ -36,26 +36,27 @@ public class DefaultCommandModule extends CommandModule {
     // SlaveCommandModule.
 
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
-    command(gerrit, "ban-commit").to(BanCommitCommand.class);
-    command(gerrit, "flush-caches").to(FlushCaches.class);
-    command(gerrit, "ls-projects").to(ListProjectsCommand.class);
-    command(gerrit, "ls-groups").to(ListGroupsCommand.class);
-    command(gerrit, "ls-user-refs").to(LsUserRefs.class);
-    command(gerrit, "query").to(Query.class);
-    command(gerrit, "show-caches").to(ShowCaches.class);
-    command(gerrit, "show-connections").to(ShowConnections.class);
-    command(gerrit, "show-queue").to(ShowQueue.class);
-    command(gerrit, "stream-events").to(StreamEvents.class);
-    command(gerrit, "version").to(VersionCommand.class);
+    command(gerrit, BanCommitCommand.class);
+    command(gerrit, FlushCaches.class);
+    command(gerrit, ListProjectsCommand.class);
+    command(gerrit, ListGroupsCommand.class);
+    command(gerrit, LsUserRefs.class);
+    command(gerrit, Query.class);
+    command(gerrit, ShowCaches.class);
+    command(gerrit, ShowConnections.class);
+    command(gerrit, ShowQueue.class);
+    command(gerrit, StreamEvents.class);
+    command(gerrit, VersionCommand.class);
 
     command(gerrit, "plugin").toProvider(new DispatchCommandProvider(plugin));
-    command(plugin, "ls").to(PluginLsCommand.class);
-    command(plugin, "enable").to(PluginEnableCommand.class);
-    command(plugin, "install").to(PluginInstallCommand.class);
-    command(plugin, "reload").to(PluginReloadCommand.class);
-    command(plugin, "remove").to(PluginRemoveCommand.class);
-    command(plugin, "add").to(Commands.key(plugin, "install"));
-    command(plugin, "rm").to(Commands.key(plugin, "remove"));
+
+    command(plugin, PluginLsCommand.class);
+    command(plugin, PluginEnableCommand.class);
+    command(plugin, PluginInstallCommand.class);
+    command(plugin, PluginReloadCommand.class);
+    command(plugin, PluginRemoveCommand.class);
+    alias(plugin, "add", PluginInstallCommand.class);
+    alias(plugin, "rm", PluginRemoveCommand.class);
 
     command(git).toProvider(new DispatchCommandProvider(git));
     command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));

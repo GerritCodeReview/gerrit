@@ -14,6 +14,7 @@
 
 ASCIIDOC       ?= asciidoc
 ASCIIDOC_EXTRA ?=
+ASCIIDOC_VER   ?= 8.6.3
 SVN            ?= svn
 PUB_ROOT       ?= https://gerrit-documentation.googlecode.com/svn/Documentation
 
@@ -22,6 +23,16 @@ all: html
 clean:
 	rm -f *.html
 	rm -rf $(LOCAL_ROOT)
+
+ASCIIDOC_EXE := $(shell which $(ASCIIDOC))
+ifeq ($(wildcard $(ASCIIDOC_EXE)),)
+  $(error $(ASCIIDOC) must be available)
+else
+  ASCIIDOC_OK := $(shell expr `asciidoc --version | cut -f2 -d' '` \>= $(ASCIIDOC_VER))
+  ifeq ($(ASCIIDOC_OK),0)
+    $(error $(ASCIIDOC) version $(ASCIIDOC_VER) or higher is required)
+  endif
+endif
 
 ifeq ($(origin VERSION), undefined)
   VERSION := $(shell ./GEN-DOC-VERSION 2>/dev/null)

@@ -23,6 +23,7 @@ public interface GerritMessages extends Messages {
 
   String noSuchAccountMessage(String who);
   String noSuchGroupMessage(String who);
+  String nameAlreadyUsedBody(String alreadyUsedName);
 
   String branchCreationFailed(String branchName, String error);
   String invalidBranchName(String branchName);

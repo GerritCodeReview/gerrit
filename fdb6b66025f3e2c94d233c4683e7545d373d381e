@@ -34,6 +34,24 @@
       "revId": "fdb6b66025f3e2c94d233c4683e7545d373d381e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8dGiRJs",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T19:23:09Z",
+      "side": 1,
+      "message": "Ok, I see. I\u0027m fine with having this fixed in the follow-up change. No need to squash.",
+      "parentUuid": "P7rSeoA8",
+      "revId": "fdb6b66025f3e2c94d233c4683e7545d373d381e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

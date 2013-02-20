@@ -27,7 +27,7 @@ public class GetReviewer implements RestReadView<ReviewerResource> {
   }
 
   @Override
-  public Object apply(ReviewerResource reviewerResource) throws OrmException {
-    return json.format(reviewerResource);
+  public Object apply(ReviewerResource rsrc) throws OrmException {
+    return json.format(rsrc);
   }
 }

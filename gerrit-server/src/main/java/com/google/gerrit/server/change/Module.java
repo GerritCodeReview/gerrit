@@ -71,6 +71,7 @@ public class Module extends RestApiModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
+        factory(ReviewerResource.Factory.class);
         factory(AccountInfo.Loader.Factory.class);
         factory(EmailReviewComments.Factory.class);
       }

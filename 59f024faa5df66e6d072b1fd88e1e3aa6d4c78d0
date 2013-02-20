@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8VHQFPE",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T20:09:15Z",
+      "side": 1,
+      "message": "Is this artifact already available in a Maven repository? For me it fails to download.",
+      "revId": "59f024faa5df66e6d072b1fd88e1e3aa6d4c78d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "P8RGL7Ck",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T12:08:28Z",
+      "side": 1,
+      "message": "NoSuchGroupException, NoSuchProjectException and NoSuchChangeException should not be thrown here, but rather be converted into ResourceNotFoundException.\n\nE.g. let\u0027s say there is group A which includes group B. If group A is visible to the user but group B is not visible to the user, then if the user tries the add group A as reviewer to the change, the listing of the accounts for group A fails with NoSuchGroupException because the included group B is not visible. As result the REST call would return with \u0027500 Internal Server Error\u0027, but it should be \u0027404 Not Found\u0027.",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8VGFdBE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T12:08:28Z",
+      "side": 1,
+      "message": "The error messages should not be hard-coded in the server. They should come from a .properties file so that they can be translated into other languages.",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8TGI8Co",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T12:08:28Z",
+      "side": 1,
+      "message": "When we are returning here result.reviewers is null and hence the field is not set in the JSON response. This is fine since there are no reviewers to add. If reviewers is not empty, but later in addReviewers(...) we find that all reviewers to be added are already reviewers of the change, result.reviewers is initialized with an empty list and as result we get an empty list in the JSON response. This seems to be inconsistent. I think if no reviewers are added, then in both cases result.reviewers should be the same, either null or an empty list.",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P8rDgWPU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 10

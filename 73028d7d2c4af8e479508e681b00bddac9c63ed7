@@ -16,6 +16,24 @@
       "revId": "73028d7d2c4af8e479508e681b00bddac9c63ed7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7vSoGDM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AddReviewerSender.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-20T19:18:30Z",
+      "side": 0,
+      "message": "Mistake when splitting this change and the following one. Done.",
+      "parentUuid": "P8ZGW-FE",
+      "revId": "73028d7d2c4af8e479508e681b00bddac9c63ed7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

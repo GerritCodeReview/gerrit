@@ -30,6 +30,7 @@ import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -235,20 +236,7 @@ public class CreateProjectScreen extends Screen {
         new GerritCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
-            String nameWithoutSuffix = projectName;
-            if (nameWithoutSuffix.endsWith(".git")) {
-              // Be nice and drop the trailing ".git" suffix, which we never
-              // keep in our database, but clients might mistakenly provide
-              // anyway.
-              //
-              nameWithoutSuffix = nameWithoutSuffix.substring(0, //
-                  nameWithoutSuffix.length() - 4);
-              while (nameWithoutSuffix.endsWith("/")) {
-                nameWithoutSuffix = nameWithoutSuffix.substring(//
-                    0, nameWithoutSuffix.length() - 1);
-              }
-            }
-
+            String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
             History.newItem(Dispatcher.toProjectAdmin(new Project.NameKey(
                 nameWithoutSuffix), ProjectScreen.INFO));
           }

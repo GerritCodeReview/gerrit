@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "P7jSLcNE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-20T22:18:37Z",
+      "side": 1,
+      "message": "Done. Thanks for the explanation, will try to remember in the future.",
+      "parentUuid": "P8RGL7Ck",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P8VGFdBE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-20T12:08:28Z",
       "side": 1,
       "message": "The error messages should not be hard-coded in the server. They should come from a .properties file so that they can be translated into other languages.",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7lSY7B8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-20T22:18:37Z",
+      "side": 1,
+      "message": "Done.\n\nIdeally we would be able to share a .properties file with client- and server-side messages. Unfortunately both the GWT and JGit i18n glue like to have the properties file resource match the class name, and have different superclasses, so I just split out the messages we use. This also means during the transition to using REST APIs internally we will have some overlap between client and server properties files. I don\u0027t know of a better way to do it.\n\nAlso, of course, the server-side message code uses the server\u0027s locale, not the client\u0027s. Fixing this is possible but beyond the scope of this change.\n\nFYI this far from the only handler with this problem, as evidenced by the fact that this is the first server-side .properties file.",
+      "parentUuid": "P8VGFdBE",
       "revId": "68a4d069c509901326e334d082b0462f397a92fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "P7tS8-G0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-20T22:18:37Z",
+      "side": 1,
+      "message": "I think I prefer an empty list because otherwise there might be a completely empty result object, which might be confusing. Done.",
+      "parentUuid": "P8TGI8Co",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P8rDgWPU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 10
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "P7vTB.OI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-20T22:18:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P8rDgWPU",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P8pDbVEo",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 10
@@ -81,6 +153,24 @@
       "writtenOn": "2013-02-20T08:24:52Z",
       "side": 1,
       "message": "When you are adding an expanded group, this really should be a list of all members of that group are are being added together. Not called once per member.",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7hS3VIg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-20T22:18:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "P8pDbVEo",
       "revId": "68a4d069c509901326e334d082b0462f397a92fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

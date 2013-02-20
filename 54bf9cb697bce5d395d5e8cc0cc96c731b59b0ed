@@ -387,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "P8PKViEQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T17:38:28Z",
+      "side": 1,
+      "message": "Replication is handled by the replication plugin, without this plugin replication functionality is not available. I had indeed in mind that we need a \u0027rename project\u0027 event and then having the replication plugin react on it.",
+      "parentUuid": "P8PLq6NA",
+      "revId": "54bf9cb697bce5d395d5e8cc0cc96c731b59b0ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P2miLg3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 1

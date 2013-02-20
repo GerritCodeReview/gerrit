@@ -52,6 +52,24 @@
       "revId": "70c00db8fa5657045afe7710de4508c3238c1913",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8RGUzD0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-20T12:56:05Z",
+      "side": 1,
+      "message": "It may be a bit more verbose, but it\u0027s also more explicit and I believe easier to understand. Naming the field that contains the description \u0027text\u0027 sounds fine to me.\n\nActually I think there is no need to wait with the documentation until everything is ready and all details are clarified. We can just document the current state and then update the documenation whenever we improve something.",
+      "parentUuid": "P7tRYfIY",
+      "revId": "70c00db8fa5657045afe7710de4508c3238c1913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

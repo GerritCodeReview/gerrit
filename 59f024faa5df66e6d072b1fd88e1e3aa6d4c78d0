@@ -16,6 +16,24 @@
       "revId": "59f024faa5df66e6d072b1fd88e1e3aa6d4c78d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8nDQsBg",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-20T20:14:31Z",
+      "side": 1,
+      "message": "It uploaded: https://storage.cloud.google.com/?project\u003d164060093628\u0026pli\u003d1#gerrit-maven%2Fgwtexpui%2Fgwtexpui%2F1.3.2",
+      "parentUuid": "P8VHQFPE",
+      "revId": "59f024faa5df66e6d072b1fd88e1e3aa6d4c78d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

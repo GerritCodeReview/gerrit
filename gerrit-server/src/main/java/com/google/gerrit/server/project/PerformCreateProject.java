@@ -59,12 +59,12 @@ import java.util.Set;
 
 
 /** Common class that holds the code to create projects */
-public class CreateProject {
+public class PerformCreateProject {
   private static final Logger log = LoggerFactory
-      .getLogger(CreateProject.class);
+      .getLogger(PerformCreateProject.class);
 
   public interface Factory {
-    CreateProject create(CreateProjectArgs createProjectArgs);
+    PerformCreateProject create(CreateProjectArgs createProjectArgs);
   }
 
   private final Set<AccountGroup.UUID> projectOwnerGroups;
@@ -79,7 +79,7 @@ public class CreateProject {
   private MetaDataUpdate.User metaDataUpdateFactory;
 
   @Inject
-  CreateProject(@ProjectOwnerGroups Set<AccountGroup.UUID> pOwnerGroups,
+  PerformCreateProject(@ProjectOwnerGroups Set<AccountGroup.UUID> pOwnerGroups,
       IdentifiedUser identifiedUser, GitRepositoryManager gitRepoManager,
       GitReferenceUpdated referenceUpdated,
       DynamicSet<NewProjectCreatedListener> createdListener,

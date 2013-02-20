@@ -16,6 +16,24 @@
       "revId": "5797d87d6b2f0be3c27647f85cd59c36ed1769cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8jDWKBc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-20T20:01:22Z",
+      "side": 1,
+      "message": "No. The only way out of here is with the timeout result and when that happens we don\u0027t want to return the worker because the thread was murdered and is an inconsistent state.",
+      "parentUuid": "P8dHbJBc",
+      "revId": "5797d87d6b2f0be3c27647f85cd59c36ed1769cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

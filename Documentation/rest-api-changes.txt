@@ -410,7 +410,7 @@ where project, branch and Change-Id are URL encoded. For branch the
 |`branch`             ||
 The name of the target branch. +
 The `refs/heads/` prefix is omitted.
-|`topic`              ||The topic to which this change belongs.
+|`topic`              |optional|The topic to which this change belongs.
 |`change_id`          ||The Change-Id of the change.
 |`subject`            ||
 The subject of the change (header line of the commit message).

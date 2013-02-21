@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QA1-e62E",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ApprovalDetail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T11:19:59Z",
+      "side": 1,
+      "message": "If a label is votable it doesn\u0027t mean that there is actually a vote.\nI think hasNonZero should simply not be set in this method.",
+      "revId": "b7041265fd586152af9f48f19d9191d301702294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

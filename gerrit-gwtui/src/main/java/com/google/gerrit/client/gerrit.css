@@ -440,11 +440,20 @@ a:hover {
 }
 
 .changeTable tr:nth-child\(even\) {
-  background: tableEvenRowColor;
+  /* Users expect to see the tableOddRowColor to be used on the 1st,
+   * 3rd, ... data row. As change tables typically have the title row
+   * as first row in tbody, this shifts row numbers for data rows by
+   * one, and we have the 1st data row being the 2nd row in the table. So
+   * we use tableOddRowColor on even rows and vice versa.
+   */
+  background: tableOddRowColor;
 }
 
 .changeTable tr:nth-child\(odd\) {
-  background: tableOddRowColor;
+  /* See above'ss nth-child\(even\) for an explanation why we use
+   * tableEvenRowColor for odd rows.
+   */
+  background: tableEvenRowColor;
 }
 
 .changeTable .outdated {

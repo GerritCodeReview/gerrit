@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QAmAbUoE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T08:51:43Z",
+      "side": 1,
+      "message": "First comma is not needed.",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QAkAQTlk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T08:51:43Z",
+      "side": 1,
+      "message": "s/repositories/repository\u0027s",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QAiAVSkk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T08:51:43Z",
+      "side": 1,
+      "message": "s/proxing/proxying",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QAgAqRos",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T08:51:43Z",
+      "side": 1,
+      "message": "Comma after \"since\" is not needed.",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QAsAMXks",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T08:51:43Z",
+      "side": 1,
+      "message": "s/does only deal/only deals",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QAqAJWjk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T08:51:43Z",
+      "side": 1,
+      "message": "s/need/be able to\n\n?",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QAoAWVlc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T08:51:43Z",
+      "side": 1,
+      "message": "mail error?",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

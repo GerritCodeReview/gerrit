@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P8rCb.Hg",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-21T00:28:59Z",
+      "side": 1,
+      "message": "FWIW Dave has been pushing forward on trying to get rid of the ApprovalCategories table from the database. Once that is done this sort of feature/remark won\u0027t make sense anymore. Its fine now, but I\u0027d like it to be incorrect/wrong before mid-April.",
+      "revId": "79b08cc06b5f757a651d780cbe3e1ecb21b40a82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

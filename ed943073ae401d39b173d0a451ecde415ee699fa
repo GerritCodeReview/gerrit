@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QA-8wH-U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeMessages.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T08:44:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QA98me8U",
+      "revId": "ed943073ae401d39b173d0a451ecde415ee699fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QA19Ca1I",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 11
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "QA98tW5s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T08:44:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QA19Ca1I",
+      "revId": "ed943073ae401d39b173d0a451ecde415ee699fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QA78jt7M",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/change/ChangeMessages.properties",
         "patchSetId": 11
@@ -47,6 +83,24 @@
       "writtenOn": "2013-02-21T08:40:55Z",
       "side": 1,
       "message": "s|jcg|java/com/google",
+      "revId": "ed943073ae401d39b173d0a451ecde415ee699fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QA786l9E",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/change/ChangeMessages.properties",
+        "patchSetId": 11
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T08:44:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QA78jt7M",
       "revId": "ed943073ae401d39b173d0a451ecde415ee699fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

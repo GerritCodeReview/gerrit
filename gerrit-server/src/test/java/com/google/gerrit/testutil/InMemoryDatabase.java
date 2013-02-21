@@ -14,19 +14,22 @@
 
 package com.google.gerrit.testutil;
 
+import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.Current;
+import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.jdbc.Database;
@@ -35,6 +38,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.Key;
 
 import junit.framework.TestCase;
@@ -81,6 +85,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   private Database<ReviewDb> database;
   private boolean created;
   private SchemaVersion schemaVersion;
+  private Injector injector;
 
   public InMemoryDatabase() throws OrmException {
     try {
@@ -96,44 +101,52 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
       //
       database = new Database<ReviewDb>(dataSource, ReviewDb.class);
 
-      schemaVersion =
-          Guice.createInjector(new AbstractModule() {
-            @Override
-            protected void configure() {
-              install(new SchemaVersion.Module());
+      injector = Guice.createInjector(new AbstractModule() {
+        @Override
+        protected void configure() {
+          install(new SchemaVersion.Module());
 
-              bind(File.class) //
-                  .annotatedWith(SitePath.class) //
-                  .toInstance(new File("."));
+          bind(File.class) //
+              .annotatedWith(SitePath.class) //
+              .toInstance(new File("."));
 
-              Config cfg = new Config();
-              cfg.setString("gerrit", null, "basePath", "git");
-              cfg.setString("user", null, "name", "Gerrit Code Review");
-              cfg.setString("user", null, "email", "gerrit@localhost");
+          Config cfg = new Config();
+          cfg.setString("gerrit", null, "basePath", "git");
+          cfg.setString("gerrit", null, "allProjects", "Test-Projects");
+          cfg.setString("user", null, "name", "Gerrit Code Review");
+          cfg.setString("user", null, "email", "gerrit@localhost");
 
-              bind(Config.class) //
-                  .annotatedWith(GerritServerConfig.class) //
-                  .toInstance(cfg);
+          bind(Config.class) //
+              .annotatedWith(GerritServerConfig.class) //
+              .toInstance(cfg);
 
-              bind(PersonIdent.class) //
-                  .annotatedWith(GerritPersonIdent.class) //
-                  .toProvider(GerritPersonIdentProvider.class);
+          bind(PersonIdent.class) //
+              .annotatedWith(GerritPersonIdent.class) //
+              .toProvider(GerritPersonIdentProvider.class);
 
-              bind(AllProjectsName.class)
-                  .toInstance(new AllProjectsName("All-Projects"));
+          bind(AllProjectsName.class) //
+              .toProvider(AllProjectsNameProvider.class);
 
-              bind(GitRepositoryManager.class) //
-                  .to(LocalDiskRepositoryManager.class);
+          bind(GitRepositoryManager.class) //
+              .to(InMemoryRepositoryManager.class).in(SINGLETON);
 
-              bind(String.class) //
-                .annotatedWith(AnonymousCowardName.class) //
-                .toProvider(AnonymousCowardNameProvider.class);
-            }
-          }).getBinding(Key.get(SchemaVersion.class, Current.class))
-              .getProvider().get();
+          bind(String.class) //
+            .annotatedWith(AnonymousCowardName.class) //
+            .toProvider(AnonymousCowardNameProvider.class);
+
+          bind(DataSourceType.class) //
+            .to(InMemoryH2Type.class);
+        }
+      });
+      schemaVersion = injector.getInstance(
+          Key.get(SchemaVersion.class, Current.class));
     } catch (SQLException e) {
       throw new OrmException(e);
     }
+  }
+
+  public <T> T getInstance(Class<T> clazz) {
+    return injector.getInstance(clazz);
   }
 
   public Database<ReviewDb> getDatabase() {
@@ -152,13 +165,7 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
       final ReviewDb c = open();
       try {
         try {
-          new SchemaCreator(
-              new File("."),
-              schemaVersion,
-              null,
-              new AllProjectsName("Test-Projects"),
-              new PersonIdent("name", "email@site"),
-              new InMemoryH2Type()).create(c);
+          getInstance(SchemaCreator.class).create(c);
         } catch (IOException e) {
           throw new OrmException("Cannot create in-memory database", e);
         } catch (ConfigInvalidException e) {

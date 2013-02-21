@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
@@ -57,6 +58,11 @@ public class RestSession {
   public RestResponse post(String endPoint) {
     // TODO
     return null;
+  }
+
+  public RestResponse delete(String endPoint) throws IOException {
+    HttpDelete delete = new HttpDelete("http://localhost:8080/a" + endPoint);
+    return new RestResponse(getClient().execute(delete));
   }
 
   private DefaultHttpClient getClient() {

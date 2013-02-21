@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "P7nSHqLI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheClock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-21T00:25:40Z",
+      "side": 1,
+      "message": "There are several other instances of checking config values against \"off\" or \"disabled\" (though not both). I wonder if we shouldn\u0027t implement something like:\n\nif (!ConfigUtil.isDisabled(serverConfig, \"cache\", \"projects\", \"checkFrequency\")) {\n  return MILLISECONDS.convert(ConfigUtil.getTimeUnit(...));\n}\n\nProbably I\u0027m overthinking it.",
+      "revId": "c825ef1f6a81e17772ec9cf8898f001d5a7315ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

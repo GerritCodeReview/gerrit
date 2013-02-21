@@ -32,6 +32,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
@@ -200,9 +201,11 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     s.parent = this;
+    s.parityCorrectingRow = -1;
     s.dataBegin = table.getRowCount();
     insertNoneRow(s.dataBegin);
     sections.add(s);
+    correctRowParities();
   }
 
   public void setAccountInfoCache(final AccountInfoCache aic) {
@@ -214,6 +217,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     for (final Section s : sections) {
       if (beforeRow <= s.titleRow) {
         s.titleRow++;
+      }
+      if (beforeRow <= s.parityCorrectingRow) {
+        s.parityCorrectingRow++;
       }
       if (beforeRow < s.dataBegin) {
         s.dataBegin++;
@@ -227,11 +233,33 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       if (row < s.titleRow) {
         s.titleRow--;
       }
+      if (row < s.parityCorrectingRow) {
+        s.parityCorrectingRow--;
+      }
       if (row < s.dataBegin) {
         s.dataBegin--;
       }
     }
     table.removeRow(row);
+  }
+
+  private void correctRowParities() {
+    for (final Section s : sections) {
+      if (s.dataBegin % 2 == 0) {
+        if (s.parityCorrectingRow == -1) {
+          insertRow(s.dataBegin);
+          s.parityCorrectingRow = s.dataBegin;
+          s.dataBegin++;
+          final FlexCellFormatter fmt = table.getFlexCellFormatter();
+          fmt.setColSpan(s.parityCorrectingRow, 0, COLUMNS);
+          final HTMLTable.RowFormatter fmtRow = table.getRowFormatter();
+          fmtRow.setVisible(s.parityCorrectingRow, false);
+        } else {
+          removeRow(s.parityCorrectingRow);
+          s.parityCorrectingRow = -1;
+        }
+      }
+    }
   }
 
   public class StarKeyCommand extends NeedsSignInKeyCommand {
@@ -263,6 +291,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     ChangeTable parent;
     final Account.Id ownerId;
     int titleRow = -1;
+    int parityCorrectingRow = -1;
     int dataBegin;
     int rows;
 
@@ -325,6 +354,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           cids.add(c.getId());
         }
       }
+      parent.correctRowParities();
     }
   }
 

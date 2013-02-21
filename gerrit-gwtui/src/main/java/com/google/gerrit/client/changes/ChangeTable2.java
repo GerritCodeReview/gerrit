@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.UIObject;
@@ -298,15 +299,20 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       s.titleRow = -1;
     }
 
+    s.parityCorrectingRow = -1;
     s.dataBegin = table.getRowCount();
     insertNoneRow(s.dataBegin);
     sections.add(s);
+    correctRowParities();
   }
 
   private int insertRow(final int beforeRow) {
     for (final Section s : sections) {
       if (beforeRow <= s.titleRow) {
         s.titleRow++;
+      }
+      if (beforeRow <= s.parityCorrectingRow) {
+        s.parityCorrectingRow++;
       }
       if (beforeRow < s.dataBegin) {
         s.dataBegin++;
@@ -320,11 +326,33 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       if (row < s.titleRow) {
         s.titleRow--;
       }
+      if (row < s.parityCorrectingRow) {
+        s.parityCorrectingRow--;
+      }
       if (row < s.dataBegin) {
         s.dataBegin--;
       }
     }
     table.removeRow(row);
+  }
+
+  private void correctRowParities() {
+    for (final Section s : sections) {
+      if (s.dataBegin % 2 == 0) {
+        if (s.parityCorrectingRow == -1) {
+          insertRow(s.dataBegin);
+          s.parityCorrectingRow = s.dataBegin;
+          s.dataBegin++;
+          final FlexCellFormatter fmt = table.getFlexCellFormatter();
+          fmt.setColSpan(s.parityCorrectingRow, 0, columns);
+          final HTMLTable.RowFormatter fmtRow = table.getRowFormatter();
+          fmtRow.setVisible(s.parityCorrectingRow, false);
+        } else {
+          removeRow(s.parityCorrectingRow);
+          s.parityCorrectingRow = -1;
+        }
+      }
+    }
   }
 
   public class StarKeyCommand extends NeedsSignInKeyCommand {
@@ -359,6 +387,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     String titleText;
     Widget titleWidget;
     int titleRow = -1;
+    int parityCorrectingRow = -1;
     int dataBegin;
     int rows;
     private boolean highlightUnreviewed;
@@ -409,17 +438,17 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
       if (sz == 0) {
         parent.insertNoneRow(dataBegin);
-        return;
+      } else {
+        while (rows < sz) {
+          parent.insertChangeRow(dataBegin + rows);
+          rows++;
+        }
+        for (int i = 0; i < sz; i++) {
+          parent.populateChangeRow(dataBegin + i, changeList.get(i),
+              highlightUnreviewed);
+        }
       }
-
-      while (rows < sz) {
-        parent.insertChangeRow(dataBegin + rows);
-        rows++;
-      }
-      for (int i = 0; i < sz; i++) {
-        parent.populateChangeRow(dataBegin + i, changeList.get(i),
-            highlightUnreviewed);
-      }
+      parent.correctRowParities();
     }
   }
 }

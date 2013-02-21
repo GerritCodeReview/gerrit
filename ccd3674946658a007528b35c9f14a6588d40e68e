@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QA5-TU1E",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T12:11:02Z",
+      "side": 1,
+      "message": "\u0027~~\u0027 is correct here and renders as a single \u0027~\u0027, though no idea why \u0027~\u0027 needs to be doubled here (\u0027\\~\u0027 does not work)",
+      "revId": "ccd3674946658a007528b35c9f14a6588d40e68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

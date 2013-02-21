@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QAiD.avM",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T08:29:07Z",
+      "side": 1,
+      "message": "s/Rewrite/Rewritten",
+      "revId": "4ff9cdd4d5219984e00d9f2fe2007f9590bea670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QAgADZhs",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T08:29:07Z",
+      "side": 1,
+      "message": "\"about the\"",
+      "revId": "4ff9cdd4d5219984e00d9f2fe2007f9590bea670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

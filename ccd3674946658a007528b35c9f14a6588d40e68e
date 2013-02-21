@@ -34,6 +34,24 @@
       "revId": "ccd3674946658a007528b35c9f14a6588d40e68e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QAx.-Q-A",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T12:29:14Z",
+      "side": 1,
+      "message": "Thanks. The \u0027$$\u0027 did the trick and it looks more correct than \u0027~~\u0027 or escaping only the first \u0027~\u0027 as above.",
+      "parentUuid": "QBhz.NfM",
+      "revId": "ccd3674946658a007528b35c9f14a6588d40e68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

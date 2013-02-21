@@ -51,6 +51,24 @@
       "revId": "5797d87d6b2f0be3c27647f85cd59c36ed1769cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P8lCsjKE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineWorkerPool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-21T00:18:09Z",
+      "side": 1,
+      "message": "No. Nearly all of this code was copied as-is from IntraLineLoader. I don\u0027t think we should forward date the copyright when its nearly unmodified.",
+      "parentUuid": "P7hSANJw",
+      "revId": "5797d87d6b2f0be3c27647f85cd59c36ed1769cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

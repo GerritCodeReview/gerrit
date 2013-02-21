@@ -44,6 +44,7 @@ Query for open changes of watched projects:
     "created": "2012-07-17 07:18:30.854000000",
     "updated": "2012-07-17 07:19:27.766000000",
     "reviewed": true,
+    "mergeable": true,
     "_sortkey": "001e7057000006dc",
     "_number": 1756,
     "owner": {
@@ -60,6 +61,7 @@ Query for open changes of watched projects:
     "status": "NEW",
     "created": "2012-07-17 07:18:30.884000000",
     "updated": "2012-07-17 07:18:30.885000000",
+    "mergeable": true,
     "_sortkey": "001e7056000006dd",
     "_number": 1757,
     "owner": {
@@ -113,6 +115,7 @@ Query that retrieves changes for a user's dashboard:
         "created": "2012-07-17 07:18:30.854000000",
         "updated": "2012-07-17 07:19:27.766000000",
         "reviewed": true,
+        "mergeable": true,
         "_sortkey": "001e7057000006dc",
         "_number": 1756,
         "owner": {
@@ -222,6 +225,7 @@ default. Optional fields are:
       "status": "NEW",
       "created": "2012-04-25 00:52:25.580000000",
       "updated": "2012-04-25 00:52:25.586000000",
+      "mergeable": true,
       "_sortkey": "001c9bf400000061",
       "_number": 97,
       "owner": {

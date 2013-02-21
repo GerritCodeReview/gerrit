@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.mail.ProjectWatch.Watchers;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -38,9 +37,8 @@ public class CreateChangeSender extends NewChangeSender {
   }
 
   @Inject
-  public CreateChangeSender(EmailArguments ea, SshInfo si, @Assisted Change c) {
+  public CreateChangeSender(EmailArguments ea, @Assisted Change c) {
     super(ea, c);
-    setSshInfo(si);
   }
 
   @Override

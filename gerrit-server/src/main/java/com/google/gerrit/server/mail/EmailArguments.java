@@ -31,10 +31,13 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
+import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.apache.velocity.runtime.RuntimeInstance;
+
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -54,6 +57,7 @@ class EmailArguments {
   final String anonymousCowardName;
   final Provider<String> urlProvider;
   final AllProjectsName allProjectsName;
+  final List<String> sshAddresses;
 
   final ChangeQueryBuilder.Factory queryBuilder;
   final Provider<ChangeQueryRewriter> queryRewriter;
@@ -76,7 +80,8 @@ class EmailArguments {
       ChangeQueryBuilder.Factory queryBuilder,
       Provider<ChangeQueryRewriter> queryRewriter, Provider<ReviewDb> db,
       RuntimeInstance velocityRuntime,
-      EmailSettings settings) {
+      EmailSettings settings,
+      @SshAdvertisedAddresses List<String> sshAddresses) {
     this.server = server;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
@@ -97,5 +102,6 @@ class EmailArguments {
     this.db = db;
     this.velocityRuntime = velocityRuntime;
     this.settings = settings;
+    this.sshAddresses = sshAddresses;
   }
 }

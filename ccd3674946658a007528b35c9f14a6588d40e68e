@@ -16,6 +16,24 @@
       "revId": "ccd3674946658a007528b35c9f14a6588d40e68e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QBhz.NfM",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T12:20:28Z",
+      "side": 1,
+      "message": "A single ~ is used to set the enclosed text as subscript, so maybe 2 are needed to prevent that?\n\nTry enclosing the string in $$ (according to [1]), i.e.:\n\n $$myProject~master~...$$\n\n[1] https://groups.google.com/forum/?fromgroups\u003d#!topic/asciidoc/Rg5E_zpOG4U",
+      "parentUuid": "QA5-TU1E",
+      "revId": "ccd3674946658a007528b35c9f14a6588d40e68e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

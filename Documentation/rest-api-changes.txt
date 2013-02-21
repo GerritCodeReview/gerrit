@@ -296,6 +296,66 @@ default. Optional fields are:
   ]
 ----
 
+[[get-change]]
+GET /changes/\{change-id\} (Get Change)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves a change.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "reviewed": true,
+    "mergeable": true,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
+
+[[ids]]
+IDs
+---
+
+[[change-id]]
+\{change-id\}
+~~~~~~~~~~~~~
+Identifier that uniquely identifies one change.
+
+This can be:
+
+* an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
+  where for the branch the `refs/heads/` prefix can be omitted
+  ("$$myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940$$")
+* a Change-Id if it uniquely identifies one change
+  ("I8473b95934b5732ac55d26311a706c9c2bde9940")
+* a legacy numeric change ID ("4247")
+
+
 [[json-entities]]
 JSON Entities
 -------------

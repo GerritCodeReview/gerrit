@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "QA58g86c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T08:40:26Z",
+      "side": 1,
+      "message": "I agree, it\u0027s not nice to have the overlap between the client and the server properties files, but it\u0027s really only temporary until the transition to the REST API is done. So this solution looks good to me :-)\n\nIt would be nice to solve the issue with the client locale later, but for now I also don\u0027t see this as important.",
+      "parentUuid": "P7lSY7B8",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P8TGI8Co",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 10
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I think I prefer an empty list because otherwise there might be a completely empty result object, which might be confusing. Done.",
       "parentUuid": "P8TGI8Co",
+      "revId": "68a4d069c509901326e334d082b0462f397a92fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QA389L9A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T08:40:26Z",
+      "side": 1,
+      "message": "Yes, I think the empty list is really the better choice. I just noticed that there is one more place that we need to fix then. In case the added group is empty (has no members), \u0027reviewers\u0027 is still null and the returned object is completely empty.",
+      "parentUuid": "P7tS8-G0",
       "revId": "68a4d069c509901326e334d082b0462f397a92fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

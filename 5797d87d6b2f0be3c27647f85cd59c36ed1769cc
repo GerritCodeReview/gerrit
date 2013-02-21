@@ -69,6 +69,24 @@
       "revId": "5797d87d6b2f0be3c27647f85cd59c36ed1769cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7rRZQFs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineWorkerPool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-21T00:25:51Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "P8lCsjKE",
+      "revId": "5797d87d6b2f0be3c27647f85cd59c36ed1769cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

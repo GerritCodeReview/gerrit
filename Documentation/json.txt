@@ -44,6 +44,8 @@ status:: Current state of this change.
 
   NEW;; Change is still being reviewed.
 
+  DRAFT;; Change is a draft change that only consists of draft patchsets.
+
   SUBMITTED;; Change has been submitted and is in the merge queue.
   It may be waiting for one or more dependencies.
 

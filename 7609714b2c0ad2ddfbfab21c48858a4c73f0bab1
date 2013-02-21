@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QA1-0qxI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommitMessageEditedSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T07:37:52Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "P8RG9rLU",
+      "revId": "7609714b2c0ad2ddfbfab21c48858a4c73f0bab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P8TG6sL4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CreateChangeSender.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-20T19:32:29Z",
       "side": 0,
       "message": "here too",
+      "revId": "7609714b2c0ad2ddfbfab21c48858a4c73f0bab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QAz-55wo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CreateChangeSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T07:37:52Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "P8TG6sL4",
       "revId": "7609714b2c0ad2ddfbfab21c48858a4c73f0bab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "QAx-.I-M",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/RebasedPatchSetSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T07:37:52Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "P8VG3NNU",
+      "revId": "7609714b2c0ad2ddfbfab21c48858a4c73f0bab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "P8XG0ONA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ReplacePatchSetSender.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-20T19:32:29Z",
       "side": 0,
       "message": "here too",
+      "revId": "7609714b2c0ad2ddfbfab21c48858a4c73f0bab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QA-8CXxU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ReplacePatchSetSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-21T07:37:52Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "P8XG0ONA",
       "revId": "7609714b2c0ad2ddfbfab21c48858a4c73f0bab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

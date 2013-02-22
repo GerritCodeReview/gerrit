@@ -43,7 +43,6 @@ import java.util.Map;
 
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final ApprovalTypes approvalTypes;
   private final FunctionState.Factory functionState;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
@@ -55,7 +54,6 @@ public class ReviewerJson {
       FunctionState.Factory functionState,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
-    this.userFactory = userFactory;
     this.approvalTypes = approvalTypes;
     this.functionState = functionState;
     this.accountLoaderFactory = accountLoaderFactory;

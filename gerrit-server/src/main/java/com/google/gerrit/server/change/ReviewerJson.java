@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.workflow.CategoryFunction;
@@ -43,19 +42,16 @@ import java.util.Map;
 
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final ApprovalTypes approvalTypes;
   private final FunctionState.Factory functionState;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
-      IdentifiedUser.GenericFactory userFactory,
       ApprovalTypes approvalTypes,
       FunctionState.Factory functionState,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
-    this.userFactory = userFactory;
     this.approvalTypes = approvalTypes;
     this.functionState = functionState;
     this.accountLoaderFactory = accountLoaderFactory;

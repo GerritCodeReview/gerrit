@@ -11,6 +11,9 @@ client.
 To make use of this feature, a plugin must implement the `CommitValidationListener`
 interface.
 
+Out of the box, Gerrit includes a plugin that checks the length of the
+subject and body lines of commit messages on uploaded commits.
+
 
 GERRIT
 ------

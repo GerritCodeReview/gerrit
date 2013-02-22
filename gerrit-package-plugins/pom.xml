@@ -52,6 +52,12 @@ limitations under the License.
       <version>1.0-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.googlesource.gerrit.plugins.validators</groupId>
+      <artifactId>commit-message-length-validator</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QOydMeoM",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-22T15:27:50Z",
+      "side": 1,
+      "message": "This should be obvious from the example, but these are the detailed flavor of ReviewerInfo (_account_id and email included).\n\nMakes me wonder if we should generalize the ListChangesOption approach.",
+      "revId": "d10de6383077f199d3fe2f93126ec188c85f80ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

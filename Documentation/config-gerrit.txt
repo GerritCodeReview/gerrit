@@ -390,6 +390,29 @@ This parameter only affects git over http and git over SSH traffic.
 +
 By default this is set to false.
 
+[[approveTypeThreshold]]Section approveTypeThreshold
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[approveTypeThreshold.name]]approveTypeThreshold.<name>::
+
+Name here shold keep align with 'category_id' column of DB table
+'approval_categories'. The value should keep align with 'value'
+column of DB table 'approval_category_values'. Example:
+
+----
+[approveTypeThreshold]
+  CRVW = 0
+  VRIF = 0
+----
+
+By default the value for `approveTypeThreshold` will be same as
+
+----
+[approveTypeThreshold]
+  CRVW = 0
+  VRIF = 1
+----
+
 [[cache]]Section cache
 ~~~~~~~~~~~~~~~~~~~~~~
 

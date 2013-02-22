@@ -45,6 +45,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -86,6 +87,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -123,6 +125,7 @@ public class ChangeJson {
   private final PatchListCache patchListCache;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<String> urlProvider;
+  private final Config config;
   private final Urls urls;
   private ChangeControl.Factory changeControlUserFactory;
   private SshInfo sshInfo;
@@ -143,6 +146,7 @@ public class ChangeJson {
       PatchListCache plc,
       AccountInfo.Loader.Factory ailf,
       @CanonicalWebUrl Provider<String> curl,
+      @GerritServerConfig Config config,
       Urls urls) {
     this.db = db;
     this.approvalTypes = at;
@@ -155,6 +159,7 @@ public class ChangeJson {
     this.patchListCache = plc;
     this.accountLoaderFactory = ailf;
     this.urlProvider = curl;
+    this.config = config;
     this.urls = urls;
 
     controls = Maps.newHashMap();
@@ -629,15 +634,74 @@ public class ChangeJson {
 
       Account.Id currentUserId = ((IdentifiedUser) user).getAccountId();
       Account.Id changeOwnerId = cd.change(db).getOwner();
+
+      boolean alreadyFoundOwnerMessage = false;
+      boolean alreadyFoundCurrentUserMessage = false;
+
       for (ChangeMessage cm : messages) {
-        if (currentUserId.equals(cm.getAuthor())) {
-          return true;
-        } else if (changeOwnerId.equals(cm.getAuthor())) {
-          return false;
+        if (currentUserId.equals(cm.getAuthor())
+            && !alreadyFoundCurrentUserMessage) {
+          alreadyFoundCurrentUserMessage = true;
+          if (!alreadyFoundOwnerMessage) {
+            return true;
+          } else {
+            if (needCareOwnerFeedbackOnThisPatchsetAfterMyreview(
+                currentPatchSet.getId(), currentUserId)) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        } else if (changeOwnerId.equals(cm.getAuthor())
+            && !alreadyFoundOwnerMessage) {
+          alreadyFoundOwnerMessage = true;
         }
       }
     }
     return false;
+  }
+
+  private boolean needCareOwnerFeedbackOnThisPatchsetAfterMyreview(
+      PatchSet.Id currentPatchSet, Account.Id myId) throws OrmException {
+    Map<ApprovalCategory.Id, Integer> thresholds =
+        getApproveTypeThresholds(config);
+
+    for (PatchSetApproval a : db.get().patchSetApprovals()
+        .byPatchSetUser(currentPatchSet, myId)) {
+      if (!thresholds.keySet().contains(a.getCategoryId())) {
+        continue;
+      }
+
+      if (a.getValue() >= thresholds.remove(a.getCategoryId())) {
+        continue;
+      } else {
+        return true;
+      }
+    }
+    if (thresholds.size() == 1
+        && thresholds.values().iterator().next().equals(0)) {
+      return false;
+    } else if (thresholds.size() == 0) {
+      return false;
+    }
+    return true;
+  }
+
+  private static Map<ApprovalCategory.Id, Integer> getApproveTypeThresholds(
+      Config config) {
+    Set<String> thresholdNames = config.getNames("approveTypeThreshold");
+    Map<ApprovalCategory.Id, Integer> thresholds =
+        new HashMap<ApprovalCategory.Id, Integer>();
+    if (thresholdNames.isEmpty()) {
+      thresholds.put(ApprovalCategory.CRVW, 1);
+      thresholds.put(ApprovalCategory.VRIF, 0);
+    } else {
+      for (String name : thresholdNames) {
+        thresholds.put(new ApprovalCategory.Id(name),
+            Integer.valueOf(config.getInt("approveTypeThreshold", name, 1)));
+      }
+    }
+    return thresholds;
   }
 
   private Map<String, RevisionInfo> revisions(ChangeData cd) throws OrmException {

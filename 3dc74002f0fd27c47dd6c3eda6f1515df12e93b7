@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QO8cCPhY",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T07:31:39Z",
+      "side": 1,
+      "message": "What is the content here if the change does not have a topic?",
+      "revId": "3dc74002f0fd27c47dd6c3eda6f1515df12e93b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QOwf5Ngo",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T07:31:39Z",
+      "side": 1,
+      "message": "- What should be provided, if anything, if the topic is to be deleted?\n\n- Changing the topic allows a message to be added as comment.",
+      "revId": "3dc74002f0fd27c47dd6c3eda6f1515df12e93b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QOyf.uvM",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T07:31:39Z",
+      "side": 1,
+      "message": "s/is/was",
+      "revId": "3dc74002f0fd27c47dd6c3eda6f1515df12e93b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

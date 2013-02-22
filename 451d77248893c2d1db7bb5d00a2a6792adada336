@@ -34,6 +34,24 @@
       "revId": "451d77248893c2d1db7bb5d00a2a6792adada336",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QOycVWkk",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T07:58:03Z",
+      "side": 1,
+      "message": "Depending on whether or not the TopicInput entity is required when there\u0027s no comment, you could put something like:\n\n The request body must include a link:#topic-input[TopicInput] entity even if no comment is added.\n\nOr:\n\n The request body does not need to include a link:#topic-input[TopicInput] entity if no review comment is added.\n\nThis will still properly describe what\u0027s expected, but without so much duplication.",
+      "parentUuid": "QN6t8qX4",
+      "revId": "451d77248893c2d1db7bb5d00a2a6792adada336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

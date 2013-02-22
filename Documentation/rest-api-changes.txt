@@ -653,6 +653,62 @@ the error message is contained in the response body.
   change is new
 ----
 
+[[revert-change]]
+POST /changes/\{change-id\}/revert (Revert Change)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Reverts a change.
+
+The request body does not need to include a link:#revert-input[
+RevertInput] entity if no review comment is added.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revert HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the reverting change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Revert \"Implementing Feature X\"",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "reviewed": true,
+    "mergeable": true,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
+If the change cannot be reverted because the change state doesn't
+allow reverting the change, the response is "`409 Conflict`" and
+the error message is contained in the response body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  change is new
+----
+
 
 [[ids]]
 IDs
@@ -910,6 +966,19 @@ The `RestoreInput` entity contains information for restoring a change.
 |Field Name    ||Description
 |`message`     |optional|
 Message to be added as review comment to the change when restoring the
+change.
+|===========================
+
+[[revert-input]]
+RevertInput
+~~~~~~~~~~~
+The `RevertInput` entity contains information for reverting a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`message`     |optional|
+Message to be added as review comment to the change when reverting the
 change.
 |===========================
 

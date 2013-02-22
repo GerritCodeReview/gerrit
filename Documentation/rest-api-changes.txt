@@ -465,6 +465,81 @@ describes the change.
   }
 ----
 
+[[get-topic]]
+GET /changes/\{change-id\}/topic (Get Topic)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves the topic of a change.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "Documentation"
+----
+
+[[set-topic]]
+PUT /changes/\{change-id\}/topic (Set Topic)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the topic of a change.
+
+The new topic must be provided in the request body inside a
+link:#topic-input[TopicInput] entity.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "topic": "Documentation"
+  }
+----
+
+As response the new topic is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "Documentation"
+----
+
+If the topic is deleted the response is "`204 No Content`".
+
+[[delete-topic]]
+DELETE /changes/\{change-id\}/topic (Delete Topic)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deletes the topic of a change.
+
+A message to be added as comment to the change when deleting the topic
+can be specified in the request body inside a link:#topic-input[
+TopicInput] entity.
+
+Please note that some proxies prohibit request bodies for DELETE
+requests. In this case, if you want to specify a commit message, use
+link:#set-topic[PUT] to delete the topic.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 
 [[ids]]
 IDs
@@ -718,6 +793,20 @@ link:#commit-info[CommitInfo] entity.
 |`files`       ||
 The files of the patch set as a map that maps the file names to
 link:#file-info[FileInfo] entities.
+|===========================
+
+[[topic-input]]
+TopicInput
+~~~~~~~~~~
+The `TopicInput` entity contains information for setting a topic.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`topic`       |optional|The topic. +
+The topic will be deleted if not set.
+|`message`     |optional|
+Message to add as comment to the change when setting the topic.
 |===========================
 
 

@@ -5,8 +5,9 @@ This page describes the change related REST endpoints.
 Please also take note of the general information on the
 link:rest-api.html[REST API].
 
-Endpoints
----------
+[[change-endpoints]]
+Change Endpoints
+----------------
 
 [[list-changes]]
 GET /changes/ (Query Changes)
@@ -771,6 +772,53 @@ message is contained in the response body.
   blocked by Verified
 ----
 
+[[reviewer-endpoints]]
+Reviewer Endpoints
+------------------
+
+[[list-reviewers]]
+GET /changes/\{change-id\}/reviewers/ (List Reviewers)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists the reviewers of a change.
+
+As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#reviewer",
+      "approvals": {
+        "Verified": "+1",
+        "Code-Review": "+2"
+      },
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    {
+      "kind": "gerritcodereview#reviewer",
+      "approvals": {
+        "Verified": " 0",
+        "Code-Review": "-1"
+      },
+      "_account_id": 1000097,
+      "name": "Jane Roe",
+      "email": "jane.roe@example.com"
+    }
+  ]
+----
+
 
 [[ids]]
 IDs
@@ -1043,6 +1091,25 @@ The `RevertInput` entity contains information for reverting a change.
 Message to be added as review comment to the change when reverting the
 change.
 |===========================
+
+[[reviewer-info]]
+ReviewerInfo
+~~~~~~~~~~~~
+The `ReviewerInfo` entity contains information about a reviewer and its
+votes on a change.
+
+`ReviewerInfo` has the same fields as link:#account-info[AccountInfo]
+and includes link:#detailed-accounts[detailed account information].
+In addition `ReviewerInfo` has the following fields:
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`kind`        |`gerritcodereview#reviewer`
+|`approvals`   |
+The approvals of the reviewer as a map that maps the label names to the
+approval values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`").
+|==========================
 
 [[revision-info]]
 RevisionInfo

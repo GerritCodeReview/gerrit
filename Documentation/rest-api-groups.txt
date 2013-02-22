@@ -285,6 +285,8 @@ Retrieves the description of a group.
   "contains all committers for MyProject"
 ----
 
+If the group does not have a description an empty string is returned.
+
 [[set-group-description]]
 PUT /groups/\{group-id\}/description (Set Group Description)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

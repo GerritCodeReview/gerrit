@@ -114,6 +114,8 @@ Retrieves the description of a project.
   "Copies to other servers using the Git protocol"
 ----
 
+If the project does not have a description an empty string is returned.
+
 [[set-project-description]]
 PUT /projects/\{project-name\}/description (Set Project Description)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,11 +152,11 @@ DELETE /projects/\{project-name\}/description (Delete Project Description)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Deletes the description of a project.
 
-A message to commit the change of the project description can be
-specified in the request body inside a
-link:#project-description-input[ProjectDescriptionInput] entity.
+The request body does not need to include a
+link:#project-description-input[ProjectDescriptionInput] entity if no
+commit message is specified.
 
-Please note, that some proxies prohibit request bodies for DELETE
+Please note that some proxies prohibit request bodies for DELETE
 requests. In this case, if you want to specify a commit message, use
 link:#set-project-description[PUT] to delete the description.
 
@@ -415,9 +417,8 @@ Deletes a project dashboard.
 
 Currently only supported for the `default` dashboard.
 
-A message to commit the deletion of the project dashboard can be
-specified in the request body inside a link:#dashboard-input[
-DashbaordInput] entity.
+The request body does not need to include a link:#dashboard-input[
+DashbaordInput] entity if no commit message is specified.
 
 Please note that some proxies prohibit request bodies for DELETE
 requests.

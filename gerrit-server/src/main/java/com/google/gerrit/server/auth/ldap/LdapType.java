@@ -25,8 +25,9 @@ abstract class LdapType {
   static LdapType guessType(final DirContext ctx) throws NamingException {
     final Attributes rootAtts = ctx.getAttributes("");
     Attribute supported = rootAtts.get("supportedCapabilities");
-    if (supported != null && supported.contains("1.2.840.113556.1.4.800")) {
-      return new ActiveDirectory(rootAtts);
+    if (supported != null && (supported.contains("1.2.840.113556.1.4.800")
+          || supported.contains("1.2.840.113556.1.4.1851"))) {
+      return new ActiveDirectory();
     }
 
     return RFC_2307;
@@ -91,17 +92,6 @@ abstract class LdapType {
   }
 
   private static class ActiveDirectory extends LdapType {
-    ActiveDirectory(final Attributes atts) throws NamingException {
-      // Convert "defaultNamingContext: DC=foo,DC=example,DC=com" into
-      // the a standard DNS name as we would expect to find in the suffix
-      // part of the userPrincipalName.
-      //
-      Attribute defaultNamingContext = atts.get("defaultNamingContext");
-      if (defaultNamingContext == null || defaultNamingContext.size() < 1) {
-        throw new NamingException("rootDSE has no defaultNamingContext");
-      }
-    }
-
     @Override
     String groupPattern() {
       return "(&(objectClass=group)(cn=${groupname}))";

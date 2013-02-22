@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QO2cbUoE",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T07:44:50Z",
+      "side": 1,
+      "message": "According to your reply to my comment on the previous patch set, is this paragraph needed?",
+      "revId": "451d77248893c2d1db7bb5d00a2a6792adada336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

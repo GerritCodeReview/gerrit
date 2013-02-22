@@ -23,6 +23,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -63,7 +64,7 @@ public class ListMembers implements RestReadView<GroupResource> {
   @Override
   public List<MemberInfo> apply(final GroupResource resource)
       throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
+      ResourceNotFoundException, Exception {
     if (resource.toAccountGroup() == null) {
       throw new ResourceNotFoundException(resource.getGroupUUID().get());
     }

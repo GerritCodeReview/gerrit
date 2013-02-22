@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QULIwwPQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-22T18:35:52Z",
+      "side": 1,
+      "message": "This should be passed in, not generated again. Rework the caller to give you the GroupResource.",
+      "revId": "b774d9021e564806eaefc102af03804569b4d933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QUJItvJw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-22T18:35:52Z",
+      "side": 1,
+      "message": "If you really want the o option in the query string to work here you need to setup an @Option() annotation above to have it be parsed and passed to the GroupJson.",
+      "revId": "b774d9021e564806eaefc102af03804569b4d933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+Gerrit Code Review - Commit Validation
+======================================
+
+Gerrit supports link:dev-plugins.html[plugin-based] validation of
+uploaded commits.
+
+This allows plugins to perform additional validation checks against
+uploaded commits, and send back a warning or error message to the git
+client.
+
+To make use of this feature, a plugin must implement the `CommitValidationListener`
+interface.
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+

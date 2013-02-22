@@ -45,6 +45,7 @@ Configuration
 * link:config-hooks.html[Hooks]
 * link:config-mail.html[Mail Templates]
 * link:config-cla.html[Contributor Agreements]
+* link:config-validation.html[Commit Validation]
 
 Developer Documentation
 -----------------------

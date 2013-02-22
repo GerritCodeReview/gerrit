@@ -70,6 +70,7 @@ public abstract class AccountGroupScreen extends MenuScreen {
 
   protected void updateOwnerGroup(GroupInfo ownerGroup) {
     group.setOwnerUUID(ownerGroup.getGroupUUID());
+    group.owner(ownerGroup.name());
   }
 
   protected AccountGroup.UUID getOwnerGroupUUID() {

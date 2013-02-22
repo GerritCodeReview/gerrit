@@ -19,8 +19,6 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.NativeString;
-import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.RPCSuggestOracle;
@@ -216,22 +214,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   protected void display(final GroupInfo group, final boolean canModify) {
     groupUUIDLabel.setText(group.getGroupUUID().get());
     groupNameTxt.setText(group.name());
-
-    GroupApi.getGroupName(group.getOwnerUUID(), new GerritCallback<NativeString>() {
-      @Override
-      public void onSuccess(NativeString result) {
-        ownerTxt.setText(result.asString());
-      }
-      @Override
-      public void onFailure(Throwable caught) {
-        if (RestApi.isNotFound(caught)) {
-          ownerTxt.setText(Util.M.deletedReference(group.getOwnerUUID().get()));
-        } else {
-          super.onFailure(caught);
-        }
-      }
-    });
-
+    ownerTxt.setText(group.owner() != null?group.owner():Util.M.deletedReference(group.getOwnerUUID().get()));
     descTxt.setText(group.description());
     visibleToAllCheckBox.setValue(group.options().isVisibleToAll());
     setMembersTabVisible(AccountGroup.isInternalGroup(group.getGroupUUID())

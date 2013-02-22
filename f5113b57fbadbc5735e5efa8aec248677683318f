@@ -172,6 +172,23 @@
     },
     {
       "key": {
+        "uuid": "QI---3.o",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:29:39Z",
+      "side": 1,
+      "message": "Line endings in this file are DOS again.\n\n(was previously commented in patch set 6, and fixed in 7)",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OTtQLvCw",
         "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
         "patchSetId": 9

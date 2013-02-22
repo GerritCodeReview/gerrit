@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QQkDv7j8",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2013-02-22T08:00:52Z",
+      "side": 1,
+      "message": "I would prefer a different approach:\n add an argument ssh-exec and allow to spcifiy the name or path ( to allow to use ssh from a location that is  not on the path.\n\nAnd I would put the config args into a configuration file, this way you could call this script directly as a gerrit hook.",
+      "revId": "6d4a4753a02d67087a49e29460f544d00c99cf1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

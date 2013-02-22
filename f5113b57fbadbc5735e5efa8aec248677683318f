@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QI78JVzk",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWIoo64g",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OWOolJ68",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2013-01-16T07:22:53Z",
       "side": 1,
       "message": "- There are only two reasons mentioned here, not \"a number\"\n- s/First/Firstly\n- s/You/you",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QI18WC1o",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWOolJ68",
       "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "QI38bz4A",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWMoi46Q",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OWCpDv0U",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2013-01-16T07:22:53Z",
       "side": 1,
       "message": "The surrounding + characters seem to be not needed here.  They are being displayed in the HTML.",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QIx8Qg1g",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWCpDv0U",
       "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "QIz8VR0k",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWApIe14",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OWGpNt24",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 9
@@ -98,6 +188,24 @@
       "writtenOn": "2013-01-16T07:22:53Z",
       "side": 1,
       "message": "2.4-rc0 is no longer the latest.  I think it would be better to omit the \"the current release is ...\" part.",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QI98pu5c",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWGpNt24",
       "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "QI-8m-8Q",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWEpScww",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OWKo2j.A",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 9
@@ -132,6 +258,24 @@
       "writtenOn": "2013-01-16T07:22:53Z",
       "side": 1,
       "message": "s/2.4-rc1/X.X-rcX",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QI58jM7Q",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWKo2j.A",
       "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "QI78gd6c",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OWIozy-A",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OTjQYMH4",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 9
@@ -166,6 +328,24 @@
       "writtenOn": "2013-01-15T19:11:54Z",
       "side": 1,
       "message": "Can you add some explanation for these attributes? Specifically, the docBase is confusing. What is it pointing at? The gerrit \u0027site\u0027 directory (that has the sub-directories etc, bin,...)?",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QI189q88",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Not done.  This can probably go in a separate change.",
+      "parentUuid": "OTjQYMH4",
       "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "QI39C71I",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QI---3.o",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "OTtQLvCw",
         "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
         "patchSetId": 9
@@ -200,6 +398,24 @@
       "writtenOn": "2013-01-15T19:11:54Z",
       "side": 1,
       "message": "The driverClassName should be \"com.mysql.jdbc.Driver\".\n\nMy understanding is that the MySQL project took over an external driver and when they did, they changed the driverClassName.  The old one works, but is depreciated.",
+      "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QIx9HI2I",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-22T00:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "OTtQLvCw",
       "revId": "f5113b57fbadbc5735e5efa8aec248677683318f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

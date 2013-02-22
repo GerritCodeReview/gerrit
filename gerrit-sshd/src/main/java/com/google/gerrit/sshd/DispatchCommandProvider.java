@@ -93,14 +93,14 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     for (final Binding<?> b : allCommands()) {
       final Annotation annotation = b.getKey().getAnnotation();
       if (annotation instanceof CommandName) {
-        String descr = null;
-        if (annotation instanceof Commands.NestedCommandNameImpl) {
-          Commands.NestedCommandNameImpl impl =
-              ((Commands.NestedCommandNameImpl) annotation);
-          descr = impl.descr();
-        }
         final CommandName n = (CommandName) annotation;
         if (!Commands.CMD_ROOT.equals(n) && Commands.isChild(parent, n)) {
+          String descr = null;
+          if (annotation instanceof Commands.NestedCommandNameImpl) {
+            Commands.NestedCommandNameImpl impl =
+                ((Commands.NestedCommandNameImpl) annotation);
+            descr = impl.descr();
+          }
           m.put(n.value(),
               new CommandProvider((Provider<Command>) b.getProvider(), descr));
         }

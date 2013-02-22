@@ -16,6 +16,24 @@
       "revId": "d10de6383077f199d3fe2f93126ec188c85f80ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QRJ5UvQQ",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-22T15:45:52Z",
+      "side": 1,
+      "message": "Yes, it\u0027s obvious, but anyway it\u0027s nice to have a link to the description of this entity (we have this sentence for all other examples too). We can change this pattern, but I think it\u0027s okay to be a bit more verbose in the documentation.\n\nI\u0027ve actually missed to describe that ReviewerInfo contains detailed account information, I\u0027ve added this info to the description of the ReviewerInfo entity below.\n\nHow do you imagine the generalization of ListChangesOption?",
+      "parentUuid": "QOydMeoM",
+      "revId": "d10de6383077f199d3fe2f93126ec188c85f80ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

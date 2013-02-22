@@ -541,6 +541,118 @@ link:#set-topic[PUT] to delete the topic.
   HTTP/1.1 204 No Content
 ----
 
+[[abandon-change]]
+POST /changes/\{change-id\}/abandon (Abandon Change)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Abandons a change.
+
+The request body does not need to include a link:#abandon-input[
+AbandonInput] entity if no review comment is added.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/abandon HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the abandoned change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "ABANDONED",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "reviewed": true,
+    "mergeable": true,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
+If the change cannot be abandoned because the change state doesn't
+allow abandoning of the change, the response is "`409 Conflict`" and
+the error message is contained in the response body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  change is merged
+----
+
+[[restore-change]]
+POST /changes/\{change-id\}/restore (Restore Change)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Restores a change.
+
+The request body does not need to include a link:#restore-input[
+RestoreInput] entity if no review comment is added.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/restore HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the restored change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "reviewed": true,
+    "mergeable": true,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
+If the change cannot be restored because the change state doesn't
+allow restoring the change, the response is "`409 Conflict`" and
+the error message is contained in the response body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  change is new
+----
+
 
 [[ids]]
 IDs
@@ -564,6 +676,19 @@ This can be:
 [[json-entities]]
 JSON Entities
 -------------
+
+[[abandon-input]]
+AbandonInput
+~~~~~~~~~~~~
+The `AbandonInput` entity contains information for abandoning a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`message`     |optional|
+Message to be added as review comment to the change when abandoning the
+change.
+|===========================
 
 [[account-info]]
 AccountInfo
@@ -773,6 +898,19 @@ Only set if link:#detailed-labels[detailed labels] are requested.
 label. The map maps the values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`")
 to the value descriptions. +
 Only set if link:#detailed-labels[detailed labels] are requested.
+|===========================
+
+[[restore-input]]
+RestoreInput
+~~~~~~~~~~~~
+The `RestoreInput` entity contains information for restoring a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`message`     |optional|
+Message to be added as review comment to the change when restoring the
+change.
 |===========================
 
 [[revision-info]]

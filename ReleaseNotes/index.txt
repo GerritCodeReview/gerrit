@@ -1,6 +1,11 @@
 Gerrit Code Review - Release Notes
 ==================================
 
+[[2_6]]
+Version 2.6.x
+-------------
+* link:ReleaseNotes-2.6.html[2.6]
+
 [[2_5]]
 Version 2.5.x
 -------------

@@ -24,10 +24,12 @@ import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_ACCOUN
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -122,6 +124,7 @@ public class ChangeJson {
   private final PatchListCache patchListCache;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<String> urlProvider;
+  private final Config config;
   private final Urls urls;
   private ChangeControl.Factory changeControlUserFactory;
   private SshInfo sshInfo;
@@ -142,6 +145,7 @@ public class ChangeJson {
       PatchListCache plc,
       AccountInfo.Loader.Factory ailf,
       @CanonicalWebUrl Provider<String> curl,
+      @GerritServerConfig Config config,
       Urls urls) {
     this.db = db;
     this.approvalTypes = at;
@@ -154,6 +158,7 @@ public class ChangeJson {
     this.patchListCache = plc;
     this.accountLoaderFactory = ailf;
     this.urlProvider = curl;
+    this.config = config;
     this.urls = urls;
 
     controls = Maps.newHashMap();
@@ -574,15 +579,59 @@ public class ChangeJson {
 
       Account.Id currentUserId = ((IdentifiedUser) user).getAccountId();
       Account.Id changeOwnerId = cd.change(db).getOwner();
+
+      ChangeMessage currentUserMessage = null;
+      boolean alreadyFoundOwnerMessger = false;
+      boolean alreadyFoundCurrentUserMessage = false;
+
       for (ChangeMessage cm : messages) {
-        if (currentUserId.equals(cm.getAuthor())) {
-          return true;
-        } else if (changeOwnerId.equals(cm.getAuthor())) {
-          return false;
+        if (currentUserId.equals(cm.getAuthor())
+            && !alreadyFoundCurrentUserMessage) {
+          currentUserMessage = cm;
+          alreadyFoundCurrentUserMessage = true;
+          if (!alreadyFoundOwnerMessger) {
+            return true;
+          } else {
+            if (needCareOwnerFeedbackOnThisPatchsetAfterMyreview(currentUserMessage)) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        } else if (changeOwnerId.equals(cm.getAuthor())
+            && !alreadyFoundOwnerMessger) {
+          alreadyFoundOwnerMessger = true;
         }
       }
     }
     return false;
+  }
+
+  private boolean needCareOwnerFeedbackOnThisPatchsetAfterMyreview(
+      ChangeMessage myCommitMessage) {
+    List<ApprovalType> types = approvalTypes.getApprovalTypes();
+
+    final int shreShold = config.getInt("approveType", "positiveThreshold", 0);
+    Set<String> pool = Sets.newHashSet();
+    for (ApprovalType type : approvalTypes.getApprovalTypes()) {
+      pool.addAll(Sets.newHashSet(Iterators.transform(type.getValues()
+          .iterator(), new Function<ApprovalCategoryValue, String>() {
+        @Override
+        public String apply(ApprovalCategoryValue typeValue) {
+          if (typeValue.getValue() >= shreShold) {
+            return typeValue.getName();
+          } else
+            return "";
+        }
+      })));
+    }
+    String[] re =
+        myCommitMessage.getMessage().split(":", 2)[1].split(";", types.size());
+    if (pool.containsAll(Sets.newHashSet(re))) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   private Map<String, RevisionInfo> revisions(ChangeData cd) throws OrmException {

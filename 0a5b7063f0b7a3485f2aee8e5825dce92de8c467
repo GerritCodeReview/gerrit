@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QQkAWzlk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Updated the commit message, but haven\u0027t fixed the logic yet.",
+      "parentUuid": "MB1tGA1M",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///0c\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
         "patchSetId": 1
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "P7jSRsE4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI5H///1E\u003d",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///1A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
         "patchSetId": 1
@@ -82,6 +118,24 @@
       "writtenOn": "2012-08-24T08:46:12Z",
       "side": 1,
       "message": "Do you need the \u0027processed\u0027 parameter in this public method? I would expect that all external callers would just pass \u0027null\u0027 for it.\n\nnit: this line could be wrapped",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7lSeLF0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI5H///1A\u003d",
       "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "P7hSUtD0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI5H///08\u003d",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///0I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
         "patchSetId": 1
@@ -116,6 +188,24 @@
       "writtenOn": "2012-08-24T08:46:12Z",
       "side": 1,
       "message": "Should the change be added to the \u0027processed\u0027 map before doing the recursive call in line 138?",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7nTjKJs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "I don\u0027t think so. I think we want to build a complete list of errors for the change before calling it \"done\".",
+      "parentUuid": "AAAI5H///0I\u003d",
       "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "P7pTwxFw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI5H///04\u003d",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///00\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -150,6 +258,24 @@
       "writtenOn": "2012-08-24T08:46:12Z",
       "side": 1,
       "message": "nit: unused import",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7rT1wEs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI5H///00\u003d",
       "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -173,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "P7tTqPGo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI5H///0w\u003d",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI1n///5w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -184,6 +328,24 @@
       "writtenOn": "2012-11-28T05:46:40Z",
       "side": 1,
       "message": "Use the interfaces here.",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QQuAJ4jg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI1n///5w\u003d",
       "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -224,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "P7jQCkE0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "I think you\u0027re correct. I changed to use patches(dbProvider) to load the patches.",
+      "parentUuid": "AAAI5H///0o\u003d",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///0k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -241,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "P7lT-DCQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI5H///0k\u003d",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///0g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 1
@@ -252,6 +450,24 @@
       "writtenOn": "2012-08-24T08:46:12Z",
       "side": 1,
       "message": "Same as above. Don\u0027t you need to create a new ChangeControl here for the dependent change?",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "P7nT8CC8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-22T16:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI5H///0g\u003d",
       "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

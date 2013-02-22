@@ -22,6 +22,8 @@ public class ChangeMessages extends TranslationBundle {
     return NLS.getBundleFor(ChangeMessages.class);
   }
 
+  public String revertChangeDefaultMessage;
+
   public String groupIsNotAllowed;
   public String groupHasTooManyMembers;
   public String groupManyMembersConfirmation;

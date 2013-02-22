@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -64,6 +65,7 @@ import org.eclipse.jgit.util.NB;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -191,14 +193,12 @@ public class ChangeUtil {
     db.patchSetAncestors().insert(toInsert);
   }
 
-  public static Change.Id revert(final RefControl refControl,
-      final PatchSet.Id patchSetId, final IdentifiedUser user,
-      final CommitValidators commitValidators,
-      final String message, final ReviewDb db,
-      final RevertedSender.Factory revertedSenderFactory,
-      final ChangeHooks hooks, Repository git,
-      final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated gitRefUpdated, PersonIdent myIdent,
+  public static Change.Id revert(RefControl refControl, PatchSet.Id patchSetId,
+      IdentifiedUser user, CommitValidators commitValidators, String message,
+      ReviewDb db, RevertedSender.Factory revertedSenderFactory,
+      ChangeHooks hooks, Repository git,
+      PatchSetInfoFactory patchSetInfoFactory,
+      GitReferenceUpdated gitRefUpdated, PersonIdent myIdent,
       String canonicalWebUrl) throws NoSuchChangeException, EmailException,
       OrmException, MissingObjectException, IncorrectObjectTypeException,
       IOException, InvalidChangeOperationException {
@@ -225,6 +225,12 @@ public class ChangeUtil {
       revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
       revertCommitBuilder.setAuthor(authorIdent);
       revertCommitBuilder.setCommitter(myIdent);
+
+      if (message == null) {
+        message = MessageFormat.format(
+            ChangeMessages.get().revertChangeDefaultMessage,
+            changeToRevert.getSubject(), patch.getRevision().get());
+      }
 
       final ObjectId computedChangeId =
           ChangeIdUtil.computeChangeId(parentToCommitToRevert.getTree(),

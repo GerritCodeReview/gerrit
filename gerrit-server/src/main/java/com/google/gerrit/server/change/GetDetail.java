@@ -24,7 +24,9 @@ public class GetDetail implements RestReadView<ChangeResource> {
 
   @Inject
   GetDetail(ChangeJson json) {
-    this.json = json.addOption(ListChangesOption.DETAILED_LABELS)
+    this.json = json
+        .addOption(ListChangesOption.LABELS)
+        .addOption(ListChangesOption.DETAILED_LABELS)
         .addOption(ListChangesOption.DETAILED_ACCOUNTS);
   }
 

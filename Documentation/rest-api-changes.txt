@@ -709,6 +709,68 @@ the error message is contained in the response body.
   change is new
 ----
 
+[[submit-change]]
+POST /changes/\{change-id\}/submit (Submit Change)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Submits a change.
+
+The request body only needs to include a link:#submit-input[
+SubmitInput] entity if the request should wait for the merge to
+complete.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submit HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "wait_for_merge": true
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the submitted/merged change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "MERGED",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "reviewed": true,
+    "mergeable": true,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
+
+If the change cannot be submitted because the submit rule doesn't allow
+submitting the change, the response is "`409 Conflict`" and the error
+message is contained in the response body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  blocked by Verified
+----
+
 
 [[ids]]
 IDs
@@ -1001,6 +1063,21 @@ link:#commit-info[CommitInfo] entity.
 |`files`       ||
 The files of the patch set as a map that maps the file names to
 link:#file-info[FileInfo] entities.
+|===========================
+
+[[submit-input]]
+SubmitInput
+~~~~~~~~~~~
+The `SubmitInput` entity contains information for submitting a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`wait_for_merge`|`false` if not set|
+Whether the request should wait for the merge to complete. +
+If `false` the request returns immediately after the change has been
+added to the merge queue and the caller can't know whether the change
+could be merged successfully.
 |===========================
 
 [[topic-input]]

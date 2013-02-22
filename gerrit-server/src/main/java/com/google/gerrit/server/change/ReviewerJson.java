@@ -79,8 +79,8 @@ public class ReviewerJson {
     PatchSet.Id psId = ctl.getChange().currentPatchSetId();
 
     if (approvals == null) {
-      approvals = db.get().patchSetApprovals()
-          .byPatchSetUser(psId, out._id).toList();
+      approvals = ChangeData.sortApprovals(db.get().patchSetApprovals()
+          .byPatchSetUser(psId, out._id));
     }
 
     FunctionState fs = functionState.create(ctl, psId, approvals);
@@ -88,7 +88,7 @@ public class ReviewerJson {
       CategoryFunction.forCategory(at.getCategory()).run(at, fs);
     }
 
-    out.approvals = Maps.newHashMapWithExpectedSize(approvals.size());
+    out.approvals = Maps.newTreeMap(LabelOrdering.create(approvalTypes));
     for (PatchSetApproval ca : approvals) {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {

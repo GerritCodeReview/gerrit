@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QO4dRphM",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ApprovalType.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-22T21:53:05Z",
+      "side": 1,
+      "message": "I wanted to make one comment that I realized late in the game which is that for now, we\u0027re still requiring 4-character IDs on *every* type, but eventually this will be optional and only for backwards compatibility.\n\nThe reason I\u0027ve postponed that so long (haven\u0027t actually written the code yet in fact) is that I wanted to wait till after the schema migration so we didn\u0027t have to do a separate schema migration to change the length of PatchSetApproval.categoryId.",
+      "revId": "4dfce2df17f3e0c67e44323b586229cd5e423bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

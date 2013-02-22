@@ -819,10 +819,48 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
   ]
 ----
 
+[[get-reviewer]]
+GET /changes/\{change-id\}/reviewers/\{account-id\} (Get Reviewer)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves a reviewer of a change.
+
+As response a link:#reviewer-info[ReviewerInfo] entity is returned that
+describes the reviewer.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/john.doe@example.com HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#reviewer",
+    "approvals": {
+      "Verified": "+1",
+      "Code-Review": "+2"
+    },
+    "_account_id": 1000096,
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+  }
+----
+
 
 [[ids]]
 IDs
 ---
+
+[[account-id]]
+link:rest-api-accounts.html#account-id[\{account-id\}]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+--
 
 [[change-id]]
 \{change-id\}

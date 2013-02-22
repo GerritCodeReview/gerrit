@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -322,14 +323,18 @@ public class ChangeJson {
       return Collections.emptyMap();
     }
 
-    Map<String, LabelInfo> labels =
-        Maps.newTreeMap(LabelOrdering.create(approvalTypes));
-    initLabels(cd, labels, standard);
+    if (cd.getChange().getStatus().isOpen()) {
+      return labelsForOpenChange(cd, standard, detailed);
+    } else {
+      return labelsForClosedChange(cd, standard, detailed);
+    }
+  }
 
-    Collection<PatchSetApproval> approvals = null;
+  private Map<String, LabelInfo> labelsForOpenChange(ChangeData cd,
+      boolean standard, boolean detailed) throws OrmException {
+    Map<String, LabelInfo> labels = initLabels(cd, standard);
     if (detailed) {
-      approvals = cd.currentApprovals(db);
-      setAllApprovals(cd, labels, approvals);
+      setAllApprovals(cd, labels);
     }
     for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
       ApprovalType type = approvalTypes.byLabel(e.getKey());
@@ -337,7 +342,7 @@ public class ChangeJson {
         continue; // TODO: Support arbitrary labels.
       }
       if (standard) {
-        approvals = setRecommendedAndDisliked(cd, approvals, type, e.getValue());
+        setRecommendedAndDisliked(cd, type, e.getValue());
       }
       if (detailed) {
         setLabelValues(type, e.getValue());
@@ -346,8 +351,10 @@ public class ChangeJson {
     return labels;
   }
 
-  private void initLabels(ChangeData cd, Map<String, LabelInfo> labels,
-      boolean standard) throws OrmException {
+  private Map<String, LabelInfo> initLabels(ChangeData cd, boolean standard)
+      throws OrmException {
+    Map<String, LabelInfo> labels =
+        Maps.newTreeMap(LabelOrdering.create(approvalTypes));
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
@@ -375,31 +382,28 @@ public class ChangeJson {
         }
       }
     }
+    return labels;
   }
 
-  private Collection<PatchSetApproval> setRecommendedAndDisliked(ChangeData cd,
-      Collection<PatchSetApproval> approvals, ApprovalType type,
+  private void setRecommendedAndDisliked(ChangeData cd, ApprovalType type,
       LabelInfo label) throws OrmException {
     if (label.approved != null || label.rejected != null) {
-      return approvals;
+      return;
     }
 
     if (type.getMin() == null || type.getMax() == null) {
       // Unknown or misconfigured type can't have intermediate scores.
-      return approvals;
+      return;
     }
 
     short min = type.getMin().getValue();
     short max = type.getMax().getValue();
     if (-1 <= min && max <= 1) {
       // Types with a range of -1..+1 can't have intermediate scores.
-      return approvals;
+      return;
     }
 
-    if (approvals == null) {
-      approvals = cd.currentApprovals(db);
-    }
-    for (PatchSetApproval psa : approvals) {
+    for (PatchSetApproval psa : cd.currentApprovals(db)) {
       short val = psa.getValue();
       if (val != 0 && min < val && val < max
           && psa.getCategoryId().equals(type.getCategory().getId())) {
@@ -412,13 +416,13 @@ public class ChangeJson {
         }
       }
     }
-    return approvals;
+    return;
   }
 
   private void setAllApprovals(ChangeData cd,
-      Map<String, LabelInfo> labels,
-      Collection<PatchSetApproval> approvals) throws OrmException {
+      Map<String, LabelInfo> labels) throws OrmException {
     ChangeControl ctl = cd.changeControl();
+    Collection<PatchSetApproval> approvals = cd.currentApprovals(db);
     FunctionState fs =
         functionState.create(ctl, cd.change(db).currentPatchSetId(), approvals);
     for (ApprovalType at : approvalTypes.getApprovalTypes()) {
@@ -459,10 +463,60 @@ public class ChangeJson {
     }
   }
 
+  private Map<String, LabelInfo> labelsForClosedChange(ChangeData cd,
+      boolean standard, boolean detailed) throws OrmException {
+    // We can only approximately reconstruct what the submit rule evaluator
+    // would have done. These should really come from a stored submit record.
+    Map<String, LabelInfo> labels =
+        Maps.newTreeMap(LabelOrdering.create(approvalTypes));
+    for (PatchSetApproval psa : cd.currentApprovals(db)) {
+      ApprovalType type = approvalTypes.byId(psa.getCategoryId());
+      if (type == null) {
+        continue;
+      }
+      String label = type.getCategory().getLabelName();
+      LabelInfo li = labels.get(label);
+      if (li == null) {
+        li = new LabelInfo();
+        labels.put(label, li);
+        if (detailed) {
+          setLabelValues(type, li);
+        }
+      }
+
+      short val = psa.getValue();
+      if (detailed) {
+        li.addApproval(approvalInfo(psa.getAccountId(), val));
+      }
+
+      if (!standard || li.approved != null || li.rejected != null) {
+        continue;
+      }
+      if (val == type.getMax().getValue()) {
+        li.approved = accountInfo(psa);
+      } else if (val == type.getMin().getValue()
+          // A merged change can't have been rejected.
+          && cd.getChange().getStatus() != Status.MERGED) {
+        li.rejected = accountInfo(psa);
+      } else if (val > 0) {
+        li.recommended = accountInfo(psa);
+        li.value = val;
+      } else if (val < 0) {
+        li.disliked = accountInfo(psa);
+        li.value = val;
+      }
+    }
+    return labels;
+  }
+
   private PermissionRange getRange(ChangeControl control, Account.Id user,
       String label) {
     return control.forUser(userFactory.create(user))
         .getRange(Permission.forLabel(label));
+  }
+
+  private AccountInfo accountInfo(PatchSetApproval psa) {
+    return accountLoader.get(psa.getAccountId());
   }
 
   private ApprovalInfo approvalInfo(Account.Id id, short value) {

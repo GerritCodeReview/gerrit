@@ -16,6 +16,24 @@
       "revId": "451d77248893c2d1db7bb5d00a2a6792adada336",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QN6t8qX4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-22T07:51:26Z",
+      "side": 1,
+      "message": "I just need a sentence here to link to the TopicInput description. How to make it better?",
+      "parentUuid": "QO2cbUoE",
+      "revId": "451d77248893c2d1db7bb5d00a2a6792adada336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

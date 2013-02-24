@@ -993,6 +993,55 @@ public class ReceiveCommits {
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
     }
+
+    String parse(Repository repo, Map<String, Ref> advertisedRefs) {
+      String destBranchName = MagicBranch.getDestBranchName(cmd.getRefName());
+      if (!destBranchName.startsWith(Constants.R_REFS)) {
+        destBranchName = Constants.R_HEADS + destBranchName;
+      }
+
+      String head;
+      try {
+        head = repo.getFullBranch();
+      } catch (IOException e) {
+        log.error("Cannot read HEAD symref", e);
+        cmd.setResult(REJECTED_OTHER_REASON, "internal error");
+        return null;
+      }
+
+      // Split the destination branch by branch and topic.  The topic
+      // suffix is entirely optional, so it might not even exist.
+      int split = destBranchName.length();
+      for (;;) {
+        String name = destBranchName.substring(0, split);
+
+        if (advertisedRefs.containsKey(name)) {
+          // We advertised the branch to the client so we know
+          // the branch exists. Target this branch for the upload.
+          break;
+        } else if (head.equals(name)) {
+          // We didn't advertise the branch, because it doesn't exist yet.
+          // Allow it anyway as HEAD is a symbolic reference to the name.
+          break;
+        }
+
+        split = name.lastIndexOf('/', split - 1);
+        if (split <= Constants.R_REFS.length()) {
+          String n = destBranchName;
+          if (n.startsWith(Constants.R_HEADS)) {
+            n = n.substring(Constants.R_HEADS.length());
+          }
+          cmd.setResult(REJECTED_OTHER_REASON, "branch " + n + " not found");
+          return null;
+        }
+      }
+
+      if (split < destBranchName.length()) {
+        String t = destBranchName.substring(split + 1);
+        topic = Strings.emptyToNull(t);
+      }
+      return destBranchName.substring(0, split);
+    }
   }
 
   private void parseMagicBranch(final ReceiveCommand cmd) {
@@ -1007,60 +1056,17 @@ public class ReceiveCommits {
     magicBranch.reviewer.addAll(reviewersFromCommandLine);
     magicBranch.cc.addAll(ccFromCommandLine);
 
-    String destBranchName = MagicBranch.getDestBranchName(cmd.getRefName());
-    if (!destBranchName.startsWith(Constants.R_REFS)) {
-      destBranchName = Constants.R_HEADS + destBranchName;
-    }
-
-    final String head;
-    try {
-      head = repo.getFullBranch();
-    } catch (IOException e) {
-      log.error("Cannot read HEAD symref", e);
-      reject(cmd, "internal error");
+    String ref = magicBranch.parse(repo, rp.getAdvertisedRefs());
+    if (ref == null) {
+      // Command was already rejected, but progress needs to update.
+      commandProgress.update(1);
       return;
     }
 
-    // Split the destination branch by branch and topic.  The topic
-    // suffix is entirely optional, so it might not even exist.
-    //
-    int split = destBranchName.length();
-    for (;;) {
-      String name = destBranchName.substring(0, split);
-
-      if (rp.getAdvertisedRefs().containsKey(name)) {
-        // We advertised the branch to the client so we know
-        // the branch exists. Target this branch for the upload.
-        //
-        break;
-      } else if (head.equals(name)) {
-        // We didn't advertise the branch, because it doesn't exist yet.
-        // Allow it anyway as HEAD is a symbolic reference to the name.
-        //
-        break;
-      }
-
-      split = name.lastIndexOf('/', split - 1);
-      if (split <= Constants.R_REFS.length()) {
-        String n = destBranchName;
-        if (n.startsWith(Constants.R_HEADS))
-          n = n.substring(Constants.R_HEADS.length());
-        reject(cmd, "branch " + n + " not found");
-        return;
-      }
-    }
-
-    if (split < destBranchName.length()) {
-      String t = destBranchName.substring(split + 1);
-      magicBranch.topic = Strings.emptyToNull(t);
-    } else {
-      magicBranch.topic = null;
-    }
-    magicBranch.dest = new Branch.NameKey(project.getNameKey(), //
-        destBranchName.substring(0, split));
-    magicBranch.ctl = projectControl.controlForRef(magicBranch.dest);
+    magicBranch.dest = new Branch.NameKey(project.getNameKey(), ref);
+    magicBranch.ctl = projectControl.controlForRef(ref);
     if (!magicBranch.ctl.canUpload()) {
-      errors.put(Error.CODE_REVIEW, cmd.getRefName());
+      errors.put(Error.CODE_REVIEW, ref);
       reject(cmd, "cannot upload review");
       return;
     }
@@ -1072,9 +1078,8 @@ public class ReceiveCommits {
     //
     try {
       final RevWalk walk = rp.getRevWalk();
-
       final RevCommit tip = walk.parseCommit(magicBranch.cmd.getNewId());
-      Ref targetRef = rp.getAdvertisedRefs().get(destBranchName);
+      Ref targetRef = rp.getAdvertisedRefs().get(magicBranch.ctl.getRefName());
       if (targetRef == null || targetRef.getObjectId() == null) {
         // The destination branch does not yet exist. Assume the
         // history being sent for review will start it and thus
@@ -1082,7 +1087,6 @@ public class ReceiveCommits {
         return;
       }
       final RevCommit h = walk.parseCommit(targetRef.getObjectId());
-
       final RevFilter oldRevFilter = walk.getRevFilter();
       try {
         walk.reset();

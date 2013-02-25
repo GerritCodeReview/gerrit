@@ -16,6 +16,24 @@
       "revId": "bf75848361a584f1284dbfe11f31f91105194998",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QQkCLbmc",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-25T11:24:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QU0-.DfQ",
+      "revId": "bf75848361a584f1284dbfe11f31f91105194998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

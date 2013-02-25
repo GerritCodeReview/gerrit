@@ -27,7 +27,9 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -81,6 +83,7 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -113,10 +116,13 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -234,6 +240,7 @@ public class ReceiveCommits {
   private final ReviewDb db;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
+  private final CmdLineParser.Factory optionParserFactory;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
@@ -284,6 +291,7 @@ public class ReceiveCommits {
   ReceiveCommits(final ReviewDb db,
       final SchemaFactory<ReviewDb> schemaFactory,
       final AccountResolver accountResolver,
+      final CmdLineParser.Factory optionParserFactory,
       final CreateChangeSender.Factory createChangeSenderFactory,
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
@@ -312,6 +320,7 @@ public class ReceiveCommits {
     this.db = db;
     this.schemaFactory = schemaFactory;
     this.accountResolver = accountResolver;
+    this.optionParserFactory = optionParserFactory;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.mergedSenderFactory = mergedSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
@@ -971,15 +980,41 @@ public class ReceiveCommits {
   }
 
   private static class MagicBranchInput {
+    private static final ImmutableSet<String> MULTI = ImmutableSet.of(
+        "r",
+        "cc");
+
     final ReceiveCommand cmd;
     Branch.NameKey dest;
     RefControl ctl;
-    String topic;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
+    ListMultimap<String, String> options = LinkedListMultimap.create();
+
+    @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
+    String topic;
+
+    @Option(name = "--draft", usage = "mark new/update changes as draft")
+    boolean draft;
+
+    @Option(name = "-r", metaVar = "EMAIL", usage = "add reviewer to changes")
+    void reviewer(Account.Id id) {
+      reviewer.add(id);
+    }
+
+    @Option(name = "--cc", metaVar = "EMAIL", usage = "notify user by CC")
+    void cc(Account.Id id) {
+      cc.add(id);
+    }
+
+    @Option(name = "--publish", usage = "publish new/updated changes")
+    void publish(boolean publish) {
+      draft = !publish;
+    }
 
     MagicBranchInput(ReceiveCommand cmd) {
       this.cmd = cmd;
+      this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
     }
 
     boolean isRef(Ref ref) {
@@ -987,17 +1022,21 @@ public class ReceiveCommits {
     }
 
     boolean isDraft() {
-      return cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
+      return draft;
     }
 
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
     }
 
-    String parse(Repository repo, Map<String, Ref> advertisedRefs) {
-      String destBranchName = MagicBranch.getDestBranchName(cmd.getRefName());
-      if (!destBranchName.startsWith(Constants.R_REFS)) {
-        destBranchName = Constants.R_HEADS + destBranchName;
+    private static final Pattern OPTION = Pattern.compile("^([a-z][a-z-]*)=");
+
+    String parse(CmdLineParser clp, Repository repo, Map<String, Ref> refs) {
+      String ref = MagicBranch.isOldStyle(cmd.getRefName())
+        ? MagicBranch.getDestBranchName(cmd.getRefName())
+        : cmd.getRefName().substring(MagicBranch.MAGIC.length());
+      if (!ref.startsWith(Constants.R_REFS)) {
+        ref = Constants.R_HEADS + ref;
       }
 
       String head;
@@ -1009,13 +1048,14 @@ public class ReceiveCommits {
         return null;
       }
 
-      // Split the destination branch by branch and topic.  The topic
+      // Split the destination branch by branch and topic. The topic
       // suffix is entirely optional, so it might not even exist.
-      int split = destBranchName.length();
+      int split = ref.length();
+      boolean parseOptions = true;
       for (;;) {
-        String name = destBranchName.substring(0, split);
+        String name = ref.substring(0, split);
 
-        if (advertisedRefs.containsKey(name)) {
+        if (refs.containsKey(name)) {
           // We advertised the branch to the client so we know
           // the branch exists. Target this branch for the upload.
           break;
@@ -1027,33 +1067,81 @@ public class ReceiveCommits {
 
         split = name.lastIndexOf('/', split - 1);
         if (split <= Constants.R_REFS.length()) {
-          String n = destBranchName;
+          String n = ref;
           if (n.startsWith(Constants.R_HEADS)) {
             n = n.substring(Constants.R_HEADS.length());
           }
           cmd.setResult(REJECTED_OTHER_REASON, "branch " + n + " not found");
           return null;
+        } else if (parseOptions) {
+          String s = ref.substring(split + 1);
+          if (s.startsWith("-")) {
+            int e = s.indexOf('=');
+            if (0 < e) {
+              options.put(s.substring(0, e), s.substring(e + 1));
+            } else {
+              options.put(s, "1");
+            }
+            ref = ref.substring(0, split);
+            continue;
+          } else if (clp.isBoolean(s)) {
+            options.put(s, "1");
+            ref = ref.substring(0, split);
+            continue;
+          }
+
+          Matcher m = OPTION.matcher(s);
+          if (!m.find()) {
+            parseOptions = false;
+            continue;
+          }
+
+          String opt = m.group(1);
+          String val = s.substring(m.end(1) + 1);
+          if (MULTI.contains(opt)) {
+            for (String v : Splitter.on(',').split(val)) {
+              options.put(opt, v);
+            }
+          } else {
+            options.put(opt, val);
+          }
+          ref = ref.substring(0, split);
         }
       }
 
-      if (split < destBranchName.length()) {
-        String t = destBranchName.substring(split + 1);
-        topic = Strings.emptyToNull(t);
+      if (split < ref.length()) {
+        topic = Strings.emptyToNull(ref.substring(split + 1));
       }
-      return destBranchName.substring(0, split);
+      return ref.substring(0, split);
     }
   }
 
   private void parseMagicBranch(final ReceiveCommand cmd) {
     // Permit exactly one new change request per push.
-    //
     if (magicBranch != null) {
       reject(cmd, "duplicate request");
       return;
     }
 
     magicBranch = new MagicBranchInput(cmd);
-    String ref = magicBranch.parse(repo, rp.getAdvertisedRefs());
+    CmdLineParser clp = optionParserFactory.create(magicBranch);
+    String ref = magicBranch.parse(clp, repo, rp.getAdvertisedRefs());
+    try {
+      clp.parseOptionMap(magicBranch.options);
+    } catch (CmdLineException e) {
+      if (!clp.wasHelpRequestedByOption()) {
+        reject(cmd, e.getMessage());
+        return;
+      }
+    }
+    if (clp.wasHelpRequestedByOption()) {
+      StringWriter w = new StringWriter();
+      w.write("\nHelp for refs/@branch/options:\n\n");
+      clp.printUsage(w, null);
+      addMessage(w.toString());
+      reject(cmd, "see help");
+      return;
+    }
     if (ref == null) {
       // Command was already rejected, but progress needs to update.
       commandProgress.update(1);

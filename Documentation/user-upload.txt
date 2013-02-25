@@ -127,10 +127,10 @@ Create Changes
 ~~~~~~~~~~~~~~
 
 To create new changes for review, simply push to the project's
-magical `refs/for/'branch'` ref using any Git client tool:
+magical `refs/@'branch'` ref using any Git client tool:
 
 ====
-  git push ssh://sshusername@hostname:29418/projectname HEAD:refs/for/branchname
+  git push ssh://sshusername@hostname:29418/projectname HEAD:refs/@branch
 ====
 
 E.g. `john.doe` can use git push to upload new changes for the
@@ -138,12 +138,12 @@ E.g. `john.doe` can use git push to upload new changes for the
 `git.example.com` Gerrit server:
 
 ====
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/@experimental
 ====
 
 Each new commit uploaded by the `git push` client will be
 converted into a change record on the server.  The remote ref
-`refs/for/experimental` is not actually created by Gerrit, even
+`refs/@experimental` is not actually created by Gerrit, even
 though the client's status messages may say otherwise.
 
 Other users (e.g. project owners) who have configured Gerrit to
@@ -152,12 +152,12 @@ message when the push is completed.
 
 To include a short tag associated with all of the changes in the
 same group, such as the local topic branch name, append it after
-the destination branch name.  In this example the short topic tag
+the destination branch name. In this example the short topic tag
 'driver/i42' will be saved on each change this push creates or
 updates:
 
 ====
-  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental/driver/i42
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/@experimental/driver/i42
 ====
 
 If you are frequently uploading changes to the same Gerrit server,
@@ -173,22 +173,22 @@ shorter URLs on the command line, such as:
     Port 29418
     User john.doe
 
-  $ git push tr:kernel/common HEAD:refs/for/experimental
+  $ git push tr:kernel/common HEAD:refs/@experimental
 ====
 
 Specific reviewers can be requested and/or additional 'carbon
 copies' of the notification message may be sent by including these
-as arguments to `git receive-pack`:
+as options in the reference
 
 ====
-  git push --receive-pack='git receive-pack --reviewer=a@a.com --cc=b@o.com' tr:kernel/common HEAD:refs/for/experimental
+  git push tr:kernel/common HEAD:refs/@experimental/r=a@a.com/cc=b@o.com
 ====
 
-The `--reviewer='email'` and `--cc='email'` options may be
-specified as many times as necessary to cover all interested
-parties.  Gerrit will automatically avoid sending duplicate email
-notifications, such as if one of the specified reviewers or CC
-addresses had also requested to receive all new change notifications.
+The `r='email'` and `cc='email'` options may be specified as many
+times as necessary to cover all interested parties. Gerrit will
+automatically avoid sending duplicate email notifications, such as
+if one of the specified reviewers or CC addresses had also requested
+to receive all new change notifications.
 
 If you are frequently sending changes to the same parties and/or
 branches, consider adding a custom remote block to your project's
@@ -197,12 +197,11 @@ branches, consider adding a custom remote block to your project's
 ====
   $ cat .git/config
   ...
-  [remote "for-a-exp"]
+  [remote "exp"]
     url = tr:kernel/common
-    receivepack = git receive-pack --reviewer=a@a.com --cc=b@o.com
-    push = HEAD:refs/for/experimental
+    push = HEAD:refs/@experimental/r=a@a.com/cc=b@o.com
 
-  $ git push for-a-exp
+  $ git push exp
 ====
 
 
@@ -212,7 +211,7 @@ Replace Changes
 
 To add an additional patch set to a change, ensure Change-Id
 lines were created in the original commit messages, and just use
-`git push URL HEAD:refs/for/...` as <<push_create,described above>>.
+`git push URL HEAD:refs/@...` as <<push_create,described above>>.
 Gerrit Code Review will automatically match the commits back to
 their original changes by taking advantage of the Change-Id lines.
 
@@ -250,7 +249,7 @@ SHA-1 starts with `c0ffee` as a new patch set for change number
   git push ssh://sshusername@hostname:29418/projectname c0ffee:refs/changes/1979
 ====
 
-This form can be combined together with `refs/for/'branchname'`
+This form can be combined together with `refs/@'branchname'`
 (above) to simultaneously create new changes and replace changes
 during one network transaction.
 
@@ -261,7 +260,7 @@ For example, consider the following sequence of events:
   $ git commit -m B
   $ git commit -m C
 
-  $ git push ... HEAD:refs/for/master  ; # upload for review
+  $ git push ... HEAD:refs/@master     ; # upload for review
   ... A is 1500 ...
   ... B is 1501 ...
   ... C is 1502 ...
@@ -269,7 +268,7 @@ For example, consider the following sequence of events:
   $ git rebase -i HEAD~3               ; # edit "A", insert D before B
                                        ; # now series is A'-D-B'-C'
   $ git push ...
-      HEAD:refs/for/master
+      HEAD:refs/@master
       HEAD~3:refs/changes/1500
       HEAD~1:refs/changes/1501
       HEAD~0:refs/changes/1502         ; # upload replacements
@@ -280,7 +279,7 @@ patch set on change 1500; B' as a new patch set on change 1501; C'
 as a new patch set on 1502; and D will be created as a new change.
 
 Ensuring D is created as a new change requires passing the refspec
-`HEAD:refs/for/branchname`, otherwise Gerrit will ignore D and
+`HEAD:refs/@branchname`, otherwise Gerrit will ignore D and
 won't do anything with it.  For this reason it is a good idea to
 always include the create change refspec when uploading replacements.
 
@@ -386,7 +385,7 @@ As Gerrit implements the entire SSH and Git server stack within its
 own process space, Gerrit maintains complete control over how the
 repository is updated, and what responses are sent to the `git push`
 client invoked by the end-user, or by `repo upload`.  This allows
-Gerrit to provide magical refs, such as `refs/for/*` for new
+Gerrit to provide magical refs, such as `refs/@*` for new
 change submission and `refs/changes/*` for change replacement.
 When a push request is received to create a ref in one of these
 namespaces Gerrit performs its own logic to update the database,

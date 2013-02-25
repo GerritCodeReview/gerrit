@@ -21,7 +21,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
-import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -50,7 +49,6 @@ public class GerritRequestModule extends FactoryModule {
 
     factory(SubmoduleOp.Factory.class);
     factory(MergeOp.Factory.class);
-    install(new AsyncReceiveCommits.Module());
 
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.

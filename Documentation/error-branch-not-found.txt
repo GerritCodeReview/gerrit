@@ -5,9 +5,9 @@ With this error message Gerrit rejects to push a commit for code
 review if the specified target branch does not exist.
 
 To push a change for code review the commit has to be pushed to the
-project's magical `refs/for/'branch'` ref (for details have a look at
+project's magical `refs/@'branch'` ref (for details have a look at
 link:user-upload.html#push_create[Create Changes]).
-If you specify a non-existing branch in the `refs/for/'branch'` ref
+If you specify a non-existing branch in the `refs/@'branch'` ref
 the push fails with the error message 'branch ... not found'.
 
 To fix this problem verify

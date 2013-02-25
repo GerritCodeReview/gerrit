@@ -36,6 +36,7 @@ package com.google.gerrit.util.cli;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -76,6 +77,9 @@ public class CmdLineParser {
 
   private final Injector injector;
   private final MyParser parser;
+
+  @SuppressWarnings("rawtypes")
+  private Map<String, OptionHandler> options;
 
   /**
    * Creates a new command line owner that parses arguments/options and set them
@@ -225,16 +229,9 @@ public class CmdLineParser {
       throws CmdLineException {
     List<String> tmp = Lists.newArrayListWithCapacity(2 * params.size());
     for (final String key : params.keySet()) {
-      String name = key;
-      if (!name.startsWith("-")) {
-        if (name.length() == 1) {
-          name = "-" + name;
-        } else {
-          name = "--" + name;
-        }
-      }
+      String name = makeOption(key);
 
-      if (findHandler(name) instanceof BooleanOptionHandler) {
+      if (isBoolean(name)) {
         boolean on = false;
         for (String value : params.get(key)) {
           on = toBoolean(key, value);
@@ -252,22 +249,39 @@ public class CmdLineParser {
     parser.parseArgument(tmp.toArray(new String[tmp.size()]));
   }
 
+  public boolean isBoolean(String name) {
+    return findHandler(makeOption(name)) instanceof BooleanOptionHandler;
+  }
+
+  private String makeOption(String name) {
+    if (!name.startsWith("-")) {
+      if (name.length() == 1) {
+        name = "-" + name;
+      } else {
+        name = "--" + name;
+      }
+    }
+    return name;
+  }
+
   @SuppressWarnings("rawtypes")
   private OptionHandler findHandler(String name) {
-    for (OptionHandler handler : parser.options) {
-      if (handler.option instanceof NamedOptionDef) {
-        NamedOptionDef def = (NamedOptionDef) handler.option;
-        if (name.equals(def.name())) {
-          return handler;
-        }
-        for (String alias : def.aliases()) {
-          if (name.equals(alias)) {
-            return handler;
+    if (options == null) {
+      options = Maps.newHashMap();
+      for (OptionHandler handler : parser.options) {
+        if (handler.option instanceof NamedOptionDef) {
+          NamedOptionDef def = (NamedOptionDef) handler.option;
+          if (!def.isArgument()) {
+            options.put(def.name(), handler);
+            for (String alias : def.aliases()) {
+              options.put(alias, handler);
+            }
           }
         }
       }
+      return options.get(name);
     }
-    return null;
+    return options.get(name);
   }
 
   private boolean toBoolean(String name, String value) throws CmdLineException {

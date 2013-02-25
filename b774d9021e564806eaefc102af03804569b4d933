@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QUw-0BRI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-25T07:52:32Z",
+      "side": 1,
+      "message": "The caller who has the GroupResource in hand (GetDetail) is now passing it in. For other callers that request these options (ListGroups) we still need to create the GroupResource.\n\nDone.",
+      "parentUuid": "QULIwwPQ",
+      "revId": "b774d9021e564806eaefc102af03804569b4d933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QUJItvJw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-22T18:35:52Z",
       "side": 1,
       "message": "If you really want the o option in the query string to work here you need to setup an @Option() annotation above to have it be parsed and passed to the GroupJson.",
+      "revId": "b774d9021e564806eaefc102af03804569b4d933",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QUy-vSUE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-25T07:52:32Z",
+      "side": 1,
+      "message": "Urg. Yes, I\u0027ve had this done in an intermediate commit, which I abandoned [1] and the changes in this file got lost when cherry-picking...\n\nDone.\n\n[1] https://gerrit-review.googlesource.com/#/c/42205/3/gerrit-server/src/main/java/com/google/gerrit/server/group/ListGroups.java",
+      "parentUuid": "QUJItvJw",
       "revId": "b774d9021e564806eaefc102af03804569b4d933",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

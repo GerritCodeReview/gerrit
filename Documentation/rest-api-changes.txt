@@ -939,6 +939,21 @@ To confirm the addition of the reviewers, resend the request with the
   }
 ----
 
+[[delete-reviewer]]
+DELETE /changes/\{change-id\}/reviewers/\{account-id\} (Delete Reviewer)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deletes a reviewer from a change.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 
 [[ids]]
 IDs

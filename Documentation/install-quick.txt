@@ -196,10 +196,10 @@ Then make a change to it and upload it as a reviewable change in Gerrit.
 Usually when you push to a remote git, you push to the reference
 `'/refs/heads/branch'`, but when working with Gerrit you have to push to a
 virtual branch representing "code review before submission to branch".
-This virtual name space is known as /refs/for/<branch>
+This virtual name space is known as /refs/@<branch>
 
 ----
-  user@host:~/demo-project$ git push origin HEAD:refs/for/master
+  user@host:~/demo-project$ git push origin HEAD:refs/@master
   Counting objects: 4, done.
   Writing objects: 100% (3/3), 293 bytes, done.
   Total 3 (delta 0), reused 0 (delta 0)
@@ -208,7 +208,7 @@ This virtual name space is known as /refs/for/<branch>
   remote:   http://localhost:8080/1
   remote:
   To ssh://user@localhost:29418/demo-project
-   * [new branch]      HEAD -> refs/for/master
+   * [new branch]      HEAD -> refs/@master
   user@host:~/demo-project$
 ----
 

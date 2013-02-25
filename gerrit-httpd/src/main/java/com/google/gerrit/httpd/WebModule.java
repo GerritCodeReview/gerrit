@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.AbstractModule;
@@ -136,6 +137,7 @@ public class WebModule extends FactoryModule {
     DynamicSet.setOf(binder(), WebUiPlugin.class);
 
     factory(ClearPassword.Factory.class);
+    install(new AsyncReceiveCommits.Module());
     install(new CmdLineParserModule());
     factory(GeneratePassword.Factory.class);
 

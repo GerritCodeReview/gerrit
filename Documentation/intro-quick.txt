@@ -132,7 +132,7 @@ $ <work>
 $ git commit
 [master 9651f22] Change to a proper, yeast based pizza dough.
  1 files changed, 3 insertions(+), 2 deletions(-)
-$ git push origin HEAD:refs/for/master
+$ git push origin HEAD:refs/@master
 Counting objects: 5, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (2/2), done.
@@ -143,13 +143,13 @@ remote: New Changes:
 remote:   http://gerrithost:8080/68
 remote:
 To ssh://gerrithost:29418/RecipeBook.git
- * [new branch]      HEAD -> refs/for/master
+ * [new branch]      HEAD -> refs/@master
 ----
 
-The only different thing about this is the +refs/for/master+ branch.
+The only different thing about this is the +refs/@master+ branch.
 This is a magic branch that creates reviews that target the master
 branch. For every branch Gerrit tracks there is a magic
-+refs/for/<branch_name>+ that you push to to create reviews.
++refs/@<branch_name>+ that you push to to create reviews.
 
 In the output of this command you'll notice that there is a link to
 the HTTP interface of the Gerrit server we just pushed to. This is the
@@ -266,14 +266,14 @@ Then push it to Gerrit in the same way as we did to create the review. E.g.
 $ <checkout first commit>
 $ <rework>
 $ git commit --amend
-$ git push origin HEAD:refs/for/master
+$ git push origin HEAD:refs/@master
 Counting objects: 5, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (2/2), done.
 Writing objects: 100% (3/3), 546 bytes, done.
 Total 3 (delta 0), reused 0 (delta 0)
 To ssh://gerrithost:29418/RecipeBook.git
- * [new branch]      HEAD -> refs/for/master
+ * [new branch]      HEAD -> refs/@master
 ----
 
 Note that the output is slightly different this time around. We don't

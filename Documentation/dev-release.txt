@@ -281,7 +281,7 @@ Push the Stable Branch
 Via the link:https://gerrit-review.googlesource.com/#/admin/projects/gerrit,branches[
 Gerrit WebUI] or by push.
 
-* Push the commits done on `stable-2.5` to `refs/for/stable-2.5` and
+* Push the commits done on `stable-2.5` to `refs/@stable-2.5` and
 get them merged
 
 

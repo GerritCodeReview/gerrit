@@ -95,7 +95,7 @@ link:dev-release-deploy-config.html#deploy-configuration-core-plugins[Core Plugi
 ====
 
 * Push the pom change(s) to the project's repository
-`refs/for/<master|stable>`
+`refs/@<master|stable>`
 
 * Push the Release Tag
 +

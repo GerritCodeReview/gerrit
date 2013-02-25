@@ -318,7 +318,7 @@ when to go for writing a new plugin. Writing a Prolog program is usually much
 faster than writing a Gerrit plugin. Prolog based submit rules can be pushed
 to a project by project owners while Gerrit plugins could only be installed by
 Gerrit administrators. In addition, Prolog based submit rules can be pushed
-for review by pushing to `refs/for/refs/meta/config` branch.
+for review by pushing to `refs/@refs/meta/config` branch.
 
 On the other hand, Prolog based submit rules get a limited amount of facts about
 the change exposed to them. Gerrit plugins get full access to Gerrit internals

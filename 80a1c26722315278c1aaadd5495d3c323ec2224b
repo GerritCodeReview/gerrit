@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QU29HkWE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-25T15:20:35Z",
+      "side": 1,
+      "message": "Is this a bug that \u0027id\u0027 is not used? How would I update an exising draft?",
+      "revId": "80a1c26722315278c1aaadd5495d3c323ec2224b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

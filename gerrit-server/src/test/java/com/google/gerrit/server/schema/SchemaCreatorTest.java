@@ -113,7 +113,7 @@ public class SchemaCreatorTest extends TestCase {
   public void testCreateSchema_Label_Verified() throws Exception {
     LabelType verified = getLabelTypes().byLabel("Verified");
     assertNotNull(verified);
-    assertEquals("VRIF", verified.getId());
+    assertEquals("Verified", verified.getId());
     assertEquals("Verified", verified.getName());
     assertEquals("V", verified.getAbbreviatedName());
     assertEquals("MaxWithBlock", verified.getFunctionName());
@@ -124,7 +124,7 @@ public class SchemaCreatorTest extends TestCase {
   public void testCreateSchema_Label_CodeReview() throws Exception {
     LabelType codeReview = getLabelTypes().byLabel("Code-Review");
     assertNotNull(codeReview);
-    assertEquals("CRVW", codeReview.getId());
+    assertEquals("Code-Review", codeReview.getId());
     assertEquals("Code-Review", codeReview.getName());
     assertEquals("R", codeReview.getAbbreviatedName());
     assertEquals("MaxWithBlock", codeReview.getFunctionName());

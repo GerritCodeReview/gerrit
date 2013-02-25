@@ -153,9 +153,9 @@ public class Schema_77 extends SchemaVersion {
               types.add(newLabel(curr, values));
               values.clear();
             }
-            curr = new LabelType(id,
-                getLabelName(rs.getString("category_name")),
+            curr = new LabelType(getLabelName(rs.getString("category_name")),
                 ImmutableList.<LabelValue> of());
+            curr.setId(id);
             curr.setAbbreviatedName(rs.getString("abbreviated_name"));
             curr.setFunctionName(rs.getString("function_name"));
             curr.setCopyMinScore(rs.getBoolean("copy_min_score"));
@@ -177,7 +177,8 @@ public class Schema_77 extends SchemaVersion {
   }
 
   private static LabelType newLabel(LabelType from, List<LabelValue> values) {
-    LabelType label = new LabelType(from.getId(), from.getName(), values);
+    LabelType label = new LabelType(from.getName(), values);
+    label.setId(from.getId());
     label.setAbbreviatedName(from.getAbbreviatedName());
     label.setFunctionName(from.getFunctionName());
     label.setCopyMinScore(from.isCopyMinScore());

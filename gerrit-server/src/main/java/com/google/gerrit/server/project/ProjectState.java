@@ -347,9 +347,10 @@ public class ProjectState {
     Collections.reverse(projects);
     for (ProjectState s : projects) {
       for (LabelType type : s.getConfig().getLabelSections().values()) {
-        LabelType old = types.get(type.getName());
+        String lower = type.getName().toLowerCase();
+        LabelType old = types.get(lower);
         if (old == null || !old.canOverride()) {
-          types.put(type.getName(), type);
+          types.put(lower, type);
         }
       }
     }

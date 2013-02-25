@@ -532,8 +532,17 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   private void loadLabelSections(Config rc) throws IOException {
+    Map<String, String> lowerNames = Maps.newHashMapWithExpectedSize(2);
     labelSections = Maps.newLinkedHashMap();
     for (String name : rc.getSubsections(LABEL)) {
+      String lower = name.toLowerCase();
+      if (lowerNames.containsKey(lower)) {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Label \"%s\" conflicts with \"%s\"",
+            name, lowerNames.get(lower))));
+      }
+      lowerNames.put(lower, name);
+
       List<LabelValue> values = Lists.newArrayList();
       for (String value : rc.getStringList(LABEL, name, KEY_VALUE)) {
         try {

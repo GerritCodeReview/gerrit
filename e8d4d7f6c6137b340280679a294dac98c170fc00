@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QO4eoxsk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-25T12:15:20Z",
+      "side": 1,
+      "message": "Is it only if the change owner adds a comment?  I\u0027m not 100% sure but I seem to remember seeing the same behaviour when non-owners added comments after my review.",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QO6elyvA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-25T12:15:20Z",
+      "side": 1,
+      "message": "- s/thredsholds/thresholds\n- should probably mention that this is a global configuration, not per user.",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QO.ebwrI",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-25T12:15:20Z",
+      "side": 1,
+      "message": "Approval categories are going to be removed from the database.  See the series of changes beginning with [1].  Perhaps we should hold off on this commit until that refeactoring is done?\n\n[1] https://gerrit-review.googlesource.com/#/c/42040/8",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QO0dyzrE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-25T12:15:20Z",
+      "side": 1,
+      "message": "s/Myreview/MyReview",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

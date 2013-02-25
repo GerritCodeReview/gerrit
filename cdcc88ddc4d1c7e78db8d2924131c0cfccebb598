@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QQoCVdoQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-25T14:23:13Z",
+      "side": 0,
+      "message": "\u003e\"Is it only if the change owner adds a comment? I\u0027m not 100% sure but I seem to remember seeing the same behaviour when non-owners added comments after my review.\"\n\nthis commit only focus on owner\u0027s action, refer below 4 lines 633~636. can be looks as an a bit improvement to Shawn\u0027s idea https://gerrit-review.googlesource.com/#/c/35880/4..6/gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java\n\n\nI will test your \"not 100% sure\" concern later :), if it exists, may be it comes from line 640 or other corner, interesting!  anyway I think it belongs to a new topic :  when we talk about one reviewer need to review a change or not, should we take account in other reviewer\u0027s action.  I do not not know the intentional logic about it.  do you  want this commits\u0027s spirit can also apply to this new topic?",
+      "revId": "cdcc88ddc4d1c7e78db8d2924131c0cfccebb598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

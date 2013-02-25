@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "QQmCa8rM",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-25T14:23:13Z",
+      "side": 1,
+      "message": "yes/no:)\nif we get this commit merged, our user will be very happy with cherry picking it to our master server, however once [1] \u0027s later related commit are done, I or other guy have to remember to shift the document and one or 2 lines of code,  ( it is not annoying for me, very easy)\n\nif wait till moving these 2 tables work is done. I am not sure how long our user need to wait, however I or other guy need not adjust it again.",
+      "parentUuid": "QO.ebwrI",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QO0dyzrE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4

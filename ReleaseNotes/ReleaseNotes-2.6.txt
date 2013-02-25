@@ -36,6 +36,12 @@ Review UI
 * `suggest.from` configures a minimum number of characters before
   matches for reviewers, accounts, groups or projects are offered.
 
+* A change's topic can be added, removed or changed from the
+  change screen.
+
+* A change's commit message can be edited from the change screen.
+
+
 Access Controls
 ~~~~~~~~~~~~~~~
 * Remove Reviewer is a new permission.
@@ -74,6 +80,10 @@ Plugins
 * Plugins can now contribute JavaScript to the web UI. UI plugins can
   also be written and compiled with GWT.
 * New Maven archetypes for JavaScript and GWT plugins.
+* Plugins can contribute validation steps to received commits.
+* Commit message length checks are moved to the `commit-message-length-validator`
+  plugin which is included as a core plugin in the Gerrit distribution and
+  can be installed during site initialization.
 
 EMail
 ~~~~~
@@ -116,9 +126,4 @@ Git
   necessary for a multi-master configuration where the second master
   may need to retry a change not yet merged by the first. Please note
   we still do not believe this is sufficient to enable multi-master.
-
-Tools
-~~~~~
-* `GREP_OPTIONS` is ignored in `commit-msg` hook, to prevent errors
-  when users have the value set in the environment.
 

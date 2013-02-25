@@ -851,6 +851,94 @@ describes the reviewer.
   }
 ----
 
+[[add-reviewer]]
+POST /changes/\{change-id\}/reviewers (Add Reviewer)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Adds one user or all members of one group as reviewer to the change.
+
+The reviewer to be added to the change must be provided in the request
+body as a link:#reviewer-input[ReviewerInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "reviewer": "john.doe@example.com"
+  }
+----
+
+As response an link:#add-reviewer-result[AddReviewerResult] entity is
+returned that describes the newly added reviewers.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "reviewers": [
+      {
+        "kind": "gerritcodereview#reviewer",
+        "approvals": {
+          "Verified": " 0",
+          "Code-Review": " 0"
+        },
+        "_account_id": 1000096,
+        "name": "John Doe",
+        "email": "john.doe@example.com"
+      }
+    ]
+  }
+----
+
+If a group is specified, adding the group members as reviewers is an
+atomic operation. This means if an error is returned, none of the
+members is added as reviewer.
+
+If a group with many members is added as reviewer a confirmation may be
+required.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "reviewer": "MyProjectVerifiers"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "error": "The group My Group has 15 members. Do you want to add them all as reviewers?",
+    "confirm": true
+  }
+----
+
+To confirm the addition of the reviewers, resend the request with the
+`confirm` flag being set.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "reviewer": "MyProjectVerifiers",
+    "confirm": true
+  }
+----
+
 
 [[ids]]
 IDs
@@ -910,6 +998,26 @@ requested.
 The email address the user prefers to be contacted through. +
 Only set if link:#detailed-accounts[detailed account information] is
 requested.
+|===========================
+
+[[add-reviewer-result]]
+AddReviewerResult
+~~~~~~~~~~~~~~~~~
+The `AddReviewerResult` entity describes the result of adding a
+reviewer to a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`reviewers`   |optional|
+The newly added reviewers as a list of link:#reviewer-info[
+ReviewerInfo] entities.
+|`error`       |optional|
+Error message explaining why the reviewer could not be added. +
+If a group was specified in the input and an error is returned, it
+means that none of the members was added as reviewer.
+|`confirm`     |`false` if not set|
+Whether adding the reviewer requires confirmation.
 |===========================
 
 [[approval-info]]
@@ -1148,6 +1256,28 @@ In addition `ReviewerInfo` has the following fields:
 The approvals of the reviewer as a map that maps the label names to the
 approval values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`").
 |==========================
+
+[[reviewer-input]]
+ReviewerInput
+~~~~~~~~~~~~~
+The `ReviewerInput` entity contains information for adding a reviewer
+to a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`reviewer`    ||
+The link:rest-api-accounts.html#account-id[ID] of one account that
+should be added as reviewer or the link:rest-api-groups.html#group-id[
+ID] of one group for which all members should be added as reviewers. +
+If an ID identifies both an account and a group, only the account is
+added as reviewer to the change.
+|`confirmed`   |optional|
+Whether adding the reviewer is confirmed. +
+The Gerrit server may be configured to
+link:config-gerrit.html#addreviewer.maxWithoutConfirmation[require a
+confirmation] when adding a group as reviewer that has many members.
+|===========================
 
 [[revision-info]]
 RevisionInfo

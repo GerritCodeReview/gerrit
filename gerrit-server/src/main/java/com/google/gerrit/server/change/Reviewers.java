@@ -28,7 +28,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,10 +47,12 @@ public class Reviewers implements
 
   static class Parser {
     private final AccountResolver resolver;
+    private final AccountCache accountCache;
 
     @Inject
-    Parser(AccountResolver resolver) {
+    Parser(AccountResolver resolver, AccountCache accountCache) {
       this.resolver = resolver;
+      this.accountCache = accountCache;
     }
 
     Account.Id parse(ChangeResource rsrc, String id)
@@ -67,7 +71,9 @@ public class Reviewers implements
         if (matches.size() != 1) {
           return null;
         }
-        return Iterables.getOnlyElement(matches);
+        AccountState a =
+            accountCache.getIfPresent(Iterables.getOnlyElement(matches));
+        return a != null ? a.getAccount().getId() : null;
       }
     }
   }

@@ -489,8 +489,7 @@ public class ReviewCommand extends SshCommand {
         commonValues.add(new LabelValue(first.getValue(), text));
       }
       if (!commonValues.isEmpty()) {
-        commonTypes.add(new LabelType(
-            e.getKey().substring(0, 4), e.getKey(), commonValues));
+        commonTypes.add(new LabelType(e.getKey(), commonValues));
       }
     }
     return commonTypes;

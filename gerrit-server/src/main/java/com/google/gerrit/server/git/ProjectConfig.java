@@ -63,7 +63,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 public class ProjectConfig extends VersionedMetaData {
   private static final String PROJECT_CONFIG = "project.config";
@@ -115,8 +114,6 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   private static final String KEY_VALUE = "value";
   private static final String KEY_BLOCK = "block";
-
-  private static final Pattern PAT_LABEL_ID = Pattern.compile("^[A-Z]{4}$");
 
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;
@@ -549,21 +546,18 @@ public class ProjectConfig extends VersionedMetaData {
       }
 
       LabelType label;
-      String id = rc.getString(LABEL, name, KEY_ID);
-      if (id == null || !PAT_LABEL_ID.matcher(id).matches()) {
-        error(new ValidationError(PROJECT_CONFIG, String.format(
-            "Invalid label ID \"%s\" for label \"%s\": "
-           + "Label ID must be a 4-character uppercase string", id, name)));
-        continue;
-      }
       try {
-        label = new LabelType(id, name, values);
+        label = new LabelType(name, values);
       } catch (IllegalArgumentException badName) {
         error(new ValidationError(PROJECT_CONFIG, String.format(
             "Invalid label \"%s\"", name)));
         continue;
       }
 
+      String id = rc.getString(LABEL, name, KEY_ID);
+      if (!name.equals(id)) {
+        label.setId(id);
+      }
       String abbr = rc.getString(LABEL, name, KEY_ABBREVIATED_NAME);
       if (abbr != null) {
         label.setAbbreviatedName(abbr);

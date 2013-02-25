@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.args4j;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
@@ -31,6 +34,8 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
+
+import java.util.List;
 
 public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountResolver accountResolver;
@@ -52,27 +57,36 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   @Override
   public final int parseArguments(final Parameters params)
       throws CmdLineException {
-    final String token = params.getParameter(0);
-    final Account.Id accountId;
-    try {
-      final Account a = accountResolver.find(token);
-      if (a != null) {
-        accountId = a.getId();
-      } else {
-        switch (authType) {
-          case HTTP_LDAP:
-          case CLIENT_SSL_CERT_LDAP:
-          case LDAP:
-            accountId = createAccountByLdap(token);
-            break;
-          default:
-            throw new CmdLineException(owner, "user \"" + token + "\" not found");
-        }
-      }
-    } catch (OrmException e) {
-      throw new CmdLineException(owner, "database is down");
+    String val = params.getParameter(0);
+    List<String> tokenList;
+    if (option.isMultiValued()) {
+      tokenList = Lists.newArrayList(Splitter.on(',').split(val));
+    } else {
+      tokenList = ImmutableList.of(val);
     }
-    setter.addValue(accountId);
+
+    for (String token : tokenList) {
+      final Account.Id accountId;
+      try {
+        final Account a = accountResolver.find(token);
+        if (a != null) {
+          accountId = a.getId();
+        } else {
+          switch (authType) {
+            case HTTP_LDAP:
+            case CLIENT_SSL_CERT_LDAP:
+            case LDAP:
+              accountId = createAccountByLdap(token);
+              break;
+            default:
+              throw new CmdLineException(owner, "user \"" + token + "\" not found");
+          }
+        }
+      } catch (OrmException e) {
+        throw new CmdLineException(owner, "database is down");
+      }
+      setter.addValue(accountId);
+    }
     return 1;
   }
 

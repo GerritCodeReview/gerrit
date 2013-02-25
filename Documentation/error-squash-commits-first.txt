@@ -45,14 +45,14 @@ than two commits that have the same Change-ID).
 
       Change-Id: I93478acac09965af91f03c82e55346214811ac79
 
-  $ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/for/master
+  $ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/@master
   Counting objects: 8, done.
   Delta compression using up to 2 threads.
   Compressing objects: 100% (2/2), done.
   Writing objects: 100% (6/6), 558 bytes, done.
   Total 6 (delta 0), reused 0 (delta 0)
   To ssh://JohnDoe@host:29418/myProject
-   ! [remote rejected] HEAD -> refs/for/master (squash commits first)
+   ! [remote rejected] HEAD -> refs/@master (squash commits first)
   error: failed to push some refs to 'ssh://JohnDoe@host:29418/myProject'
 ----
 
@@ -84,12 +84,12 @@ the link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git doc
 
       Change-Id: I93478acac09965af91f03c82e55346214811ac79
 
-  $ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/for/master
+  $ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/@master
   Counting objects: 5, done.
   Writing objects: 100% (3/3), 307 bytes, done.
   Total 3 (delta 0), reused 0 (delta 0)
   To ssh://JohnDoe@host:29418/myProject
-   * [new branch]      HEAD -> refs/for/master
+   * [new branch]      HEAD -> refs/@master
 ----
 
 If it was the intention to create a patch series with multiple

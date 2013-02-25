@@ -63,7 +63,7 @@ For more details, see link:cmd-hook-commit-msg.html[commit-msg].
 Change Upload
 --------------
 
-During upload by pushing to a `refs/for/*` or `refs/heads/*`
+During upload by pushing to a `refs/@*` or `refs/heads/*`
 branch, Gerrit will use the Change-Id line to:
 
 * Create a new change

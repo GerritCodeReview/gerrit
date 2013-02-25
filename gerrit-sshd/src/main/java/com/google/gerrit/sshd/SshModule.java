@@ -25,6 +25,7 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.plugins.ModuleGenerator;
@@ -65,6 +66,7 @@ public class SshModule extends FactoryModule {
     bind(SshScope.class).in(SINGLETON);
 
     configureRequestScope();
+    install(new AsyncReceiveCommits.Module());
     install(new CmdLineParserModule());
     configureAliases();
 

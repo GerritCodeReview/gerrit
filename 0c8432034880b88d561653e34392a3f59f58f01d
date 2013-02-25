@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QOweVtoE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-25T03:28:48Z",
+      "side": 1,
+      "message": "The new reference specification should be added in the documentation.",
+      "revId": "0c8432034880b88d561653e34392a3f59f58f01d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QO2eQMpM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-25T03:28:48Z",
+      "side": 1,
+      "message": "s/down/done",
+      "revId": "0c8432034880b88d561653e34392a3f59f58f01d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

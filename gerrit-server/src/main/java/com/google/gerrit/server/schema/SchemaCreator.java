@@ -249,7 +249,7 @@ public class SchemaCreator {
   }
 
   private void initVerifiedCategory(ProjectConfig c) {
-    LabelType type = new LabelType("VRIF", "Verified", ImmutableList.of(
+    LabelType type = new LabelType("Verified", ImmutableList.of(
         new LabelValue((short) 1, "Verified"),
         new LabelValue((short) 0, "No score"),
         new LabelValue((short) -1, "Fails")));
@@ -257,7 +257,7 @@ public class SchemaCreator {
   }
 
   private void initCodeReviewCategory(ProjectConfig c) {
-    LabelType type = new LabelType("CRVW", "Code-Review", ImmutableList.of(
+    LabelType type = new LabelType("Code-Review", ImmutableList.of(
         new LabelValue((short) 2, "Looks good to me, approved"),
         new LabelValue((short) 1, "Looks good to me, but someone else must approve"),
         new LabelValue((short) 0, "No score"),

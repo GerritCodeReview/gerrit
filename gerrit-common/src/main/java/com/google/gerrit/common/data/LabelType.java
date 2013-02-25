@@ -26,12 +26,13 @@ import java.util.Map;
 
 public class LabelType {
   public static LabelType withDefaultValues(String id, String name) {
-    checkId(id);
     checkName(name);
     List<LabelValue> values = new ArrayList<LabelValue>(2);
     values.add(new LabelValue((short) 0, "Rejected"));
     values.add(new LabelValue((short) 1, "Approved"));
-    return new LabelType(id, name, values);
+    LabelType type = new LabelType(name, values);
+    type.setId(id);
+    return type;
   }
 
   private static String checkId(String id) {
@@ -88,8 +89,7 @@ public class LabelType {
   protected LabelType() {
   }
 
-  public LabelType(String id, String name, List<LabelValue> valueList) {
-    this.id = checkId(id);
+  public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);
     values = new ArrayList<LabelValue>(valueList);
     Collections.sort(values, new Comparator<LabelValue>() {
@@ -118,7 +118,11 @@ public class LabelType {
   }
 
   public String getId() {
-    return id;
+    return id != null ? id : name;
+  }
+
+  public void setId(String id) {
+    this.id = id != null ? checkId(id) : null;
   }
 
   public String getAbbreviatedName() {

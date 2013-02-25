@@ -22,6 +22,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -37,12 +39,12 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.PostReviewers.Input;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;
 import com.google.gerrit.server.change.ReviewerJson.ReviewerInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -74,7 +76,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   private final Reviewers.Parser parser;
   private final ReviewerResource.Factory reviewerFactory;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
-  private final GroupCache groupCache;
+  private final Provider<GroupsCollection> groupsCollection;
   private final GroupMembers.Factory groupMembersFactory;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> db;
@@ -90,7 +92,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   PostReviewers(Reviewers.Parser parser,
       ReviewerResource.Factory reviewerFactory,
       AddReviewerSender.Factory addReviewerSenderFactory,
-      GroupCache groupCache,
+      Provider<GroupsCollection> groupsCollection,
       GroupMembers.Factory groupMembersFactory,
       AccountInfo.Loader.Factory accountLoaderFactory,
       Provider<ReviewDb> db,
@@ -104,7 +106,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     this.parser = parser;
     this.reviewerFactory = reviewerFactory;
     this.addReviewerSenderFactory = addReviewerSenderFactory;
-    this.groupCache = groupCache;
+    this.groupsCollection = groupsCollection;
     this.groupMembersFactory = groupMembersFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.db = db;
@@ -150,9 +152,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       throws ResourceNotFoundException, AuthException, NoSuchGroupException,
       NoSuchProjectException, OrmException, NoSuchChangeException,
       EmailException {
-    AccountGroup group =
-        groupCache.get(new AccountGroup.NameKey(input.reviewer));
-    if (group == null) {
+    GroupDescription.Basic group = groupsCollection.get().parse(input.reviewer);
+    if (GroupDescriptions.toAccountGroup(group) == null) {
       throw new ResourceNotFoundException(input.reviewer);
     }
     PostResult result = new PostResult();

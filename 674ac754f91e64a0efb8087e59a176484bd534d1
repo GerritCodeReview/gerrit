@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QOwds1s8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-25T12:21:01Z",
+      "side": 1,
+      "message": "s/a/an",
+      "revId": "674ac754f91e64a0efb8087e59a176484bd534d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QOydx2qg",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1012,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-25T12:21:01Z",
+      "side": 1,
+      "message": "It would be good to clarify what happens if a group is added and more some members were successfully added, but some not.",
+      "revId": "674ac754f91e64a0efb8087e59a176484bd534d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

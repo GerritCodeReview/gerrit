@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QU.8jgbI",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-25T14:13:07Z",
+      "side": 1,
+      "message": "I have to say I\u0027m a bit confused by this endpoint. Did I describe it correctly? Is it supposed to behave like this?",
+      "revId": "68f65927aeb3a26669e948fe05ba26ed38921484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

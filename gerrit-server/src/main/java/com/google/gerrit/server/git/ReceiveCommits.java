@@ -27,6 +27,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
@@ -81,6 +82,7 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -113,6 +115,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -243,6 +247,7 @@ public class ReceiveCommits {
   private final ApprovalsUtil approvalsUtil;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
+  private final CmdLineParser.Factory optionParserFactory;
   private final String canonicalWebUrl;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final TrackingFooters trackingFooters;
@@ -292,6 +297,7 @@ public class ReceiveCommits {
       final ChangeHooks hooks,
       final ApprovalsUtil approvalsUtil,
       final ProjectCache projectCache,
+      final CmdLineParser.Factory optionParserFactory,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
       final ChangeCache changeCache,
@@ -320,6 +326,7 @@ public class ReceiveCommits {
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.projectCache = projectCache;
+    this.optionParserFactory = optionParserFactory;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
     this.trackingFooters = trackingFooters;
@@ -974,12 +981,33 @@ public class ReceiveCommits {
     final ReceiveCommand cmd;
     Branch.NameKey dest;
     RefControl ctl;
-    String topic;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
 
+    @Option(name="--draft")
+    boolean draft;
+
+    @Option(name = "--topic")
+    String topic;
+
+    @Option(name="--reviewer", aliases={"--r"}, multiValued = true)
+    void reviewer(Account.Id id) {
+      reviewer.add(id);
+    }
+
+    @Option(name="--cc", multiValued = true)
+    void cc(Account.Id id) {
+      cc.add(id);
+    }
+
+    @Option(name="--publish")
+    void publish(boolean publish) {
+      draft = !publish;
+    }
+
     MagicBranchInput(ReceiveCommand cmd) {
       this.cmd = cmd;
+      this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
     }
 
     boolean isRef(Ref ref) {
@@ -987,15 +1015,23 @@ public class ReceiveCommits {
     }
 
     boolean isDraft() {
-      return cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
+      return draft;
     }
 
     MailRecipients getMailRecipients() {
       return new MailRecipients(reviewer, cc);
     }
 
-    String parse(Repository repo, Map<String, Ref> advertisedRefs) {
-      String destBranchName = MagicBranch.getDestBranchName(cmd.getRefName());
+    String parse(Repository repo, Map<String, Ref> refs,
+        CmdLineParser.Factory optionParserFactory) {
+      String destBranchName;
+      boolean parseOptions = false;
+      if (MagicBranch.isOldStyle(cmd.getRefName())) {
+        destBranchName = MagicBranch.getDestBranchName(cmd.getRefName());
+      } else {
+        destBranchName = cmd.getRefName().substring(MagicBranch.MAGIC.length());
+        parseOptions = true;
+      }
       if (!destBranchName.startsWith(Constants.R_REFS)) {
         destBranchName = Constants.R_HEADS + destBranchName;
       }
@@ -1009,13 +1045,13 @@ public class ReceiveCommits {
         return null;
       }
 
-      // Split the destination branch by branch and topic.  The topic
+      // Split the destination branch by branch and topic. The topic
       // suffix is entirely optional, so it might not even exist.
       int split = destBranchName.length();
       for (;;) {
         String name = destBranchName.substring(0, split);
 
-        if (advertisedRefs.containsKey(name)) {
+        if (refs.containsKey(name)) {
           // We advertised the branch to the client so we know
           // the branch exists. Target this branch for the upload.
           break;
@@ -1037,10 +1073,27 @@ public class ReceiveCommits {
       }
 
       if (split < destBranchName.length()) {
-        String t = destBranchName.substring(split + 1);
-        topic = Strings.emptyToNull(t);
+        String t = Strings.emptyToNull(destBranchName.substring(split + 1));
+        if (parseOptions && t != null) {
+          try {
+            optionParserFactory.create(this).parseArgument(splitOptions(t));
+          } catch (CmdLineException e) {
+            cmd.setResult(REJECTED_OTHER_REASON, e.getMessage());
+            return null;
+          }
+        } else {
+          topic = t;
+        }
       }
       return destBranchName.substring(0, split);
+    }
+
+    private static String[] splitOptions(String options) {
+      List<String> args = Lists.newArrayList();
+      for (String a : Splitter.on('/').split(options)) {
+        args.add("--" + a);
+      }
+      return args.toArray(new String[args.size()]);
     }
   }
 
@@ -1053,7 +1106,10 @@ public class ReceiveCommits {
     }
 
     magicBranch = new MagicBranchInput(cmd);
-    String ref = magicBranch.parse(repo, rp.getAdvertisedRefs());
+    String ref = magicBranch.parse(
+        repo,
+        rp.getAdvertisedRefs(),
+        optionParserFactory);
     if (ref == null) {
       // Command was already rejected, but progress needs to update.
       commandProgress.update(1);

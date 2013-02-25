@@ -32,6 +32,7 @@ public final class MagicBranch {
   public static final String NEW_CHANGE = "refs/for/";
   public static final String NEW_DRAFT_CHANGE = "refs/drafts/";
   public static final String NEW_PUBLISH_CHANGE = "refs/publish/";
+  public static final String MAGIC = "refs/@";
 
   /** Extracts the destination from a ref name */
   public static String getDestBranchName(String refName) {
@@ -46,12 +47,13 @@ public final class MagicBranch {
 
   /** Checks if the supplied ref name is a magic branch */
   public static boolean isMagicBranch(String refName) {
-    if (refName.startsWith(NEW_DRAFT_CHANGE) ||
-        refName.startsWith(NEW_PUBLISH_CHANGE) ||
-        refName.startsWith(NEW_CHANGE)) {
-      return true;
-    }
-    return false;
+    return refName.startsWith(MAGIC) || isOldStyle(refName);
+  }
+
+  public static boolean isOldStyle(String refName) {
+    return refName.startsWith(NEW_DRAFT_CHANGE)
+        || refName.startsWith(NEW_PUBLISH_CHANGE)
+        || refName.startsWith(NEW_CHANGE);
   }
 
   /** Returns the ref name prefix for a magic branch, <code>null</code> if the branch is not magic */

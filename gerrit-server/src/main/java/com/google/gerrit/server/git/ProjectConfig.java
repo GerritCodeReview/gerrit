@@ -532,8 +532,14 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   private void loadLabelSections(Config rc) throws IOException {
+    Set<String> ids = Sets.newHashSet();
     labelSections = Maps.newLinkedHashMap();
     for (String name : rc.getSubsections(LABEL)) {
+      if (labelSections.containsKey(name) || ids.contains(name)) {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Duplicate label \"%s\"", name)));
+      }
+
       List<LabelValue> values = Lists.newArrayList();
       for (String value : rc.getStringList(LABEL, name, KEY_VALUE)) {
         try {
@@ -556,7 +562,12 @@ public class ProjectConfig extends VersionedMetaData {
 
       String id = rc.getString(LABEL, name, KEY_ID);
       if (!name.equals(id)) {
-        label.setId(id);
+        if (labelSections.containsKey(id) || ids.contains(id)) {
+          error(new ValidationError(PROJECT_CONFIG, String.format(
+                "Duplicate label ID \"%s\"", id)));
+          label.setId(id);
+        }
+        ids.add(id);
       }
       String abbr = rc.getString(LABEL, name, KEY_ABBREVIATED_NAME);
       if (abbr != null) {

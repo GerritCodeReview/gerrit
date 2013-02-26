@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QU2-jESk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-26T08:29:17Z",
+      "side": 1,
+      "message": "s|by /|by ,",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QU.-W4UE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-26T08:29:17Z",
+      "side": 1,
+      "message": "Update this comment?",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QU6-M2bM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-26T08:29:17Z",
+      "side": 1,
+      "message": "What if \u0027--publish\u0027 comes before \u0027--draft\u0027? Wouldn\u0027t be both of them true then?",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QU4-JFaQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-26T08:29:17Z",
+      "side": 1,
+      "message": "What would happen for \u0027refs/@refs/drafts/master%publish\u0027?",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QU8-THVA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-26T08:29:17Z",
+      "side": 1,
+      "message": "Update this comment?",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QU0-ozQM",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-26T08:29:17Z",
+      "side": 1,
+      "message": "[optional] remove this line, it\u0027s the same as below",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

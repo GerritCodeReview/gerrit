@@ -90,7 +90,7 @@ public class GroupsCollection implements
     return new GroupResource(ctl);
   }
 
-  GroupDescription.Basic parse(String id) throws ResourceNotFoundException {
+  public GroupDescription.Basic parse(String id) throws ResourceNotFoundException {
     AccountGroup.UUID uuid = new AccountGroup.UUID(id);
     if (groupBackend.handles(uuid)) {
       GroupDescription.Basic d = groupBackend.get(uuid);

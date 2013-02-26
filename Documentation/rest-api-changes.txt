@@ -926,7 +926,7 @@ required.
 ----
 
 To confirm the addition of the reviewers, resend the request with the
-`confirm` flag being set.
+`confirmed` flag being set.
 
 .Request
 ----
@@ -935,7 +935,7 @@ To confirm the addition of the reviewers, resend the request with the
 
   {
     "reviewer": "MyProjectVerifiers",
-    "confirm": true
+    "confirmed": true
   }
 ----
 

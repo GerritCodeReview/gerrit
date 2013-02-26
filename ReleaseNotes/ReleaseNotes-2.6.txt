@@ -62,6 +62,12 @@ Hooks
 
 SSH
 ~~~
+* Descriptions can be added to ssh commands with `@CommandMetaData` annotation.
++
+A new annotation is added that allows descriptions to be added to ssh commands.
+If `gerrit` is called without arguments, it will now show a list of available
+commands with their descriptions.
+
 * `create-account --http-password` enables setting/resetting the
   HTTP password of role accounts, for Git or JSON API access.
 

@@ -327,7 +327,8 @@ public class ChangeUtil {
       final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
       final ChangeHooks hooks, Repository git,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated gitRefUpdated, PersonIdent myIdent)
+      final GitReferenceUpdated gitRefUpdated, PersonIdent myIdent,
+      final ApprovalsUtil approvalsUtil)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, PatchSetInfoNotAvailableException {
@@ -442,6 +443,8 @@ public class ChangeUtil {
           throw new InvalidChangeOperationException(String.format(
               "Change %s was modified", change.getId()));
         }
+
+        approvalsUtil.copyVetosToPatchSet(db, change.currentPatchSetId());
 
         final ChangeMessage cmsg =
             new ChangeMessage(new ChangeMessage.Key(changeId,

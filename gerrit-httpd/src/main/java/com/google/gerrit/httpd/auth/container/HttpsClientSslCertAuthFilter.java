@@ -41,7 +41,7 @@ import javax.servlet.ServletResponse;
 @Singleton
 class HttpsClientSslCertAuthFilter implements Filter {
 
-  private static final Pattern REGEX_USERID = Pattern.compile("CN=([^,]*),.*");
+  private static final Pattern REGEX_USERID = Pattern.compile(".*CN=([^,]*),.*");
   private static final Logger log =
     LoggerFactory.getLogger(HttpsClientSslCertAuthFilter.class);
 

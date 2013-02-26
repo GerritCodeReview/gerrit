@@ -78,6 +78,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.MalformedJsonException;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -320,6 +321,8 @@ public class RestApiServlet extends HttpServlet {
       replyError(res, status = SC_NOT_FOUND, "Not found");
     } catch (AmbiguousViewException e) {
       replyError(res, status = SC_NOT_FOUND, e.getMessage());
+    } catch (MalformedJsonException e) {
+      replyError(res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
     } catch (JsonParseException e) {
       replyError(res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
     } catch (Exception e) {

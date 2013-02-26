@@ -262,19 +262,23 @@ public class ChangeControl {
 
   /** @return true if the user is allowed to remove this reviewer. */
   public boolean canRemoveReviewer(PatchSetApproval approval) {
+    return canRemoveReviewer(approval.getAccountId(), approval.getValue());
+  }
+
+  public boolean canRemoveReviewer(Account.Id reviewer, short value) {
     if (getChange().getStatus().isOpen()) {
       // A user can always remove themselves.
       //
       if (getCurrentUser() instanceof IdentifiedUser) {
         final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
-        if (i.getAccountId().equals(approval.getAccountId())) {
+        if (i.getAccountId().equals(reviewer)) {
           return true; // can remove self
         }
       }
 
       // The change owner may remove any zero or positive score.
       //
-      if (isOwner() && 0 <= approval.getValue()) {
+      if (isOwner() && 0 <= value) {
         return true;
       }
 

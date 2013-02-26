@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "QUw9ppdE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-26T02:27:08Z",
+      "side": 1,
+      "message": "yes, do change. :)\nno way to maintain the existing behavior. :)   and the exiting behavior is \nany owner action will make the change bold ,refer those 4 line code https://gerrit-review.googlesource.com/#/c/42611/4/gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+      "parentUuid": "QQiB3SqE",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QO.ebwrI",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

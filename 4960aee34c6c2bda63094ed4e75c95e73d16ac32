@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QU898vYA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1393,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-26T07:40:22Z",
+      "side": 1,
+      "message": "The \u0027reviewer\u0027 field and the \u0027cc\u0027 field in magicBranch are not populated, on the other side \u0027reviewersFromCommandLine\u0027 and \u0027ccFromCommandLine\u0027 are populated but not used.",
+      "revId": "4960aee34c6c2bda63094ed4e75c95e73d16ac32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

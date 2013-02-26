@@ -50,6 +50,24 @@
       "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QVE7.E-Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-26T08:27:29Z",
+      "side": 1,
+      "message": "please refer https://gerrit-review.googlesource.com/#/c/42359/5/gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateProjectHandler.java\nI think line 126 can be delete I will test",
+      "parentUuid": "QOycEetI",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

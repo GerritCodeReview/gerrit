@@ -387,6 +387,8 @@ public class RestApiServlet extends HttpServlet {
       BufferedReader br = req.getReader();
       try {
         JsonReader json = new JsonReader(br);
+        json.setLenient(true);
+
         JsonToken first;
         try {
           first = json.peek();

@@ -1323,7 +1323,8 @@ comment.
 |===========================
 |Field Name    ||Description
 |`id`          |optional|
-The UUID of the comment if an existing draft comment should be updated.
+The URL encoded UUID of the comment if an existing draft comment should
+be updated.
 |`side`        |optional|
 The side on which the comment should be added. +
 Allowed values are `REVISION` and `PARENT`. +

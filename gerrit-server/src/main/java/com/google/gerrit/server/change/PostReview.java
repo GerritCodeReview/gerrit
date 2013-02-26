@@ -277,7 +277,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       String path = ent.getKey();
       for (Comment c : ent.getValue()) {
         String parent = Url.decode(c.inReplyTo);
-        PatchLineComment e = drafts.remove(c.id);
+        PatchLineComment e = drafts.remove(Url.decode(c.id));
         boolean create = e == null;
         if (create) {
           e = new PatchLineComment(

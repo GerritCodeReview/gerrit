@@ -18,6 +18,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,12 +28,18 @@ import java.util.Map;
 import java.util.Set;
 
 public class ApprovalDetail {
-  public static final Comparator<ApprovalDetail> SORT =
-      new Comparator<ApprovalDetail>() {
-        public int compare(ApprovalDetail o1, ApprovalDetail o2) {
-          return o1.hasNonZero - o2.hasNonZero;
-        }
-      };
+  public static List<ApprovalDetail> sort(Collection<ApprovalDetail> ads,
+      final int owner) {
+    List<ApprovalDetail> sorted = new ArrayList<ApprovalDetail>(ads);
+    Collections.sort(sorted, new Comparator<ApprovalDetail>() {
+      public int compare(ApprovalDetail o1, ApprovalDetail o2) {
+        int byOwner = (o2.account.get() == owner ? 1 : 0)
+            - (o1.account.get() == owner ? 1 : 0);
+        return byOwner != 0 ? byOwner : (o1.hasNonZero - o2.hasNonZero);
+      }
+    });
+    return sorted;
+  }
 
   protected Account.Id account;
   protected List<PatchSetApproval> approvals;

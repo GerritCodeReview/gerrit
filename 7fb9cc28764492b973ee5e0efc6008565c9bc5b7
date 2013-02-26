@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QOwf-9qA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-26T08:16:31Z",
+      "side": 1,
+      "message": "s/in/is",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QO2f6crI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-26T08:16:31Z",
+      "side": 1,
+      "message": "s/exist/exists",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QOycEetI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-26T08:16:31Z",
+      "side": 1,
+      "message": "Why is the description empty?",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

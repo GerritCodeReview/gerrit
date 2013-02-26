@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QWOoMB0s",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-02-26T20:56:02Z",
+      "side": 1,
+      "message": "This document does not  read as a general \"application server installation guide\", it feels miss-leading to represent it that way.",
+      "revId": "9bdb9d758acf249bac6a48d28af881a1939b92e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

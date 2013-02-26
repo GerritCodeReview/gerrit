@@ -1139,6 +1139,53 @@ describes the applied labels.
   }
 ----
 
+[[submit-revision]]
+POST /changes/\{change-id\}/revisions/\{revision-id\}/submit (Submit Revision)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Submits a revision.
+
+The request body only needs to include a link:#submit-input[
+SubmitInput] entity if the request should wait for the merge to
+complete.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/submit HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "wait_for_merge": true
+  }
+----
+
+As response a link:#submit-info[SubmitInfo] entity is returned that
+describes the status of the submitted change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "status": "MERGED"
+  }
+----
+
+If the revision cannot be submitted, e.g. because the submit rule
+doesn't allow submitting the revision or the revision is not the
+current revision, the response is "`409 Conflict`" and the error
+message is contained in the response body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Type: text/plain;charset=UTF-8
+
+  "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
+----
+
 
 [[ids]]
 IDs
@@ -1590,6 +1637,23 @@ link:#commit-info[CommitInfo] entity.
 The files of the patch set as a map that maps the file names to
 link:#file-info[FileInfo] entities.
 |===========================
+
+[[submit-info]]
+SubmitInfo
+~~~~~~~~~~
+The `SubmitInfo` entity contains information about the change status
+after submitting.
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`status`      |
+The status of the change after submitting, can be `MERGED` or
+`SUBMITTED`. +
+If `wait_for_merge` in the link:#submit-input[SubmitInput] was set to
+`false` the returned status is `SUBMITTED` and the caller can't know
+whether the change could be merged successfully.
+|==========================
 
 [[submit-input]]
 SubmitInput

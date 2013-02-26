@@ -41,7 +41,7 @@ import javax.servlet.ServletResponse;
 @Singleton
 class HttpsClientSslCertAuthFilter implements Filter {
 
-  private static final Pattern REGEX_USERID = Pattern.compile("CN=([^,]*),.*");
+  private static final Pattern REGEX_USERID = Pattern.compile("CN=([^,]*)");
   private static final Logger log =
     LoggerFactory.getLogger(HttpsClientSslCertAuthFilter.class);
 
@@ -70,7 +70,7 @@ class HttpsClientSslCertAuthFilter implements Filter {
     String name = certs[0].getSubjectDN().getName();
     Matcher m = REGEX_USERID.matcher(name);
     String userName;
-    if (m.matches()) {
+    if (m.find()) {
       userName = m.group(1);
     } else {
       throw new ServletException("Couldn't extract username from your certificate");

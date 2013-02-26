@@ -250,7 +250,7 @@ public class ChangeJson {
         options.contains(DETAILED_LABELS));
     if (options.contains(DETAILED_LABELS)) {
       out.permitted_labels = permittedLabels(cd);
-      out.removable_reviewers = removableReviewers(cd);
+      out.removable_reviewers = removableReviewers(cd, out.labels.values());
     }
     out.finish();
 
@@ -580,25 +580,22 @@ public class ChangeJson {
     return permitted.asMap();
   }
 
-  private Collection<AccountInfo> removableReviewers(ChangeData cd)
-      throws OrmException {
+  private Collection<AccountInfo> removableReviewers(ChangeData cd,
+      Collection<LabelInfo> labels) throws OrmException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
       return ImmutableList.of();
     }
-    Change change = ctl.getChange();
-    if (!change.getStatus().isOpen() ||
-        !(ctl.getCurrentUser() instanceof IdentifiedUser)) {
-      return ImmutableList.of();
-    }
 
-    Set<Account.Id> fixed = Sets.newHashSet();
-    Set<Account.Id> removable = Sets.newHashSet();
-    for (PatchSetApproval app : cd.currentApprovals(db)) {
-      if (ctl.canRemoveReviewer(app)) {
-        removable.add(app.getAccountId());
-      } else {
-        fixed.add(app.getAccountId());
+    Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
+    Set<Account.Id> removable = Sets.newHashSetWithExpectedSize(labels.size());
+    for (LabelInfo label : labels) {
+      for (ApprovalInfo ai : label.all) {
+        if (ctl.canRemoveReviewer(ai._id, ai.value)) {
+          removable.add(ai._id);
+        } else {
+          fixed.add(ai._id);
+        }
       }
     }
     removable.removeAll(fixed);

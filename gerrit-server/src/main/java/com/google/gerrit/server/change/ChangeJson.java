@@ -421,6 +421,7 @@ public class ChangeJson {
 
   private void setAllApprovals(ChangeData cd,
       Map<String, LabelInfo> labels) throws OrmException {
+    cd.allApprovals(db);
     ChangeControl ctl = cd.changeControl();
     Collection<PatchSetApproval> approvals = cd.currentApprovals(db);
     FunctionState fs =
@@ -449,15 +450,18 @@ public class ChangeJson {
 
     // Add dummy approvals for all permitted labels for each user even if they
     // do not exist in the DB.
-    for (Map.Entry<Account.Id, Collection<String>> ue
-        : existing.asMap().entrySet()) {
+    Set<Account.Id> allUsers = Sets.newHashSet();
+    for (PatchSetApproval psa : cd.allApprovals(db)) {
+      allUsers.add(psa.getAccountId());
+    }
+    for (Account.Id user : allUsers) {
       for (Map.Entry<String, LabelInfo> le : labels.entrySet()) {
-        if (ue.getValue().contains(le.getKey())) {
+        if (existing.containsEntry(user, le.getKey())) {
           continue;
         }
         LabelInfo p = le.getValue();
-        if (!getRange(ctl, ue.getKey(), le.getKey()).isEmpty()) {
-          p.addApproval(approvalInfo(ue.getKey(), (short) 0));
+        if (!getRange(ctl, user, le.getKey()).isEmpty()) {
+          p.addApproval(approvalInfo(user, (short) 0));
         }
       }
     }

@@ -31,7 +31,7 @@ Review UI
 * Submit type displayed per-change in the info block.
 * Submit type selectable per-change by `submit_type` Prolog rules.
 
-* Rebase button is hidden when patch set is current.
+* The rebase button is hidden when the patch set is current.
 
 * `suggest.from` configures a minimum number of characters before
   matches for reviewers, accounts, groups or projects are offered.
@@ -57,8 +57,8 @@ Access Controls
 Hooks
 ~~~~~
 * Change topic is passed to hooks as `--topic NAME`.
-* New `reviewer-added` hook called when a reviewer is added.
-* New `reviewer-added` event is sent by stream-events.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1200[Issue 1200]:
+New `reviewer-added` hook and stream event when a reviewer is added.
 
 SSH
 ~~~
@@ -92,7 +92,8 @@ Plugins
 
 EMail
 ~~~~~
-* Email footers now include `Gerrit-HasInlineComments: {Yes|No}`.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1531[Issue 1531]:
+Email footers now include `Gerrit-HasComments: {Yes|No}`.
 * Notifications configured in project.config can now be addressed
   using any of To, CC, or BCC headers.
 
@@ -101,7 +102,9 @@ EMail
 
 Upgrades
 ~~~~~~~~
-* Embedded Jetty is now 8.1.7.v20120910.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1619[Issue 1619]:
+Embedded Jetty is now 8.1.7.v20120910.
+
 * ASM bytecode library is now 4.0.
 * JGit is now 2.1.0.201209190230-r.
 
@@ -110,7 +113,7 @@ Bug Fixes
 
 Web UI
 ~~~~~~
-* Links to CGit were broken when remove-suffix was enabled.
+* Links to CGit were broken when `remove-suffix` was enabled.
 
 Git
 ~~~
@@ -118,8 +121,10 @@ Git
 * Checking if a change is mergeable no longer writes to the repository.
 * Improved `git ls-remote` and `git fetch` performance by caching
   changes, decreasing database queries and traffic.
-* Commits pushed without a Change-Id now warn with instructions on how
-  to download and install the commit-msg hook.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1608[Issue 1608]:
+Commits pushed without a Change-Id now warn with instructions on how
+to download and install the commit-msg hook.
+
 * Submitted but unmerged changes are periodically retried. This is
   necessary for a multi-master configuration where the second master
   may need to retry a change not yet merged by the first. Please note

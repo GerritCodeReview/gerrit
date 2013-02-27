@@ -1089,6 +1089,56 @@ for the current patch set.
   }
 ----
 
+[[set-review]]
+POST /changes/\{change-id\}/revisions/\{revision-id\}/review (Set Review)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets a review on a revision.
+
+The review must be provided in the request body as a
+link:#review-input[ReviewInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/review HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "message": "Some nits need to be fixed.",
+    "labels": {
+      "Code-Review": -1
+    },
+    "comments": {
+      "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+        {
+          "line": 23,
+          "message": "[nit] trailing whitespace"
+        },
+        {
+          "line": 49,
+          "message": "[nit] s/conrtol/control"
+        }
+      ]
+    }
+  }
+----
+
+As response a link:#review-info[ReviewInfo] entity is returned that
+describes the applied labels.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "labels": {
+      "Code-Review": -1
+    }
+  }
+----
+
 
 [[ids]]
 IDs
@@ -1263,6 +1313,33 @@ Whether the query would deliver more results if not limited. +
 Only set on either the last or the first change that is returned.
 |==================================
 
+[[comment-input]]
+CommentInput
+~~~~~~~~~~~~
+The `CommitInput` entity contains information for creating an inline
+comment.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`id`          |optional|
+The UUID of the comment if an existing draft comment should be updated.
+|`side`        |optional|
+The side on which the comment should be added. +
+Allowed values are `REVISION` and `PARENT`. +
+If not set, the default is `REVISION`.
+|`line`        |optional|
+The number of the line for which the comment should be added. +
+`0` if it is a file comment. +
+If not set, a file comment is added.
+|`in_reply_to` |optional|
+The URL encoded UUID of the comment to which this comment is a reply.
+|`message`     |optional|
+The comment message. +
+If not set and an existing draft comment is updated, the existing draft
+comment is deleted.
+|===========================
+
 [[commit-info]]
 CommitInfo
 ~~~~~~~~~~
@@ -1400,6 +1477,56 @@ The `RevertInput` entity contains information for reverting a change.
 Message to be added as review comment to the change when reverting the
 change.
 |===========================
+
+[[review-info]]
+ReviewInfo
+~~~~~~~~~~
+The `ReviewInfo` entity contains information about a review.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name     |Description
+|`labels`       |
+The labels of the review as a map that maps the label names to the
+voting values.
+|===========================
+
+[[review-input]]
+ReviewInput
+~~~~~~~~~~~
+The `ReviewInput` entity contains information for adding a review to a
+revision.
+
+[options="header",width="50%",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`message`      |optional|
+The message to be added as review comment.
+|`labels`       |optional|
+The votes that should be added to the revision as a map that maps the
+label names to the voting values.
+|`comments`     |optional|
+The comments that should be added as a map that maps a file path to a
+list of link:#comment-input[CommentInput] entities.
+|`strict_labels`|`true` if not set|
+Whether all labels are rquired to be within the user's permitted ranges
+based on access controls. +
+If `true`, attempting to use a label not granted to the user will fail
+the entire modify operation early. +
+If `false`, the operation will execute anyway, but the proposed labels
+will be modified to be the "best" value allowed by the access controls.
+|`drafts`      |optional|
+Draft handling that defines how draft comments are handled that are
+already in the database but that were not also described in this
+input. +
+Allowed values are `DELETE`, `PUBLISH` and `KEEP`. +
+If not set, the default is `DELETE`.
+|`notify`      |optional|
+Notify handling that defines to whom email notifications should be sent
+after the review is stored. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `ALL`.
+|============================
 
 [[reviewer-info]]
 ReviewerInfo

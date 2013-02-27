@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QWckgMak",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:45Z",
+      "side": 1,
+      "message": "assimulating? Did you mean assimilating?",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWSk9jdE",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:45Z",
+      "side": 1,
+      "message": "Do you actually need Git to run Gerrit?",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWQlCSVE",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:45Z",
+      "side": 1,
+      "message": "s/Collocated/co-located/\n\n(only 1 \u0027l\u0027 in colocation)",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWQlpqdE",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:45Z",
+      "side": 1,
+      "message": "Again, not sure why we need Git at all. If it\u0027s just for this sandbox stuff, it really doesn\u0027t belong in this doc.",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWWleZSk",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:45Z",
+      "side": 1,
+      "message": "Won\u0027t init prompt you to copy the WAR to /var/lib/review_site/data/bin/ but you want it in /usr/local/review_site/gerrit-X.X/ ?",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWalXvQc",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:45Z",
+      "side": 1,
+      "message": "Should everything in \"further,httpDownload,ldap\" be in a different doc? Seems unrelated to Tomcat.",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWUljoe8",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:45Z",
+      "side": 1,
+      "message": "Might want to use --add here to be explicit.",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWYlUeQQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:45Z",
+      "side": 1,
+      "message": "GerritLogin,ConfigureHTTP,GenerateHTTPPassword,Test,TestSSH,TestHTTP should all be in another doc. They\u0027re not part of setting up Tomcat.",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

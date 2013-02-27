@@ -1229,6 +1229,46 @@ sorted by file path.
   }
 ----
 
+[[create-draft]]
+PUT /changes/\{change-id\}/revisions/\{revision-id\}/drafts (Create Draft)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Creates a draft comment on a revision.
+
+The new draft comment must be provided in the request body inside a
+link:#comment-input[CommentInput] entity.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/drafts HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+    "line": 23,
+    "message": "[nit] trailing whitespace"
+  }
+----
+
+As response a link:#comment-info[CommentInfo] entity is returned that
+describes the draft comment.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#comment",
+    "id": "TvcXrmjM",
+    "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+    "line": 23,
+    "message": "[nit] trailing whitespace",
+    "updated": "2013-02-26 15:40:43.986000000"
+  }
+----
+
 [[get-draft]]
 GET /changes/\{change-id\}/revisions/\{revision-id\}/drafts/\{draft-id\} (Get Draft)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1258,6 +1298,61 @@ describes the draft comment.
     "message": "[nit] trailing whitespace",
     "updated": "2013-02-26 15:40:43.986000000"
   }
+----
+
+[[update-draft]]
+PUT /changes/\{change-id\}/revisions/\{revision-id\}/drafts/\{draft-id\} (Update Draft)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Updates a draft comment on a revision.
+
+The new draft comment must be provided in the request body inside a
+link:#comment-input[CommentInput] entity.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/drafts/TvcXrmjM HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+    "line": 23,
+    "message": "[nit] trailing whitespace"
+  }
+----
+
+As response a link:#comment-info[CommentInfo] entity is returned that
+describes the draft comment.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#comment",
+    "id": "TvcXrmjM",
+    "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+    "line": 23,
+    "message": "[nit] trailing whitespace",
+    "updated": "2013-02-26 15:40:43.986000000"
+  }
+----
+
+[[delete-draft]]
+DELETE /changes/\{change-id\}/revisions/\{revision-id\}/drafts/\{draft-id\} (Delete Draft)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deletes a draft comment from a revision.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/drafts/TvcXrmjM HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
 ----
 
 
@@ -1475,9 +1570,15 @@ comment.
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
+|`kind`        |optional|
+Must be `gerritcodereview#comment` if provided.
 |`id`          |optional|
 The URL encoded UUID of the comment if an existing draft comment should
 be updated.
+|`path`        |optional|
+The path of the file for which the inline comment should be added. +
+Doesn't need to be set if contained in a map where the key is the file
+path.
 |`side`        |optional|
 The side on which the comment should be added. +
 Allowed values are `REVISION` and `PARENT`. +
@@ -1488,6 +1589,9 @@ The number of the line for which the comment should be added. +
 If not set, a file comment is added.
 |`in_reply_to` |optional|
 The URL encoded UUID of the comment to which this comment is a reply.
+|`updated`     |optional|
+The link:rest-api.html#timestamp[timestamp] of this comment. +
+Accepted but ignored.
 |`message`     |optional|
 The comment message. +
 If not set and an existing draft comment is updated, the existing draft

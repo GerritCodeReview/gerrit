@@ -28,10 +28,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.workflow.CategoryFunction;
-import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -42,15 +41,15 @@ import java.util.TreeMap;
 
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
-  private final FunctionState.Factory functionState;
+  private final LabelNormalizer labelNormalizer;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
   ReviewerJson(Provider<ReviewDb> db,
-      FunctionState.Factory functionState,
+      LabelNormalizer labelNormalizer,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.db = db;
-    this.functionState = functionState;
+    this.labelNormalizer = labelNormalizer;
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
@@ -79,12 +78,8 @@ public class ReviewerJson {
       approvals = ChangeData.sortApprovals(db.get().patchSetApprovals()
           .byPatchSetUser(psId, out._id));
     }
-
+    approvals = labelNormalizer.normalize(ctl, approvals);
     LabelTypes labelTypes = ctl.getLabelTypes();
-    FunctionState fs = functionState.create(ctl, psId, approvals);
-    for (LabelType at : labelTypes.getLabelTypes()) {
-      CategoryFunction.forType(at).run(at, fs);
-    }
 
     out.approvals = Maps.newTreeMap(labelTypes.nameComparator());
     for (PatchSetApproval ca : approvals) {

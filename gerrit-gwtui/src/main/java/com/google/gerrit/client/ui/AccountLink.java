@@ -16,7 +16,6 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.groups.MemberInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
@@ -36,15 +35,15 @@ public class AccountLink extends InlineHyperlink {
     setTitle(FormatUtil.nameEmail(ai));
   }
 
-  public AccountLink(final MemberInfo i) {
-    this(new AccountInfo(i.getAccountId()) {
+  public AccountLink(final com.google.gerrit.client.account.AccountInfo i) {
+    this(new AccountInfo(new Account.Id(i._account_id())) {
       @Override
       public String getFullName() {
-        return i.fullName();
+        return i.name();
       }
       @Override
       public String getPreferredEmail() {
-        return i.preferredEmail();
+        return i.email();
       }
     });
   }

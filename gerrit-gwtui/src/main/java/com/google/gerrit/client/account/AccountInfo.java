@@ -12,21 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.groups;
+package com.google.gerrit.client.account;
 
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class MemberInfo extends JavaScriptObject {
-  public final Account.Id getAccountId() {
-    return new Account.Id(account_id());
-  }
+public class AccountInfo extends JavaScriptObject {
+  public final native int _account_id() /*-{ return this._account_id || 0; }-*/;
+  public final native String name() /*-{ return this.name; }-*/;
+  public final native String email() /*-{ return this.email; }-*/;
 
-  private final native int account_id() /*-{ return this.account_id; }-*/;
+  public static native AccountInfo create(int id, String name,
+      String email) /*-{
+    return {'_account_id': id, 'name': name, 'email': email};
+  }-*/;
 
-  public final native String fullName() /*-{ return this.full_name; }-*/;
-  public final native String preferredEmail() /*-{ return this.preferred_email; }-*/;
-
-  protected MemberInfo() {
+  protected AccountInfo() {
   }
 }

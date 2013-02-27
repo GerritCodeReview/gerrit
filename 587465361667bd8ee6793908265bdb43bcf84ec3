@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QU2.ksbA",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012302
+      },
+      "writtenOn": "2013-02-27T10:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QU.-goek",
+      "revId": "587465361667bd8ee6793908265bdb43bcf84ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QU8-d3S8",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-27T10:16:49Z",
       "side": 1,
       "message": "s/matches/find",
+      "revId": "587465361667bd8ee6793908265bdb43bcf84ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QUw.v5Y8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012302
+      },
+      "writtenOn": "2013-02-27T10:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QU8-d3S8",
       "revId": "587465361667bd8ee6793908265bdb43bcf84ec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

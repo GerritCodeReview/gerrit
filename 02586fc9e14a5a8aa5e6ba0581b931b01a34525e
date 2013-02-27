@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "QWakwXfQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:55Z",
+      "side": 1,
+      "message": "install uses paths like:\n\n /path/to/your/gerrit_application_directory\n $site_path/etc/gerrit.config\n\nCan you use paths like that?",
+      "parentUuid": "OHgQANgs",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MGApnG.E",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -176,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "QWUlMQYQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:55Z",
+      "side": 1,
+      "message": "Lets not leave things until later. Please address before this change is merged.",
+      "parentUuid": "OHuQE.iE",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MAOLVJkQ",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -211,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "QWck3keg",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:55Z",
+      "side": 1,
+      "message": "Looking at the latest patchset this still isn\u0027t done.",
+      "parentUuid": "OHsQB-g8",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MAELGEpo",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -240,6 +294,24 @@
       "side": 1,
       "message": "Probably, may I suggest refactoring later?",
       "parentUuid": "MAELGEpo",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWSlkbfk",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T18:34:55Z",
+      "side": 1,
+      "message": "Lets not wait until later. Please do this before this changed is merged.",
+      "parentUuid": "OHqQOAj4",
       "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

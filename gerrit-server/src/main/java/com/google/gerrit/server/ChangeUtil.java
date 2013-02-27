@@ -454,10 +454,10 @@ public class ChangeUtil {
         db.changeMessages().insert(Collections.singleton(cmsg));
         db.commit();
 
-          final CommitMessageEditedSender cm = commitMessageEditedSenderFactory.create(change);
-          cm.setFrom(user.getAccountId());
-          cm.setChangeMessage(cmsg);
-          cm.send();
+        final CommitMessageEditedSender cm = commitMessageEditedSenderFactory.create(change);
+        cm.setFrom(user.getAccountId());
+        cm.setChangeMessage(cmsg);
+        cm.send();
       } finally {
         db.rollback();
       }

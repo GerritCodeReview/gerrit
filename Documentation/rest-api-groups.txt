@@ -226,6 +226,9 @@ describes the created group.
   }
 ----
 
+If the group creation fails because the name is already in use the
+response is "`409 Conflict`".
+
 [[get-group-name]]
 GET /groups/\{group-id\}/name (Get Group Name)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -274,6 +277,9 @@ As response the new group name is returned.
   )]}'
   "My-Project-Committers"
 ----
+
+If renaming the group fails because the new name is already in use the
+response is "`409 Conflict`".
 
 [[get-group-description]]
 GET /groups/\{group-id\}/description (Get Group Description)

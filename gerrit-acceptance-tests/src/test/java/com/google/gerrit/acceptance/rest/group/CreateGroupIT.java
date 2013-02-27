@@ -94,10 +94,10 @@ public class CreateGroupIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void testCreateGroupWhenGroupAlreadyExists_PreconditionFailed()
+  public void testCreateGroupWhenGroupAlreadyExists_Conflict()
       throws OrmException, JSchException, IOException {
     RestResponse r = session.put("/groups/Administrators");
-    assertEquals(HttpStatus.SC_PRECONDITION_FAILED, r.getStatusCode());
+    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
   }
 
   private static class GroupInput {

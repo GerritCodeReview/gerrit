@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.PreconditionFailedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.PerformRenameGroup;
@@ -46,7 +46,7 @@ public class PutName implements RestModifyView<GroupResource, Input> {
   @Override
   public String apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-      ResourceNotFoundException, PreconditionFailedException, OrmException {
+      ResourceNotFoundException, ResourceConflictException, OrmException {
     if (resource.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     } else if (!resource.getControl().isOwner()) {
@@ -68,7 +68,7 @@ public class PutName implements RestModifyView<GroupResource, Input> {
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.getMessage());
     } catch (NameAlreadyUsedException e) {
-      throw new PreconditionFailedException(e.getMessage());
+      throw new ResourceConflictException(e.getMessage());
     }
   }
 }

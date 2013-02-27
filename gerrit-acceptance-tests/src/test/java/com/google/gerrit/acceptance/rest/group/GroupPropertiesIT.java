@@ -72,7 +72,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     GroupNameInput in = new GroupNameInput();
     in.name = "Registered Users";
     r = session.put(url, in);
-    assertEquals(HttpStatus.SC_PRECONDITION_FAILED, r.getStatusCode());
+    assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
     r.consume();
 
     // set name to same name

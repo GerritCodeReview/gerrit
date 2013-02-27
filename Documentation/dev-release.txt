@@ -142,6 +142,8 @@ and that now the `2.5` release is prepared.
 Prepare the Gerrit WAR and the Plugin API Jar
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+* link:dev-readme.html#run-acceptance-tests[Run the acceptance tests]
+
 * Create locally a `stable-2.5` branch for making the new release
 
 * Check in the Gerrit parent `pom.xml` that no `SNAPSHOT` version of a

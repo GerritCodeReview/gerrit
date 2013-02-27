@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QUw-IhXA",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-27T08:44:19Z",
+      "side": 1,
+      "message": "This issue is also already marked as \u0027released\u0027 with 2.5. and searching for I0dbdc5ff7804450d8b5c8a424a8cb1b0059b4029 I can confirm it\u0027s indeed included in 2.5.",
+      "revId": "71113b6236e09b357ccf2b9c7b4be20ab3eefe56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QU2-N0YA",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-27T08:44:19Z",
+      "side": 1,
+      "message": "s/id\u003d160876/id\u003d1608",
+      "revId": "71113b6236e09b357ccf2b9c7b4be20ab3eefe56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

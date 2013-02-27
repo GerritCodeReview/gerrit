@@ -102,7 +102,6 @@ import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 
@@ -219,7 +218,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ChangeControl.GenericFactory.class);
     bind(ProjectControl.GenericFactory.class);
     bind(AccountControl.Factory.class);
-    factory(FunctionState.Factory.class);
 
     install(new AuditModule());
     install(new com.google.gerrit.server.account.Module());

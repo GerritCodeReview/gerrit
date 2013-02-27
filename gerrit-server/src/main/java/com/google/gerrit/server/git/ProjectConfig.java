@@ -17,9 +17,11 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.common.data.Permission.isPermission;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -43,7 +45,6 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.workflow.CategoryFunction;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -114,6 +115,8 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   private static final String KEY_VALUE = "value";
   private static final String KEY_BLOCK = "block";
+  private static final Set<String> LABEL_FUNCTION_NAMES = ImmutableSet.of(
+      "MaxWithBlock", "MaxNoBlock", "NoBlock", "NoOp");
 
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;
@@ -566,11 +569,13 @@ public class ProjectConfig extends VersionedMetaData {
 
       String functionName = Objects.firstNonNull(
           rc.getString(LABEL, name, KEY_FUNCTION_NAME), "MaxWithBlock");
-      if (CategoryFunction.forName(functionName) != null) {
+      if (LABEL_FUNCTION_NAMES.contains(functionName)) {
         label.setFunctionName(functionName);
       } else {
         error(new ValidationError(PROJECT_CONFIG, String.format(
-            "Invalid %s for label \"%s\"", KEY_FUNCTION_NAME, name)));
+            "Invalid %s for label \"%s\". Valid names are: %s",
+            KEY_FUNCTION_NAME, name,
+            Joiner.on(", ").join(LABEL_FUNCTION_NAMES))));
         label.setFunctionName(null);
       }
       label.setCopyMinScore(

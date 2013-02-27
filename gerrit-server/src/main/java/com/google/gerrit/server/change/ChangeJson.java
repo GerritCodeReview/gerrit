@@ -58,6 +58,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -68,8 +69,6 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gerrit.server.workflow.CategoryFunction;
-import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -114,7 +113,7 @@ public class ChangeJson {
   }
 
   private final Provider<ReviewDb> db;
-  private final FunctionState.Factory functionState;
+  private final LabelNormalizer labelNormalizer;
   private final CurrentUser user;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -133,7 +132,7 @@ public class ChangeJson {
   @Inject
   ChangeJson(
       Provider<ReviewDb> db,
-      FunctionState.Factory fs,
+      LabelNormalizer ln,
       CurrentUser u,
       AnonymousUser au,
       IdentifiedUser.GenericFactory uf,
@@ -144,7 +143,7 @@ public class ChangeJson {
       @CanonicalWebUrl Provider<String> curl,
       Urls urls) {
     this.db = db;
-    this.functionState = fs;
+    this.labelNormalizer = ln;
     this.user = u;
     this.anonymous = au;
     this.userFactory = uf;
@@ -424,13 +423,9 @@ public class ChangeJson {
       Map<String, LabelInfo> labels) throws OrmException {
     cd.allApprovals(db);
     ChangeControl ctl = cd.changeControl();
-    Collection<PatchSetApproval> approvals = cd.currentApprovals(db);
-    FunctionState fs =
-        functionState.create(ctl, cd.change(db).currentPatchSetId(), approvals);
+    Collection<PatchSetApproval> approvals =
+        labelNormalizer.normalize(ctl, cd.currentApprovals(db));
     LabelTypes labelTypes = ctl.getLabelTypes();
-    for (LabelType lt : labelTypes.getLabelTypes()) {
-      CategoryFunction.forType(lt).run(lt, fs);
-    }
 
     Multimap<Account.Id, String> existing =
         HashMultimap.create(approvals.size(), labels.size());

@@ -89,6 +89,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
@@ -353,8 +354,9 @@ public class ChangeJson {
 
   private Map<String, LabelInfo> initLabels(ChangeData cd, boolean standard)
       throws OrmException {
+    // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels =
-        Maps.newTreeMap(LabelOrdering.create(approvalTypes));
+        new TreeMap<String, LabelInfo>(LabelOrdering.create(approvalTypes));
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
         continue;
@@ -471,8 +473,10 @@ public class ChangeJson {
       boolean standard, boolean detailed) throws OrmException {
     // We can only approximately reconstruct what the submit rule evaluator
     // would have done. These should really come from a stored submit record.
+    //
+    // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels =
-        Maps.newTreeMap(LabelOrdering.create(approvalTypes));
+        new TreeMap<String, LabelInfo>(LabelOrdering.create(approvalTypes));
     for (PatchSetApproval psa : cd.currentApprovals(db)) {
       ApprovalType type = approvalTypes.byId(psa.getCategoryId());
       if (type == null) {

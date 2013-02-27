@@ -26,6 +26,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
@@ -75,6 +76,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
 
   private final PersonIdent myIdent;
   private final ApprovalsUtil approvalsUtil;
+  private final TrackingFooters trackingFooters;
 
   @Inject
   EditCommitMessageHandler(final ChangeControl.Factory changeControlFactory,
@@ -88,7 +90,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated gitRefUpdated,
       @GerritPersonIdent final PersonIdent myIdent,
-      final ApprovalsUtil approvalsUtil) {
+      final ApprovalsUtil approvalsUtil, TrackingFooters trackingFooters) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
@@ -105,6 +107,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.gitRefUpdated = gitRefUpdated;
     this.myIdent = myIdent;
     this.approvalsUtil = approvalsUtil;
+    this.trackingFooters = trackingFooters;
   }
 
   @Override
@@ -132,7 +135,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
 
       ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(), commitValidators, currentUser, message, db,
           commitMessageEditedSenderFactory, hooks, git, patchSetInfoFactory, gitRefUpdated, myIdent,
-          approvalsUtil);
+          approvalsUtil, trackingFooters);
 
       return changeDetailFactory.create(changeId).call();
     } finally {

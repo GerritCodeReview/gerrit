@@ -127,7 +127,7 @@ inside the Gerrit server:
 	$ ssh -p 29418 review.example.com gerrit review -m '"Build Successful"' c0ff33
 =====
 
-Mark the unmerged commits both "Verified +1" and "Code Review +2" and
+Mark the unmerged commits both "Verified +1" and "Code-Review +2" and
 submit them for merging:
 ====
   $ ssh -p 29418 review.example.com gerrit review \

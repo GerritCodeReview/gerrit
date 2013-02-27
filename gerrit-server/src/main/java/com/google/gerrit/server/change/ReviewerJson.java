@@ -18,7 +18,6 @@ import static com.google.gerrit.reviewdb.client.ApprovalCategoryValue.formatValu
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Permission;
@@ -39,6 +38,7 @@ import com.google.inject.Provider;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
@@ -88,7 +88,14 @@ public class ReviewerJson {
       CategoryFunction.forCategory(at.getCategory()).run(at, fs);
     }
 
-    out.approvals = Maps.newTreeMap(LabelOrdering.create(approvalTypes));
+    // For the following TreeMap, we'd rather use
+    //   [...] = Maps.newTreeMap(LabelOrdering.create(approvalTypes));
+    // but this fails on OpenJDK 6. See:
+    //   http://bugs.openjdk.java.net/show_bug.cgi?id=100167#c1
+    // To still be able to compile on OpenJDK 6, we instantiate the following
+    // TreeMap directly.
+    out.approvals = new TreeMap<String,String>(LabelOrdering.create(
+        approvalTypes));
     for (PatchSetApproval ca : approvals) {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {

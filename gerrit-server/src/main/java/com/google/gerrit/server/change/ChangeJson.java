@@ -590,6 +590,9 @@ public class ChangeJson {
     Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
     Set<Account.Id> removable = Sets.newHashSetWithExpectedSize(labels.size());
     for (LabelInfo label : labels) {
+      if (label.all == null) {
+        continue;
+      }
       for (ApprovalInfo ai : label.all) {
         if (ctl.canRemoveReviewer(ai._id, ai.value)) {
           removable.add(ai._id);

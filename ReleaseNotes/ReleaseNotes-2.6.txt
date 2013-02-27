@@ -41,6 +41,10 @@ Review UI
 
 * A change's commit message can be edited from the change screen.
 
+* The patch set review screen can include radio buttons for custom
+  labels if enabled by
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html#_how_to_write_submit_rules[submit rules].
+
 
 Access Controls
 ~~~~~~~~~~~~~~~
@@ -99,6 +103,15 @@ Email footers now include `Gerrit-HasComments: {Yes|No}`.
 
 * `#if($email.hasInlineComments())` can be used in templates to test
   if there are comments to be included in this email.
+
+Labels
+~~~~~~
+* Approval categories stored in the database have been replaced with labels
+  configured in `project.config`. Existing categories are migrated to
+  `project.config` in `All-Projects` as part of the schema upgrade; no user
+  action is required.
+* Labels are no longer global; projects may define their own labels,
+  with inheritance.
 
 Upgrades
 ~~~~~~~~

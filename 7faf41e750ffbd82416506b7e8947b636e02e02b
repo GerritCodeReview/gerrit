@@ -16,6 +16,24 @@
       "revId": "7faf41e750ffbd82416506b7e8947b636e02e02b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QU6.E2QI",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-27T12:53:22Z",
+      "side": 1,
+      "message": "In case the change/revision is bad, the the answer is easy. Both are part of the URL and we always fail with \u0027404 Not Found\u0027 if a non-existing/non-visible ID is requested.\n\nIf any of the input values from the request body is invalid, we normally always fail with \u0027400 Bad Request\u0027.\n\nWe may document this as part of the general REST API description (in rest-api.txt), but these status codes should be also self-explaining.\n\nUnrelated to this REST endpoint, we have at the moment some inconsistent behaviour, when preconditions are not fullfilled, in some cases we return \u0027409 Precondition Failed\u0027 (e.g. when trying to create a group with a name that is already occupied) and in other cases we return \u0027412 Conflict\u0027 (e.g. on submit if the change is not submittable). I\u0027ll bring this up on the mailing list to get a conclusion what is the right status code in this case. I guess then it would be a good opportunity to document it.",
+      "parentUuid": "QWWn5RQo",
+      "revId": "7faf41e750ffbd82416506b7e8947b636e02e02b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

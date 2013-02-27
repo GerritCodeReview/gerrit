@@ -1,0 +1,249 @@
+Gerrit Code Review - Review Labels
+==================================
+
+As part of the code review process, reviewers score each change with
+values for each label configured for the project.  The label values that
+a given user is allowed to set are defined according to the
+link:access-control.html#access_labels[access controls].  Gerrit comes
+pre-configured with several default labels that can be granted to groups
+within projects, enabling functionality for that group's members.
+
+
+[[label_Verified]]
+Label: Verified
+---------------
+
+The verified label is one of two default labels that is configured upon
+the creation of a Gerrit instance. It may have any meaning the project
+desires.  It was originally invented by the Android Open Source Project
+to mean 'compiles, passes basic unit tests'.
+
+The range of values is:
+
+* -1 Fails
++
+Tried to compile, but got a compile error, or tried to run tests,
+but one or more tests did not pass.
++
+*Any -1 blocks submit.*
+
+* 0 No score
++
+Didn't try to perform the verification tasks.
+
+* +1 Verified
++
+Compiled (and ran tests) successfully.
++
+*Any +1 enables submit.*
+
+For a change to be submittable, the change must have a `+1 Verified`
+in this label, and no `-1 Fails`.  Thus, `-1 Fails` can block a submit,
+while `+1 Verified` enables a submit.
+
+If a Gerrit installation does not wish to use this label in any project,
+the `[label "Verified"]` section can be deleted from `project.config` in
+`All-Projects`.
+
+If a Gerrit installation or project wants to modify the description text
+associated with these label values, the text can be updated in the
+`label.Verified.value` fields in `project.config`.
+
+Additional values could also be added to this label, to allow it to
+behave more like `Code-Review` (below).  Add -2 and +2 entries to the
+`label.Verified.value` fields in `project.config` to get the same
+behavior.
+
+
+[[label_Code-Review]]
+Label: Code-Review
+------------------
+
+The code review label is the second of two default labels that is
+configured upon the creation of a Gerrit instance.  It may have any
+meaning the project desires.  It was originally invented by the Android
+Open Source Project to mean 'I read the code and it seems reasonably
+correct'.
+
+The range of values is:
+
+* -2 Do not submit
++
+The code is so horribly incorrect/buggy/broken that it must not be
+submitted to this project, or to this branch.  This value is valid
+across all patch sets in the same change, i.e. the reviewer must
+actively change his/her review to something else before the change
+is submittable.
++
+*Any -2 blocks submit.*
+
+* -1 I would prefer that you didn't submit this
++
+The code doesn't look right, or could be done differently, but
+the reviewer is willing to live with it as-is if another reviewer
+accepts it, perhaps because it is better than what is currently in
+the project.  Often this is also used by contributors who don't like
+the change, but also aren't responsible for the project long-term
+and thus don't have final say on change submission.
++
+Does not block submit.
+
+* 0 No score
++
+Didn't try to perform the code review task, or glanced over it but
+don't have an informed opinion yet.
+
+* +1 Looks good to me, but someone else must approve
++
+The code looks right to this reviewer, but the reviewer doesn't
+have access to the `+2` value for this category.  Often this is
+used by contributors to a project who were able to review the change
+and like what it is doing, but don't have final approval over what
+gets submitted.
+
+* +2 Looks good to me, approved
++
+Basically the same as `+1`, but for those who have final say over
+how the project will develop.
++
+*Any +2 enables submit.*
+
+For a change to be submittable, the latest patch set must have a
+`+2 Looks good to me, approved` in this category, and no
+`-2 Do not submit`.  Thus `-2` on any patch set can block a submit,
+while `+2` on the latest patch set can enable it.
+
+If a Gerrit installation does not wish to use this label in any project,
+the `[label "Code-Review"]` section can be deleted from `project.config`
+in `All-Projects`.
+
+If a Gerrit installation or project wants to modify the description text
+associated with these label values, the text can be updated in the
+`label.Code-Review.value` fields in `project.config`.
+
+Additional entries could be added to `label.Code-Review.value` to
+further extend the negative and positive range, but there is likely
+little value in doing so as this only expands the middle region.  This
+label is a `MaxWithBlock` type, which means that the lowest negative
+value if present blocks a submit, while the highest positive value is
+required to enable submit.
+
+[[label_custom]]
+Your Label Here
+---------------
+
+Site administrators and project owners can also define their own labels.
+
+See above for descriptions of how <<label_Verified,`Verified`>>
+and <<label_Code-Review,`Code-Review`>> work, and add your own
+label to `project.config` to get the same behavior over your own range
+of values, for any label you desire.
+
+Just like the built-in labels, users need to be given permissions to
+vote on custom labels. Permissions can either be added by manually
+editing project.config when adding the labels, or, once the labels are
+added, permission categories for those labels will show up in the
+permission editor web UI.
+
+Labels may be added to any project's `project.config`; the default
+labels are defined in `All-Projects`. Labels are inherited from parent
+projects; a child project may add, override, or remove labels defined in
+its parents.  Overriding a label in a child project overrides all its
+properties and values.  To remove a label in a child project, add an
+empty label with the same name as in the parent.
+
+Labels are laid out in the order they are specified in project.config,
+with inherited labels appearing first, providing some layout control to
+the administrator.
+
+[[label_name]]
+`label.Label-Name`
+~~~~~~~~~~~~~~~~~~
+
+The name for a label, consisting only of alphanumeric characters and
+`-`.
+
+
+[[label_value]]
+`label.Label-Name.value`
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A multi-valued key whose values are of the form `"<#> Value description
+text"`. The `<#>` may be any positive or negative number with an
+optional leading `+`.
+
+
+[[label_abbreviatedName]]
+`label.Label-Name.abbreviatedName`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An abbreviated name for a label shown as a compact column header, for
+example on project dashboards. Defaults to all the uppercase characters
+in the label name, e.g. `Label-Name` is abbreviated by default as `LN`.
+
+
+[[label_functionName]]
+`label.Label-Name.functionName`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The name of a function for evaluating multiple votes for a label.  This
+function is only applied if the default submit rule is used for a label.
+If you write a link:prolog-cookbook.html#HowToWriteSubmitRules[custom
+submit rule] (and do not call the default rule), the function name is
+ignored and may be treated as optional.
+
+Valid values are:
+
+* `MaxWithBlock` (default)
++
+The lowest possible negative value, if present, blocks a submit, while
+the highest possible positive value is required to enable submit. There
+must be at least one positive value, or else submit will never be
+enabled. To permit blocking submits, ensure a negative value is defined.
+
+* `MaxNoBlock`
++
+The highest possible positive value is required to enable submit, but
+the lowest possible negative value will not block the change.
+
+* `NoBlock`/`NoOp`
++
+The label is purely informational and values are not considered when
+determining whether a change is submittable.
+
+
+[[label_copyMinScore]]
+`label.Label-Name.copyMinScore`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If true, the lowest possible negative value for the label is copied
+forward when a new patch set is uploaded.
+
+
+[[label_canOverride]]
+`label.Label-Name.canOverride`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If false, the label cannot be overridden by child projects. Any
+configuration for this label in child projects will be ignored. Defaults
+to true.
+
+
+[[label_example]]
+Example
+~~~~~~~
+
+To define a new 3-valued category that behaves exactly like `Verified`,
+but has different names/labels:
+
+====
+  [label "Copyright-Check"]
+      functionName = MaxWithBlock
+      value = -1 Do not have copyright
+      value =  0 No score
+      value = +1 Copyright clear
+====
+
+The new column will appear at the end of the table, and `-1 Do not have
+copyright` will block submit, while `+1 Copyright clear` is required to
+enable submit.

@@ -38,7 +38,7 @@ import com.google.inject.Provider;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Map;
 
 public class ReviewerJson {
   private final Provider<ReviewDb> db;
@@ -132,7 +132,7 @@ public class ReviewerJson {
 
   public static class ReviewerInfo extends AccountInfo {
     final String kind = "gerritcodereview#reviewer";
-    TreeMap<String, String> approvals;
+    Map<String, String> approvals;
 
     protected ReviewerInfo(Account.Id id) {
       super(id);

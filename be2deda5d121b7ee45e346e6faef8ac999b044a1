@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QU8-vnec",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-27T07:51:13Z",
+      "side": 1,
+      "message": "I would prefer to describe this feature from the user\u0027s perspective, as this is the target audience for the release notes. I would only leave the last sentence. The user is not really interested in how we implement this and that we use an annotation for this.",
+      "revId": "be2deda5d121b7ee45e346e6faef8ac999b044a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

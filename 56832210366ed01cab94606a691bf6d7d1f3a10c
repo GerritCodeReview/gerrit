@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QWIqby7M",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-27T06:30:16Z",
+      "side": 1,
+      "message": "This line should be `+` to prevent the following paragraph from appearing as a separate bullet.",
+      "revId": "56832210366ed01cab94606a691bf6d7d1f3a10c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWOqoh8o",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-27T06:30:16Z",
+      "side": 1,
+      "message": "Remove the `*`",
+      "revId": "56832210366ed01cab94606a691bf6d7d1f3a10c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

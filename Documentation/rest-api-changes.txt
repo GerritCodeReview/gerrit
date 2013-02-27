@@ -1354,6 +1354,39 @@ Deletes a draft comment from a revision.
   HTTP/1.1 204 No Content
 ----
 
+[[set-reviewed]]
+PUT /changes/\{change-id\}/revisions/\{revision-id\}/files/\{patch-id\}\reviewed (Set Reviewed)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Marks a patch of a revision as reviewed by the calling user.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/reviewed HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 201 Created
+----
+
+If the patch was already marked as reviewed by the calling user the
+response is "`200 OK`".
+
+[[delete-reviewed]]
+DELETE /changes/\{change-id\}/revisions/\{revision-id\}/files/\{patch-id\}\reviewed (Delete Reviewed)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Deletes the reviewed flag of the calling user from a patch of a revision.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/reviewed HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 
 [[ids]]
 IDs
@@ -1383,6 +1416,11 @@ This can be:
 \{draft-id\}
 ~~~~~~~~~~~~
 UUID of a draft comment.
+
+[[patch-id]]
+\{patch-id\}
+~~~~~~~~~~~~
+The file path of the patch.
 
 [[revision-id]]
 \{revision-id\}

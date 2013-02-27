@@ -16,6 +16,24 @@
       "revId": "febff7319962110d1500e90d1886fa1b09d8c88b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QULKeAKQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-27T15:55:56Z",
+      "side": 1,
+      "message": "When I tried to implement that suggestion, I took several different approaches to injecting the \"status:open\", but in the end, I always ran into infinite recursion one way or another. The main reason being that handling\n\n  (status:new OR status:submitted)\n\ntries to enrich\n\n  status:new\n\nwith a source. So we obtain\n\n  (status:open AND status:new)\n\n. There\n\n  status:open\n\ngets expanded again to\n\n  status:new OR status:submitted OR status:draft\n\n. This is again a disjunction with some parts missing a source. So starting with the first part, we again try to enrich\n\n  status:new\n\nwith a source. So we\u0027re in the same situation as above, but on a different stack frame, and we\u0027ll run into endless recursion to arrive at a stack overflow.\n\nTo overcome this issue, we could explicitize the some predicates so they provide a source on their own and thereby allow to break recursion.",
+      "parentUuid": "P24cdBm8",
+      "revId": "febff7319962110d1500e90d1886fa1b09d8c88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

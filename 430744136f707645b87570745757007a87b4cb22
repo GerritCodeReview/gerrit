@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "QYWH5Ngo",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T20:52:59Z",
+      "side": 1,
+      "message": "Editing configs, yes. Creating a repo, no. You can create repos via Gerrit just fine.",
+      "parentUuid": "QT-MjcLI",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWQlCSVE",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "QYYH.OvE",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T20:52:59Z",
+      "side": 1,
+      "message": "Ok, then you don\u0027t need the \"Configure Git\" section.",
+      "parentUuid": "QT9Mg9Kg",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWWleZSk",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -135,6 +171,24 @@
       "side": 1,
       "message": "The bin contents isn\u0027t really being used as we are deploying the war via tomcat. the shell script is never executed. This is probably something that should be refactored later as it involves programmatic changes outside of doc. More questions will arise out of this. \"Where should it go?\", \"Should the script be updated to include the tomcat startup process?\", \"should the war file be moved?\", etc...",
       "parentUuid": "QWWleZSk",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYaECXhQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T20:52:59Z",
+      "side": 1,
+      "message": "I feel those questions should be answered now, not later. I\u0027m strongly opposed to the \"refactored later\" philosophy.",
+      "parentUuid": "QTxNCbFE",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -204,6 +258,24 @@
       "side": 1,
       "message": "I consider testing the service part of installation, but I\u0027m sure everybody has their own approach to this. This is probably something that can be refactored later.",
       "parentUuid": "QWYlUeQQ",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYcH-Yus",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T20:52:59Z",
+      "side": 1,
+      "message": "See my comments on refactoring above.",
+      "parentUuid": "QTzM96NE",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

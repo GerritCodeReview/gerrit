@@ -17,7 +17,7 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.AccountInfo;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;

@@ -17,6 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;

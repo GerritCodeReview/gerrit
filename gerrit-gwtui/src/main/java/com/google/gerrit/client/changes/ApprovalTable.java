@@ -20,6 +20,7 @@ import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.rpc.GerritCallback;

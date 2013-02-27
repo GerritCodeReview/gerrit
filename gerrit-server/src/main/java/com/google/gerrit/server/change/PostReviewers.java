@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.PostReviewers.Input;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;

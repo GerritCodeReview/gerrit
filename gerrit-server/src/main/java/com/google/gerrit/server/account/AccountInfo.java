@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.change;
+package com.google.gerrit.server.account;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
@@ -21,8 +21,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -33,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AccountInfo {
-  static class Loader {
-    interface Factory {
+  public static class Loader {
+    public interface Factory {
       Loader create(boolean detailed);
     }
 
@@ -76,7 +74,7 @@ public class AccountInfo {
       for (AccountInfo info : Iterables.concat(created.values(), provided)) {
         AccountState state = accountCache.getIfPresent(info._id);
         if (state != null) {
-          fill(info, state.getAccount());
+          info.fill(state.getAccount(), detailed);
         } else {
           missing.put(info._id, info);
         }
@@ -84,7 +82,7 @@ public class AccountInfo {
       if (!missing.isEmpty()) {
         for (Account account : db.get().accounts().get(missing.keySet())) {
           for (AccountInfo info : missing.get(account.getId())) {
-            fill(info, account);
+            info.fill(account, detailed);
           }
         }
       }
@@ -97,23 +95,29 @@ public class AccountInfo {
       }
       fill();
     }
-
-    private void fill(AccountInfo info, Account account) {
-      info.name = account.getFullName();
-      if (detailed) {
-        info._account_id = account.getId().get();
-        info.email = account.getPreferredEmail();
-      }
-    }
   }
 
-  transient Account.Id _id;
+  public static AccountInfo parse(Account a, boolean detailed) {
+    AccountInfo ai = new AccountInfo(a.getId());
+    ai.fill(a, detailed);
+    return ai;
+  }
 
-  protected AccountInfo(Account.Id id) {
+  public transient Account.Id _id;
+
+  public AccountInfo(Account.Id id) {
     _id = id;
   }
 
   public Integer _account_id;
   public String name;
   public String email;
+
+  private void fill(Account account, boolean detailed) {
+    name = account.getFullName();
+    if (detailed) {
+      _account_id = account.getId().get();
+      email = account.getPreferredEmail();
+    }
+  }
 }

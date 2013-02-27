@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.RulesCache;
+import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.change.TestSubmitRule.Input;
 import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;

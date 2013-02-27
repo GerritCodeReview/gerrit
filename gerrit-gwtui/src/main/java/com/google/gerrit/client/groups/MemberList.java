@@ -14,12 +14,13 @@
 
 package com.google.gerrit.client.groups;
 
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class MemberList extends JsArray<MemberInfo> {
+public class MemberList extends JsArray<AccountInfo> {
   public static void all(AccountGroup.UUID group,
       AsyncCallback<MemberList> callback) {
     new RestApi("/groups/").id(group.get()).view("members").get(callback);

@@ -1540,24 +1540,6 @@ Message to be added as review comment to the change when abandoning the
 change.
 |===========================
 
-[[account-info]]
-AccountInfo
-~~~~~~~~~~~
-The `AccountInfo` entity contains information about an account.
-
-[options="header",width="50%",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`_account_id` ||The numeric ID of the account.
-|`name`        |optional|The full name of the user. +
-Only set if link:#detailed-accounts[detailed account information] is
-requested.
-|`email`       |optional|
-The email address the user prefers to be contacted through. +
-Only set if link:#detailed-accounts[detailed account information] is
-requested.
-|===========================
-
 [[add-reviewer-result]]
 AddReviewerResult
 ~~~~~~~~~~~~~~~~~
@@ -1584,7 +1566,8 @@ ApprovalInfo
 The `ApprovalInfo` entity contains information about an approval from a
 user for a label on a change.
 
-`ApprovalInfo` has the same fields as link:#account-info[AccountInfo].
+`ApprovalInfo` has the same fields as
+link:rest-api-accounts.html#account-info[AccountInfo].
 In addition `ApprovalInfo` has the following fields:
 
 [options="header",width="50%",cols="1,^1,5"]
@@ -1633,7 +1616,8 @@ Not set for merged changed.
 |`_sortkey`           ||The sortkey of the change.
 |`_number`            ||The legacy numeric ID of the change.
 |`owner`              ||
-The owner of the change as an link:#account-info[AccountInfo] entity.
+The owner of the change as an link:rest-api-accounts.html#account-info[
+AccountInfo] entity.
 |`labels`             |optional|
 The labels of the change as a map that maps the label names to
 link:#label-info[LabelInfo] entries. +
@@ -1645,7 +1629,7 @@ values that are allowed for that label. +
 Only set if link:#detailed-labels[detailed labels] are requested.
 |`removable_reviewers`|optional|
 The reviewers that can be removed by the calling user as a list of
-link:#account-info[AccountInfo] entities. +
+link:rest-api-accounts.html#account-info[AccountInfo] entities. +
 Only set if link:#detailed-labels[detailed labels] are requested.
 |`current_revision`   |optional|
 The commit ID of the current patch set of this change. +
@@ -1809,16 +1793,16 @@ The `LabelInfo` entity contains information about a label on a change.
 |===========================
 |Field Name    ||Description
 |`approved`    |optional|The user who approved this label on the change
-as a link:#account-info[AccountInfo] entity. +
+as a link:rest-api-accounts.html#account-info[AccountInfo] entity. +
 Only set if link:#labels[labels] are requested.
 |`rejected`    |optional|The user who rejected this label on the change
-as a link:#account-info[AccountInfo] entity. +
+as a link:rest-api-accounts.html#account-info[AccountInfo] entity. +
 Only set if link:#labels[labels] are requested.
 |`recommended` |optional|The user who recommended this label on the
-change as a link:#account-info[AccountInfo] entity. +
+change as a link:rest-api-accounts.html#account-info[AccountInfo] entity. +
 Only set if link:#labels[labels] are requested.
 |`disliked`    |optional|The user who disliked this label on the change
-as a link:#account-info[AccountInfo] entity. +
+as a link:rest-api-accounts.html#account-info[AccountInfo] entity. +
 Only set if link:#labels[labels] are requested.
 |`value`       |optional|The voting value of the user who
 recommended/disliked this label on the change if it is not
@@ -1919,8 +1903,9 @@ ReviewerInfo
 The `ReviewerInfo` entity contains information about a reviewer and its
 votes on a change.
 
-`ReviewerInfo` has the same fields as link:#account-info[AccountInfo]
-and includes link:#detailed-accounts[detailed account information].
+`ReviewerInfo` has the same fields as
+link:rest-api-accounts.html#account-info[AccountInfo] and includes
+link:#detailed-accounts[detailed account information].
 In addition `ReviewerInfo` has the following fields:
 
 [options="header",width="50%",cols="1,6"]

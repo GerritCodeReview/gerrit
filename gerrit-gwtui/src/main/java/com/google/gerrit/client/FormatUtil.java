@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.changes.AccountInfo;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.i18n.client.DateTimeFormat;

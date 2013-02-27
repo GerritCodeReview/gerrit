@@ -17,10 +17,10 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.groups.GroupList;
-import com.google.gerrit.client.groups.MemberInfo;
 import com.google.gerrit.client.groups.MemberList;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
@@ -30,7 +30,6 @@ import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -184,8 +183,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
 
     addMemberBox.setEnabled(false);
     GroupApi.addMember(getGroupUUID(), nameEmail,
-        new GerritCallback<MemberInfo>() {
-          public void onSuccess(final MemberInfo memberInfo) {
+        new GerritCallback<AccountInfo>() {
+          public void onSuccess(final AccountInfo memberInfo) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
             members.insert(memberInfo);
@@ -222,7 +221,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
         });
   }
 
-  private class MemberTable extends FancyFlexTable<MemberInfo> {
+  private class MemberTable extends FancyFlexTable<AccountInfo> {
     private boolean enabled = true;
 
     MemberTable() {
@@ -238,7 +237,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     void setEnabled(final boolean enabled) {
       this.enabled = enabled;
       for (int row = 1; row < table.getRowCount(); row++) {
-        final MemberInfo i = getRowItem(row);
+        final AccountInfo i = getRowItem(row);
         if (i != null) {
           ((CheckBox) table.getWidget(row, 1)).setEnabled(enabled);
         }
@@ -246,11 +245,11 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void deleteChecked() {
-      final HashSet<Account.Id> ids = new HashSet<Account.Id>();
+      final HashSet<Integer> ids = new HashSet<Integer>();
       for (int row = 1; row < table.getRowCount(); row++) {
-        final MemberInfo i = getRowItem(row);
+        final AccountInfo i = getRowItem(row);
         if (i != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          ids.add(i.getAccountId());
+          ids.add(i._account_id());
         }
       }
       if (!ids.isEmpty()) {
@@ -258,8 +257,8 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
-                  final MemberInfo i = getRowItem(row);
-                  if (i != null && ids.contains(i.getAccountId())) {
+                  final AccountInfo i = getRowItem(row);
+                  if (i != null && ids.contains(i._account_id())) {
                     table.removeRow(row);
                   } else {
                     row++;
@@ -270,11 +269,11 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
     }
 
-    void display(final List<MemberInfo> result) {
+    void display(final List<AccountInfo> result) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final MemberInfo i : result) {
+      for (final AccountInfo i : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
@@ -282,22 +281,21 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
     }
 
-    void insert(MemberInfo info) {
-      Comparator<MemberInfo> c = new Comparator<MemberInfo>() {
+    void insert(AccountInfo info) {
+      Comparator<AccountInfo> c = new Comparator<AccountInfo>() {
         @Override
-        public int compare(MemberInfo a, MemberInfo b) {
-          int cmp = nullToEmpty(a.fullName()).compareTo(nullToEmpty(b.fullName()));
+        public int compare(AccountInfo a, AccountInfo b) {
+          int cmp = nullToEmpty(a.name()).compareTo(nullToEmpty(b.name()));
           if (cmp != 0) {
             return cmp;
           }
 
-          cmp = nullToEmpty(a.preferredEmail()).compareTo(
-                  nullToEmpty(b.preferredEmail()));
+          cmp = nullToEmpty(a.email()).compareTo(nullToEmpty(b.email()));
           if (cmp != 0) {
             return cmp;
           }
 
-          return a.getAccountId().get() - b.getAccountId().get();
+          return a._account_id() - b._account_id();
         }
 
         public String nullToEmpty(String str) {
@@ -309,7 +307,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       int right = table.getRowCount() - 1;
       while (left <= right) {
         int middle = (left + right) >>> 1; // (left+right)/2
-        MemberInfo i = getRowItem(middle);
+        AccountInfo i = getRowItem(middle);
         int cmp = c.compare(i, info);
 
         if (cmp < 0) {
@@ -328,12 +326,12 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       populate(insertPosition, info);
     }
 
-    void populate(final int row, final MemberInfo i) {
+    void populate(final int row, final AccountInfo i) {
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
-      table.setWidget(row, 2, new AccountLink(i.asAccountInfo()));
-      table.setText(row, 3, i.preferredEmail());
+      table.setWidget(row, 2, new AccountLink(i));
+      table.setText(row, 3, i.email());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());

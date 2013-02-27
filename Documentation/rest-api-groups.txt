@@ -953,17 +953,10 @@ IDs
 ---
 
 [[account-id]]
-\{account-id\}
-~~~~~~~~~~~~~~
-Identifier that uniquely identifies one account.
-
-This can be:
-
-* a string of the format "Full Name <email@example.com>"
-* just the email address ("email@example")
-* a full name if it is unique ("Full Name")
-* an account ID ("18419")
-* a user name ("username")
+link:rest-api-accounts.html#account-id[\{account-id\}]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+--
 
 [[group-id]]
 \{group-id\}

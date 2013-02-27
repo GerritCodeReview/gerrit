@@ -21,6 +21,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -32,7 +33,7 @@ import com.google.gerrit.server.BadRequestHandler;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.AddMembers.Input;
 import com.google.gwtorm.server.OrmException;
@@ -43,15 +44,15 @@ import java.util.List;
 import java.util.Map;
 
 public class DeleteMembers implements RestModifyView<GroupResource, Input> {
-  private final AccountResolver accountResolver;
+  private final Provider<AccountsCollection> accounts;
   private final AccountCache accountCache;
   private final ReviewDb db;
   private final Provider<CurrentUser> self;
 
   @Inject
-  DeleteMembers(AccountResolver accountResolver, AccountCache accountCache,
-      ReviewDb db, Provider<CurrentUser> self) {
-    this.accountResolver = accountResolver;
+  DeleteMembers(Provider<AccountsCollection> accounts,
+      AccountCache accountCache, ReviewDb db, Provider<CurrentUser> self) {
+    this.accounts = accounts;
     this.accountCache = accountCache;
     this.db = db;
     this.self = self;
@@ -73,7 +74,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     final BadRequestHandler badRequest = new BadRequestHandler("removing group members");
 
     for (final String nameOrEmail : input.members) {
-      Account a = accountResolver.find(nameOrEmail);
+      Account a = parse(nameOrEmail);
       if (a == null) {
         badRequest.addError(new NoSuchAccountException(nameOrEmail));
         continue;
@@ -98,6 +99,16 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     }
 
     return Response.none();
+  }
+
+  private Account parse(String nameOrEmail) throws OrmException {
+    try {
+      return accounts.get().parse(nameOrEmail).getAccount();
+    } catch (AuthException e) {
+      return null;
+    } catch (ResourceNotFoundException e) {
+      return null;
+    }
   }
 
   private void writeAudits(final List<AccountGroupMember> toBeRemoved)

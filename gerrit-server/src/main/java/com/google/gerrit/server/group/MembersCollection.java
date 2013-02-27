@@ -26,7 +26,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.group.AddMembers.PutMember;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -36,22 +36,19 @@ public class MembersCollection implements
     AcceptsCreate<GroupResource> {
   private final DynamicMap<RestView<MemberResource>> views;
   private final Provider<ListMembers> list;
-  private final IdentifiedUser.GenericFactory userGenericFactory;
-  private final AccountResolver accountResolver;
+  private final Provider<AccountsCollection> accounts;
   private final Provider<ReviewDb> db;
   private final Provider<AddMembers> put;
 
   @Inject
   MembersCollection(DynamicMap<RestView<MemberResource>> views,
       Provider<ListMembers> list,
-      IdentifiedUser.GenericFactory userGenericFactory,
-      AccountResolver accountResolver,
+      Provider<AccountsCollection> accounts,
       Provider<ReviewDb> db,
       Provider<AddMembers> put) {
     this.views = views;
     this.list = list;
-    this.userGenericFactory = userGenericFactory;
-    this.accountResolver = accountResolver;
+    this.accounts = accounts;
     this.db = db;
     this.put = put;
   }
@@ -69,17 +66,11 @@ public class MembersCollection implements
       throw new ResourceNotFoundException(id);
     }
 
-    Account a = accountResolver.find(id.get());
-    if (a == null) {
-      throw new ResourceNotFoundException(id);
-    }
-
-    AccountGroupMember.Key key = new AccountGroupMember.Key(
-          a.getId(),
-          parent.toAccountGroup().getId());
+    IdentifiedUser user = accounts.get().parse(id.get());
+    AccountGroupMember.Key key =
+        new AccountGroupMember.Key(user.getAccountId(), parent.toAccountGroup().getId());
     if (db.get().accountGroupMembers().get(key) != null
-        && parent.getControl().canSeeMember(a.getId())) {
-      IdentifiedUser user = userGenericFactory.create(a.getId());
+        && parent.getControl().canSeeMember(user.getAccountId())) {
       return new MemberResource(parent, user);
     }
     throw new ResourceNotFoundException(id);

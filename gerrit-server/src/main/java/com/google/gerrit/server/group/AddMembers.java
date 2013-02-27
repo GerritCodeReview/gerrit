@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
@@ -71,6 +73,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
 
   private final AccountManager accountManager;
   private final AuthType authType;
+  private final Provider<AccountsCollection> accounts;
   private final AccountResolver accountResolver;
   private final AccountCache accountCache;
   private final ReviewDb db;
@@ -78,11 +81,13 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
   @Inject
   AddMembers(AccountManager accountManager,
       AuthConfig authConfig,
+      Provider<AccountsCollection> accounts,
       AccountResolver accountResolver,
       AccountCache accountCache,
       ReviewDb db) {
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
+    this.accounts = accounts;
     this.accountResolver = accountResolver;
     this.accountCache = accountCache;
     this.db = db;
@@ -146,18 +151,25 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   private Account findAccount(String nameOrEmail) throws OrmException {
-    Account r = accountResolver.find(nameOrEmail);
-    if (r == null) {
+    try {
+      return accounts.get().parse(nameOrEmail).getAccount();
+    } catch (AuthException e) {
+      return null;
+    } catch (ResourceNotFoundException e) {
+      // might be because the account does not exist or because the account is not visible
       switch (authType) {
         case HTTP_LDAP:
         case CLIENT_SSL_CERT_LDAP:
         case LDAP:
-          r = createAccountByLdap(nameOrEmail);
+          if (accountResolver.find(nameOrEmail) == null) {
+            // account does not exist, try to create it
+            return createAccountByLdap(nameOrEmail);
+          }
           break;
         default:
       }
+      return null;
     }
-    return r;
   }
 
   private Account createAccountByLdap(String user) {

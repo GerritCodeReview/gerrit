@@ -56,11 +56,16 @@ public class AccountsCollection implements
   @Override
   public AccountResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, AuthException, OrmException {
+    return new AccountResource(parse(id.get()));
+  }
+
+  public IdentifiedUser parse(String id) throws AuthException,
+      ResourceNotFoundException, OrmException {
     CurrentUser user = self.get();
 
     if (id.equals("self")) {
       if (user instanceof IdentifiedUser) {
-        return new AccountResource((IdentifiedUser) user);
+        return (IdentifiedUser) user;
       } else if (user instanceof AnonymousUser) {
         throw new AuthException("Authentication required");
       } else {
@@ -68,7 +73,7 @@ public class AccountsCollection implements
       }
     }
 
-    Set<Account.Id> matches = resolver.findAll(id.get());
+    Set<Account.Id> matches = resolver.findAll(id);
     if (matches.size() != 1) {
       throw new ResourceNotFoundException(id);
     }
@@ -76,7 +81,7 @@ public class AccountsCollection implements
     Account.Id a = Iterables.getOnlyElement(matches);
     if (accountControlFactory.get().canSee(a)
         || user.getCapabilities().canAdministrateServer()) {
-      return new AccountResource(userFactory.create(a));
+      return userFactory.create(a);
     } else {
       throw new ResourceNotFoundException(id);
     }

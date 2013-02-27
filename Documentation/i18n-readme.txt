@@ -5,22 +5,12 @@ Aside from actually writing translations, there are some issues with
 the way the code produces output.  Most of the UI should support
 right-to-left (RTL) languages.
 
+Labels
+------
 
-ApprovalCategory
-----------------
-
-The getName() function produces only a single translation of the
-description string.  This name is set by the Gerrit administrator,
-which may cause problems if the site is translated into multiple
-languages and different users want different translations.
-
-ApprovalCategoryValue
----------------------
-
-The getName() function produces only a single translation of the
-description string.  This name is set by the Gerrit administrator,
-which may cause problems if the site is translated into multiple
-languages and different users want different translations.
+Labels and their values are defined in project.config by the Gerrit
+administrator or project owners.  Only a single translation of these
+strings is supported.
 
 /Gerrit Gerrit.html
 -------------------

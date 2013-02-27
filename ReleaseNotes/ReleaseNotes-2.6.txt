@@ -41,6 +41,9 @@ Review UI
 
 * A change's commit message can be edited from the change screen.
 
+* The patch set review screen can include radio buttons for custom
+  labels if enabled by submit rules.
+
 
 Access Controls
 ~~~~~~~~~~~~~~~
@@ -98,6 +101,13 @@ EMail
 
 * `#if($email.hasInlineComments())` can be used in templates to test
   if there are comments to be included in this email.
+
+Labels
+~~~~~~
+* Approval categories stored in the database have been replaced with labels
+  configured in `project.config`.
+* Labels are no longer global; projects may define their own labels,
+  with inheritance.
 
 Upgrades
 ~~~~~~~~

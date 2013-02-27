@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QU.-goek",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-27T10:16:49Z",
+      "side": 1,
+      "message": "This will work.\nHowever, the only reason that we need to match the whole sequence is that we use the Matcher.matches method (line 73).\n\nI propose to simplify this regex to:\n\n  Pattern.compile(\"CN\u003d([^,]*)\")\n\nand then use the Matcher.find at the line 73.",
+      "revId": "587465361667bd8ee6793908265bdb43bcf84ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QU8-d3S8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-02-27T10:16:49Z",
+      "side": 1,
+      "message": "s/matches/find",
+      "revId": "587465361667bd8ee6793908265bdb43bcf84ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

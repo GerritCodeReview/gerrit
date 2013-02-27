@@ -110,23 +110,27 @@ Bug Fixes
 
 Web UI
 ~~~~~~
-* CLA hyperlink on registration page was broken.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1076[Issue 1076]: The CLA hyperlink on the registration page is fixed.
 * Links to CGit were broken when remove-suffix was enabled.
-* Improved creation of inline comment editors, avoiding multiple
-  draft editors on the same line of code.
 
 Hooks
 ~~~~~
-* `draft-published` event is now fired.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1621[Issue 1621]: draft-published event is now visible.
++
+The `draft-published` event was only visible to the owner and reviewers
+because it was being fired while the change was still in draft state.  Now it
+is properly fired after the draft is published.
 
 Git
 ~~~
-* The regex wildcard `.` is now permitted in reference names.
+* The wildcard `.` is now permitted in reference regex rules.
 * Checking if a change is mergeable no longer writes to the repository.
 * Improved `git ls-remote` and `git fetch` performance by caching
   changes, decreasing database queries and traffic.
-* Commits pushed without a Change-Id now warn with instructions on how
-  to download and install the commit-msg hook.
+* link:https://code.google.com/p/gerrit/issues/detail?id=160876[Issue 1608]:
+Commits pushed without a Change-Id now warn with instructions on how
+to download and install the commit-msg hook.
+
 * Submitted but unmerged changes are periodically retried. This is
   necessary for a multi-master configuration where the second master
   may need to retry a change not yet merged by the first. Please note

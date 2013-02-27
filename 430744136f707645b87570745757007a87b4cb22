@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "QT-MjcLI",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-02-27T18:58:06Z",
+      "side": 1,
+      "message": "You do if you intend on creating a repository or editing configs.",
+      "parentUuid": "QWSk9jdE",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWQlCSVE",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "QT9Mg9Kg",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-02-27T18:58:06Z",
+      "side": 1,
+      "message": "modifying gerrit configs; you\u0027re supposed to use git config instead of editing manually.",
+      "parentUuid": "QWQlpqdE",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWWleZSk",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -81,6 +117,24 @@
       "writtenOn": "2013-02-27T18:34:45Z",
       "side": 1,
       "message": "Won\u0027t init prompt you to copy the WAR to /var/lib/review_site/data/bin/ but you want it in /usr/local/review_site/gerrit-X.X/ ?",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QTxNCbFE",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-02-27T18:58:06Z",
+      "side": 1,
+      "message": "The bin contents isn\u0027t really being used as we are deploying the war via tomcat. the shell script is never executed. This is probably something that should be refactored later as it involves programmatic changes outside of doc. More questions will arise out of this. \"Where should it go?\", \"Should the script be updated to include the tomcat startup process?\", \"should the war file be moved?\", etc...",
+      "parentUuid": "QWWleZSk",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -132,6 +186,24 @@
       "writtenOn": "2013-02-27T18:34:45Z",
       "side": 1,
       "message": "GerritLogin,ConfigureHTTP,GenerateHTTPPassword,Test,TestSSH,TestHTTP should all be in another doc. They\u0027re not part of setting up Tomcat.",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QTzM96NE",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-02-27T18:58:06Z",
+      "side": 1,
+      "message": "I consider testing the service part of installation, but I\u0027m sure everybody has their own approach to this. This is probably something that can be refactored later.",
+      "parentUuid": "QWYlUeQQ",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

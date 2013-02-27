@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -94,29 +93,5 @@ public class MembersCollection implements
   @Override
   public DynamicMap<RestView<MemberResource>> views() {
     return views;
-  }
-
-  public static MemberInfo parse(Account account) {
-    MemberInfo accountInfo = new MemberInfo();
-    accountInfo.setId(account.getId());
-    accountInfo.fullName = account.getFullName();
-    accountInfo.preferredEmail = account.getPreferredEmail();
-    accountInfo.userName = account.getUserName();
-    return accountInfo;
-  }
-
-  static class MemberInfo {
-    final String kind = "gerritcodereview#member";
-
-    String fullName;
-    String id;
-    int accountId;
-    String preferredEmail;
-    String userName;
-
-    void setId(Account.Id i) {
-      accountId = i.get();
-      id = Url.encode(Integer.toString(accountId));
-    }
   }
 }

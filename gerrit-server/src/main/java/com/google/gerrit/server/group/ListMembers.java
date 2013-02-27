@@ -29,10 +29,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupDetailFactory;
-import com.google.gerrit.server.group.MembersCollection.MemberInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -47,49 +46,49 @@ import java.util.Map;
 public class ListMembers implements RestReadView<GroupResource> {
   private final GroupCache groupCache;
   private final GroupDetailFactory.Factory groupDetailFactory;
-  private final AccountCache accountCache;
+  private final AccountInfo.Loader accountLoader;
 
   @Option(name = "--recursive", usage = "to resolve included groups recursively")
   private boolean recursive;
 
   @Inject
-  ListMembers(final GroupCache groupCache,
-      final GroupDetailFactory.Factory groupDetailFactory,
-      final AccountCache accountCache) {
+  ListMembers(GroupCache groupCache,
+      GroupDetailFactory.Factory groupDetailFactory,
+      AccountInfo.Loader.Factory accountLoaderFactory) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
-    this.accountCache = accountCache;
+    this.accountLoader = accountLoaderFactory.create(true);
   }
 
   @Override
-  public List<MemberInfo> apply(final GroupResource resource)
+  public List<AccountInfo> apply(final GroupResource resource)
       throws AuthException, BadRequestException, ResourceConflictException,
       ResourceNotFoundException, Exception {
     if (resource.toAccountGroup() == null) {
       throw new ResourceNotFoundException(resource.getGroupUUID().get());
     }
-    final Map<Account.Id, MemberInfo> members =
+    final Map<Account.Id, AccountInfo> members =
         getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());
-    final List<MemberInfo> memberInfos = Lists.newArrayList(members.values());
-    Collections.sort(memberInfos, new Comparator<MemberInfo>() {
+    final List<AccountInfo> memberInfos = Lists.newArrayList(members.values());
+    Collections.sort(memberInfos, new Comparator<AccountInfo>() {
       @Override
-      public int compare(MemberInfo a, MemberInfo b) {
+      public int compare(AccountInfo a, AccountInfo b) {
         return ComparisonChain.start()
-            .compare(a.fullName, b.fullName, Ordering.natural().nullsFirst())
-            .compare(a.preferredEmail, b.preferredEmail, Ordering.natural().nullsFirst())
-            .compare(a.id, b.id, Ordering.natural().nullsFirst()).result();
+            .compare(a.name, b.name, Ordering.natural().nullsFirst())
+            .compare(a.email, b.email, Ordering.natural().nullsFirst())
+            .compare(a._account_id, b._account_id, Ordering.natural().nullsFirst()).result();
       }
     });
     return memberInfos;
   }
 
-  private Map<Account.Id, MemberInfo> getMembers(
+  private Map<Account.Id, AccountInfo> getMembers(
       final AccountGroup.UUID groupUUID,
       final HashSet<AccountGroup.UUID> seenGroups) throws OrmException,
       NoSuchGroupException {
     seenGroups.add(groupUUID);
 
-    final Map<Account.Id, MemberInfo> members = Maps.newHashMap();
+    final Map<Account.Id, AccountInfo> members = Maps.newHashMap();
     final AccountGroup group = groupCache.get(groupUUID);
     if (group == null) {
       // the included group is an external group and can't be resolved
@@ -102,9 +101,7 @@ public class ListMembers implements RestReadView<GroupResource> {
     if (groupDetail.members != null) {
       for (final AccountGroupMember m : groupDetail.members) {
         if (!members.containsKey(m.getAccountId())) {
-          final Account account =
-              accountCache.get(m.getAccountId()).getAccount();
-          members.put(account.getId(), MembersCollection.parse(account));
+          members.put(m.getAccountId(), accountLoader.get(m.getAccountId()));
         }
       }
     }
@@ -118,6 +115,7 @@ public class ListMembers implements RestReadView<GroupResource> {
         }
       }
     }
+    accountLoader.fill();
     return members;
   }
 }

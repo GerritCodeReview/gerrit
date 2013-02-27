@@ -486,9 +486,9 @@ GET /groups/\{group-id\}/members/ (List Group Members)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the direct members of a Gerrit internal group.
 
-As result a list of link:#member-info[MemberInfo] entries is returned.
-The entries in the list are sorted by full name, preferred email and
-id.
+As result a list of detailed link:rest-api-accounts.html#account-info[
+AccountInfo] entries is returned. The entries in the list are sorted by
+full name, preferred email and id.
 
 .Request
 ----
@@ -504,20 +504,14 @@ id.
   )]}'
   [
     {
-      "kind": "gerritcodereview#member",
-      "full_name": "Jane Roe",
-      "id": "1000097",
-      "account_id": 1000097,
-      "preferred_email": "jane.roe@example.com",
-      "user_name": "jane"
+      "_account_id": 1000097,
+      "name": "Jane Roe",
+      "email": "jane.roe@example.com"
     },
     {
-      "kind": "gerritcodereview#member",
-      "full_name": "John Doe",
-      "id": "1000096",
-      "account_id": 1000096,
-      "preferred_email": "john.doe@example.com",
-      "user_name": "doe"
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com"
     }
   ]
 ----
@@ -580,8 +574,8 @@ Retrieves a group member.
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/1000096 HTTP/1.0
 ----
 
-As response a link:#member-info[MemberInfo] entity is returned that
-describes the group member.
+As response a detailed link:rest-api-accounts.html#account-info[
+AccountInfo] entity is returned that describes the group member.
 
 .Response
 ----
@@ -591,12 +585,9 @@ describes the group member.
 
   )]}'
   {
-    "kind": "gerritcodereview#member",
-    "full_name": "John Doe",
-    "id": "1000096",
-    "account_id": 1000096,
-    "preferred_email": "john.doe@example.com",
-    "user_name": "doe"
+    "_account_id": 1000096,
+    "name": "John Doe",
+    "email": "john.doe@example.com"
   }
 ----
 
@@ -610,8 +601,8 @@ Adds a user as member to a Gerrit internal group.
   PUT /groups/MyProject-Committers/members/John%20Doe HTTP/1.0
 ----
 
-As response a link:#member-info[MemberInfo] entity is returned that
-describes the group member.
+As response a detailed link:rest-api-accounts.html#account-info[
+AccountInfo] entity is returned that describes the group member.
 
 .Response
 ----
@@ -621,12 +612,9 @@ describes the group member.
 
   )]}'
   {
-    "kind": "gerritcodereview#member",
-    "full_name": "John Doe",
-    "id": "1000037",
-    "account_id": 1000037,
-    "preferred_email": "john.doe@example.com",
-    "user_name": "jdoe"
+    "_account_id": 1000037,
+    "name": "John Doe",
+    "email": "john.doe@example.com"
   }
 ----
 
@@ -658,9 +646,10 @@ as a link:#member-input[MemberInput] entity.
   }
 ----
 
-As response a list of link:#member-info[MemberInfo] entities is
-returned that describes the group members that were specified in the
-link:#member-input[MemberInput]. A link:#member-info[MemberInfo] entity
+As response a list of detailed link:rest-api-accounts.html#account-info[
+AccountInfo] entities is returned that describes the group members that
+were specified in the link:#member-input[MemberInput]. An
+link:rest-api-accounts.html#account-info[AccountInfo] entity
 is returned for each user specified in the input, independently of
 whether the user was newly added to the group or whether the user was
 already a member of the group.
@@ -674,20 +663,14 @@ already a member of the group.
   )]}'
   [
     {
-      "kind": "gerritcodereview#member",
-      "full_name": "Jane Roe",
-      "id": "1000057",
-      "account_id": 1000057,
-      "preferred_email": "jane.roe@example.com",
-      "user_name": "jroe"
+      "_account_id": 1000057,
+      "name": "Jane Roe",
+      "email": "jane.roe@example.com"
     },
     {
-      "kind": "gerritcodereview#member",
-      "full_name": "John Doe",
-      "id": "1000037",
-      "account_id": 1000037,
-      "preferred_email": "john.doe@example.com",
-      "user_name": "jdoe"
+      "_account_id": 1000037,
+      "name": "John Doe",
+      "email": "john.doe@example.com"
     }
   ]
 ----
@@ -1076,25 +1059,6 @@ New options for a group.
 |`visible_to_all`|not set if `false`|
 Whether the group is visible to all registered users.
 |=============================
-
-[[member-info]]
-MemberInfo
-~~~~~~~~~~
-The `MemberInfo` entity contains information about an account that is
-member of a group.
-
-[options="header",width="50%",cols="1,^1,5"]
-|===============================
-|Field Name        ||Description
-|`kind`            ||`gerritcodereview#member`
-|`id`              ||The URL encoded ID of the account.
-|`account_id`      ||The numeric ID of the account.
-|`full_name`       |optional|
-The full name of the user ("Given-name Surname" style).
-|`preferred_email` |optional|
-The email address the user prefers to be contacted through.
-|`user_name`       ||The user name.
-|===============================
 
 [[member-input]]
 MemberInput

@@ -15,10 +15,10 @@
 package com.google.gerrit.client.groups;
 
 import com.google.gerrit.client.VoidResult;
-import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -100,20 +100,20 @@ public class GroupApi {
 
   /** Add member to a group. */
   public static void addMember(AccountGroup.UUID group, String member,
-      AsyncCallback<MemberInfo> cb) {
+      AsyncCallback<AccountInfo> cb) {
     members(group).id(member).put(cb);
   }
 
   /** Add members to a group. */
   public static void addMembers(AccountGroup.UUID group,
       Set<String> members,
-      final AsyncCallback<JsArray<MemberInfo>> cb) {
+      final AsyncCallback<JsArray<AccountInfo>> cb) {
     if (members.size() == 1) {
       addMember(group,
           members.iterator().next(),
-          new AsyncCallback<MemberInfo>() {
+          new AsyncCallback<AccountInfo>() {
             @Override
-            public void onSuccess(MemberInfo result) {
+            public void onSuccess(AccountInfo result) {
               cb.onSuccess(Natives.arrayOf(result));
             }
 
@@ -133,14 +133,13 @@ public class GroupApi {
 
   /** Remove members from a group. */
   public static void removeMembers(AccountGroup.UUID group,
-      Set<Account.Id> ids, final AsyncCallback<VoidResult> cb) {
+      Set<Integer> ids, final AsyncCallback<VoidResult> cb) {
     if (ids.size() == 1) {
-      Account.Id u = ids.iterator().next();
-      members(group).id(u.toString()).delete(cb);
+      members(group).id(ids.iterator().next().toString()).delete(cb);
     } else {
       MemberInput in = MemberInput.create();
-      for (Account.Id u : ids) {
-        in.add_member(u.toString());
+      for (Integer id : ids) {
+        in.add_member(id.toString());
       }
       group(group).view("members.delete").post(in, cb);
     }

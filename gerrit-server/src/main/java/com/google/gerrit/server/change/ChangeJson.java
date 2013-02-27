@@ -56,6 +56,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.PatchList;

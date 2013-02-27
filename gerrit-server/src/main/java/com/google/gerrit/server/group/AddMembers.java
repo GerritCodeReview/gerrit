@@ -34,13 +34,13 @@ import com.google.gerrit.server.BadRequestHandler;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.AddMembers.Input;
-import com.google.gerrit.server.group.MembersCollection.MemberInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -89,7 +89,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public List<MemberInfo> apply(GroupResource resource, Input input)
+  public List<AccountInfo> apply(GroupResource resource, Input input)
       throws AuthException, MethodNotAllowedException, BadRequestException,
       OrmException {
     AccountGroup internalGroup = resource.toAccountGroup();
@@ -102,7 +102,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
     Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
     List<AccountGroupMemberAudit> newAccountGroupMemberAudits = Lists.newLinkedList();
     BadRequestHandler badRequest = new BadRequestHandler("adding new group members");
-    List<MemberInfo> result = Lists.newLinkedList();
+    List<AccountInfo> result = Lists.newLinkedList();
     Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
 
     for (String nameOrEmail : input.members) {
@@ -131,7 +131,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
           newAccountGroupMemberAudits.add(new AccountGroupMemberAudit(m, me));
         }
       }
-      result.add(MembersCollection.parse(a));
+      result.add(AccountInfo.parse(a, true));
     }
 
     badRequest.failOnError();
@@ -193,7 +193,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
         OrmException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id;
-      List<MemberInfo> list = put.get().apply(resource, in);
+      List<AccountInfo> list = put.get().apply(resource, in);
       if (list.size() == 1) {
         return list.get(0);
       }

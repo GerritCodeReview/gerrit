@@ -15,11 +15,11 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.group.MembersCollection.MemberInfo;
+import com.google.gerrit.server.account.AccountInfo;
 
 public class GetMember implements RestReadView<MemberResource> {
   @Override
-  public MemberInfo apply(MemberResource resource) {
-    return MembersCollection.parse(resource.getMember().getAccount());
+  public AccountInfo apply(MemberResource resource) {
+    return AccountInfo.parse(resource.getMember().getAccount(), true);
   }
 }

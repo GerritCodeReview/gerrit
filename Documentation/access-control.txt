@@ -93,7 +93,7 @@ is being employed, moving from only 'Anonymous Users' into this
 group is very easy.  Caution should be taken when assigning any
 permissions to this group.
 
-It is typical to assign `Code Review -1..+1` to this group,
+It is typical to assign `Code-Review -1..+1` to this group,
 allowing signed-in users to vote on a change, but not actually
 cause it to become approved or rejected.
 
@@ -145,15 +145,15 @@ through link:cmd-set-project-parent.html[gerrit set-project-parent].
 Per-project access control lists are also supported.
 
 Users are permitted to use the maximum range granted to any of their
-groups in an approval category.  For example, a user is a member of
-`Foo Leads`, and the following ACLs are granted on a project:
+groups on a label.  For example, a user is a member of `Foo Leads`, and
+the following ACLs are granted on a project:
 
 [options="header"]
 |=================================================
 |Group           |Reference Name |Category|Range
-|Anonymous Users |refs/heads/*|Code Review|-1..+1
-|Registered Users|refs/heads/*|Code Review|-1..+2
-|Foo Leads       |refs/heads/*|Code Review|-2..0
+|Anonymous Users |refs/heads/*|Code-Review|-1..+1
+|Registered Users|refs/heads/*|Code-Review|-1..+2
+|Foo Leads       |refs/heads/*|Code-Review|-2..0
 |=================================================
 
 Then the effective range permitted to be used by the user is
@@ -196,9 +196,9 @@ on the project:
 [options="header"]
 |===============================================================
 |Group            |Reference Name|Category   |Range   |Exclusive
-|Registered Users |refs/heads/*  |Code Review| -1..+1 |
-|Foo Leads        |refs/heads/*  |Code Review| -2..+2 |
-|QA Leads         |refs/heads/qa |Code Review| -2..+2 |
+|Registered Users |refs/heads/*  |Code-Review| -1..+1 |
+|Foo Leads        |refs/heads/*  |Code-Review| -2..+2 |
+|QA Leads         |refs/heads/qa |Code-Review| -2..+2 |
 |===============================================================
 
 Then the effective range permitted to be used by the user is
@@ -220,28 +220,28 @@ and the following ACLs are granted:
 [options="header"]
 |==============================================================
 |Group           |Reference Name|Category   |Range   |Exclusive
-|Registered Users|refs/heads/*  |Code Review| -1..+1 |
-|Foo Leads       |refs/heads/*  |Code Review| -2..+2 |
-|QA Leads        |refs/heads/qa |Code Review| -2..+2 |X
+|Registered Users|refs/heads/*  |Code-Review| -1..+1 |
+|Foo Leads       |refs/heads/*  |Code-Review| -2..+2 |
+|QA Leads        |refs/heads/qa |Code-Review| -2..+2 |X
 |==============================================================
 
-Then this user will not have `Code Review` rights on that change,
+Then this user will not have `Code-Review` rights on that change,
 since there is an exclusive access right in place for the
 `refs/heads/qa` branch. This allows locking down access for a
 particular branch to a limited set of users, bypassing inherited
 rights and wildcards.
 
-In order to grant the ability to `Code Review` to the members of
+In order to grant the ability to `Code-Review` to the members of
 `Foo Leads`, in `refs/heads/qa` then the following access rights
 would be needed:
 
 [options="header"]
 |==============================================================
 |Group           |Reference Name|Category   |Range   |Exclusive
-|Registered Users|refs/heads/*  |Code Review| -1..+1 |
-|Foo Leads       |refs/heads/*  |Code Review| -2..+2 |
-|QA Leads        |refs/heads/qa |Code Review| -2..+2 |X
-|Foo Leads       |refs/heads/qa |Code Review| -2..+2 |
+|Registered Users|refs/heads/*  |Code-Review| -1..+1 |
+|Foo Leads       |refs/heads/*  |Code-Review| -2..+2 |
+|QA Leads        |refs/heads/qa |Code-Review| -2..+2 |X
+|Foo Leads       |refs/heads/qa |Code-Review| -2..+2 |
 |==============================================================
 
 OpenID Authentication
@@ -281,168 +281,23 @@ behavior is generally only useful on the `Read` category when
 granting 'DENY' within a specific project to deny a group access.
 
 
-[[access_category]]
-Access Categories
------------------
+[[access_labels]]
+Review Labels
+-------------
 
-Gerrit comes pre-configured with several default categories that
-can be granted to groups within projects, enabling functionality
-for that group's members.
+For every configured label `My-Name` in the project, there is a
+corresponding permission category `label-My-Name` with a range
+corresponding to the defined values.
+
+Gerrit comes pre-configured with several default labels that can be
+granted to groups within projects, enabling functionality for that
+group's members. link:config-labels.html[Custom labels] may also be
+defined globally or on a per-project basis.
 
 With the release of the Gerrit 2.2.x series, the web GUI for ACL
 configuration was rewritten from scratch.  Use this
 <<conversion_table,table>> to better understand the access rights
 conversions from the Gerrit 2.1.x to the Gerrit 2.2.x series.
-
-
-[[category_label-Verified]]
-Label: Verified
-~~~~~~~~~~~~~~~
-
-The verified category is one of two default categories that is
-configured upon the creation of a Gerrit instance. It may have
-any meaning the project desires.  It was originally invented by
-the Android Open Source Project to mean
-'compiles, passes basic unit tests'.
-
-The range of values is:
-
-* -1 Fails
-+
-Tried to compile, but got a compile error, or tried to run tests,
-but one or more tests did not pass.  This value is valid
-across all patch sets in the same change, i.e. the reviewer must
-actively change his/her review to something else before the change
-is submittable.
-+
-*Any -1 blocks submit.*
-
-* 0 No score
-+
-Didn't try to perform the verification tasks.
-
-* +1 Verified
-+
-Compiled (and ran tests) successfully.
-+
-*Any +1 enables submit.*
-
-For a change to be submittable, the change must have a `+1 Verified`
-in this category from at least one authorized user, and no `-1 Fails`
-from an authorized user.  Thus, `-1 Fails` can block a submit,
-while `+1 Verified` enables a submit.
-
-If a Gerrit installation does not wish to use this category in any
-project, it can be deleted from the database:
-
-====
-  DELETE FROM approval_categories      WHERE category_id = 'VRIF';
-  DELETE FROM approval_category_values WHERE category_id = 'VRIF';
-====
-
-If a Gerrit installation wants to modify the description text
-associated with these category values, the text can be updated
-in the `name` column of the `category_id = 'VRIF'` rows in the
-`approval_category_values` table.
-
-Additional values could also be added to this category, to allow it
-to behave more like `Code Review` (below).  Insert -2 and +2 value
-rows into the `approval_category_values` with `category_id` set to
-`VRIF` to get the same behavior.
-
-[NOTE]
-A restart is required after making database changes.
-See <<restart_changes,below>>.
-
-[[category_label-Code-Review]]
-Label: Code Review
-~~~~~~~~~~~~~~~~~~
-
-The code review category is the second of two default categories that
-is configured upon the creation of a Gerrit instance. It may have
-any meaning the project desires.  It was originally invented by the
-Android Open Source Project to mean 'I read the code and it seems
-reasonably correct'.
-
-The range of values is:
-
-* -2 Do not submit
-+
-The code is so horribly incorrect/buggy/broken that it must not be
-submitted to this project, or to this branch.  This value is valid
-across all patch sets in the same change, i.e. the reviewer must
-actively change his/her review to something else before the change
-is submittable.
-+
-*Any -2 blocks submit.*
-
-* -1 I would prefer that you didn't submit this
-+
-The code doesn't look right, or could be done differently, but
-the reviewer is willing to live with it as-is if another reviewer
-accepts it, perhaps because it is better than what is currently in
-the project.  Often this is also used by contributors who don't like
-the change, but also aren't responsible for the project long-term
-and thus don't have final say on change submission.
-+
-Does not block submit.
-
-* 0 No score
-+
-Didn't try to perform the code review task, or glanced over it but
-don't have an informed opinion yet.
-
-* +1 Looks good to me, but someone else must approve
-+
-The code looks right to this reviewer, but the reviewer doesn't
-have access to the `+2` value for this category.  Often this is
-used by contributors to a project who were able to review the change
-and like what it is doing, but don't have final approval over what
-gets submitted.
-
-* +2 Looks good to me, approved
-+
-Basically the same as `+1`, but for those who have final say over
-how the project will develop.
-+
-*Any +2 enables submit.*
-
-For a change to be submittable, the latest patch set must have a
-`+2 Looks good to me, approved` in this category from at least one
-authorized user, and no `-2 Do not submit` from an authorized user.
-Thus `-2` on any patch set can block a submit, while `+2` on the
-latest patch set can enable it.
-
-If a Gerrit installation does not wish to use this category in any
-project, it can be deleted from the database:
-
-====
-  DELETE FROM approval_categories      WHERE category_id = 'CRVW';
-  DELETE FROM approval_category_values WHERE category_id = 'CRVW';
-====
-
-If a Gerrit installation wants to modify the description text
-associated with these category values, the text can be updated
-in the `name` column of the `category_id = 'CRVW'` rows in the
-`approval_category_values` table.
-
-Additional values could be inserted into `approval_category_values`
-to further extend the negative and positive range, but there is
-likely little value in doing so as this only expands the middle
-region.  This category is a `MaxWithBlock` type, which means that
-the lowest negative value if present blocks a submit, while the
-highest positive value is required to enable submit.
-
-[[function_MaxNoBlock]]
-There is also a `MaxNoBlock` category which still requires the
-highest positive value to submit, but the lowest negative value will
-not block the change, and does not carry over between patch sets.
-This level is mostly useful for automated code-reviews that may
-have false-negatives that shouldn't block the change.
-
-[NOTE]
-A restart is required after making database changes.
-See <<restart_changes,below>>.
 
 [[category_abandon]]
 Abandon
@@ -782,9 +637,9 @@ Submitting a change causes it to be merged into the destination
 branch as soon as possible, making it a permanent part of the
 project's history.
 
-In order to submit, all approval categories (such as `Verified` and
-`Code Review`, above) must enable submit, and also must not block it.
-See above for details on each category.
+In order to submit, all labels (such as `Verified` and `Code-Review`,
+above) must enable submit, and also must not block it.  See above for
+details on each label.
 
 
 [[category_view_drafts]]
@@ -833,86 +688,6 @@ can always edit the topic name (even without having the `Edit Topic Name`
 access right assigned).
 
 
-[[category_makeoneup]]
-Your Category Here
-~~~~~~~~~~~~~~~~~~
-
-Gerrit administrators can also make up their own categories.
-
-See above for descriptions of how <<category_verified,`Verified`>>
-and <<category_review,`Code Review`>> work, and insert your own
-category with `function_name = 'MaxWithBlock'` to get the same
-behavior over your own range of values, in any category you desire.
-
-Ensure `category_id` is unique within your `approval_categories`
-table.  The default values `VRIF` and `CVRF` used for the categories
-described above are simply that, defaults, and have no special
-meaning to Gerrit.
-
-The `position` column of `approval_categories` controls which column
-of the 'Approvals' table the category appears in, providing some
-layout control to the administrator.
-
-All `MaxWithBlock` categories must have at least one positive value
-in the `approval_category_values` table, or else submit will never
-be enabled.
-
-To permit blocking submits, ensure a negative value is defined for
-your new category.  If you do not wish to have a blocking submit
-level for your category, do not define values less than 0.
-
-Keep in mind that category definitions are currently global to
-the entire Gerrit instance, and affect all projects hosted on it.
-Any change to a category definition affects everyone.
-
-For example, to define a new 3-valued category that behaves exactly
-like `Verified`, but has different names/labels:
-
-====
-  INSERT INTO approval_categories
-    (name
-    ,position
-    ,function_name
-    ,category_id)
-  VALUES
-    ('Copyright Check'
-    ,3
-    ,'MaxWithBlock'
-    ,'copy');
-
-  INSERT INTO approval_category_values
-    (category_id,value,name)
-  VALUES
-    ('copy', -1, 'Do not have copyright');
-
-  INSERT INTO approval_category_values
-    (category_id,value,name)
-  VALUES
-    ('copy', 0, 'No score');
-
-  INSERT INTO approval_category_values
-    (category_id,value,name)
-  VALUES
-    ('copy', 1, 'Copyright clear');
-====
-
-The new column will appear at the end of the table (in position 3),
-and `-1 Do not have copyright` will block submit, while `+1 Copyright
-clear` is required to enable submit.
-
-link:config-gerrit.html#commentlink[Comment link] processing is applied to the
-text description of the approval categories (the `name` column). This can be
-used to display HTML links in the approval category value descriptions.
-
-[[restart_changes]]
-[NOTE]
-Restart the Gerrit web application and reload all browsers after
-making any database changes to approval categories.  Browsers are
-sent the list of known categories when they first visit the site,
-and don't notice changes until the page is closed and opened again,
-or is reloaded.
-
-
 Examples of typical roles in a project
 --------------------------------------
 
@@ -934,7 +709,7 @@ Suggested access rights to grant:
 
 * <<category_read,`Read`>> on 'refs/heads/\*' and 'refs/tags/*'
 * <<category_push,`Push`>> to 'refs/for/refs/heads/*'
-* <<category_label-Code-Review,`Code review`>> with range '-1' to '+1' for 'refs/heads/*'
+* <<category_label-Code-Review,`Code-Review`>> with range '-1' to '+1' for 'refs/heads/*'
 
 
 [[examples_developer]]
@@ -960,7 +735,7 @@ Suggested access rights to grant:
 * <<category_push,`Push`>> to 'refs/for/refs/heads/*'
 * <<category_push_merge,`Push merge commit`>> to 'refs/for/refs/heads/*'
 * <<category_forge_author,`Forge Author Identity`>> to 'refs/heads/*'
-* <<category_label-Code-Review,`Label: Code review`>> with range '-2' to '+2' for 'refs/heads/*'
+* <<category_label-Code-Review,`Label: Code-Review`>> with range '-2' to '+2' for 'refs/heads/*'
 * <<category_label-Verified,`Label: Verify`>> with range '-1' to '+1' for 'refs/heads/*'
 * <<category_submit,`Submit`>>
 
@@ -1013,12 +788,12 @@ and so the push right can be found under the optional section.
 Suggested access rights to grant, that won't block changes:
 
 * <<category_read,`Read`>> on 'refs/heads/\*' and 'refs/tags/*'
-* <<category_label-Code-Review,`Label: Code review`>> with range '-1' to '0' for 'refs/heads/*'
+* <<category_label-Code-Review,`Label: Code-Review`>> with range '-1' to '0' for 'refs/heads/*'
 * <<category_label-Verified,`Label: Verify`>> with range '0' to '+1' for 'refs/heads/*'
 
 Optional access rights to grant:
 
-* <<category_label-Code-Review,`Label: Code review`>> with range '-1' to '+1' for 'refs/heads/*'
+* <<category_label-Code-Review,`Label: Code-Review`>> with range '-1' to '+1' for 'refs/heads/*'
 * <<category_push,`Push`>> to 'refs/for/refs/heads/*'
 
 
@@ -1205,7 +980,7 @@ Conversion table from 2.1.x series to 2.2.x series
 [options="header"]
 |=================================================================================
 |Gerrit 2.1.x                 |Gerrit 2.2.x
-|Code review                  |<<category_label-Code-Review,Label: Code review>>
+|Code review                  |<<category_label-Code-Review,Label: Code-Review>>
 |Verify                       |<<category_label-Verified,Label: Verify>>
 |Forge Identity +1            |Forge <<category_forge_author,author>> identity
 |Forge Identity +2            |Forge <<category_forge_committer,committer>> & <<category_forge_author,author>> identity

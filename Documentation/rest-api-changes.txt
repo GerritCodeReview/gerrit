@@ -1186,6 +1186,49 @@ message is contained in the response body.
   "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
 ----
 
+[[list-drafts]]
+GET /changes/\{change-id\}/revisions/\{revision-id\}/drafts/ (List Drafts)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists the drafts comments of a revision that belong to the calling
+user.
+
+As result a map is returned that maps the file path to a list of
+link:#comment-info[CommentInfo] entries. The entries in the map are
+sorted by file path.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/drafts/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "kind": "gerritcodereview#comment",
+        "id": "TvcXrmjM",
+        "line": 23,
+        "message": "[nit] trailing whitespace",
+        "updated": "2013-02-26 15:40:43.986000000"
+      },
+      {
+        "kind": "gerritcodereview#comment",
+        "id": "TveXwFiA",
+        "line": 49,
+        "in_reply_to": "TfYX-Iuo",
+        "message": "Done",
+        "updated": "2013-02-26 15:40:45.328000000"
+      }
+    ]
+  }
+----
+
 
 [[ids]]
 IDs
@@ -1359,6 +1402,34 @@ Only set if link:#all-revisions[all revisions] are requested.
 Whether the query would deliver more results if not limited. +
 Only set on either the last or the first change that is returned.
 |==================================
+
+[[comment-info]]
+CommentInfo
+~~~~~~~~~~~
+The `CommitInfo` entity contains information about an inline comment.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`kind`        ||`gerritcodereview#comment`
+|`id`          ||The URL encoded UUID of the draft comment.
+|`path`        |optional|
+The path of the file for which the inline comment was done. +
+Not set if returned in a map where the key is the file path.
+|`side`        |optional|
+The side on which the comment was added. +
+Allowed values are `REVISION` and `PARENT`. +
+If not set, the default is `REVISION`.
+|`line`        |optional|
+The number of the line for which the comment was done. +
+If not set, it's a file comment.
+|`in_reply_to` |optional|
+The URL encoded UUID of the comment to which this comment is a reply.
+|`message`     |optional|The comment message.
+|`updated`     ||
+The link:rest-api.html#timestamp[timestamp] of when this comment was
+written.
+|===========================
 
 [[comment-input]]
 CommentInput

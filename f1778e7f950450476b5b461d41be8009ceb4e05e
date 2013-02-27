@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QWCo9f9E",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-27T01:37:08Z",
+      "side": 1,
+      "message": "What is returned if it is not possible to submit the change for other reasons?  For example because it has dependency on an unmerged change, needs rebase, or does not have the necessary approvals.",
+      "revId": "f1778e7f950450476b5b461d41be8009ceb4e05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QWGpsl9E",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-27T08:51:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QUw-IhXA",
+      "revId": "71113b6236e09b357ccf2b9c7b4be20ab3eefe56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QU2-N0YA",
         "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-27T08:44:19Z",
       "side": 1,
       "message": "s/id\u003d160876/id\u003d1608",
+      "revId": "71113b6236e09b357ccf2b9c7b4be20ab3eefe56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWEpx06c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-27T08:51:57Z",
+      "side": 1,
+      "message": "I\u0027ll remove this change.  There are some more that need links; I\u0027ll do them together in a separate commit.",
+      "parentUuid": "QU2-N0YA",
       "revId": "71113b6236e09b357ccf2b9c7b4be20ab3eefe56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

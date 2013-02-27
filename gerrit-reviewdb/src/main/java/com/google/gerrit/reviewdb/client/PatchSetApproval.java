@@ -165,4 +165,10 @@ public final class PatchSetApproval {
   public void setLabel(String label) {
     this.label = label;
   }
+
+  @Override
+  public String toString() {
+    return new StringBuilder().append('[').append(key).append(": ")
+        .append(value).append(']').toString();
+  }
 }

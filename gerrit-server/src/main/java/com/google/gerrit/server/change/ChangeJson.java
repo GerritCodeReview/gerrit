@@ -59,6 +59,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -113,6 +114,7 @@ public class ChangeJson {
   }
 
   private final Provider<ReviewDb> db;
+  private final LabelNormalizer labelNormalizer;
   private final CurrentUser user;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -131,6 +133,7 @@ public class ChangeJson {
   @Inject
   ChangeJson(
       Provider<ReviewDb> db,
+      LabelNormalizer ln,
       CurrentUser u,
       AnonymousUser au,
       IdentifiedUser.GenericFactory uf,
@@ -141,6 +144,7 @@ public class ChangeJson {
       @CanonicalWebUrl Provider<String> curl,
       Urls urls) {
     this.db = db;
+    this.labelNormalizer = ln;
     this.user = u;
     this.anonymous = au;
     this.userFactory = uf;
@@ -422,14 +426,15 @@ public class ChangeJson {
       return;
     }
 
-    Set<Account.Id> allUsers = Sets.newHashSet();
-    for (PatchSetApproval psa : cd.allApprovals(db)) {
-      allUsers.add(psa.getAccountId());
-    }
-
     Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
-    for (PatchSetApproval a : cd.currentApprovals(db)) {
-      current.put(a.getAccountId(), a);
+    PatchSet.Id psId = baseCtrl.getChange().currentPatchSetId();
+    Set<Account.Id> allUsers = Sets.newHashSet();
+    for (PatchSetApproval psa : labelNormalizer.normalize(
+        baseCtrl, cd.allApprovals(db))) {
+      allUsers.add(psa.getAccountId());
+      if (psa.getPatchSetId().equals(psId)) {
+        current.put(psa.getAccountId(), psa);
+      }
     }
 
     for (Account.Id accountId : allUsers) {

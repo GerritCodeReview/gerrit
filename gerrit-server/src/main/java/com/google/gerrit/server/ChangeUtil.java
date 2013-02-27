@@ -328,7 +328,7 @@ public class ChangeUtil {
       final ChangeHooks hooks, Repository git,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated gitRefUpdated, PersonIdent myIdent,
-      final ApprovalsUtil approvalsUtil)
+      final ApprovalsUtil approvalsUtil, final TrackingFooters trackingFooters)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, PatchSetInfoNotAvailableException {
@@ -445,6 +445,9 @@ public class ChangeUtil {
         }
 
         approvalsUtil.copyVetosToPatchSet(db, change.currentPatchSetId());
+
+        final List<FooterLine> footerLines = newCommit.getFooterLines();
+        updateTrackingIds(db, change, trackingFooters, footerLines);
 
         final ChangeMessage cmsg =
             new ChangeMessage(new ChangeMessage.Key(changeId,

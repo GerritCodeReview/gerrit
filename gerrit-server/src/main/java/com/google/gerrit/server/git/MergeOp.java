@@ -25,9 +25,9 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -55,8 +55,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.gerrit.server.workflow.CategoryFunction;
-import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
@@ -126,7 +124,7 @@ public class MergeOp {
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ProjectCache projectCache;
-  private final FunctionState.Factory functionState;
+  private final LabelNormalizer labelNormalizer;
   private final GitReferenceUpdated gitRefUpdated;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
@@ -160,7 +158,7 @@ public class MergeOp {
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
-      final ProjectCache pc, final FunctionState.Factory fs,
+      final ProjectCache pc, final LabelNormalizer fs,
       final GitReferenceUpdated gru, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
       final LabelTypes labelTypes, final PatchSetInfoFactory psif,
@@ -176,7 +174,7 @@ public class MergeOp {
       final AllProjectsName allProjectsName) {
     repoManager = grm;
     schemaFactory = sf;
-    functionState = fs;
+    labelNormalizer = fs;
     projectCache = pc;
     gitRefUpdated = gru;
     mergedSenderFactory = msf;
@@ -927,16 +925,18 @@ public class MergeOp {
     PatchSetApproval submitter = null;
     try {
       c.setStatus(Change.Status.MERGED);
-      final List<PatchSetApproval> approvals =
+
+      List<PatchSetApproval> approvals =
           db.patchSetApprovals().byChange(changeId).toList();
-      final ChangeControl control = changeControlFactory.controlFor(c,
-          identifiedUserFactory.create(c.getOwner()));
-      final FunctionState fs = functionState.create(
-          control, merged, approvals);
-      for (LabelType lt : control.getLabelTypes().getLabelTypes()) {
-        CategoryFunction.forType(lt).run(lt, fs);
-      }
+      Set<PatchSetApproval.Key> toDelete =
+          Sets.newHashSetWithExpectedSize(approvals.size());
       for (PatchSetApproval a : approvals) {
+        toDelete.add(a.getKey());
+      }
+
+      approvals = labelNormalizer.normalize(c, approvals);
+      for (PatchSetApproval a : approvals) {
+        toDelete.remove(a.getKey());
         if (a.getValue() > 0 && a.isSubmit()
             && a.getPatchSetId().equals(merged)) {
           if (submitter == null
@@ -947,6 +947,7 @@ public class MergeOp {
         a.cache(c);
       }
       db.patchSetApprovals().update(approvals);
+      db.patchSetApprovals().deleteKeys(toDelete);
     } catch (NoSuchChangeException err) {
       log.warn("Cannot normalize approvals for change " + changeId, err);
     } catch (OrmException err) {

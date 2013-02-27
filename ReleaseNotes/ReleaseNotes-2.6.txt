@@ -110,18 +110,11 @@ Bug Fixes
 
 Web UI
 ~~~~~~
-* CLA hyperlink on registration page was broken.
 * Links to CGit were broken when remove-suffix was enabled.
-* Improved creation of inline comment editors, avoiding multiple
-  draft editors on the same line of code.
-
-Hooks
-~~~~~
-* `draft-published` event is now fired.
 
 Git
 ~~~
-* The regex wildcard `.` is now permitted in reference names.
+* The wildcard `.` is now permitted in reference regex rules.
 * Checking if a change is mergeable no longer writes to the repository.
 * Improved `git ls-remote` and `git fetch` performance by caching
   changes, decreasing database queries and traffic.

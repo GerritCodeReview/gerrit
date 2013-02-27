@@ -377,7 +377,7 @@ able to post review scores as well as submitting the change by clicking
 a single button. If you choose just to publish comments at this point then
 the score will be stored but the change won't yet be accepted into the code
 base. In this case there will be a _Submit Patch Set X_ button on the
-main screen. Just as Code Review and Verify are different operations
+main screen. Just as Code-Review and Verify are different operations
 that can be done by different users, Submission is a third operation
 that can be limited down to another group of users.
 

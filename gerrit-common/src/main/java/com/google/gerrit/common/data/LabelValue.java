@@ -59,4 +59,9 @@ public class LabelValue {
     return new StringBuilder().append(formatValue())
         .append(' ').append(text).toString();
   }
+
+  @Override
+  public String toString() {
+    return format();
+  }
 }

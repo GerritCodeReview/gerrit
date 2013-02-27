@@ -34,6 +34,24 @@
       "revId": "7faf41e750ffbd82416506b7e8947b636e02e02b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QWOp-53E",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-27T12:55:48Z",
+      "side": 1,
+      "message": "OK, that sounds reasonable.",
+      "parentUuid": "QU6.E2QI",
+      "revId": "7faf41e750ffbd82416506b7e8947b636e02e02b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

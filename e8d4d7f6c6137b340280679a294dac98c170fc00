@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "QWYkmOcQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-27T17:39:29Z",
+      "side": 1,
+      "message": "I can see some reviewers liking the existing behavior. How can we accommodate them?",
+      "parentUuid": "QUw9ppdE",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QO.ebwrI",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

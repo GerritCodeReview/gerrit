@@ -193,9 +193,9 @@ change that are already provided by Gerrit.
 Another aspect of the return result from the `submit_rule` predicate is that
 Gerrit uses it to decide which set of labels to display on the change review
 screen for voting. If the return result contains label `'ABC'` and if the label
-`'ABC'` is one of the (global) voting categories then voting for the label
-`'ABC'` will be displayed. Otherwise, it is not displayed. Note that we don't
-need a (global) voting category for each label contained in the result of
+`'ABC'` is link:config-labels.html[defined for the project] then voting for the
+label `'ABC'` will be displayed. Otherwise, it is not displayed. Note that the
+project doesn't need a defined label for each label contained in the result of
 `submit_rule` predicate.  For example, the decision whether `'Author-is-John-Doe'`
 label is met will probably not be made by explicit voting but, instead, by
 inspecting the facts about the change.

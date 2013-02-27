@@ -954,6 +954,141 @@ Deletes a reviewer from a change.
   HTTP/1.1 204 No Content
 ----
 
+[[revision-endpoints]]
+Revision Endpoints
+------------------
+
+[[get-review]]
+GET /changes/\{change-id\}/revisions/\{revision-id\}/review (Get Review)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves a review of a revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/review HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity with
+link:#detailed-labels[detailed labels] and link:#detailed-accounts[
+detailed accounts] is returned that describes the review of the
+revision. The revision for which the review is retrieved is contained
+in the `revisions` field. In addition the `current_revision` field is
+set, if the revision for which the review is retrieved, is the current
+revision of the change. Please note that the returned labels are always
+for the current patch set.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "reviewed": true,
+    "mergeable": true,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    "labels": {
+      "Verified": {
+        "all": [
+          {
+            "value": 0,
+            "_account_id": 1000096,
+            "name": "John Doe",
+            "email": "john.doe@example.com"
+          },
+          {
+            "value": 0,
+            "_account_id": 1000097,
+            "name": "Jane Roe",
+            "email": "jane.roe@example.com"
+          }
+        ],
+        "values": {
+          "-1": "Fails",
+          " 0": "No score",
+          "+1": "Verified"
+        }
+      },
+      "Code-Review": {
+        "all": [
+          {
+            "value": -1,
+            "_account_id": 1000096,
+            "name": "John Doe",
+            "email": "john.doe@example.com"
+          },
+          {
+            "value": 1,
+            "_account_id": 1000097,
+            "name": "Jane Roe",
+            "email": "jane.roe@example.com"
+          }
+        ]
+        "values": {
+          "-2": "Do not submit",
+          "-1": "I would prefer that you didn\u0027t submit this",
+          " 0": "No score",
+          "+1": "Looks good to me, but someone else must approve",
+          "+2": "Looks good to me, approved"
+        }
+      }
+    },
+    "permitted_labels": {
+      "Verified": [
+        "-1",
+        " 0",
+        "+1"
+      ],
+      "Code-Review": [
+        "-2",
+        "-1",
+        " 0",
+        "+1",
+        "+2"
+      ]
+    },
+    "removable_reviewers": [
+      {
+        "_account_id": 1000096,
+        "name": "John Doe",
+        "email": "john.doe@example.com"
+      },
+      {
+        "_account_id": 1000097,
+        "name": "Jane Roe",
+        "email": "jane.roe@example.com"
+      }
+    ],
+    "current_revision": "674ac754f91e64a0efb8087e59a176484bd534d1",
+    "revisions": {
+      "674ac754f91e64a0efb8087e59a176484bd534d1": {
+      "_number": 2,
+      "fetch": {
+        "http": {
+          "url": "http://gerrit/myProject",
+          "ref": "refs/changes/65/3965/2"
+        }
+      }
+    }
+  }
+----
+
 
 [[ids]]
 IDs
@@ -978,6 +1113,19 @@ This can be:
 * a Change-Id if it uniquely identifies one change
   ("I8473b95934b5732ac55d26311a706c9c2bde9940")
 * a legacy numeric change ID ("4247")
+
+
+[[revision-id]]
+\{revision-id\}
+~~~~~~~~~~~~~~~
+Identifier that uniquely identifies one revision of a change.
+
+This can be:
+
+* a commit ID ("674ac754f91e64a0efb8087e59a176484bd534d1")
+* an abbreviated commit ID that uniquely identifies one revision of the
+  change ("674ac754"), at least 4 digits are required
+* a legacy numeric patch number ("1" for first patch set of the change)
 
 
 [[json-entities]]

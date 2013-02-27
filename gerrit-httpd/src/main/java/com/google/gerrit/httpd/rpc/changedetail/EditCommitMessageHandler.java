@@ -22,6 +22,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -73,6 +74,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final PatchSetInfoFactory patchSetInfoFactory;
 
   private final PersonIdent myIdent;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   EditCommitMessageHandler(final ChangeControl.Factory changeControlFactory,
@@ -85,7 +87,8 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       final GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated gitRefUpdated,
-      @GerritPersonIdent final PersonIdent myIdent) {
+      @GerritPersonIdent final PersonIdent myIdent,
+      final ApprovalsUtil approvalsUtil) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
@@ -101,6 +104,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.myIdent = myIdent;
+    this.approvalsUtil = approvalsUtil;
   }
 
   @Override
@@ -127,7 +131,8 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
           commitValidatorsFactory.create(control.getRefControl(), new NoSshInfo(), git);
 
       ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(), commitValidators, currentUser, message, db,
-          commitMessageEditedSenderFactory, hooks, git, patchSetInfoFactory, gitRefUpdated, myIdent);
+          commitMessageEditedSenderFactory, hooks, git, patchSetInfoFactory, gitRefUpdated, myIdent,
+          approvalsUtil);
 
       return changeDetailFactory.create(changeId).call();
     } finally {

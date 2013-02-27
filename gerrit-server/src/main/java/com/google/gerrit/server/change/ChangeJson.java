@@ -236,7 +236,7 @@ public class ChangeJson {
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
     out.changeId = in.getKey().get();
-    out.mergeable = in.isMergeable();
+    out.mergeable = in.getStatus() != Change.Status.MERGED ? in.isMergeable() : null;
     out.subject = in.getSubject();
     out.status = in.getStatus();
     out.owner = accountLoader.get(in.getOwner());

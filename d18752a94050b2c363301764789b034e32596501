@@ -16,6 +16,24 @@
       "revId": "d18752a94050b2c363301764789b034e32596501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QUHKVuIE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-27T12:23:45Z",
+      "side": 1,
+      "message": "Thanks. I did not notice there is already a bug report for that :-)\nDone",
+      "parentUuid": "QU..3AeE",
+      "revId": "d18752a94050b2c363301764789b034e32596501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

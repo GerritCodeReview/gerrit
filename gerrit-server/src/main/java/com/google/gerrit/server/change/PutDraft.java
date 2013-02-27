@@ -63,6 +63,8 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
       return delete.get().apply(rsrc, null);
     } else if (in.kind != null && !"gerritcodereview#comment".equals(in.kind)) {
       throw new BadRequestException("expected kind gerritcodereview#comment");
+    } else if (in.id != null && !rsrc.getId().equals(in.id)) {
+      throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {
       throw new BadRequestException("line must be >= 0");
     }

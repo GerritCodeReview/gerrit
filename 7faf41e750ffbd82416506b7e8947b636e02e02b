@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QWWn5RQo",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-27T12:26:54Z",
+      "side": 1,
+      "message": "What is returned if any of the input is incorrect?  I.e. bad change or revision.\n\nNot sure if this should be documented for each request, or in one place somewhere on the page.",
+      "revId": "7faf41e750ffbd82416506b7e8947b636e02e02b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

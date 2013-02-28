@@ -87,6 +87,24 @@
       "revId": "fee7762b039c7d0f6292e911747726d0b2ff93a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYMItops",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-28T21:54:18Z",
+      "side": 1,
+      "message": "Well, your 2.5 version is broken and not going to compile or run against 2.6. So I looked at what was in master.\n\nThe assumption your code is making is that there is such a thing as a global list of approval categories that applies to all projects. This is no longer the case: projects can add new labels, change labels inherited from All-Projects, or even remove inherited labels. You should treat the list of labels as being completely dynamic at the per-project level.\n\nSo the loops where you populate the verified and reviewed ApprovalTypes should go away, and you should just use the string \"Verified\" or \"Code-Review\" to refer to those labels. You don\u0027t need any additional information about the label other than its name just to vote on that label.\n\nIt is up to you what the behavior of your plugin should be when a project owner has removed one of those labels from the project. Right now it looks like it NPEs if the server administrator has removed one of those labels.\n\nCurrently I think we are planning to silently ignore unknown labels when you post a review but I could probably be convinced to fail loudly.",
+      "parentUuid": "QctDWPEI",
+      "revId": "fee7762b039c7d0f6292e911747726d0b2ff93a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QYGJHdmE",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-28T20:20:48Z",
+      "side": 1,
+      "message": "Done. Note that nothing has changed about how you write submit rules; you could always write submit rules with arbitrary labels, only up till now it was impossible to vote on those labels.",
+      "parentUuid": "QcpDMtLQ",
+      "revId": "fee7762b039c7d0f6292e911747726d0b2ff93a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QclDjLCg",
         "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-28T20:10:38Z",
       "side": 1,
       "message": "Can you please clarify, if there is a compatibility mode to the old database based labels? For example our tool chain currently relies that the default approval categories are presented in the system, by looking for their Label-Id, i. e. that VRIF and CRVW do exist. It is not clear to me from that description if we should adjust our tooling once we migrate to 2.6 GA.",
+      "revId": "fee7762b039c7d0f6292e911747726d0b2ff93a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYIJMeoU",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-28T20:20:48Z",
+      "side": 1,
+      "message": "What do you mean by \"are presented in the system\"? What does your tooling actually do?\n\nThe correct way to get label information for a change is now with the REST API either through /changes/\u003cid\u003e/detail or /changes/?q\u003dquery\u0026o\u003dDETAILED_LABELS\n\nI\u0027m happy to explain all this in the release notes I just need a better sense of all the ways people are using it currently.",
+      "parentUuid": "QclDjLCg",
       "revId": "fee7762b039c7d0f6292e911747726d0b2ff93a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

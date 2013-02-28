@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -65,7 +67,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
      * on access controls, attempting to use a label not granted to the user
      * will fail the entire modify operation early. If false the operation will
      * execute anyway, but the proposed labels given by the user will be
-     * modified to be the "best" value allowed by the access controls.
+     * modified to be the "best" value allowed by the access controls, or
+     * ignored if the label does not exist.
      */
     public boolean strictLabels = true;
 
@@ -173,7 +176,6 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
 
-      // TODO Support more generic label assignments.
       LabelType lt = revision.getControl().getLabelTypes()
           .byLabel(ent.getKey());
       if (lt == null) {
@@ -339,9 +341,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
     LabelTypes labelTypes = rsrc.getControl().getLabelTypes();
     for (Map.Entry<String, Short> ent : labels.entrySet()) {
-      // TODO Support arbitrary label names.
-      LabelType lt = labelTypes.byLabel(ent.getKey());
-      String name = lt.getName();
+      String name = ent.getKey();
+      LabelType lt = checkNotNull(labelTypes.byLabel(name), name);
       if (change.getStatus().isClosed()) {
         // TODO Allow updating some labels even when closed.
         continue;

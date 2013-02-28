@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "QYOIjhrI",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-28T16:19:50Z",
+      "side": 1,
+      "message": "Not sure I agree. Prefixes on this page are all \"access_\" because they all describe access controls. This is the section on access controls for labels. I could do access_review_labels but that\u0027s kind of logn.",
+      "parentUuid": "QYML-Yus",
+      "revId": "4c98e127ffc444c14489efc782485f186b6e6614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QctB-HHI",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 1
@@ -117,6 +135,24 @@
       "writtenOn": "2013-02-28T04:54:50Z",
       "side": 1,
       "message": "\"Review Labels\"?",
+      "revId": "4c98e127ffc444c14489efc782485f186b6e6614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYAIhSqo",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-28T16:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QYAIKKiw",
       "revId": "4c98e127ffc444c14489efc782485f186b6e6614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

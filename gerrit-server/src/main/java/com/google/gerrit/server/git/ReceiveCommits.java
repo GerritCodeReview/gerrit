@@ -27,6 +27,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -226,8 +227,8 @@ public class ReceiveCommits {
         }
       };
 
-  private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
-  private final Set<Account.Id> ccId = new HashSet<Account.Id>();
+  private Set<Account.Id> reviewersFromCommandLine = Sets.newLinkedHashSet();
+  private Set<Account.Id> ccFromCommandLine = Sets.newLinkedHashSet();
 
   private final IdentifiedUser currentUser;
   private final ReviewDb db;
@@ -257,9 +258,7 @@ public class ReceiveCommits {
   private final Repository repo;
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
-  private ReceiveCommand newChange;
-  private Branch.NameKey destBranch;
-  private RefControl destBranchCtl;
+  private MagicBranchInput magicBranch;
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -269,8 +268,6 @@ public class ReceiveCommits {
 
   private Map<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
-
-  private String destTopicName;
 
   private final SubmoduleOp.Factory subOpFactory;
 
@@ -376,12 +373,12 @@ public class ReceiveCommits {
 
   /** Add reviewers for new (or updated) changes. */
   public void addReviewers(Collection<Account.Id> who) {
-    reviewerId.addAll(who);
+    reviewersFromCommandLine.addAll(who);
   }
 
   /** Add reviewers for new (or updated) changes. */
   public void addExtraCC(Collection<Account.Id> who) {
-    ccId.addAll(who);
+    ccFromCommandLine.addAll(who);
   }
 
   /** Set a message sender for this operation. */
@@ -519,7 +516,7 @@ public class ReceiveCommits {
     batch.setRefLogMessage("push", true);
 
     parseCommands(commands);
-    if (newChange != null && newChange.getResult() == NOT_ATTEMPTED) {
+    if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
       newChanges = selectNewChanges();
     }
     preparePatchSetsForReplace();
@@ -636,7 +633,7 @@ public class ReceiveCommits {
     int okToInsert = 0;
 
     for (ReplaceRequest replace : replaceByChange.values()) {
-      if (replace.inputCommand == newChange) {
+      if (magicBranch != null && replace.inputCommand == magicBranch.cmd) {
         replaceCount++;
 
         if (replace.cmd != null && replace.cmd.getResult() == OK) {
@@ -663,7 +660,7 @@ public class ReceiveCommits {
       }
     }
 
-    if (newChange == null || newChange.getResult() != NOT_ATTEMPTED) {
+    if (magicBranch == null || magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
       // refs/for/ or refs/drafts/ not used, or it already failed earlier.
       // No need to continue.
       return;
@@ -678,7 +675,7 @@ public class ReceiveCommits {
     if (okToInsert != replaceCount + newChanges.size()) {
       // One or more new references failed to create. Assume the
       // system isn't working correctly anymore and abort.
-      reject(newChange, "internal server error");
+      reject(magicBranch.cmd, "internal server error");
       log.error(String.format(
           "Only %d of %d new change refs created in %s; aborting",
           okToInsert, replaceCount + newChanges.size(), project.getName()));
@@ -688,7 +685,7 @@ public class ReceiveCommits {
     try {
       List<CheckedFuture<?, OrmException>> futures = Lists.newArrayList();
       for (ReplaceRequest replace : replaceByChange.values()) {
-        if (replace.inputCommand == newChange) {
+        if (magicBranch != null && replace.inputCommand == magicBranch.cmd) {
           futures.add(replace.insertPatchSet());
         }
       }
@@ -700,13 +697,13 @@ public class ReceiveCommits {
       for (CheckedFuture<?, OrmException> f : futures) {
         f.checkedGet();
       }
-      newChange.setResult(OK);
+      magicBranch.cmd.setResult(OK);
     } catch (OrmException err) {
       log.error("Can't insert changes for " + project.getName(), err);
-      reject(newChange, "internal server error");
+      reject(magicBranch.cmd, "internal server error");
     } catch (IOException err) {
       log.error("Can't read commits for " + project.getName(), err);
-      reject(newChange, "internal server error");
+      reject(magicBranch.cmd, "internal server error");
     }
   }
 
@@ -762,7 +759,7 @@ public class ReceiveCommits {
       }
 
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {
-        parseNewChangeCommand(cmd);
+        parseMagicBranch(cmd);
         continue;
       }
 
@@ -973,15 +970,43 @@ public class ReceiveCommits {
     }
   }
 
-  private void parseNewChangeCommand(final ReceiveCommand cmd) {
+  private static class MagicBranchInput {
+    final ReceiveCommand cmd;
+    Branch.NameKey dest;
+    RefControl ctl;
+    String topic;
+    Set<Account.Id> reviewer = Sets.newLinkedHashSet();
+    Set<Account.Id> cc = Sets.newLinkedHashSet();
+
+    MagicBranchInput(ReceiveCommand cmd) {
+      this.cmd = cmd;
+    }
+
+    boolean isRef(Ref ref) {
+      return ctl != null && ref.getName().equals(ctl.getRefName());
+    }
+
+    boolean isDraft() {
+      return cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
+    }
+
+    MailRecipients getMailRecipients() {
+      return new MailRecipients(reviewer, cc);
+    }
+  }
+
+  private void parseMagicBranch(final ReceiveCommand cmd) {
     // Permit exactly one new change request per push.
     //
-    if (newChange != null) {
+    if (magicBranch != null) {
       reject(cmd, "duplicate request");
       return;
     }
 
-    newChange = cmd;
+    magicBranch = new MagicBranchInput(cmd);
+    magicBranch.reviewer.addAll(reviewersFromCommandLine);
+    magicBranch.cc.addAll(ccFromCommandLine);
+
     String destBranchName = MagicBranch.getDestBranchName(cmd.getRefName());
     if (!destBranchName.startsWith(Constants.R_REFS)) {
       destBranchName = Constants.R_HEADS + destBranchName;
@@ -1026,17 +1051,15 @@ public class ReceiveCommits {
     }
 
     if (split < destBranchName.length()) {
-      destTopicName = destBranchName.substring(split + 1);
-      if (destTopicName.isEmpty()) {
-        destTopicName = null;
-      }
+      String t = destBranchName.substring(split + 1);
+      magicBranch.topic = Strings.emptyToNull(t);
     } else {
-      destTopicName = null;
+      magicBranch.topic = null;
     }
-    destBranch = new Branch.NameKey(project.getNameKey(), //
+    magicBranch.dest = new Branch.NameKey(project.getNameKey(), //
         destBranchName.substring(0, split));
-    destBranchCtl = projectControl.controlForRef(destBranch);
-    if (!destBranchCtl.canUpload()) {
+    magicBranch.ctl = projectControl.controlForRef(magicBranch.dest);
+    if (!magicBranch.ctl.canUpload()) {
       errors.put(Error.CODE_REVIEW, cmd.getRefName());
       reject(cmd, "cannot upload review");
       return;
@@ -1050,7 +1073,7 @@ public class ReceiveCommits {
     try {
       final RevWalk walk = rp.getRevWalk();
 
-      final RevCommit tip = walk.parseCommit(newChange.getNewId());
+      final RevCommit tip = walk.parseCommit(magicBranch.cmd.getNewId());
       Ref targetRef = rp.getAdvertisedRefs().get(destBranchName);
       if (targetRef == null || targetRef.getObjectId() == null) {
         // The destination branch does not yet exist. Assume the
@@ -1067,7 +1090,7 @@ public class ReceiveCommits {
         walk.markStart(tip);
         walk.markStart(h);
         if (walk.next() == null) {
-          reject(newChange, "no common ancestry");
+          reject(magicBranch.cmd, "no common ancestry");
           return;
         }
       } finally {
@@ -1075,7 +1098,7 @@ public class ReceiveCommits {
         walk.setRevFilter(oldRevFilter);
       }
     } catch (IOException e) {
-      newChange.setResult(REJECTED_MISSING_OBJECT);
+      magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
       return;
     }
@@ -1170,7 +1193,7 @@ public class ReceiveCommits {
     walk.sort(RevSort.REVERSE, true);
     try {
       Set<ObjectId> existing = Sets.newHashSet();
-      walk.markStart(walk.parseCommit(newChange.getNewId()));
+      walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
       markHeadsAsUninteresting(walk, existing);
 
       List<ChangeLookup> pending = Lists.newArrayList();
@@ -1186,7 +1209,7 @@ public class ReceiveCommits {
           continue;
         }
 
-        if (!validCommit(destBranchCtl, newChange, c)) {
+        if (!validCommit(magicBranch.ctl, magicBranch.cmd, c)) {
           // Not a change the user can propose? Abort as early as possible.
           //
           return Collections.emptyList();
@@ -1202,7 +1225,7 @@ public class ReceiveCommits {
         final String idStr = idList.get(idList.size() - 1).trim();
         if (idStr.matches("^I00*$")) {
           // Reject this invalid line from EGit.
-          reject(newChange, "invalid Change-Id");
+          reject(magicBranch.cmd, "invalid Change-Id");
           return Collections.emptyList();
         }
 
@@ -1212,7 +1235,7 @@ public class ReceiveCommits {
 
       for (ChangeLookup p : pending) {
         if (newChangeIds.contains(p.changeKey)) {
-          reject(newChange, "squash commits first");
+          reject(magicBranch.cmd, "squash commits first");
           return Collections.emptyList();
         }
 
@@ -1223,14 +1246,14 @@ public class ReceiveCommits {
           // a different Change-Id. In practice, we should never see
           // this error message as Change-Id should be unique.
           //
-          reject(newChange, p.changeKey.get() + " has duplicates");
+          reject(magicBranch.cmd, p.changeKey.get() + " has duplicates");
           return Collections.emptyList();
         }
 
         if (changes.size() == 1) {
           // Schedule as a replacement to this one matching change.
           //
-          if (requestReplace(newChange, false, changes.get(0), p.commit)) {
+          if (requestReplace(magicBranch.cmd, false, changes.get(0), p.commit)) {
             continue;
           } else {
             return Collections.emptyList();
@@ -1239,7 +1262,7 @@ public class ReceiveCommits {
 
         if (changes.size() == 0) {
           if (!isValidChangeId(p.changeKey.get())) {
-            reject(newChange, "invalid Change-Id");
+            reject(magicBranch.cmd, "invalid Change-Id");
             return Collections.emptyList();
           }
 
@@ -1251,17 +1274,17 @@ public class ReceiveCommits {
       // Should never happen, the core receive process would have
       // identified the missing object earlier before we got control.
       //
-      newChange.setResult(REJECTED_MISSING_OBJECT);
+      magicBranch.cmd.setResult(REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
       return Collections.emptyList();
     } catch (OrmException e) {
       log.error("Cannot query database to locate prior changes", e);
-      reject(newChange, "database error");
+      reject(magicBranch.cmd, "database error");
       return Collections.emptyList();
     }
 
     if (newChanges.isEmpty() && replaceByChange.isEmpty()) {
-      reject(newChange, "no new changes");
+      reject(magicBranch.cmd, "no new changes");
       return Collections.emptyList();
     }
     for (CreateRequest create : newChanges) {
@@ -1277,7 +1300,7 @@ public class ReceiveCommits {
       } else if (ref.getName().startsWith("refs/changes/")) {
         existing.add(ref.getObjectId());
       } else if (ref.getName().startsWith(R_HEADS)
-          || (destBranchCtl != null && ref.getName().equals(destBranchCtl.getRefName()))) {
+          || (magicBranch != null && magicBranch.isRef(ref))) {
         try {
           walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
         } catch (IOException e) {
@@ -1301,7 +1324,7 @@ public class ReceiveCommits {
     ChangeLookup(RevCommit c, Change.Key key) throws OrmException {
       commit = c;
       changeKey = key;
-      changes = db.changes().byBranchKey(destBranch, key);
+      changes = db.changes().byBranchKey(magicBranch.dest, key);
     }
   }
 
@@ -1319,15 +1342,15 @@ public class ReceiveCommits {
       change = new Change(changeKey,
           new Change.Id(db.nextChangeId()),
           currentUser.getAccountId(),
-          destBranch);
-      change.setTopic(destTopicName);
+          magicBranch.dest);
+      change.setTopic(magicBranch.topic);
 
       ps = new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
       ps.setCreatedOn(change.getCreatedOn());
       ps.setUploader(change.getOwner());
       ps.setRevision(toRevId(c));
 
-      if (MagicBranch.isDraft(newChange.getRefName())) {
+      if (magicBranch.isDraft()) {
         change.setStatus(Change.Status.DRAFT);
         ps.setDraft(true);
       }
@@ -1368,7 +1391,10 @@ public class ReceiveCommits {
     private void insertChange(ReviewDb db) throws OrmException {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
-      final MailRecipients recipients = new MailRecipients(reviewerId, ccId);
+      final MailRecipients recipients = new MailRecipients();
+      if (magicBranch != null) {
+        recipients.add(magicBranch.getMailRecipients());
+      }
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
 
@@ -1445,10 +1471,10 @@ public class ReceiveCommits {
       }
     }
 
-    if (newChange != null && newChange.getResult() != NOT_ATTEMPTED) {
+    if (magicBranch != null && magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
       // Cancel creations tied to refs/for/ or refs/drafts/ command.
       for (ReplaceRequest req : replaceByChange.values()) {
-        if (req.inputCommand == newChange && req.cmd != null) {
+        if (req.inputCommand == magicBranch.cmd && req.cmd != null) {
           req.cmd.setResult(Result.REJECTED_OTHER_REASON, "aborted");
         }
       }
@@ -1616,7 +1642,7 @@ public class ReceiveCommits {
       newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
       newPatchSet.setUploader(currentUser.getAccountId());
       newPatchSet.setRevision(toRevId(newCommit));
-      if (newChange != null && MagicBranch.isDraft(newChange.getRefName())) {
+      if (magicBranch != null && magicBranch.isDraft()) {
         newPatchSet.setDraft(true);
       }
       info = patchSetInfoFactory.get(newCommit, newPatchSet.getId());
@@ -1660,7 +1686,10 @@ public class ReceiveCommits {
     PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException {
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = newCommit.getFooterLines();
-      final MailRecipients recipients = new MailRecipients(reviewerId, ccId);
+      final MailRecipients recipients = new MailRecipients();
+      if (magicBranch != null) {
+        recipients.add(magicBranch.getMailRecipients());
+      }
       recipients.add(getRecipientsFromFooters(accountResolver, newPatchSet, footerLines));
       recipients.remove(me);
 
@@ -1712,8 +1741,8 @@ public class ReceiveCommits {
                     return change;
                   }
 
-                  if (destTopicName != null) {
-                    change.setTopic(destTopicName);
+                  if (magicBranch != null && magicBranch.topic != null) {
+                    change.setTopic(magicBranch.topic);
                   }
                   if (change.getStatus() == Change.Status.DRAFT && newPatchSet.isDraft()) {
                     // Leave in draft status.

@@ -20,11 +20,11 @@ import com.jcraft.jsch.KeyPair;
 
 
 public class TestAccount {
-  final String username;
-  final String email;
-  final String fullName;
-  final KeyPair sshKey;
-  final String httpPassword;
+  public final String username;
+  public final String email;
+  public final String fullName;
+  public final KeyPair sshKey;
+  public final String httpPassword;
 
   TestAccount(String username, String email, String fullName,
       KeyPair sshKey, String httpPassword) {

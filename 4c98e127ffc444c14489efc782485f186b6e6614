@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "QcvB8IIA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-02-28T14:44:22Z",
+      "side": 1,
+      "message": "Do we have a migration path from database based label configuration to `project.config` based?\n\nExample: site was set up with release 2.4.2 of gerrit. Custom label `Foo` was added to the database. After migration to 2.6 new custom label `Bar` has to be added. I assume that old custom label `Foo` get automagically migrated to `project.config`  and the new custom labels `Bar` has to be added to `project.config`, right? Should this be mentioned somewhere?",
+      "revId": "4c98e127ffc444c14489efc782485f186b6e6614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QYML-Yus",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -13,6 +30,23 @@
       "writtenOn": "2013-02-28T04:54:50Z",
       "side": 1,
       "message": "s/access/review",
+      "revId": "4c98e127ffc444c14489efc782485f186b6e6614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QctB-HHI",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-02-28T14:44:22Z",
+      "side": 1,
+      "message": "s/access_labels/review_labels",
       "revId": "4c98e127ffc444c14489efc782485f186b6e6614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

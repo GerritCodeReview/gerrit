@@ -298,7 +298,6 @@ public class MergeUtil {
       } else {
         final LabelType lt = project.getLabelTypes().byLabel(a.getLabelId());
         if (lt == null) {
-          // TODO: Support arbitrary labels.
           continue;
         }
         tag = lt.getName();

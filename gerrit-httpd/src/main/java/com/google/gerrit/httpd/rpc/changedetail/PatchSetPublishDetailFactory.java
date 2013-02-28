@@ -121,7 +121,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
             PermissionRange range = rangeByName.get(lbl.label);
             if (range != null) {
               LabelType lt = control.getLabelTypes().byLabel(lbl.label);
-              if (lt == null || lt.getMax().getValue() == range.getMax()) {
+              if (lt != null && lt.getMax().getValue() == range.getMax()) {
                 canMakeOk = true;
               }
             }

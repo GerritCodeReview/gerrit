@@ -335,7 +335,7 @@ public class ChangeJson {
     for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
       LabelType type = labelTypes.byLabel(e.getKey());
       if (type == null) {
-        continue; // TODO: Support arbitrary labels.
+        continue;
       }
       if (standard) {
         setRecommendedAndDisliked(cd, type, e.getValue());
@@ -444,7 +444,6 @@ public class ChangeJson {
         labels.get(name).addApproval(ai);
       }
       for (PatchSetApproval psa : current.get(accountId)) {
-        // TODO Support arbitrary labels placed by a reviewer.
         LabelType lt = ctl.getLabelTypes().byLabel(psa.getLabelId());
         if (lt == null) {
           continue;
@@ -576,7 +575,7 @@ public class ChangeJson {
       for (SubmitRecord.Label r : rec.labels) {
         LabelType type = labelTypes.byLabel(r.label);
         if (type == null) {
-          continue; // TODO: Support arbitrary labels.
+          continue;
         }
         PermissionRange range = ctl.getRange(Permission.forLabel(r.label));
         for (LabelValue v : type.getValues()) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QYQGmqvs",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1944,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T08:00:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QclBHrGA",
+      "revId": "a9417e7747756e9160ceeaacf27e78c26e9d193b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QcnBMsIQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-28T06:23:46Z",
       "side": 1,
       "message": "2013?",
+      "revId": "a9417e7747756e9160ceeaacf27e78c26e9d193b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYSFyzrA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T08:00:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QcnBMsIQ",
       "revId": "a9417e7747756e9160ceeaacf27e78c26e9d193b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

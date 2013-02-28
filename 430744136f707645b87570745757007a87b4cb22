@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "QcVH5dAk",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-02-28T08:06:11Z",
+      "side": 1,
+      "message": "But you do if you want to maintain any kind of performance, such as weekly maintenance (repack / gc type of stuff).\n\nAnd you do if you want to have the ability to troubleshoot user issues (git log type of stuff).\n\nThis is a guide for the unexperienced that want to set up Gerrit on their own server. I\u0027d argue that git is a pretty heavy recommendation to have on that server. Even though it\u0027s not TECHNICALLY required, a lot of daily tasks will be very odd without it.\n\nWhat\u0027s the reason for not requiring it? :-)",
+      "parentUuid": "QYWH5Ngo",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWQlCSVE",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -189,6 +207,24 @@
       "side": 1,
       "message": "Ok, then you don\u0027t need the \"Configure Git\" section.",
       "parentUuid": "QT9Mg9Kg",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QcXH.ePQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-02-28T08:06:11Z",
+      "side": 1,
+      "message": "The service account that runs the service probably shouldn\u0027t create any commits on it\u0027s own in the gits, agreed. For in systems that\u0027s in production, it\u0027s a good habit to have everything added uploaded via Gerrit.",
+      "parentUuid": "QYYH.OvE",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -316,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "QcZEC-BQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-02-28T08:06:11Z",
+      "side": 1,
+      "message": "--add will add a value on top of another/others. The above line will replace any previous value with this one. Not sure which effect the author is looking for, but I personally don\u0027t understand why you\u0027d want to have several download.scheme variables?",
+      "parentUuid": "QWUljoe8",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QclAQjFk",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -327,6 +381,24 @@
       "writtenOn": "2013-02-28T02:41:32Z",
       "side": 1,
       "message": "this is not that we must to do, as least I have not do this work before get my Gerrit running with tomcat.\n so we need give some explain about when we need and when we need not to do this work.",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QcbH-AOw",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-02-28T08:06:11Z",
+      "side": 1,
+      "message": "Maybe we need more explanation of why a separate file for settings is a good idea? Perhaps a reference to a document that suggests this practice?",
+      "parentUuid": "QclAQjFk",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

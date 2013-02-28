@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.collect.Maps;
+import com.google.gerrit.server.util.MagicBranch;
+
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /** Exposes only the non refs/changes/ reference names. */
@@ -36,7 +38,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     if (oldRefs == null) {
       oldRefs = rp.getRepository().getAllRefs();
     }
-    HashMap<String, Ref> r = new HashMap<String, Ref>();
+    Map<String, Ref> r = Maps.newHashMapWithExpectedSize(oldRefs.size());
     for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {
       String name = e.getKey();
       if (!skip(name)) {
@@ -48,6 +50,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
 
   private static boolean skip(String name) {
     return name.startsWith("refs/changes/")
-        || name.startsWith(GitRepositoryManager.REFS_CACHE_AUTOMERGE);
+        || name.startsWith(GitRepositoryManager.REFS_CACHE_AUTOMERGE)
+        || MagicBranch.isMagicBranch(name);
   }
 }

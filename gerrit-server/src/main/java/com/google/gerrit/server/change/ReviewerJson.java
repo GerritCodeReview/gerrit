@@ -91,10 +91,10 @@ public class ReviewerJson {
     for (PatchSetApproval ca : approvals) {
       for (PermissionRange pr : ctl.getLabelRanges()) {
         if (!pr.isEmpty()) {
-          // TODO: Support arbitrary labels.
           LabelType at = labelTypes.byLabel(ca.getLabelId());
           if (at != null) {
-            out.approvals.put(at.getName(), formatValue(ca.getValue())); }
+            out.approvals.put(at.getName(), formatValue(ca.getValue()));
+          }
         }
       }
     }

@@ -107,6 +107,7 @@ Embedded Jetty is now 8.1.7.v20120910.
 
 * ASM bytecode library is now 4.0.
 * JGit is now 2.2.0.201212191850-r.
+* asciidoc 8.6.3 is now required to build the documentation.
 
 Bug Fixes
 ---------
@@ -129,4 +130,31 @@ to download and install the commit-msg hook.
   necessary for a multi-master configuration where the second master
   may need to retry a change not yet merged by the first. Please note
   we still do not believe this is sufficient to enable multi-master.
+
+Documentation
+-------------
+
+User Documentation
+~~~~~~~~~~~~~~~~~~
+
+* Added documentation of how to authenticate uploads over HTTP.
+* Added documentation of the `auth.editFullNameUrl` and `auth.httpPasswordUrl` configuration parameters.
+* Improved the push tag examples in the access control documentation.
+* Improved documentation of error messages related to commit message footer content.
+* Added documentation of the "commit already exists" error message.
+* Added documentation of contributor agreements.
+* Added missing documentation of JSON attributes.
+* Added missing documentation of mail templates.
+* Added missing documentation of the ssh `version` command.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1602[Issue 1602]:
+Corrected references to `refs/changes` in the access control documentation.
+
+* Various minor grammatical and formatting corrections.
+
+Developer And Maintainer Documentation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Updated the Maven plugin installation instructions for Eclipse 3.7 (Indigo).
+* Improved the release documentation.
+* The release notes are now made when a release is created by running the `tools/release.sh` script.
 

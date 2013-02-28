@@ -66,7 +66,6 @@ public class FunctionState {
           l = new ArrayList<PatchSetApproval>();
           LabelType lt = c.getLabelTypes().byLabel(ca.getLabelId());
           if (lt != null) {
-            // TODO: Support arbitrary labels
             approvals.put(lt.getName(), l);
           }
         }

@@ -16,6 +16,24 @@
       "revId": "9baff9d299648b524a1173ce5efae967060e63db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYWFelik",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T00:25:12Z",
+      "side": 1,
+      "message": "I don\u0027t think it matters. We call this with every reference the server sees from a client. Clients pushing to refs/heads/ are going to hit every condition every time.",
+      "parentUuid": "QYSFkjvk",
+      "revId": "9baff9d299648b524a1173ce5efae967060e63db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

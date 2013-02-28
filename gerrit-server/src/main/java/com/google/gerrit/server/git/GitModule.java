@@ -23,5 +23,6 @@ public class GitModule extends FactoryModule {
     factory(RenameGroupOp.Factory.class);
     factory(MetaDataUpdate.InternalFactory.class);
     bind(MetaDataUpdate.Server.class);
+    bind(ReceiveConfig.class);
   }
 }

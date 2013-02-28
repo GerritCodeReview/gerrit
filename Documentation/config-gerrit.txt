@@ -1936,6 +1936,15 @@ behavior of Gerrit's 'receive-pack' mechanism.
   maxObjectSizeLimit = 40 m
 ----
 
+[[receive.checkMagicRefs]]receive.checkMagicRefs::
++
+If set to true, Gerrit will verify the destination repository has
+no references under the magic refs/drafts, refs/for, or refs/publish
+branch namespaces. Names under these locations confuse clients when
+trying to upload code reviews.
++
+Default is true.
+
 [[receive.checkReferencedObjectsAreReachable]]receive.checkReferencedObjectsAreReachable::
 +
 If set to true, Gerrit will validate that all referenced objects that

@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "QYcGwQh0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T14:22:39Z",
+      "side": 1,
+      "message": "Do you want something like \"preference\" in diff view?\nOr ther ideas welcome share!",
+      "parentUuid": "QYYG-Gu4",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QO.ebwrI",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

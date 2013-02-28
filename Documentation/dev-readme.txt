@@ -80,6 +80,27 @@ through the web interface:
 Testing
 -------
 
+[[run-acceptance-tests]]
+Running the Acceptance Tests
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Gerrit has a set of integration tests that test the Gerrit daemon via
+REST, SSH and the git protocol.
+
+A new review site is created for each test and the Gerrit daemon is
+started on that site. When the test has finished the Gerrit daemon is
+shutdown.
+
+Since the acceptance tests are too expensive to run every time
+Gerrit is built, they are only executed during the Maven verify phase
+if the Maven profile `acceptance` is enabled.
+
+To execute the acceptance tests run:
+
+----
+  mvn clean verify -Pacceptance
+----
+
 Running the Daemon
 ~~~~~~~~~~~~~~~~~~
 

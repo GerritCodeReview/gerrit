@@ -96,7 +96,7 @@ public class AccountCreator {
       accountCache.evictByUsername(username);
       byEmailCache.evict(email);
 
-      return new TestAccount(username, email, fullName, sshKey, httpPass);
+      return new TestAccount(id, username, email, fullName, sshKey, httpPass);
     } finally {
       db.close();
     }

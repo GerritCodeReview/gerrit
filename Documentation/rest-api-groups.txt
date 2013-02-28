@@ -332,6 +332,8 @@ As response the new group description is returned.
   "The committers of MyProject."
 ----
 
+If the description was deleted the response is "`204 No Content`".
+
 [[delete-group-description]]
 DELETE /groups/\{group-id\}/description (Delete Group Description)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

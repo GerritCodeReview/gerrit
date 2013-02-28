@@ -57,13 +57,11 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public Response<String> apply(ProjectResource resource, Input input)
+  public Object apply(ProjectResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
       ResourceNotFoundException, IOException {
-    boolean delete = false;
     if (input == null) {
       input = new Input(); // Delete would set description to null.
-      delete = true;
     }
 
     ProjectControl ctl = resource.getControl();
@@ -93,10 +91,9 @@ class PutDescription implements RestModifyView<ProjectResource, Input> {
             resource.getNameKey(),
             project.getDescription());
 
-        if (delete) {
-          return Response.none();
-        }
-        return Response.ok(Strings.nullToEmpty(project.getDescription()));
+        return Strings.isNullOrEmpty(project.getDescription())
+            ? Response.none()
+            : project.getDescription();
       } finally {
         md.close();
       }

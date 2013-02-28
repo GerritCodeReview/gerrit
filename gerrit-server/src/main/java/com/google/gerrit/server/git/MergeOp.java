@@ -836,8 +836,10 @@ public class MergeOp {
           m.append(missingCommit.patchsetId.get());
           m.append(" of ");
           m.append(missingCommit.change.getKey().abbreviate());
-          m.append(", however the current patch set is ");
-          m.append(missingCommit.change.currentPatchSetId().get());
+          if (missingCommit.patchsetId.get() != missingCommit.change.currentPatchSetId().get()) {
+            m.append(", however the current patch set is ");
+            m.append(missingCommit.change.currentPatchSetId().get());
+          }
           m.append(".\n");
 
         } else {

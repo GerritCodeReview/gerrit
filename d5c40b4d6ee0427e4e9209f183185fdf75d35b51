@@ -16,6 +16,24 @@
       "revId": "d5c40b4d6ee0427e4e9209f183185fdf75d35b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QctA6vNI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-02-28T06:31:29Z",
+      "side": 1,
+      "message": "Yes, it was supposed to be get. Thanks for fixing!",
+      "parentUuid": "QYWGVtoE",
+      "revId": "d5c40b4d6ee0427e4e9209f183185fdf75d35b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

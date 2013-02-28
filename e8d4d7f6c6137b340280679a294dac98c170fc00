@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "QYaE6XqM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-28T17:40:51Z",
+      "side": 1,
+      "message": "There are lots of things in Gerrit where the user sets their preference. Diff is certainly one, as are all the Settings-\u003ePreferences for users.\n\nI think making a feature that lets reviewers individually indicate the criteria for when reviews are highlighted to them would be good.",
+      "parentUuid": "QYcGwQh0",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QO.ebwrI",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

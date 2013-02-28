@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "QYYEVWks",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T00:07:26Z",
+      "side": 1,
+      "message": "FYI I am dropping refs/@ and just using % in refs/for/",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QU2-jESk",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -13,6 +30,24 @@
       "writtenOn": "2013-02-26T08:29:17Z",
       "side": 1,
       "message": "s|by /|by ,",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYWEQVlo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T00:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QU2-jESk",
       "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -36,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "QYcEmgsU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T00:07:26Z",
+      "side": 1,
+      "message": "Outdated, I am apparently keeping refs/for/.",
+      "parentUuid": "QU.-W4UE",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QU6-M2bM",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -47,6 +100,24 @@
       "writtenOn": "2013-02-26T08:29:17Z",
       "side": 1,
       "message": "What if \u0027--publish\u0027 comes before \u0027--draft\u0027? Wouldn\u0027t be both of them true then?",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYeEjhrI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T00:07:26Z",
+      "side": 1,
+      "message": "Just like on the command line options are parsed left to right. If you send \"%publish,draft\" draft will win, or for \"%draft,publish\" publish will win.",
+      "parentUuid": "QU6-M2bM",
       "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "QYUFCclI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T00:07:26Z",
+      "side": 1,
+      "message": "Irrelevant. If the user supplies \"refs/for/refs/drafts/master\" this will set draft \u003d false because they didn\u0027t use refs/drafts/, the y used refs/for/. And then later we\u0027ll fail because there is no branch named \"refs/drafts/master\". Unless there really is such a branch. But that should have failed in MagicBranch.checkMagicBranchRefs() and prevented an upload from even starting.",
+      "parentUuid": "QU4-JFaQ",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QU8-THVA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -87,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "QYWFHdmE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T00:07:26Z",
+      "side": 1,
+      "message": "Irrelevant, we are apparently keeping refs/for/.",
+      "parentUuid": "QU8-THVA",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QU0-ozQM",
         "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
         "patchSetId": 4
@@ -98,6 +205,24 @@
       "writtenOn": "2013-02-26T08:29:17Z",
       "side": 1,
       "message": "[optional] remove this line, it\u0027s the same as below",
+      "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYaEpfpg",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-02-28T00:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QU0-ozQM",
       "revId": "ea630d63f5f71f99cfcca2abbf34c9eada507367",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

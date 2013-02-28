@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QcjB3iKE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-28T10:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QYQFPim0",
+      "revId": "4b132c03798ef5aa441bd7c06c3b68ceab265a88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QYIL.OvE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-28T00:34:22Z",
       "side": 1,
       "message": "This 6-line comment seems excessively verbose if we want to say it on every call to new TreeMap. Can we think of a way to shorten it? Perhaps:\n\n  // Don\u0027t use Maps.newTreeMap due to OpenJDK bug 100167.\n\nFor whatever reason Googling [openjdk bug 100167] doesn\u0027t find the actual OpenJDK bug page but it does find the Guava bug referring specifically to Maps.newTreeMap, which is good enough for me.",
+      "revId": "4b132c03798ef5aa441bd7c06c3b68ceab265a88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QchByhLA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-02-28T10:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QYIL.OvE",
       "revId": "4b132c03798ef5aa441bd7c06c3b68ceab265a88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -71,8 +71,7 @@ public class Reviewers implements
         if (matches.size() != 1) {
           return null;
         }
-        AccountState a =
-            accountCache.getIfPresent(Iterables.getOnlyElement(matches));
+        AccountState a = accountCache.get(Iterables.getOnlyElement(matches));
         return a != null ? a.getAccount().getId() : null;
       }
     }

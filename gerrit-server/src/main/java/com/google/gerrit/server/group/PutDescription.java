@@ -47,13 +47,11 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
   }
 
   @Override
-  public Response<String> apply(GroupResource resource, Input input)
+  public Object apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException, NoSuchGroupException,
       ResourceNotFoundException, OrmException {
-    boolean delete = false;
     if (input == null) {
       input = new Input(); // Delete would set description to null.
-      delete = true;
     }
 
     if (resource.toAccountGroup() == null) {
@@ -72,9 +70,8 @@ public class PutDescription implements RestModifyView<GroupResource, Input> {
     db.accountGroups().update(Collections.singleton(group));
     groupCache.evict(group);
 
-    if (delete) {
-      return Response.none();
-    }
-    return Response.ok(Strings.nullToEmpty(input.description));
+    return Strings.isNullOrEmpty(input.description)
+        ? Response.none()
+        : input.description;
   }
 }

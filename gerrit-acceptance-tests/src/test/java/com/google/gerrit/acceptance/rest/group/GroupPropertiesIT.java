@@ -126,6 +126,14 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
     adminGroup = groupCache.get(adminGroupName);
     assertNull(adminGroup.getDescription());
+
+    // set description to empty string
+    in = new GroupDescriptionInput();
+    in.description = "";
+    r = session.put(url, in);
+    assertEquals(HttpStatus.SC_NO_CONTENT, r.getStatusCode());
+    adminGroup = groupCache.get(adminGroupName);
+    assertNull(adminGroup.getDescription());
   }
 
   @Test

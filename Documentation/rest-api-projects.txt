@@ -147,6 +147,8 @@ As response the new project description is returned.
   "Plugin for Gerrit that handles the replication."
 ----
 
+If the description was deleted the response is "`204 No Content`".
+
 [[delete-project-description]]
 DELETE /projects/\{project-name\}/description (Delete Project Description)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

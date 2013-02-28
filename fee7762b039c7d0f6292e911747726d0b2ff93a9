@@ -69,6 +69,24 @@
       "revId": "fee7762b039c7d0f6292e911747726d0b2ff93a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QctDWPEI",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-02-28T20:56:01Z",
+      "side": 1,
+      "message": "In our gerrit-buildbot-plugin we vote programatically from plugin\u0027s ssh command, by looking for ApprovalType VRIF and creating the approval for that category by using\n\n PublishComments.Factory\n\nI am aware that it was replaced; i already migrated it on master branch, i just would like to understand if we have a further problem here or not:\n\n https://github.com/davido/gerrit-buildbot-plugin/blob/buildbot-2.5-plugin/src/main/java/org/libreoffice/ci/gerrit/buildbot/commands/PutCommand.java",
+      "parentUuid": "QYIJMeoU",
+      "revId": "fee7762b039c7d0f6292e911747726d0b2ff93a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

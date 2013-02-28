@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "QchDv5EA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T01:51:57Z",
+      "side": 1,
+      "message": "according to here line 15~16\n \"once reviewer\u0027s approve types can meet [[value \u003e\u003d threshold]], the  \n change will not become bold\n \" so you can configure  easily like\n\n approveTypeThreshold\n   VRIF \u003d  2\n   CRVW \u003d  4\n\nis this commit message not clear to read :)",
+      "parentUuid": "QWYkmOcQ",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QO.ebwrI",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

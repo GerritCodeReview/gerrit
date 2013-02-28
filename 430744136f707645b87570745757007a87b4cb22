@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "QcnAVkEg",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T02:41:32Z",
+      "side": 1,
+      "message": "should Gerrrit have the responsibility to teach user how to set up Gerrit with Tomcat , Jboss, Weblogic , Webshpere .....\n\nif not, I hope reallocate this article to a right place, e.g.   wiki \nhttp://code.google.com/p/gerrit/w/list",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWSk9jdE",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -231,6 +248,40 @@
     },
     {
       "key": {
+        "uuid": "QctAMfEs",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T02:41:32Z",
+      "side": 1,
+      "message": "Database name [reviewdb]:\u003cdb name\u003e",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QcvAJgDg",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T02:41:32Z",
+      "side": 1,
+      "message": "Database username [Administrator]: \u003cdb user name\u003e",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWalXvQc",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -259,6 +310,108 @@
       "writtenOn": "2013-02-27T18:34:45Z",
       "side": 1,
       "message": "Might want to use --add here to be explicit.",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QclAQjFk",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T02:41:32Z",
+      "side": 1,
+      "message": "this is not that we must to do, as least I have not do this work before get my Gerrit running with tomcat.\n so we need give some explain about when we need and when we need not to do this work.",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QchAWBFk",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T02:41:32Z",
+      "side": 1,
+      "message": "I use tomcat 7.0.37 and find there is not ROOT.xml under $tomcat/conf/Catalina/localhost by default",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QcjAbCII",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T02:41:32Z",
+      "side": 1,
+      "message": "--what is the meaning of $TOMCAT here  as I find line 422 is  tomcat/...\n\n\n--I find error\n $ pwd\n /home/CORPUSERS/28850272/Downloads/apache-tomcat-7.0.37\n $ java -jar webapps/ROOT.war cat extra/tomcat/postgresql-ROOT.xml conf/Catalina/localhost/ROOT.xml\n fatal: Too many arguments: conf/Catalina/localhost/ROOT.xml\n $ java -jar webapps/ROOT.war cat extra/tomcat/postgresql-ROOT.xml \u003e  conf/Catalina/localhost/ROOT.xml\n error: no such file extra/tomcat/postgresql-ROOT.xml\n $",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QcpAC9BQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T02:41:32Z",
+      "side": 1,
+      "message": "username\u003d\"\u003cdb user name\u003e\"",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QcrD-.Os",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T02:41:32Z",
+      "side": 1,
+      "message": "password\u003d\"\u003cpassword\u003e\"",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QcnD.cPQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-02-28T02:41:32Z",
+      "side": 1,
+      "message": "url\u003d\"jdbc:postgresql://yourPsqlServer:\u003cdb server port\u003e/\u003cdb name\u003e\"",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

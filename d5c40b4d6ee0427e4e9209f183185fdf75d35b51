@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QYWGVtoE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-02-28T03:27:35Z",
+      "side": 1,
+      "message": "Did you mean accountCache.get? I think this may be breaking gerrit-review.googlesource.com at head: try adding a reviewer who is not in the cache (e.g. someone whose name you don\u0027t recognize or you don\u0027t think has logged in anytime recently) and it 404s.",
+      "revId": "d5c40b4d6ee0427e4e9209f183185fdf75d35b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

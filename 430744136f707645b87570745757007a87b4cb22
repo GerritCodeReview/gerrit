@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "QYSFOTkg",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-28T20:15:56Z",
+      "side": 1,
+      "message": "\u003e This is a guide for the unexperienced that want to set up Gerrit on their own server.\n\nIsn\u0027t that what the simple guide is? Also, that assertion seems to directly contradict line 4:\n\n This guide is tailored to larger deployment scenarios typical of an enterprise environment.\n\nUntil this guide has an agreed upon focus, it really shouldn\u0027t be merged.",
+      "parentUuid": "QcVH5dAk",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWQlCSVE",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -296,6 +314,24 @@
       "side": 1,
       "message": "What I mean is, that should be moved into a different patchset. There\u0027s enough here to deal with already.",
       "parentUuid": "QYaECXhQ",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYeFEZio",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-28T20:15:56Z",
+      "side": 1,
+      "message": "Yes, another patchset. Not another change as a follow-up.",
+      "parentUuid": "Qcw-vxUA",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -573,6 +609,24 @@
       "side": 1,
       "message": "Refactoring later doesn\u0027t mean we\u0027re dropping the ball just as every recommendation/user-story doesn\u0027t need to make it in the 1st release. It\u0027s just not necessary to make every change recommended to provide a general install doc. If you feel strongly about adding more to the install doc, I see no reason why the change can\u0027t be vetted later. This has been going on a long time. I think it\u0027s great many developers feel passionately  about the Gerrit project, but it would be nice to get something out there for users to reference.",
       "parentUuid": "QYcH-Yus",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QYQFCKhs",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-02-28T20:15:56Z",
+      "side": 1,
+      "message": "This is out there for users to reference. There\u0027s a link to this page. It\u0027s not merged because it\u0027s not done, there\u0027s nothing wrong with that. Because it\u0027s still not merged, it\u0027s clear to users that there may still be issues. If it were merged, then the expectation would be that the doc is correct and the project has given it its blessing.\n\nAnother reason not to add it later is that it requires the maintainers of Gerrit to trust that someone will do that. Why merge it before it\u0027s done?",
+      "parentUuid": "Qcy-0iRI",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

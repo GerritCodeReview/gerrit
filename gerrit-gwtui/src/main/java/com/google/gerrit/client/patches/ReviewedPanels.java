@@ -40,23 +40,24 @@ public class ReviewedPanels {
   public final FlowPanel top;
   public final FlowPanel bottom;
 
-  private final Patch.Key patchKey;
-  private final PatchTable fileList;
-  private final InlineHyperlink reviewedLink;
+  private Patch.Key patchKey;
+  private PatchTable fileList;
+  private InlineHyperlink reviewedLink;
   private CheckBox checkBoxTop;
   private CheckBox checkBoxBottom;
 
-  public ReviewedPanels(final Patch.Key patchKey, final PatchTable fileList,
-      final int patchIndex, final PatchScreen.Type patchScreenType) {
-    this.patchKey = patchKey;
-    this.fileList = fileList;
-    this.reviewedLink = createReviewedLink(patchIndex, patchScreenType);
+  public ReviewedPanels() {
     this.top = new FlowPanel();
     this.bottom = new FlowPanel();
     this.bottom.setStyleName(Gerrit.RESOURCES.css().reviewedPanelBottom());
   }
 
-  public void populate() {
+  public void populate(Patch.Key pk, PatchTable pt, int patchIndex,
+      PatchScreen.Type patchScreenType) {
+    patchKey = pk;
+    fileList = pt;
+    reviewedLink = createReviewedLink(patchIndex, patchScreenType);
+
     top.clear();
     checkBoxTop = createReviewedCheckbox();
     top.add(checkBoxTop);

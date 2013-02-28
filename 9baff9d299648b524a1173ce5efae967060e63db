@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QYSFkjvk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-02-28T00:16:28Z",
+      "side": 1,
+      "message": "Could be slightly more optimised by changing the order of the conditions so that the more frequently occurring ones are first?",
+      "revId": "9baff9d299648b524a1173ce5efae967060e63db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -284,6 +284,24 @@
     },
     {
       "key": {
+        "uuid": "Qcw-vxUA",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-02-28T19:57:47Z",
+      "side": 1,
+      "message": "What I mean is, that should be moved into a different patchset. There\u0027s enough here to deal with already.",
+      "parentUuid": "QYaECXhQ",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QctAMfEs",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 12
@@ -537,6 +555,24 @@
       "side": 1,
       "message": "See my comments on refactoring above.",
       "parentUuid": "QTzM96NE",
+      "revId": "430744136f707645b87570745757007a87b4cb22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qcy-0iRI",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2013-02-28T19:57:47Z",
+      "side": 1,
+      "message": "Refactoring later doesn\u0027t mean we\u0027re dropping the ball just as every recommendation/user-story doesn\u0027t need to make it in the 1st release. It\u0027s just not necessary to make every change recommended to provide a general install doc. If you feel strongly about adding more to the install doc, I see no reason why the change can\u0027t be vetted later. This has been going on a long time. I think it\u0027s great many developers feel passionately  about the Gerrit project, but it would be nice to get something out there for users to reference.",
+      "parentUuid": "QYcH-Yus",
       "revId": "430744136f707645b87570745757007a87b4cb22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

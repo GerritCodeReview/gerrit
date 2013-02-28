@@ -66,6 +66,32 @@ public class LabelType {
     return abbr.toString();
   }
 
+  private static List<LabelValue> sortValues(List<LabelValue> values) {
+    values = new ArrayList<LabelValue>(values);
+    if (values.size() <= 1) {
+      return Collections.unmodifiableList(values);
+    }
+    Collections.sort(values, new Comparator<LabelValue>() {
+      public int compare(LabelValue o1, LabelValue o2) {
+        return o1.getValue() - o2.getValue();
+      }
+    });
+    short min = values.get(0).getValue();
+    short max = values.get(values.size() - 1).getValue();
+    short v = min;
+    short i = 0;
+    List<LabelValue> result = new ArrayList<LabelValue>(max - min + 1);
+    // Fill in any missing values with empty text.
+    while (i < values.size()) {
+      while (v < values.get(i).getValue()) {
+        result.add(new LabelValue(v++, ""));
+      }
+      v++;
+      result.add(values.get(i++));
+    }
+    return Collections.unmodifiableList(result);
+  }
+
   protected String name;
 
   protected String abbreviatedName;
@@ -85,12 +111,7 @@ public class LabelType {
 
   public LabelType(String name, List<LabelValue> valueList) {
     this.name = checkName(name);
-    values = new ArrayList<LabelValue>(valueList);
-    Collections.sort(values, new Comparator<LabelValue>() {
-      public int compare(LabelValue o1, LabelValue o2) {
-        return o1.getValue() - o2.getValue();
-      }
-    });
+    values = sortValues(valueList);
 
     abbreviatedName = defaultAbbreviation(name);
     functionName = "MaxWithBlock";

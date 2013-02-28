@@ -49,8 +49,11 @@ public class LabelValue {
   }
 
   public String format() {
-    return new StringBuilder().append(formatValue())
-        .append(' ').append(text).toString();
+    StringBuilder sb = new StringBuilder(formatValue());
+    if (!text.isEmpty()) {
+      sb.append(' ').append(text);
+    }
+    return sb.toString();
   }
 
   @Override

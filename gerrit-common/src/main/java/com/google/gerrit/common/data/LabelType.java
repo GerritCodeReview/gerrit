@@ -251,7 +251,7 @@ public class LabelType {
   }
 
   public LabelId getLabelId() {
-    return new LabelId(id != null ? id : name);
+    return new LabelId(name);
   }
 
   @Override

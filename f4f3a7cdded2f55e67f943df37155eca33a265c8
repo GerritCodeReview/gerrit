@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QlK5r97g",
+        "filename": "ReleaseNotes/ReleaseNotes-2.0.19.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-01T18:27:31Z",
+      "side": 1,
+      "message": "?",
+      "revId": "f4f3a7cdded2f55e67f943df37155eca33a265c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

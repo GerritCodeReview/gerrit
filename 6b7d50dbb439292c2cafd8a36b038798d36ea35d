@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QlO5x-6w",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-01T15:37:40Z",
+      "side": 1,
+      "message": "But it does have an effect on searching by label. At the moment you can find all approved changes by \u0027label:CodeReview\u003d2\u0027, after this change the query must be adapted to \u0027label:Code-Review\u003d2\u0027.\n\nE.g. users could have bookmarks for queries that they now need to adapt.\n\nCould we support the old label names for queries to be backwards compatible? At least we should adapt the search documentation to the new label names [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-search.html#labels",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QlG6fT6I",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ApprovalTypes.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-01T15:37:40Z",
+      "side": 1,
+      "message": "[optional] Should we specify the Locale here?\n\n  t.getName().toLowerCase(Locale.US)",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QlE6ck6s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-01T15:37:40Z",
+      "side": 1,
+      "message": "[optional]\nWhy not\n  ApprovalCategory.Id catId \u003d allTypes.get(allTypes.size() - 1).getApprovalCategoryId();\n?",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QlC6pR80",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-01T15:37:40Z",
+      "side": 1,
+      "message": "[optional]\nWhy not\n  this.addReviewerCategoryId \u003d Iterables.getLast(approvalTypes.getApprovalTypes()).getApprovalCategoryId();\n?",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QlA6mi-s",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-01T15:37:40Z",
+      "side": 1,
+      "message": "[optional] specify Locale",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Qe0fjbig",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-01T19:18:37Z",
+      "side": 1,
+      "message": "Could just be new AccountLink(account), that constructor does exist.",
+      "revId": "31c96a514c1c1c377a3409f6e93257a2510a47ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QeyfeemE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-01T19:18:37Z",
+      "side": 1,
+      "message": "I would kind of be inclined to put this branch first, unless you\u0027re preferring readability of the query string over accuracy (e.g. in the presence of different users with the same full name).",
+      "revId": "31c96a514c1c1c377a3409f6e93257a2510a47ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -99,8 +99,8 @@ public class MembersCollection implements
   public static MemberInfo parse(Account account) {
     MemberInfo accountInfo = new MemberInfo();
     accountInfo.setId(account.getId());
-    accountInfo.fullName = account.getFullName();
-    accountInfo.preferredEmail = account.getPreferredEmail();
+    accountInfo.name = account.getFullName();
+    accountInfo.email = account.getPreferredEmail();
     accountInfo.userName = account.getUserName();
     return accountInfo;
   }
@@ -108,15 +108,15 @@ public class MembersCollection implements
   static class MemberInfo {
     final String kind = "gerritcodereview#member";
 
-    String fullName;
+    String name;
     String id;
-    int accountId;
-    String preferredEmail;
+    int _accountId;
+    String email;
     String userName;
 
     void setId(Account.Id i) {
-      accountId = i.get();
-      id = Url.encode(Integer.toString(accountId));
+      _accountId = i.get();
+      id = Url.encode(Integer.toString(_accountId));
     }
   }
 }

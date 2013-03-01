@@ -1096,10 +1096,10 @@ member of a group.
 |Field Name        ||Description
 |`kind`            ||`gerritcodereview#member`
 |`id`              ||The URL encoded ID of the account.
-|`account_id`      ||The numeric ID of the account.
-|`full_name`       |optional|
+|`_account_id`     ||The numeric ID of the account.
+|`name`            |optional|
 The full name of the user ("Given-name Surname" style).
-|`preferred_email` |optional|
+|`email`           |optional|
 The email address the user prefers to be contacted through.
 |`user_name`       ||The user name.
 |===============================

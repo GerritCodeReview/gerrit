@@ -75,8 +75,8 @@ public class ListMembers implements RestReadView<GroupResource> {
       @Override
       public int compare(MemberInfo a, MemberInfo b) {
         return ComparisonChain.start()
-            .compare(a.fullName, b.fullName, Ordering.natural().nullsFirst())
-            .compare(a.preferredEmail, b.preferredEmail, Ordering.natural().nullsFirst())
+            .compare(a.name, b.name, Ordering.natural().nullsFirst())
+            .compare(a.email, b.email, Ordering.natural().nullsFirst())
             .compare(a.id, b.id, Ordering.natural().nullsFirst()).result();
       }
     });

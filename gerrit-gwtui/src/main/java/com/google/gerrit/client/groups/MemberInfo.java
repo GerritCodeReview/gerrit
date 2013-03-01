@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.groups;
 
+import com.google.gerrit.client.changes.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -22,8 +23,11 @@ public class MemberInfo extends JavaScriptObject {
     return new Account.Id(account_id());
   }
 
-  private final native int account_id() /*-{ return this.account_id; }-*/;
+  public final AccountInfo asAccountInfo() {
+    return AccountInfo.create(account_id(), fullName(), preferredEmail());
+  }
 
+  private final native int account_id() /*-{ return this.account_id || 0; }-*/;
   public final native String fullName() /*-{ return this.full_name; }-*/;
   public final native String preferredEmail() /*-{ return this.preferred_email; }-*/;
 

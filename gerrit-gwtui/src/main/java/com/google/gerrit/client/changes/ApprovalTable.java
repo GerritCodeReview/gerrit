@@ -26,15 +26,15 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.AddMemberBox;
-import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ReviewerSuggestOracle;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -335,8 +335,7 @@ public class ApprovalTable extends Composite {
     final CellFormatter fmt = table.getCellFormatter();
     int col = 0;
 
-    table.setWidget(row, col++, new InlineHyperlink(account.name(),
-        PageLinks.toAccountQuery(account.name())));
+    table.setWidget(row, col++, new AccountLink(account, Change.Status.NEW));
     rows.put(account._account_id(), row);
 
     if (ad.canRemove()) {

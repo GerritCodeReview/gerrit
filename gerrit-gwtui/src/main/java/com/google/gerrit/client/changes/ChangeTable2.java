@@ -18,9 +18,9 @@ import static com.google.gerrit.client.FormatUtil.shortFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
-import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectLink;
@@ -196,13 +196,11 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
     table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
 
-    String owner = "";
-    if (c.owner() != null && c.owner().name() != null) {
-      owner = c.owner().name();
+    if (c.owner() != null) {
+      table.setWidget(row, C_OWNER, new AccountLink(c.owner(), status));
+    } else {
+      table.setText(row, C_OWNER, "");
     }
-
-    table.setWidget(row, C_OWNER, new InlineHyperlink(owner,
-        PageLinks.toAccountQuery(owner, c.status())));
 
     table.setWidget(
         row, C_PROJECT, new ProjectLink(c.project_name_key(), c.status()));

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Qe2dxUqg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-01T18:40:21Z",
+      "side": 1,
+      "message": "I\u0027m fine with this as a quick fix, but IMHO this should be factored out so the same logic can be used in ChangeTable2. I see that right now in ChangeTable2.populateChangeRow it uses an empty string for the owner (and hence an empty--but still existing--hyperlink). This behavior seems better.",
+      "revId": "a9417f2914baf126cf17d150cd534e2c41fe09a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

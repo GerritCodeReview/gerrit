@@ -16,46 +16,51 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.groups.MemberInfo;
+import com.google.gerrit.client.changes.AccountInfo;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.UserIdentity;
 
 /** Link to any user's account dashboard. */
 public class AccountLink extends InlineHyperlink {
   /** Create a link after locating account details from an active cache. */
-  public static AccountLink link(final AccountInfoCache cache,
-      final Account.Id id) {
-    final AccountInfo ai = cache.get(id);
+  public static AccountLink link(AccountInfoCache cache, Account.Id id) {
+    com.google.gerrit.common.data.AccountInfo ai = cache.get(id);
     return ai != null ? new AccountLink(ai) : null;
   }
 
-  public AccountLink(final AccountInfo ai) {
-    super(FormatUtil.name(ai), PageLinks.toAccountQuery(owner(ai)));
-    setTitle(FormatUtil.nameEmail(ai));
+  public AccountLink(com.google.gerrit.common.data.AccountInfo ai) {
+    this(FormatUtil.asInfo(ai));
   }
 
-  public AccountLink(final MemberInfo i) {
-    this(new AccountInfo(i.getAccountId()) {
-      @Override
-      public String getFullName() {
-        return i.fullName();
-      }
-      @Override
-      public String getPreferredEmail() {
-        return i.preferredEmail();
-      }
-    });
+  public AccountLink(UserIdentity ident) {
+    this(AccountInfo.create(
+        ident.getAccount().get(),
+        ident.getName(),
+        ident.getEmail()));
+  }
+
+  public AccountLink(AccountInfo info) {
+    this(info, Change.Status.NEW);
+  }
+
+  public AccountLink(AccountInfo info, Change.Status status) {
+    super(FormatUtil.name(info), PageLinks.toAccountQuery(owner(info), status));
+    setTitle(FormatUtil.nameEmail(info));
   }
 
   private static String owner(AccountInfo ai) {
-    if (ai.getPreferredEmail() != null) {
-      return ai.getPreferredEmail();
-    } else if (ai.getFullName() != null) {
-      return ai.getFullName();
+    if (ai.email() != null) {
+      return ai.email();
+    } else if (ai.name() != null) {
+      return ai.name();
+    } else if (ai._account_id() != 0) {
+      return "" + ai._account_id();
+    } else {
+      return "";
     }
-    return "" + ai.getId().get();
   }
 
   @Override

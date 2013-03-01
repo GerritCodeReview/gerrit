@@ -66,10 +66,6 @@ public class PageLinks {
     return "/admin/projects/" + p.get() + ",access";
   }
 
-  public static String toAccountQuery(final String fullname) {
-    return toAccountQuery(fullname, Status.NEW);
-  }
-
   public static String toAccountQuery(String fullname, Status status) {
     return toChangeQuery(op("owner", fullname) + " " + status(status), TOP);
   }

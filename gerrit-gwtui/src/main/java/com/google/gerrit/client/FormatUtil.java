@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.client.changes.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -120,8 +120,13 @@ public class FormatUtil {
   }
 
   /** Format an account as a name and email address. */
-  public static String nameEmail(final Account acct) {
-    return nameEmail(new AccountInfo(acct));
+  public static String nameEmail(Account acct) {
+    return nameEmail(asInfo(acct));
+  }
+
+  @Deprecated
+  public static String nameEmail(com.google.gerrit.common.data.AccountInfo acct) {
+    return nameEmail(asInfo(acct));
   }
 
   /**
@@ -135,22 +140,17 @@ public class FormatUtil {
    * <li><code>Anonymous Coward (12)</code>: missing name and email address</li>
    * </ul>
    */
-  public static String nameEmail(final AccountInfo acct) {
-    String name = acct.getFullName();
+  public static String nameEmail(AccountInfo info) {
+    String name = info.name();
     if (name == null) {
       name = Gerrit.getConfig().getAnonymousCowardName();
     }
 
-    final StringBuilder b = new StringBuilder();
-    b.append(name);
-    if (acct.getPreferredEmail() != null) {
-      b.append(" <");
-      b.append(acct.getPreferredEmail());
-      b.append(">");
-    } else if (acct.getId() != null) {
-      b.append(" (");
-      b.append(acct.getId().get());
-      b.append(")");
+    StringBuilder b = new StringBuilder().append(name);
+    if (info.email() != null) {
+      b.append(" <").append(info.email()).append(">");
+    } else if (info._account_id() > 0) {
+      b.append(" (").append(info._account_id()).append(")");
     }
     return b.toString();
   }
@@ -161,8 +161,13 @@ public class FormatUtil {
    * If the account has a full name, it returns only the full name. Otherwise it
    * returns a longer form that includes the email address.
    */
-  public static String name(final Account acct) {
-    return name(new AccountInfo(acct));
+  public static String name(Account acct) {
+    return name(asInfo(acct));
+  }
+
+  @Deprecated
+  public static String name(com.google.gerrit.common.data.AccountInfo acct) {
+    return name(asInfo(acct));
   }
 
   /**
@@ -171,13 +176,29 @@ public class FormatUtil {
    * If the account has a full name, it returns only the full name. Otherwise it
    * returns a longer form that includes the email address.
    */
-  public static String name(final AccountInfo ai) {
-    if (ai.getFullName() != null) {
-      return ai.getFullName();
+  public static String name(AccountInfo ai) {
+    if (ai.name() != null) {
+      return ai.name();
     }
-    if (ai.getPreferredEmail() != null) {
-      return ai.getPreferredEmail();
+    String email = ai.email();
+    if (email != null) {
+      int at = email.indexOf('@');
+      return 0 < at ? email.substring(0, at) : email;
     }
     return nameEmail(ai);
+  }
+
+  private static AccountInfo asInfo(Account acct) {
+    return AccountInfo.create(
+        acct.getId().get(),
+        acct.getFullName(),
+        acct.getPreferredEmail());
+  }
+
+  public static AccountInfo asInfo(com.google.gerrit.common.data.AccountInfo acct) {
+    return AccountInfo.create(
+        acct.getId().get(),
+        acct.getFullName(),
+        acct.getPreferredEmail());
   }
 }

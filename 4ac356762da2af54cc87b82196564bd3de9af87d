@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Qk28qsY0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "is this telling anything more than the subject?",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qk08n7cE",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/TempUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "please copy the license from a newer file :-)",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qky8kqbo",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/TempUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "The name should be more specific, for example:\n\n  TempFileUtil",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qk69GWWI",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/TempUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "please try to follow the same naming pattern as we use for generating folder names for review sites",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qk49LlWw",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ssh/GitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "It is sad that the JGit API needs to be wrapped in order to be used in our tests. But I see why you are doing that.\n\nAll methods that expect an instance of Git as a parameter could define it as the first parameter in order to make the API of this class more consistent.",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qk28xkfc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ssh/GitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "This is the only place in Gerrit where org.parboiled is used.",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qk89BnU4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ssh/GitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "This method only needs a Url (and a name which could be part of that url).",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qkw8h5ao",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ssh/GitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "Looks like you don\u0027t need SshSession here but only a PersonIdent?\n\nFixing the parameter type would also make it clear that this operation has nothing to do with a remote repository.",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qk.88YdY",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ssh/GitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "PersonIdent instead of SshSession?",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qk08uzZc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/ssh/PushForReviewIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-01T10:45:33Z",
+      "side": 1,
+      "message": "many lines in this file seems to be too long",
+      "revId": "4ac356762da2af54cc87b82196564bd3de9af87d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

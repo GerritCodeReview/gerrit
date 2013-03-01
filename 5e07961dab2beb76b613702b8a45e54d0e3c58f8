@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Qk4-91fc",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-03-01T06:59:30Z",
+      "side": 1,
+      "message": "I think it is not that clear what inheritance of labels in that context really mean. Be more implicit here?\n\nThe global list of approval categories that applies to all projects is gone. Projects can add new labels, change labels inherited from `All-Projects`, or even remove inherited labels. For example on the same site project `foo` can have \"Verified\" category and project `bar` not.",
+      "revId": "5e07961dab2beb76b613702b8a45e54d0e3c58f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Qe4cCxhQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-01T00:14:38Z",
+      "side": 1,
+      "message": "This can NPE.  It depends on how the ChangeData was constructed, which you can\u0027t rely on in a predicate.\n\nSee the code you deleted, object.change(dbProvider)... is how you have to get the change.",
+      "revId": "63b749492c2b0f1815986471a6c27ef77556386c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

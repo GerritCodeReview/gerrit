@@ -14,20 +14,24 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.gerrit.reviewdb.client.Account;
+
 import java.io.ByteArrayOutputStream;
 
 import com.jcraft.jsch.KeyPair;
 
 
 public class TestAccount {
-  final String username;
-  final String email;
-  final String fullName;
-  final KeyPair sshKey;
-  final String httpPassword;
+  public final Account.Id id;
+  public final String username;
+  public final String email;
+  public final String fullName;
+  public final KeyPair sshKey;
+  public final String httpPassword;
 
-  TestAccount(String username, String email, String fullName,
+  TestAccount(Account.Id id, String username, String email, String fullName,
       KeyPair sshKey, String httpPassword) {
+    this.id = id;
     this.username = username;
     this.email = email;
     this.fullName = fullName;

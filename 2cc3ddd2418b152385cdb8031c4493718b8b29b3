@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "QlC5SZxc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-03-01T13:43:06Z",
+      "side": 1,
+      "message": "Adding all refs here will kill push performance on gits with many refs.\n\nI tried to fix it here: https://gerrit-review.googlesource.com/#/c/41762/",
+      "revId": "2cc3ddd2418b152385cdb8031c4493718b8b29b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MjfXy.Cs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4

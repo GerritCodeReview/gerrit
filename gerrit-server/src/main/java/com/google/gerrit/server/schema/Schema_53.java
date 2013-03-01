@@ -29,7 +29,6 @@ import static com.google.gerrit.common.data.Permission.SUBMIT;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -44,6 +43,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.schema.Schema_77.LegacyLabelTypes;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -70,7 +70,7 @@ class Schema_53 extends SchemaVersion {
 
   private SystemConfig systemConfig;
   private Map<AccountGroup.Id, GroupReference> groupMap;
-  private LabelTypes labelTypes;
+  private LegacyLabelTypes labelTypes;
   private GroupReference projectOwners;
 
   private Map<Project.NameKey, Project.NameKey> parentsByProject;

@@ -196,13 +196,21 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
     table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
 
-    String owner = "";
-    if (c.owner() != null && c.owner().name() != null) {
-      owner = c.owner().name();
+    if (c.owner() != null
+        && (c.owner().name() != null || c.owner().email() != null)) {
+      String owner = c.owner().name();
+      if (owner == null) {
+        owner = c.owner().email();
+        int at = owner.indexOf('@');
+        if (at > 0) {
+          owner = owner.substring(0, at);
+        }
+      }
+      table.setWidget(row, C_OWNER, new InlineHyperlink(owner,
+          PageLinks.toAccountQuery(owner, c.status())));
+    } else {
+      table.setText(row, C_OWNER, "");
     }
-
-    table.setWidget(row, C_OWNER, new InlineHyperlink(owner,
-        PageLinks.toAccountQuery(owner, c.status())));
 
     table.setWidget(
         row, C_PROJECT, new ProjectLink(c.project_name_key(), c.status()));

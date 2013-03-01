@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -65,7 +69,7 @@ public class Schema_77 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try {
-      LabelTypes labelTypes = getLegacyTypes(db);
+      LegacyLabelTypes labelTypes = getLegacyTypes(db);
       SqlDialect dialect = ((JdbcSchema) db).getDialect();
       if (dialect instanceof DialectH2) {
         alterTable(db, "ALTER TABLE %s ALTER COLUMN %s varchar(255)");
@@ -101,9 +105,9 @@ public class Schema_77 extends SchemaVersion {
     }
   }
 
-  private void migrateLabelsToAllProjects(ReviewDb db, LabelTypes labelTypes)
-      throws SQLException, RepositoryNotFoundException, IOException,
-      ConfigInvalidException {
+  private void migrateLabelsToAllProjects(ReviewDb db,
+      LegacyLabelTypes labelTypes) throws SQLException,
+      RepositoryNotFoundException, IOException, ConfigInvalidException {
     Repository git = mgr.openRepository(allProjects);
 
     try {
@@ -115,7 +119,7 @@ public class Schema_77 extends SchemaVersion {
       ProjectConfig config = ProjectConfig.read(md);
       Map<String, LabelType> configTypes = config.getLabelSections();
       List<LabelType> newTypes = Lists.newArrayList();
-      for (LabelType type : labelTypes.getLabelTypes()) {
+      for (LegacyLabelType type : labelTypes.getLegacyLabelTypes()) {
         // Don't include IDs for this migration, since we are also updating all
         // existing PatchSetApprovals.
         type.setId(null);
@@ -135,12 +139,13 @@ public class Schema_77 extends SchemaVersion {
     }
   }
 
-  private void migratePatchSetApprovals(ReviewDb db, LabelTypes labelTypes)
-      throws SQLException {
+  private void migratePatchSetApprovals(ReviewDb db,
+      LegacyLabelTypes labelTypes) throws SQLException {
     PreparedStatement stmt = ((JdbcSchema) db).getConnection().prepareStatement(
         "UPDATE patch_set_approvals SET category_id = ? WHERE category_id = ?");
     try {
-      for (LabelType type : labelTypes.getLabelTypes()) {
+      for (LegacyLabelType type : labelTypes.getLegacyLabelTypes()) {
+        stmt.clearParameters();
         stmt.setString(1, type.getName());
         stmt.setString(2, type.getId());
         stmt.addBatch();
@@ -151,9 +156,55 @@ public class Schema_77 extends SchemaVersion {
     }
   }
 
-  static LabelTypes getLegacyTypes(ReviewDb db) throws SQLException {
+  static class LegacyLabelType extends LabelType {
+    private String id;
+
+    private LegacyLabelType(String name, List<LabelValue> values) {
+      super(name, values);
+      checkArgument(id.length() <= 4, "Invalid legacy label ID: \"%s\"", id);
+    }
+
+    String getId() {
+      return id;
+    }
+
+    private void setId(String id) {
+      this.id = id;
+    }
+  }
+
+  static class LegacyLabelTypes extends LabelTypes {
+    private final List<LegacyLabelType> legacyTypes;
+
+    private final Map<String, LegacyLabelType> byId;
+
+    private LegacyLabelTypes(List<LegacyLabelType> types) {
+      super(types);
+      legacyTypes = types;
+      byId = Maps.newHashMap();
+      for (LegacyLabelType type : types) {
+        byId.put(type.getId(), type);
+      }
+    }
+
+    List<LegacyLabelType> getLegacyLabelTypes() {
+      return legacyTypes;
+    }
+
+    @Override
+    public LegacyLabelType byLabel(LabelId labelId) {
+      LegacyLabelType t = byId.get(labelId.get());
+      return t != null ? t : (LegacyLabelType) super.byLabel(labelId);
+    }
+
+    LegacyLabelType byId(LabelId id) {
+      return byId.get(id.get());
+    }
+  }
+
+  static LegacyLabelTypes getLegacyTypes(ReviewDb db) throws SQLException {
     Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    List<LabelType> types = Lists.newArrayListWithExpectedSize(2);
+    List<LegacyLabelType> types = Lists.newArrayListWithExpectedSize(2);
     try {
       ResultSet rs = stmt.executeQuery(
           "SELECT approval_categories.category_id,"
@@ -166,7 +217,7 @@ public class Schema_77 extends SchemaVersion {
           + " ORDER BY position, category_name, value");
       try {
         String last = null;
-        LabelType curr = null;
+        LegacyLabelType curr = null;
         List<LabelValue> values = Lists.newArrayListWithCapacity(5);
         while (rs.next()) {
           String id = rs.getString("category_id");
@@ -175,7 +226,8 @@ public class Schema_77 extends SchemaVersion {
               types.add(newLabel(curr, values));
               values.clear();
             }
-            curr = new LabelType(getLabelName(rs.getString("category_name")),
+            curr = new LegacyLabelType(
+                getLabelName(rs.getString("category_name")),
                 ImmutableList.<LabelValue> of());
             curr.setId(id);
             curr.setAbbreviatedName(rs.getString("abbreviated_name"));
@@ -195,11 +247,12 @@ public class Schema_77 extends SchemaVersion {
     } finally {
       stmt.close();
     }
-    return new LabelTypes(types);
+    return new LegacyLabelTypes(types);
   }
 
-  private static LabelType newLabel(LabelType src, List<LabelValue> values) {
-    LabelType label = new LabelType(src.getName(), values);
+  private static LegacyLabelType newLabel(LegacyLabelType src,
+      List<LabelValue> values) {
+    LegacyLabelType label = new LegacyLabelType(src.getName(), values);
     if (src.getId() != null) {
       label.setId(src.getId());
     }

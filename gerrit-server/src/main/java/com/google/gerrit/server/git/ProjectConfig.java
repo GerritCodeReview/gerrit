@@ -109,7 +109,6 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_LOCAL_DEFAULT = "local-default";
 
   private static final String LABEL = "label";
-  private static final String KEY_ID = "id";
   private static final String KEY_ABBREVIATED_NAME = "abbreviatedName";
   private static final String KEY_FUNCTION_NAME = "functionName";
   private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
@@ -561,7 +560,6 @@ public class ProjectConfig extends VersionedMetaData {
             "Invalid label \"%s\"", name)));
         continue;
       }
-      label.setId(rc.getString(LABEL, name, KEY_ID));
       String abbr = rc.getString(LABEL, name, KEY_ABBREVIATED_NAME);
       if (abbr != null) {
         label.setAbbreviatedName(abbr);

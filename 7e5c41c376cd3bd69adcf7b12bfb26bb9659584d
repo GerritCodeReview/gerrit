@@ -16,6 +16,23 @@
       "revId": "7e5c41c376cd3bd69adcf7b12bfb26bb9659584d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QlO6KH2M",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2013-03-01T13:55:59Z",
+      "side": 1,
+      "message": "I\u0027m a bit worried about performance here.\n\nIf I do a label:\"CodeReview\u003d+1~cchapel\" search, and cchapel have only made one CodeReview+1, does this mean we have to scan sequentially over all changes before we can present the search result?\n\nWe have almost half a million changes, so this could be a problem for us.\n\n(My experience in this part of the code is not that big, so please excuse me if I have jumped to the wrong conclusions).",
+      "revId": "7e5c41c376cd3bd69adcf7b12bfb26bb9659584d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -33,6 +33,24 @@
       "revId": "7e5c41c376cd3bd69adcf7b12bfb26bb9659584d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qe0dH7mA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-03-01T16:21:36Z",
+      "side": 1,
+      "message": "You are absolutely correct. This query is not optimized yet. We intend to do that next, but wanted to push this to see if there were strong objections against the syntax we proposed.",
+      "parentUuid": "QlO6KH2M",
+      "revId": "7e5c41c376cd3bd69adcf7b12bfb26bb9659584d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

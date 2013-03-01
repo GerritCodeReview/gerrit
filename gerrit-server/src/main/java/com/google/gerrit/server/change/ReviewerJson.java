@@ -109,6 +109,9 @@ public class ReviewerJson {
     PatchSet ps = cd.currentPatchSet(db);
     if (ps != null) {
       for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true, false)) {
+        if (rec.labels == null) {
+          continue
+        }
         for (SubmitRecord.Label label : rec.labels) {
           String name = label.label;
           if (!out.approvals.containsKey(name)

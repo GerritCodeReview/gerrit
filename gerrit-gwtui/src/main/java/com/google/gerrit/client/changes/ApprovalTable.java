@@ -335,8 +335,17 @@ public class ApprovalTable extends Composite {
     final CellFormatter fmt = table.getCellFormatter();
     int col = 0;
 
-    table.setWidget(row, col++, new InlineHyperlink(account.name(),
-        PageLinks.toAccountQuery(account.name())));
+    String name = account.name();
+    if (name == null) {
+      name = account.email();
+    }
+    if (name != null) {
+      table.setWidget(row, col++, new InlineHyperlink(
+          name,
+          PageLinks.toAccountQuery(name)));
+    } else {
+      table.setText(row, col++, Gerrit.getConfig().getAnonymousCowardName());
+    }
     rows.put(account._account_id(), row);
 
     if (ad.canRemove()) {

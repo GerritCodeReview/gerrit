@@ -153,8 +153,7 @@ public abstract class PatchScreen extends Screen implements
           }
         });
 
-    reviewedPanels =
-        new ReviewedPanels(patchKey, fileList, patchIndex, getPatchScreenType());
+    reviewedPanels = new ReviewedPanels();
     settingsPanel = new PatchScriptSettingsPanel(prefs);
   }
 
@@ -362,7 +361,7 @@ public abstract class PatchScreen extends Screen implements
     final int rpcseq = ++rpcSequence;
     lastScript = null;
     settingsPanel.setEnabled(false);
-    reviewedPanels.populate();
+    reviewedPanels.populate(patchKey, fileList, patchIndex, getPatchScreenType());
     if (isFirst && fileList != null) {
       fileList.movePointerTo(patchKey);
     }

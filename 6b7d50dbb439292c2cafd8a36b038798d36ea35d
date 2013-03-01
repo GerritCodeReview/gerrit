@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Qe0eVLoE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-01T18:27:18Z",
+      "side": 1,
+      "message": "Changed to mention in the commit message. The documentation change is in I43b36870.\n\nShawn said not to worry about this particular backwards compatibility break, but if you feel strongly it\u0027s easy enough to strip out dashes instead of spaces.",
+      "parentUuid": "QlO5x-6w",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QlG6fT6I",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ApprovalTypes.java",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-01T15:37:40Z",
       "side": 1,
       "message": "[optional] Should we specify the Locale here?\n\n  t.getName().toLowerCase(Locale.US)",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qe2eaMrQ",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ApprovalTypes.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-01T18:27:18Z",
+      "side": 1,
+      "message": "Hm. I think if we want to do that we need to do it in a number of other places, e.g. the permissions code uses a lot of permission.getName().toLowerCase() as well. I agree in principle but we should probably fix them all at once.",
+      "parentUuid": "QlG6fT6I",
       "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Qe4eeRqQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-01T18:27:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QlE6ck6s",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QlC6pR80",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 12
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "Qe6ebSrM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-01T18:27:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QlC6pR80",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QlA6mi-s",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 12
@@ -81,6 +153,24 @@
       "writtenOn": "2013-03-01T15:37:40Z",
       "side": 1,
       "message": "[optional] specify Locale",
+      "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qe8eoPss",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-01T18:27:18Z",
+      "side": 1,
+      "message": "See previous comment.",
+      "parentUuid": "QlA6mi-s",
       "revId": "6b7d50dbb439292c2cafd8a36b038798d36ea35d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

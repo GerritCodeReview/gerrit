@@ -33,16 +33,6 @@ public class LabelType {
     return new LabelType(name, values);
   }
 
-  private static String checkId(String id) {
-    if ("SUBM".equals(id)) {
-      throw new IllegalArgumentException("Reserved label ID \"" + id + "\"");
-    }
-    if (id != null && id.length() > 4) {
-      throw new IllegalArgumentException("Illegal label ID \"" + id + "\"");
-    }
-    return id;
-  }
-
   private static String checkName(String name) {
     if ("SUBM".equals(name)) {
       throw new IllegalArgumentException(
@@ -102,7 +92,6 @@ public class LabelType {
   }
 
   protected String name;
-  protected String id;
 
   protected String abbreviatedName;
   protected String functionName;
@@ -143,20 +132,7 @@ public class LabelType {
     return name;
   }
 
-  @Deprecated
-  public String getId() {
-    return id;
-  }
-
-  @Deprecated
-  public void setId(String id) {
-    this.id = checkId(id);
-  }
-
   public boolean matches(PatchSetApproval psa) {
-    if (id != null && psa.getLabelId().get().equals(id)) {
-      return true;
-    }
     return psa.getLabelId().get().equalsIgnoreCase(name);
   }
 

@@ -771,6 +771,7 @@ message is contained in the response body.
   blocked by Verified
 ----
 
+
 [[reviewer-endpoints]]
 Reviewer Endpoints
 ------------------
@@ -1185,6 +1186,93 @@ message is contained in the response body.
   "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
 ----
 
+[[submit-type]]
+GET /changes/\{change-id\}/revisions/\{revision-id\}/submit_type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Gets the method the server will use to submit (merge) the change.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/submit_type HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "MERGE_IF_NECESSARY"
+----
+
+[[test-submit-type]]
+GET /changes/\{change-id\}/revisions/\{revision-id\}/test.submit_type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tests the submit_type Prolog rule in the project, or the one given.
+
+Request body may be either the Prolog code as `text/plain` or a
+link:#rule-input[RuleInput] object. The query parameter `filters`
+may be set to `SKIP` to bypass parent project filters while testing
+a project-specific rule.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/test.submit_type HTTP/1.0
+  Content-Type: text/plain;charset-UTF-8
+
+  submit_type(cherry_pick).
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "cherry_pick"
+----
+
+[[test-submit-rule]]
+GET /changes/\{change-id\}/revisions/\{revision-id\}/test.submit_rule
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tests the submit_rule Prolog rule in the project, or the one given.
+
+Request body may be either the Prolog code as `text/plain` or a
+link:#rule-input[RuleInput] object. The query parameter `filters`
+may be set to `SKIP` to bypass parent project filters while testing
+a project-specific rule.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/test.submit_type?filters=SKIP HTTP/1.0
+  Content-Type: text/plain;charset-UTF-8
+
+  submit_rule(submit(R)) :-
+    R = label('Any-Label-Name', reject(_)).
+----
+
+The response is a list of link:#submit-record[SubmitRecord] entries
+describing the permutations that satisfy the tested submit rule.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "status": "NOT_READY",
+      "reject": {
+        "Any-Label-Name": {}
+      }
+    }
+  ]
+----
+
 [[list-drafts]]
 GET /changes/\{change-id\}/revisions/\{revision-id\}/drafts/ (List Drafts)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1429,6 +1517,7 @@ Identifier that uniquely identifies one revision of a change.
 
 This can be:
 
+* the literal `current` to name the current patch set/revision
 * a commit ID ("674ac754f91e64a0efb8087e59a176484bd534d1")
 * an abbreviated commit ID that uniquely identifies one revision of the
   change ("674ac754"), at least 4 digits are required
@@ -1887,6 +1976,24 @@ The files of the patch set as a map that maps the file names to
 link:#file-info[FileInfo] entities.
 |===========================
 
+[[rule-input]]
+RuleInput
+~~~~~~~~~
+The `RuleInput` entity contains information to test a Prolog rule.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`rule`||
+Prolog code to execute instead of the code in `refs/meta/config`.
+|`filters`|`RUN` if not set|
+When `RUN` filter rules in the parent projects are called to
+post-process the results of the project specific rule. This
+behavior matches how the rule will execute if installed. +
+If `SKIP` the parent filters are not called, allowing the test
+to return results from the input rule.
+|===========================
+
 [[submit-info]]
 SubmitInfo
 ~~~~~~~~~~
@@ -1917,6 +2024,33 @@ Whether the request should wait for the merge to complete. +
 If `false` the request returns immediately after the change has been
 added to the merge queue and the caller can't know whether the change
 could be merged successfully.
+|===========================
+
+[[submit-record]]
+SubmitRecord
+~~~~~~~~~~~~
+The `SubmitRecord` entity describes results from a submit_rule.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`status`||
+`OK`, the change can be submitted. +
+`NOT_READY`, additional labels are required before submit. +
+`CLOSED`, closed changes cannot be submitted. +
+`RULE_ERROR`, rule code failed with an error.
+|`ok`||
+Map of labels that are approved; AccountInfo identifies voter.
+|`reject`||
+Map of labels that are preventing submit; AccountInfo identifies voter.
+|`need`||
+Map of labels that need to be given to submit.
+|`may`||
+Map of labels that can be used, but do not affect submit.
+AccountInfo identifies voter, if the label has been applied.
+|`impossible`||
+Map of labels that should have been in `need` but cannot be
+used by any user because of access restrictions.
 |===========================
 
 [[topic-input]]

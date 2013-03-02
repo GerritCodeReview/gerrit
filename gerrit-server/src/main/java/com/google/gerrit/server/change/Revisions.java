@@ -31,7 +31,7 @@ import com.google.inject.Provider;
 import java.util.Collections;
 import java.util.List;
 
-class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
+public class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
   private final DynamicMap<RestView<RevisionResource>> views;
   private final Provider<ReviewDb> dbProvider;
 

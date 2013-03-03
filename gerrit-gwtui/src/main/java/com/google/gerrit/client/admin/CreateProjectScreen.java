@@ -53,7 +53,7 @@ public class CreateProjectScreen extends Screen {
   private Button create;
   private Button browse;
   private HintTextBox parent;
-  private SuggestBox sugestParent;
+  private SuggestBox suggestParent;
   private CheckBox emptyCommit;
   private CheckBox permissionsOnly;
   private ProjectsTable suggestedParentsTab;
@@ -96,8 +96,8 @@ public class CreateProjectScreen extends Screen {
       @Override
       protected void onMovePointerTo(String projectName) {
         // prevent user input from being overwritten by simply poping up
-        if (!projectsPopup.isPoppingUp() || "".equals(sugestParent.getText())) {
-          sugestParent.setText(projectName);
+        if (!projectsPopup.isPoppingUp() || "".equals(suggestParent.getText())) {
+          suggestParent.setText(projectName);
         }
       }
     };
@@ -168,7 +168,7 @@ public class CreateProjectScreen extends Screen {
 
   private void initParentBox() {
     parent = new HintTextBox();
-    sugestParent =
+    suggestParent =
         new SuggestBox(new ProjectNameSuggestOracle(), parent);
     parent.setVisibleLength(50);
   }
@@ -186,7 +186,7 @@ public class CreateProjectScreen extends Screen {
 
           @Override
           public void onClick(ClickEvent event) {
-            sugestParent.setText(getRowItem(row).name());
+            suggestParent.setText(getRowItem(row).name());
           }
         });
 
@@ -216,14 +216,14 @@ public class CreateProjectScreen extends Screen {
     grid.setText(0, 0, Util.C.columnProjectName() + ":");
     grid.setWidget(0, 1, project);
     grid.setText(1, 0, Util.C.headingParentProjectName() + ":");
-    grid.setWidget(1, 1, sugestParent);
+    grid.setWidget(1, 1, suggestParent);
     grid.setWidget(1, 2, browse);
     fp.add(grid);
   }
 
   private void doCreateProject() {
     final String projectName = project.getText().trim();
-    final String parentName = sugestParent.getText().trim();
+    final String parentName = suggestParent.getText().trim();
 
     if ("".equals(projectName)) {
       project.setFocus(true);

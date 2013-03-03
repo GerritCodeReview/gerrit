@@ -1,0 +1,10 @@
+Project renaming failed: \'...'
+===============================
+
+With this error message Gerrit signals that renaming the project
+failed. The trailing text gives the reason for the failure.
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

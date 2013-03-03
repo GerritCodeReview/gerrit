@@ -58,6 +58,8 @@ public class Module extends RestApiModule {
     delete(BRANCH_KIND).to(DeleteBranch.class);
     install(new FactoryModuleBuilder().build(CreateBranch.Factory.class));
 
+    put(PROJECT_KIND, "name").to(SetName.class);
+
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);
     put(DASHBOARD_KIND).to(SetDashboard.class);

@@ -33,6 +33,7 @@ Error Messages
 * link:error-permission-denied.html[Permission denied (publickey)]
 * link:error-prohibited-by-gerrit.html[prohibited by Gerrit]
 * link:error-project-not-found.html[Project not found: ...]
+* link:error-project-renaming-failed.html[Project renaming failed: \'...']
 * link:error-squash-commits-first.html[squash commits first]
 * link:error-upload-denied.html[Upload denied for project \'...']
 * link:error-not-allowed-to-upload-merges.html[you are not allowed to upload merges]

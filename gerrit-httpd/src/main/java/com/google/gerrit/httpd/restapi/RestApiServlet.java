@@ -45,6 +45,7 @@ import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.HttpAuditEvent;
+import com.google.gerrit.common.errors.ProjectRenamingFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
@@ -342,6 +343,9 @@ public class RestApiServlet extends HttpServlet {
       replyError(res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
     } catch (JsonParseException e) {
       replyError(res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
+    } catch (ProjectRenamingFailedException e) {
+      replyError(res, status = SC_INTERNAL_SERVER_ERROR,
+          "Project renaming failed: " + e.getMessage());
     } catch (Exception e) {
       status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);

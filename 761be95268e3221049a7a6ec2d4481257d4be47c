@@ -34,6 +34,24 @@
       "revId": "761be95268e3221049a7a6ec2d4481257d4be47c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QsdEVpEw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-03T17:16:35Z",
+      "side": 1,
+      "message": "Not sure whether you wanted to do that yourself or not. Patch Set 3 adds required guards within QueryShell.",
+      "parentUuid": "P8rCyGAE",
+      "revId": "761be95268e3221049a7a6ec2d4481257d4be47c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QRN4JJTk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-03T13:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QAmAbUoE",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QAkAQTlk",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-21T08:51:43Z",
       "side": 1,
       "message": "s/repositories/repository\u0027s",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QRD4WSVk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-03T13:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QAkAQTlk",
       "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "QRB4bjYE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-03T13:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QAiAVSkk",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QAgAqRos",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-21T08:51:43Z",
       "side": 1,
       "message": "Comma after \"since\" is not needed.",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QRH4Q0Vk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-03T13:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QAgAqRos",
       "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "QRJ4mfcQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-03T13:28:51Z",
+      "side": 1,
+      "message": "Done. But has then been refactored into\n\n  com.google.gerrit.server.project.renaming.Task\n\nand does no longer apply.",
+      "parentUuid": "QAsAMXks",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QAqAJWjk",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "QRL4puZg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-03T13:28:51Z",
+      "side": 1,
+      "message": "Done. But has then been refactored into\n\n  com.google.gerrit.server.project.renaming.Task\n\nand does no longer apply.",
+      "parentUuid": "QAqAJWjk",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QAoAWVlc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 2
@@ -115,6 +223,24 @@
       "writtenOn": "2013-02-21T08:51:43Z",
       "side": 1,
       "message": "mail error?",
+      "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QRF4VFUg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-03T13:28:51Z",
+      "side": 1,
+      "message": ":-) It was supposed to read \"main error\". But as running the steps has been refactored, straight into the renameProject function, this doclet is no longer used.",
+      "parentUuid": "QAoAWVlc",
       "revId": "d79713d9b7c7daff9d31dac4ff81cd03689286ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

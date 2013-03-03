@@ -16,6 +16,24 @@
       "revId": "547b1333a806b5fd609fd80bfa19ea226ae6a219",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QRH5HMWE",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/RenameProjectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-03T13:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QAsAjPrM",
+      "revId": "547b1333a806b5fd609fd80bfa19ea226ae6a219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

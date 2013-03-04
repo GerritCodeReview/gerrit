@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QtM5jw-E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 0,
+      "message": "Why is this removed?",
+      "revId": "c2d12efd1f5bcf9f16406be554901e8ab4cb79fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

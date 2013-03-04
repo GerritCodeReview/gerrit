@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "QtC44R9k",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 1,
+      "message": "[optional] Move the inner class to the end of the file. At least in GroupApi the static input classes are placed at the end.",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtI5duyw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 1,
+      "message": "s/projectName/name",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtK5i9.k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 1,
+      "message": "You shouldn\u0027t redefine \u0027ProjectInfo\u0027 here but instead use the com.google.gerrit.server.project.GetProject.ProjectInfo.",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QOwf-9qA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 6
@@ -30,6 +81,40 @@
       "writtenOn": "2013-02-26T08:16:31Z",
       "side": 1,
       "message": "s/exist/exists",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtE5YMzk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 1,
+      "message": "If the parent is not visible, you must not reveal its existence by such an error message. Just say it doesn\u0027t exist as above. You may also say in both cases \u0027Project ... does not exist or is not visible\u0027",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtG5V7-0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 1,
+      "message": "To check whether a project with the name already exists, you could check directly against the project cache. There is no need to create a ProjectContol.\n\nAfter all I think you can simply remove this check. If a project with this name exists already, ProjectsCollection would detect this and invoke PutProject instead of CreateProject.",
       "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +150,75 @@
       "side": 1,
       "message": "please refer https://gerrit-review.googlesource.com/#/c/42359/5/gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateProjectHandler.java\nI think line 126 can be delete I will test",
       "parentUuid": "QOycEetI",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtA5SKxc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 1,
+      "message": "I think the Input class should have a \u0027description\u0027 field which is then used here.",
+      "parentUuid": "QVE7.E-Q",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtC5P520",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 1,
+      "message": "Would be nice to have a \u0027submitType\u0027 field in the Input as well, to be able to control this setting when creating a project via REST.",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtM6K42M",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 1,
+      "message": "[optional] just make this one line:\n\n  createProjectFactory.create(args).createProject();",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtO5o-88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T15:37:33Z",
+      "side": 1,
+      "message": "s/PreconditionFailedException/ResourceConflictException\n\ns/Resource/Project\n\nThis was recently fixed for PutGroup [1].\n\n[1] https://gerrit-review.googlesource.com/42705",
       "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

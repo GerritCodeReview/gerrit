@@ -125,6 +125,9 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   public PostResult apply(ChangeResource rsrc, Input input)
       throws ResourceNotFoundException, AuthException, OrmException,
       EmailException {
+    if (input.reviewer == null) {
+      throw new ResourceNotFoundException();
+    }
     Account.Id accountId = parser.parse(rsrc, input.reviewer);
     try {
       if (accountId != null) {

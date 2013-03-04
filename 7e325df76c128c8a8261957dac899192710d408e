@@ -34,6 +34,24 @@
       "revId": "7e325df76c128c8a8261957dac899192710d408e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtG6Dr0I",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T19:03:23Z",
+      "side": 1,
+      "message": "Did you forget to add the changes? PS 14 and 15 look the same.",
+      "parentUuid": "QtuwaS3w",
+      "revId": "7e325df76c128c8a8261957dac899192710d408e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

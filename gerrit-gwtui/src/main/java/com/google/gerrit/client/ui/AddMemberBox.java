@@ -72,6 +72,7 @@ public class AddMemberBox extends Composite {
     nameTxt.addSelectionHandler(new SelectionHandler<Suggestion>() {
       @Override
       public void onSelection(SelectionEvent<Suggestion> event) {
+        nameTxtBox.setFocus(true);
         if (submitOnSelection) {
           submitOnSelection = false;
           doAdd();

@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "QsVEqFI0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-04T14:36:57Z",
+      "side": 1,
+      "message": "s/2012/2013 ?",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtK4UN00",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
         "patchSetId": 3
@@ -132,6 +149,40 @@
       "writtenOn": "2013-03-04T13:48:51Z",
       "side": 1,
       "message": "[optional] Does it make sense to catch any other exceptions here?\nWhile testing I had a typo in my rule (e.g. \"\\g\"), this fails here with com.googlecode.prolog_cafe.lang.PermissionException and as result the REST call is failing with \u0027Internal server error\u0027",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QsXEnGMI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-04T14:36:57Z",
+      "side": 1,
+      "message": "s/2012/2013 ?",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QsbEUoE0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-04T14:36:57Z",
+      "side": 1,
+      "message": "Maybe OT but I don\u0027t understand why is TestSubmitRule registered here (and then again as a subcommand in the line 46).\nThis line was added by e51c428f and it looks like a mistake to me.",
       "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

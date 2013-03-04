@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QtC4Khy0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T06:55:57Z",
+      "side": 1,
+      "message": "Ok, I now see that this comes with the follow up change. That\u0027s fine then.",
+      "parentUuid": "QtK79F-c",
+      "revId": "d7f992ed9967e0593cffd6f08f80e98a18744619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtI74Wwg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
         "patchSetId": 1

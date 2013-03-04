@@ -55,11 +55,18 @@ class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
   @Override
   public RevisionResource parse(ChangeResource change, IdString id)
       throws ResourceNotFoundException, OrmException {
+    if (id.equals("current")) {
+      PatchSet.Id p = change.getChange().currentPatchSetId();
+      PatchSet ps = p != null ? dbProvider.get().patchSets().get(p) : null;
+      if (ps != null && visible(change, ps)) {
+        return new RevisionResource(change, ps);
+      }
+      throw new ResourceNotFoundException(id);
+    }
     List<PatchSet> match = Lists.newArrayListWithExpectedSize(2);
     for (PatchSet ps : find(change, id.get())) {
       Change.Id changeId = ps.getId().getParentKey();
-      if (changeId.equals(change.getChange().getId())
-          && change.getControl().isPatchVisible(ps, dbProvider.get())) {
+      if (changeId.equals(change.getChange().getId()) && visible(change, ps)) {
         match.add(ps);
       }
     }
@@ -67,6 +74,11 @@ class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
       throw new ResourceNotFoundException(id);
     }
     return new RevisionResource(change, match.get(0));
+  }
+
+  private boolean visible(ChangeResource change, PatchSet ps)
+      throws OrmException {
+    return change.getControl().isPatchVisible(ps, dbProvider.get());
   }
 
   private List<PatchSet> find(ChangeResource change, String id)

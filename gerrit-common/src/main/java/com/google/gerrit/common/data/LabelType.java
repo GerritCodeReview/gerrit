@@ -236,4 +236,27 @@ public class LabelType {
   public ApprovalCategory.Id getApprovalCategoryId() {
     return new ApprovalCategory.Id(getId());
   }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder(name).append('[');
+    LabelValue min = getMin();
+    LabelValue max = getMax();
+    if (id != null) {
+      sb.append(id);
+      if (min != null || max != null) {
+        sb.append(", ");
+      }
+    }
+    if (min != null && max != null) {
+      sb.append(new PermissionRange(Permission.forLabel(name), min.getValue(),
+          max.getValue()).toString().trim());
+    } else if (min != null) {
+      sb.append(min.formatValue().trim());
+    } else if (max != null) {
+      sb.append(max.formatValue().trim());
+    }
+    sb.append(']');
+    return sb.toString();
+  }
 }

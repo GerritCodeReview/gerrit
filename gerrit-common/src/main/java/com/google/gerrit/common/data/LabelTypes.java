@@ -66,4 +66,9 @@ public class LabelTypes {
     }
     return byLabel;
   }
+
+  @Override
+  public String toString() {
+    return labelTypes.toString();
+  }
 }

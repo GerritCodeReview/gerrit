@@ -116,6 +116,10 @@ public class RulesCache {
     defaultMachine = save(newEmptyMachine(systemLoader));
   }
 
+  public boolean isProjectRulesEnabled() {
+    return enableProjectRules;
+  }
+
   /**
    * Locate a cached Prolog machine state, or create one if not available.
    *

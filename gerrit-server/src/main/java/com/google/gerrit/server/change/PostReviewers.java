@@ -21,9 +21,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -98,7 +98,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       Provider<ReviewDb> db,
       IdentifiedUser currentUser,
       IdentifiedUser.GenericFactory identifiedUserFactory,
-      ApprovalTypes approvalTypes,
+      LabelTypes labelTypes,
       @GerritServerConfig Config cfg,
       ChangeHooks hooks,
       AccountCache accountCache,
@@ -117,7 +117,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     this.accountCache = accountCache;
     this.json = json;
 
-    this.addReviewerCategoryId = Iterables.getLast(approvalTypes.getApprovalTypes())
+    this.addReviewerCategoryId = Iterables.getLast(labelTypes.getLabelTypes())
         .getApprovalCategoryId();
   }
 

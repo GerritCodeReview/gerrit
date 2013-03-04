@@ -14,8 +14,8 @@
 
 package com.google.gerrit.common;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -206,7 +206,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     private final AccountCache accountCache;
 
-    private final ApprovalTypes approvalTypes;
+    private final LabelTypes labelTypes;
 
     private final EventFactory eventFactory;
 
@@ -233,7 +233,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final @GerritServerConfig Config config,
       final @AnonymousCowardName String anonymousCowardName,
       final SitePaths sitePath, final ProjectCache projectCache,
-      final AccountCache accountCache, final ApprovalTypes approvalTypes,
+      final AccountCache accountCache, final LabelTypes labelTypes,
       final EventFactory eventFactory, final SitePaths sitePaths,
       final DynamicSet<ChangeListener> unrestrictedListeners) {
         this.anonymousCowardName = anonymousCowardName;
@@ -241,7 +241,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         this.hookQueue = queue.createQueue(1, "hook");
         this.projectCache = projectCache;
         this.accountCache = accountCache;
-        this.approvalTypes = approvalTypes;
+        this.labelTypes = labelTypes;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
         this.unrestrictedListeners = unrestrictedListeners;
@@ -616,9 +616,9 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
             Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval) {
         ApprovalAttribute a = new ApprovalAttribute();
         a.type = approval.getKey().get();
-        ApprovalType at = approvalTypes.byId(approval.getKey().get());
-        if (at != null) {
-          a.description = at.getName();
+        LabelType lt = labelTypes.byId(approval.getKey().get());
+        if (lt != null) {
+          a.description = lt.getName();
         }
         a.value = Short.toString(approval.getValue().get());
         return a;

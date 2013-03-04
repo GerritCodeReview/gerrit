@@ -16,7 +16,7 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.client.changes.AccountInfo;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;

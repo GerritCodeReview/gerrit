@@ -15,14 +15,15 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.AccountInfo;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
-import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
@@ -680,7 +681,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       styleLastCommentCell(row, col);
 
     } else {
-      final AccountInfo author = accountCache.get(line.getAuthor());
+      final AccountInfo author = FormatUtil.asInfo(accountCache.get(line.getAuthor()));
       final PublishedCommentPanel panel =
           new PublishedCommentPanel(author, line);
       panel.setOpen(expandComment);

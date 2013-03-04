@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
@@ -23,11 +24,9 @@ import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -388,13 +387,11 @@ public class ChangeScreen extends Screen
     for (int i = 0; i < msgList.size(); i++) {
       final ChangeMessage msg = msgList.get(i);
 
-      final AccountInfo author;
+      AccountInfo author;
       if (msg.getAuthor() != null) {
-        author = accts.get(msg.getAuthor());
+        author = FormatUtil.asInfo(accts.get(msg.getAuthor()));
       } else {
-        final Account gerrit = new Account(null);
-        gerrit.setFullName(Util.C.messageNoAuthor());
-        author = new AccountInfo(gerrit);
+        author = AccountInfo.create(0, Util.C.messageNoAuthor(), null);
       }
 
       boolean isRecent;

@@ -18,6 +18,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Queues;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -42,7 +43,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.ReferenceQueue;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
@@ -50,8 +50,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -72,8 +75,8 @@ public class PluginLoader implements LifecycleListener {
   private final ConcurrentMap<String, Plugin> running;
   private final ConcurrentMap<String, Plugin> disabled;
   private final Map<String, FileSnapshot> broken;
-  private final ReferenceQueue<ClassLoader> cleanupQueue;
-  private final ConcurrentMap<CleanupHandle, Boolean> cleanupHandles;
+  private final Map<Plugin, CleanupHandle> cleanupHandles;
+  private final Queue<Plugin> toCleanup;
   private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
 
@@ -91,8 +94,8 @@ public class PluginLoader implements LifecycleListener {
     running = Maps.newConcurrentMap();
     disabled = Maps.newConcurrentMap();
     broken = Maps.newHashMap();
-    cleanupQueue = new ReferenceQueue<ClassLoader>();
-    cleanupHandles = Maps.newConcurrentMap();
+    toCleanup = Queues.newArrayDeque();
+    cleanupHandles = new Hashtable<Plugin,CleanupHandle>();
     cleaner = pct;
 
     long checkFrequency = ConfigUtil.getTimeUnit(cfg,
@@ -188,6 +191,15 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
+  synchronized private void unloadPlugin(Plugin plugin) {
+    String name = plugin.getName();
+    log.info(String.format("Unloading plugin %s", name));
+    plugin.stop();
+    running.remove(name);
+    disabled.remove(name);
+    toCleanup.add(plugin);
+  }
+
   public void disablePlugins(Set<String> names) {
     synchronized (this) {
       for (String name : names) {
@@ -200,8 +212,7 @@ public class PluginLoader implements LifecycleListener {
         File off = new File(pluginsDir, active.getName() + ".jar.disabled");
         active.getSrcJar().renameTo(off);
 
-        active.stop();
-        running.remove(name);
+        unloadPlugin(active);
         try {
           FileSnapshot snapshot = FileSnapshot.save(off);
           Plugin offPlugin = loadPlugin(name, off, snapshot);
@@ -254,12 +265,12 @@ public class PluginLoader implements LifecycleListener {
     srvInfoImpl.state = ServerInformation.State.SHUTDOWN;
     synchronized (this) {
       for (Plugin p : running.values()) {
-        p.stop();
+        unloadPlugin(p);
       }
       running.clear();
       disabled.clear();
       broken.clear();
-      if (cleanupHandles.size() > running.size()) {
+      if (!toCleanup.isEmpty()) {
         System.gc();
         processPendingCleanups();
       }
@@ -347,15 +358,14 @@ public class PluginLoader implements LifecycleListener {
           && oldPlugin.canReload()
           && newPlugin.canReload();
       if (!reload && oldPlugin != null) {
-        oldPlugin.stop();
-        running.remove(name);
+        unloadPlugin(oldPlugin);
       }
       if (!newPlugin.isDisabled()) {
         newPlugin.start(env);
       }
       if (reload) {
         env.onReloadPlugin(oldPlugin, newPlugin);
-        oldPlugin.stop();
+        unloadPlugin(oldPlugin);
       } else if (!newPlugin.isDisabled()) {
         env.onStartPlugin(newPlugin);
       }
@@ -380,8 +390,7 @@ public class PluginLoader implements LifecycleListener {
       }
     }
     for (String name : unload){
-      log.info(String.format("Unloading plugin %s", name));
-      running.remove(name).stop();
+      unloadPlugin(running.get(name));
     }
   }
 
@@ -398,16 +407,19 @@ public class PluginLoader implements LifecycleListener {
   }
 
   synchronized int processPendingCleanups() {
-    CleanupHandle h;
-    while ((h = (CleanupHandle) cleanupQueue.poll()) != null) {
-      h.cleanup();
-      cleanupHandles.remove(h);
+    Iterator<Plugin> iterator = toCleanup.iterator();
+    while (iterator.hasNext()) {
+      Plugin plugin = iterator.next();
+      iterator.remove();
+
+      CleanupHandle cleanupHandle = cleanupHandles.remove(plugin);
+      cleanupHandle.cleanup();
     }
-    return Math.max(0, cleanupHandles.size() - running.size());
+    return toCleanup.size();
   }
 
   private void cleanInBackground() {
-    int cnt = Math.max(0, cleanupHandles.size() - running.size());
+    int cnt = toCleanup.size();
     if (0 < cnt) {
       cleaner.get().clean(cnt);
     }
@@ -451,20 +463,17 @@ public class PluginLoader implements LifecycleListener {
       URL[] urls = {tmp.toURI().toURL()};
       ClassLoader parentLoader = parentFor(type);
       ClassLoader pluginLoader = new URLClassLoader(urls, parentLoader);
-      final CleanupHandle cleanupHandle =
-          new CleanupHandle(tmp, jarFile, pluginLoader, cleanupQueue);
-      cleanupHandle.enqueue();
-      cleanupHandles.put(cleanupHandle, Boolean.TRUE);
-
       Class<? extends Module> sysModule = load(sysName, pluginLoader);
       Class<? extends Module> sshModule = load(sshName, pluginLoader);
       Class<? extends Module> httpModule = load(httpName, pluginLoader);
-      keep = true;
-      return new Plugin(name,
+      Plugin plugin = new Plugin(name,
           srcJar, snapshot,
           jarFile, manifest,
           new File(dataDir, name), type, pluginLoader,
           sysModule, sshModule, httpModule);
+      cleanupHandles.put(plugin, new CleanupHandle(tmp, jarFile));
+      keep = true;
+      return plugin;
     } finally {
       if (!keep) {
         jarFile.close();

@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QtG4Ajw0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T13:48:51Z",
+      "side": 1,
+      "message": "Append \" (Get Submit Type)\". At least for all other endpoint section titles, we have the endpoint name in parentheses.",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtO4aP3w",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T13:48:51Z",
+      "side": 1,
+      "message": "s/GET/POST",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtI4P.zg",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T13:48:51Z",
+      "side": 1,
+      "message": "s/GET/POST",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtG4nL8I",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2036,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T13:48:51Z",
+      "side": 1,
+      "message": "description of field \u0027error_message\u0027 is missing",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtA4ka7o",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2042,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T13:48:51Z",
+      "side": 1,
+      "message": "This field and the following fields should be marked as \u0027optional\u0027",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtE4qc40",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2043,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T13:48:51Z",
+      "side": 1,
+      "message": "link to AccountInfo?",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtC4hJ6s",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2046,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T13:48:51Z",
+      "side": 1,
+      "message": "Should it be mentioned that the map values for \u0027need\u0027 and \u0027impossible\u0027 are always empty?",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtK4UN00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T13:48:51Z",
+      "side": 1,
+      "message": "[optional] Does it make sense to catch any other exceptions here?\nWhile testing I had a typo in my rule (e.g. \"\\g\"), this fails here with com.googlecode.prolog_cafe.lang.PermissionException and as result the REST call is failing with \u0027Internal server error\u0027",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "d839594c3b5fc8ea59545c60a307533303d8ffef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QslCfbKE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T20:20:34Z",
+      "side": 0,
+      "message": "OK sure whatever. https://gerrit-review.googlesource.com/42952",
+      "parentUuid": "QtiwhM6s",
+      "revId": "d839594c3b5fc8ea59545c60a307533303d8ffef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

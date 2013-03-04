@@ -1355,7 +1355,7 @@ Deletes a draft comment from a revision.
 ----
 
 [[set-reviewed]]
-PUT /changes/\{change-id\}/revisions/\{revision-id\}/files/\{patch-id\}\reviewed (Set Reviewed)
+PUT /changes/\{change-id\}/revisions/\{revision-id\}/files/\{patch-id\}/reviewed (Set Reviewed)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Marks a patch of a revision as reviewed by the calling user.
 
@@ -1373,7 +1373,7 @@ If the patch was already marked as reviewed by the calling user the
 response is "`200 OK`".
 
 [[delete-reviewed]]
-DELETE /changes/\{change-id\}/revisions/\{revision-id\}/files/\{patch-id\}\reviewed (Delete Reviewed)
+DELETE /changes/\{change-id\}/revisions/\{revision-id\}/files/\{patch-id\}/reviewed (Delete Reviewed)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Deletes the reviewed flag of the calling user from a patch of a revision.
 

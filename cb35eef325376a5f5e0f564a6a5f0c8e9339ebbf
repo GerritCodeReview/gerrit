@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QstA8vNY",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done. But I think it makes the table of contents unreadable. Look at https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html this text is not helping anyone.",
+      "parentUuid": "QtG4Ajw0",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtO4aP3w",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-04T13:48:51Z",
       "side": 1,
       "message": "s/GET/POST",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QsvBBwE0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1210,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtO4aP3w",
       "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "QspBGNGM",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtI4P.zg",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtG4nL8I",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-04T13:48:51Z",
       "side": 1,
       "message": "description of field \u0027error_message\u0027 is missing",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QsrBLOGw",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2036,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtG4nL8I",
       "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "QslAxrPY",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2042,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtA4ka7o",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtE4qc40",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2013-03-04T13:48:51Z",
       "side": 1,
       "message": "link to AccountInfo?",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QsnAuMJg",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2043,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtE4qc40",
       "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "QshA7JNk",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2046,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtC4hJ6s",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QsVEqFI0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
         "patchSetId": 3
@@ -132,6 +258,24 @@
       "writtenOn": "2013-03-04T14:36:57Z",
       "side": 1,
       "message": "s/2012/2013 ?",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QsjA4qNk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QsVEqFI0",
       "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "QsvBo4M8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "These sorts of errors should have been caught inside of the evaluator and wrapped as a RuleEvalException. So its an existing bug of SubmitRuleEvaluator.\n\nI think the problem is the PermissionException is a RuntimeException and isn\u0027t being caught anywhere. Its happening because consult_stream/1 wants to print syntax error messages to the console and is being denied.",
+      "parentUuid": "QtK4UN00",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QsXEnGMI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
         "patchSetId": 3
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "QstBjXPE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QsXEnGMI",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QsbEUoE0",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
         "patchSetId": 3
@@ -183,6 +363,24 @@
       "writtenOn": "2013-03-04T14:36:57Z",
       "side": 1,
       "message": "Maybe OT but I don\u0027t understand why is TestSubmitRule registered here (and then again as a subcommand in the line 46).\nThis line was added by e51c428f and it looks like a mistake to me.",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QspBd1Cw",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QsbEUoE0",
       "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

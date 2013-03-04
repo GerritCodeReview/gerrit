@@ -16,6 +16,24 @@
       "revId": "d7f992ed9967e0593cffd6f08f80e98a18744619",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QsjAhiKs",
+        "filename": "Documentation/cmd-test-submit-rule.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-04T19:15:34Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "QsZEPHDk",
+      "revId": "d7f992ed9967e0593cffd6f08f80e98a18744619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

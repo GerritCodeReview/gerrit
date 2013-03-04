@@ -16,6 +16,24 @@
       "revId": "d839594c3b5fc8ea59545c60a307533303d8ffef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QtiwhM6s",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-04T20:16:15Z",
+      "side": 0,
+      "message": "Caused by, yes, but this method call doesn\u0027t NPE. IIUC the call stack is:\nnew CommentPanel(author, ...)\nFormatUtil.name(oldAccountInfo)\nFormatUtil.asInfo(oldAccountInfo)\nand it\u0027s in asInfo that the NPE actually happens.\n\nI would much rather both FormatUtil.asInfo\u0027s properly handled null IDs.",
+      "parentUuid": "QspCU9IY",
+      "revId": "d839594c3b5fc8ea59545c60a307533303d8ffef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

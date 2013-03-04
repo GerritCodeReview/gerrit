@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QtK5wt6U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-04T16:50:40Z",
+      "side": 1,
+      "message": "destBranchCtl is never set?",
+      "revId": "7e325df76c128c8a8261957dac899192710d408e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -45,6 +45,13 @@ Review UI
 Access Controls
 ~~~~~~~~~~~~~~~
 * Remove Reviewer is a new permission.
+* Pushing a signed tag is a new permission.
+* Editing the topic name is a new permission.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1585[Issue 1585]:
+Viewing other users' draft changes is a new permission.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1675[Issue 1675]:
+Deleting and publishing other users' draft changes is a new permission.
 
 * LDAP group names are configurable, `cn` is still the default.
 * LDAP cache reduces the number of recursive group queries.

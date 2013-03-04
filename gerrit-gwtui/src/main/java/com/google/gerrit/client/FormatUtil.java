@@ -119,11 +119,6 @@ public class FormatUtil {
     }
   }
 
-  /** Format an account as a name and email address. */
-  public static String nameEmail(Account acct) {
-    return nameEmail(asInfo(acct));
-  }
-
   @Deprecated
   public static String nameEmail(com.google.gerrit.common.data.AccountInfo acct) {
     return nameEmail(asInfo(acct));

@@ -171,7 +171,7 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    final Page.Content page = get().get(select(req));
+    final Page.Content page = select(req);
     final StringWriter w = new StringWriter();
     final CurrentUser user = currentUser.get();
     if (user instanceof IdentifiedUser) {
@@ -233,15 +233,17 @@ public class HostPageServlet extends HttpServlet {
     }
   }
 
-  private Permutation select(final HttpServletRequest req) {
-    if ("0".equals(req.getParameter("s"))) {
+  private Page.Content select(HttpServletRequest req) {
+    Page pg = get();
+    if ("1".equals(req.getParameter("dbg"))) {
+      return pg.debug;
+    } else if ("0".equals(req.getParameter("s"))) {
       // If s=0 is used in the URL, the user has explicitly asked us
       // to not perform selection on the server side, perhaps due to
       // it incorrectly guessing their user agent.
-      //
-      return null;
+      return pg.get(null);
     }
-    return selector.select(req);
+    return pg.get(selector.select(req));
   }
 
   private static class FileInfo {
@@ -263,6 +265,7 @@ public class HostPageServlet extends HttpServlet {
     private final FileInfo header;
     private final FileInfo footer;
     private final Map<Permutation, Content> permutations;
+    private final Content debug;
 
     Page() throws IOException {
       Document hostDoc = HtmlDomUtil.clone(template);
@@ -298,6 +301,9 @@ public class HostPageServlet extends HttpServlet {
       nocache.removeAttribute("id");
       nocache.setAttribute("src", noCacheName);
       permutations.put(null, new Content(hostDoc));
+
+      nocache.setAttribute("src", "gerrit_ui/gerrit_dbg.nocache.js");
+      debug = new Content(hostDoc);
     }
 
     Content get(Permutation p) {

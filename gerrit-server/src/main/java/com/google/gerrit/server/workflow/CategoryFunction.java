@@ -32,6 +32,22 @@ public abstract class CategoryFunction {
     all.put(NoBlock.NAME, new NoBlock());
   }
 
+  public static CategoryFunction forName(String name) {
+    return all.get(name);
+  }
+
+  /**
+   * Locate a function by type.
+   *
+   * @param type the type the function is for.
+   * @return the function implementation; {@link NoOpFunction} if the function
+   *         is not known to Gerrit and thus cannot be executed.
+   */
+  public static CategoryFunction forType(ApprovalType type) {
+    CategoryFunction r = all.get(type.getFunctionName());
+    return r != null ? r : new NoOpFunction();
+  }
+
   /**
    * Locate a function by category.
    *

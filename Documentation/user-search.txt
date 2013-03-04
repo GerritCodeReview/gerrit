@@ -37,7 +37,7 @@ text and let Gerrit figure out the meaning:
 |Full or abbreviated Change-Id    | Ic0ff33
 |Full or abbreviated commit SHA-1 | d81b32ef
 |Email address                    | user@example.com
-|Approval requirement             | CodeReview>=+2, Verified=1
+|Approval requirement             | Code-Review>=+2, Verified=1
 |=============================================================
 
 
@@ -317,16 +317,12 @@ Labels
 ------
 Label operators can be used to match approval scores given during
 a code review.  The specific set of supported labels depends on
-the server configuration, however `CodeReview` and `Verified`
+the server configuration, however `Code-Review` and `Verified`
 are the default labels provided out of the box.
 
 A label name is any of the following:
 
-* The category name.  If the category name contains spaces,
-  it must be wrapped in double quotes.  Example: `label:"Code Review"`.
-
-* The name, without spaces.  This avoids needing to use double quotes
-  for the common category Code Review.  Example: `label:CodeReview`.
+* The label name.
 
 * The internal short name.  Example: `label:CRVW`, or `label:VRIF`.
 
@@ -336,38 +332,38 @@ A label name is any of the following:
 A label name must be followed by a score, or an operator and a score.
 The easiest way to explain this is by example.
 
-`label:CodeReview=2`::
-`label:CodeReview=+2`::
-`label:CodeReview+2`::
+`label:Code-Review=2`::
+`label:Code-Review=+2`::
+`label:Code-Review+2`::
 +
-Matches changes where there is at least one +2 score for Code Review.
+Matches changes where there is at least one +2 score for Code-Review.
 The + prefix is optional for positive score values.  If the + is used,
 the = operator is optional.
 
-`label:CodeReview=-2`::
-`label:CodeReview-2`::
+`label:Code-Review=-2`::
+`label:Code-Review-2`::
 +
-Matches changes where there is at least one -2 score for Code Review.
+Matches changes where there is at least one -2 score for Code-Review.
 Because the negative sign is required, the = operator is optional.
 
-`label:CodeReview=1`::
+`label:Code-Review=1`::
 +
-Matches changes where there is at least one +1 score for Code Review.
+Matches changes where there is at least one +1 score for Code-Review.
 Scores of +2 are not matched, even though they are higher.
 
-`label:CodeReview>=1`::
+`label:Code-Review>=1`::
 +
 Matches changes with either a +1, +2, or any higher score.
 
-`label:CodeReview<=-1`::
+`label:Code-Review<=-1`::
 +
 Matches changes with either a -1, -2, or any lower score.
 
-`is:open CodeReview+2 Verified+1 -Verified-1 -CodeReview-2`::
+`is:open Code-Review+2 Verified+1 -Verified-1 -Code-Review-2`::
 +
 Matches changes that are ready to be submitted.
 
-`is:open (Verified-1 OR CodeReview-2)`::
+`is:open (Verified-1 OR Code-Review-2)`::
 +
 Changes that are blocked from submission due to a blocking score.
 

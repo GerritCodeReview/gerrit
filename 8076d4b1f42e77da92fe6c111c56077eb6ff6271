@@ -16,6 +16,41 @@
       "revId": "8076d4b1f42e77da92fe6c111c56077eb6ff6271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzRWclKo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-05T10:13:28Z",
+      "side": 1,
+      "message": "We do have a lot of optional fields, if they are null this is fine and the framework shouldn\u0027t return 404. If the framework should do something like this we would need to annotate the optional fields (with @Nullable). We should discuss the possibilities, but it\u0027s rather independent of this change.",
+      "parentUuid": "QztT9-PY",
+      "revId": "8076d4b1f42e77da92fe6c111c56077eb6ff6271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzXWpiMw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-05T10:13:28Z",
+      "side": 1,
+      "message": "Should this rather be BadRequest, as the mandatory \u0027reviewer\u0027 field was not set?",
+      "revId": "8076d4b1f42e77da92fe6c111c56077eb6ff6271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -611,28 +611,19 @@ members the parameter `recursive` can be set.
   )]}'
   [
     {
-      "kind": "gerritcodereview#member",
-      "full_name": "Jane Roe",
-      "id": "1000097",
-      "account_id": 1000097,
-      "preferred_email": "jane.roe@example.com",
-      "user_name": "jane"
+      "_account_id": 1000097,
+      "name": "Jane Roe",
+      "email": "jane.roe@example.com"
     },
     {
-      "kind": "gerritcodereview#member",
-      "full_name": "John Doe",
-      "id": "1000096",
-      "account_id": 1000096,
-      "preferred_email": "john.doe@example.com",
-      "user_name": "doe"
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com"
     },
     {
-      "kind": "gerritcodereview#member",
-      "full_name": "Richard Roe",
-      "id": "1000098",
-      "account_id": 1000098,
-      "preferred_email": "richard.roe@example.com",
-      "user_name": "richard"
+      "_account_id": 1000098,
+      "name": "Richard Roe",
+      "email": "richard.roe@example.com"
     }
   ]
 ----

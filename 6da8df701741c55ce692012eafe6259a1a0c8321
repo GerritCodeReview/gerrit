@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QzlQKjC0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-05T14:55:19Z",
+      "side": 1,
+      "message": "typo on public",
+      "revId": "6da8df701741c55ce692012eafe6259a1a0c8321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzrQV4E0",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-05T14:55:19Z",
+      "side": 1,
+      "message": "I understand the point about a public API having clear names, but \"name\" and \"email\" are pretty clear.\n\nI regret having called preferred_email preferred_email in the database. It should have just been email. Likewise with full_name it should have been name or display_name, but not full_name.",
+      "revId": "6da8df701741c55ce692012eafe6259a1a0c8321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

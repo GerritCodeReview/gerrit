@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QzTVYsDg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T09:33:59Z",
+      "side": 1,
+      "message": "I done a test using 2 reviewer, result show it is only the owner ... :)",
+      "parentUuid": "QO4eoxsk",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QO6elyvA",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

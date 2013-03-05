@@ -16,6 +16,24 @@
       "revId": "9542a8c8f3d0dc0908c5705017fddca5a898a98b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzbVxYK4",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-05T12:04:49Z",
+      "side": 0,
+      "message": "I kind of agree, this is actually why I have chosen full_name and preferred_email as field names for the MemberInfo entity. On the other side I can understand if shorter names are preferred since the AccountInfo entity occurs in many places and having long field names is some kind of overhead. I can push a change that proposes the rename of the fields in AccountInfo, then everybody can say whether he likes it or not.",
+      "parentUuid": "QzhQAFAw",
+      "revId": "9542a8c8f3d0dc0908c5705017fddca5a898a98b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

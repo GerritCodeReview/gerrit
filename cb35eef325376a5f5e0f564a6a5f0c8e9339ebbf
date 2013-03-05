@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "QzdUU3E4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-05T08:28:52Z",
+      "side": 1,
+      "message": "I agree, it looks pretty unreadable. Any ideas how to improve?\nShould we remove the REST endpoint names from all section headings? Or should we do the opposite and just leave the REST endpoint name as section heading?",
+      "parentUuid": "QstA8vNY",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtO4aP3w",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -311,6 +329,24 @@
       "side": 1,
       "message": "These sorts of errors should have been caught inside of the evaluator and wrapped as a RuleEvalException. So its an existing bug of SubmitRuleEvaluator.\n\nI think the problem is the PermissionException is a RuntimeException and isn\u0027t being caught anywhere. Its happening because consult_stream/1 wants to print syntax error messages to the console and is being denied.",
       "parentUuid": "QtK4UN00",
+      "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzTUqcIw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/TestSubmitRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-05T08:28:52Z",
+      "side": 1,
+      "message": "Agreed, there should be an own change to address this.",
+      "parentUuid": "QsvBo4M8",
       "revId": "cb35eef325376a5f5e0f564a6a5f0c8e9339ebbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

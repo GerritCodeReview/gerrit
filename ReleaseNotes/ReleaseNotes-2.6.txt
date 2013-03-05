@@ -85,6 +85,9 @@ commands with their descriptions.
 * `query` includes author and change size information when given
   certain options on the command line.
 
+* `test-submit-rule` tests the `can_submit` rule with a prolog script loaded from a file or stdin.
+* `ls-user-refs` lists which refs are visible for a given user.
+
 Plugins
 ~~~~~~~
 * Plugins can contribute Prolog facts/predicates from Java.
@@ -137,6 +140,12 @@ to download and install the commit-msg hook.
   necessary for a multi-master configuration where the second master
   may need to retry a change not yet merged by the first. Please note
   we still do not believe this is sufficient to enable multi-master.
+
+SSH
+~~~
+* `review --restore` allows a review score to be added on the restored change.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1721[Issue 1721]:
+`review --message` only adds the message once.
 
 Documentation
 -------------

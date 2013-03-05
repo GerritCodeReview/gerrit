@@ -172,7 +172,7 @@ public class Plugin {
     return disabled;
   }
 
-  public void start(PluginGuiceEnvironment env) throws Exception {
+  void start(PluginGuiceEnvironment env) throws Exception {
     Injector root = newRootInjector(env);
     manager = new LifecycleManager();
 
@@ -264,7 +264,7 @@ public class Plugin {
     return Guice.createInjector(modules);
   }
 
-  public void stop() {
+  void stop() {
     if (manager != null) {
       manager.stop();
       manager = null;

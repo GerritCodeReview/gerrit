@@ -32,7 +32,6 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, RenameGroupCommand.class);
     command(gerrit, CreateProjectCommand.class);
     command(gerrit, AdminQueryShell.class);
-    command(gerrit, TestSubmitRule.class);
     command(gerrit, SetReviewersCommand.class);
     command(gerrit, Receive.class);
     command(gerrit, AdminSetParent.class);
@@ -43,7 +42,7 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, SetProjectCommand.class);
 
     command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
-    command(testSubmit, TestSubmitRule.class);
-    command(testSubmit, TestSubmitType.class);
+    command(testSubmit, TestSubmitRuleCommand.class);
+    command(testSubmit, TestSubmitTypeCommand.class);
   }
 }

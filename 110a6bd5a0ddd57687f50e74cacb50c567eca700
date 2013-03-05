@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Qz5PznCs",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T15:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QzVVPLGw",
+      "revId": "110a6bd5a0ddd57687f50e74cacb50c567eca700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QzXVSKBg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-05T10:06:49Z",
       "side": 1,
       "message": "s/String/SubmitType\n\nThis should work and you don\u0027t need to do the conversion from String to Enum yourself.",
+      "revId": "110a6bd5a0ddd57687f50e74cacb50c567eca700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Qz-P4EAk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T15:14:11Z",
+      "side": 1,
+      "message": "It works only when the Enum has value.\nso I shift the SubmitType to give each member  a value. else we will catch an error \n\n$ curl ...\n\n\u003chtml\u003e\n\u003chead\u003e\n\u003cmeta http-equiv\u003d\"Content-Type\" content\u003d\"text/html; charset\u003dISO-8859-1\"/\u003e\n\u003ctitle\u003eError 500 submitType\u003c/title\u003e\n\u003c/head\u003e\n\u003cbody\u003e\u003ch2\u003eHTTP ERROR: 500\u003c/h2\u003e\u003cpre\u003esubmitType\u003c/pre\u003e\n\u003cp\u003eRequestURI\u003d/a/projects/projectn\u003c/p\u003e\u003ch3\u003eCaused by:\u003c/h3\u003e\u003cpre\u003ejava.lang.NoSuchFieldError: submitType\n    at com.google.gerrit.server.project.CreateProject.apply(CreateProject.java:122)\n...\n...\n$\n\n\nDone",
+      "parentUuid": "QzXVSKBg",
       "revId": "110a6bd5a0ddd57687f50e74cacb50c567eca700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Qz9P9FPc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T15:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QzZVopM8",
+      "revId": "110a6bd5a0ddd57687f50e74cacb50c567eca700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QzbWKAGI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 7
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "QzzMDqBw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T15:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QzbWKAGI",
+      "revId": "110a6bd5a0ddd57687f50e74cacb50c567eca700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QzdViHOs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 7
@@ -81,6 +153,24 @@
       "writtenOn": "2013-03-05T10:06:49Z",
       "side": 1,
       "message": "This should rather be\n  Strings.emptyToNull(input.description);\n\nThis is what we do in PutDescription.",
+      "revId": "110a6bd5a0ddd57687f50e74cacb50c567eca700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzxMALAw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T15:14:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QzdViHOs",
       "revId": "110a6bd5a0ddd57687f50e74cacb50c567eca700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

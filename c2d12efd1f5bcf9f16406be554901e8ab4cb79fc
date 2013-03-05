@@ -16,6 +16,24 @@
       "revId": "c2d12efd1f5bcf9f16406be554901e8ab4cb79fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzZXzhCs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 0,
+      "message": "If line 53 is not moved, when running Gerrit, an Exception is thrown out with \nmessage which I  remember is  like \u0027...MetaDataUpdate.Use has already been \ninstantiated... redundant.\u0027\n\nI ever check and guess the reason: \nGuice bind GerritGlobalModule.java  in advance of GerritRequestModule, and the \nPerformCreateProject has a dependency: MetaDataUpdate.User.\n\nso after PerformCreateProject.Factory.class is moved to GerritGlobalModule.java. \nGuice would have already prepared MetaDataUpdate.User object for PerformCreateProject in GerritGlobalModule.java , thus when Guice start process GerritRequestModule. it throws that Exception.",
+      "parentUuid": "QtM5jw-E",
+      "revId": "c2d12efd1f5bcf9f16406be554901e8ab4cb79fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

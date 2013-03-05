@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "QzbXugEE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtC44R9k",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtI5duyw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-04T15:37:33Z",
       "side": 1,
       "message": "s/projectName/name",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzfX4.Ag",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtI5duyw",
       "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "QzdX9-PY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "GetProject.ProjectInfo has not \u0027permissionsOnly\u0027 and \u0027createEmptyCommit\u0027 ... ,\nthat is why I have not reuse GetProject.ProjectInfo",
+      "parentUuid": "QtK5i9.k",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QOwf-9qA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2013-02-26T08:16:31Z",
       "side": 1,
       "message": "s/in/is",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzTUDkBw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QOwf-9qA",
       "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "QzRUAFAw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "Hi, guys \n\nHere I prefer to \"You may also say in both cases \u0027Project ... does not exist or is not visible\u0027\". :)\n\nDone",
+      "parentUuid": "QtE5YMzk",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtG5V7-0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 6
@@ -115,6 +205,24 @@
       "writtenOn": "2013-03-04T15:37:33Z",
       "side": 1,
       "message": "To check whether a project with the name already exists, you could check directly against the project cache. There is no need to create a ProjectContol.\n\nAfter all I think you can simply remove this check. If a project with this name exists already, ProjectsCollection would detect this and invoke PutProject instead of CreateProject.",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzbU8wNU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtG5V7-0",
       "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "QzXUNCEQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "It is better to \"have a \u0027description\u0027 field \"  thus it is nice for those running REAT API directly without going via Gerrit UI\n\nDone",
+      "parentUuid": "QtA5SKxc",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtC5P520",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 6
@@ -185,6 +311,24 @@
       "writtenOn": "2013-03-04T15:37:33Z",
       "side": 1,
       "message": "Would be nice to have a \u0027submitType\u0027 field in the Input as well, to be able to control this setting when creating a project via REST.",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzVUKjC0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtC5P520",
       "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "QzbUV4E0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtM6K42M",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QtO5o-88",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutProject.java",
         "patchSetId": 6
@@ -219,6 +381,24 @@
       "writtenOn": "2013-03-04T15:37:33Z",
       "side": 1,
       "message": "s/PreconditionFailedException/ResourceConflictException\n\ns/Resource/Project\n\nThis was recently fixed for PutGroup [1].\n\n[1] https://gerrit-review.googlesource.com/42705",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QzZVBxE8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PutProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-05T08:39:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QtO5o-88",
       "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

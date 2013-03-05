@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QzvQPWDc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-05T15:06:06Z",
+      "side": 1,
+      "message": "Lists.newArrayList(sectionToProject.keySet()) ?",
+      "revId": "5769d3a52cbc1a75a1367ae00b7b748c8edfc409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "QztQU3E4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-05T15:06:06Z",
+      "side": 1,
+      "message": "FWIW you could have put the Project.NameKey into a SectionMatcher. Its an internal hidden implementation detail of the server. This would clean up some of the Map usage and maybe make the code a bit more clear here and in PermissionCollection.",
+      "revId": "5769d3a52cbc1a75a1367ae00b7b748c8edfc409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

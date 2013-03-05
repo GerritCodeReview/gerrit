@@ -253,15 +253,15 @@ AccountInfo
 The `AccountInfo` entity contains information about an account.
 
 [options="header",width="50%",cols="1,^1,5"]
-|===========================
-|Field Name    ||Description
-|`_account_id` ||The numeric ID of the account.
-|`name`        |optional|The full name of the user. +
+|==============================
+|Field Name       ||Description
+|`_account_id`    ||The numeric ID of the account.
+|`full_name`      |optional|The full name of the user. +
 Only set if detailed account information is requested.
-|`email`       |optional|
+|`preferred_email`|optional|
 The email address the user prefers to be contacted through. +
 Only set if detailed account information is requested.
-|===========================
+|==============================
 
 [[capability-info]]
 CapabilityInfo

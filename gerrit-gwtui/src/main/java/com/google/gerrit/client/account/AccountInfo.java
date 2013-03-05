@@ -18,12 +18,12 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class AccountInfo extends JavaScriptObject {
   public final native int _account_id() /*-{ return this._account_id || 0; }-*/;
-  public final native String name() /*-{ return this.name; }-*/;
-  public final native String email() /*-{ return this.email; }-*/;
+  public final native String name() /*-{ return this.full_name; }-*/;
+  public final native String email() /*-{ return this.preferred_email; }-*/;
 
   public static native AccountInfo create(int id, String name,
       String email) /*-{
-    return {'_account_id': id, 'name': name, 'email': email};
+    return {'_account_id': id, 'full_name': name, 'preferred_email': email};
   }-*/;
 
   protected AccountInfo() {

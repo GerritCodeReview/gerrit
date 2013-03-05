@@ -110,14 +110,14 @@ public class AccountInfo {
   }
 
   public Integer _account_id;
-  public String name;
-  public String email;
+  public String fullName;
+  public String preferredEmail;
 
   private void fill(Account account, boolean detailed) {
-    name = account.getFullName();
+    fullName = account.getFullName();
     if (detailed) {
       _account_id = account.getId().get();
-      email = account.getPreferredEmail();
+      preferredEmail = account.getPreferredEmail();
     }
   }
 }

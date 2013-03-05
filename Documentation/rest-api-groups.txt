@@ -281,13 +281,13 @@ describes the group.
     "members": [
       {
         "_account_id": 1000097,
-        "name": "Jane Roe",
-        "email": "jane.roe@example.com"
+        "full_name": "Jane Roe",
+        "preferred_email": "jane.roe@example.com"
       },
       {
         "_account_id": 1000096,
-        "name": "John Doe",
-        "email": "john.doe@example.com"
+        "full_name": "John Doe",
+        "preferred_email": "john.doe@example.com"
       }
     ],
     "includes": []
@@ -578,13 +578,13 @@ full name, preferred email and id.
   [
     {
       "_account_id": 1000097,
-      "name": "Jane Roe",
-      "email": "jane.roe@example.com"
+      "full_name": "Jane Roe",
+      "preferred_email": "jane.roe@example.com"
     },
     {
       "_account_id": 1000096,
-      "name": "John Doe",
-      "email": "john.doe@example.com"
+      "full_name": "John Doe",
+      "preferred_email": "john.doe@example.com"
     }
   ]
 ----
@@ -612,18 +612,18 @@ members the parameter `recursive` can be set.
   [
     {
       "_account_id": 1000097,
-      "name": "Jane Roe",
-      "email": "jane.roe@example.com"
+      "full_name": "Jane Roe",
+      "preferred_email": "jane.roe@example.com"
     },
     {
       "_account_id": 1000096,
-      "name": "John Doe",
-      "email": "john.doe@example.com"
+      "full_name": "John Doe",
+      "preferred_email": "john.doe@example.com"
     },
     {
       "_account_id": 1000098,
-      "name": "Richard Roe",
-      "email": "richard.roe@example.com"
+      "full_name": "Richard Roe",
+      "preferred_email": "richard.roe@example.com"
     }
   ]
 ----
@@ -650,8 +650,8 @@ AccountInfo] entity is returned that describes the group member.
   )]}'
   {
     "_account_id": 1000096,
-    "name": "John Doe",
-    "email": "john.doe@example.com"
+    "full_name": "John Doe",
+    "preferred_email": "john.doe@example.com"
   }
 ----
 
@@ -677,8 +677,8 @@ AccountInfo] entity is returned that describes the group member.
   )]}'
   {
     "_account_id": 1000037,
-    "name": "John Doe",
-    "email": "john.doe@example.com"
+    "full_name": "John Doe",
+    "preferred_email": "john.doe@example.com"
   }
 ----
 
@@ -728,13 +728,13 @@ already a member of the group.
   [
     {
       "_account_id": 1000057,
-      "name": "Jane Roe",
-      "email": "jane.roe@example.com"
+      "full_name": "Jane Roe",
+      "preferred_email": "jane.roe@example.com"
     },
     {
       "_account_id": 1000037,
-      "name": "John Doe",
-      "email": "john.doe@example.com"
+      "full_name": "John Doe",
+      "preferred_email": "john.doe@example.com"
     }
   ]
 ----

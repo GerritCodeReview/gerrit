@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "Q418Na0M",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-05T20:14:37Z",
+      "side": 1,
+      "message": "I agree with Edwin that dealing with this properly at the API level is beyond the scope of this change. This change in particular prevents 500s, which I think is always a good thing :)\n\nA simpler way to fix this particular issue at the framework level would be to always enforce that a @DefaultInput field is non-null.",
+      "parentUuid": "QzRWclKo",
+      "revId": "8076d4b1f42e77da92fe6c111c56077eb6ff6271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QzXWpiMw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2013-03-05T10:13:28Z",
       "side": 1,
       "message": "Should this rather be BadRequest, as the mandatory \u0027reviewer\u0027 field was not set?",
+      "revId": "8076d4b1f42e77da92fe6c111c56077eb6ff6271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Q438KLy4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-05T20:14:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QzXWpiMw",
       "revId": "8076d4b1f42e77da92fe6c111c56077eb6ff6271",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

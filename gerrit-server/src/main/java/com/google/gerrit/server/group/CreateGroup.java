@@ -78,8 +78,8 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
 
   @Override
   public GroupInfo apply(TopLevelResource resource, Input input)
-      throws AuthException, BadRequestException, OrmException,
-      NameAlreadyUsedException {
+      throws ResourceNotFoundException, AuthException, BadRequestException,
+      OrmException, NameAlreadyUsedException {
     if (input == null) {
       input = new Input();
     }

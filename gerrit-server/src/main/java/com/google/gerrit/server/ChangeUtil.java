@@ -333,8 +333,8 @@ public class ChangeUtil {
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, PatchSetInfoNotAvailableException {
     final Change.Id changeId = patchSetId.getParentKey();
-    final PatchSet patch = db.patchSets().get(patchSetId);
-    if (patch == null) {
+    final PatchSet originalPS = db.patchSets().get(patchSetId);
+    if (originalPS == null) {
       throw new NoSuchChangeException(changeId);
     }
 
@@ -345,7 +345,7 @@ public class ChangeUtil {
     final RevWalk revWalk = new RevWalk(git);
     try {
       RevCommit commit =
-          revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+          revWalk.parseCommit(ObjectId.fromString(originalPS.getRevision().get()));
       if (commit.getFullMessage().equals(message)) {
         throw new InvalidChangeOperationException("New commit message cannot be same as existing commit message");
       }
@@ -372,7 +372,6 @@ public class ChangeUtil {
         oi.release();
       }
 
-      final PatchSet originalPS = db.patchSets().get(patchSetId);
       PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
       final PatchSet newPatchSet = new PatchSet(id);
       newPatchSet.setCreatedOn(new Timestamp(now.getTime()));

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "QzhQAFAw",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-05T06:15:53Z",
+      "side": 0,
+      "message": "I wonder if we shouldn\u0027t keep the field names full_name and preferred_email, they feel more explicit which for an API feels important?",
+      "revId": "9542a8c8f3d0dc0908c5705017fddca5a898a98b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

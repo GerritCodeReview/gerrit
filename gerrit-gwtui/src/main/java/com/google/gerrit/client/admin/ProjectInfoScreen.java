@@ -31,25 +31,25 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private String projectName;
   private Project project;
 
-  private Panel projectOptionsPanel;
+  private LabeledWidgetsGrid grid;
+
+  // Section: Project Options
   private ListBox requireChangeID;
   private ListBox submitType;
   private ListBox state;
   private ListBox contentMerge;
 
-  private Panel agreementsPanel;
+  // Section: Contributor Agreements
   private ListBox contributorAgreements;
   private ListBox signedOffBy;
 
@@ -78,8 +78,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     add(new ProjectDownloadPanel(projectName, true));
 
     initDescription();
+    grid = new LabeledWidgetsGrid();
     initProjectOptions();
     initAgreements();
+    add(grid);
     add(saveProject);
   }
 
@@ -129,8 +131,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void initProjectOptions() {
-    projectOptionsPanel = new VerticalPanel();
-    projectOptionsPanel.add(new SmallHeading(Util.C.headingProjectOptions()));
+    grid.addHeader(new SmallHeading(Util.C.headingProjectOptions()));
 
     submitType = new ListBox();
     for (final Project.SubmitType type : Project.SubmitType.values()) {
@@ -143,31 +144,22 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     });
     saveEnabler.listenTo(submitType);
-    projectOptionsPanel.add(submitType);
+    grid.add(Util.C.headingProjectSubmitType(), submitType);
 
     state = new ListBox();
     for (final Project.State stateValue : Project.State.values()) {
       state.addItem(Util.toLongString(stateValue), stateValue.name());
     }
-
     saveEnabler.listenTo(state);
-    projectOptionsPanel.add(state);
+    grid.add(Util.C.headingProjectState(), state);
 
     contentMerge = newInheritedBooleanBox();
-    FlowPanel fp = new FlowPanel();
-    fp.add(contentMerge);
-    fp.add(new InlineLabel(Util.C.useContentMerge()));
     saveEnabler.listenTo(contentMerge);
-    projectOptionsPanel.add(fp);
+    grid.add(Util.C.useContentMerge(), contentMerge);
 
     requireChangeID = newInheritedBooleanBox();
-    fp = new FlowPanel();
-    fp.add(requireChangeID);
-    fp.add(new InlineHTML(Util.C.requireChangeID()));
     saveEnabler.listenTo(requireChangeID);
-    projectOptionsPanel.add(fp);
-
-    add(projectOptionsPanel);
+    grid.addHtml(Util.C.requireChangeID(), requireChangeID);
   }
 
   private static ListBox newInheritedBooleanBox() {
@@ -197,26 +189,17 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void initAgreements() {
-    agreementsPanel = new VerticalPanel();
-    agreementsPanel.add(new SmallHeading(Util.C.headingAgreements()));
+    grid.addHeader(new SmallHeading(Util.C.headingAgreements()));
 
     contributorAgreements = newInheritedBooleanBox();
     if (Gerrit.getConfig().isUseContributorAgreements()) {
-      FlowPanel fp = new FlowPanel();
-      fp.add(contributorAgreements);
-      fp.add(new InlineLabel(Util.C.useContributorAgreements()));
       saveEnabler.listenTo(contributorAgreements);
-      agreementsPanel.add(fp);
+      grid.add(Util.C.useContributorAgreements(), contributorAgreements);
     }
 
     signedOffBy = newInheritedBooleanBox();
-    FlowPanel fp = new FlowPanel();
-    fp.add(signedOffBy);
-    fp.add(new InlineHTML(Util.C.useSignedOffBy()));
     saveEnabler.listenTo(signedOffBy);
-    agreementsPanel.add(fp);
-
-    add(agreementsPanel);
+    grid.addHtml(Util.C.useSignedOffBy(), signedOffBy);
   }
 
   private void setSubmitType(final Project.SubmitType newSubmitType) {
@@ -339,5 +322,43 @@ public class ProjectInfoScreen extends ProjectScreen {
         }
       }
     }
+  }
+
+  private class LabeledWidgetsGrid extends FlexTable {
+    private String labelSuffix;
+
+    public LabeledWidgetsGrid() {
+      super();
+      labelSuffix = ":";
+    }
+
+    private void addHeader(Widget widget) {
+      int row = getRowCount();
+      insertRow(row);
+      setWidget(row, 0, widget);
+      getCellFormatter().getElement(row, 0).setAttribute("colSpan", "2");
+    }
+
+    private void add(String label, boolean labelIsHtml, Widget widget) {
+      int row = getRowCount();
+      insertRow(row);
+      if (label != null) {
+        if (labelIsHtml) {
+          setHTML(row, 0, label + labelSuffix);
+        } else {
+          setText(row, 0, label + labelSuffix);
+        }
+      }
+      setWidget(row, 1, widget);
+    }
+
+    public void add(String label, Widget widget) {
+      add(label, false, widget);
+    }
+
+    public void addHtml(String label, Widget widget) {
+      add(label, true, widget);
+    }
+
   }
 }

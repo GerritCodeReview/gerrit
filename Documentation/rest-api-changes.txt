@@ -10,8 +10,11 @@ Change Endpoints
 ----------------
 
 [[list-changes]]
-GET /changes/ (Query Changes)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Query Changes
+~~~~~~~~~~~~~
+[verse]
+'GET /changes/'
+
 Queries changes visible to the caller. The query string must be
 provided by the `q` parameter. The `n` parameter can be used to limit
 the returned results.
@@ -302,8 +305,11 @@ default. Optional fields are:
 ----
 
 [[get-change]]
-GET /changes/\{change-id\} (Get Change)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Change
+~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]'
+
 Retrieves a change.
 
 .Request
@@ -342,8 +348,11 @@ describes the change.
 ----
 
 [[get-change-detail]]
-GET /changes/\{change-id\}/detail (Get Change Detail)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Change Detail
+~~~~~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/detail'
+
 Retrieves a change with link:#labels[labels], link:#detailed-labels[
 detailed labels] and link:#detailed-accounts[detailed accounts].
 
@@ -467,8 +476,11 @@ describes the change.
 ----
 
 [[get-topic]]
-GET /changes/\{change-id\}/topic (Get Topic)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Topic
+~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/topic'
+
 Retrieves the topic of a change.
 
 .Request
@@ -489,8 +501,11 @@ Retrieves the topic of a change.
 If the change does not have a topic an empty string is returned.
 
 [[set-topic]]
-PUT /changes/\{change-id\}/topic (Set Topic)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set Topic
+~~~~~~~~~
+[verse]
+'PUT /changes/link:#change-id[\{change-id\}]/topic'
+
 Sets the topic of a change.
 
 The new topic must be provided in the request body inside a
@@ -521,8 +536,11 @@ As response the new topic is returned.
 If the topic was deleted the response is "`204 No Content`".
 
 [[delete-topic]]
-DELETE /changes/\{change-id\}/topic (Delete Topic)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete Topic
+~~~~~~~~~~~~
+[verse]
+'DELETE /changes/link:#change-id[\{change-id\}]/topic'
+
 Deletes the topic of a change.
 
 The request body does not need to include a link:#topic-input[
@@ -543,8 +561,11 @@ link:#set-topic[PUT] to delete the topic.
 ----
 
 [[abandon-change]]
-POST /changes/\{change-id\}/abandon (Abandon Change)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Abandon Change
+~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/abandon'
+
 Abandons a change.
 
 The request body does not need to include a link:#abandon-input[
@@ -599,8 +620,11 @@ the error message is contained in the response body.
 ----
 
 [[restore-change]]
-POST /changes/\{change-id\}/restore (Restore Change)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Restore Change
+~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/restore'
+
 Restores a change.
 
 The request body does not need to include a link:#restore-input[
@@ -655,8 +679,11 @@ the error message is contained in the response body.
 ----
 
 [[revert-change]]
-POST /changes/\{change-id\}/revert (Revert Change)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Revert Change
+~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revert'
+
 Reverts a change.
 
 The request body does not need to include a link:#revert-input[
@@ -711,8 +738,11 @@ the error message is contained in the response body.
 ----
 
 [[submit-change]]
-POST /changes/\{change-id\}/submit (Submit Change)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Submit Change
+~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/submit'
+
 Submits a change.
 
 The request body only needs to include a link:#submit-input[
@@ -776,8 +806,11 @@ Reviewer Endpoints
 ------------------
 
 [[list-reviewers]]
-GET /changes/\{change-id\}/reviewers/ (List Reviewers)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List Reviewers
+~~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/reviewers/'
+
 Lists the reviewers of a change.
 
 As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
@@ -819,8 +852,11 @@ As result a list of link:#reviewer-info[ReviewerInfo] entries is returned.
 ----
 
 [[get-reviewer]]
-GET /changes/\{change-id\}/reviewers/\{account-id\} (Get Reviewer)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Reviewer
+~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]'
+
 Retrieves a reviewer of a change.
 
 As response a link:#reviewer-info[ReviewerInfo] entity is returned that
@@ -851,8 +887,11 @@ describes the reviewer.
 ----
 
 [[add-reviewer]]
-POST /changes/\{change-id\}/reviewers (Add Reviewer)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add Reviewer
+~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/reviewers'
+
 Adds one user or all members of one group as reviewer to the change.
 
 The reviewer to be added to the change must be provided in the request
@@ -939,8 +978,11 @@ To confirm the addition of the reviewers, resend the request with the
 ----
 
 [[delete-reviewer]]
-DELETE /changes/\{change-id\}/reviewers/\{account-id\} (Delete Reviewer)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete Reviewer
+~~~~~~~~~~~~~~~
+[verse]
+'DELETE /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]'
+
 Deletes a reviewer from a change.
 
 .Request
@@ -958,8 +1000,11 @@ Revision Endpoints
 ------------------
 
 [[get-review]]
-GET /changes/\{change-id\}/revisions/\{revision-id\}/review (Get Review)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Review
+~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/review'
+
 Retrieves a review of a revision.
 
 .Request
@@ -1089,8 +1134,11 @@ for the current patch set.
 ----
 
 [[set-review]]
-POST /changes/\{change-id\}/revisions/\{revision-id\}/review (Set Review)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set Review
+~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/review'
+
 Sets a review on a revision.
 
 The review must be provided in the request body as a
@@ -1139,8 +1187,11 @@ describes the applied labels.
 ----
 
 [[submit-revision]]
-POST /changes/\{change-id\}/revisions/\{revision-id\}/submit (Submit Revision)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Submit Revision
+~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit'
+
 Submits a revision.
 
 The request body only needs to include a link:#submit-input[
@@ -1185,9 +1236,12 @@ message is contained in the response body.
   "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
 ----
 
-[[submit-type]]
-GET /changes/\{change-id\}/revisions/\{revision-id\}/submit_type (Get Submit Type)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[get-submit-type]]
+Get Submit Type
+~~~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit_type'
+
 Gets the method the server will use to submit (merge) the change.
 
 .Request
@@ -1206,8 +1260,11 @@ Gets the method the server will use to submit (merge) the change.
 ----
 
 [[test-submit-type]]
-POST /changes/\{change-id\}/revisions/\{revision-id\}/test.submit_type (Test Submit Type)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Test Submit Type
+~~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/test.submit_type'
+
 Tests the submit_type Prolog rule in the project, or the one given.
 
 Request body may be either the Prolog code as `text/plain` or a
@@ -1234,8 +1291,11 @@ a project-specific rule.
 ----
 
 [[test-submit-rule]]
-POST /changes/\{change-id\}/revisions/\{revision-id\}/test.submit_rule (Test Submit Rule)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Test Submit Rule
+~~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/test.submit_rule'
+
 Tests the submit_rule Prolog rule in the project, or the one given.
 
 Request body may be either the Prolog code as `text/plain` or a
@@ -1273,8 +1333,11 @@ describing the permutations that satisfy the tested submit rule.
 ----
 
 [[list-drafts]]
-GET /changes/\{change-id\}/revisions/\{revision-id\}/drafts/ (List Drafts)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List Drafts
+~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/'
+
 Lists the draft comments of a revision that belong to the calling
 user.
 
@@ -1316,8 +1379,11 @@ sorted by file path.
 ----
 
 [[create-draft]]
-PUT /changes/\{change-id\}/revisions/\{revision-id\}/drafts (Create Draft)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create Draft
+~~~~~~~~~~~~
+[verse]
+'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts'
+
 Creates a draft comment on a revision.
 
 The new draft comment must be provided in the request body inside a
@@ -1356,8 +1422,11 @@ describes the draft comment.
 ----
 
 [[get-draft]]
-GET /changes/\{change-id\}/revisions/\{revision-id\}/drafts/\{draft-id\} (Get Draft)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Draft
+~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/link:#draft-id[\{draft-id\}]'
+
 Retrieves a draft comment of a revision that belongs to the calling
 user.
 
@@ -1387,8 +1456,11 @@ describes the draft comment.
 ----
 
 [[update-draft]]
-PUT /changes/\{change-id\}/revisions/\{revision-id\}/drafts/\{draft-id\} (Update Draft)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Update Draft
+~~~~~~~~~~~~
+[verse]
+'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/link:#draft-id[\{draft-id\}]'
+
 Updates a draft comment on a revision.
 
 The new draft comment must be provided in the request body inside a
@@ -1427,8 +1499,11 @@ describes the draft comment.
 ----
 
 [[delete-draft]]
-DELETE /changes/\{change-id\}/revisions/\{revision-id\}/drafts/\{draft-id\} (Delete Draft)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete Draft
+~~~~~~~~~~~~
+[verse]
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/drafts/link:#draft-id[\{draft-id\}]'
+
 Deletes a draft comment from a revision.
 
 .Request
@@ -1442,8 +1517,11 @@ Deletes a draft comment from a revision.
 ----
 
 [[set-reviewed]]
-PUT /changes/\{change-id\}/revisions/\{revision-id\}/files/\{patch-id\}/reviewed (Set Reviewed)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set Reviewed
+~~~~~~~~~~~~
+[verse]
+'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#patch-id[\{patch-id\}]/reviewed'
+
 Marks a patch of a revision as reviewed by the calling user.
 
 .Request
@@ -1460,8 +1538,11 @@ If the patch was already marked as reviewed by the calling user the
 response is "`200 OK`".
 
 [[delete-reviewed]]
-DELETE /changes/\{change-id\}/revisions/\{revision-id\}/files/\{patch-id\}/reviewed (Delete Reviewed)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete Reviewed
+~~~~~~~~~~~~~~~
+[verse]
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#patch-id[\{patch-id\}]/reviewed'
+
 Deletes the reviewed flag of the calling user from a patch of a revision.
 
 .Request

@@ -9,8 +9,11 @@ Endpoints
 ---------
 
 [[list-account-capabilities]]
-GET /accounts/\{account-id\}/capabilities (List Account Capabilities)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List Account Capabilities
+~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/capabilities'
+
 Returns the global capabilities that are enabled for the specified
 user.
 
@@ -111,8 +114,11 @@ get::/accounts/self/capabilities?q=createGroup
 ****
 
 [[check-account-capability]]
-GET /accounts/\{account-id\}/capabilities/\{capability-id\} (Check Account Capability)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Check Account Capability
+~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/capabilities/link:#capability-id[\{capability-id\}]'
+
 Checks if a user has a certain global capability.
 
 .Request
@@ -138,8 +144,11 @@ get::/accounts/self/capabilities/createGroup
 ****
 
 [[list-groups]]
-GET /accounts/\{account-id\}/groups/ (List Groups)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List Groups
+~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/groups/'
+
 Lists all groups that contain the specified user as a member.
 
 .Request
@@ -197,8 +206,11 @@ get::/accounts/self/groups/
 ****
 
 [[get-avatar]]
-GET /accounts/\{account-id\}/avatar (Get Avatar)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Avatar
+~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/avatar'
+
 Retrieves the avatar image of the user.
 
 With the `size` option (alias `s`) you can specify the preferred size

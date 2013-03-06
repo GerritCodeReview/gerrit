@@ -13,8 +13,11 @@ Project Endpoints
 -----------------
 
 [[list-projects]]
-GET /projects/ (List Projects)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List Projects
+~~~~~~~~~~~~~
+[verse]
+'GET /projects/'
+
 Lists the projects accessible by the caller. This is the same as
 using the link:cmd-ls-projects.html[ls-projects] command over SSH,
 and accepts the same options as query parameters.
@@ -95,8 +98,11 @@ List all projects that start with `platform/`:
 E.g. this feature can be used by suggestion client UI's to limit results.
 
 [[get-project-description]]
-GET /projects/\{project-name\}/description (Get Project Description)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Project Description
+~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/description'
+
 Retrieves the description of a project.
 
 .Request
@@ -117,8 +123,11 @@ Retrieves the description of a project.
 If the project does not have a description an empty string is returned.
 
 [[set-project-description]]
-PUT /projects/\{project-name\}/description (Set Project Description)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set Project Description
+~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'PUT /projects/link:#project-name[\{project-name\}]/description'
+
 Sets the description of a project.
 
 The new project description must be provided in the request body inside
@@ -150,8 +159,11 @@ As response the new project description is returned.
 If the description was deleted the response is "`204 No Content`".
 
 [[delete-project-description]]
-DELETE /projects/\{project-name\}/description (Delete Project Description)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete Project Description
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'DELETE /projects/link:#project-name[\{project-name\}]/description'
+
 Deletes the description of a project.
 
 The request body does not need to include a
@@ -173,8 +185,11 @@ link:#set-project-description[PUT] to delete the description.
 ----
 
 [[get-project-parent]]
-GET /projects/\{project-name\}/parent (Get Project Parent)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Project Parent
+~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/parent'
+
 Retrieves the name of a project's parent project. For the
 `All-Projects` root project an empty string is returned.
 
@@ -194,8 +209,11 @@ Retrieves the name of a project's parent project. For the
 ----
 
 [[set-project-parent]]
-PUT /projects/\{project-name\}/parent (Set Project Parent)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set Project Parent
+~~~~~~~~~~~~~~~~~~
+[verse]
+'PUT /projects/link:#project-name[\{project-name\}]/parent'
+
 Sets the parent project for a project.
 
 The new name of the parent project must be provided in the request body
@@ -229,8 +247,11 @@ Dashboard Endpoints
 -------------------
 
 [[list-dashboards]]
-GET /projects/\{project-name\}/dashboards/ (List Dashboards)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List Dashboards
+~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/dashboards/'
+
 List custom dashboards for a project.
 
 As result a list of link:#dashboard-info[DashboardInfo] entries is
@@ -280,8 +301,11 @@ get::/projects/All-Projects/dashboards/
 ****
 
 [[get-dashboard]]
-GET /projects/\{project-name\}/dashboards/\{dashboard-id\} (Get Dashboard)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Get Dashboard
+~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/dashboards/link:#dashboard-id[\{dashboard-id\}]'
+
 Retrieves a project dashboard. The dashboard can be defined on that
 project or be inherited from a parent project.
 
@@ -360,8 +384,11 @@ dashboard-id.
 ----
 
 [[set-dashboard]]
-PUT /projects/\{project-name\}/dashboards/\{dashboard-id\} (Set Dashboard)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set Dashboard
+~~~~~~~~~~~~~
+[verse]
+'PUT /projects/link:#project-name[\{project-name\}]/dashboards/link:#dashboard-id[\{dashboard-id\}]'
+
 Updates/Creates a project dashboard.
 
 Currently only supported for the `default` dashboard.
@@ -413,8 +440,11 @@ link:#dashboard-info[DashboardInfo] entity.
 ----
 
 [[delete-dashboard]]
-DELETE /projects/\{project-name\}/dashboards/\{dashboard-id\} (Delete Dashboard)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Delete Dashboard
+~~~~~~~~~~~~~~~~
+[verse]
+'DELETE /projects/link:#project-name[\{project-name\}]/dashboards/link:#dashboard-id[\{dashboard-id\}]'
+
 Deletes a project dashboard.
 
 Currently only supported for the `default` dashboard.
@@ -440,6 +470,7 @@ requests.
 IDs
 ---
 
+[[dashboard-id]]
 \{dashboard-id\}
 ~~~~~~~~~~~~~~~~
 The ID of a dashboard in the format '<ref>:<path>'.
@@ -447,6 +478,7 @@ The ID of a dashboard in the format '<ref>:<path>'.
 A special dashboard ID is `default` which represents the default
 dashboard of a project.
 
+[[project-name]]
 \{project-name\}
 ~~~~~~~~~~~~~~~~
 The name of the project.

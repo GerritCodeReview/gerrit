@@ -16,6 +16,24 @@
       "revId": "c8cba9f625c8782ab46d5a12e157e96875bfd5f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Q-6Pzuio",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-06T08:26:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Q5V0km7s",
+      "revId": "c8cba9f625c8782ab46d5a12e157e96875bfd5f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

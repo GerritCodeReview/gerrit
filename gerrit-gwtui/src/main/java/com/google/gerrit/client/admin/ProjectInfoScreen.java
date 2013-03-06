@@ -32,11 +32,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
 public class ProjectInfoScreen extends ProjectScreen {
@@ -132,6 +134,8 @@ public class ProjectInfoScreen extends ProjectScreen {
     projectOptionsPanel = new VerticalPanel();
     projectOptionsPanel.add(new SmallHeading(Util.C.headingProjectOptions()));
 
+    LabeledWidgetsGrid grid = new LabeledWidgetsGrid();
+
     submitType = new ListBox();
     for (final Project.SubmitType type : Project.SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
@@ -143,7 +147,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     });
     saveEnabler.listenTo(submitType);
-    projectOptionsPanel.add(submitType);
+    grid.add(Util.C.headingProjectSubmitType(), submitType);
 
     state = new ListBox();
     for (final Project.State stateValue : Project.State.values()) {
@@ -152,21 +156,17 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     saveEnabler.listenTo(state);
     projectOptionsPanel.add(state);
+    grid.add(Util.C.headingProjectState(), state);
 
     contentMerge = newInheritedBooleanBox();
-    FlowPanel fp = new FlowPanel();
-    fp.add(contentMerge);
-    fp.add(new InlineLabel(Util.C.useContentMerge()));
     saveEnabler.listenTo(contentMerge);
-    projectOptionsPanel.add(fp);
+    grid.add(Util.C.useContentMerge(), contentMerge);
 
     requireChangeID = newInheritedBooleanBox();
-    fp = new FlowPanel();
-    fp.add(requireChangeID);
-    fp.add(new InlineHTML(Util.C.requireChangeID()));
     saveEnabler.listenTo(requireChangeID);
-    projectOptionsPanel.add(fp);
+    grid.addHtml(Util.C.requireChangeID(), requireChangeID);
 
+    projectOptionsPanel.add(grid);
     add(projectOptionsPanel);
   }
 
@@ -200,22 +200,19 @@ public class ProjectInfoScreen extends ProjectScreen {
     agreementsPanel = new VerticalPanel();
     agreementsPanel.add(new SmallHeading(Util.C.headingAgreements()));
 
+    LabeledWidgetsGrid grid = new LabeledWidgetsGrid();
+
     contributorAgreements = newInheritedBooleanBox();
     if (Gerrit.getConfig().isUseContributorAgreements()) {
-      FlowPanel fp = new FlowPanel();
-      fp.add(contributorAgreements);
-      fp.add(new InlineLabel(Util.C.useContributorAgreements()));
       saveEnabler.listenTo(contributorAgreements);
-      agreementsPanel.add(fp);
+      grid.add(Util.C.useContributorAgreements(), contributorAgreements);
     }
 
     signedOffBy = newInheritedBooleanBox();
-    FlowPanel fp = new FlowPanel();
-    fp.add(signedOffBy);
-    fp.add(new InlineHTML(Util.C.useSignedOffBy()));
     saveEnabler.listenTo(signedOffBy);
-    agreementsPanel.add(fp);
+    grid.addHtml(Util.C.useSignedOffBy(), signedOffBy);
 
+    agreementsPanel.add(grid);
     add(agreementsPanel);
   }
 
@@ -339,5 +336,36 @@ public class ProjectInfoScreen extends ProjectScreen {
         }
       }
     }
+  }
+
+  private class LabeledWidgetsGrid extends Grid {
+    private String labelSuffix;
+
+    public LabeledWidgetsGrid() {
+      super(0,2);
+      labelSuffix = ":";
+    }
+
+    private void add(String label, boolean labelIsHtml, Widget widget) {
+      int row = getRowCount();
+      resizeRows(row+1);
+      if (label != null) {
+        if (labelIsHtml) {
+          setHTML(row, 0, label + labelSuffix);
+        } else {
+          setText(row, 0, label + labelSuffix);
+        }
+      }
+      setWidget(row, 1, widget);
+    }
+
+    public void add(String label, Widget widget) {
+      add(label, false, widget);
+    }
+
+    public void addHtml(String label, Widget widget) {
+      add(label, true, widget);
+    }
+
   }
 }

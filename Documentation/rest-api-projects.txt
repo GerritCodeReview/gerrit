@@ -97,6 +97,38 @@ List all projects that start with `platform/`:
 ----
 E.g. this feature can be used by suggestion client UI's to limit results.
 
+[[get-project]]
+Get Project
+~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]'
+
+Retrieves a project.
+
+.Request
+----
+  GET /projects/plugins%2Freplication HTTP/1.0
+----
+
+As response a link:#project-info[ProjectInfo] entity is returned that
+describes the project.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#project",
+    "id": "plugins%2Freplication",
+    "name": "plugins/replication",
+    "parent": "Public-Plugins",
+    "description": "Copies to other servers using the Git protocol"
+  }
+----
+
 [[get-project-description]]
 Get Project Description
 ~~~~~~~~~~~~~~~~~~~~~~~

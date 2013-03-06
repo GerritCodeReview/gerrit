@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Q5V0km7s",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-06T08:05:15Z",
+      "side": 1,
+      "message": "This bug was reopened, so maybe it\u0027s not fixed yet.",
+      "revId": "c8cba9f625c8782ab46d5a12e157e96875bfd5f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

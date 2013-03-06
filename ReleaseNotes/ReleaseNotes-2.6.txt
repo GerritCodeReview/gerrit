@@ -107,11 +107,13 @@ EMail
 ~~~~~
 * link:https://code.google.com/p/gerrit/issues/detail?id=1531[Issue 1531]:
 Email footers now include `Gerrit-HasComments: {Yes|No}`.
-* Notifications configured in project.config can now be addressed
+* Notifications configured in `project.config` can now be addressed
   using any of To, CC, or BCC headers.
-
 * `#if($email.hasInlineComments())` can be used in templates to test
   if there are comments to be included in this email.
+* Notification emails are sent to included groups.
+* Comment notification emails are sent to project watchers.
+* "Change Merged" emails include the diff output when `sendemail.includeDiff` is enabled.
 
 Upgrades
 ~~~~~~~~
@@ -159,6 +161,26 @@ SSH
 `_more_changes` is set if `query` result is limited due to configured query limit.
 
 * `ls-groups` prints "N/A" if the group's name is not set.
+
+EMail
+~~~~~
+* link:https://code.google.com/p/gerrit/issues/detail?id=1444[Issue 1444]:
+`Mailing-List` header is removed from sent emails.
+
+* SMTP client error messages are improved to make it more clear at exactly what
+stage in the SMTP transaction the server returned an error.
+
+* Missing email templates are added to the site initialization.
+* Merge failure emails are only sent once per day.
+* Unused macros are removed from the mail templates.
+* Unnecessary ellipses are no longer applied to email subjects.
+* The diff output from an "octopus merge" is made more readable in change notification emails.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1480[Issue 1480]:
+Proper error message is shown when registering an email address fails.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1692[Issue 1692]:
+Review comments are sorted before being added to notification emails.
+
 Documentation
 -------------
 

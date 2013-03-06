@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RAILuWkE",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-06T08:19:09Z",
+      "side": 1,
+      "message": "This was cherry-picked for 2.5.2 [1] and can be removed here.\n\n[1] https://gerrit-review.googlesource.com/41520",
+      "revId": "f012162f4afd82fcdd9fea86eef2fcc6c3513f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RAGLzVi0",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-06T08:19:09Z",
+      "side": 1,
+      "message": "This was cherry-picked for 2.5.2 [1] and can be removed here.\n\n[1] https://gerrit-review.googlesource.com/41521",
+      "revId": "f012162f4afd82fcdd9fea86eef2fcc6c3513f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

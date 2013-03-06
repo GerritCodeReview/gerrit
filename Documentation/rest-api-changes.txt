@@ -1,5 +1,5 @@
-Gerrit Code Review - '/changes/' REST API
-=========================================
+Gerrit Code Review - /changes/ REST API
+=======================================
 
 This page describes the change related REST endpoints.
 Please also take note of the general information on the

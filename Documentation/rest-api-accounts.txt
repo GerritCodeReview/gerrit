@@ -1,5 +1,5 @@
-Gerrit Code Review - '/accounts/' REST API
-==========================================
+Gerrit Code Review - /accounts/ REST API
+========================================
 
 This page describes the account related REST endpoints.
 Please also take note of the general information on the

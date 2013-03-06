@@ -1,5 +1,5 @@
-Gerrit Code Review - '/groups/' REST API
-========================================
+Gerrit Code Review - /groups/ REST API
+======================================
 
 This page describes the group related REST endpoints.
 Please also take note of the general information on the

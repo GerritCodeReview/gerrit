@@ -1,5 +1,5 @@
-Gerrit Code Review - '/projects/' REST API
-==========================================
+Gerrit Code Review - /projects/ REST API
+========================================
 
 This page describes the project related REST endpoints.
 Please also take note of the general information on the

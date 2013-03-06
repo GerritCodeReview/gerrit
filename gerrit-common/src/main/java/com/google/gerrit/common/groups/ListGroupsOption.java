@@ -35,10 +35,6 @@ public enum ListGroupsOption {
     return value;
   }
 
-  public static ListGroupsOption fromValue(int value) {
-    return ListGroupsOption.values()[value];
-  }
-
   public static EnumSet<ListGroupsOption> fromBits(int v) {
     EnumSet<ListGroupsOption> r = EnumSet.noneOf(ListGroupsOption.class);
     for (ListGroupsOption o : ListGroupsOption.values()) {

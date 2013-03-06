@@ -2024,16 +2024,19 @@ The `SubmitRecord` entity describes results from a submit_rule.
 `CLOSED`, closed changes cannot be submitted. +
 `RULE_ERROR`, rule code failed with an error.
 |`ok`|optional|
-Map of labels that are approved; an link:#account-info[AccountInfo]
-identifies the voter chosen by the rule.
+Map of labels that are approved; an
+link:rest-api-accounts.html#account-info[AccountInfo] identifies the
+voter chosen by the rule.
 |`reject`|optional|
-Map of labels that are preventing submit; AccountInfo identifies voter.
+Map of labels that are preventing submit;
+link:rest-api-accounts.html#account-info[AccountInfo] identifies voter.
 |`need`|optional|
 Map of labels that need to be given to submit. The value is
 currently an empty object.
 |`may`|optional|
 Map of labels that can be used, but do not affect submit.
-AccountInfo identifies voter, if the label has been applied.
+link:rest-api-accounts.html#account-info[AccountInfo] identifies voter,
+if the label has been applied.
 |`impossible`|optional|
 Map of labels that should have been in `need` but cannot be
 used by any user because of access restrictions. The value

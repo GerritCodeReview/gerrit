@@ -64,12 +64,14 @@ public interface AdminConstants extends Constants {
   String columnProjectName();
   String headingAgreements();
 
+  String headingProjectSubmitType();
   String projectSubmitType_FAST_FORWARD_ONLY();
   String projectSubmitType_MERGE_ALWAYS();
   String projectSubmitType_MERGE_IF_NECESSARY();
   String projectSubmitType_REBASE_IF_NECESSARY();
   String projectSubmitType_CHERRY_PICK();
 
+  String headingProjectState();
   String projectState_ACTIVE();
   String projectState_READ_ONLY();
   String projectState_HIDDEN();

@@ -20,6 +20,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -59,9 +60,9 @@ public class ListMembers implements RestReadView<GroupResource> {
 
   @Override
   public List<AccountInfo> apply(final GroupResource resource)
-      throws ResourceNotFoundException, OrmException {
+      throws MethodNotAllowedException, ResourceNotFoundException, OrmException {
     if (resource.toAccountGroup() == null) {
-      throw new ResourceNotFoundException(resource.getGroupUUID().get());
+      throw new MethodNotAllowedException();
     }
     try {
       final Map<Account.Id, AccountInfo> members =

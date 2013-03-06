@@ -215,6 +215,7 @@ public class SchemaCreator {
       p.setUseContentMerge(InheritableBoolean.TRUE);
       p.setUseContributorAgreements(InheritableBoolean.FALSE);
       p.setUseSignedOffBy(InheritableBoolean.FALSE);
+      p.setIsTemplate(InheritableBoolean.FALSE);
 
       AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);

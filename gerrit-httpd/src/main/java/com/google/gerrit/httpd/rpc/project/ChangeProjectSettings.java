@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -44,6 +45,7 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
   private final GitRepositoryManager mgr;
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final Provider<PerRequestProjectControlCache> userCache;
+  private final CurrentUser currentUser;
 
   private final Project update;
 
@@ -54,12 +56,13 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
       final GitRepositoryManager mgr,
       final MetaDataUpdate.User metaDataUpdateFactory,
       final Provider<PerRequestProjectControlCache> uc,
-      @Assisted final Project update) {
+      final CurrentUser currentUser, @Assisted final Project update) {
     this.projectDetailFactory = projectDetailFactory;
     this.projectControlFactory = projectControlFactory;
     this.mgr = mgr;
     this.userCache = uc;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.currentUser = currentUser;
 
     this.update = update;
   }
@@ -83,7 +86,8 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
       // ensure the current version matches the old version the caller read.
       //
       ProjectConfig config = ProjectConfig.read(md);
-      config.getProject().copySettingsFrom(update);
+      config.getProject().copySettingsFrom(update,
+          currentUser.getCapabilities().canAdministrateServer());
 
       md.setMessage("Modified project settings\n");
       try {

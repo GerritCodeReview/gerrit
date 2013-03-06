@@ -341,6 +341,15 @@ public class ProjectState {
     });
   }
 
+  public boolean isIsTemplate() {
+    return getInheritableBoolean(new Function<Project, InheritableBoolean>() {
+      @Override
+      public InheritableBoolean apply(Project input) {
+        return input.getIsTemplate();
+      }
+    });
+  }
+
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = Maps.newLinkedHashMap();
     List<ProjectState> projects = Lists.newArrayList(tree());

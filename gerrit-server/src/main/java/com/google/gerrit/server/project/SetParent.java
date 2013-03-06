@@ -54,7 +54,7 @@ class SetParent implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public Object apply(ProjectResource resource, Input input)
+  public String apply(ProjectResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
       Exception {
     ProjectControl ctl = resource.getControl();
@@ -83,11 +83,8 @@ class SetParent implements RestModifyView<ProjectResource, Input> {
         config.commit(md);
         cache.evict(ctl.getProject());
 
-        ListProjects.ProjectInfo info = new ListProjects.ProjectInfo();
-        info.setName(resource.getName());
-        info.parent = project.getParentName();
-        info.description = project.getDescription();
-        return info;
+        Project.NameKey parentName = project.getParent(allProjects);
+        return parentName != null ? parentName.get() : "";
       } finally {
         md.close();
       }

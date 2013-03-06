@@ -67,6 +67,9 @@ Hooks
 * link:https://code.google.com/p/gerrit/issues/detail?id=1200[Issue 1200]:
 New `reviewer-added` hook and stream event when a reviewer is added.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=1237[Issue 1237]:
+New `merge-failed` hook and stream event when a change cannot be submitted due to failed merge.
+
 SSH
 ~~~
 * Descriptions are added to ssh commands.
@@ -118,6 +121,8 @@ Embedded Jetty is now 8.1.7.v20120910.
 * ASM bytecode library is now 4.0.
 * JGit is now 2.2.0.201212191850-r.
 * asciidoc 8.6.3 is now required to build the documentation.
+* link:https://code.google.com/p/gerrit/issues/detail?id=1155[Issue 1155]:
+prettify is now r225
 
 Bug Fixes
 ---------
@@ -125,6 +130,8 @@ Bug Fixes
 Web UI
 ~~~~~~
 * Links to CGit were broken when `remove-suffix` was enabled.
+* link:https://code.google.com/p/gerrit/issues/detail?id=926[Issue 926]:
+Internet Explorer versions 9 and 10 are supported.
 
 Git
 ~~~
@@ -148,6 +155,10 @@ SSH
 * link:https://code.google.com/p/gerrit/issues/detail?id=1721[Issue 1721]:
 `review --message` only adds the message once.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=1772[Issue 1772]:
+`_more_changes` is set if `query` result is limited due to configured query limit.
+
+* `ls-groups` prints "N/A" if the group's name is not set.
 Documentation
 -------------
 

@@ -24,11 +24,13 @@ public class ProjectDetail {
   public boolean canModifyAgreements;
   public boolean canModifyAccess;
   public boolean canModifyState;
+  public boolean canModifyTemplate;
   public boolean isPermissionOnly;
   public InheritedBoolean useContributorAgreements;
   public InheritedBoolean useSignedOffBy;
   public InheritedBoolean useContentMerge;
   public InheritedBoolean requireChangeID;
+  public InheritedBoolean isTemplate;
 
   public ProjectDetail() {
   }
@@ -57,6 +59,10 @@ public class ProjectDetail {
     canModifyAccess = cma;
   }
 
+  public void setCanModifyTemplate(final boolean cmt) {
+    canModifyTemplate = cmt;
+  }
+
   public void setPermissionOnly(final boolean ipo) {
     isPermissionOnly = ipo;
   }
@@ -75,5 +81,9 @@ public class ProjectDetail {
 
   public void setRequireChangeID(final InheritedBoolean rcid) {
     requireChangeID = rcid;
+  }
+
+  public void setIsTemplate(InheritedBoolean it) {
+    this.isTemplate = it;
   }
 }

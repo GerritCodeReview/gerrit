@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -40,15 +41,18 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
 
   private final ProjectControl.Factory projectControlFactory;
   private final GitRepositoryManager gitRepositoryManager;
+  private final CurrentUser currentUser;
 
   private final Project.NameKey projectName;
 
   @Inject
   ProjectDetailFactory(final ProjectControl.Factory projectControlFactory,
       final GitRepositoryManager gitRepositoryManager,
+      final CurrentUser currentUser,
       @Assisted final Project.NameKey name) {
     this.projectControlFactory = projectControlFactory;
     this.gitRepositoryManager = gitRepositoryManager;
+    this.currentUser = currentUser;
     this.projectName = name;
   }
 
@@ -69,16 +73,20 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setCanModifyDescription(userIsOwner);
     detail.setCanModifyMergeType(userIsOwner);
     detail.setCanModifyState(userIsOwner);
+    detail.setCanModifyTemplate(currentUser.getCapabilities()
+        .canAdministrateServer());
 
     final InheritedBoolean useContributorAgreements = new InheritedBoolean();
     final InheritedBoolean useSignedOffBy = new InheritedBoolean();
     final InheritedBoolean useContentMerge = new InheritedBoolean();
     final InheritedBoolean requireChangeID = new InheritedBoolean();
+    final InheritedBoolean isTemplate = new InheritedBoolean();
     useContributorAgreements.setValue(projectState.getProject()
         .getUseContributorAgreements());
     useSignedOffBy.setValue(projectState.getProject().getUseSignedOffBy());
     useContentMerge.setValue(projectState.getProject().getUseContentMerge());
     requireChangeID.setValue(projectState.getProject().getRequireChangeID());
+    isTemplate.setValue(projectState.getProject().getIsTemplate());
     ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
     if (parentState != null) {
       useContributorAgreements.setInheritedValue(parentState
@@ -86,11 +94,13 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
       useSignedOffBy.setInheritedValue(parentState.isUseSignedOffBy());
       useContentMerge.setInheritedValue(parentState.isUseContentMerge());
       requireChangeID.setInheritedValue(parentState.isRequireChangeID());
+      isTemplate.setInheritedValue(parentState.isIsTemplate());
     }
     detail.setUseContributorAgreements(useContributorAgreements);
     detail.setUseSignedOffBy(useSignedOffBy);
     detail.setUseContentMerge(useContentMerge);
     detail.setRequireChangeID(requireChangeID);
+    detail.setIsTemplate(isTemplate);
 
     final Project.NameKey projectName = projectState.getProject().getNameKey();
     Repository git;

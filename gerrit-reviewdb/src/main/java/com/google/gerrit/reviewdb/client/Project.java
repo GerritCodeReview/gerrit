@@ -109,6 +109,8 @@ public final class Project {
 
   protected InheritableBoolean useContentMerge;
 
+  protected InheritableBoolean isTemplate;
+
   protected String defaultDashboardId;
 
   protected String localDefaultDashboardId;
@@ -124,6 +126,7 @@ public final class Project {
     useSignedOffBy = InheritableBoolean.INHERIT;
     requireChangeID = InheritableBoolean.INHERIT;
     useContentMerge = InheritableBoolean.INHERIT;
+    isTemplate = InheritableBoolean.INHERIT;
   }
 
   public Project.NameKey getNameKey() {
@@ -158,6 +161,10 @@ public final class Project {
     return requireChangeID;
   }
 
+  public InheritableBoolean getIsTemplate() {
+    return isTemplate;
+  }
+
   public void setUseContributorAgreements(final InheritableBoolean u) {
     useContributorAgreements = u;
   }
@@ -172,6 +179,10 @@ public final class Project {
 
   public void setRequireChangeID(final InheritableBoolean cid) {
     requireChangeID = cid;
+  }
+
+  public void setIsTemplate(final InheritableBoolean t) {
+    this.isTemplate = t;
   }
 
   public SubmitType getSubmitType() {
@@ -206,7 +217,8 @@ public final class Project {
     this.localDefaultDashboardId = localDefaultDashboardId;
   }
 
-  public void copySettingsFrom(final Project update) {
+  public void copySettingsFrom(final Project update,
+      final boolean copyTemplateConfig) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
@@ -214,6 +226,9 @@ public final class Project {
     requireChangeID = update.requireChangeID;
     submitType = update.submitType;
     state = update.state;
+    if (copyTemplateConfig) {
+      isTemplate = update.isTemplate;
+    }
   }
 
   /**

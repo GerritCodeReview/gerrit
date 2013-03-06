@@ -47,6 +47,7 @@ public interface AdminConstants extends Constants {
   String buttonSaveGroupOptions();
   String suggestedGroupLabel();
   String parentSuggestions();
+  String isTemplate();
 
   String buttonBrowseProjects();
   String projects();
@@ -63,6 +64,7 @@ public interface AdminConstants extends Constants {
   String headingParentProjectName();
   String columnProjectName();
   String headingAgreements();
+  String headingTemplates();
 
   String headingProjectSubmitType();
   String projectSubmitType_FAST_FORWARD_ONLY();

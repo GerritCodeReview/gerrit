@@ -27,6 +27,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -124,8 +125,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public PostResult apply(ChangeResource rsrc, Input input)
-      throws ResourceNotFoundException, AuthException, OrmException,
-      EmailException {
+      throws BadRequestException, ResourceNotFoundException, AuthException,
+      OrmException, EmailException {
+    if (input.reviewer == null) {
+      throw new BadRequestException("missing reviewer field");
+    }
     Account.Id accountId = parser.parse(rsrc, input.reviewer);
     try {
       if (accountId != null) {

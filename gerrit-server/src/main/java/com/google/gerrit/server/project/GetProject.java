@@ -18,14 +18,25 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.inject.Inject;
 
 class GetProject implements RestReadView<ProjectResource> {
+
+  private final AllProjectsName allProjects;
+
+  @Inject
+  GetProject(AllProjectsName allProjects) {
+    this.allProjects = allProjects;
+  }
+
   @Override
   public Object apply(ProjectResource resource) {
     Project project = resource.getControl().getProject();
     ProjectInfo info = new ProjectInfo();
     info.name = resource.getName();
-    info.parent = Strings.emptyToNull(project.getParentName());
+    Project.NameKey parentName = project.getParent(allProjects);
+    info.parent = parentName != null ? parentName.get() : null;
     info.description = Strings.emptyToNull(project.getDescription());
     info.finish();
     return info;

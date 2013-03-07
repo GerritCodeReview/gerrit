@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RFY0h4a0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:09:37Z",
+      "side": 1,
+      "message": "stateis deleted in patchset 12 .  I hope use can \ncustom state together with below configurations",
+      "revId": "b9f1d7ca36614990c4aea1359211a0229e00d2b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

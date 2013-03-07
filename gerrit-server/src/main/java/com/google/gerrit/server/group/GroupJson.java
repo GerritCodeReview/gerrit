@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.groups.ListGroupsOption;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -64,15 +65,15 @@ public class GroupJson {
     return this;
   }
 
-  public GroupInfo format(GroupResource rsrc) throws ResourceNotFoundException,
-      OrmException {
+  public GroupInfo format(GroupResource rsrc)
+      throws ResourceNotFoundException, MethodNotAllowedException, OrmException {
     GroupInfo info = init(rsrc.getGroup());
     initMembersAndIncludes(rsrc, info);
     return info;
   }
 
   public GroupInfo format(GroupDescription.Basic group)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, MethodNotAllowedException, OrmException {
     GroupInfo info = init(group);
     if (options.contains(MEMBERS) || options.contains(INCLUDES)) {
       GroupResource rsrc =
@@ -106,7 +107,7 @@ public class GroupJson {
   }
 
   private GroupInfo initMembersAndIncludes(GroupResource rsrc, GroupInfo info)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, MethodNotAllowedException, OrmException {
     if (options.contains(MEMBERS)) {
       info.members = listMembers.get().apply(rsrc);
     }

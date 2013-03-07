@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RFc0n6cE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:07:29Z",
+      "side": 1,
+      "message": "I do not  know what should I do now, should I give new patchset again or just give comments?",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFQ0WEVc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:07:29Z",
+      "side": 1,
+      "message": "when user provides an wrong group id, \n\nuser will see \"Not Found\" . this is not enought.\n\nuser will want to know which configuration is wrong  \n\nmine way is not simple and clear way ? :)",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFS0RzV4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:07:29Z",
+      "side": 1,
+      "message": "contentMerge have relation with submitType refer left 126.  https://gerrit-review.googlesource.com/#/c/42358/11..12/gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFe0qpYk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:07:29Z",
+      "side": 1,
+      "message": "the information of json.format(p) is not enough\n\njust like we let use know the parent will by default be All-Project, Gerrit\n should also let user know what the other configuration would be if user\n doesn provide value or give a wrong value. a full view of project is \nneeded. \n \nthe result full view of project configuration is affected by\n\n ---     default value (user need to know)\n --*     user  provide wrong value\n -- *   site configuration\n --*     relations between configuration.",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFa0knb0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:07:29Z",
+      "side": 1,
+      "message": "why this line is deleted?",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

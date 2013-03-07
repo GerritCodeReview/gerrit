@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RLRWU9IU",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T15:08:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ROkjuX0Q",
+      "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ROmjzIy0",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-07T13:54:57Z",
       "side": 1,
       "message": "what about other properties from the ProjectInfo returned from project creation request? should they also be checked?",
+      "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RLTWZ8Lw",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T15:08:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ROmjzIy0",
       "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "RLdWdHKk",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T15:08:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ROgj4ZwQ",
+      "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ROij9K-U",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-07T13:54:57Z",
       "side": 1,
       "message": "New test?\n\n  createChildProjectUnderNonExistingParent_UnprocessableEntity",
+      "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RLfWamK4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T15:08:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ROij9K-U",
       "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "RLZWnpPk",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T15:08:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ROsgB7xM",
+      "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ROuj.M.8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "RLbWkIPU",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T15:08:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ROuj.M.8",
+      "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ROogL9y8",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2013-03-07T13:54:57Z",
       "side": 1,
       "message": "this only asserts that this commit has this commit message but not that its tree is empty.\n\nEither check the commit tree to verify it is empty of change the method name to something like:\n\n  assertCommitMessage",
+      "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RLVVzTLU",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/project/CreateProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T15:08:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ROogL9y8",
       "revId": "841d437003a95634e569533e2f9fff83c7a9402e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

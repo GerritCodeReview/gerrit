@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RPmTzSi0",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-07T20:21:59Z",
+      "side": 1,
+      "message": "accessDatabase",
+      "revId": "a0d13bce8c996f25cb47d7fa5df03a0acb88def9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ROak2-ew",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-07T20:21:59Z",
+      "side": 1,
+      "message": "ACCESS_DATABASE \u003d \"accessDatabase\"? I\u0027m not fond of the abbreviation here.",
+      "revId": "a0d13bce8c996f25cb47d7fa5df03a0acb88def9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RPkTuTkQ",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/QueryShell.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-07T20:21:59Z",
+      "side": 1,
+      "message": "canAccessDatabase",
+      "revId": "a0d13bce8c996f25cb47d7fa5df03a0acb88def9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

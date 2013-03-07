@@ -179,7 +179,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     @Override
     public Object apply(IncludedGroupResource resource,
         PutIncludedGroup.Input input) throws ResourceNotFoundException,
-        OrmException {
+        MethodNotAllowedException, OrmException {
       // Do nothing, the group is already included.
       return get.get().apply(resource);
     }

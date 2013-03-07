@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -40,7 +41,7 @@ public class GetGroups implements RestReadView<AccountResource> {
 
   @Override
   public List<GroupInfo> apply(AccountResource resource)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, MethodNotAllowedException, OrmException {
     IdentifiedUser user = resource.getUser();
     Account.Id userId = user.getAccountId();
     List<GroupInfo> groups = Lists.newArrayList();

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group;
 
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
@@ -30,7 +31,7 @@ class GetGroup implements RestReadView<GroupResource> {
 
   @Override
   public GroupInfo apply(GroupResource resource)
-      throws ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, MethodNotAllowedException, OrmException {
     return json.format(resource.getGroup());
   }
 }

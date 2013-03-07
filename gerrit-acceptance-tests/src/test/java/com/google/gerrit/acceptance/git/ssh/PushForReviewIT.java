@@ -269,7 +269,7 @@ public class PushForReviewIT extends AbstractDaemonTest {
 
     public PushResult to(String ref) throws GitAPIException, IOException {
       add(git, FILE_NAME, FILE_CONTENT);
-      changeId = createCommit(git, sshSession.getIdent(), SUBJECT);
+      changeId = createCommit(git, admin.getIdent(), SUBJECT);
       return pushHead(git, ref);
     }
   }

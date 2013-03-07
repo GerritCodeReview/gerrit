@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RKVnuI0Q",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "You are right that `MERGE_IF_NECESSARY` will be used if an invalid value is set for \u0027submit_type\u0027. I think this behaviour is wrong and the call is rather expected to fail with Bad Request. I believe this is something that needs to be fixed in the JSON parser. Anyway I don\u0027t want to document this wrong behaviour. Also for all other enums that are used in the REST API we don\u0027t mention this.",
+      "parentUuid": "RFQ1LsWw",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RFe0vRZE",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-07T03:49:12Z",
       "side": 1,
       "message": "refs/heads/\u003cbranch name\u003e will be same with \u003cbranch name\u003e",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RKXnz5yw",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "Good point.\n\nDone",
+      "parentUuid": "RFe0vRZE",
       "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "RLVXu7EM",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RFW1llfY",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RFc0siZ8",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 12
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-07T03:49:12Z",
       "side": 1,
       "message": "`INHERIT`, if not set or set wrongly",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RLXXz6Cw",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "This behaviour is wrong and I don\u0027t want to document this wrong behaviour.\n\nFixing this wrong behaviour is out of the scope of this change.",
+      "parentUuid": "RFc0siZ8",
       "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "RLdUBnBM",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "same as above",
+      "parentUuid": "RFa05Pd8",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RFY02ge0",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 12
@@ -98,6 +188,24 @@
       "writtenOn": "2013-03-07T03:49:12Z",
       "side": 1,
       "message": "\u0027FALSE\u0027 \u0027if submit type is FAST_FORWARD_ONLY\nelse\n`INHERIT`, if not set or set wrongly",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RLRX4dAQ",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RFY02ge0",
       "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "RLTX9cPU",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "Why would the state option be useful?\n\nThe state represents the lifecycle of a project. When you create a project, the project is ACTIVE. When you don\u0027t need the project anymore, you will change the state to READ_ONLY or HIDDEN.\n\nWhich sense would it make to create a READ_ONLY or HIDDEN project? I don\u0027t see a use case for this which is why I left this option out.",
+      "parentUuid": "RFixGc2Y",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RFc0n6cE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 12
@@ -132,6 +258,24 @@
       "writtenOn": "2013-03-07T03:07:29Z",
       "side": 1,
       "message": "I do not  know what should I do now, should I give new patchset again or just give comments?",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RLRURVF4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "I\u0027ve fixed the comments now, but if you like you can also upload new patch sets.",
+      "parentUuid": "RFc0n6cE",
       "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "RLZULJDA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "I already know that \u0027Not Found\u0027 is incorrect here. This is why I\u0027ve raised this question on the mailing list [1]. The correct thing to do is, to return \u0027422 Unprocessable Entity\u0027. We can of course include a message so that it\u0027s easier for the user to understand.\n\nWhat is important here is that we do not reimplement the parsing of the owner ids. Your solution only supports the specification of the owner ids as group UUID, but we also want to allow to specify them by group name or legacy group ID.\n\nDone\n\n[1] https://groups.google.com/d/topic/repo-discuss/W4bO745Toq8/discussion",
+      "parentUuid": "RFQ0WEVc",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RFS0RzV4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 12
@@ -166,6 +328,24 @@
       "writtenOn": "2013-03-07T03:07:29Z",
       "side": 1,
       "message": "contentMerge have relation with submitType refer left 126.  https://gerrit-review.googlesource.com/#/c/42358/11..12/gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RLXUcSHc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "Good point, I\u0027ve missed that.\n\nDone",
+      "parentUuid": "RFS0RzV4",
       "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "RLVUXzFU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "I disagree and think the information from json.format(p) is enough.\nMorever it is REST standard to return the same entity on PUT that you will get with GET on the same URL after the PUT was done.\n\n  \u003e default value (user need to know)\n  \u003e * site configuration\n  \u003e * relations between configuration.\n  the user should read the documentation to know the default values\n\n  \u003e user provide wrong value\n  this should fail with Bad Request,\n  see also my comments on this at [1]\n\n[1] https://gerrit-review.googlesource.com/#/c/42358/12/Documentation/rest-api-projects.txt",
+      "parentUuid": "RFe0qpYk",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RFa0knb0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
         "patchSetId": 12
@@ -200,6 +398,24 @@
       "writtenOn": "2013-03-07T03:07:29Z",
       "side": 1,
       "message": "why this line is deleted?",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RLfX.GO8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:27:59Z",
+      "side": 1,
+      "message": "This line is not deleted, but added.\n\nI\u0027ve added it because, I want to return the created project, but then this path was without return value which is how I noticed that a throw is missing here. Could be also fixed in an own change if you prefer this.",
+      "parentUuid": "RFa0knb0",
       "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

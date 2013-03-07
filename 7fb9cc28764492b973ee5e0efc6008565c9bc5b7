@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "QzfVdmCs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-07T08:19:46Z",
+      "side": 1,
+      "message": "You don\u0027t need to return \u0027permissionsOnly\u0027 and \u0027createEmptyCommit\u0027 with the response. The caller knows this already since this is what he has specified in the input.\n\nYou may return \u0027permissionsOnly\u0027 but then extend the ProjectInfo in GetProject and also the ProjectInfo in ListProjects.\n\nI think you should really reuse ProjectInfo from GetProject. In general it is a best practice to return the same entity on PUT that you will get with GET on the same URL.",
+      "parentUuid": "QzdX9-PY",
+      "revId": "7fb9cc28764492b973ee5e0efc6008565c9bc5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QOwf-9qA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 6

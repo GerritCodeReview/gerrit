@@ -16,6 +16,24 @@
       "revId": "681b1d40003e8ae3f1c1bb7cc68d0194f5aa8a8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ROYkL.S8",
+        "filename": "Documentation/man/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-07T15:27:04Z",
+      "side": 1,
+      "message": "Something like:\n\n  CMD_CORE_SSH_CMD :\u003d $(patsubst ../%,%,$(wildcard ../cmd-*.txt))",
+      "parentUuid": "RFmw8e9Q",
+      "revId": "681b1d40003e8ae3f1c1bb7cc68d0194f5aa8a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

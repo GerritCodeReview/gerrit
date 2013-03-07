@@ -18,6 +18,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
@@ -51,9 +52,9 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
 
   @Override
   public List<GroupInfo> apply(GroupResource rsrc)
-      throws ResourceNotFoundException, OrmException {
+      throws MethodNotAllowedException, ResourceNotFoundException, OrmException {
     if (rsrc.toAccountGroup() == null) {
-      throw new ResourceNotFoundException(rsrc.getGroupUUID().get());
+      throw new MethodNotAllowedException();
     }
 
     boolean ownerOfParent = rsrc.getControl().isOwner();

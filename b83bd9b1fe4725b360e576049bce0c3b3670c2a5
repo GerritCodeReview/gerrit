@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RL9MqFIo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-07T09:29:16Z",
+      "side": 1,
+      "message": "Some of these lines seem a bit long. Can we wrap them at reasonable widths?",
+      "revId": "b83bd9b1fe4725b360e576049bce0c3b3670c2a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,125 @@
   "comments": [
     {
       "key": {
+        "uuid": "RFQ1LsWw",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:49:12Z",
+      "side": 1,
+      "message": "If not set or set wrongly, `MERGE_IF_NECESSARY` is set as submit type.",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFe0vRZE",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:49:12Z",
+      "side": 1,
+      "message": "refs/heads/\u003cbranch name\u003e will be same with \u003cbranch name\u003e",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFW1llfY",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:49:12Z",
+      "side": 1,
+      "message": "if not set, use site configuraton. see link:....",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFc0siZ8",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:49:12Z",
+      "side": 1,
+      "message": "`INHERIT`, if not set or set wrongly",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFa05Pd8",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:49:12Z",
+      "side": 1,
+      "message": "`INHERIT`, if not set or set wrongly",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFY02ge0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:49:12Z",
+      "side": 1,
+      "message": "\u0027FALSE\u0027 \u0027if submit type is FAST_FORWARD_ONLY\nelse\n`INHERIT`, if not set or set wrongly",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RFixGc2Y",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-07T03:49:12Z",
+      "side": 1,
+      "message": "I prefer to add \u0027State\u0027 option",
+      "revId": "28ff006372fe81011f2106ff0e8b9de6e70c7c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RFc0n6cE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 12

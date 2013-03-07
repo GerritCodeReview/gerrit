@@ -23,8 +23,6 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-import org.eclipse.jgit.lib.PersonIdent;
-
 public class SshSession {
 
   private final TestAccount account;
@@ -77,9 +75,5 @@ public class SshSession {
     b.append(":");
     b.append(session.getPort());
     return b.toString();
-  }
-
-  public PersonIdent getIdent() {
-    return new PersonIdent(session.getUserName(), account.email);
   }
 }

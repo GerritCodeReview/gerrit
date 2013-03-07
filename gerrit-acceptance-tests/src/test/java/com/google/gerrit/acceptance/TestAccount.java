@@ -20,6 +20,8 @@ import java.io.ByteArrayOutputStream;
 
 import com.jcraft.jsch.KeyPair;
 
+import org.eclipse.jgit.lib.PersonIdent;
+
 
 public class TestAccount {
   public final Account.Id id;
@@ -43,5 +45,9 @@ public class TestAccount {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     sshKey.writePrivateKey(out);
     return out.toByteArray();
+  }
+
+  public PersonIdent getIdent() {
+    return new PersonIdent(username, email);
   }
 }

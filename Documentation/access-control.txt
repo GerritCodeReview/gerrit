@@ -1109,8 +1109,9 @@ non-blocked rules as they wish. This gives best of both worlds:
 ~~~~~~~~~~~~~~~~~~~
 
 The 'BLOCK' rule blocks a permission globally. An inherited 'BLOCK' rule cannot
-be overridden in the inheriting project. Any 'ALLOW' rule which conflicts with
-an inherited 'BLOCK' rule will not be honored.  Searching for 'BLOCK' rules, in
+be overridden in the inheriting project. Any 'ALLOW' rule, from a different
+access section or from an inheriting project, which conflicts with an
+inherited 'BLOCK' rule will not be honored.  Searching for 'BLOCK' rules, in
 the chain of parent projects, ignores the Exclusive flag that is normally
 applied to access sections.
 
@@ -1130,6 +1131,26 @@ range intact we would define:
 The interpretation of the 'min..max' range in case of a blocking rule is: block
 every vote from '-INFINITE..min' and 'max..INFINITE'. For the example above it
 means that the range '-1..+1' is not affected by this block.
+
+'BLOCK' and 'ALLOW' rules in the same access section
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When an access section of a project contains a 'BLOCK' and an 'ALLOW' rule for
+the same permission then this 'ALLOW' rule overrides the 'BLOCK' rule:
+
+====
+  [access "refs/heads/*"]
+    push = block group X
+    push = group Y
+====
+
+In this case a user which is a member of the group 'Y' will still be allowed to
+push to 'refs/heads/*' even if it is a member of the group 'X'.
+
+NOTE: An 'ALLOW' rule overrides a 'BLOCK' rule only when both of them are
+inside the same access section of the same project. An 'ALLOW' rule in a
+different access section of the same project or in any access section in an
+inheriting project cannot override a 'BLOCK' rule.
 
 Examples
 ~~~~~~~~
@@ -1158,6 +1179,23 @@ owners>> are allowed to create tags, we would extend the example above:
     push = block group Anonymous Users
     create = group Project Owners
     pushTag = group Project Owners
+====
+
+Let only a dedicated group vote in a special category
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Assume there is a more restrictive process for submitting changes in stable
+release branches which is manifested as a new voting category
+'Release-Process'. Assume we want to make sure that only a 'Release Engineers'
+group can vote in this category and that even project owners cannot approve
+this category. We have to block everyone except the 'Release Engineers' to vote
+in this category and, of course, allow 'Release Engineers' to vote in that
+category. In the "`All-Projects`" we define the following rules:
+
+====
+  [access "refs/heads/stable*"]
+    label-Release-Proces = block -1..+1 group Anonymous Users
+    label-Release-Proces = -1..+1 group Release Engineers
 ====
 
 [[conversion_table]]

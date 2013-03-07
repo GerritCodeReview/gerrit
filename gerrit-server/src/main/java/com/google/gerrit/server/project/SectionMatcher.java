@@ -18,6 +18,7 @@ import static com.google.gerrit.server.project.RefControl.isRE;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.reviewdb.client.Project;
 
 import dk.brics.automaton.Automaton;
 
@@ -31,33 +32,37 @@ import java.util.regex.Pattern;
  * faster selection of which sections are relevant to any given input reference.
  */
 abstract class SectionMatcher {
-  static SectionMatcher wrap(AccessSection section) {
+  static SectionMatcher wrap(Project.NameKey project, AccessSection section) {
     String ref = section.getName();
     if (AccessSection.isValid(ref)) {
-      return wrap(ref, section);
+      return wrap(project, ref, section);
     } else {
       return null;
     }
   }
 
-  static SectionMatcher wrap(String pattern, AccessSection section) {
+  static SectionMatcher wrap(Project.NameKey project, String pattern,
+      AccessSection section) {
     if (pattern.contains("${")) {
-      return new ExpandParameters(pattern, section);
+      return new ExpandParameters(project, pattern, section);
 
     } else if (isRE(pattern)) {
-      return new Regexp(pattern, section);
+      return new Regexp(project, pattern, section);
 
     } else if (pattern.endsWith("/*")) {
-      return new Prefix(pattern.substring(0, pattern.length() - 1), section);
+      return new Prefix(project, pattern.substring(0, pattern.length() - 1),
+          section);
 
     } else {
-      return new Exact(pattern, section);
+      return new Exact(project, pattern, section);
     }
   }
 
+  final Project.NameKey project;
   final AccessSection section;
 
-  SectionMatcher(AccessSection section) {
+  SectionMatcher(Project.NameKey project, AccessSection section) {
+    this.project = project;
     this.section = section;
   }
 
@@ -66,8 +71,8 @@ abstract class SectionMatcher {
   private static class Exact extends SectionMatcher {
     private final String expect;
 
-    Exact(String name, AccessSection section) {
-      super(section);
+    Exact(Project.NameKey project, String name, AccessSection section) {
+      super(project, section);
       expect = name;
     }
 
@@ -80,8 +85,8 @@ abstract class SectionMatcher {
   private static class Prefix extends SectionMatcher {
     private final String prefix;
 
-    Prefix(String pfx, AccessSection section) {
-      super(section);
+    Prefix(Project.NameKey project, String pfx, AccessSection section) {
+      super(project, section);
       prefix = pfx;
     }
 
@@ -94,8 +99,8 @@ abstract class SectionMatcher {
   private static class Regexp extends SectionMatcher {
     private final Pattern pattern;
 
-    Regexp(String re, AccessSection section) {
-      super(section);
+    Regexp(Project.NameKey project, String re, AccessSection section) {
+      super(project, section);
       pattern = Pattern.compile(re);
     }
 
@@ -109,8 +114,9 @@ abstract class SectionMatcher {
     private final ParameterizedString template;
     private final String prefix;
 
-    ExpandParameters(String pattern, AccessSection section) {
-      super(section);
+    ExpandParameters(Project.NameKey project, String pattern,
+        AccessSection section) {
+      super(project, section);
       template = new ParameterizedString(pattern);
 
       if (isRE(pattern)) {
@@ -141,7 +147,7 @@ abstract class SectionMatcher {
         u = username;
       }
 
-      SectionMatcher next = wrap(
+      SectionMatcher next = wrap(project,
           template.replace(Collections.singletonMap("username", u)),
           section);
       return next != null ? next.match(ref, username) : false;

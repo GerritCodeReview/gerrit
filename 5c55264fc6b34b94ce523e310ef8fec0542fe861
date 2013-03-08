@@ -51,6 +51,24 @@
       "revId": "5c55264fc6b34b94ce523e310ef8fec0542fe861",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RV2v4IQY",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1012333
+      },
+      "writtenOn": "2013-03-08T13:32:09Z",
+      "side": 1,
+      "message": "Yes. The first one does. I will fix that. All subsequent .sh\u0027s should be dropped however as keeping them results in having to execute something like \"service gerrit.sh restart\" rather than just gerrit.",
+      "parentUuid": "RU88IPTU",
+      "revId": "5c55264fc6b34b94ce523e310ef8fec0542fe861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

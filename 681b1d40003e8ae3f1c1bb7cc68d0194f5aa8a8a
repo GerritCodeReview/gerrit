@@ -34,6 +34,24 @@
       "revId": "681b1d40003e8ae3f1c1bb7cc68d0194f5aa8a8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RVyvuGUM",
+        "filename": "Documentation/man/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-03-08T08:20:54Z",
+      "side": 1,
+      "message": "sure.\nThe problem is that the name of the file and the title must be the same for asciidoc to work properly. That\u0027s what the section at the bottom of the make file take care of. Not core gerrit commands:\n\n cmd-plugin-enable.txt\n cmd-kill.txt\n cmd-suexec.txt\n [...]\n\nhave different titles/file names.\n\nAnother aspect is the findability of manual pages. So the simplest way is to be able to say:\n man gerrit-\u003chit tab here\u003e\nand let the bash to complete the list.\n\nTe relation to gerrit wouldn\u0027t be not obvious if the manual page named: \n kill\n plugin-enable\n\netc. That why i decided to have manual pages only for core gerrit ssh commands.\nThe fact that the list must be maintained is indeed unfortunate.\n\nOne option would be to have \"gerrit\" title prefix for all commands, but that would also be visible on html-page.",
+      "parentUuid": "ROYkL.S8",
+      "revId": "681b1d40003e8ae3f1c1bb7cc68d0194f5aa8a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

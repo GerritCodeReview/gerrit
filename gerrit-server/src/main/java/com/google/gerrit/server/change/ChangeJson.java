@@ -25,6 +25,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -125,9 +126,9 @@ public class ChangeJson {
   private final Urls urls;
   private ChangeControl.Factory changeControlUserFactory;
   private SshInfo sshInfo;
-  private Map<Change.Id, ChangeControl> controls;
   private EnumSet<ListChangesOption> options;
   private AccountInfo.Loader accountLoader;
+  private ChangeControl lastControl;
 
   @Inject
   ChangeJson(
@@ -153,9 +154,7 @@ public class ChangeJson {
     this.accountLoaderFactory = ailf;
     this.urlProvider = curl;
     this.urls = urls;
-
-    controls = Maps.newHashMap();
-    options = EnumSet.noneOf(ListChangesOption.class);
+    this.options = EnumSet.noneOf(ListChangesOption.class);
   }
 
   public ChangeJson addOption(ListChangesOption o) {
@@ -244,7 +243,7 @@ public class ChangeJson {
     out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
     out.labels = labelsFor(cd, options.contains(LABELS),
         options.contains(DETAILED_LABELS));
-    if (options.contains(DETAILED_LABELS)) {
+    if (out.labels != null && options.contains(DETAILED_LABELS)) {
       out.permitted_labels = permittedLabels(cd);
       out.removable_reviewers = removableReviewers(cd, out.labels.values());
     }
@@ -253,14 +252,17 @@ public class ChangeJson {
     if (options.contains(ALL_REVISIONS) || options.contains(CURRENT_REVISION)
         || cd.getLimitedPatchSets() != null) {
       out.revisions = revisions(cd);
-      for (String commit : out.revisions.keySet()) {
-        if (out.revisions.get(commit).isCurrent) {
-          out.current_revision = commit;
-          break;
+      if (out.revisions != null) {
+        for (String commit : out.revisions.keySet()) {
+          if (out.revisions.get(commit).isCurrent) {
+            out.current_revision = commit;
+            break;
+          }
         }
       }
     }
 
+    lastControl = null;
     return out;
   }
 
@@ -268,11 +270,9 @@ public class ChangeJson {
     ChangeControl ctrl = cd.changeControl();
     if (ctrl != null && ctrl.getCurrentUser() == user) {
       return ctrl;
-    }
-
-    ctrl = controls.get(cd.getId());
-    if (ctrl != null) {
-      return ctrl;
+    } else if (lastControl != null
+        && cd.getId().equals(lastControl.getChange().getId())) {
+      return lastControl;
     }
 
     try {
@@ -284,7 +284,7 @@ public class ChangeJson {
     } catch (NoSuchChangeException e) {
       return null;
     }
-    controls.put(cd.getId(), ctrl);
+    lastControl = ctrl;
     return ctrl;
   }
 
@@ -312,12 +312,12 @@ public class ChangeJson {
 
     ChangeControl ctl = control(cd);
     if (ctl == null) {
-      return Collections.emptyMap();
+      return null;
     }
 
     PatchSet ps = cd.currentPatchSet(db);
     if (ps == null) {
-      return Collections.emptyMap();
+      return null;
     }
 
     if (cd.getChange().getStatus().isOpen()) {
@@ -419,6 +419,11 @@ public class ChangeJson {
 
   private void setAllApprovals(ChangeData cd,
       Map<String, LabelInfo> labels) throws OrmException {
+    ChangeControl baseCtl = control(cd);
+    if (baseCtl == null) {
+      return;
+    }
+
     Set<Account.Id> allUsers = Sets.newHashSet();
     for (PatchSetApproval psa : cd.allApprovals(db)) {
       allUsers.add(psa.getAccountId());
@@ -432,7 +437,7 @@ public class ChangeJson {
 
     for (Account.Id accountId : allUsers) {
       IdentifiedUser user = userFactory.create(accountId);
-      ChangeControl ctl = control(cd).forUser(user);
+      ChangeControl ctl = baseCtl.forUser(user);
       Map<String, ApprovalInfo> byLabel =
           Maps.newHashMapWithExpectedSize(labels.size());
 
@@ -536,6 +541,10 @@ public class ChangeJson {
   private Map<String, Collection<String>> permittedLabels(ChangeData cd)
       throws OrmException {
     ChangeControl ctl = control(cd);
+    if (ctl == null) {
+      return null;
+    }
+
     ListMultimap<String, String> permitted = LinkedListMultimap.create();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
@@ -572,7 +581,7 @@ public class ChangeJson {
       Collection<LabelInfo> labels) throws OrmException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
-      return ImmutableList.of();
+      return null;
     }
 
     Set<Account.Id> fixed = Sets.newHashSetWithExpectedSize(labels.size());
@@ -636,7 +645,7 @@ public class ChangeJson {
   private Map<String, RevisionInfo> revisions(ChangeData cd) throws OrmException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
-      return Collections.emptyMap();
+      return null;
     }
 
     Collection<PatchSet> src;

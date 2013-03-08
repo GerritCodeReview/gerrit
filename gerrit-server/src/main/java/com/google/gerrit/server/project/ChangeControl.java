@@ -265,7 +265,7 @@ public class ChangeControl {
     return canRemoveReviewer(approval.getAccountId(), approval.getValue());
   }
 
-  public boolean canRemoveReviewer(Account.Id reviewer, short value) {
+  public boolean canRemoveReviewer(Account.Id reviewer, int value) {
     if (getChange().getStatus().isOpen()) {
       // A user can always remove themselves.
       //

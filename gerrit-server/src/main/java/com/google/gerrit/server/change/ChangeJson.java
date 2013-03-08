@@ -424,47 +424,43 @@ public class ChangeJson {
 
   private void setAllApprovals(ChangeData cd,
       Map<String, LabelInfo> labels) throws OrmException {
-    cd.allApprovals(db);
-    ChangeControl ctl = cd.changeControl();
-    Collection<PatchSetApproval> approvals = cd.currentApprovals(db);
-    FunctionState fs =
-        functionState.create(ctl, cd.change(db).currentPatchSetId(), approvals);
-    for (LabelType lt : labelTypes.getLabelTypes()) {
-      CategoryFunction.forType(lt).run(lt, fs);
-    }
-
-    Multimap<Account.Id, String> existing =
-        HashMultimap.create(approvals.size(), labels.size());
-    for (PatchSetApproval psa : approvals) {
-      LabelType lt = labelTypes.byId(psa.getCategoryId().get());
-      if (lt == null) {
-        continue;
-      }
-      LabelInfo p = labels.get(lt.getName());
-      if (p == null) {
-        continue; // TODO: support arbitrary labels.
-      }
-      if (!getRange(ctl, psa.getAccountId(), lt.getName()).isEmpty()) {
-        p.addApproval(approvalInfo(psa.getAccountId(), psa.getValue()));
-      }
-      existing.put(psa.getAccountId(), lt.getName());
-    }
-
-    // Add dummy approvals for all permitted labels for each user even if they
-    // do not exist in the DB.
     Set<Account.Id> allUsers = Sets.newHashSet();
     for (PatchSetApproval psa : cd.allApprovals(db)) {
       allUsers.add(psa.getAccountId());
     }
-    for (Account.Id user : allUsers) {
-      for (Map.Entry<String, LabelInfo> le : labels.entrySet()) {
-        if (existing.containsEntry(user, le.getKey())) {
+
+    Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
+    for (PatchSetApproval a : cd.currentApprovals(db)) {
+      current.put(a.getAccountId(), a);
+    }
+    allUsers.addAll(current.keySet());
+
+    for (Account.Id accountId : allUsers) {
+      IdentifiedUser user = userFactory.create(accountId);
+      ChangeControl ctl = control(cd).forUser(user);
+      Map<String, ApprovalInfo> byLabel =
+          Maps.newHashMapWithExpectedSize(labels.size());
+
+      for (String name : labels.keySet()) {
+        ApprovalInfo ai = new ApprovalInfo(accountId);
+        accountLoader.put(ai);
+        byLabel.put(name, ai);
+        labels.get(name).addApproval(ai);
+      }
+      for (PatchSetApproval psa : current.get(accountId)) {
+        // TODO Support arbitrary labels placed by a reviewer.
+        LabelType lt = labelTypes.byId(psa.getCategoryId().get());
+        if (lt == null) {
           continue;
         }
-        LabelInfo p = le.getValue();
-        if (!getRange(ctl, user, le.getKey()).isEmpty()) {
-          p.addApproval(approvalInfo(user, (short) 0));
+
+        ApprovalInfo info = byLabel.get(lt.getName());
+        if (info == null) {
+          continue;
         }
+
+        PermissionRange range = ctl.getRange(lt.getName());
+        info.value = range != null ? range.squash(psa.getValue()) : 0;
       }
     }
   }
@@ -517,17 +513,11 @@ public class ChangeJson {
     return labels;
   }
 
-  private PermissionRange getRange(ChangeControl control, Account.Id user,
-      String label) {
-    return control.forUser(userFactory.create(user))
-        .getRange(Permission.forLabel(label));
-  }
-
   private AccountInfo accountInfo(PatchSetApproval psa) {
     return accountLoader.get(psa.getAccountId());
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, short value) {
+  private ApprovalInfo approvalInfo(Account.Id id, int value) {
     ApprovalInfo ai = new ApprovalInfo(id);
     ai.value = value;
     accountLoader.put(ai);
@@ -892,7 +882,7 @@ public class ChangeJson {
   }
 
   static class ApprovalInfo extends AccountInfo {
-    short value;
+    int value;
 
     ApprovalInfo(Account.Id id) {
       super(id);

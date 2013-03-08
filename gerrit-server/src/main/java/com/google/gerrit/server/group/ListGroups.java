@@ -25,7 +25,6 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.groups.ListGroupsOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -147,8 +146,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
         new TypeToken<Map<String, GroupInfo>>() {}.getType());
   }
 
-  public List<GroupInfo> get() throws ResourceNotFoundException,
-      MethodNotAllowedException, OrmException {
+  public List<GroupInfo> get() throws ResourceNotFoundException, OrmException {
     List<GroupInfo> groupInfos;
     if (user != null) {
       if (owned) {
@@ -189,7 +187,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
-      throws ResourceNotFoundException, MethodNotAllowedException, OrmException {
+      throws ResourceNotFoundException, OrmException {
     List<GroupInfo> groups = Lists.newArrayList();
     for (AccountGroup g : filterGroups(groupCache.all())) {
       GroupControl ctl = groupControlFactory.controlFor(g);

@@ -153,7 +153,6 @@ returned.
     "MyProject-Committers": {
       "kind": "gerritcodereview#group",
       "id": "9999c971bb4ab872aab759d8c49833ee6b9ff320",
-      "name": "MyProject-Committers",
       "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
       "options": {
         "visible_to_all": true
@@ -1112,7 +1111,9 @@ a Gerrit internal group, or an external group that is known to Gerrit.
 |Field Name    ||Description
 |`kind`        ||`gerritcodereview#group`
 |`id`          ||The URL encoded UUID of the group.
-|`name`        ||The name of the group.
+|`name`        |
+not set if returned in a map where the group name is used as map key|
+The name of the group.
 |`url`         |optional|
 URL to information about the group. Typically a URL to a web page that
 permits users to apply to join the group, or manage their membership.

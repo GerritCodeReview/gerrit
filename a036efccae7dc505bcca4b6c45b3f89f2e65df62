@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RVO4Lfy4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-08T10:27:02Z",
+      "side": 1,
+      "message": "I think it makes sense to keep this test here as it is valid to expect NOT_FOUND also for this end-point. What you described is an implementation detail which this test shouldn\u0027t be aware of.",
+      "parentUuid": "RVowsh54",
+      "revId": "a036efccae7dc505bcca4b6c45b3f89f2e65df62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RVuw5y94",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupMembersIT.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "RVM4IQzU",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-08T10:27:02Z",
+      "side": 1,
+      "message": "Done here and in GET_ONE also.",
+      "parentUuid": "RVuw5y94",
+      "revId": "a036efccae7dc505bcca4b6c45b3f89f2e65df62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RVsw2j.4",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupMembersIT.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-03-08T09:56:06Z",
       "side": 1,
       "message": "Why do you need name if you have names?",
+      "revId": "a036efccae7dc505bcca4b6c45b3f89f2e65df62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RVC4XR1c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-08T10:27:02Z",
+      "side": 1,
+      "message": "This is to tell the caller that at least one name has to be provided. This method is not intended to assert an empty list of names as it could be done easier by using the \"isEmpty\" method on the List.",
+      "parentUuid": "RVsw2j.4",
       "revId": "a036efccae7dc505bcca4b6c45b3f89f2e65df62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

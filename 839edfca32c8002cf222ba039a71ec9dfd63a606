@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RV.sLcS4",
+        "filename": "Documentation/install-j2ee.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1012333
+      },
+      "writtenOn": "2013-03-08T17:16:35Z",
+      "side": 1,
+      "message": "I have never setup gerrit this way before, but I feel that either \"--cat\" is wrong here or the lack of \"--\" is wrong everywhere else. In either case, that probably should be fixed as well.",
+      "revId": "839edfca32c8002cf222ba039a71ec9dfd63a606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

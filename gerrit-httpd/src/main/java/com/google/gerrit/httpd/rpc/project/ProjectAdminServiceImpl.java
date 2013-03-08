@@ -41,7 +41,6 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ListBranches.Factory listBranchesFactory;
   private final VisibleProjectDetails.Factory visibleProjectDetailsFactory;
   private final ProjectAccessFactory.Factory projectAccessFactory;
-  private final CreateProjectHandler.Factory createProjectHandlerFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
 
   @Inject
@@ -53,8 +52,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final ListBranches.Factory listBranchesFactory,
       final VisibleProjectDetails.Factory visibleProjectDetailsFactory,
       final ProjectAccessFactory.Factory projectAccessFactory,
-      final ProjectDetailFactory.Factory projectDetailFactory,
-      final CreateProjectHandler.Factory createNewProjectFactory) {
+      final ProjectDetailFactory.Factory projectDetailFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.reviewProjectAccessFactory = reviewProjectAccessFactory;
@@ -64,7 +62,6 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.visibleProjectDetailsFactory = visibleProjectDetailsFactory;
     this.projectAccessFactory = projectAccessFactory;
     this.projectDetailFactory = projectDetailFactory;
-    this.createProjectHandlerFactory = createNewProjectFactory;
   }
 
   @Override
@@ -130,13 +127,5 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final AsyncCallback<AddBranchResult> callback) {
     addBranchFactory.create(projectName, branchName, startingRevision).to(
         callback);
-  }
-
-  @Override
-  public void createNewProject(String projectName, String parentName,
-      boolean emptyCommit, boolean permissionsOnly,
-      AsyncCallback<VoidResult> callback) {
-    createProjectHandlerFactory.create(projectName, parentName, emptyCommit,
-        permissionsOnly).to(callback);
   }
 }

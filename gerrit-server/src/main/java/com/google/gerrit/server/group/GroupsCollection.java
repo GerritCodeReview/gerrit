@@ -83,14 +83,18 @@ public class GroupsCollection implements
       throw new ResourceNotFoundException(id);
     }
 
-    GroupControl ctl = groupControlFactory.controlFor(parse(id.get()));
+    GroupDescription.Basic group = parse(id.get());
+    if (group == null) {
+      throw new ResourceNotFoundException(id.get());
+    }
+    GroupControl ctl = groupControlFactory.controlFor(group);
     if (!ctl.isVisible()) {
       throw new ResourceNotFoundException(id);
     }
     return new GroupResource(ctl);
   }
 
-  public GroupDescription.Basic parse(String id) throws ResourceNotFoundException {
+  public GroupDescription.Basic parse(String id) {
     AccountGroup.UUID uuid = new AccountGroup.UUID(id);
     if (groupBackend.handles(uuid)) {
       GroupDescription.Basic d = groupBackend.get(uuid);
@@ -118,7 +122,7 @@ public class GroupsCollection implements
       }
     }
 
-    throw new ResourceNotFoundException(id);
+    return null;
   }
 
   @SuppressWarnings("unchecked")

@@ -64,6 +64,9 @@ public class IncludedGroupsCollection implements
     }
 
     GroupDescription.Basic member = groupsCollection.get().parse(id.get());
+    if (member == null) {
+      throw new ResourceNotFoundException(id);
+    }
     if (isMember(parent, member)
         && resource.getControl().canSeeGroup(member.getGroupUUID())) {
       return new IncludedGroupResource(resource, member);

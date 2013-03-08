@@ -24,9 +24,9 @@ import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -78,7 +78,7 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
 
   @Override
   public GroupInfo apply(TopLevelResource resource, Input input)
-      throws AuthException, BadRequestException,
+      throws AuthException, BadRequestException, UnprocessableEntityException,
       NameAlreadyUsedException, OrmException {
     if (input == null) {
       input = new Input();
@@ -105,18 +105,20 @@ class CreateGroup implements RestModifyView<TopLevelResource, Input> {
     return json.format(GroupDescriptions.forAccountGroup(group));
   }
 
-  private AccountGroup.Id owner(Input input) throws BadRequestException {
+  private AccountGroup.Id owner(Input input)
+      throws UnprocessableEntityException {
     if (input.ownerId != null) {
-      try {
-        GroupDescription.Basic d = groups.parse(Url.decode(input.ownerId));
-        AccountGroup owner = GroupDescriptions.toAccountGroup(d);
-        if (owner == null) {
-          throw new BadRequestException("ownerId must be internal group");
-        }
-        return owner.getId();
-      } catch (ResourceNotFoundException e) {
-        throw new BadRequestException("ownerId cannot be resolved");
+      String decodedOwnerId = Url.decode(input.ownerId);
+      GroupDescription.Basic d = groups.parse(decodedOwnerId);
+      if (d == null) {
+        throw UnprocessableEntityException.groupNotFound(decodedOwnerId);
       }
+      AccountGroup owner = GroupDescriptions.toAccountGroup(d);
+      if (owner == null) {
+        throw UnprocessableEntityException
+            .externalGroupNotAllowed(decodedOwnerId);
+      }
+      return owner.getId();
     }
     return null;
   }

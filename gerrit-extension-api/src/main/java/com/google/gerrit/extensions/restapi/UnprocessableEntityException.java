@@ -18,6 +18,31 @@ package com.google.gerrit.extensions.restapi;
 public class UnprocessableEntityException extends RestApiException {
   private static final long serialVersionUID = 1L;
 
+  public static UnprocessableEntityException projectNotFound(String id) {
+    return new UnprocessableEntityException(String.format(
+        "Project Not Found: %s", id));
+  }
+
+  public static UnprocessableEntityException accountNotFound(String id) {
+    return new UnprocessableEntityException(String.format(
+        "Account Not Found: %s", id));
+  }
+
+  public static UnprocessableEntityException accountInactive(String id) {
+    return new UnprocessableEntityException(String.format(
+        "Account Inactive: %s", id));
+  }
+
+  public static UnprocessableEntityException groupNotFound(String id) {
+    return new UnprocessableEntityException(String.format(
+        "Group Not Found: %s", id));
+  }
+
+  public static UnprocessableEntityException externalGroupNotAllowed(String id) {
+    return new UnprocessableEntityException(String.format(
+        "External Group Not Allowed: %s", id));
+  }
+
   public UnprocessableEntityException(String msg)  {
     super(msg);
   }

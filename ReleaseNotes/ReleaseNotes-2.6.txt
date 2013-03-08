@@ -52,6 +52,11 @@ Access Controls
 * Remove Reviewer is a new permission.
 * Pushing a signed tag is a new permission.
 * Editing the topic name is a new permission.
+* Raw database access with the `gsql` command is a new global capability.
++
+Previously site administrators had this capability by default.  Now it has
+to be explicitly assigned, even for site administrators.
+
 * link:https://code.google.com/p/gerrit/issues/detail?id=1585[Issue 1585]:
 Viewing other users' draft changes is a new permission.
 

@@ -125,8 +125,8 @@ background, use the rc.d style start script created by 'init':
 automatically starts and stops with the operating system:
 
 ====
-  sudo ln -snf `pwd`/review_site/bin/gerrit.sh /etc/init.d/gerrit.sh
-  sudo ln -snf ../init.d/gerrit.sh /etc/rc3.d/S90gerrit
+  sudo ln -snf `pwd`/review_site/bin/gerrit.sh /etc/init.d/gerrit
+  sudo ln -snf /etc/init.d/gerrit /etc/rc3.d/S90gerrit
 ====
 
 To install Gerrit into an existing servlet container instead of using

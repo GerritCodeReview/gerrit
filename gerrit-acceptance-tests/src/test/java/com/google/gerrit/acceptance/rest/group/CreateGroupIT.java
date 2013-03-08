@@ -99,10 +99,4 @@ public class CreateGroupIT extends AbstractDaemonTest {
     RestResponse r = session.put("/groups/Administrators");
     assertEquals(HttpStatus.SC_CONFLICT, r.getStatusCode());
   }
-
-  private static class GroupInput {
-    String description;
-    Boolean visible_to_all;
-    String owner_id;
-  }
 }

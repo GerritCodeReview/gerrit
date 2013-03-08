@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
@@ -56,21 +57,41 @@ public class ProjectsCollection implements
   @Override
   public ProjectResource parse(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException {
-    return parse(id.get());
+    ProjectResource rsrc = _parse(id.get());
+    if (rsrc == null) {
+      throw new ResourceNotFoundException(id);
+    }
+    return rsrc;
   }
 
-  public ProjectResource parse(String id)
-      throws ResourceNotFoundException {
+  /**
+   * Parses a project ID from a request body and returns the project.
+   *
+   * @param id ID of the project, can be a project name
+   * @return the project
+   * @throws UnprocessableEntityException thrown if the project ID cannot be
+   *         resolved or if the project is not visible to the calling user
+   */
+  public ProjectResource parse(String id) throws UnprocessableEntityException {
+    ProjectResource rsrc = _parse(id);
+    if (rsrc == null) {
+      throw new UnprocessableEntityException(String.format(
+          "Project Not Found: %s", id));
+    }
+    return rsrc;
+  }
+
+  private ProjectResource _parse(String id) {
     ProjectControl ctl;
     try {
       ctl = controlFactory.controlFor(
           new Project.NameKey(id),
           user.get());
     } catch (NoSuchProjectException e) {
-      throw new ResourceNotFoundException(id);
+      return null;
     }
     if (!ctl.isVisible() && !ctl.isOwner()) {
-      throw new ResourceNotFoundException(id);
+      return null;
     }
     return new ProjectResource(ctl);
   }

@@ -17,10 +17,12 @@ package com.google.gerrit.server.group;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -57,13 +59,14 @@ public class IncludedGroupsCollection implements
 
   @Override
   public IncludedGroupResource parse(GroupResource resource, IdString id)
-      throws ResourceNotFoundException, OrmException {
+      throws AuthException, ResourceNotFoundException, OrmException {
     AccountGroup parent = resource.toAccountGroup();
     if (parent == null) {
       throw new ResourceNotFoundException(id);
     }
 
-    GroupDescription.Basic member = groupsCollection.get().parse(id.get());
+    GroupDescription.Basic member =
+        groupsCollection.get().parse(TopLevelResource.INSTANCE, id).getGroup();
     if (isMember(parent, member)
         && resource.getControl().canSeeGroup(member.getGroupUUID())) {
       return new IncludedGroupResource(resource, member);

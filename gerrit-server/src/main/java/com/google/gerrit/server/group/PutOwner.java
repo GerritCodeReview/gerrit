@@ -16,13 +16,13 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
@@ -59,8 +59,9 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
 
   @Override
   public GroupInfo apply(GroupResource resource, Input input)
-      throws MethodNotAllowedException, AuthException, BadRequestException,
-      ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, MethodNotAllowedException,
+      AuthException, BadRequestException, UnprocessableEntityException,
+      OrmException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();
@@ -72,28 +73,17 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
       throw new BadRequestException("owner is required");
     }
 
-    GroupDescription.Basic owner;
-    try {
-      owner = groupsCollection.get().parse(input.owner);
-    } catch (ResourceNotFoundException e) {
-      throw new BadRequestException(String.format("No such group: %s", input.owner));
+    group = db.accountGroups().get(group.getId());
+    if (group == null) {
+      throw new ResourceNotFoundException();
     }
 
-    try {
-      GroupControl c = controlFactory.validateFor(owner.getGroupUUID());
-      group = db.accountGroups().get(group.getId());
-      if (group == null) {
-        throw new ResourceNotFoundException();
-      }
-
-      if (!group.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
-        group.setOwnerGroupUUID(owner.getGroupUUID());
-        db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
-      }
-      return json.format(c.getGroup());
-    } catch (NoSuchGroupException e) {
-      throw new BadRequestException(String.format("No such group: %s", input.owner));
+    GroupDescription.Basic owner = groupsCollection.get().parse(input.owner);
+    if (!group.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
+      group.setOwnerGroupUUID(owner.getGroupUUID());
+      db.accountGroups().update(Collections.singleton(group));
+      groupCache.evict(group);
     }
+    return json.format(owner);
   }
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RVowsh54",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-08T09:56:06Z",
+      "side": 1,
+      "message": "I would move this test as testGetNonExistingGroup into GetGroupIT. If /groups/\u003cgroup-id\u003e is not found, we stop processing and the rest of the URL is not considered.",
+      "revId": "a036efccae7dc505bcca4b6c45b3f89f2e65df62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RVuw5y94",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-08T09:56:06Z",
+      "side": 1,
+      "message": "[optional] assert that the response status is OK",
+      "revId": "a036efccae7dc505bcca4b6c45b3f89f2e65df62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RVsw2j.4",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/ListGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-08T09:56:06Z",
+      "side": 1,
+      "message": "Why do you need name if you have names?",
+      "revId": "a036efccae7dc505bcca4b6c45b3f89f2e65df62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

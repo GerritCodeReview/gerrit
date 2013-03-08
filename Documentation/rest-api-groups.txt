@@ -638,6 +638,9 @@ get::/groups/1/members/
 To resolve the included groups of a group recursively and to list all
 members the parameter `recursive` can be set.
 
+Members from included external groups and from included groups which
+are not visible to the calling user are ignored.
+
 .Request
 ----
   GET /groups/834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7/members/?recursive HTTP/1.0

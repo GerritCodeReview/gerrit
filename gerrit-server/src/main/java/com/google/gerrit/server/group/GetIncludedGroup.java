@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.group;
 
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gwtorm.server.OrmException;
@@ -29,8 +28,7 @@ public class GetIncludedGroup implements RestReadView<IncludedGroupResource>  {
   }
 
   @Override
-  public GroupInfo apply(IncludedGroupResource rsrc)
-      throws ResourceNotFoundException, OrmException {
+  public GroupInfo apply(IncludedGroupResource rsrc) throws OrmException {
     return json.format(rsrc.getMemberDescription());
   }
 }

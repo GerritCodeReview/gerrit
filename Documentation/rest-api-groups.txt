@@ -954,8 +954,8 @@ describes the included group.
 The request also succeeds if the group is already included in this
 group, but then the HTTP response code is `200 OK`.
 
-POST /groups/\{group-id\}/groups (Include Groups)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Include Groups
+~~~~~~~~~~~~~~
 [verse]
 'POST /groups/link:#group-id[\{group-id\}]/groups'
 

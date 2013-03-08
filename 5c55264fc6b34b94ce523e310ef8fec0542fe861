@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "RVK4BdxQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-08T09:51:40Z",
+      "side": 1,
+      "message": "This line is too long, see [1]\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_commit_message",
+      "revId": "5c55264fc6b34b94ce523e310ef8fec0542fe861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RU88IPTU",
         "filename": "Documentation/install.txt",
         "patchSetId": 1

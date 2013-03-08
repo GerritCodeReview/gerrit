@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.git.ssh;
+package com.google.gerrit.acceptance.git;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.SshSession;

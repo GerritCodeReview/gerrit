@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.git.ssh;
+package com.google.gerrit.acceptance.git;
 
-import static com.google.gerrit.acceptance.git.ssh.GitUtil.add;
-import static com.google.gerrit.acceptance.git.ssh.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.ssh.GitUtil.createCommit;
-import static com.google.gerrit.acceptance.git.ssh.GitUtil.createProject;
-import static com.google.gerrit.acceptance.git.ssh.GitUtil.initSsh;
-import static com.google.gerrit.acceptance.git.ssh.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.git.GitUtil.add;
+import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
+import static com.google.gerrit.acceptance.git.GitUtil.createCommit;
+import static com.google.gerrit.acceptance.git.GitUtil.createProject;
+import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
+import static com.google.gerrit.acceptance.git.GitUtil.pushHead;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -51,12 +51,30 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
+@RunWith(Parameterized.class)
 public class PushForReviewIT extends AbstractDaemonTest {
+
+  private enum Protocol {
+    SSH, HTTP
+  }
+
+  @Parameters(name="{0}")
+  public static List<Object[]> getParam() {
+    List<Object[]> params = Lists.newArrayList();
+    for(Protocol p : Protocol.values()) {
+      params.add(new Object[] {p});
+    }
+    return params;
+  }
 
   @Inject
   private AccountCreator accounts;
@@ -65,29 +83,44 @@ public class PushForReviewIT extends AbstractDaemonTest {
   private SchemaFactory<ReviewDb> reviewDbProvider;
 
   private TestAccount admin;
-  private SshSession sshSession;
   private Project.NameKey project;
   private Git git;
   private ReviewDb db;
+  private Protocol protocol;
+
+  public PushForReviewIT(Protocol p) {
+    this.protocol = p;
+  }
 
   @Before
   public void setUp() throws Exception {
     admin =
         accounts.create("admin", "admin@example.com", "Administrator",
             "Administrators");
-    sshSession = new SshSession(admin);
 
     project = new Project.NameKey("p");
     initSsh(admin);
+    SshSession sshSession = new SshSession(admin);
     createProject(sshSession, project.get());
-    git = cloneProject(sshSession.getUrl() + "/" + project.get());
+    String url;
+    switch (protocol) {
+      case SSH:
+        url = sshSession.getUrl();
+        break;
+      case HTTP:
+        url = admin.getHttpUrl();
+        break;
+      default:
+        throw new IllegalStateException("unexpected protocol: " + protocol);
+    }
+    git = cloneProject(url + "/" + project.get());
+    sshSession.close();
 
     db = reviewDbProvider.open();
   }
 
   @After
   public void cleanup() {
-    sshSession.close();
     db.close();
   }
 

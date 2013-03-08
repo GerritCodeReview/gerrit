@@ -16,6 +16,24 @@
       "revId": "c4e6d9713dd359e0ab13a7c8474e4be07f035ae1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RU0-9bfQ",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-08T07:59:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RVoz.R.4",
+      "revId": "c4e6d9713dd359e0ab13a7c8474e4be07f035ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

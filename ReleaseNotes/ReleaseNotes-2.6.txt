@@ -52,6 +52,7 @@ Access Controls
 * Remove Reviewer is a new permission.
 * Pushing a signed tag is a new permission.
 * Editing the topic name is a new permission.
+* Raw database access with the `gqsl` command is a new permisson.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1585[Issue 1585]:
 Viewing other users' draft changes is a new permission.
 

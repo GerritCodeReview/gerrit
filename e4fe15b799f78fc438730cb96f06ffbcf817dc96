@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RVG5Gb2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-03-08T23:40:13Z",
+      "side": 1,
+      "message": "s/instead/inserted/",
+      "revId": "e4fe15b799f78fc438730cb96f06ffbcf817dc96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

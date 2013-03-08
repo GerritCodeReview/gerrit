@@ -16,6 +16,24 @@
       "revId": "5c55264fc6b34b94ce523e310ef8fec0542fe861",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RVG74LwY",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-08T09:46:24Z",
+      "side": 1,
+      "message": "I think that the first one has to be gerrit.sh (../review_site/bin/gerrit.sh).",
+      "parentUuid": "RU88IPTU",
+      "revId": "5c55264fc6b34b94ce523e310ef8fec0542fe861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

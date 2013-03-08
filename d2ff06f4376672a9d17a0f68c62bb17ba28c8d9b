@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RVizuM0M",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-08T07:14:58Z",
+      "side": 1,
+      "message": "s/permission/global capability\n\nI think it\u0027s worth to mention that previously administrators had this capability by default, but that it now needs to be explicitly assigned, even for administrators.",
+      "revId": "d2ff06f4376672a9d17a0f68c62bb17ba28c8d9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

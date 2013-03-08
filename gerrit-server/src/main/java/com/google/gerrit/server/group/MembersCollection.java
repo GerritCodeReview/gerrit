@@ -21,11 +21,13 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.group.AddMembers.PutMember;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -59,12 +61,12 @@ public class MembersCollection implements
 
   @Override
   public MemberResource parse(GroupResource parent, IdString id)
-      throws ResourceNotFoundException, Exception {
+      throws AuthException, ResourceNotFoundException, OrmException {
     if (parent.toAccountGroup() == null) {
       throw new ResourceNotFoundException(id);
     }
 
-    IdentifiedUser user = accounts.get().parse(id.get());
+    IdentifiedUser user = accounts.get().parse(TopLevelResource.INSTANCE, id).getUser();
     AccountGroupMember.Key key =
         new AccountGroupMember.Key(user.getAccountId(), parent.toAccountGroup().getId());
     if (db.get().accountGroupMembers().get(key) != null

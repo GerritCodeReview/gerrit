@@ -16,17 +16,16 @@ package com.google.gerrit.server.group;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupJson.GroupInfo;
 import com.google.gerrit.server.group.PutOwner.Input;
 import com.google.gwtorm.server.OrmException;
@@ -43,24 +42,23 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
 
   private final Provider<GroupsCollection> groupsCollection;
   private final GroupCache groupCache;
-  private final GroupControl.Factory controlFactory;
   private final ReviewDb db;
   private final GroupJson json;
 
   @Inject
   PutOwner(Provider<GroupsCollection> groupsCollection, GroupCache groupCache,
-      GroupControl.Factory controlFactory, ReviewDb db, GroupJson json) {
+      ReviewDb db, GroupJson json) {
     this.groupsCollection = groupsCollection;
     this.groupCache = groupCache;
-    this.controlFactory = controlFactory;
     this.db = db;
     this.json = json;
   }
 
   @Override
   public GroupInfo apply(GroupResource resource, Input input)
-      throws MethodNotAllowedException, AuthException, BadRequestException,
-      ResourceNotFoundException, OrmException {
+      throws ResourceNotFoundException, MethodNotAllowedException,
+      AuthException, BadRequestException, UnprocessableEntityException,
+      OrmException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();
@@ -72,28 +70,17 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
       throw new BadRequestException("owner is required");
     }
 
-    GroupDescription.Basic owner;
-    try {
-      owner = groupsCollection.get().parse(input.owner);
-    } catch (ResourceNotFoundException e) {
-      throw new BadRequestException(String.format("No such group: %s", input.owner));
+    group = db.accountGroups().get(group.getId());
+    if (group == null) {
+      throw new ResourceNotFoundException();
     }
 
-    try {
-      GroupControl c = controlFactory.validateFor(owner.getGroupUUID());
-      group = db.accountGroups().get(group.getId());
-      if (group == null) {
-        throw new ResourceNotFoundException();
-      }
-
-      if (!group.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
-        group.setOwnerGroupUUID(owner.getGroupUUID());
-        db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
-      }
-      return json.format(c.getGroup());
-    } catch (NoSuchGroupException e) {
-      throw new BadRequestException(String.format("No such group: %s", input.owner));
+    GroupDescription.Basic owner = groupsCollection.get().parse(input.owner);
+    if (!group.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
+      group.setOwnerGroupUUID(owner.getGroupUUID());
+      db.accountGroups().update(Collections.singleton(group));
+      groupCache.evict(group);
     }
+    return json.format(owner);
   }
 }

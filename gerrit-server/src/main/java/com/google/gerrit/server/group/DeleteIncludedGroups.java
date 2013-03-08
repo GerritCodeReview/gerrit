@@ -18,19 +18,17 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.BadRequestHandler;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;
@@ -62,7 +60,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
   @Override
   public Object apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-      OrmException {
+      UnprocessableEntityException, OrmException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -72,17 +70,9 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     final GroupControl control = resource.getControl();
     final Map<AccountGroup.UUID, AccountGroupIncludeByUuid> includedGroups = getIncludedGroups(internalGroup.getId());
     final List<AccountGroupIncludeByUuid> toRemove = Lists.newLinkedList();
-    final BadRequestHandler badRequest = new BadRequestHandler("removing included groups");
 
     for (final String includedGroup : input.groups) {
-      GroupDescription.Basic d;
-      try {
-        d = groupsCollection.get().parse(includedGroup);
-      } catch (ResourceNotFoundException e) {
-        badRequest.addError(new NoSuchGroupException(includedGroup));
-        continue;
-      }
-
+      GroupDescription.Basic d = groupsCollection.get().parse(includedGroup);
       if (!control.canRemoveGroup(d.getGroupUUID())) {
         throw new AuthException(String.format("Cannot delete group: %s",
             d.getName()));
@@ -93,7 +83,6 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
         toRemove.add(g);
       }
     }
-    badRequest.failOnError();
 
     if (!toRemove.isEmpty()) {
       writeAudits(toRemove);
@@ -155,7 +144,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     @Override
     public Object apply(IncludedGroupResource resource, Input input)
         throws MethodNotAllowedException, AuthException, BadRequestException,
-        OrmException {
+        UnprocessableEntityException, OrmException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(resource.getMember().get());
       return delete.get().apply(resource, in);

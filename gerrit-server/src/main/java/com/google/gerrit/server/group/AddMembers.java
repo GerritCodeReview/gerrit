@@ -17,21 +17,17 @@ package com.google.gerrit.server.group;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.errors.InactiveAccountException;
-import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.BadRequestHandler;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
@@ -95,8 +91,8 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
 
   @Override
   public List<AccountInfo> apply(GroupResource resource, Input input)
-      throws AuthException, MethodNotAllowedException, BadRequestException,
-      OrmException {
+      throws AuthException, MethodNotAllowedException,
+      UnprocessableEntityException, OrmException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -106,20 +102,14 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
     GroupControl control = resource.getControl();
     Map<Account.Id, AccountGroupMember> newAccountGroupMembers = Maps.newHashMap();
     List<AccountGroupMemberAudit> newAccountGroupMemberAudits = Lists.newLinkedList();
-    BadRequestHandler badRequest = new BadRequestHandler("adding new group members");
     List<AccountInfo> result = Lists.newLinkedList();
     Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
 
     for (String nameOrEmail : input.members) {
       Account a = findAccount(nameOrEmail);
-      if (a == null) {
-        badRequest.addError(new NoSuchAccountException(nameOrEmail));
-        continue;
-      }
-
       if (!a.isActive()) {
-        badRequest.addError(new InactiveAccountException(a.getFullName()));
-        continue;
+        throw new UnprocessableEntityException(String.format(
+            "Account Inactive: %s", nameOrEmail));
       }
 
       if (!control.canAddMember(a.getId())) {
@@ -139,8 +129,6 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
       result.add(AccountInfo.parse(a, true));
     }
 
-    badRequest.failOnError();
-
     db.accountGroupMembersAudit().insert(newAccountGroupMemberAudits);
     db.accountGroupMembers().insert(newAccountGroupMembers.values());
     for (AccountGroupMember m : newAccountGroupMembers.values()) {
@@ -150,13 +138,13 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
     return result;
   }
 
-  private Account findAccount(String nameOrEmail) throws OrmException {
+  private Account findAccount(String nameOrEmail) throws AuthException,
+      UnprocessableEntityException, OrmException {
     try {
       return accounts.get().parse(nameOrEmail).getAccount();
-    } catch (AuthException e) {
-      return null;
-    } catch (ResourceNotFoundException e) {
-      // might be because the account does not exist or because the account is not visible
+    } catch (UnprocessableEntityException e) {
+      // might be because the account does not exist or because the account is
+      // not visible
       switch (authType) {
         case HTTP_LDAP:
         case CLIENT_SSL_CERT_LDAP:
@@ -168,7 +156,7 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
           break;
         default:
       }
-      return null;
+      throw e;
     }
   }
 
@@ -201,8 +189,8 @@ class AddMembers implements RestModifyView<GroupResource, Input> {
 
     @Override
     public Object apply(GroupResource resource, PutMember.Input input)
-        throws AuthException, MethodNotAllowedException, BadRequestException,
-        OrmException {
+        throws AuthException, MethodNotAllowedException,
+        UnprocessableEntityException, OrmException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id;
       List<AccountInfo> list = put.get().apply(resource, in);

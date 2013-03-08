@@ -16,20 +16,17 @@ package com.google.gerrit.server.group;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.BadRequestHandler;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -60,8 +57,8 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
   @Override
   public Object apply(GroupResource resource, Input input)
-      throws AuthException, MethodNotAllowedException, BadRequestException,
-      OrmException {
+      throws AuthException, MethodNotAllowedException,
+      UnprocessableEntityException, OrmException {
     AccountGroup internalGroup = resource.toAccountGroup();
     if (internalGroup == null) {
       throw new MethodNotAllowedException();
@@ -71,14 +68,9 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     final GroupControl control = resource.getControl();
     final Map<Account.Id, AccountGroupMember> members = getMembers(internalGroup.getId());
     final List<AccountGroupMember> toRemove = Lists.newLinkedList();
-    final BadRequestHandler badRequest = new BadRequestHandler("removing group members");
 
     for (final String nameOrEmail : input.members) {
-      Account a = parse(nameOrEmail);
-      if (a == null) {
-        badRequest.addError(new NoSuchAccountException(nameOrEmail));
-        continue;
-      }
+      Account a = accounts.get().parse(nameOrEmail).getAccount();
 
       if (!control.canRemoveMember(a.getId())) {
         throw new AuthException("Cannot delete member: " + a.getFullName());
@@ -90,8 +82,6 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
       }
     }
 
-    badRequest.failOnError();
-
     writeAudits(toRemove);
     db.accountGroupMembers().delete(toRemove);
     for (final AccountGroupMember m : toRemove) {
@@ -99,16 +89,6 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     }
 
     return Response.none();
-  }
-
-  private Account parse(String nameOrEmail) throws OrmException {
-    try {
-      return accounts.get().parse(nameOrEmail).getAccount();
-    } catch (AuthException e) {
-      return null;
-    } catch (ResourceNotFoundException e) {
-      return null;
-    }
   }
 
   private void writeAudits(final List<AccountGroupMember> toBeRemoved)
@@ -161,8 +141,8 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
     @Override
     public Object apply(MemberResource resource, Input input)
-        throws AuthException, MethodNotAllowedException, BadRequestException,
-        OrmException, NoSuchGroupException {
+        throws AuthException, MethodNotAllowedException,
+        UnprocessableEntityException, OrmException, NoSuchGroupException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = resource.getMember().getAccountId().toString();
       return delete.get().apply(resource, in);

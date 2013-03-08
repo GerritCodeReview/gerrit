@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RU88IPTU",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-08T08:14:51Z",
+      "side": 1,
+      "message": "Doesn\u0027t this still need to be `gerrit.sh`?",
+      "revId": "5c55264fc6b34b94ce523e310ef8fec0542fe861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

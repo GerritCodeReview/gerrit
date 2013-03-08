@@ -17,11 +17,11 @@ package com.google.gerrit.acceptance;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Sets;
-import com.google.common.reflect.TypeToken;
 import com.google.gerrit.acceptance.rest.group.GroupInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -75,7 +75,6 @@ public class SystemGroupsIT extends AbstractDaemonTest {
     RestSession session = new RestSession(admin);
     RestResponse r = session.get("/groups/");
     Gson gson = new Gson();
-    @SuppressWarnings("serial")
     Map<String, GroupInfo> result =
         gson.fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
     Set<String> names = result.keySet();

@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.rest.group;
 
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
@@ -25,6 +24,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.junit.Before;
@@ -66,7 +66,6 @@ public class GetGroupIT extends AbstractDaemonTest {
 
   private void testGetGroup(String url, AccountGroup expectedGroup) throws IOException {
     RestResponse r = session.get(url);
-    @SuppressWarnings("serial")
     GroupInfo group = (new Gson()).fromJson(r.getReader(), new TypeToken<GroupInfo>() {}.getType());
     assertGroupInfo(expectedGroup, group);
   }

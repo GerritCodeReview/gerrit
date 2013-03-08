@@ -20,7 +20,6 @@ import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroups;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.google.common.reflect.TypeToken;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
@@ -29,6 +28,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -72,7 +72,6 @@ public class ListGroupsIT extends AbstractDaemonTest {
           }
         });
     RestResponse r = session.get("/groups/");
-    @SuppressWarnings("serial")
     Map<String, GroupInfo> result =
         (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
     assertGroups(expectedGroups, result.keySet());
@@ -86,7 +85,6 @@ public class ListGroupsIT extends AbstractDaemonTest {
     expectedGroups.add("Registered Users");
     TestAccount user = accounts.create("user", "user@example.com", "User");
     RestResponse r = (new RestSession(user)).get("/groups/");
-    @SuppressWarnings("serial")
     Map<String, GroupInfo> result =
         (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
     assertGroups(expectedGroups, result.keySet());
@@ -97,7 +95,6 @@ public class ListGroupsIT extends AbstractDaemonTest {
       OrmException {
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
     RestResponse r = session.get("/groups/?q=" + adminGroup.getName());
-    @SuppressWarnings("serial")
     Map<String, GroupInfo> result =
         (new Gson()).fromJson(r.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
     GroupInfo adminGroupInfo = result.get(adminGroup.getName());

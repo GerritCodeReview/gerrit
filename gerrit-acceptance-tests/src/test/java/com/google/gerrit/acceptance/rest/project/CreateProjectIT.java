@@ -16,13 +16,13 @@ package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.common.reflect.TypeToken;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -86,7 +87,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     final String newProjectName = "newProject";
     RestResponse r = session.put("/projects/" + newProjectName);
     assertEquals(HttpStatus.SC_CREATED, r.getStatusCode());
-    @SuppressWarnings("serial")
     ProjectInfo p = (new Gson()).fromJson(r.getReader(), new TypeToken<ProjectInfo>() {}.getType());
     assertEquals(newProjectName, p.name);
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
@@ -114,7 +114,6 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.use_content_merge = InheritableBoolean.TRUE;
     in.require_change_id = InheritableBoolean.TRUE;
     RestResponse r = session.put("/projects/" + newProjectName, in);
-    @SuppressWarnings("serial")
     ProjectInfo p = (new Gson()).fromJson(r.getReader(), new TypeToken<ProjectInfo>() {}.getType());
     assertEquals(newProjectName, p.name);
     Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();

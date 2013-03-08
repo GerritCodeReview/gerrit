@@ -19,13 +19,13 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
-import com.google.common.reflect.TypeToken;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.apache.http.HttpStatus;
@@ -91,7 +91,6 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
         "admin", "ux", "uy");
   }
 
-  @SuppressWarnings("serial")
   private List<AccountInfo> GET(String endpoint) throws IOException {
     RestResponse r = session.get(endpoint);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -99,7 +98,6 @@ public class ListGroupMembersIT extends AbstractDaemonTest {
         new TypeToken<List<AccountInfo>>() {}.getType());
   }
 
-  @SuppressWarnings("serial")
   private AccountInfo GET_ONE(String endpoint) throws IOException {
     RestResponse r = session.get(endpoint);
     assertEquals(HttpStatus.SC_OK, r.getStatusCode());

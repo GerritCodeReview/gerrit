@@ -15,10 +15,10 @@
 package com.google.gerrit.acceptance.rest.group;
 
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
@@ -27,6 +27,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -60,7 +61,6 @@ public class CreateGroupIT extends AbstractDaemonTest {
   public void testCreateGroup() throws IOException {
     final String newGroupName = "newGroup";
     RestResponse r = session.put("/groups/" + newGroupName);
-    @SuppressWarnings("serial")
     GroupInfo g = (new Gson()).fromJson(r.getReader(), new TypeToken<GroupInfo>() {}.getType());
     assertEquals(newGroupName, g.name);
     AccountGroup group = groupCache.get(new AccountGroup.NameKey(newGroupName));
@@ -76,7 +76,6 @@ public class CreateGroupIT extends AbstractDaemonTest {
     in.visible_to_all = true;
     in.owner_id = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID().get();
     RestResponse r = session.put("/groups/" + newGroupName, in);
-    @SuppressWarnings("serial")
     GroupInfo g = (new Gson()).fromJson(r.getReader(), new TypeToken<GroupInfo>() {}.getType());
     assertEquals(newGroupName, g.name);
     AccountGroup group = groupCache.get(new AccountGroup.NameKey(newGroupName));

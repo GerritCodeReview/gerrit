@@ -18,10 +18,10 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -91,13 +91,11 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
     final CreateProjectArgs args = new CreateProjectArgs();
     args.setProjectName(name);
     if (!Strings.isNullOrEmpty(input.parent)) {
-      try {
-        args.newParent =
-            projectsCollection.get().parse(input.parent).getControl();
-      } catch (ResourceNotFoundException e) {
-        throw new UnprocessableEntityException(String.format(
-            "parent project \"%s\" not found", input.parent));
+      ProjectResource parent = projectsCollection.get().parse(input.parent);
+      if (parent == null) {
+        throw UnprocessableEntityException.projectNotFound(input.parent);
       }
+      args.newParent = parent.getControl();
     }
     args.createEmptyCommit = input.createEmptyCommit;
     args.permissionsOnly = input.permissionsOnly;
@@ -109,12 +107,11 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
       List<AccountGroup.UUID> ownerIds =
           Lists.newArrayListWithCapacity(input.owners.size());
       for (String owner : input.owners) {
-        try {
-          ownerIds.add(groupsCollection.get().parse(owner).getGroupUUID());
-        } catch (ResourceNotFoundException e) {
-          throw new UnprocessableEntityException(String.format(
-              "group \"%s\" not found", owner));
+        GroupDescription.Basic ownerGroup = groupsCollection.get().parse(owner);
+        if (ownerGroup == null) {
+          throw UnprocessableEntityException.groupNotFound(owner);
         }
+        ownerIds.add(ownerGroup.getGroupUUID());
       }
       args.ownerIds = ownerIds;
     }

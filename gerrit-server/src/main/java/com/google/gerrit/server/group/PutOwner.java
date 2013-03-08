@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
@@ -60,7 +60,7 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
   @Override
   public GroupInfo apply(GroupResource resource, Input input)
       throws MethodNotAllowedException, AuthException, BadRequestException,
-      ResourceNotFoundException, OrmException {
+      UnprocessableEntityException, OrmException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();
@@ -72,18 +72,16 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
       throw new BadRequestException("owner is required");
     }
 
-    GroupDescription.Basic owner;
-    try {
-      owner = groupsCollection.get().parse(input.owner);
-    } catch (ResourceNotFoundException e) {
-      throw new BadRequestException(String.format("No such group: %s", input.owner));
+    GroupDescription.Basic owner = groupsCollection.get().parse(input.owner);
+    if (owner == null) {
+      throw UnprocessableEntityException.groupNotFound(input.owner);
     }
 
     try {
       GroupControl c = controlFactory.validateFor(owner.getGroupUUID());
       group = db.accountGroups().get(group.getId());
       if (group == null) {
-        throw new ResourceNotFoundException();
+        throw UnprocessableEntityException.groupNotFound(input.owner);
       }
 
       if (!group.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
@@ -93,7 +91,7 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
       }
       return json.format(c.getGroup());
     } catch (NoSuchGroupException e) {
-      throw new BadRequestException(String.format("No such group: %s", input.owner));
+      throw UnprocessableEntityException.groupNotFound(input.owner);
     }
   }
 }

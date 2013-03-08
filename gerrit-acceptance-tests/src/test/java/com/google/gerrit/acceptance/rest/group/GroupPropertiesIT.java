@@ -195,7 +195,7 @@ public class GroupPropertiesIT extends AbstractDaemonTest {
     in = new GroupOwnerInput();
     in.owner = "Non-Existing Group";
     r = session.put(url, in);
-    assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+    assertEquals(HttpStatus.SC_UNPROCESSABLE_ENTITY, r.getStatusCode());
     r.consume();
   }
 

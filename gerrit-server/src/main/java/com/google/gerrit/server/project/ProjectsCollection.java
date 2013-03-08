@@ -56,21 +56,24 @@ public class ProjectsCollection implements
   @Override
   public ProjectResource parse(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException {
-    return parse(id.get());
+    ProjectResource rsrc = parse(id.get());
+    if (rsrc == null) {
+      throw new ResourceNotFoundException(id);
+    }
+    return rsrc;
   }
 
-  public ProjectResource parse(String id)
-      throws ResourceNotFoundException {
+  public ProjectResource parse(String id) {
     ProjectControl ctl;
     try {
       ctl = controlFactory.controlFor(
           new Project.NameKey(id),
           user.get());
     } catch (NoSuchProjectException e) {
-      throw new ResourceNotFoundException(id);
+      return null;
     }
     if (!ctl.isVisible() && !ctl.isOwner()) {
-      throw new ResourceNotFoundException(id);
+      return null;
     }
     return new ProjectResource(ctl);
   }

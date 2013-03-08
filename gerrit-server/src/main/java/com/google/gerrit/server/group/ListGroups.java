@@ -187,7 +187,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   private List<GroupInfo> getGroupsOwnedBy(IdentifiedUser user)
-      throws ResourceNotFoundException, OrmException {
+      throws OrmException {
     List<GroupInfo> groups = Lists.newArrayList();
     for (AccountGroup g : filterGroups(groupCache.all())) {
       GroupControl ctl = groupControlFactory.controlFor(g);

@@ -16,6 +16,24 @@
       "revId": "940c5317df5b44a35e910f28b2d6a293049e98f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RU68vuZE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-09T01:16:37Z",
+      "side": 1,
+      "message": "Split out to https://gerrit-review.googlesource.com/43260",
+      "parentUuid": "RVG5tz8s",
+      "revId": "940c5317df5b44a35e910f28b2d6a293049e98f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

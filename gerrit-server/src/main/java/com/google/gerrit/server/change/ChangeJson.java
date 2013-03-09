@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -465,54 +466,80 @@ public class ChangeJson {
 
   private Map<String, LabelInfo> labelsForClosedChange(ChangeData cd,
       boolean standard, boolean detailed) throws OrmException {
+    Set<Account.Id> allUsers = Sets.newHashSet();
+    for (PatchSetApproval psa : cd.allApprovals(db)) {
+      allUsers.add(psa.getAccountId());
+    }
+
+    Set<ApprovalCategory.Id> categories = Sets.newHashSet();
+    Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
+    for (PatchSetApproval a : cd.currentApprovals(db)) {
+      if (a.getValue() != 0) {
+        categories.add(a.getCategoryId());
+        current.put(a.getAccountId(), a);
+      }
+    }
+
     // We can only approximately reconstruct what the submit rule evaluator
     // would have done. These should really come from a stored submit record.
     //
     // Don't use Maps.newTreeMap(Comparator) due to OpenJDK bug 100167.
     Map<String, LabelInfo> labels =
         new TreeMap<String, LabelInfo>(LabelOrdering.create(labelTypes));
-    for (PatchSetApproval psa : cd.currentApprovals(db)) {
-      LabelType type = labelTypes.byId(psa.getCategoryId().get());
-      if (type == null) {
-        continue;
-      }
-      String label = type.getName();
-      LabelInfo li = labels.get(label);
-      if (li == null) {
-        li = new LabelInfo();
-        labels.put(label, li);
+    for (ApprovalCategory.Id id : categories) {
+      LabelType type = labelTypes.byId(id.get());
+      if (type != null) {
+        LabelInfo li = new LabelInfo();
         if (detailed) {
           setLabelValues(type, li);
         }
+        labels.put(type.getName(), li);
       }
+    }
 
-      short val = psa.getValue();
+    for (Account.Id accountId : allUsers) {
+      Map<String, ApprovalInfo> byLabel =
+          Maps.newHashMapWithExpectedSize(labels.size());
+
       if (detailed) {
-        li.addApproval(approvalInfo(psa.getAccountId(), val));
+        for (String name : labels.keySet()) {
+          ApprovalInfo ai = approvalInfo(accountId, 0);
+          byLabel.put(name, ai);
+          labels.get(name).addApproval(ai);
+        }
       }
+      for (PatchSetApproval psa : current.get(accountId)) {
+        LabelType type = labelTypes.byId(psa.getCategoryId().get());
+        if (type == null) {
+          continue;
+        }
 
-      if (!standard || li.approved != null || li.rejected != null) {
-        continue;
-      }
-      if (val == type.getMax().getValue()) {
-        li.approved = accountInfo(psa);
-      } else if (val == type.getMin().getValue()
-          // A merged change can't have been rejected.
-          && cd.getChange().getStatus() != Status.MERGED) {
-        li.rejected = accountInfo(psa);
-      } else if (val > 0) {
-        li.recommended = accountInfo(psa);
-        li.value = val;
-      } else if (val < 0) {
-        li.disliked = accountInfo(psa);
-        li.value = val;
+        short val = psa.getValue();
+        ApprovalInfo info = byLabel.get(type.getName());
+        if (info != null) {
+          info.value = val;
+        }
+
+        LabelInfo li = labels.get(type.getName());
+        if (!standard || li.approved != null || li.rejected != null) {
+          continue;
+        }
+        if (val == type.getMax().getValue()) {
+          li.approved = accountLoader.get(accountId);
+        } else if (val == type.getMin().getValue()
+            // A merged change can't have been rejected.
+            && cd.getChange().getStatus() != Status.MERGED) {
+          li.rejected = accountLoader.get(accountId);
+        } else if (val > 0) {
+          li.recommended = accountLoader.get(accountId);
+          li.value = val;
+        } else if (val < 0) {
+          li.disliked = accountLoader.get(accountId);
+          li.value = val;
+        }
       }
     }
     return labels;
-  }
-
-  private AccountInfo accountInfo(PatchSetApproval psa) {
-    return accountLoader.get(psa.getAccountId());
   }
 
   private ApprovalInfo approvalInfo(Account.Id id, int value) {

@@ -526,7 +526,7 @@ Deletes a project dashboard.
 Currently only supported for the `default` dashboard.
 
 The request body does not need to include a link:#dashboard-input[
-DashbaordInput] entity if no commit message is specified.
+DashboardInput] entity if no commit message is specified.
 
 Please note that some proxies prohibit request bodies for DELETE
 requests.

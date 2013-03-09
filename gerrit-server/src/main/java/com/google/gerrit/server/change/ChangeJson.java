@@ -527,7 +527,7 @@ public class ChangeJson {
     return accountLoader.get(psa.getAccountId());
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, short value) {
+  private ApprovalInfo approvalInfo(Account.Id id, int value) {
     ApprovalInfo ai = new ApprovalInfo(id);
     ai.value = value;
     accountLoader.put(ai);
@@ -892,7 +892,7 @@ public class ChangeJson {
   }
 
   static class ApprovalInfo extends AccountInfo {
-    short value;
+    int value;
 
     ApprovalInfo(Account.Id id) {
       super(id);

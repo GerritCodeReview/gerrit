@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "RVC6Kp2I",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-09T00:20:38Z",
+      "side": 1,
+      "message": "No. Removed.",
+      "parentUuid": "RVA5qS8U",
+      "revId": "77d05e26fdc8ae37b21a4514a6fc3dc52bc000c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RVK5YVzg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -47,6 +65,24 @@
       "writtenOn": "2013-03-09T00:07:48Z",
       "side": 1,
       "message": "Why not ai \u003d approvalInfo(accountId, 0)?",
+      "revId": "77d05e26fdc8ae37b21a4514a6fc3dc52bc000c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RVA6P63I",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-09T00:20:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RVK5YVzg",
       "revId": "77d05e26fdc8ae37b21a4514a6fc3dc52bc000c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

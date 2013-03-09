@@ -18,9 +18,10 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -71,13 +72,14 @@ public class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
   }
 
   private Iterable<PatchSetApproval> approvals(ReviewDb db,
-      final ReviewerResource rsrc) throws OrmException {
+      ReviewerResource rsrc) throws OrmException {
+    final Account.Id user = rsrc.getUser().getAccountId();
     return Iterables.filter(
         db.patchSetApprovals().byChange(rsrc.getChange().getId()),
         new Predicate<PatchSetApproval>() {
           @Override
           public boolean apply(PatchSetApproval input) {
-            return input.getAccountId().equals(rsrc.getUser().getAccountId());
+            return user.equals(input.getAccountId());
           }
         });
   }

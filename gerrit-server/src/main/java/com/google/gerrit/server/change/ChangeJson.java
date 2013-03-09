@@ -128,9 +128,9 @@ public class ChangeJson {
   private final Urls urls;
   private ChangeControl.Factory changeControlUserFactory;
   private SshInfo sshInfo;
-  private Map<Change.Id, ChangeControl> controls;
   private EnumSet<ListChangesOption> options;
   private AccountInfo.Loader accountLoader;
+  private ChangeControl lastControl;
 
   @Inject
   ChangeJson(
@@ -159,7 +159,6 @@ public class ChangeJson {
     this.urlProvider = curl;
     this.urls = urls;
 
-    controls = Maps.newHashMap();
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
@@ -266,6 +265,7 @@ public class ChangeJson {
       }
     }
 
+    lastControl = null;
     return out;
   }
 
@@ -273,11 +273,9 @@ public class ChangeJson {
     ChangeControl ctrl = cd.changeControl();
     if (ctrl != null && ctrl.getCurrentUser() == user) {
       return ctrl;
-    }
-
-    ctrl = controls.get(cd.getId());
-    if (ctrl != null) {
-      return ctrl;
+    } else if (lastControl != null
+        && cd.getId().equals(lastControl.getChange().getId())) {
+      return lastControl;
     }
 
     try {
@@ -289,7 +287,7 @@ public class ChangeJson {
     } catch (NoSuchChangeException e) {
       return null;
     }
-    controls.put(cd.getId(), ctrl);
+    lastControl = ctrl;
     return ctrl;
   }
 
@@ -425,7 +423,10 @@ public class ChangeJson {
   private void setAllApprovals(ChangeData cd,
       Map<String, LabelInfo> labels) throws OrmException {
     cd.allApprovals(db);
-    ChangeControl ctl = cd.changeControl();
+    ChangeControl ctl = control(cd);
+    if (ctl == null) {
+      return;
+    }
     Collection<PatchSetApproval> approvals = cd.currentApprovals(db);
     FunctionState fs =
         functionState.create(ctl, cd.change(db).currentPatchSetId(), approvals);
@@ -551,6 +552,10 @@ public class ChangeJson {
   private Map<String, Collection<String>> permittedLabels(ChangeData cd)
       throws OrmException {
     ChangeControl ctl = control(cd);
+    if (ctl == null) {
+      return Collections.emptyMap();
+    }
+
     ListMultimap<String, String> permitted = LinkedListMultimap.create();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {

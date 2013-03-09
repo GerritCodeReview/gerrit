@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RVG5tz8s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-03-09T00:42:46Z",
+      "side": 1,
+      "message": "This part leaves me nervous that some callers may be relying on ChangeInfo.labels to be present. Is there any reason it has to be part of the same patch as simplifying the ChangeControl caching?",
+      "revId": "940c5317df5b44a35e910f28b2d6a293049e98f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

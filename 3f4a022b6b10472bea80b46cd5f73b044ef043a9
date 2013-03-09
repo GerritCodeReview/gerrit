@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RVA54i40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-03-09T00:42:46Z",
+      "side": 0,
+      "message": "This part is good.",
+      "revId": "3f4a022b6b10472bea80b46cd5f73b044ef043a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

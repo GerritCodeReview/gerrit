@@ -37,42 +37,44 @@ Query for open changes of watched projects:
   Content-Type: application/json;charset=UTF-8
 
   )]}'
-  {
-    "kind": "gerritcodereview#change",
-    "id": "demo~master~Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
-    "project": "demo",
-    "branch": "master",
-    "change_id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
-    "subject": "One change",
-    "status": "NEW",
-    "created": "2012-07-17 07:18:30.854000000",
-    "updated": "2012-07-17 07:19:27.766000000",
-    "reviewed": true,
-    "mergeable": true,
-    "_sortkey": "001e7057000006dc",
-    "_number": 1756,
-    "owner": {
-      "name": "John Doe"
+  [
+    {
+      "kind": "gerritcodereview#change",
+      "id": "demo~master~Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
+      "project": "demo",
+      "branch": "master",
+      "change_id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
+      "subject": "One change",
+      "status": "NEW",
+      "created": "2012-07-17 07:18:30.854000000",
+      "updated": "2012-07-17 07:19:27.766000000",
+      "reviewed": true,
+      "mergeable": true,
+      "_sortkey": "001e7057000006dc",
+      "_number": 1756,
+      "owner": {
+        "name": "John Doe"
+      },
     },
-  },
-  {
-    "kind": "gerritcodereview#change",
-    "id": "demo~master~I09c8041b5867d5b33170316e2abc34b79bbb8501",
-    "project": "demo",
-    "branch": "master",
-    "change_id": "I09c8041b5867d5b33170316e2abc34b79bbb8501",
-    "subject": "Another change",
-    "status": "NEW",
-    "created": "2012-07-17 07:18:30.884000000",
-    "updated": "2012-07-17 07:18:30.885000000",
-    "mergeable": true,
-    "_sortkey": "001e7056000006dd",
-    "_number": 1757,
-    "owner": {
-      "name": "John Doe"
-    },
-    "_more_changes": true
-  }
+    {
+      "kind": "gerritcodereview#change",
+      "id": "demo~master~I09c8041b5867d5b33170316e2abc34b79bbb8501",
+      "project": "demo",
+      "branch": "master",
+      "change_id": "I09c8041b5867d5b33170316e2abc34b79bbb8501",
+      "subject": "Another change",
+      "status": "NEW",
+      "created": "2012-07-17 07:18:30.884000000",
+      "updated": "2012-07-17 07:18:30.885000000",
+      "mergeable": true,
+      "_sortkey": "001e7056000006dd",
+      "_number": 1757,
+      "owner": {
+        "name": "John Doe"
+      },
+      "_more_changes": true
+    }
+  ]
 ----
 
 If the `n` query parameter is supplied and additional changes exist
@@ -1017,7 +1019,7 @@ link:#detailed-labels[detailed labels] and link:#detailed-accounts[
 detailed accounts] is returned that describes the review of the
 revision. The revision for which the review is retrieved is contained
 in the `revisions` field. In addition the `current_revision` field is
-set, if the revision for which the review is retrieved, is the current
+set if the revision for which the review is retrieved is the current
 revision of the change. Please note that the returned labels are always
 for the current patch set.
 
@@ -1668,7 +1670,7 @@ The `ChangeInfo` entity contains information about a change.
 |`kind`               ||`gerritcodereview#change`
 |`id`                 ||
 The ID of the change in the format "'<project>\~<branch>~<Change-Id>'",
-where project, branch and Change-Id are URL encoded. For branch the
+where 'project', 'branch' and 'Change-Id' are URL encoded. For 'branch' the
 `refs/heads/` prefix is omitted.
 |`project`            ||The name of the project.
 |`branch`             ||
@@ -1693,7 +1695,7 @@ Whether the calling user has starred this change.
 Whether the change was reviewed by the calling user.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
-Not set for merged changed.
+Not set for merged changes.
 |`_sortkey`           ||The sortkey of the change.
 |`_number`            ||The legacy numeric ID of the change.
 |`owner`              ||
@@ -1717,7 +1719,7 @@ The commit ID of the current patch set of this change. +
 Only set if link:#current-revision[the current revision] is requested
 or if link:#all-revisions[all revisions] are requested.
 |`revisions`          |optional|
-All patch sets of this changes as a map that maps the commit ID of the
+All patch sets of this change as a map that maps the commit ID of the
 patch set to a link:#revision-info[RevisionInfo] entity. +
 Only set if link:#all-revisions[all revisions] are requested.
 |`_more_changes`      |optional, not set if `false`|
@@ -1728,7 +1730,7 @@ Only set on either the last or the first change that is returned.
 [[comment-info]]
 CommentInfo
 ~~~~~~~~~~~
-The `CommitInfo` entity contains information about an inline comment.
+The `CommentInfo` entity contains information about an inline comment.
 
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
@@ -1839,7 +1841,7 @@ Not set if the file was Modified ("`M`").
 |`binary`        |not set if `false`|Whether the file is binary.
 |`old_path`      |optional|
 The old file path. +
-Only set if file was renamed or copied.
+Only set if the file was renamed or copied.
 |`lines_inserted`|optional|
 Number of inserted lines. +
 Not set for binary files or if no lines were inserted.
@@ -1959,7 +1961,7 @@ label names to the voting values.
 The comments that should be added as a map that maps a file path to a
 list of link:#comment-input[CommentInput] entities.
 |`strict_labels`|`true` if not set|
-Whether all labels are rquired to be within the user's permitted ranges
+Whether all labels are required to be within the user's permitted ranges
 based on access controls. +
 If `true`, attempting to use a label not granted to the user will fail
 the entire modify operation early. +

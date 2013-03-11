@@ -120,7 +120,7 @@ public class CommitValidators {
     return messages;
   }
 
-  public List<CommitValidationMessage> validateForRevertCommits(
+  public List<CommitValidationMessage> validateForGerritCommits(
       CommitReceivedEvent receiveEvent) throws CommitValidationException {
 
     List<CommitValidationListener> validators =

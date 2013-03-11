@@ -270,7 +270,7 @@ public class ChangeUtil {
               revertCommit, user);
 
       try {
-        commitValidators.validateForRevertCommits(commitReceivedEvent);
+        commitValidators.validateForGerritCommits(commitReceivedEvent);
       } catch (CommitValidationException e) {
         throw new InvalidChangeOperationException(e.getMessage());
       }

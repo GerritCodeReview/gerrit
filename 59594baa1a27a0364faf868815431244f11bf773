@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RZZ204xI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T22:31:23Z",
+      "side": 1,
+      "message": "Just dropped all restrictions other than size, this is going away soon anyway so not worrying too much.",
+      "parentUuid": "RZR3Y03I",
+      "revId": "59594baa1a27a0364faf868815431244f11bf773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RZb3Iv50",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 14
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "RZb2xnyE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T22:31:23Z",
+      "side": 1,
+      "message": "Moved caching into ProjectControl, and did this.",
+      "parentUuid": "RZb3Iv50",
+      "revId": "59594baa1a27a0364faf868815431244f11bf773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RZZ3LA5o",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 14
@@ -47,6 +83,24 @@
       "writtenOn": "2013-03-11T22:13:43Z",
       "side": 1,
       "message": "You can\u0027t cache like this. When a parent changes the child ProjectState is not evicted from the cache. So you will have stale data in some children but not in others after an update of the parent, depending on load order into the cache.",
+      "revId": "59594baa1a27a0364faf868815431244f11bf773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RZd2ua7w",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T22:31:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RZZ3LA5o",
       "revId": "59594baa1a27a0364faf868815431244f11bf773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

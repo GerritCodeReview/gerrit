@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RZf3SR00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-11T22:17:03Z",
+      "side": 1,
+      "message": "I guess that is unfortunate given how permissions work. I wonder if \"can-override \u003d false\" or \"overridable \u003d false\" is the more descriptive way to describe this.",
+      "revId": "4d2cb1d1ebcb10bfa4c3e048e1057eeeb1cd0d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RZR3Bs3Y",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-11T22:17:03Z",
+      "side": 1,
+      "message": "canOverride would be easier to read.",
+      "revId": "4d2cb1d1ebcb10bfa4c3e048e1057eeeb1cd0d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RZT3Gb48",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-11T22:17:03Z",
+      "side": 1,
+      "message": "setCanOverride?",
+      "revId": "4d2cb1d1ebcb10bfa4c3e048e1057eeeb1cd0d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

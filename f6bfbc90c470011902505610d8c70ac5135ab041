@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RZb1VHwI",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_get_legacy_label_types_1.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T19:35:32Z",
+      "side": 1,
+      "message": "Done. Could the change also not exist (i.e. have gotten deleted between starting up the engine and calling CHANGE.get(engine))?",
+      "parentUuid": "RZV1fuyI",
+      "revId": "f6bfbc90c470011902505610d8c70ac5135ab041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RZX1kd-g",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-11T19:20:08Z",
       "side": 1,
       "message": "Do not import bare UUID (or Id/Key) types.",
+      "revId": "f6bfbc90c470011902505610d8c70ac5135ab041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RZd1S6xY",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/GerritCommonTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T19:35:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RZX1kd-g",
       "revId": "f6bfbc90c470011902505610d8c70ac5135ab041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

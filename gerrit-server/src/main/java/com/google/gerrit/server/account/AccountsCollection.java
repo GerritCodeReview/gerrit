@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -56,11 +57,35 @@ public class AccountsCollection implements
   @Override
   public AccountResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, AuthException, OrmException {
-    return new AccountResource(parse(id.get()));
+    IdentifiedUser user = _parse(id.get());
+    if (user == null) {
+      throw new ResourceNotFoundException(id);
+    }
+    return new AccountResource(user);
   }
 
+  /**
+   * Parses a account ID from a request body and returns the user.
+   *
+   * @param id ID of the account, can be a string of the format
+   *        "Full Name <email@example.com>", just the email address, a full name
+   *        if it is unique, an account ID, a user name or 'self' for the
+   *        calling user
+   * @return the project
+   * @throws UnprocessableEntityException thrown if the account ID cannot be
+   *         resolved or if the account is not visible to the calling user
+   */
   public IdentifiedUser parse(String id) throws AuthException,
-      ResourceNotFoundException, OrmException {
+      UnprocessableEntityException, OrmException {
+    IdentifiedUser user = _parse(id);
+    if (user == null) {
+      throw new UnprocessableEntityException(String.format(
+          "Account Not Found: %s", id));
+    }
+    return user;
+  }
+
+  private IdentifiedUser _parse(String id) throws AuthException, OrmException {
     CurrentUser user = self.get();
 
     if (id.equals("self")) {
@@ -69,13 +94,13 @@ public class AccountsCollection implements
       } else if (user instanceof AnonymousUser) {
         throw new AuthException("Authentication required");
       } else {
-        throw new ResourceNotFoundException(id);
+        return null;
       }
     }
 
     Set<Account.Id> matches = resolver.findAll(id);
     if (matches.size() != 1) {
-      throw new ResourceNotFoundException(id);
+      return null;
     }
 
     Account.Id a = Iterables.getOnlyElement(matches);
@@ -83,7 +108,7 @@ public class AccountsCollection implements
         || user.getCapabilities().canAdministrateServer()) {
       return userFactory.create(a);
     } else {
-      throw new ResourceNotFoundException(id);
+      return null;
     }
   }
 

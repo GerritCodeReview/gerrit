@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -25,6 +26,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -75,7 +77,7 @@ public class GroupsCollection implements
 
   @Override
   public GroupResource parse(TopLevelResource parent, IdString id)
-      throws ResourceNotFoundException, Exception {
+      throws AuthException, ResourceNotFoundException {
     final CurrentUser user = self.get();
     if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");
@@ -83,14 +85,58 @@ public class GroupsCollection implements
       throw new ResourceNotFoundException(id);
     }
 
-    GroupControl ctl = groupControlFactory.controlFor(parse(id.get()));
+    GroupDescription.Basic group = _parse(id.get());
+    if (group == null) {
+      throw new ResourceNotFoundException(id.get());
+    }
+    GroupControl ctl = groupControlFactory.controlFor(group);
     if (!ctl.isVisible()) {
       throw new ResourceNotFoundException(id);
     }
     return new GroupResource(ctl);
   }
 
-  public GroupDescription.Basic parse(String id) throws ResourceNotFoundException {
+  /**
+   * Parses a group ID from a request body and returns the group.
+   *
+   * @param id ID of the group, can be a group UUID, a group name or a legacy
+   *        group ID
+   * @return the group
+   * @throws UnprocessableEntityException thrown if the group ID cannot be
+   *         resolved or if the group is not visible to the calling user
+   */
+  public GroupDescription.Basic parse(String id)
+      throws UnprocessableEntityException {
+    GroupDescription.Basic group = _parse(id);
+    if (group == null || !groupControlFactory.controlFor(group).isVisible()) {
+      throw new UnprocessableEntityException(String.format(
+          "Group Not Found: %s", id));
+    }
+    return group;
+  }
+
+  /**
+   * Parses a group ID from a request body and returns the group if it is a
+   * Gerrit internal group.
+   *
+   * @param id ID of the group, can be a group UUID, a group name or a legacy
+   *        group ID
+   * @return the group
+   * @throws UnprocessableEntityException thrown if the group ID cannot be
+   *         resolved, if the group is not visible to the calling user or if
+   *         it's an external group
+   */
+  public GroupDescription.Basic parseInternal(String id)
+      throws UnprocessableEntityException {
+    GroupDescription.Basic group = parse(id);
+    if (GroupDescriptions.toAccountGroup(group) == null) {
+      throw new UnprocessableEntityException(String.format(
+          "External Group Not Allowed: %s", id));
+    }
+    return group;
+  }
+
+  private GroupDescription.Basic _parse(String id) {
     AccountGroup.UUID uuid = new AccountGroup.UUID(id);
     if (groupBackend.handles(uuid)) {
       GroupDescription.Basic d = groupBackend.get(uuid);
@@ -118,7 +164,7 @@ public class GroupsCollection implements
       }
     }
 
-    throw new ResourceNotFoundException(id);
+    return null;
   }
 
   @SuppressWarnings("unchecked")

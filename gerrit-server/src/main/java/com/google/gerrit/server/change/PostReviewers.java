@@ -22,7 +22,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -31,6 +30,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
@@ -126,7 +126,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   @Override
   public PostResult apply(ChangeResource rsrc, Input input)
       throws BadRequestException, ResourceNotFoundException, AuthException,
-      OrmException, EmailException {
+      UnprocessableEntityException, OrmException, EmailException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }
@@ -139,10 +139,6 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       }
     } catch (NoSuchChangeException e) {
       throw new ResourceNotFoundException(e.getMessage());
-    } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(e.getMessage());
-    } catch (NoSuchProjectException e) {
-      throw new ResourceNotFoundException(e.getMessage());
     }
   }
 
@@ -154,13 +150,10 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   }
 
   private PostResult putGroup(ChangeResource rsrc, Input input)
-      throws ResourceNotFoundException, AuthException, NoSuchGroupException,
-      NoSuchProjectException, OrmException, NoSuchChangeException,
+      throws ResourceNotFoundException, AuthException, BadRequestException,
+      UnprocessableEntityException, OrmException, NoSuchChangeException,
       EmailException {
-    GroupDescription.Basic group = groupsCollection.get().parse(input.reviewer);
-    if (GroupDescriptions.toAccountGroup(group) == null) {
-      throw new ResourceNotFoundException(input.reviewer);
-    }
+    GroupDescription.Basic group = groupsCollection.get().parseInternal(input.reviewer);
     PostResult result = new PostResult();
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
       result.error = MessageFormat.format(
@@ -170,8 +163,15 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
 
     Set<IdentifiedUser> reviewers = Sets.newLinkedHashSet();
     ChangeControl control = rsrc.getControl();
-    Set<Account> members = groupMembersFactory.create(control.getCurrentUser())
-        .listAccounts(group.getGroupUUID(), control.getProject().getNameKey());
+    Set<Account> members;
+    try {
+      members = groupMembersFactory.create(control.getCurrentUser()).listAccounts(
+              group.getGroupUUID(), control.getProject().getNameKey());
+    } catch (NoSuchGroupException e) {
+      throw new UnprocessableEntityException(e.getMessage());
+    } catch (NoSuchProjectException e) {
+      throw new BadRequestException(e.getMessage());
+    }
 
     // if maxAllowed is set to 0, it is allowed to add any number of
     // reviewers

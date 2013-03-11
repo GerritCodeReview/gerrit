@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RZV1G22Y",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-11T18:57:58Z",
+      "side": 1,
+      "message": "This can also be null if the database was modified and the change was deleted.",
+      "revId": "84d7176e7c4c395aaca0f497e0c70be0ea5777e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

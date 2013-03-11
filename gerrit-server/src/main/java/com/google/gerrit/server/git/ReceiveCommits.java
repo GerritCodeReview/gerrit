@@ -60,6 +60,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -252,6 +253,7 @@ public class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
+  private final ChangeInserter changeInserter;
   private final WorkQueue workQueue;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
@@ -303,6 +305,7 @@ public class ReceiveCommits {
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
       final ChangeCache changeCache,
+      final ChangeInserter changeInserter,
       final CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
@@ -333,6 +336,7 @@ public class ReceiveCommits {
     this.canonicalWebUrl = canonicalWebUrl;
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
+    this.changeInserter = changeInserter;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.workQueue = workQueue;
     this.changeUpdateExector = changeUpdateExector;
@@ -1461,23 +1465,11 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
 
-      db.changes().beginTransaction(change.getId());
-      try {
-        ChangeUtil.insertAncestors(db, ps.getId(), commit);
-        db.patchSets().insert(Collections.singleton(ps));
-        db.changes().insert(Collections.singleton(change));
-        ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
-        approvalsUtil.addReviewers(db, labelTypes, change, ps, info,
-            recipients.getReviewers(), Collections.<Account.Id> emptySet());
-        db.commit();
-      } finally {
-        db.rollback();
-      }
+      changeInserter.insertChange(db, change, ps, commit, labelTypes,
+          footerLines, info, recipients.getReviewers());
 
       created = true;
-      gitRefUpdated.fire(project.getNameKey(), ps.getRefName(),
-          ObjectId.zeroId(), commit);
-      hooks.doPatchsetCreatedHook(change, ps, db);
+
       workQueue.getDefaultQueue()
           .submit(requestScopePropagator.wrap(new Runnable() {
         @Override

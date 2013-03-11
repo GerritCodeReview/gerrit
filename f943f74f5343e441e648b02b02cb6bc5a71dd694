@@ -16,6 +16,24 @@
       "revId": "f943f74f5343e441e648b02b02cb6bc5a71dd694",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RZb0NH.8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T22:56:54Z",
+      "side": 1,
+      "message": "It\u0027s either going to change here or in I761cd39cf02fe8c63f246dd588500d53a4acc3b0, where IDs go away entirely.",
+      "parentUuid": "RZV0XuwM",
+      "revId": "f943f74f5343e441e648b02b02cb6bc5a71dd694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

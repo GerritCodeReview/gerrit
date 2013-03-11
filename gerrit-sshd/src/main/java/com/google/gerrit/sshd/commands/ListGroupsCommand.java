@@ -16,8 +16,6 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
@@ -82,8 +80,7 @@ public class ListGroupsCommand extends BaseCommand {
           identifiedUser, userFactory, accountGetGroups, json);
     }
 
-    void display(final PrintWriter out) throws ResourceNotFoundException,
-        MethodNotAllowedException, OrmException {
+    void display(final PrintWriter out) throws OrmException {
       final ColumnFormatter formatter = new ColumnFormatter(out, '\t');
       for (final GroupInfo info : get()) {
         formatter.addColumn(Objects.firstNonNull(info.name, "n/a"));

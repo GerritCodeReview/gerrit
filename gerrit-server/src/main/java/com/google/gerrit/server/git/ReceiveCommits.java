@@ -48,7 +48,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
@@ -1460,7 +1459,7 @@ public class ReceiveCommits {
 
       db.changes().beginTransaction(change.getId());
       try {
-        insertAncestors(db, ps.getId(), commit);
+        ChangeUtil.insertAncestors(db, ps.getId(), commit);
         db.patchSets().insert(Collections.singleton(ps));
         db.changes().insert(Collections.singleton(change));
         ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
@@ -1761,7 +1760,7 @@ public class ReceiveCommits {
           return null;
         }
 
-        insertAncestors(db, newPatchSet.getId(), newCommit);
+        ChangeUtil.insertAncestors(db, newPatchSet.getId(), newCommit);
         db.patchSets().insert(Collections.singleton(newPatchSet));
 
         if (checkMergedInto) {
@@ -2177,20 +2176,6 @@ public class ReceiveCommits {
         return "send-email merged";
       }
     }));
-  }
-
-  private void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
-      throws OrmException {
-    final int cnt = src.getParentCount();
-    List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
-    for (int p = 0; p < cnt; p++) {
-      PatchSetAncestor a;
-
-      a = new PatchSetAncestor(new PatchSetAncestor.Id(id, p + 1));
-      a.setAncestorRevision(toRevId(src.getParent(p)));
-      toInsert.add(a);
-    }
-    db.patchSetAncestors().insert(toInsert);
   }
 
   private static RevId toRevId(final RevCommit src) {

@@ -93,6 +93,8 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("has:draft");
     suggestions.add("has:star");
 
+    suggestions.add("inref:");
+
     suggestions.add("is:");
     suggestions.add("is:starred");
     suggestions.add("is:watched");

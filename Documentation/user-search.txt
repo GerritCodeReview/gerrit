@@ -168,6 +168,26 @@ message:'MESSAGE'::
 +
 Changes that match 'MESSAGE' arbitrary string in the commit message body.
 
+[[inref]]
+inref:'REF'::
++
+Changes which are included in any fully qualified ref and if unqualified,
+matches a 'BRANCH' or 'TAG'.
+
+`inref:foo`::
++
+Matches all changes included in the ref 'foo'. If more than one
+ref with the same name is found (ex: refs/heads/foo and refs/tags/foo),
+then changes included in either of them are matched.
+
+`inref:refs/heads/bar`::
++
+Matches all changes included in branch 'bar'
+
+`inref:refs/tags/baz`::
++
+Matches all changes included in tag 'baz'
+
 [[file]]
 file:^'REGEX'::
 +

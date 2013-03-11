@@ -79,6 +79,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_DRAFTBY = "draftby";
   public static final String FIELD_FILE = "file";
+  public static final String FIELD_INREF = "inref";
   public static final String FIELD_IS = "is";
   public static final String FIELD_HAS = "has";
   public static final String FIELD_LABEL = "label";
@@ -305,6 +306,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> message(String text) {
     return new MessagePredicate(args.dbProvider, args.repoManager, text);
+  }
+
+  @Operator
+  public Predicate<ChangeData> inref(String ref) {
+    return new InRefPredicate(args.dbProvider, args.repoManager, ref);
   }
 
   @Operator

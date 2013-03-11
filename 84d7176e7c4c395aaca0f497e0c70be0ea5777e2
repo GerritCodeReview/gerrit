@@ -16,6 +16,24 @@
       "revId": "84d7176e7c4c395aaca0f497e0c70be0ea5777e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RZZ0vg5I",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T18:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RZV1G22Y",
+      "revId": "84d7176e7c4c395aaca0f497e0c70be0ea5777e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

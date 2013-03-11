@@ -22,8 +22,8 @@ import com.google.gerrit.server.account.AuthResult;
 
 public interface WebSession {
   public boolean isSignedIn();
-  public String getAuthorization();
-  public boolean isValidAuthorization(String keyIn);
+  public String getXGerritAuth();
+  public boolean isValidXGerritAuth(String keyIn);
   public AccountExternalId.Key getLastLoginExternalId();
   public CurrentUser getCurrentUser();
   public void login(AuthResult res, boolean rememberMe);

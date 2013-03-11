@@ -105,7 +105,7 @@ public class Gerrit implements EntryPoint {
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
   private static AccountDiffPreference myAccountDiffPref;
-  private static String authorization;
+  private static String xGerritAuth;
 
   private static MorphingTabPanel menuLeft;
   private static LinkMenuBar menuRight;
@@ -253,8 +253,8 @@ public class Gerrit implements EntryPoint {
   }
 
   /** @return access token to prove user identity during REST API calls. */
-  public static String getAuthorization() {
-    return authorization;
+  public static String getXGerritAuth() {
+    return xGerritAuth;
   }
 
   /** @return the currently signed in users's diff preferences; null if no diff preferences defined for the account */
@@ -351,7 +351,7 @@ public class Gerrit implements EntryPoint {
   static void deleteSessionCookie() {
     myAccount = null;
     myAccountDiffPref = null;
-    authorization = null;
+    xGerritAuth = null;
     refreshMenuBar();
 
     // If the cookie was HttpOnly, this request to delete it will
@@ -401,7 +401,7 @@ public class Gerrit implements EntryPoint {
         myTheme = result.theme;
         if (result.account != null) {
           myAccount = result.account;
-          authorization = result.authorization;
+          xGerritAuth = result.xGerritAuth;
         }
         if (result.accountDiffPref != null) {
           myAccountDiffPref = result.accountDiffPref;
@@ -548,7 +548,7 @@ public class Gerrit implements EntryPoint {
     JsonUtil.setDefaultXsrfManager(new XsrfManager() {
       @Override
       public String getToken(JsonDefTarget proxy) {
-        return authorization;
+        return xGerritAuth;
       }
 
       @Override

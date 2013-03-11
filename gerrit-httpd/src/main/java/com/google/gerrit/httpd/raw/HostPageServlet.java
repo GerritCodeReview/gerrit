@@ -179,8 +179,8 @@ public class HostPageServlet extends HttpServlet {
       json(((IdentifiedUser) user).getAccount(), w);
       w.write(";");
 
-      w.write(HPD_ID + ".authorization=");
-      json(session.get().getAuthorization(), w);
+      w.write(HPD_ID + ".xGerritAuth=");
+      json(session.get().getXGerritAuth(), w);
       w.write(";");
 
       w.write(HPD_ID + ".accountDiffPref=");

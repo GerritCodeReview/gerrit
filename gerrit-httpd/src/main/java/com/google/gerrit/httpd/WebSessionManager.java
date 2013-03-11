@@ -69,6 +69,10 @@ class WebSessionManager {
   }
 
   Key createKey(final Account.Id who) {
+    return new Key(newUniqueToken(who));
+  }
+
+  private String newUniqueToken(final Account.Id who) {
     try {
       final int nonceLen = 20;
       final ByteArrayOutputStream buf;
@@ -80,7 +84,7 @@ class WebSessionManager {
       writeVarInt32(buf, who.get());
       writeBytes(buf, rnd);
 
-      return new Key(CookieBase64.encode(buf.toByteArray()));
+      return CookieBase64.encode(buf.toByteArray());
     } catch (IOException e) {
       throw new RuntimeException("Cannot produce new account cookie", e);
     }
@@ -90,11 +94,11 @@ class WebSessionManager {
     final Account.Id who = val.getAccountId();
     final boolean remember = val.isPersistentCookie();
     final AccountExternalId.Key lastLogin = val.getExternalId();
-    return createVal(key, who, remember, lastLogin, val.sessionId);
+    return createVal(key, who, remember, lastLogin, val.sessionId, val.auth);
   }
 
   Val createVal(final Key key, final Account.Id who, final boolean remember,
-      final AccountExternalId.Key lastLogin, String sid) {
+      final AccountExternalId.Key lastLogin, String sid, String auth) {
     // Refresh the cookie every hour or when it is half-expired.
     // This reduces the odds that the user session will be kicked
     // early but also avoids us needing to refresh the cookie on
@@ -107,10 +111,13 @@ class WebSessionManager {
     final long refreshCookieAt = now + refresh;
     final long expiresAt = now + sessionMaxAgeMillis;
     if (sid == null) {
-      sid = createKey(who).token;
+      sid = newUniqueToken(who);
+    }
+    if (auth == null) {
+      auth = newUniqueToken(who);
     }
 
-    Val val = new Val(who, refreshCookieAt, remember, lastLogin, expiresAt, sid);
+    Val val = new Val(who, refreshCookieAt, remember, lastLogin, expiresAt, sid, auth);
     self.put(key.token, val);
     return val;
   }
@@ -175,16 +182,18 @@ class WebSessionManager {
     private transient AccountExternalId.Key externalId;
     private transient long expiresAt;
     private transient String sessionId;
+    private transient String auth;
 
     Val(final Account.Id accountId, final long refreshCookieAt,
         final boolean persistentCookie, final AccountExternalId.Key externalId,
-        final long expiresAt, final String sessionId) {
+        final long expiresAt, final String sessionId, final String auth) {
       this.accountId = accountId;
       this.refreshCookieAt = refreshCookieAt;
       this.persistentCookie = persistentCookie;
       this.externalId = externalId;
       this.expiresAt = expiresAt;
       this.sessionId = sessionId;
+      this.auth = auth;
     }
 
     Account.Id getAccountId() {
@@ -197,6 +206,10 @@ class WebSessionManager {
 
     String getSessionId() {
       return sessionId;
+    }
+
+    String getAuth() {
+      return auth;
     }
 
     boolean needsCookieRefresh() {
@@ -230,6 +243,11 @@ class WebSessionManager {
       writeVarInt32(out, 6);
       writeFixInt64(out, expiresAt);
 
+      if (auth != null) {
+        writeVarInt32(out, 7);
+        writeString(out, auth);
+      }
+
       writeVarInt32(out, 0);
     }
 
@@ -256,6 +274,9 @@ class WebSessionManager {
             continue;
           case 6:
             expiresAt = readFixInt64(in);
+            continue;
+          case 7:
+            auth = readString(in);
             continue;
           default:
             throw new IOException("Unknown tag found in object: " + tag);

@@ -90,25 +90,18 @@ public final class CacheBasedWebSession implements WebSession {
 
     if (!GitSmartHttpTools.isGitClient(request)) {
       String cookie = readCookie();
-      String token = request.getHeader("Authorization");
-      if (token != null && token.startsWith("Bearer ")) {
-        token = token.substring("Bearer ".length());
-        okPaths.add(AccessPath.REST_API);
-      } else {
-        token = cookie;
-      }
-
-      if (token != null) {
-        key = new Key(token);
+      if (cookie != null) {
+        key = new Key(cookie);
         val = manager.get(key);
-
-        if (isSignedIn() && val.needsCookieRefresh()) {
+        if (val != null && val.needsCookieRefresh()) {
           // Cookie is more than half old. Send the cookie again to the
           // client with an updated expiration date.
           val = manager.createVal(key, val);
-          if (cookie != null) {
-            saveCookie();
-          }
+        }
+
+        String token = request.getHeader("X-Gerrit-Auth");
+        if (val != null && token != null && token.equals(val.getAuth())) {
+          okPaths.add(AccessPath.REST_API);
         }
       }
     }
@@ -133,13 +126,13 @@ public final class CacheBasedWebSession implements WebSession {
   }
 
   @Override
-  public String getAuthorization() {
-    return isSignedIn() ? "Bearer " + key.getToken() : null;
+  public String getXGerritAuth() {
+    return isSignedIn() ? val.getAuth() : null;
   }
 
   @Override
-  public boolean isValidAuthorization(String keyIn) {
-    return keyIn.equals(getAuthorization());
+  public boolean isValidXGerritAuth(String keyIn) {
+    return keyIn.equals(getXGerritAuth());
   }
 
   @Override
@@ -183,7 +176,7 @@ public final class CacheBasedWebSession implements WebSession {
     }
 
     key = manager.createKey(id);
-    val = manager.createVal(key, id, rememberMe, identity, null);
+    val = manager.createVal(key, id, rememberMe, identity, null, null);
     saveCookie();
   }
 
@@ -191,7 +184,7 @@ public final class CacheBasedWebSession implements WebSession {
   @Override
   public void setUserAccountId(Account.Id id) {
     key = new Key("id:" + id);
-    val = new Val(id, 0, false, null, 0, null);
+    val = new Val(id, 0, false, null, 0, null, null);
   }
 
   @Override

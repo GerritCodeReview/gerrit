@@ -272,7 +272,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
         //
         return !session.isSignedIn();
 
-      } else if (session.isSignedIn() && session.isValidAuthorization(keyIn)) {
+      } else if (session.isSignedIn() && session.isValidXGerritAuth(keyIn)) {
         // The session must exist, and must be using this token.
         //
         session.getCurrentUser().setAccessPath(AccessPath.JSON_RPC);

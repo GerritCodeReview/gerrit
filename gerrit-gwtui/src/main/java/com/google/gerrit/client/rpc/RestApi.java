@@ -335,8 +335,8 @@ public class RestApi {
       req.setHeader("If-None-Match", ifNoneMatch);
     }
     req.setHeader("Accept", JSON_TYPE);
-    if (Gerrit.getAuthorization() != null) {
-      req.setHeader("Authorization", Gerrit.getAuthorization());
+    if (Gerrit.getXGerritAuth() != null) {
+      req.setHeader("X-Gerrit-Auth", Gerrit.getXGerritAuth());
     }
     return req;
   }

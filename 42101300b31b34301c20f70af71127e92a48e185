@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ReQnu6UI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-11T23:15:15Z",
+      "side": 1,
+      "message": "canOverride. This needs to be rebased.",
+      "revId": "42101300b31b34301c20f70af71127e92a48e185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

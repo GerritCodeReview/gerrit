@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -59,10 +60,11 @@ public class IncludedGroupsCollection implements
 
   @Override
   public IncludedGroupResource parse(GroupResource resource, IdString id)
-      throws AuthException, ResourceNotFoundException, OrmException {
+      throws MethodNotAllowedException, AuthException,
+      ResourceNotFoundException, OrmException {
     AccountGroup parent = resource.toAccountGroup();
     if (parent == null) {
-      throw new ResourceNotFoundException(id);
+      throw new MethodNotAllowedException();
     }
 
     GroupDescription.Basic member =

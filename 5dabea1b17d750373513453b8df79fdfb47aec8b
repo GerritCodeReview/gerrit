@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RZV3.26M",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T22:46:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RZd1cq-w",
+      "revId": "5dabea1b17d750373513453b8df79fdfb47aec8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RZf1ZZwk",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 17
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "RZb3kPw8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T22:46:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RZf1ZZwk",
+      "revId": "5dabea1b17d750373513453b8df79fdfb47aec8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RZR30U8Q",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 17
@@ -47,6 +83,24 @@
       "writtenOn": "2013-03-11T22:44:16Z",
       "side": 1,
       "message": "remove !",
+      "revId": "5dabea1b17d750373513453b8df79fdfb47aec8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RZd3xC9A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T22:46:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RZR30U8Q",
       "revId": "5dabea1b17d750373513453b8df79fdfb47aec8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

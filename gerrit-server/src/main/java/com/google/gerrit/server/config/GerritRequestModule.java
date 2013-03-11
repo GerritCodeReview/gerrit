@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.git.BanCommit;
@@ -39,6 +40,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(RequestScopedReviewDbProvider.class);
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
     bind(ApprovalsUtil.class);
+    bind(ChangeInserter.class);
 
     bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
     bind(ChangeControl.Factory.class).in(SINGLETON);

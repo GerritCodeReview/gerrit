@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
@@ -35,6 +34,7 @@ import com.google.gerrit.server.StringUtil;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
@@ -245,7 +245,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               && !rejected.contains(parentState.getProject().getName())) {
             ProjectControl parentCtrl = parentState.controlFor(currentUser);
             if (parentCtrl.isVisible() || parentCtrl.isOwner()) {
-              info.setName(parentState.getProject().getName());
+              info.name = parentState.getProject().getName();
               info.description = Strings.emptyToNull(
                   parentState.getProject().getDescription());
             } else {
@@ -270,7 +270,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             continue;
           }
 
-          info.setName(projectName.get());
+          info.name = projectName.get();
           if (showTree && format.isJson()) {
             ProjectState parent = Iterables.getFirst(e.parents(), null);
             if (parent != null) {
@@ -364,6 +364,10 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         stdout.print('\n');
       }
 
+      for (ProjectInfo info : output.values()) {
+        info.finish();
+        info.name = null;
+      }
       if (stdout == null) {
         return OutputFormat.JSON.newGson().toJsonTree(
             output,
@@ -455,20 +459,5 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       }
     }
     return false;
-  }
-
-  static class ProjectInfo {
-    final String kind = "gerritcodereview#project";
-
-    transient String name;
-    String id;
-    String parent;
-    String description;
-    Map<String, String> branches;
-
-    void setName(String n) {
-      name = n;
-      id = Url.encode(n);
-    }
   }
 }

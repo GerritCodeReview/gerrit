@@ -20,6 +20,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.Inject;
 
+import java.util.Map;
+
 public class ProjectJson {
 
   private final AllProjectsName allProjects;
@@ -49,6 +51,7 @@ public class ProjectJson {
     String name;
     String parent;
     String description;
+    Map<String, String> branches;
 
     void finish() {
       id = Url.encode(name);

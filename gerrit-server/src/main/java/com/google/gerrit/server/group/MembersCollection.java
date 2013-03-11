@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -61,9 +62,10 @@ public class MembersCollection implements
 
   @Override
   public MemberResource parse(GroupResource parent, IdString id)
-      throws AuthException, ResourceNotFoundException, OrmException {
+      throws MethodNotAllowedException, AuthException,
+      ResourceNotFoundException, OrmException {
     if (parent.toAccountGroup() == null) {
-      throw new ResourceNotFoundException(id);
+      throw new MethodNotAllowedException();
     }
 
     IdentifiedUser user = accounts.get().parse(TopLevelResource.INSTANCE, id).getUser();

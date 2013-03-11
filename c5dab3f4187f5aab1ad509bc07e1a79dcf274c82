@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RdQ3u8UI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-11T18:30:29Z",
+      "side": 1,
+      "message": "getRange can only return null if the given permission name is not a label permission. If I\u0027m reading RefControl.toRange right, even if the user has no permissions the range will be [0, 0].",
+      "revId": "c5dab3f4187f5aab1ad509bc07e1a79dcf274c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -50,4 +50,14 @@ public class TestAccount {
   public PersonIdent getIdent() {
     return new PersonIdent(username, email);
   }
+
+  public String getHttpUrl() {
+    StringBuilder b = new StringBuilder();
+    b.append("http://");
+    b.append(username);
+    b.append(":");
+    b.append(httpPassword);
+    b.append("@localhost:8080");
+    return b.toString();
+  }
 }

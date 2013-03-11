@@ -17,9 +17,15 @@ package com.google.gerrit.httpd;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthMethod;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -57,13 +63,17 @@ class ContainerAuthFilter implements Filter {
   private final Provider<WebSession> session;
   private final AccountCache accountCache;
   private final Config config;
+  private final AuthConfig authConfig;
+  private final AccountManager accountManager;
 
   @Inject
   ContainerAuthFilter(Provider<WebSession> session, AccountCache accountCache,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config, AuthConfig authConfig, AccountManager accountManager) {
     this.session = session;
     this.accountCache = accountCache;
     this.config = config;
+    this.authConfig = authConfig;
+    this.accountManager = accountManager;
   }
 
   @Override
@@ -87,7 +97,26 @@ class ContainerAuthFilter implements Filter {
 
   private boolean verify(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
-    String username = req.getRemoteUser();
+    String username;
+
+    if (authConfig.getAuthType().equals(AuthType.HTTP)
+        && authConfig.getLoginHttpHeader() != null) {
+      String externalUsername = req.getHeader(authConfig.getLoginHttpHeader());
+
+      try {
+        Account.Id accountId =
+            accountManager.lookup(AccountExternalId.SCHEME_GERRIT
+                + externalUsername);
+        AccountState account = accountCache.get(accountId);
+        username = account.getUserName();
+      } catch (AccountException e) {
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+    } else {
+      username = req.getRemoteUser();
+    }
+
     if (username == null) {
       rsp.sendError(SC_FORBIDDEN);
       return false;

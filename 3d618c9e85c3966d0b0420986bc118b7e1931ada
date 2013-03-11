@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RZT0rz1o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-11T22:30:42Z",
+      "side": 1,
+      "message": "Control objects are not thread safe. That refControls map above is not used in a thread-safe way. You don\u0027t need to make this volatile or synchronize access.",
+      "revId": "3d618c9e85c3966d0b0420986bc118b7e1931ada",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

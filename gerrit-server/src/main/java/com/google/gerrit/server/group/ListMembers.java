@@ -21,7 +21,6 @@ import com.google.common.collect.Ordering;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -60,33 +59,28 @@ public class ListMembers implements RestReadView<GroupResource> {
 
   @Override
   public List<AccountInfo> apply(final GroupResource resource)
-      throws MethodNotAllowedException, ResourceNotFoundException, OrmException {
+      throws MethodNotAllowedException, OrmException {
     if (resource.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     }
-    try {
-      final Map<Account.Id, AccountInfo> members =
-          getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());
-      final List<AccountInfo> memberInfos = Lists.newArrayList(members.values());
-      Collections.sort(memberInfos, new Comparator<AccountInfo>() {
-        @Override
-        public int compare(AccountInfo a, AccountInfo b) {
-          return ComparisonChain.start()
-              .compare(a.name, b.name, Ordering.natural().nullsFirst())
-              .compare(a.email, b.email, Ordering.natural().nullsFirst())
-              .compare(a._account_id, b._account_id, Ordering.natural().nullsFirst()).result();
-        }
-      });
-      return memberInfos;
-    } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(resource.getGroupUUID().get());
-    }
+    final Map<Account.Id, AccountInfo> members =
+        getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());
+    final List<AccountInfo> memberInfos = Lists.newArrayList(members.values());
+    Collections.sort(memberInfos, new Comparator<AccountInfo>() {
+      @Override
+      public int compare(AccountInfo a, AccountInfo b) {
+        return ComparisonChain.start()
+            .compare(a.name, b.name, Ordering.natural().nullsFirst())
+            .compare(a.email, b.email, Ordering.natural().nullsFirst())
+            .compare(a._account_id, b._account_id, Ordering.natural().nullsFirst()).result();
+      }
+    });
+    return memberInfos;
   }
 
   private Map<Account.Id, AccountInfo> getMembers(
       final AccountGroup.UUID groupUUID,
-      final HashSet<AccountGroup.UUID> seenGroups) throws OrmException,
-      NoSuchGroupException {
+      final HashSet<AccountGroup.UUID> seenGroups) throws OrmException {
     seenGroups.add(groupUUID);
 
     final Map<Account.Id, AccountInfo> members = Maps.newHashMap();
@@ -96,8 +90,13 @@ public class ListMembers implements RestReadView<GroupResource> {
       return Collections.emptyMap();
     }
 
-    final GroupDetail groupDetail =
-        groupDetailFactory.create(group.getId()).call();
+    final GroupDetail groupDetail;
+    try {
+      groupDetail = groupDetailFactory.create(group.getId()).call();
+    } catch (NoSuchGroupException e) {
+      // the included group is not visible
+      return Collections.emptyMap();
+    }
 
     if (groupDetail.members != null) {
       for (final AccountGroupMember m : groupDetail.members) {

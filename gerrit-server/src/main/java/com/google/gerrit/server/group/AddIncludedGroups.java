@@ -82,8 +82,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
   @Override
   public List<GroupInfo> apply(GroupResource resource, Input input)
-      throws ResourceNotFoundException, MethodNotAllowedException,
-      AuthException, BadRequestException, OrmException {
+      throws MethodNotAllowedException, AuthException, BadRequestException,
+      OrmException {
     AccountGroup group = resource.toAccountGroup();
     if (group == null) {
       throw new MethodNotAllowedException();
@@ -153,8 +153,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public GroupInfo apply(GroupResource resource, Input input)
-        throws ResourceNotFoundException, MethodNotAllowedException,
-        AuthException, BadRequestException, OrmException {
+        throws MethodNotAllowedException, AuthException, BadRequestException,
+        OrmException {
       AddIncludedGroups.Input in = new AddIncludedGroups.Input();
       in.groups = ImmutableList.of(id);
       List<GroupInfo> list = put.get().apply(resource, in);
@@ -178,8 +178,7 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public Object apply(IncludedGroupResource resource,
-        PutIncludedGroup.Input input) throws ResourceNotFoundException,
-        MethodNotAllowedException, OrmException {
+        PutIncludedGroup.Input input) throws MethodNotAllowedException, OrmException {
       // Do nothing, the group is already included.
       return get.get().apply(resource);
     }

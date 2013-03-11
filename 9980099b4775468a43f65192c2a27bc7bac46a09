@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RZd2AKzc",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelTypes.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-11T21:49:59Z",
+      "side": 1,
+      "message": "So we sort unknown names first? I would have thought we sort unknown names last. And we should sort them by name if neither is unknown.",
+      "revId": "9980099b4775468a43f65192c2a27bc7bac46a09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

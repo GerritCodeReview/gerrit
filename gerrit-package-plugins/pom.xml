@@ -99,4 +99,10 @@ limitations under the License.
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>gerrit-plugins</id>
+      <url>https://gerrit-plugins.commondatastorage.googleapis.com</url>
+    </repository>
+  </repositories>
 </project>

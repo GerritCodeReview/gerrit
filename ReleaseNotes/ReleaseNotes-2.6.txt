@@ -201,6 +201,7 @@ User Documentation
 Corrected references to `refs/changes` in the access control documentation.
 
 * Various minor grammatical and formatting corrections.
+* Manual pages can be optionally created/installed for core gerrit ssh commands.
 
 Developer And Maintainer Documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

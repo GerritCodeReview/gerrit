@@ -70,11 +70,6 @@ public class PutOwner implements RestModifyView<GroupResource, Input> {
       throw new BadRequestException("owner is required");
     }
 
-    group = db.accountGroups().get(group.getId());
-    if (group == null) {
-      throw new ResourceNotFoundException();
-    }
-
     GroupDescription.Basic owner = groupsCollection.get().parse(input.owner);
     if (!group.getOwnerGroupUUID().equals(owner.getGroupUUID())) {
       group.setOwnerGroupUUID(owner.getGroupUUID());

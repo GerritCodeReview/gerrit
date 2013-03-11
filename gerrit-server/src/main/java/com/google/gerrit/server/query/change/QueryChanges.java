@@ -16,13 +16,10 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.changes.ListChangesOption;
-import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeJson.ChangeInfo;
 import com.google.gerrit.server.project.ChangeControl;
@@ -45,10 +42,6 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private final QueryProcessor imp;
   private boolean reverse;
   private EnumSet<ListChangesOption> options;
-
-  @Deprecated
-  @Option(name = "--format", usage = "(deprecated) output format")
-  private OutputFormat format;
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", multiValued = true, usage = "Query string")
   private List<String> queries;
@@ -121,34 +114,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
       }
       throw new BadRequestException(e.getMessage());
     }
-    if (format == OutputFormat.TEXT) {
-      return formatText(out);
-    }
     return out.size() == 1 ? out.get(0) : out;
-  }
-
-  private static BinaryResult formatText(List<List<ChangeInfo>> res) {
-    StringBuilder sb = new StringBuilder();
-    boolean firstQuery = true;
-    for (List<ChangeInfo> info : res) {
-      if (firstQuery) {
-        firstQuery = false;
-      } else {
-        sb.append('\n');
-      }
-      for (ChangeInfo c : info) {
-        String id = new Change.Key(c.changeId).abbreviate();
-        String subject = c.subject;
-        if (subject.length() + id.length() > 80) {
-          subject = subject.substring(0, 80 - id.length());
-        }
-        sb.append(id);
-        sb.append(' ');
-        sb.append(subject.replace('\n', ' '));
-        sb.append('\n');
-      }
-    }
-    return BinaryResult.create(sb.toString());
   }
 
   private List<List<ChangeInfo>> query()

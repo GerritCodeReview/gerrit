@@ -101,8 +101,8 @@ To start automatically when the system boots, create a start
 script and modify it for your configuration:
 
 ----
-  java -jar webapps/gerrit.war --cat extra/jetty7/gerrit-jetty.sh >/etc/init.d/gerrit-jetty.sh
-  vi /etc/init.d/gerrit-jetty.sh
+  java -jar webapps/gerrit.war --cat extra/jetty7/gerrit-jetty.sh >/etc/init.d/gerrit-jetty
+  vi /etc/init.d/gerrit-jetty
 ----
 
 [TIP]

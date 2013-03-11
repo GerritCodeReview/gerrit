@@ -65,15 +65,15 @@ public class GroupJson {
     return this;
   }
 
-  public GroupInfo format(GroupResource rsrc)
-      throws ResourceNotFoundException, MethodNotAllowedException, OrmException {
+  public GroupInfo format(GroupResource rsrc) throws ResourceNotFoundException,
+      OrmException {
     GroupInfo info = init(rsrc.getGroup());
     initMembersAndIncludes(rsrc, info);
     return info;
   }
 
   public GroupInfo format(GroupDescription.Basic group)
-      throws ResourceNotFoundException, MethodNotAllowedException, OrmException {
+      throws ResourceNotFoundException, OrmException {
     GroupInfo info = init(group);
     if (options.contains(MEMBERS) || options.contains(INCLUDES)) {
       GroupResource rsrc =
@@ -107,15 +107,25 @@ public class GroupJson {
   }
 
   private GroupInfo initMembersAndIncludes(GroupResource rsrc, GroupInfo info)
-      throws ResourceNotFoundException, MethodNotAllowedException, OrmException {
-    if (options.contains(MEMBERS)) {
-      info.members = listMembers.get().apply(rsrc);
+      throws ResourceNotFoundException, OrmException {
+    if (rsrc.toAccountGroup() == null) {
+      return info;
     }
+    try {
+      if (options.contains(MEMBERS)) {
+        info.members = listMembers.get().apply(rsrc);
+      }
 
-    if (options.contains(INCLUDES)) {
-      info.includes = listIncludes.get().apply(rsrc);
+      if (options.contains(INCLUDES)) {
+        info.includes = listIncludes.get().apply(rsrc);
+      }
+      return info;
+    } catch (MethodNotAllowedException e) {
+      // should never happen, this exception is only thrown if we would try to
+      // list members/includes of an external group, but in case of an external
+      // group we return before
+      throw new IllegalStateException(e);
     }
-    return info;
   }
 
   public static class GroupInfo {

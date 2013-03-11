@@ -34,6 +34,24 @@
       "revId": "dda8413dca9a78c48b5008ae4f4402cefdee7758",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RYELzUiw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-03-11T15:26:34Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/#/c/43205/\n\nI decided to not add the RefUpdate parts to the new ChangeInserter class since it was not really reusable between ReceiveCommit (and its BatchRefUpdate logic) and other parts of Gerrit (cherry-pick, revert etc).",
+      "parentUuid": "MTXWhCPs",
+      "revId": "dda8413dca9a78c48b5008ae4f4402cefdee7758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

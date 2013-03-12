@@ -44,6 +44,13 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
+  public static void templates(AsyncCallback<ProjectMap> callback) {
+    new RestApi("/projects/")
+        .addParameterRaw("type", "TEMPLATES")
+        .addParameterTrue("all")
+        .get(NativeMap.copyKeysIntoChildren(callback));
+  }
+
   public static void suggest(String prefix, int limit, AsyncCallback<ProjectMap> cb) {
     new RestApi("/projects/")
         .addParameter("p", prefix)

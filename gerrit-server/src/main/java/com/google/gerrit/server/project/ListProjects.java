@@ -72,19 +72,21 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   public static enum FilterType {
     CODE {
       @Override
-      boolean matches(Repository git) throws IOException {
-        return !PERMISSIONS.matches(git);
+      boolean matches(Repository git, ProjectState projectState)
+          throws IOException {
+        return !PERMISSIONS.matches(git, projectState);
       }
     },
     PARENT_CANDIDATES {
       @Override
-      boolean matches(Repository git) {
+      boolean matches(Repository git, ProjectState projectState) {
         return true;
       }
     },
     PERMISSIONS {
       @Override
-      boolean matches(Repository git) throws IOException {
+      boolean matches(Repository git, ProjectState projectState)
+          throws IOException {
         Ref head = git.getRef(Constants.HEAD);
         return head != null
           && head.isSymbolic()
@@ -93,12 +95,19 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     },
     ALL {
       @Override
-      boolean matches(Repository git) {
+      boolean matches(Repository git, ProjectState projectState) {
         return true;
+      }
+    },
+    TEMPLATES {
+      @Override
+      boolean matches(Repository git, ProjectState projectState) {
+        return projectState.isIsTemplate();
       }
     };
 
-    abstract boolean matches(Repository git) throws IOException;
+    abstract boolean matches(Repository git, ProjectState projectState)
+        throws IOException;
   }
 
   private final CurrentUser currentUser;
@@ -294,7 +303,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             if (showBranch != null) {
               Repository git = repoManager.openRepository(projectName);
               try {
-                if (!type.matches(git)) {
+                if (!type.matches(git, e)) {
                   continue;
                 }
 
@@ -318,7 +327,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             } else if (!showTree && type != FilterType.ALL) {
               Repository git = repoManager.openRepository(projectName);
               try {
-                if (!type.matches(git)) {
+                if (!type.matches(git, e)) {
                   continue;
                 }
               } finally {

@@ -20,10 +20,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class ProjectApi {
   /** Create a new project */
-  public static void createProject(String projectName, String parent,
-      Boolean createEmptyCcommit, Boolean permissionsOnly,
+  public static void createProject(String template, String projectName,
+      String parent, Boolean createEmptyCcommit, Boolean permissionsOnly,
       AsyncCallback<VoidResult> asyncCallback) {
     ProjectInput input = ProjectInput.create();
+    if (template != null && !template.isEmpty()) {
+      input.setTemplate(template);
+    }
     input.setName(projectName);
     input.setParent(parent);
     input.setPermissionsOnly(permissionsOnly);
@@ -39,6 +42,8 @@ public class ProjectApi {
 
     protected ProjectInput() {
     }
+
+    final native void setTemplate(String t) /*-{ if(t)this.template=t; }-*/;
 
     final native void setName(String n) /*-{ if(n)this.name=n; }-*/;
 

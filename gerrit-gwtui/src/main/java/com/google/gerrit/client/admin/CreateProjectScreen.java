@@ -26,6 +26,8 @@ import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectListPopup;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
@@ -33,7 +35,10 @@ import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.ProjectUtil;
+import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -45,12 +50,16 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
+import java.util.List;
+
 public class CreateProjectScreen extends Screen {
   private Grid grid;
+  private ListBox template;
   private NpTextBox project;
   private Button create;
   private Button browse;
@@ -60,6 +69,7 @@ public class CreateProjectScreen extends Screen {
   private CheckBox permissionsOnly;
   private ProjectsTable suggestedParentsTab;
   private ProjectListPopup projectsPopup;
+  private boolean useTemplate;
 
   public CreateProjectScreen() {
     super();
@@ -110,6 +120,7 @@ public class CreateProjectScreen extends Screen {
     final VerticalPanel fp = new VerticalPanel();
     fp.setStyleName(Gerrit.RESOURCES.css().createProjectPanel());
 
+    initTemplateListBox();
     initCreateTxt();
     initCreateButton();
     initParentBox();
@@ -126,6 +137,31 @@ public class CreateProjectScreen extends Screen {
     initSuggestedParents();
     vp.add(suggestedParentsTab);
     add(vp);
+  }
+
+  private void initTemplateListBox() {
+    useTemplate = false;
+    template = new ListBox();
+    template.addItem(Util.C.templateNone(), (String) null);
+
+    ProjectMap.templates(new ScreenLoadCallback<ProjectMap>(this) {
+      @Override
+      protected void preDisplay(final ProjectMap result) {
+        List<ProjectInfo> projectInfos = Natives.asList(result.values());
+        for (ProjectInfo projectInfo: projectInfos) {
+          template.addItem(projectInfo.name(), projectInfo.name_key().get());
+        }
+      }
+    });
+
+    template.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent event) {
+        if (event.getSource() == template) {
+          setTemplate(template.getValue(template.getSelectedIndex()));
+        }
+      }
+    });
   }
 
   private void initCreateTxt() {
@@ -213,14 +249,39 @@ public class CreateProjectScreen extends Screen {
   }
 
   private void addGrid(final VerticalPanel fp) {
-    grid = new Grid(2, 3);
+    grid = new Grid(3, 3);
     grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
-    grid.setText(0, 0, Util.C.columnProjectName() + ":");
-    grid.setWidget(0, 1, project);
-    grid.setText(1, 0, Util.C.headingParentProjectName() + ":");
-    grid.setWidget(1, 1, suggestParent);
-    grid.setWidget(1, 2, browse);
+    grid.setText(0, 0, Util.C.headingTemplate() + ":");
+    grid.setWidget(0, 1, template);
+    grid.setText(1, 0, Util.C.columnProjectName() + ":");
+    grid.setWidget(1, 1, project);
+    grid.setText(2, 0, Util.C.headingParentProjectName() + ":");
+    grid.setWidget(2, 1, suggestParent);
+    grid.setWidget(2, 2, browse);
     fp.add(grid);
+  }
+
+  private void setTemplate(String templateName) {
+    useTemplate = templateName != null && !templateName.isEmpty();
+    if (useTemplate) {
+      enableForm(false);
+      Util.PROJECT_SVC.projectDetail(new Project.NameKey(templateName),
+          new ScreenLoadCallback<ProjectDetail>(this) {
+            public void preDisplay(final ProjectDetail result) {
+              final String parentName;
+              if (result.parent == null) {
+                parentName = "";
+              } else {
+                parentName = result.parent.get();
+              }
+              parent.setText(parentName);
+              enableForm(true);
+            }
+          });
+
+    } else {
+      enableForm(true);
+    }
   }
 
   private void doCreateProject() {
@@ -233,7 +294,8 @@ public class CreateProjectScreen extends Screen {
     }
 
     enableForm(false);
-    ProjectApi.createProject(projectName, parentName, emptyCommit.getValue(),
+    ProjectApi.createProject(template.getValue(template.getSelectedIndex()),
+        projectName, parentName, emptyCommit.getValue(),
         permissionsOnly.getValue(), new AsyncCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
@@ -251,10 +313,13 @@ public class CreateProjectScreen extends Screen {
   }
 
   private void enableForm(final boolean enabled) {
+    template.setEnabled(enabled);
     project.setEnabled(enabled);
     create.setEnabled(enabled);
-    parent.setEnabled(enabled);
+    parent.setEnabled(enabled && !useTemplate);
+    browse.setEnabled(enabled && !useTemplate);
     emptyCommit.setEnabled(enabled);
     permissionsOnly.setEnabled(enabled);
+    suggestedParentsTab.setVisible(enabled && !useTemplate);
   }
 }

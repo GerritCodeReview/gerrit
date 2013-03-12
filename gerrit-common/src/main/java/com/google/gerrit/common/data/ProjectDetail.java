@@ -31,6 +31,7 @@ public class ProjectDetail {
   public InheritedBoolean useContentMerge;
   public InheritedBoolean requireChangeID;
   public InheritedBoolean isTemplate;
+  public Project.NameKey parent;
 
   public ProjectDetail() {
   }
@@ -85,5 +86,9 @@ public class ProjectDetail {
 
   public void setIsTemplate(InheritedBoolean it) {
     this.isTemplate = it;
+  }
+
+  public void setParent(Project.NameKey p) {
+    this.parent = p;
   }
 }

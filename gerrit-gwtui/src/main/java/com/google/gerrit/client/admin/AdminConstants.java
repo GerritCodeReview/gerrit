@@ -78,6 +78,9 @@ public interface AdminConstants extends Constants {
   String projectState_READ_ONLY();
   String projectState_HIDDEN();
 
+  String headingTemplate();
+  String templateNone();
+
   String columnMember();
   String columnEmailAddress();
   String columnGroupName();

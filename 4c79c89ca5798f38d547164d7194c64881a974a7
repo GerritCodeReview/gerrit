@@ -34,6 +34,24 @@
       "revId": "4c79c89ca5798f38d547164d7194c64881a974a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ri3e10As",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-12T17:02:19Z",
+      "side": 1,
+      "message": "What is even worse, the default which is used when maxAge is not set at all (MAX_AGE_MINUTES) is now interpreted as milliseconds...",
+      "parentUuid": "Ri7fhKCM",
+      "revId": "4c79c89ca5798f38d547164d7194c64881a974a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

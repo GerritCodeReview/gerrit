@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RfIY56rE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T17:30:08Z",
+      "side": 1,
+      "message": "Enterprise FTW. Done.",
+      "parentUuid": "RfCbGdo8",
+      "revId": "b2993ea5fd19e2e0a86442a7621790ff06d892a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RfAbBenY",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
         "patchSetId": 15
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-12T04:11:26Z",
       "side": 1,
       "message": "This isn\u0027t actually a boolean to most JDBC drivers. Its a \"Y\" or \"N\" string value. You need to test its equal to Y:\n\n  \"Y\".equals(catRs.getString(\"copy_min_score\"))",
+      "revId": "b2993ea5fd19e2e0a86442a7621790ff06d892a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfKY25r4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T17:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RfAbBenY",
       "revId": "b2993ea5fd19e2e0a86442a7621790ff06d892a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

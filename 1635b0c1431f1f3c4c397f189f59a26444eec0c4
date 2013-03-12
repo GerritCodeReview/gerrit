@@ -16,6 +16,24 @@
       "revId": "1635b0c1431f1f3c4c397f189f59a26444eec0c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfMbVojg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T17:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RfGYWrlg",
+      "revId": "1635b0c1431f1f3c4c397f189f59a26444eec0c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

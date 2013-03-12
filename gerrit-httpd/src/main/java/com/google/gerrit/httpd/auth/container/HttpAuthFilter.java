@@ -14,14 +14,23 @@
 
 package com.google.gerrit.httpd.auth.container;
 
+import static com.google.common.base.Strings.emptyToNull;
+import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+
+import com.google.common.base.Objects;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.raw.HostPageServlet;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.account.AccountExternalId;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.util.Base64;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,7 +39,6 @@ import java.io.OutputStream;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -49,14 +57,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Singleton
 class HttpAuthFilter implements Filter {
-  private final Provider<WebSession> webSession;
+  private final Provider<WebSession> sessionProvider;
   private final byte[] signInRaw;
   private final byte[] signInGzip;
+  private final String loginHeader;
 
   @Inject
   HttpAuthFilter(final Provider<WebSession> webSession,
-      final ServletContext servletContext) throws IOException {
-    this.webSession = webSession;
+      final AuthConfig authConfig) throws IOException {
+    this.sessionProvider = webSession;
 
     final String pageName = "LoginRedirect.html";
     final String doc = HtmlDomUtil.readFile(getClass(), pageName);
@@ -66,13 +75,18 @@ class HttpAuthFilter implements Filter {
 
     signInRaw = doc.getBytes(HtmlDomUtil.ENC);
     signInGzip = HtmlDomUtil.compress(signInRaw);
+    loginHeader = Objects.firstNonNull(
+        emptyToNull(authConfig.getLoginHttpHeader()),
+        AUTHORIZATION);
   }
 
   @Override
   public void doFilter(final ServletRequest request,
       final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
-    if (!webSession.get().isSignedIn()) {
+    if (isSessionValid(req)) {
+      chain.doFilter(request, response);
+    } else {
       // Not signed in yet. Since the browser state might have an anchor
       // token which we want to capture and carry through the auth process
       // we send back JavaScript now to capture that, and do the real work
@@ -98,11 +112,69 @@ class HttpAuthFilter implements Filter {
       } finally {
         out.close();
       }
-    } else {
-      // Already signed in, forward the request.
-      //
-      chain.doFilter(request, response);
     }
+  }
+
+  private boolean isSessionValid(HttpServletRequest req) {
+    WebSession session = sessionProvider.get();
+    String user = getRemoteUser(req);
+    if (session.isSignedIn()) {
+      AccountExternalId.Key id = session.getLastLoginExternalId();
+      return user != null
+          && id != null
+          && id.equals(new AccountExternalId.Key(
+            AccountExternalId.SCHEME_GERRIT,
+            user));
+    }
+    return false;
+  }
+
+  String getRemoteUser(HttpServletRequest req) {
+    if (AUTHORIZATION.equals(loginHeader)) {
+      String user = emptyToNull(req.getRemoteUser());
+      if (user != null) {
+        // The container performed the authentication, and has the user
+        // identity already decoded for us. Honor that as we have been
+        // configured to honor HTTP authentication.
+        return user;
+      }
+
+      // If the container didn't do the authentication we might
+      // have done it in the front-end web server. Try to split
+      // the identity out of the Authorization header and honor it.
+      //
+      String auth = emptyToNull(req.getHeader(AUTHORIZATION));
+      if (auth == null) {
+        return null;
+
+      } else if (auth.startsWith("Basic ")) {
+        auth = auth.substring("Basic ".length());
+        auth = new String(Base64.decode(auth));
+        final int c = auth.indexOf(':');
+        return c > 0 ? auth.substring(0, c) : null;
+
+      } else if (auth.startsWith("Digest ")) {
+        int u = auth.indexOf("username=\"");
+        if (u <= 0) {
+          return null;
+        }
+        auth = auth.substring(u + 10);
+        int e = auth.indexOf('"');
+        return e > 0 ? auth.substring(0, auth.indexOf('"')) : null;
+
+      } else {
+        return null;
+      }
+    } else {
+      // Nonstandard HTTP header. We have been told to trust this
+      // header blindly as-is.
+      //
+      return emptyToNull(req.getHeader(loginHeader));
+    }
+  }
+
+  String getLoginHeader() {
+    return loginHeader;
   }
 
   @Override

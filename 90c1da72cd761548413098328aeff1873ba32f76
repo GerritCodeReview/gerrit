@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RfCYctnY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:11:48Z",
+      "side": 1,
+      "message": "lt \u003d\u003d null is impossible here, the checkNotNull you just added will prevent us from reaching this conditional.",
+      "revId": "90c1da72cd761548413098328aeff1873ba32f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RfAaKWmI",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T01:26:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ReQkXyVY",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ReSkcjXY",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelTypes.java",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-12T00:08:27Z",
       "side": 1,
       "message": "return t !\u003d null ? t : byLabel(labelId.get());",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfCaPVnM",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelTypes.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T01:26:07Z",
+      "side": 1,
+      "message": "No. In the transitional period, PSAs in the DB may either have category_id \u003d \u0027CRVW\u0027 or category_id \u003d \u0027Code-Review\u0027. For the former, the lookup should be case-sensitive in byId. For the latter, byLabel has all-lowercase keys, so we need to look up \"code-review\".",
+      "parentUuid": "ReSkcjXY",
       "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "RfOZ9Pno",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T01:26:07Z",
+      "side": 1,
+      "message": "I see the problem. I will change this to be more strict, but it seems beyond the scope of this change (you can see this is a fairly mechanical change). Unless you object I\u0027ll do it in Ica6b990f.",
+      "parentUuid": "RfOYI3jQ",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RfMYL4i4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 14
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-12T00:08:27Z",
       "side": 1,
       "message": "bad rebase or formatting",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfEaUUoc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T01:26:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RfMYL4i4",
       "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "RfAbYmnI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T01:26:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ReWkWhVg",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RfIYB6hQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
         "patchSetId": 14
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "RfCbdlmM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T01:26:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RfIYB6hQ",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RfKb.5u0",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
         "patchSetId": 14
@@ -115,6 +223,24 @@
       "writtenOn": "2013-03-12T00:08:27Z",
       "side": 1,
       "message": "CR",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfEbikiY",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T01:26:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RfKb.5u0",
       "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

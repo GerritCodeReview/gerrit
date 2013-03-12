@@ -58,23 +58,20 @@ class HttpLoginServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(HttpLoginServlet.class);
 
-  private static final String AUTHORIZATION = "Authorization";
   private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final AccountManager accountManager;
-  private final String loginHeader;
+  private final HttpAuthFilter authFilter;
 
   @Inject
-  HttpLoginServlet(final AuthConfig authConfig,
-      final Provider<WebSession> webSession,
+  HttpLoginServlet(final Provider<WebSession> webSession,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final AccountManager accountManager) {
+      final AccountManager accountManager,
+      final HttpAuthFilter authFilter) {
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.accountManager = accountManager;
-
-    final String hdr = authConfig.getLoginHttpHeader();
-    this.loginHeader = hdr != null && !hdr.equals("") ? hdr : AUTHORIZATION;
+    this.authFilter = authFilter;
   }
 
   @Override
@@ -87,15 +84,15 @@ class HttpLoginServlet extends HttpServlet {
     }
 
     CacheHeaders.setNotCacheable(rsp);
-    final String user = getRemoteUser(req);
+    final String user = authFilter.getRemoteUser(req);
     if (user == null || "".equals(user)) {
-      log.error("Unable to authenticate user by " + loginHeader
+      log.error("Unable to authenticate user by " + authFilter.getLoginHeader()
           + " request header.  Check container or server configuration.");
 
       final Document doc = HtmlDomUtil.parseFile( //
           HttpLoginServlet.class, "ConfigurationError.html");
 
-      replace(doc, "loginHeader", loginHeader);
+      replace(doc, "loginHeader", authFilter.getLoginHeader());
       replace(doc, "ServerName", req.getServerName());
       replace(doc, "ServerPort", ":" + req.getServerPort());
       replace(doc, "ContextPath", req.getContextPath());
@@ -168,51 +165,5 @@ class HttpLoginServlet extends HttpServlet {
       token = "/" + token;
     }
     return token;
-  }
-
-  private String getRemoteUser(final HttpServletRequest req) {
-    if (AUTHORIZATION.equals(loginHeader)) {
-      final String user = req.getRemoteUser();
-      if (user != null && !"".equals(user)) {
-        // The container performed the authentication, and has the user
-        // identity already decoded for us. Honor that as we have been
-        // configured to honor HTTP authentication.
-        //
-        return user;
-      }
-
-      // If the container didn't do the authentication we might
-      // have done it in the front-end web server. Try to split
-      // the identity out of the Authorization header and honor it.
-      //
-      String auth = req.getHeader(AUTHORIZATION);
-      if (auth == null || "".equals(auth)) {
-        return null;
-
-      } else if (auth.startsWith("Basic ")) {
-        auth = auth.substring("Basic ".length());
-        auth = new String(Base64.decode(auth));
-        final int c = auth.indexOf(':');
-        return c > 0 ? auth.substring(0, c) : null;
-
-      } else if (auth.startsWith("Digest ")) {
-        final int u = auth.indexOf("username=\"");
-        if (u <= 0) {
-          return null;
-        }
-        auth = auth.substring(u + 10);
-        final int e = auth.indexOf('"');
-        return e > 0 ? auth.substring(0, auth.indexOf('"')) : null;
-
-      } else {
-        return null;
-      }
-    } else {
-      // Nonstandard HTTP header. We have been told to trust this
-      // header blindly as-is.
-      //
-      final String user = req.getHeader(loginHeader);
-      return user != null && !"".equals(user) ? user : null;
-    }
   }
 }

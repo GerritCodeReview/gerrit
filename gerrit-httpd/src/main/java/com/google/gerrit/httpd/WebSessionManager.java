@@ -36,6 +36,8 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -47,6 +49,7 @@ import java.util.concurrent.TimeUnit;
 
 @Singleton
 class WebSessionManager {
+  private static final Logger log = LoggerFactory.getLogger(WebSessionManager.class);
   static final String CACHE_NAME = "web_sessions";
 
   static long now() {
@@ -66,6 +69,12 @@ class WebSessionManager {
     sessionMaxAgeMillis = MINUTES.toMillis(ConfigUtil.getTimeUnit(cfg,
         "cache", CACHE_NAME, "maxAge",
         MAX_AGE_MINUTES, MINUTES));
+    if (sessionMaxAgeMillis < TimeUnit.MINUTES.toMillis(5)) {
+      log.warn(String.format(
+          "cache.%s.maxAge is set to %d milliseconds;" +
+          " it should be at least 5 minutes.",
+          CACHE_NAME, sessionMaxAgeMillis));
+    }
   }
 
   Key createKey(final Account.Id who) {

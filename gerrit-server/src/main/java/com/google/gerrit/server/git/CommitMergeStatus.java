@@ -45,9 +45,9 @@ enum CommitMergeStatus {
   NO_SUBMIT_TYPE(""),
 
   /** */
-  CRISS_CROSS_MERGE("The change requires a recursive merge to resolve.\n"
-                  + "\n"
-                  + "Please merge (or rebase) the change locally and upload the resolution for review."),
+  MANUAL_RECURSIVE_MERGE("The change requires a local merge to resolve.\n"
+                       + "\n"
+                       + "Please merge (or rebase) the change locally and upload the resolution for review."),
 
   /** */
   CANNOT_CHERRY_PICK_ROOT("Cannot cherry-pick an initial commit onto an existing branch.\n"

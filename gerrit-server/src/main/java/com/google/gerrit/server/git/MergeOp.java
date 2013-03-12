@@ -750,7 +750,7 @@ public class MergeOp {
           break;
 
         case PATH_CONFLICT:
-        case CRISS_CROSS_MERGE:
+        case MANUAL_RECURSIVE_MERGE:
         case CANNOT_CHERRY_PICK_ROOT:
         case NOT_FAST_FORWARD:
         case INVALID_PROJECT_CONFIGURATION:

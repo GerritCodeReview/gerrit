@@ -24,6 +24,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.reviewdb.client.Account;
@@ -65,9 +66,9 @@ class WebSessionManager {
     prng = new SecureRandom();
     self = cache;
 
-    sessionMaxAgeMillis = ConfigUtil.getTimeUnit(cfg,
+    sessionMaxAgeMillis = SECONDS.toMillis(ConfigUtil.getTimeUnit(cfg,
         "cache", CACHE_NAME, "maxAge",
-        MAX_AGE_MINUTES, MILLISECONDS);
+        MAX_AGE_MINUTES, SECONDS));
     if (sessionMaxAgeMillis < TimeUnit.MINUTES.toMillis(5)) {
       log.warn(String.format(
           "cache.%s.maxAge is set to %d milliseconds;" +

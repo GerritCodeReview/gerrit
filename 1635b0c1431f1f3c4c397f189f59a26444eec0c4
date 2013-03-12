@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RfGYWrlg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:13:20Z",
+      "side": 1,
+      "message": "This doesn\u0027t work. JGit will have already deduplicated the section names before returning from getSubsections().\n\nI think the part you really need to worry about is two different sections with same name but differing case:\n\n  [label \"Verified\"]\n  [label \"verified\"]",
+      "revId": "1635b0c1431f1f3c4c397f189f59a26444eec0c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

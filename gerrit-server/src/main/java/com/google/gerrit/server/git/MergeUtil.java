@@ -28,6 +28,8 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.NoMergeBaseException;
+import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -370,10 +372,9 @@ public class MergeUtil {
         newThreeWayMerger(repo, createDryRunInserter(), useContentMerge);
     try {
       return m.merge(new AnyObjectId[] {mergeTip, toMerge});
+    } catch (NoMergeBaseException e) {
+      return false;
     } catch (IOException e) {
-      if (e.getMessage().startsWith("Multiple merge bases for")) {
-        return false;
-      }
       throw new MergeException("Cannot merge " + toMerge.name(), e);
     }
   }
@@ -488,19 +489,29 @@ public class MergeUtil {
       } else {
         failed(rw, canMergeFlag, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
       }
-    } catch (IOException e) {
-      if (e.getMessage().startsWith("Multiple merge bases for")) {
-        try {
-          failed(rw, canMergeFlag, mergeTip, n,
-              CommitMergeStatus.CRISS_CROSS_MERGE);
-        } catch (IOException e2) {
-          throw new MergeException("Cannot merge " + n.name(), e);
-        }
-      } else {
+    } catch (NoMergeBaseException e) {
+      try {
+        failed(rw, canMergeFlag, mergeTip, n,
+            getCommitMergeStatus(e.getReason()));
+      } catch (IOException e2) {
         throw new MergeException("Cannot merge " + n.name(), e);
       }
+    } catch (IOException e) {
+      throw new MergeException("Cannot merge " + n.name(), e);
     }
     return mergeTip;
+  }
+
+  private static CommitMergeStatus getCommitMergeStatus(
+      MergeBaseFailureReason reason) {
+    switch (reason) {
+      case MULTIPLE_MERGE_BASES_NOT_SUPPORTED:
+      case TOO_MANY_MERGE_BASES:
+      default:
+        return CommitMergeStatus.MANUAL_RECURSIVE_MERGE;
+      case CONFLICTS_DURING_MERGE_BASE_CALCULATION:
+        return CommitMergeStatus.PATH_CONFLICT;
+    }
   }
 
   private static CodeReviewCommit failed(final RevWalk rw,

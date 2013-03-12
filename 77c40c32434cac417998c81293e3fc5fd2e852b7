@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RfCZq9sU",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 0,
+      "message": "You deleted this anchor, but there are still references below to it.",
+      "revId": "77c40c32434cac417998c81293e3fc5fd2e852b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

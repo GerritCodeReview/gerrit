@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RfGZLDmw",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "Change Category to Label?",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfIYvKpI",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "Change Category to Label?",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfKYsJp4",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "Change Category to Label?",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfMY5It8",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "drop the word category here",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfEZf8iI",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "The anchor associated with this link is gone.",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfGZk7vg",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "Anchor is gone.",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfIZYCjk",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "Anchor is gone.",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfKZVBgI",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "Anchor is gone.",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfMZSAhc",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 983,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "Anchor is gone",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfGaZTrw",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "At this point in the series the functionName should be optional if you use Prolog rules to manage the label yourself.",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfIadaqo",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "canOverride",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfKaaZq0",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "If false",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfManYvg",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "This is basically no longer supported in the code past the schema migration so why document it?",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfOZP-mk",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:04Z",
+      "side": 1,
+      "message": "Drop this? Its no longer correct.",
+      "revId": "309ff404038ef430475850168767476d90ffa8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

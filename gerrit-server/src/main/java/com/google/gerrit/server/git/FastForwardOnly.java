@@ -14,11 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.git.MergeUtil.canFastForward;
-import static com.google.gerrit.server.git.MergeUtil.getFirstFastForward;
-import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
-import static com.google.gerrit.server.git.MergeUtil.reduceToMinimalMerge;
-
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.util.List;
@@ -32,9 +27,9 @@ public class FastForwardOnly extends SubmitStrategy {
   @Override
   protected CodeReviewCommit _run(final CodeReviewCommit mergeTip,
       final List<CodeReviewCommit> toMerge) throws MergeException {
-    reduceToMinimalMerge(args.mergeSorter, toMerge);
+    args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     final CodeReviewCommit newMergeTip =
-        getFirstFastForward(mergeTip, args.rw, toMerge);
+        args.mergeUtil.getFirstFastForward(mergeTip, args.rw, toMerge);
 
     while (!toMerge.isEmpty()) {
       final CodeReviewCommit n = toMerge.remove(0);
@@ -42,7 +37,7 @@ public class FastForwardOnly extends SubmitStrategy {
     }
 
     final PatchSetApproval submitApproval =
-        markCleanMerges(args.db, args.rw, args.canMergeFlag, newMergeTip,
+        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, newMergeTip,
             args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 
@@ -56,6 +51,7 @@ public class FastForwardOnly extends SubmitStrategy {
 
   public boolean dryRun(final CodeReviewCommit mergeTip,
       final CodeReviewCommit toMerge) throws MergeException {
-    return canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge);
+    return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw,
+        toMerge);
   }
 }

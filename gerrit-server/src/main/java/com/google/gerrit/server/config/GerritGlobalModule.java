@@ -70,6 +70,7 @@ import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.TagCache;
@@ -180,6 +181,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(InternalUser.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
+    factory(MergeUtil.Factory.class);
     factory(PerformCreateGroup.Factory.class);
     factory(PerformRenameGroup.Factory.class);
     factory(ProjectNode.Factory.class);

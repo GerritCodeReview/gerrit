@@ -14,11 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
-import static com.google.gerrit.server.git.MergeUtil.canMerge;
-import static com.google.gerrit.server.git.MergeUtil.mergeOneCommit;
-import static com.google.gerrit.server.git.MergeUtil.reduceToMinimalMerge;
-
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.util.List;
@@ -32,19 +27,18 @@ public class MergeAlways extends SubmitStrategy {
   @Override
   protected CodeReviewCommit _run(final CodeReviewCommit mergeTip,
       final List<CodeReviewCommit> toMerge) throws MergeException {
-    reduceToMinimalMerge(args.mergeSorter, toMerge);
+    args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
 
     CodeReviewCommit newMergeTip = mergeTip;
     while (!toMerge.isEmpty()) {
       newMergeTip =
-          mergeOneCommit(args.db, args.identifiedUserFactory, args.myIdent,
-              args.repo, args.rw, args.inserter, args.canMergeFlag,
-              args.useContentMerge, args.destBranch, mergeTip,
+          args.mergeUtil.mergeOneCommit(args.myIdent, args.repo, args.rw,
+              args.inserter, args.canMergeFlag, args.destBranch, mergeTip,
               toMerge.remove(0));
     }
 
     final PatchSetApproval submitApproval =
-        markCleanMerges(args.db, args.rw, args.canMergeFlag, newMergeTip,
+        args.mergeUtil.markCleanMerges(args.rw, args.canMergeFlag, newMergeTip,
             args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 
@@ -54,7 +48,7 @@ public class MergeAlways extends SubmitStrategy {
   @Override
   public boolean dryRun(final CodeReviewCommit mergeTip,
       final CodeReviewCommit toMerge) throws MergeException {
-    return canMerge(args.mergeSorter, args.repo, args.useContentMerge,
-        mergeTip, toMerge);
+    return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip,
+        toMerge);
   }
 }

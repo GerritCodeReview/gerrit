@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RfIYQCgo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T19:37:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RfKaDRkE",
+      "revId": "8d2fb5774e322b27eebd1fdfeb95219ecdb23b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RfGZyLrA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "RfEYX8gM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T19:37:55Z",
+      "side": 1,
+      "message": "I realized at some point that clearParameters is optional. Either parameters are implicitly cleared by addBatch, or it\u0027s a no-op because I\u0027m clearly setting all parameters on every iteration. Removed.",
+      "parentUuid": "RfGZyLrA",
+      "revId": "8d2fb5774e322b27eebd1fdfeb95219ecdb23b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RfIaGSlI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2013-03-12T00:39:28Z",
       "side": 1,
       "message": "This is going to NPE. Maybe you mean to do the check within setId() when the supplied id !\u003d null?",
+      "revId": "8d2fb5774e322b27eebd1fdfeb95219ecdb23b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfGYc7iU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T19:37:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RfIaGSlI",
       "revId": "8d2fb5774e322b27eebd1fdfeb95219ecdb23b79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

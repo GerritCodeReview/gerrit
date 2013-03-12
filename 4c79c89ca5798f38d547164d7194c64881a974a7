@@ -16,6 +16,24 @@
       "revId": "4c79c89ca5798f38d547164d7194c64881a974a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ri7fhKCM",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-12T15:13:47Z",
+      "side": 1,
+      "message": "You are right, I\u0027ve missed that this is also the default time unit :-(\n\nhttps://gerrit-review.googlesource.com/43380",
+      "parentUuid": "ReUlGIWc",
+      "revId": "4c79c89ca5798f38d547164d7194c64881a974a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

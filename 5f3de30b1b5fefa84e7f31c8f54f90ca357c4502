@@ -34,6 +34,24 @@
       "revId": "5f3de30b1b5fefa84e7f31c8f54f90ca357c4502",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ri3fMsLE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-12T15:22:09Z",
+      "side": 1,
+      "message": "The methods in this class named find* return one instance and those named findAll* return a Set of instances. This was the main point of my comment.\n\nSince this is a private method, this kind of consistency is less important (but nice to have).",
+      "parentUuid": "Ri1eEDEk",
+      "revId": "5f3de30b1b5fefa84e7f31c8f54f90ca357c4502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

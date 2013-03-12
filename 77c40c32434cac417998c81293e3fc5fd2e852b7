@@ -34,6 +34,24 @@
       "revId": "77c40c32434cac417998c81293e3fc5fd2e852b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfAZzOrY",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:34:46Z",
+      "side": 1,
+      "message": "What fails if we have a numbering gap? Can we just fix the thing that fails?",
+      "parentUuid": "RfOY2Hu4",
+      "revId": "77c40c32434cac417998c81293e3fc5fd2e852b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

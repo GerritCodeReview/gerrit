@@ -40,6 +40,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.PostReviewers.Input;
 import com.google.gerrit.server.change.ReviewerJson.PostResult;
@@ -73,7 +74,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     }
   }
 
-  private final Reviewers.Parser parser;
+  private final AccountsCollection accounts;
   private final ReviewerResource.Factory reviewerFactory;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final Provider<GroupsCollection> groupsCollection;
@@ -88,7 +89,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   private final ReviewerJson json;
 
   @Inject
-  PostReviewers(Reviewers.Parser parser,
+  PostReviewers(AccountsCollection accounts,
       ReviewerResource.Factory reviewerFactory,
       AddReviewerSender.Factory addReviewerSenderFactory,
       Provider<GroupsCollection> groupsCollection,
@@ -101,7 +102,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       ChangeHooks hooks,
       AccountCache accountCache,
       ReviewerJson json) {
-    this.parser = parser;
+    this.accounts = accounts;
     this.reviewerFactory = reviewerFactory;
     this.addReviewerSenderFactory = addReviewerSenderFactory;
     this.groupsCollection = groupsCollection;
@@ -123,10 +124,11 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }
-    Account.Id accountId = parser.parse(rsrc, input.reviewer);
-    if (accountId != null) {
+
+    try {
+      Account.Id accountId = accounts.parse(input.reviewer).getAccountId();
       return putAccount(reviewerFactory.create(rsrc, accountId));
-    } else {
+    } catch (UnprocessableEntityException e) {
       return putGroup(rsrc, input);
     }
   }

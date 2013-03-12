@@ -16,6 +16,24 @@
       "revId": "77c40c32434cac417998c81293e3fc5fd2e852b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfOZZvgk",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T19:38:14Z",
+      "side": 0,
+      "message": "Done. You\u0027ll notice also for visual consistency I replaced some surrounding \u003c\u003cfoo,bar\u003e\u003es with xref:foo[bar], which IIUC identical.",
+      "parentUuid": "RfCZq9sU",
+      "revId": "77c40c32434cac417998c81293e3fc5fd2e852b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

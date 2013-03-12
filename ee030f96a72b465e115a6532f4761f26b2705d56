@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RixfTNFQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-12T15:28:10Z",
+      "side": 1,
+      "message": "Maybe I was too fast to submit 4c79c89ca5798f38d547164d7194c64881a974a7.\n\nWhile this change is technically correct I am thinking if it is worth to support web sessions maxAge less than a minute?\nWho would want that?\n\nOn the other side, if someone had maxAge \u003d 120 (without the timeunit) then after upgrade it will be 120 seconds and some Gerrit admins and user may get surprised by that.",
+      "revId": "ee030f96a72b465e115a6532f4761f26b2705d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

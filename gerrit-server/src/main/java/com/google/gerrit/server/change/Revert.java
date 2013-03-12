@@ -27,8 +27,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Revert.Input;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
@@ -42,8 +40,6 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-import javax.annotation.Nullable;
-
 public class Revert implements RestModifyView<ChangeResource, Input> {
   private final ChangeHooks hooks;
   private final RevertedSender.Factory revertedSenderFactory;
@@ -53,8 +49,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final GitReferenceUpdated gitRefUpdated;
-  private final String canonicalWebUrl;
+  private final ChangeInserter changeInserter;
 
   public static class Input {
     public String message;
@@ -68,9 +63,8 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
       ChangeJson json,
       GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated gitRefUpdated,
       @GerritPersonIdent final PersonIdent myIdent,
-      @CanonicalWebUrl @Nullable final String canonicalWebUrl) {
+      final ChangeInserter changeInserter) {
     this.hooks = hooks;
     this.revertedSenderFactory = revertedSenderFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
@@ -78,9 +72,8 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
     this.json = json;
     this.gitManager = gitManager;
     this.myIdent = myIdent;
-    this.gitRefUpdated = gitRefUpdated;
+    this.changeInserter = changeInserter;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.canonicalWebUrl = canonicalWebUrl;
   }
 
   @Override
@@ -104,7 +97,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
               commitValidators,
               Strings.emptyToNull(input.message), dbProvider.get(),
               revertedSenderFactory, hooks, git, patchSetInfoFactory,
-              gitRefUpdated, myIdent, canonicalWebUrl);
+              myIdent, changeInserter);
 
       return json.format(revertedChangeId);
     } catch (InvalidChangeOperationException e) {

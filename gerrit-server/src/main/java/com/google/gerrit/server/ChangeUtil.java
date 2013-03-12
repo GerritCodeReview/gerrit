@@ -16,7 +16,9 @@ package com.google.gerrit.server;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -25,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -199,9 +202,9 @@ public class ChangeUtil {
       IdentifiedUser user, CommitValidators commitValidators, String message,
       ReviewDb db, RevertedSender.Factory revertedSenderFactory,
       ChangeHooks hooks, Repository git,
-      PatchSetInfoFactory patchSetInfoFactory,
-      GitReferenceUpdated gitRefUpdated, PersonIdent myIdent,
-      String canonicalWebUrl) throws NoSuchChangeException, EmailException,
+      PatchSetInfoFactory patchSetInfoFactory, PersonIdent myIdent,
+      ChangeInserter changeInserter)
+          throws NoSuchChangeException, EmailException,
       OrmException, MissingObjectException, IncorrectObjectTypeException,
       IOException, InvalidChangeOperationException {
     final Change.Id changeId = patchSetId.getParentKey();
@@ -275,8 +278,10 @@ public class ChangeUtil {
         throw new InvalidChangeOperationException(e.getMessage());
       }
 
-      change.setCurrentPatchSet(patchSetInfoFactory.get(revertCommit, ps.getId()));
+      PatchSetInfo info = patchSetInfoFactory.get(revertCommit, ps.getId());
+      change.setCurrentPatchSet(info);
       ChangeUtil.updated(change);
+
 
       final RefUpdate ru = git.updateRef(ps.getRefName());
       ru.setExpectedOldObjectId(ObjectId.zeroId());
@@ -287,17 +292,6 @@ public class ChangeUtil {
             "Failed to create ref %s in %s: %s", ps.getRefName(),
             change.getDest().getParentKey().get(), ru.getResult()));
       }
-      gitRefUpdated.fire(change.getProject(), ru);
-
-      db.changes().beginTransaction(change.getId());
-      try {
-        insertAncestors(db, ps.getId(), revertCommit);
-        db.patchSets().insert(Collections.singleton(ps));
-        db.changes().insert(Collections.singleton(change));
-        db.commit();
-      } finally {
-        db.rollback();
-      }
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(changeId,
@@ -306,16 +300,17 @@ public class ChangeUtil {
           new StringBuilder("Patch Set " + patchSetId.get() + ": Reverted");
       msgBuf.append("\n\n");
       msgBuf.append("This patchset was reverted in change: " + change.getKey().get());
-
       cmsg.setMessage(msgBuf.toString());
-      db.changeMessages().insert(Collections.singleton(cmsg));
+
+      LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
+      changeInserter.insertChange(db, change, cmsg, ps, revertCommit,
+          labelTypes, revertCommit.getFooterLines(), info,
+          Collections.<Account.Id> emptySet());
 
       final RevertedSender cm = revertedSenderFactory.create(change);
       cm.setFrom(user.getAccountId());
       cm.setChangeMessage(cmsg);
       cm.send();
-
-      hooks.doPatchsetCreatedHook(change, ps, db);
 
       return change.getId();
     } finally {

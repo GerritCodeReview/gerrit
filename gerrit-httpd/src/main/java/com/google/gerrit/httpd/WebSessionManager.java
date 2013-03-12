@@ -23,6 +23,7 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.cache.Cache;
@@ -67,7 +68,7 @@ class WebSessionManager {
 
     sessionMaxAgeMillis = ConfigUtil.getTimeUnit(cfg,
         "cache", CACHE_NAME, "maxAge",
-        MAX_AGE_MINUTES, MILLISECONDS);
+        MINUTES.toMillis(MAX_AGE_MINUTES), MILLISECONDS);
     if (sessionMaxAgeMillis < TimeUnit.MINUTES.toMillis(5)) {
       log.warn(String.format(
           "cache.%s.maxAge is set to %d milliseconds;" +

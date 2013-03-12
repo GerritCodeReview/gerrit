@@ -16,6 +16,24 @@
       "revId": "5f3de30b1b5fefa84e7f31c8f54f90ca357c4502",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ri1eEDEk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-12T14:50:22Z",
+      "side": 1,
+      "message": "I prefer it like this because it\u0027s lesser code, but I can change it if you like.\n\nDone.",
+      "parentUuid": "Ri7dsiNA",
+      "revId": "5f3de30b1b5fefa84e7f31c8f54f90ca357c4502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

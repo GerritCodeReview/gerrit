@@ -71,11 +71,21 @@ public class AccountResolver {
   public Set<Account.Id> findAll(String nameOrEmail) throws OrmException {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
-      return Collections.singleton(Account.Id.parse(m.group(1)));
+      Account.Id id = Account.Id.parse(m.group(1));
+      if (exists(id)) {
+        return Collections.singleton(id);
+      } else {
+        return Collections.emptySet();
+      }
     }
 
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
-      return Collections.singleton(Account.Id.parse(nameOrEmail));
+      Account.Id id = Account.Id.parse(nameOrEmail);
+      if (exists(id)) {
+        return Collections.singleton(id);
+      } else {
+        return Collections.emptySet();
+      }
     }
 
     if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
@@ -86,6 +96,10 @@ public class AccountResolver {
     }
 
     return findAllByNameOrEmail(nameOrEmail);
+  }
+
+  private boolean exists(Account.Id id) throws OrmException {
+    return schema.get().accounts().get(id) != null;
   }
 
   /**

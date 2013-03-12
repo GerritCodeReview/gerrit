@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ri9cqXFU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-12T17:12:44Z",
+      "side": 1,
+      "message": "return exists(id) ? Collections.singleton(id) : Collections.emptySet();",
+      "revId": "68366fd5a0ec46c7f08d4cfc5362b9701b509d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "ee030f96a72b465e115a6532f4761f26b2705d56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RizevWLo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-12T17:07:14Z",
+      "side": 1,
+      "message": "The documentation said its minutes. Right?\n\nSo, it was a bug in the DefaultCacheFactory.",
+      "parentUuid": "Ri7e6SP0",
+      "revId": "ee030f96a72b465e115a6532f4761f26b2705d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

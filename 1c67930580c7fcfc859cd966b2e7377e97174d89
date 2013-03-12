@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RfAbCWlM",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RenameProjectTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-12T22:11:58Z",
+      "side": 1,
+      "message": "Bad rebase. Done.",
+      "parentUuid": "RjfXtWEY",
+      "revId": "1c67930580c7fcfc859cd966b2e7377e97174d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RjdXyXCg",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RenameProjectTest.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-12T16:53:08Z",
       "side": 1,
       "message": "Same as above.",
+      "revId": "1c67930580c7fcfc859cd966b2e7377e97174d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfCbHVmQ",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RenameProjectTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-12T22:11:58Z",
+      "side": 1,
+      "message": "Same as above :-) Done",
+      "parentUuid": "RjdXyXCg",
       "revId": "1c67930580c7fcfc859cd966b2e7377e97174d89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Rizc6uNM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-12T11:16:12Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be checked that there are 2 parts, maybe it\u0027s just 1?",
+      "revId": "ef7f1eedb114f2351d3eb0010495a91e51d471be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

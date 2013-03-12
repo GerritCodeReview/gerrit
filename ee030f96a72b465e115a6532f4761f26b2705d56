@@ -16,6 +16,24 @@
       "revId": "ee030f96a72b465e115a6532f4761f26b2705d56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ri7e6SP0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-12T15:38:19Z",
+      "side": 1,
+      "message": "But in DefaultCacheFactory we already read maxAge as seconds if no unit is specified... :-/",
+      "parentUuid": "RixfTNFQ",
+      "revId": "ee030f96a72b465e115a6532f4761f26b2705d56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RfKaDRkE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:39:28Z",
+      "side": 1,
+      "message": "This could be removed now.",
+      "revId": "8d2fb5774e322b27eebd1fdfeb95219ecdb23b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfGZyLrA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:39:28Z",
+      "side": 1,
+      "message": "Is this a bug that should have been squashed earlier when Schema_77 was created?",
+      "revId": "8d2fb5774e322b27eebd1fdfeb95219ecdb23b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfIaGSlI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:39:28Z",
+      "side": 1,
+      "message": "This is going to NPE. Maybe you mean to do the check within setId() when the supplied id !\u003d null?",
+      "revId": "8d2fb5774e322b27eebd1fdfeb95219ecdb23b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

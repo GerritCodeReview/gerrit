@@ -17,6 +17,7 @@ SYNOPSIS
   [--publish]
   [--delete]
   [--verified <N>] [--code-review <N>]
+  [--label Label-Name=<N>]
   {COMMIT | CHANGEID,PATCHSET}...
 
 DESCRIPTION
@@ -94,10 +95,14 @@ fails because the user is not permitted to change the label.
 
 --code-review::
 --verified::
-	Set the approval category to the value 'N'.  The exact
-	option names supported and the range of values permitted
-	differs per site, check the output of --help, or contact
-	your site administrator for further details.
+        Set the label to the value 'N'.  The exact option names
+        supported and the range of values permitted differs per site,
+        check the output of --help, or contact your site administrator
+        for further details.  These options are only available for these
+        built-in labels; for other labels, see --label.
+
+--label::
+        Set a label by name to the value 'N'.
 
 ACCESS
 ------

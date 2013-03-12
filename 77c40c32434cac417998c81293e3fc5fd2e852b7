@@ -52,6 +52,24 @@
       "revId": "77c40c32434cac417998c81293e3fc5fd2e852b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfCZUttc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-12T19:11:34Z",
+      "side": 1,
+      "message": "I don\u0027t know that anything actually crashes. The basic issue is that PermissionRanges implicitly contain all intermediate values. So if you have values for [-2, 0, +2] it\u0027s valid (I think) to assign a user permissions of [-1, +1]. But then they won\u0027t actually be able to vote on that category in the UI, because the radio buttons are populated from the intersection of values and the permission range.",
+      "parentUuid": "RfAZzOrY",
+      "revId": "77c40c32434cac417998c81293e3fc5fd2e852b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

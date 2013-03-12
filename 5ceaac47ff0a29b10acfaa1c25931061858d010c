@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RfOYhvqw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:24:10Z",
+      "side": 1,
+      "message": "Slightly smaller delta if you just leave this declared before current.",
+      "revId": "5ceaac47ff0a29b10acfaa1c25931061858d010c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfMYkwr8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:24:10Z",
+      "side": 1,
+      "message": "You can remove this squash, and even the lookup for the range.",
+      "revId": "5ceaac47ff0a29b10acfaa1c25931061858d010c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfKYnxsE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LabelNormalizer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:24:10Z",
+      "side": 1,
+      "message": "Usually I make the compiler verify the types for me:\n\n  Change.Id a \u003d psa.getKey().getParentKey().getParentKey();\n  checkArgument(a.equals(ctl.getChange().getId()), ...);\n\nso that we are less likely to have an equals failure because we had the wrong number of getParentKey invocations.",
+      "revId": "5ceaac47ff0a29b10acfaa1c25931061858d010c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

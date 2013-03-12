@@ -41,6 +41,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -73,6 +74,7 @@ public class RebaseChange {
   private final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory;
   private final ChangeHookRunner hooks;
   private final ApprovalsUtil approvalsUtil;
+  private final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
   RebaseChange(final ChangeControl.Factory changeControlFactory,
@@ -81,7 +83,8 @@ public class RebaseChange {
       final GitRepositoryManager gitManager,
       final GitReferenceUpdated gitRefUpdated,
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
-      final ChangeHookRunner hooks, final ApprovalsUtil approvalsUtil) {
+      final ChangeHookRunner hooks, final ApprovalsUtil approvalsUtil,
+      final MergeUtil.Factory mergeUtilFactory) {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -91,6 +94,7 @@ public class RebaseChange {
     this.rebasedPatchSetSenderFactory = rebasedPatchSetSenderFactory;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
+    this.mergeUtilFactory = mergeUtilFactory;
   }
 
   /**
@@ -301,7 +305,7 @@ public class RebaseChange {
   public PatchSet rebase(final Repository git, final RevWalk revWalk,
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
       final Change chg, final Account.Id uploader, final RevCommit baseCommit,
-      final boolean useContentMerge) throws NoSuchChangeException,
+      final ProjectState project) throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
     Change change = chg;
@@ -400,15 +404,15 @@ public class RebaseChange {
    * @param inserter inserter to handle new trees and blobs
    * @param original The commit to rebase
    * @param base Base to rebase against
-   * @param useContentMerge flag to decide if content merge should be done
+   * @param project Destination project
    * @param committerIdent committer identity
    * @return the id of the rebased commit
    * @throws IOException Merged failed
    * @throws PathConflictException the rebase failed due to a path conflict
    */
-  private static ObjectId rebaseCommit(final Repository git,
+  private ObjectId rebaseCommit(final Repository git,
       final ObjectInserter inserter, final RevCommit original,
-      final RevCommit base, final boolean useContentMerge,
+      final RevCommit base, final ProjectState project,
       final PersonIdent committerIdent) throws IOException,
       PathConflictException {
 
@@ -418,7 +422,8 @@ public class RebaseChange {
       throw new IOException("Change is already up to date.");
     }
 
-    final ThreeWayMerger merger = MergeUtil.newThreeWayMerger(git, inserter, useContentMerge);
+    final ThreeWayMerger merger = mergeUtilFactory.create(project)
+        .newThreeWayMerger(git, inserter);
     merger.setBase(parentCommit);
     merger.merge(original, base);
 

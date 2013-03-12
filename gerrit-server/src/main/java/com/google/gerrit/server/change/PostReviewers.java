@@ -48,7 +48,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -125,19 +124,15 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       throw new BadRequestException("missing reviewer field");
     }
     Account.Id accountId = parser.parse(rsrc, input.reviewer);
-    try {
-      if (accountId != null) {
-        return putAccount(reviewerFactory.create(rsrc, accountId));
-      } else {
-        return putGroup(rsrc, input);
-      }
-    } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(e.getMessage());
+    if (accountId != null) {
+      return putAccount(reviewerFactory.create(rsrc, accountId));
+    } else {
+      return putGroup(rsrc, input);
     }
   }
 
   private PostResult putAccount(ReviewerResource rsrc) throws OrmException,
-      EmailException, NoSuchChangeException {
+      EmailException {
     PostResult result = new PostResult();
     addReviewers(rsrc, result, ImmutableSet.of(rsrc.getUser()));
     return result;
@@ -145,8 +140,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
 
   private PostResult putGroup(ChangeResource rsrc, Input input)
       throws ResourceNotFoundException, AuthException, BadRequestException,
-      UnprocessableEntityException, OrmException, NoSuchChangeException,
-      EmailException {
+      UnprocessableEntityException, OrmException, EmailException {
     GroupDescription.Basic group = groupsCollection.get().parseInternal(input.reviewer);
     PostResult result = new PostResult();
     if (!isLegalReviewerGroup(group.getGroupUUID())) {
@@ -206,8 +200,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   }
 
   private void addReviewers(ChangeResource rsrc, PostResult result,
-      Set<IdentifiedUser> reviewers) throws OrmException, EmailException,
-      NoSuchChangeException {
+      Set<IdentifiedUser> reviewers) throws OrmException, EmailException {
     if (reviewers.isEmpty()) {
       result.reviewers = ImmutableList.of();
       return;

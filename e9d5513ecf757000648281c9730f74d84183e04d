@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ReQkXyVY",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:08:27Z",
+      "side": 1,
+      "message": "type as a variable is pointless here.",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ReSkcjXY",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/LabelTypes.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:08:27Z",
+      "side": 1,
+      "message": "return t !\u003d null ? t : byLabel(labelId.get());",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfOYI3jQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:08:27Z",
+      "side": 1,
+      "message": "Elsewhere in LabelTypes you treat the name as case insensitive. But here for overriding we require the name to be identical, otherwise we implicitly override by accident inside of LabelTypes when the name map is created.",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfMYL4i4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:08:27Z",
+      "side": 1,
+      "message": "bad rebase or formatting",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ReWkWhVg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:08:27Z",
+      "side": 1,
+      "message": "Lets just initialize new installations with the default abbreviation of CR.",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfIYB6hQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_77.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:08:27Z",
+      "side": 1,
+      "message": "Doing this as a join is pretty damn ugly to read. Most servers have like 1 or 2 categories. Just doing it as naive nested loops with two queries (one to read approval_categories, a nested loop to read approval_category_values for that one category_id) would be easier to follow.\n\nYour upgrade time is dominated by how fast the database can write out the mutations for migratePatchSetApprovals.",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RfKb.5u0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-12T00:08:27Z",
+      "side": 1,
+      "message": "CR",
+      "revId": "e9d5513ecf757000648281c9730f74d84183e04d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

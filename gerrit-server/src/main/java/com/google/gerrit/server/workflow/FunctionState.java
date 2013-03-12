@@ -15,7 +15,6 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
@@ -42,7 +41,6 @@ public class FunctionState {
         Collection<PatchSetApproval> all);
   }
 
-  private final LabelTypes labelTypes;
   private final IdentifiedUser.GenericFactory userFactory;
 
   private final Map<String, Collection<PatchSetApproval>> approvals =
@@ -52,11 +50,9 @@ public class FunctionState {
   private final Change change;
 
   @Inject
-  FunctionState(final LabelTypes labelTypes,
-      final IdentifiedUser.GenericFactory userFactory,
+  FunctionState(final IdentifiedUser.GenericFactory userFactory,
       @Assisted final ChangeControl c, @Assisted final PatchSet.Id psId,
       @Assisted final Collection<PatchSetApproval> all) {
-    this.labelTypes = labelTypes;
     this.userFactory = userFactory;
 
     callerChangeControl = c;
@@ -68,7 +64,7 @@ public class FunctionState {
             approvals.get(ca.getCategoryId().get());
         if (l == null) {
           l = new ArrayList<PatchSetApproval>();
-          LabelType lt = labelTypes.byId(ca.getCategoryId().get());
+          LabelType lt = c.getLabelTypes().byId(ca.getCategoryId().get());
           if (lt != null) {
             // TODO: Support arbitrary labels
             approvals.put(lt.getName(), l);
@@ -80,7 +76,7 @@ public class FunctionState {
   }
 
   List<LabelType> getLabelTypes() {
-    return labelTypes.getLabelTypes();
+    return callerChangeControl.getLabelTypes().getLabelTypes();
   }
 
   Change getChange() {

@@ -62,7 +62,6 @@ public class EventFactory {
   private static final Logger log = LoggerFactory.getLogger(EventFactory.class);
   private final AccountCache accountCache;
   private final Provider<String> urlProvider;
-  private final LabelTypes labelTypes;
   private final PatchListCache patchListCache;
   private final SchemaFactory<ReviewDb> schema;
   private final PatchSetInfoFactory psInfoFactory;
@@ -71,13 +70,11 @@ public class EventFactory {
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      LabelTypes labelTypes,
-      final PatchSetInfoFactory psif,
+      PatchSetInfoFactory psif,
       PatchListCache patchListCache, SchemaFactory<ReviewDb> schema,
       @GerritPersonIdent PersonIdent myIdent) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
-    this.labelTypes = labelTypes;
     this.patchListCache = patchListCache;
     this.schema = schema;
     this.psInfoFactory = psif;
@@ -244,25 +241,26 @@ public class EventFactory {
     a.commitMessage = commitMessage;
   }
 
-  public void addPatchSets(ChangeAttribute a, Collection<PatchSet> ps) {
-    addPatchSets(a, ps, null, false, null);
+  public void addPatchSets(ChangeAttribute a, Collection<PatchSet> ps,
+      LabelTypes labelTypes) {
+    addPatchSets(a, ps, null, false, null, labelTypes);
   }
 
   public void addPatchSets(ChangeAttribute ca, Collection<PatchSet> ps,
-      Map<PatchSet.Id,Collection<PatchSetApproval>> approvals) {
-    addPatchSets(ca, ps, approvals, false, null);
+      Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
+      LabelTypes labelTypes) {
+    addPatchSets(ca, ps, approvals, false, null, labelTypes);
   }
 
   public void addPatchSets(ChangeAttribute ca, Collection<PatchSet> ps,
-      Map<PatchSet.Id,Collection<PatchSetApproval>> approvals,
-      boolean includeFiles, Change change) {
-
+      Map<PatchSet.Id, Collection<PatchSetApproval>> approvals,
+      boolean includeFiles, Change change, LabelTypes labelTypes) {
     if (!ps.isEmpty()) {
       ca.patchSets = new ArrayList<PatchSetAttribute>(ps.size());
       for (PatchSet p : ps) {
         PatchSetAttribute psa = asPatchSetAttribute(p);
         if (approvals != null) {
-          addApprovals(psa, p.getId(), approvals);
+          addApprovals(psa, p.getId(), approvals, labelTypes);
         }
         ca.patchSets.add(psa);
         if (includeFiles && change != null) {
@@ -381,20 +379,21 @@ public class EventFactory {
   }
 
   public void addApprovals(PatchSetAttribute p, PatchSet.Id id,
-      Map<PatchSet.Id,Collection<PatchSetApproval>> all) {
+      Map<PatchSet.Id, Collection<PatchSetApproval>> all,
+      LabelTypes labelTypes) {
     Collection<PatchSetApproval> list = all.get(id);
     if (list != null) {
-      addApprovals(p, list);
+      addApprovals(p, list, labelTypes);
     }
   }
 
   public void addApprovals(PatchSetAttribute p,
-      Collection<PatchSetApproval> list) {
+      Collection<PatchSetApproval> list, LabelTypes labelTypes) {
     if (!list.isEmpty()) {
       p.approvals = new ArrayList<ApprovalAttribute>(list.size());
       for (PatchSetApproval a : list) {
         if (a.getValue() != 0) {
-          p.approvals.add(asApprovalAttribute(a));
+          p.approvals.add(asApprovalAttribute(a, labelTypes));
         }
       }
       if (p.approvals.isEmpty()) {
@@ -451,9 +450,11 @@ public class EventFactory {
    * serialization to JSON.
    *
    * @param approval
+   * @param labelTypes label types for the containing project
    * @return object suitable for serialization to JSON
    */
-  public ApprovalAttribute asApprovalAttribute(PatchSetApproval approval) {
+  public ApprovalAttribute asApprovalAttribute(PatchSetApproval approval,
+      LabelTypes labelTypes) {
     ApprovalAttribute a = new ApprovalAttribute();
     a.type = approval.getCategoryId().get();
     a.value = Short.toString(approval.getValue());

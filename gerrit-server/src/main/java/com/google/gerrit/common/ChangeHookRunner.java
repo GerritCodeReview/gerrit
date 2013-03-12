@@ -206,8 +206,6 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
     private final AccountCache accountCache;
 
-    private final LabelTypes labelTypes;
-
     private final EventFactory eventFactory;
 
     private final SitePaths sitePaths;
@@ -232,16 +230,17 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       final GitRepositoryManager repoManager,
       final @GerritServerConfig Config config,
       final @AnonymousCowardName String anonymousCowardName,
-      final SitePaths sitePath, final ProjectCache projectCache,
-      final AccountCache accountCache, final LabelTypes labelTypes,
-      final EventFactory eventFactory, final SitePaths sitePaths,
+      final SitePaths sitePath,
+      final ProjectCache projectCache,
+      final AccountCache accountCache,
+      final EventFactory eventFactory,
+      final SitePaths sitePaths,
       final DynamicSet<ChangeListener> unrestrictedListeners) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
         this.projectCache = projectCache;
         this.accountCache = accountCache;
-        this.labelTypes = labelTypes;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
         this.unrestrictedListeners = unrestrictedListeners;
@@ -395,11 +394,12 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         event.comment = comment;
 
+        LabelTypes labelTypes = projectCache.get(change.getProject()).getLabelTypes();
         if (approvals.size() > 0) {
             event.approvals = new ApprovalAttribute[approvals.size()];
             int i = 0;
             for (Map.Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval : approvals.entrySet()) {
-                event.approvals[i++] = getApprovalAttribute(approval);
+                event.approvals[i++] = getApprovalAttribute(labelTypes, approval);
             }
         }
 
@@ -612,7 +612,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
      * @param approval
      * @return object suitable for serialization to JSON
      */
-    private ApprovalAttribute getApprovalAttribute(
+    private ApprovalAttribute getApprovalAttribute(LabelTypes labelTypes,
             Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval) {
         ApprovalAttribute a = new ApprovalAttribute();
         a.type = approval.getKey().get();

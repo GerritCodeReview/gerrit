@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -23,8 +22,12 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -64,8 +67,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import javax.annotation.Nullable;
+
 public class MergeUtil {
   private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);
+
+  public static interface Factory {
+    MergeUtil create(ProjectState project);
+    MergeUtil create(ProjectState project, boolean useContentMerge);
+  }
 
   private static final String R_HEADS_MASTER =
       Constants.R_HEADS + Constants.MASTER;
@@ -78,7 +88,35 @@ public class MergeUtil {
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  public static CodeReviewCommit getFirstFastForward(
+  private final Provider<ReviewDb> db;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final Provider<String> urlProvider;
+  private final ProjectState project;
+  private final boolean useContentMerge;
+
+  @AssistedInject
+  MergeUtil(final Provider<ReviewDb> db,
+      final IdentifiedUser.GenericFactory identifiedUserFactory,
+      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
+      @Assisted final ProjectState project) {
+    this(db, identifiedUserFactory, urlProvider, project,
+        project.isUseContentMerge());
+  }
+
+  @AssistedInject
+  MergeUtil(final Provider<ReviewDb> db,
+      final IdentifiedUser.GenericFactory identifiedUserFactory,
+      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
+      @Assisted final ProjectState project,
+      @Assisted boolean useContentMerge) {
+    this.db = db;
+    this.identifiedUserFactory = identifiedUserFactory;
+    this.urlProvider = urlProvider;
+    this.project = project;
+    this.useContentMerge = useContentMerge;
+  }
+
+  public CodeReviewCommit getFirstFastForward(
       final CodeReviewCommit mergeTip, final RevWalk rw,
       final List<CodeReviewCommit> toMerge) throws MergeException {
     for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext();) {
@@ -95,7 +133,7 @@ public class MergeUtil {
     return mergeTip;
   }
 
-  public static void reduceToMinimalMerge(final MergeSorter mergeSorter,
+  public void reduceToMinimalMerge(final MergeSorter mergeSorter,
       final List<CodeReviewCommit> toSort) throws MergeException {
     final Collection<CodeReviewCommit> heads;
     try {
@@ -112,6 +150,10 @@ public class MergeUtil {
         return a.originalOrder - b.originalOrder;
       }
     });
+  }
+
+  public PatchSetApproval getSubmitter(final PatchSet.Id c) {
+    return getSubmitter(db.get(), c);
   }
 
   public static PatchSetApproval getSubmitter(final ReviewDb reviewDb,
@@ -137,13 +179,12 @@ public class MergeUtil {
     return submitter;
   }
 
-  public static CodeReviewCommit createCherryPickFromCommit(Repository repo,
+  public CodeReviewCommit createCherryPickFromCommit(Repository repo,
       ObjectInserter inserter, CodeReviewCommit mergeTip, CodeReviewCommit originalCommit,
-      PersonIdent cherryPickCommitterIdent, String commitMsg, RevWalk rw,
-      Boolean useContentMerge) throws MissingObjectException, IncorrectObjectTypeException, IOException {
+      PersonIdent cherryPickCommitterIdent, String commitMsg, RevWalk rw)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
 
-    final ThreeWayMerger m =
-        newThreeWayMerger(repo, inserter, useContentMerge);
+    final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
 
     m.setBase(originalCommit.getParent(0));
     if (m.merge(mergeTip, originalCommit)) {
@@ -166,9 +207,7 @@ public class MergeUtil {
     }
   }
 
-  public static String createCherryPickCommitMessage(final CodeReviewCommit n,
-      final LabelTypes labelTypes, final Provider<String> urlProvider,
-      final ReviewDb db, final IdentifiedUser.GenericFactory identifiedUserFactory) {
+  public String createCherryPickCommitMessage(final CodeReviewCommit n) {
     final List<FooterLine> footers = n.getFooterLines();
     final StringBuilder msgbuf = new StringBuilder();
     msgbuf.append(n.getFullMessage());
@@ -208,7 +247,7 @@ public class MergeUtil {
 
     PatchSetApproval submitAudit = null;
 
-    for (final PatchSetApproval a : getApprovalsForCommit(db, n)) {
+    for (final PatchSetApproval a : getApprovalsForCommit(n)) {
       if (a.getValue() <= 0) {
         // Negative votes aren't counted.
         continue;
@@ -256,7 +295,8 @@ public class MergeUtil {
       } else if (VRIF.equals(a.getCategoryId())) {
         tag = "Tested-by";
       } else {
-        final LabelType lt = labelTypes.byId(a.getCategoryId().get());
+        final LabelType lt =
+            project.getLabelTypes().byId(a.getCategoryId().get());
         if (lt == null) {
           // TODO: Support arbitrary labels.
           continue;
@@ -275,10 +315,10 @@ public class MergeUtil {
     return msgbuf.toString();
   }
 
-  public static List<PatchSetApproval> getApprovalsForCommit(final ReviewDb db, final CodeReviewCommit n) {
+  public List<PatchSetApproval> getApprovalsForCommit(final CodeReviewCommit n) {
     try {
       List<PatchSetApproval> approvalList =
-          db.patchSetApprovals().byPatchSet(n.patchsetId).toList();
+          db.get().patchSetApprovals().byPatchSet(n.patchsetId).toList();
       Collections.sort(approvalList, new Comparator<PatchSetApproval>() {
         @Override
         public int compare(final PatchSetApproval a, final PatchSetApproval b) {
@@ -311,13 +351,11 @@ public class MergeUtil {
     return false;
   }
 
-  public static PersonIdent computeMergeCommitAuthor(final ReviewDb reviewDb,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
-      final PersonIdent myIdent, final RevWalk rw,
-      final List<CodeReviewCommit> codeReviewCommits) {
+  public PersonIdent computeMergeCommitAuthor(final PersonIdent myIdent,
+      final RevWalk rw, final List<CodeReviewCommit> codeReviewCommits) {
     PatchSetApproval submitter = null;
     for (final CodeReviewCommit c : codeReviewCommits) {
-      PatchSetApproval s = getSubmitter(reviewDb, c.patchsetId);
+      PatchSetApproval s = getSubmitter(c.patchsetId);
       if (submitter == null
           || (s != null && s.getGranted().compareTo(submitter.getGranted()) > 0)) {
         submitter = s;
@@ -360,16 +398,15 @@ public class MergeUtil {
     return authorIdent;
   }
 
-  public static boolean canMerge(final MergeSorter mergeSorter,
-      final Repository repo, final boolean useContentMerge,
-      final CodeReviewCommit mergeTip, final CodeReviewCommit toMerge)
+  public boolean canMerge(final MergeSorter mergeSorter,
+      final Repository repo, final CodeReviewCommit mergeTip,
+      final CodeReviewCommit toMerge)
       throws MergeException {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
       return false;
     }
 
-    final ThreeWayMerger m =
-        newThreeWayMerger(repo, createDryRunInserter(), useContentMerge);
+    final ThreeWayMerger m = newThreeWayMerger(repo, createDryRunInserter());
     try {
       return m.merge(new AnyObjectId[] {mergeTip, toMerge});
     } catch (NoMergeBaseException e) {
@@ -379,7 +416,7 @@ public class MergeUtil {
     }
   }
 
-  public static boolean canFastForward(final MergeSorter mergeSorter,
+  public boolean canFastForward(final MergeSorter mergeSorter,
       final CodeReviewCommit mergeTip, final RevWalk rw,
       final CodeReviewCommit toMerge) throws MergeException {
     if (hasMissingDependencies(mergeSorter, toMerge)) {
@@ -393,9 +430,8 @@ public class MergeUtil {
     }
   }
 
-  public static boolean canCherryPick(final MergeSorter mergeSorter,
-      final Repository repo, final boolean useContentMerge,
-      final CodeReviewCommit mergeTip, final RevWalk rw,
+  public boolean canCherryPick(final MergeSorter mergeSorter,
+      final Repository repo, final CodeReviewCommit mergeTip, final RevWalk rw,
       final CodeReviewCommit toMerge) throws MergeException {
     if (mergeTip == null) {
       // The branch is unborn. Fast-forward is possible.
@@ -417,7 +453,7 @@ public class MergeUtil {
       //
       try {
         final ThreeWayMerger m =
-            newThreeWayMerger(repo, createDryRunInserter(), useContentMerge);
+            newThreeWayMerger(repo, createDryRunInserter());
         m.setBase(toMerge.getParent(0));
         return m.merge(mergeTip, toMerge);
       } catch (IOException e) {
@@ -432,10 +468,10 @@ public class MergeUtil {
     // instead behave as though MERGE_IF_NECESSARY was configured.
     //
     return canFastForward(mergeSorter, mergeTip, rw, toMerge)
-        || canMerge(mergeSorter, repo, useContentMerge, mergeTip, toMerge);
+        || canMerge(mergeSorter, repo, mergeTip, toMerge);
   }
 
-  public static boolean hasMissingDependencies(final MergeSorter mergeSorter,
+  public boolean hasMissingDependencies(final MergeSorter mergeSorter,
       final CodeReviewCommit toMerge) throws MergeException {
     try {
       return !mergeSorter.sort(Collections.singleton(toMerge)).contains(toMerge);
@@ -444,7 +480,7 @@ public class MergeUtil {
     }
   }
 
-  public static ObjectInserter createDryRunInserter() {
+  public ObjectInserter createDryRunInserter() {
     return new ObjectInserter() {
       private final MutableObjectId buf = new MutableObjectId();
       private final static int LAST_BYTE = Constants.OBJECT_ID_LENGTH - 1;
@@ -474,18 +510,16 @@ public class MergeUtil {
     };
   }
 
-  public static CodeReviewCommit mergeOneCommit(final ReviewDb reviewDb,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
-      final PersonIdent myIdent, final Repository repo, final RevWalk rw,
-      final ObjectInserter inserter, final RevFlag canMergeFlag,
-      final boolean useContentMerge, final Branch.NameKey destBranch,
+  public CodeReviewCommit mergeOneCommit(final PersonIdent myIdent,
+      final Repository repo, final RevWalk rw, final ObjectInserter inserter,
+      final RevFlag canMergeFlag, final Branch.NameKey destBranch,
       final CodeReviewCommit mergeTip, final CodeReviewCommit n)
       throws MergeException {
-    final ThreeWayMerger m = newThreeWayMerger(repo, inserter, useContentMerge);
+    final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
-        return writeMergeCommit(reviewDb, identifiedUserFactory, myIdent, rw,
-            inserter, canMergeFlag, destBranch, mergeTip, m.getResultTreeId(), n);
+        return writeMergeCommit(myIdent, rw, inserter, canMergeFlag, destBranch,
+            mergeTip, m.getResultTreeId(), n);
       } else {
         failed(rw, canMergeFlag, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
       }
@@ -528,12 +562,11 @@ public class MergeUtil {
     return failed;
   }
 
-  public static CodeReviewCommit writeMergeCommit(final ReviewDb reviewDb,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
-      final PersonIdent myIdent, final RevWalk rw,
-      final ObjectInserter inserter, final RevFlag canMergeFlag,
-      final Branch.NameKey destBranch, final CodeReviewCommit mergeTip,
-      final ObjectId treeId, final CodeReviewCommit n) throws IOException,
+  public CodeReviewCommit writeMergeCommit(final PersonIdent myIdent,
+      final RevWalk rw, final ObjectInserter inserter,
+      final RevFlag canMergeFlag, final Branch.NameKey destBranch,
+      final CodeReviewCommit mergeTip, final ObjectId treeId,
+      final CodeReviewCommit n) throws IOException,
       MissingObjectException, IncorrectObjectTypeException {
     final List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
     rw.resetRetain(canMergeFlag);
@@ -579,9 +612,7 @@ public class MergeUtil {
       }
     }
 
-    PersonIdent authorIdent =
-        computeMergeCommitAuthor(reviewDb, identifiedUserFactory, myIdent, rw,
-            merged);
+    PersonIdent authorIdent = computeMergeCommitAuthor(myIdent, rw, merged);
 
     final CommitBuilder mergeCommit = new CommitBuilder();
     mergeCommit.setTreeId(treeId);
@@ -593,8 +624,8 @@ public class MergeUtil {
     return (CodeReviewCommit) rw.parseCommit(commit(inserter, mergeCommit));
   }
 
-  public static ThreeWayMerger newThreeWayMerger(final Repository repo,
-      final ObjectInserter inserter, final boolean useContentMerge) {
+  public ThreeWayMerger newThreeWayMerger(final Repository repo,
+      final ObjectInserter inserter) {
     ThreeWayMerger m;
     if (useContentMerge) {
       // Settings for this project allow us to try and
@@ -623,7 +654,7 @@ public class MergeUtil {
     return m;
   }
 
-  public static ObjectId commit(final ObjectInserter inserter,
+  public ObjectId commit(final ObjectInserter inserter,
       final CommitBuilder mergeCommit) throws IOException,
       UnsupportedEncodingException {
     ObjectId id = inserter.insert(mergeCommit);
@@ -631,10 +662,9 @@ public class MergeUtil {
     return id;
   }
 
-  public static PatchSetApproval markCleanMerges(final ReviewDb reviewDb,
-      final RevWalk rw, final RevFlag canMergeFlag,
-      final CodeReviewCommit mergeTip, final Set<RevCommit> alreadyAccepted)
-      throws MergeException {
+  public PatchSetApproval markCleanMerges(final RevWalk rw,
+      final RevFlag canMergeFlag, final CodeReviewCommit mergeTip,
+      final Set<RevCommit> alreadyAccepted) throws MergeException {
     if (mergeTip == null) {
       // If mergeTip is null here, branchTip was null, indicating a new branch
       // at the start of the merge process. We also elected to merge nothing,
@@ -659,7 +689,7 @@ public class MergeUtil {
         if (c.patchsetId != null) {
           c.statusCode = CommitMergeStatus.CLEAN_MERGE;
           if (submitApproval == null) {
-            submitApproval = getSubmitter(reviewDb, c.patchsetId);
+            submitApproval = getSubmitter(c.patchsetId);
           }
         }
       }

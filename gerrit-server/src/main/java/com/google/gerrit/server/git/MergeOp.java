@@ -391,8 +391,7 @@ public class MergeOp {
   private SubmitStrategy createStrategy(final SubmitType submitType)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
-        canMergeFlag, getAlreadyAccepted(branchTip), destBranch,
-        destProject.isUseContentMerge());
+        canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
   }
 
   private void openRepository() throws MergeException {

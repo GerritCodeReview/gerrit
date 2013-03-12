@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -51,10 +50,10 @@ public class SubmitStrategyFactory {
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final PersonIdent myIdent;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final Provider<String> urlProvider;
   private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
   private final ProjectCache projectCache;
+  private final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
   SubmitStrategyFactory(
@@ -63,29 +62,30 @@ public class SubmitStrategyFactory {
       final PatchSetInfoFactory patchSetInfoFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
-      final ProjectCache projectCache) {
+      final ProjectCache projectCache,
+      final MergeUtil.Factory mergeUtilFactory) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.urlProvider = urlProvider;
     this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
     this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
   }
 
   public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
       final Repository repo, final RevWalk rw, final ObjectInserter inserter,
       final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
-      final Branch.NameKey destBranch, final boolean useContentMerge)
+      final Branch.NameKey destBranch)
       throws MergeException, NoSuchProjectException {
+    ProjectState project = getProject(destBranch);
     final SubmitStrategy.Arguments args =
         new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db, repo,
             rw, inserter, canMergeFlag, alreadyAccepted, destBranch,
-            useContentMerge);
+            mergeUtilFactory.create(project));
     switch (submitType) {
       case CHERRY_PICK:
-        return new CherryPick(args, patchSetInfoFactory, urlProvider,
-            getLabelTypes(destBranch), gitRefUpdated);
+        return new CherryPick(args, patchSetInfoFactory, gitRefUpdated);
       case FAST_FORWARD_ONLY:
         return new FastForwardOnly(args);
       case MERGE_ALWAYS:
@@ -101,12 +101,12 @@ public class SubmitStrategyFactory {
     }
   }
 
-  private LabelTypes getLabelTypes(Branch.NameKey branch)
+  private ProjectState getProject(Branch.NameKey branch)
       throws NoSuchProjectException {
     final ProjectState p = projectCache.get(branch.getParentKey());
     if (p == null) {
       throw new NoSuchProjectException(branch.getParentKey());
     }
-    return p.getLabelTypes();
+    return p;
   }
 }

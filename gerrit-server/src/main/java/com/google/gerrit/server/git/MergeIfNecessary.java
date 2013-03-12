@@ -14,13 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.git.MergeUtil.canFastForward;
-import static com.google.gerrit.server.git.MergeUtil.canMerge;
-import static com.google.gerrit.server.git.MergeUtil.getFirstFastForward;
-import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
-import static com.google.gerrit.server.git.MergeUtil.mergeOneCommit;
-import static com.google.gerrit.server.git.MergeUtil.reduceToMinimalMerge;
-
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.util.List;
@@ -34,22 +27,20 @@ public class MergeIfNecessary extends SubmitStrategy {
   @Override
   protected CodeReviewCommit _run(final CodeReviewCommit mergeTip,
       final List<CodeReviewCommit> toMerge) throws MergeException {
-    reduceToMinimalMerge(args.mergeSorter, toMerge);
+    args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     CodeReviewCommit newMergeTip =
-        getFirstFastForward(mergeTip, args.rw, toMerge);
+        args.mergeUtil.getFirstFastForward(mergeTip, args.rw, toMerge);
 
     // For every other commit do a pair-wise merge.
     while (!toMerge.isEmpty()) {
       newMergeTip =
-          mergeOneCommit(args.db, args.identifiedUserFactory, args.myIdent,
-              args.repo, args.rw, args.inserter, args.canMergeFlag,
-              args.useContentMerge, args.destBranch, mergeTip,
+          args.mergeUtil.mergeOneCommit(args.myIdent, args.repo, args.rw,
+              args.inserter, args.canMergeFlag, args.destBranch, mergeTip,
               toMerge.remove(0));
     }
 
-    final PatchSetApproval submitApproval =
-        markCleanMerges(args.db, args.rw, args.canMergeFlag, newMergeTip,
-            args.alreadyAccepted);
+    final PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
+        args.rw, args.canMergeFlag, newMergeTip, args.alreadyAccepted);
     setRefLogIdent(submitApproval);
 
     return newMergeTip;
@@ -58,8 +49,9 @@ public class MergeIfNecessary extends SubmitStrategy {
   @Override
   public boolean dryRun(final CodeReviewCommit mergeTip,
       final CodeReviewCommit toMerge) throws MergeException {
-    return canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge)
-        || canMerge(args.mergeSorter, args.repo, args.useContentMerge,
-            mergeTip, toMerge);
+    return args.mergeUtil.canFastForward(
+          args.mergeSorter, mergeTip, args.rw, toMerge)
+        || args.mergeUtil.canMerge(
+          args.mergeSorter, args.repo, mergeTip, toMerge);
   }
 }

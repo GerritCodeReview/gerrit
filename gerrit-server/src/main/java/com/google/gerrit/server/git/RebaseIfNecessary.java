@@ -14,14 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.git.MergeUtil.canCherryPick;
-import static com.google.gerrit.server.git.MergeUtil.canFastForward;
-import static com.google.gerrit.server.git.MergeUtil.getApprovalsForCommit;
-import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
-import static com.google.gerrit.server.git.MergeUtil.hasMissingDependencies;
-import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
-import static com.google.gerrit.server.git.MergeUtil.mergeOneCommit;
-
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -74,7 +66,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
         n.statusCode = CommitMergeStatus.CANNOT_REBASE_ROOT;
 
       } else if (n.getParentCount() == 1) {
-        if (canFastForward(args.mergeSorter, newMergeTip, args.rw, n)) {
+        if (args.mergeUtil.canFastForward(
+            args.mergeSorter, newMergeTip, args.rw, n)) {
           newMergeTip = n;
           n.statusCode = CommitMergeStatus.CLEAN_MERGE;
 
@@ -82,10 +75,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
           try {
             final PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.patchsetId, n.change, getSubmitter(args.db, n.patchsetId)
-                        .getAccountId(), newMergeTip, args.useContentMerge);
+                    n.patchsetId, n.change,
+                    args.mergeUtil.getSubmitter(n.patchsetId).getAccountId(),
+                    newMergeTip, args.mergeUtil);
             List<PatchSetApproval> approvals = Lists.newArrayList();
-            for (PatchSetApproval a : getApprovalsForCommit(args.db, n)) {
+            for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
             }
             args.db.patchSetApprovals().insert(approvals);
@@ -98,7 +92,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 args.db.changes().get(newPatchSet.getId().getParentKey());
             newMergeTip.statusCode = CommitMergeStatus.CLEAN_REBASE;
             newCommits.put(newPatchSet.getId().getParentKey(), newMergeTip);
-            setRefLogIdent(getSubmitter(args.db, n.patchsetId));
+            setRefLogIdent(args.mergeUtil.getSubmitter(n.patchsetId));
           } catch (PathConflictException e) {
             n.statusCode = CommitMergeStatus.PATH_CONFLICT;
           } catch (NoSuchChangeException e) {
@@ -123,15 +117,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
           if (args.rw.isMergedInto(newMergeTip, n)) {
             newMergeTip = n;
           } else {
-            newMergeTip =
-                mergeOneCommit(args.db, args.identifiedUserFactory,
-                    args.myIdent, args.repo, args.rw, args.inserter,
-                    args.canMergeFlag, args.useContentMerge, args.destBranch,
-                    newMergeTip, n);
+            newMergeTip = args.mergeUtil.mergeOneCommit(
+                args.myIdent, args.repo, args.rw, args.inserter,
+                args.canMergeFlag, args.destBranch, newMergeTip, n);
           }
-          final PatchSetApproval submitApproval =
-              markCleanMerges(args.db, args.rw, args.canMergeFlag, newMergeTip,
-                  args.alreadyAccepted);
+          final PatchSetApproval submitApproval = args.mergeUtil.markCleanMerges(
+              args.rw, args.canMergeFlag, newMergeTip, args.alreadyAccepted);
           setRefLogIdent(submitApproval);
         } catch (IOException e) {
           throw new MergeException("Cannot merge " + n.name(), e);
@@ -164,8 +155,8 @@ public class RebaseIfNecessary extends SubmitStrategy {
   @Override
   public boolean dryRun(final CodeReviewCommit mergeTip,
       final CodeReviewCommit toMerge) throws MergeException {
-    return !hasMissingDependencies(args.mergeSorter, toMerge)
-        && canCherryPick(args.mergeSorter, args.repo, args.useContentMerge,
-            mergeTip, args.rw, toMerge);
+    return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
+        && args.mergeUtil.canCherryPick(args.mergeSorter, args.repo, mergeTip,
+            args.rw, toMerge);
   }
 }

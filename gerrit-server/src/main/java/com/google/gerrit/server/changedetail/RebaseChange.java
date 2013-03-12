@@ -73,6 +73,7 @@ public class RebaseChange {
   private final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory;
   private final ChangeHookRunner hooks;
   private final ApprovalsUtil approvalsUtil;
+  private final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
   RebaseChange(final ChangeControl.Factory changeControlFactory,
@@ -81,7 +82,8 @@ public class RebaseChange {
       final GitRepositoryManager gitManager,
       final GitReferenceUpdated gitRefUpdated,
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
-      final ChangeHookRunner hooks, final ApprovalsUtil approvalsUtil) {
+      final ChangeHookRunner hooks, final ApprovalsUtil approvalsUtil,
+      final MergeUtil.Factory mergeUtilFactory) {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -91,6 +93,7 @@ public class RebaseChange {
     this.rebasedPatchSetSenderFactory = rebasedPatchSetSenderFactory;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
+    this.mergeUtilFactory = mergeUtilFactory;
   }
 
   /**
@@ -149,7 +152,8 @@ public class RebaseChange {
 
       final PatchSet newPatchSet =
           rebase(git, rw, inserter, patchSetId, change, uploader, baseCommit,
-              true);
+              mergeUtilFactory.create(
+                  changeControl.getProjectControl().getProjectState(), true));
 
       final Set<Account.Id> oldReviewers = Sets.newHashSet();
       final Set<Account.Id> oldCC = Sets.newHashSet();
@@ -290,7 +294,7 @@ public class RebaseChange {
    * @param chg the change that should be rebased
    * @param uploader the user that creates the rebased patch set
    * @param baseCommit the commit that should be the new base
-   * @param useContentMerge flag that decides if content merge should be done
+   * @param mergeUtil merge utilities for the destination project
    * @return the new patch set which is based on the given base commit
    * @throws NoSuchChangeException thrown if the change to which the patch set
    *         belongs does not exist or is not visible to the user
@@ -301,7 +305,7 @@ public class RebaseChange {
   public PatchSet rebase(final Repository git, final RevWalk revWalk,
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
       final Change chg, final Account.Id uploader, final RevCommit baseCommit,
-      final boolean useContentMerge) throws NoSuchChangeException,
+      final MergeUtil mergeUtil) throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
     Change change = chg;
@@ -309,9 +313,8 @@ public class RebaseChange {
 
     final RevCommit rebasedCommit;
     ObjectId oldId = ObjectId.fromString(originalPatchSet.getRevision().get());
-    ObjectId newId =
-        rebaseCommit(git, inserter, revWalk.parseCommit(oldId), baseCommit,
-            useContentMerge, myIdent);
+    ObjectId newId = rebaseCommit(git, inserter, revWalk.parseCommit(oldId),
+        baseCommit, mergeUtil, myIdent);
 
     rebasedCommit = revWalk.parseCommit(newId);
 
@@ -400,15 +403,15 @@ public class RebaseChange {
    * @param inserter inserter to handle new trees and blobs
    * @param original The commit to rebase
    * @param base Base to rebase against
-   * @param useContentMerge flag to decide if content merge should be done
+   * @param mergeUtil merge utilities for the destination project
    * @param committerIdent committer identity
    * @return the id of the rebased commit
    * @throws IOException Merged failed
    * @throws PathConflictException the rebase failed due to a path conflict
    */
-  private static ObjectId rebaseCommit(final Repository git,
+  private ObjectId rebaseCommit(final Repository git,
       final ObjectInserter inserter, final RevCommit original,
-      final RevCommit base, final boolean useContentMerge,
+      final RevCommit base, final MergeUtil mergeUtil,
       final PersonIdent committerIdent) throws IOException,
       PathConflictException {
 
@@ -418,7 +421,7 @@ public class RebaseChange {
       throw new IOException("Change is already up to date.");
     }
 
-    final ThreeWayMerger merger = MergeUtil.newThreeWayMerger(git, inserter, useContentMerge);
+    final ThreeWayMerger merger = mergeUtil.newThreeWayMerger(git, inserter);
     merger.setBase(parentCommit);
     merger.merge(original, base);
 

@@ -54,14 +54,14 @@ public abstract class SubmitStrategy {
     protected final RevFlag canMergeFlag;
     protected final Set<RevCommit> alreadyAccepted;
     protected final Branch.NameKey destBranch;
-    protected final boolean useContentMerge;
+    protected final MergeUtil mergeUtil;
     protected final MergeSorter mergeSorter;
 
     Arguments(final IdentifiedUser.GenericFactory identifiedUserFactory,
         final PersonIdent myIdent, final ReviewDb db, final Repository repo,
         final RevWalk rw, final ObjectInserter inserter,
         final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
-        final Branch.NameKey destBranch, final boolean useContentMerge) {
+        final Branch.NameKey destBranch, final MergeUtil mergeUtil) {
       this.identifiedUserFactory = identifiedUserFactory;
       this.myIdent = myIdent;
       this.db = db;
@@ -72,7 +72,7 @@ public abstract class SubmitStrategy {
       this.canMergeFlag = canMergeFlag;
       this.alreadyAccepted = alreadyAccepted;
       this.destBranch = destBranch;
-      this.useContentMerge = useContentMerge;
+      this.mergeUtil = mergeUtil;
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
     }
   }

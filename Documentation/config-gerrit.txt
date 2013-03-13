@@ -941,6 +941,14 @@ from the buffer. It also protects from loosing log entries in this case.
 +
 Default is 64 entries.
 
+[[core.useRecursiveMerge]]core.useRecursiveMerge::
++
+Use JGit's new, experimental recursive merger for three-way merges.
+This only affects projects configured to automatically resolve
+conflicts.
++
+Default is false, but in a future release may default to true.
+
 [[database]]Section database
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

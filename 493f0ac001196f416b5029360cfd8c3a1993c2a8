@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Rpb2-n.w",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T19:16:04Z",
+      "side": 1,
+      "message": "This link is not working. Like this it will search in the \u0027ReleaseNotes\u0027 folder for config-gerrit.html, but it\u0027s in the \u0027Documentation\u0027 folder. Having a link to \u0027../Documentation/config-gerrit.html\u0027 would work locally, but not after the documentation and release notes are uploaded to SVN so that they are available on the Gerrit home page, because in SVN we will have another subfolder with the version number for the documentation (\u0027../2.6/Documentation/config-gerrit.html\u0027 )  I\u0027ve discussed this once with Shawn, but we didn\u0027t find a clean solution which works everywhere :-/ For 2.5 I\u0027ve used absolute links (like \u0027http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html\u0027), but they only work after the release is done and the documentation is uploaded to SVN.",
+      "revId": "493f0ac001196f416b5029360cfd8c3a1993c2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

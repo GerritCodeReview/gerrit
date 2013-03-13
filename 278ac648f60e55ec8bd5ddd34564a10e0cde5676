@@ -107,6 +107,23 @@
     },
     {
       "key": {
+        "uuid": "Rpf13Z54",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/ProjectRenamingFailedException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-13T16:18:45Z",
+      "side": 1,
+      "message": "s/failed/failing ?",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpN47hds",
         "filename": "gerrit-server/pom.xml",
         "patchSetId": 4
@@ -276,6 +293,57 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "RpF4w1fQ",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpZ3hgyM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-13T16:18:45Z",
+      "side": 1,
+      "message": "instead of iterating over the cacheMap.byPlugin(\"gerrit\") map entries and then checking if they are contained in the cachesToClear coulnd\u0027t we directly access the members of the map which need to be invalidated?\n\nSomething like:\n\n  private void purgeCaches(Project sourceProject) {\n    Map\u003cString, Provider\u003cCache\u003c?, ?\u003e\u003e\u003e m \u003d cacheMap.byPlugin(\"gerrit\");\n    for (String n : new String[] {\"adv_bases\", \"changes\", \"git_tags\", \"project_list\"}) {\n      m.get(n).get().invalidateAll();\n    }\n    projectCache.remove(sourceProject);\n  }",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpb3mvzY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/Task.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-13T16:18:45Z",
+      "side": 1,
+      "message": "Could the source and destination be the parameters of the carryOut method?\nThen we could just register the Tasks in guice and wouldn\u0027t need the factories just to pass these two parameters?",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpV3MW7E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/TaskModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-13T16:18:45Z",
+      "side": 1,
+      "message": "It look to me that all we need is to register N concrete rename tasks.\nThis class looks quite complex and I am not sure if this complexity justifies itself.\n\nMaybe:\n\n  bind(RenameParentsTask.class);\n  bind(RenameChangesTask.class);\n...\n\nis enough?",
       "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

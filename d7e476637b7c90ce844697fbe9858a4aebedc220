@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RogBBhk0",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "_runGC. Lets keep the anchor names matching the internal names used in project.config files.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RoqBFOlo",
+        "filename": "Documentation/cmd-gc.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "Why can\u0027t we check for this and just refuse? Make a Set\u003cProject.NameKey\u003e in a @Singleton container that gc adds all names to before it starts, and refuses to run on if a name is already stored, and then deletes after the GC of that repository is finished. Its a very simple check.\n\nI wouldn\u0027t have a duplicate request wait or anything, just fail fast for that name and remove it from the set of names the user submitted, give the user a message on stderr, and try to continue with the remaining names.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RosBKvmc",
+        "filename": "Documentation/cmd-gc.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "_runGC",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RomAwkvU",
+        "filename": "Documentation/cmd-gc.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "Maybe just make this shorter and say:\n\n  gc myproject:\n  ...\n  done.\n\n  gc yourProject:\n  ...\n  done.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RooAtlpo",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "_runGC",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RoiA6itM",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GarbageCollectionResult.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "who is who? Can we name this more accurately? Is it the user that ran GC? If so maybe callingUser or executedBy tells us something more than \"who\".",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpJ5eXSU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "nit: indent this one level like canStartReplication above.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpD5QaQ0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "I think this should be checked in the SSH command and not the internal implementation.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpP6OgXQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "What we do internally at Google is build the PackConfig from our Repository config, log the *effective* settings from that PackConfig, and then pass that into the DfsGarbageCollector to drive the GC steps.\n\nThis way we have in our logs the effective values and not the configured values. If a default changes in the software, that shows up in our logs.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpN6JRW8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "String[] sections \u003d {\"gc\"}\n\nThe new String[] part is not necessary when initializing a local variable or field of type String[].",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpJ6TvZ8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "Command line git config does this like \"section.subsection.name\" so \"gc.blah.size \u003d 10\".",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpL5jGfA",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "style nit:\n\n  @Inject\n  private GarbageCollection.Factory ...;",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpF5ZtTo",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "Lists.newArrayList();",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpH5W8Q0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "projectNames.addAll(projectCache.all());",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpB5TLR0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T19:18:30Z",
+      "side": 1,
+      "message": "Why not just declare this @RequiresCapability() and avoid the complexity of doing it in side of the implementation code and the result object?",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

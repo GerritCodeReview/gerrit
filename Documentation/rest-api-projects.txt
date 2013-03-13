@@ -613,7 +613,7 @@ project dashboard.
 |=============================
 |Field Name      ||Description
 |`id`            |optional|
-ID of a dashboard to which this dashboard should link to.
+URL encoded ID of a dashboard to which this dashboard should link to.
 |`commit_message`|optional|
 Message that should be used to commit the change of the dashboard.
 |=============================

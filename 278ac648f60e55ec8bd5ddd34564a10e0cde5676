@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "RpD4iqbE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "s/do/to",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpB4lbbg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "s/eclipse/Eclipse",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpH4oMZE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "These lines are too long.  I suggest replacing the whole section with something like:\n\n As using PowerMock from within eclipse raises warnings about\n multiple SLF4J bindings when running the tests with slf4j \u003c1.6.2,\n slf4j has been bumped to 1.6.2, which fixed the warnings.",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpN47hds",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "We might need to add powermock in the licenses file.\n\n Documentation/licenses.txt",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpP5AwUs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "s/be/by",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpJ5F-Vo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "s/be/by",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpL5KOWY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "These variables could be better named.  `sourceLock` and `destLock`?",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpF4w1fQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "Unnecessary line break.",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpH4tkZc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "Extra space before the comma.",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpB46TdM",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RenameProjectTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-03-13T07:46:42Z",
+      "side": 1,
+      "message": "s/thi/the",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

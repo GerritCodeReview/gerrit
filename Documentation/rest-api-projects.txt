@@ -318,6 +318,62 @@ As response the new parent project name is returned.
   "Public-Plugins"
 ----
 
+[[get-head]]
+Get HEAD
+~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/HEAD'
+
+Retrieves for a project the name of the branch to which `HEAD` points.
+
+.Request
+----
+  GET /projects/plugins%2Freplication/HEAD HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "refs/heads/master"
+----
+
+[[set-head]]
+Set HEAD
+~~~~~~~~
+[verse]
+'PUT /projects/link:#project-name[\{project-name\}]/HEAD'
+
+Sets `HEAD` for a project.
+
+The new ref to which `HEAD` should point must be provided in the
+request body inside a link:#head-input[HeadInput] entity.
+
+.Request
+----
+  PUT /projects/plugins%2Freplication/HEAD HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "ref": "refs/heads/stable"
+  }
+----
+
+As response the new ref to which `HEAD` points is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "refs/heads/stable"
+----
+
 [[dashboard-endpoints]]
 Dashboard Endpoints
 -------------------
@@ -631,6 +687,20 @@ in a dashboard.
 |`query`       |The query of the section. +
 Tokens such as `${project}` are not resolved.
 |===========================
+
+[[head-input]]
+HeadInput
+~~~~~~~~~
+The `HeadInput` entity contains information for setting `HEAD` for a
+project.
+
+[options="header",width="50%",cols="1,6"]
+|============================
+|Field Name      |Description
+|`ref`           |
+The ref to which `HEAD` should be set, the `refs/heads` prefix can be
+omitted.
+|============================
 
 [[project-description-input]]
 ProjectDescriptionInput

@@ -16,6 +16,24 @@
       "revId": "e2ab4725e76d71542342060c2adc7b38b38914ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpV2He08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-13T15:08:31Z",
+      "side": 1,
+      "message": "Hmm... my previous comment is not true since 401440f9. The  RequestScopedReviewDbProvider is not bound in request scope since this change from Shawn.",
+      "parentUuid": "RizeoeMc",
+      "revId": "e2ab4725e76d71542342060c2adc7b38b38914ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

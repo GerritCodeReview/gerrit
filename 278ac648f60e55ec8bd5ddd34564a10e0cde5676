@@ -422,6 +422,24 @@
     },
     {
       "key": {
+        "uuid": "RpT3vD.k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/TaskModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T21:27:28Z",
+      "side": 1,
+      "message": "Hi Saša,\n\nI misread your comment. Sorry.\n\nSo the point for this factory registration construction is that we\nwant to inject using constructor injection, as this creates a natural\nbinding between carryOut and rollback, as discussed in\nTask.java.\nSince source and destination are of the same type, we have to use\nannotations for source and destination. But letting Guice create a\nTask instance for us, Guice does not know where to get values for\nsource, and destination from. Hence, we take advantage of\nfactories. Thereby, we can tell the factory to create an instance for\na given source and name and let Guice inject the other required\nconstructor parameters.\n\nSo what we could do is something like\n\n  DynamicSet.setOf(binder(), Task.Factory.class);\n  DynamicSet.bind(binder(), Task.Factory.class).to(Task1.Factory.class);\n  DynamicSet.bind(binder(), Task.Factory.class).to(Task2.Factory.class);\n  [...]\n\n. While looks harmless ... Guice cannot know where to\ntake an implementation for TaskN.Factory from.\n\nSo we have to teach Guice about it. We could construct those instances\nby ourselves, but that nixes most of the benefit of having an\ninjector. So we\u0027d want Guice to construct the factory instance for\nus. All the nastiness that comes with that is already dealt with by\nFactoryModule. So it\u0027s tempting to just add\n\n\n  FactoryModuleBuilder builder;\n\n  builder \u003d new FactoryModuleBuilder();\n  install(builder.build(Task1.Factory.class));\n\n  builder \u003d new FactoryModuleBuilder();\n  install(builder.build(Task2.Factory.class));\n\n  [...]\n\n. This however does not suffice, as Guice fails to construct such\nfactories, as the factories inherit from Task.Factory [1], and there the create method\nreturns Task (it cannot return anything else at that point). But as\nTask is not a concrete class, Guice does not know how to create the\nfactory. So we need to hint the builder that we want to create a concrete\nclass:\n\n  FactoryModuleBuilder builder;\n\n  builder \u003d new FactoryModuleBuilder();\n  builder.implement(Task.class, Task1.class);\n  install(builder.build(Task1.Factory.class));\n\n  builder \u003d new FactoryModuleBuilder();\n  builder.implement(Task.class, Task2.class);\n  install(builder.build(Task2.Factory.class));\n\n  [...]\n\nWhile this works, it\u0027s tedious. We could abstract that to something\nlike\n\n  taskFactory( A, B ) {\n    FactoryModuleBuilder builder \u003d new FactoryModuleBuilder();\n    builder.implement(Task.class, A);\n    install(builder.build(B));\n  }\n\n  taskFactory(Task1.class, Task1.Factory.class);\n  taskFactory(Task2.class, Task2.Factory.class);\n  [...]\n\nBut we\u0027d have to provide both the concrete class and the factory as\nparameter, which is error prone. And given the factory (e.g.:\nTask1.Factory.class), we can obtain the concrete class (e.g.:\nTask1.class) by looking at the factory\u0027s declaring class, as that typically yields the required concrete class (See doclet of taskFactory).\n\nAnd that\u0027s how I ended up at this Patch Set\u0027s implementation of\ntaskFactory. Finally, we get all the magic by just\n\n  taskFactory(Task1.Factory.class);\n  taskFactory(Task2.Factory.class);\n  [...]\n\n. No need to pass the concrete class.\n\n\n  \n\n---------------\n\n[1]  This is inheritance necessary, to be able to uniformly treat the factories in RenameProject.java",
+      "parentUuid": "Rpd0ly4c",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpH4tkZc",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
         "patchSetId": 4

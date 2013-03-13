@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountInfo;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -36,17 +36,18 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class GroupJson {
-  private final GroupCache groupCache;
+  private final GroupBackend groupBackend;
   private final GroupControl.Factory groupControlFactory;
   private final Provider<ListMembers> listMembers;
   private final Provider<ListIncludedGroups> listIncludes;
   private EnumSet<ListGroupsOption> options;
 
   @Inject
-  GroupJson(GroupCache groupCache, GroupControl.Factory groupControlFactory,
+  GroupJson(GroupBackend groupBackend,
+      GroupControl.Factory groupControlFactory,
       Provider<ListMembers> listMembers,
       Provider<ListIncludedGroups> listIncludes) {
-    this.groupCache = groupCache;
+    this.groupBackend = groupBackend;
     this.groupControlFactory = groupControlFactory;
     this.listMembers = listMembers;
     this.listIncludes = listIncludes;
@@ -93,7 +94,7 @@ public class GroupJson {
       info.groupId = g.getId().get();
       if (g.getOwnerGroupUUID() != null) {
         info.ownerId = Url.encode(g.getOwnerGroupUUID().get());
-        AccountGroup o = groupCache.get(g.getOwnerGroupUUID());
+        GroupDescription.Basic o = groupBackend.get(g.getOwnerGroupUUID());
         if (o != null) {
           info.owner = o.getName();
         }

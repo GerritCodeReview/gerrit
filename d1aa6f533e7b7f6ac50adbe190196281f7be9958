@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Rpb0bHy0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpL5x2as",
+      "revId": "d1aa6f533e7b7f6ac50adbe190196281f7be9958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpD6lye8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetHead.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-13T19:38:08Z",
       "side": 1,
       "message": "If HEAD is not a symbolic reference (aka its detached) you want to return its SHA-1. So really:\n\n  Ref head \u003d repo.getRef(Constants.HEAD);\n  if (head \u003d\u003d null) {\n    throw new ResourceNotFoundException(\"HEAD\");\n  } else if (head.isSymbolic()) {\n    String n \u003d head.getTarget().getName();\n    if (rsrc.getControl().controlForRef(n).isVisible()) {\n      return n;\n    }\n    throw new AuthException();\n  } else if (head.getObjectId() !\u003d null) {\n    if (rsrc.getControl().isOwner()) {\n      return head.getObjectId().name();\n    }\n    throw new AuthException();\n  }\n  throw new ResourceNotFoundException(\"HEAD\");",
+      "revId": "d1aa6f533e7b7f6ac50adbe190196281f7be9958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpV0Ruws",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetHead.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpD6lye8",
       "revId": "d1aa6f533e7b7f6ac50adbe190196281f7be9958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "RpX0O9.o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpB6oDcc",
+      "revId": "d1aa6f533e7b7f6ac50adbe190196281f7be9958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpN5ypbE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetHead.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-13T19:38:08Z",
       "side": 1,
       "message": "Use ref here in the error message in case we mangled their input in some strange way, at least the user can now see what the server really balked on.",
+      "revId": "d1aa6f533e7b7f6ac50adbe190196281f7be9958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpR0LM9o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetHead.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpN5ypbE",
       "revId": "d1aa6f533e7b7f6ac50adbe190196281f7be9958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "Rpd3BS1A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetHead.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpP53YZ4",
+      "revId": "d1aa6f533e7b7f6ac50adbe190196281f7be9958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpJ5sHdE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetHead.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-03-13T19:38:08Z",
       "side": 1,
       "message": "NEW is also a valid result according to the implementation of JGit.",
+      "revId": "d1aa6f533e7b7f6ac50adbe190196281f7be9958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpT0Ib9o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetHead.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpJ5sHdE",
       "revId": "d1aa6f533e7b7f6ac50adbe190196281f7be9958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

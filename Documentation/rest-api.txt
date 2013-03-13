@@ -74,6 +74,77 @@ Encoding
 All IDs that appear in the URL of a REST call (e.g. project name, group name)
 must be URL encoded.
 
+[[response-codes]]
+Response Codes
+~~~~~~~~~~~~~~
+HTTP status codes are well defined and the Gerrit REST endpoints use
+them as described in the HTTP spec.
+
+Here are examples for some HTTP status codes that show how they are
+used in the context of the Gerrit REST API.
+
+400 Bad Request
+^^^^^^^^^^^^^^^
+`400 Bad Request` is used if the request is not understood by the
+server due to malformed syntax.
+
+E.g. `400 Bad Request` is returned if JSON input is expected but the
+'Content-Type' of the request is not 'application/json' or the request
+body doesn't contain valid JSON.
+
+`400 Bad Request` is also used if required input fields are not set or
+if options are set which cannot be used together.
+
+403 Forbidden
+^^^^^^^^^^^^^
+`403 Forbidden` is used if the operation is not allowed because the
+calling user has no sufficient permissions.
+
+E.g. some REST endpoints require that the calling user has certain
+link:access-control.html#system_capabilities[global capabilities]
+assigned.
+
+`403 Forbidden` is also used if `self` is used as account ID and the
+REST call was done without authentication.
+
+404 Not Found
+^^^^^^^^^^^^^
+`404 Not Found` is returned if the resource that is specified by the
+URL is not found or is not visible to the calling user. A resource
+cannot be found if the URL contains a non-existing ID or view.
+
+405 Method Not Allowed
+^^^^^^^^^^^^^^^^^^^^^^
+`405 Method Not Allowed` is used if the resource exists but doesn't
+support the operation.
+
+E.g. some of the `/groups/` endpoints are only supported for Gerrit
+internal groups, if they are invoked for an external group the response
+is `405 Method Not Allowed`.
+
+409 Conflict
+^^^^^^^^^^^^
+`409 Conflict` is used if the request cannot be completed because the
+current state of the resource doesn't allow the operation.
+
+E.g. if you try to submit a change that is abandoned, this fails with
+`409 Conflict` because the state of the change doesn't allow the submit
+operation.
+
+`409 Conflict` is also used if you try to create a resource but the
+name is already occupied by an existing resource.
+
+412 Precondition Failed
+^^^^^^^^^^^^^^^^^^^^^^^
+`412 Precondition Failed` is used if a precondition from the request
+header fields is not fulfilled as described in the link:#preconditions[
+Preconditions] section.
+
+422 Unprocessable Entity
+^^^^^^^^^^^^^^^^^^^^^^^^
+`422 Unprocessable Entity` is returned if the ID of a resource that is
+specified in the request body cannot be resolved.
+
 Endpoints
 ---------
 link:rest-api-accounts.html[/accounts/]::

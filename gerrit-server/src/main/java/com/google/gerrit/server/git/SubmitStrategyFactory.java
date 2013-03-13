@@ -25,7 +25,8 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -53,7 +54,7 @@ public class SubmitStrategyFactory {
   private final Provider<String> urlProvider;
   private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
-  private final ProjectControl.Factory projectFactory;
+  private final ProjectCache projectCache;
 
   @Inject
   SubmitStrategyFactory(
@@ -62,14 +63,14 @@ public class SubmitStrategyFactory {
       final PatchSetInfoFactory patchSetInfoFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
-      final ProjectControl.Factory projectFactory) {
+      final ProjectCache projectCache) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.urlProvider = urlProvider;
     this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
-    this.projectFactory = projectFactory;
+    this.projectCache = projectCache;
   }
 
   public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
@@ -83,10 +84,8 @@ public class SubmitStrategyFactory {
             useContentMerge);
     switch (submitType) {
       case CHERRY_PICK:
-        LabelTypes labelTypes =
-            projectFactory.controlFor(destBranch.getParentKey()).getLabelTypes();
         return new CherryPick(args, patchSetInfoFactory, urlProvider,
-            labelTypes, gitRefUpdated);
+            getLabelTypes(destBranch), gitRefUpdated);
       case FAST_FORWARD_ONLY:
         return new FastForwardOnly(args);
       case MERGE_ALWAYS:
@@ -100,5 +99,14 @@ public class SubmitStrategyFactory {
         log.error(errorMsg);
         throw new MergeException(errorMsg);
     }
+  }
+
+  private LabelTypes getLabelTypes(Branch.NameKey branch)
+      throws NoSuchProjectException {
+    final ProjectState p = projectCache.get(branch.getParentKey());
+    if (p == null) {
+      throw new NoSuchProjectException(branch.getParentKey());
+    }
+    return p.getLabelTypes();
   }
 }

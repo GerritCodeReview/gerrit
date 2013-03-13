@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "RpZ1FA1s",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-13T10:32:56Z",
+      "side": 1,
+      "message": "\"from at least one authorized user\" could be removed as a change couldn\u0027t have +1 Verified from a non-authorized user.",
+      "revId": "fc2b6289ea69c9484261c2587384830a98e12ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpb1KP2Y",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-13T10:32:56Z",
+      "side": 1,
+      "message": "remove \"from at least one authorized user\"",
+      "revId": "fc2b6289ea69c9484261c2587384830a98e12ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rpf0b530",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 7
@@ -31,6 +65,23 @@
       "side": 1,
       "message": "Plugins are able to contribute Prolog predicates implemented in Java by implementing com.google.gerrit.rules.PredicateProvider.",
       "parentUuid": "Rpf0b530",
+      "revId": "fc2b6289ea69c9484261c2587384830a98e12ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpV0w2-Q",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-13T10:32:56Z",
+      "side": 1,
+      "message": "cool feature :-)",
       "revId": "fc2b6289ea69c9484261c2587384830a98e12ba0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

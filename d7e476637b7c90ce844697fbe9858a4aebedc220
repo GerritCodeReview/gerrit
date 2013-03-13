@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Rpf0qB1U",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpvzyCSg",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RogBBhk0",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "_runGC. Lets keep the anchor names matching the internal names used in project.config files.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpZ0vQ2Q",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RogBBhk0",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Rpb00f7o",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Rprz8gfk",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RoqBFOlo",
         "filename": "Documentation/cmd-gc.txt",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "Why can\u0027t we check for this and just refuse? Make a Set\u003cProject.NameKey\u003e in a @Singleton container that gc adds all names to before it starts, and refuses to run on if a name is already stored, and then deletes after the GC of that repository is finished. Its a very simple check.\n\nI wouldn\u0027t have a duplicate request wait or anything, just fail fast for that name and remove it from the set of names the user submitted, give the user a message on stderr, and try to continue with the remaining names.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpX3llwg",
+        "filename": "Documentation/cmd-gc.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RoqBFOlo",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "RpV06G6Y",
+        "filename": "Documentation/cmd-gc.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RosBKvmc",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rppz3RRc",
         "filename": "Documentation/cmd-gc.txt",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2013-03-13T19:26:17Z",
       "side": 1,
       "message": "sequentially ?",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpX0317w",
+        "filename": "Documentation/cmd-gc.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Rppz3RRc",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "RpR1Ekyc",
+        "filename": "Documentation/cmd-gc.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RomAwkvU",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RooAtlpo",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 7
@@ -132,6 +258,24 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "_runGC",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpT1BTxg",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RooAtlpo",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "Rpd1OK0Y",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GarbageCollectionResult.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "I\u0027m sure I copied this name from somewhere.\n\nThis field is now not needed anymore.\n\nDone.",
+      "parentUuid": "RoiA6itM",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpJ5eXSU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
         "patchSetId": 7
@@ -166,6 +328,24 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "nit: indent this one level like canStartReplication above.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpf1T5.4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpJ5eXSU",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "RpZ1Iozk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "bah, copy \u0026 paste...\n\nDone",
+      "parentUuid": "RplwCHRk",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpD5QaQ0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
         "patchSetId": 7
@@ -200,6 +398,24 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "I think this should be checked in the SSH command and not the internal implementation.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpb1NX0g",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpD5QaQ0",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "RpV3o2.E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Ok, so if repo.getConfig() is not giving me the effective configuration, how do I then get the effective configuration?\n\nIf I have the effective configuration, how would I pass this to the GC class? I see DfsGarbageCollector accepts a PackConfig, but I don\u0027t see how it works with the GC class.\n\nAlso which config sections are relevant for the gc? Only ConfigConstants.CONFIG_GC_SECTION or also ConfigConstants.CONFIG_PACK_SECTION?",
+      "parentUuid": "RpP6OgXQ",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpN6JRW8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
         "patchSetId": 7
@@ -234,6 +468,24 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "String[] sections \u003d {\"gc\"}\n\nThe new String[] part is not necessary when initializing a local variable or field of type String[].",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpZ39A6g",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpN6JRW8",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "Rpb0CP8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpJ6TvZ8",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rpnz-2es",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
         "patchSetId": 7
@@ -268,6 +538,24 @@
       "writtenOn": "2013-03-13T19:26:17Z",
       "side": 1,
       "message": "s/git/Git/",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpV1j.78",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Rpnz-2es",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "RpX1gN7I",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpL5jGfA",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpF5ZtTo",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
         "patchSetId": 7
@@ -302,6 +608,24 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "Lists.newArrayList();",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpR1dc-U",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpF5ZtTo",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "Rpd3zi9w",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Doesn\u0027t work because projectCache.all() returns an Iteratable.\nI\u0027ll change it to\n  Iterables.addAll(projectNames, projectCache.all());\n\nDone",
+      "parentUuid": "RpH5W8Q0",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpB5TLR0",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
         "patchSetId": 7
@@ -336,6 +678,24 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "Why not just declare this @RequiresCapability() and avoid the complexity of doing it in side of the implementation code and the result object?",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpf34x7g",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-13T21:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpB5TLR0",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

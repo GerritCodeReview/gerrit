@@ -16,6 +16,24 @@
       "revId": "eb1b208990b984bdb565f807ab058953759d606b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ro5-3Mxc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-13T18:53:54Z",
+      "side": 1,
+      "message": "Thanks for the context, done. I thought it was going to be uglier than it ended up being.",
+      "parentUuid": "RpR3W00M",
+      "revId": "eb1b208990b984bdb565f807ab058953759d606b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

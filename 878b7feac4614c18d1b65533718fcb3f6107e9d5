@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RpV2em6U",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1335,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpD4JSTc",
+      "revId": "878b7feac4614c18d1b65533718fcb3f6107e9d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpN4WJVk",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-13T07:30:52Z",
       "side": 1,
       "message": "Shouldn\u0027t this just be \"put-project\"?",
+      "revId": "878b7feac4614c18d1b65533718fcb3f6107e9d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpZ1sI9E",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:34:28Z",
+      "side": 1,
+      "message": "Done\nI adapted it to match master\u0027s layout.",
+      "parentUuid": "RpN4WJVk",
       "revId": "878b7feac4614c18d1b65533718fcb3f6107e9d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "RpX2bV7Q",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:34:28Z",
+      "side": 1,
+      "message": "Seems \"local consistency\" gets in our way again (see lines 38, or 40, ...) :-)\n\nBut you are certainly right. Done.",
+      "parentUuid": "RpP4b4X0",
+      "revId": "878b7feac4614c18d1b65533718fcb3f6107e9d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpJ4QnVw",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-13T07:30:52Z",
       "side": 1,
       "message": "Should only display this if the project is not \"All-Projects\".",
+      "revId": "878b7feac4614c18d1b65533718fcb3f6107e9d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpb1x36s",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:34:28Z",
+      "side": 1,
+      "message": "The menu item for RenameProjectScreen (target of the link) is not tied to a source project. Instead RenameProjectScreen allows you to give both the source and the destination project.\n\nSo it\u0027s only tied to the user capability and should be there regardless on what page you are.",
+      "parentUuid": "RpJ4QnVw",
       "revId": "878b7feac4614c18d1b65533718fcb3f6107e9d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

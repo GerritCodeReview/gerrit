@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "RpvzyCSg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2013-03-13T19:26:17Z",
+      "side": 1,
+      "message": "s/all logged/are logged/",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RogBBhk0",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 7
@@ -13,6 +30,23 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "_runGC. Lets keep the anchor names matching the internal names used in project.config files.",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rprz8gfk",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2013-03-13T19:26:17Z",
+      "side": 1,
+      "message": "s/Git Garbage Collection/Git garbage collection/",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -47,6 +81,23 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "_runGC",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rppz3RRc",
+        "filename": "Documentation/cmd-gc.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2013-03-13T19:26:17Z",
+      "side": 1,
+      "message": "sequentially ?",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +172,23 @@
     },
     {
       "key": {
+        "uuid": "RplwCHRk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2013-03-13T19:26:17Z",
+      "side": 1,
+      "message": "s/canStartReplication()/canRunGC()/",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpD5QaQ0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
         "patchSetId": 7
@@ -183,6 +251,23 @@
       "writtenOn": "2013-03-13T19:18:30Z",
       "side": 1,
       "message": "Command line git config does this like \"section.subsection.name\" so \"gc.blah.size \u003d 10\".",
+      "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpnz-2es",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2013-03-13T19:26:17Z",
+      "side": 1,
+      "message": "s/git/Git/",
       "revId": "d7e476637b7c90ce844697fbe9858a4aebedc220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -34,6 +34,24 @@
       "revId": "0a1dcbcdbd88c82d2405725d80096f12067ad857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rq9ftnEY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-13T21:05:22Z",
+      "side": 0,
+      "message": "Correct. Note also that LabelType enforces that no label can be named SUBM.",
+      "parentUuid": "Rqpj3VRc",
+      "revId": "0a1dcbcdbd88c82d2405725d80096f12067ad857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1009,6 +1009,7 @@ on `refs/for/refs/heads/<branch>` rather than permissions to upload changes
 on `refs/heads/<branch>`.
 
 
+[[system_capabilities]]
 System capabilities
 -------------------
 

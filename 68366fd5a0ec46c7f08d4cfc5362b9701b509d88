@@ -34,6 +34,24 @@
       "revId": "68366fd5a0ec46c7f08d4cfc5362b9701b509d88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RokAJzjU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-13T03:52:07Z",
+      "side": 1,
+      "message": "Right the Java compiler gets lost with ?: and guessing types. The only two workarounds are to write the expression as Edwin has it in the code, or use constants e.g.:\n\n  private static final Set\u003cAccount.Id\u003e NONE \u003d Collections.emptySet();\n\n  return exits(id) ? ImmutableSet.of(id) : NONE;\n\nBut I haven\u0027t tried compiling this version either. And IIRC you might need to use ImmutableSet.of() here and not Collections.singleton() because of the way the type annotations are written? Whatever. I usually just break down and write:\n\n  if (exists(id)) {\n    return ...\n  }\n  return ...;",
+      "parentUuid": "Ri3c6cKY",
+      "revId": "68366fd5a0ec46c7f08d4cfc5362b9701b509d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

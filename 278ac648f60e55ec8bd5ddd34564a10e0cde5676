@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "Rpd3Aa3U",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/ProjectRenamingFailedException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T19:52:15Z",
+      "side": 1,
+      "message": "Done.\n\nI went for \"generic failure\".",
+      "parentUuid": "Rpf13Z54",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpN47hds",
         "filename": "gerrit-server/pom.xml",
         "patchSetId": 4
@@ -316,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "Rpf3FJ4I",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T19:52:15Z",
+      "side": 1,
+      "message": "They are both small and have a favorable hit/miss ratio for now. So why not :-)\n\nDone.",
+      "parentUuid": "RpZ3hgyM",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rpb3mvzY",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/Task.java",
         "patchSetId": 4
@@ -333,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "RpX2ydyY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/Task.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T19:52:15Z",
+      "side": 1,
+      "message": "At first, I was tempted to implement it just that way.\n\nBut in the end, it\u0027s the other way round. We want that factory, as it makes otherwise implicit requirements explicit (yay for making information machine readable) and it reduces the burden for Task implementations.\nYay for inversion of control :-)\n\nNow we have a natural coupling between the carryOut and rollback methods.\n\nAssume they were not coupled, and we\u0027d have source and destination as parameters to carryOut. Could I use a Task instance to rename projectA to projectB, and afterwards (with the same instance) rename projectC to projectD?\nProbably not, but after killing the Factory and adding the parameters, the interface would hint toward such usage.\n\nWell maybe the documentation explicitly states that this is forbidden, but it\u0027s at least tempting that some plugin, extension whatsoever tries this. Maybe not now, but maybe in a year?\n\nFurthermore, what about rollback? Now they are clearly symmetric. Adding source and destination to carryOut, should we add the same to rollback? Consider two instances (instanceA, and instanceB) of classA, which implements Task. After using instanceA to rename projectA to projectB, can I expect that I can use instanceB to do the rollback? After all, I could pass the correct parameters to rollback ...\n\nAnd finally, source and destination are not adjustable parameters for a Task. They are fixed well known objects. So the natural place to put them is in the constructor.",
+      "parentUuid": "Rpb3mvzY",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpV3MW7E",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/TaskModule.java",
         "patchSetId": 4
@@ -344,6 +398,24 @@
       "writtenOn": "2013-03-13T16:18:45Z",
       "side": 1,
       "message": "It look to me that all we need is to register N concrete rename tasks.\nThis class looks quite complex and I am not sure if this complexity justifies itself.\n\nMaybe:\n\n  bind(RenameParentsTask.class);\n  bind(RenameChangesTask.class);\n...\n\nis enough?",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpd0ly4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/TaskModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T19:52:15Z",
+      "side": 1,
+      "message": "\u003e It look to me that all we need is to register N concrete rename tasks.\n\nWe do not register N concrete rename tasks.\n\nInstead, we bind factories to a DynamicSet. Thereby, we can have extensions (e.g.: replication) register additional Task implementations (well ... actually it\u0027s more like registering special factories for the tasks)\n\nAnd yes, you are right, we could simplify the taskFactory method a bit, if we did not care too much about typing. But we want to make sure that the factory is of the correct type and that additionally it produces a Task instance. But I agree that having all that in five lines (32–36) is quite dense.\n\nNevertheless, this code allows for simple registration (see lines 46–50), and additionally buys us type safety and easy injection.",
+      "parentUuid": "RpV3MW7E",
       "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

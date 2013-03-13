@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RpZ1eYyU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpD4iqbE",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpB4lbbg",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-13T07:46:42Z",
       "side": 1,
       "message": "s/eclipse/Eclipse",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpb1jH-A",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpB4lbbg",
       "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "RpV1Zuzo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpH4oMZE",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpN47hds",
         "filename": "gerrit-server/pom.xml",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-13T07:46:42Z",
       "side": 1,
       "message": "We might need to add powermock in the licenses file.\n\n Documentation/licenses.txt",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpX1W9w0",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "PowerMock is only used for testing (See \u003cscope\u003etest\u003c/scope\u003e below). So it\u0027s not included in the final war file. We do not distribute it.\n\nHence (just as we do not add JUnit, or EasyMock in the licenses.txt), I think PowerMock is not needed in licenses.txt.",
+      "parentUuid": "RpN47hds",
       "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "RpR1TMx0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpP5AwUs",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpJ5F-Vo",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2013-03-13T07:46:42Z",
       "side": 1,
       "message": "s/be/by",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RpT1Qbw0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpJ5F-Vo",
       "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "Rpd2JS28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "Whether lock1 will hold the lock for the source or the destination depends on the result of the comparison of the source and destination names (see lines 460, and 464). Same for lock2.\n\nSince we\u0027re locking quite late in the rename process, this approach is necessary, as otherwise two different threads could enter this part of the code and deadlock themselves [1]. We could try to lock earlier, but that would open another can of worms, with having to wait for error messages, etc.\n\nSo in the end, sorting the locks and predictable starting with the \"smaller\" lock, is the most viable solution. The price we have to pay is not knowing whether lock1 refers to the source or the destination. But we can live with that lack of knowledge.\n\n\n\n[1] Assume we\u0027d start by locking the source lock.\n\n* Thread 1 is trying to rename repoA to repoB.\n\n* Just as Thread 1 is grabbing the source lock (repoA), Thread 2 deletes repoA.\n\n* Now Thread 1 gets its source lock (repoA) and waits for its destination lock (repoB).\n\n* Thread 2 creates repoB and tries to rename repoB to repoA.\n\n* Thread 2 gets its source lock (repoB) and waits on its destination lock (repoA).\n\nSo Thread 1, and Thread 2 are dead locked.",
+      "parentUuid": "RpL5KOWY",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpF4w1fQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2013-03-13T07:46:42Z",
       "side": 1,
       "message": "Unnecessary line break.",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpf2Oh3Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpF4w1fQ",
       "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "RpZ2Tw58",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpH4tkZc",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpB46TdM",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RenameProjectTest.java",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2013-03-13T07:46:42Z",
       "side": 1,
       "message": "s/thi/the",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rpb2Y-7k",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RenameProjectTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-13T15:30:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RpB46TdM",
       "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

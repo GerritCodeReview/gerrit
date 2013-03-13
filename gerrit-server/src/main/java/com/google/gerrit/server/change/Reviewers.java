@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -22,15 +21,11 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.AnonymousUser;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,51 +36,18 @@ public class Reviewers implements
     ChildCollection<ChangeResource, ReviewerResource> {
   private final DynamicMap<RestView<ReviewerResource>> views;
   private final Provider<ReviewDb> dbProvider;
-  private final Parser parser;
+  private final AccountsCollection accounts;
   private final ReviewerResource.Factory resourceFactory;
   private final Provider<ListReviewers> list;
 
-  static class Parser {
-    private final AccountResolver resolver;
-    private final AccountCache accountCache;
-
-    @Inject
-    Parser(AccountResolver resolver, AccountCache accountCache) {
-      this.resolver = resolver;
-      this.accountCache = accountCache;
-    }
-
-    Account.Id parse(ChangeResource rsrc, String id)
-        throws OrmException, AuthException {
-      if (id.equals("self")) {
-        CurrentUser user = rsrc.getControl().getCurrentUser();
-        if (user instanceof IdentifiedUser) {
-          return ((IdentifiedUser) user).getAccountId();
-        } else if (user instanceof AnonymousUser) {
-          throw new AuthException("Authentication required");
-        } else {
-          return null;
-        }
-      } else {
-        Set<Account.Id> matches = resolver.findAll(id);
-        if (matches.size() != 1) {
-          return null;
-        }
-        AccountState a = accountCache.get(Iterables.getOnlyElement(matches));
-        return a != null ? a.getAccount().getId() : null;
-      }
-    }
-  }
-
-
   @Inject
   Reviewers(Provider<ReviewDb> dbProvider,
-      Parser parser,
+      AccountsCollection accounts,
       ReviewerResource.Factory resourceFactory,
       DynamicMap<RestView<ReviewerResource>> views,
       Provider<ListReviewers> list) {
     this.dbProvider = dbProvider;
-    this.parser = parser;
+    this.accounts = accounts;
     this.resourceFactory = resourceFactory;
     this.views = views;
     this.list = list;
@@ -104,9 +66,11 @@ public class Reviewers implements
   @Override
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
       throws OrmException, ResourceNotFoundException, AuthException {
-    Account.Id accountId = parser.parse(rsrc, id.get());
+    Account.Id accountId =
+        accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
+
     // See if the id exists as a reviewer for this change
-    if (accountId != null && fetchAccountIds(rsrc).contains(accountId)) {
+    if (fetchAccountIds(rsrc).contains(accountId)) {
       return resourceFactory.create(rsrc, accountId);
     }
     throw new ResourceNotFoundException(id);

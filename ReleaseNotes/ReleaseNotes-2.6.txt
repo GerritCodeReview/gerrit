@@ -131,7 +131,7 @@ Upgrades
 Embedded Jetty is now 8.1.7.v20120910.
 
 * ASM bytecode library is now 4.0.
-* JGit is now 2.2.0.201212191850-r.
+* JGit is now 2.3.1.201302201838-r.55-ge175daf.
 * asciidoc 8.6.3 is now required to build the documentation.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1155[Issue 1155]:
 prettify is now r225
@@ -159,6 +159,9 @@ to download and install the commit-msg hook.
   necessary for a multi-master configuration where the second master
   may need to retry a change not yet merged by the first. Please note
   we still do not believe this is sufficient to enable multi-master.
+
+* Added a server-level option to use JGit's new, experimental recursive
+  merger.
 
 SSH
 ~~~

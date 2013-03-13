@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
@@ -35,6 +36,7 @@ import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -93,18 +95,21 @@ public class MergeUtil {
   private final Provider<String> urlProvider;
   private final ProjectState project;
   private final boolean useContentMerge;
+  private final boolean useRecursiveMerge;
 
   @AssistedInject
-  MergeUtil(final Provider<ReviewDb> db,
+  MergeUtil(@GerritServerConfig Config serverConfig,
+      final Provider<ReviewDb> db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       @Assisted final ProjectState project) {
-    this(db, identifiedUserFactory, urlProvider, project,
+    this(serverConfig, db, identifiedUserFactory, urlProvider, project,
         project.isUseContentMerge());
   }
 
   @AssistedInject
-  MergeUtil(final Provider<ReviewDb> db,
+  MergeUtil(@GerritServerConfig Config serverConfig,
+      final Provider<ReviewDb> db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       @Assisted final ProjectState project,
@@ -114,6 +119,8 @@ public class MergeUtil {
     this.urlProvider = urlProvider;
     this.project = project;
     this.useContentMerge = useContentMerge;
+    this.useRecursiveMerge =
+        serverConfig.getBoolean("core", null, "useRecursiveMerge", false);
   }
 
   public CodeReviewCommit getFirstFastForward(
@@ -628,10 +635,14 @@ public class MergeUtil {
       final ObjectInserter inserter) {
     ThreeWayMerger m;
     if (useContentMerge) {
-      // Settings for this project allow us to try and
-      // automatically resolve conflicts within files if needed.
-      // Use ResolveMerge and instruct to operate in core.
-      m = MergeStrategy.RESOLVE.newMerger(repo, true);
+      // Settings for this project allow us to try and automatically resolve
+      // conflicts within files if needed. Use either the old resolve merger or
+      // new recursive merger, and instruct to operate in core.
+      if (useRecursiveMerge) {
+        m = MergeStrategy.RECURSIVE.newMerger(repo, true);
+      } else {
+        m = MergeStrategy.RESOLVE.newMerger(repo, true);
+      }
     } else {
       // No auto conflict resolving allowed. If any of the
       // affected files was modified, merge will fail.

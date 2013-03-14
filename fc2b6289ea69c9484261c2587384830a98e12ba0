@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "Rv8MWNlk",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-03-14T21:27:29Z",
+      "side": 1,
+      "message": "\u003eUnknown function names result in impossible/1 being generated for a label.\n\nExactly, That what i\u0027ve seen trying to add my own function from plugin in 2.4.2. I wasn\u0027t sure if it is already solved in master.\n\n\u003eSo I wonder if we should make it easier for plugins to provide a snippet of Prolog?\n\nI would suggest to support both. \n\nThough it is not related here, but It would be really helpful to have gerrit-all-in-one-show-case-features-plugin, where all possible and experimental features would be first added, like:\n\n* persistence (SQL data based, NoSql based, XML/YAML)\n* Servlets\n* Rest-API\n* javascript hacks\n* gwt and other UI hacks, like may be Apache Wicket (with statefull session support)\n* plugin own prolog functions\n* java equivalents for prolog functions to be able to add it to `label.Label-Name.custom-plugin-based-function`\n* Gerrit UI extensions, like buttons, tables, panels and screens.\n* all other (cool) features that are not coming to my head right now.\n\nCan we have this kind of plugin hosted on gerrit-review? or better to take github.com route? (i would strongly recommend to host it on gerrit-review to have more eyes on it ;-)",
+      "parentUuid": "Rqlgr-Y4",
+      "revId": "fc2b6289ea69c9484261c2587384830a98e12ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpV0w2-Q",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 7

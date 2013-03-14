@@ -51,6 +51,10 @@ public class TestAccount {
     return new PersonIdent(username, email);
   }
 
+  public Account.Id getId() {
+    return id;
+  }
+
   public String getHttpUrl() {
     StringBuilder b = new StringBuilder();
     b.append("http://");

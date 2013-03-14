@@ -58,6 +58,8 @@ class GerritServer {
       public Void call() throws Exception {
         int rc = daemon.main(new String[] {"-d", sitePath, "--headless" });
         if (rc != 0) {
+          System.out.println("Failed to start Gerrit daemon. Check "
+              + sitePath + "/logs/error_log");
           serverStarted.reset();
         }
         return null;

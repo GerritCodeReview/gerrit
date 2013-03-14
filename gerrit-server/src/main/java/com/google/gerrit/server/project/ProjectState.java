@@ -18,8 +18,10 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -51,6 +53,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /** Cached information on a project. */
@@ -66,7 +69,7 @@ public class ProjectState {
   private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
   private final RulesCache rulesCache;
-  private final LabelTypes labelTypes;
+  private final LabelTypes dbLabelTypes;
 
   private final ProjectConfig config;
   private final Set<AccountGroup.UUID> localOwners;
@@ -104,7 +107,7 @@ public class ProjectState {
     this.capabilities = isAllProjects
       ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
       : null;
-    this.labelTypes = labelTypes;
+    this.dbLabelTypes = labelTypes;
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -342,7 +345,24 @@ public class ProjectState {
   }
 
   public LabelTypes getLabelTypes() {
-    return labelTypes;
+    Map<String, LabelType> types = Maps.newLinkedHashMap();
+    for (LabelType type : dbLabelTypes.getLabelTypes()) {
+      types.put(type.getName(), type);
+    }
+    List<ProjectState> projects = Lists.newArrayList(tree());
+    Collections.reverse(projects);
+    for (ProjectState s : projects) {
+      for (LabelType type : s.getConfig().getLabelSections()) {
+        types.put(type.getName(), type);
+      }
+    }
+    List<LabelType> all = Lists.newArrayListWithCapacity(types.size());
+    for (LabelType type : types.values()) {
+      if (!type.getValues().isEmpty()) {
+        all.add(type);
+      }
+    }
+    return new LabelTypes(Collections.unmodifiableList(all));
   }
 
   private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {

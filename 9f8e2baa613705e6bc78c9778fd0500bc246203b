@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Rv6P8Wvk",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-14T15:42:45Z",
+      "side": 1,
+      "message": "This will create a new group named \"non-existing\" and return 201 Created. The newly created group is empty.\n\nIs this a bug in the server or in the test?",
+      "revId": "9f8e2baa613705e6bc78c9778fd0500bc246203b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

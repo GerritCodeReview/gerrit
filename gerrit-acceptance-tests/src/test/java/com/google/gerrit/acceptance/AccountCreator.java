@@ -84,12 +84,14 @@ public class AccountCreator {
 
       db.accountSshKeys().insert(Collections.singleton(key));
 
-      for (String n : groups) {
-        AccountGroup.NameKey k = new AccountGroup.NameKey(n);
-        AccountGroup g = groupCache.get(k);
-        AccountGroupMember m =
-            new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
-        db.accountGroupMembers().insert(Collections.singleton(m));
+      if (groups != null) {
+        for (String n : groups) {
+          AccountGroup.NameKey k = new AccountGroup.NameKey(n);
+          AccountGroup g = groupCache.get(k);
+          AccountGroupMember m =
+              new AccountGroupMember(new AccountGroupMember.Key(id, g.getId()));
+          db.accountGroupMembers().insert(Collections.singleton(m));
+        }
       }
 
       sshKeyCache.evict(username);
@@ -105,6 +107,11 @@ public class AccountCreator {
   public TestAccount create(String username, String group)
       throws OrmException, UnsupportedEncodingException, JSchException {
     return create(username, null, username, group);
+  }
+
+  public TestAccount create(String username)
+      throws UnsupportedEncodingException, OrmException, JSchException {
+    return create(username, null, username, (String[]) null);
   }
 
   private AccountExternalId.Key getEmailKey(String email) {

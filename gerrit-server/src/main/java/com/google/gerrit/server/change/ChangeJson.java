@@ -444,9 +444,12 @@ public class ChangeJson {
           Maps.newHashMapWithExpectedSize(labels.size());
 
       for (String name : labels.keySet()) {
-        ApprovalInfo ai = approvalInfo(accountId, 0);
-        byLabel.put(name, ai);
-        labels.get(name).addApproval(ai);
+        LabelType lt = ctl.getLabelTypes().byLabel(name);
+        if (lt != null && labelNormalizer.canVote(ctl, lt, accountId)) {
+          ApprovalInfo ai = approvalInfo(accountId, 0);
+          byLabel.put(name, ai);
+          labels.get(name).addApproval(ai);
+        }
       }
       for (PatchSetApproval psa : current.get(accountId)) {
         LabelType lt = ctl.getLabelTypes().byLabel(psa.getLabelId());

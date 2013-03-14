@@ -407,6 +407,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
+        addArg(args, "--is-draft", patchSet.isDraft() ? "true" : "false");
         addArg(args, "--change-url", event.change.url);
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);

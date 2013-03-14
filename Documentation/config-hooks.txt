@@ -63,7 +63,7 @@ comment-added
 This is called whenever a comment is added to a change.
 
 ====
-  comment-added --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --author <comment author> --commit <commit> --comment <comment> [--<approval category id> <score> --<approval category id> <score> ...]
+  comment-added --change <change id> --is-draft <boolean> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --author <comment author> --commit <commit> --comment <comment> [--<approval category id> <score> --<approval category id> <score> ...]
 ====
 
 change-merged

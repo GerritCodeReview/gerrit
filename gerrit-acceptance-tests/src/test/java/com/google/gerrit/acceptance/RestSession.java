@@ -20,6 +20,7 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -55,9 +56,13 @@ public class RestSession {
     return new RestResponse(getClient().execute(put));
   }
 
-  public RestResponse post(String endPoint) {
-    // TODO
-    return null;
+  public RestResponse post(String endPoint, Object content) throws IOException {
+    HttpPost post = new HttpPost("http://localhost:8080/a" + endPoint);
+    if (content != null) {
+      post.addHeader(new BasicHeader("Content-Type", "application/json"));
+      post.setEntity(new StringEntity((new Gson()).toJson(content), HTTP.UTF_8));
+    }
+    return new RestResponse(getClient().execute(post));
   }
 
   public RestResponse delete(String endPoint) throws IOException {

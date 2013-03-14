@@ -66,4 +66,9 @@ public abstract class WebUiPlugin {
   public String toString() {
     return getJavaScriptResourcePath();
   }
+
+  /** @return true if the resource is being served external to gerrit */
+  public boolean isExternalResource() {
+    return false;
+  }
 }

@@ -16,7 +16,7 @@ package com.google.gerrit.extensions.webui;
 
 /** Configures a web UI plugin written using JavaScript. */
 public class JavaScriptPlugin extends WebUiPlugin {
-  private final String fileName;
+  protected final String fileName;
 
   /**
    * @param fileName of JavaScript source file under {@code static/}

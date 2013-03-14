@@ -222,9 +222,13 @@ public class HostPageServlet extends HttpServlet {
   private void plugins(StringWriter w) {
     List<String> urls = Lists.newArrayList();
     for (WebUiPlugin u : plugins) {
-      urls.add(String.format("plugins/%s/%s",
-          u.getPluginName(),
-          u.getJavaScriptResourcePath()));
+      if (u.isExternalResource()) {
+        urls.add(u.getJavaScriptResourcePath());
+      } else {
+        urls.add(String.format("plugins/%s/%s",
+            u.getPluginName(),
+            u.getJavaScriptResourcePath()));
+      }
     }
     if (!urls.isEmpty()) {
       w.write(HPD_ID + ".plugins=");

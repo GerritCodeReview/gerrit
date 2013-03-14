@@ -234,8 +234,8 @@ public class SchemaCreator {
       metaReadPermission.setExclusiveGroup(true);
       metaReadPermission.add(rule(config, owners));
 
-      initVerifiedCategory(config);
-      initCodeReviewCategory(config);
+      initVerifiedLabel(config);
+      initCodeReviewLabel(config);
 
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
       config.commit(md);
@@ -248,7 +248,7 @@ public class SchemaCreator {
     return new PermissionRule(config.resolve(group));
   }
 
-  private void initVerifiedCategory(ProjectConfig c) {
+  public static void initVerifiedLabel(ProjectConfig c) {
     LabelType type = new LabelType("Verified", ImmutableList.of(
         new LabelValue((short) 1, "Verified"),
         new LabelValue((short) 0, "No score"),
@@ -256,7 +256,7 @@ public class SchemaCreator {
     c.getLabelSections().put(type.getName(), type);
   }
 
-  private void initCodeReviewCategory(ProjectConfig c) {
+  public static void initCodeReviewLabel(ProjectConfig c) {
     LabelType type = new LabelType("Code-Review", ImmutableList.of(
         new LabelValue((short) 2, "Looks good to me, approved"),
         new LabelValue((short) 1, "Looks good to me, but someone else must approve"),

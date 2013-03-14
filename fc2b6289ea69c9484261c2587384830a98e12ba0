@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "Rqlgr-Y4",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-14T17:02:35Z",
+      "side": 1,
+      "message": "Although plugins can contribute a Prolog predicate, plugins cannot contribute functions. This is because the function names are hardcoded alternatives within legacy_submit_rule in gerrit_common.pl. Unknown function names result in impossible/1 being generated for a label.\n\nWe would need to update that legacy_submit_rule to support looking for functions from plugins.\n\nBut also these sorts of functions are easy to code in Prolog. They are longer in Java. So I wonder if we should make it easier for plugins to provide a snippet of Prolog?",
+      "parentUuid": "RpV0r.44",
+      "revId": "fc2b6289ea69c9484261c2587384830a98e12ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpV0w2-Q",
         "filename": "Documentation/config-labels.txt",
         "patchSetId": 7

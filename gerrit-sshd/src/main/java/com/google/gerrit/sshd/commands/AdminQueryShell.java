@@ -15,7 +15,9 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -31,6 +33,9 @@ final class AdminQueryShell extends SshCommand {
   @Inject
   private QueryShell.Factory factory;
 
+  @Inject
+  private IdentifiedUser currentUser;
+
   @Option(name = "--format", usage = "Set output format")
   private QueryShell.OutputFormat format = QueryShell.OutputFormat.PRETTY;
 
@@ -38,13 +43,37 @@ final class AdminQueryShell extends SshCommand {
   private String query;
 
   @Override
-  protected void run() {
-    final QueryShell shell = factory.create(in, out);
-    shell.setOutputFormat(format);
-    if (query != null) {
-      shell.execute(query);
-    } else {
-      shell.run();
+  protected void run() throws Failure {
+    try {
+      checkPermission();
+
+      final QueryShell shell = factory.create(in, out);
+      shell.setOutputFormat(format);
+      if (query != null) {
+        shell.execute(query);
+      } else {
+        shell.run();
+      }
+    } catch (PermissionDeniedException err) {
+      throw new UnloggedFailure("fatal: " + err.getMessage());
+    }
+  }
+
+  /**
+   * Assert that the current user is permitted to perform raw queries.
+   * <p>
+   * As the @RequireCapability guards at various entry points of internal
+   * commands implicitly add administrators (which we want to avoid), we also
+   * check permissions within QueryShell and grant access only to those who
+   * canPerformRawQuery, regardless of whether they are administrators or not.
+   *
+   * @throws PermissionDeniedException
+   */
+  private void checkPermission() throws PermissionDeniedException {
+    if (!currentUser.getCapabilities().canAccessDatabase()) {
+      throw new PermissionDeniedException(String.format(
+          "%s does not have \"Perform Raw Query\" capability.",
+          currentUser.getUserName()));
     }
   }
 }

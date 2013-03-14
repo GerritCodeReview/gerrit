@@ -15,9 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Version;
-import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gson.JsonObject;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -57,7 +55,6 @@ public class QueryShell {
   private final BufferedReader in;
   private final PrintWriter out;
   private final SchemaFactory<ReviewDb> dbFactory;
-  private final IdentifiedUser currentUser;
   private OutputFormat outputFormat = OutputFormat.PRETTY;
 
   private ReviewDb db;
@@ -66,14 +63,11 @@ public class QueryShell {
 
   @Inject
   QueryShell(final SchemaFactory<ReviewDb> dbFactory,
-      final IdentifiedUser currentUser,
-
-  @Assisted final InputStream in, @Assisted final OutputStream out)
-      throws UnsupportedEncodingException {
+      @Assisted final InputStream in, @Assisted final OutputStream out)
+          throws UnsupportedEncodingException {
     this.dbFactory = dbFactory;
     this.in = new BufferedReader(new InputStreamReader(in, "UTF-8"));
     this.out = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
-    this.currentUser = currentUser;
   }
 
   public void setOutputFormat(OutputFormat fmt) {
@@ -82,7 +76,6 @@ public class QueryShell {
 
   public void run() {
     try {
-      checkPermission();
       db = dbFactory.open();
       try {
         connection = ((JdbcSchema) db).getConnection();
@@ -105,8 +98,6 @@ public class QueryShell {
 
     } catch (SQLException err) {
       out.println("fatal: Cannot open connection: " + err.getMessage());
-    } catch (PermissionDeniedException err) {
-      out.println("fatal: " + err.getMessage());
     } finally {
       out.flush();
     }
@@ -114,7 +105,6 @@ public class QueryShell {
 
   public void execute(String query) {
     try {
-      checkPermission();
       db = dbFactory.open();
       try {
         connection = ((JdbcSchema) db).getConnection();
@@ -136,28 +126,8 @@ public class QueryShell {
 
     } catch (SQLException err) {
       out.println("fatal: Cannot open connection: " + err.getMessage());
-    } catch (PermissionDeniedException err) {
-      out.println("fatal: " + err.getMessage());
     } finally {
       out.flush();
-    }
-  }
-
-  /**
-   * Assert that the current user is permitted to perform raw queries.
-   * <p>
-   * As the @RequireCapability guards at various entry points of internal
-   * commands implicitly add administrators (which we want to avoid), we also
-   * check permissions within QueryShell and grant access only to those who
-   * canPerformRawQuery, regardless of whether they are administrators or not.
-   *
-   * @throws PermissionDeniedException
-   */
-  private void checkPermission() throws PermissionDeniedException {
-    if (!currentUser.getCapabilities().canAccessDatabase()) {
-      throw new PermissionDeniedException(String.format(
-          "%s does not have \"Perform Raw Query\" capability.",
-          currentUser.getUserName()));
     }
   }
 

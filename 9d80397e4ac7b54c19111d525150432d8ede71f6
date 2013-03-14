@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "RwMLtQkc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/JavaScriptPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-03-14T21:02:42Z",
+      "side": 1,
+      "message": "I ended up having to overload getJavaScriptResourcePath() in my implementation since it assumes static/. Rather than saving the string, I figured using the same fileName made more sense.",
+      "parentUuid": "Rqlgw3fQ",
+      "revId": "9d80397e4ac7b54c19111d525150432d8ede71f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RqngtoZc",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-14T20:46:57Z",
       "side": 1,
       "message": "The problem I have with this change is you now need two plugins:\n\n* one to load jquery. That\u0027s all it can do.\n* one to load your code. Which won\u0027t work without installing the other plugin.\n\nI think we really need to permit the plugin to have a list of additional external JavaScript source files that should be loaded. So added a List\u003cString\u003e getExternalJavaScriptUrls() or something that gets iterated here before the plugin\u0027s own JS.\n\nOf course then you have some issues about two different plugins both trying to load different versions of JQuery from a CDN. Or one loading from a CDN and the other loading from its own private copy. The namespaces will collide, but I guess we can\u0027t protect everyone from that. Instead we should recommend plugins that work with Gerrit X.Y all source the same JQuery CDN URL if they need JQuery maybe?",
+      "revId": "9d80397e4ac7b54c19111d525150432d8ede71f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RwKLyviY",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-03-14T21:02:42Z",
+      "side": 1,
+      "message": "My original idea was to have a generic jquery plugin that other plugins using jquery could make use of (rather than having to ship their own and risk conflicting). But I see the utility of being able to just specify some dependencies rather than having to use two plugins.\n\nMaybe doing it as a HashMap where the library name is the key could help avoid collisions (we can at least warn the user in such a case).",
+      "parentUuid": "RqngtoZc",
       "revId": "9d80397e4ac7b54c19111d525150432d8ede71f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

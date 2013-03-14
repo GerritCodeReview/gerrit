@@ -22,13 +22,13 @@ test(not_same_success) :-
   not_same(label(e, ok(a)), label(e, ok(b))).
 
 
-%% get_legacy_approval_types
+%% get_legacy_label_types
 %%
-test(get_legacy_approval_types) :-
-  get_legacy_approval_types(T),
+test(get_legacy_label_types) :-
+  get_legacy_label_types(T),
   T = [C, V],
-  C = approval_type('Code-Review', 'CRVW', 'MaxWithBlock', -2, 2),
-  V = approval_type('Verified', 'VRIF', 'MaxWithBlock', -1, 1).
+  C = label_type('Code-Review', 'CRVW', 'MaxWithBlock', -2, 2),
+  V = label_type('Verified', 'VRIF', 'MaxWithBlock', -1, 1).
 
 
 %% commit_label

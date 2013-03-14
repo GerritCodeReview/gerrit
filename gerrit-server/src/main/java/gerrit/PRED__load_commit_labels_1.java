@@ -7,7 +7,6 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -42,11 +41,11 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
 
     Term listHead = Prolog.Nil;
     try {
-      PrologEnvironment env = (PrologEnvironment) engine.control;
       ReviewDb db = StoredValues.REVIEW_DB.get(engine);
       PatchSet patchSet = StoredValues.PATCH_SET.get(engine);
       ChangeData cd = StoredValues.CHANGE_DATA.getOrNull(engine);
-      LabelTypes types = env.getInjector().getInstance(LabelTypes.class);
+      LabelTypes types =
+          StoredValues.CHANGE_CONTROL.get(engine).getLabelTypes();
 
       Iterable<PatchSetApproval> approvals;
       if (cd != null) {

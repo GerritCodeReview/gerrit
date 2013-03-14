@@ -18,6 +18,8 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 
+import java.util.HashMap;
+
 /**
  * Specifies JavaScript to dynamically load into the web UI.
  * <p>
@@ -65,5 +67,14 @@ public abstract class WebUiPlugin {
   @Override
   public String toString() {
     return getJavaScriptResourcePath();
+  }
+
+  /**
+   * Subclasses should override this and return a map of dependencies.
+   * The key should be the name of the library, and the value the url
+   * (local or remote) for the library to be included.
+   */
+  public HashMap<String,String> getJavaScriptDependencies() {
+    return new HashMap<String,String>();
   }
 }

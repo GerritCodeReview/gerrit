@@ -221,7 +221,19 @@ public class HostPageServlet extends HttpServlet {
 
   private void plugins(StringWriter w) {
     List<String> urls = Lists.newArrayList();
+    List<String> injectedDependencies = Lists.newArrayList();
     for (WebUiPlugin u : plugins) {
+      for(Map.Entry<String,String> dep : u.getJavaScriptDependencies().entrySet()) {
+        String depName = dep.getKey();
+        if(injectedDependencies.contains(depName)) {
+          log.info("Plugin dependency '" + depName +
+              "' already injected. Skipping loading it a second time.");
+          continue;
+        } else {
+          urls.add(dep.getValue());
+          injectedDependencies.add(depName);
+        }
+      }
       urls.add(String.format("plugins/%s/%s",
           u.getPluginName(),
           u.getJavaScriptResourcePath()));

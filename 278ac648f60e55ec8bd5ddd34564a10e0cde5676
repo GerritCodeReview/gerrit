@@ -405,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "RvwOozsY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/Task.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-15T16:49:28Z",
+      "side": 1,
+      "message": "\u003e When I implement the Task interface, is java compiler forcing me to implement that Factory too?\n\nNo, per se, the factory within the Task implementation is not enforced.\n\nSo you can implement the factory and the Task separately. The\nimportant part being that the Task cannot be modified once it has been\nconstructed. So carryOut and rollback are tied together.\n\nBut recall that we do not register a Task, but a Task.Factory. So Guice\nactually does all the magic and forcing the structure happens within\nthe convenience method TaskModule::taskFactory.\n\nThe convenience method pushes implementors to just do the right\nthing (tm). And they\u0027ll get Guice support for free. But if you decide (for\nwhatever reason) that it\u0027s better to do without Guice when\nimplementing the factory for TaskX , you\u0027re free to implement TaskX and\na factory for TaskX in separate files. You still have all the\nnecessary freedom.\n\n\n\u003e Another possibility would be to return a TaskRollback instance from the carryOut method:\n\nYes that\u0027s true. And indeed both variants are much alike. Your carryOut signature of\n\n  public TaskRollback carryOut(Projet.NameKey source, Project.NameKey destination) throws ProjectRenamingException;\n\nnicely matches the patches Task.Factory.create, especially after\nidentifying the Task with your TaskRollback.\n\nAnd to me, looking only at the rollback part, your approach is definitely cleaner, as it\u0027s obvious that\ncalling carryOut twice on an instance does not make much sense.\n\nHowever, this hidden factory approach comes with two problems. First,\nit\u0027s harder for people to implement a Task. Currently, I have to\nimplement this:\n\n  interface {\n    public void carryOut() throws ProjectRenamingFailedException;\n    public void rollback();\n  }\n\nWith your proposed change, I\u0027d have to implement\n\n  interface Task {\n    public TaskRollback carryOut(source, destination) throws ProjectRenamingFailedException;\n  }\n\nThen I\u0027d have to look at what TaskRollback is and find\n\n  interface TaskRollback {\n    public void rollback();\n  }\n\nso I have to understand two separate interfaces and implement concrete\nclasses. Given that we can use inner classes for the TaskRollback\nimplementation, the implementation of Task and TaskRollback can still\nbe close together and need not be physically disconnected. But simply\ndue to the increased number of classes and instances that have to be\nmanaged by hand, it seems more complex to me.\n\nThe second problem is that for the construction of the TaskRollback\ninstance, we have no constructor support from Guice. So we need to do\nthis by hand. Any value that we need for the rollback, we have to\ninject in the Task constructor and pass on to the TaskRollback\nconstructor in carryOut by hand—or steal from Guice construction of the Task implementation by making the\nTaskRollback implementation an inner class of the Task implementation.\n\nAt the end of the day, it\u0027s a matter of taste to me. Your approach is\na tad cleaner, but it comes with somewhat increased complexity.\n\nI fine with both ways.",
+      "parentUuid": "Rv4Ne-iQ",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpV3MW7E",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/TaskModule.java",
         "patchSetId": 4

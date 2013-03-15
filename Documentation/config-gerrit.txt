@@ -419,7 +419,7 @@ Values should use common unit suffixes to express their setting:
 * y, year, years (`1 year` is treated as `365 days`)
 
 +
-If a unit suffix is not specified, `minutes` is assumed.  If 0 is
+If a unit suffix is not specified, `seconds` is assumed.  If 0 is
 supplied, the maximum age is infinite and items are never purged
 except when the cache is full.
 +

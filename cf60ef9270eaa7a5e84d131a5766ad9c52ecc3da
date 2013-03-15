@@ -16,6 +16,91 @@
       "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rv.OO0nQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-15T15:44:03Z",
+      "side": 1,
+      "message": "The carriedOutTasks wil not contain the task which threw this exception and rollback() will not be called for it. The javadoc of Task.carryOut says that rollback is not called automatically when the carryOut throws an exception.\n\nWhen carryOut throws an exception who is responsible for rolling back the effect of that carryOut?",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RvwNT7hw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameParentsTask.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-15T15:44:03Z",
+      "side": 1,
+      "message": "The class name may indicate that this task in renaming parent projects (of a project). In fact this task changes the parent property of all child projects of the project being renamed. It re-parents the child projects. I propose to name it something like:\n\n  public class ReparentChildProjectsTask",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rv8OJVm8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameParentsTask.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-15T15:44:03Z",
+      "side": 1,
+      "message": "In newer Gerrit code we use:\n\n  Sets.newHashSet();\n\nas it is shorter and doesn\u0027t require repeating the generic type.\nThe Sets is from com.google.common.collect.",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "RvyNQag0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameParentsTask.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-15T15:44:03Z",
+      "side": 1,
+      "message": "The javadoc of the carryOut method indicates that if this method throws an error the rollback is not called automatically for this step.",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rv4OTXp8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameWatchesTask.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-15T15:44:03Z",
+      "side": 1,
+      "message": "nit: space after \"for\" and space before \":\"",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

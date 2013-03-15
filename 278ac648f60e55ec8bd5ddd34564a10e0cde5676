@@ -387,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "Rv4Ne-iQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/Task.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-15T11:50:08Z",
+      "side": 1,
+      "message": "\u003e We want that factory, as it makes otherwise implicit requirements explicit (yay for making information machine readable)\n\nWhen I implement the Task interface, is java compiler forcing me to implement that Factory too? I think no.\n\n\u003e Assume they were not coupled, and we\u0027d have source and destination as parameters to carryOut. Could I use a Task instance to rename projectA to projectB, and afterwards (with the same instance) rename projectC to projectD?\n\nThis is a good point.\nAnother possibility would be to return a TaskRollback instance from the carryOut method:\n\n  public TaskRollback carryOut(Projet.NameKey source, Project.NameKey destination) throws ProjectRenamingException;\n\nThen the returned instance is responsible for reverting the effect of that carryOut call, when its rollback method is called:\n\n  interface TaskRollback {\n    public void rollback();\n  }",
+      "parentUuid": "RpX2ydyY",
+      "revId": "278ac648f60e55ec8bd5ddd34564a10e0cde5676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RpV3MW7E",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/TaskModule.java",
         "patchSetId": 4

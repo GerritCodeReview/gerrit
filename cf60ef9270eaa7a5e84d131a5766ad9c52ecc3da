@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Rw7-tt0c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-15T18:56:58Z",
+      "side": 1,
+      "message": "The boon and bane of dependency injection / inversion of control :-/\n\nIt\u0027s the same construction that we also use to register SshCommands or RestViews. \nThey themselves do not know how they can be accessed. They get bound to some name at runtime.\n\nHowever, it allows for easier testing and better reuse.\n\nIn gerrit, binding typically happens in classes ending in Module. For example MasterCommandModule, UrlModule, etc. Sticking to this scheme, we bind Tasks in TaskModule.",
+      "parentUuid": "Rv6Nj.u8",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rv.OO0nQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-15T15:44:03Z",
       "side": 1,
       "message": "The carriedOutTasks wil not contain the task which threw this exception and rollback() will not be called for it. The javadoc of Task.carryOut says that rollback is not called automatically when the carryOut throws an exception.\n\nWhen carryOut throws an exception who is responsible for rolling back the effect of that carryOut?",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rw5-ycyc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-15T18:56:58Z",
+      "side": 1,
+      "message": "carryOut.\n\ncarryOut could throw that exception anytime while it\u0027s running. At the beginning, at the end or somewhere in between. In the worst case, carryOut performed some operations, but not all.\n\nFrom the outside, we cannot tell how much or what we should rollback. So it\u0027s either carryOut\u0027s or rollback\u0027s responsibility. If rollback was responsible even for partial rollbacks, carryOut would need to bring the status of the partially successful carryOut over to rollback. \n\nThis is possible but tedious.\n\nHowever, from within carryOut, it\u0027s much simpler, as it\u0027s just a matter of wrapping the correct part in a try/catch block.\n\nAnd if for some TaskA its rollback is capable of doing the partial rollback, TaskA\u0027s carryOut may call its rollback directly. That does not hurt the contract exposed by Task.",
+      "parentUuid": "Rv.OO0nQ",
       "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Rw--3PxU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameParentsTask.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-15T18:56:58Z",
+      "side": 1,
+      "message": "Done.\n\nYes, that\u0027s a /much/ better name. Thanks :-)",
+      "parentUuid": "RvwNT7hw",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rv8OJVm8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameParentsTask.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-15T15:44:03Z",
       "side": 1,
       "message": "In newer Gerrit code we use:\n\n  Sets.newHashSet();\n\nas it is shorter and doesn\u0027t require repeating the generic type.\nThe Sets is from com.google.common.collect.",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rw9-8.-o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameParentsTask.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-15T18:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Rv8OJVm8",
       "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "Rwz8CRxg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameParentsTask.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-15T18:56:58Z",
+      "side": 1,
+      "message": "I suppose you mean the doclet within Task.\nYes, that\u0027s the contract with the caller.\n\nBut internally we of course can call it whenever we need to. And indeed if some problem occurs during reparenting the children, the calling code will not call rollback (That\u0027s the contract exposed through Task). However, we still have to undo the reparentings that have already happened. That\u0027s carryOut\u0027s responsibility. Manually calling rollback from within carryOut does just that. This class\u0027 rollback can do both partial and full rollback. So it\u0027s a good match and avoids duplication.\n\nNote that this does not contradict the contract exposed by Task, as we call rollback from within. In the same class. Not from outside through the Task contract.\n\nI tried to clarify the Task doclet in Patch Set 7",
+      "parentUuid": "RvyNQag0",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rv4OTXp8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameWatchesTask.java",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2013-03-15T15:44:03Z",
       "side": 1,
       "message": "nit: space after \"for\" and space before \":\"",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rwx--g.w",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/renaming/RenameWatchesTask.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-15T18:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Rv4OTXp8",
       "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

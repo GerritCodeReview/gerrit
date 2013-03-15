@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Rv4NFnlo",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/GarbageCollectionLogFile.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-15T09:50:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RogBq5sU",
+      "revId": "822dfc9ad352403a9699dab31cec3558d4d87e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RoqBemiQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
         "patchSetId": 9
@@ -30,6 +48,41 @@
       "writtenOn": "2013-03-14T00:25:17Z",
       "side": 1,
       "message": "Its trivial to build a PackConfig from the repository:\n\n  PackConfig cfg \u003d new PackConfig(repo);\n\nand then log it by going through its properties and calling each getter method. That\u0027s annoying so maybe this chunk should be pushed up into JGit as a toString() on PackConfig, or use reflection to cheat something like:\n\n  StringBuilder d \u003d new StringBuilder();\n  for (Method m : cfg.getClass().getDeclaredMethods()) {\n    if (m.getName().startsWith(\"get\")) {\n      d.append(m.getName().substring(\"3\"));\n      d.append(\u0027\u003d\u0027).append(m.invoke(cfg));\n      d.append(\", \");\n    }\n  }\n\nUnfortunately an API change is necessary upstream in JGit to allow setting the PackConfig on the GC object. Christian missed this part of the DfsGarbageCollector, but its part of the reason why Google defined that on DfsGarbageCollector as its public API.",
+      "revId": "822dfc9ad352403a9699dab31cec3558d4d87e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rv6NKGmY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-15T09:50:17Z",
+      "side": 1,
+      "message": "For now the logging of the PackConfig is done by inspecting it by reflection, but I\u0027ve added the toString() method in jgit [1]. If it gets accepted, we can simplify this code here.\n\nEven if we cannot pass the PackConfig to the GC class, this should be ok since the GC class would get the same configuration when instanciating the PackConfig internally, wouldn\u0027t it?\n\nDone.\n\n[1] https://git.eclipse.org/r/11187",
+      "parentUuid": "RoqBemiQ",
+      "revId": "822dfc9ad352403a9699dab31cec3558d4d87e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Rv0MwBvU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-15T09:50:17Z",
+      "side": 1,
+      "message": "Pushed a change for jgit to simplify this coding here:\n\nhttps://git.eclipse.org/r/11186",
       "revId": "822dfc9ad352403a9699dab31cec3558d4d87e42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -64,7 +65,7 @@ import java.util.List;
 import java.util.Set;
 
 public class RebaseChange {
-  private final ChangeControl.Factory changeControlFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
@@ -76,7 +77,7 @@ public class RebaseChange {
   private final ProjectCache projectCache;
 
   @Inject
-  RebaseChange(final ChangeControl.Factory changeControlFactory,
+  RebaseChange(final ChangeControl.GenericFactory changeControlFactory,
       final PatchSetInfoFactory patchSetInfoFactory, final ReviewDb db,
       @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager,
@@ -123,12 +124,12 @@ public class RebaseChange {
    * @throws IOException thrown if rebase is not possible or not needed
    * @throws InvalidChangeOperationException thrown if rebase is not allowed
    */
-  public void rebase(final PatchSet.Id patchSetId, final Account.Id uploader)
+  public void rebase(final PatchSet.Id patchSetId, final IdentifiedUser uploader)
       throws NoSuchChangeException, EmailException, OrmException, IOException,
       InvalidChangeOperationException {
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl changeControl =
-        changeControlFactory.validateFor(changeId);
+        changeControlFactory.validateFor(changeId, uploader);
     if (!changeControl.canRebase()) {
       throw new InvalidChangeOperationException(
           "Cannot rebase: New patch sets are not allowed to be added to change: "
@@ -152,7 +153,7 @@ public class RebaseChange {
           rw.parseCommit(ObjectId.fromString(baseRev));
 
       final PatchSet newPatchSet =
-          rebase(git, rw, inserter, patchSetId, change, uploader, baseCommit,
+          rebase(git, rw, inserter, patchSetId, change, uploader.getAccountId(), baseCommit,
               mergeUtilFactory.create(
                   changeControl.getProjectControl().getProjectState(), true));
 
@@ -167,7 +168,7 @@ public class RebaseChange {
       }
       final ReplacePatchSetSender cm =
           rebasedPatchSetSenderFactory.create(change);
-      cm.setFrom(uploader);
+      cm.setFrom(uploader.getAccountId());
       cm.setPatchSet(newPatchSet);
       cm.addReviewers(oldReviewers);
       cm.addExtraCC(oldCC);

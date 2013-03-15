@@ -48,6 +48,10 @@ public class RevisionResource implements RestResource {
   }
 
   Account.Id getAccountId() {
-    return ((IdentifiedUser) getControl().getCurrentUser()).getAccountId();
+    return getUser().getAccountId();
+  }
+
+  IdentifiedUser getUser() {
+    return (IdentifiedUser) getControl().getCurrentUser();
   }
 }

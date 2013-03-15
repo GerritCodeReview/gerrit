@@ -247,3 +247,7 @@ but has different names/labels:
 The new column will appear at the end of the table, and `-1 Do not have
 copyright` will block submit, while `+1 Copyright clear` is required to
 enable submit.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

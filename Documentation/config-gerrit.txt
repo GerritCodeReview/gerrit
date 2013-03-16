@@ -2553,7 +2553,7 @@ Java regular expression (java.util.regex)] used to match the
 external tracking id part of the footer line. The match can
 result in several entries in the DB.  If grouping is used in the
 regex the first group will be interpreted as the tracking id.
-Tracking ids longer than 20 characters will be ignored.
+Tracking ids longer than 32 characters will be ignored.
 +
 The configuration file parser eats one level of backslashes, so the
 character class `\s` requires `\\s` in the configuration file.  The

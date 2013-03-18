@@ -29,6 +29,10 @@ public class ProjectResource implements RestResource {
     this.control = control;
   }
 
+  ProjectResource(ProjectResource rsrc) {
+    this.control = rsrc.getControl();
+  }
+
   public String getName() {
     return control.getProject().getName();
   }

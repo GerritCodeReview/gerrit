@@ -483,6 +483,60 @@ The response is the streamed output of the garbage collection.
   done.
 ----
 
+
+[[child-project-endpoints]]
+Child Project Endpoints
+-----------------------
+
+[[list-child-projects]]
+List Child Projects
+~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/children/'
+
+List the direct child projects of a project.
+
+.Request
+----
+  GET /projects/Public-Plugins/children/ HTTP/1.0
+----
+
+As result a list of link:#project-info[ProjectInfo] entries is
+returned that describe the child projects.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Freplication",
+      "name": "plugins/replication",
+      "parent": "Public-Plugins",
+      "description": "Copies to other servers using the Git protocol"
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Freviewnotes",
+      "name": "plugins/reviewnotes",
+      "parent": "Public-Plugins",
+      "description": "Annotates merged commits using notes on refs/notes/review."
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Fsingleusergroup",
+      "name": "plugins/singleusergroup",
+      "parent": "Public-Plugins",
+      "description": "GroupBackend enabling users to be directly added to access rules"
+    }
+  ]
+----
+
+
 [[dashboard-endpoints]]
 Dashboard Endpoints
 -------------------

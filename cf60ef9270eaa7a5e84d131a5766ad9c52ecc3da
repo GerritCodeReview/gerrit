@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "R3CYrdpA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-18T14:40:28Z",
+      "side": 1,
+      "message": "I don\u0027t think the comparison with the SshCommands (or RestViews) is fair. For SSH commands we have a simple lookup by command name and it is all that matters.\n\nFor project rename tasks it may be (and probably is) critical in which order the steps are executed. It is not just a set of tasks that can be done in any order. For a critical command\nas project rename the order of tasks execution should be explicit. At least it has to be documented. Right now, one has to look in the TaskModule, then in the DynamicSet and find out that, internally, it stores its items in a list which means that the iterator() will iterate in the order of the elements as they are in this list. And this is not even documented/guaranteed behavior of the DynamicSet.",
+      "parentUuid": "Rw7-tt0c",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rv.OO0nQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 6

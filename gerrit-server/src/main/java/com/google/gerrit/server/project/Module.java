@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.project.ChildProjectResource.CHILD_PROJECT_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 
@@ -29,6 +30,7 @@ public class Module extends RestApiModule {
     bind(DashboardsCollection.class);
 
     DynamicMap.mapOf(binder(), PROJECT_KIND);
+    DynamicMap.mapOf(binder(), CHILD_PROJECT_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
 
     put(PROJECT_KIND).to(PutProject.class);
@@ -39,6 +41,8 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "parent").to(GetParent.class);
     put(PROJECT_KIND, "parent").to(SetParent.class);
+
+    child(PROJECT_KIND, "children").to(ChildProjectsCollection.class);
 
     get(PROJECT_KIND, "HEAD").to(GetHead.class);
     put(PROJECT_KIND, "HEAD").to(SetHead.class);

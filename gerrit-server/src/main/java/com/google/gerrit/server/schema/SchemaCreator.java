@@ -185,22 +185,31 @@ public class SchemaCreator {
   }
 
   private void initWildCardProject() throws IOException, ConfigInvalidException {
-    Repository git;
+    Repository git = null;
     try {
       git = mgr.openRepository(allProjectsName);
+      initWildCardProject(git);
     } catch (RepositoryNotFoundException notFound) {
       // A repository may be missing if this project existed only to store
       // inheritable permissions. For example 'All-Projects'.
       try {
         git = mgr.createRepository(allProjectsName);
+        initWildCardProject(git);
         final RefUpdate u = git.updateRef(Constants.HEAD);
         u.link(GitRepositoryManager.REF_CONFIG);
       } catch (RepositoryNotFoundException err) {
         final String name = allProjectsName.get();
         throw new IOException("Cannot create repository " + name, err);
       }
+    } finally {
+      if (git != null) {
+        git.close();
+      }
     }
-    try {
+  }
+
+  private void initWildCardProject(Repository git) throws IOException,
+      ConfigInvalidException {
       MetaDataUpdate md =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git);
       md.getCommitBuilder().setAuthor(serverUser);
@@ -243,9 +252,6 @@ public class SchemaCreator {
 
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
       config.commit(md);
-    } finally {
-      git.close();
-    }
   }
 
   private PermissionRule rule(ProjectConfig config, AccountGroup group) {

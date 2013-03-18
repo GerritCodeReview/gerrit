@@ -27,12 +27,16 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 public class ChangeInfo extends JavaScriptObject {
   public final void init() {
     if (labels0() != null) {
       labels0().copyKeysIntoChildren("_name");
+    }
+    if (conditions0() != null) {
+      conditions0().copyKeysIntoChildren("_name");
     }
   }
 
@@ -72,6 +76,10 @@ public class ChangeInfo extends JavaScriptObject {
     return labels0().keySet();
   }
 
+  public final Set<String> conditions() {
+    return conditions0().keySet();
+  }
+
   public final native String id() /*-{ return this.id; }-*/;
   public final native String project() /*-{ return this.project; }-*/;
   public final native String branch() /*-{ return this.branch; }-*/;
@@ -88,6 +96,8 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String _sortkey() /*-{ return this._sortkey; }-*/;
   private final native NativeMap<LabelInfo> labels0() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
+  public final native NativeMap<ConditionInfo> conditions0() /*-{ return this.conditions; }-*/;
+  public final native ConditionInfo condition(String n) /*-{ return this.conditions[n]; }-*/;
 
   private final native NativeMap<JavaScriptObject> _permitted_labels()
   /*-{ return this.permitted_labels; }-*/;
@@ -105,6 +115,13 @@ public class ChangeInfo extends JavaScriptObject {
   /*-{ return this._more_changes ? true : false; }-*/;
 
   protected ChangeInfo() {
+  }
+
+  public static class ConditionInfo extends JavaScriptObject {
+    public final native SubmitRecord.Condition.Status status() /*-{ return this.status; }-*/;
+
+    protected ConditionInfo() {
+    }
   }
 
   public static class LabelInfo extends JavaScriptObject {

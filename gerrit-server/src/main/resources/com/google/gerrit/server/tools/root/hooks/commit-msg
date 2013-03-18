@@ -153,7 +153,7 @@ add_ChangeId() {
 		if (unprinted) {
 			print "Change-Id: I'"$id"'"
 		}
-	}' "$MSG" > $T && mv $T "$MSG" || rm -f $T
+	}' "$MSG" > "$T" && mv "$T" "$MSG" || rm -f "$T"
 }
 _gen_ChangeIdInput() {
 	echo "tree `git write-tree`"

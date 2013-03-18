@@ -16,9 +16,9 @@ package com.google.gerrit.pgm.init;
 
 import com.google.gerrit.pgm.util.Die;
 
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.storage.file.LockFile;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.SystemReader;

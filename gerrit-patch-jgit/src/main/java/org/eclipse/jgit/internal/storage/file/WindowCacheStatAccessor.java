@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.eclipse.jgit.storage.file;
+package org.eclipse.jgit.internal.storage.file;
+
+import org.eclipse.jgit.internal.storage.file.WindowCache;
 
 // Hack to obtain visibility to package level methods only.
 // These aren't yet part of the public JGit API.

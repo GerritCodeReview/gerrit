@@ -18,7 +18,7 @@ import com.google.gerrit.pgm.util.AbstractProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.schema.java.JavaSchemaModel;
 
-import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.kohsuke.args4j.Option;

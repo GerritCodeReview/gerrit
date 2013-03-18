@@ -32,8 +32,8 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.storage.file.FileSnapshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -26,6 +26,7 @@ import com.google.inject.Singleton;
 import com.jcraft.jsch.Session;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -33,8 +34,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.storage.file.LockFile;
-import org.eclipse.jgit.storage.file.WindowCache;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig;
@@ -95,10 +94,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
           // Default configuration is batch mode.
         }
       });
-
-      final WindowCacheConfig c = new WindowCacheConfig();
-      c.fromConfig(cfg);
-      WindowCache.reconfigure(c);
+      new WindowCacheConfig().fromConfig(cfg).install();
     }
 
     @Override

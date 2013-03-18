@@ -23,7 +23,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.util.FS;
 
 import java.io.File;

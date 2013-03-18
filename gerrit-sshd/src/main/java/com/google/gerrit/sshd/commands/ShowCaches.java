@@ -33,7 +33,7 @@ import com.google.inject.Provider;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
 import org.apache.sshd.server.Environment;
-import org.eclipse.jgit.storage.file.WindowCacheStatAccessor;
+import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;

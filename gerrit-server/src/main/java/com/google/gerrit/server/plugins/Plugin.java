@@ -28,7 +28,7 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-import org.eclipse.jgit.storage.file.FileSnapshot;
+import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 import java.io.File;
 import java.util.Collections;

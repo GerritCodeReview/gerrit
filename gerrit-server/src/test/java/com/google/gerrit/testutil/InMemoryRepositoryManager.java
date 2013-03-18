@@ -22,10 +22,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
+import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.dfs.DfsRepository;
-import org.eclipse.jgit.storage.dfs.DfsRepositoryDescription;
-import org.eclipse.jgit.storage.dfs.InMemoryRepository;
 
 import java.util.Map;
 import java.util.SortedSet;

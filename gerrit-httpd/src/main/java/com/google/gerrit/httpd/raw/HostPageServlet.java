@@ -171,6 +171,10 @@ public class HostPageServlet extends HttpServlet {
       w.write(HPD_ID + ".account=");
       json(((IdentifiedUser) user).getAccount(), w);
       w.write(";");
+      
+      w.write(HPD_ID+".accountExternalIds=");
+      json(((IdentifiedUser) user).state().getExternalIds(), w);
+      w.write(";");
 
       w.write(HPD_ID + ".xsrfToken=");
       json(session.get().getToken(), w);

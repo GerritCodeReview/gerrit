@@ -14,8 +14,11 @@
 
 package com.google.gerrit.common.data;
 
+import java.util.List;
+
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
@@ -24,6 +27,7 @@ public class HostPageData {
   public String xsrfToken;
   public GerritConfig config;
   public Theme theme;
+  public List<AccountExternalId> accountExternalIds;
 
   public static class Theme {
     public String backgroundColor;

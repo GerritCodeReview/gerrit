@@ -28,6 +28,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -57,6 +58,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtjsonrpc.common.VoidResult;
 
+import java.io.Externalizable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -290,7 +292,20 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         }
 
         r.append(base.substring(0, p + 3));
-        r.append(Gerrit.getUserAccount().getUserName());
+        // FIXME if we are http-auth behind SSO, this will need to be the the external username
+        if (Gerrit.getConfig().getAuthType().equals(AuthType.HTTP) && Gerrit.getUserAccountExternalIds() != null) {
+
+            for (AccountExternalId aeid : Gerrit.getUserAccountExternalIds()) {
+              if (aeid.getKey().get().startsWith(AccountExternalId.SCHEME_GERRIT)) {
+                String externId = aeid.getKey().get().substring(AccountExternalId.SCHEME_GERRIT.length());
+                externId = externId.replace("@", "%40"); // FIXME, find generic method to do this
+                r.append(externId);
+                break;
+              }
+            }
+        } else {
+          r.append(Gerrit.getUserAccount().getUserName());
+        }
         r.append('@');
         r.append(host);
         r.append(base.substring(s));

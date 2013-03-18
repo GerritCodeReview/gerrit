@@ -264,6 +264,7 @@ public class ChangeJson {
     if (options.contains(MESSAGES)) {
       out.messages = messages(cd);
     }
+    out.conditions = conditionsFor(cd);
     out.finish();
 
     if (has(ALL_REVISIONS) || has(CURRENT_REVISION) || limited != null) {
@@ -318,6 +319,22 @@ public class ChangeJson {
     }
     cd.setSubmitRecords(ctl.canSubmit(db.get(), ps, cd, true, false, true));
     return cd.getSubmitRecords();
+  }
+
+  private Map<String, ConditionInfo> conditionsFor(ChangeData cd) throws OrmException {
+    Map<String, ConditionInfo> conditions =
+        new TreeMap<String, ConditionInfo>();
+    for (SubmitRecord rec : submitRecords(cd)) {
+      if (rec.conditions == null) {
+        continue;
+      }
+      for (SubmitRecord.Condition c : rec.conditions) {
+        ConditionInfo ci = new ConditionInfo();
+        ci.status = c.status;
+        conditions.put(c.name, ci);
+      }
+    }
+    return conditions;
   }
 
   private Map<String, LabelInfo> labelsFor(ChangeData cd, boolean standard,
@@ -851,6 +868,8 @@ public class ChangeJson {
     Collection<AccountInfo> removable_reviewers;
     Collection<ChangeMessageInfo> messages;
 
+    Map<String, ConditionInfo> conditions;
+
     String current_revision;
     Map<String, RevisionInfo> revisions;
     public Boolean _moreChanges;
@@ -896,6 +915,10 @@ public class ChangeJson {
     GitPerson committer;
     String subject;
     String message;
+  }
+
+  static class ConditionInfo {
+    SubmitRecord.Condition.Status status;
   }
 
   static class LabelInfo {

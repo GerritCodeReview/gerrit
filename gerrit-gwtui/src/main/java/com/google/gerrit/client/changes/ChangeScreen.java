@@ -70,6 +70,7 @@ public class ChangeScreen extends Screen
   private com.google.gerrit.client.changes.ChangeInfo changeInfo;
 
   private ChangeDescriptionBlock descriptionBlock;
+  private SubmitConditionBlock submitConditionBlock;
   private ApprovalTable approvals;
 
   private IncludedInTable includedInTable;
@@ -169,6 +170,9 @@ public class ChangeScreen extends Screen
 
     descriptionBlock = new ChangeDescriptionBlock(keysAction);
     add(descriptionBlock);
+
+    submitConditionBlock = new SubmitConditionBlock();
+    add(submitConditionBlock);
 
     approvals = new ApprovalTable();
     add(approvals);
@@ -316,6 +320,7 @@ public class ChangeScreen extends Screen
         commentLinkProcessor);
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
+    submitConditionBlock.display(changeInfo);
     approvals.display(changeInfo);
 
     patchesList.clear();

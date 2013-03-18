@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "R3Ob3nhU",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-18T13:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "RvwMlLrg",
+      "revId": "9f8e2baa613705e6bc78c9778fd0500bc246203b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rv6P8Wvk",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
         "patchSetId": 2
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "R3Kbtpkc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-18T13:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Rv0MrJo8",
+      "revId": "9f8e2baa613705e6bc78c9778fd0500bc246203b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rv2MoopE",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
         "patchSetId": 2
@@ -82,6 +118,24 @@
       "writtenOn": "2013-03-15T07:00:10Z",
       "side": 1,
       "message": "For including a group you should check that the fields in the returned GroupInfo are correctly set.",
+      "revId": "9f8e2baa613705e6bc78c9778fd0500bc246203b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "R3IbyKic",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-18T13:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Rv2MoopE",
       "revId": "9f8e2baa613705e6bc78c9778fd0500bc246203b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

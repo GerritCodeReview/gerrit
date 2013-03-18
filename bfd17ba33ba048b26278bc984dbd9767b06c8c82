@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "R3KYWRlc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-18T14:01:26Z",
+      "side": 1,
+      "message": "s/show/shown",
+      "revId": "bfd17ba33ba048b26278bc984dbd9767b06c8c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "R3IYbSn8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-18T14:01:26Z",
+      "side": 1,
+      "message": "This sentence should also be written in the past tense as we have (not yet documented) agreement to use the past tense when describing status before the change and present tense when describing the change.\n\nI fixed the contributors guide in [1]\n\n[1] https://gerrit-review.googlesource.com/43580",
+      "revId": "bfd17ba33ba048b26278bc984dbd9767b06c8c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

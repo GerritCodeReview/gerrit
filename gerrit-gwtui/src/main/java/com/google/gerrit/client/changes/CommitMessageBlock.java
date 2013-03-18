@@ -94,10 +94,11 @@ public class CommitMessageBlock extends Composite {
     }
 
     public String getMessageText() {
-      // The commit message should be trimmed to remove any excess
-      // newlines at the end, but we need to make sure it still has
-      // at least one trailing newline.
-      return message.getText().trim() + '\n';
+      // As we rely on commit message lines ending in LF, we convert CRLF to
+      // LF. Additionally, the commit message should be trimmed to remove any
+      // excess newlines at the end, but we need to make sure it still has at
+      // least one trailing newline.
+      return message.getText().replaceAll("\r\n", "\n").trim() + '\n';
     }
   }
 

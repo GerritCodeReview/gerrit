@@ -40,6 +40,7 @@ import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.core.client.EntryPoint;
@@ -73,6 +74,8 @@ import com.google.gwtjsonrpc.client.XsrfManager;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
@@ -87,6 +90,7 @@ public class Gerrit implements EntryPoint {
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
   private static AccountDiffPreference myAccountDiffPref;
+  private static List<AccountExternalId> myAccountExternalIds;
   private static String xsrfToken;
 
   private static MorphingTabPanel menuLeft;
@@ -231,6 +235,11 @@ public class Gerrit implements EntryPoint {
   /** @return the currently signed in user's account data; null if no account */
   public static Account getUserAccount() {
     return myAccount;
+  }
+  
+  /** @return the currently signed in user's account's external ids; null if no account */
+  public static List<AccountExternalId> getUserAccountExternalIds() {
+    return myAccountExternalIds;
   }
 
   /** @return the currently signed in users's diff preferences; null if no diff preferences defined for the account */
@@ -381,6 +390,7 @@ public class Gerrit implements EntryPoint {
           myAccountDiffPref = result.accountDiffPref;
           applyUserPreferences();
         }
+        myAccountExternalIds = result.accountExternalIds;
         onModuleLoad2();
       }
     });

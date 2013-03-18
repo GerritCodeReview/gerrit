@@ -748,7 +748,7 @@ OR
 Adds one or several users to a Gerrit internal group.
 
 The users to be added to the group must be provided in the request body
-as a link:#member-input[MemberInput] entity.
+as a link:#members-input[MembersInput] entity.
 
 .Request
 ----
@@ -765,7 +765,7 @@ as a link:#member-input[MemberInput] entity.
 
 As response a list of detailed link:rest-api-accounts.html#account-info[
 AccountInfo] entities is returned that describes the group members that
-were specified in the link:#member-input[MemberInput]. An
+were specified in the link:#members-input[MembersInput]. An
 link:rest-api-accounts.html#account-info[AccountInfo] entity
 is returned for each user specified in the input, independently of
 whether the user was newly added to the group or whether the user was
@@ -819,7 +819,7 @@ Delete Group Members
 Delete one or several users from a Gerrit internal group.
 
 The users to be deleted from the group must be provided in the request
-body as a link:#member-input[MemberInput] entity.
+body as a link:#members-input[MembersInput] entity.
 
 .Request
 ----
@@ -1206,10 +1206,10 @@ New options for a group.
 Whether the group is visible to all registered users.
 |=============================
 
-[[member-input]]
-MemberInput
+[[members-input]]
+MembersInput
 ~~~~~~~~~~~
-The `MemberInput` entity contains information about accounts that should
+The `MembersInput` entity contains information about accounts that should
 be added as members to a group or that should be deleted from the group.
 
 [options="header",width="50%",cols="1,^1,5"]

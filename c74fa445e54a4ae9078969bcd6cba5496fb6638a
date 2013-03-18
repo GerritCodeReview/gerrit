@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "R2wco9o8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-18T13:56:45Z",
+      "side": 1,
+      "message": "What about a test for removing multiple members/includes with one request?",
+      "revId": "c74fa445e54a4ae9078969bcd6cba5496fb6638a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "R26cWSlc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-18T13:56:45Z",
+      "side": 1,
+      "message": "[optional] maybe we should check some more cases here: adding an account by email address, adding an account by full name, adding an account by id, adding an account by using \u0027self\u0027...",
+      "revId": "c74fa445e54a4ae9078969bcd6cba5496fb6638a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "R2.cQQl0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-18T13:56:45Z",
+      "side": 1,
+      "message": "[optional] should we repeat the test for the alternate URL: /groups/users/members.add ?",
+      "revId": "c74fa445e54a4ae9078969bcd6cba5496fb6638a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "R24cbRn8",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-18T13:56:45Z",
+      "side": 1,
+      "message": "[optional] should we repeat the test for the alternate URL: /groups/users/members.add ?",
+      "revId": "c74fa445e54a4ae9078969bcd6cba5496fb6638a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "R28cVPks",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-18T13:56:45Z",
+      "side": 1,
+      "message": "[optional] maybe we should check some more cases here: adding a group by UUID, adding a group by ID",
+      "revId": "c74fa445e54a4ae9078969bcd6cba5496fb6638a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "R2ycrepA",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/group/AddRemoveGroupMembersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-18T13:56:45Z",
+      "side": 1,
+      "message": "[optional] should we repeat the test for the alternate URL: /groups/users/groups.add ?",
+      "revId": "c74fa445e54a4ae9078969bcd6cba5496fb6638a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

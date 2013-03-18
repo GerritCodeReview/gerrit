@@ -18,6 +18,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TempFileUtil;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.reviewdb.client.Project;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -74,7 +75,21 @@ public class GitUtil {
 
   public static void createProject(SshSession s, String name)
       throws JSchException, IOException {
-    s.exec("gerrit create-project --empty-commit --name \"" + name + "\"");
+    createProject(s, name, null);
+  }
+
+  public static void createProject(SshSession s, String name, Project.NameKey parent)
+      throws JSchException, IOException {
+    StringBuilder b = new StringBuilder();
+    b.append("gerrit create-project --empty-commit --name \"");
+    b.append(name);
+    b.append("\"");
+    if (parent != null) {
+      b.append(" --parent \"");
+      b.append(parent.get());
+      b.append("\"");
+    }
+    s.exec(b.toString());
   }
 
   public static Git cloneProject(String url) throws GitAPIException, IOException {

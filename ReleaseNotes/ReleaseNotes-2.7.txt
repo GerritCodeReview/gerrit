@@ -1,14 +1,9 @@
-Release notes for Gerrit 2.6
+Release notes for Gerrit 2.7
 ============================
 
-Gerrit 2.6 is now available:
+Gerrit 2.7 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.6.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.6.war]
-
-Gerrit 2.6 includes the bug fixes done with
-link:ReleaseNotes-2.5.1.html[Gerrit 2.5.1] and
-link:ReleaseNotes-2.5.2.html[Gerrit 2.5.2]. These bug fixes are *not*
-listed in these release notes.
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.7.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.7.war]
 
 Schema Change
 -------------
@@ -17,9 +12,9 @@ Schema Change
   java -jar gerrit.war init -d site_path
 ----
 
-*WARNING:* Upgrading to 2.6.x requires the server be first upgraded to 2.1.7 (or
-a later 2.1.x version), and then to 2.6.x.  If you are upgrading from 2.2.x.x or
-newer, you may ignore this warning and upgrade directly to 2.6.x.
+*WARNING:* Upgrading to 2.7.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.7.x.  If you are upgrading from 2.2.x.x or
+newer, you may ignore this warning and upgrade directly to 2.7.x.
 
 New Features
 ------------
@@ -48,7 +43,7 @@ Review UI
 
 * The patch set review screen can include radio buttons for custom
   labels if enabled by
-  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html#_how_to_write_submit_rules[submit rules].
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/prolog-cookbook.html#_how_to_write_submit_rules[submit rules].
 
 
 Access Controls

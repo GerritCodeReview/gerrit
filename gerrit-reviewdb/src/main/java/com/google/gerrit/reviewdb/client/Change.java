@@ -124,7 +124,11 @@ public final class Change {
     /** Parse a Change.Id out of a string representation. */
     public static Id parse(final String str) {
       final Id r = new Id();
-      r.fromString(str);
+      String preparedStr = str;
+      if (preparedStr.endsWith("/")) {
+        preparedStr = preparedStr.substring(0, preparedStr.length() - 1);
+      }
+      r.fromString(preparedStr);
       return r;
     }
 

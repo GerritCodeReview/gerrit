@@ -120,6 +120,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   private static final String TEMPLATE = "template";
   private static final String KEY_IS_TEMPLATE = "isTemplate";
+  private static final String KEY_TEMPLATE_PROJECT_NAME_PREFIX = "projectNamePrefix";
 
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;
@@ -325,6 +326,11 @@ public class ProjectConfig extends VersionedMetaData {
     p.setRequireChangeID(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, Project.InheritableBoolean.INHERIT));
 
     p.setIsTemplate(getEnum(rc, TEMPLATE, null, KEY_IS_TEMPLATE, Project.InheritableBoolean.INHERIT));
+    p.setTemplateProjectNamePrefix(
+        rc.getString(TEMPLATE, null, KEY_TEMPLATE_PROJECT_NAME_PREFIX));
+    if (p.getTemplateProjectNamePrefix() == null) {
+      p.setTemplateProjectNamePrefix("");
+    }
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, Project.InheritableBoolean.INHERIT));
@@ -649,6 +655,7 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, PROJECT, null, KEY_STATE, p.getState(), null);
 
     set(rc, TEMPLATE, null, KEY_IS_TEMPLATE, p.getIsTemplate(), Project.InheritableBoolean.INHERIT);
+    set(rc, TEMPLATE, null, KEY_TEMPLATE_PROJECT_NAME_PREFIX, p.getTemplateProjectNamePrefix());
 
     set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
     set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());

@@ -32,6 +32,7 @@ public class ProjectDetail {
   public InheritedBoolean requireChangeID;
   public InheritedBoolean isTemplate;
   public Project.NameKey parent;
+  public String templateProjectNamePrefix;
 
   public ProjectDetail() {
   }
@@ -90,5 +91,9 @@ public class ProjectDetail {
 
   public void setParent(Project.NameKey p) {
     this.parent = p;
+  }
+
+  public void setTemplateProjectNamePrefix(String prefix) {
+    this.templateProjectNamePrefix = prefix;
   }
 }

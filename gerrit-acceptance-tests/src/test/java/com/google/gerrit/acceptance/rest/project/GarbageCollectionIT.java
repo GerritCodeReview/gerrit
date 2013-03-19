@@ -99,6 +99,23 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     assertEquals(HttpStatus.SC_CONFLICT, POST("/projects/" + project1.get() + "/gc"));
   }
 
+  @Test
+  public void testRecursiveGc() throws JSchException, IOException {
+    SshSession sshSession = new SshSession(admin);
+    Project.NameKey child1_1 = new Project.NameKey("p1.1");
+    createProject(sshSession, child1_1.get(), project1);
+    Project.NameKey child1_2 = new Project.NameKey("p1.2");
+    createProject(sshSession, child1_2.get(), project1);
+    Project.NameKey child1_1_1 = new Project.NameKey("p1.1.1");
+    createProject(sshSession, child1_1_1.get(), child1_1);
+    Project.NameKey child1_1_1_1 = new Project.NameKey("p1.1.1.1");
+    createProject(sshSession, child1_1_1_1.get(), child1_1_1);
+
+    assertEquals(HttpStatus.SC_OK, POST("/projects/" + project1.get() + "/gc.recursive"));
+    gcAssert.assertHasPackFile(project1, child1_1, child1_1_1, child1_1_1_1);
+    gcAssert.assertHasNoPackFile(allProjects, project2);
+  }
+
   private int POST(String endPoint) throws IOException {
     return session.post(endPoint).getStatusCode();
   }

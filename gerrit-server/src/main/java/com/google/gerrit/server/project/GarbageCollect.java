@@ -14,19 +14,27 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.project.GarbageCollect.Input;
+import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.internal.storage.file.GC.RepoStatistics;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @RequiresCapability(GlobalCapability.RUN_GC)
 public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
@@ -61,5 +69,65 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
       }
     }
     return result.getStatistics().get(rsrc.getName());
+  }
+
+  public static class Recursive implements RestModifyView<ProjectResource, Input> {
+    public static class Output {
+      Map<String, RepoStatistics> statistics;
+      Map<String, String> errors;
+    }
+
+    private final GarbageCollection.Factory garbageCollectionFactory;
+    private final Provider<ListChildProjects> childProjects;
+
+    @Inject
+    public Recursive(GarbageCollection.Factory garbageCollectionFactory,
+        Provider<ListChildProjects> childProjects) {
+      this.garbageCollectionFactory = garbageCollectionFactory;
+      this.childProjects = childProjects;
+    }
+
+    @Override
+    public Output apply(ProjectResource rsrc, Input input) {
+      List<Project.NameKey> projectsToGc = Lists.newArrayList();
+      ListChildProjects listChildProjects = childProjects.get();
+      listChildProjects.setRecursive(true);
+      projectsToGc.addAll(Lists.transform(listChildProjects.apply(rsrc),
+          new Function<ProjectInfo, Project.NameKey>() {
+            @Override
+            public Project.NameKey apply(ProjectInfo info) {
+              return new Project.NameKey(info.name);
+            }
+          }));
+      projectsToGc.add(rsrc.getNameKey());
+
+      final GarbageCollectionResult result =
+          garbageCollectionFactory.create().run(projectsToGc);
+
+      Output out = new Output();
+      out.statistics = result.getStatistics();
+      if (result.hasErrors()) {
+        out.errors = Maps.newHashMapWithExpectedSize(result.getErrors().size());
+        for (GarbageCollectionResult.Error e : result.getErrors()) {
+          out.errors.put(e.getProjectName().get(), getErrorMessage(e));
+        }
+      }
+      return out;
+    }
+
+    private String getErrorMessage(GarbageCollectionResult.Error e) {
+      switch (e.getType()) {
+        case REPOSITORY_NOT_FOUND:
+          return "not found";
+        case GC_NOT_SUPPORTED:
+          return "gc not supported";
+        case GC_ALREADY_SCHEDULED:
+          return "gc was already scheduled";
+        case GC_FAILED:
+          return "gc failed";
+        default:
+          return "gc failed: " + e.getType();
+      }
+    }
   }
 }

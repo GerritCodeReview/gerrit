@@ -12,16 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.project;
+package com.google.gerrit.server.project;
 
-public class ProjectInfo {
-  public String id;
-  public String name;
-  public String parent;
-  public String description;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.inject.TypeLiteral;
 
-  @Override
-  public String toString() {
-    return name;
+public class ChildProjectResource extends ProjectResource {
+  public static final TypeLiteral<RestView<ChildProjectResource>> CHILD_PROJECT_KIND =
+      new TypeLiteral<RestView<ChildProjectResource>>() {};
+
+  private final ProjectControl child;
+
+  ChildProjectResource(ProjectResource project, ProjectControl child) {
+    super(project);
+    this.child = child;
+  }
+
+  public ProjectControl getChild() {
+    return child;
   }
 }

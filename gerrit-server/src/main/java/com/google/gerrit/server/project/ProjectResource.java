@@ -25,7 +25,7 @@ public class ProjectResource implements RestResource {
 
   private final ProjectControl control;
 
-  ProjectResource(ProjectControl control) {
+  public ProjectResource(ProjectControl control) {
     this.control = control;
   }
 

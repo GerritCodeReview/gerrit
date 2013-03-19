@@ -45,13 +45,13 @@ public class ProjectJson {
     return info;
   }
 
-  static class ProjectInfo {
-    final String kind = "gerritcodereview#project";
-    String id;
-    String name;
-    String parent;
-    String description;
-    Map<String, String> branches;
+  public static class ProjectInfo {
+    public final String kind = "gerritcodereview#project";
+    public String id;
+    public String name;
+    public String parent;
+    public String description;
+    public Map<String, String> branches;
 
     void finish() {
       id = Url.encode(name);

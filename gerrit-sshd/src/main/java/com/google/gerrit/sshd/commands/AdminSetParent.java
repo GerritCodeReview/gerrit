@@ -17,18 +17,23 @@ package com.google.gerrit.sshd.commands;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -73,6 +78,9 @@ final class AdminSetParent extends SshCommand {
   @Inject
   private AllProjectsName allProjectsName;
 
+  @Inject
+  private Provider<ListChildProjects> listChildProjects;
+
   private Project.NameKey newParentKey = null;
 
   @Override
@@ -108,17 +116,16 @@ final class AdminSetParent extends SshCommand {
       }
     }
 
-    final List<Project> childProjects = new ArrayList<Project>();
+    final List<Project.NameKey> childProjects = Lists.newArrayList();
     for (final ProjectControl pc : children) {
-      childProjects.add(pc.getProject());
+      childProjects.add(pc.getProject().getNameKey());
     }
     if (oldParent != null) {
       childProjects.addAll(getChildrenForReparenting(oldParent));
     }
 
-    for (final Project project : childProjects) {
-      final String name = project.getName();
-      final Project.NameKey nameKey = project.getNameKey();
+    for (final Project.NameKey nameKey : childProjects) {
+      final String name = nameKey.get();
 
       if (allProjectsName.equals(nameKey)) {
         // Don't allow the wild card project to have a parent.
@@ -159,7 +166,7 @@ final class AdminSetParent extends SshCommand {
         err.append("error: " + msg + "\n");
       }
 
-      projectCache.evict(project);
+      projectCache.evict(nameKey);
     }
 
     if (err.length() > 0) {
@@ -175,8 +182,8 @@ final class AdminSetParent extends SshCommand {
    * reparented. The returned list of child projects does not contain projects
    * that were specified to be excluded from reparenting.
    */
-  private List<Project> getChildrenForReparenting(final ProjectControl parent) {
-    final List<Project> childProjects = new ArrayList<Project>();
+  private List<Project.NameKey> getChildrenForReparenting(final ProjectControl parent) {
+    final List<Project.NameKey> childProjects = Lists.newArrayList();
     final List<Project.NameKey> excluded =
       new ArrayList<Project.NameKey>(excludedChildren.size());
     for (final ProjectControl excludedChild : excludedChildren) {
@@ -187,11 +194,12 @@ final class AdminSetParent extends SshCommand {
     if (newParentKey != null) {
       automaticallyExcluded.addAll(getAllParents(newParentKey));
     }
-    for (final Project child : getChildren(parent.getProject().getNameKey())) {
-      final Project.NameKey childName = child.getNameKey();
+    for (final ProjectInfo child : listChildProjects.get().apply(
+        new ProjectResource(parent))) {
+      final Project.NameKey childName = new Project.NameKey(child.name);
       if (!excluded.contains(childName)) {
         if (!automaticallyExcluded.contains(childName)) {
-          childProjects.add(child);
+          childProjects.add(childName);
         } else {
           stdout.println("Automatically excluded '" + childName + "' " +
                          "from reparenting because it is in the parent " +
@@ -212,21 +220,5 @@ final class AdminSetParent extends SshCommand {
           return in.getProject().getNameKey();
         }
       }));
-  }
-
-  private List<Project> getChildren(final Project.NameKey parentName) {
-    final List<Project> childProjects = new ArrayList<Project>();
-    for (final Project.NameKey projectName : projectCache.all()) {
-      final ProjectState e = projectCache.get(projectName);
-      if (e == null) {
-        // If we can't get it from the cache, pretend it's not present.
-        continue;
-      }
-
-      if (parentName.equals(e.getProject().getParent(allProjectsName))) {
-        childProjects.add(e.getProject());
-      }
-    }
-    return childProjects;
   }
 }

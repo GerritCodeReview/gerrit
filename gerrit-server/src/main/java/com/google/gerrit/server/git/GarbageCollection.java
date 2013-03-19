@@ -85,6 +85,7 @@ public class GarbageCollection {
             : NullProgressMonitor.INSTANCE);
         Properties statistics = gc.call();
         logGcInfo(p, "after: ", statistics);
+        result.addStatistics(p, statistics);
         print(writer, "done.\n\n");
       } catch (RepositoryNotFoundException e) {
         logGcError(writer, p, e);

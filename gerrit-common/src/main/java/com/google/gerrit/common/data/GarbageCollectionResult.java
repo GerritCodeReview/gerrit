@@ -15,15 +15,28 @@
 package com.google.gerrit.common.data;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public class GarbageCollectionResult {
   protected List<Error> errors;
+  protected Map<String, Properties> statistics;
 
   public GarbageCollectionResult() {
     errors = Lists.newArrayList();
+    statistics = Maps.newHashMap();
+  }
+
+  public void addStatistics(Project.NameKey projectName, Properties stats) {
+    statistics.put(projectName.get(), stats);
+  }
+
+  public Map<String, Properties> getStatistics() {
+    return statistics;
   }
 
   public void addError(Error e) {

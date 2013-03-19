@@ -56,6 +56,10 @@ public class RestSession {
     return new RestResponse(getClient().execute(put));
   }
 
+  public RestResponse post(String endPoint) throws IOException {
+    return post(endPoint, null);
+  }
+
   public RestResponse post(String endPoint, Object content) throws IOException {
     HttpPost post = new HttpPost("http://localhost:8080/a" + endPoint);
     if (content != null) {

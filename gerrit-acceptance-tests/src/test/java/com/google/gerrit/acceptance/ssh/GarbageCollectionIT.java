@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.GcAssert;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GarbageCollectionResult;
@@ -28,19 +29,14 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GarbageCollectionQueue;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
@@ -51,9 +47,6 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   private AccountCreator accounts;
 
   @Inject
-  private GitRepositoryManager repoManager;
-
-  @Inject
   private AllProjectsName allProjects;
 
   @Inject
@@ -61,6 +54,9 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   @Inject
   private GarbageCollectionQueue gcQueue;
+
+  @Inject
+  private GcAssert gcAssert;
 
   private TestAccount admin;
   private SshSession sshSession;
@@ -93,8 +89,8 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
             + project2.get() + "\"");
     assertFalse(sshSession.hasError());
     assertNoError(response);
-    assertHasPackFile(project1, project2);
-    assertHasNoPackFile(allProjects, project3);
+    gcAssert.assertHasPackFile(project1, project2);
+    gcAssert.assertHasNoPackFile(allProjects, project3);
   }
 
   @Test
@@ -102,7 +98,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
     String response = sshSession.exec("gerrit gc --all");
     assertFalse(sshSession.hasError());
     assertNoError(response);
-    assertHasPackFile(allProjects, project1, project2, project3);
+    gcAssert.assertHasPackFile(allProjects, project1, project2, project3);
   }
 
   @Test
@@ -131,37 +127,5 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
 
   private void assertNoError(String response) {
     assertFalse(response, response.toLowerCase(Locale.US).contains("error"));
-  }
-
-  private void assertHasPackFile(Project.NameKey... projects)
-      throws RepositoryNotFoundException, IOException {
-    for (Project.NameKey p : projects) {
-      assertTrue("Project " + p.get() + "has no pack files.",
-          getPackFiles(p).length > 0);
-    }
-  }
-
-  private void assertHasNoPackFile(Project.NameKey... projects)
-      throws RepositoryNotFoundException, IOException {
-    for (Project.NameKey p : projects) {
-      assertTrue("Project " + p.get() + "has pack files.",
-          getPackFiles(p).length == 0);
-    }
-  }
-
-  private String[] getPackFiles(Project.NameKey p)
-      throws RepositoryNotFoundException, IOException {
-    Repository repo = repoManager.openRepository(p);
-    try {
-      File packDir = new File(repo.getDirectory(), "objects/pack");
-      return packDir.list(new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String name) {
-          return name.endsWith(".pack");
-        }
-      });
-    } finally {
-      repo.close();
-    }
   }
 }

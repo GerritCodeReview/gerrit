@@ -155,7 +155,11 @@ class UrlModule extends ServletModule {
       protected void doGet(final HttpServletRequest req,
           final HttpServletResponse rsp) throws IOException {
         try {
-          Change.Id id = Change.Id.parse(req.getPathInfo());
+          String idString = req.getPathInfo();
+          if (idString.endsWith("/")) {
+            idString = idString.substring(0, idString.length() - 1);
+          }
+          Change.Id id = Change.Id.parse(idString);
           toGerrit(PageLinks.toChange(id), req, rsp);
         } catch (IllegalArgumentException err) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);

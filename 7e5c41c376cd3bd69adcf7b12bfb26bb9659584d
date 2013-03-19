@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "R-wMrro8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-03-19T17:50:08Z",
+      "side": 1,
+      "message": "Looks like using ~ here causes issues when querying over SSH. The ~ character is getting rejected earlier with a message like:\n\n message: line 1:19 no viable alternative at character \u0027~\u0027\n\nAnyone have ideas on where this error is coming from? This doesn\u0027t happen via the UI (and I haven\u0027t tried over REST).",
+      "revId": "7e5c41c376cd3bd69adcf7b12bfb26bb9659584d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWijvS0E",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
         "patchSetId": 1

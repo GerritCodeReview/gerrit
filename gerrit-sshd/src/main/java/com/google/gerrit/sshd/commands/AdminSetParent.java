@@ -223,7 +223,7 @@ final class AdminSetParent extends SshCommand {
         continue;
       }
 
-      if (parentName.equals(e.getProject().getParent(projectName))) {
+      if (parentName.equals(e.getProject().getParent(allProjectsName))) {
         childProjects.add(e.getProject());
       }
     }

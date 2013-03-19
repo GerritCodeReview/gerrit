@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
-
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -882,12 +881,27 @@ public class MergeOp {
   }
 
   private void setMerged(final Change c, final ChangeMessage msg) {
-    final Change.Id changeId = c.getId();
     // We must pull the patchset out of commits, because the patchset ID is
     // modified when using the cherry-pick merge strategy.
-    final CodeReviewCommit commit = commits.get(c.getId());
-    final PatchSet.Id merged = commit.change.currentPatchSetId();
+    CodeReviewCommit commit = commits.get(c.getId());
+    PatchSet.Id merged = commit.change.currentPatchSetId();
+    setMergedPatchSet(c.getId(), merged);
+    PatchSetApproval submitter = saveApprovals(c, merged);
+    addMergedMessage(submitter, msg);
+    sendMergedEmail(c, submitter);
 
+    if (submitter != null) {
+      try {
+        hooks.doChangeMergedHook(c,
+            accountCache.get(submitter.getAccountId()).getAccount(),
+            db.patchSets().get(c.currentPatchSetId()), db);
+      } catch (OrmException ex) {
+        log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
+      }
+    }
+  }
+
+  private void setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged) {
     try {
       db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
         @Override
@@ -915,13 +929,16 @@ public class MergeOp {
     } catch (OrmException err) {
       log.warn("Cannot update change status", err);
     }
+  }
 
+  private PatchSetApproval saveApprovals(Change c, PatchSet.Id merged) {
     // Flatten out all existing approvals based upon the current
     // permissions. Once the change is closed the approvals are
     // not updated at presentation view time, so we need to make.
     // sure they are accurate now. This way if permissions get
     // modified in the future, historical records stay accurate.
     //
+    Change.Id changeId = c.getId();
     PatchSetApproval submitter = null;
     try {
       c.setStatus(Change.Status.MERGED);
@@ -953,7 +970,10 @@ public class MergeOp {
     } catch (OrmException err) {
       log.warn("Cannot normalize approvals for change " + changeId, err);
     }
+    return submitter;
+  }
 
+  private void addMergedMessage(PatchSetApproval submitter, ChangeMessage msg) {
     if (msg != null) {
       if (submitter != null && msg.getAuthor() == null) {
         msg.setAuthor(submitter.getAccountId());
@@ -964,8 +984,9 @@ public class MergeOp {
         log.warn("Cannot store message on change", err);
       }
     }
+  }
 
-    final PatchSetApproval from = submitter;
+  private void sendMergedEmail(final Change c, final PatchSetApproval from) {
     workQueue.getDefaultQueue()
         .submit(requestScopePropagator.wrap(new Runnable() {
       @Override
@@ -1002,16 +1023,6 @@ public class MergeOp {
         return "send-email merged";
       }
     }));
-
-    if (submitter != null) {
-      try {
-        hooks.doChangeMergedHook(c,
-            accountCache.get(submitter.getAccountId()).getAccount(),
-            db.patchSets().get(c.currentPatchSetId()), db);
-      } catch (OrmException ex) {
-        log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
-      }
-    }
   }
 
   private void setNew(Change c, ChangeMessage msg) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
@@ -30,5 +31,12 @@ public class ChildProjectResource extends ProjectResource {
 
   public ProjectControl getChild() {
     return child;
+  }
+
+  public boolean isDirectChild() {
+    ProjectState parent =
+        Iterables.getFirst(child.getProjectState().parents(), null);
+    return parent != null
+        && getNameKey().equals(parent.getProject().getNameKey());
   }
 }

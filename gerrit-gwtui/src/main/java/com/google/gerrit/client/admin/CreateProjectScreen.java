@@ -15,6 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
+import static com.google.gerrit.common.data.GlobalCapability.INSTANTIATE_TEMPLATE;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
@@ -70,6 +71,7 @@ public class CreateProjectScreen extends Screen {
   private ProjectsTable suggestedParentsTab;
   private ProjectListPopup projectsPopup;
   private boolean useTemplate;
+  private boolean canCreateProject;
 
   public CreateProjectScreen() {
     super();
@@ -82,13 +84,20 @@ public class CreateProjectScreen extends Screen {
     AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
       @Override
       public void onSuccess(AccountCapabilities ac) {
-        if (ac.canPerform(CREATE_PROJECT)) {
+        if (ac.canPerform(INSTANTIATE_TEMPLATE)) {
+          canCreateProject = ac.canPerform(CREATE_PROJECT);
           display();
         } else {
           Gerrit.display(PageLinks.ADMIN_CREATE_PROJECT, new NotFoundScreen());
         }
       }
-    }, CREATE_PROJECT);
+    }, INSTANTIATE_TEMPLATE, CREATE_PROJECT);
+  }
+
+  @Override
+  public void onShowView() {
+    super.onShowView();
+    populateTemplateListBox();
   }
 
   @Override
@@ -142,18 +151,6 @@ public class CreateProjectScreen extends Screen {
   private void initTemplateListBox() {
     useTemplate = false;
     template = new ListBox();
-    template.addItem(Util.C.templateNone(), (String) null);
-
-    ProjectMap.templates(new ScreenLoadCallback<ProjectMap>(this) {
-      @Override
-      protected void preDisplay(final ProjectMap result) {
-        List<ProjectInfo> projectInfos = Natives.asList(result.values());
-        for (ProjectInfo projectInfo: projectInfos) {
-          template.addItem(projectInfo.name(), projectInfo.name_key().get());
-        }
-      }
-    });
-
     template.addChangeHandler(new ChangeHandler() {
       @Override
       public void onChange(ChangeEvent event) {
@@ -162,6 +159,33 @@ public class CreateProjectScreen extends Screen {
         }
       }
     });
+  }
+
+  private void populateTemplateListBox() {
+    template.clear();
+
+    if (canCreateProject) {
+      template.addItem(Util.C.templateNone(), (String) null);
+    }
+
+    ProjectMap.templates(new ScreenLoadCallback<ProjectMap>(this) {
+      @Override
+      protected void preDisplay(final ProjectMap result) {
+        List<ProjectInfo> projectInfos = Natives.asList(result.values());
+        for (ProjectInfo projectInfo: projectInfos) {
+          template.addItem(projectInfo.name(), projectInfo.name_key().get());
+        }
+        if (!projectInfos.isEmpty()) {
+          setTemplate(template.getValue(0));
+        }
+      }
+    });
+
+    if (template.getItemCount() == 0) {
+      this.enableForm(false);
+    } else {
+      setTemplate(template.getValue(0));
+    }
   }
 
   private void initCreateTxt() {
@@ -280,7 +304,7 @@ public class CreateProjectScreen extends Screen {
           });
 
     } else {
-      enableForm(true);
+      enableForm(canCreateProject);
     }
   }
 

@@ -243,10 +243,18 @@ public class PerformCreateProject {
     String nameWithoutSuffix = ProjectUtil.stripGitSuffix(createProjectArgs.getProjectName());
     createProjectArgs.setProjectName(nameWithoutSuffix);
 
-    if (!currentUser.getCapabilities().canCreateProject()) {
-      throw new ProjectCreationFailedException(String.format(
-          "%s does not have \"Create Project\" capability.",
-          currentUser.getUserName()));
+    if (createProjectArgs.template != null) {
+      if (!currentUser.getCapabilities().canInstantiateTemplate()) {
+        throw new ProjectCreationFailedException(String.format(
+            "%s does not have \"Instantiate Template\" capability.",
+            currentUser.getUserName()));
+      }
+    } else {
+      if (!currentUser.getCapabilities().canCreateProject()) {
+        throw new ProjectCreationFailedException(String.format(
+            "%s does not have \"Create Project\" capability.",
+            currentUser.getUserName()));
+      }
     }
 
     if (createProjectArgs.ownerIds == null

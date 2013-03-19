@@ -17,9 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -37,7 +35,6 @@ import com.google.inject.assistedinject.Assisted;
 
 import java.util.List;
 
-@RequiresCapability(GlobalCapability.CREATE_PROJECT)
 class CreateProject implements RestModifyView<TopLevelResource, Input> {
   static class Input {
     String name;

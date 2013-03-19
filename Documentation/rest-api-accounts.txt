@@ -71,6 +71,7 @@ Administrator that has authenticated with digest authentication:
     "createGroup": true,
     "createProject": true,
     "emailReviewers": true,
+    "instantiateTemplate": true,
     "killTask": true,
     "viewCaches": true,
     "flushCaches": true,
@@ -300,6 +301,9 @@ link:access-control.html#capability_createProject[Create Project]
 capability.
 |`emailReviewers`    |not set if `false`|Whether the user has the
 link:access-control.html#capability_emailReviewers[Email Reviewers]
+capability.
+|`instantiateProject`|not set if `false`|Whether the user has the
+link:access-control.html#capability_instantiateTemplate[Instantiate Template]
 capability.
 |`killTask`          |not set if `false`|Whether the user has the
 link:access-control.html#capability_kill[Kill Task] capability.

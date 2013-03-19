@@ -1086,6 +1086,14 @@ This capability doesn't imply permissions to the show-caches command.  For that
 you need the <<capability_viewCaches,view caches capability>>.
 
 
+[[capability_instantiateTemplate]]
+Instantiate Template
+~~~~~~~~~~~~~~~~~~~~
+
+Allow to instantiate templates. This capability allows the granted group to
+create new projects by instantiating project templates via the web UI.
+
+
 [[capability_kill]]
 Kill Task
 ~~~~~~~~~

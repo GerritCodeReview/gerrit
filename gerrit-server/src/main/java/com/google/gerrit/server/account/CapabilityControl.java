@@ -100,6 +100,13 @@ public class CapabilityControl {
     return canEmailReviewers;
   }
 
+  /** @return true if the user can instantiate a template. */
+  public boolean canInstantiateTemplate() {
+    return canPerform(GlobalCapability.INSTANTIATE_TEMPLATE)
+      || canCreateProject()
+      || canAdministrateServer();
+  }
+
   /** @return true if the user can kill any running task. */
   public boolean canKillTask() {
     return canPerform(GlobalCapability.KILL_TASK)

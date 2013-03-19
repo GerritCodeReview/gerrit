@@ -48,6 +48,7 @@ public interface AdminConstants extends Constants {
   String suggestedGroupLabel();
   String parentSuggestions();
   String isTemplate();
+  String templateProjectNamePrefix();
 
   String buttonBrowseProjects();
   String projects();

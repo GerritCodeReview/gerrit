@@ -262,6 +262,15 @@ public class PerformCreateProject {
       }
     }
 
+    if (createProjectArgs.template != null) {
+      Project template = createProjectArgs.template.getProject();
+      String prefix = template.getTemplateProjectNamePrefix();
+      if (!createProjectArgs.getProjectName().startsWith(prefix)) {
+        throw new ProjectCreationFailedException(String.format(
+            "Project name does not start with \"%s\".", prefix));
+      }
+    }
+
     if (createProjectArgs.ownerIds == null
         || createProjectArgs.ownerIds.isEmpty()) {
       createProjectArgs.ownerIds =

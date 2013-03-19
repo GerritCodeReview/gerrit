@@ -111,6 +111,8 @@ public final class Project {
 
   protected InheritableBoolean isTemplate;
 
+  protected String templateProjectNamePrefix;
+
   protected String defaultDashboardId;
 
   protected String localDefaultDashboardId;
@@ -217,6 +219,14 @@ public final class Project {
     this.localDefaultDashboardId = localDefaultDashboardId;
   }
 
+  public String getTemplateProjectNamePrefix() {
+    return templateProjectNamePrefix;
+  }
+
+  public void setTemplateProjectNamePrefix(final String prefix) {
+    this.templateProjectNamePrefix = prefix;
+  }
+
   public void copySettingsFrom(final Project update,
       final boolean copyTemplateConfig) {
     description = update.description;
@@ -228,6 +238,7 @@ public final class Project {
     state = update.state;
     if (copyTemplateConfig) {
       isTemplate = update.isTemplate;
+      templateProjectNamePrefix = update.templateProjectNamePrefix;
     }
   }
 

@@ -52,9 +52,12 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.List;
@@ -63,6 +66,7 @@ public class CreateProjectScreen extends Screen {
   private Grid grid;
   private ListBox template;
   private NpTextBox project;
+  private NpTextBox projectNamePrefix;
   private Button create;
   private Button browse;
   private HintTextBox parent;
@@ -132,6 +136,7 @@ public class CreateProjectScreen extends Screen {
     fp.setStyleName(Gerrit.RESOURCES.css().createProjectPanel());
 
     initTemplateListBox();
+    initProjectNamePrefix();
     initCreateTxt();
     initCreateButton();
     initParentBox();
@@ -161,6 +166,34 @@ public class CreateProjectScreen extends Screen {
         }
       }
     });
+  }
+
+  private void initProjectNamePrefix() {
+    projectNamePrefix = new NpTextBox();
+    projectNamePrefix.setEnabled(false);
+  }
+
+  private void updateProjectNamePrefix(String prefix) {
+    final Widget gridWidget;
+    if (prefix == null || prefix.isEmpty()) {
+      project.setVisibleLength(50);
+      projectNamePrefix.setText("");
+      gridWidget = project;
+    } else {
+      Panel projectPanel = new HorizontalPanel();
+
+      projectNamePrefix.setText(prefix);
+      projectNamePrefix.setVisibleLength(prefix.length());
+      projectPanel.add(projectNamePrefix);
+
+      // The 3 in the following computation is a rough estimate of borders,
+      // margins, paddings etc.
+      project.setVisibleLength(50 - prefix.length() - 3);
+      projectPanel.add(project);
+
+      gridWidget = projectPanel;
+    }
+    grid.setWidget(1, 1, gridWidget);
   }
 
   private void populateTemplateListBox() {
@@ -280,7 +313,7 @@ public class CreateProjectScreen extends Screen {
     grid.setText(0, 0, Util.C.headingTemplate() + ":");
     grid.setWidget(0, 1, template);
     grid.setText(1, 0, Util.C.columnProjectName() + ":");
-    grid.setWidget(1, 1, project);
+    updateProjectNamePrefix(null);
     grid.setText(2, 0, Util.C.headingParentProjectName() + ":");
     grid.setWidget(2, 1, suggestParent);
     grid.setWidget(2, 2, browse);
@@ -289,6 +322,7 @@ public class CreateProjectScreen extends Screen {
 
   private void setTemplate(String templateName) {
     useTemplate = templateName != null && !templateName.isEmpty();
+    updateProjectNamePrefix(null);
     if (useTemplate) {
       enableForm(false);
       Util.PROJECT_SVC.projectDetail(new Project.NameKey(templateName),
@@ -301,6 +335,7 @@ public class CreateProjectScreen extends Screen {
                 parentName = result.parent.get();
               }
               parent.setText(parentName);
+              updateProjectNamePrefix(result.templateProjectNamePrefix);
               enableForm(true);
             }
           });
@@ -311,10 +346,11 @@ public class CreateProjectScreen extends Screen {
   }
 
   private void doCreateProject() {
-    final String projectName = project.getText().trim();
+    String projectNameBase = project.getText().trim();
+    final String projectName = projectNamePrefix.getText() + projectNameBase;
     final String parentName = suggestParent.getText().trim();
 
-    if ("".equals(projectName)) {
+    if ("".equals(projectNameBase)) {
       project.setFocus(true);
       return;
     }

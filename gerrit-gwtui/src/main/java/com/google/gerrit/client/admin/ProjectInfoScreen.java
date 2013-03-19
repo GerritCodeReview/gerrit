@@ -30,12 +30,16 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private String projectName;
@@ -54,6 +58,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox signedOffBy;
 
   private ListBox isTemplate;
+  private NpTextBox templateProjectNamePrefix;
 
   private NpTextArea descTxt;
   private Button saveProject;
@@ -120,6 +125,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     signedOffBy.setEnabled(canModifyAgreements);
     requireChangeID.setEnabled(canModifyMergeType);
     isTemplate.setEnabled(canModifyTemplate);
+    templateProjectNamePrefix.setEnabled(canModifyTemplate);
   }
 
   private void initDescription() {
@@ -214,6 +220,20 @@ public class ProjectInfoScreen extends ProjectScreen {
     isTemplate = newInheritedBooleanBox();
     saveEnabler.listenTo(isTemplate);
     grid.addHtml(Util.C.isTemplate(), isTemplate);
+
+    templateProjectNamePrefix = new NpTextBox();
+    templateProjectNamePrefix.setVisibleLength(20);
+    templateProjectNamePrefix.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+          saveProject.click();
+        }
+      }
+    });
+    saveEnabler.listenTo(templateProjectNamePrefix);
+    grid.addHtml(Util.C.templateProjectNamePrefix(),
+        templateProjectNamePrefix);
   }
 
   private void setSubmitType(final Project.SubmitType newSubmitType) {
@@ -292,6 +312,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     setBool(isTemplate, result.isTemplate);
     setSubmitType(project.getSubmitType());
     setState(project.getState());
+    templateProjectNamePrefix.setText(result.templateProjectNamePrefix);
 
     saveProject.setEnabled(false);
   }
@@ -303,6 +324,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     project.setUseContentMerge(getBool(contentMerge));
     project.setRequireChangeID(getBool(requireChangeID));
     project.setIsTemplate(getBool(isTemplate));
+    project.setTemplateProjectNamePrefix(templateProjectNamePrefix.getText());
     if (submitType.getSelectedIndex() >= 0) {
       project.setSubmitType(Project.SubmitType.valueOf(submitType
           .getValue(submitType.getSelectedIndex())));

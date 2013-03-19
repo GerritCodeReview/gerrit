@@ -161,7 +161,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         + "  accepted = group Staff\n" //
         + "  agreementUrl = http://www.example.com/agree\n" //
         + "[project]\n"//
-        + "\tstate = active\n", text(rev, "project.config"));
+        + "\tstate = active\n" //
+        + "[template]\n" //
+        + "\tprojectNamePrefix = \n", text(rev, "project.config"));
   }
 
   @Test
@@ -190,7 +192,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         + "  upload = group Developers\n" //
         + "  read = group Developers\n"//
         + "[project]\n"//
-        + "\tstate = active\n", text(rev, "project.config"));
+        + "\tstate = active\n" //
+        + "[template]\n" //
+        + "\tprojectNamePrefix = \n", text(rev, "project.config"));
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException,

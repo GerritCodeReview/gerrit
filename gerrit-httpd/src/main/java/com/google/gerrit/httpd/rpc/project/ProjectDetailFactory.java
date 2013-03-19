@@ -104,6 +104,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
 
     final Project project = projectState.getProject();
     detail.setParent(project.getParent());
+    detail.setTemplateProjectNamePrefix(project.getTemplateProjectNamePrefix());
     final Project.NameKey projectName = project.getNameKey();
     Repository git;
     try {

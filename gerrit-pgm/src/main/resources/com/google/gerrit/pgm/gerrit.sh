@@ -119,7 +119,7 @@ test -z "$START_STOP_DAEMON" && START_STOP_DAEMON=1
 ##################################################
 # See if there's a default configuration file
 ##################################################
-if test -f /etc/default/gerritcodereview ; then 
+if test -f /etc/default/gerritcodereview ; then
   . /etc/default/gerritcodereview
 fi
 
@@ -162,8 +162,8 @@ if test -z "$GERRIT_SITE" ; then
 
   GERRIT_SITE_1=`dirname "$GERRIT_SITE_1"`
 
-  if test -f "${GERRIT_SITE_1}/${GERRIT_INSTALL_TRACE_FILE}" ; then 
-    GERRIT_SITE=${GERRIT_SITE_1} 
+  if test -f "${GERRIT_SITE_1}/${GERRIT_INSTALL_TRACE_FILE}" ; then
+    GERRIT_SITE=${GERRIT_SITE_1}
   fi
 fi
 
@@ -171,7 +171,7 @@ fi
 # No GERRIT_SITE yet? We're out of luck!
 ##################################################
 if test -z "$GERRIT_SITE" ; then
-    echo >&2 "** ERROR: GERRIT_SITE not set" 
+    echo >&2 "** ERROR: GERRIT_SITE not set"
     exit 1
 fi
 
@@ -227,7 +227,7 @@ if test -z "$JAVA_HOME" ; then
     "
     for N in java jdk jre ; do
       for L in $JAVA_LOCATIONS ; do
-        test -d "$L" || continue 
+        test -d "$L" || continue
         find $L -name "$N" ! -type d | grep -v threads | while read J ; do
           test -x "$J" || continue
           VERSION=`eval "$J" -version 2>&1`
@@ -363,7 +363,7 @@ case "$ACTION" in
   start)
     printf '%s' "Starting Gerrit Code Review: "
 
-    if test 1 = "$NO_START" ; then 
+    if test 1 = "$NO_START" ; then
       echo "Not starting gerrit - NO_START=1 in /etc/default/gerritcodereview"
       exit 0
     fi
@@ -388,7 +388,7 @@ case "$ACTION" in
           echo >&2 "fatal: start-stop-daemon failed"
           rc=1
         fi
-        exit $rc 
+        exit $rc
       fi
     else
       if test -f "$GERRIT_PID" ; then
@@ -400,7 +400,7 @@ case "$ACTION" in
         fi
       fi
 
-      if test $UID = 0 -a -n "$GERRIT_USER" ; then 
+      if test $UID = 0 -a -n "$GERRIT_USER" ; then
         touch "$GERRIT_PID"
         chown $GERRIT_USER "$GERRIT_PID"
         su - $GERRIT_USER -s /bin/sh -c "
@@ -449,7 +449,7 @@ case "$ACTION" in
 
     if test 1 = "$START_STOP_DAEMON" && type start-stop-daemon >/dev/null 2>&1
     then
-      start-stop-daemon -K -p "$GERRIT_PID" -s HUP 
+      start-stop-daemon -K -p "$GERRIT_PID" -s HUP
       sleep 1
       if running "$GERRIT_PID" ; then
         sleep 3

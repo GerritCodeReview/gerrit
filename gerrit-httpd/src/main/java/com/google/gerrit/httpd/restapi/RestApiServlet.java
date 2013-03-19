@@ -61,6 +61,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.StreamingResponse;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.WebSession;
@@ -301,7 +302,11 @@ public class RestApiServlet extends HttpServlet {
       }
       res.setStatus(status);
 
-      if (result != Response.none()) {
+      if (result instanceof StreamingResponse) {
+        StreamingResponse r = (StreamingResponse) result;
+        res.setContentType(r.getContentType());
+        r.stream(res.getOutputStream());
+      } else if (result != Response.none()) {
         result = Response.unwrap(result);
         if (result instanceof BinaryResult) {
           replyBinaryResult(req, res, (BinaryResult) result);

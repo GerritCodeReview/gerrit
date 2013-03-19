@@ -408,6 +408,45 @@ link:#repository-statistics-info[RepositoryStatisticsInfo] entity.
   }
 ----
 
+[[run-gc]]
+Run GC
+~~~~~~
+[verse]
+'POST /projects/link:#project-name[\{project-name\}]/gc'
+
+Run the Git garbage collection for the repository of a project.
+
+.Request
+----
+  POST /projects/plugins%2Freplication/gc HTTP/1.0
+----
+
+The response is the streamed output of the garbage collection.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  collecting garbage for "plugins/replication":
+  Pack refs:              100% (21/21)
+  Counting objects:       20
+  Finding sources:        100% (20/20)
+  Getting sizes:          100% (13/13)
+  Compressing objects:     83% (5/6)
+  Writing objects:        100% (20/20)
+  Selecting commits:      100% (7/7)
+  Building bitmaps:       100% (7/7)
+  Finding sources:        100% (41/41)
+  Getting sizes:          100% (25/25)
+  Compressing objects:     52% (12/23)
+  Writing objects:        100% (41/41)
+  Prune loose objects also found in pack files: 100% (36/36)
+  Prune loose, unreferenced objects: 100% (36/36)
+  done.
+----
+
 [[dashboard-endpoints]]
 Dashboard Endpoints
 -------------------

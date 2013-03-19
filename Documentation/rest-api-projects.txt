@@ -535,6 +535,38 @@ returned that describe the child projects.
   ]
 ----
 
+[[get-child-project]]
+Get Child Project
+~~~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/children/link:#project-name[\{project-name\}]'
+
+Retrieves a child project.
+
+.Request
+----
+  GET /projects/Public-Plugins/children/plugins%2Freplication HTTP/1.0
+----
+
+As response a link:#project-info[ProjectInfo] entity is returned that
+describes the child project.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#project",
+    "id": "plugins%2Freplication",
+    "name": "plugins/replication",
+    "parent": "Public-Plugins",
+    "description": "Copies to other servers using the Git protocol"
+  }
+----
+
 [[dashboard-endpoints]]
 Dashboard Endpoints
 -------------------

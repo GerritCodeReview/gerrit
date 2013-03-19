@@ -429,6 +429,10 @@ public class RefControlTest extends TestCase {
       }
 
       @Override
+      public void evict(Project.NameKey p) {
+      }
+
+      @Override
       public void remove(Project p) {
       }
 

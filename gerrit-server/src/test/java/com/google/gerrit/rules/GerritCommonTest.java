@@ -106,6 +106,11 @@ public class GerritCommonTest extends PrologTestCase {
     }
 
     @Override
+    public void evict(Project.NameKey p) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void remove(Project p) {
       throw new UnsupportedOperationException();
     }

@@ -14,24 +14,29 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class ChildProjectsCollection implements
     ChildCollection<ProjectResource, ChildProjectResource> {
   private final Provider<ListChildProjects> list;
+  private final Provider<ProjectsCollection> projectsCollection;
   private final DynamicMap<RestView<ChildProjectResource>> views;
 
   @Inject
   ChildProjectsCollection(Provider<ListChildProjects> list,
+      Provider<ProjectsCollection> projectsCollection,
       DynamicMap<RestView<ChildProjectResource>> views) {
     this.list = list;
+    this.projectsCollection = projectsCollection;
     this.views = views;
   }
 
@@ -44,6 +49,13 @@ public class ChildProjectsCollection implements
   @Override
   public ChildProjectResource parse(ProjectResource parent, IdString id)
       throws ResourceNotFoundException {
+    ProjectResource p =
+        projectsCollection.get().parse(TopLevelResource.INSTANCE, id);
+    ProjectState pp =
+        Iterables.getFirst(p.getControl().getProjectState().parents(), null);
+    if (pp != null && parent.getNameKey().equals(pp.getProject().getNameKey())) {
+      return new ChildProjectResource(parent, p.getControl());
+    }
     throw new ResourceNotFoundException(id);
   }
 

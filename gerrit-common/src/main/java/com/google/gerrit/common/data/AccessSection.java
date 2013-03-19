@@ -28,6 +28,18 @@ public class AccessSection extends RefConfigSection implements
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
 
+  /**
+   * Special name given to the project specific capabilities that may have
+   * impact on other projects or the whole collection of projects.
+   *
+   * This is not a valid reference.
+   *
+   * An Example for capabilities under this reference is template
+   * instantiation.
+   */
+  public static final String PROJECT_CONTEXT_CAPABILITIES =
+      "PROJECT_CONTEXT_CAPABILITIES";
+
   protected List<Permission> permissions;
 
   protected AccessSection() {

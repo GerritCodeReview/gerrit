@@ -28,6 +28,14 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
+  public static void instantiableTemplates(AsyncCallback<ProjectMap> callback) {
+    new RestApi("/projects/")
+        .addParameterRaw("type", "ALL")
+        .addParameterTrue("all")
+        .addParameterTrue("instantiable-templates")
+        .get(NativeMap.copyKeysIntoChildren(callback));
+  }
+
   public static void permissions(AsyncCallback<ProjectMap> callback) {
     new RestApi("/projects/")
         .addParameterRaw("type", "PERMISSIONS")

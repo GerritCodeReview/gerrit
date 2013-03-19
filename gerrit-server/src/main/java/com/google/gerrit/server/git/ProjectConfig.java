@@ -36,6 +36,7 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.common.data.ProjectContextCapabilities;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
@@ -92,6 +93,9 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_HEADER = "header";
 
   private static final String CAPABILITY = "capability";
+
+  private static final String PROJECT_CONTEXT_CAPABILITIES =
+      "projectContextCapability";
 
   private static final String RECEIVE = "receive";
   private static final String KEY_REQUIRE_SIGNED_OFF_BY = "requireSignedOffBy";
@@ -482,6 +486,21 @@ public class ProjectConfig extends VersionedMetaData {
             GlobalCapability.hasRange(varName));
       }
     }
+    AccessSection projectContextCapabilities = null;
+    for (String varName : rc.getNames(PROJECT_CONTEXT_CAPABILITIES)) {
+      if (ProjectContextCapabilities.isCapability(varName)) {
+        if (projectContextCapabilities == null) {
+          projectContextCapabilities =
+              new AccessSection(AccessSection.PROJECT_CONTEXT_CAPABILITIES);
+          accessSections.put(AccessSection.PROJECT_CONTEXT_CAPABILITIES,
+              projectContextCapabilities);
+        }
+        Permission perm = projectContextCapabilities.getPermission(varName,
+            true);
+        loadPermissionRules(rc, PROJECT_CONTEXT_CAPABILITIES, null, varName,
+            groupsByName, perm, false);
+      }
+    }
   }
 
   private List<PermissionRule> loadPermissionRules(Config rc, String section,
@@ -779,9 +798,39 @@ public class ProjectConfig extends VersionedMetaData {
       rc.unsetSection(CAPABILITY, null);
     }
 
+    AccessSection projectContextCapabilities = accessSections.get(
+        AccessSection.PROJECT_CONTEXT_CAPABILITIES);
+    if (projectContextCapabilities != null) {
+      Set<String> have = new HashSet<String>();
+      for (Permission permission :
+          sort(projectContextCapabilities.getPermissions())) {
+        have.add(permission.getName().toLowerCase());
+
+        List<String> rules = new ArrayList<String>();
+        for (PermissionRule rule : sort(permission.getRules())) {
+          GroupReference group = rule.getGroup();
+          if (group.getUUID() != null) {
+            keepGroups.add(group.getUUID());
+          }
+          rules.add(rule.asString(false));
+        }
+        rc.setStringList(PROJECT_CONTEXT_CAPABILITIES, null,
+            permission.getName(), rules);
+      }
+      for (String varName : rc.getNames(PROJECT_CONTEXT_CAPABILITIES)) {
+        if (GlobalCapability.isCapability(varName)
+            && !have.contains(varName.toLowerCase())) {
+          rc.unset(PROJECT_CONTEXT_CAPABILITIES, null, varName);
+        }
+      }
+    } else {
+      rc.unsetSection(PROJECT_CONTEXT_CAPABILITIES, null);
+    }
+
     for (AccessSection as : sort(accessSections.values())) {
       String refName = as.getName();
-      if (AccessSection.GLOBAL_CAPABILITIES.equals(refName)) {
+      if (AccessSection.GLOBAL_CAPABILITIES.equals(refName)
+        || AccessSection.PROJECT_CONTEXT_CAPABILITIES.equals(refName)) {
         continue;
       }
 
@@ -943,5 +992,37 @@ public class ProjectConfig extends VersionedMetaData {
     ArrayList<T> r = new ArrayList<T>(m);
     Collections.sort(r);
     return r;
+  }
+
+  /**
+   * Aliases a template's configuration to another configuration.
+   * <p>
+   * Use this method only if you want to commit one project's configuration to
+   * another project.
+   * <p>
+   * As this method does not deep copy the template's configuration, but only
+   * aliases it, do not update the target project after calling this method.
+   * Instead, commit the target configuration to the target's repository and
+   * afterwards reread it from this commit, to get a fully usable, de-aliased
+   * configuration for the target.
+   *
+   * @param templateConfig The configuration to alias onto this object
+   */
+  // We'd rather have a way to properly deep copy the config of the template
+  // to the target. That however would require to provide de-aliasing copy
+  // constructors all the way down to {@link Address}es etc, which would come
+  // with unwarranted maintenance burden, as template is the only use case for
+  // now. Therefore, we instead allow controlled aliasing for now for template
+  // instantiation. If more use cases pop up, we have to refactor this into
+  // proper deep copying the configuration.
+  public void aliasTemplateDefaults(ProjectConfig templateConfig) {
+    accountsSection = templateConfig.accountsSection;
+    groupsByUUID = templateConfig.groupsByUUID;
+    accessSections = templateConfig.accessSections;
+    contributorAgreements = templateConfig.contributorAgreements;
+    notifySections = templateConfig.notifySections;
+    labelSections = templateConfig.labelSections;
+    rulesId = templateConfig.rulesId;
+    project.copySettingsFrom(templateConfig.project, true);
   }
 }

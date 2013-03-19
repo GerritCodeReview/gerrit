@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -172,36 +173,58 @@ public class PerformCreateProject {
     final MetaDataUpdate md =
         metaDataUpdateFactory.create(createProjectArgs.getProject());
     try {
-      final ProjectConfig config = ProjectConfig.read(md);
+      ProjectConfig config = ProjectConfig.read(md);
       config.load(md);
 
-      Project newProject = config.getProject();
-      newProject.setDescription(createProjectArgs.projectDescription);
-      newProject.setSubmitType(createProjectArgs.submitType);
-      newProject
-          .setUseContributorAgreements(createProjectArgs.contributorAgreements);
-      newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);
-      newProject.setUseContentMerge(createProjectArgs.contentMerge);
-      newProject.setRequireChangeID(createProjectArgs.changeIdRequired);
-      if (createProjectArgs.newParent != null) {
-        newProject.setParentName(createProjectArgs.newParent.getProject()
-            .getNameKey());
-      }
+      Project newProject;
+      if (createProjectArgs.template == null) {
+        // Create new project without template
+        newProject = config.getProject();
+        newProject.setSubmitType(createProjectArgs.submitType);
+        newProject.setUseContributorAgreements(
+            createProjectArgs.contributorAgreements);
+        newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);
+        newProject.setUseContentMerge(createProjectArgs.contentMerge);
+        newProject.setRequireChangeID(createProjectArgs.changeIdRequired);
+        if (createProjectArgs.newParent != null) {
+          newProject.setParentName(createProjectArgs.newParent.getProject()
+              .getNameKey());
+        }
 
-      if (!createProjectArgs.ownerIds.isEmpty()) {
-        final AccessSection all =
-            config.getAccessSection(AccessSection.ALL, true);
-        for (AccountGroup.UUID ownerId : createProjectArgs.ownerIds) {
-          GroupDescription.Basic g = groupBackend.get(ownerId);
-          if (g != null) {
-            GroupReference group = config.resolve(GroupReference.forGroup(g));
-            all.getPermission(Permission.OWNER, true).add(
-                new PermissionRule(group));
+        if (!createProjectArgs.ownerIds.isEmpty()) {
+          final AccessSection all =
+              config.getAccessSection(AccessSection.ALL, true);
+          for (AccountGroup.UUID ownerId : createProjectArgs.ownerIds) {
+            GroupDescription.Basic g = groupBackend.get(ownerId);
+            if (g != null) {
+              GroupReference group =
+                  config.resolve(GroupReference.forGroup(g));
+              all.getPermission(Permission.OWNER, true).add(
+                  new PermissionRule(group));
+            }
           }
         }
-      }
+        md.setMessage("Created project\n");
+      } else {
+        // Bring the template to the new project
+        ProjectConfig templateConfig = createProjectArgs.template
+            .getProjectState().getConfig();
+        md.setMessage("Copy template config from " +
+            templateConfig.getProject().getName());
+        config.aliasTemplateDefaults(templateConfig);
+        config.commit(md);
 
-      md.setMessage("Created project\n");
+        // Rebooting config from the previous commit.
+        // We reconstruct the whole object instead of just 'load'-ing from md,
+        // to avoid reusing any remains from the aliased template
+        // configuration.
+        config = ProjectConfig.read(md);
+        newProject = config.getProject();
+        newProject.setIsTemplate(InheritableBoolean.FALSE);
+        md.setMessage("Adadpt template defaults\n");
+      }
+      newProject.setDescription(createProjectArgs.projectDescription);
+
       config.commit(md);
     } finally {
       md.close();
@@ -220,10 +243,23 @@ public class PerformCreateProject {
     String nameWithoutSuffix = ProjectUtil.stripGitSuffix(createProjectArgs.getProjectName());
     createProjectArgs.setProjectName(nameWithoutSuffix);
 
-    if (!currentUser.getCapabilities().canCreateProject()) {
-      throw new ProjectCreationFailedException(String.format(
-          "%s does not have \"Create Project\" capability.",
-          currentUser.getUserName()));
+    if (createProjectArgs.template != null) {
+      if (!createProjectArgs.template.getProjectState().isIsTemplate()) {
+        throw new ProjectCreationFailedException(String.format(
+            "%s cannot be used as template.",
+            createProjectArgs.template.getProject().getName()));
+      }
+      if (!createProjectArgs.template.canInstantiateTemplate()) {
+        throw new ProjectCreationFailedException(String.format(
+            "%s does not have the capability to instantiate the template.",
+            currentUser.getUserName()));
+      }
+    } else {
+      if (!currentUser.getCapabilities().canCreateProject()) {
+        throw new ProjectCreationFailedException(String.format(
+            "%s does not have \"Create Project\" capability.",
+            currentUser.getUserName()));
+      }
     }
 
     if (createProjectArgs.ownerIds == null

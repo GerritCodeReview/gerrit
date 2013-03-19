@@ -137,6 +137,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.all = all;
   }
 
+  @Option(name = "--instantiable-templates", usage =
+      "limit matches to templates that the calling user can instantate")
+  public void setInstantiableTemplates(boolean instantiableTemplates) {
+    this.instantiableTemplates = instantiableTemplates;
+  }
+
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of projects to list")
   public void setLimit(int limit) {
     this.limit = limit;
@@ -163,6 +169,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private FilterType type = FilterType.CODE;
   private boolean showDescription;
   private boolean all;
+  private boolean instantiableTemplates;
   private int limit;
   private String matchPrefix;
   private String matchSubstring;
@@ -258,6 +265,10 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               GroupReference.forGroup(groupCache.get(groupUuid)))) {
             continue;
           }
+        }
+
+        if (instantiableTemplates && !pctl.canInstantiateTemplate()) {
+          continue;
         }
 
         ProjectInfo info = new ProjectInfo();

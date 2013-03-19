@@ -416,6 +416,9 @@ capability.
 |`emailReviewers`    |not set if `false`|Whether the user has the
 link:access-control.html#capability_emailReviewers[Email Reviewers]
 capability.
+|`instantiateSomeTemplate`|only set if both explicitly queried, and
+`true`|Whether the user has the capability to instantiate some project
+as template.
 |`killTask`          |not set if `false`|Whether the user has the
 link:access-control.html#capability_kill[Kill Task] capability.
 |`viewCaches`        |not set if `false`|Whether the user has the

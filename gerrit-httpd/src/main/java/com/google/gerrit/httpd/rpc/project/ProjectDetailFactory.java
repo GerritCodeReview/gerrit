@@ -102,7 +102,9 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setRequireChangeID(requireChangeID);
     detail.setIsTemplate(isTemplate);
 
-    final Project.NameKey projectName = projectState.getProject().getNameKey();
+    final Project project = projectState.getProject();
+    detail.setParent(project.getParent());
+    final Project.NameKey projectName = project.getNameKey();
     Repository git;
     try {
       git = gitRepositoryManager.openRepository(projectName);

@@ -225,6 +225,11 @@ public class AccessSectionEditor extends Composite implements
       for (String varName : Util.C.capabilityNames().keySet()) {
         addPermission(varName, perms);
       }
+    } else if (AccessSection.PROJECT_CONTEXT_CAPABILITIES.equals(
+        value.getName())) {
+      for (String varName : Util.C.projectContextCapabilityNames().keySet()) {
+        addPermission(varName, perms);
+      }
     } else if (RefConfigSection.isValid(value.getName())) {
       for (LabelType t : projectAccess.getLabelTypes().getLabelTypes()) {
         addPermission(Permission.LABEL + t.getName(), perms);

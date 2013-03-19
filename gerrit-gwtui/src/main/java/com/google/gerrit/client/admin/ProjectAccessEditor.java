@@ -98,6 +98,15 @@ public class ProjectAccessEditor extends Composite implements
       value.getLocal().add(0, new AccessSection(AccessSection.GLOBAL_CAPABILITIES));
     }
 
+    // Same for Project Context Capabilities
+    if (editing
+        && value.isOwnerOf(AccessSection.PROJECT_CONTEXT_CAPABILITIES)
+        && value.getLocal(AccessSection.PROJECT_CONTEXT_CAPABILITIES) == null
+        ) {
+      value.getLocal().add(0, new AccessSection(
+          AccessSection.PROJECT_CONTEXT_CAPABILITIES));
+    }
+
     this.value = value;
 
     Project.NameKey parent = value.getInheritsFrom();

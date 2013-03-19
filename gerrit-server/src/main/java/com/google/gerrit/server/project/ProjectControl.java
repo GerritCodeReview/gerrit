@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.common.data.ProjectContextCapabilities;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -122,6 +123,7 @@ public class ProjectControl {
 
   private List<SectionMatcher> allSections;
   private List<SectionMatcher> localSections;
+  private List<SectionMatcher> projectContextCapabilitiesSections;
   private LabelTypes labelTypes;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
@@ -162,8 +164,14 @@ public class ProjectControl {
     }
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
+      List<SectionMatcher> source;
+      if (AccessSection.PROJECT_CONTEXT_CAPABILITIES.equals(refName)) {
+        source = projectContextCapabilitiesAccess();
+      } else {
+        source = access();
+      }
       PermissionCollection relevant =
-          permissionFilter.filter(access(), refName, user.getUserName());
+          permissionFilter.filter(source, refName, user.getUserName());
       ctl = new RefControl(this, refName, relevant);
       refControls.put(refName, ctl);
     }
@@ -416,6 +424,19 @@ public class ProjectControl {
     return localSections;
   }
 
+  /**
+   * Get the project context capabilities sections that apply to this project.
+   *
+   * @return matching sections as {@code SectionMatcher}s
+   */
+  private List<SectionMatcher> projectContextCapabilitiesAccess() {
+    if (projectContextCapabilitiesSections == null) {
+      projectContextCapabilitiesSections =
+          state.getAllProjectContextCapabilitiesSections();
+    }
+    return projectContextCapabilitiesSections;
+  }
+
   boolean match(PermissionRule rule) {
     return match(rule.getGroup().getUUID());
   }
@@ -445,4 +466,26 @@ public class ProjectControl {
     }
     return false;
   }
+
+  /**
+   * Check whether or not the current user can instantiate the project as
+   * template.
+   *
+   * @return true if the project is a template and the user can instantiate it,
+   *    false otherwise.
+   */
+  public boolean canInstantiateTemplate() {
+    boolean ret = getProjectState().isIsTemplate();
+    if (ret) {
+      ret = getCurrentUser().getCapabilities().canCreateProject();
+      if (!ret) {
+        RefControl ctl = controlForRef(
+            AccessSection.PROJECT_CONTEXT_CAPABILITIES);
+        ret = ctl.canPerform(
+            ProjectContextCapabilities.INSTANTIATE_TEMPLATE);
+      }
+    }
+    return ret;
+  }
+
 }

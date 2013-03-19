@@ -126,6 +126,14 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
           local.add(section);
         }
 
+      } else if (AccessSection.PROJECT_CONTEXT_CAPABILITIES.equals(name)) {
+        if (pc.getCurrentUser().getCapabilities().canAdministrateServer()) {
+          local.add(section);
+          ownerOf.add(name);
+
+        } else if (metaConfigControl.isVisible()) {
+          local.add(section);
+        }
       } else if (RefConfigSection.isValid(name)) {
         RefControl rc = pc.controlForRef(name);
         if (rc.isOwner()) {
@@ -197,6 +205,10 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       if (pc.isOwner()) {
         ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
       }
+    }
+
+    if (pc.getCurrentUser().getCapabilities().canAdministrateServer()) {
+      ownerOf.add(AccessSection.PROJECT_CONTEXT_CAPABILITIES);
     }
 
     detail.setLocal(local);

@@ -17,6 +17,8 @@ package com.google.gerrit.client;
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
+import static com.google.gerrit.common.data.GlobalCapability
+    .INSTANTIATE_SOME_TEMPLATE;
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.admin.ProjectScreen;
@@ -659,7 +661,8 @@ public class Gerrit implements EntryPoint {
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
         @Override
         public void onSuccess(AccountCapabilities result) {
-          if (result.canPerform(CREATE_PROJECT)) {
+          if (result.canPerform(CREATE_PROJECT)
+              || result.canPerform(INSTANTIATE_SOME_TEMPLATE)) {
             addLink(projectsBar, C.menuProjectsCreate(), PageLinks.ADMIN_CREATE_PROJECT);
           }
           if (result.canPerform(CREATE_GROUP)) {
@@ -671,7 +674,8 @@ public class Gerrit implements EntryPoint {
                 menuLeft.getWidgetIndex(peopleBar) + 1);
           }
         }
-      }, CREATE_PROJECT, CREATE_GROUP, ADMINISTRATE_SERVER);
+      }, CREATE_PROJECT, CREATE_GROUP, ADMINISTRATE_SERVER,
+      INSTANTIATE_SOME_TEMPLATE);
     }
 
     if (getConfig().isDocumentationAvailable()) {

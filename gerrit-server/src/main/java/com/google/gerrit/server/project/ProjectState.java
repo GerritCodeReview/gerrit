@@ -82,6 +82,15 @@ public class ProjectState {
   /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
   private volatile List<SectionMatcher> localAccessSections;
 
+  /**
+   * Local project context capabilities access section, wrapped in
+   * SectionMatchers for faster evaluation.
+   */
+  private volatile SectionMatcher localProjectContextCapabilitiesSection;
+
+  /** True iff localProjectContextCapabilitiesSection has been initialized. */
+  private volatile boolean localProjectContextCapabilitiesSectionInitialized;
+
   /** If this is all projects, the capabilities used by the server. */
   private final CapabilityCollection capabilities;
 
@@ -228,6 +237,29 @@ public class ProjectState {
   }
 
   /**
+   * Get the project context capabilities section that pertains only to this
+   * project.
+   *
+   * @return SectionMatcher for the project context capabilities access
+   *    section, or null if no such access section exists for the current
+   *    project.
+   */
+  private SectionMatcher getLocalProjectContextCapabilitiesSection() {
+    if (!localProjectContextCapabilitiesSectionInitialized) {
+      AccessSection section = config.getAccessSection(
+          AccessSection.PROJECT_CONTEXT_CAPABILITIES);
+      if (section != null) {
+        localProjectContextCapabilitiesSection = SectionMatcher.wrap(
+            getProject().getNameKey(),
+            AccessSection.PROJECT_CONTEXT_CAPABILITIES, section);
+      }
+
+      localProjectContextCapabilitiesSectionInitialized = true;
+    }
+    return localProjectContextCapabilitiesSection;
+  }
+
+  /**
    * Obtain all local and inherited sections. This collection is looked up
    * dynamically and is not cached. Callers should try to cache this result
    * per-request as much as possible.
@@ -242,6 +274,29 @@ public class ProjectState {
       all.addAll(s.getLocalAccessSections());
     }
     return all;
+  }
+
+  /**
+   * Obtain all local and inherited project capability sections. This
+   * collection is looked up dynamically and is not cached. Callers should
+   * try to cache this result per-request as much as possible.
+   */
+  List<SectionMatcher> getAllProjectContextCapabilitiesSections() {
+    List<SectionMatcher> ret = Lists.newArrayList();
+    if (isAllProjects) {
+      final SectionMatcher section = getLocalProjectContextCapabilitiesSection();
+      if (section != null) {
+        ret.add(section);
+      }
+    } else {
+      for (ProjectState s : tree()) {
+        final SectionMatcher section = s.getLocalProjectContextCapabilitiesSection();
+        if (section != null) {
+          ret.add(section);
+        }
+      }
+    }
+    return ret;
   }
 
   /**

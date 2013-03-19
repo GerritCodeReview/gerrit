@@ -98,6 +98,13 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           }
           replace(config, toDelete, section);
 
+        } else if (AccessSection.PROJECT_CONTEXT_CAPABILITIES.equals(name)) {
+          if (checkIfOwner && !projectControl.getCurrentUser()
+              .getCapabilities().canAdministrateServer()) {
+            continue;
+          }
+          replace(config, toDelete, section);
+
         } else if (AccessSection.isValid(name)) {
           if (checkIfOwner && !projectControl.controlForRef(name).isOwner()) {
             continue;
@@ -112,6 +119,12 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
       for (String name : toDelete) {
         if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
           if (!checkIfOwner || projectControl.isOwner()) {
+            config.remove(config.getAccessSection(name));
+          }
+
+        } else if (AccessSection.PROJECT_CONTEXT_CAPABILITIES.equals(name)) {
+          if (!checkIfOwner || projectControl.getCurrentUser()
+              .getCapabilities().canAdministrateServer()) {
             config.remove(config.getAccessSection(name));
           }
 

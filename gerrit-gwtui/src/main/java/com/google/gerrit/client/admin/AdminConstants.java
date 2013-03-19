@@ -78,6 +78,9 @@ public interface AdminConstants extends Constants {
   String projectState_READ_ONLY();
   String projectState_HIDDEN();
 
+  String headingTemplate();
+  String templateNone();
+
   String columnMember();
   String columnEmailAddress();
   String columnGroupName();
@@ -128,6 +131,8 @@ public interface AdminConstants extends Constants {
   String errorsMustBeFixed();
 
   Map<String, String> capabilityNames();
+
+  Map<String, String> projectContextCapabilityNames();
 
   String sectionTypeReference();
   String sectionTypeSection();

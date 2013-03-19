@@ -24,10 +24,13 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.git.QueueProvider;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -43,6 +46,8 @@ public class CapabilityControl {
     public CapabilityControl create(CurrentUser user);
   }
 
+  private final ProjectCache projectCache;
+  private final ProjectControl.GenericFactory projectControlGenericFactory;
   private final CapabilityCollection capabilities;
   private final CurrentUser user;
   private final Map<String, List<PermissionRule>> effective;
@@ -51,8 +56,12 @@ public class CapabilityControl {
   private Boolean canEmailReviewers;
 
   @Inject
-  CapabilityControl(ProjectCache projectCache, @Assisted CurrentUser currentUser) {
-    capabilities = projectCache.getAllProjects().getCapabilityCollection();
+  CapabilityControl(ProjectCache projectCache,
+      ProjectControl.GenericFactory projectControlGenericFactory,
+      @Assisted CurrentUser currentUser) {
+    this.projectCache = projectCache;
+    this.projectControlGenericFactory = projectControlGenericFactory;
+    capabilities = this.projectCache.getAllProjects().getCapabilityCollection();
     user = currentUser;
     effective = new HashMap<String, List<PermissionRule>>();
   }
@@ -98,6 +107,24 @@ public class CapabilityControl {
 
     }
     return canEmailReviewers;
+  }
+
+  /** @return true if the user can instantiate some template. */
+  public boolean canInstantiateSomeTemplate() {
+    boolean ret = false;
+    for (Project.NameKey projectNameKey : projectCache.all()) {
+      if (!ret) {
+        try {
+          ProjectControl projectControl =
+              projectControlGenericFactory.controlFor(projectNameKey, user);
+          ret = projectControl.canInstantiateTemplate();
+        } catch (NoSuchProjectException e) {
+          // Since we're just looking for some project, it's not a deal
+          // breaker, if a project could not be found
+        }
+      }
+    }
+    return ret;
   }
 
   /** @return true if the user can kill any running task. */

@@ -20,6 +20,8 @@ import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.EMAIL_REVIEWERS;
 import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
+import static com.google.gerrit.common.data.GlobalCapability
+    .INSTANTIATE_SOME_TEMPLATE;
 import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
 import static com.google.gerrit.common.data.GlobalCapability.RUN_GC;
@@ -118,6 +120,13 @@ class GetCapabilities implements RestReadView<AccountResource> {
     if (queue != QueueProvider.QueueType.INTERACTIVE
         || (query != null && query.contains(PRIORITY))) {
       have.put(PRIORITY, queue);
+    }
+
+    // INSTANTIATE_SOME_TEMPLATE is a computed capability, so we include it
+    // only if it's explicitly requested
+    if (query != null && query.contains(
+        INSTANTIATE_SOME_TEMPLATE.toLowerCase())) {
+      have.put(INSTANTIATE_SOME_TEMPLATE, cc.canInstantiateSomeTemplate());
     }
 
     Iterator<Map.Entry<String, Object>> itr = have.entrySet().iterator();

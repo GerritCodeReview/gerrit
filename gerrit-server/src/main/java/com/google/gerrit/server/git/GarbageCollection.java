@@ -92,7 +92,9 @@ public class GarbageCollection {
         gc.setProgressMonitor(writer != null ? new TextProgressMonitor(writer)
             : NullProgressMonitor.INSTANCE);
         gc.gc();
-        logGcInfo(p, "after: ", gc.getStatistics());
+        RepoStatistics stats = gc.getStatistics();
+        logGcInfo(p, "after: ", stats);
+        result.addStatistics(p, stats);
         print(writer, "done.\n\n");
       } catch (RepositoryNotFoundException e) {
         logGcError(p, e);

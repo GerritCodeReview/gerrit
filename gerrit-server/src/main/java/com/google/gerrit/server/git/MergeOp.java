@@ -711,8 +711,6 @@ public class MergeOp {
   }
 
   private void updateChangeStatus(final List<Change> submitted) {
-    List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
-
     for (final Change c : submitted) {
       final CodeReviewCommit commit = commits.get(c.getId());
       final CommitMergeStatus s = commit != null ? commit.statusCode : null;
@@ -725,45 +723,42 @@ public class MergeOp {
 
       final String txt = s.getMessage();
 
-      switch (s) {
-        case CLEAN_MERGE: {
-          setMerged(c, message(c, txt));
-          merged.add(commit);
-          break;
+      try {
+        switch (s) {
+          case CLEAN_MERGE:
+            setMerged(c, message(c, txt));
+            break;
+
+          case CLEAN_REBASE:
+          case CLEAN_PICK:
+            setMerged(c, message(c, txt + " as " + commit.name()));
+            break;
+
+          case ALREADY_MERGED:
+            setMerged(c, null);
+            break;
+
+          case PATH_CONFLICT:
+          case MANUAL_RECURSIVE_MERGE:
+          case CANNOT_CHERRY_PICK_ROOT:
+          case NOT_FAST_FORWARD:
+          case INVALID_PROJECT_CONFIGURATION:
+          case INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND:
+          case INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT:
+          case SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN:
+            setNew(c, message(c, txt));
+            break;
+
+          case MISSING_DEPENDENCY:
+            potentiallyStillSubmittable.add(commit);
+            break;
+
+          default:
+            setNew(c, message(c, "Unspecified merge failure: " + s.name()));
+            break;
         }
-
-        case CLEAN_REBASE:
-        case CLEAN_PICK: {
-          setMerged(c, message(c, txt + " as " + commit.name()));
-          merged.add(commit);
-          break;
-        }
-
-        case ALREADY_MERGED:
-          setMerged(c, null);
-          merged.add(commit);
-          break;
-
-        case PATH_CONFLICT:
-        case MANUAL_RECURSIVE_MERGE:
-        case CANNOT_CHERRY_PICK_ROOT:
-        case NOT_FAST_FORWARD:
-        case INVALID_PROJECT_CONFIGURATION:
-        case INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND:
-        case INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT:
-        case SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN: {
-          setNew(c, message(c, txt));
-          break;
-        }
-
-        case MISSING_DEPENDENCY: {
-          potentiallyStillSubmittable.add(commit);
-          break;
-        }
-
-        default:
-          setNew(c, message(c, "Unspecified merge failure: " + s.name()));
-          break;
+      } catch (OrmException err) {
+        log.warn("Error updating change status for " + c.getId(), err);
       }
     }
   }
@@ -880,58 +875,64 @@ public class MergeOp {
     return m;
   }
 
-  private void setMerged(final Change c, final ChangeMessage msg) {
-    // We must pull the patchset out of commits, because the patchset ID is
-    // modified when using the cherry-pick merge strategy.
-    CodeReviewCommit commit = commits.get(c.getId());
-    PatchSet.Id merged = commit.change.currentPatchSetId();
-    setMergedPatchSet(c.getId(), merged);
-    PatchSetApproval submitter = saveApprovals(c, merged);
-    addMergedMessage(submitter, msg);
-    sendMergedEmail(c, submitter);
-
-    if (submitter != null) {
-      try {
-        hooks.doChangeMergedHook(c,
-            accountCache.get(submitter.getAccountId()).getAccount(),
-            db.patchSets().get(c.currentPatchSetId()), db);
-      } catch (OrmException ex) {
-        log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
-      }
-    }
-  }
-
-  private void setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged) {
+  private void setMerged(final Change c, final ChangeMessage msg)
+      throws OrmException {
     try {
-      db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
-        @Override
-        public Change update(Change c) {
-          c.setStatus(Change.Status.MERGED);
-          // It could be possible that the change being merged
-          // has never had its mergeability tested. So we insure
-          // merged changes has mergeable field true.
-          c.setMergeable(true);
-          if (!merged.equals(c.currentPatchSetId())) {
-            // Uncool; the patch set changed after we merged it.
-            // Go back to the patch set that was actually merged.
-            //
-            try {
-              c.setCurrentPatchSet(patchSetInfoFactory.get(db, merged));
-            } catch (PatchSetInfoNotAvailableException e1) {
-              log.error("Cannot read merged patch set " + merged, e1);
-            }
-          }
-          ChangeUtil.updated(c);
-          return c;
+      db.changes().beginTransaction(c.getId());
+
+      // We must pull the patchset out of commits, because the patchset ID is
+      // modified when using the cherry-pick merge strategy.
+      CodeReviewCommit commit = commits.get(c.getId());
+      PatchSet.Id merged = commit.change.currentPatchSetId();
+      setMergedPatchSet(c.getId(), merged);
+      PatchSetApproval submitter = saveApprovals(c, merged);
+      addMergedMessage(submitter, msg);
+
+      db.commit();
+
+      sendMergedEmail(c, submitter);
+      if (submitter != null) {
+        try {
+          hooks.doChangeMergedHook(c,
+              accountCache.get(submitter.getAccountId()).getAccount(),
+              db.patchSets().get(c.currentPatchSetId()), db);
+        } catch (OrmException ex) {
+          log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
         }
-      });
-    } catch (OrmConcurrencyException err) {
-    } catch (OrmException err) {
-      log.warn("Cannot update change status", err);
+      }
+    } finally {
+      db.rollback();
     }
   }
 
-  private PatchSetApproval saveApprovals(Change c, PatchSet.Id merged) {
+  private void setMergedPatchSet(Change.Id changeId, final PatchSet.Id merged)
+      throws OrmException {
+    db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change c) {
+        c.setStatus(Change.Status.MERGED);
+        // It could be possible that the change being merged
+        // has never had its mergeability tested. So we insure
+        // merged changes has mergeable field true.
+        c.setMergeable(true);
+        if (!merged.equals(c.currentPatchSetId())) {
+          // Uncool; the patch set changed after we merged it.
+          // Go back to the patch set that was actually merged.
+          //
+          try {
+            c.setCurrentPatchSet(patchSetInfoFactory.get(db, merged));
+          } catch (PatchSetInfoNotAvailableException e1) {
+            log.error("Cannot read merged patch set " + merged, e1);
+          }
+        }
+        ChangeUtil.updated(c);
+        return c;
+      }
+    });
+  }
+
+  private PatchSetApproval saveApprovals(Change c, PatchSet.Id merged)
+      throws OrmException {
     // Flatten out all existing approvals based upon the current
     // permissions. Once the change is closed the approvals are
     // not updated at presentation view time, so we need to make.
@@ -966,23 +967,18 @@ public class MergeOp {
       db.patchSetApprovals().update(approvals);
       db.patchSetApprovals().deleteKeys(toDelete);
     } catch (NoSuchChangeException err) {
-      log.warn("Cannot normalize approvals for change " + changeId, err);
-    } catch (OrmException err) {
-      log.warn("Cannot normalize approvals for change " + changeId, err);
+      throw new OrmException(err);
     }
     return submitter;
   }
 
-  private void addMergedMessage(PatchSetApproval submitter, ChangeMessage msg) {
+  private void addMergedMessage(PatchSetApproval submitter, ChangeMessage msg)
+      throws OrmException {
     if (msg != null) {
       if (submitter != null && msg.getAuthor() == null) {
         msg.setAuthor(submitter.getAccountId());
       }
-      try {
-        db.changeMessages().insert(Collections.singleton(msg));
-      } catch (OrmException err) {
-        log.warn("Cannot store message on change", err);
-      }
+      db.changeMessages().insert(Collections.singleton(msg));
     }
   }
 

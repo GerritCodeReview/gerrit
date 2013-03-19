@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "R-2MJwjY",
+        "filename": "ReleaseNotes/ReleaseNotes-2.7.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-19T07:02:16Z",
+      "side": 1,
+      "message": "There are many occurences of \u00272.6\u0027 in this file that need to be replaced with \u00272.7\u0027.",
+      "revId": "6c4e169f6f7692d2a9bc426e9e7a787a6f42548f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

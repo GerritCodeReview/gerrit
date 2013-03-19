@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "R-4MWvlc",
+        "filename": "ReleaseNotes/ReleaseNotes-2.7.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-19T07:02:16Z",
+      "side": 0,
+      "message": "This section should only be in the 2.6 releases notes, but should be removed from the 2.7 releases notes (as long as there are no minor 2.6.x releases).",
+      "revId": "47c4e459d3da0e7d0014b444b39e0602e8e15551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

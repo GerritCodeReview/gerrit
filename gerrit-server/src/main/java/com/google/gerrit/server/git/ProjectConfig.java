@@ -938,4 +938,36 @@ public class ProjectConfig extends VersionedMetaData {
     Collections.sort(r);
     return r;
   }
+
+  /**
+   * Aliases a template's configuration to another configuration.
+   * <p>
+   * Use this method only if you want to commit one project's configuration to
+   * another project.
+   * <p>
+   * As this method does not deep copy the template's configuration, but only
+   * aliases it, do not update the target project after calling this method.
+   * Instead, commit the target configuration to the target's repository and
+   * afterwards reread it from this commit, to get a fully usable, de-aliased
+   * configuration for the target.
+   *
+   * @param templateConfig The configuration to alias onto this object
+   */
+  // We'd rather have a way to properly deep copy the config of the template
+  // to the target. That however would require to provide de-aliasing copy
+  // constructors all the way down to Addresses etc, which would come with
+  // unwarranted maintenance burden, as template is the only use case for now.
+  // Therefore, we instead allow controlled aliasing for now for template
+  // instantiation. If more use cases pop up, we have to refactor this into
+  // proper deep copying the configuration.
+  public void aliasTemplateDefaults(ProjectConfig templateConfig) {
+    accountsSection = templateConfig.accountsSection;
+    groupsByUUID = templateConfig.groupsByUUID;
+    accessSections = templateConfig.accessSections;
+    contributorAgreements = templateConfig.contributorAgreements;
+    notifySections = templateConfig.notifySections;
+    labelSections = templateConfig.labelSections;
+    rulesId = templateConfig.rulesId;
+    project.copySettingsFrom(templateConfig.project, true);
+  }
 }

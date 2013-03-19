@@ -41,6 +41,7 @@ import java.util.List;
 class CreateProject implements RestModifyView<TopLevelResource, Input> {
   static class Input {
     String name;
+    String template;
     String parent;
     String description;
     boolean permissionsOnly;
@@ -89,6 +90,9 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
 
     final CreateProjectArgs args = new CreateProjectArgs();
     args.setProjectName(name);
+    if (!Strings.isNullOrEmpty(input.template)) {
+      args.template = projectsCollection.get().parse(input.template).getControl();
+    }
     if (!Strings.isNullOrEmpty(input.parent)) {
       args.newParent = projectsCollection.get().parse(input.parent).getControl();
     }

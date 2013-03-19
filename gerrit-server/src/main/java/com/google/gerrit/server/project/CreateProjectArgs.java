@@ -24,6 +24,7 @@ import java.util.List;
 public class CreateProjectArgs {
 
   private Project.NameKey projectName;
+  public ProjectControl template;
   public List<AccountGroup.UUID> ownerIds;
   public ProjectControl newParent;
   public String projectDescription;

@@ -93,6 +93,29 @@ public class ListChildProjectsIT extends AbstractDaemonTest {
     assertProjects(Arrays.asList(child1, child2), children);
   }
 
+  @Test
+  public void listChildrenRecursively() throws IOException, JSchException {
+    SshSession sshSession = new SshSession(admin);
+    Project.NameKey child1 = new Project.NameKey("p1");
+    createProject(sshSession, child1.get());
+    createProject(sshSession, "p2");
+    Project.NameKey child1_1 = new Project.NameKey("p1.1");
+    createProject(sshSession, child1_1.get(), child1);
+    Project.NameKey child1_2 = new Project.NameKey("p1.2");
+    createProject(sshSession, child1_2.get(), child1);
+    Project.NameKey child1_1_1 = new Project.NameKey("p1.1.1");
+    createProject(sshSession, child1_1_1.get(), child1_1);
+    Project.NameKey child1_1_1_1 = new Project.NameKey("p1.1.1.1");
+    createProject(sshSession, child1_1_1_1.get(), child1_1_1);
+
+    RestResponse r = GET("/projects/" + child1.get() + "/children/?recursive");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    List<ProjectInfo> children =
+        (new Gson()).fromJson(r.getReader(),
+            new TypeToken<List<ProjectInfo>>() {}.getType());
+    assertProjects(Arrays.asList(child1_1, child1_2, child1_1_1, child1_1_1_1), children);
+  }
+
   private RestResponse GET(String endpoint) throws IOException {
     return session.get(endpoint);
   }

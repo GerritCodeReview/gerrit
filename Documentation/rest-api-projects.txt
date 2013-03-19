@@ -535,6 +535,63 @@ returned that describe the child projects.
   ]
 ----
 
+To resolve the child projects of a project recursively the parameter
+`recursive` can be set.
+
+Child projects that are not visible to the calling user are ignored and
+are not resolved further.
+
+.Request
+----
+  GET /projects/Public-Projects/children/?recursive HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#project",
+      "id": "gerrit",
+      "name": "gerrit",
+      "parent": "Public-Projects",
+      "description": "Gerrit Code Review"
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Freplication",
+      "name": "plugins/replication",
+      "parent": "Public-Plugins",
+      "description": "Copies to other servers using the Git protocol"
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Freviewnotes",
+      "name": "plugins/reviewnotes",
+      "parent": "Public-Plugins",
+      "description": "Annotates merged commits using notes on refs/notes/review."
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Fsingleusergroup",
+      "name": "plugins/singleusergroup",
+      "parent": "Public-Plugins",
+      "description": "GroupBackend enabling users to be directly added to access rules"
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "Public-Plugins",
+      "name": "Public-Plugins",
+      "parent": "Public-Projects",
+      "description": "Parent project for plugins/*"
+    }
+  ]
+----
+
 [[get-child-project]]
 Get Child Project
 ~~~~~~~~~~~~~~~~~

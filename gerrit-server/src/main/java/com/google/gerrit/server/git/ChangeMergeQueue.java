@@ -42,6 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.SocketAddress;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -204,7 +205,17 @@ public class ChangeMergeQueue implements MergeQueue {
       threadScoper.scope(new Callable<Void>(){
         @Override
         public Void call() throws Exception {
-          bgFactory.get().create(branch).merge();
+          List<Branch.NameKey> branches =
+              new ArrayList<Branch.NameKey>();
+          branches.add(branch);
+          while (!branches.isEmpty()) {
+            final List<Branch.NameKey> newBranches =
+                new ArrayList<Branch.NameKey>();
+            for (Branch.NameKey branch : branches) {
+              newBranches.addAll(bgFactory.get().create(branch).merge());
+            }
+            branches = newBranches;
+          }
           return null;
         }
       }).call();

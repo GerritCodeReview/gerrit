@@ -15,6 +15,7 @@ User Guide
 * link:pgm-index.html[Server Programs]
 * link:user-upload.html[Uploading Changes]
 * link:user-changeid.html[Change-Id Lines]
+* link:user-dependencies.html[Dependency Lines]
 * link:user-signedoffby.html[Signed-off-by Lines]
 * link:access-control.html[Access Controls]
 * link:error-messages.html[Error Messages]

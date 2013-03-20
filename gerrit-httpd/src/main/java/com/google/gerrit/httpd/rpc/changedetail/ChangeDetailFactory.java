@@ -32,6 +32,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -48,6 +49,8 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,6 +67,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   public interface Factory {
     ChangeDetailFactory create(Change.Id id);
   }
+
+  private static final FooterKey DEPENDENCY = new FooterKey("Dependency");
 
   private final ChangeControl.Factory changeControlFactory;
   private final PatchSetDetailFactory.Factory patchSetDetail;
@@ -225,6 +230,12 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     }
   }
 
+  private Set<String> parseCrossProjectDependencies() {
+    final RevCommit revCommit = ChangeUtil.revCommitFromMessage(
+        detail.getCurrentPatchSetDetail().getInfo().getMessage());
+    return new HashSet<String>(revCommit.getFooterLines(DEPENDENCY));
+  }
+
   private void loadCurrentPatchSet() throws OrmException,
       NoSuchEntityException, PatchSetInfoNotAvailableException,
       NoSuchChangeException {
@@ -238,12 +249,14 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setCurrentPatchSetDetail(loader.call());
     detail.setCurrentPatchSetId(psId);
 
+    // Fetch the list of ancestor PatchSets for the current PatchSet
     final HashSet<Change.Id> changesToGet = new HashSet<Change.Id>();
     final HashMap<Change.Id,PatchSet.Id> ancestorPatchIds =
         new HashMap<Change.Id,PatchSet.Id>();
     final List<Change.Id> ancestorOrder = new ArrayList<Change.Id>();
     currentPatchSetAncestors = db.patchSetAncestors().ancestorsOf(psId).toList();
     for (PatchSetAncestor a : currentPatchSetAncestors) {
+      // Fetch each of the ancestor PatchSets individually
       for (PatchSet p : db.patchSets().byRevision(a.getAncestorRevision())) {
         currentDepPatchSets.add(p);
         final Change.Id ck = p.getId().getParentKey();
@@ -254,11 +267,15 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       }
     }
 
+    // Add the descendants of all PatchSets of this change.
+    // (All are needed because the current PatchSet may break a dependency for
+    // some other change relying on a previous PatchSet.)
     final Set<PatchSet.Id> descendants = new HashSet<PatchSet.Id>();
     RevId cprev;
     for (PatchSet p : detail.getPatchSets()) {
       cprev = p.getRevision();
       if (cprev != null) {
+        // Fetch each descendant PatchSet individually
         for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(cprev)) {
           if (descendants.add(a.getPatchSet())) {
             changesToGet.add(a.getPatchSet().getParentKey());
@@ -275,15 +292,29 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
         currentUserId = ((IdentifiedUser) currentUser).getAccountId();
     }
 
+    final Set<String> crossProjectDependencies =
+        parseCrossProjectDependencies();
     final ArrayList<ChangeInfo> dependsOn = new ArrayList<ChangeInfo>();
     for (final Change.Id a : ancestorOrder) {
       final Change ac = m.get(a);
-      if (ac != null && ac.getProject().equals(detail.getChange().getProject())) {
+      boolean isCrossProjectDependency =
+          crossProjectDependencies.contains(ChangeTriplet.format(ac));
+      if (ac != null && (
+          ac.getProject().equals(detail.getChange().getProject())
+          || isCrossProjectDependency)) {
         currentDepChanges.add(ac);
         if (ac.getStatus().getCode() != Change.STATUS_DRAFT
             || ac.getOwner().equals(currentUserId)
             || isReviewer(ac)) {
-          dependsOn.add(newChangeInfo(ac, ancestorPatchIds));
+          ChangeInfo ci;
+          if (isCrossProjectDependency) {
+            // If this is a cross-project dependency, the dependency is tied to
+            // the Change, not the PatchSet.
+            ci = newChangeInfo(ac, null);
+          } else {
+            ci = newChangeInfo(ac, ancestorPatchIds);
+          }
+          dependsOn.add(ci);
         }
       }
     }

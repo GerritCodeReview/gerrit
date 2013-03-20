@@ -1,0 +1,47 @@
+Gerrit Code Review - Dependencies
+=================================
+
+Description
+-----------
+
+Gerrit Code Review supports cross-project dependencies between changes.
+A user may specify such dependencies by using a ChangeTriplet.
+To be picked up by Gerrit, a Dependency line must be in the bottom
+portion (last paragraph) of a commit message, and may be mixed
+together with the Signed-off-by, Acked-by, or other such footers.
+For example:
+
+----
+  $ git log -1
+  commit 29a6bb1a059aef021ac39d342499191278518d1d
+  Author: A. U. Thor <author@example.com>
+  Date: Thu Aug 20 12:46:50 2009 -0700
+
+      Improve foo widget by attaching a bar.
+
+      We want a bar, because it improves the foo by providing more
+      wizbangery to the dowhatimeanery.
+
+      Bug: #42
+      Change-Id: Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
+      Dependency: myotherproject~mybranch~I97abc0ddaa303f57e0ce3deaa8c498917d75774e
+      Signed-off-by: A. U. Thor <author@example.com>
+      CC: R. E. Viewer <reviewer@example.com>
+----
+
+In the above example, `myotherproject` is a project different from the target
+project of this commit, `mybranch` is the branch of the dependency, and
+`I97abc0ddaa303f57e0ce3deaa8c498917d75774e` is the Change-Id of the dependency.
+
+Circular Dependencies
+--------
+
+Given two changes, A and B, one may create a circular dependency by
+
+* uploading a patchset to create A,
+* uploading a patchset specifying A as a dependency to create B, and
+* uploading a patchset specifying B as a dependency to A.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

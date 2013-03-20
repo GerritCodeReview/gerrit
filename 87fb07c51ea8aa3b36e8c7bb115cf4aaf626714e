@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SKXkZp4Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-20T23:57:45Z",
+      "side": 1,
+      "message": "I sense this should be after commit. Otherwise the background thread doing email delivery and reading the database is racing against this thread to finish writing.",
+      "revId": "87fb07c51ea8aa3b36e8c7bb115cf4aaf626714e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

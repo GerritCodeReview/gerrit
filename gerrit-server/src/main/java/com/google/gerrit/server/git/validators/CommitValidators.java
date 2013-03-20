@@ -18,6 +18,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -56,6 +57,7 @@ public class CommitValidators {
       .getLogger(CommitValidators.class);
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+  private static final FooterKey DEPENDENCY = new FooterKey("Dependency");
 
   private static final Pattern NEW_PATCHSET = Pattern
       .compile("^refs/changes/(?:[0-9][0-9])?(/[1-9][0-9]*){1,2}(?:/new)?$");
@@ -101,6 +103,7 @@ public class CommitValidators {
     if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
         || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()) {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl, sshInfo));
+      validators.add(new DependencyValidator());
     }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
@@ -194,6 +197,25 @@ public class CommitValidators {
           messages.add(getFixedCommitMsgWithChangeId(errMsg, receiveEvent.commit,
               currentUser, canonicalWebUrl, sshInfo));
           throw new CommitValidationException(errMsg, messages);
+        }
+      }
+      return Collections.<CommitValidationMessage>emptyList();
+    }
+  }
+
+  /** Require Dependency footer lines to be valid change triplets. */
+  public static class DependencyValidator implements CommitValidationListener {
+    public DependencyValidator() {
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(
+        CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      for (final String dependency : receiveEvent.commit.getFooterLines(DEPENDENCY)) {
+        try {
+          new ChangeTriplet(dependency);
+        } catch (ChangeTriplet.ParseException e) {
+          throw new CommitValidationException("invalid Dependency line");
         }
       }
       return Collections.<CommitValidationMessage>emptyList();

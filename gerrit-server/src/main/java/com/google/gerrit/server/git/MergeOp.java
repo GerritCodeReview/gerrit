@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -88,12 +89,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -224,8 +227,11 @@ public class MergeOp {
     }
   }
 
-  public void merge() throws MergeException {
+  public Collection<Branch.NameKey> merge() throws MergeException,
+      NoSuchProjectException {
     setDestProject();
+    final Set<Branch.NameKey> affectedBranches =
+        new HashSet<Branch.NameKey>();
     try {
       openSchema();
       openRepository();
@@ -239,6 +245,30 @@ public class MergeOp {
           ArrayListMultimap.create();
       final List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
           new ArrayList<CodeReviewCommit>();
+
+      // Check cross-project dependencies
+      toMergeNextTurn.clear();
+      for (Map.Entry<SubmitType, CodeReviewCommit> entry : toMerge.entries()) {
+        boolean doMerge = true;
+        for (final ChangeTriplet dependency :
+             ChangeUtil.dependenciesFromCommit(entry.getValue())) {
+          for (final Change c : db.changes().byBranchKey(
+              dependency.getBranchNameKey(), dependency.getChangeKey())) {
+            if (c.getStatus() == Change.Status.SUBMITTED) {
+              affectedBranches.add(dependency.getBranchNameKey());
+            } else if (c.getStatus() != Change.Status.MERGED) {
+              doMerge = false;
+              break;
+            }
+          }
+        }
+        if (doMerge) {
+          toMergeNextTurn.put(entry.getKey(), entry.getValue());
+        }
+      }
+      toMerge.clear();
+      toMerge.putAll(toMergeNextTurn);
+
       while (!toMerge.isEmpty()) {
         toMergeNextTurn.clear();
         final Set<SubmitType> submitTypes =
@@ -292,6 +322,9 @@ public class MergeOp {
       abandonAllOpenChanges();
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
+    } catch (ChangeTriplet.ParseException e) {
+      // This should have been caught in a CommitValidator
+      throw new RuntimeException("invalid Dependency", e);
     } finally {
       if (inserter != null) {
         inserter.release();
@@ -306,6 +339,7 @@ public class MergeOp {
         db.close();
       }
     }
+    return affectedBranches;
   }
 
   private boolean containsMissingCommits(

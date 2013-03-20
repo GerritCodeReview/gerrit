@@ -20,6 +20,7 @@
 .. Changes
 ... link:user-changeid.html[Change-Id Lines]
 ... link:user-signedoffby.html[Signed-off-by Lines]
+... link:user-dependencies.html[Dependency Lines]
 .. Patch sets
 
 == Project Management

@@ -18,9 +18,11 @@ import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -106,6 +108,7 @@ public class CommitValidators {
             receiveEvent.command.getRefName()).matches()) {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
+      validators.add(new DependencyValidator());
     }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
@@ -300,6 +303,23 @@ public class CommitValidators {
 
       return String.format("  gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
           sshPort, user.getUserName(), sshHost);
+    }
+  }
+
+/** Require Dependency footer lines to be valid change triplets. */
+  public static class DependencyValidator implements CommitValidationListener {
+    public DependencyValidator() {
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(
+        CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      try {
+        ChangeUtil.dependenciesFromCommit(receiveEvent.commit);
+      } catch (ChangeTriplet.ParseException e) {
+        throw new CommitValidationException("invalid Dependency line");
+      }
+      return Collections.<CommitValidationMessage>emptyList();
     }
   }
 

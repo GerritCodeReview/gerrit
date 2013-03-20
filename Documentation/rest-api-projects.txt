@@ -374,6 +374,40 @@ As response the new ref to which `HEAD` points is returned.
   "refs/heads/stable"
 ----
 
+[[get-repository-statistics]]
+Get Repository Statistics
+~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/statistics'
+
+Return statistics for the repository of a project.
+
+.Request
+----
+  GET /projects/plugins%2Freplication/statistics HTTP/1.0
+----
+
+The repository statistics are returned as a
+link:#repository-statistics-info[RepositoryStatisticsInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "sizeOfPackedObjects": 9646,
+    "sizeOfLooseObjects": 29466,
+    "numberOfPackedObjects": 67,
+    "numberOfPackFiles": 15,
+    "numberOfPackedRefs": 0,
+    "numberOfLooseRefs": 15,
+    "numberOfLooseObjects": 127
+  }
+----
+
 [[run-gc]]
 Run GC
 ~~~~~~

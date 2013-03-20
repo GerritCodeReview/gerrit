@@ -408,6 +408,67 @@ link:#repository-statistics-info[RepositoryStatisticsInfo] entity.
   }
 ----
 
+[[get-repository-statistics-recursively]]
+Get Repository Statistics Recursively
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/statistics.recursive'
+
+.Request
+----
+  GET /projects/Public-Plugins/statistics.recursive HTTP/1.0
+----
+
+As response a link:#gc-info[GcInfo] entity is returned that contains
+statistics for the repositories and errors if any occurred.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "statistics": {
+    "Public-Plugins": {
+      "sizeOfPackedObjects": 516,
+      "sizeOfLooseObjects": 988,
+      "numberOfPackedObjects": 6,
+      "numberOfPackFiles": 2,
+      "numberOfPackedRefs": 0,
+      "numberOfLooseRefs": 5,
+      "numberOfLooseObjects": 8
+    },
+    "plugins/replication": {
+      "sizeOfPackedObjects": 11991,
+      "sizeOfLooseObjects": 11227,
+      "numberOfPackedObjects": 68,
+      "numberOfPackFiles": 20,
+      "numberOfPackedRefs": 0,
+      "numberOfLooseRefs": 29,
+      "numberOfLooseObjects": 59
+    },
+    "plugins/reviewnotes": {
+      "sizeOfPackedObjects": 412,
+      "sizeOfLooseObjects": 947,
+      "numberOfPackedObjects": 4,
+      "numberOfPackFiles": 2,
+      "numberOfPackedRefs": 0,
+      "numberOfLooseRefs": 6,
+      "numberOfLooseObjects": 8
+    },
+    "plugins/singleusergroup": {
+      "sizeOfPackedObjects": 943,
+      "sizeOfLooseObjects": 2650,
+      "numberOfPackedObjects": 12,
+      "numberOfPackFiles": 2,
+      "numberOfPackedRefs": 0,
+      "numberOfLooseRefs": 12,
+      "numberOfLooseObjects": 18
+    }
+  }
+----
+
 [[run-gc]]
 Run GC
 ~~~~~~
@@ -441,6 +502,174 @@ entity.
     "numberOfLooseRefs": 1,
     "numberOfLooseObjects": 0
   }
+----
+
+[[run-gc-recursively]]
+Run GC Recursively
+~~~~~~~~~~~~~~~~~~
+[verse]
+'POST /projects/link:#project-name[\{project-name\}]/gc.recursive'
+
+Run the Git garbage collection for the repository of a project and
+the repositories of all its child projects (recursively).
+
+.Request
+----
+  POST /projects/Public-Plugins/gc.recursive HTTP/1.0
+----
+
+As response a link:#gc-info[GcInfo] entity is returned that contains
+statistics for the garbage collected repositories and errors if any
+occurred.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "statistics": {
+    "Public-Plugins": {
+      "sizeOfPackedObjects": 16029,
+      "sizeOfLooseObjects": 0,
+      "numberOfPackedObjects": 117,
+      "numberOfPackFiles": 2,
+      "numberOfPackedRefs": 28,
+      "numberOfLooseRefs": 1,
+      "numberOfLooseObjects": 0
+    },
+    "plugins/replication": {
+      "sizeOfPackedObjects": 1315,
+      "sizeOfLooseObjects": 0,
+      "numberOfPackedObjects": 12,
+      "numberOfPackFiles": 2,
+      "numberOfPackedRefs": 5,
+      "numberOfLooseRefs": 1,
+      "numberOfLooseObjects": 0
+    },
+    "plugins/reviewnotes": {
+      "sizeOfPackedObjects": 2443,
+      "sizeOfLooseObjects": 0,
+      "numberOfPackedObjects": 22,
+      "numberOfPackFiles": 2,
+      "numberOfPackedRefs": 6,
+      "numberOfLooseRefs": 1,
+      "numberOfLooseObjects": 0
+    }
+  },
+  "errors": {
+    "plugins/singleusergroup": "gc was already scheduled"
+  }
+----
+
+[[child-project-endpoints]]
+Child Project Endpoints
+-----------------------
+
+[[list-child-projects]]
+List Child Projects
+~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/children/'
+
+List the direct child projects of a project.
+
+.Request
+----
+  GET /projects/Public-Plugins/children/ HTTP/1.0
+----
+
+As result a list of link:#project-info[ProjectInfo] entries is
+returned that describe the child projects.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Freplication",
+      "name": "plugins/replication",
+      "parent": "Public-Plugins",
+      "description": "Copies to other servers using the Git protocol"
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Freviewnotes",
+      "name": "plugins/reviewnotes",
+      "parent": "Public-Plugins",
+      "description": "Annotates merged commits using notes on refs/notes/review."
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Fsingleusergroup",
+      "name": "plugins/singleusergroup",
+      "parent": "Public-Plugins",
+      "description": "GroupBackend enabling users to be directly added to access rules"
+    }
+  ]
+----
+
+To resolve the child projects of a project recursively the parameter
+`recursive` can be set.
+
+Child projects that are not visible to the calling user are ignored and
+are not resolved further.
+
+.Request
+----
+  GET /projects/Public-Projects/children/?recursive HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#project",
+      "id": "gerrit",
+      "name": "gerrit",
+      "parent": "Public-Projects",
+      "description": "Gerrit Code Review"
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Freplication",
+      "name": "plugins/replication",
+      "parent": "Public-Plugins",
+      "description": "Copies to other servers using the Git protocol"
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Freviewnotes",
+      "name": "plugins/reviewnotes",
+      "parent": "Public-Plugins",
+      "description": "Annotates merged commits using notes on refs/notes/review."
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "plugins%2Fsingleusergroup",
+      "name": "plugins/singleusergroup",
+      "parent": "Public-Plugins",
+      "description": "GroupBackend enabling users to be directly added to access rules"
+    },
+    {
+      "kind": "gerritcodereview#project",
+      "id": "Public-Plugins",
+      "name": "Public-Plugins",
+      "parent": "Public-Projects",
+      "description": "Parent project for plugins/*"
+    }
+  ]
 ----
 
 [[dashboard-endpoints]]
@@ -755,6 +984,23 @@ in a dashboard.
 |`name`        |The title of the section.
 |`query`       |The query of the section. +
 Tokens such as `${project}` are not resolved.
+|===========================
+
+[[gc-info]]
+GcInfo
+~~~~~~
+The `GcInfo` entity contains statistics about garbage collected
+repositories and errors that occurred during garbage collection.
+
+[options="header",width="50%",cols="1,^2,4"]
+|===========================
+|Field Name    ||Description
+|`statistics`  |optional|
+Map that maps the name of a garbage collected repository to its
+link:#repository-statistics-info[repository statistics].
+|`errors`      |optional|
+Map that maps the name of a repository for which the garbage collection
+failed to the error message.
 |===========================
 
 [[head-input]]

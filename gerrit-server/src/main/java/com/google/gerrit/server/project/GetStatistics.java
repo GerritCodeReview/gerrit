@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
@@ -58,6 +59,22 @@ public class GetStatistics implements RestReadView<ProjectResource> {
       }
     } catch (IOException e) {
       throw new ResourceNotFoundException(rsrc.getName());
+    }
+  }
+
+  public static class Recursive implements RestReadView<ProjectResource> {
+    private final Provider<GarbageCollect.Recursive> gcProvider;
+
+    @Inject
+    Recursive(Provider<GarbageCollect.Recursive> gcProvider) {
+      this.gcProvider = gcProvider;
+    }
+
+    @Override
+    public GarbageCollect.Recursive.Output apply(ProjectResource rsrc) {
+      GarbageCollect.Recursive gc = gcProvider.get();
+      gc.setDryRun(true);
+      return gc.apply(rsrc, null);
     }
   }
 }

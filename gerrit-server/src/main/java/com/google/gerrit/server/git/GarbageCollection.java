@@ -59,12 +59,21 @@ public class GarbageCollection {
     this.gcQueue = gcQueue;
   }
 
+  public GarbageCollectionResult dryRun(List<Project.NameKey> projectNames) {
+    return run(projectNames, true, null);
+  }
+
   public GarbageCollectionResult run(List<Project.NameKey> projectNames) {
     return run(projectNames, null);
   }
 
   public GarbageCollectionResult run(List<Project.NameKey> projectNames,
       PrintWriter writer) {
+    return run(projectNames, false, writer);
+  }
+
+  public GarbageCollectionResult run(List<Project.NameKey> projectNames,
+      boolean dryRun, PrintWriter writer) {
     GarbageCollectionResult result = new GarbageCollectionResult();
     List<Project.NameKey> projectsToGc = gcQueue.addAll(projectNames);
     for (Project.NameKey projectName : projectNames) {
@@ -77,16 +86,20 @@ public class GarbageCollection {
       Repository repo = null;
       try {
         repo = repoManager.openRepository(p);
-        logGcConfiguration(p, repo);
-        print(writer, "collecting garbage for \"" + p + "\":\n");
         GarbageCollectCommand gc = Git.wrap(repo).gc();
-        logGcInfo(p, "before:", gc.getStatistics());
-        gc.setProgressMonitor(writer != null ? new TextProgressMonitor(writer)
-            : NullProgressMonitor.INSTANCE);
-        Properties statistics = gc.call();
-        logGcInfo(p, "after: ", statistics);
-        result.addStatistics(p, statistics);
-        print(writer, "done.\n\n");
+        if (dryRun) {
+          result.addStatistics(p, gc.getStatistics());
+        } else {
+          logGcConfiguration(p, repo);
+          print(writer, "collecting garbage for \"" + p + "\":\n");
+          logGcInfo(p, "before:", gc.getStatistics());
+          gc.setProgressMonitor(writer != null ? new TextProgressMonitor(writer)
+              : NullProgressMonitor.INSTANCE);
+          Properties statistics = gc.call();
+          logGcInfo(p, "after: ", statistics);
+          result.addStatistics(p, statistics);
+          print(writer, "done.\n\n");
+        }
       } catch (RepositoryNotFoundException e) {
         logGcError(writer, p, e);
         result.addError(new GarbageCollectionResult.Error(

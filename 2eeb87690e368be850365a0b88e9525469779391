@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SKfn9t-I",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-20T21:08:25Z",
+      "side": 1,
+      "message": "Mention that the root cause of this is in the query optimizer, as you explained in IM.",
+      "revId": "2eeb87690e368be850365a0b88e9525469779391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
+import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfo;
 import static com.google.gerrit.acceptance.rest.group.GroupAssert.assertGroupInfo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -28,6 +29,7 @@ import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.RestSession;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.rest.account.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
@@ -186,12 +188,6 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
   private void group(String name) throws IOException {
     GroupInput in = new GroupInput();
     session.put("/groups/" + name, in).consume();
-  }
-
-  private void assertAccountInfo(TestAccount a, AccountInfo ai) {
-    assertTrue(a.id.get() == ai._account_id);
-    assertEquals(a.fullName, ai.name);
-    assertEquals(a.email, ai.email);
   }
 
   private void assertMembers(String group, TestAccount... members)

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SKHoZmYQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-20T11:36:19Z",
+      "side": 1,
+      "message": "Please update the REST API documentation if you are introducing new fields in json entities. The json entity for a change is described as ChangeInfo in Documentation/rest-api-changes.txt.",
+      "revId": "c705a0b85d05e3b335dc572e2e0a000e1e7036e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

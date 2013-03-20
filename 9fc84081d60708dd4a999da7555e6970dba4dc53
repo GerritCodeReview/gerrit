@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SKljtvUc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-20T21:05:44Z",
+      "side": 1,
+      "message": "I\u0027m suspect this \"OR reviewer\" has caused a massive slowdown in processing dashboard requests. I think there is no longer an index answering fast, and we are falling into table scans.\n\nTable scans are great when you have 5 changes on a local H2 database. They suck hard when your database is over the network and is not fast. Like the one on gerrit-review.",
+      "revId": "9fc84081d60708dd4a999da7555e6970dba4dc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

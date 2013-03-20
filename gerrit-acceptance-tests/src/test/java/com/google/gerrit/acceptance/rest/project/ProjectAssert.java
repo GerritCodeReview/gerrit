@@ -15,17 +15,35 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectState;
 
+import java.util.List;
 import java.util.Set;
 
 public class ProjectAssert {
+
+  public static void assertProjects(Iterable<Project.NameKey> expected,
+      List<ProjectInfo> actual) {
+    for (final Project.NameKey p : expected) {
+      ProjectInfo info = Iterables.find(actual, new Predicate<ProjectInfo>() {
+        @Override
+        public boolean apply(ProjectInfo info) {
+          return new Project.NameKey(info.name).equals(p);
+        }}, null);
+      assertNotNull("missing project: " + p, info);
+      actual.remove(info);
+    }
+    assertTrue("unexpected projects: " + actual, actual.isEmpty());
+  }
 
   public static void assertProjectInfo(Project project, ProjectInfo info) {
     if (info.name != null) {

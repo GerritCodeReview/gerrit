@@ -57,6 +57,10 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
     return allProjectsName.equals(project.getNameKey());
   }
 
+  public Project getProject() {
+    return project;
+  }
+
   @Override
   public String getDisplayName() {
     return project.getName();
@@ -68,7 +72,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   }
 
   @Override
-  public SortedSet<? extends TreeNode> getChildren() {
+  public SortedSet<? extends ProjectNode> getChildren() {
     return children;
   }
 

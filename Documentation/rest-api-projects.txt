@@ -732,8 +732,7 @@ The `ProjectInfo` entity contains information about a project.
 |`name`        |
 not set if returned in a map where the project name is used as map key|
 The name of the project.
-|`parent`      |optional, +
-not set for the root project|
+|`parent`      |optional|
 The name of the parent project. +
 `?-<n>` if the parent project is not visible (`<n>` is a number which
 is increased for each non-visible project).

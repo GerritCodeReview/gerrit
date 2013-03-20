@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeMessages;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -56,6 +57,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -77,6 +79,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 public class ChangeUtil {
+  private static final FooterKey DEPENDENCY = new FooterKey("Dependency");
+
   private static int uuidPrefix;
   private static int uuidSeq;
 
@@ -584,5 +588,14 @@ public class ChangeUtil {
     while (o >= p) {
       dst.setCharAt(o--, '0');
     }
+  }
+
+  public static List<ChangeTriplet> dependenciesFromCommit(
+      final RevCommit commit) throws ChangeTriplet.ParseException {
+    final List<ChangeTriplet> triplets = new ArrayList<ChangeTriplet>();
+    for (final String dependency : commit.getFooterLines(DEPENDENCY)) {
+      triplets.add(new ChangeTriplet(dependency));
+    }
+    return triplets;
   }
 }

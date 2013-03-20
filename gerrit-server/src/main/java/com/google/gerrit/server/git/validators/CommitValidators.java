@@ -16,8 +16,10 @@ package com.google.gerrit.server.git.validators;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -101,6 +103,7 @@ public class CommitValidators {
     if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
         || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()) {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl, sshInfo));
+      validators.add(new DependencyValidator());
     }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
@@ -195,6 +198,23 @@ public class CommitValidators {
               currentUser, canonicalWebUrl, sshInfo));
           throw new CommitValidationException(errMsg, messages);
         }
+      }
+      return Collections.<CommitValidationMessage>emptyList();
+    }
+  }
+
+  /** Require Dependency footer lines to be valid change triplets. */
+  public static class DependencyValidator implements CommitValidationListener {
+    public DependencyValidator() {
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(
+        CommitReceivedEvent receiveEvent) throws CommitValidationException {
+      try {
+        ChangeUtil.dependenciesFromCommit(receiveEvent.commit);
+      } catch (ChangeTriplet.ParseException e) {
+        throw new CommitValidationException("invalid Dependency line");
       }
       return Collections.<CommitValidationMessage>emptyList();
     }

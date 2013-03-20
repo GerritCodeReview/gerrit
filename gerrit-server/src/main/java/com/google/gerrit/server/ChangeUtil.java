@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -65,6 +66,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
 import org.slf4j.Logger;
@@ -93,6 +95,7 @@ public class ChangeUtil {
   private static final int SEED = 0x2418e6f9;
   private static int uuidPrefix;
   private static int uuidSeq;
+  private static final FooterKey DEPENDENCY = new FooterKey("Dependency");
 
   private static final Logger log =
       LoggerFactory.getLogger(ChangeUtil.class);
@@ -517,5 +520,23 @@ public class ChangeUtil {
     while (o >= p) {
       dst.setCharAt(o--, '0');
     }
+  }
+
+  public static RevCommit revCommitFromMessage(final String message) {
+    final String commit =
+      "rev: 0000000000000000000000000000000000000000\n"
+      + "Author: Fake Name <fakename@example.com>\n"
+      + "Date:   Tue Mar 21 15:46:48 2013 -0700\n\n"
+      + message;
+    return RevCommit.parse(commit.getBytes());
+  }
+
+  public static List<ChangeTriplet> dependenciesFromCommit(
+      final RevCommit commit) throws ChangeTriplet.ParseException {
+    final List<ChangeTriplet> triplets = new ArrayList<ChangeTriplet>();
+    for (final String dependency : commit.getFooterLines(DEPENDENCY)) {
+      triplets.add(new ChangeTriplet(dependency));
+    }
+    return triplets;
   }
 }

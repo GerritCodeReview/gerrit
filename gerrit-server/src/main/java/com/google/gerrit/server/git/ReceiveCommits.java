@@ -61,6 +61,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -78,6 +79,7 @@ import com.google.gerrit.server.change.ChangesCollection;
 import com.google.gerrit.server.change.MergeabilityChecker;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Submit;
+import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.PluginConfig;
@@ -1523,6 +1525,31 @@ public class ReceiveCommits {
     }
   }
 
+  private void insertCrossProjectDependencies(final ReviewDb db,
+      final PatchSet.Id psId, final RevCommit commit) throws OrmException {
+    final List<PatchSetAncestor> ancestorsToInsert =
+        new ArrayList<PatchSetAncestor>();
+    int ancestorPos = commit.getParentCount();
+    try {
+      for (final ChangeTriplet dependency :
+           ChangeUtil.dependenciesFromCommit(commit)) {
+        for (final Change change : db.changes().byBranchKey(
+            dependency.getBranchNameKey(), dependency.getChangeKey())) {
+          final PatchSetAncestor psa = new PatchSetAncestor(
+              new PatchSetAncestor.Id(psId, ++ancestorPos));
+          final RevId revId =
+              db.patchSets().get(change.currentPatchSetId()).getRevision();
+          psa.setAncestorRevision(revId);
+          ancestorsToInsert.add(psa);
+        }
+      }
+    } catch (ChangeTriplet.ParseException e) {
+      // This should have been caught by a commit validator
+      throw new RuntimeException("invalid Dependency line");
+    }
+    db.patchSetAncestors().insert(ancestorsToInsert);
+  }
+
   private class CreateRequest {
     final RevCommit commit;
     final Change change;
@@ -1587,6 +1614,8 @@ public class ReceiveCommits {
           new ChangeMessage(new ChangeMessage.Key(change.getId(),
               ChangeUtil.messageUUID(db)), me, ps.getCreatedOn(), ps.getId());
       msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
+
+      insertCrossProjectDependencies(db, ps.getId(), commit);
 
       ins
         .setReviewers(recipients.getReviewers())
@@ -1916,6 +1945,7 @@ public class ReceiveCommits {
 
         ChangeUtil.insertAncestors(db, newPatchSet.getId(), newCommit);
         db.patchSets().insert(Collections.singleton(newPatchSet));
+        insertCrossProjectDependencies(db, newPatchSet.getId(), newCommit);
 
         if (checkMergedInto) {
           final Ref mergedInto = findMergedInto(change.getDest().get(), newCommit);

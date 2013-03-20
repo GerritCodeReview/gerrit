@@ -585,4 +585,13 @@ public class ChangeUtil {
       dst.setCharAt(o--, '0');
     }
   }
+
+  public static RevCommit revCommitFromMessage(final String message) {
+    final String commit =
+      "rev: 0000000000000000000000000000000000000000\n"
+      + "Author: Fake Name <fakename@example.com>\n"
+      + "Date:   Tue Mar 21 15:46:48 2013 -0700\n\n"
+      + message;
+    return RevCommit.parse(commit.getBytes());
+  }
 }

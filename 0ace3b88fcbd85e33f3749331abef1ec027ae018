@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SKHpEOV8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-20T11:56:22Z",
+      "side": 1,
+      "message": "I\u0027ve only had a very brief look at this change series, so I\u0027ve might have missed this. I only saw a global capability to instantiate template projects. How would you configure that groupA can create template projects under \"A/\" and a groupB can create projects under \"B/\", but not vice versa?",
+      "revId": "0ace3b88fcbd85e33f3749331abef1ec027ae018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

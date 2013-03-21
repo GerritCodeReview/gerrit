@@ -34,6 +34,24 @@
       "revId": "09b00462b18ba663de72a0f35498f54440a94dc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SLTX8kPc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-21T05:38:56Z",
+      "side": 1,
+      "message": "OK I see what you mean. There isn\u0027t an easy way to attach an operation to the ProjectsCollection that doesn\u0027t need a specific project selected. So then you are looking at some special node to mean \"everything\" and All-Projects with a recursive marker suddenly seems reasonable.\n\nI agree about trying to let Gerrit manage GC automatically. Its what we do in our systems behind gerrit-review, only its down at the JGit DFS implementation tier and isn\u0027t something Gerrit knows about or needs to concern itself about.\n\nUnfortunately not everyone has the CPU resources or RAM resources available to run GC on their bigger repositories during peak time. So there would need to be some sort of scheduling function built into Gerrit here to say \"do not GC during these times\" or \"only GC during these times\".\n\nI\u0027m inclined to say if you want to GC everything by REST API use the little bit of shell or a tiny Python program to do it. We can put the Python into contrib and just leave it at that. Focus our efforts instead on trying to make this more automatic in the server.",
+      "parentUuid": "SB7sKpy0",
+      "revId": "09b00462b18ba663de72a0f35498f54440a94dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

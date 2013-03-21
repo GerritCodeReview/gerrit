@@ -16,6 +16,24 @@
       "revId": "1bbc3f2106df4dad3b892f594e8a22087ab0840e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SRJ793fQ",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-21T14:51:08Z",
+      "side": 1,
+      "message": "You\u0027re right. Those few lines are probably simple enough so that even without the split and the comment, no confusion might arise.\n\nDone.",
+      "parentUuid": "SLXVESF8",
+      "revId": "1bbc3f2106df4dad3b892f594e8a22087ab0840e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

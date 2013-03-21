@@ -16,6 +16,24 @@
       "revId": "87fb07c51ea8aa3b36e8c7bb115cf4aaf626714e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SKTkTL2U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-21T00:05:58Z",
+      "side": 1,
+      "message": "Done. It\u0027s read-only anyway so no benefit to putting it in the transaction.",
+      "parentUuid": "SKXkZp4Q",
+      "revId": "87fb07c51ea8aa3b36e8c7bb115cf4aaf626714e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

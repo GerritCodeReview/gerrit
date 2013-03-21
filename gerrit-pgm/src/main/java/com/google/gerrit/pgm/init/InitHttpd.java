@@ -121,12 +121,7 @@ class InitHttpd implements InitStep {
     } catch (URISyntaxException e) {
       throw die("invalid httpd.listenUrl");
     }
-    if (gerrit.get("canonicalWebUrl") != null //
-        || (!proxy && ssl) //
-        || getAuthType() == AuthType.OPENID) {
-      gerrit.string("Canonical URL", "canonicalWebUrl", uri.toString());
-    }
-
+    gerrit.string("Canonical URL", "canonicalWebUrl", uri.toString());
     generateSslCertificate();
   }
 

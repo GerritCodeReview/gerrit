@@ -85,6 +85,24 @@
       "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SLZUh5K8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-21T08:19:28Z",
+      "side": 1,
+      "message": "Good point. Those are mixed case only because that is the way they are stored in the project.config files. And those don\u0027t accept _ in key names. So we had to use camelCase or names-with-dash. I don\u0027t know why I did camelCase there but I did.\n\nI\u0027d rather keep capabilities consistent with project.config. If that means we allow mixedCamelCase here than so be it.",
+      "parentUuid": "SQ5-90-Q",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

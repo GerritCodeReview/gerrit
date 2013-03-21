@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "SQ19Oq38",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T13:00:54Z",
+      "side": 1,
+      "message": "Good point.\n\nDone",
+      "parentUuid": "SKZl9m3s",
+      "revId": "80d6af520ce6301c135310c1c525e8925cb83241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SKbl6334",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-21T05:18:50Z",
       "side": 1,
       "message": "Again not happy about the camelCaseName. It doesn\u0027t fit with the rest of Gerrit JSON output.\n\nI also wish the units were documented here. At least for the sizeOf fields.",
+      "revId": "80d6af520ce6301c135310c1c525e8925cb83241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SQ78yV-g",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T13:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "SKbl6334",
       "revId": "80d6af520ce6301c135310c1c525e8925cb83241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

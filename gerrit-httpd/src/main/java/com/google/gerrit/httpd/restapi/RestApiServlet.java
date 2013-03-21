@@ -213,6 +213,7 @@ public class RestApiServlet extends HttpServlet {
           checkPreconditions(req, rsrc);
         } catch (ResourceNotFoundException e) {
           if (rc instanceof AcceptsCreate
+              && path.isEmpty()
               && ("POST".equals(req.getMethod())
                   || "PUT".equals(req.getMethod()))) {
             @SuppressWarnings("unchecked")
@@ -253,6 +254,7 @@ public class RestApiServlet extends HttpServlet {
             view = null;
           } catch (ResourceNotFoundException e) {
             if (c instanceof AcceptsCreate
+                && path.isEmpty()
                 && ("POST".equals(req.getMethod())
                     || "PUT".equals(req.getMethod()))) {
               @SuppressWarnings("unchecked")

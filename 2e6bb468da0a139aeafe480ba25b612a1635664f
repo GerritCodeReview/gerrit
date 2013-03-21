@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "SQx.O43g",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T19:00:35Z",
+      "side": 1,
+      "message": "Thanks.\n\nI\u0027ve now implemented the streaming idea.\n\nDone",
+      "parentUuid": "SKZmm.-0",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SKfmZN7o",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 3
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "SQ99Q.ww",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T19:00:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "SKfmZN7o",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SKbmjv.w",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
         "patchSetId": 3
@@ -64,6 +100,24 @@
       "writtenOn": "2013-03-21T05:09:39Z",
       "side": 1,
       "message": "I think this should background on a different thread, or stream progress to the client.",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SQz.JJ3E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T19:00:35Z",
+      "side": 1,
+      "message": "It\u0027s now streaming the progress to the client.\n\nDone",
+      "parentUuid": "SKbmjv.w",
       "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -135,6 +189,24 @@
       "side": 1,
       "message": "I\u0027ll fix the case issue here. I\u0027ve found a nice way to do the case conversion with Guava :-)\n\n  CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, \"mixedCamelCase\")",
       "parentUuid": "SLZUh5K8",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SQ-9TPxY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T19:00:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "SQx9EI14",
       "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

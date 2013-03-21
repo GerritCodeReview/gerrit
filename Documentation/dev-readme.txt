@@ -133,10 +133,17 @@ using an administrator user account:
 Debugging JavaScript
 ~~~~~~~~~~~~~~~~~~~~
 
-When debugging browser specific issues use `-Dgwt.style=DETAILED`
-so the resulting JavaScript more closely matches the Java sources.
-This can be used to help narrow down what code line 30,400 in the
-JavaScript happens to be.
+When debugging browser specific issues add `?dbg=1` to the URL so the
+resulting JavaScript more closely matches the Java sources.  The debug
+pages use the GWT pretty format, where function and variable names
+match the Java sources.
+
+----
+  http://localhost:8080/?dbg=1
+----
+
+To use the GWT DETAILED style the package must be recompiled and
+`?dbg=1` must be omitted from the URL:
 
 ----
   mvn package -Dgwt.style=DETAILED

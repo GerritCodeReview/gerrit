@@ -598,7 +598,8 @@ Get Child Project
 [verse]
 'GET /projects/link:#project-name[\{project-name\}]/children/link:#project-name[\{project-name\}]'
 
-Retrieves a child project.
+Retrieves a child project. If a non-direct child project should be
+retrieved the parameter `recursive` must be set.
 
 .Request
 ----

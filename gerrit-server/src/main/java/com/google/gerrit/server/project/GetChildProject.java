@@ -14,11 +14,17 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.inject.Inject;
 
+import org.kohsuke.args4j.Option;
+
 public class GetChildProject implements RestReadView<ChildProjectResource> {
+  @Option(name = "--recursive", usage = "to list child projects recursively")
+  private boolean recursive;
+
   private final ProjectJson json;
 
   @Inject
@@ -27,7 +33,11 @@ public class GetChildProject implements RestReadView<ChildProjectResource> {
   }
 
   @Override
-  public ProjectInfo apply(ChildProjectResource rsrc) {
-    return json.format(rsrc.getChild().getProject());
+  public ProjectInfo apply(ChildProjectResource rsrc)
+      throws ResourceNotFoundException {
+    if (recursive || rsrc.isDirectChild()) {
+      return json.format(rsrc.getChild().getProject());
+    }
+    throw new ResourceNotFoundException(rsrc.getName());
   }
 }

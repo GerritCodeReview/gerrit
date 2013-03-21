@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -53,10 +52,10 @@ public class ChildProjectsCollection implements
       throws ResourceNotFoundException, IOException {
     ProjectResource p =
         projectsCollection.get().parse(TopLevelResource.INSTANCE, id);
-    ProjectState pp =
-        Iterables.getFirst(p.getControl().getProjectState().parents(), null);
-    if (pp != null && parent.getNameKey().equals(pp.getProject().getNameKey())) {
-      return new ChildProjectResource(parent, p.getControl());
+    for (ProjectState pp : p.getControl().getProjectState().parents()) {
+      if (parent.getNameKey().equals(pp.getProject().getNameKey())) {
+        return new ChildProjectResource(parent, p.getControl());
+      }
     }
     throw new ResourceNotFoundException(id);
   }

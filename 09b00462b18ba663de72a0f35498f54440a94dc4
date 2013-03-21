@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SKRlq67c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-21T05:13:33Z",
+      "side": 1,
+      "message": "We don\u0027t support this over SSH. So why on REST API? Shouldn\u0027t this be easy for the caller to do by discovering the list of projects themselves and then sending us the post requests:\n\n  for p in $(curl http://localhost:8080/projects/?format\u003dTEXT);\n  do curl --data \u0027\u0027 http://localhost:8080/projects/$(echo \"$p\" | sed \"s,/,%2F,g)\"/gc;\n  done\n\nOK that is ugly because of the URL encoding, but I think you get my point. The selection algorithm of what to GC should be better handled client side.",
+      "revId": "09b00462b18ba663de72a0f35498f54440a94dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

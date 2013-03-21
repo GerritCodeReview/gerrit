@@ -67,6 +67,24 @@
       "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SQ5-90-Q",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T08:11:33Z",
+      "side": 1,
+      "message": "I was aware that this would be mixedCamelCase. I thought it might be ok, since we also have mixedCamelCase for the capabilities [1], I guess this should be fixed as well.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#capability-info",
+      "parentUuid": "SKVlwY6U",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "65e5baf566f0d7f161d61330337805724d1b0269",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SQ38OD0E",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T08:20:11Z",
+      "side": 1,
+      "message": "OK. I\u0027m curious, is there a best practice for the case where we have two independent features A and B and a feature C with needs both A and B? Especially if A and B are not just single changes but a series of changes. Should they be all done in one series even if it means to make A depend on B (or B depend on A)?",
+      "parentUuid": "SKdmDE0M",
+      "revId": "65e5baf566f0d7f161d61330337805724d1b0269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

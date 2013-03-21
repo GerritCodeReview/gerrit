@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SKTnqT-8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-21T05:28:26Z",
+      "side": 1,
+      "message": "This is the wrong place to perform this parsing.\n\nI think it belongs in Dispatcher.change (~line 459) and UrlModule.directChangeById (~line 158).",
+      "revId": "d2ad92e93c868a81dca251120c31ee001ba9225d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

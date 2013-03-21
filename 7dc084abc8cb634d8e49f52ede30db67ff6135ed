@@ -34,6 +34,24 @@
       "revId": "7dc084abc8cb634d8e49f52ede30db67ff6135ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "STFb81Pc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-21T17:06:36Z",
+      "side": 1,
+      "message": "Ah, what I was missing was that the problem was that the default is too small, I was thinking it was too large.",
+      "parentUuid": "SLfVWGAk",
+      "revId": "7dc084abc8cb634d8e49f52ede30db67ff6135ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

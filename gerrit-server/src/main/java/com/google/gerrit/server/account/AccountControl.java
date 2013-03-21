@@ -139,7 +139,7 @@ public class AccountControl {
       default:
         throw new IllegalStateException("Bad AccountVisibility " + accountVisibility);
     }
-    return false;
+    return currentUser.getCapabilities().canAdministrateServer();
   }
 
   private Set<AccountGroup.UUID> groupsOf(Account.Id account) {

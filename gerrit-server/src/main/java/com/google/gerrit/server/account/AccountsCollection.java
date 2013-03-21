@@ -60,6 +60,8 @@ public class AccountsCollection implements
     IdentifiedUser user = _parse(id.get());
     if (user == null) {
       throw new ResourceNotFoundException(id);
+    } else if (!accountControlFactory.get().canSee(user.getAccount())) {
+      throw new ResourceNotFoundException(id);
     }
     return new AccountResource(user);
   }
@@ -102,14 +104,7 @@ public class AccountsCollection implements
     if (matches.size() != 1) {
       return null;
     }
-
-    Account.Id a = Iterables.getOnlyElement(matches);
-    if (accountControlFactory.get().canSee(a)
-        || user.getCapabilities().canAdministrateServer()) {
-      return userFactory.create(a);
-    } else {
-      return null;
-    }
+    return userFactory.create(Iterables.getOnlyElement(matches));
   }
 
   @Override

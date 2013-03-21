@@ -3,7 +3,7 @@ Release notes for Gerrit 2.6
 
 Gerrit 2.6 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.6.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.6.war]
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.6.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.6.war]
 
 Gerrit 2.6 includes the bug fixes done with
 link:ReleaseNotes-2.5.1.html[Gerrit 2.5.1] and

@@ -647,7 +647,8 @@ public class ReceiveCommits {
     int replaceCount = 0;
     int okToInsert = 0;
 
-    for (ReplaceRequest replace : replaceByChange.values()) {
+    for (Map.Entry<Change.Id, ReplaceRequest> e : replaceByChange.entrySet()) {
+      ReplaceRequest replace = e.getValue();
       if (magicBranch != null && replace.inputCommand == magicBranch.cmd) {
         replaceCount++;
 
@@ -663,12 +664,12 @@ public class ReceiveCommits {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
               "Cannot add patch set to %d of %s",
-              replace.newPatchSet.getId(), project.getName()), err);
+              e.getKey().get(), project.getName()), err);
         } catch (OrmException err) {
           reject(replace.inputCommand, "internal server error");
           log.error(String.format(
               "Cannot add patch set to %d of %s",
-              replace.newPatchSet.getId(), project.getName()), err);
+              e.getKey().get(), project.getName()), err);
         }
       } else if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
         reject(replace.inputCommand, "internal server error");

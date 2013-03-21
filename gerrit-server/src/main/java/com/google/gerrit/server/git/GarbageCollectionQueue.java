@@ -22,10 +22,10 @@ import java.util.Collection;
 import java.util.Set;
 
 @Singleton
-class GarbageCollectionQueue {
+public class GarbageCollectionQueue {
   private final Set<Project.NameKey> projectsScheduledForGc = Sets.newHashSet();
 
-  synchronized Set<Project.NameKey> addAll(Collection<Project.NameKey> projects) {
+  public synchronized Set<Project.NameKey> addAll(Collection<Project.NameKey> projects) {
     Set<Project.NameKey> added =
         Sets.newLinkedHashSetWithExpectedSize(projects.size());
     for (Project.NameKey p : projects) {
@@ -36,7 +36,7 @@ class GarbageCollectionQueue {
     return added;
   }
 
-  synchronized void gcFinished(Project.NameKey project) {
+  public synchronized void gcFinished(Project.NameKey project) {
     projectsScheduledForGc.remove(project);
   }
 }

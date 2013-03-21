@@ -16,6 +16,24 @@
       "revId": "0ace3b88fcbd85e33f3749331abef1ec027ae018",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SRB7ybSU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-21T10:30:27Z",
+      "side": 1,
+      "message": "That\u0027s a good point.\n\nWhile our use case could do without this refinement, you are\nright. Such fine grained control over template instantiation certainly\nhas it\u0027s use cases. I\u0027ll give it a shot.\n\nBut I guess that also comes with the problem that determining whether or not to show the \"Create New Project\" menu item is no longer a really cheap operation.",
+      "parentUuid": "SKHpEOV8",
+      "revId": "0ace3b88fcbd85e33f3749331abef1ec027ae018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "d2ad92e93c868a81dca251120c31ee001ba9225d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SRF789fc",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-21T14:30:18Z",
+      "side": 1,
+      "message": "Oh, gerrit is one of the projects that does not apply Postel\u0027s law to\nit\u0027s inner components. I still have much to learn about gerrit\u0027s\ncoding style :-(\n\nThanks for review. I moved the \u0027/\u0027 stripping to UrlModule in Patch Set 2.\n\nHowever, I did not add it in Dispatcher.change, as that part is not in\nthe code path from http://host/path/to/gerrit/4711/ to showing the\nchange. It seems that all code paths leading to Dispatcher.change are\nonly used internally. If that is not correct, please let me know and\nI\u0027ll happily add \u0027/\u0027-stripping there as well.",
+      "parentUuid": "SKTnqT-8",
+      "revId": "d2ad92e93c868a81dca251120c31ee001ba9225d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

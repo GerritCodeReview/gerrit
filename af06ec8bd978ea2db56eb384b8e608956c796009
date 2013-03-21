@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SQ98eO2g",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T10:24:58Z",
+      "side": 1,
+      "message": "[optional] Should \u0027?dbg\u003d1\u0027 be documented anywhere?",
+      "revId": "af06ec8bd978ea2db56eb384b8e608956c796009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SKZmm.-0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-21T05:09:39Z",
+      "side": 1,
+      "message": "This is ... likely to fail. A lot of reverse proxy servers will time out and return a 5xx class error to the client when the backend server (Gerrit) does not respond. Apache\u0027s mod_proxy falls into this category I think.\n\nI wonder if GC should try to wait a short period like 2 minutes and if that elapses return a \"Running ...\" response so the client at least knows it started but is not going to finish yet?\n\nAnother option is to modify RestApiServlet to support a streaming result sort of thing and then feed progress data at the client such as in a git side-band style channel or a stream of JSON messages. To add streaming result to RestApiServlet I would define a new object type like Reponse called e.g. StreamingResponse:\n\n  public interface StreamingResponse {\n    public String getContentType();\n    public void stream(OutputStream out) throws IOException;\n  }\n\nand pass the servlet output stream to the StreamingResponse after setting up the headers. Then the view is just a permission checker and factory for the StreamingResponse with the real work done inside of stream().",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SKfmZN7o",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-21T05:09:39Z",
+      "side": 1,
+      "message": "Our REST API conventions use names_with_underscores. Why are these lowerCaseStartingCamelCase?",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SKbmjv.w",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-21T05:09:39Z",
+      "side": 1,
+      "message": "I think this should background on a different thread, or stream progress to the client.",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SKVlwY6U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-21T05:09:39Z",
+      "side": 1,
+      "message": "Ick. That explains why the result names are mixedCamelCase format. Its the Properties object the stats are being exported through.\n\nUnfortunately it is not easy to use FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES to convert the key strings here. That algorithm wants a java.lang.reflect.Field, which we can\u0027t easily get.",
+      "revId": "2e6bb468da0a139aeafe480ba25b612a1635664f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

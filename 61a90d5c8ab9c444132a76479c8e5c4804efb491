@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SQ1-86-c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-21T08:03:02Z",
+      "side": 1,
+      "message": "should not update this line we should update the above one, on line 746",
+      "revId": "61a90d5c8ab9c444132a76479c8e5c4804efb491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

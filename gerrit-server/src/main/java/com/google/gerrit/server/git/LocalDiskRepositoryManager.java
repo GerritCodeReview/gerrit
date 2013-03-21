@@ -77,11 +77,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   public static class Lifecycle implements LifecycleListener {
-    private final Config cfg;
+    private final Config serverConfig;
 
     @Inject
     Lifecycle(@GerritServerConfig final Config cfg) {
-      this.cfg = cfg;
+      this.serverConfig = cfg;
     }
 
     @Override
@@ -94,7 +94,19 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
           // Default configuration is batch mode.
         }
       });
-      new WindowCacheConfig().fromConfig(cfg).install();
+
+      WindowCacheConfig cfg = new WindowCacheConfig();
+      cfg.fromConfig(serverConfig);
+      if (serverConfig.getString("core", null, "streamFileThreshold") == null) {
+        long limit = Math.min(
+            Runtime.getRuntime().maxMemory() / 4, // don't use more than 1/4 of the heap.
+            Integer.MAX_VALUE); // cannot exceed array length
+        log.info(String.format(
+            "Defaulting core.streamFileThreshold to %d",
+            limit));
+        cfg.setStreamFileThreshold((int) limit);
+      }
+      cfg.install();
     }
 
     @Override

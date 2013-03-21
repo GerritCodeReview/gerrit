@@ -16,6 +16,24 @@
       "revId": "7dc084abc8cb634d8e49f52ede30db67ff6135ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SLfVWGAk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-21T17:05:21Z",
+      "side": 1,
+      "message": "The default is usually 50M. This is too small for many servers. So instead we are trying to get it to a bigger number by default in Gerrit.\n\nIf you give Gerrit a 4G heap, it will now use 1G. Which avoids some bad corner cases on some very big files.",
+      "parentUuid": "STBbyXCU",
+      "revId": "7dc084abc8cb634d8e49f52ede30db67ff6135ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

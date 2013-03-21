@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SQx-yYyU",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/GarbageCollectionIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-21T07:10:02Z",
+      "side": 1,
+      "message": "[ERROR] BUILD FAILURE\n[INFO] ------------------------------------------------------------------------\n[INFO] Compilation failure\n\n.../gerrit/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/GarbageCollectionIT.java:[30,35] com.google.gerrit.server.git.GarbageCollectionQueue is not public in com.google.gerrit.server.git; cannot be accessed from outside package\n\n.../gerrit/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/GarbageCollectionIT.java:[63,10] cannot find symbol\nsymbol  : class GarbageCollectionQueue\nlocation: class com.google.gerrit.acceptance.ssh.GarbageCollectionIT",
+      "revId": "619169b4ebec7a359565c6af6c052d74b09f2f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

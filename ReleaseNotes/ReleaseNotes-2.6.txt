@@ -117,7 +117,7 @@ Plugins
   plugin which is included as a core plugin in the Gerrit distribution and
   can be installed during site initialization.
 
-EMail
+Email
 ~~~~~
 * link:https://code.google.com/p/gerrit/issues/detail?id=1531[Issue 1531]:
 Email footers now include `Gerrit-HasComments: {Yes|No}`.

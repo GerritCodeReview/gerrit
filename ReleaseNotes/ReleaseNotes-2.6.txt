@@ -1,0 +1,4219 @@
+Release notes for Gerrit 2.6
+============================
+
+Gerrit 2.6 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.6.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.6.war]
+
+Gerrit 2.6 includes the bug fixes done with
+link:ReleaseNotes-2.5.1.html[Gerrit 2.5.1] and
+link:ReleaseNotes-2.5.2.html[Gerrit 2.5.2]. These bug fixes are *not*
+listed in these release notes.
+
+Schema Change
+-------------
+
+This release does *NOT* contain a schema change from the Gerrit 2.5.x series.
+
+
+*WARNING:* Upgrading to 2.6.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.6.x.  If you are upgrading from 2.2.x.x or
+newer, you may ignore this warning and upgrade directly to 2.6.x.
+
+*WARNING:* To upgrade from a release older than Gerrit 2.5.0:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+
+
+* issue 1369 Gitweb Instruction Updates
++
+Added details covering additional instrucitons for installing on Linux
+and Windows. This is preparation for the Tomcat instructions.
+
+* Fix message if pushing tag is rejected because tagger is somebody else
++
+Pushing a tag that has somebody else as tagger requires the 'Forge
+Committer' access right. If this access right is missing Gerrit
+currently rejects the push with "can not create new references". This
+error message is misleading because the user may think that the 'Create
+Reference' access right is missing which is actually assigned.
++
+The same reject message is also returned on push of an annotated tag
+if the 'Push Annotated Tag' access right is missing. Also in this case
+the error message is not ideal.
++
+Go back to the old more generic message which says 'prohibited by
+Gerrit'. This error message is at least explained in the Gerrit
+documentation so that the user can find out the reason. The new error
+message is not documented.
++
+Describe the missing case in the 'prohibited by Gerrit' error
+documentation if pushing a tag fails because the tagger is somebody
+else and the 'Forge Committer' access right is not assigned.
+
+* Update versions in pom's to start Gerrit 2.6 development
+
+* Add prominent link to repo browser from project listing page.
+
+* Improve showing border of comments.
++
+After 412150cf8b3190b575cc426279a1a22e1e562a8a,
+when 2 comment blocks stand shoulder to
+shoulder closely on the same horizaonal line
+in SideBySide view, the left comment block's
+right border line and the right comment block's
+left border line form a new border line, it is
+twice as wide as the old one.
++
+Improved. The new border line is just as wide as
+the old one now.
+
+* issue 1494 Fix mono-font value in gerrit.css.
++
+The existing value specifies fonts that are not monospace across all
+font weights. This results in alignment errors for users viewing diffs
+with syntax highlighting enabled. Change the CSS to specify only
+monospace, which is friendly with Mac, Linux, and Windows.
+
+* issue 1543 Use juniversalchardet from Maven central
++
+juniversalchardet is now available in Maven central [1].
+Update the groupId of juniversalchardet so that juniversalchardet
+from Maven central is used.
++
+So far juniversalchardet was retrieved from a Maven repository [2]
+that contains Gerrit dependencies which are not available in Maven
+central [3].
++
+[1] http://code.google.com/p/juniversalchardet/issues/detail?id=7
+[2] http://gerrit.googlecode.com/svn/mavenrepo/
+[3] http://code.google.com/p/gerrit/issues/detail?id=422
+
+* ls-projects: Add option to list projects on which a certain group is used
++
+Add a --has-acl-for option to the ls-projects command that allows to
+list only projects on which access rights for the specified group are
+assigned directly. Projects which only inherit access rights for this
+group are not listed.
++
+With this option you can find out on which projects a group is (still)
+used, e.g. before removing a group (by deletion in the database).
+
+* Improve release documentation
++
+Added more details to the release documentation and fixed some minor
+issues.
+
+* Fix external links in 2.0.21 and 2.0.24 release notes
++
+This should silence the "missing section" errors when
+running asciidoc
+
+* gerrit plugin ls: Show status for enabled plugins as 'ENABLED'
++
+When listing the plugins with the 'plugin ls' SSH command the status
+for enabled plugins is empty while for disabled plugins it shows
+'DISABLED'.
++
+Show the status for enabled plugins as 'ENABLED' so that users are not
+confused by the missing status.
+
+* Fix the "404 NOT FOUND" error on GitWeb / Gerrit 2.5.
++
+The problem was about projectOwner (or administrator)
+not being able to browse through GitWeb, even if
+effectively authorised to see all project branches
+and permissions.
++
+The "project.allRefsAreVisible()" alone did not allow
+visibility to even the project owner and Gerrit
+administrators because they had no direct "read"
+permissions to refs/meta/config (this was implicitly
+implied by the ownership but not included in GitWebServlet)
+
+* Show in ApprovalTable if a reviewer can't vote in a category
++
+As a change owner you can invite reviewers on the ChangeScreen and they
+will be added to the ApprovalTable. Then you wait for the review but it
+might be that the reviewer has actually no permissions to vote on the
+change. If the reviewer has no permissions to vote in a category this
+is not visible.
++
+For a user that cannot vote in a category the cell in the category
+column of the ApprovalTable will be shown with a grey background.
+A tooltip explains that the user cannot vote in this category.
+
+* Suggest changing gerrit.config when JDK not found
++
+If gerrit.config points at the wrong JDK, setting JAVA_HOME to the
+correct one will not fix the issue.  This patch suggests that the user
+check the gerrit.config file when no JDK is found.
+
+* Write a Cookbook for Prolog submit rules
++
+The purpose of this document is to provide a step by step introduction
+into implementing specific submit policies using Prolog based submit
+rules.
+
+* Describe submit filter in the prolog-cookbook.
+
+* Update dependencies to asm 4
++
+Support ASM 4.0 by updating gwtorm. Match the rest of gwtorm's
+dependencies at the same time, including bumping the H2, PostgreSQL
+and MySQL database drivers.
+
+* Update HTTP password from SSH commands.
++
+Non-interactive users created from the ssh command line normally can
+not logon using the Gerrit web UI. So to create/update a HTTP
+password, for REST API usage, one needs to manually update the correct
+database table. This change adds support for creating and updating
+HTTP passwords from the command line.
+
+* Determine GERRIT_SITE from current working directory.
++
+If the start/stop script does not find the GERRIT_SITE variable it
+will to try to determine the path via dirname calls on the $0
+variable. If the script is not started with a full path name this will
+end up as '.' and we will not be able to find the gerrit.config file.
++
+If we end up in this situation we instead try to determine the
+GERRIT_SITE from the current working directory.
++
+Also a small spelling mistake is fixed.
+
+* issue 1076 Fix CLA hyperlink on account registration page.
++
+The New Contributor Agreement hyperlink on the Account Registration page
+is malformed, compared to the working one in the Account Settings menu.
+This adjusts the way that link is formed.
+
+* Make the ability to remove reviewers a grantable permission
+
+* Add change topic in hook arguments
++
+It is not possible for hook scripts to include topic-specific
+behaviour because the topic name is not included in the
+arguments.
++
+Add the topic as an argument in all relevant hooks.
+
+* Add `--is-draft` argument on patchset-created hook
++
+The `--is-draft` argument will be passed with either `true` if
+the patchset is a draft, or `false` otherwise.
++
+This can be used by hooks that need to behave differently if the
+change is a draft.
+
+* Fix approval table to show votes for labels satisfied by submit_rule.
++
+Since d42555ae016585e05ccc5488930dcba1bbfbf4e3 the ApprovalTable
+wouldn't show a vote computed by the submit_rule from rules.pl.
+If, for example, we require a Non-Author-Code-Review and it is met
+by a Code-Review+2 vote from a non-author then the ApprovalTable
+wouldn't show the green check for the Non-Author-Code-Review label
+in the row showing votes for that user.
+
+* issue 1569 Unset GREP_OPTIONS in the commit-msg hook
++
+If GREP_OPTIONS is set, it can cause unexpected behaviour in the
+commit-msg hook.  For example if it includes a setting like:
++
+  --exclude=".git/*"
++
+it causes a new Change-Id line to be appended to the commit message
+on every amend.
++
+Unsetting GREP_OPTIONS at the beginning of the hook script will
+prevent such problems from occurring.
++
+The GREP_OPTIONS setting in the user's environment is unaffected
+by this change.
+
+* ReceiveCommits: Change "can not" to "cannot" in error messages
+
+* Display the reason of an Init injection failure.
++
+CreationException holds in its localised message
+the textual reason of the failure, this is now
+captured at the beginning of the failure output.
+
+* Add missing documentation of SSH "version" command
++
+Commit 018332f added a "version" command in the SSH daemon,
+but the new command was never documented.
+
+* Allow LDAP group names to be configurable
++
+Instead of requiring LDAP group names to be based on their cn value,
+allow for configuring one or more attributes to create readable group names.
+
+* Move the Groups and Plugins menu items to the top level.
++
+It was inconsistent to access projects administration from the top-level
+Projects menu item and, at the same time, have to go to Admin > Groups
+or Admin > Plugins to access the Groups or Plugins administration.
++
+This change also removes the top-level Admin menu as it becomes
+unnecessary once the Groups and Plugins are moved to the top-level.
+
+* Add missing mail template examples to site init
++
+Add a few mail templates that were not being extracted during the
+site init.
++
+Also add missing mail template documentation.
+
+* Fix: Projects created outside of Gerrit could not be cloned.
++
+The commit:
++
+  cd94b4b7a381527f9bd216ffc7b7b3180075d16f
+  "Fix case check for project name so that symlinks work again"
++
+...introduced an issue where projects created directly on FS
+could not be cloned. Effectively rendering new and replicated
+projects unreachable from gerrit slaves before flushing the
+projects_list cache and rescanning the filesystem through ssh
+command "ls-project".
++
+A new check is introduced in this patch, allowing projects to
+be read from FS if they are not found in the names-cache.
+
+* issue 1594 Document execute permission for commit-msg in Change-Id docs
+
+* issue 1200 Send event to stream and execute hook when reviewer is added
++
+When a new reviewer is added on a change, the `reviewer-added`
+hook is executed, and the `reviewer-added` event is sent to
+the event stream.
++
+This will allow users like automated review bots to monitor the
+event stream and take action only when they are explicitly added
+as reviewer on a change.
+
+* Add submit records to query output.
++
+Add a command line option to the gerrit query ssh command to include
+submit records in output.
++
+This facilitates the querying of information relating to the submit status
+from the command line and by API clients, including information such as
+whether the change can be submitted as-is, and whether the submission
+criteria for each review label has been met.  Example output:
++
+  submitRecords:
+    status: NOT_READY
+    labels:
+      label: Verified
+      status: OK
+      by:
+        name: James E. Blair
+        email: corvus@example.com
+        username: corvus
+    labels:
+      label: Code-Review
+      status: NEED
+
+* Prevent possible NPE when running change-merged hook
++
+It's possible that the submitter is null.  Add a check for this
+before invoking the change-merged hook with it.
+
+* Split up canSubmit()
++
+Have a new function resultsToSubmitRecord that converts the prolog
+results into gerrit submitrecords.
++
+The resultsToSubmitRecord will be used for testing prolog submit
+rules on a live server.
+
+* Add ssh command "test-submit-rule"
++
+The command creates a fresh prolog environment and loads a prolog script
+either from stdin or rules.pl in the project refs/meta/config branch
+depending on the options used.
+can_submit/1 is then queried and the results are returned in human
+readable text or json.
+
+* Allow plugins to contribute Prolog predicates
++
+A new extension point is defined that allows plugins to provide
+additional packages that contain Prolog predicates. The predicates
+can e.g. be used in the project submit rules.
+
+* Improve error handling on branch creation
++
+Improve the error messages that are displayed in the WebUI if the
+creation of a branch fails due to invalid user input. The displayed
+error messages are now coming from a properties file, which means
+that they are translatable.
++
+If the branch creation fails with LOCK_FAILURE because the branch
+already exists or because the new branch should be created under an
+existing branch (e.g. the users tries to create 'refs/heads/foo/bar'
+when 'refs/heads/foo' already exists) now a human-readable error
+message is displayed.
+
+* Warning cleanup in ChangeMergeQueue and MergeOp
+
+* Call inserter.flush() when creating code review notes
++
+Failing to do this can cause the notes blobs to not get written to
+storage, particularly with JGit's DfsInserter.
+
+* Pass an ObjectInserter into NotesBranchUtil
++
+CreateCodeReviewNotes does not need to flush its inserter before
+calling NotesBranchUtil.commitAllNotes(), so take advantage of the
+existing inserter to create one less pack when creating review notes.
+
+* Add missing JSON attribute documentation
++
+Documentation is missing for several JSON attributes.  Add it.
++
+Also fix a minor typo in Patch.java comments, where some of the
+added documentation is copy/pasted from.
+
+* issue 1602 Access control documentation: Fixing some errors
++
+It seems the documentation falsely stated that you need to set permissions
+for 'refs/changes/*'. So that reference is removed.
+Also, some example permissions missed which reference to set them to.
+
+* Access control documentation: Tidying up format mistake
+
+* Add author and size information to output of query.
++
+Add author information to output of query options:
+ '--patch-sets'.
+ '--current-patch-set'.
++
+Add size information to output of query options:
+ '--patch-sets'.
+ '--current-patch-set'.
+ '--files'.
++
+This information can now be retrieved by both SSH and
+the HTTP REST API.
+
+* Retry MergeOp after LOCK_FAILURE when updating branch
++
+If the project requires fast-forwards, the MergeOp cannot succeed once
+a lock failure occurs, but other cases, it should be safe to retry the
+merge immediately. So, just put it back in the queue.
+
+* Periodically rescan for unmerged, submitted changes
++
+Changes can get stuck in the submitted state without being merged due
+to a variety of (usually rare) transient failures in the pre-merge
+steps, like IOExceptions reading repositories. Teach MasterNodeStartup
+to periodically recheck for any branches having submitted changes, in
+addition to the existing check at startup.
++
+This change does not ensure that changes can never enter corrupt
+states due to partially-applied MergeOps, but it is no worse than the
+previous behavior, which was to retry merging all submitted changes on
+a branch only once a new change is submitted on that branch.
+
+* Do not always fail on merge
++
+The merge should only fail if updating the branch has an unexpected
+result, currently it always throws an exception.
+
+* Refactor MergeOp: extract utility methods into MergeUtil class
++
+The MergeOp class is difficult to maintain and to extend. It is a huge
+class that implements four different submit strategies. The code for
+the different submit strategies is only partially the same and there
+are special coding blocks which just apply to one of the submit
+strategies. The class has many member variables to hold the current
+state of the merge operation. They are read and updated in many methods
+which makes it difficult to understand the pre and post conditions for
+a method. Also some of the methods do more than their names suggest.
++
+The goal of the refactoring is to have an abstraction for a submit
+strategy. By having polymorphism for the submit type the coding for the
+different submit strategies will be seperated. This will make it much
+easier to add a new submit strategy because then only a clearly defined
+interface has to be implemented.
++
+The motivation for this refactoring is to support different submit
+types for changes pushed to the same destination branch. The idea is to
+control the submit type for a change from Prolog. The current MergeOp
+algorithm assumes that the submit type is the same for all changes to
+be merged. To support different submit types for changes going to the
+same destination branch MergeOp should scan all changes and determine
+their submit type, then cluster changes with the same submit type and
+loop through the submit strategies to execute those clustered groups in
+turn. This will be implemented by follow-up changes, but this is why
+the submit strategy will be designed in such a way that it can be
+executed several times, each time for a different set of submitted
+changes.
++
+Doing the complete refactoring in one step results in a large change
+which is difficult to review. This is why the refactoring is done in
+several smaller steps. As a first step for the refactoring this change
+moves all merge related utility methods from MergeOp into a new
+MergeUtil class. Having such util classes is a common pattern in Gerrit
+(e.g. see ChangeUtil class). Having the utility methods in the
+MergeUtil class makes them usable from different classes. In particular
+this allows us in a next step to implement each submit strategy in an
+own class and make use of the merge utility methods from there.
+
+* Refactor MergeOp: implement each submit strategy in an own class
++
+This is the second step in the MergeOp refactoring. With this change
+an abstraction for a submit strategy is introduced. There is a new
+abstract base class that each submit strategy has to extend. By having
+polymorphism for the submit type the coding for the different submit
+strategies gets seperated. This makes it much easier to add a new
+submit strategy because only a clearly defined interface has to be
+implemented.
+
+* Refactor MergeOp: reduce number of member variables, make names consistent
++
+MergeOp has many member variables to hold the current state of the merge
+operation. They are read and updated in many methods which makes it
+difficult to understand the pre and post conditions for a method.
++
+Remove some of the member variables and instead have explicit method
+input parameters and return values.
++
+Also do a few renames to make the naming consistent with other classes.
+
+* Make submit strategies re-executeable
++
+The RevWalk used for the MergeOp must not be reset without retaining
+the CAN_MERGE flag. If the CAN_MERGE flag is removed from the RevWalk
+follow-up submit strategies cannot succeed anymore.
+
+* Support changes with different submit types in MergeOp
++
+In future the submit type for a change should be controlled from
+Prolog.
++
+Currently the MergeOp algorithm assumes that the submit type is the
+same for all changes to be merged. If the submit type is controlled
+from Prolog changes going to the same destination branch can have
+different submit types. To support this MergeOp now scans all changes
+and determines their submit type, then clusters the changes with the
+same submit type and loops through the submit strategies to execute
+those clustered groups in turn.
+
+* Display submit type in the change info block
++
+This is a preparation for a Prolog based submit type rule which will
+compute submit type for each change. In this first step we simply
+return the project-wide default submit type for each change.
+
+* ChangeControl: Extract Prolog submit rule evaluation to its own method
++
+The code in ChangeControl.canSubmit() for finding and evaluating Prolog
+submit rules and converting the results into a list of SubmitRecord
+objects is extracted to a class of its own in preparation of future
+changes where rules with other names but the same input/output will be
+used for evaluating other things.
+
+* Use locate_helper to replace locate_* predicates
++
+locate_submit_rule and locate_submit_filter are now refactored into
+locate_helper. To make that easier, a noop_filter is introduced in order
+to have a default filter implementation (same like default_submit is a
+default implementation of submit rule) and avoid need to handle the case
+of non-existing filter.
++
+Also removed checks for non-null return values from locate_* predicates.
+If a locate_* predicate returns null then this is bug in its
+implementation.
+
+* Remove unnecessary Prolog-to-Java conversion from submit filters
++
+Instead of converting intermediate filtering results from Prolog to Java
+(and back) in each filtering iteration, perform the conversion only
+after the last submit filter is done.
++
+Also change the return type of the SubmitRuleEvaluator.evaluate to
+return ListTerm and let the caller decide how to convert it to a Java
+list. This is necessary because the ListTerm.toJava method can produce
+either List<Term> or List<String> as its result depending on what is
+contained in the ListTerm instance.
+
+* Support controlling the submit type for changes from Prolog
++
+Similarly like the "submit_rule" there is now a "submit_type" predicate
+which returns the allowed submit type for a change. When the submit_type
+predicate is not provided in the rules.pl then the project default
+submit type is used for all changes for that project.
++
+Filtering the results of the submit_type is also supported in the same
+way like filtering the results of the submit_rule. Using a
+submit_type_filter predicate one can enforce a particular submit type
+from a parent project. For example, a release engineer may want to
+enforce the FAST_FORWARD_ONLY submit type for all changes pushed to
+stable release branches while, at the same time, use the project wide
+default submit type for changes pushed to the development branch.
+
+* Add resumeSortKey to gerrit query summary section
++
+When querying gerrit there is a limit for the number of results.
+Add a resumeSortKey: <sortKey>" to the summary section at the end
+of a query when the list of results has been truncated. Here is
+how summary section would look like -
++
+when there are more results
++
+type: stats
+rowCount: 10
+runTimeMilliseconds: 14
+resumeSortKey: 00202a4c00000003
++
+and when there are no more results
++
+type: stats
+rowCount: 3
+runTimeMilliseconds: 6
+
+* ls-projetcs: Make '--has-acl-for' option work for LDAP groups
++
+For querying LDAP groups the UUID of the AccountGroup is needed.
+
+* Remove HostPageData from the DOM after load
++
+Delete the <script> tag from the DOM after the data has been
+consumed, making DOM inspection a bit less messy. Developers can
+still see the original text with "view source" in their browser.
+
+* Strip gwtdevmode headers in production sites
++
+Even if site.checkUserAgent is false we want to remove the ugly
+JavaScript block that handles local GWT debugging unless the system
+property Gerrit.GwtDevMode was explicitly set to true by the runner.
+
+* Clarify documentation of LDAP group name setting
++
+Make it a bit clearer that the setting can either be the name of
+an attribute, or a parameterized literal string.
++
+Also clarify how the attribute name can differ depending on the
+LDAP server.
+
+* issue 816 issue due to diff_intraline cache does not File indentation is sometimes wrong in Side-By-Side
++
+To reproduce:
++
+1. Change file indendation in a patch and push.
++
+2. Set "Ignore Whitespace" to "All" in the Prefs.
++
+3. Empty the diff_intraline cache.
++
+4. View the patch using Side-By-Side.
++
+5. Change Ignore Whitespace to "None" and update the
+page.
++
+6. The lines with changed indentation are now fetched
+from the base, leading gerrit to display the wrong
+indentation on the right handed side.
++
+account for changed whitespace settings, which will
+trick SparseFileContent.apply() to grab lines from
+left-side hunk when the line is not within the
+range of the right sided hunk.
+
+* Add isIgnoreWhitespace() to IntraLineDiffKey
++
+Our cluster installation of Gerrit uses getters to access the
+fields of the cache key objects in order to provide a cache that
+isn't backed by H2. We do need the accessor on this, even though
+I just told Gustaf to omit it in 2424a8a9d59.
+
+* Allow time unit variables to be 0
++
+plugins.checkFrequency can be disabled by setting the time to 0,
+but this is not allowed in a time unit typed variable due to the
+regex requiring the value to start with a digit in the range 1-9.
+Permit 0 as a value.
+
+* Remove no-wrap from project/branch fields in ChangeTable(2)
++
+This makes Gerrit very difficult to use on narrow screens, so
+allow project names to wrap.
++
+Most installs use project names like "foo/bar/baz" which wraps
+nicely at the slash [/]. Spaces [ ] or dashes [-] should also
+provide sane wrap points.
++
+Left the classes in place, in case we want to style them in the
+future or anyone already had customizations using them.
+
+* ChangeMessageAccess: Add index for byPathSet method.
++
+When using a sql datastore, ChangeMessageAccess#byPathSet ends
+up creating a request filtering results with columns patchset_change_id
+and patchset_patch_set_id, none of which is indexed. This results
+in a full table scan.
++
+Since change I6bc6391f456d9faeab7f1212b9c0463e7514cc05, change messages
+are retrieved by patch set for highlighting purpose in ListChanges.
++
+This can have a significant impact on dashboard. On a gerrit instance
+I manage, which has about 70,000 lines in change_messages, one user
+dashboard with 137 displayed changes went from an average display
+time of 2.4s to 0.7s by adding this index.
+
+* Fix: Build failure.
++
+Add a patchset to [1] to fix the build failure.
++
+[1]Ia92bc6829541b694e39bdd603cb4c685b2cd8791.
+
+* Fix: Could not use '.' when constructing ref regex rules.
++
+Since Brics will substitute dot [.] with \0 when generating
+shortest example in RefControl.java, any usage of dot will
+fail in Repository.isValidRefName() if not combined with a
+star [*].
++
+To get around this, we substitute the \0 with an arbitrary
+accepted character after generating the shortestExample().
++
+To reproduce, try using any of these ref-names in the access
+rights UI:
+
+* ^refs/heads/branch1\..-RELEASE
+* ^refs/heads/test.+
+* ^refs/heads/test.{1,3}
+* ^refs/heads/topic-branch-...
+* Fail on LOCK_FAILURE during merge even if we plan to retry
++
+Not failing the current merge attempt on LOCK_FAILURE means the change
+state will get updated even though the merge commit failed. This is
+bad.
++
+I suspect this was the original intent of leaving the throw outside
+the inner switch block in I9a16e969, but of course that was a bug.
+Id2771bad went too far in fixing this bug. I think this one gets it
+right.
+
+* Fix: Creating Editor comment in SideBySide view.
++
+In SideBySide diff view, if there is a code line
+followed by 2 comments:
++
+   code line
+   published comment
+   editor comment
++
+Now double click this line or single click the line
+number will create another new editor.
++
+This patch fixes this bug, don't insert two editors
+for same patch on the same position, instead just
+open the existing editor comment.
++
+This is also a preparatory step for 'file comment'
+feature.
+
+* Fix: Creating Editor comment in Unified view.
++
+In UnifiedDiff view, if there is a line
+followed by 2 comments like
++
+   code line
+   published comment of patchset 2.
+   editor comment of patchset 3.
++
+The bug is any option of below will open the
+existing editor.
++
+1> Click line number of this line.
+2> Click the "Reply" or "Reply 'Done'" button
+of the published comment.
++
+This patchset fixes this bug, don't open the
+existing editor which belongs to patchset 3,
+instead create a new one for patchset 2.
++
+This is also a preparatory step for 'file comment'
+feature.
+
+* issue 1608 Hint about commit-msg hook when rejecting commit with no Change-Id
++
+When rejecting a commit that does not have a Change-Id in its commit
+message, add a hint that the commit-msg hook can be installed to
+make the Change-Id get automatically added.
+
+* issue 1237 Send event to stream and execute hook when merge fails
++
+When a change is submitted but fails to merge, execute the
+`merge-failed` hook and send the `merge-failed` event to the
+event stream.
+
+* Ensure that the release notes are made when executing tools/release.sh
++
+The release notes are now made when a release is created by running the
+tools/release.sh script and the creation of the documentation is not
+explicitly disabled.
+
+* Abstract out concepts of DataSourceType and DatabaseConfigInitializer.
++
+Encapsulate data source specific logic into subclasses of DataSourceType
+and DatabaseConfigInitializer.  DataSourceType and
+DatabaseConfigInitializer are separated because we need them at
+different stages (init vs runtime) and they also need to exist in
+different projects with different dependencies.
++
+This is a first step toward providing support for different database
+platforms as plugins.
+
+* issue 1491 Fixed nested submodule updates
++
+When pushing changes to repositories that are used
+as nested submodules Gerrit was crashing while trying
+to find commit ID in the incorrect repository
+(always in the most nested one, instead of the one below).
++
+This change fixes that, by using different RevWalkers
+for different repositories.
+
+* Wait a bit longer when retrying MergeOp after LOCK_FAILURE
++
+In our environment, the race window for ref updates is surprisingly
+long. Give it 15 seconds before retrying.
++
+Remove the random component of the restart time. That sort of thing is
+intended to prevent multiple instances moving in lockstep, but the
+retries only happen on the instance that originally saw the lock
+failure (i.e. received the original post to submit the change).
+
+* Add method `hasInlineComments` on CommentSender
++
+In the mail templates, the condition `#if($email.inlineComments)` always
+evaluates to true, which makes it impossible to write a template like:
++
+  #if($email.inlineComments)
+  $email.getInlineComments(5)
+  #else
+  The reviewer did not write any inline comments
+  #end
++
+Add a new method `hasInlineComments` on the CommentSender class, which
+can be used in a template as:
++
+  #if($email.hasInlineComments())
+  $email.getInlineComments(5)
+  #else
+  The reviewer did not write any inline comments
+  #end
++
+Update Comment.vm to use the new method.
+
+* Allow ChangeEmail derived classes to append to the mail footer
++
+Add a new protected method, `formatFooter()`, on the `ChangeMail`
+class.  Derived classes can override this method to append lines
+on to the footer of change-related mails.
++
+This will allow different footer lines to be appended depending
+on the type of change mail.
+
+* issue 1531 Add email footer token to identify if inline comments are present
++
+Add a new mail template that is appended to the end of mails
+related to users adding comments on changes.
++
+The new template adds an extra token at the end of the mail:
++
+  Gerrit-HasInlineComments: Yes
++
+or
++
+  Gerrit-HasInlineComments: No
++
+which will be set depending on whether or not the reviewer has left
+any inline comments.
++
+This will allow users to filter their incoming notification emails
+according to whether or not the review contains inline comments.
+
+* Don't suggest site init if schema version is newer than expected
++
+In the current implementation the schema version check simply
+checks if the current version is not the same as expected, and
+then raises an error with the message "Run init to upgrade".
++
+However, re-initialising the site will only work if the current
+schema version is older than expected.  If the user has tried to
+start an older version of Gerrit with a newer test site (i.e. a
+site that has already been initialised with a newer version of
+Gerrit), re-initialising the site will not work because schema
+downgrade is not supported.
++
+Explicitly check if the current version is older or newer than
+expected, and give an appropriate error message.
++
+Also rename some variables to make the meaning a bit clearer.
+
+* Improve error messages in schema check
++
+When the schema check fails because the schema is not initialized,
+or because the schema version is older than expected, the Gerrit
+site must be (re-)initialized.
++
+Extend the error messages to include the command that must be
+used to do that.
+
+* Ensure that RevWalk in SubmoduleOp is released
+
+* Fix various warnings
++
+Remove unused imports, unused fields and variables, unused private
+methods and unnecessary @SuppressWarnings.
+
+* Fix resource leak in MarkdownFormatter
+
+* Remove unused check_schema_version function from index_postgres.sql
++
+We are not using this function since 57174ca4fa5414e69678f7b9b0d27fde692e393.
+
+* Make it configurable after how many chars suggestions are provided
++
+Suggestions for reviewers, accounts, account groups and projects are
+provided to the user as soon as he starts typing. On systems with many
+accounts, account groups and projects providing suggestions may be
+expensive, especially for short query strings. Suggestions for very
+short query strings are often not very useful for the user because the
+list of suggestions is too big. Normally useful suggestions are only
+provided if the user has typed a certain number of character that is
+sufficient to limit the suggestions to a reasonable set. In this case
+it makes sense to show suggestions only if the user has typed a least
+a certain number of characters. Allow administrators to configure after
+how many typed characters suggestions should be provided. By default
+suggestions will always be provided.
+
+* Rename gerrit module to gerrit_ui
++
+This frees up the name 'gerrit' in the top level page, making it
+available for us to start publishing a JavaScript native API for
+plugins to connect with the UI.
+
+* LDAP-cache to minimize nbr of queries when unnesting groups.
++
+A new cache named "ldap_groups_byinclude" is introduced
+to help lessen the number of queries needed to resolve
+the nested LDAP-groups.
++
+Depending on the LDAP tree structure, the unnesting of
+the LDAP-groups will in many cases generate most of the
+queries against the LDAP-server. Even though the users
+have lots of security groups in common, no effort was
+previously made to reuse the looked up LDAP-group
+hierarchies.
++
+This change introduce a cache which maps the group DNs
+inheritence. The expiration time is set to 1h, which
+allows any LDAP changes to be reflected in gerrit within
+a reasonable time. Though for most companies the
+hierarchical group structure is mostly static.
+
+* Make use of ListMultimap in MergeOp
++
+This makes the code cleaner and more readable.
+
+* Do not modify git repository when checking if a change is mergeable
++
+If testing of mergeability of changes is enabled (see changeMerge.test
+config parameter) the merge algorithm is executed without updating
+the destination branch and the change status. However running the merge
+algorithm creates new objects and even commits in the git repository.
+The created objects/commits are never used and it's just waste to
+create them and to have them.
++
+Rewrite the mergeability test so that it is a read-only operation and
+the git repository is not modified.
++
+If CHERRY_PICK is chosen as submit type the merge algorithm also
+creates a new patch set for the commit that was created by the cherry
+pick. When testing the mergeability creating the new patch set
+currently fails with an NullPointerException since the code trys to set
+the submitter as uploader of the new patch set, but there is no
+submitter when the mergeability is tested.
+
+* Refactor code for rebasing changes to make it reusable
++
+A new submit strategy 'Rebase If Necessary' should be introduced that
+automatically rebases the changes on submit if needed. Refactor the
+existing code for rebasing changes from the WebUI to be reusable from
+this new submit strategy.
+
+* issue 353 issue 1123 Add submit strategy that rebases the change if necessary
++
+Add a new submit strategy 'Rebase If Necessary' that automatically
+rebases the changes on submit if needed. If a change gets rebased the
+rebased commit is added as a new patch set to the change.
+
+* Support logging the server onto LDAP with kerberos
++
+This assumes the environment manages a kerberos TGT that Gerrit
+can use and that it renews it appropriately.
+
+* Minor documentation formatting and white space errors fixed
+
+* JavaScipt and GWT based UI plugin support
++
+Adds support for extending Gerrit's web UI using either pure
+JavaScript or GWT compiled with a modified CrossSiteIframeLinker.
++
+To add code to the web UI plugins should bind WebUiPlugin to either
+GwtPlugin or JavaScriptPlugin in their plugin's Web-Module. This
+tells the UI bootstrap code where to find additional JavaScript to
+inject into the page before displaying content.
++
+For a GWT based plugin:
++
+  * com.google.gerrit.client.Plugin class should be extended,
+  * inheritance from com.google.gerrit.Plugin should be added
+    to gwt.xml,
+  * subclass of client.Plugin should be set as entry point,
+  * dependency from com.google.gerrit/gerrit-plugin-gwtui should
+    be added to pom.xml,
+  * webappDirectory option for gwt-maven-plugin should be
+    set to ${project.build.directory}/classes/static
++
+For JavaScript based plugins the source code should be put into
+the static/ directory of the plugin's JAR file.
++
+Currently there are no extension points for either JS or GWT plugins
+to interact with. Some will be added in a future commit. With this
+commit only simple modification of the UI is possible, for example
+calling window.alert() or adding extra elements to page contents
+based on the existing element ids.
+
+* Allow web UI plugins to auto-register
+
+* Fix warnings caused by wrong BouncyCastle version in pom files
+
+* issue 1619 Upgrade embedded Jetty to 8.1.7.v20120910
+
+* Remove servlet-api from WAR/lib
++
+It is wrong to include the servlet API in a WAR's WEB-INF/lib
+directory. This confuses some servlet containers who refuse to
+load the Gerrit WAR. Instead package the Jetty runtime and the
+servlet API in a new WEB-INF/pgm-lib directory.
+
+* JavaScript plugin archetype
++
+Adds example JavaScript based Web UI plugin archetype.
+
+* GWT plugin archetype
++
+Adds example GWT based Web UI plugin archetype.
+
+* Fix: Init error.
++
+Init error [2] is found after [1] is merged.
+fixed.
++
+[2] Error information:
+"...
+fatal: DbInjector failed
+fatal: null".
++
+[1] b53bffe1b90b875df1e0b7c943d5c1965035b7fb
+"Abstract out concepts of DataSourceType and DatabaseConfigInitializer."
+
+* Caching of changes
++
+During Ref Advertisments (via VisibleRefFilter), all changes
+needs to be fetched from the database to allow gerrit to
+figure out which change refs are visible and should be
+advertised to the user.
++
+This behaviour can generate massive amounts of traffic
+against the database.
++
+This feature introduces a ChangeCache which will store changes
+by using the project name as a key. This should help avoid
+unneccessary change look-ups and cut away some of the database
+traffic.
+
+* Fix binding of the DataSourceType for GWT DevMode
++
+Starting Gerrit in GWT DevMode was failing because a binding
+for DataSourceType was missing.
+
+* Allow plugins to contribute InitStep to Gerrit init.
++
+Plugin has to include a class that implements
+com.google.gerrit.pgm.init.InitStep and specifying
+the class name into the Plugin MANIFEST.MF.
++
+Plugin InitStep is getting instantiated using the
+Gerrit PGM injector and then is able to access
+the same init objects.
++
+Example:
+--------
+public class InitJira implements InitStep {
+  private ConsoleUI ui;
++
+  @Inject
+  public InitJira(final ConsoleUI ui, final Section.Factory sections) {
+    this.ui = ui;
+    this.sections = sections;
+  }
++
+  @Override
+  public void run() throws Exception {
+    ui.header("Jira integration");
+    // Jira-specific init steps.
++
+    Section jira = sections.get("link", "jira");
+    // Jira-specific link expansions
+  }
+}
++
+MANIFEST.MF:
+------------
+
+* Adapt code to rename of gerrit module to gerrit_ui
++
+Commit 1915b91937a3388c6a2052ec46fc95f7879408f8 renamed the gerrit
+module to gerrit_ui, but the module name wasn't changed in all places.
+
+* Fix gerrit_ui reference in BecomeAnyAccount.html
+
+* issue 1621 Fix: draft-published event is not visible
++
+The draft-published event was not visible to users other than
+the owner and reviewers, because when the event was fired it
+was being given patchset and change objects that were still
+in draft state.
++
+Change it to take the updated patchset and change objects.
+
+* Show status for enabled plugins in the WebUI as 'Enabled'
++
+At the moment no status is shown for enabled plugins on the
+PluginListScreen. Some users may be confused by the missing status
+information.
++
+Show the status for enabled plugins as 'Enabled'. This is also
+consistent with the status that is shown for enabled plugins by the
+'gerrit plugin ls' SSH command.
+
+* issue 1622 Fix NPE in LDAP Helper class if username is null
+
+* issue 288 Expose basic commit statistics for the prolog rule engine.
++
+Added a new method gerrit:commit_stats(-Files,-Insertions, -Deletions).
+
+* Fix: Right border of the expanded lines is missing.
++
+Expand the lines of context in SideBySide view,
+the expanded lines' right border is missing.
++
+This commit fixed it.
+
+* In diff view don't let arrow column accept click.
++
+In diff view don't let arrow column
+accept click.
+
+* Fix: Border line is missing.
++
+In Unified view the border line between
+the number columns is missing.
++
+This commit fixes this bug and  shifts the line
+number column's width and align format.
+
+* Fix: The file column's left border does't appear.
++
+In Unified view the left border line of patch content
+is lost.
++
+This commit fixed it.
+
+* Fix: Bugs about discarding comment editor.
++
+Bugs:
+1> In SideBySide diff view if there are more
+comments with a neighbor comment editor
+like:
++
+  comment-editor | comment-1
+                 | comment-2
++
+discard the editor, the page get messed:
++
+                 | comment-1
+        omment-2 |
++
+2> If there is an editor with another comment
+on the same line, discard the editor, its frame
+will still be there.
++
+3> If there is a comment on the top of an
+editor, discard the editor, the above one's
+bottom line will gone.
++
+This commit fixed these bugs.
+
+* Remove duplicate section in documentation
++
+The `submitRecords` field is included twice in the documentation
+of the `change` attribute.  Remove the duplicate.
+
+* Fix for CGit links
++
+The default settings for cgit is to expect url to repositories
+that ends with .git and this is not supported by Gerrit. From
+the CGit config help file:
++
+  If set to "1" and scan-path is enabled, if any repositories
+  are found with a suffix of ".git", this suffix will be
+  removed for the url and name. Default value: "0". See also:
+  scan-path.
++
+This is of importantance, because if you run cgit and have
+remove-suffix enabled, it cannot serve certain gits where the
+name without .git matches another path. Example:
++
+  <gits_root>/build.git
+  <gits_root>/build/scripts.git
++
+Since <gits_root>/build.git will be served as:
++
+  http://server/build/
++
+CGit cannot any longer serve:
++
+  http://server/build/scripts/
++
+...since it parses the git name from left to right until it
+has a match with a matching repository.
++
+Running cgit with remove-suffix:0 will work fine though, since
+the two paths will be served as:
++
+  http://server/build.git/
+  http://server/build/scripts.git/
++
+Hence, most Gerrit/cgit users with complexer git setups must
+run cgit with the default setting of not removing the .git
+suffix and will probably expect Gerrit to support this setup.
+
+* issue 1627 Do not wrap owner in change table
+
+* Permit booleans in project.config to be inherited
++
+Allow the parent project to supply the value for properties:
++
+  * use content merge
+  * require contributor agreement
+  * require change id
+  * require signed off by
++
+This makes it easier to configure a large number of projects, as
+the properties can be defined once on the parent and inherited.
++
+This commit modifies the default behavior when the variable is not
+defined in project.config, it now inherits from the parent rather
+than being false.
+
+* Fix Reply 'Done' button
++
+This was recently broken by the improvements to avoid creating
+unnecessary editor boxes on a line of code. When the user clicks
+Reply 'Done' they want the draft comment recorded immediately,
+without needing to click Save.
+
+* Hide the rebase button when patchset is already up-to-date
++
+If the patchset is already up-to-date, then hide the rebase button.
+Refactored to run the same checks both when deciding if rebase button
+should be enabled or not and before doing the rebase.
+
+* Fix: Blue line cannot be displayed.
++
+In patch diff view, if there are more published comments
+the blue line of the cursor cannot be displayed at the
+bottom of any comment box except the last one.
++
+This commit fixed this bug.
+
+* Fix missing dependency error in js plugin archetype
+
+* Fix double bound exception when loading extensions
++
+ServerInformation class is already bound, therefore it shouldn't be
+bound second time for gerrit extensions.
+
+* Support project notification using To or CC
++
+Some teams want to have new change notifications be CC'd
+to a mailing list so that reply-all goes to the list.
+Add notify.*.header = cc support to allow this usage.
+
+* Fix NPE on project creation
++
+When creating a new project the values for contributorAgreements,
+signedOffBy, contentMerge and changeIdRequired must be initialized.
+
+* Upgrade jgit to 2.1.0.201209190230-r
++
+This makes the garbage collection available so that we might eventually
+trigger it from Gerrit.
+
+* Set change state to NEW if merge fails due to non-existing dest branch
++
+If a submitted change fails to merge because the destination branch
+doesn't exist anymore, it stays in state 'Submitted, Merge Pending'.
+This means Gerrit will re-attempt to merge this change (e.g. on
+startup), but this doesn't make sense. Either the branch still doesn't
+exist (then there is no need to try merging it) or a new branch with
+the old name was created (then it's questionable if the change should
+still be merged into this branch). This is why it's better to set the
+change back to the 'Review in Progress' state and update it with a
+message saying that it couldn't be merged because the destination
+branch doesn't exist anymore.
++
+In addition Gerrit currently writes an error into the error log if a
+change can't be merged because the destination branch is missing.
+That's not really a server error and shouldn't appear in the log. It's
+sufficient to have a message on the change.
+
+* Fix highlighting in search suggestions
++
+The provided suggestions should highlight the part that the user has
+already typed as bold text. Currently this only works for the first
+operator. For suggestions of any further operator no hightlighting is
+done.
+
+* Suggest projects, groups and users in search panel
++
+Suggest projects, groups and user in the search panel as parameter for
+those search opeators that expect a project, group or user.
+
+* ReceiveCommits: Remove unused member variable
+
+* Ignore the whole .settings folder in gwt-archetype and js-archetype
++
+Ignore the whole folder instead of specific files within the folder.
+
+* gerrit-plugin-gwtui/gerrit-war: Enable lifecycle plugin in pom.xml
++
+Due to changes in the m2e Eclipse plugin for Indigo (3.7), plugin
+execution no longer happens directly, but rather must be configured
+through m2e's lifecycle-mapping plugin.
++
+In order for a plugin to be invoked within Eclipse, a pluginExecution
+must be defined in the lifecycle-mapping plugin corresponding to the
+execution tag in the plugin definition itself.
++
+To achieve this, a new section is added in the build section of the
+POM files.
++
+See http://goo.gl/2WCNW for details.
+
+* gerrit-pgm: Remove some unused imports
+
+* Update the Maven plugin installation instructions
++
+In Eclipse 3.7 (Indigo) and later, the Maven plugins are available
+in the default update site.  It's only necessary to manually add
+the m2eclipse update site if using an older version of Eclipse.
++
+Update the documentation accordingly.
+
+* Add LSB headers to init script
++
+Insserv reports missing LSB headers in Gerrit's init script and the
+dependencies of services cannot be identified correctly (e.g. a dependency
+loop might be reported).
+
+* Fix spelling mistakes in submodule test
+
+* When a file is renamed, include old file name in Patch attribute
++
+When a file is renamed, the value of `file` in the Patch attribute
+is the new file name.  The old file name is not included.
++
+This means it is not possible to find the old file name by running
+a gerrit query command.
++
+Add a new field `fileOld`. When the file is renamed, this field
+contains the old file name.
++
+The name of the existing field is unchanged.  Renaming to `fileNew`
+would make the name more meaningful and consistent with `fileOld`,
+but would make it incompatible with user scripts that expect it to
+be called `file`.
+
+* Improve suggest user performance when adding a reviewer.
++
+Do not check the visibility of the change for each suggested account if
+the ref is visible by all registered users.
++
+On a system with about 2-3000 users, where most of the projects are
+visible by every registered user, this improves the performance of the
+suggesting reviewer by a factor of 1000 at least.
+
+* Adding sublime project files to .gitignore
+
+* Abort release, if asciidoc is missing
++
+It is hard to figure out, why no documentation is built, if asciidoc is
+not installed on the build system.
++
+Thus, abort the build and advise to either install asciidoc or add the
+--without-documentation parameter.
+
+* Make SubmitRuleEvaluator usable for testing prolog rules.
++
+For the purpose of testing submit rules the SubmitRuleEvaluator needs
+more flexibility like skipping the submit filters and loading prolog
+rules from a caller provided input stream.
++
+This change is a preparation for refactoring of the test-submit-rule
+command which currently duplicates most of the code for finding and
+executing the prolog rules.
+
+* Document the submit_type in the Prolog cookbook.
+
+* Remove unused class member variable
+
+* Mark all CSS classes as @external so users can rely on them.
++
+GWT's class obfuscation makes it impossible for users to write
+their own CSS that won't break on upgrade.
+
+* Make the text for "Register" customizable
++
+In some organizations using LDAP, you don't actually
+register your own account, it is created for you.
+
+* Always show 'Working ...' message
++
+Currently 'Working ...' message is sticked to Gerrit page top border.
+When user scroll down page and perform action he is not informed that
+his action is currently performed and he should wait for its completion.
+This could lead to multiple redundant RPC calls.
++
+This change make 'Working ...' message relatively positioned to
+browser top border, so that it is always visible for users.
+
+* Register @Listen annotated classes in Http and Ssh modules
++
+Current implementation of Web UI plugins allows auto register them using
+@Listen annotation. Unfortunately listeners can only be bind in
+system module.
++
+This patch enables binding listeners in Http and Ssh modules.
+
+* Do not call onModuleLoad() second time
++
+onModuleLoad() method is automatically called by GWT framework. Calling
+it once again in PluginGenerator cause double plugin initialization.
+
+* Add ApiType.JS
++
+Adds JS ApiType to match current configuration in plugin-js-archetype.
+
+* Update plugin-js-archetype to match current implementation
++
+Use auto registering mechanism using @Listen annotation instead of
+binding in main Module.
+
+* Update plugin-gwt-archetype to match current implementation
++
+Update GWT plugin archetype to auto register its instance in Gerrit
+
+* Declare kind in JSON API results
++
+This is recommended to hint to clients what the entity type is when
+processing the JSON payload. Reserve the kind field in both change and
+project response objects and initialize to the constant used to denote
+a change or a project.
+
+* Remove auth token based REST API support
++
+This never turned into a real implementation. Drop it and
+look at other ways to do authentication.
+
+* Don't advertise refs/cache-automerge during push
++
+The cache-automerge space is composed of tree objects that were
+made on the fly by the server before presenting a merge commit in
+the web UI. Clients are unlikely to have these objects locally,
+and therefore cannot used them as a preferred base when creating a
+pack for transmission to the server. Save a little bit of network
+traffic by hiding them.
+
+* Suppress warning for unused 'kind' field
+
+* Remove AuthMethod and add access token to RestApi
++
+Authentication for API calls will be handled using an access token
+in the "Authorization: OAuth access_token" style. Browsers do not
+use this when making requests unless they use an XmlHttpRequest.
+If the value used as the access_token is not available cross-site
+then the API call cannot be made by hijacking attempts.
+
+* Introduce id property on REST entities
++
+The /changes/ entities now use "id" to include a triplet of the
+project, branch and change-id string to uniquely identify that
+change on the server. This moves the old id field to be named
+change_id, which is a breaking change.
+
+* Remove unused ChangeControl.Factory from ChangeQueryBuilder
+
+* Clarify error messages related to commit message footer content
++
+Commits can be rejected due to the following issues in the commit
+message:
++
+- Change-Id tag is missing or incorrectly formatted
+- Multiple Change-Id tags are present
+- Signed-off-by tag is missing or does not specify the correct user
++
+However the error messages raised in these cases do not make it clear
+that the required tags are expected to be found in the footer (last
+paragraph) of the commit message.
++
+Update the error messages and related documentation to explicitly
+mention that the tags should be in the commit message footer.
+
+* Icon for showing changes for a project in the Projects->List screen
++
+A new icon is available on the left hand side of every project in
+the Project Listing screen. Clicking the icon will open a change
+search query for all changes on that project.
+
+* Allow assigning Push for refs/meta/config on All-Projects
++
+The refs/meta/config branch of the All-Projects project should only be
+modified by Gerrit administrators because being able to do
+modifications on this branch means that the user could assign himself
+administrator permissions.
++
+In addition to being administrator we already require that the
+administrator has the Push access right for refs/meta/config in order
+to be able to modify it (just as with all other branches
+administrators do not have edit permissions by default).
++
+The problem was that assigning the Push access right for
+refs/meta/config on the All-Projects project was not allowed.
++
+Having the Push access right for refs/meta/config on the All-Projects
+project without being administrator already has no effect.
++
+Prohibiting to assign the Push access right for refs/meta/config on the
+All-Project project was anyway pointless since it was e.g. possible to
+assign the Push access right on refs/meta/*.
+
+* Allow seeing the submit type for patch sets which are not current
++
+When clicking on the 'Review' button for a patch set that is not
+current, the submit type in the change data on the PublishCommentScreen
+was shown as 'RULE_ERROR'.
++
+Now we compute the submit type for that patch set and display it.
++
+Always displaying the submit type of the current patch set would not
+work in case the current patch set is a draft patch set which is not
+visible to the user.
+
+* Refactor row ClickHandling into NavigationTable
++
+Several users of NavigationTable handle single and double
+clicks on row, and the rest of the users should.  Instead of
+implementing this handling in every subclass, setup a framework
+to handle them directly in NavigationTable and implement a sane
+default policy to handle them which can easily be overridden.
+Adapt the PatchContentTable classes to override this
+default behavior.
+
+* Initialize common KeyCodes in NavigationTable
++
+Refactor common KeyCode initialization into NavigationTable.
+This reduces some of the KeyCode initialization proliferation,
+and ensures that similar things are done using similar keys.
+It also drastically reduces the constants needed.
+
+* Add an AlterTopicHandler to ChangeDetailService
++
+This change creates an AlterTopic class in gerrit-server for use
+elsewhere in the system.  It also adds an AlterTopicHandler to
+enable us to edit the topic of from the web interface.
+
+* Spotify theme for gerrit
+
+* Fix NPE when creating project via command line
++
+If a user created a project on the command line without specifying the
+contributor agreements flag, it was left as null and threw an NPE when
+creating a commit.
+
+* Add the ability to edit text from ChangeInfoBlock
++
+An edit icon appears in ChangeInfoBlock.  Clicking on it allows the user
+to type in a textbox the new topic and add an optional message to be
+posted to the change.
++
+Editing the topic is restricted to users who can upload new patchsets.
+This seems appropriate since currently a user has to upload a new
+patchset to change the topic.
+
+* Remove unused imports
+
+* Use better help text for editing topics
++
+Specifically, we use "edit" instead of "alter".  This change also
+stores the edit text label appropriately in properties.
+
+* Replace the All Diff buttons on the ChangeScreen with links
++
+The action buttons to open the diff for all files in own tabs consumed
+a lot of space due to the long label texts. Both actions are used by
+only a few user and don't need to be so prominent on the ChangeScreen.
+The action buttons were removed and instead there are now links in the
+bottom line of the patch table which provide the same functionality.
+
+* Add more forbidden characters for project names
++
+This patch forbids ?, %, *, :, <, >, |, $, \r in project names
+
+* Corrected one comment, quick on the copy n' paste
+* issue 1661 Update links to Change-Id and Signed-off-by docu on ProjectInfoScreen
+
+* Better review message when a change is rebased in the UI
++
+When a change is rebased in the UI by pressing the rebase button, a
+comment is added onto the review.  For example if patch set 1 is the
+latest, and the change is rebased, the following message is added:
++
+  Patch Set 1: Rebased
++
+This can be a bit confusing.  This commit changes the message to:
++
+  Patch Set 2: Patch Set 1 was rebased onto the latest head
+
+* issue 1585 Make the ability to view draft changes a grantable permission
++
+Currently only the change owner and explicitly added reviewers
+are able to see draft changes.
++
+This change makes the ability to view draft changes a grantable
+permission.  Users having this permission will be able to view
+draft changes even if they are not the owner or already added
+as a reviewer.
++
+A use case for this would be a non-interactive user such as an
+automated verification bot that needs to react to all changes,
+including drafts.
+
+* Fix: Topic changed message is added even if topic is not changed
++
+If the user opens the topic editing dialog, and then clicks the submit
+button without changing the text, the message "Topic changed to ..." is
+still added as a review comment.
++
+Add a check to prevent this.
+
+* Add old topic name in review message when topic name is edited
++
+When the topic name has been edited, it is useful to know what it was
+before.  Update the review message to include the old name.
+
+* Set focus on topic name text box when the topic edit dialog opens
++
+When the topic edit dialog is opened, the focus is on the message text
+box.  In most cases the user will want to edit the topic name first, so
+this is not so convenient.
++
+Set the focus on the topic name field instead.
+
+* Better label on the topic name edit field
++
+Change the label from "Edit Topic To:" to "New Topic Name:"
+
+* Only show submit type in change view for open changes
++
+Submit type is per project, not tied to specific changes.
++
+If the project's submit type is changed after a change has been
+merged, the displayed information will not be correct; it will
+show the current merge type, which is not necessarily the one that
+was used at submit time.
++
+If a change has been abandoned, the submit type is not relevant.
+
+* Use lower case prepositions in submit type labels
++
+Change "If" to "if" in the submit type labels.
++
+This makes the labels consistent with other labels on the change
+info page that use lower case prepositions, for example "Review
+in Progress"
+
+* Only show submit type in change view for open changes
++
+Submit type is per project, not tied to specific changes.
++
+If the project's submit type is changed after a change has been
+merged, the displayed information will not be correct; it will
+show the current merge type, which is not necessarily the one that
+was used at submit time.
++
+If a change has been abandoned, the submit type is not relevant.
+
+* Remove unused import
+
+* Enable storing of custom dashboards for projects
++
+Custom dashboards can now be stored in the projects
+`refs/meta/dashboards/*` branches. A REST endpoint was added to
+retrieve the custom dashboards for a project.
+
+* Extension for commit validation plugins
++
+CommitValidationListener is informed on new commits
+coming through ReceiveCommits with the ability to
+reject or provide warning with and send messages
+back to the Git client output console.
++
+Plugins can contribute additional commit validation
+by offering an implementation of
+CommitValidationListener and returning a
+CommitValidationResult.
+
+* Allow defining a default dashboard for projects
++
+It is now possible to define a default dashboard for a project in the
+project.config file in the refs/meta/config branch.
++
+Example:
+[dashboard]
+  default = refs/meta/dashboards/main:default
++
+When it will be possible to inherit dashboards from parent projects, it
+will be important to differentiate between a default dashboard that
+is be used for this project and the dashboard that will be inherited
+by the child projects as default dashboard.
++
+This is why we allow overwriting the default dashboard by explicitly
+setting a local default dashboard, which will only be used by this
+project.
++
+Example:
+[dashboard]
+  default = refs/meta/dashboards/main:default
+  local-default = refs/meta/dashboards/main:local
++
+Via the /dashboards/ REST endpoint it is now possible to either
+retrieve all dashboards of the project or only the default dashboard
+of the project.
+
+* Add cursor: pointer to ChangeInfo edit icon
+
+* Use parboiled from Maven central
++
+Yesterday Gerrit was failing to build from source unless a copy of
+parboiled was in Maven's cache:
++
+| $ mvn install
+[...]
+| [ERROR] Failed to execute goal on project gerrit-server: \
+| Could not resolve dependencies for project com.google.gerrit:\
+| gerrit-server:jar:2.6-SNAPSHOT: The following artifacts could \
+| not be resolved: org.parboiled:parboiled-core:jar:1.1, \
+| org.parboiled:parboiled-java:jar:1.1: Could not find artifact \
+| org.parboiled:parboiled-core:jar:1.1 in gerrit-maven \
+| (https://gerrit-maven.commondatastorage.googleapis.com) -> [Help 1]
++
+Probably repo.spray.cc was having a hiccup.  Today the build
+works fine without any change. :(
++
+Luckily, since recently[1], newer versions of parboiled are available
+from Maven central, so let's just upgrade to 1.1.3 and get it from
+there.  The changelog doesn't mention any relevant API changes and
+basic testing doesn't reveal any change in Gerrit behavior.
++
+As a side benefit this makes the repository list a little shorter,
+which should speed up builds.
++
+[1] https://github.com/sirthias/parboiled/issues/45
+
+* Fix: Missing string parameter in successful commit validation result
++
+After calling the commit validator, if the validation was successful
+the status message is added to the list of messages.  However the
+formatting of the string is broken due to the message parameter not
+being passed into String.format().
+
+* Move ReceiveCommits.Message to CommitValidationMessage
++
+Move the message class from a subclass to its own class so it can be
+reused in other classes.  Also rename it to make it a bit more
+meaningful.
+
+* Make the ability to edit topic names a grantable permission
++
+Currently any user who can upload patchsets on a change is able to
+edit the change's topic name.
++
+This is a bit too permissive.  Many companies allow all developers to
+upload changes on any project, but they may not necessarily want them
+all to be able to edit topic names.
++
+Add a new permission that can be granted to allow users to edit topic
+names.  Make the edit dialog only available to users who explicitly
+have the permission, the project owners, the branch owner, and site
+administrators.
+
+* Only add topic name edit button on open changes
++
+Currently the button is added on all changes regardless of status.
++
+Clicking the button opens the dialog and allows the user to enter
+a new topic name and submit, however this results in an internal
+server error.
++
+Add a check to prevent the button from being added if the change
+is not open.
+
+* Allow plugins display warning on commit validation.
++
+Useful when a plugin want to suggest a policy on
+commits without forcing the push to fail.
+Warnings are displayed with the usual "(W)" prefix
+on the git client output.
+
+* Refactoring of CherryPick merge-strategy
++
+Some methods where moved out from CherryPick.java into
+MergeUtils, to prepare for CherryPick Button and SSHD cmd.
+
+* Fix reversed double and single clicks in NavigationTable
++
+This bug was introduced by the NavigationTable refactoring.
+
+* Add ProjectDashboardsScreen
++
+This screen displays a table with a list of dasboards for the
+current project.  Each dashboard entry is a link to the actual
+dashboard.  The dashboards are grouped together in sections
+named after their refs.
+
+* issue 1312 Fix relative URL detection in submodules
++
+Relative submodules do not start with "/".  Instead they start with
+"../".  Fix the Submodule Subscriptions engine to recognize relative
+submodules.
+
+* Make the output of query readable.
++
+According to [1], the author will be null.
+This patch get the output of query readable for user
+in the case of Forge Author or non-Gerrit User.
++
+[1] I85c3a3ff059953a2e11f808a6f6b02f916ac7417
+"Fix NPE when abandoning change with invalid author."
+
+* Fix retrieving of the projects default dashboard
++
+In the JavaScript code it's not camel case, but names are converted to
+lowercase with '_' to seperate the words.
+
+* Remove unused parameter from DashboardMap.projectDefault(...)
+
+* Fix splitting of dashboard id
+
+* Fix NPE on DashboardMap.projectDefault(...) if there is no default dashboard
+
+* Fix NPE when abandoning change with invalid author
++
+If the author of a change isn't known to Gerrit (pushed with
+forgeAuthor permissions), we were NPE'ing when abandoning that change
+over SSH.  We were also throwing an internal server error when pushing
+patches with unknown authors, which is also solved with this patch.
+
+* Indicate a project's default dashboard
++
+Place a green checkbox on the project dashboards screen
+next to the currently configured default dashboard.
+
+* Make members of the commit message validation result private
++
+Make the 'validated' and 'reason' members private.  Also make them
+not final and add setter methods.
++
+This will make it possible to create an instance of the result, and
+then later set the values.
+
+* Perform one /accounts/self/capabilities on load
++
+This joins up 3 requests into a single call, leaving 2 HTTP requests
+free for other assets to load during initial page load. It should
+speed up initial page load for most users.
+
+* Support JSON based POST, PUT, DELETE in client
+
+* Fix: Topic name can be changed to whitespace
++
+Trim leading and trailing whitespace off the new topic name
+before setting it, to ensure that it cannot be changed to a
+name consisting entirely of whitespace, like "     ".
+
+* Add different review messages depending on how the topic name is edited
++
+When a change's topic name is edited from "name" to an empty string, and
+vice versa, the review message does not look very nice.  Change it so the
+message is different depending on the type of edit.
++
+If the change does not have a topic name, and a topic name is added:
++
+  Topic set to "name"
++
+If the change has a topic name, and the topic name is removed:
++
+  Topic "name" removed
++
+If the change has a topic name, and the topic name is changed to
+something else, the message is still the same as before:
++
+  Topic "old-name" changed to "new-name"
+
+* Remove REST_API check from RestApiServlet
++
+This broke querying for /changes/ or /projects/.
+
+* Include authentication scheme in authorization header
++
+This allows the session provider to decide what authorization
+scheme the browser should present when it makes JSON REST API
+calls to the server. By default we call it Bearer to match an
+OAuth2 style of authentication that browsers won't do natively,
+but this can be changed by modifying what the session tracking
+implementation returns from getAuthorization().
+
+* Allow WebSession to check XSRF token
++
+I broke the way gerrit-review verifies the user's XSRF token on the
+older-style JSON-RPC invocations. Allow the WebSession implementation
+to check the token by passing in the entire token string, rather than
+looking to see if it is equal.
+
+* Add inheritance to project dashboard loading.
++
+ProjectDashboards defined by parent projects will be
+included in a project's list of dashboards as if they
+were defined on the current project.  In case of name
+conflicts, the most specific (the current project's)
+definition will override the least specific's definition.
+Default project dashboards are also inherited from
+ancestor project's unless overridden.
+
+* Fix audit code to include unique session id again
++
+Previously I broke the audit code paths and had them logging a
+different string for the session identifier. Instead build a new
+token that is not valid for authentication.
+
+* Enable specific AccessPaths based on authentication
++
+If the authentication method permits an AccessPath, add it to the
+WebSession as a permitted path. Downstream from authentication a
+CurrentUser can change its access path based on the entry point of
+the request, allowing RefControl to make decisions around this as
+expected, without running into the race condition of making user
+before the real access method can be determined.
++
+This allows authentication systems to decide on their own if the
+REST_API was sufficiently protected from a potentially evil script.
+
+* Implement ${project} tokens for dashboards queries.
++
+The ${project} token will be replaced with the project to which
+a dashboard is being applied.  This is useful when inheriting
+dashboards.
+
+* Add a section name to project dashboards
++
+The section name is currently equal to the dashboard ref
+which includes refs/meta/dashboards.  Since this is ugly
+to display to users, strip it off the section name.
+
+* Add an "Inherited From" column to the ProjectDashboardsScreen
++
+This extra column makes it easier to track down where a project
+dashboard is defined.
+
+* Fix: NPE when editing topic name of change uploaded without topic
++
+If a change is uploaded for review without specifying a topic name,
+the topic field in the change record is null.  This causes a Null
+Pointer Exception when attempting to compare the old topic name with
+the new one.
++
+Add a check to initialise the topic name to empty string if it is
+null.
+
+* Make ReviewDb available in the server on a per-thread basis
++
+Allow types bound in the system injector to access the per-thread
+ReviewDb if they are invoked from within a request context, without
+caring about which entry they were invoked from. This allows email
+sending and some other change update action code to be bound at the
+global level and work in both SSH and HTTP invocations.
+
+* Implement new /changes/{id}/action style REST API
++
+All existing JSON APIs are converted to this new style.
++
+/changes/{id} parses the id field from a JSON response from a prior
+response and uses that to uniquely identify a change and verify the
+caller can see it. If the user requests only /changes/{id}/ then the
+data is returned as a single JSON object.
++
+This commit also gives full remote control of plugins using the
+/plugins/ namespace:
++
+  PUT /plugins/{name}    (JAR as request body)
+  POST /plugins/{name}   (JSON object {url:"https://..."})
+  DELETE /plugins/{name}
+  GET /plugins/{name}/gerrit~status
+  POST /plugins/{name}/gerrit~reload
+  POST /plugins/{name}/gerrit~enable
+  POST /plugins/{name}/gerrit~disable
++
+The commit provides some project admin commands:
++
+  GET /projects/{name}/description
+  PUT /projects/{name}/description
++
+  GET /projects/{name}/parent
+  PUT /projects/{name}/parent
++
+Project dashboards have moved:
++
+  GET /projects/{name}/dashboards
+  GET /projects/{name}/dashboards/{id}
+  GET /projects/{name}/dashboards/default
++
+To access project names containing /, the name must be encoded with
+URL encoding, translating / to %2F.
+
+* Keep the topic link and editor img in one line.
++
+In Change UI's change info block, keep the topic
+link and the following editor img in one line.
+
+* Update ReviewCommand to use new Abandon interface
++
+The AbandonChange class is no longer used - the logic has been moved
+to Abandon.  This change fixes the ssh command to abandon changes.
+
+* Use REST API when abandoning from web interface
++
+AbandonChange and AbandonChangeHandler are no longer needed.  We now
+use the new Abandon class to do the heavy lifting of abandoning
+changes.
+
+* Extract MethodNotAllowed as an API exception
++
+This allows views to throw with a proper HTTP error code if
+a specific method is not a valid call on a resource.
+
+* Fix compile error in ChangeApi
+
+* Remove unused import
+
+* issue 1664 Fix: Reverting a change does not preserve the change's topic
++
+When reverting a change in the UI, set the revert change's topic
+to the same as the change being reverted.
+
+* Fix marking the project default dashboard with a checkmark
++
+The project default dashboard in the ProjectDashboardScreen was not
+marked with a checkmark anymore. The default flag for the dashboard
+wasn't set because the comparison of the dashboard ids compared an id
+containing 'refs/meta/dashboards/' with an id not containing
+'refs/meta/dashboards/'.
+
+* Better error message when topic name edit fails
++
+The topic name can be edited when the change is closed or submitted.
++
+Change the error message accordingly.
+
+* Add "Force Edit" option on the Edit Topic Name permission
++
+Add a "Force Edit" option which, when enabled, will allow users
+to edit the topic name even if the change is already merged.
+
+* issue 1664 Fix: Reverting a change does not preserve the change's topic
++
+When reverting a change in the UI, set the revert change's topic
+to the same as the change being reverted.
+
+* Support URL to directly access project dashboards
++
+Project dashboards are now directly accessible under
+'#/projects/<project>,dashboards/<dashboard-id>'.
+
+* Refactor the table header in diff view.
++
+Refactor the table header in SideBySide view and
+Unified view.
++
+This commit is made to prepare for the file comment
+feature which need each cell in table header accept
+click event.
++
+E.g. in SidyBySidy diff view currently the table header
+is displayed by 'PatchTableHeader' which in fact is
+not a table and not in the 'PatchContentTable', in the
+'PatchTableHeader' there are 2 'PatchSetSelectBox's and
+their CSS style is controlled by
+'PatchTableHeaderSideBySide.ui.xml'. This refactoring
+does not use 'PatchTableHeader' anymore, it just allocate
+the 'PatchSetSelectBox' directly in the cells of
+'PatchContentTable' header thus in later features of this
+topic it will be easy to
+-- prepare seats for icons in line number column header.
+-- enable the header of 'A' side or 'B' side clickable.
+-- control the CSS, now the components are in the cells of
+   table header row after refactoring, the header columns
+   will stand align with the content columns together.
++
+For the case of Unified view, the header have 2 rows, each
+row need be clickable and we need a boundary line between
+these 2 rows to make user be clear which side s/he is
+clicking on, and once user add file comments on 'A' side
+we need add a new row between these 2 rows to disply the
+comment, with this refactor these function will be easy to
+roll out.
+
+* Click icon to add file comment in SideBySide view.
++
+In the table header of side-by-side diff view
+add file level comment (comment on the whole file)
+by single click on the icon in the line-number
+column header.
++
+Set comments on whole file prevent committers
+from being confused by adding it on a specific
+line, small snippets/lines code, especially in
+the case of adding some comments on the architecture.
+
+* Click icon to add file comment in Unified view.
++
+In the table header of Unified diff view
+add file level comment (comment on the whole file)
+by single click on the icon in the line-number
+column header.
+
+* Add file comment by double click.
++
+Add file comment by double click anywhere (not
+just on the "Patch Set" words) in the table
+header of side-by-side or unified diff view.
+
+* Make the parent project names in the ProjectDashboardScreen links
++
+The parent project names for the inherited dashboards are now links to
+the ProjectDashboardScreen of the parent project.
+
+* Link project search icon in project list to default dashboard
++
+Link the project search icon in the project list to the default
+dashboard of the project. If a default dashboard for the project is not
+defined link to the search for all changes of this project.
+
+* Highlight file comment in SideBySide view.
++
+File comment is important high level comment, in
+side-by-side diff view add a green border below the
+file comments to make it even more distinct from
+the online ones.
+
+* Highlight file comments in Unified view.
++
+File comment is important high level comment, in
+Unified view add a green border below the
+file comments to make it even more distinct from
+the online ones.
+
+* Keep a nice bookmarkable URL for direct access of project dashboards
+
+* Bump GWT version to 2.5.0
++
+Additional minor changes to ChangesApi was required. This version bump
+could fix problems with IE9.
+
+* Update document to add content of file comment.
+
+* Use stable links in ProjectDashboardScreen to link to dashboards
+
+* Remove unneeded @SuppressWarnings
+
+* Add POST /changes/{id}/revisions/{sha1}/review
++
+Clients can post a code review scoring and comments using a JSON
+REST-style API. The API accepts change specifications using either the
+triplet "project~branch~change_id" or the legacy _number format, and
+also accepts commit SHA-1 or legacy patch set id to identify which
+patch set the comments apply too. Clients should prefer to use commit
+SHA-1 to write comments, especially from automated builders where the
+commit was just checked out.
++
+Comments may include a top level cover message, updated scores for
+labels (previously approval categories), and inline file comments:
++
+  POST /changes/gerrit~master~I9589cc46b.../revisions/fe7ffc.../review
+  Content-Type: application/json;charset=utf-8
++
+  {
+    "message": "Thank you for starting this project, it is useful.",
++
+    "labels": {
+      "Verified": 1,
+      "Code-Review": -1
+    },
++
+    "comments": {
+      "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java": [
+        { "line": 1, "message": "Is the copyright notice date correct?" },
+        { "line": 32, "message": "Great idea, but try ..."}
+      ]
+    }
+  }
++
+Labels are merged with the already existing labels for the calling
+user. This allows updating independent categories from unrelated
+processes, such as two different build systems testing on Linux and
+Mac OS X. Callers can erase a label by setting it to 0.
++
+Label names are free-form in the JSON map, but the server still needs
+to restrict labels to those declared in the approval_categories table
+as it needs a category_id value to link the score to the patch set in
+the database. This will change in the future as we fix more of the UI
+and server code to not have this requirement.
++
+By default the POST is rejected with a 403 Forbidden error if a label
+is used in a way that is not permitted by the caller, e.g. trying to
+assign Code-Review+2 will fail unless the caller has that permission.
+Clients can request these permission errors to be ignored by setting
+the top level property "strict_labels": false in the request:
++
+    "strict_labels": false,
+	"labels": { "Code-Review": 2 },
++
+If a label is used without permission the value will be squashed to
+the highest (or lowest) value permitted to be used by the caller. If
+this value is 0, the label won't be set.
++
+Inline file comments can also be supplied using the comments map. Keys
+are file names, with lists of comment objects holding line number and
+message text. All comments must be supplied during the POST. If the
+user has any drafts these will be erased when the comments are stored
+and published. In a future commit the web UI will be rewritten to use
+this RPC and will include all draft comments anytime it publishes.
+This will simplify last-minute edits of inline comments, as they can
+be updated without needing to wait for drafts to save.
++
+Drafts may optionally be published or left in draft status by setting
+the drafts field to another value:
++
+  "drafts": DELETE,   // Delete non-updated drafts (default behavior).
+  "drafts": PUBLISH,  // Publish non-updated drafts now.
+  "drafts": KEEP,     // Leave non-updated draft in draft status.
++
+This commit copies a lot of code from PublishComments and refactors it
+to a cleaner implementation. As soon as the web UI switches to the new
+/review REST API call, PublishComments will be deleted, so no attempt
+is made at sharing a common implementation.
+
+* Manage default dashboard by PUT and DELETE
++
+PUT with an id to /default will set the local-default property and
+commit this change to refs/meta/config.
++
+DELETE on /default will remove the local-default property.
+
+* Fix reading /default for inherited dashboards
++
+When loading the default dashboard for a project the default REST
+approach is to load only the default defined locally in this project.
+If no such default is defined, the caller may supply an optional
+?inherited query parameter to search up the inheritance tree.
+
+* Make /accounts/self/capabilities a nested collection
++
+Callers can ask for a specific capability in the URL:
++
+ $ curl http://localhost:8080/a/accounts/self/capabilities/createAccount
+ ok
++
+in addition to the existing method of using /capabilities/?q=createAccount.
+If the user has the capability an HTTP 200 Ok is returned with "ok\n" as
+the body. If the user doesn't have it, HTTP 404 Not Found is returned.
+
+* Allow CommentedActionDialog to focus on other widgets than message
++
+Sub-classes inherited from CommentedActionDialog can now specify
+which component should be given focus.
+
+* AlterTopicDialog should use setFocusOn() in CommentedActionDialog
++
+AlterTopicDialog now sets the Topic-field to the focused widget
+using the new setFocusOn() in CommentedActionDialog.
+
+* Make MergeException constructors public
++
+Allow MergeExceptions to be thrown from other packages
+
+* Support GET, PUT, DELETE on /changes/{id}/topic
++
+The topic is now modified by REST API calls against /topic. The web UI
+uses PUT to alter the topic with a JSON payload, but the server
+accepts quite a few different REST forms that clients can easily send.
+
+* Require at least 4 digits in /revisions/{sha1} URLs
++
+When looking for a revision (aka patch set) within a change require
+the client to have supplied at least 4 digits of the commit SHA-1.
+This allows short abbreviations to be used, provided they are unique
+within the change at the time the operation parses the URL.
+
+* Allow abbreviated Change-Id strings in /changes/ URLs
++
+Often the Change-Id string is unique within the server, as the commit
+has not been cherry-picked across branches or projects. So long as the
+supplied string identifies a single change, allow the abbreviated form
+in the URL.
+
+* Add /changes/{id}/revisions/{commit}/drafts
++
+Draft comments can now be managed through the REST API endpoint:
++
+  GET /changes/{id}/revisions/{commit}/drafts
++
+  Returns all drafts on that commit by the caller, organized as an
+  object mapping path name to a list of comment objects.
++
+  DELETE /changes/{id}/revisions/{commit}/drafts/{id}
++
+  Remove a draft comment.
++
+  PUT /changes/{id}/revisions/{commit}/drafts/{id}
++
+  Update the contents of a draft comment. This not only supports
+  changing the text, but also moving the comment to a different
+  line or to an entirely different file.
++
+  PUT /changes/{id}/revisions/{commit}/drafts
++
+  Create a new draft, with a new unique identifier returned.
+
+* Require administrateServer to GET /plugins/
++
+Listing plugins requires being an administrator. This was missed in
+the REST API, but is the rule used by the web UI when adding the
+"Plugins" tab, and is enforced in the SSH command.
+
+* Disabling the change cache by default.
++
+Since the change cache can mess-up multi-server setups,
+it is now disabled by default.
+
+* Clean query string when switching pages
++
+If we load a page without a query string, such as Projects->List,
+My->Changes, or Settings, it might be confusing to show the old query
+string from the previous page.  The query string is now cleared out
+when switching pages, leaving the help text visible.
+
+* Remove some usused imports
+
+* Replace deprecated Accessibility class with Roles from GWT ARIA
++
+The Accessibility class is deprecated.  Use the Roles factory
+class from the GWT ARIA library instead.
+
+* Import gwt-dev dependency as last in gerrit-gwtdebug
++
+gwt-dev.jar contains additional classes (eg. args4j version 2.0.12) that
+can overwrite our dependency, therefore it should be imported as last
+one in gerrit-gwtdebug pom.xml
+
+* Return updated labels from /review
++
+Instead of echoing back the entire input, return only the effective
+labels used. This allows a user who set strict_labels: false in
+the input to know what was squashed or ignored by the server. The
+caller can compare their input map to the output map and assume
+anything not in the output was ignored due to permissions errors.
+
+* Remove unused com.google.gwt.http.client.URL import
+
+* Add back public APIs to QueryChanges
++
+Turns out I actually call these in some code, which means they
+can't be private or package access. Promote the methods back to
+being public.
+
+* Fix PostReview validation of approval values
++
+The older form tested if a Short existed in a List<Integer>. This
+is always false, but never a compile warning or error. Instead use
+the getValue(short) method.
+
+* Fix 'Constructor not ready' exception when injecting DashboardsCollection
++
+Trying to inject DashboardsCollection into GetDashboard fails with an
+IllegalStateException saying 'Constructor not ready'.
++
+[1] gives some background about this error.
++
+Not sure I fully understand this problem, but changing the order of the
+bindings in the module fixes the issue.
++
+[1] https://groups.google.com/d/topic/google-guice/b_PoWCKtTcM/discussion
+
+* Dynamically load the default dashboard
++
+Instead of trying to include the default id in the /projects/ output,
+always redirect to /projects/{project},dashboards/default. This will
+RPC to the server for the definition of the inherited dashboard, if
+any exists. If none is found the server will return 404 and the query
+project:{project} will be used instead.
+
+* Rename custom-dashboards.txt to dashboards.txt
++
+Since this document no longer deals exclusively with
+custom dashboards (it now describes project level dashboards
+also), it makes more sense to just generalize the document
+to all dashboards.
+
+* Added note about stable project dashboard URLs to docs
+
+* Improve several dashboard explanations in the docs
+
+* Fix RequestScopedPropagator
++
+The user cannot be obtained until we are inside of the
+callable. Attempting to obtain it outside of the callable
+can break some Guice scopes.
+
+* Move "Draft Comments" link next to "Drafts" link
++
+It makes sense to put the draft related searches
+next to each other.
+
+* Re-skin Gerrit to something a little less painful on the eyes
++
+Now a pleasant theme using blues and pale greys. Also removed
+the differentiation between logged in/logged out users for
+background color.
+
+* Update [main] to [dashboard] in the docs
+
+* Import servlet-api dependency as last in gerrit-war
++
+This fixes NoSuchMethodError when Gerrit is run inside Eclipse using
+tools/pgm_daemon launch configuration.
+
+* Fix description of dashboard config file
++
+The 'main' section was renamed to 'dashboard' but the documentation
+was not updated. Also describe the new 'title' parameter.
+
+* Refactor test-submit-rule, remove duplicated code
++
+The test-submit-rule command now makes use of the SubmitRuleEvaluator
+class instead of duplicating the Prolog rules evaluation code.
+
+* Split test-submit-rule command into "test-submit rule"
++
+Make "rule" a subcommand of the "test-submit" command.  This follows the
+same pattern as the "plugin" set of commands and is a preparation for
+introducing a command for testing submit type. The goal is to have a
+dispatching "test-submit" command with "rule" and "type" as subcommands:
++
+  test-submit rule ChangeId
+  test-submit type ChangeId
+
+* "test-submit type" command.
++
+This adds a new subcommand "type" to the "test-submit" command which is
+used to test Prolog based submit type for a change.
++
+Since "rule" and "type" subcommands have identical options and arguments
+most of the implementation was moved to a common base class.
+
+* Explicitly bind RestCollections in modules
++
+This reverts commit 2934302a7d942590d84db7b1b8ec4a17f46af33e
+and provides a real fix for the Guice constructor not ready
+bug. We should be naming these collection classes explicitly
+as being implemented by themselves so Guice doesn't have to
+guess about how to create them.
+
+* Be more liberal about parsing JSON responses
++
+If the response begins with the JSON magic string, remove it before
+parsing. If a response is missing this leading string, parse the
+response as-is. This opens the door to the server possibly offering
+GET responses without this magic header, enabling some forms of
+mashups, if the server administrator wants to permit that.
++
+Future commits are still required to make the magic string optional
+on responses coming from RestApiServlet, but this prepares the
+client for any such future change.
+
+* Fix style of hint text in search box on initial page load
++
+The hint text should be a light gray on the white background,
+but was coming up black on initial page load due to a style setup
+ordering issue between the SearchPanel and the HintTextBox. Defer
+setting the hint text until after the base style classes have been
+set by SearchPanel to get the hint style correctly added on initial
+widget creation.
+
+* Set default flag only for the effective default dashboard
++
+When listing the dashboards for a project only the dashboard which is
+the effective default of this project should be marked as default. At
+the moment any dashboard which is the default dashboard for any
+project in the parent line is marked as default. As result for a
+project more than one dashboard might be marked as default in the UI.
+
+* Allow editing of commit message from UI.
++
+This change adds a small edit icon on the top right
+corner of the commit message box on the change screen.
++
+Clicking it lets the user edit the commit message and a
+new patch set will be created.
+
+* Fix build error in SearchSuggestOracle
+
+* Fix NPE in PatchScreen
++
+The patchSetId is passed through as null to CommitMessageBlock
+when opening either the side-by-side or unified patch screens.
+Avoid calling getPatchSetId() in these cases.
+
+* Animate search bar expanding & unexpanding
++
+When the search bar is used, expand it open to allow for more text to
+be visible.  When it is blurred, shrink it back to the original size.
+
+* Slight optimisation in building dependency lists on change screen
++
+Only call neededBy() and dependsOn() once each, instead of twice
+each, when building the lists of changes for the "Depends On" and
+"Needed By" lists.
+
+* Fix: Topic name cannot be force-edited on closed change
++
+There is a permission setting to allow a change's topic to be
+edited when the change is closed, but this does not work any more
+because the refactoring of topic name editing to use the REST API
+in change Ia5edbb232bc288acdad8b145956ad275d170629a adds explicit
+checks for the change being open before allowing the edit.
++
+Remove the checks to make force-editing work again.
+
+* Pop up an error dialog if topic name edit fails
++
+If the REST API returns a failure when editing the topic name, pop
+up an error dialog with the error message.
+
+* Fix spelling mistake in variable name
+
+* Pop up an error dialog if abandon fails
++
+If the REST API returns a failure when abandoning a change, pop
+up an error dialog with the error message.
+
+* Shorten search hint to make it fit into the collapsed search box
++
+The old search hint was not fully fitting into the collapsed search box
+so that it was partly not displayed. Shorten the search hint to make it
+fit. Since we are now having suggestions for the search box it is less
+important to cover all cases in the search hint.
+
+* Add a 'foreach' parameter to custom dashboards.
++
+Add a 'foreach' parameter which will get appended to
+all the queries in the dashboard.  This makes it easy to
+have a single parameter influence all the queries which
+is particularly useful if you want to vary that parameter.
+
+* Support 'foreach' in a project dashboard config
+
+* Make dashboard section headers link to their searches
++
+This link enables a section to be expanded fully when a search
+is limited.  It also makes it easier to debug or copy a section's
+query.
+
+* Fix JSON parser for NativeString in REST API responses
++
+Latest GWT contains a change that prevents the casting of
+a JavaScript String object to our NativeString and back
+again. Somewhere in chain it throws a ClassCastException and
+gives up, preventing the topic editing call to fail in ChangeApi.
+This bug doesn't yet show up in the default build of Gerrit, as
+the GWT change was made after the 2.5 release.
++
+Switch JSON parsing to the native GWT support path, which also tries
+to use the browser's native JSON parser, but can be stricter when
+it has to fallback to eval(), thanks to some safety checks the GWT
+team added. Once the object is parsed as a JSONValue in GWT-land
+we can decide on the correct way to treat it as a JavaScriptObject
+for the callback handle.
+
+* Fix JSON parser in RestApi client
++
+My earlier commit 9cb08536964 was incomplete and did not include
+all relevant changes. RestApi client code needed an additional
+cast function to convert from the GWT JSONValue type to the native
+overlay type requested by the callback.
+
+* Fix blinking query string
++
+In 7a53f17a Brad tried to clear the query string when showing a
+page that is not a query results page. This makes sense, the query
+string doesn't apply in the Groups > List page for example so it
+should be empty and displaying the hint text rather than the last
+change query the user ran.
++
+Unfortunately the implementation in onLoad() causes the text to
+blink in a visible way. Moving this to onShowView() reduces the
+update to be within a single JavaScript event loop call, eliminating
+the blinking effect.
+
+* Revert "Fix build error in SearchSuggestOracle"
++
+This reverts commit b97dd4f482be37ca573829078a61ba94f04d3329, which
+reverted commit 4546160a6578c11f3a8bc5f56b98dba0de43eef6 (Fix
+highlighting in search suggestions).
+
+* Implement reviewer access via REST
++
+This change enables users to request details about a reviewer given a
+change and a reviewer id.  The returned result is a map including the
+
+* kind (gerritcodereview#reviewer)
+* id
+* email
+* name (if provided)
+Example:
+curl -s localhost:8080/
+    changes/blah~master~I2933f24c1fc0d7f44a34bb1dc7a3242fdfd29028/
+    reviewers/1000000
++
+{
+  "kind": "gerritcodereview#reviewer",
+  "id": "1000000",
+  "email": "cco3%40android.com"
+}
+
+* Delay getting CurrentUser in RequestScopePropagator
++
+If the Callable doesn't ask for the CurrentUser, avoid getting it
+from the supplied RequestContext. This works around contexts that
+have no CurrnetUser and throw from getCurrentUser() if invoked.
+
+* Link dashboard title to a url version of itself
++
+When using a stable project dashboard URL, the url
+obfuscates the content of the dashboard which can make
+it hard to debug a dashboard or copy and modify it.  In
+the special case of stable dashboards, make the title a
+link to an unstable url version of the dashboard with the
+url reflecting the actual dashboard contents the way a
+custom dashboard does.
+
+* Implement revert change via REST API
++
+Add a new REST API to revert a change, and refactor
+the web UI to use it.
+
+* Cleanup ChangeApi to simplify the code
++
+Reuse a common block of code for creating the RestApi object that will
+be used to handle the request. This consolidates the URI formatting
+into a single location and makes the code a bit shorter to read.
++
+Fix the formatting on the method Javadocs to be consistent and a
+single line of code, these methods aren't complex and only need
+one line to describe them.
++
+Only set properties on the Input type if the value != null. This saves
+a little bit of JSON formatting to the server. It isn't strictly
+necessary, but it makes the example of how to make the REST API calls
+as produced by the web UI more clear for tool authors that are trying
+to perform the same action and learning by watching the requests.
+
+* Use DELETE to clear a change's topic
++
+The server accepts DELETE to clear the topic on a change, so
+use that in the client when there is no message to be included.
+
+* Only gzip compress responses that are smaller compressed
++
+When returning a tiny reply such as:
++
+  )]}'
+  ""
++
+it is shorter to reply uncompressed (8 bytes) rather than
+the gzip form (28 bytes).
+
+* Update web UI to use /review
++
+Instead of using the older style JSON-RPC interface, publish comments
+with the new /review REST API. Inline comment drafts are still stored
+in the database and published by setting drafts to 'PUBLISH' rather
+than the default 'DELETE'.
++
+The SSH review command is also updated to use the same backend.
+
+* Add REST API for /restore
++
+Changes can be restored via REST api.  The web UI now uses this API,
+and the ssh command line uses the same backend.
+
+* Remove unused member variable in CustomDashboardScreen
+
+* Use the inheriting project name in inherited dashboards
++
+Inherited dashboards currently just link to the inherited
+dashboard in the project where the dashboard is defined, this
+ends up being useless since it isn't really inheritance, it
+is just a link.  Make inheritance work again so that inherited
+dashboards appear as if they were actually defined in the
+project inheriting them.  Make the inherited link point to the
+dashboard in the inheriting project.  Make the link load the
+inherited dashboard as if it were defined in the inherited
+project (replace the $project token with the inherited project).
+
+* Wrap URLEncoder, URLDecoder
++
+These classes throw an exception that is ugly to work with when using
+UTF-8 encoding as the JVM is required to support UTF-8, which means
+the declared exception cannot occur. Wrap these into a helper class
+that catches the declared exception and rethrows as RuntimeException.
+
+* Accept in_reply_to to thread inline comments
++
+The in_reply_to field supplies the id of another comment, enabling
+threading. Because id is URL encoded to match a REST API we also
+encode the in_reply_to field, allowing clients to correctly line up
+messages by simple string equality.
+
+* Recommend rebase on Path Conflict
++
+The current message on path conflict says that the author should
+"merge (or rebase) the change".
++
+Because of this many users that are new to Git and Gerrit do a
+'git merge' when they get this message. As result they end up with two
+commits (the commit that implements the change + the merge commit).
+After push there is now a second change for the merge commit.
++
+However the intention of the author was to rebase the change and upload
+the rebased commit as a new patch set to the change.
++
+This is why the message on path conflict should clearly recommend to do
+a 'git rebase' and not a 'git merge' to resolve the conflict.
+
+* issue 1677 Place 'Browse' button to select watched project next to input field
++
+The 'Browse' button is a selector for the 'Project Name' input field
+and should be placed next to it.
+
+* Make new message UUIDs more URL encoding friendly
++
+=, + and / require triplet encoding in URLs. Cleanup the base64
+encoding string to use different characters. This only impacts
+newly created string, existing strings will continue to require a
+much longer encoding when sent in JSON messages from the REST API.
++
+Also strip leading 'A'. Most strings start with a run of 'A' due
+to the first few bytes of uuidPrefix always being 0.
++
+Avoid long runs of - in the resulting IDs by mixing the bits using
+the uuidPrefix as the salt for the mixer.
+
+* Remove PluginLoader from ReceiveCommits
++
+This class should never be injected into anything except plugin
+management code (e.g. install or disable a plugin). If a plugin wants
+to expose its name in the validation message it should take an
+injection for @PluginName String in its validation constructor and
+include this into the message string.
++
+If this should be standard behavior for a validation listener,
+the listener should be a class the plugin extends that declares
+accepting the injection by default:
++
+  public abstract class CommitValidationListener {
+    private String name;
++
+	@Inject
+	void setPluginName(@PluginName String name) {
+      this.name = name;
+    }
++
+    public final Result validate(Event ...) {
+      return new Result(validateEvent(event) + "(plugin "+name));
+    }
++
+    public abstract Result validateEvent(Event ...);
+  }
++
+It probably would have also made more sense to declare the listener as
+throwing exceptions when it doesn't like a commit, and returning void
+if it is acceptable. This simplifies the control flow within plugins,
+as the implementor can trivially abort as soon as they find a
+condition they don't like.
++
+Validators should have been implemented in terms of the extension-api,
+perhaps using a thin shim interface that Gerrit implements to provide
+access to members of the RevCommit object, thereby isolating most
+validation attempts from the specific JGit version in use. An alternate
+implementation could use the plugin-api to get the specific RevCommit.
++
+This change is only about removing the broken dependency on the
+PluginLoader. Fixing anything else that might be wrong about commit
+validation is left as an exercise for the reader.
+
+* Fix broken IdGeneratorTest
+
+* Refactor DownloadUrlLink creation out of changes
++
+The DownloadUrlLinks may be used for other type of downloads
+in the future, for example for project cloning.  Refactor all
+the download classes into their own directory since they are
+not change specific.  Create a series of UrlLinks types for
+each download type that was used in the change screen so that
+they can be easily reused.  Move some functions which were
+only used to create these types into the DownloadUrlLink
+class.  Add a factory function which creates all the
+configured types.
+
+* Refactor DownloadCommandLink types into DownloadCommandLink class
++
+Defining custom DownloadCommandLink types for the changes screen
+is cumbersome and defining them as default types makes them
+easily available for other uses, for example: to potentially
+download branches, the project dashboards, or even the meta
+config branch.  It also keeps some of the special wiring between
+the DownloadCommandLink and some of the other download classes
+such as the DownloadCommandPanel internal to the download
+package.
+
+* Create a DownloadPanel class
++
+Use this new abstract class for downloading changes since
+the code was mostly refactored out from there.  But now
+the code is available to easily override and create download
+panels to use for other downloads besides changes.
+
+* Add clone panel to the project general screen
+
+* issue is also possible in other Gerrit installations, but less likely as Work around failed database updates during patch set replace
++
+If the database doesn't update when adding a new patch set to a change
+the next attempt will fail because the refs/changes/ reference already
+exists. Increment to the next patch set id.
++
+This works around the error seen by Bruce at the hackathon, where he
+couldn't upload a new patch set to a change on gerrit-review without
+intervention from a Googler mucking with the backend database.  The
+the database is usually more reliable.
+
+* Fix draft comment publishing
++
+The web UI does not supply the comments member of the input object,
+which prevented the server from entering the comment handling method.
+Always enter the method and handle no comments block as though it were
+an empty map. This allows the drafts field to be correctly processed.
+
+* For inherited boolean values display the actual value that is inherited
++
+The values for useContributorAgreements, useSignedOffBy,
+useContentMerge and requireChangeID can be either directly set on a
+project or be inherited from the parent project. In case that the value
+is inherited from the parent project display the actual value that is
+inherited on the ProjectInfoScreen.
+
+* Do not offer 'INHERIT' as value for inherited booleans on All-Projects
++
+The All-Projects project is the root project, hence it has no parent
+and cannot inherit values for useContributorAgreements, useSignedOffBy,
+useContentMerge and requireChangeID.
+
+* Create a DashboardTable widget
++
+The new DashboardTable widget was refactored out of the
+CustomDashboardScreen so that it can be used by other
+screens.  This will be used in the next change to
+make a ProjectDashboardScreen which will inherit from a
+ProjectScreen instead of a CustomDashboardScreen so that
+it can be more consistent with the other ProjectScreens
+(share menus,styling  etc...).
+
+* Create a ProjectDashboardScreen
++
+The ProjectDashboardScreen was an anonymous class which
+inherited from a CustomDashboardScreen.  With the new
+DashboardTable it is trivial to make a public class instead
+which inherits from a ProjectScreen and thus sharing common
+project stuff with other ProjectScreens.
+
+* Fix: Editing the commit message causes other files to be removed
++
+If the commit message is edited from the UI, a new patch set is
+created, but it does not contain any of the files that were in
+the change.
++
+This is because when the commit message is edited, the parent
+revision of the newly created patch set is set to the revision of
+the patch set that was edited.  This is wrong, it should be set to
+the edited patch set's parent.
+
+* Fix: Editing the commit message changes the author name and date
++
+When the commit message is edited in the UI, the author name and
+timestamp changes to the currently logged in user and current time.
++
+The author name and date would not be changed by simply uploading a
+new patch set (unless the committer amended with the --author option)
+so neither should editing the commit message.  Set the committer to
+the currently logged in user, and leave the author as the original
+author. This matches what git commit --amend would do.
++
+When creating the new patch set, match behavior with ReceiveCommits by
+setting the created on field to now, and the uploader to the currently
+logged in user.
++
+Now downloading a commit, amending it locally and pushing it back
+has the same results as editing it online through the web UI.
+
+* Replace projects side menus with top menus
++
+The top menus are submenus to the Project Menu and
+they appear only when a project has been selected.
+
+* Fix null URLs introduced by DownloadCommandLink refactoring
+
+* Add the project name title to ProjectDashboards
++
+If the ProjectDashboard screen is going to behave like
+a ProjectScreen, give it the same "Project <name>" header
+as other ProjectScreens.  This header is important because
+it gives context to the Project Submenus.  It also helps
+give context when viewing a dashboard name which is shared
+by many projects via inheritance.
+
+* Use monospace font when editing commit message
++
+Layout matters on a commit message, because tools don't line wrap
+automatically. Use a monospaced font like we do at display time so
+the lines in the editor line up correctly.
++
+Update the width to be 72 characters in the monospaced font, to
+encourage authors to keep the width of a message within the confines
+of an 80 column terminal after git log adds its formatting.
+
+* Remove unused imports
+
+* Fix: Commit message is not updated in UI after editing
++
+After the commit message has been edited, the old commit message
+is still shown in the UI.
++
+Add a callback that updates the display after the commit message
+has been successfully edited, or displays an error dialog if the
+edit fails.
+
+* Fix missing import of Gerrit in ProjectDashboardScreen
+
+* Accept simple form encoded data for REST APIs
++
+Simple cases like /review or /abandon can now accept standard form
+values for basic properties, making it simple for tools to directly
+post data:
++
+  curl -n --digest \
+  --data 'message=Does not compile.' \
+  --data labels.Verified=-1 \
+  http://localhost:8080/a/changes/3/revisions/1/review
++
+Form field names are JSON field names in the top level object.  If dot
+appears in the name the part to the left is taken as the JSON field
+name and the part to the right as the key for a Map. This nicely fits
+with the labels structure used by /review, but doesn't support the
+much more complex inline comment case. Clients that need to use more
+complex fields must use JSON formatting for the request body.
+
+* Fix /review to always add reviewers to changes
++
+When a reviewer only posts comments and does not set a label
+they still need to be marked as a reviewer by creating a dummy
+PatchSetApproval record with a score of 0. Ensure this always
+happens, even on closed changes.
+
+* Don't include path in /drafts list
++
+The /drafts result is a map indexed by path name, similar to what is
+expected as input for /review's comments member. Keeping the path in
+the object is very redundant, so drop it from each comment instance.
+
+* Run /abandon and /restore in a single database operation
++
+On the backend behind gerrit-review each database call is expensive,
+unless we do something crazy like wrap a block of database operations
+into a single mock transaction with the beginTransaction/commit idiom.
++
+Simplify both of these tasks by getting rid of the ugly helper
+function from ChangeUtil and explicitly perform all database
+operations before sending email to interested parties.
+
+* Use /changes/{id}/revisions/{sha1}/submit to submit changes
++
+Replace the legacy JSON-RPC invocation with a new REST style API that
+names the patch set being submitted in the URI. Callers that don't
+care can use /changes/{id}/submit to submit whatever the current patch
+set is at the time the call starts at the server.
++
+The input is trivial, an optional boolean indicating if the caller
+wants to wait for the merge operation to execute now, or just have
+it schedule in the background to complete some time later. Web UI
+and SSH both set wait_for_merge true to match the old behavior.
++
+The logic to identify an error message written by the server is now
+part of the server rather than being buried in the client UI and is
+also now reported over SSH if there is an error.
+
+* Ask MSIE to never sniff content types on REST API responses
++
+Newer versions of MSIE can disable the content sniffing feature if the
+server asks it to by setting an extension header. It is annoying, but
+necessary, that a server needs to say "No really, I _am_ telling you
+the right Content-Type, trust it."
++
+This feature was added in MSIE 8 Beta 2 so it doesn't protect users
+running MSIE 6 or 7, but those are ancient and users should upgrade.
++
+Enable this on the REST API responses because we sometimes send back
+text/plain results that are really just plain text. Existing JSON
+responses are protected from accidential sniffing and treatment as
+HTML thanks to Gson encoding HTML control characters using Unicode
+character escapes within JSON strings.
+
+* Wrap possible HTML plaintext in JSON
++
+If the HTML appears like MSIE might guess it is HTML (such as if it
+contains <) encode the response as a JSON object instead of as a
+simple plain text string. This won't show up very often for clients,
+and protects MSIE users stuck on ancient versions (pre MSIE 8).
+
+* Fix /review to skip empty change messages
++
+If no labels were modified, no top level message was supplied,
+and no inline comments were published as part of this operation
+then there is no point in adding a message to the review log.
+
+* Fix encoding/decoding of dashboard ids
++
+On server side the dashboard id is encoded/decoded by
+Url.encode(...)/Url.decode(...), but on client side
+URL.encodePathSegment(...)/URL.decodePathSegment(...) is used. Both
+methods to encode/decode work differently and as result dashboards with
+ids that contain spaces fail to load.
++
+Make the encoding/decoding on server and client side consistent and use
+URL.encode(...)/URL.decode(...) on client side.
+
+* Silence INFO/DEBUG output from apache.http
++
+This spams the log when using OpenID, for each and every login
+
+* Rename "Groups" top-level menu to "People"
++
+There was already a menuPeople(), so use that and rename
+other items as appropriate to match
+
+* Support removing a reviewer via REST API
++
+  curl -X DELETE \
+  http://localhost/changes/test~master~I2933f24c.../reviewers/1000000
+
+* Allow alias "self" in /changes/{id}/reviewers/{account}
++
+This allows a user to delete themselves from a change without knowing
+who they are, and matches the query language e.g. "owner:self":
++
+  curl -X DELETE http://localhost:8008/changes/I.../reviewers/self
+
+* Use string for JSON encoded plain text replies
++
+Instead of wrapping the value into an object, just return the
+string by itself. This better matches what happens with the plain
+text return format and is already used by at least a few of our APIs.
+
+* Remove gwtjsonrpc types from new REST API
++
+Only rely on native GWT supplied interfaces like the GWT version of
+AsyncCallback and StatusCodeException. This allows us to later think
+about dropping gwtjsonrpc as a project dependency once everything has
+been converted and no more JSON-RPC 2.0 interfaces exist.
++
+Given the size of this change, its better to do it before too many
+more REST style interfaces are written and depend upon gwtjsonrpc.
+
+* Use HTTP 201, 204 response codes in REST API
++
+When creating a new entity on the server respond HTTP 201 Created
+with the JSON representation of the entity in the body.
++
+When deleting an existing entity, respond with HTTP 204 No Content,
+telling the client there is no more content behind the resources
+that was just deleted. This is a hint that a future GET is likely
+to return 404 Not Found.
+
+* Only escape text like HTML to JSON on GET
++
+POST, PUT and DELETE methods require a valid Authorization header to
+be present. This requires the user to be performing the invocation of
+the action, so any content supplied was written by the user. It is
+unlikely the browser will consider the response as a valid browser
+content to be parsed, so we should not need to perform text to
+JSON translation.
+
+* Fix compiler warning in ChangeJson
++
+This path only cares about OK and REJECT. Other statuses are
+intentionally ignored, so indicate that by writing a default.
+
+* Add the ability to run a ref update hook
++
+Allow the user to provide an update (similar to git's update hook) hook
+run before a push is accepted by Gerrit. This allows the exclusion of
+certain commits or any other update checks.
++
+The hook takes the following form:
++
+ref-update --project <project name> --refname <refname> --uploader <uploader>
+--oldrev <sha1> --newrev <sha1>
++
+If the script exits with non zero return code the push will be rejected.
+The output of the script will be returned to the user as the reason for
+the rejection.
++
+This hook is called synchronously so shouldn't block or wait. A timeout
+on the hook is set to 30 seconds to avoid "runaway" hooks using up server
+threads. This value can be configured using "syncHookTimeout" in the
+"hooks" stanza. It is an integer value in seconds.
+
+* Allow merged change emails to include unified diff.
++
+If sendemail.includeDiff is true, the merged change emails
+from Gerrit will include the complete unified diff of the
+change. Thus users can watch the 'Watched Projects' by only
+following the emails of 'Submitted Changes' especially when
+there is not enough time to catch all emails of 'New Changes'
+and 'All Comments'.
+
+* Apply comment link processing to approval values
++
+Allow comment link processing to be applied to
+approval values. So specfic phrases can be converted
+to HTML links.
+
+* New Admin command: ls-user-refs
++
+Allows an administrator to query which refs are visible for a
+user. The command is helpful for admins when debugging why a
+user cannot access certain refs and also to help admins verify
+that certain secret refs are not exposed to the wrong groups.
++
+While it is possible today to accomplish this through the suexec
+command and some git commands, it is cumbersome and also not all
+admins have filesystem access to the server.
+
+* New option for ls-user-refs: --only-refs-heads
++
+Allows the admin to filter out refs not residing
+in the refs/heads namespace.
+
+* Fix broken asciidoc formatting in config-gerrit.txt
++
+f736d6cd added a couple of new sections in the documentation, but
+a missing newline in one of them causes it to be rendered as a bullet
+rather than as a paragraph.
++
+Add the missing newline.
+
+* Fix: Editing the commit message strips trailing newline
++
+When the commit message is edited, the CommentedActionDialog
+returns back the message as a trimmed string.  This causes the
+trailing newline to be removed, which shows up as an unwanted
+diff from the previous patch set.
++
+Removing the call to trim() would allow the user to add multiple
+newlines on the end of the message, and would potentially have
+unexpected impact on other code that uses the dialog.
++
+Instead, implement a new dialog, derived from CommentedActionDialog,
+that adds a trailing newline after the trim().
+
+* Separate the initial user setup instructions to a shared file
++
+Separate the initial login and user setup instructions out into a
+shared file so the same text can be included in the Tomcat install
+instructions later.
+
+* Separate the database setup instructions to a shared file
++
+Separate the database setup instructions out into a shared file
+so the same text can be included in the Tomcat install instructions
+later.
+
+* Make PublishCommentScreen distinguish file comment.
++
+Make the publish-comment view differ the file comment
+from the line comment.
+
+* Fix auto closing of changes on direct push
++
+When a commit is directly pushed into a repository (bypassing code
+review) and this commit has a Change-Id in its commit message then the
+corresponding change should be automatically closed if it is open.
++
+This worked earlier but got broken by commit
+e6298f7216db0ea489cf9e28352ae1d9205cb190.
+
+* Support listing reviewers via REST
++
+Example:
++
+curl http://localhost/changes/
+    blah~master~I2933f24c1fc0d7f44a34bb1dc7a3242fdfd29028/reviewers/
++
+[
+  {
+    "kind": "gerritcodereview#reviewer",
+    "id": "1000000",
+    "email": "cco3@android.com"
+  }
+]
+
+* Match all git fetch/clone/push commands to the command executor
++
+Route not just /p/ but any Git access to the same thread pool
+as the SSH server is using, allowing all requests to compete
+fairly for resources.
+
+* Use same monitor for progress synchronization
++
+Lock on the object we are about to update.
+
+* Don't report "removal" of a 0 label score in a comment
++
+0 label scores are sometimes chosen randomly by the server in order
+to remember a reviewer. Don't report this score being removed as
+part of the message, it was already at 0 and thus not really present.
+
+* Remove method getNumberOfPatchSets() from Change.
++
+Removed the only use of the method. Fixed RebaseChange to pass in
+the db object.
++
+Some other minor cleanups are included too.
++
+This is part of the code cleanup to remove the nbrPatchSets field.
+
+* Remove method removeLastPatchSetId() from Change.
++
+Instead, use the patchSet prior to the current patchSet.
++
+This is part of the code cleanup to remove the nbrPatchSets field.
+
+* Don't send email and fire hook when there's no review message
++
+After 62a5324 it is possible that a review can result in an empty
+review message.  Add a check to prevent NPE caused by attempting to
+send a notification mail with null message.
+
+* Remove unused imports
+
+* Include summary of file comments in review message
++
+If inline comments are added on a review, the review message posted
+on the change includes a summary line with the count of inline
+comments.
++
+Update the summary line to also include the count of file comments.
+
+* Raise exception if edited commit message is same as current
++
+If the user edits the commit message in the Web UI, but the new
+commit message is the same as the old one, a new patch set is
+still created.
++
+Add a check in the commit message edit service and throw an
+exception if called with an unchanged commit message.
++
+Now, it will still be possible for the user to submit from the
+editor with an unchanged commit message, but doing so will result
+in an error dialog being displayed and no new patch set will be
+created.
+
+* issue 1692 Sort comments before emailing them
++
+The order supplied by the caller can be random, ensure comments
+get sorted into a sane order before they are included into the email.
+
+* Simplify reporting on the number of comments
++
+This reverts commit aae26d0e14fdd8e24e9a2f33422b24abd134e335.
+The new message formatting is completely unnecessary complexity.
+We can just say the number of comments.
+
+* Use href="javascript;" for All {Side-by-Side,Unified} links
++
+These links shouldn't have an anchor location. There is nothing for
+the browser to remember or visit if it were opened in a new tab for
+example. Worse the code that used to be here was wrong, you can't
+rely on History.getToken() to give you an accurate value as the UI
+for the next screen is being constructed while the current screen
+is still displayed. So the code was always sampling the old URL,
+not the URL for the change.
+
+* Make the default font size "small"
++
+This is the size mostly used by our GWT theme. Setting the page size
+to 11 pt. caused some weird font size issues if the text wasn't
+wrapped inside of a table. Most of Gerrit is table heavy, so most text
+is set to "small" by the theme's "table {font-size: small;}" rule.
++
+This fixes the font size in the project admin panels, which jumped to
+be fairly large text compared to everything else in Gerrit when Martin
+refactored its component tree.
+
+* Fix width of create branch panel
+
+* Fix width of project access editor
+
+* Fix RequestCleanup bug with Git over HTTP
++
+Decide if a continution is going to be used early, before the filter
+that will attempt to cleanup a RequestCleanup. If so don't allow
+entering the RequestCleanup part of the system until the request is
+actually going to be processed.
+
+* Database Deployment Update
++
+Few updates for database deployments and added additional references to
+official doc.
+
+* In change emails make octopus merge's diff output more readable.
++
+The diff output in change emails will be an empty string
+in the case of octopus merge. This patch replaces
+the empty string with a clear explanation.
+
+* Disable send button when commit message is unchanged
++
+dd2bd5c adds a check in the commit message edit service to
+prevent a new patch set from being added when the given commit
+message is the same as the existing one.  However it is still
+possible for the user to send a commit edit request from the Web
+UI with an unchanged commit message, which results in an error
+dialog.
++
+Add a new helper class that watches for changes on a text box
+and notifies changes.  Use this in the commit message editor
+dialog to enable the send button only when the text differs from
+the existing commit message text.
+
+* Update CommentFooter.vm
++
+Change "Gerrit-HasInlineComments" to 'Gerrit-HasComments'.
+
+* Have the reviewed panel also at the bottom of the patch screen
++
+Reviewers normally review patches top down, finishing the review when
+they reach the bottom of the patch. To use the streamlined review
+workflow they need to scroll back to the top to find the reviewed
+checkbox and link. Have the reviewed panel also at the bottom of the
+patch screen so that reviewers do not need to scroll back to the top.
+
+* Remove nbrPatchSets from Change
++
+The nbrPatchSets counter was used to generate the next PatchSetId.
+Instead, find the first reference after the currentPatchSetId() that
+does not exist by examining the references themselves.
++
+Also in a few locations, the use of currPatchSetId() was corrected
+to be currentPatchSetId().
+
+* Fix default dashboard identification
+
+* Remove unused import
+
+* Fix branch creation and deletion from web UI
++
+When making an old style JSON-RPC call over HTTP and the authorization
+is valid, this is the same level of security as a newer style REST API
+that has valid Authorization. Change the call to be JSON_RPC instead
+of UNKNOWN, permitting the RefControl.canDelete() method to determine
+it is OK for a branch to be deleted by repository owners.
+
+* Format h/help output as plain text not JSON
++
+The output produced when the client requested the h or help property
+from a JSON API is always produced from constant compiled into the
+server. Assume this safe to return to the client as text/plain content
+and avoid wrapping it into an HTML escaped JSON string.
+
+* servletPath consistency for wrapped plugin HttpRequest.
++
+HttpServletRequest.getServletPath() should not
+include the contextPath part: this semantics
+needs to be preserved for Http plugins in order
+to avoid inconsistencies in plugged Http Services.
++
+i.e. GitBlit RSS syndication filter was not working
+properly because of context path found multiple times
+in Servlet path.
+
+* Suppress Eclipse warning "annotation should not be used as a superinterface"
+
+* Rename the "Diff All" change constants, they aren't buttons anymore
+
+* Fix compiler warnings about missing switch cases for ChangeType
++
+There are several places in the code where an enumerated type is used
+in a switch statement, but not all of the enumeration's values have a
+corresponding case block, and there is no default block.  This causes
+compiler warnings.
++
+The missing cases are not necessarily a problem, but the warnings cause
+a lot of noise and make it easier to overlook other new warnings that
+appear when adding new code.
++
+The warnings could be silenced by simply adding a default block in the
+switch, but this would prevent the warnings from appearing again if
+any new value is added in the enumeration, which would make it a bit
+more difficult to track down all the places that need to be updated.
++
+Instead, add explicit case statements for the missing values, containing
+only a break statement.  Thus, the compiler warnings are silenced, the
+code behaves the same as before, and warnings will appear again if any
+new enumeration value is added.
+
+* Fix: Can not select patchset to diff in diff view.
++
+Ibdbcb2 have a NPE hole which make selecting patchset to diff
+in diff view run into an error: "The page you requested was not found, or
+you do not have permission to view this page.
+
+* Fix compiler warnings about missing switch cases for AuthType
++
+As in 272d5c9 add explicit case statements to silence the
+compiler warnings.
+
+* Added pluggable API for authentication backends.
++
+An AuthBackend authenticates an incoming request and provides the
+authenticated user. An incoming request is represented as an
+AuthRequest. Each protocol is responsible for parsing the request and
+creating the AuthRequest e.g Digest HTTP, PubKey SSH, etc.
++
+The core server defines two AuthBackends in this change:
+  Internal: gerrit DB password based authentication
+  Ldap: delegates the password verification to the LDAP server
++
+The allowed AuthBackends are bound in a DynamicSet which the
+UniversalAuthBackend handles by attempting to authenticate the request
+with every backend. It is expected that at most one AuthBackend will
+successfully authenticate a user. It is considered an error if more than
+one user is authenticated. If this is an issue for a service, consider
+separating users by username, so a backend can quickly determine if it
+should consider the request.
++
+After a user is authenticated, an AuthUser object is returned with a
+globally unique UUID. More work needs to be done to join the concept of
+the AuthUser UUID and the Account ID.
++
+The AuthBackend is marked as an ExtensionPoint so it may be implemented
+as a plugin.
+
+* Set file comment on binary file.
++
+Set file comment on binary file in SideBySide or
+Unified view.
+
+* Fix IllegalStateException on push over HTTP
++
+Push over HTTP fails with IllegalStateException 'Cannot continue
+request in the same thread as a HTTP request!' if the change updates
+are performed on the same thread.
++
+Do wrapping of callable in RequestScopePropagator only if the callable
+is called by another thread. The wrapping takes care to copy the
+ThreadLocal data from one thread to another thread and must not be done
+if the thread is the same.
+
+* Update description file in Git
++
+When writing the description to project.config, it is also necessary
+to write it to the description file in the repository so the same
+text is visible in cgit or gitweb.
+
+* Allow {} to be used for quoting in query expressions
++
+This makes it a little easier to query for group names that contain
+a space over SSH:
++
+  ssh srv gerrit query " 'status:open NOT reviewerin:{Developer Group}' "
+
+* Fix import of Preconditions to use Guava
++
+We depend on Guava for this code, not the renamed Parboiled classes.
+
+* Fix broken Guice bindings for LDAP support
++
+The LDAP bindings should only be registered with Guice if LDAP was
+enabled on the server. This means the group backend should not exist
+unless there is a server address, so there is no need to check for
+the helper having an LDAP address on every invocation.
++
+The internal authentication system should only be registered if
+LDAP was not enabled. This matches existing behavior, the admin
+selects _one_ authentication system and the server follows it.
++
+If it really is desired to have both of these systems built into the
+core server code and be able to enable both of them at the same time,
+these need to be controlled by separate configuration parameters.
++
+Either way, neither LDAP nor the internal system can be enabled
+when Gerrit is built to run with CUSTOM_EXTENSION. This must be
+true until the auth backend refactoring is complete and we are able
+to port gerrit-review over to the new auth backend API. Anything
+else risks Google forking Gerrit and refusing to apply upgrades
+to gerrit-review.
+
+* Cache config value in LdapAuthBackend
++
+Looking up a configuration value can be slow at scale, sometimes the
+scan within JGit is O(N) and sometimes its O(log N). Either way is
+slower than caching the setting at startup as a primitive boolean.
+Gerrit coding style is to cache these sorts of configuration options.
+
+* Expand submodule subscription support
++
+Current sub module implementation limits the support to sites where
+the canonical site name matches the server in the .gitmodules
+file. Some sites run the web front end of Gerrit on a different
+address than the SSH server, but they still want to utilize the
+submodule subscription support.
++
+This patch checks the [sshd] section of the gerrit.config
+configuration file to extract the "proper" ssh server name. If the
+server name is different from the canoncial web address Gerrit will
+use the configured SSH host name when checking the .gitmodules file in
+the super repository.
+
+* Remove unused import
+
+* Link to project default dashboard and project info from ChangeScreen
++
+At the moment the project name that is displayed in the ChangeInfoBlock
+on the ChangeScreen links to a project search, that queries for all
+changes of that project that have the same state as the displayed
+change.
++
+There are two things that are inconvinient about this:
+1. The query that is executed depends on the change state.
+   E.g. after submitting a change it now delivers the closed changes
+   of that project, but maybe the user rather wants to continue looking
+   at the open changes of the project to submit the next change.
++
+2. The project screens get more important since more data is made
+   available there (e.g. the clone URL for the project, the project
+   dashboards etc.) and users want to navigate to the project screens
+   from a change. Actually many users might expect to reach the project
+   screen by clicking on the project name.
++
+Make the links for the project more convinient by having
+1. the search icon in front of the project name that links to the
+   default dashboard of the project
+2. the project name link to the project info
++
+This is consistent with the links in the project list.
+
+* Fix NPE in ChangeUtil
++
+Revert will run into NPE caused by [1].
++
+[1] Line 250 of ChangeUtil.java
+in https://gerrit-review.googlesource.com/#/c/40001
+
+* Removed RebaseChange.Factory.
++
+No need for RebaseChange to be created through
+a parameterless factory.
+
+* Move the EventBus to Gerrit class
++
+Since there should only be one EventBus per application,
+move it to the Gerrit class since that is generally where
+UI pieces go to get global static things.
+
+* Documentation for Contributor Agreements
++
+- New config-cla.txt file.
+- Fix config-gerrit.txt:
+  - auth.contributorAgreements now talks about project.config instead of
+    database table.
+  - Added reference to config-cla.txt.
+- Added link to config-cla.txt in index.txt.
+
+* Prevent leading and trailing spaces on user's Full Name
++
+On the Contact Information form it is possible for the user to
+enter a Full Name that includes leading and/or trailing spaces,
+for example:
++
+  "      Firstname Surname"
+  "Firstname Surname      "
+  "   Firstname Surname   "
++
+Or even a name that consists entirely of spaces:
++
+  "                       "
++
+The entered name is unchecked and will be saved to the database
+as is.
++
+Strip off the leading and trailing spaces before saving, and
+refresh the entry field to make sure it displays the value that
+was actually saved.
+
+* Fix compiler warnings about missing switch cases for PatchLine.Type
++
+Add explicit case statements for all enumeration values to
+prevent compiler warnings.
+
+* Fix compiler warnings about missing switch cases
++
+Add missing case statements to fix all the remaining compiler
+warnings.
+
+* Send email notification when commit message is edited
++
+When a user edits the commit message through the Gerrit web UI,
+send a notification email.
+
+* In search panel suggest 'self' as value for operators that expect a user
++
+For the search operators that expect a user ("owner" and "reviewer"),
+users are already suggested. The 'self' alias which resolves to the
+calling user is a valid value for these search operators and should be
+suggested as well.
+
+* Suppress Eclipse warning about resource leak in EncryptedContactStore
++
+Eclipse complains that a handle is not closed, but upon review it seems
+to be a spurious warning.
+
+* Fix: project search link and name are underlined in change info block
++
+In the change info block, the project search link and name are
+underlined.  The rest of the items in the block are not underlined,
+so this looks out of place.
++
+Fix it by replacing the HorizontalPanel with a FlowPanel, as is used
+on the project list page.
+
+* Quote values suggested for search operators only if needed
++
+The values that are suggested for the search operators in the search
+panel are quoted because they can contain whitespaces. Do the quoting
+only if the suggested value actually contains whitespaces.
+
+* Allow filtering of projects on the ProjectListScreen
++
+Add a filter text box to the ProjectListScreen that allows users to
+filter the displayed projects. If a filter string is provided only
+projects that contain this string in their name are shown. The project
+list is automatically updated while the filter string is typed.
++
+Being able to filter the project list makes it easier for users to
+search and find a certain project.
+
+* Fix diplay of project name for inherited dashboards
++
+The project field in DashboardInfo should contain the name of the
+project that defines the dashboard, but currently it is always set to
+the name of the project for which the dashboards are retrieved. This
+means that the value is wrong for all inherited dashboards. As result
+the 'Inherited From' column in the DashboardsTable is always empty.
+
+* Exclude all pom.xml files that are archetype resources in version.sh
++
+The versions in the pom.xml files that are archetype resources should
+not be modified by the tools/version.sh script.
+
+* Add ScreenLoadEvent/Handler, fire from Screen class
++
+The ScreenLoadEvent will fire every time a new Screen is loaded.
+This can be used to update menus in a distributed fashion.  A
+menu can listen for ScreenLoadEvents and adapt to the newly
+loaded Screen.
+
+* Fix Project Links
++
+The project Links were broken when they were moved to the
+top MenuBar.  The "go" worked, but the tokenHistory was
+wrong so the links didn't work when opening in separate
+tabs and it appeared wrong on mouseovers.
+
+* Provide default highlighting of simple active LinkMenuItems
++
+When the Screen displayed matches the Screen which a menu item
+would lead to, highlight the active menu (similar to an
+active table row).  This highlighting covers most of the
+simplest cases but does not handle more complex situations
+like the Differences menus, those will be handled in a
+follow on change.
+
+* Refactor ProjectMenu hiding to use ScreenEvents
++
+Using ScreenEvents allows the visibility logic to be contained
+to the project links instead of being spread-out throughout the
+Gerrit class.
+
+* Highlight the filter string in project names
++
+When filtering projects on the ProjectListScreen highlight the filter
+string by bold printing in the project names so that users can easily
+spot the match.
+
+* Fix typo in metavar name in /projects options
+
+* Use OnEditEnabler in MyPreferencesScreen to enable the save button
+
+* Remember the last Project Screen used
++
+Remember the last project screen used every time a project
+screen is loaded.  Go to the remembered screen when selecting
+a new project from the project list instead of always going
+to the project info screen.  This makes navigating between
+projects much more pleasant (fewer clicks), especially when
+comparing access rights or dashboards.
+
+* Remember the last Project viewed
++
+Remember the last project viewed when navigating away from
+a ProjectScreen.  If there is a remembered project, then
+do not hide the extra project links.  This makes it easy
+to navigate to the project list accidentally (or any other
+screen) and still return to the last project viewed.
+
+* Revert "Expand submodule subscription support"
++
+This reverts commit 333676bd1b6b24459c86def586ae9769b1fd2b33
+Too many problems were identified during a secondary review.
+
+* Fix ${project} token in queries from inherited dashboards
++
+When a dashboard is inherited it is defined in one project but can be
+accessed in any child project. When a child is using the dashboard the
+${project} token in the query strings should be the name of the child.
+
+* Move user info, settings, and logout to popup dialog
++
+Clean up the header bar by moving the user info (full name and email),
+settings link, and logout link to a popup dialog.  This allows more
+vertical space for the search box.
+
+* Fix display updating for dashboards
++
+When I refactored the DashboardTable out of the CustomDashboardScreen
+the Screen's display got called from the onLoad() method.  Move it
+to the table's onFinishDisplay() method which should get called after
+the RPC completes instead of directly after firing the RPC.
+
+* Fix inherited dashboard links
++
+When navigating to a project's list of dashboards and selecting
+an inherited dashboard, the link pointed to the project from
+which the dashboard is inherited.  While this did not actually
+prevent stable links, it likely prevented users from getting
+the correct stable link for a project dashboard by copying it
+from this page without paying attention to the fact that the
+dashboard was inherited.  The correct link still worked, but if
+they bookmarked the link from the dashboard list, it would be
+an incorrect long term link and it would no longer point to the
+correct dashboard if this dashboard were later overridden and
+no longer inherited.
+
+* Simplify the commit validation extension point API
++
+Commit validation plugins should now either raise an exception
+if validation fails, or return a list of messages if validation
+is successful.
+
+* Handle invalid dashboard config file
++
+Do not fail with '500 Internal server error' if a project dashboard is
+accessed that can't be loaded because its config file is invalid but
+pretend it doesn't exist.
+
+* Remove documentation of "rejected by plugin" error message
++
+Gerrit no longer reports this error message, so remove it from
+the documentation.
+
+* Allow CommitValidationException to include multiple messages
++
+In addition to a reason which is given in the rejection, the
+exception can now also include several messages which will be
+output to stdout or stderr on the client when a commit is
+rejected.
+
+* Fix encoding/decoding of dashboard ids (one more time)
++
+The encoding of the dashboard id on client side is done by
+URL.encode(...). This method is not encoding the URL component
+delimiter characters (e.g. '/'). This means if the dashboard ref
+contains '/' it is not encoded and as result the RestApiServlet on the
+server interprets '/' as seperator for the rest collections and the
+loading of the dashboard fails.
++
+When the dashboard URL is encoded on the server side by Url.encode(...)
+space is encoded as '+'. Decoding this on the client side in Dispatcher
+with URL.decodePathSegment(...) will not decode '+' to space.
++
+Instead we need to use URL.decodeQueryString(...) which makes sure to
+decode '+' to space.
++
+The encoding on client side should be consistent with the decoding,
+this is why URL.encodeQueryString(...) is used to encode the dashboard
+id.
++
+With the new encoding/decoding loading dashboards that contain '/' in
+their ref or path succeeds as well as loading dashboards that have
+spaces in their path.
+
+* Add documentation of "commit already exists" error message
++
+The "commit already exists" error is similar to "no new changes",
+but occurs if the user tries to push to `refs/changes/n` when the
+commit already exists on change `n`.
+
+* issue 1702 Fix: 'internal server error' when pushing the same commit twice
++
+On the second push of the same commit to 'refs/for/<branch name>', Gerrit
+returns 'no new changes'.
++
+However if the user pushes to 'refs/changes/<change id>', Gerrit returns
+'internal server error'.
++
+The reason is ReceiveCommits$ReplaceRequest.validate() checks
+'squash commits first' ahead of 'commit already exists' and
+ReceiveCommits.insertChangesAndPatchSets() replaces the error message
+with 'internal server error' without any checking.
+
+* Make ProjectMap.match(...) return all projects if match is null
++
+This is a refactoring to make the usage of ProjectMap.match(...) more
+convenient for callers. It turns out that every caller wants to
+retrieve all projects if the match string is null or empty. Instead of
+having each caller handling this enhance ProjectMap.match(...) to do
+this.
+
+* Allow filtering of projects in ProjectListPopup
+
+* Move method to create a highlighting html string into Util class
++
+Move the highlight method into the Util class to make it reuseable.
+
+* Highlight filter string in ProjectListPopup
+
+* Add permission for pushing signed tag
++
+The method that determines whether or not the user can create a new
+Git ref checks if the tag contains a PGP signature, but it returns the
+same result in both the `if` and `else` blocks.
++
+The redundant check seems to be legacy of the changes in Idb56f65
+where the create ref checks were refactored.  Previously there was a
+distinction between permissions to push an annotated tag and to push
+a signed tag.  There is now no distinction and the permission is
+simply "push tag" (which actually refers to annotated tag).
++
+Add a new permission for pushing signed tag, and use that when the
+tag contains a PGP signature.
+
+* issue 1675 Make deleting and publishing drafts a grantable permission
++
+Some site Administrators want to be able to delete or publish draft
+changes or patch sets even though they are not the owner.
++
+Allowing members of the Administrators group to do this by default
+would not follow the principle that being in the group "does not imply
+other access rights", so instead add two new permission categories
+"Delete Draft Changes" and "Publish Draft Changes" which can be
+granted to the Administrator group, or indeed any other user group.
+
+* Improve push tag examples in the access control documentation
++
+The examples of pushing a tag in the access control documentation
+imply that pushing a tag is only possible over SSH, when in fact
+it is also possible over HTTPS.
++
+Reword the examples to also include HTTPS.
+
+* Adapt documentation to having 'Projects' as top level menu
+
+* Fix formatting of bullets in Gerrit 2.5.1 release notes
+
+* Remove obsolete diskbuffer setting from example config file
++
+The configuration document has an example config file that refers
+to the diskbuffer setting, which was removed in Ia82d056.
++
+Update the document to remove the obsolete setting.
+
+* Fix: cannot apply review labels when restoring a change over SSH
++
+When abandoning a change over SSH, it is possible to apply review
+labels to the change at the same time:
++
+  gerrit review --abandon --code-review -1 sha1
++
+However it is not possible to do the same when restoring a change:
++
+  gerrit review --restore --code-review +2 sha1
++
+The change will be restored, but the given review labels will not be
+applied.
++
+This is because the SSH command implementation applies the review
+labels before the abandon/restore operation.  When restoring a change
+this does not work because it is not allowed to apply a review label
+to an abandoned change.
++
+Refactor the command so that it applies the review labels before the
+abandon operation, but after the restore operation, thus making it
+possible to restore a change and apply review labels at the same time.
+
+* issue 1721 Fix: SSH abandon or restore adds the cover message twice
++
+When a change is abandoned or restored over SSH, and a cover message
+is included with the --message option, the message is added on the
+review twice.  First it is added with the review comment:
++
+  Patch Set 1:
+  Message
++
+And then again with the abandon/restore comment:
++
+  Abandoned/Restored
+  Message
++
+The review comment is added regardless of whether or not any review
+labels have been applied at the same time.
++
+Fix it so that the message is only added once.  If review labels are
+applied, the message will be added with the regular review comment:
++
+  Patch Set 1:
+  Message
++
+And then the abandon/restore comment will be added without any message:
++
+  Abandoned/Restored
++
+If there are no review labels applied, there will be no review comment,
+and the message will be added with the abandon/restore comment:
++
+  Abandoned/Restored
+  Message
+
+* issue 1685 After 'Up to change' expand the patch set that was just reviewed
++
+After clicking on the 'Up to change' link in the PatchScreen, the patch
+set that was just reviewed should be automatically expanded on the
+ChangeScreen. E.g. the user may just have done some comments that he
+wants to publish now and then it is convenient if the patch set is
+already expanded so that the 'Review' button is visible.
+
+* Fix NullPointerException on push over HTTP
++
+Push over HTTP is failing with an NullPointerException because
+'allRefs' in ReceiveCommits is not set.
++
+When pushing over HTTP two requests are received by Gerrit:
++
+1. GET /myProject/info/refs
+ReceiveCommits is instantiated, the refs are advertised so that
+'allRefs' gets set from the AdvertiseRefsHook
++
+2. POST /myProject/git-receive-pack
+Another instance of ReceiveCommits is created, 'allRefs'
+doesn't get set for this instance, as result the request is failing
+with an NullPointerException
++
+Fix this by ensuring that the AdvertiseRefsHook is triggered for each
+request so that so that 'allRefs' always gets set.
+
+* Fix: Don't expose any Guice bindings from the server to non-plugins.
++
+Looks like the bindings from the sysInjector of the server were
+accidentally exposed to any plugin regardless of its ApiType.
+
+* Update replication plugin to 1.0-rc0 in package plugins
+
+* Fix: Change closes when pushing commit to other branch.
++
+Gerrit currently closes an open change when pushing the same commit to
+another branch.
++
+Background:
++
+There are several issues in Gerrit when it comes to reusing commits in
+several branches.
++
+Deniz Türkoglu has made an effort to fix most (all?) of them [1].
++
+The issue was also discussed during the May & Nov 2012 Hackathons.
++
+With all various edge cases and different views on how Gerrit should
+actually behave in certain circumstances, this is a small effort to
+start fixing the most obvious issues, on a case by case basis.
++
+Hopefully this approach will make it easier for the community to come
+to an agreement on the expected behavior by Gerrit and also allow us
+to fix the worst issues while simultaneously continuing discussing of
+the more crazy edge cases.
++
+This first patch just fixes so that an open change is not closed when
+the very same commit is pushed to another refs/heads/<branch>.
++
+To reproduce the issue today:
++
+1 Check out an open change.
+2 Push it to refs/heads/<another_branch>
++
+Result: The change is closed regardless of whether the destination
+branch matches or not.
++
+This change fixes this issue, so the change will continue to stay open
+in this case.
++
+[1] https://gerrit-review.googlesource.com/#/c/32881
+
+* Misspelled word in CLA configuration
++
+- Fixed aggreement -> agreement in title.
+
+* Fix: don't display all files from a merge-commit when auto-merge fails
++
+The 60848f89959d41de83dfac2a0ee20d336cd7b3f1 tried to address the issue
+that the Change Screen couldn't open for a patch set with merge commit
+when the creation of an auto-merge tree failed in JGit (which happens
+when the parents of the merge commit have multiple merge bases as JGit
+doesn't support this case yet).  It considered the failure to create the
+auto-merge tree as if the tree creation succeeded with conflicts. In
+fact, the auto merge tree was empty and Gerrit considered all paths
+as unmerged.  This caused several issues:
+- the file list was too large for a project with large number of files
+- Gerrit would send too many false notification emails to those watching
+  changes under certain paths
+- both client and server needed a lot of resources in order to handle
+  such a large list of files
++
+With this change the file list will be empty when creation of auto-merge
+commit fails. This is not worse than showing a list of all files and it
+resolves the issues listed above.
++
+JGit will be able to auto-merge commits with multiple merge bases in a
+near future [1] which will further reduce the number of cases where
+Gerrit will incorrectly show an empty list of files for a patch-set with
+merge commit.
++
+[1] https://git.eclipse.org/r/8113
+
+* Fix 'Settings' anchor href in CurrentUserPopupPanel
++
+Settings href was not self-redirected, this was causing 404 error when
+gerrit wasn't installed in server root. This patch fixes this issue by
+ensuring that '/settings' href would always be self-redirected.
+
+* Prevent from deleting refs/changes/
++
+Everything under refs/changes/ should be protected by Gerrit, users
+shouldn't be able to delete particular patch set or whole change from
+review process.
+
+* Cache RefControl.isVisible()
++
+In VisibleRefFilter, when VisibleChanges() is evaluated,
+the RefControl.isVisible() is calculated for each change
+even though they share destination ref.
++
+For a git with many changes, storing the RefControl.isVisible()
+can save valuable CPU-cycles. Especially in complex setups with
+many rules.
++
+When testing on a (real) project with many Changes and
+PermissionRules a noticeable different could be seen:
++
+ls-remote before fix:
+real	0m3.024s
+real	0m2.304s
+real	0m2.654s
+real	0m2.754s
+real	0m3.474s
+real	0m3.494s
++
+ls-remote after fix:
+real	0m2.004s
+real	0m2.164s
+real	0m1.934s
+real	0m1.704s
+real	0m1.674s
+real	0m1.754s
++
+Time for calculating visible refs could be cut down 30-50%.
+
+* Remove inconsistent null value checkings in the ChangeEmail class
++
+Variable ChangeEmail.change is used widely in sending change emails,
+sometimes its value is tested to see if it is null, sometimes it is
+not tested, we just remove the null value checking for all places,
+and let the users of ChangeEmail class to make sure to pass a valid
+value.
+
+* Lightweight LDAP server for debugging
+
+* Fix typo in GlobalCapbility documentation
+
+* Expose the AnonymousCowardName, GerritPersonIdent and NotesBranchUtil to plugins
++
+These bindings will be necessary for the reviewnotes plugin.
+
+* Polish the error message about wrong project name
++
+If there is not project 'wrongname.git' on disk, below command
++
+  'git push ssh://review/wrongname.git HEAD:refs/for/master'
++
+will get an error:
++
+  'fatal: '/wrongname.git': not a Gerrit project'
++
+This patch polish it to be:
++
+  'fatal: 'wrongname.git': is not a Gerrit project'.
+
+* Replace all '.git' with Constants.DOT_GIT_EXT
++
+For making it easy to trace, replace all '.git' with
+Constants.DOT_GIT_EXT.
+
+* Update JGit to 2.2.0.201212191850-r
++
+Upstream JGit released this on Thu Dec 20 2012.
+
+* Clean up formatting suggesting to install commit-msg hook
++
+The message line wrapped badly on 80 column wide ttys. Use a shorter
+hint text to make the message fit on an 80 column wide terminal
+without wrapping.
++
+Add a blank line before the hint so the hint is more easily noticed
+from the suggested commit message when a Change-Id is missing.
++
+Make the curl command a single line with ; in between the two
+commands, making copy and paste into a shell easier.
++
+Don't use $ before a command name, instead start the command with
+two spaces so it offsets from the left margin slightly more than
+other text.
++
+Change appends from "\n" to '\n'. Its only a single character.
+
+* Document that plans for stable-fix releases should be announced
++
+It is important to announce plans for stable-fix releases to allow
+contributors to cherry-pick bug fixes to the stable branch that they
+want to have included into the stable-fix release.
+
+* Document process for 'security-fix' releases
+
+* gerrit.sh: Add 'status' as synonym for 'check' to be LSB compliant
+
+* gerrit.sh: Fix exit status codes to be LSB compliant
++
+Fix exit status codes according to [1].
++
+[1] http://refspecs.linux-foundation.org/LSB_3.2.0/LSB-Core-generic/LSB-Core-generic/iniscrptact.html
+
+* issue 1740 Display description how to generate SSH Key in SshPanel
++
+Display a description of how to generate an SSH Key in an expandable
+section in the SshPanel instead of linking to the GitHub SSH tutorial.
+The GitHub SSH tutorial was partially not relevant and confused users.
+
+* Stable branches process documentation
++
+- Added documentation for process about stable branches.
+
+* Copy approvals to new patch set when change is rebased on submit
++
+If 'Rebase If Necessary' is used as submit strategy a new patch set
+with the rebased commit is created on submit if a rebase was needed.
+The approvals of the old patch set were not copied to the new patch
+set.
++
+As result the submitter was not available and because of this the
+change-merged event was not sent. In addition 'Anonymous Coward' was
+used as name of the submitter in the change merged e-mail notification.
++
+Also fix getApprovalsForCommit() to never return null, none of the
+callers are prepared for this return value.
+
+* Add an "Add Comment" button to change screen
++
+It is hard to spot for novice gerrit users, how they can an comment to a
+change when seeing the comments of other people.
++
+As a relief, add an "Add Comment" button below existing comments.
+

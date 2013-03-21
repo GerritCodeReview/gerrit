@@ -19,7 +19,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GarbageCollection;
 
 import org.apache.log4j.Appender;
-import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -36,22 +35,6 @@ import java.io.IOException;
 
 public class GarbageCollectionLogFile {
   private static final org.slf4j.Logger log = LoggerFactory.getLogger(GarbageCollectionLogFile.class);
-
-  public static void errorOnlyConsole() {
-    LogManager.resetConfiguration();
-
-    PatternLayout layout = new PatternLayout();
-    layout.setConversionPattern("%-5p %x: %m%n");
-
-    ConsoleAppender dst = new ConsoleAppender();
-    dst.setLayout(layout);
-    dst.setTarget("System.err");
-    dst.setThreshold(Level.ERROR);
-
-    Logger root = LogManager.getLogger(GarbageCollection.LOG_NAME);
-    root.removeAllAppenders();
-    root.addAppender(dst);
-  }
 
   public static LifecycleListener start(File sitePath)
       throws FileNotFoundException {

@@ -26,7 +26,6 @@ import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.Die;
 import com.google.gerrit.pgm.util.ErrorLogFile;
-import com.google.gerrit.pgm.util.GarbageCollectionLogFile;
 import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -67,7 +66,6 @@ public class Init extends SiteProgram {
   @Override
   public int run() throws Exception {
     ErrorLogFile.errorOnlyConsole();
-    GarbageCollectionLogFile.errorOnlyConsole();
 
     final SiteInit init = createSiteInit();
     init.flags.autoStart = !noAutoStart && init.site.isNew;

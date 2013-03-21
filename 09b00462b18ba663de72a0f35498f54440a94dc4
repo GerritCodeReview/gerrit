@@ -52,6 +52,24 @@
       "revId": "09b00462b18ba663de72a0f35498f54440a94dc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SQ-88384",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T13:28:46Z",
+      "side": 1,
+      "message": "OK, I will then abandon this change. You are right that this can be scripted on the client and once we have a possibility to configure the GC runs on the server it\u0027s not important anymore to be able to trigger the gc for all projects via REST.\n\nFor the automatic GC runs I definitely agree that it must be possible to define a schedule so that performance losses during main working hours can be avoided. Maybe we can find some library to handle this scheduling instead of implementing this on our own.",
+      "parentUuid": "SLTX8kPc",
+      "revId": "09b00462b18ba663de72a0f35498f54440a94dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

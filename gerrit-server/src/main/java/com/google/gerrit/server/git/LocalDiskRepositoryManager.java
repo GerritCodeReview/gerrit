@@ -77,11 +77,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   public static class Lifecycle implements LifecycleListener {
-    private final Config cfg;
+    private final Config serverConfig;
 
     @Inject
     Lifecycle(@GerritServerConfig final Config cfg) {
-      this.cfg = cfg;
+      this.serverConfig = cfg;
     }
 
     @Override
@@ -94,7 +94,35 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
           // Default configuration is batch mode.
         }
       });
-      new WindowCacheConfig().fromConfig(cfg).install();
+
+      WindowCacheConfig cfg = new WindowCacheConfig();
+      cfg.fromConfig(serverConfig);
+      if (serverConfig.getString("core", null, "streamFileThreshold") == null) {
+        long mx = Runtime.getRuntime().maxMemory();
+        int limit = (int) Math.min(
+            mx / 4, // don't use more than 1/4 of the heap.
+            2047 << 20); // cannot exceed array length
+        if ((5 << 20) < limit && limit % (1 << 20) != 0) {
+          // If the limit is at least 5 MiB but is not a whole multiple
+          // of MiB round up to the next one full megabyte. This is a very
+          // tiny memory increase in exchange for nice round units.
+          limit = ((limit / (1 << 20)) + 1) << 20;
+        }
+
+        String desc;
+        if (limit % (1 << 20) == 0) {
+          desc = String.format("%dm", limit / (1 << 20));
+        } else if (limit % (1 << 10) == 0) {
+          desc = String.format("%dk", limit / (1 << 10));
+        } else {
+          desc = String.format("%d", limit);
+        }
+        log.info(String.format(
+            "Defaulting core.streamFileThreshold to %s",
+            desc));
+        cfg.setStreamFileThreshold(limit);
+      }
+      cfg.install();
     }
 
     @Override

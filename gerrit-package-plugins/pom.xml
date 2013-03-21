@@ -22,7 +22,7 @@ limitations under the License.
   <groupId>com.google.gerrit</groupId>
   <artifactId>gerrit-package-plugins</artifactId>
   <packaging>war</packaging>
-  <version>2.6-SNAPSHOT</version>
+  <version>2.7-SNAPSHOT</version>
 
   <name>Gerrit Code Review - Package Plugins</name>
   <url>http://code.google.com/p/gerrit/</url>

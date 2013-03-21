@@ -16,6 +16,24 @@
       "revId": "09b00462b18ba663de72a0f35498f54440a94dc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SB7sKpy0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-21T05:28:32Z",
+      "side": 1,
+      "message": "Well, the SSH command has an easy way to trigger the GC for all projects.\nI wanted to enable the same for REST since I believe this is the main use case. I thought the best way to allow this would be triggering GC on the All-Projects project and saying it should be done recursively for all child projects. \n\nActually we want to get way from doing anything on the client but in the end we only want to configure in Gerrit when to run the GC and Gerrit then does it automatically.",
+      "parentUuid": "SKRlq67c",
+      "revId": "09b00462b18ba663de72a0f35498f54440a94dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

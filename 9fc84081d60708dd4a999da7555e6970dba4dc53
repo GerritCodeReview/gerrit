@@ -16,6 +16,24 @@
       "revId": "9fc84081d60708dd4a999da7555e6970dba4dc53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SRT3tr0k",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-03-21T10:24:23Z",
+      "side": 1,
+      "message": "Before pushing, I tested it against our ~0.5 million changes on postgres and it seems to work OK. Certainly not a \"5 changes @ local H2\" test. It was fast enough to fool me into thinking that we did not get stuck in heavy table scans.\n\nAfter seeing it reverted, I ran some extra metrics. And sure enough, I sure can see that the db is working way harder to process the closed query than before.\n\nI\u0027ll push a new change, but will be using db.patchSetApprovals().closedByUser(id) (same as Pre 2.5.2) instead. It does not fall into a table scan and returns instantly.\n\nSorry for causing trouble for gerrit-review.",
+      "parentUuid": "SKljtvUc",
+      "revId": "9fc84081d60708dd4a999da7555e6970dba4dc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

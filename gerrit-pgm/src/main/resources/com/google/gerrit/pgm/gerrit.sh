@@ -175,6 +175,7 @@ if test -z "$GERRIT_SITE" ; then
     exit 1
 fi
 
+INITIAL_DIR=`pwd`
 if cd "$GERRIT_SITE" ; then
   GERRIT_SITE=`pwd`
 else
@@ -481,8 +482,13 @@ case "$ACTION" in
     if test -f "$GERRIT_SH" ; then
       : OK
     else
-      echo >&2 "** ERROR: Cannot locate gerrit.sh"
-      exit 1
+      GERRIT_SH="$INITIAL_DIR/$GERRIT_SH"
+      if test -f "$GERRIT_SH" ; then
+        : OK
+      else
+        echo >&2 "** ERROR: Cannot locate gerrit.sh"
+        exit 1
+      fi
     fi
     $GERRIT_SH stop $*
     sleep 5

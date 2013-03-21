@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SLXVESF8",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-21T13:56:51Z",
+      "side": 1,
+      "message": "how about \n\nGERRIT_SITE_1\u003d`dirname \"$0\"`/..\n\nand delete lines: 154~159",
+      "revId": "1bbc3f2106df4dad3b892f594e8a22087ab0840e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

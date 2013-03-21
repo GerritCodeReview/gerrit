@@ -8,6 +8,33 @@ link:rest-api.html[REST API].
 Endpoints
 ---------
 
+[[get-account]]
+Get Account
+~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]'
+
+Returns an account as an link:#account-info[AccountInfo] entity.
+
+.Request
+----
+  GET /accounts/self HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "_account_id": 1000096,
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+  }
+----
+
 [[list-account-capabilities]]
 List Account Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~

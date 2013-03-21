@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.rest.group;
+package com.google.gerrit.server.account;
 
-public class AccountInfo {
-  public Integer _account_id;
-  public String name;
-  public String email;
+import com.google.gerrit.extensions.restapi.RestReadView;
+
+public class GetAccount implements RestReadView<AccountResource> {
+  @Override
+  public AccountInfo apply(AccountResource rsrc) {
+    return AccountInfo.parse(rsrc.getUser().getAccount(), true);
+  }
 }

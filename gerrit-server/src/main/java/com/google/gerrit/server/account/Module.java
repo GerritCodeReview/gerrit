@@ -29,6 +29,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
 
+    get(ACCOUNT_KIND).to(GetAccount.class);
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);
     get(ACCOUNT_KIND, "groups").to(GetGroups.class);

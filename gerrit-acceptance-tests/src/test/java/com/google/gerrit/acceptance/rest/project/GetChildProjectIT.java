@@ -103,6 +103,23 @@ public class GetChildProjectIT extends AbstractDaemonTest {
             .getStatusCode());
   }
 
+  @Test
+  public void getGrandChildProjectWithRecursiveFlag() throws IOException,
+      JSchException {
+    SshSession sshSession = new SshSession(admin);
+    Project.NameKey child = new Project.NameKey("p1");
+    createProject(sshSession, child.get());
+    Project.NameKey grandChild = new Project.NameKey("p1.1");
+    createProject(sshSession, grandChild.get(), child);
+    RestResponse r =
+        GET("/projects/" + allProjects.get() + "/children/" + grandChild.get()
+            + "?recursive");
+    assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+    ProjectInfo grandChildInfo =
+        (new Gson()).fromJson(r.getReader(), new TypeToken<ProjectInfo>() {}.getType());
+    assertProjectInfo(projectCache.get(grandChild).getProject(), grandChildInfo);
+  }
+
   private RestResponse GET(String endpoint) throws IOException {
     return session.get(endpoint);
   }

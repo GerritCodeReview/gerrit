@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SfgQUFk0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-03-22T17:08:22Z",
+      "side": 1,
+      "message": "Sorry. Not sure about the naming convention here. rXX?",
+      "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

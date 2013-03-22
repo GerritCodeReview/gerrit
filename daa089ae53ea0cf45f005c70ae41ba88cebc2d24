@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SfkQODkE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-22T22:12:33Z",
+      "side": 1,
+      "message": "It\u0027s not directly related to this change, but while you are at this you can maybe also check why the reviewers are not displayed for draft changes anymore. Users cannot vote on a draft change, but still it should be possible to the see the reviewers list so that one knows to whom this draft change is visible.",
+      "revId": "daa089ae53ea0cf45f005c70ae41ba88cebc2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SfyMZCoY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-22T22:12:33Z",
+      "side": 1,
+      "message": "Can you update the description of the \u0027value\u0027 field of ApprovalInfo in [1]. I think the field should be marked as optional now and the description should say that it means that the user cannot vote on this label if \u0027value\u0027 is not set.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#approval-info",
+      "revId": "daa089ae53ea0cf45f005c70ae41ba88cebc2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

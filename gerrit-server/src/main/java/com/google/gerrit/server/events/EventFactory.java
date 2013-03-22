@@ -188,11 +188,24 @@ public class EventFactory {
           }
         }
 
-        final RevId revId = db.patchSets().get(psId).getRevision();
-        for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
-          final PatchSet p = db.patchSets().get(a.getPatchSet());
-          final Change c = db.changes().get(p.getId().getParentKey());
-          ca.neededBy.add(newNeededBy(c, p));
+        final PatchSet ps = db.patchSets().get(psId);
+        if (ps == null) {
+          log.error("Error while generating the list of descendants for"
+              + " PatchSet " + psId + ": Cannot find PatchSet entry in"
+              + " database.");
+        } else {
+          final RevId revId = ps.getRevision();
+          for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
+            final PatchSet p = db.patchSets().get(a.getPatchSet());
+            if (p == null) {
+              log.error("Error while generating the list of descendants for"
+                  + " revision " + revId.get() + ": Cannot find PatchSet entry in"
+                  + " database for " + a.getPatchSet());
+              continue;
+            }
+            final Change c = db.changes().get(p.getId().getParentKey());
+            ca.neededBy.add(newNeededBy(c, p));
+          }
         }
       } finally {
         db.close();

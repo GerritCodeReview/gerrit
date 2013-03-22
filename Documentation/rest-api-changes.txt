@@ -1656,7 +1656,10 @@ In addition `ApprovalInfo` has the following fields:
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
-|`value`       ||The vote that the user has given for the label.
+|`value`       |optional|
+The vote that the user has given for the label. If present and zero, the
+user is permitted to vote on the label. If absent, the user is not
+permitted to vote on that label.
 |===========================
 
 [[change-info]]

@@ -292,6 +292,58 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   }
 ----
 
+[[set-diff-preferences]]
+Set Diff Preferences
+~~~~~~~~~~~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#account-id[\{account-id\}]/preferences.diff'
+
+Sets the diff preferences of a user.
+
+The new diff preferences must be provided in the request body as a
+link:#diff-preferences-input[DiffPreferencesInput] entity.
+
+.Request
+----
+  GET /a/accounts/self/preferences.diff HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "context": 10,
+    "ignore_whitespace": "IGNORE_ALL_SPACE",
+    "intraline_difference": true,
+    "line_length": 100,
+    "show_line_endings": true,
+    "show_tabs": true,
+    "show_whitespace_errors": true,
+    "syntax_highlighting": true,
+    "tab_size": 8
+  }
+----
+
+As result the new diff preferences of the user are returned as a
+link:#diff-preferences-info[DiffPreferencesInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "context": 10,
+    "ignore_whitespace": "IGNORE_ALL_SPACE",
+    "intraline_difference": true,
+    "line_length": 100,
+    "show_line_endings": true,
+    "show_tabs": true,
+    "show_whitespace_errors": true,
+    "syntax_highlighting": true,
+    "tab_size": 8
+  }
+----
+
 
 [[ids]]
 IDs
@@ -425,6 +477,52 @@ Whether deleted files should be skipped on file switch.
 |`skip_uncommented`      |not set if `false`|
 Whether uncommented files should be skipped on file switch.
 |`syntax_highlighting`   |not set if `false`|
+Whether syntax highlighting should be enabled.
+|`tab_size`              ||
+Number of spaces that should be used to display one tab.
+|=====================================
+
+[[diff-preferences-input]]
+DiffPreferencesInput
+~~~~~~~~~~~~~~~~~~~~
+The `DiffPreferencesInput` entity contains information for setting the
+diff preferences of a user.
+
+[options="header",width="50%",cols="1,^1,5"]
+|=====================================
+|Field Name              ||Description
+|`context`               ||
+The number of lines of context when viewing a patch.
+|`expand_all_comments`   |`false` if not set|
+Whether all inline comments should be automatically expanded.
+|`ignore_whitespace`     |`IGNORE_NONE` if not set|
+Whether whitespace changes should be ignored and if yes, which
+whitespace changes should be ignored. +
+Allowed values are `IGNORE_NONE`, `IGNORE_SPACE_AT_EOL`,
+`IGNORE_SPACE_CHANGE`, `IGNORE_ALL_SPACE`.
+|`intraline_difference`  |`false` if not set|
+Whether intraline differences should be highlighted.
+|`line_length`           ||
+Number of characters that should be displayed in one line.
+|`manual_review`         |`false` if not set|
+Whether the 'Reviewed' flag should not be set automatically on a patch
+when it is viewed.
+|`retain_header`         |`false` if not set|
+Whether the header that is displayed above the patch (that either shows
+the commit message, the diff preferences, the patch sets or the files)
+should be retained on file switch.
+|`show_line_endings`     |`false` if not set|
+Whether Windows EOL/Cr-Lf should be displayed as '\r' in a dotted-line
+box.
+|`show_tabs`             |`false` if not set|
+Whether tabs should be shown.
+|`show_whitespace_errors`|`false` if not set|
+Whether whitespace errors should be shown.
+|`skip_deleted`          |`false` if not set|
+Whether deleted files should be skipped on file switch.
+|`skip_uncommented`      |`false` if not set|
+Whether uncommented files should be skipped on file switch.
+|`syntax_highlighting`   |`false` if not set|
 Whether syntax highlighting should be enabled.
 |`tab_size`              ||
 Number of spaces that should be used to display one tab.

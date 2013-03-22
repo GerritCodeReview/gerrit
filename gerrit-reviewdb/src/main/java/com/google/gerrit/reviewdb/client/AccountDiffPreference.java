@@ -29,6 +29,9 @@ public class AccountDiffPreference {
   public static final short[] CONTEXT_CHOICES =
       {3, 10, 25, 50, 75, 100, WHOLE_FILE_CONTEXT};
 
+  public static final Whitespace DEFAULT_IGNORE_WHITESPACE =
+      Whitespace.IGNORE_NONE;
+
   public static enum Whitespace implements CodedEnum {
     IGNORE_NONE('N'), //
     IGNORE_SPACE_AT_EOL('E'), //
@@ -57,7 +60,7 @@ public class AccountDiffPreference {
 
   public static AccountDiffPreference createDefault(Account.Id accountId) {
     AccountDiffPreference p = new AccountDiffPreference(accountId);
-    p.setIgnoreWhitespace(Whitespace.IGNORE_NONE);
+    p.setIgnoreWhitespace(DEFAULT_IGNORE_WHITESPACE);
     p.setTabSize(8);
     p.setLineLength(100);
     p.setSyntaxHighlighting(true);

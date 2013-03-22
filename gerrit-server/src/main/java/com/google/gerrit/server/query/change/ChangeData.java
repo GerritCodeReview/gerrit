@@ -388,7 +388,14 @@ public class ChangeData {
     return ImmutableList.copyOf(allApprovalsMap(db).values());
   }
 
-  private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovalsMap(
+  /**
+   * @param db review database.
+   * @return all patch set approvals for the change (regardless of whether
+   *     {@link #limitToPatchSets(Collection)} was previously called), keyed by
+   *     ID, ordered by timestamp within each patch set.
+   * @throws OrmException an error occurred reading the database.
+   */
+  public ListMultimap<PatchSet.Id, PatchSetApproval> allApprovalsMap(
       Provider<ReviewDb> db) throws OrmException {
     if (allApprovals == null) {
       allApprovals = ArrayListMultimap.create();

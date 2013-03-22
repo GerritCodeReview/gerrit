@@ -150,7 +150,13 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class ApprovalInfo extends AccountInfo {
-    public final native short value() /*-{ return this.value; }-*/;
+    public final native Short value() /*-{
+      if (this.hasOwnProperty('value')) {
+        return @java.lang.Short::valueOf(S)(this.value);
+      } else {
+        return null;
+      }
+    }-*/;
 
     protected ApprovalInfo() {
     }

@@ -25,6 +25,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -426,42 +427,45 @@ public class ChangeJson {
       return;
     }
 
+    // All users ever added, even if they can't vote on one or all labels.
     Set<Account.Id> allUsers = Sets.newHashSet();
-    Multimap<Account.Id, PatchSetApproval> current = HashMultimap.create();
-    PatchSet.Id psId = baseCtrl.getChange().currentPatchSetId();
-    for (PatchSetApproval psa : labelNormalizer.normalize(
-        baseCtrl, cd.allApprovals(db))) {
+    ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals =
+        cd.allApprovalsMap(db);
+    for (PatchSetApproval psa : allApprovals.values()) {
       allUsers.add(psa.getAccountId());
-      if (psa.getPatchSetId().equals(psId)) {
-        current.put(psa.getAccountId(), psa);
-      }
+    }
+
+    List<PatchSetApproval> currentList = labelNormalizer.normalize(
+        baseCtrl, allApprovals.get(baseCtrl.getChange().currentPatchSetId()));
+    // Most recent, normalized vote on the current patch set by each user
+    // (may be 0).
+    Map<Account.Id, PatchSetApproval> current =
+        Maps.newHashMapWithExpectedSize(currentList.size());
+    for (PatchSetApproval psa : currentList) {
+      current.put(psa.getAccountId(), psa);
     }
 
     for (Account.Id accountId : allUsers) {
       IdentifiedUser user = userFactory.create(accountId);
       ChangeControl ctl = baseCtrl.forUser(user);
-      Map<String, ApprovalInfo> byLabel =
-          Maps.newHashMapWithExpectedSize(labels.size());
-
-      for (String name : labels.keySet()) {
-        LabelType lt = ctl.getLabelTypes().byLabel(name);
-        if (lt != null && labelNormalizer.canVote(ctl, lt, accountId)) {
-          ApprovalInfo ai = approvalInfo(accountId, 0);
-          byLabel.put(name, ai);
-          labels.get(name).addApproval(ai);
-        }
-      }
-      for (PatchSetApproval psa : current.get(accountId)) {
-        LabelType lt = ctl.getLabelTypes().byLabel(psa.getLabelId());
+      for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
+        LabelType lt = ctl.getLabelTypes().byLabel(e.getKey());
         if (lt == null) {
+          // Ignore submit record for undefined label; likely the submit rule
+          // author didn't intend for the label to show up in the table.
           continue;
         }
-
-        ApprovalInfo info = byLabel.get(lt.getName());
-        if (info == null) {
-          continue;
+        Integer value;
+        PatchSetApproval psa = current.get(accountId);
+        if (psa != null) {
+          value = Integer.valueOf(psa.getValue());
+        } else {
+          // Either the user cannot vote on this label, or there just wasn't a
+          // dummy approval for this label. Explicitly check whether the user
+          // can vote on this label.
+          value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
-        info.value = psa.getValue();
+        e.getValue().addApproval(approvalInfo(accountId, value));
       }
     }
   }
@@ -519,7 +523,7 @@ public class ChangeJson {
         short val = psa.getValue();
         ApprovalInfo info = byLabel.get(type.getName());
         if (info != null) {
-          info.value = val;
+          info.value = Integer.valueOf(val);
         }
 
         LabelInfo li = labels.get(type.getName());
@@ -544,7 +548,7 @@ public class ChangeJson {
     return labels;
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, int value) {
+  private ApprovalInfo approvalInfo(Account.Id id, Integer value) {
     ApprovalInfo ai = new ApprovalInfo(id);
     ai.value = value;
     accountLoader.put(ai);
@@ -619,7 +623,7 @@ public class ChangeJson {
         continue;
       }
       for (ApprovalInfo ai : label.all) {
-        if (ctl.canRemoveReviewer(ai._id, ai.value)) {
+        if (ctl.canRemoveReviewer(ai._id, Objects.firstNonNull(ai.value, 0))) {
           removable.add(ai._id);
         } else {
           fixed.add(ai._id);
@@ -914,7 +918,7 @@ public class ChangeJson {
   }
 
   static class ApprovalInfo extends AccountInfo {
-    int value;
+    Integer value;
 
     ApprovalInfo(Account.Id id) {
       super(id);

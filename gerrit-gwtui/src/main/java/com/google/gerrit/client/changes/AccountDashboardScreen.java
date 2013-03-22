@@ -73,7 +73,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
         },
         "is:open owner:" + who,
         "is:open reviewer:" + who + " -owner:" + who,
-        "is:closed owner:" + who + " -age:4w limit:10");
+        "is:closed (owner:" + who + " OR reviewer:" + who + ") -age:4w limit:10");
   }
 
   @Override

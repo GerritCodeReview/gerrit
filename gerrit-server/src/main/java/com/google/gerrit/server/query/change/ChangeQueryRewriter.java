@@ -581,6 +581,55 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @SuppressWarnings("unchecked")
+  @Rewrite("status:closed (O=(owner:*) OR R=(reviewer:*)) limit:10")
+  public Predicate<ChangeData> r30_byRecentlyClosed(
+      @Named("R") final ReviewerPredicate r,
+      @Named("O") final OwnerPredicate o) {
+    return or(new Source() {
+      {
+        init("byReviewerRecentlyClosed", r);
+      }
+
+      @Override
+      public ResultSet<ChangeData> read() throws OrmException {
+        return ChangeDataResultSet.patchSetApproval(dbProvider.get()
+            .patchSetApprovals().closedByUser(r.getAccountId()));
+      }
+
+      @Override
+      public boolean match(ChangeData cd) throws OrmException {
+        Change change = cd.change(dbProvider);
+        return change != null && change.getStatus().isClosed() && r.match(cd);
+      }
+
+      @Override
+      public int getCardinality() {
+        return 10;
+      }
+
+      @Override
+      public int getCost() {
+        return ChangeCosts.cost(ChangeCosts.APPROVALS_SCAN, getCardinality());
+      }
+    },
+    new ChangeSource(10) {
+      {
+        init("byOwnerRecentlyClosed", o);
+      }
+
+      @Override
+      ResultSet<Change> scan(ChangeAccess a) throws OrmException {
+        return a.byOwnerClosed(o.getAccountId());
+      }
+
+      @Override
+      public boolean match(ChangeData cd) throws OrmException {
+        return cd.change(dbProvider).getStatus().isClosed() && o.match(cd);
+      }
+    });
+  }
+
+  @SuppressWarnings("unchecked")
   @Rewrite("R=(reviewer:*)")
   public Predicate<ChangeData> r31_byReviewer(
       @Named("R") final ReviewerPredicate r) {

@@ -45,7 +45,7 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE owner = ? AND open = true ORDER BY createdOn, changeId")
   ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
 
-  @Query("WHERE owner = ? AND open = false ORDER BY lastUpdatedOn DESC LIMIT 5")
+  @Query("WHERE owner = ? AND open = false ORDER BY lastUpdatedOn DESC LIMIT 10")
   ResultSet<Change> byOwnerClosed(Account.Id id) throws OrmException;
 
   @Query("WHERE owner = ? AND open = false ORDER BY lastUpdatedOn")

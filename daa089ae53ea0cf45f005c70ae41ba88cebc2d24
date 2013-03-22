@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "Sf2MTAmQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-22T22:22:23Z",
+      "side": 1,
+      "message": "Thanks, would be nice.",
+      "parentUuid": "SgML2Ihg",
+      "revId": "daa089ae53ea0cf45f005c70ae41ba88cebc2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SfyMZCoY",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

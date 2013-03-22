@@ -263,11 +263,11 @@ public class ReceiveCommits {
 
   private final ProjectControl projectControl;
   private final Project project;
+  private final LabelTypes labelTypes;
   private final Repository repo;
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
   private MagicBranchInput magicBranch;
-  private LabelTypes labelTypes;
 
   private List<CreateRequest> newChanges = Collections.emptyList();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -346,6 +346,7 @@ public class ReceiveCommits {
     this.receiveConfig = config;
 
     this.projectControl = projectControl;
+    this.labelTypes = projectControl.getLabelTypes();
     this.project = projectControl.getProject();
     this.repo = repo;
     this.rp = new ReceivePack(repo);
@@ -1124,7 +1125,6 @@ public class ReceiveCommits {
       reject(cmd, "cannot upload review");
       return;
     }
-    labelTypes = projectControl.getLabelTypes();
 
     // Validate that the new commits are connected with the target
     // branch.  If they aren't, we want to abort. We do this check by

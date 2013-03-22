@@ -283,7 +283,7 @@ public class QueryProcessor {
             PatchSet.Id psId = d.getChange().currentPatchSetId();
             PatchSet patchSet = db.get().patchSets().get(psId);
             List<SubmitRecord> submitResult = d.changeControl().canSubmit( //
-                db.get(), patchSet, null, false, true);
+                db.get(), patchSet, null, false, true, true);
             eventFactory.addSubmitRecords(c, submitResult);
           }
 

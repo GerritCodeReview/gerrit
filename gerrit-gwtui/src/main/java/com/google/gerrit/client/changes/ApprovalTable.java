@@ -218,12 +218,15 @@ public class ApprovalTable extends Composite {
             ad.setCanRemove(removableReviewers.contains(id));
             byUser.put(id, ad);
           }
-          ad.votable(name);
-          ad.value(name, ai.value());
-          if (formatValue(ai.value()).equals(max)) {
-            ad.approved(name);
-          } else if (formatValue(ai.value()).equals(min)) {
-            ad.rejected(name);
+          if (ai.has_value()) {
+            ad.votable(name);
+            ad.value(name, ai.value());
+            String fv = formatValue(ai.value());
+            if (fv.equals(max)) {
+              ad.approved(name);
+            } else if (fv.equals(min)) {
+              ad.rejected(name);
+            }
           }
         }
       }

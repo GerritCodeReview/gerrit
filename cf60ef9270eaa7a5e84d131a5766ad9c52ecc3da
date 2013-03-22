@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "SfsQK-i4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-03-22T10:14:33Z",
+      "side": 1,
+      "message": "Technically, the tasks, as implemented right now, may not depend on each other.\n\nHowever, we should consider how vulnerable a Gerrit server is during the process of rename and also how vulnerable it can become due to an error in a task and, in addition, an error to rollback one or more already done tasks.\n\nIn the first step, the child projects are reparented, from the OLD to the NEW name. The NEW project doesn\u0027t exist yet. This means that there could be access rights inherited from the OLD project that are not enforced any more until, in the last step, the OLD is renamed to NEW. This might be a short period of time but a window of vulnerability exists.\n\nHowever, a more critical scenario is if one of follow-up tasks fails and then also rollback of the reparenting child projects fails.\nIn this case the the access rights inherited from the OLD project are not enforced until a Gerrit Admin understands the problem and fixes it. It may take hours.\n\nOne proposal that I would like to discuss is the following:\n* in the first step create a project with the NEW name which BLOCKs read access to refs/*\n* start reparenting the child projects to the NEW project\n* do the other project rename tasks\n* in the last step rename the OLD to NEW in the file system\n\nIn the above described scenario, in the worst case, the reparented projects are not accessible until the problem\nis understood and solved.",
+      "parentUuid": "R2wdWNgw",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rv.OO0nQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 6

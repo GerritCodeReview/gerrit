@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ShR0I8zQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-23T00:43:23Z",
+      "side": 1,
+      "message": "Where is the merge.summary?\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-release.html#merge-stable",
+      "revId": "22df6ee6f97cc22b9e0ff5f8412fcce508ccd4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

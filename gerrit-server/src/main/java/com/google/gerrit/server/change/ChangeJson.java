@@ -251,6 +251,7 @@ public class ChangeJson {
       out.permitted_labels = permittedLabels(cd);
       out.removable_reviewers = removableReviewers(cd, out.labels.values());
     }
+    out.messages = messages(cd);
     out.finish();
 
     if (options.contains(ALL_REVISIONS) || options.contains(CURRENT_REVISION)
@@ -611,6 +612,38 @@ public class ChangeJson {
     return permitted.asMap();
   }
 
+  private Collection<ChangeMessageInfo> messages(ChangeData cd)
+      throws OrmException {
+    List<ChangeMessage> messages =
+        db.get().changeMessages().byChange(cd.getId()).toList();
+    if (messages.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    // chronological order
+    Collections.sort(messages, new Comparator<ChangeMessage>() {
+      @Override
+      public int compare(ChangeMessage a, ChangeMessage b) {
+        return a.getWrittenOn().compareTo(b.getWrittenOn());
+      }
+    });
+
+    List<ChangeMessageInfo> result =
+        Lists.newArrayListWithCapacity(messages.size());
+    for (ChangeMessage message : messages) {
+      PatchSet.Id patchNum = message.getPatchSetId();
+
+      ChangeMessageInfo cmi = new ChangeMessageInfo();
+      cmi.id = message.getKey().get();
+      cmi.author = accountLoader.get(message.getAuthor());
+      cmi.updated = message.getWrittenOn();
+      cmi.message = message.getMessage();
+      cmi.revisionNumber = patchNum != null ? patchNum.get() : null;
+      result.add(cmi);
+    }
+    return result;
+  }
+
   private Collection<AccountInfo> removableReviewers(ChangeData cd,
       Collection<LabelInfo> labels) throws OrmException {
     ChangeControl ctl = control(cd);
@@ -841,6 +874,7 @@ public class ChangeJson {
     Map<String, LabelInfo> labels;
     Map<String, Collection<String>> permitted_labels;
     Collection<AccountInfo> removable_reviewers;
+    Collection<ChangeMessageInfo> messages;
 
     String current_revision;
     Map<String, RevisionInfo> revisions;
@@ -925,5 +959,13 @@ public class ChangeJson {
     ApprovalInfo(Account.Id id) {
       super(id);
     }
+  }
+
+  static class ChangeMessageInfo {
+    String id;
+    AccountInfo author;
+    Timestamp updated;
+    String message;
+    Integer revisionNumber;
   }
 }

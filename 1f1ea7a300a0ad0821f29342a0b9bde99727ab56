@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ShvzsKU4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-23T00:04:30Z",
+      "side": 1,
+      "message": "use if (ai.has_value())",
+      "revId": "1f1ea7a300a0ad0821f29342a0b9bde99727ab56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Shf3sJ04",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-23T00:04:30Z",
+      "side": 1,
+      "message": "I would prefer to write this as:\n\n  public final native short value() /*-{ return this.value; }-*/;\n  public final native boolean has_value() /*-{ return this.hasOwnProperty(\u0027value\u0027); }-*/;",
+      "revId": "1f1ea7a300a0ad0821f29342a0b9bde99727ab56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Shd3xayI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-23T00:04:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a Multimap? A user can vote in more than one label on the current patch set.",
+      "revId": "1f1ea7a300a0ad0821f29342a0b9bde99727ab56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

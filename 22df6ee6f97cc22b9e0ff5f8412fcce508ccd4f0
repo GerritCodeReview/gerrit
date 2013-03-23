@@ -16,6 +16,24 @@
       "revId": "22df6ee6f97cc22b9e0ff5f8412fcce508ccd4f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Shd0YS4Q",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-23T00:44:55Z",
+      "side": 1,
+      "message": "Done. Not sure why you didn\u0027t mention this when I asked how to  do the merge :)",
+      "parentUuid": "ShR0I8zQ",
+      "revId": "22df6ee6f97cc22b9e0ff5f8412fcce508ccd4f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

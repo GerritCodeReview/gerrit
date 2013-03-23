@@ -34,7 +34,10 @@ public enum ListChangesOption {
   ALL_FILES(6),
 
   /** If accounts are included, include detailed account info. */
-  DETAILED_ACCOUNTS(7);
+  DETAILED_ACCOUNTS(7),
+
+  /** Include messages associated with the change. */
+  MESSAGES(9);
 
   private final int value;
 

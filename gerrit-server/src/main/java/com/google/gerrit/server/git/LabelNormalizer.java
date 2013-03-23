@@ -108,7 +108,6 @@ public class LabelNormalizer {
   private PatchSetApproval copy(PatchSetApproval src, ChangeControl ctl) {
     PatchSetApproval dest = new PatchSetApproval(src.getPatchSetId(), src);
     dest.cache(ctl.getChange());
-    dest.setLabel(src.getLabel());
     return dest;
   }
 

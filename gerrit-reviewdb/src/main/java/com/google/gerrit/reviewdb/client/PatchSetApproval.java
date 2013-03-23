@@ -137,9 +137,6 @@ public final class PatchSetApproval {
   @Column(id = 5, length = 16, notNull = false)
   protected String changeSortKey;
 
-  /** Label name copied from corresponding {@link ApprovalCategory}. */
-  protected String label;
-
   protected PatchSetApproval() {
   }
 
@@ -200,15 +197,11 @@ public final class PatchSetApproval {
   }
 
   public String getLabel() {
-    return label;
-  }
-
-  public void setLabel(String label) {
-    this.label = label;
+    return getLabelId().get();
   }
 
   public boolean isSubmit() {
-    return LabelId.SUBMIT.get().equals(getLabelId().get());
+    return LabelId.SUBMIT.get().equals(getLabel());
   }
 
   @Override

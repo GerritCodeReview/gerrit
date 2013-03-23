@@ -150,6 +150,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public static class ApprovalInfo extends AccountInfo {
+    public final native boolean has_value() /*-{ return this.hasOwnProperty('value'); }-*/;
     public final native short value() /*-{ return this.value; }-*/;
 
     protected ApprovalInfo() {

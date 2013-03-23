@@ -316,7 +316,7 @@ public class ChangeControl {
   }
 
   public List<SubmitRecord> getSubmitRecords(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null, false, true);
+    return canSubmit(db, patchSet, null, false, true, false);
   }
 
   public boolean canSubmit() {
@@ -324,12 +324,13 @@ public class ChangeControl {
   }
 
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null, false, false);
+    return canSubmit(db, patchSet, null, false, false, false);
   }
 
- @SuppressWarnings("unchecked")
+  @SuppressWarnings("unchecked")
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
-      @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed) {
+      @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed,
+      boolean allowDraft) {
     if (!allowClosed && change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
@@ -340,23 +341,9 @@ public class ChangeControl {
       return ruleError("Patch set " + patchSet.getPatchSetId() + " is not current");
     }
 
-    try {
-      if (change.getStatus() == Change.Status.DRAFT) {
-        if (!isDraftVisible(db, cd)) {
-          return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
-        } else {
-          return ruleError("Cannot submit draft changes");
-        }
-      }
-      if (patchSet.isDraft()) {
-        if (!isDraftVisible(db, cd)) {
-          return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
-        } else {
-          return ruleError("Cannot submit draft patch sets");
-        }
-      }
-    } catch (OrmException err) {
-      return logRuleError("Cannot read patch set " + patchSet.getId(), err);
+    if ((change.getStatus() == Change.Status.DRAFT || patchSet.isDraft())
+        && !allowDraft) {
+      return cannotSubmitDraft(db, patchSet, cd);
     }
 
     List<Term> results;
@@ -385,6 +372,21 @@ public class ChangeControl {
     }
 
     return resultsToSubmitRecord(evaluator.getSubmitRule(), results);
+  }
+
+  private List<SubmitRecord> cannotSubmitDraft(ReviewDb db, PatchSet patchSet,
+      ChangeData cd) {
+    try {
+      if (!isDraftVisible(db, cd)) {
+        return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
+      } else if (patchSet.isDraft()) {
+        return ruleError("Cannot submit draft patch sets");
+      } else {
+        return ruleError("Cannot submit draft changes");
+      }
+    } catch (OrmException err) {
+      return logRuleError("Cannot read patch set " + patchSet.getId(), err);
+    }
   }
 
   /**

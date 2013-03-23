@@ -208,6 +208,11 @@ default. Optional fields are:
   referencing accounts.
 --
 
+[[messages]]
+--
+* `MESSAGES`: include messages associated with the change.
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES HTTP/1.0
@@ -356,7 +361,8 @@ Get Change Detail
 'GET /changes/link:#change-id[\{change-id\}]/detail'
 
 Retrieves a change with link:#labels[labels], link:#detailed-labels[
-detailed labels] and link:#detailed-accounts[detailed accounts].
+detailed labels], link:#detailed-accounts[detailed accounts], and
+link:#messages[messages].
 
 .Request
 ----
@@ -472,6 +478,30 @@ describes the change.
         "_account_id": 1000097,
         "name": "Jane Roe",
         "email": "jane.roe@example.com"
+      }
+    ],
+    "messages": [
+      {
+        "id": "YH-egE",
+        "author": {
+          "_account_id": 1000096,
+          "name": "John Doe",
+          "email": "john.doe@example.com"
+        },
+        "updated": "2013-03-23 21:34:02.419000000",
+        "message": "Patch Set 1:\n\nThis is the first message.",
+        "revision_number": 1
+      },
+      {
+        "id": "WEEdhU",
+        "author": {
+          "_account_id": 1000097,
+          "name": "Jane Roe",
+          "email": "jane.roe@example.com"
+        },
+        "updated": "2013-03-23 21:36:52.332000000",
+        "message": "Patch Set 1:\n\nThis is the second message.\n\nWith a line break.",
+        "revision_number": 1
       }
     ]
   }
@@ -1815,6 +1845,10 @@ Only set if link:#detailed-labels[detailed labels] are requested.
 The reviewers that can be removed by the calling user as a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities. +
 Only set if link:#detailed-labels[detailed labels] are requested.
+|`messages`|optional|
+Messages associated with the change as a list of 
+link:#change-message-info[ChangeMessageInfo] entities. +
+Only set if link:#messages[messages] are requested.
 |`current_revision`   |optional|
 The commit ID of the current patch set of this change. +
 Only set if link:#current-revision[the current revision] is requested
@@ -1826,6 +1860,27 @@ Only set if link:#all-revisions[all revisions] are requested.
 |`_more_changes`      |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on either the last or the first change that is returned.
+|==================================
+
+[[change-message-info]]
+ChangeMessageInfo
+~~~~~~~~~~~~~~~~~
+The `ChangeMessageInfo` entity contains information about a message
+attached to a change.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==================================
+|Field Name           ||Description
+|`id`                 ||The ID of the message.
+|`author`             |optional|
+Author of the message as an 
+link:rest-api-accounts.html#account-info[AccountInfo] entity. +
+Unset if written by the Gerrit system.
+|`updated`            ||
+The link:rest-api.html#timestamp[timestamp] this message was drafted.
+|`message`            ||The text left by the user.
+|`revision_number`    |optional|
+Which patchset (if any) generated this message.
 |==================================
 
 [[comment-info]]

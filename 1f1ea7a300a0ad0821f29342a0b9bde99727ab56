@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Shb32nxY",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-23T00:22:09Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "ShvzsKU4",
+      "revId": "1f1ea7a300a0ad0821f29342a0b9bde99727ab56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Shf3sJ04",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ShZ374wA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-23T00:22:09Z",
+      "side": 1,
+      "message": "Done. I did it the other way because this means value() will throw an error if you don\u0027t guard it with has_value(). But clearly I know nothing about JSNI style :)",
+      "parentUuid": "Shf3sJ04",
+      "revId": "1f1ea7a300a0ad0821f29342a0b9bde99727ab56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Shd3xayI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-03-23T00:04:30Z",
       "side": 1,
       "message": "Shouldn\u0027t this be a Multimap? A user can vote in more than one label on the current patch set.",
+      "revId": "1f1ea7a300a0ad0821f29342a0b9bde99727ab56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Sh7v2pxY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-23T00:22:09Z",
+      "side": 1,
+      "message": "Actually it should be a Table. In fact that makes lots of sense: build up the sparse table from the existing PatchSetApprovals, then densify it in the following double for loop.\n\nDone.",
+      "parentUuid": "Shd3xayI",
       "revId": "1f1ea7a300a0ad0821f29342a0b9bde99727ab56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

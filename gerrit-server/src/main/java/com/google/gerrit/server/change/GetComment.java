@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,11 +18,24 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.account.AccountInfo;
+import com.google.inject.Inject;
 
-class GetDraft implements RestReadView<DraftResource> {
+class GetComment implements RestReadView<CommentResource> {
+
+  private final AccountInfo.Loader.Factory accountLoaderFactory;
+
+  @Inject
+  GetComment(AccountInfo.Loader.Factory accountLoaderFactory) {
+    this.accountLoaderFactory = accountLoaderFactory;
+  }
+
   @Override
-  public Object apply(DraftResource rsrc) throws AuthException,
+  public Object apply(CommentResource rsrc) throws AuthException,
       BadRequestException, ResourceConflictException, Exception {
-    return new CommentInfo(rsrc.getComment(), null);
+    AccountInfo.Loader accountLoader = accountLoaderFactory.create(true);
+    CommentInfo ci = new CommentInfo(rsrc.getComment(), accountLoader);
+    accountLoader.fill();
+    return ci;
   }
 }

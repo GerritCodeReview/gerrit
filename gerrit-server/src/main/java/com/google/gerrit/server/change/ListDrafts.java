@@ -24,8 +24,10 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.GetDraft.Comment;
-import com.google.gerrit.server.change.GetDraft.Side;
+import com.google.gerrit.server.account.AccountInfo;
+import com.google.gerrit.server.change.CommentInfo;
+import com.google.gerrit.server.change.CommentInfo.Side;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -35,23 +37,36 @@ import java.util.List;
 import java.util.Map;
 
 class ListDrafts implements RestReadView<RevisionResource> {
-  private final Provider<ReviewDb> db;
+  protected final Provider<ReviewDb> db;
+  private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
-  ListDrafts(Provider<ReviewDb> db) {
+  ListDrafts(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf) {
     this.db = db;
+    this.accountLoaderFactory = alf;
+  }
+
+  protected Iterable<PatchLineComment> listComments(RevisionResource rsrc)
+      throws OrmException {
+    return db.get().patchComments()
+        .draftByPatchSetAuthor(
+            rsrc.getPatchSet().getId(),
+            rsrc.getAccountId());
+  }
+
+  protected boolean useAccountLoader() {
+    return false;
   }
 
   @Override
   public Object apply(RevisionResource rsrc) throws AuthException,
       BadRequestException, ResourceConflictException, Exception {
-    Map<String, List<Comment>> out = Maps.newTreeMap();
-    for (PatchLineComment c : db.get().patchComments()
-        .draftByPatchSetAuthor(
-            rsrc.getPatchSet().getId(),
-            rsrc.getAccountId())) {
-      Comment o = new Comment(c);
-      List<Comment> list = out.get(o.path);
+    Map<String, List<CommentInfo>> out = Maps.newTreeMap();
+    AccountInfo.Loader accountLoader =
+        useAccountLoader() ? accountLoaderFactory.create(true) : null;
+    for (PatchLineComment c : listComments(rsrc)) {
+      CommentInfo o = new CommentInfo(c, accountLoader);
+      List<CommentInfo> list = out.get(o.path);
       if (list == null) {
         list = Lists.newArrayList();
         out.put(o.path, list);
@@ -59,10 +74,10 @@ class ListDrafts implements RestReadView<RevisionResource> {
       o.path = null;
       list.add(o);
     }
-    for (List<Comment> list : out.values()) {
-      Collections.sort(list, new Comparator<Comment>() {
+    for (List<CommentInfo> list : out.values()) {
+      Collections.sort(list, new Comparator<CommentInfo>() {
         @Override
-        public int compare(Comment a, Comment b) {
+        public int compare(CommentInfo a, CommentInfo b) {
           int c = firstNonNull(a.side, Side.REVISION).ordinal()
                 - firstNonNull(b.side, Side.REVISION).ordinal();
           if (c == 0) {
@@ -74,6 +89,9 @@ class ListDrafts implements RestReadView<RevisionResource> {
           return c;
         }
       });
+    }
+    if (accountLoader != null) {
+      accountLoader.fill();
     }
     return out;
   }

@@ -42,7 +42,7 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public Response<GetDraft.Comment> apply(RevisionResource rsrc, Input in)
+  public Response<CommentInfo> apply(RevisionResource rsrc, Input in)
       throws AuthException, BadRequestException, ResourceConflictException, OrmException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
@@ -60,9 +60,9 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
         rsrc.getAccountId(),
         Url.decode(in.inReplyTo));
     c.setStatus(Status.DRAFT);
-    c.setSide(in.side == GetDraft.Side.PARENT ? (short) 0 : (short) 1);
+    c.setSide(in.side == CommentInfo.Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
     db.get().patchComments().insert(Collections.singleton(c));
-    return Response.created(new GetDraft.Comment(c));
+    return Response.created(new CommentInfo(c, null));
   }
 }

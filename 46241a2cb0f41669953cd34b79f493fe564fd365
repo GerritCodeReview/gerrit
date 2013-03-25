@@ -34,6 +34,24 @@
       "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Si7f2yBY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-03-25T09:36:38Z",
+      "side": 1,
+      "message": "Thanks! I guess Shawn have to tweak the rXX if he think r30 to cheap/expensive. (Looking at how the other methods computes it\u0027s cost, I\u0027m still not sure which is the best value to put in the method name).",
+      "parentUuid": "SfwMUDk0",
+      "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

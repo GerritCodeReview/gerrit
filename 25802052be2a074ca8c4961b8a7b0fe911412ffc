@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Sj5P73AA",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-25T09:22:47Z",
+      "side": 1,
+      "message": "IIRC it should be `test-submit rule`",
+      "revId": "25802052be2a074ca8c4961b8a7b0fe911412ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Sj3MBYBM",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-25T09:22:47Z",
+      "side": 1,
+      "message": "by the way, can UI plugin now enable us to add a webget to a specific location of an existing page now? \n\ne.g. add a VerticalPanel and a TextBox just above the  Reviewer table on the Change UI. :)\n\n(... I am thinking about how to roll out the \u0027Change label\u0027 plugin)",
+      "revId": "25802052be2a074ca8c4961b8a7b0fe911412ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

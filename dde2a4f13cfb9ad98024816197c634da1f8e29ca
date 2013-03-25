@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Sj-MTMGU",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1523,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T10:02:44Z",
+      "side": 1,
+      "message": "Looks like two \u0027~\u0027 are missing.",
+      "revId": "dde2a4f13cfb9ad98024816197c634da1f8e29ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SiBoI-TQ",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T10:02:44Z",
+      "side": 1,
+      "message": "Looks like two \u0027~\u0027 are missing.",
+      "revId": "dde2a4f13cfb9ad98024816197c634da1f8e29ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SjxMI7DQ",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1680,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T10:02:44Z",
+      "side": 1,
+      "message": "Looks like two \u0027~\u0027 are missing.",
+      "revId": "dde2a4f13cfb9ad98024816197c634da1f8e29ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SiDoLwTU",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1859,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T10:02:44Z",
+      "side": 1,
+      "message": "Link to rest-api-accounts.html#account-info.",
+      "revId": "dde2a4f13cfb9ad98024816197c634da1f8e29ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SiPoTCWU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T10:02:44Z",
+      "side": 1,
+      "message": "Only list those exceptions that can actually be thrown. At least this is what we have agreed on lately. Older code may not follow this rule.",
+      "revId": "dde2a4f13cfb9ad98024816197c634da1f8e29ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SiNoYRYQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T10:02:44Z",
+      "side": 1,
+      "message": "[optional] I would rather name it something like \u0027includeAuthorInfo()\u0027",
+      "revId": "dde2a4f13cfb9ad98024816197c634da1f8e29ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

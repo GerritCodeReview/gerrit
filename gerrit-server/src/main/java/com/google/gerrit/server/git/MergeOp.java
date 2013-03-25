@@ -27,7 +27,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -160,8 +159,7 @@ public class MergeOp {
       final ProjectCache pc, final LabelNormalizer fs,
       final GitReferenceUpdated gru, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
-      final LabelTypes labelTypes, final PatchSetInfoFactory psif,
-      final IdentifiedUser.GenericFactory iuf,
+      final PatchSetInfoFactory psif, final IdentifiedUser.GenericFactory iuf,
       final ChangeControl.GenericFactory changeControlFactory,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHooks hooks, final AccountCache accountCache,

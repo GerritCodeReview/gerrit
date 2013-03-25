@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SiJr77QA",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1751,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T09:26:35Z",
+      "side": 1,
+      "message": "Add an explanation for the \u0027messages\u0027 field and link to #change-message-info.",
+      "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SiLr2sRY",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1768,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T09:26:35Z",
+      "side": 1,
+      "message": "Say that this is an AccountInfo and link to rest-api-accounts.html#account-info where AccountInfo is explained.",
+      "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SiNrxZSI",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1769,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T09:26:35Z",
+      "side": 1,
+      "message": "Link to rest-api.html#timestamp where the timestamp format is explained.",
+      "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Sj1P.ZO8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-25T09:26:35Z",
+      "side": 1,
+      "message": "This always includes the changes messages, even when listing the changes. From the commit message I understood that the messages should only be included for the Get Change Detail endpoint? \n\nI would propose to add a new option to ListChangesOption with which the messages can be included. The GetDetail endpoint should always set this option and users are free to set this option when listing the changes.",
+      "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

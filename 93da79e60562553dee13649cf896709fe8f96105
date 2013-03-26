@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SmmgoY5U",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T18:44:06Z",
+      "side": 1,
+      "message": "We can\u0027t set the status after we have written content. This needs to happen before res.getOutputStream() is invoked.",
+      "revId": "93da79e60562553dee13649cf896709fe8f96105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Smkgln7k",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T18:44:06Z",
+      "side": 1,
+      "message": "I would do:\n\n  res.setStatus(status);\n\n  if (result instanceof StreamingResponse) {\n    ...\n  } else if (result !\u003d Response.none()) {\n\nI think you just put the new streaming block one line too early.",
+      "revId": "93da79e60562553dee13649cf896709fe8f96105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqZkNG0U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GarbageCollect.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T18:44:06Z",
+      "side": 1,
+      "message": "Set the Charset here.",
+      "revId": "93da79e60562553dee13649cf896709fe8f96105",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

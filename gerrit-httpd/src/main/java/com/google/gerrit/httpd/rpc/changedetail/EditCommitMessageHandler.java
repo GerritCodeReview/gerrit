@@ -22,15 +22,14 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -76,7 +75,6 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final PatchSetInfoFactory patchSetInfoFactory;
 
   private final PersonIdent myIdent;
-  private final ApprovalsUtil approvalsUtil;
   private final TrackingFooters trackingFooters;
 
   @Inject
@@ -91,7 +89,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated gitRefUpdated,
       @GerritPersonIdent final PersonIdent myIdent,
-      final ApprovalsUtil approvalsUtil, TrackingFooters trackingFooters) {
+      TrackingFooters trackingFooters) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
@@ -107,7 +105,6 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.myIdent = myIdent;
-    this.approvalsUtil = approvalsUtil;
     this.trackingFooters = trackingFooters;
   }
 
@@ -136,7 +133,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
 
       ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(), commitValidators, currentUser, message, db,
           commitMessageEditedSenderFactory, hooks, git, patchSetInfoFactory, gitRefUpdated, myIdent,
-          approvalsUtil, trackingFooters);
+          trackingFooters);
 
       return changeDetailFactory.create(changeId).call();
     } finally {

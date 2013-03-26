@@ -224,7 +224,7 @@ public class ApprovalTable extends Composite {
             String fv = formatValue(ai.value());
             if (fv.equals(max)) {
               ad.approved(name);
-            } else if (fv.equals(min)) {
+            } else if (ai.value() < 0 && fv.equals(min)) {
               ad.rejected(name);
             }
           }

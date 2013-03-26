@@ -53,27 +53,94 @@ Review UI
 
 Access Controls
 ~~~~~~~~~~~~~~~
-* Remove Reviewer is a new permission.
-* Pushing a signed tag is a new permission.
-* Editing the topic name is a new permission.
-* Raw database access with the `gsql` command is a new global capability.
+* Allow to overrule `BLOCK` permissions on the same project
++
+It was impossible to block a permission for a group and allow the same
+permission for a sub-group of that group as the `BLOCK` permission
+always won over any `ALLOW` permission. For example, it was impossible
+to block the "Forge Committer" permission for all users and then allow
+it only for a couple of privileged users.
++
+An `ALLOW` permission has now  priority over a `BLOCK` permission when
+they are defined in the same access section of a project. To achieve the
+above mentioned policy the following could be defined:
++
+  [access "refs/heads/*"]
+    forgeCommitter = block group Anonymous Users
+    forgeCommitter = group Privileged Users
++
+Across projects the `BLOCK` permission still wins over any `ALLOW`
+permission. This way one cannot override an inherited `BLOCK`
+permission in a subproject.
++
+Overruling of `BLOCK` permissions with `ALLOW` permissions also works
+for labels i.e. permission ranges. If a dedicated 'Verifiers' group
+need to be the only group who can vote in the 'Verified' label and it
+must be ensured that even project owners cannot change this policy,
+then the following can be defined in a common parent project:
++
+  [access "refs/heads/*"]
+    label-Verified = block -1..+1 group Anonymous Users
+    label-Verified = -1..+1 group Verifiers
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1516[issue 1516]:
+  Show global capabilities to all users that can read `refs/meta/config`
++
+Users can now propose changes to the global capabilities for review
+from the WebUI.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_remove_reviewer[
+  Remove Reviewer] is a new permission.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_push_signed[
+  Pushing a signed tag] is a new permission.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_edit_topic_name[
+  Editing the topic name] is a new permission.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#capability_accessDatabase[
+  Raw database access] with the `gsql` command is a new global capability.
 +
 Previously site administrators had this capability by default.  Now it has
 to be explicitly assigned, even for site administrators.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1585[Issue 1585]:
-Viewing other users' draft changes is a new permission.
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_view_drafts[
+  Viewing other users' draft changes] is a new permission.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1675[Issue 1675]:
-Deleting and publishing other users' draft changes is a new permission.
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_delete_drafts[Deleting] and
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_publish_drafts[publishing]
+  other users' draft changes is a new permission.
 
-* LDAP group names are configurable, `cn` is still the default.
-* LDAP cache reduces the number of recursive group queries.
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#ldap.groupName[
+  LDAP group names] are configurable, `cn` is still the default.
+
 * Kerberos authentication to LDAP servers is now supported.
 
-* Basic project properities are now inherited by default from parent
+* LDAP cache reduces the number of recursive group queries.
+
+* Basic project properties are now inherited by default from parent
   projects: Use Content Merge, Require Contributor Agreement, Require
   Change Id, Require Signed Off By.
+
+* Allow assigning `Push` for `refs/meta/config` on `All-Projects`
++
+The `refs/meta/config` branch of the `All-Projects` project should only
+be modified by Gerrit administrators because being able to do
+modifications on this branch means that the user could assign himself
+administrator permissions.
++
+In addition to being administrator Gerrit requires that the
+administrator has the `Push` access right for `refs/meta/config` in
+order to be able to modify it (just as with all other branches
+administrators do not have edit permissions by default).
++
+The problem was that assigning the `Push` access right for
+`refs/meta/config` on the `All-Projects` project was not allowed.
++
+Having the `Push` access right for `refs/meta/config` on the
+`All-Projects` project without being administrator has no effect.
 
 Hooks
 ~~~~~

@@ -219,6 +219,14 @@ determining whether a change is submittable.
 If true, the lowest possible negative value for the label is copied
 forward when a new patch set is uploaded.
 
+[[label_copyMaxScore]]
+`label.Label-Name.copyMaxScore`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If true, the highest possible positive value for the label is copied
+forward when a new patch set is uploaded. This can be used to enable
+sticky approvals, reducing turn-around for trivial cleanups prior to
+submitting a change.
 
 [[label_canOverride]]
 `label.Label-Name.canOverride`

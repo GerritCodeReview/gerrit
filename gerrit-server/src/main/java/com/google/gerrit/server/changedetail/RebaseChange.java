@@ -16,7 +16,6 @@ package com.google.gerrit.server.changedetail;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -72,7 +71,6 @@ public class RebaseChange {
   private final GitReferenceUpdated gitRefUpdated;
   private final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory;
   private final ChangeHookRunner hooks;
-  private final ApprovalsUtil approvalsUtil;
   private final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
@@ -82,7 +80,7 @@ public class RebaseChange {
       final GitRepositoryManager gitManager,
       final GitReferenceUpdated gitRefUpdated,
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
-      final ChangeHookRunner hooks, final ApprovalsUtil approvalsUtil,
+      final ChangeHookRunner hooks,
       final MergeUtil.Factory mergeUtilFactory) {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -92,7 +90,6 @@ public class RebaseChange {
     this.gitRefUpdated = gitRefUpdated;
     this.rebasedPatchSetSenderFactory = rebasedPatchSetSenderFactory;
     this.hooks = hooks;
-    this.approvalsUtil = approvalsUtil;
     this.mergeUtilFactory = mergeUtilFactory;
   }
 
@@ -377,9 +374,9 @@ public class RebaseChange {
             "Change %s was modified", change.getId()));
       }
 
-      final LabelTypes labelTypes = changeControlFactory.controlFor(change)
-          .getLabelTypes();
-      approvalsUtil.copyVetosToPatchSet(db, labelTypes,
+      ApprovalsUtil.copyLabels(db,
+          changeControlFactory.controlFor(change).getLabelTypes(),
+          patchSetId,
           change.currentPatchSetId());
 
       final ChangeMessage cmsg =

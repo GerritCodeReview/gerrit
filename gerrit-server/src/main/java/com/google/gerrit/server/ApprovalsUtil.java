@@ -20,7 +20,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -30,7 +29,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -69,36 +67,30 @@ public class ApprovalsUtil {
    * Moves the PatchSetApprovals to the specified PatchSet on the change from
    * the prior PatchSet, while keeping the vetos.
    *
-   * @param db database connection to use for updates.
-   * @param dest PatchSet to copy to
    * @throws OrmException
    * @return List<PatchSetApproval> The previous approvals
    */
-  public List<PatchSetApproval> copyVetosToPatchSet(ReviewDb db,
-      LabelTypes labelTypes, PatchSet.Id dest) throws OrmException {
-    PatchSet.Id source;
-    if (dest.get() > 1) {
-      source = new PatchSet.Id(dest.getParentKey(), dest.get() - 1);
-    } else {
-      throw new OrmException("Previous patch set could not be found");
-    }
-
-    List<PatchSetApproval> patchSetApprovals =
-        db.patchSetApprovals().byChange(dest.getParentKey()).toList();
-    for (PatchSetApproval a : patchSetApprovals) {
+  public static List<PatchSetApproval> copyLabels(ReviewDb db,
+      LabelTypes labelTypes,
+      PatchSet.Id source,
+      PatchSet.Id dest) throws OrmException {
+    List<PatchSetApproval> copied = Lists.newArrayList();
+    for (PatchSetApproval a : db.patchSetApprovals().byPatchSet(source)) {
       LabelType type = labelTypes.byLabel(a.getLabelId());
-      if (type != null && a.getPatchSetId().equals(source) &&
-          type.isCopyMinScore() &&
-          type.isMaxNegative(a)) {
-        db.patchSetApprovals().insert(
-            Collections.singleton(new PatchSetApproval(dest, a)));
+      if (type == null) {
+        continue;
+      } else if (type.isCopyMinScore() && type.isMaxNegative(a)) {
+        copied.add(new PatchSetApproval(dest, a));
+      } else if (type.isCopyMaxScore() && type.isMaxPositive(a)) {
+        copied.add(new PatchSetApproval(dest, a));
       }
     }
-    return patchSetApprovals;
+    db.patchSetApprovals().insert(copied);
+    return copied;
   }
 
   public void addReviewers(ReviewDb db, LabelTypes labelTypes, Change change,
-      PatchSet ps, PatchSetInfo info, Set<Id> wantReviewers,
+      PatchSet ps, PatchSetInfo info, Set<Account.Id> wantReviewers,
       Set<Account.Id> existingReviewers) throws OrmException {
     List<LabelType> allTypes = labelTypes.getLabelTypes();
     if (allTypes.isEmpty()) {

@@ -96,6 +96,7 @@ public class LabelType {
   protected String abbreviatedName;
   protected String functionName;
   protected boolean copyMinScore;
+  protected boolean copyMaxScore;
 
   protected List<LabelValue> values;
   protected short maxNegative;
@@ -185,6 +186,14 @@ public class LabelType {
 
   public void setCopyMinScore(boolean copyMinScore) {
     this.copyMinScore = copyMinScore;
+  }
+
+  public boolean isCopyMaxScore() {
+    return copyMaxScore;
+  }
+
+  public void setCopyMaxScore(boolean copyMaxScore) {
+    this.copyMaxScore = copyMaxScore;
   }
 
   public boolean isMaxNegative(PatchSetApproval ca) {

@@ -330,7 +330,7 @@ public class ChangeUtil {
       final ChangeHooks hooks, Repository git,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated gitRefUpdated, PersonIdent myIdent,
-      final ApprovalsUtil approvalsUtil, final TrackingFooters trackingFooters)
+      final TrackingFooters trackingFooters)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, PatchSetInfoNotAvailableException {
@@ -445,8 +445,9 @@ public class ChangeUtil {
               "Change %s was modified", change.getId()));
         }
 
-        approvalsUtil.copyVetosToPatchSet(db,
+        ApprovalsUtil.copyLabels(db,
             refControl.getProjectControl().getLabelTypes(),
+            originalPS.getId(),
             change.currentPatchSetId());
 
         final List<FooterLine> footerLines = newCommit.getFooterLines();

@@ -18,7 +18,6 @@ import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
@@ -50,7 +49,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -1767,10 +1765,9 @@ public class ReceiveCommits {
           mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
         }
 
-        List<PatchSetApproval> patchSetApprovals =
-            approvalsUtil.copyVetosToPatchSet(db, labelTypes, newPatchSet.getId());
         final MailRecipients oldRecipients =
-            getRecipientsFromApprovals(patchSetApprovals);
+            getRecipientsFromApprovals(ApprovalsUtil.copyLabels(
+                db, labelTypes, priorPatchSet, newPatchSet.getId()));
         approvalsUtil.addReviewers(db, labelTypes, change, newPatchSet, info,
             recipients.getReviewers(), oldRecipients.getAll());
         recipients.add(oldRecipients);

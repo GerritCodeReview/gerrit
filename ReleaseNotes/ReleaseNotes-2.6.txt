@@ -122,8 +122,6 @@ to be explicitly assigned, even for site administrators.
 
 * Kerberos authentication to LDAP servers is now supported.
 
-* LDAP cache reduces the number of recursive group queries.
-
 * Basic project properties are now inherited by default from parent
   projects: Use Content Merge, Require Contributor Agreement, Require
   Change Id, Require Signed Off By.
@@ -275,6 +273,95 @@ Labels
   action is required.
 * Labels are no longer global; projects may define their own labels,
   with inheritance.
+
+Performance
+~~~~~~~~~~~
+* Bitmap Optimizations
++
+On running the http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-gc.html[
+garbage collection] Jgit creates bitmap data that is saved to an
+auxiliary file. The bitmap optimizations improve the clone and fetch
+performance. git-core will ignore the bitmap data.
+
+* Improve suggest user performance when adding a reviewer.
++
+Do not check the visibility of the change for each suggested account if
+the ref is visible by all registered users.
++
+On a system with about 2-3000 users, where most of the projects are
+visible by every registered user, this improves the performance of the
+suggesting reviewer by a factor of 1000 at least.
+
+* Cache RefControl.isVisible()
++
+For Git repositories with many changes the time for calculating visible
+refs is reduced by 30-50%.
+
+* Allow admins to disable magic ref check on upload
++
+Some sites manage to run their repositories in a way that prevents
+users from ever being able to create `refs/for`, `refs/drafts` or
+`refs/publish` names in a repository. Allow admins on those servers
+to disable this (somewhat) expensive check before every upload.
+
+* Permit ProjectCacheClock to be completely disabled
++
+Some admins may just want to require all updates to projects to be
+made through the web interface, and avoid the small expense of a
+background thread ticking off changes.
+
+* Batch read Change objects during query
+
+* Default `core.streamFileThreshold` to a larger value
++
+If this value is not configured by the server administrator
+performance on larger text files suffers considerably and
+Gerrit may grind to a halt and be unable to answer users.
++
+Default to either 25% of the available JVM heap or ~2048m.
+
+* Improve performance of ReceiveCommits for repositories with many refs
++
+Avoid adding `refs/changes/` and `refs/tags/` to RevWalk's as
+uninteresting since JGit RevWalk doesn't perform well when a large
+number of objects is marked as uninteresting.
+
+* PatchSet.isRef()-optimizations.
++
+PatchSet.isRef() is used extensively when preparing for a ref
+advertisment and the regular expression used by isRefs() was notably
+costly in these circumstances, especially since it could not be
+pre-compiled.
++
+The regular expression is removed and the check is now directly
+implemented. As result the performance of `git ls-remote` could be
+increased upto 15%.
+
+* New config option `receive.checkReferencedObjectsAreReachable`
++
+If set to true, Gerrit will validate that all referenced objects that
+are not included in the received pack are reachable by the user.
++
+Carrying out this check on Git repositories with many refs and commits
+can be a very CPU-heavy operation. For non public Gerrit servers it may
+make sense to disable this check, which is now possible.
+
+* Cache config value in LdapAuthBackend
+
+* Perform a single /accounts/self/capabilities on page load
++
+This joins up 3 requests into a single call, which should speed up
+initial page load for most users.
+
+* Only gzip compress responses that are smaller compressed
+
+* Caching of changes
++
+During Ref Advertisments (via VisibleRefFilter), all changes need to
+be fetched from the database to allow Gerrit to figure out which change
+refs are visible and should be advertised to the user. To reduce
+database traffic a cache for changes was introduced. This cache is
+disabled by default since it can mess-up multi-server setups.
 
 Upgrades
 ~~~~~~~~

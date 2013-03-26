@@ -16,6 +16,24 @@
       "revId": "5e402f0c82d7756fa01c890243c43865d2e0d590",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqvhD8VU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Comments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T15:35:51Z",
+      "side": 1,
+      "message": "Actually you can\u0027t do this. The key is based on the file name but the file name is not included in the IdString parsed from the URI.\n\nBest you can do is what is here, loop through all comments on the patch set and find the one that has the id given.",
+      "parentUuid": "SmcnxkSI",
+      "revId": "5e402f0c82d7756fa01c890243c43865d2e0d590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

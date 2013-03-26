@@ -215,6 +215,24 @@
     },
     {
       "key": {
+        "uuid": "SmSkLjTU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-03-26T09:16:06Z",
+      "side": 1,
+      "message": "Hi, core Maintainers \n\ncan I add a column  on \u0027accunts\u0027 table to roll out this feature?\n\nor do we have plan to migrate \u0027accounts\u0027 out of DB recently? \n\nThanks!\n\n/Bruce",
+      "parentUuid": "QzVU4zNk",
+      "revId": "e8d4d7f6c6137b340280679a294dac98c170fc00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QO.ebwrI",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4

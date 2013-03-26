@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "SqphfVSE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 1012347
+      },
+      "writtenOn": "2013-03-26T20:26:55Z",
+      "side": 1,
+      "message": "Renamed to \"date\" as seen elsewhere.",
+      "parentUuid": "SqVkBwxI",
+      "revId": "fe7ab7bf1f7508316740c5941d6393f0c75b4c60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Sqbn7PwA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-26T18:20:19Z",
       "side": 1,
       "message": "We will eventually get rid of the _number field in RevisionInfo. So maybe name this _revisionNumber or resolve to the revision SHA-1 (key in revisions map at ChangeInfo).",
+      "revId": "fe7ab7bf1f7508316740c5941d6393f0c75b4c60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqLqXsYY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1012347
+      },
+      "writtenOn": "2013-03-26T20:26:55Z",
+      "side": 1,
+      "message": "Looked into using only the sha, but ended up sticking with the number for now (renaming to _revisionNumber).  Two main reasons:\n - The revisions are not loaded unless ALL_REVISIONS\n - SHA only requires at least one prior out-of-band ALL_REVISIONS call to tie back to chronological order.  At least number carries along order on its own.\n\nBtw, once the patch set number is removed, I hope we will at least synthesize it in the ui/api.  Referring to \"PS3\" is nice, or nicer than \"PS\u003csha\u003e\".  Similarly, using ordinals constructing urls for testing the REST api is much easier.",
+      "parentUuid": "Sqbn7PwA",
       "revId": "fe7ab7bf1f7508316740c5941d6393f0c75b4c60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

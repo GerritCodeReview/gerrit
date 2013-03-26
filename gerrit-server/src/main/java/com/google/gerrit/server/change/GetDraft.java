@@ -14,49 +14,15 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
-
-import java.sql.Timestamp;
 
 class GetDraft implements RestReadView<DraftResource> {
   @Override
   public Object apply(DraftResource rsrc) throws AuthException,
       BadRequestException, ResourceConflictException, Exception {
-    return new Comment(rsrc.getComment());
-  }
-
-  static enum Side {
-    PARENT, REVISION;
-  }
-
-  static class Comment {
-    final String kind = "gerritcodereview#comment";
-    String id;
-    String path;
-    Side side;
-    Integer line;
-    String inReplyTo;
-    String message;
-    Timestamp updated;
-
-    Comment(PatchLineComment c) {
-      id = Url.encode(c.getKey().get());
-      path = c.getKey().getParentKey().getFileName();
-      if (c.getSide() == 0) {
-        side = Side.PARENT;
-      }
-      if (c.getLine() > 0) {
-        line = c.getLine();
-      }
-      inReplyTo = Url.encode(c.getParentUuid());
-      message = Strings.emptyToNull(c.getMessage());
-      updated = c.getWrittenOn();
-    }
+    return new CommentInfo(rsrc.getComment(), null);
   }
 }

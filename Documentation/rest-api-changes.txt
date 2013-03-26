@@ -1518,6 +1518,99 @@ Deletes a draft comment from a revision.
   HTTP/1.1 204 No Content
 ----
 
+[[list-comments]]
+List Comments
+~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/'
+
+Lists the published comments of a revision.
+
+As result a map is returned that maps the file path to a list of
+link:#comment-info[CommentInfo] entries. The entries in the map are
+sorted by file path.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/comments/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "kind": "gerritcodereview#comment",
+        "id": "TvcXrmjM",
+        "line": 23,
+        "message": "[nit] trailing whitespace",
+        "updated": "2013-02-26 15:40:43.986000000",
+        "author": {
+          "_account_id": 1000096,
+          "name": "John Doe",
+          "email": "john.doe@example.com"
+        }
+      },
+      {
+        "kind": "gerritcodereview#comment",
+        "id": "TveXwFiA",
+        "line": 49,
+        "in_reply_to": "TfYX-Iuo",
+        "message": "Done",
+        "updated": "2013-02-26 15:40:45.328000000",
+        "author": {
+          "_account_id": 1000097,
+          "name": "Jane Roe",
+          "email": "jane.roe@example.com"
+        }
+      }
+    ]
+  }
+----
+
+[[get-comment]]
+Get Comment
+~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/comments/link:#comment-id[\{comment-id\}]'
+
+Retrieves a published comment of a revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/comments/TvcXrmjM HTTP/1.0
+----
+
+As response a link:#comment-info[CommentInfo] entity is returned that
+describes the published comment.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#comment",
+    "id": "TvcXrmjM",
+    "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+    "line": 23,
+    "message": "[nit] trailing whitespace",
+    "updated": "2013-02-26 15:40:43.986000000",
+    "author": {
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    }
+  }
+----
+
 [[set-reviewed]]
 Set Reviewed
 ~~~~~~~~~~~~
@@ -1581,6 +1674,11 @@ This can be:
 * a Change-Id if it uniquely identifies one change
   ("I8473b95934b5732ac55d26311a706c9c2bde9940")
 * a legacy numeric change ID ("4247")
+
+[[comment-id]]
+\{comment-id\}
+~~~~~~~~~~~~~~
+UUID of a published comment.
 
 [[draft-id]]
 \{draft-id\}
@@ -1739,7 +1837,7 @@ The `CommentInfo` entity contains information about an inline comment.
 |===========================
 |Field Name    ||Description
 |`kind`        ||`gerritcodereview#comment`
-|`id`          ||The URL encoded UUID of the draft comment.
+|`id`          ||The URL encoded UUID of the comment.
 |`path`        |optional|
 The path of the file for which the inline comment was done. +
 Not set if returned in a map where the key is the file path.
@@ -1756,6 +1854,10 @@ The URL encoded UUID of the comment to which this comment is a reply.
 |`updated`     ||
 The link:rest-api.html#timestamp[timestamp] of when this comment was
 written.
+|`author`      |optional|
+The author of the message as an +
+link:rest-api-accounts.html#account-info[AccountInfo] entity. +
+Unset for draft comments, assumed to be the calling user.
 |===========================
 
 [[comment-input]]

@@ -92,7 +92,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   static class Comment {
     String id;
-    GetDraft.Side side;
+    CommentInfo.Side side;
     int line;
     String inReplyTo;
     String message;
@@ -288,7 +288,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         }
         e.setStatus(PatchLineComment.Status.PUBLISHED);
         e.setWrittenOn(timestamp);
-        e.setSide(c.side == GetDraft.Side.PARENT ? (short) 0 : (short) 1);
+        e.setSide(c.side == CommentInfo.Side.PARENT ? (short) 0 : (short) 1);
         e.setMessage(c.message);
         (create ? ins : upd).add(e);
       }

@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.change.GetDraft.Side;
+import com.google.gerrit.server.change.CommentInfo.Side;
 import com.google.gerrit.server.change.PutDraft.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -85,12 +85,12 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     } else {
       db.get().patchComments().update(Collections.singleton(update(c, in)));
     }
-    return new GetDraft.Comment(c);
+    return new CommentInfo(c, null);
   }
 
   private PatchLineComment update(PatchLineComment e, Input in) {
     if (in.side != null) {
-      e.setSide(in.side == GetDraft.Side.PARENT ? (short) 0 : (short) 1);
+      e.setSide(in.side == CommentInfo.Side.PARENT ? (short) 0 : (short) 1);
     }
     if (in.line != null) {
       e.setLine(in.line);

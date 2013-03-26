@@ -16,6 +16,24 @@
       "revId": "a7c4a3a6de7353e24d7ed112f92893f3144a85af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SrLb7SAA",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/EditCommitMessageHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T20:44:15Z",
+      "side": 1,
+      "message": "No, the approvalsUtil was no longer needed inside of editCommitMessage as the method went from instance to static. That meant I could remove the parameter, so I chose to do so and ripple it up through the only caller.",
+      "parentUuid": "SrZX2RBc",
+      "revId": "a7c4a3a6de7353e24d7ed112f92893f3144a85af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SqDofIWY",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "declare fields final if they are only set in the constructor",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqFoo1ZQ",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "nit: we place blank lines between methods. So a blank line should be placed before here.",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqhgLRTU",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "Please try to line-wrap long lines ~80 columns.",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqHolmbk",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "blank line before here.",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqNo.Jcs",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "space after comma",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqBoiXbM",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "nit: space after if, \"if (active)\"",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqjgIiTU",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/GerritGSSAuthenticator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "line-wrap long lines",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqPpD6VU",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "space after comma",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqJpIrXQ",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "space after comma",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqLpNcYM",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "wrap long lines",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqtgTjWU",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "\u003d Lists.newArrayList();",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqvgY0YM",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "blank line before method",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqpgNFUU",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T14:09:17Z",
+      "side": 1,
+      "message": "blank line before method",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

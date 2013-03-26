@@ -84,6 +84,9 @@ New `reviewer-added` hook and stream event when a reviewer is added.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1237[Issue 1237]:
 New `merge-failed` hook and stream event when a change cannot be submitted due to failed merge.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=925[Issue 925]:
+New `ref-update` hook run before a push is accepted by Gerrit.
+
 SSH
 ~~~
 * Descriptions are added to ssh commands.

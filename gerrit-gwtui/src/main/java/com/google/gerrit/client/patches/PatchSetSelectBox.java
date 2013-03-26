@@ -190,10 +190,11 @@ public class PatchSetSelectBox extends Composite {
       return null;
     }
 
-    Patch.Key key =
-        (idSideA == null) ? patchKey : (new Patch.Key(idSideA, patchKey.get()));
+    Patch.Key key = (idActive == null) ? //
+        patchKey : (new Patch.Key(idActive, patchKey.get()));
 
-    String sideURL = (side == Side.A) ? "1" : "0";
+    String sideURL = (idActive == null) ? "1" : "0";
+
     final String base = GWT.getHostPageBaseURL() + "cat/";
 
     Image image = new Image(Gerrit.RESOURCES.downloadIcon());

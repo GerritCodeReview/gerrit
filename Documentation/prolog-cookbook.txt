@@ -269,6 +269,7 @@ NOTE: If `MyProject` doesn't define its own `submit_rule` Gerrit will invoke the
 default implementation of submit rule that is named `gerrit:default_submit` and
 its result will be filtered as described above.
 
+[[HowToWriteSubmitType]]
 How to write submit type
 ------------------------
 Writing custom submit type logic in Prolog is the similar top

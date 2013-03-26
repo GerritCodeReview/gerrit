@@ -206,6 +206,23 @@
     },
     {
       "key": {
+        "uuid": "SqBo9fcg",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2013-03-26T15:09:34Z",
+      "side": 1,
+      "message": "This method was copied from DatabasePubKeyAuthenticator\n\n--- 8\u003c ---\n  private boolean success(final String username, final ServerSession session,\n      final SshSession sd, final CurrentUser user) {\n    if (sd.getCurrentUser() \u003d\u003d null) {\n      sd.authenticationSuccess(username, user);\n\n      // If this is the first time we\u0027ve authenticated this\n      // session, record a login event in the log and add\n      // a close listener to record a logout event.\n-- 8\u003c ---\n\nShould I also submit with this change (or a dependent one) to make DatabasePubKeyAuthenticator call SshUtil.success instead?",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SqpgNFUU",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshUtil.java",
         "patchSetId": 1

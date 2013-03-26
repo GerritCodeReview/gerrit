@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Sq-fxwCE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-26T19:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "SqTkIjzU",
+      "revId": "f8c534baa97cd8645310b65fe60fff8320686f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SmigLizU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-26T18:26:51Z",
       "side": 1,
       "message": "Load this from the database not the AccountCache. For our database I would do this in a transaction:\n\n  db.accounts().beginTransaction(rsrc.getAccountId());\n  try {\n    p \u003d db.accountDiffPreferences().get(rsrc.getAccountId());\n    if (p \u003d\u003d null) {\n      p \u003d new AccountDiffPreferences();\n    }\n    db.accountDiffPreferences().upsert(Collections.singleton(p));\n    db.commit();\n  } finally {\n    db.rollback();\n  }",
+      "revId": "f8c534baa97cd8645310b65fe60fff8320686f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SrNbsxE4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SetDiffPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-26T19:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "SmigLizU",
       "revId": "f8c534baa97cd8645310b65fe60fff8320686f4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

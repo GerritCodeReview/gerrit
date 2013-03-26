@@ -120,6 +120,18 @@ the link:config-gerrit.html#auth.type[auth.type] configuration parameter
 to `DEVELOPMENT_BECOME_ANY_ACCOUNT` to disable OpenID and allow you to
 impersonate whatever account you otherwise would've used.
 
+* Gerrit site doesn't appear, only directory listing is shown. Web toolkit
+developer browser plugin is missing. If there is no warning, that browser
+plugin is missing with the suggestion to install it, you can install the
+right extension for your browser from the following locations:
++
+https://dl.google.com/dl/gwt/plugins/chrome/gwt-dev-plugin.crx[Chrome]
++
+link:https://dl.google.com/dl/gwt/plugins/firefox/gwt-dev-plugin.xpi[Firefox]
++
+link:http://dl.google.com/dl/gwt/plugins/ie/1.0.7263.20091208111100/gwt-dev-plugin.msi[IE]
++
+https://dl.google.com/dl/gwt/plugins/safari/gwt-dev-plugin.dmg[Safari]
 
 GERRIT
 ------

@@ -156,24 +156,50 @@ New `ref-update` hook run before a push is accepted by Gerrit.
 
 SSH
 ~~~
+* New SSH command to http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-gc.html[
+  run Git garbage collection]
++
+All GC runs are logged in a GC log file.
+
 * Descriptions are added to ssh commands.
 +
 If `gerrit` is called without arguments, it will now show a list of available
 commands with their descriptions.
 
 * `create-account --http-password` enables setting/resetting the
-  HTTP password of role accounts, for Git or JSON API access.
+  HTTP password of role accounts, for Git or REST API access.
+
+* http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-ls-user-refs.html[
+  ls-user-refs] lists which refs are visible for a given user.
 
 * `ls-projects --has-acl-for` lists projects that mention a group
   in an ACL, identifying where rights are granted.
 
-* `query` includes submit record information from Prolog rules.
-* `query` includes `resumeSortKey` in summary block.
-* `query` includes author and change size information when given
-  certain options on the command line.
+* `review` command supports project-specific labels
 
-* `test-submit-rule` tests the `can_submit` rule with a prolog script loaded from a file or stdin.
-* `ls-user-refs` lists which refs are visible for a given user.
+* `test-submit-rule` was renamed to `test-submit rule`:
++
+`rule` is now a subcommand of the `test-submit` command.
+
+* http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-test-submit-type.html[
+  test-submit type] tests the Prolog submit type with a chosen change.
+
+Query
+~~~~~
+* Allow `{}` to be used for quoting in query expressions
++
+This makes it a little easier to query for group names that contain
+a space over SSH:
++
+  ssh srv gerrit query " 'status:open NOT reviewerin:{Developer Group}' "
+
+* The query summary block includes `resumeSortKey`.
+
+* Query results include author and change size information when certain
+  options are specified.
+
+* When a file is renamed the old file name is included in the Patch
+  attribute
 
 Plugins
 ~~~~~~~
@@ -248,12 +274,28 @@ to download and install the commit-msg hook.
 
 SSH
 ~~~
-* `plugin ls` shows status of enabled plugins as "ENABLED".
 * `review --restore` allows a review score to be added on the restored change.
+
 * link:https://code.google.com/p/gerrit/issues/detail?id=1721[Issue 1721]:
-`review --message` only adds the message once.
+  `review --message` only adds the message once.
 
 * `ls-groups` prints "N/A" if the group's name is not set.
+
+* `set-project-parent --children-of`: Fix getting parent for level 1 projects
++
+For direct child projects of the `All-Projects` project the name of the
+parent project was incorrectly retrieved if the parent name was not
+explicitly stored as `All-Projects` in the project.config file.
+
+Query
+~~~~~
+* link:https://code.google.com/p/gerrit/issues/detail?id=1729[Issue 1729]:
+  Fix query by 'label:Verified=0'
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1772[Issue 1772]:
+  Set `_more_changes` if result is limited due to configured query limit
+
+* Fix query cost for "status:merged commit:c0ffee"
 
 Email
 ~~~~~

@@ -374,6 +374,79 @@ As response the new ref to which `HEAD` points is returned.
   "refs/heads/stable"
 ----
 
+[[get-repository-statistics]]
+Get Repository Statistics
+~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/statistics.git'
+
+Return statistics for the repository of a project.
+
+.Request
+----
+  GET /projects/plugins%2Freplication/statistics.git HTTP/1.0
+----
+
+The repository statistics are returned as a
+link:#repository-statistics-info[RepositoryStatisticsInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "number_of_loose_objects": 127,
+    "number_of_loose_refs": 15,
+    "number_of_pack_files": 15,
+    "number_of_packed_objects": 67,
+    "number_of_packed_refs": 0,
+    "size_of_loose_objects": 29466,
+    "size_of_packed_objects": 9646
+  }
+----
+
+[[run-gc]]
+Run GC
+~~~~~~
+[verse]
+'POST /projects/link:#project-name[\{project-name\}]/gc'
+
+Run the Git garbage collection for the repository of a project.
+
+.Request
+----
+  POST /projects/plugins%2Freplication/gc HTTP/1.0
+----
+
+The response is the streamed output of the garbage collection.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  collecting garbage for "plugins/replication":
+  Pack refs:              100% (21/21)
+  Counting objects:       20
+  Finding sources:        100% (20/20)
+  Getting sizes:          100% (13/13)
+  Compressing objects:     83% (5/6)
+  Writing objects:        100% (20/20)
+  Selecting commits:      100% (7/7)
+  Building bitmaps:       100% (7/7)
+  Finding sources:        100% (41/41)
+  Getting sizes:          100% (25/25)
+  Compressing objects:     52% (12/23)
+  Writing objects:        100% (41/41)
+  Prune loose objects also found in pack files: 100% (36/36)
+  Prune loose, unreferenced objects: 100% (36/36)
+  done.
+----
+
 [[dashboard-endpoints]]
 Dashboard Endpoints
 -------------------
@@ -804,6 +877,24 @@ project parent.
 Message that should be used to commit the change of the project parent
 in the `project.config` file to the `refs/meta/config` branch.
 |=============================
+
+[[repository-statistics-info]]
+RepositoryStatisticsInfo
+~~~~~~~~~~~~~~~~~~~~~~~~
+The `RepositoryStatisticsInfo` entity contains information about
+statistics of a Git repository.
+
+[options="header",width="50%",cols="1,6"]
+|======================================
+|Field Name                |Description
+|`number_of_loose_objects` |Number of loose objects.
+|`number_of_loose_refs`    |Number of loose refs.
+|`number_of_pack_files`    |Number of pack files.
+|`number_of_packed_objects`|Number of packed objects.
+|`number_of_packed_refs`   |Number of packed refs.
+|`size_of_loose_objects`   |Size of loose objects in bytes.
+|`size_of_packed_objects`  |Size of packed objects in bytes.
+|======================================
 
 
 GERRIT

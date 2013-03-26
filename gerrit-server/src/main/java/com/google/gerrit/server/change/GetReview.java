@@ -24,7 +24,8 @@ public class GetReview implements RestReadView<RevisionResource> {
 
   @Inject
   GetReview(ChangeJson json) {
-    this.json = json.addOption(ListChangesOption.DETAILED_LABELS)
+    this.json = json
+        .addOption(ListChangesOption.DETAILED_LABELS)
         .addOption(ListChangesOption.DETAILED_ACCOUNTS);
   }
 

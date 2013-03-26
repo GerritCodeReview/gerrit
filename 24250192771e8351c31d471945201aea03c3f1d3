@@ -223,6 +223,24 @@
     },
     {
       "key": {
+        "uuid": "SqhgiZbM",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T15:15:02Z",
+      "side": 1,
+      "message": "Maybe make a new parent commit that performs this refactoring and has DatabasePubKeyAuthenticator call this method, and then do your commit which uses this method.",
+      "parentUuid": "SqBo9fcg",
+      "revId": "24250192771e8351c31d471945201aea03c3f1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SqpgNFUU",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshUtil.java",
         "patchSetId": 1

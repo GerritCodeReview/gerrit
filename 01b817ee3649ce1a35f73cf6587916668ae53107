@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "SqHpX2QU",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1751,
+      "author": {
+        "id": 1012347
+      },
+      "writtenOn": "2013-03-26T17:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "SiJr77QA",
+      "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SiLr2sRY",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-25T09:26:35Z",
       "side": 1,
       "message": "Say that this is an AccountInfo and link to rest-api-accounts.html#account-info where AccountInfo is explained.",
+      "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqBpUnf4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1768,
+      "author": {
+        "id": 1012347
+      },
+      "writtenOn": "2013-03-26T17:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "SiLr2sRY",
       "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "SqDpRYQ8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1769,
+      "author": {
+        "id": 1012347
+      },
+      "writtenOn": "2013-03-26T17:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "SiNrxZSI",
+      "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Sj1P.ZO8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-25T09:26:35Z",
       "side": 1,
       "message": "This always includes the changes messages, even when listing the changes. From the commit message I understood that the messages should only be included for the Get Change Detail endpoint? \n\nI would propose to add a new option to ListChangesOption with which the messages can be included. The GetDetail endpoint should always set this option and users are free to set this option when listing the changes.",
+      "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SqFpaFTE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1012347
+      },
+      "writtenOn": "2013-03-26T17:19:57Z",
+      "side": 1,
+      "message": "Done. Messages are available in change queries using the new MESSAGES option.  The option is set automatically when using GetDetail. \n\nI think GetChange ought to take options as well, but I suppose that\u0027s what GetDetail is for.  I did not change it.",
+      "parentUuid": "Sj1P.ZO8",
       "revId": "01b817ee3649ce1a35f73cf6587916668ae53107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -156,7 +156,7 @@ link:cmd-plugin-remove.html[gerrit plugin remove]::
 link:cmd-plugin-remove.html[gerrit plugin rm]::
     Alias for 'gerrit plugin remove'.
 
-link:cmd-test-submit-rule.html[gerrit test-submit-rule]::
+link:cmd-test-submit-rule.html[gerrit test-submit rule]::
 	Test prolog submit rules.
 
 link:cmd-kill.html[kill]::

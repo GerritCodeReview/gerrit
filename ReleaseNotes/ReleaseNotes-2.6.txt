@@ -33,8 +33,12 @@ Review UI
 
 * New 'Rebase If Necessary' submit type. This is similar to cherry
   pick, but honors change dependency information.
-* Submit type displayed per-change in the info block.
-* Submit type selectable per-change by `submit_type` Prolog rules.
+
+* The submit type that is used for submitting a change is shown on the
+  change screen in the info block.
++
+This is useful because the submit type of a change can now be
+link:#submit-type-from-prolog[controlled by Prolog].
 
 * The rebase button is hidden when the patch set is current.
 
@@ -212,6 +216,32 @@ Plugins
 * Commit message length checks are moved to the `commit-message-length-validator`
   plugin which is included as a core plugin in the Gerrit distribution and
   can be installed during site initialization.
+
+Prolog
+~~~~~~
+[[submit-type-from-prolog]]
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html#HowToWriteSubmitType[
+  Support controlling the submit type for changes from Prolog]
++
+Similarly like the `submit_rule` there is now a `submit_type` predicate
+which returns the allowed submit type for a change. When the
+`submit_type` predicate is not provided in the `rules.pl` then the
+project default submit type is used for all changes of that project.
++
+Filtering the results of the `submit_type` is also supported in the
+same way like filtering the results of the `submit_rule`. Using a
+`submit_type_filter` predicate one can enforce a particular submit type
+from a parent project.
+
+* Plugins can contribute Prolog facts/predicates from Java.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=288[issue 288]:
+  Expose basic commit statistics for the Prolog rule engine
++
+A new method `gerrit:commit_stats(-Files,-Insertions, -Deletions)` was
+added.
+
+* A new `max_with_block` predicate was added for more convenient usage
 
 Email
 ~~~~~

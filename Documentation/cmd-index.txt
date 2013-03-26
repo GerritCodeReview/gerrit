@@ -159,6 +159,9 @@ link:cmd-plugin-remove.html[gerrit plugin rm]::
 link:cmd-test-submit-rule.html[gerrit test-submit-rule]::
 	Test prolog submit rules.
 
+link:cmd-test-submit-type.html[gerrit test-submit type]::
+	Test prolog submit type.
+
 link:cmd-kill.html[kill]::
 	Kills a scheduled or running task.
 

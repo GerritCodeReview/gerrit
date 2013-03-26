@@ -1022,10 +1022,6 @@ public class ReceiveCommits {
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
     }
 
-    boolean isRef(Ref ref) {
-      return ctl != null && ref.getName().equals(ctl.getRefName());
-    }
-
     boolean isDraft() {
       return draft;
     }
@@ -1262,7 +1258,10 @@ public class ReceiveCommits {
     try {
       Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
-      markHeadsAsUninteresting(walk, existing);
+      markHeadsAsUninteresting(
+          walk,
+          existing,
+          magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
 
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<Change.Key>();
@@ -1361,14 +1360,17 @@ public class ReceiveCommits {
     return newChanges;
   }
 
-  private void markHeadsAsUninteresting(final RevWalk walk, Set<ObjectId> existing) {
+  private void markHeadsAsUninteresting(
+      final RevWalk walk,
+      Set<ObjectId> existing,
+      @Nullable String forRef) {
     for (Ref ref : allRefs.values()) {
       if (ref.getObjectId() == null) {
         continue;
       } else if (ref.getName().startsWith("refs/changes/")) {
         existing.add(ref.getObjectId());
       } else if (ref.getName().startsWith(R_HEADS)
-          || (magicBranch != null && magicBranch.isRef(ref))) {
+          || (forRef != null && forRef.equals(ref.getName()))) {
         try {
           walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
         } catch (IOException e) {
@@ -1952,7 +1954,7 @@ public class ReceiveCommits {
     try {
       Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(cmd.getNewId()));
-      markHeadsAsUninteresting(walk, existing);
+      markHeadsAsUninteresting(walk, existing, cmd.getRefName());
 
       RevCommit c;
       while ((c = walk.next()) != null) {

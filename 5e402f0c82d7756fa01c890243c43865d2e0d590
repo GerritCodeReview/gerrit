@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SmcnxkSI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Comments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-26T06:29:49Z",
+      "side": 1,
+      "message": "Rather then loading all published comments of this patch set from the database, it may be better to load the patch comment by primary key and then to check its status to see whether it is published. To load the patch comment by primary key, you could instantiate PatchLineComment.Key and then use dbProvider.get().patchComments().get(key).",
+      "revId": "5e402f0c82d7756fa01c890243c43865d2e0d590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

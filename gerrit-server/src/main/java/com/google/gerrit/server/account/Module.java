@@ -33,6 +33,7 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);
     get(ACCOUNT_KIND, "groups").to(GetGroups.class);
+    get(ACCOUNT_KIND, "preferences.diff").to(GetDiffPreferences.class);
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
   }
 }

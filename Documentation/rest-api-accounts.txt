@@ -257,6 +257,41 @@ The response redirects to the URL of the avatar image.
   Location: https://profiles/avatar/john_doe.jpeg?s=20x20
 ----
 
+[[get-diff-preferences]]
+Get Diff Preferences
+~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/preferences.diff'
+
+Retrieves the diff preferences of a user.
+
+.Request
+----
+  GET /a/accounts/self/preferences.diff HTTP/1.0
+----
+
+As result the diff preferences of the user are returned as a
+link:#diff-preferences-info[DiffPreferencesInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "context": 10,
+    "ignore_whitespace": "IGNORE_ALL_SPACE",
+    "intraline_difference": true,
+    "line_length": 100,
+    "show_tabs": true,
+    "show_whitespace_errors": true,
+    "syntax_highlighting": true,
+    "tab_size": 8
+  }
+----
+
 
 [[ids]]
 IDs
@@ -348,6 +383,52 @@ capability.
 link:access-control.html#capability_startReplication[Start Replication]
 capability.
 |=================================
+
+[[diff-preferences-info]]
+DiffPreferencesInfo
+~~~~~~~~~~~~~~~~~~~
+The `DiffPreferencesInfo` entity contains information about the diff
+preferences of a user.
+
+[options="header",width="50%",cols="1,^1,5"]
+|=====================================
+|Field Name              ||Description
+|`context`               ||
+The number of lines of context when viewing a patch.
+|`expand_all_comments`   |not set if `false`|
+Whether all inline comments should be automatically expanded.
+|`ignore_whitespace`     ||
+Whether whitespace changes should be ignored and if yes, which
+whitespace changes should be ignored. +
+Allowed values are `IGNORE_NONE`, `IGNORE_SPACE_AT_EOL`,
+`IGNORE_SPACE_CHANGE`, `IGNORE_ALL_SPACE`.
+|`intraline_difference`  |not set if `false`|
+Whether intraline differences should be highlighted.
+|`line_length`           ||
+Number of characters that should be displayed in one line.
+|`manual_review`         |not set if `false`|
+Whether the 'Reviewed' flag should not be set automatically on a patch
+when it is viewed.
+|`retain_header`         |not set if `false`|
+Whether the header that is displayed above the patch (that either shows
+the commit message, the diff preferences, the patch sets or the files)
+should be retained on file switch.
+|`show_line_endings`     |not set if `false`|
+Whether Windows EOL/Cr-Lf should be displayed as '\r' in a dotted-line
+box.
+|`show_tabs`             |not set if `false`|
+Whether tabs should be shown.
+|`show_whitespace_errors`|not set if `false`|
+Whether whitespace errors should be shown.
+|`skip_deleted`          |not set if `false`|
+Whether deleted files should be skipped on file switch.
+|`skip_uncommented`      |not set if `false`|
+Whether uncommented files should be skipped on file switch.
+|`syntax_highlighting`   |not set if `false`|
+Whether syntax highlighting should be enabled.
+|`tab_size`              ||
+Number of spaces that should be used to display one tab.
+|=====================================
 
 [[query-limit-info]]
 QueryLimitInfo

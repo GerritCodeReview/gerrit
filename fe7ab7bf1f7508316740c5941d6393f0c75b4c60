@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SqVkBwxI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T18:20:19Z",
+      "side": 1,
+      "message": "updated implies to me you can change a message. this isn\u0027t true. maybe created or written or posted are better names for this field?",
+      "revId": "fe7ab7bf1f7508316740c5941d6393f0c75b4c60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Sqbn7PwA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-26T18:20:19Z",
+      "side": 1,
+      "message": "We will eventually get rid of the _number field in RevisionInfo. So maybe name this _revisionNumber or resolve to the revision SHA-1 (key in revisions map at ChangeInfo).",
+      "revId": "fe7ab7bf1f7508316740c5941d6393f0c75b4c60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

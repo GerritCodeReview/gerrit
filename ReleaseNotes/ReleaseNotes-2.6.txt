@@ -33,8 +33,12 @@ Review UI
 
 * New 'Rebase If Necessary' submit type. This is similar to cherry
   pick, but honors change dependency information.
-* Submit type displayed per-change in the info block.
-* Submit type selectable per-change by `submit_type` Prolog rules.
+
+* The submit type that is used for submitting a change is shown on the
+  change screen in the info block.
++
+This is useful because the submit type of a change can now be
+link:#submit-type-from-prolog[controlled by Prolog].
 
 * The rebase button is hidden when the patch set is current.
 
@@ -53,27 +57,94 @@ Review UI
 
 Access Controls
 ~~~~~~~~~~~~~~~
-* Remove Reviewer is a new permission.
-* Pushing a signed tag is a new permission.
-* Editing the topic name is a new permission.
-* Raw database access with the `gsql` command is a new global capability.
+* Allow to overrule `BLOCK` permissions on the same project
++
+It was impossible to block a permission for a group and allow the same
+permission for a sub-group of that group as the `BLOCK` permission
+always won over any `ALLOW` permission. For example, it was impossible
+to block the "Forge Committer" permission for all users and then allow
+it only for a couple of privileged users.
++
+An `ALLOW` permission has now  priority over a `BLOCK` permission when
+they are defined in the same access section of a project. To achieve the
+above mentioned policy the following could be defined:
++
+  [access "refs/heads/*"]
+    forgeCommitter = block group Anonymous Users
+    forgeCommitter = group Privileged Users
++
+Across projects the `BLOCK` permission still wins over any `ALLOW`
+permission. This way one cannot override an inherited `BLOCK`
+permission in a subproject.
++
+Overruling of `BLOCK` permissions with `ALLOW` permissions also works
+for labels i.e. permission ranges. If a dedicated 'Verifiers' group
+need to be the only group who can vote in the 'Verified' label and it
+must be ensured that even project owners cannot change this policy,
+then the following can be defined in a common parent project:
++
+  [access "refs/heads/*"]
+    label-Verified = block -1..+1 group Anonymous Users
+    label-Verified = -1..+1 group Verifiers
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1516[issue 1516]:
+  Show global capabilities to all users that can read `refs/meta/config`
++
+Users can now propose changes to the global capabilities for review
+from the WebUI.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_remove_reviewer[
+  Remove Reviewer] is a new permission.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_push_signed[
+  Pushing a signed tag] is a new permission.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_edit_topic_name[
+  Editing the topic name] is a new permission.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#capability_accessDatabase[
+  Raw database access] with the `gsql` command is a new global capability.
 +
 Previously site administrators had this capability by default.  Now it has
 to be explicitly assigned, even for site administrators.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1585[Issue 1585]:
-Viewing other users' draft changes is a new permission.
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_view_drafts[
+  Viewing other users' draft changes] is a new permission.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1675[Issue 1675]:
-Deleting and publishing other users' draft changes is a new permission.
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_delete_drafts[Deleting] and
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_publish_drafts[publishing]
+  other users' draft changes is a new permission.
 
-* LDAP group names are configurable, `cn` is still the default.
-* LDAP cache reduces the number of recursive group queries.
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#ldap.groupName[
+  LDAP group names] are configurable, `cn` is still the default.
+
 * Kerberos authentication to LDAP servers is now supported.
 
-* Basic project properities are now inherited by default from parent
+* LDAP cache reduces the number of recursive group queries.
+
+* Basic project properties are now inherited by default from parent
   projects: Use Content Merge, Require Contributor Agreement, Require
   Change Id, Require Signed Off By.
+
+* Allow assigning `Push` for `refs/meta/config` on `All-Projects`
++
+The `refs/meta/config` branch of the `All-Projects` project should only
+be modified by Gerrit administrators because being able to do
+modifications on this branch means that the user could assign himself
+administrator permissions.
++
+In addition to being administrator Gerrit requires that the
+administrator has the `Push` access right for `refs/meta/config` in
+order to be able to modify it (just as with all other branches
+administrators do not have edit permissions by default).
++
+The problem was that assigning the `Push` access right for
+`refs/meta/config` on the `All-Projects` project was not allowed.
++
+Having the `Push` access right for `refs/meta/config` on the
+`All-Projects` project without being administrator has no effect.
 
 Hooks
 ~~~~~
@@ -89,24 +160,50 @@ New `ref-update` hook run before a push is accepted by Gerrit.
 
 SSH
 ~~~
+* New SSH command to http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-gc.html[
+  run Git garbage collection]
++
+All GC runs are logged in a GC log file.
+
 * Descriptions are added to ssh commands.
 +
 If `gerrit` is called without arguments, it will now show a list of available
 commands with their descriptions.
 
 * `create-account --http-password` enables setting/resetting the
-  HTTP password of role accounts, for Git or JSON API access.
+  HTTP password of role accounts, for Git or REST API access.
+
+* http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-ls-user-refs.html[
+  ls-user-refs] lists which refs are visible for a given user.
 
 * `ls-projects --has-acl-for` lists projects that mention a group
   in an ACL, identifying where rights are granted.
 
-* `query` includes submit record information from Prolog rules.
-* `query` includes `resumeSortKey` in summary block.
-* `query` includes author and change size information when given
-  certain options on the command line.
+* `review` command supports project-specific labels
 
-* `test-submit-rule` tests the `can_submit` rule with a prolog script loaded from a file or stdin.
-* `ls-user-refs` lists which refs are visible for a given user.
+* `test-submit-rule` was renamed to `test-submit rule`:
++
+`rule` is now a subcommand of the `test-submit` command.
+
+* http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-test-submit-type.html[
+  test-submit type] tests the Prolog submit type with a chosen change.
+
+Query
+~~~~~
+* Allow `{}` to be used for quoting in query expressions
++
+This makes it a little easier to query for group names that contain
+a space over SSH:
++
+  ssh srv gerrit query " 'status:open NOT reviewerin:{Developer Group}' "
+
+* The query summary block includes `resumeSortKey`.
+
+* Query results include author and change size information when certain
+  options are specified.
+
+* When a file is renamed the old file name is included in the Patch
+  attribute
 
 Plugins
 ~~~~~~~
@@ -120,17 +217,55 @@ Plugins
   plugin which is included as a core plugin in the Gerrit distribution and
   can be installed during site initialization.
 
+Prolog
+~~~~~~
+[[submit-type-from-prolog]]
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html#HowToWriteSubmitType[
+  Support controlling the submit type for changes from Prolog]
++
+Similarly like the `submit_rule` there is now a `submit_type` predicate
+which returns the allowed submit type for a change. When the
+`submit_type` predicate is not provided in the `rules.pl` then the
+project default submit type is used for all changes of that project.
++
+Filtering the results of the `submit_type` is also supported in the
+same way like filtering the results of the `submit_rule`. Using a
+`submit_type_filter` predicate one can enforce a particular submit type
+from a parent project.
+
+* Plugins can contribute Prolog facts/predicates from Java.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=288[Issue 288]:
+  Expose basic commit statistics for the Prolog rule engine
++
+A new method `gerrit:commit_stats(-Files,-Insertions, -Deletions)` was
+added.
+
+* A new `max_with_block` predicate was added for more convenient usage
+
 Email
 ~~~~~
+* Notify project watchers if draft change is published
+* Notify users mentioned in commit footer on draft publish
+* Add new notify type that allows watching of new patch sets
+* link:https://code.google.com/p/gerrit/issues/detail?id=1686[Issue 1686]:
+  Add new notify type that allows watching abandoning of changes
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/user-notify.html[
+  Notifications configured in `project.config`] can now be addressed
+  using any of To, CC, or BCC headers.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1531[Issue 1531]:
 Email footers now include `Gerrit-HasComments: {Yes|No}`.
-* Notifications configured in `project.config` can now be addressed
-  using any of To, CC, or BCC headers.
 * `#if($email.hasInlineComments())` can be used in templates to test
   if there are comments to be included in this email.
 * Notification emails are sent to included groups.
 * Comment notification emails are sent to project watchers.
 * "Change Merged" emails include the diff output when `sendemail.includeDiff` is enabled.
+* When link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api-changes.html#set-review[
+  posting a review via REST] the caller can control email delivery
++
+This may help automated systems to be less noisy. Tools can now choose
+which review updates should send email, and which categories of users
+on a change should get that email.
 
 Labels
 ~~~~~~
@@ -181,25 +316,45 @@ to download and install the commit-msg hook.
 
 SSH
 ~~~
-* `plugin ls` shows status of enabled plugins as "ENABLED".
 * `review --restore` allows a review score to be added on the restored change.
+
 * link:https://code.google.com/p/gerrit/issues/detail?id=1721[Issue 1721]:
-`review --message` only adds the message once.
+  `review --message` only adds the message once.
 
 * `ls-groups` prints "N/A" if the group's name is not set.
 
+* `set-project-parent --children-of`: Fix getting parent for level 1 projects
++
+For direct child projects of the `All-Projects` project the name of the
+parent project was incorrectly retrieved if the parent name was not
+explicitly stored as `All-Projects` in the project.config file.
+
+Query
+~~~~~
+* link:https://code.google.com/p/gerrit/issues/detail?id=1729[Issue 1729]:
+  Fix query by 'label:Verified=0'
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1772[Issue 1772]:
+  Set `_more_changes` if result is limited due to configured query limit
+
+* Fix query cost for "status:merged commit:c0ffee"
+
 Email
 ~~~~~
-* Missing email templates are added to the site initialization.
 * Merge failure emails are only sent once per day.
 * Unused macros are removed from the mail templates.
 * Unnecessary ellipses are no longer applied to email subjects.
-* The diff output from an "octopus merge" is made more readable in change notification emails.
+* The empty diff output from an "octopus merge" is now explained in change notification emails.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1480[Issue 1480]:
 Proper error message is shown when registering an email address fails.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1692[Issue 1692]:
 Review comments are sorted before being added to notification emails.
+
+* Fix watching of 'All Comments' on `All-Projects`
++
+If a user is watching 'All Comments' on `All-Projects` this should
+apply to all projects.
 
 Documentation
 -------------

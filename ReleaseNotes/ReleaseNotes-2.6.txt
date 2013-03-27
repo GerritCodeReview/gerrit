@@ -824,6 +824,120 @@ refs are visible and should be advertised to the user. To reduce
 database traffic a cache for changes was introduced. This cache is
 disabled by default since it can mess-up multi-server setups.
 
+Misc
+~~~~
+* Add config parameter to make new groups by default visible to all
++
+Add a new http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#groups.newGroupsVisibleToAll[
+Gerrit configuration parameter] that controls whether newly
+created groups should be by default visible to all registered users.
+
+* Support for OpenID domain filtering
++
+Added the ability to only allow email addresses under specific domains
+to be used for OpenID login.
++
+The allowed domains can be configured by setting
+http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#auth.openIdDomain[
+auth.openIdDomain] in the Gerrit configuration.
+
+* Always configure
+  http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#gerrit.canonicalWebUrl[
+  gerrit.canonicalWebUrl] on init
++
+Gerrit has been requiring this field for several versions now, but init
+did not configure it. Ensure there is a value set so the server is not
+confused at runtime.
+
+* Add submodule subscriptions fetching by projects
++
+While submodule subscriptions can be fetched by branch, some plugins
+(e.g.: delete-project) would rather need to access all submodule
+subscriptions of a project (regardless of the branch). Instead of
+iterating over all branches of a project, and fetching the
+subscription for each branch separately, we allow fetching of
+subscriptions directly by projects.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1805[Issue 1805]:
+  Make client SSL certificates that contain an email address work
++
+Authentication with CLIENT_SSL_CERT_LDAP didn't work if the certificate
+contained email address.
+
+* Guess LDAP type of Active Directory LDS as ActiveDirectory
++
+If Gerrit connects to an AD LDS [1] server it will guess its type as
+RCF_2307 instead of ActiveDirectory. The reason is that an AD LDS
+doesn't support the "1.2.840.113556.1.4.800" capability.  However,
+AD LDS behaves like ActiveDirectory and Gerrit also needs to guess
+its type as ActiveDirectory to make the default query patterns work
+properly.
++
+Extend the LDAP server type guessing by checking for presence of the
+"1.2.840.113556.1.4.1851" capability which indicates that this LDAP
+server runs ActiveDirectory as AD LDS [2].
++
+Also remove the check for the presence of the "defaultNamingContext"
+attribute as we don't use it anywhere and, by default, this attribute is
+not set on an AD LDS [3]
++
+[1] http://msdn.microsoft.com/en-us/library/aa705886(VS.85).aspx +
+[2] http://msdn.microsoft.com/en-us/library/cc223364.aspx +
+[3] http://technet.microsoft.com/en-us/library/cc816929(v=ws.10).aspx
+
+* Allow group descriptions to supply email and URL
++
+Some backends have external management interfaces that are not
+embedded into Gerrit Code Review. Allow those backends to supply
+a URL to the web management interface for a group, so a user can
+manage their membership, view current members, or do whatever other
+features the group system might support.
++
+Some backends also have an email address associated with every
+group. Sending email to that address will distribute the message to
+the group's members. Permit backends to supply an optional email
+address, and use this in the project level notification system if
+a group is selected as the target for a message.
+
+* Allow group backends to guess on relevant UUIDs
++
+Expose all cheaply known group UUIDs from the ProjectCache,
+enumerating groups used by access controls. This allows a backend
+that has a large number of groups to filter its getKnownGroups()
+output to only groups that may be relevant for this Gerrit server.
++
+The best use case to consider is an LDAP server at a large
+organization. A typical user may belong to 50 LDAP groups, but only
+3 are relevant to this Gerrit server. Taking the intersection of
+the two groups limits the output Gerrit displays to users, or uses
+when considering same group visibility.
+
+* Add more forbidden characters for project names
++
+`?`, `%`, `*`, `:`, `<`, `>`, `|`, `$`, `\r` are now forbidden in
+project names.
+
+* Make `gerrit.sh` LSB compliant
++
+** Add LSB headers
+** Add 'status' as synonym for 'check'
+** Fix exit status codes according to http://refspecs.linux-foundation.org/LSB_3.2.0/LSB-Core-generic/LSB-Core-generic/iniscrptact.html
+
+* Option to start headless Gerrit daemon
++
+Add `--headless` option to the Daemon which will start Gerrit daemon
+without the Web UI front end (headless mode).
++
+This may be useful for running Gerrit server with an alternative (rest
+based) UI or when starting Gerrit server for the purpose of automated
+REST/SSH based testing.
++
+Currently this option is only supported via the `--headless` option of
+the daemon program. We would need to introduce a config option in order
+to support this feature for deployed war mode.
+
+* Show path to gerrit.war in command for upgrade schema
+
 Upgrades
 ~~~~~~~~
 * link:https://code.google.com/p/gerrit/issues/detail?id=1619[Issue 1619]:
@@ -1243,6 +1357,160 @@ Review comments are sorted before being added to notification emails.
 +
 If a user is watching 'All Comments' on `All-Projects` this should
 apply to all projects.
+
+Misc
+~~~~
+* Provide more descriptive message for NoSuchProjectException
+
+* On internal error due to receive timeout include the value of
+  `receive.timeout` into the log message
+
+* Silence INFO/DEBUG output from apache.http
++
+This spammed the log when using OpenID, for each and every login.
+
+* Remove `mysql_nextval` script
++
+This function does not work on binary logging enabled servers,
+as MySQL is unable to execute the function on slaves without
+causing possible corruption. Drop the function since it was only
+created to help administrators, and is unsafe.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1312[Issue 1312]:
+  Fix relative URL detection in submodules
++
+Relative submodules do not start with `/`. Instead they start with
+`../`.  Fix the Submodule Subscriptions engine to recognize relative
+submodules.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1622[Issue 1622]:
+  Fix NPE in LDAP Helper class if username is null
+
+* Fix commit-msg hook failure with spaces in path
++
+If the project absolute path had any whitespace, the commit
+hook failed to complete because a script variable was not
+enclosed in double quotes.
+
+* Drop the trailing ".git" suffix of the name of new project
+
+* Prevent possible NPE when running `change-merged` hook
++
+It's possible that the submitter is null. Add a check for this
+before invoking the `change-merged` hook with it.
+
+* Keep change open if its commit is pushed to another branch.
+
+* Fire GitReferenceUpdated event when BanCommit updates the
+  `refs/meta/reject-commits` branch.
+
+* Fix GitWeb Caching
++
+GitWeb Caching was not working when its cgi file was executed from
+outside. The same approach will also work with vanilla GitWeb.
+
+* Fix infinite loops when walking project hierarchy
+
+* Fix resource leak in MarkdownFormatter
+
+* Query all external groups for internal group memberships
++
+When asking for the known groups a user belongs to they may belong
+to an internal group by way of membership in a non-internal group,
+such as LDAP. Cache in memory the complete list of any non-internal
+group UUIDs used as members of an internal group. These must get
+checked for membership before completing the known group data from
+the internal backend.
+
+* Handle sorting groups with no name to avoid NPE
+
+* `gerrit.sh`
+** Don't suggest site init if schema version is newer than expected
+** Improve error messages in schema check
+** Suggest changing `gerrit.config` when JDK not found
+** Explicitly set a shell
+** Determine `GERRIT_SITE` from current working directory.
+** Fix `gerrit.sh restart` for relative paths
+** Fix site path computation if '.' occurs in path
+** Whitespace fixes
+
+* Display the reason of an Init injection failure.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1821[Issue 1821]:
+  Warn if `cache.web_sessions.maxAge` is to small
++
+Setting `maxAge` to a small value can result in the browser endlessly
+redirecting trying to setup a new valid session. Warn administrators
+that the value is set smaller than 5 minutes.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1821[Issue 1821]:
+  Support `cache.web_sessions.maxAge` < 1 minute
+
+* Use SECONDS as default time unit for `cache.web_sessions.maxAge`
++
+DefaultCacheFactory already uses SECONDS as default time unit for
+`cache.*.maxAge`.
++
+Update the described default time unit for `cache.*.maxAge` in the
+documentation.
++
+Administrators may need to update their configuration to for the new
+default time unit.
+
+* Add pylint configuration for contributed Python scripts
+
+* Various fixes and improvements of the `contrib/trivial_rebase.py`
+  script
++
+** Adapt options to Gerrit 2.6
+** Use change-url flag for ChangeId
+** Prevent exception for empty commit
+** Fix pylint errors
+** Use plain python instead of python2.6
++
+Windows installation only has python.exe
+
+* Correct MIME type of `favicon.ico` reference
++
+This is not a GIF, it is an "MS Windows icon resource".
+Some browsers may skip the image if the type is wrong.
+
+* Use `<link rel="shortcut icon">` for `favicon.ico` reference
++
+IE looks for a two-word "shortcut icon" relationship.  Other browsers
+interpret this as two relationships, one of which is "icon", so they
+can handle this syntax as well.
++
+See:
++
+** http://msdn.microsoft.com/en-us/library/ms537656(VS.85).aspx
+** http://jeffcode.blogspot.com/2007/12/why-doesnt-favicon-for-my-site-appear.html
+
+* Remove `servlet-api` from `WAR/lib`
++
+It is wrong to include the servlet API in a WAR's `WEB-INF/lib`
+directory. This confuses some servlet containers who refuse to
+load the Gerrit WAR. Instead package the Jetty runtime and the
+servlet API in a new `WEB-INF/pgm-lib` directory.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1822[Issue 1822]:
+  Verify session matches container authentiation header
++
+If the user alters their identity in the container invalidate
+the Gerrit user session and force a new one to begin.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1743[Issue 1743]:
+  Move RPC auth token from `Authorization` header to `X-Gerrit-Auth`
++
+Servers that run with auth.type = HTTP or HTTP_LDAP are unable to
+use the web UI because the Authorization code supplied by the UI
+overrides the browser's native `Authorization` header and causes the
+request to be blocked at the HTTP reverse proxy, before Gerrit even
+sees the request.
++
+Instead insert a unique token into `X-Gerrit-Auth`, leaving the HTTP
+standard `Authorization` header unspecified and available for use in
+HTTP reverse proxies.
 
 Documentation
 -------------

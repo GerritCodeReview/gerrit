@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SsZGSvJc",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2013-03-27T18:43:47Z",
+      "side": 1,
+      "message": "Also we provided support for IE10, probably worth mentioning.",
+      "revId": "c4204c2faf414704277a8501e85ac1e3ce4fcbd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

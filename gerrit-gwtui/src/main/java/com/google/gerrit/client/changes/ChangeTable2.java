@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
-import static com.google.gerrit.client.FormatUtil.shortFormat;
+import static com.google.gerrit.client.FormatUtil.relativeFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
@@ -206,7 +206,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         row, C_PROJECT, new ProjectLink(c.project_name_key(), c.status()));
     table.setWidget(row, C_BRANCH, new BranchLink(c.project_name_key(), c
         .status(), c.branch(), c.topic()));
-    table.setText(row, C_LAST_UPDATE, shortFormat(c.updated()));
+    table.setText(row, C_LAST_UPDATE, relativeFormat(c.updated()));
 
     boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()
         .getGeneralPreferences().isShowUsernameInReviewCategory();

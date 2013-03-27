@@ -119,6 +119,11 @@ public class FormatUtil {
     }
   }
 
+  /** Format a date using git log's relative date format. */
+  public static String relativeFormat(Date dt) {
+    return RelativeDateFormatter.format(dt);
+  }
+
   @Deprecated
   public static String nameEmail(com.google.gerrit.common.data.AccountInfo acct) {
     return nameEmail(asInfo(acct));

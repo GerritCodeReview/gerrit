@@ -16,6 +16,24 @@
       "revId": "2c21be00599b3d447528c56319daabd45871c6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SrfUY2IM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-27T12:03:10Z",
+      "side": 1,
+      "message": "Me too. I spent half an hour or so trying to clean up ListProjects without rewriting it before I gave up, so I went with the minimal change that gave me what I wanted with the gitiles plugin instead.",
+      "parentUuid": "Sq7f7SAA",
+      "revId": "2c21be00599b3d447528c56319daabd45871c6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

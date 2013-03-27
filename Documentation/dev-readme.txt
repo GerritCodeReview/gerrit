@@ -130,6 +130,7 @@ using an administrator user account:
 ----
 
 
+[[debug-javascript]]
 Debugging JavaScript
 ~~~~~~~~~~~~~~~~~~~~
 

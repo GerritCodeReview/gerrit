@@ -880,6 +880,7 @@ non-blocked rules as they wish. This gives best of both worlds:
 * Project owners can manage access rights of their projects without a danger
   of violating a site wide policy
 
+[[block]]
 'BLOCK' access rule
 ~~~~~~~~~~~~~~~~~~~
 

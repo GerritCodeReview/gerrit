@@ -270,6 +270,35 @@ Plugin Screens
 Earlier no status was shown for enabled plugins, which was confusing to
 some users.
 
+Project Dashboards
+~~~~~~~~~~~~~~~~~~
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/user-dashboards.html#project-dashboards[
+  Support for storing custom dashboards for projects]
++
+Custom dashboards can now be stored in the projects
+`refs/meta/dashboards/*` branches.
++
+The project dashboards are shown in a new project screen and can be
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api-projects.html#dashboard-endpoints[
+accessed via REST].
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/user-dashboards.html#project-default-dashboard[
+  Allow defining a default dashboard for projects]
+
+* Support inheritance for project dashboards.
++
+In dashboards queries the `${project}` token can be used as placeholder
+for the project name. This token will be replaced with the project to
+which a dashboard is being applied.
+
+* On the project list screen a query icon is displayed for each project
+  that links to the default dashboard of that project.
+
+* Support a `foreach` parameter for custom dashboards.
++
+The `foreach` parameter which will get appended to all the queries in
+the dashboard.
+
 Access Controls
 ~~~~~~~~~~~~~~~
 * Allow to overrule `BLOCK` permissions on the same project

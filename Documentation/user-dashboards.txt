@@ -56,6 +56,7 @@ to changes for the current user:
 ----
 
 
+[[project-dashboards]]
 Project Dashboards
 ------------------
 
@@ -132,6 +133,7 @@ section.<name>.query::
 The change query that should be used to populate the section with the
 given name.
 
+[[project-default-dashboard]]
 Project Default Dashboard
 -------------------------
 

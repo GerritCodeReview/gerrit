@@ -1249,26 +1249,125 @@ Documentation
 
 User Documentation
 ~~~~~~~~~~~~~~~~~~
+* Split link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api.html[
+  REST API documentation] and have one page per top level resource
 
-* Added documentation of how to authenticate uploads over HTTP.
-* Added documentation of the `auth.editFullNameUrl` and `auth.httpPasswordUrl` configuration parameters.
+* Add executable examples for GET requests to
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api.html[
+  REST API documentation]
++
+Add examples for GET requests to the REST API documentation on which
+the user can click to fire the requests. This allows users to
+immediately try out the requests and play around with them.
+
+* Document the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#block[
+  BLOCK access rule].
+
+* Added documentation of
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/user-upload.html#http[
+  how to authenticate uploads over HTTP].
+
+* Added documentation of the
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#auth.editFullNameUrl[auth.editFullNameUrl] and
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#auth.httpPasswordUrl[auth.httpPasswordUrl]
+  configuration parameters.
+
+* Add link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html[
+  submit_rule examples] from Gerrit User Summit 2012.
+
 * Improved the push tag examples in the access control documentation.
+
 * Improved documentation of error messages related to commit message footer content.
-* Added documentation of the "commit already exists" error message.
-* Added documentation of contributor agreements.
-* Added missing documentation of JSON attributes.
-* Added missing documentation of mail templates.
-* Added missing documentation of the ssh `version` command.
+
+* Added documentation of the
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/error-commit-already-exists.html[
+  commit already exists] error message.
+
+* Added missing documentation of the ssh
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-version.html[
+  version] command.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1369[Issue 1369]:
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gitweb.html[
+  Gitweb Instruction Updates]
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1594[Issue 1594]:
+  Document execute permission for commit-msg in
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/user-changeid.html#creation[
+  Change-Id docs]
+
 * link:https://code.google.com/p/gerrit/issues/detail?id=1602[Issue 1602]:
 Corrected references to `refs/changes` in the access control documentation.
 
+* Update documentation of
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#trackingid.name.match[
+  maximal length for tracking ids]
+
+* Added missing documentation of
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/json.html[JSON attributes].
+
+* Rename `custom-dashboards.html` to
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/user-dashboards.html[user-dashboards.html]
++
+This document no longer deals exclusively with custom dashboards, it now describes project level dashboards also.
+
+* Separate the
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-login-register.html[
+  initial user setup instructions] to a shared file
+
+* Separate the
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/database-setup.html[
+  database setup instructions] to a shared file
+
+* Improve the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/database-setup.html[
+  instructions for PgSQL setup]
+
+* Fix the order of steps in the
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/install-j2ee.html[
+  J2EE Installation document]
++
+It is better to first define the JNDI data source in the application
+server and then deploy Gerrit than opposite. This should avoid errors
+like "No DataSource" on the first deployment.
+
+* Clarify documentation of
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#ldap.groupName[
+  LDAP group name setting]
+
+* Adapt documentation to having 'Projects' as top level menu
+* Added missing documentation of mail templates.
+* Added documentation of contributor agreements.
+* Fix `init.d` symbolic link commands.
+* Remove obsolete diskbuffer setting from example config file.
 * Various minor grammatical and formatting corrections.
+* Fix external links in 2.0.21 and 2.0.24 release notes
 * Manual pages can be optionally created/installed for core gerrit ssh commands.
 
 Developer And Maintainer Documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Updated the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-eclipse.html#maven[
+  Maven plugin installation instructions] for Eclipse 3.7 (Indigo).
 
-* Updated the Maven plugin installation instructions for Eclipse 3.7 (Indigo).
-* Improved the release documentation.
+* Document link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-contributing.html#commit-message[
+  usage of the past tense in commit messages]
+
+* Add link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-contributing.html[
+  instructions] on how to configure git for pushing to Gerrit's Gerrit
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-contributing.html#process[
+  Stable branches process documentation]
+
+* Improved the
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-release.html[
+  release documentation].
+
+* Document that plans for
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-release.html#stable[
+  stable-fix releases] should be announced
+
+* Document process for
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-release.html#security[
+  security-fix releases]
+
 * The release notes are now made when a release is created by running the `tools/release.sh` script.
 

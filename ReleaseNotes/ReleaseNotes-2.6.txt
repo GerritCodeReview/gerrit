@@ -526,6 +526,37 @@ Labels
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-labels.html[
   projects may define their own labels], with inheritance.
 
+Dev
+~~~
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/dev-readme.html#debug-javascript[
+  Support loading debug JavaScript]
+
+* Gerrit acceptance tests
++
+An infrastructure for testing the Gerrit daemon via REST and/or SSH
+protocols has been added. Gerrit daemon is run in the headless mode and
+in the same JVM where the tests run. Besides using REST/SSH, the tests
+can also access Gerrit server internals to prepare the test environment
+and to perform assertions.
++
+A new review site is created for each test and the Gerrit daemon is
+started on that site. When the test has finished the Gerrit daemon is
+shutdown.
+
+* Lightweight LDAP server for debugging
+
+* Add asciidoc checks in the documentation makefile
++
+Exit with error if the asciidoc executable is not available or has
+version lower than 8.6.3.
++
+The release script is aborted if asciidoc is missing.
+
+* Added sublime project files to `.gitignore`
+
+* Exclude all `pom.xml` files that are archetype resources in `version.sh`
+
 Performance
 ~~~~~~~~~~~
 * Bitmap Optimizations

@@ -171,4 +171,10 @@ public interface ChangeConstants extends Constants {
 
   String diffAllSideBySide();
   String diffAllUnified();
+
+  String inTheFuture();
+  String month();
+  String months();
+  String year();
+  String years();
 }

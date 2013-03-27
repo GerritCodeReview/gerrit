@@ -33,6 +33,7 @@ public interface AccountConstants extends Constants {
   String reversePatchSetOrder();
   String showUsernameInReviewCategory();
   String buttonSaveChanges();
+  String showRelativeDateInChangeTable();
 
   String tabAccountSummary();
   String tabPreferences();

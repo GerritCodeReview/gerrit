@@ -400,6 +400,51 @@ New `merge-failed` hook and stream event when a change cannot be submitted due t
 * link:https://code.google.com/p/gerrit/issues/detail?id=925[Issue 925]:
 New `ref-update` hook run before a push is accepted by Gerrit.
 
+* Add `--is-draft` parameter to `comment-added` hook
+
+Git
+~~~
+* Add options to `refs/for/` magic branch syntax
++
+Git doesn't want to modify the network protocol to support passing
+data from the git push client to the server. Work around this by
+embedding option data into a new style of reference specification:
++
+----
+  refs/for/master%r=alice,cc=bob,cc=charlie,topic=options
+----
++
+is now parsed by the server as:
++
+--
+** set topic to "options"
+** CC charlie and bob
+** add reviewer alice
+** for branch refs/heads/master
+--
++
+If `%` is used the extra information after the branch name is
+parsed as options with args4j. Each option is delimited by `,`.
++
+Selecting publish vs. draft should be done with the options `draft` or
+`publish`, appearing anywhere in the refspec after the `%` marker:
++
+----
+  refs/for/master%draft
+  refs/for/master%draft,r=alice
+  refs/for/master%r=alice,draft
+  refs/for/master%r=alice,publish
+----
+
+* Added a link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#core.useRecursiveMerge[
+  server-level option] to use JGit's new, experimental recursive merger.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1608[Issue 1608]:
+Commits pushed without a Change-Id now warn with instructions on how
+to download and install the commit-msg hook.
+
+* Add `oldObjectId` and `newObjectId` to the `GitReferenceUpdatedListener.Update`
+
 SSH
 ~~~
 * New SSH command to http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-gc.html[
@@ -834,20 +879,109 @@ confusing.
 Git
 ~~~
 * The wildcard `.` is now permitted in reference regex rules.
+
 * Checking if a change is mergeable no longer writes to the repository.
-* Improved `git ls-remote` and `git fetch` performance by caching
-  changes, decreasing database queries and traffic.
-* link:https://code.google.com/p/gerrit/issues/detail?id=1608[Issue 1608]:
-Commits pushed without a Change-Id now warn with instructions on how
-to download and install the commit-msg hook.
 
 * Submitted but unmerged changes are periodically retried. This is
   necessary for a multi-master configuration where the second master
   may need to retry a change not yet merged by the first. Please note
   we still do not believe this is sufficient to enable multi-master.
 
-* Added a server-level option to use JGit's new, experimental recursive
-  merger.
+* Retry merge after LOCK_FAILURE when updating branch
++
+If the project requires fast-forwards, the merge cannot succeed once
+a lock failure occurs, but in other cases, it is safe to retry the
+merge immediately.
+
+* Do not automatically add reviewers from footer lines to draft patch sets
++
+Gerrit already avoids adding reviewers from footer lines when a new
+draft change is created. Now the same is done for draft patch sets.
+
+* Add users mentioned in commit footer as reviewers on draft publish
+
+* Hide any existing magic branches during push
++
+If there is a magic branch visible during push, just hide it from the
+client. Administrators can clear these by accessing the repository
+directly.
+
+* Prevent from deleting `refs/changes/`
++
+Everything under `refs/changes/` should be protected by Gerrit, users
+shouldn't be able to delete a particular patch set or a whole change
+from the review process.
+
+* Update description file in Git
++
+When writing the description to `project.config`, it is also necessary
+to write it to the description file in the repository so the same text
+is visible in CGit or GitWeb.
+
+* Write valid reflog for `HEAD` when creating the `All-Projects`
+  project
++
+When the `All-Projects` project is created during the schema
+initialization, `HEAD` is set to point to the `refs/meta/config`
+branch. When `HEAD` is updated an entry into the reflog is written.
+This ref log entry should contain the ID of the initial commit as
+target, but instead the target was the zero ID.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1702[Issue 1702]:
+  Fix: 'internal server error' when pushing the same commit twice
++
+On the second push of the same commit to `refs/for/<branch name>`, Gerrit
+returns 'no new changes'.
++
+However if the user pushed to 'refs/changes/<change id>', Gerrit returned
+'internal server error'.
+
+* Match all git fetch/clone/push commands to the command executor
++
+Route not just `/p/` but any Git access to the same thread pool as the
+SSH server is using, allowing all requests to compete fairly for
+resources.
+
+* Fix auto closing of changes on direct push
++
+When a commit was directly pushed into a repository (bypassing code
+review) and this commit had a Change-Id in its commit message then the
+corresponding change was not automatically closed if it was open.
+
+* Set change state to NEW if merge fails due to non-existing dest branch
++
+If a submitted change failed to merge because the destination branch
+didn't exist anymore, it stayed in state 'Submitted, Merge Pending'.
+This meant Gerrit was re-attempting to merge this change (e.g. on
+startup), but this didn't make sense. Either the branch did still not
+exist (then there was no need to try merging it) or a new branch with
+the old name was created (then it was questionable if the change should
+still be merged into this branch). This is why it's better to set the
+change back to the 'Review in Progress' state and update it with a
+message saying that it couldn't be merged because the destination
+branch doesn't exist anymore.
++
+In addition Gerrit was writing an error into the error log if a change
+couldn't be merged because the destination branch wass missing.
+That was not really a server error and is not logged anymore.
+
+* Fix NPE when pushing a patch with an invalid author with
+  `Forge Author` permissions
+
+* Fix duplicated GitReferenceUpdated event on project creation.
++
+Creating a new Gerrit project was firing the GitReferenceUpdated event
+for the `refs/meta/config` branch two times.
+
+* Fix error log message in ReceiveCommits
++
+When the creation of one or more references failed ReceiveCommits failed
+with 'internal server error' and wrote the following error log:
+"Only X of Y new change refs created in xxx; aborting"
+The printed value for Y could be wrong since it didn't include the
+replaceCount. As a result, a confusing message like
+"Only 0 of 0 new change refs created in xxx; aborting"
+could appear in the error log.
 
 SSH
 ~~~
@@ -863,6 +997,12 @@ SSH
 For direct child projects of the `All-Projects` project the name of the
 parent project was incorrectly retrieved if the parent name was not
 explicitly stored as `All-Projects` in the project.config file.
+
+* Fix NPE when abandoning change with invalid author
++
+If the author of a change isn't known to Gerrit (pushed with
+`Forge Author` permissions), trying to abandon that change over SSH
+failed with an NPE.
 
 Query
 ~~~~~

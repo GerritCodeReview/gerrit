@@ -34,6 +34,40 @@
       "revId": "2c21be00599b3d447528c56319daabd45871c6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "St2v.QfA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-27T14:02:33Z",
+      "side": 1,
+      "message": "I can\u0027t drop TEXT support here. Its actively in use by some of our automation tools. Fortunately its not the default. :-)",
+      "revId": "2c21be00599b3d447528c56319daabd45871c6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "St0sBBRM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-27T14:02:33Z",
+      "side": 1,
+      "message": "How about we also add:\n\n  public Map\u003cString,ProjectInfo\u003e apply() {\n    return display(null);\n  }\n\nThen its almost like apply that returns Object but you get the Map type and don\u0027t have to pass the TopLevelResource.INSTANCE.",
+      "revId": "2c21be00599b3d447528c56319daabd45871c6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

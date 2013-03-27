@@ -8,6 +8,7 @@ Java 6 or later SDK is also required to run GWT's compiler and
 runtime debugging environment.
 
 
+[[maven]]
 Maven Plugin
 ------------
 

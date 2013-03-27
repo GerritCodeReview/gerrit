@@ -24,15 +24,91 @@ newer, you may ignore this warning and upgrade directly to 2.6.x.
 New Features
 ------------
 
-Review UI
-~~~~~~~~~
-* The reviewer matrix on a change displays gray boxes where
-  permissions do not allow voting in that category. The coloring
-  enables authors to quickly identify if another reviewer is
-  necessary to continue the change.
+Web UI
+~~~~~~
 
-* New 'Rebase If Necessary' submit type. This is similar to cherry
-  pick, but honors change dependency information.
+Global
+^^^^^^
+
+* Rename "Groups" top-level menu to "People"
+
+* Move "Draft Comments" link next to "Drafts" link
+
+* Highlight the active menu item
+
+* Move user info, settings, and logout to popup dialog
+
+* Show a small version of the avatar image next to the user's name.
+
+* Show avatar image in user info popup dialog
+
+* Always show 'Working ...' message
++
+The 'Working ...' message is now not anymore sticked to the Gerrit page
+top border so that it is now always displayed, even if the user has
+scrolled down the page and the top border is not visible.
++
+This change make 'Working ...' message relatively positioned to
+browser top border, so that it is always visible for users.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#suggest.from[
+  suggest.from] configures a minimum number of characters before
+  matches for reviewers, accounts, groups or projects are offered.
+
+* Make the default font size "small".
+
+* Mark all CSS classes as external so users can rely on them.
+
+Search
+^^^^^^
+* Animate search bar by expanding & unexpanding
++
+When the search bar is used, expand it to allow for more text to be
+visible. When it is blurred, shrink it back to the original size.
+
+* Suggest projects, groups and users in search panel
++
+Suggest projects, groups and users in the search panel as parameter for
+those search operators that expect a project, group or user.
+
+* In search panel suggest 'self' as value for operators that expect a user
+
+* Quote values suggested for search operators only if needed
++
+The values that are suggested for the search operators in the search
+panel are now only quoted if they contain a whitespace.
+
+Change Screens
+^^^^^^^^^^^^^^
+
+* A change's commit message can be edited from the change screen.
+
+* A change's topic can be added, removed or changed from the
+  change screen.
+
+* An "Add Comment" button is added to change screen
+
+* The reviewer matrix on a change displays gray boxes where permissions
+  do not allow voting in that category.
++
+The coloring enables authors to quickly identify if another reviewer
+is necessary to continue the change.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=353[Issue 353] &
+  link:https://code.google.com/p/gerrit/issues/detail?id=1123[Issue 1123]:
+  New link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/project-setup.html#rebase_if_necessary[
+  Rebase If Necessary] submit type
++
+This is similar to cherry pick, but honors change dependency
+information.
+
+* The rebase button is hidden when the patch set is current.
+
+* Improved review message when a change is rebased in the UI
++
+When a change is rebased in the UI by pressing the rebase button, a
+comment is added onto the review. Instead of only saying 'Rebased' the
+message is now more verbose, e.g. 'Patch Set 1 was rebased'.
 
 * The submit type that is used for submitting a change is shown on the
   change screen in the info block.
@@ -40,20 +116,162 @@ Review UI
 This is useful because the submit type of a change can now be
 link:#submit-type-from-prolog[controlled by Prolog].
 
-* The rebase button is hidden when the patch set is current.
-
-* `suggest.from` configures a minimum number of characters before
-  matches for reviewers, accounts, groups or projects are offered.
-
-* A change's topic can be added, removed or changed from the
-  change screen.
-
-* A change's commit message can be edited from the change screen.
+* Replace the All Diff buttons on the change screen with links
++
+The action buttons to open the diff for all files in own tabs consumed
+too much space due to the long label texts.
 
 * The patch set review screen can include radio buttons for custom
   labels if enabled by
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html#_how_to_write_submit_rules[submit rules].
 
+* Recommend rebase on Path Conflict
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1685[Issue 1685]:
+  After 'Up to change' expand the patch set that was just reviewed
++
+After clicking on the 'Up to change' link on a patch screen, the patch
+set that was just reviewed is automatically expanded on the change
+screen.
+
+* Allow direct change URLs to end with '/'.
+
+* Slightly increase commit message text size from 8px to 9px.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1381[Issue 1381]:
+  Remove the ID column from change tables
++
+Users don't really need the ID column present. For most changes the
+subject is descriptive and unique enough to identify the correct
+change.
+
+* Do not wrap project/branch/owner fields in change table
++
+This makes it easier to use Gerrit on narrow screens.
+
+Patch Screens
+^^^^^^^^^^^^^
+
+* Support for file comments
++
+It is now possible to comment on a whole file in a patch.
+
+* Have the reviewed panel also at the bottom of the patch screen
++
+Reviewers normally review patches top down, finishing the review when
+they reach the bottom of the patch. To use the streamlined review
+workflow they now don't need to scroll back to the top to find the
+reviewed checkbox and link.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1494[Issue 1494]:
+  Use mono-font for displaying the file contents
++
+This avoids alignment errors when syntax highlighting is enabled.
+
+Project Screens
+^^^^^^^^^^^^^^^
+
+* Support filtering of projects in the project list screen
++
+Filter matches are highlighted by bold printing.
++
+The filter is reflected by the `filter` URL parameter.
+
+* Support filtering of projects in ProjectListPopup
++
+Filter matches are highlighted by bold printing.
+
+* Display a query icon for each project in the project list screen that
+  links to the default query/dashboard of that project.
+
+* Replace projects side menus with top menus
++
+The top menus are submenus to the Project Menu and they appear only
+when a project has been selected.
+
+* Remember the last Project Screen used
++
+Remember the last project screen used every time a project screen is
+loaded. Go to the remembered screen when selecting a new project from
+the project list instead of always going to the project info screen.
+
+* Remember the last project viewed
++
+Remember the last project viewed when navigating away from a project
+screen.  If there is a remembered project, then the extra project links
+are not hidden.
+
+* Add clone panel to the project general screen
+
+* New screen for listing and accessing the project dashboards.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1677[Issue 1677]:
+  Place the 'Browse' button to select a watched project next to input field
+
+* Ask user to login if project is not found
++
+Accessing a project URL was failing with 'Not Found - The page you
+requested was not found, or you do not have permission to view this
+page' if the user was not signed in and the project was not visible to
+'Anonymous Users'. Instead Gerrit now asks the user to login and
+afterwards shows the project to the user if it exists and is visible.
+If the project doesn't exist or is not visible, the user will still get
+the Not Found screen after sign in.
+
+* Improve error handling on branch creation
++
+Improve the error messages that are displayed in the WebUI if the
+creation of a branch fails due to invalid user input.
+
+Group Screens
+^^^^^^^^^^^^^
+
+* Support filtering of groups in the group list screen
++
+Filter matches are highlighted by bold printing.
++
+The filter is reflected by the `filter` URL parameter.
+
+* Remove group type from group info screen
++
+The information about the group type was not much helpful. All groups
+that can be seen in Gerrit are of type 'INTERNAL', except a few
+well-known system groups which are of type 'SYSTEM'. The system groups
+are so well-known that there is no need to display the type for them.
+
+Dashboard Screens
+^^^^^^^^^^^^^^^^^
+
+* Link dashboard title to a URL version of itself
++
+When using a stable project dashboard URL, the URL obfuscates the
+content of the dashboard which can make it hard to debug a dashboard or
+copy and modify it. In the special case of stable dashboards, make the
+title a link to an unstable URL version of the dashboard with the URL
+reflecting the actual dashboard contents the way a custom dashboard
+does.
+
+* Increase time span for "Recently Closed" section in user dashboard to 4 weeks.
+
+Account Screens
+^^^^^^^^^^^^^^^
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1740[Issue 1740]:
+  Display description how to generate SSH Key in SshPanel
++
+Display a description of how to generate an SSH Key in an expandable
+section in the SshPanel instead of linking to the GitHub SSH tutorial.
+The GitHub SSH tutorial was partially not relevant and confused users.
+
+* Make the text for "Register" customizable
+
+Plugin Screens
+^^^^^^^^^^^^^^
+
+* Show status for enabled plugins in the WebUI as 'Enabled'
++
+Earlier no status was shown for enabled plugins, which was confusing to
+some users.
 
 Access Controls
 ~~~~~~~~~~~~~~~
@@ -271,8 +489,9 @@ Labels
   configured in `project.config`. Existing categories are migrated to
   `project.config` in `All-Projects` as part of the schema upgrade; no user
   action is required.
-* Labels are no longer global; projects may define their own labels,
-  with inheritance.
+* Labels are no longer global;
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-labels.html[
+  projects may define their own labels], with inheritance.
 
 Performance
 ~~~~~~~~~~~
@@ -379,9 +598,178 @@ Bug Fixes
 
 Web UI
 ~~~~~~
+* link:https://code.google.com/p/gerrit/issues/detail?id=1662[Issue 1662]:
+  Don't show error on ACL modification if empty permissions are added
++
+This error message was incorrectly displayed if a permission without
+rules was added, although the save was actually successful.
+
+* Don't show error on ACL modification if a section is added more than once
++
+This error message was incorrectly displayed if multiple sections for
+the same ref were added, although the save was actually successful.
+
 * Links to CGit were broken when `remove-suffix` was enabled.
+
 * link:https://code.google.com/p/gerrit/issues/detail?id=926[Issue 926]:
 Internet Explorer versions 9 and 10 are supported.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1664[Issue 1664]:
+  Reverting a change did not preserve the change's topic
+
+* Fix: User could get around restrictions by reverting a commit
++
+The Gerrit server may enforce several restrictions on the commit
+message (change-id required, signed-off-by, etc). A user was able to
+get around these restrictions by reverting a commit using the UI.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1518[Issue 1518]:
+  Reset 'Old Version History' if dependent change is opened
++
+Following the navigation link in the dependencies table on the
+change screen, the user can directly navigate to dependent changes.
+The value for 'Old Version History' of the current change was
+incorrectly applied to the new change. If the value was invalid for
+the new change the 'Old Version History' field became blank.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1736[Issue 1736]:
+  Clear 'Old Version History' ListBox before populating it
++
+The ListBox was not always cleared and as result the same entries were
+sometimes added multiple times e.g. after rebasing a change in the
+WebUI.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1673[Issue 1673]:
+  Fix disappearance of patch headers when compared patches are identical
++
+When two patches were compared that were identical 'No Differences' is
+displayed to the user. In this case the patch headers disappeared and
+as result the user couldn't change the patch selection anymore.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1759[Issue 1759]:
+  Fix ArrayIndexOutOfBoundsException on intraline diff
++
+In some cases displaying the intraline diff failed with an exception like
+this:
++
+----
+java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 10
+  at com.google.gerrit.prettify.common.SparseFileContent.mapIndexToLine(SparseFileContent.java:149)
+  at com.google.gerrit.prettify.common.PrettyFormatter.format(PrettyFormatter.java:188)
+  at com.google.gerrit.client.patches.AbstractPatchContentTable.getSparseHtmlFileB(AbstractPatchContentTable.java:287)
+  at com.google.gerrit.client.patches.SideBySideTable.render(SideBySideTable.java:113)
+  at com.google.gerrit.client.patches.AbstractPatchContentTable.display(AbstractPatchContentTable.java:238)
+  at com.google.gerrit.client.patches.PatchScreen.onResult(PatchScreen.java:444)
+...
+----
++
+This happened when the old line was:
++
+----
+  foo-old<LF>
+----
++
+and the new line was:
++
+----
+  foo-new<CRLF>
+----
+
+* Prevent leading and trailing spaces on user's Full Name
++
+Strip off the leading and trailing spaces from the Full Name that the
+user enters on the Contact Information form.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1480[Issue 1480]:
+  Show proper error message if registering email address fails
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=816[Issue 816]:
+  Due to issues with the diff_intraline cache the file indention in the
+  Side-By-Side diff was sometimes wrong.
+
+* Make rebase failed and merge failed messages consistent
+
+* Select 'Projects' menu on loading of a project screen
++
+If in the top level menu 'All' is selected and the user navigates to
+a change and then from the change to the project by clicking on the
+project link in the ChangeInfoBlock, the project screen is loaded but
+the 'Projects' menu was not selected.
+
+* Fix display issues for inline comments and inline comment editors
++
+** Sometimes a second comment editor was shown instead of using the
+   existing comment editor.
+** Fix doublicated border line between comments.
+** Sometimes the parts of the border were missing when a comment was
+   expanded.
+** Fix displaying the blue line that marks the current line when there
+   are several published comments.
+** Sometimes on discard of a comment some frames of the comment editor
+   stayed and some border lines of neighbour comments disappeared.
+
+* In diff view don't let arrow column accept clicks.
+
+* Fix display of commit message
++
+If there are no HTML tags in the text, just break on lines.
+
+* Upon selection in AddMemberBox, focus the box's text field
++
+In the change screen, after clicking on an element of the 'Add
+Reviewer' suggestion list, users expect to be able to add the reviewer
+by hitting enter. This did not work in Firefox.
+
+* Fix enter key detection in project creation screen
++
+The enter key detection was not working in all browsers (e.g. Firefox).
+
+* Display a tooltip for all tiny icons and ensure that the cursor is
+  shown as pointer when hovering over them.
+
+* Clean query string when switching pages
++
+If we load a page without a query string, such as Projects->List,
+My->Changes, or Settings, it might be confusing to show the old query
+string from the previous page. The query string is now cleared out
+when switching pages, leaving the help text visible.
+
+* Fix highlighting in search suggestions
++
+The provided suggestions should highlight the part that the user has
+already typed as bold text. This only worked for the first operator.
+For suggestions of any further operator no hightlighting was done.
+
+* Fix style of hint text in search box on initial page load
++
+The hint text should be a light gray on the white background,
+but was coming up black on initial page load due to a style setup
+ordering issue between the SearchPanel and the HintTextBox.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1661[Issue 1661]:
+  Update links to Change-Id and Signed-off-by docu on project info
+  screen
+
+* Use href="javascript;" for All {Side-by-Side,Unified} links
++
+These links shouldn't have an anchor location. There is nothing for
+the browser to remember or visit if it were opened in a new tab for
+example.
+
+* Improve message for unsatisfiable dependencies
++
+If a change cannot be merged due to unsatisfiable dependencies a
+comment is added to the change that lists the missing commits and says
+that a rebase is necessary.
++
+For each missing commit the comment said "Depends on patch set X
+of ..., however the current patch set is Y."
++
+If multiple commits are missing it may be that for some commits the
+dependency is not outdated (X == Y). In this case the message was
+confusing.
++
+", however the current patch set is Y." is now skipped if Y == X.
 
 Git
 ~~~

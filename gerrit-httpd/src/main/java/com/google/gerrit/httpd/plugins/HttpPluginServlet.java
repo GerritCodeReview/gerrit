@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -257,8 +258,11 @@ class HttpPluginServlet extends HttpServlet
     }
 
     if ("".equals(file)) {
-      res.sendRedirect(uri + "Documentation/index.html");
-    } else if (file.startsWith("static/")) {
+      res.sendRedirect(uri + holder.docPrefix + "index.html");
+      return;
+    }
+
+    if (file.startsWith(holder.staticPrefix)) {
       JarFile jar = holder.plugin.getJarFile();
       JarEntry entry = jar.getJarEntry(file);
       if (exists(entry)) {
@@ -267,11 +271,12 @@ class HttpPluginServlet extends HttpServlet
         resourceCache.put(key, Resource.NOT_FOUND);
         Resource.NOT_FOUND.send(req, res);
       }
-    } else if (file.equals("Documentation")) {
+    } else if (file.equals(
+        holder.docPrefix.substring(0, holder.docPrefix.length() - 1))) {
       res.sendRedirect(uri + "/index.html");
-    } else if (file.startsWith("Documentation/") && file.endsWith("/")) {
+    } else if (file.startsWith(holder.docPrefix) && file.endsWith("/")) {
       res.sendRedirect(uri + "index.html");
-    } else if (file.startsWith("Documentation/")) {
+    } else if (file.startsWith(holder.docPrefix)) {
       JarFile jar = holder.plugin.getJarFile();
       JarEntry entry = jar.getJarEntry(file);
       if (!exists(entry)) {
@@ -574,10 +579,32 @@ class HttpPluginServlet extends HttpServlet
   private static class PluginHolder {
     final Plugin plugin;
     final GuiceFilter filter;
+    final String staticPrefix;
+    final String docPrefix;
 
     PluginHolder(Plugin plugin, GuiceFilter filter) {
       this.plugin = plugin;
       this.filter = filter;
+      this.staticPrefix =
+        getPrefix(plugin, "Gerrit-HttpStaticPrefix", "static/");
+      this.docPrefix =
+        getPrefix(plugin, "Gerrit-HttpDocumentationPrefix", "Documentation/");
+    }
+
+    private static String getPrefix(Plugin plugin, String attr, String def) {
+      try {
+        String prefix = plugin.getJarFile().getManifest().getMainAttributes()
+            .getValue(attr);
+        if (prefix != null) {
+          return CharMatcher.is('/').trimFrom(prefix) + "/";
+        } else {
+          return def;
+        }
+      } catch (IOException e) {
+        log.warn(String.format("Error getting %s for plugin %s, using default",
+            attr, plugin.getName()), e);
+        return null;
+      }
     }
   }
 

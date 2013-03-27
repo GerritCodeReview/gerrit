@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SsZEN3EQ",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-27T14:27:35Z",
+      "side": 1,
+      "message": "Double checked locking is only save if the field is volatile.\n\nBut really just simplify things for yourself and do this in the constructor when the PluginHolder is created. It costs very little time and we are already spending a lot to create the plugin and get it registered. This little bit of extra time to load one more property from the manifest... a drop in the bucket.\n\nThen you can declare the field final and be done with it.",
+      "revId": "3ea0b565f7a3cb5d78874b73d8bb6bc68172c382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -123,6 +123,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 11)
   protected boolean showUsernameInReviewCategory;
 
+  @Column(id = 12)
+  protected boolean relativeDateInChangeTable;
+
   public AccountGeneralPreferences() {
   }
 
@@ -226,6 +229,14 @@ public final class AccountGeneralPreferences {
     timeFormat = fmt.name();
   }
 
+  public boolean isRelativeDateInChangeTable() {
+    return relativeDateInChangeTable;
+  }
+
+  public void setRelativeDateInChangeTable(final boolean relativeDateInChangeTable) {
+    this.relativeDateInChangeTable = relativeDateInChangeTable;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -237,5 +248,6 @@ public final class AccountGeneralPreferences {
     downloadCommand = null;
     dateFormat = null;
     timeFormat = null;
+    relativeDateInChangeTable = true;
   }
 }

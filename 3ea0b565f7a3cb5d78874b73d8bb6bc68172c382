@@ -16,6 +16,24 @@
       "revId": "3ea0b565f7a3cb5d78874b73d8bb6bc68172c382",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Stysf2WU",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-03-27T14:31:59Z",
+      "side": 1,
+      "message": "Duh, s/transient/volatile/ above.\n\nThe real reason I did this is it throws IOException, and install() can\u0027t throw. But I can just change it to log and continue, that\u0027s fine.",
+      "parentUuid": "SsZEN3EQ",
+      "revId": "3ea0b565f7a3cb5d78874b73d8bb6bc68172c382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

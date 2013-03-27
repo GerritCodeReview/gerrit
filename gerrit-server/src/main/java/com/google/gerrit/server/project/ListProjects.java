@@ -37,7 +37,6 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.gerrit.server.util.TreeFormatter;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -219,7 +218,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     return display(null);
   }
 
-  public JsonElement display(OutputStream displayOutputStream) {
+  public Map<String, ProjectInfo> display(OutputStream displayOutputStream) {
     PrintWriter stdout = null;
     if (displayOutputStream != null) {
       try {
@@ -393,9 +392,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         info.name = null;
       }
       if (stdout == null) {
-        return OutputFormat.JSON.newGson().toJsonTree(
-            output,
-            new TypeToken<Map<String, Object>>() {}.getType());
+        return output;
       } else if (format.isJson()) {
         format.newGson().toJson(
             output, new TypeToken<Map<String, ProjectInfo>>() {}.getType(), stdout);

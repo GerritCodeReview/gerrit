@@ -593,6 +593,10 @@ Embedded Jetty is now 8.1.7.v20120910.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1155[Issue 1155]:
 prettify is now r225
 
+* The used GWT version is now 2.5.0
++
+Fixes some issues with IE9.
+
 Bug Fixes
 ---------
 

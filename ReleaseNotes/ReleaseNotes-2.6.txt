@@ -270,6 +270,139 @@ Plugin Screens
 Earlier no status was shown for enabled plugins, which was confusing to
 some users.
 
+REST API
+~~~~~~~~
+
+* A big chunk of the Gerrit functionality is now available via the
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api.html[REST API].
++
+The REST API is *NOT* complete yet and some functionality is still missing.
++
+To find out which functionality is available, check the REST endpoint documentation for
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api-projects.html[projects],
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api-changes.html[changes], 
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api-groups.html[groups] and
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api-accounts.html[accounts].
+
+* Support setting `HEAD` of a project
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api-projects.html#set-head[via REST].
+
+* Audit support for REST API.
++
+Allow generating Audit events related to REST API execution. The
+structure of the AuditEvent has been extended to support the new
+name-multivalue pairs used in the REST API.
++
+This is breaking compatibility with the 2.5 API as it changes the
+params data type, this is needed anyway as the previous list of
+Objects was not providing all the necessary information of
+"what relates to what" in terms of parameters info.
++
+Existing support for SSH and JSON-RPC events have been adapted in
+order to fit into the new name-multivalue syntax: this allow a
+generic audit plug-in to capture all parameters regardless of where
+they have been generated.
+
+* Remove support for deprecated `--format` option when listing changes
++
+Querying changes via REST is now always producing JSON output.
+
+* Introduce `id` property on REST entities
++
+The `/changes/` entities now use `id` to include a triplet of the
+project, branch and change-id string to uniquely identify that change
+on the server. This moves the old `id` field to be named `change_id`,
+which is a breaking change.
+
+* Accept common forms of malformed JSON
++
+Some clients may send JSON-ish instead of JSON. Be nice to those
+clients and accept various useful forms of incorrect syntax:
++
+** End of line comments starting with `//` or `#` and ending with a
+   newline character.
+** C-style comments starting with `/*` and ending with `*/`
+   Such comments may not be nested.
+** Names that are unquoted or single quoted.
+** Strings that are unquoted or single quoted.
+** Array elements separated by `;` instead of `,`.
+** Unnecessary array separators. These are interpreted as if null was
+   the omitted value.
+** Names and values separated by `=` or `=>` instead of `:`.
+** Name/value pairs separated by `;` instead of `,`.
+
+* Be more liberal about parsing JSON responses
++
+If the response begins with the JSON magic string, remove it before
+parsing. If a response is missing this leading string, parse the
+response as-is.
+
+* Accept simple form encoded data for REST APIs
++
+Simple cases like `/review` or `/abandon` can now accept standard form
+values for basic properties, making it simple for tools to directly
+post data:
++
+----
+  curl -n --digest \
+  --data 'message=Does not compile.' \
+  --data labels.Verified=-1 \
+  http://localhost:8080/a/changes/3/revisions/1/review
+----
++
+Form field names are JSON field names in the top level object.  If dot
+appears in the name the part to the left is taken as the JSON field
+name and the part to the right as the key for a Map. This nicely fits
+with the labels structure used by `/review`, but doesn't support the
+much more complex inline comment case. Clients that need to use more
+complex fields must use JSON formatting for the request body.
+
+* Allow administrators to see other user capabilities
++
+Expand `/accounts/{id}/capabilities` to permit an administrator
+to inspect another user's effective capabilities.
+
+* Declare kind in JSON API results
++
+This is recommended to hint to clients what the entity type is when
+processing the JSON payload.
+
+* Format h/help output as plain text not JSON
++
+The output produced when the client requested the h or help property
+from a JSON API is always produced from constant compiled into the
+server. Assume this safe to return to the client as text/plain content
+and avoid wrapping it into an HTML escaped JSON string.
+
+* Use string for JSON encoded plain text replies
++
+Instead of wrapping the value into an object, just return the
+string by itself. This better matches what happens with the plain
+text return format.
+
+* Wrap possible HTML plain text in JSON on GET
++
+If the HTML appears like MSIE might guess it is HTML (such as if it
+contains `<`) encode the response as a JSON object instead of as a
+simple plain text string. This won't show up very often for clients,
+and protects MSIE users stuck on ancient versions (pre MSIE 8).
+
+* Ask MSIE to never sniff content types on REST API responses
++
+Newer versions of MSIE can disable the content sniffing feature if the
+server asks it to by setting an extension header. It is annoying, but
+necessary, that a server needs to say "No really, I _am_ telling you
+the right Content-Type, trust it."
++
+This feature was added in MSIE 8 Beta 2 so it doesn't protect users
+running MSIE 6 or 7, but those are ancient and users should upgrade.
++
+Enable this on the REST API responses because we sometimes send back
+text/plain results that are really just plain text. Existing JSON
+responses are protected from accidential sniffing and treatment as
+HTML thanks to Gson encoding HTML control characters using Unicode
+character escapes within JSON strings.
+
 Project Dashboards
 ~~~~~~~~~~~~~~~~~~
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/user-dashboards.html#project-dashboards[
@@ -875,6 +1008,21 @@ dependency is not outdated (X == Y). In this case the message was
 confusing.
 +
 ", however the current patch set is Y." is now skipped if Y == X.
+
+REST API
+~~~~~~~~
+* Fix returning of 'Email Reviewers' capability via REST
++
+The `/accounts/self/capabilities/` didn't return the 'Email Reviewers'
+capability when it was not explicitly assigned, although by default
+everyone has the 'Email Reviewers' capability.
++
+If 'Email Reviewers' capability was allowed or denied,
+`/accounts/self/capabilities/` returned the 'Email Reviewers'
+capability always as true, which was wrong for the DENY case.
+
+* Provide a more descriptive error message for unauthenticated REST
+  API access
 
 Git
 ~~~

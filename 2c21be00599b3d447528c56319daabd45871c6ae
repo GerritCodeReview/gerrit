@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Sq7f7SAA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-03-27T06:05:52Z",
+      "side": 1,
+      "message": "I really would love to see this cleaned up. I believe that there is no need for the TEXT output over REST, but that the REST API should always return JSON. The TEXT output is only needed for the SSH ls-projects command. Implementation wise I think ListProjects should return ProjectInfos and ListProjectsCommand should format these ProjectInfos as TEXT (similiar like it is already done for ListGroups and ListGroupsCommand). Unfortunately for listing projects this separation is more difficult.",
+      "revId": "2c21be00599b3d447528c56319daabd45871c6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

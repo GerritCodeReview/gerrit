@@ -292,6 +292,10 @@ public class Plugin {
     return httpInjector;
   }
 
+  public Attributes getMainAttributes() {
+    return manifest.getMainAttributes();
+  }
+
   public void add(RegistrationHandle handle) {
     if (manager != null) {
       if (handle instanceof ReloadableRegistrationHandle) {

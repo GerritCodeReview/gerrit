@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -258,7 +259,10 @@ class HttpPluginServlet extends HttpServlet
 
     if ("".equals(file)) {
       res.sendRedirect(uri + "Documentation/index.html");
-    } else if (file.startsWith("static/")) {
+      return;
+    }
+
+    if (file.startsWith(holder.getStaticPrefix())) {
       JarFile jar = holder.plugin.getJarFile();
       JarEntry entry = jar.getJarEntry(file);
       if (exists(entry)) {
@@ -575,9 +579,30 @@ class HttpPluginServlet extends HttpServlet
     final Plugin plugin;
     final GuiceFilter filter;
 
+    private transient String staticPrefix;
+
     PluginHolder(Plugin plugin, GuiceFilter filter) {
       this.plugin = plugin;
       this.filter = filter;
+    }
+
+    String getStaticPrefix() throws IOException {
+      String staticPrefix = this.staticPrefix;
+      if (staticPrefix == null) {
+        synchronized (this) {
+          if (this.staticPrefix == null) {
+            staticPrefix = plugin.getJarFile().getManifest().getMainAttributes()
+              .getValue("Gerrit-HttpStaticPrefix");
+            if (staticPrefix != null) {
+              staticPrefix = CharMatcher.is('/').trimFrom(staticPrefix) + "/";
+            } else {
+              staticPrefix = "static/";
+            }
+            this.staticPrefix = staticPrefix;
+          }
+        }
+      }
+      return staticPrefix;
     }
   }
 

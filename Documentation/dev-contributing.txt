@@ -57,6 +57,7 @@ beyond simple spacing issues.  Blame it on our short attention
 spans, we really do want your code.
 
 
+[[commit-message]]
 Commit Message
 --------------
 
@@ -258,6 +259,7 @@ especially if changing one without the other will break something!
     and it also makes "git revert" more useful.
   * Use topic branches to link your separate changes together.
 
+[[process]]
 Process
 -------
 

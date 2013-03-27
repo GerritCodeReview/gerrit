@@ -99,6 +99,7 @@ cherry-pick mode. Submitters must remember to submit changes in
 the right order since inter-change dependencies will not be
 enforced for them.
 
+[[rebase_if_necessary]]
 * Rebase If Necessary
 +
 If the change being submitted is a strict superset of the destination

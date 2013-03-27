@@ -23,6 +23,7 @@ Here are some guidelines on release approaches depending on the
 type of release you want to make (`stable-fix`, `stable`, `RC0`,
 `RC1`...).
 
+[[stable]]
 Stable
 ~~~~~~
 
@@ -62,6 +63,7 @@ updates.
 objectives are met
 
 
+[[security]]
 Security-Fix
 ~~~~~~~~~~~~
 

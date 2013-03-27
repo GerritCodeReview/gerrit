@@ -13,6 +13,7 @@ by the uploading user.
 Gerrit supports two methods of authenticating the uploading user.  SSH
 public key, and HTTP/HTTPS.
 
+[[http]]
 HTTP/HTTPS
 ----------
 

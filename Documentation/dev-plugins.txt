@@ -385,10 +385,13 @@ If a plugin does not register a filter or servlet to handle URLs
 automatically export these resources over HTTP from the plugin JAR.
 
 Static resources under `static/` directory in the JAR will be
-available as `/plugins/helloworld/static/resource`.
+available as `/plugins/helloworld/static/resource`. This prefix is
+configurable by setting the `Gerrit-HttpStaticPrefix` attribute.
 
 Documentation files under `Documentation/` directory in the JAR
-will be available as `/plugins/helloworld/Documentation/resource`.
+will be available as `/plugins/helloworld/Documentation/resource`. This
+prefix is configurable by setting the `Gerrit-HttpDocumentationPrefix`
+attribute.
 
 Documentation may be written in
 link:http://daringfireball.net/projects/markdown/[Markdown] style

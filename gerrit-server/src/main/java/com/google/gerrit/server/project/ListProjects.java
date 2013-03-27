@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -114,33 +115,61 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   @Option(name = "--show-branch", aliases = {"-b"}, multiValued = true,
       usage = "displays the sha of each project in the specified branch")
-  private List<String> showBranch;
+  public void addShowBranch(String branch) {
+    showBranch.add(branch);
+  }
 
   @Option(name = "--tree", aliases = {"-t"}, usage =
       "displays project inheritance in a tree-like format\n"
       + "this option does not work together with the show-branch option")
-  private boolean showTree;
+  public void setShowTree(boolean showTree) {
+    this.showTree = showTree;
+  }
 
   @Option(name = "--type", usage = "type of project")
-  private FilterType type = FilterType.CODE;
+  public void setFilterType(FilterType type) {
+    this.type = type;
+  }
 
   @Option(name = "--description", aliases = {"-d"}, usage = "include description of project in list")
-  private boolean showDescription;
+  public void setShowDescription(boolean showDescription) {
+    this.showDescription = showDescription;
+  }
 
   @Option(name = "--all", usage = "display all projects that are accessible by the calling user")
-  private boolean all;
+  public void setAll(boolean all) {
+    this.all = all;
+  }
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of projects to list")
-  private int limit;
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
 
   @Option(name = "-p", metaVar = "PREFIX", usage = "match project prefix")
-  private String matchPrefix;
+  public void setMatchPrefix(String matchPrefix) {
+    this.matchPrefix = matchPrefix;
+  }
 
   @Option(name = "-m", metaVar = "MATCH", usage = "match project substring")
-  private String matchSubstring;
+  public void setMatchSubstring(String matchSubstring) {
+    this.matchSubstring = matchSubstring;
+  }
 
   @Option(name = "--has-acl-for", metaVar = "GROUP", usage =
       "displays only projects on which access rights for this group are directly assigned")
+  public void setGroupUuid(AccountGroup.UUID groupUuid) {
+    this.groupUuid = groupUuid;
+  }
+
+  private final List<String> showBranch = Lists.newArrayList();
+  private boolean showTree;
+  private FilterType type = FilterType.CODE;
+  private boolean showDescription;
+  private boolean all;
+  private int limit;
+  private String matchPrefix;
+  private String matchSubstring;
   private AccountGroup.UUID groupUuid;
 
   @Inject
@@ -173,11 +202,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   public ListProjects setFormat(OutputFormat fmt) {
     format = fmt;
-    return this;
-  }
-
-  public ListProjects setMatchPrefix(String prefix) {
-    this.matchPrefix = prefix;
     return this;
   }
 
@@ -291,7 +315,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           }
 
           try {
-            if (showBranch != null) {
+            if (!showBranch.isEmpty()) {
               Repository git = repoManager.openRepository(projectName);
               try {
                 if (!type.matches(git)) {
@@ -344,7 +368,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           continue;
         }
 
-        if (showBranch != null) {
+        if (!showBranch.isEmpty()) {
           for (String name : showBranch) {
             String ref = info.branches != null ? info.branches.get(name) : null;
             if (ref == null) {

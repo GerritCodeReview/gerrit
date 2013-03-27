@@ -429,6 +429,10 @@ Plugins
 * Commit message length checks are moved to the `commit-message-length-validator`
   plugin which is included as a core plugin in the Gerrit distribution and
   can be installed during site initialization.
+* Creation of code review notes is moved to the `reviewnotes` plugin
+  which is included as a core plugin in the Gerrit distribution and can
+  be installed during site initialization.
+* A plugin extension point for avatar images was added.
 
 Prolog
 ~~~~~~
@@ -809,6 +813,63 @@ Query
   Set `_more_changes` if result is limited due to configured query limit
 
 * Fix query cost for "status:merged commit:c0ffee"
+
+Plugins
+~~~~~~~
+* Skip disabled plugins on rescan
++
+In a background thread Gerrit periodically scans for new or changed
+plugins. On every such a rescan disabled plugins were loaded and a new
+copy of their jar files was stored in the review site's tmp folder.
+
+* Fix cleanup of plugins from tmp folder on graceful Gerrit shutdown
++
+Loaded plugin jars are copied to the review site's tmp folder to support
+hot updates of the plugin jars in the plugins folder. On Gerrit shutdown
+these copies of the jar files should be cleaned up. For this purpose a
+CleanupHandle is created, but the CleanupHandle wasn't enqueued in the
+cleanupQueue which is why cleanup on Gerrit shutdown didn't happen.
+
+* Reattempt deletion of plugin jars from tmp folder on JVM termination
++
+Loaded plugin jars are copied to the review site's tmp folder to support
+hot updates of the plugin jars in the plugins folder. On Gerrit shutdown
+these copies of the jar files should be cleaned up. For this purpose a
+CleanupHandle is created. The deletion of the tmp file in the
+CleanupHandle can fail although the jar file was closed. In this case
+reattempt the deletion on termination of the virtual machine. This
+normally succeeds.
+
+* Fix unloading of plugins
++
+When two plugins, say pluginA, and pluginB had been loaded, and pluginA
+was removed from $sitePath/plugins, pluginA got stopped, and a cleaning
+run was ordered. But this cleaning run cleaned both plugins and both
+plugins had their jars removed. This left pluginB visible to Gerrit
+although it's backing jar was gone. Upon calling not yet initialized
+parts of pluginB (e.g.: viewing not yet viewed Documentation pages of
+pluginB), exceptions as following were thrown:
++
+----
+  java.lang.IllegalStateException: zip file closed
+          at java.util.zip.ZipFile.ensureOpen(ZipFile.java:420)
+          at java.util.zip.ZipFile.getEntry(ZipFile.java:165)
+----
+
+* Fix double bound exception when loading extensions
++
+ServerInformation class was already bound, therefore it shouldn't be
+bound a second time for Gerrit extensions.
+
+* Do not call onModuleLoad() second time
++
+onModuleLoad() method is automatically called by GWT framework. Calling
+it once again in PluginGenerator caused double plugin initialization.
+
+* Require `Administrate Server` capability to GET /plugins/
++
+Listing plugins requires being an administrator. This was missed in the
+REST API.
 
 Email
 ~~~~~

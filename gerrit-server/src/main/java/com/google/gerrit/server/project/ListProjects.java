@@ -21,10 +21,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -37,7 +34,6 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectJson.ProjectInfo;
 import com.google.gerrit.server.util.TreeFormatter;
-import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -206,8 +202,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
+  public Object apply(TopLevelResource resource) {
     if (format == OutputFormat.TEXT) {
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
       display(buf);
@@ -215,11 +210,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           .setContentType("text/plain")
           .setCharacterEncoding("UTF-8");
     }
+    return apply();
+  }
+
+  public Map<String, ProjectInfo> apply() {
     format = OutputFormat.JSON;
     return display(null);
   }
 
-  public JsonElement display(OutputStream displayOutputStream) {
+  public Map<String, ProjectInfo> display(OutputStream displayOutputStream) {
     PrintWriter stdout = null;
     if (displayOutputStream != null) {
       try {
@@ -393,9 +392,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         info.name = null;
       }
       if (stdout == null) {
-        return OutputFormat.JSON.newGson().toJsonTree(
-            output,
-            new TypeToken<Map<String, Object>>() {}.getType());
+        return output;
       } else if (format.isJson()) {
         format.newGson().toJson(
             output, new TypeToken<Map<String, ProjectInfo>>() {}.getType(), stdout);

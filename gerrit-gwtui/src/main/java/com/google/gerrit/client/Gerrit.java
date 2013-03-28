@@ -15,14 +15,11 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.admin.ProjectScreen;
-import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
-import com.google.gerrit.client.auth.openid.OpenIdSsoPanel;
-import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
@@ -35,7 +32,6 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.ScreenLoadEvent;
 import com.google.gerrit.common.ClientVersion;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.common.data.HostPageData;
@@ -71,9 +67,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
@@ -273,34 +269,7 @@ public class Gerrit implements EntryPoint {
 
   /** Sign the user into the application. */
   public static void doSignIn(String token) {
-    switch (myConfig.getAuthType()) {
-      case HTTP:
-      case HTTP_LDAP:
-      case CLIENT_SSL_CERT_LDAP:
-      case CUSTOM_EXTENSION:
-        Location.assign(loginRedirect(token));
-        break;
-
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        Location.assign(selfRedirect("/become"));
-        break;
-
-      case OPENID_SSO:
-        final RootPanel gBody = RootPanel.get("gerrit_body");
-        OpenIdSsoPanel singleSignOnPanel = new OpenIdSsoPanel();
-        gBody.add(singleSignOnPanel);
-        singleSignOnPanel.authenticate(SignInMode.SIGN_IN, token);
-        break;
-
-      case OPENID:
-        new OpenIdSignInDialog(SignInMode.SIGN_IN, token, null).center();
-        break;
-
-      case LDAP:
-      case LDAP_BIND:
-        new UserPassSignInDialog(token, null).center();
-        break;
-    }
+    Location.assign(loginRedirect(token));
   }
 
   public static String loginRedirect(String token) {
@@ -726,8 +695,7 @@ public class Gerrit implements EntryPoint {
         case OPENID:
           menuRight.addItem(C.menuRegister(), new Command() {
             public void execute() {
-              final String to = History.getToken();
-              new OpenIdSignInDialog(SignInMode.REGISTER, to, null).center();
+              doSignIn(PageLinks.REGISTER);
             }
           });
           menuRight.addItem(C.menuSignIn(), new Command() {

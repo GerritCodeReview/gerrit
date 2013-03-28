@@ -60,8 +60,6 @@ import com.google.gerrit.client.admin.ProjectDashboardsScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
-import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
-import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
@@ -78,7 +76,6 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -632,32 +629,6 @@ public class Dispatcher {
 
         if (matchPrefix("/VE/", token) || matchPrefix("VE,", token))
           return new ValidateEmailScreen(skip(token));
-
-        if (matchPrefix("/SignInFailure,", token)) {
-          final String[] args = skip(token).split(",");
-          final SignInMode mode = SignInMode.valueOf(args[0]);
-          final String msg = KeyUtil.decode(args[1]);
-          final String to = MINE;
-          switch (Gerrit.getConfig().getAuthType()) {
-            case OPENID:
-              new OpenIdSignInDialog(mode, to, msg).center();
-              break;
-            case LDAP:
-            case LDAP_BIND:
-              new UserPassSignInDialog(to, msg).center();
-              break;
-            default:
-              return null;
-          }
-          switch (mode) {
-            case SIGN_IN:
-              return QueryScreen.forQuery("status:open");
-            case LINK_IDENTIY:
-              return new MyIdentitiesScreen();
-            case REGISTER:
-              break;
-          }
-        }
 
         if (matchExact(SETTINGS_NEW_AGREEMENT, token))
           return new NewAgreementScreen();

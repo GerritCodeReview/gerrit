@@ -20,7 +20,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
-import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
+import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
@@ -45,7 +45,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
-import com.google.inject.servlet.ServletModule;
 
 import java.net.SocketAddress;
 
@@ -103,12 +102,7 @@ public class WebModule extends FactoryModule {
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        install(new ServletModule() {
-          @Override
-          protected void configureServlets() {
-            serve("/become").with(BecomeAnyAccountLoginServlet.class);
-          }
-        });
+        install(new BecomeAnyAccountModule());
         break;
 
       case OPENID:

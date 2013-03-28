@@ -17,18 +17,6 @@ package com.google.gerrit.client.auth.openid;
 import com.google.gwt.i18n.client.Constants;
 
 public interface OpenIdConstants extends Constants {
-  String buttonSignIn();
-  String buttonRegister();
-  String buttonLinkId();
-
-  String rememberMe();
-
-  String notAllowed();
-  String noProvider();
-  String error();
-
   String nameGoogle();
   String nameYahoo();
-
-  String whatIsOpenIDHtml();
 }

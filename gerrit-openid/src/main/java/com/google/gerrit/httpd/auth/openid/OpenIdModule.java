@@ -14,22 +14,16 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
-import com.google.gerrit.httpd.rpc.RpcServletModule;
 import com.google.inject.servlet.ServletModule;
 
-/** Servlets and RPC support related to OpenID authentication. */
+/** Servlets related to OpenID authentication. */
 public class OpenIdModule extends ServletModule {
   @Override
   protected void configureServlets() {
+    serve("/login/*").with(LoginForm.class);
     serve("/" + OpenIdServiceImpl.RETURN_URL).with(OpenIdLoginServlet.class);
     serve("/" + XrdsServlet.LOCATION).with(XrdsServlet.class);
     filter("/").through(XrdsFilter.class);
-
-    install(new RpcServletModule(RpcServletModule.PREFIX) {
-      @Override
-      protected void configureServlets() {
-        rpc(OpenIdServiceImpl.class);
-      }
-    });
+    bind(OpenIdServiceImpl.class);
   }
 }

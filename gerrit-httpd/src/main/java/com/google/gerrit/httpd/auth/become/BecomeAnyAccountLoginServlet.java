@@ -52,7 +52,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 @Singleton
-public class BecomeAnyAccountLoginServlet extends HttpServlet {
+class BecomeAnyAccountLoginServlet extends HttpServlet {
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
 
   private final SchemaFactory<ReviewDb> schema;

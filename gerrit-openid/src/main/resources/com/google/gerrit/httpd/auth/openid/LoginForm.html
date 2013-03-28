@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <title>Gerrit Code Review - Sign In</title>
+    <style>
+      #error_message {
+        padding: 5px;
+        margin-left: 5px;
+        margin-bottom: 5px;
+        width: 20em;
+        background-color: rgb(255, 255, 116);
+        font-weight: bold;
+      }
+      #cancel_link {
+        margin-left: 45px;
+      }
+      #logo_box {
+        padding-left: 160px;
+      }
+      #logo_img {
+        width: 200px;
+        height: 80px;
+        background: url('data:image/png;base64,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') no-repeat 0px 0px;
+      }
+      #f_openid {
+        padding-left: 25px;
+        border: 1px solid #999;
+        background: #fff url('data:image/gif;base64,R0lGODlhEAAQAMQAAO3t7eHh4srKyvz8/P5pDP9rENLS0v/28P/17tXV1dHEvPDw8M3Nzfn5+d3d3f5jA97Syvnv6MfLzcfHx/1mCPx4Kc/S1Pf189C+tP+xgv/k1N3OxfHy9NLV1/39/f///yH5BAAAAAAALAAAAAAQABAAAAVq4CeOZGme6KhlSDoexdO6H0IUR+otwUYRkMDCUwIYJhLFTyGZJACAwQcgEAQ4kVuEE2AIGAOPQQAQwXCfS8KQGAwMjIYIUSi03B7iJ+AcnmclHg4TAh0QDzIpCw4WGBUZeikDFzk0lpcjIQA7') no-repeat scroll 5px 50%
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sign In to Gerrit Code Review at <span id="hostName">example.com</span></h1>
+	<form method="POST" action="#">
+      <input type="hidden" name="link" id="f_link" value="1" />
+	  <div id="logo_box"><div id="logo_img"></div></div>
+      <div id="error_message">Invalid OpenID identifier.</div>
+      <div>
+        <input type="text"
+               name="id"
+               id="f_openid"
+               size="60"
+               tabindex="1" />
+      </div>
+      <div>
+        <input name="rememberme" id="f_remember"
+               type="checkbox"
+               value="1"
+               tabindex="2" />
+        <label for="f_remember">Remember me</label>
+      </div>
+      <div style="margin-bottom: 25px;">
+        <input type="submit" value="Sign In" id="f_submit" tabindex="3" />
+        <a href="../" id="cancel_link">Cancel</a>
+      </div>
+
+      <div id="provider_google">
+        <img height="16" width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABsUlEQVR42rWSy0sbYRRH88fYhW5KQXThIkUQN6ISJFBBW6FFBN2UqlC78LVKFlHIoqWGakF8gUZ8gajVzKSKZpQmAWtK0pBmhkxmSgPuiuaYmRKhSEwU/ODyDZfzO8ydOxbLQx1NB0H4y8FBlmMpy9LyOavrKUoKB4IXvBsIIopRPJ441dY/2Fr8fAtFSxO0dkRy4eA1PDp+TkVlmGhMKS5IJOFpbYgj6fQalhV4UhVm0esvLojELimv1JiYOPwPflS2gM93WNoIXZ1nPC4/IRDQzYDTqTA0PM2dtuCZ8vGmV6SvP5srL/da5c+4TnNLFlvTMYmEVrpkazuM2x1naOQ7Dc1fqLOmaayXkaSz4hLHewm7fY+Z2R0iP+JmYGpym/q6DDb76u0CwR+g9+0FHz4u3wAdLh9VNWu5UX4VlqysfaXRDoODNz+aw7nDs9ZPpNPpwgJV1WhvF6m1/qb79T6fpwXm5kVGRnd5/mIdQSzwH2iahq7/27nxiq5xLy9fbdDWsUtPzyausRVC4VMMzmAMNv9syTdkWTZLVVUymYx5J5NJs5dKpVAUxaw8Z/SM7BV+fz9Uc4yYRAAAAABJRU5ErkJggg==" />
+        <a href="?id=https://www.google.com/accounts/o8/id" id="id_google">Sign in with a Google Account</a>
+      </div>
+      <div id="provider_yahoo">
+        <img height="16" width="16" src="data:image/gif;base64,R0lGODlhEAAQAPECAAAAAP8AAP///8zMzCH5BAEAAAMALAAAAAAQABAAAAIqnI+py30BY3AgAjCkfJDjiIAQlgUkNxqWkqrm0honKk7KhZOzw/f+fygAADs=" />
+        <a href="?id=https://me.yahoo.com" id="id_yahoo">Sign in with a Yahoo! ID</a>
+      </div>
+
+      <div style="margin-top: 25px;">
+        <h2>What is OpenID?</h2>
+        <p>OpenID provides secure single-sign-on, without revealing your passwords to this website.</p>
+        <p>There are many OpenID providers available.  You may already be member of one!</p>
+        <p><a href="http://openid.net/get/" target="_blank">Get OpenID</a></p>
+      </div>
+    </form>
+
+    <script type="text/javascript" language="javascript"><!--
+      var f_openid = document.getElementById('f_openid');
+      var f_submit = document.getElementById('f_submit');
+      if (f_openid.value == '')
+        f_openid.focus();
+      else
+        f_submit.focus();
+    // -->
+    </script>
+  </body>
+</html>

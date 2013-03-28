@@ -83,14 +83,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private GerritConfig create() throws MalformedURLException {
     final GerritConfig config = new GerritConfig();
     switch (authConfig.getAuthType()) {
-      case OPENID:
-        config.setAllowedOpenIDs(authConfig.getAllowedOpenIDs());
-        break;
-
-      case OPENID_SSO:
-        config.setOpenIdSsoUrl(authConfig.getOpenIdSsoUrl());
-        break;
-
       case LDAP:
       case LDAP_BIND:
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
@@ -109,6 +101,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case HTTP:
       case HTTP_LDAP:
+      case OPENID:
+      case OPENID_SSO:
         break;
     }
     config.setUseContributorAgreements(cfg.getBoolean("auth",

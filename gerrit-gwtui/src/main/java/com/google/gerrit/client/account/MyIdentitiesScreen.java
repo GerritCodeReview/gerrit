@@ -15,19 +15,19 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.openid.OpenIdUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
-import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -59,29 +59,15 @@ public class MyIdentitiesScreen extends SettingsScreen {
     });
     add(deleteIdentity);
 
-    switch (Gerrit.getConfig().getAuthType()) {
-      case OPENID: {
-        final Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
-        linkIdentity.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(final ClickEvent event) {
-            final String to = History.getToken();
-            new OpenIdSignInDialog(SignInMode.LINK_IDENTIY, to, null).center();
-          }
-        });
-        add(linkIdentity);
-        break;
-      }
-
-      case CLIENT_SSL_CERT_LDAP:
-      case CUSTOM_EXTENSION:
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case HTTP:
-      case HTTP_LDAP:
-      case LDAP:
-      case LDAP_BIND:
-      case OPENID_SSO:
-        break;
+    if (Gerrit.getConfig().getAuthType() == AuthType.OPENID) {
+      Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
+      linkIdentity.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          Location.assign(Gerrit.loginRedirect(History.getToken()) + "?link");
+        }
+      });
+      add(linkIdentity);
     }
   }
 

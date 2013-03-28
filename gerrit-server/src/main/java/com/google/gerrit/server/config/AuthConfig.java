@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;

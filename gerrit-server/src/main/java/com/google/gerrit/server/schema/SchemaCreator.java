@@ -212,7 +212,7 @@ public class SchemaCreator {
       Project p = config.getProject();
       p.setDescription("Access inherited by all other projects.");
       p.setRequireChangeID(InheritableBoolean.TRUE);
-      p.setUseContentMerge(InheritableBoolean.FALSE);
+      p.setUseContentMerge(InheritableBoolean.TRUE);
       p.setUseContributorAgreements(InheritableBoolean.FALSE);
       p.setUseSignedOffBy(InheritableBoolean.FALSE);
 

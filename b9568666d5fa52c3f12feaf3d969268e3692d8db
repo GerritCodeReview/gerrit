@@ -178,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "SvMY.Qss",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T21:14:42Z",
+      "side": 1,
+      "message": "I think I always thought circular required locking, I suggested starting without circular, but it didn\u0027t do you much good because you needed it. :(\n\n\u003e Is there any way around this without abandoning circular dependencies? Perhaps we could not enforce dependencies (not sure how confusing that would be) and only use this metadata to update a superproject atomically.\n\nYou could enhance the submodule support to update only when it sees a header in the commit of a subproject?  It wouldn\u0027t be truly atomic, but you could likely prevent merge failures from a submodule update (except for when the submodule gets removed).",
+      "parentUuid": "SvAYiGrM",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

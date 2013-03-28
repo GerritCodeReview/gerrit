@@ -228,15 +228,15 @@ public class SchemaCreator {
       review.setRange(-1, 1);
       heads.getPermission(Permission.LABEL + "Code-Review", true).add(review);
 
-      all.getPermission(Permission.READ, true) //
+      all.getPermission(Permission.READ, true)
           .add(rule(config, admin));
-      all.getPermission(Permission.READ, true) //
+      all.getPermission(Permission.READ, true)
           .add(rule(config, anonymous));
 
-      config.getAccessSection("refs/for/" + AccessSection.ALL, true) //
-          .getPermission(Permission.PUSH, true) //
+      config.getAccessSection("refs/for/" + AccessSection.ALL, true)
+          .getPermission(Permission.PUSH, true)
           .add(rule(config, registered));
-      all.getPermission(Permission.FORGE_AUTHOR, true) //
+      all.getPermission(Permission.FORGE_AUTHOR, true)
           .add(rule(config, registered));
 
       Permission metaReadPermission = meta.getPermission(Permission.READ, true);

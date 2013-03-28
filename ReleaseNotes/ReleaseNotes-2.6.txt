@@ -21,6 +21,23 @@ Schema Change
 a later 2.1.x version), and then to 2.6.x.  If you are upgrading from 2.2.x.x or
 newer, you may ignore this warning and upgrade directly to 2.6.x.
 
+Release Highlights
+------------------
+* 42x improvement on `git clone` and `git fetch`
++
+Running link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-gc.html[
+gerrit gc] allows JGit to optimize a repository to serve clone and fetch
+faster than C Git can, with massively lower server CPU required. Typically
+Gerrit 2.6 can completely transfer a project to a client faster than C Git
+can finish "Counting" the objects.
+
+* Completely customizable workflow
++
+Individual projects can add (or remove) score categories through
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-labels.html[
+labels] and link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html[
+Prolog rules].
+
 New Features
 ------------
 
@@ -740,7 +757,7 @@ Performance
 * Bitmap Optimizations
 +
 On running the http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/cmd-gc.html[
-garbage collection] Jgit creates bitmap data that is saved to an
+garbage collection] JGit creates bitmap data that is saved to an
 auxiliary file. The bitmap optimizations improve the clone and fetch
 performance. git-core will ignore the bitmap data.
 

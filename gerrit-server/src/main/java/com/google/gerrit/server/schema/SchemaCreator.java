@@ -110,7 +110,7 @@ public class SchemaCreator {
     db.schemaVersion().insert(Collections.singleton(sVer));
 
     initSystemConfig(db);
-    initWildCardProject();
+    initAllProjects();
     dataSourceType.getIndexScript().run(db);
   }
 
@@ -177,17 +177,17 @@ public class SchemaCreator {
     return s;
   }
 
-  private void initWildCardProject() throws IOException, ConfigInvalidException {
+  private void initAllProjects() throws IOException, ConfigInvalidException {
     Repository git = null;
     try {
       git = mgr.openRepository(allProjectsName);
-      initWildCardProject(git);
+      initAllProjects(git);
     } catch (RepositoryNotFoundException notFound) {
       // A repository may be missing if this project existed only to store
       // inheritable permissions. For example 'All-Projects'.
       try {
         git = mgr.createRepository(allProjectsName);
-        initWildCardProject(git);
+        initAllProjects(git);
         final RefUpdate u = git.updateRef(Constants.HEAD);
         u.link(GitRepositoryManager.REF_CONFIG);
       } catch (RepositoryNotFoundException err) {
@@ -201,7 +201,7 @@ public class SchemaCreator {
     }
   }
 
-  private void initWildCardProject(Repository git) throws IOException,
+  private void initAllProjects(Repository git) throws IOException,
       ConfigInvalidException {
       MetaDataUpdate md =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git);

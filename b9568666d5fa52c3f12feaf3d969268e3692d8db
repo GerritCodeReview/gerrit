@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "SvAYiGrM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-28T20:56:15Z",
+      "side": 1,
+      "message": "Arg...when we first discussed this, the idea was to create something that didn\u0027t need locking as a first step...so now it looks like that\u0027s changed.\n\nIs there any way around this without abandoning circular dependencies?  Perhaps we could not enforce dependencies (not sure how confusing that would be) and only use this metadata to update a superproject atomically.",
+      "parentUuid": "SuEozM-8",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

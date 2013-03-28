@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SuenflVg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-28T21:26:25Z",
+      "side": 1,
+      "message": "I don\u0027t know if I like this name. Lets bikeshed some others:\n\n* Needs\n* Depends-on\n\nEh, I don\u0027t have that many other names here. Dependency just seems long and I think people will forget what its called most of the time.",
+      "revId": "d4b1ef1ecbac66f6bde28006c974c4fb993238cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SuYnk2TI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-28T21:26:25Z",
+      "side": 1,
+      "message": "Lists.newArrayList()",
+      "revId": "d4b1ef1ecbac66f6bde28006c974c4fb993238cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Suih7a4Y",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-28T21:26:25Z",
+      "side": 1,
+      "message": "I guess its right to use a full triplet here, but annoying. Half of the time you\u0027ll have a Change-Id from the other project and just want to slap it into the sibling, and it will be unique.\n\nIf we have a bare Change-Id here we could infer the branch as being the same branch as this change is on. E.g. in our internal workflow we have \"master\" in every repository so why do I have to name master to assume this is linked.\n\nAs for finding the project, its highly probable that given a Change-Id and assumed branch you\u0027ll get a single hit. The only reason you wouldn\u0027t is if you have say 8 different forks of the Linux kernel as separate projects and this same change was made in all of them.\n\nBut lets say that happened. A userland change that \"needs\" that kernel Change-Id probably needs it in every kernel project that the change appears in. That\u0027s why the Change-Id is not unique, because there are multiple streams where the same thing exists.\n\nSo I think we should support a bare Change-Id here and infer the triplet information. And allow triplets for cases where its ambiguous and the user needs to force Gerrit to narrow the dependencies down.\n\nIf the user give us only a bare Change-Id here and the server is greedy and over-selects, the change probably can\u0027t be submitted. The user will be able to see the deps in the web UI, see its greedy, and amend this commit to use a triplet to narrow the list down. Upload the replacement and now we have a correct set of dependencies.",
+      "revId": "d4b1ef1ecbac66f6bde28006c974c4fb993238cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

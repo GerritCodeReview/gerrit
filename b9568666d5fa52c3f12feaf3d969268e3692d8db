@@ -196,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "SuCo6f9E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-28T21:33:25Z",
+      "side": 1,
+      "message": "\u003e I think I always thought circular required locking, I suggested starting without circular, but it didn\u0027t do you much good because you needed it. :(\n\nYea...I screwed up...\n\n\u003e You could enhance the submodule support to update only when it sees a header in the commit of a subproject\n\nSo how do you feel about this?  It would mean leaving dependencies that are unenforced when merging and expecting users to understand that.",
+      "parentUuid": "SvMY.Qss",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

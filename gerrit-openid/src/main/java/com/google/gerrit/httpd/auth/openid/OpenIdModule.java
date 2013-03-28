@@ -20,7 +20,7 @@ import com.google.inject.servlet.ServletModule;
 public class OpenIdModule extends ServletModule {
   @Override
   protected void configureServlets() {
-    serve("/login/*").with(LoginForm.class);
+    serve("/login", "/login/*").with(LoginForm.class);
     serve("/" + OpenIdServiceImpl.RETURN_URL).with(OpenIdLoginServlet.class);
     serve("/" + XrdsServlet.LOCATION).with(XrdsServlet.class);
     filter("/").through(XrdsFilter.class);

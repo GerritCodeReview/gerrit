@@ -20,6 +20,6 @@ import com.google.inject.servlet.ServletModule;
 public class LdapAuthModule extends ServletModule {
   @Override
   protected void configureServlets() {
-    serve("/login/*").with(LdapLoginServlet.class);
+    serve("/login", "/login/*").with(LdapLoginServlet.class);
   }
 }

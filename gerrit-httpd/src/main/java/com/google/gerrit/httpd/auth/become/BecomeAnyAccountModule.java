@@ -19,6 +19,6 @@ import com.google.inject.servlet.ServletModule;
 public class BecomeAnyAccountModule extends ServletModule {
   @Override
   protected void configureServlets() {
-    serve("/login/*").with(BecomeAnyAccountLoginServlet.class);
+    serve("/login", "/login/*").with(BecomeAnyAccountLoginServlet.class);
   }
 }

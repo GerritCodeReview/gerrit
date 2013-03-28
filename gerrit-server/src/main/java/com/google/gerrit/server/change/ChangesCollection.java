@@ -21,10 +21,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -32,8 +29,6 @@ import com.google.gerrit.server.query.change.QueryChanges;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.lib.Constants;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
@@ -72,8 +67,7 @@ public class ChangesCollection implements
   public ChangeResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, OrmException,
       UnsupportedEncodingException {
-    ParsedId p = new ParsedId(id.encoded());
-    List<Change> changes = findChanges(p);
+    List<Change> changes = findChanges(id.encoded());
     if (changes.size() != 1) {
       throw new ResourceNotFoundException(id);
     }
@@ -87,59 +81,36 @@ public class ChangesCollection implements
     return new ChangeResource(control);
   }
 
-  private List<Change> findChanges(ParsedId k) throws OrmException {
-    if (k.legacyId != null) {
-      Change c = db.get().changes().get(k.legacyId);
+  private List<Change> findChanges(String id)
+      throws OrmException, ResourceNotFoundException {
+    // Try legacy id
+    if (id.matches("^[1-9][0-9]*$")) {
+      Change c = db.get().changes().get(Change.Id.parse(id));
       if (c != null) {
         return ImmutableList.of(c);
       }
       return Collections.emptyList();
-    } else if (k.project == null && k.branch == null && k.changeId != null) {
-      Change.Key id = new Change.Key(k.changeId);
-      if (id.get().length() == 41) {
-        return db.get().changes().byKey(id).toList();
+    }
+
+    // Try isolated changeId
+    if (!id.contains("~")) {
+      Change.Key key = new Change.Key(id);
+      if (key.get().length() == 41) {
+        return db.get().changes().byKey(key).toList();
       } else {
-        return db.get().changes().byKeyRange(id, id.max()).toList();
+        return db.get().changes().byKeyRange(key, key.max()).toList();
       }
+    }
+
+    // Try change triplet
+    ChangeTriplet triplet;
+    try {
+        triplet = new ChangeTriplet(id);
+    } catch (ChangeTriplet.ParseException e) {
+        throw new ResourceNotFoundException(id);
     }
     return db.get().changes().byBranchKey(
-        k.branch(),
-        new Change.Key(k.changeId)).toList();
-  }
-
-  private static class ParsedId {
-    Change.Id legacyId;
-    String project;
-    String branch;
-    String changeId;
-
-    ParsedId(String id) throws ResourceNotFoundException {
-      if (id.matches("^[1-9][0-9]*$")) {
-        legacyId = Change.Id.parse(id);
-        return;
-      }
-
-      int t2 = id.lastIndexOf('~');
-      int t1 = id.lastIndexOf('~', t2 - 1);
-      if (t1 < 0 || t2 < 0) {
-        if (!id.matches("^I[0-9a-z]{4,40}$")) {
-          throw new ResourceNotFoundException(id);
-        }
-        changeId = id;
-        return;
-      }
-
-      project = Url.decode(id.substring(0, t1));
-      branch = Url.decode(id.substring(t1 + 1, t2));
-      changeId = Url.decode(id.substring(t2 + 1));
-
-      if (!branch.startsWith(Constants.R_REFS)) {
-        branch = Constants.R_HEADS + branch;
-      }
-    }
-
-    Branch.NameKey branch() {
-      return new Branch.NameKey(new Project.NameKey(project), branch);
-    }
+        triplet.getBranchNameKey(),
+        triplet.getChangeKey()).toList();
   }
 }

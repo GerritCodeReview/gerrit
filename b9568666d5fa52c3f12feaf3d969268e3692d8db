@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SukgzP-8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T15:12:14Z",
+      "side": 1,
+      "message": "Which leads me to think these should be called changeDependencies instead of crossProjectDependencies since these should work for changes in the same project?",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SuQkiKbM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T15:12:14Z",
+      "side": 1,
+      "message": "This might be a lot easier to read (for me at least) if you just did branches \u003d newBranches;",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Suig6i9E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T15:12:14Z",
+      "side": 1,
+      "message": "Could you abstract dependency parsing and determination details to a separate class so that it could be easily altered/enhanced.  In other words, it would be nice to allow users to specify dependencies in other ways then via the commit message at some point.",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Sushl7-g",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T15:12:14Z",
+      "side": 1,
+      "message": "So what does this logic do in case of reverse dependencies?  How does it handle failures?  If a depends on b and b depends on a, what happens when a merges, but b fails?",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Suck.Ucs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1409,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T15:12:14Z",
+      "side": 1,
+      "message": "Could you document the format for these new dependency footers?  Maybe add a page about dependencies and how gerrit handles them now (aimed at users)?",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SuYlIWXQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T15:12:14Z",
+      "side": 1,
+      "message": "This looks like the dependent change has to exist already, does this make it really complicated to create reverse dependencies (pushing a second PS at least)?  Hmm, is it even possible to create a non broken reverse dependency (one that doesn\u0027t rely on a previous PS)?  Maybe I don\u0027t understand what you are calling a reverse dependency, could you outline it?",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SuelDFVY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T15:12:14Z",
+      "side": 1,
+      "message": "Using this table is a little disconcerting.  In the past, these were git ancestors, now you are mixing in non git dependencies (which aren\u0027t actually ancestors)?  How does   this affect other pieces in gerrit?  How does this affect the parents display in the PS sections?  Does this confuse merge commit detection (which likely counts the ancestors)?\n\nIs it possible to tell the difference between a git dependency and this new kind of dependency now?",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

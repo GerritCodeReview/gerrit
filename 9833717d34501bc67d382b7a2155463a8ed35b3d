@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Sualufcg",
+        "filename": "Documentation/user-dependencies.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002235
+      },
+      "writtenOn": "2013-03-28T19:27:29Z",
+      "side": 1,
+      "message": "How would you merge changes with circular dependencies?\n\nWould it try to merge both of them? What if one merges first and the second fails to merge?\n\nWould it work if the project submit method is set to Cherry-Pick?",
+      "revId": "9833717d34501bc67d382b7a2155463a8ed35b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SuUmEoUs",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1002235
+      },
+      "writtenOn": "2013-03-28T19:27:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the dependency on the base patchset remain even though it\u0027s a cross project dependency?\n\nI\u0027d say that when you have a cross project dependency, you\u0027ll have at least 2 dependencies.",
+      "revId": "9833717d34501bc67d382b7a2155463a8ed35b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SuWmBZTo",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1002235
+      },
+      "writtenOn": "2013-03-28T19:27:29Z",
+      "side": 1,
+      "message": "It seems like you\u0027re able to add only one cross project dependency per change, or am I missing something?\n\nIt\u0027d be really nice if we could add multiple cross project dependencies.",
+      "revId": "9833717d34501bc67d382b7a2155463a8ed35b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

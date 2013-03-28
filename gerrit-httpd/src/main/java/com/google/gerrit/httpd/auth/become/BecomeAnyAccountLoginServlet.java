@@ -16,6 +16,8 @@ package com.google.gerrit.httpd.auth.become;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
@@ -52,7 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 @Singleton
-public class BecomeAnyAccountLoginServlet extends HttpServlet {
+class BecomeAnyAccountLoginServlet extends HttpServlet {
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
 
   private final SchemaFactory<ReviewDb> schema;
@@ -114,7 +116,9 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     if (res != null) {
       webSession.get().login(res, false);
       final StringBuilder rdr = new StringBuilder();
-      rdr.append(req.getContextPath());
+      rdr.append(Objects.firstNonNull(
+          Strings.emptyToNull(req.getContextPath()),
+          "/"));
       if (IS_DEV && req.getParameter("gwt.codesvr") != null) {
         if (rdr.indexOf("?") < 0) {
           rdr.append("?");

@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.userpass;
+package com.google.gerrit.httpd.auth.become;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.inject.servlet.ServletModule;
 
-public interface UserPassConstants extends Constants {
-  String buttonSignIn();
-  String username();
-  String password();
-  String invalidLogin();
-  String usernameRequired();
-  String passwordRequired();
+public class BecomeAnyAccountModule extends ServletModule {
+  @Override
+  protected void configureServlets() {
+    serve("/login", "/login/*").with(BecomeAnyAccountLoginServlet.class);
+  }
 }

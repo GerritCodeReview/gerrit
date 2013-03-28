@@ -15,10 +15,6 @@
 package com.google.gerrit.httpd.auth.openid;
 
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.auth.SignInMode;
-import com.google.gerrit.common.auth.openid.DiscoveryResult;
-import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
-import com.google.gerrit.common.auth.openid.OpenIdService;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
@@ -26,11 +22,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -73,7 +69,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Singleton
-class OpenIdServiceImpl implements OpenIdService {
+class OpenIdServiceImpl {
   private static final Logger log =
       LoggerFactory.getLogger(OpenIdServiceImpl.class);
 
@@ -149,19 +145,12 @@ class OpenIdServiceImpl implements OpenIdService {
   }
 
   @SuppressWarnings("unchecked")
-  public void discover(final String openidIdentifier, final SignInMode mode,
-      final boolean remember, final String returnToken,
-      final AsyncCallback<DiscoveryResult> cb) {
-    if (!isAllowedOpenID(openidIdentifier)) {
-      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.NOT_ALLOWED));
-      return;
-    }
-
+  DiscoveryResult discover(final String openidIdentifier, final SignInMode mode,
+      final boolean remember, final String returnToken) {
     final State state;
     state = init(openidIdentifier, mode, remember, returnToken);
     if (state == null) {
-      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.NO_PROVIDER));
-      return;
+      return new DiscoveryResult(DiscoveryResult.Status.NO_PROVIDER);
     }
 
     final AuthRequest aReq;
@@ -189,16 +178,15 @@ class OpenIdServiceImpl implements OpenIdService {
       }
     } catch (MessageException e) {
       log.error("Cannot create OpenID redirect for " + openidIdentifier, e);
-      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.ERROR));
-      return;
+      return new DiscoveryResult(DiscoveryResult.Status.ERROR);
     } catch (ConsumerException e) {
       log.error("Cannot create OpenID redirect for " + openidIdentifier, e);
-      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.ERROR));
-      return;
+      return new DiscoveryResult(DiscoveryResult.Status.ERROR);
     }
 
-    cb.onSuccess(new DiscoveryResult(aReq.getDestinationUrl(false), //
-        aReq.getParameterMap()));
+    return new DiscoveryResult(
+        aReq.getDestinationUrl(false),
+        aReq.getParameterMap());
   }
 
   private boolean requestRegistration(final AuthRequest aReq) {
@@ -209,7 +197,6 @@ class OpenIdServiceImpl implements OpenIdService {
       // registration information, in case the identity is new to us.
       //
       return true;
-
     }
 
     // We might already have this account on file. Look for it.
@@ -222,7 +209,7 @@ class OpenIdServiceImpl implements OpenIdService {
     }
   }
 
-  /** Called by {@link OpenIdLoginServlet} doGet, doPost */
+  /** Called by {@link OpenIdLoginForm} doGet, doPost */
   void doAuth(final HttpServletRequest req, final HttpServletResponse rsp)
       throws Exception {
     if (OMODE_CANCEL.equals(req.getParameter(OPENID_MODE))) {
@@ -436,7 +423,7 @@ class OpenIdServiceImpl implements OpenIdService {
           arsp = accountManager.authenticate(areq);
 
           final Cookie lastId = new Cookie(OpenIdUrls.LASTID_COOKIE, "");
-          lastId.setPath(req.getContextPath() + "/");
+          lastId.setPath(req.getContextPath() + "/login/");
           if (remember) {
             lastId.setValue(rediscoverIdentifier);
             lastId.setMaxAge(LASTID_AGE);
@@ -559,7 +546,7 @@ class OpenIdServiceImpl implements OpenIdService {
     return new State(discovered, retTo, contextUrl);
   }
 
-  private boolean isAllowedOpenID(final String id) {
+  boolean isAllowedOpenID(final String id) {
     for (final OpenIdProviderPattern pattern : allowedOpenIDs) {
       if (pattern.matches(id)) {
         return true;

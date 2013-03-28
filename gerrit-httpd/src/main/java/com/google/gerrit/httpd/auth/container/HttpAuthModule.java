@@ -21,6 +21,6 @@ public class HttpAuthModule extends ServletModule {
   @Override
   protected void configureServlets() {
     filter("/").through(HttpAuthFilter.class);
-    serve("/login/*").with(HttpLoginServlet.class);
+    serve("/login", "/login/*").with(HttpLoginServlet.class);
   }
 }

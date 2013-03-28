@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.auth.openid;
+package com.google.gerrit.server.auth.openid;
 
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 

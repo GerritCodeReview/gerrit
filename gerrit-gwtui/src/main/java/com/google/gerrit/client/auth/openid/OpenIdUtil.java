@@ -14,19 +14,12 @@
 
 package com.google.gerrit.client.auth.openid;
 
-import com.google.gerrit.common.auth.openid.OpenIdService;
 import com.google.gwt.core.client.GWT;
-import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class OpenIdUtil {
   public static final OpenIdConstants C;
-  public static final OpenIdMessages M;
-  public static final OpenIdService SVC;
 
   static {
     C = GWT.create(OpenIdConstants.class);
-    M = GWT.create(OpenIdMessages.class);
-    SVC = GWT.create(OpenIdService.class);
-    JsonUtil.bind(SVC, "rpc/OpenIdService");
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "SuihRKw8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-28T16:13:41Z",
+      "side": 1,
+      "message": "MSIE is still evil. It can choose to ignore this header and the Content-Type below and look at \u003cscript or \u003cimg tags in the diff and happily render the patch as HTML.\n\nInstant security hole.\n\nIf we instead wrap it in JSON with Gson, Gson will escape the data and make it safe for MSIE users.",
+      "revId": "2b6f633dc7653c67dfa8bdcc9f2aae0c5fa29e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

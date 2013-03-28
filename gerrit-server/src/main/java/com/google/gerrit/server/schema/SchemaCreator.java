@@ -210,7 +210,7 @@ public class SchemaCreator {
 
       ProjectConfig config = ProjectConfig.read(md);
       Project p = config.getProject();
-      p.setDescription("Rights inherited by all other projects");
+      p.setDescription("Access inherited by all other projects.");
       p.setRequireChangeID(InheritableBoolean.TRUE);
       p.setUseContentMerge(InheritableBoolean.FALSE);
       p.setUseContributorAgreements(InheritableBoolean.FALSE);

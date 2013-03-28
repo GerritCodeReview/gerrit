@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "SuEozM-8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T18:50:17Z",
+      "side": 1,
+      "message": "There are ways, but none are easy. :(  I will point you to some resources to help you better understand the problems involved.\n\nHere is the long thread started by Mohan over a year ago about solving a similar problem, it should help outline some of the problems anticipated back then:  https://groups.google.com/forum/?fromgroups\u003d#!searchin/repo-discuss/mohan/repo-discuss/dZg-Tie8__A/deK7EIxTaDQJ\n\nHere are Mohan\u0027s abandoned attempts at in memory Gerrit locking: https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit+branch:master+topic:cross-repo-dependencies,n,z I think there were still unsolved issues with this proposal.  Of course, such a solution would not likely be useful in a clustered Gerrit environment such as what gerrit-review runs as currently.\n\n\nHere is Shawn\u0027s idea last fall to support multi-repo transactions in jgit that unfortunately has either still had stale locking issues, or races:\nhttps://groups.google.com/forum/?fromgroups\u003d#!searchin/repo-discuss/mohan/repo-discuss/mI1l5-fesI8/z-Ez0lYBoUgJ\n\nHowever, if you still want to solve this, I proposed solutions to the git mailing list about creating \"recoverable\" locks/transactions that seemed to only have issues on some (likely non posix) filesystems.  The discussion started around here: http://marc.info/?l\u003dgit\u0026m\u003d135664993801178\u0026w\u003d2 but by first proposal was flawed, I think the valuable proposal which might work (no known flaws with posix FS) starts around here: http://marc.info/?l\u003dgit\u0026m\u003d135698411219549\u0026w\u003d2\n\nThese could be used to build up a solutions similar to Shawn\u0027s proposal for a clustered shared backend.  But that is not what you guys have at google anyway (and you can likely do locking more easily with your system).  So, I think you would need to abstract the locking piece in jgit anyway and then it is just a matter of implementing different backend systems and perhaps having a way to disable the feature if the backend does not support a safe locking mechanism?\n\nSo, currently there are only 2 real backends in the wild that you need to care about your clustered google system (ask Shawns how to solve this, the system already \"locks\" refs anyway using the DB for multi-master), and a single master system.   Since shared backend with multi master is not in that list, you can ignore both Shawn\u0027s (except for how he would integrate with jgit) and my locking proposals.   If you have a pluggable locking mechanism, the single master one could start by using in memory locking with the risk of colliding with direct git updates behind Gerrit\u0027s back (which is likely OK until someone cares to solve the problem better). You could even force it to overwrite any updates behind Gerrit\u0027s back if you wanted so that Gerrit will still be consistent.",
+      "parentUuid": "SuOpDB1Y",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -241,6 +259,24 @@
       "side": 1,
       "message": "\"a little disconcerting\" -- ha, tell me about it.  I\u0027m open to suggestions.  I have no idea how I\u0027d pull it off otherwise though (unless it\u0027s OK to change the schema, but I was under the impression that\u0027s heavily frowned upon these days).\n\n\"Is it possible\" - Look up the two changes and see if they are in different projects.  Yea, I know it\u0027s a hack.",
       "parentUuid": "SuelDFVY",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SuKpND4M",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T18:50:17Z",
+      "side": 1,
+      "message": "\u003e Look up the two changes and see if they are in different projects. Yea, I know it\u0027s a hack.\n\nUgh, that prevents dependencies in the same project across branches.  Another hack might be to use a special ancestor # (0, -1)... but I don\u0027t like either much.  The ancestor code is complex enough, I suspect you realize that since you added tons of nice new comments to some of it, :) we just spend ~1-3 weeks x 4 people creating nasty corner case dependency test cases (probably about 60 of them) and status reporting for gerrit (which I do hope to upstream at some point), so I know how bad it is.  But this just raises things to a new level of complexity.   \n\nI personally would support making first class DB objects to represent these properly, I don\u0027t know if others will?  But I suspect you will still need to solve harder problems if you want to actually support circular dependencies (locking).",
+      "parentUuid": "SvIYNqkQ",
       "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

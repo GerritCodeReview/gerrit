@@ -214,6 +214,24 @@
     },
     {
       "key": {
+        "uuid": "SvOZDPlY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-28T21:55:32Z",
+      "side": 1,
+      "message": "\u003e \u003e You could enhance the submodule support to update only when it sees a header in the commit of a subproject\n\n\u003e So how do you feel about this? It would mean leaving dependencies that are unenforced when merging and expecting users to understand that.\n\nI don\u0027t quite follow.  This approach would not really be a dependency system anymore, it would effectively just be a system to cause a parent project to update the super project on child merges, which we already have.  Except that now you need a project flag to tell a project to not update unless it sees your new header in the child.",
+      "parentUuid": "SuCo6f9E",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

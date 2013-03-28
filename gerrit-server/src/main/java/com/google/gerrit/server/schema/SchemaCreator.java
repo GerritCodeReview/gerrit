@@ -219,41 +219,66 @@ public class SchemaCreator {
       AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);
       AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
+      AccessSection tags = config.getAccessSection("refs/tags/*", true);
       AccessSection meta = config.getAccessSection(GitRepositoryManager.REF_CONFIG, true);
+      AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
 
-      cap.getPermission(GlobalCapability.ADMINISTRATE_SERVER, true)
-        .add(rule(config, admin));
+      grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
+      grant(config, all, Permission.READ, admin, anonymous);
 
-      PermissionRule review = rule(config, registered);
-      review.setRange(-1, 1);
-      heads.getPermission(Permission.LABEL + "Code-Review", true).add(review);
+      LabelType cr = initCodeReviewLabel(config);
+      grant(config, heads, cr, -1, 1, registered);
+      grant(config, heads, cr, -2, 2, admin, owners);
+      grant(config, heads, Permission.CREATE, admin, owners);
+      grant(config, heads, Permission.PUSH, admin, owners);
+      grant(config, heads, Permission.SUBMIT, admin, owners);
+      grant(config, heads, Permission.FORGE_AUTHOR, registered);
+      grant(config, heads, Permission.FORGE_COMMITTER, admin, owners);
 
-      all.getPermission(Permission.READ, true)
-          .add(rule(config, admin));
-      all.getPermission(Permission.READ, true)
-          .add(rule(config, anonymous));
+      grant(config, tags, Permission.PUSH_TAG, admin, owners);
+      grant(config, tags, Permission.PUSH_SIGNED_TAG, admin, owners);
 
-      config.getAccessSection("refs/for/" + AccessSection.ALL, true)
-          .getPermission(Permission.PUSH, true)
-          .add(rule(config, registered));
-      all.getPermission(Permission.FORGE_AUTHOR, true)
-          .add(rule(config, registered));
+      grant(config, magic, Permission.PUSH, registered);
+      grant(config, magic, Permission.PUSH_MERGE, registered);
 
-      Permission metaReadPermission = meta.getPermission(Permission.READ, true);
-      metaReadPermission.setExclusiveGroup(true);
-      metaReadPermission.add(rule(config, owners));
-
-      initCodeReviewLabel(config);
+      meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
+      grant(config, meta, Permission.READ, admin, owners);
+      grant(config, meta, cr, -2, 2, admin, owners);
+      grant(config, meta, Permission.PUSH, admin, owners);
+      grant(config, meta, Permission.SUBMIT, admin, owners);
 
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
       config.commit(md);
+  }
+
+  private PermissionRule grant(ProjectConfig config, AccessSection section,
+      String permission, AccountGroup group1, AccountGroup... groupList) {
+    Permission p = section.getPermission(permission, true);
+    PermissionRule rule = rule(config, group1);
+    p.add(rule);
+    for (AccountGroup group : groupList) {
+      p.add(rule(config, group));
+    }
+    return rule;
+  }
+
+  private void grant(ProjectConfig config,
+      AccessSection section, LabelType type,
+      int min, int max, AccountGroup... groupList) {
+    String name = Permission.LABEL + type.getName();
+    Permission p = section.getPermission(name, true);
+    for (AccountGroup group : groupList) {
+      PermissionRule r = rule(config, group);
+      r.setRange(min, max);
+      p.add(r);
+    }
   }
 
   private PermissionRule rule(ProjectConfig config, AccountGroup group) {
     return new PermissionRule(config.resolve(group));
   }
 
-  public static void initCodeReviewLabel(ProjectConfig c) {
+  public static LabelType initCodeReviewLabel(ProjectConfig c) {
     LabelType type = new LabelType("Code-Review", ImmutableList.of(
         new LabelValue((short) 2, "Looks good to me, approved"),
         new LabelValue((short) 1, "Looks good to me, but someone else must approve"),
@@ -263,5 +288,6 @@ public class SchemaCreator {
     type.setAbbreviatedName("CR");
     type.setCopyMinScore(true);
     c.getLabelSections().put(type.getName(), type);
+    return type;
   }
 }

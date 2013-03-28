@@ -107,17 +107,7 @@ public class SchemaCreatorTest extends TestCase {
     for (LabelType label : getLabelTypes().getLabelTypes()) {
       labels.add(label.getName());
     }
-    assertEquals(ImmutableList.of("Verified", "Code-Review"), labels);
-  }
-
-  public void testCreateSchema_Label_Verified() throws Exception {
-    LabelType verified = getLabelTypes().byLabel("Verified");
-    assertNotNull(verified);
-    assertEquals("Verified", verified.getName());
-    assertEquals("V", verified.getAbbreviatedName());
-    assertEquals("MaxWithBlock", verified.getFunctionName());
-    assertFalse(verified.isCopyMinScore());
-    assertValueRange(verified, 1, 0, -1);
+    assertEquals(ImmutableList.of("Code-Review"), labels);
   }
 
   public void testCreateSchema_Label_CodeReview() throws Exception {

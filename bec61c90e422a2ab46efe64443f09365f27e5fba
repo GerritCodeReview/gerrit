@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "SuSkf7WU",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-28T13:55:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Su4f2Bhc",
+      "revId": "bec61c90e422a2ab46efe64443f09365f27e5fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Su.fxAiI",
         "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-28T06:58:06Z",
       "side": 1,
       "message": "For this \u0027tr\u0027 tag, the closing tag is missing.\n\n  [Fatal Error] :52:9: The element type \"tr\" must be terminated by the matching end-tag \"\u003c/tr\u003e\".",
+      "revId": "bec61c90e422a2ab46efe64443f09365f27e5fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Sugg9R8g",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-28T13:55:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Su.fxAiI",
       "revId": "bec61c90e422a2ab46efe64443f09365f27e5fba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

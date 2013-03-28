@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "SuEooE5U",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-28T17:36:34Z",
+      "side": 1,
+      "message": "Well, they don\u0027t actually.  There is a distinct difference.  All same-project dependencies point directly to commits.  All cross-project dependencies point to changes.  The reason for this is two-fold.\n\n* I can\u0027t point directly to a commit in a different project because that makes circular dependencies impossible which is really important and I probably wouldn\u0027t be doing the change otherwise (this change supports circular dependencies, btw)\n* I determine whether or not the dependency should point to the most recent commit based on whether or not it is in the same project (that\u0027s the code here).  There\u0027s no way I can store metadata about whether this should point to a commit or a change in the PatchSetAncestor\u0027s table without changing the schema.",
+      "parentUuid": "SukgzP-8",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SuQkiKbM",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-28T15:12:14Z",
       "side": 1,
       "message": "This might be a lot easier to read (for me at least) if you just did branches \u003d newBranches;",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SuGol17k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-28T17:36:34Z",
+      "side": 1,
+      "message": "Done.  I\u0027m a sucker for `final`, haha.",
+      "parentUuid": "SuQkiKbM",
       "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "SvEYoEpU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-28T17:36:34Z",
+      "side": 1,
+      "message": "Done (I think...)",
+      "parentUuid": "Suig6i9E",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Sushl7-g",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-03-28T15:12:14Z",
       "side": 1,
       "message": "So what does this logic do in case of reverse dependencies?  How does it handle failures?  If a depends on b and b depends on a, what happens when a merges, but b fails?",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SuOpDB1Y",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-28T17:36:34Z",
+      "side": 1,
+      "message": "\u003cfacepalm\u003e...ugh...I had only considered a merge failing for dependency reasons (which this handles nicely).  I hadn\u0027t considered other issues?  Can I just call the verifyMergeability method above before continuing to attempt an actual merge (and thus triggering the merge in the other project)?  Is there any way to do that with locking so that nothing can nullify the result of that method call?",
+      "parentUuid": "Sushl7-g",
       "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "SvKYSJl4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1409,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-28T17:36:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Suck.Ucs",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SuYlIWXQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "SuMo.Q8s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-28T17:36:34Z",
+      "side": 1,
+      "message": "Reverse dependencies are simply implicit.\n\n* Upload ps1 to cA with no dependency\n* Upload ps2 to cB with a dependency on cA\n\nAt this point, cA is said to be a dependency of cB and cB is said to be a reverse-dependency of cA.\n\n* Upload ps3 to cA with a dependency on cB\n\nNow cA and cB are both dependencies and reverse-dependencies of each other.  They are circular dependencies.  (Yea, you need a second upload to pull this off.)",
+      "parentUuid": "SuYlIWXQ",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SuelDFVY",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2013-03-28T15:12:14Z",
       "side": 1,
       "message": "Using this table is a little disconcerting.  In the past, these were git ancestors, now you are mixing in non git dependencies (which aren\u0027t actually ancestors)?  How does   this affect other pieces in gerrit?  How does this affect the parents display in the PS sections?  Does this confuse merge commit detection (which likely counts the ancestors)?\n\nIs it possible to tell the difference between a git dependency and this new kind of dependency now?",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "SvIYNqkQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-28T17:36:34Z",
+      "side": 1,
+      "message": "\"a little disconcerting\" -- ha, tell me about it.  I\u0027m open to suggestions.  I have no idea how I\u0027d pull it off otherwise though (unless it\u0027s OK to change the schema, but I was under the impression that\u0027s heavily frowned upon these days).\n\n\"Is it possible\" - Look up the two changes and see if they are in different projects.  Yea, I know it\u0027s a hack.",
+      "parentUuid": "SuelDFVY",
       "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

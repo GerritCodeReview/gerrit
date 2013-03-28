@@ -129,13 +129,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
       Account.Id accountId = accounts.parse(input.reviewer).getAccountId();
       return putAccount(reviewerFactory.create(rsrc, accountId));
     } catch (UnprocessableEntityException e) {
-      try {
-        return putGroup(rsrc, input);
-      } catch (UnprocessableEntityException e2) {
-        throw new UnprocessableEntityException(MessageFormat.format(
-            ChangeMessages.get().reviewerNotFound,
-            input.reviewer));
-      }
+      return putGroup(rsrc, input);
     }
   }
 

@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <title>Gerrit Code Review - Sign In</title>
+    <style>
+      #error_message {
+        padding: 5px;
+        margin: 2em;
+        width: 20em;
+        background-color: rgb(255, 255, 116);
+        font-weight: bold;
+      }
+      #cancel_link {
+        margin-left: 45px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sign In to Gerrit Code Review at <span id="hostName">example.com</span></h1>
+    <div id="error_message">Invalid username or password.</div>
+    <form method="POST" action="#" id="login_form">
+      <table style="border: 0;">
+      <tr>
+        <th>Username</th>
+        <td><input name="username" id="f_user"
+                   type="text"
+                   size="25"
+                   tabindex="1" /></td>
+      </tr>
+      <tr>
+        <th>Password</th>
+        <td><input name="password" id="f_pass"
+                   type="password"
+                   size="25"
+                   tabindex="2" /></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input name="rememberme" id="f_remember"
+                 type="checkbox"
+                 value="1"
+                 tabindex="3" />
+          <label for="f_remember">Remember me</label>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input type="submit" value="Sign In" tabindex="4"/>
+          <a href="../" id="cancel_link">Cancel</a>
+        </td>
+      </tr>
+      </table>
+    </form>
+
+    <script type="text/javascript" language="javascript">
+      var login_form = document.getElementById('login_form');
+      var f_user = document.getElementById('f_user');
+      var f_pass = document.getElementById('f_pass');
+      f_user.onkeydown = function(e) {
+        if (e.keyCode == 13) {
+          f_pass.focus();
+          return false;
+        }
+      }
+      f_pass.onkeydown = function(e) {
+        if (e.keyCode == 13) {
+          login_form.submit();
+          return false;
+        }
+      }
+      f_user.focus();
+    </script>
+  </body>
+</html>

@@ -14,20 +14,12 @@
 
 package com.google.gerrit.httpd.auth.ldap;
 
-import com.google.gerrit.httpd.rpc.RpcServletModule;
-import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.inject.servlet.ServletModule;
 
-/** RPC support related to username/password LDAP authentication. */
+/** Configure username/password LDAP authentication. */
 public class LdapAuthModule extends ServletModule {
   @Override
   protected void configureServlets() {
-    serve("/login/*").with(LoginRedirectServlet.class);
-    install(new RpcServletModule(UiRpcModule.PREFIX) {
-      @Override
-      protected void configureServlets() {
-        rpc(UserPassAuthServiceImpl.class);
-      }
-    });
+    serve("/login/*").with(LdapLoginServlet.class);
   }
 }

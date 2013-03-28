@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.auth.openid;
+package com.google.gerrit.httpd.auth.openid;
 
 import java.util.Map;
 
-public final class DiscoveryResult {
-  public static enum Status {
+final class DiscoveryResult {
+  static enum Status {
     /** Provider was discovered and {@code providerUrl} is valid. */
     VALID,
-
-    /** The identifier is not allowed to be used, by site configuration. */
-    NOT_ALLOWED,
 
     /** Identifier isn't for an OpenID provider. */
     NO_PROVIDER,
@@ -31,20 +28,20 @@ public final class DiscoveryResult {
     ERROR;
   }
 
-  public Status status;
-  public String providerUrl;
-  public Map<String, String> providerArgs;
+  Status status;
+  String providerUrl;
+  Map<String, String> providerArgs;
 
-  protected DiscoveryResult() {
+  DiscoveryResult() {
   }
 
-  public DiscoveryResult(final String redirect, final Map<String, String> args) {
+  DiscoveryResult(String redirect, Map<String, String> args) {
     status = Status.VALID;
     providerUrl = redirect;
     providerArgs = args;
   }
 
-  public DiscoveryResult(final Status s) {
+  DiscoveryResult(Status s) {
     status = s;
   }
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2008 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.openid;
+package com.google.gerrit.httpd.auth.openid;
 
-import com.google.gwt.i18n.client.Messages;
-
-public interface OpenIdMessages extends Messages {
-  String signInAt(String hostname);
-  String registerAt(String hostname);
-  String linkAt(String hostname);
-
-  String signInWith(String who);
-  String registerWith(String who);
-  String linkWith(String who);
+enum SignInMode {
+  SIGN_IN, LINK_IDENTIY, REGISTER;
 }

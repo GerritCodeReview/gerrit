@@ -250,6 +250,24 @@
     },
     {
       "key": {
+        "uuid": "SzPb2QBc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-03-29T22:21:28Z",
+      "side": 1,
+      "message": "\u003e I was thinking this would still display things as Dependencies when viewing a change and you would still have commit footers to specifiy the dependencies.\n\nBut that wouldn\u0027t really work because what if someone specifies a dependency to a change which isn\u0027t in a project with the current change as a submodule?\n\n\u003e What do you mean by \"project flag\" and \"header\"?\n\nMy suggestion was to use this framework:\nhttps://gerrit-review.googlesource.com/Documentation/user-submodules.html\n\nBut that framework always updates the parent when the child updates.  So I figured that you could have a project setting for the parent that would tell it not to do that.  Then you would have a footer (sorry I said header) that would tell it to the subscription to temporarily work again (just for this one change).\n\n\nBut to be honest, I don\u0027t think I understand how you would even intend to use the submodules to define circular dependencies?",
+      "parentUuid": "SvIZISnQ",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

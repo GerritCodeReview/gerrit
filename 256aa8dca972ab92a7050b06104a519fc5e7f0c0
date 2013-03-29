@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Suujfk1g",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2013-03-29T01:52:07Z",
+      "side": 1,
+      "message": "s/then/they/ ?",
+      "revId": "256aa8dca972ab92a7050b06104a519fc5e7f0c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

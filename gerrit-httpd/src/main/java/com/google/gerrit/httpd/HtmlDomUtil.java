@@ -53,7 +53,7 @@ public class HtmlDomUtil {
 
   /** DOCTYPE for a standards mode HTML document. */
   public static final String HTML_STRICT =
-      "-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd";
+      "-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd";
 
   /** Convert a document to a UTF-8 byte sequence. */
   public static byte[] toUTF8(final Document hostDoc) throws IOException {

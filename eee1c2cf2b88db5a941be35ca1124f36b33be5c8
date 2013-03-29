@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S0fH2SBc",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-29T14:30:15Z",
+      "side": 1,
+      "message": "We could of course add INSTANTIATE_SOME_TEMPLATE here, but by the way\ncapabilities and isCapability are used, this would allow to write\nINSTANTIATE_SOME_TEMPLATE to (or load it from) the meta/config ref\netc, which causes more problems than it solves.\n\nIf we want to add INSTANTIATE_SOME_TEMPLATE nonetheless here, we could\nadd methods to distinguish between computed and assigned capabilities.",
+      "revId": "eee1c2cf2b88db5a941be35ca1124f36b33be5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S0rDsuE0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetCapabilities.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-03-29T14:30:15Z",
+      "side": 1,
+      "message": "As canInstantiateSomeTemplate is rather time consuming on the backend, I was not sure, whether we would want to include it per default. After all it\u0027s typically only needed to determine whether or not to show the \"Create New Project\" in the top menu.",
+      "revId": "eee1c2cf2b88db5a941be35ca1124f36b33be5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -5,54 +5,8 @@ As part of the code review process, reviewers score each change with
 values for each label configured for the project.  The label values that
 a given user is allowed to set are defined according to the
 link:access-control.html#access_labels[access controls].  Gerrit comes
-pre-configured with several default labels that can be granted to groups
+pre-configured with the Code-Review label that can be granted to groups
 within projects, enabling functionality for that group's members.
-
-
-[[label_Verified]]
-Label: Verified
----------------
-
-The verified label is one of two default labels that is configured upon
-the creation of a Gerrit instance. It may have any meaning the project
-desires.  It was originally invented by the Android Open Source Project
-to mean 'compiles, passes basic unit tests'.
-
-The range of values is:
-
-* -1 Fails
-+
-Tried to compile, but got a compile error, or tried to run tests,
-but one or more tests did not pass.
-+
-*Any -1 blocks submit.*
-
-* 0 No score
-+
-Didn't try to perform the verification tasks.
-
-* +1 Verified
-+
-Compiled (and ran tests) successfully.
-+
-*Any +1 enables submit.*
-
-For a change to be submittable, the change must have a `+1 Verified`
-in this label, and no `-1 Fails`.  Thus, `-1 Fails` can block a submit,
-while `+1 Verified` enables a submit.
-
-If a Gerrit installation does not wish to use this label in any project,
-the `[label "Verified"]` section can be deleted from `project.config` in
-`All-Projects`.
-
-If a Gerrit installation or project wants to modify the description text
-associated with these label values, the text can be updated in the
-`label.Verified.value` fields in `project.config`.
-
-Additional values could also be added to this label, to allow it to
-behave more like `Code-Review` (below).  Add -2 and +2 entries to the
-`label.Verified.value` fields in `project.config` to get the same
-behavior.
 
 
 [[label_Code-Review]]
@@ -127,6 +81,54 @@ little value in doing so as this only expands the middle region.  This
 label is a `MaxWithBlock` type, which means that the lowest negative
 value if present blocks a submit, while the highest positive value is
 required to enable submit.
+
+[[label_Verified]]
+Label: Verified
+---------------
+
+The Verified label was originally invented by the Android Open Source
+Project to mean 'compiles, passes basic unit tests'.  Some CI tools
+expect to use the Verified label to vote on a change after running.
+
+Administrators can install the Verified label by adding the following
+text to `project.config`:
+
+====
+  [label "Verified"]
+      functionName = MaxWithBlock
+      value = -1 Fails
+      value =  0 No score
+      value = +1 Verified
+====
+
+The range of values is:
+
+* -1 Fails
++
+Tried to compile, but got a compile error, or tried to run tests,
+but one or more tests did not pass.
++
+*Any -1 blocks submit.*
+
+* 0 No score
++
+Didn't try to perform the verification tasks.
+
+* +1 Verified
++
+Compiled (and ran tests) successfully.
++
+*Any +1 enables submit.*
+
+For a change to be submittable, the change must have a `+1 Verified`
+in this label, and no `-1 Fails`.  Thus, `-1 Fails` can block a submit,
+while `+1 Verified` enables a submit.
+
+Additional values could also be added to this label, to allow it to
+behave more like `Code-Review` (below).  Add -2 and +2 entries to the
+`label.Verified.value` fields in `project.config` to get the same
+behavior.
+
 
 [[label_custom]]
 Your Label Here

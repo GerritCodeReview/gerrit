@@ -232,6 +232,24 @@
     },
     {
       "key": {
+        "uuid": "SvIZISnQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-03-29T21:35:35Z",
+      "side": 1,
+      "message": "I was thinking this would still display things as Dependencies when viewing a change and you would still have commit footers to specifiy the dependencies.\n\nWhat do you mean by \"project flag\" and \"header\"?",
+      "parentUuid": "SvOZDPlY",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

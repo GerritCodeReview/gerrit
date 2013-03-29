@@ -25,6 +25,7 @@ cmd-create-account.txt \
 cmd-create-group.txt   \
 cmd-create-project.txt \
 cmd-flush-caches.txt   \
+cmd-gc.txt             \
 cmd-gsql.txt           \
 cmd-ls-groups.txt      \
 cmd-ls-projects.txt    \

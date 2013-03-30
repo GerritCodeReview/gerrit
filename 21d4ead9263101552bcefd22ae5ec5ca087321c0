@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "S0RH.bO4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/RelativeDateFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2013-03-30T12:52:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "S0TEB8BQ",
+      "revId": "21d4ead9263101552bcefd22ae5ec5ca087321c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "S0pDxtCM",
         "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/RelativeDateFormatterTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-03-29T19:14:41Z",
       "side": 1,
       "message": "s/2008/2013",
+      "revId": "21d4ead9263101552bcefd22ae5ec5ca087321c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S0tD7PP8",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/RelativeDateFormatterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2013-03-30T12:52:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "S0pDxtCM",
       "revId": "21d4ead9263101552bcefd22ae5ec5ca087321c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

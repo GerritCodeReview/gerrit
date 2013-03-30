@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -118,6 +119,18 @@ public class Permission implements Comparable<Permission> {
       return !OWNER.equals(permissionName);
     }
     return true;
+  }
+
+  /**
+   * Gives a list of valid permission names without label voting permissions.
+   *
+   * @return list of permissions.
+   */
+  public static Collection<String> getAllNames() {
+    List<String> namesLcCopy = new ArrayList<String>(NAMES_LC);
+    namesLcCopy.remove(LABEL.toLowerCase());
+    namesLcCopy.remove(LABEL_AS.toLowerCase());
+    return namesLcCopy;
   }
 
   protected String name;

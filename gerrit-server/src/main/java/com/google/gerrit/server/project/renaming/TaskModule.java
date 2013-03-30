@@ -44,6 +44,7 @@ public class TaskModule extends FactoryModule {
   @Override
   protected void configure() {
     DynamicSet.setOf(binder(), Task.Factory.class);
+    taskFactory(AddDestinationStubTask.Factory.class);
     taskFactory(ReparentChildProjectsTask.Factory.class);
     taskFactory(RenameChangesTask.Factory.class);
     taskFactory(RenameWatchesTask.Factory.class);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S55vsa04",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-31T01:11:57Z",
+      "side": 1,
+      "message": "IIRC getUserAccount() returns null when the user is anonymous. So we need to make sure Gerrit.isSignedIn() is true before testing the preference. See a few lines down from here how we check displayName.",
+      "revId": "755529328e904a2ebbc2d60c8c0e7ecf21153937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S6JrsbU4",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-03-31T01:11:57Z",
+      "side": 1,
+      "message": "I wonder if this should be false. We are going to default to false for all existing users, but you are defaulting to true for new users. We should have the default be consistent for all users.",
+      "revId": "755529328e904a2ebbc2d60c8c0e7ecf21153937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

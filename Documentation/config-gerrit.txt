@@ -2403,6 +2403,34 @@ Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96.
 +
 By default, all supported MACs are available.
 
+[[sshd.kerberosKeytab]]sshd.kerberosKeytab::
++
+Enable kerberos authentication for SSH connections.  To permit
+kerberos authentication, the server must have a host principal
+(see `sshd.kerberosPrincipal`) which is acquired from a keytab.
+This must be provisioned by the kerberos administrators, and is
+typically installed into `/etc/krb5.keytab` on host machines.
++
+The keytab must contain at least one `host/` principal, typically
+using the host's canonical name. If it does not use the
+canonical name, the `sshd.kerberosPrincipal` should be configured
+with the correct name.
++
+By default, not set and so kerberos authentication is not enabled.
+
+[[sshd.kerberosPrincipal]]sshd.kerberosPrincipal::
++
+If kerberos authentication is enabled with `sshd.kerberosKeytab`,
+instead use the given principal name instead of the default.
+If the principal does not begin with `host/` a warning message is
+printed and may prevent successful authentication.
++
+This may be useful if the host is behind an IP load balancer or
+other SSH forwarding systems, since the principal name is constructed
+by the client and must match for kerberos authentication to work.
++
+By default, `host/canonical.host.name`
+
 [[suggest]] Section suggest
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

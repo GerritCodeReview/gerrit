@@ -14,12 +14,19 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.sshd.SshScope.Context;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.mina.core.future.IoFuture;
+import org.apache.mina.core.future.IoFutureListener;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.util.Buffer;
+import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.BufferedReader;
@@ -111,5 +118,47 @@ public class SshUtil {
     } catch (RuntimeException re) {
       return keyStr;
     }
+  }
+
+  public static boolean success(final String username, final ServerSession session,
+      final SshScope sshScope, final SshLog sshLog,
+      final SshSession sd, final CurrentUser user) {
+    if (sd.getCurrentUser() == null) {
+      sd.authenticationSuccess(username, user);
+
+      // If this is the first time we've authenticated this
+      // session, record a login event in the log and add
+      // a close listener to record a logout event.
+      //
+      Context ctx = sshScope.newContext(null, sd, null);
+      Context old = sshScope.set(ctx);
+      try {
+        sshLog.onLogin();
+      } finally {
+        sshScope.set(old);
+      }
+
+      session.getIoSession().getCloseFuture().addListener(
+          new IoFutureListener<IoFuture>() {
+            @Override
+            public void operationComplete(IoFuture future) {
+              final Context ctx = sshScope.newContext(null, sd, null);
+              final Context old = sshScope.set(ctx);
+              try {
+                sshLog.onLogout();
+              } finally {
+                sshScope.set(old);
+              }
+            }
+          });
+    }
+
+    return true;
+  }
+
+  public static IdentifiedUser createUser(final SshSession sd,
+      final IdentifiedUser.GenericFactory userFactory,
+      final Account.Id account) {
+    return userFactory.create(sd.getRemoteAddress(), account);
   }
 }

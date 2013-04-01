@@ -19,6 +19,7 @@ import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -75,6 +76,8 @@ import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.SshFile;
 import org.apache.sshd.server.UserAuth;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
+import org.apache.sshd.server.auth.gss.GSSAuthenticator;
+import org.apache.sshd.server.auth.gss.UserAuthGSS;
 import org.apache.sshd.server.channel.ChannelDirectTcpip;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.kex.DHG1;
@@ -85,9 +88,12 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
@@ -129,6 +135,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   @Inject
   SshDaemon(final CommandFactory commandFactory, final NoShell noShell,
       final PublickeyAuthenticator userAuth,
+      final GerritGSSAuthenticator kerberosAuth,
       final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
       @GerritServerConfig final Config cfg, final SshLog sshLog,
       @SshListenAddresses final List<SocketAddress> listen,
@@ -159,6 +166,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           String.valueOf(maxConnectionsPerUser));
     }
 
+    final String kerberosKeytab = cfg.getString(
+        "sshd", null, "kerberosKeytab");
+    final String kerberosPrincipal = cfg.getString(
+        "sshd", null, "kerberosPrincipal");
+
     if (SecurityUtils.isBouncyCastleRegistered()) {
       initProviderBouncyCastle();
     } else {
@@ -172,7 +184,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initFileSystemFactory();
     initSubsystems();
     initCompression();
-    initUserAuth(userAuth);
+    initUserAuth(userAuth, kerberosAuth, kerberosKeytab, kerberosPrincipal);
     setKeyPairProvider(hostKeyProvider);
     setCommandFactory(commandFactory);
     setShellFactory(noShell);
@@ -457,10 +469,36 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setSubsystemFactories(Collections.<NamedFactory<Command>> emptyList());
   }
 
-  @SuppressWarnings("unchecked")
-  private void initUserAuth(final PublickeyAuthenticator pubkey) {
-    setUserAuthFactories(Arrays
-        .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
+  private void initUserAuth(final PublickeyAuthenticator pubkey,
+      final GSSAuthenticator kerberosAuthenticator,
+      String kerberosKeytab, String kerberosPrincipal) {
+    List<NamedFactory<UserAuth>> authFactories = Lists.newArrayList();
+    if(kerberosKeytab != null) {
+      authFactories.add(new UserAuthGSS.Factory());
+      log.info("Enabling kerberos with keytab " + kerberosKeytab);
+      if(!new File(kerberosKeytab).canRead()) {
+        log.error("Keytab " + kerberosKeytab +
+            " does not exist or is not readable; further errors are possible");
+      }
+      kerberosAuthenticator.setKeytabFile(kerberosKeytab);
+      if(kerberosPrincipal == null) {
+        try {
+          kerberosPrincipal = "host/" +
+              InetAddress.getLocalHost().getCanonicalHostName();
+        } catch(UnknownHostException e) {
+          kerberosPrincipal = "host/localhost";
+        }
+      }
+      log.info("Using kerberos principal " + kerberosPrincipal);
+      if(!kerberosPrincipal.startsWith("host/")) {
+        log.warn("Host principal does not start with host/ " +
+        		"which most SSH clients will supply automatically");
+      }
+      kerberosAuthenticator.setServicePrincipalName(kerberosPrincipal);
+      setGSSAuthenticator(kerberosAuthenticator);
+    }
+    authFactories.add(new UserAuthPublicKey.Factory());
+    setUserAuthFactories(authFactories);
     setPublickeyAuthenticator(pubkey);
   }
 

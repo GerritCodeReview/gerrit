@@ -42,6 +42,7 @@ import com.google.inject.servlet.RequestScoped;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
+import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.eclipse.jgit.lib.Config;
 
 import java.net.SocketAddress;
@@ -84,6 +85,7 @@ public class SshModule extends FactoryModule {
         .toProvider(StreamCommandExecutorProvider.class).in(SINGLETON);
     bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
 
+    bind(GSSAuthenticator.class).to(GerritGSSAuthenticator.class);
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);
 

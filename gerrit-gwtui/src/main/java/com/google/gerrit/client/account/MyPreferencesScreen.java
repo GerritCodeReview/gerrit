@@ -42,6 +42,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox copySelfOnEmails;
   private CheckBox reversePatchSetOrder;
   private CheckBox showUsernameInReviewCategory;
+  private CheckBox relativeDateInChangeTable;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -94,7 +95,10 @@ public class MyPreferencesScreen extends SettingsScreen {
       dateTimePanel.add(dateFormat);
       dateTimePanel.add(timeFormat);
     }
-    final Grid formGrid = new Grid(7, 2);
+
+    relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
+
+    final Grid formGrid = new Grid(8, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -125,6 +129,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, dateTimePanel);
     row++;
 
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, relativeDateInChangeTable);
+    row++;
+
     add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());
@@ -146,6 +154,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(maximumPageSize);
     e.listenTo(dateFormat);
     e.listenTo(timeFormat);
+    e.listenTo(relativeDateInChangeTable);
   }
 
   @Override
@@ -167,6 +176,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
+    relativeDateInChangeTable.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
@@ -180,6 +190,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         p.getDateFormat());
     setListBox(timeFormat, AccountGeneralPreferences.TimeFormat.HHMM_12, //
         p.getTimeFormat());
+    relativeDateInChangeTable.setValue(p.isRelativeDateInChangeTable());
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
@@ -243,6 +254,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setTimeFormat(getListBox(timeFormat,
         AccountGeneralPreferences.TimeFormat.HHMM_12,
         AccountGeneralPreferences.TimeFormat.values()));
+    p.setRelativeDateInChangeTable(relativeDateInChangeTable.getValue());
 
     enable(false);
     save.setEnabled(false);

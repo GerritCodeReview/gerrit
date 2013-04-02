@@ -268,6 +268,24 @@
     },
     {
       "key": {
+        "uuid": "S04-xlSM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-04-02T18:15:40Z",
+      "side": 1,
+      "message": "\u003e But that wouldn\u0027t really work because what if someone specifies a dependency to a change which isn\u0027t in a project with the current change as a submodule?\n\nRight, so the superproject would only update respecting dependencies in projects it references.\n\n\u003e My suggestion was to use this framework\n\nOK, I got that you were suggesting using the submodules feature, I just wasn\u0027t familiar with the vocabulary.  My original plan was that after writing this change, I would modify that feature to respect the dependencies...that is, it would hold off on updating entries in .gitmodules until the necessary dependencies were merged.\n\n\u003e But to be honest, I don\u0027t think I understand how you would even intend to use the submodules to define circular dependencies?\n\nWhat would be wrong with what I described?  Gerrit would watch the commits that come in and holds off on updating superprojects until the necessary dependencies are merged.",
+      "parentUuid": "SzPb2QBc",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

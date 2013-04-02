@@ -286,6 +286,24 @@
     },
     {
       "key": {
+        "uuid": "S57sYR4M",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-02T23:07:55Z",
+      "side": 1,
+      "message": "This feels weird to me, you aren\u0027t really defining a dependency system, just a shorthand way to hold off in updating parent projects when they are subscribed.  The reason I say that is because a change could get merged into a submodule and someone could manually update the parent superproject before the dependeny change is merged into the other submodule.  But also what if one change merges, but the other dependeny change fails its merge?  The fact that the superproject didn\u0027t update doesn\u0027t really help, you still have a broken state which may now require a rewind to fix.  Lastly, in the case when one change is merged but not the dependency, it could endup freezing the superproject in weird ways preventing further updates to it until the dependency is fixed.\n\nOverall, this sounds pretty hard to get right and have a decent user experience.  It would seem that simply updating superprojects manually would be easier for the user to understand.",
+      "parentUuid": "S04-xlSM",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

@@ -206,8 +206,7 @@ public class ChangeJson {
 
   public List<List<ChangeInfo>> formatList2(List<List<ChangeData>> in)
       throws OrmException {
-    accountLoader =
-        accountLoaderFactory.create(options.contains(DETAILED_ACCOUNTS));
+    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     for (List<ChangeData> changes : in) {
       ChangeData.ensureChangeLoaded(db, changes);
@@ -217,6 +216,10 @@ public class ChangeJson {
     }
     accountLoader.fill();
     return res;
+  }
+
+  private boolean has(ListChangesOption option) {
+    return options.contains(option);
   }
 
   private List<ChangeInfo> toChangeInfo(List<ChangeData> changes)
@@ -245,16 +248,20 @@ public class ChangeJson {
     out._sortkey = in.getSortKey();
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
     out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
-    out.labels = labelsFor(cd, options.contains(LABELS),
-        options.contains(DETAILED_LABELS));
-    if (out.labels != null && options.contains(DETAILED_LABELS)) {
-      out.permitted_labels = permittedLabels(cd);
+    out.labels = labelsFor(cd, has(LABELS), has(DETAILED_LABELS));
+
+    Collection<PatchSet.Id> limited = cd.getLimitedPatchSets();
+    if (out.labels != null && has(DETAILED_LABELS)) {
+      // If limited to specific patch sets but not the current patch set, don't
+      // list permitted labels, since users can't vote on those patch sets.
+      if (limited == null || limited.contains(in.currentPatchSetId())) {
+        out.permitted_labels = permittedLabels(cd);
+      }
       out.removable_reviewers = removableReviewers(cd, out.labels.values());
     }
     out.finish();
 
-    if (options.contains(ALL_REVISIONS) || options.contains(CURRENT_REVISION)
-        || cd.getLimitedPatchSets() != null) {
+    if (has(ALL_REVISIONS) || has(CURRENT_REVISION) || limited != null) {
       out.revisions = revisions(cd);
       if (out.revisions != null) {
         for (String commit : out.revisions.keySet()) {
@@ -683,7 +690,7 @@ public class ChangeJson {
     }
 
     Collection<PatchSet> src;
-    if (cd.getLimitedPatchSets() != null || options.contains(ALL_REVISIONS)) {
+    if (cd.getLimitedPatchSets() != null || has(ALL_REVISIONS)) {
       src = cd.patches(db);
     } else {
       src = Collections.singletonList(cd.currentPatchSet(db));
@@ -705,8 +712,8 @@ public class ChangeJson {
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(cd, in);
 
-    if (options.contains(ALL_COMMITS)
-        || (out.isCurrent && options.contains(CURRENT_COMMIT))) {
+    if (has(ALL_COMMITS)
+        || (out.isCurrent && has(CURRENT_COMMIT))) {
       try {
         PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId());
         out.commit = new CommitInfo();
@@ -727,8 +734,8 @@ public class ChangeJson {
       }
     }
 
-    if (options.contains(ALL_FILES)
-        || (out.isCurrent && options.contains(CURRENT_FILES))) {
+    if (has(ALL_FILES)
+        || (out.isCurrent && has(CURRENT_FILES))) {
       PatchList list;
       try {
         list = patchListCache.get(cd.change(db), in);

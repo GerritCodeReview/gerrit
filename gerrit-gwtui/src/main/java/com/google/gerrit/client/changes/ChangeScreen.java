@@ -28,6 +28,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -385,6 +386,10 @@ public class ChangeScreen extends Screen
     final long AGE = 7 * 24 * 60 * 60 * 1000L;
     final Timestamp aged = new Timestamp(System.currentTimeMillis() - AGE);
 
+    final CommentVisibilityStrategy commentVisibilityStrategy =
+        Gerrit.getUserAccount().getGeneralPreferences()
+        .getDefaultCommentVisibilityStrategy();
+
     for (int i = 0; i < msgList.size(); i++) {
       final ChangeMessage msg = msgList.get(i);
 
@@ -409,8 +414,23 @@ public class ChangeScreen extends Screen
       cp.addStyleName(Gerrit.RESOURCES.css().commentPanelBorder());
       if (i == msgList.size() - 1) {
         cp.addStyleName(Gerrit.RESOURCES.css().commentPanelLast());
-        cp.setOpen(true);
       }
+      boolean isOpen = false;
+      switch (commentVisibilityStrategy) {
+        case COLLAPSE_ALL:
+          break;
+        case EXPAND_RECENT:
+          isOpen = isRecent;
+          break;
+        case EXPAND_ALL:
+          isOpen = true;
+          break;
+        case EXPAND_MOST_RECENT:
+        default:
+          isOpen = i == msgList.size() - 1;
+          break;
+      }
+      cp.setOpen(isOpen);
       comments.add(cp);
     }
 

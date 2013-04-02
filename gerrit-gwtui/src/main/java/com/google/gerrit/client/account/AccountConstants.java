@@ -24,6 +24,7 @@ public interface AccountConstants extends Constants {
   String registeredOn();
   String accountId();
 
+  String defaultCommentVisibilityLabel();
   String maximumPageSizeFieldLabel();
   String dateFormatLabel();
   String contextWholeFile();

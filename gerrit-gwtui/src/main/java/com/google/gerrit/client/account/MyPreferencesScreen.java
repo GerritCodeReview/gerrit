@@ -23,6 +23,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.CommentVisibilityStrategy;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -46,6 +47,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
+  private ListBox defaultCommentVisibilityStrategy;
   private Button save;
 
   @Override
@@ -61,6 +63,24 @@ public class MyPreferencesScreen extends SettingsScreen {
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
+
+    defaultCommentVisibilityStrategy = new ListBox();
+    defaultCommentVisibilityStrategy.addItem(
+        com.google.gerrit.client.changes.Util.C.messageCollapseAll(),
+        AccountGeneralPreferences.CommentVisibilityStrategy.COLLAPSE_ALL.name()
+    );
+    defaultCommentVisibilityStrategy.addItem(
+        com.google.gerrit.client.changes.Util.C.messageExpandMostRecent(),
+        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_MOST_RECENT.name()
+    );
+    defaultCommentVisibilityStrategy.addItem(
+        com.google.gerrit.client.changes.Util.C.messageExpandRecent(),
+        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT.name()
+    );
+    defaultCommentVisibilityStrategy.addItem(
+        com.google.gerrit.client.changes.Util.C.messageExpandAll(),
+        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_ALL.name()
+    );
 
     Date now = new Date();
     dateFormat = new ListBox();
@@ -98,7 +118,7 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     relativeDateInChangeTable = new CheckBox(Util.C.showRelativeDateInChangeTable());
 
-    final Grid formGrid = new Grid(8, 2);
+    final Grid formGrid = new Grid(9, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -133,6 +153,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, relativeDateInChangeTable);
     row++;
 
+    formGrid.setText(row, labelIdx, Util.C.defaultCommentVisibilityLabel());
+    formGrid.setWidget(row, fieldIdx, defaultCommentVisibilityStrategy);
+    row++;
+
     add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());
@@ -155,6 +179,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(dateFormat);
     e.listenTo(timeFormat);
     e.listenTo(relativeDateInChangeTable);
+    e.listenTo(defaultCommentVisibilityStrategy);
   }
 
   @Override
@@ -177,6 +202,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
     relativeDateInChangeTable.setEnabled(on);
+    defaultCommentVisibilityStrategy.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
@@ -191,6 +217,9 @@ public class MyPreferencesScreen extends SettingsScreen {
     setListBox(timeFormat, AccountGeneralPreferences.TimeFormat.HHMM_12, //
         p.getTimeFormat());
     relativeDateInChangeTable.setValue(p.isRelativeDateInChangeTable());
+    setListBox(defaultCommentVisibilityStrategy,
+        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_MOST_RECENT,
+        p.getDefaultCommentVisibilityStrategy());
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
@@ -255,6 +284,9 @@ public class MyPreferencesScreen extends SettingsScreen {
         AccountGeneralPreferences.TimeFormat.HHMM_12,
         AccountGeneralPreferences.TimeFormat.values()));
     p.setRelativeDateInChangeTable(relativeDateInChangeTable.getValue());
+    p.setDefaultCommentVisibilityStrategy(getListBox(defaultCommentVisibilityStrategy,
+        CommentVisibilityStrategy.EXPAND_MOST_RECENT,
+        CommentVisibilityStrategy.values()));
 
     enable(false);
     save.setEnabled(false);

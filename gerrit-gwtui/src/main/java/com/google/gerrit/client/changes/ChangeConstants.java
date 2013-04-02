@@ -113,6 +113,7 @@ public interface ChangeConstants extends Constants {
   String includedInTableTag();
 
   String messageNoAuthor();
+  String messageExpandMostRecent();
   String messageExpandRecent();
   String messageExpandAll();
   String messageCollapseAll();

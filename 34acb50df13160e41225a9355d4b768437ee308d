@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S7bUYYIM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-04-02T22:09:51Z",
+      "side": 1,
+      "message": "has_permitted_labels (s/values/labels/) would be more intuitive",
+      "revId": "34acb50df13160e41225a9355d4b768437ee308d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S7dUN3EM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-04-02T22:09:51Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "34acb50df13160e41225a9355d4b768437ee308d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

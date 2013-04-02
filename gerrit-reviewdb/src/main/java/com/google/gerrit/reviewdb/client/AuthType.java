@@ -76,6 +76,11 @@ public enum AuthType {
    */
   LDAP_BIND,
 
+  /**
+   * Enables authentication plugins
+   */
+  AUTH_PLUGINS,
+
   /** Login is managed by additional, unspecified code. */
   CUSTOM_EXTENSION,
 

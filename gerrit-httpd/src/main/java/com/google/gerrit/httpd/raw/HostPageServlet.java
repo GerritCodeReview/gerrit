@@ -25,9 +25,9 @@ import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.auth.AuthorizationPage;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.linker.server.Permutation;
@@ -209,7 +209,9 @@ public class HostPageServlet extends HttpServlet {
       w.write(";");
     }
     plugins(w);
-    authPages(w);
+    if (config.getAuthType() == AuthType.AUTH_PLUGINS) {
+      authPages(w);
+    }
 
     final byte[] hpd = w.toString().getBytes("UTF-8");
     final byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
@@ -299,7 +301,9 @@ public class HostPageServlet extends HttpServlet {
       css = injectCssFile(hostDoc, "gerrit_sitecss", site.site_css);
       header = injectXmlFile(hostDoc, "gerrit_header", site.site_header);
       footer = injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
-      injectAuthenciationForms(hostDoc, "auth_forms");
+      if (config.getAuthType() == AuthType.AUTH_PLUGINS) {
+        injectAuthenciationForms(hostDoc, "auth_forms");
+      }
 
       final HostPageData pageData = new HostPageData();
       pageData.config = config;

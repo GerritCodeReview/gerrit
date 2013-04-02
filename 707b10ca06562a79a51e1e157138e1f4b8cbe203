@@ -16,6 +16,24 @@
       "revId": "707b10ca06562a79a51e1e157138e1f4b8cbe203",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S8JLsPE4",
+        "filename": "gerrit-openid/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-02T07:09:17Z",
+      "side": 1,
+      "message": "No, that was not supposed to be there.\n\nRemoved in the next patch set.",
+      "parentUuid": "S7Db.GO8",
+      "revId": "707b10ca06562a79a51e1e157138e1f4b8cbe203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

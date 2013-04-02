@@ -116,6 +116,15 @@ public class WebModule extends FactoryModule {
         // OpenID support is bound in WebAppInitializer and Daemon.
       case CUSTOM_EXTENSION:
         break;
+
+      case AUTH_PLUGINS:
+        install(new ServletModule() {
+          @Override
+          protected void configureServlets() {
+            serve("/authenticate").with(AuthenticationServlet.class);
+          }
+        });
+        break;
       default:
         throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
@@ -148,12 +157,6 @@ public class WebModule extends FactoryModule {
       @Override
       protected void configure() {
         listener().toInstance(registerInParentInjectors());
-      }
-    });
-    install(new ServletModule() {
-      @Override
-      protected void configureServlets() {
-        serve("/authenticate").with(AuthenticationServlet.class);
       }
     });
   }

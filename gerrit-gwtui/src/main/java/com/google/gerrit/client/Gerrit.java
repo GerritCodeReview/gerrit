@@ -706,8 +706,60 @@ public class Gerrit implements EntryPoint {
 
     if (signedIn) {
       whoAmI(cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP);
-    } else if (authDialog != null) {
-      addLink(menuRight, C.menuSignIn(), PageLinks.AUTH_DIALOG);
+    } else {
+      switch (cfg.getAuthType()) {
+        case HTTP:
+        case HTTP_LDAP:
+        case CLIENT_SSL_CERT_LDAP:
+          break;
+
+        case OPENID:
+          menuRight.addItem(C.menuRegister(), new Command() {
+            public void execute() {
+              String t = History.getToken();
+              if (t == null) {
+                t = "";
+              }
+              doSignIn(PageLinks.REGISTER + t);
+            }
+          });
+          menuRight.addItem(C.menuSignIn(), new Command() {
+            public void execute() {
+              doSignIn(History.getToken());
+            }
+          });
+          break;
+
+        case OPENID_SSO:
+          menuRight.addItem(C.menuSignIn(), new Command() {
+            public void execute() {
+              doSignIn(History.getToken());
+            }
+          });
+          break;
+
+        case LDAP:
+        case LDAP_BIND:
+        case CUSTOM_EXTENSION:
+          if (cfg.getRegisterUrl() != null) {
+            final String registerText = cfg.getRegisterText() == null ? C.menuRegister() : cfg.getRegisterText();
+            menuRight.add(anchor(registerText, cfg.getRegisterUrl()));
+          }
+          menuRight.addItem(C.menuSignIn(), new Command() {
+            public void execute() {
+              doSignIn(History.getToken());
+            }
+          });
+          break;
+
+        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+          menuRight.add(anchor("Become", loginRedirect("")));
+          break;
+
+        case AUTH_PLUGINS:
+          addLink(menuRight, C.menuSignIn(), PageLinks.AUTH_DIALOG);
+          break;
+      }
     }
   }
 

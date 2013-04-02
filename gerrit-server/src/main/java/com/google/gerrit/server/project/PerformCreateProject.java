@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
@@ -73,17 +72,16 @@ public class PerformCreateProject {
   private final GitReferenceUpdated referenceUpdated;
   private final DynamicSet<NewProjectCreatedListener> createdListener;
   private final PersonIdent serverIdent;
-  private CreateProjectArgs createProjectArgs;
-  private ProjectCache projectCache;
-  private GroupBackend groupBackend;
-  private MetaDataUpdate.User metaDataUpdateFactory;
+  private final CreateProjectArgs createProjectArgs;
+  private final ProjectCache projectCache;
+  private final GroupBackend groupBackend;
+  private final MetaDataUpdate.User metaDataUpdateFactory;
 
   @Inject
   PerformCreateProject(@ProjectOwnerGroups Set<AccountGroup.UUID> pOwnerGroups,
       IdentifiedUser identifiedUser, GitRepositoryManager gitRepoManager,
       GitReferenceUpdated referenceUpdated,
       DynamicSet<NewProjectCreatedListener> createdListener,
-      ReviewDb db,
       @GerritPersonIdent PersonIdent personIdent, GroupBackend groupBackend,
       MetaDataUpdate.User metaDataUpdateFactory,
       @Assisted CreateProjectArgs createPArgs, ProjectCache pCache) {

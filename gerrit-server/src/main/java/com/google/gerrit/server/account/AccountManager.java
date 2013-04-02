@@ -56,7 +56,7 @@ public class AccountManager {
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUserName.Factory changeUserNameFactory;
   private final ProjectCache projectCache;
-  private final AtomicBoolean firstAccount;
+  private final AtomicBoolean awaitsFirstAccountCheck;
 
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
@@ -73,14 +73,7 @@ public class AccountManager {
     this.userFactory = userFactory;
     this.changeUserNameFactory = changeUserNameFactory;
     this.projectCache = projectCache;
-
-    firstAccount = new AtomicBoolean();
-    final ReviewDb db = schema.open();
-    try {
-      firstAccount.set(db.accounts().anyAccounts().toList().isEmpty());
-    } finally {
-      db.close();
-    }
+    this.awaitsFirstAccountCheck = new AtomicBoolean(true);
   }
 
   /**
@@ -274,10 +267,20 @@ public class AccountManager {
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
 
-    db.accounts().insert(Collections.singleton(account));
-    db.accountExternalIds().insert(Collections.singleton(extId));
+    final boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false)
+      && db.accounts().anyAccounts().toList().isEmpty();
 
-    if (firstAccount.get() && firstAccount.compareAndSet(true, false)) {
+    try {
+      db.accounts().insert(Collections.singleton(account));
+      db.accountExternalIds().insert(Collections.singleton(extId));
+    } finally {
+      // If adding the account failed, it may be that it actually was the
+      // first account. So we reset the 'check for first account'-guard, as
+      // otherwise the first account would not get administration permissions.
+      awaitsFirstAccountCheck.set(isFirstAccount);
+    }
+
+    if (isFirstAccount) {
       // This is the first user account on our site. Assume this user
       // is going to be the site's administrator and just make them that
       // to bootstrap the authentication database.

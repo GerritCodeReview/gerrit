@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "S7RUBFBQ",
+        "filename": "Documentation/user-dependencies.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-02T12:59:25Z",
+      "side": 1,
+      "message": "Nit: Convention is to have the same number of - characters as in the line above.",
+      "revId": "9833717d34501bc67d382b7a2155463a8ed35b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SuUmEoUs",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 2

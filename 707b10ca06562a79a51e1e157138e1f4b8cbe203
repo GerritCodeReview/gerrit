@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S7Db.GO8",
+        "filename": "gerrit-openid/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-02T06:45:24Z",
+      "side": 1,
+      "message": "This change seems to be unrelated?",
+      "revId": "707b10ca06562a79a51e1e157138e1f4b8cbe203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

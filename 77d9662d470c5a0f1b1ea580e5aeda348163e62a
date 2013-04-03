@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S6ngfoWQ",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-04-03T10:13:25Z",
+      "side": 1,
+      "message": "function \u003d MaxWithBlock",
+      "revId": "77d9662d470c5a0f1b1ea580e5aeda348163e62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

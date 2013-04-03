@@ -249,6 +249,9 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private void initLabel(String labelName, Panel body) {
+    if (!change.has_permitted_labels()) {
+      return;
+    }
     JsArrayString nativeValues = change.permitted_values(labelName);
     if (nativeValues == null || nativeValues.length() == 0) {
       return;

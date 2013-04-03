@@ -249,14 +249,19 @@ public class ChangeJson {
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
     out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
     out.labels = labelsFor(cd, has(LABELS), has(DETAILED_LABELS));
+
+    Collection<PatchSet.Id> limited = cd.getLimitedPatchSets();
     if (out.labels != null && has(DETAILED_LABELS)) {
-      out.permitted_labels = permittedLabels(cd);
+      // If limited to specific patch sets but not the current patch set, don't
+      // list permitted labels, since users can't vote on those patch sets.
+      if (limited == null || limited.contains(in.currentPatchSetId())) {
+        out.permitted_labels = permittedLabels(cd);
+      }
       out.removable_reviewers = removableReviewers(cd, out.labels.values());
     }
     out.finish();
 
-    if (has(ALL_REVISIONS) || has(CURRENT_REVISION)
-        || cd.getLimitedPatchSets() != null) {
+    if (has(ALL_REVISIONS) || has(CURRENT_REVISION) || limited != null) {
       out.revisions = revisions(cd);
       if (out.revisions != null) {
         for (String commit : out.revisions.keySet()) {

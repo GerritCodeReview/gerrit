@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S7bVDAFc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-03T00:21:11Z",
+      "side": 1,
+      "message": "How about using `\u0026\u0026 change.status().isOpen()` here?\n\nThen it\u0027ll also not show the \"needs rebase\" on abandoned changes.",
+      "revId": "c468fe93189c299def19592e7259d25993589cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

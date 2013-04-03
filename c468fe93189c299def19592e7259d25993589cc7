@@ -16,6 +16,24 @@
       "revId": "c468fe93189c299def19592e7259d25993589cc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S8DL.MO8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-03T00:23:59Z",
+      "side": 1,
+      "message": "This intentionally mirrors ChangeJson on the sever side, which says:\n\n  out.mergeable \u003d in.getStatus() !\u003d Change.Status.MERGED ? in.isMergeable() : null;\n\nIOW if the change is some other closed status, it will defer to the mergeable bit stored in the db. And I think we probably do want \"needs rebase\" on an abandoned change if it really needs a rebase in order to be submitted. (Of course, it would also have to be reopened, but that\u0027s orthogonal :)",
+      "parentUuid": "S7bVDAFc",
+      "revId": "c468fe93189c299def19592e7259d25993589cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

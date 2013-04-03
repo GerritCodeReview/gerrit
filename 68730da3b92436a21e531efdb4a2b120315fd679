@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S7bWNwH0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-03T04:33:48Z",
+      "side": 1,
+      "message": "This appears to be unused. You don\u0027t have to remove it in this commit, but I don\u0027t think we should base a new field on an unused one. :-)",
+      "revId": "68730da3b92436a21e531efdb4a2b120315fd679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S8BIz7P8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-03T04:33:48Z",
+      "side": 1,
+      "message": "I don\u0027t think default makes sense here. Just label it Comment Visibility.",
+      "revId": "68730da3b92436a21e531efdb4a2b120315fd679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S7ZWIxG4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-03T04:33:48Z",
+      "side": 1,
+      "message": "When a user is anonymous this will NPE.",
+      "revId": "68730da3b92436a21e531efdb4a2b120315fd679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S8PJNiII",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGeneralPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-03T04:33:48Z",
+      "side": 1,
+      "message": "s/default//. I don\u0027t think it makes sense to call this default. Its just the user\u0027s preferred way to view comments.",
+      "revId": "68730da3b92436a21e531efdb4a2b120315fd679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -95,7 +95,7 @@ text to `project.config`:
 
 ====
   [label "Verified"]
-      functionName = MaxWithBlock
+      function = MaxWithBlock
       value = -1 Fails
       value =  0 No score
       value = +1 Verified
@@ -184,9 +184,9 @@ example on project dashboards. Defaults to all the uppercase characters
 in the label name, e.g. `Label-Name` is abbreviated by default as `LN`.
 
 
-[[label_functionName]]
-`label.Label-Name.functionName`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[label_function]]
+`label.Label-Name.function`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The name of a function for evaluating multiple votes for a label.  This
 function is only applied if the default submit rule is used for a label.
@@ -248,7 +248,7 @@ but has different names/labels:
 
 ====
   [label "Copyright-Check"]
-      functionName = MaxWithBlock
+      function = MaxWithBlock
       value = -1 Do not have copyright
       value =  0 No score
       value = +1 Copyright clear

@@ -47,10 +47,12 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+    fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
 
     table.setText(0, 1, Util.C.dashboardName());
-    table.setText(0, 2, Util.C.dashboardDescription());
-    table.setText(0, 3, Util.C.dashboardInherited());
+    table.setText(0, 2, Util.C.dashboardTitle());
+    table.setText(0, 3, Util.C.dashboardDescription());
+    table.setText(0, 4, Util.C.dashboardInherited());
   }
 
   public void display(DashboardList dashes) {
@@ -99,7 +101,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     table.setText(row, 0, section);
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.setColSpan(row, 0, 5);
+    fmt.setColSpan(row, 0, 6);
     fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().sectionHeader());
   }
 
@@ -113,6 +115,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
 
     populate(row, k);
   }
@@ -125,9 +128,10 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     }
     table.setWidget(row, 2, new Anchor(k.path(), "#"
             + PageLinks.toProjectDashboard(new Project.NameKey(k.project()), k.id())));
-    table.setText(row, 3, k.description());
+    table.setText(row, 3, k.title() != null ? k.title() : k.path());
+    table.setText(row, 4, k.description());
     if (k.definingProject() != null && !k.definingProject().equals(k.project())) {
-      table.setWidget(row, 4, new Anchor(k.definingProject(), "#"
+      table.setWidget(row, 5, new Anchor(k.definingProject(), "#"
           + PageLinks.toProjectDashboards(new Project.NameKey(k.definingProject()))));
     }
     setRowItem(row, k);

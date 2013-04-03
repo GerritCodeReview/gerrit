@@ -5,6 +5,17 @@ Gerrit Code Review comes with a REST like API available over HTTP.
 The API is suitable for automated tools to build upon, as well as
 supporting some ad-hoc scripting use cases.
 
+Endpoints
+---------
+link:rest-api-accounts.html[/accounts/]::
+  Account related REST endpoints
+link:rest-api-changes.html[/changes/]::
+  Change related REST endpoints
+link:rest-api-groups.html[/groups/]::
+  Group related REST endpoints
+link:rest-api-projects.html[/projects/]::
+  Project related REST endpoints
+
 Protocol Details
 ----------------
 
@@ -144,17 +155,6 @@ Preconditions] section.
 ^^^^^^^^^^^^^^^^^^^^^^^^
 `422 Unprocessable Entity` is returned if the ID of a resource that is
 specified in the request body cannot be resolved.
-
-Endpoints
----------
-link:rest-api-accounts.html[/accounts/]::
-  Account related REST endpoints
-link:rest-api-changes.html[/changes/]::
-  Change related REST endpoints
-link:rest-api-groups.html[/groups/]::
-  Group related REST endpoints
-link:rest-api-projects.html[/projects/]::
-  Project related REST endpoints
 
 GERRIT
 ------

@@ -140,6 +140,7 @@ public class AllProjectsCreator {
     grant(config, heads, Permission.SUBMIT, admin, owners);
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
     grant(config, heads, Permission.FORGE_COMMITTER, admin, owners);
+    grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin, owners);
 
     grant(config, tags, Permission.PUSH_TAG, admin, owners);
     grant(config, tags, Permission.PUSH_SIGNED_TAG, admin, owners);
@@ -158,10 +159,17 @@ public class AllProjectsCreator {
 
   private void grant(ProjectConfig config, AccessSection section,
       String permission, GroupReference... groupList) {
+    grant(config, section, permission, false, groupList);
+  }
+
+  private void grant(ProjectConfig config, AccessSection section,
+      String permission, boolean force, GroupReference... groupList) {
     Permission p = section.getPermission(permission, true);
     for (GroupReference group : groupList) {
       if (group != null) {
-        p.add(rule(config, group));
+        PermissionRule r = rule(config, group);
+        r.setForce(force);
+        p.add(r);
       }
     }
   }

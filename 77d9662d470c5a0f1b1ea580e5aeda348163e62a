@@ -16,6 +16,24 @@
       "revId": "77d9662d470c5a0f1b1ea580e5aeda348163e62a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S6FoLtTM",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-03T13:39:17Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/44261",
+      "parentUuid": "S6ngfoWQ",
+      "revId": "77d9662d470c5a0f1b1ea580e5aeda348163e62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

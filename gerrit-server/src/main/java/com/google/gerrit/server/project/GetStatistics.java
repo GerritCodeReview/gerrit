@@ -29,7 +29,6 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
-import java.util.Properties;
 
 @RequiresCapability(GlobalCapability.RUN_GC)
 public class GetStatistics implements RestReadView<ProjectResource> {

@@ -89,6 +89,8 @@ public class ChangeInfo extends JavaScriptObject {
   private final native NativeMap<LabelInfo> labels0() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
 
+  public final native boolean has_permitted_labels()
+  /*-{ return this.hasOwnProperty('permitted_labels') }-*/;
   private final native NativeMap<JavaScriptObject> _permitted_labels()
   /*-{ return this.permitted_labels; }-*/;
   public final Set<String> permitted_labels() {

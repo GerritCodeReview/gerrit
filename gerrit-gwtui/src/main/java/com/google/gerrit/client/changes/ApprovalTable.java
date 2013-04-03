@@ -33,6 +33,7 @@ import com.google.gerrit.client.ui.ReviewerSuggestOracle;
 import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -154,6 +155,7 @@ public class ApprovalTable extends Composite {
     }
 
     if (Gerrit.getConfig().testChangeMerge()
+        && change.status() != Change.Status.MERGED
         && !change.mergeable()) {
       addMissingLabel(Util.C.messageNeedsRebaseOrHasDependency());
     }

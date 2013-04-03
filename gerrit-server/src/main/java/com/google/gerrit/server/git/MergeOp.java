@@ -931,30 +931,29 @@ public class MergeOp {
 
   private PatchSetApproval saveApprovals(Change c, PatchSet.Id merged)
       throws OrmException {
-    // Flatten out all existing approvals based upon the current
-    // permissions. Once the change is closed the approvals are
-    // not updated at presentation view time, so we need to make.
-    // sure they are accurate now. This way if permissions get
-    // modified in the future, historical records stay accurate.
-    //
-    Change.Id changeId = c.getId();
+    // Flatten out existing approvals for this patch set based upon the current
+    // permissions. Once the change is closed the approvals are not updated at
+    // presentation view time, except for zero votes used to indicate a reviewer
+    // was added. So we need to make sure votes are accurate now. This way if
+    // permissions get modified in the future, historical records stay accurate.
     PatchSetApproval submitter = null;
     try {
       c.setStatus(Change.Status.MERGED);
 
       List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byChange(changeId).toList();
+          db.patchSetApprovals().byPatchSet(merged).toList();
       Set<PatchSetApproval.Key> toDelete =
           Sets.newHashSetWithExpectedSize(approvals.size());
       for (PatchSetApproval a : approvals) {
-        toDelete.add(a.getKey());
+        if (a.getValue() != 0) {
+          toDelete.add(a.getKey());
+        }
       }
 
       approvals = labelNormalizer.normalize(c, approvals);
       for (PatchSetApproval a : approvals) {
         toDelete.remove(a.getKey());
-        if (a.getValue() > 0 && a.isSubmit()
-            && a.getPatchSetId().equals(merged)) {
+        if (a.getValue() > 0 && a.isSubmit()) {
           if (submitter == null
               || a.getGranted().compareTo(submitter.getGranted()) > 0) {
             submitter = a;

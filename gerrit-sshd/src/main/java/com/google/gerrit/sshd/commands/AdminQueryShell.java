@@ -72,7 +72,7 @@ final class AdminQueryShell extends SshCommand {
   private void checkPermission() throws PermissionDeniedException {
     if (!currentUser.getCapabilities().canAccessDatabase()) {
       throw new PermissionDeniedException(String.format(
-          "%s does not have \"Perform Raw Query\" capability.",
+          "%s does not have \"Access Database\" capability.",
           currentUser.getUserName()));
     }
   }

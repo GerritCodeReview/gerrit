@@ -234,6 +234,7 @@ public class SchemaCreator {
       grant(config, heads, Permission.SUBMIT, admin, owners);
       grant(config, heads, Permission.FORGE_AUTHOR, registered);
       grant(config, heads, Permission.FORGE_COMMITTER, admin, owners);
+      grant(config, heads, Permission.EDIT_TOPIC_NAME, true, admin, owners);
 
       grant(config, tags, Permission.PUSH_TAG, admin, owners);
       grant(config, tags, Permission.PUSH_SIGNED_TAG, admin, owners);
@@ -253,11 +254,20 @@ public class SchemaCreator {
 
   private PermissionRule grant(ProjectConfig config, AccessSection section,
       String permission, AccountGroup group1, AccountGroup... groupList) {
+    return grant(config, section, permission, false, group1, groupList);
+  }
+
+  private PermissionRule grant(ProjectConfig config, AccessSection section,
+      String permission, boolean force, AccountGroup group1,
+      AccountGroup... groupList) {
     Permission p = section.getPermission(permission, true);
     PermissionRule rule = rule(config, group1);
+    rule.setForce(force);
     p.add(rule);
     for (AccountGroup group : groupList) {
-      p.add(rule(config, group));
+      rule = rule(config, group);
+      rule.setForce(force);
+      p.add(rule);
     }
     return rule;
   }

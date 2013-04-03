@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S6thIrXU",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-04-03T14:29:48Z",
+      "side": 1,
+      "message": "shoudn\u0027t it be noticed in commit message that container based authentication will be implemented later?",
+      "revId": "da8ae3a2e0d7ef2a52ed19081096ce1c7c93fb2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

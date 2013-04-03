@@ -304,6 +304,24 @@
     },
     {
       "key": {
+        "uuid": "S8DJXEAc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2013-04-03T19:28:03Z",
+      "side": 1,
+      "message": "\u003e just a shorthand way to hold off in updating parent projects when they are subscribed.\n\nThis is an accurate diagnosis.\n\n\u003e  The fact that the superproject didn\u0027t update doesn\u0027t really help\n\nWell...it help the clients...\n\n\u003e It would seem that simply updating superprojects manually would be easier for the user to understand.\n\nHrm...that may be.  Perhaps a button someone with permission could click to say HEAD green for all project/branches the superproject aggregates....I\u0027m not sure if that\u0027s really the best idea...just talking at this point.",
+      "parentUuid": "S57sYR4M",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

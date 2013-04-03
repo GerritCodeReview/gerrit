@@ -13,8 +13,10 @@
         margin-left: 45px;
       }
     </style>
+    <style  id="gerrit_sitecss" type="text/css"></style>
   </head>
   <body>
+    <div id="gerrit_header"></div>
     <h1>Sign In to Gerrit Code Review at <span id="hostName">example.com</span></h1>
     <div id="error_message">Invalid username or password.</div>
     <form method="POST" action="#" id="login_form">
@@ -71,5 +73,8 @@
       }
       f_user.focus();
     </script>
+    <div style="clear: both; margin-top: 15px; padding-top: 2px; margin-bottom: 15px;">
+      <div id="gerrit_footer"></div>
+    </div>
   </body>
 </html>

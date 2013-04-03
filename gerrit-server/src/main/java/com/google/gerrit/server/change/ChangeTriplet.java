@@ -62,6 +62,8 @@ public class ChangeTriplet {
   }
 
   public static class ParseException extends Exception {
+    private static final long serialVersionUID = 1L;
+
     ParseException() {
       super();
     }

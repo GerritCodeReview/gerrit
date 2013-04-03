@@ -47,6 +47,11 @@ Web UI
 Global
 ^^^^^^
 
+* New Login Screens
++
+New form based HTML screens for login allow browsers to offer the
+choice to save the login data locally in the user's password store.
+
 * Rename "Groups" top-level menu to "People"
 
 * Move "Draft Comments" link next to "Drafts" link
@@ -141,6 +146,8 @@ too much space due to the long label texts.
 * The patch set review screen can include radio buttons for custom
   labels if enabled by
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/prolog-cookbook.html#_how_to_write_submit_rules[submit rules].
+
+* Voting on draft changes is now possible.
 
 * Recommend rebase on Path Conflict
 
@@ -514,6 +521,12 @@ to be explicitly assigned, even for site administrators.
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_publish_drafts[publishing]
   other users' draft changes is a new permission.
 
+* Grant most permissions when creation `All-Projects`
++
+Make Gerrit more like a Git server out of the box by granting both
+Administrators and Project Owners permissions to review changes, submit
+them, create branches, create tags, and push directly to branches.
+
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#ldap.groupName[
   LDAP group names] are configurable, `cn` is still the default.
 
@@ -589,6 +602,11 @@ Selecting publish vs. draft should be done with the options `draft` or
   refs/for/master%r=alice,publish
 ----
 
+* Enable content merge by default
++
+Most teams seem to expect Gerrit to manage simple merges within a
+source code file. Enable this out of the box.
+
 * Added a link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#core.useRecursiveMerge[
   server-level option] to use JGit's new, experimental recursive merger.
 
@@ -660,6 +678,11 @@ Plugins
   which is included as a core plugin in the Gerrit distribution and can
   be installed during site initialization.
 * A plugin extension point for avatar images was added.
+* Allow HTTP plugins to change `static` or `docs` prefixes
++
+An HTTP plugin may want more control over its URL space, but still
+delegate to the plugin servlet's magic handling for static files and
+documentation. Add JAR attributes to configure these prefixes.
 
 Prolog
 ~~~~~~
@@ -720,6 +743,14 @@ Labels
 * Labels are no longer global;
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-labels.html[
   projects may define their own labels], with inheritance.
+* Don't create `Verify` category by default
++
+Most project teams seem confused with the out-of-the-box experience
+needing to vote on both `Code-Review` and `Verified` categories in
+order to submit a change. Simplify the out of the box workflow to only
+have `Code-Review`. When a team installs the Hudson/Jenkins integration
+or their own build system they can now trivially add the `Verified`
+category by pasting 5 lines into `project.config`.
 
 Dev
 ~~~

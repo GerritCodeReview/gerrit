@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S7dWSPJg",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-03T04:43:10Z",
+      "side": 1,
+      "message": "style-nit: space after if. Please check all of your if blocks here, as the error is repeated.",
+      "revId": "cbc4a23298628b4dc79583f8d746e74b06aff52a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S8HI6eNI",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-03T04:43:10Z",
+      "side": 1,
+      "message": "style-nit: we use space for indent only, this line uses tabs after spaces.",
+      "revId": "cbc4a23298628b4dc79583f8d746e74b06aff52a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

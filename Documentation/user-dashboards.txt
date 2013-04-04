@@ -106,10 +106,16 @@ The title of the dashboard.
 +
 If not specified the path of the dashboard config file is used as
 title.
++
+May contain the `${project}` token which will be replaced with the
+project name to which the dashboard is being applied.
 
 dashboard.description::
 +
 The description of the dashboard.
++
+May contain the `${project}` token which will be replaced with the
+project name to which the dashboard is being applied.
 
 dashboard.foreach::
 +

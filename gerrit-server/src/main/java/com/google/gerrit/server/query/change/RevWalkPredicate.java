@@ -19,20 +19,16 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.RepoWalk;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.RepoWalksCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /**
  * Predicate which creates Repository, RevWalk objects and properly
@@ -40,9 +36,6 @@ import java.io.IOException;
  *
  */
 public abstract class RevWalkPredicate extends OperatorPredicate<ChangeData> {
-  private static final Logger log =
-      LoggerFactory.getLogger(RevWalkPredicate.class);
-
   public static class Arguments {
     public final PatchSet patchSet;
     public final RevId revision;
@@ -63,14 +56,14 @@ public abstract class RevWalkPredicate extends OperatorPredicate<ChangeData> {
     }
   }
 
-  public final Provider<ReviewDb> db;
-  public final GitRepositoryManager repoManager;
+  protected final Provider<ReviewDb> db;
+  private final RepoWalksCache repoWalksCache;
 
-  public RevWalkPredicate(Provider<ReviewDb> db,
-      GitRepositoryManager repoManager, String operator, String ref) {
+  public RevWalkPredicate(Provider<ReviewDb> db, RepoWalksCache repoWalksCache,
+      String operator, String ref) {
     super(operator, ref);
     this.db = db;
-    this.repoManager = repoManager;
+    this.repoWalksCache = repoWalksCache;
   }
 
   @Override
@@ -102,24 +95,8 @@ public abstract class RevWalkPredicate extends OperatorPredicate<ChangeData> {
 
     Arguments args = new Arguments(patchSet, revision, objectId, change, projectName);
 
-    try {
-      final Repository repo = repoManager.openRepository(projectName);
-      try {
-        final RevWalk rw = new RevWalk(repo);
-        try {
-          return match(repo, rw, args);
-        } finally {
-          rw.release();
-        }
-      } finally {
-        repo.close();
-      }
-    } catch (RepositoryNotFoundException e) {
-      log.error("Repository \"" + projectName.get() + "\" unknown.", e);
-    } catch (IOException e) {
-      log.error(projectName.get() + " cannot be read as a repository", e);
-    }
-    return false;
+    RepoWalk repoWalk = repoWalksCache.get(projectName);
+    return match(repoWalk.repository, repoWalk.revWalk, args);
   }
 
   public abstract boolean match(Repository repo, RevWalk rw, Arguments args);

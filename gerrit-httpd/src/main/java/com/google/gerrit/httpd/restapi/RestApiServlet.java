@@ -68,6 +68,7 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gson.ExclusionStrategy;
@@ -587,9 +588,7 @@ public class RestApiServlet extends HttpServlet {
       Multimap<String, String> config) {
     final Set<String> want = Sets.newHashSet();
     for (String p : config.get("fields")) {
-      Iterables.addAll(want, Splitter.on(',')
-          .omitEmptyStrings().trimResults()
-          .split(p));
+      Iterables.addAll(want, OptionUtil.splitOptionValue(p));
     }
     if (!want.isEmpty()) {
       gb.addSerializationExclusionStrategy(new ExclusionStrategy() {
@@ -612,7 +611,7 @@ public class RestApiServlet extends HttpServlet {
               return true;
             }
           }
-          return !want.contains(name);
+          return !want.contains(name.toLowerCase());
         }
 
         @Override

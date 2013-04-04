@@ -28,8 +28,6 @@ import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_CONNECTIONS;
 import static com.google.gerrit.common.data.GlobalCapability.VIEW_QUEUE;
 
-import com.google.common.base.Function;
-import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -40,6 +38,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.AccountResource.Capability;
 import com.google.gerrit.server.git.QueueProvider;
@@ -63,14 +62,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     if (query == null) {
       query = Sets.newHashSet();
     }
-    Iterables.addAll(query, Iterables.transform(
-        Splitter.onPattern("[, ]").omitEmptyStrings().trimResults().split(name),
-        new Function<String, String>() {
-          @Override
-          public String apply(String input) {
-            return input.toLowerCase();
-          }
-        }));
+    Iterables.addAll(query, OptionUtil.splitOptionValue(name));
   }
   private Set<String> query;
 

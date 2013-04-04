@@ -61,6 +61,8 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import org.eclipse.jgit.diff.Edit;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -239,13 +241,27 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     render(s, d);
   }
 
-  protected boolean hasDifferences(final PatchScript script) {
-    // True if there are differences between the two patch sets
-    boolean hasEdits = !script.getEdits().isEmpty();
-    // True if this change is a mode change or a pure rename/copy
-    boolean hasMeta = !script.getPatchHeader().isEmpty();
+  protected boolean hasDifferences(PatchScript script) {
+    return hasEdits(script) || hasMeta(script);
+  }
 
-    return hasEdits || hasMeta;
+  public boolean isPureMetaChange(PatchScript script) {
+    return !hasEdits(script) && hasMeta(script);
+  }
+
+  // True if there are differences between the two patch sets
+  private boolean hasEdits(PatchScript script) {
+    for (Edit e : script.getEdits()) {
+      if (e.getType() != Edit.Type.EMPTY) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // True if this change is a mode change or a pure rename/copy
+  private boolean hasMeta(PatchScript script) {
+    return !script.getPatchHeader().isEmpty();
   }
 
   protected void appendNoDifferences(SafeHtmlBuilder m) {

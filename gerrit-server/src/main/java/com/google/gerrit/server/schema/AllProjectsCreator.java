@@ -79,6 +79,11 @@ public class AllProjectsCreator {
     return this;
   }
 
+  public AllProjectsCreator setRegisteredUsers(GroupReference registered) {
+    this.registered = registered;
+    return this;
+  }
+
   public void create() throws IOException, ConfigInvalidException {
     Repository git = null;
     try {

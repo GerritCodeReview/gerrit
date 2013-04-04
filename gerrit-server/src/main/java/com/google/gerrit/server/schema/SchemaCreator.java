@@ -90,6 +90,7 @@ public class SchemaCreator {
     initSystemConfig(db);
     allProjectsCreator
       .setAdministrators(GroupReference.forGroup(admin))
+      .setRegisteredUsers(GroupReference.forGroup(registered))
       .create();
     dataSourceType.getIndexScript().run(db);
   }

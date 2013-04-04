@@ -16,6 +16,24 @@
       "revId": "b1d656f98fcf54ed4791f54c9bca191123f0b93a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S6nikAfU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-04T19:30:40Z",
+      "side": 0,
+      "message": "Good catch! Yes, I believe the same should be done in PatchScreen.\n\nDone",
+      "parentUuid": "S8PLAKHM",
+      "revId": "b1d656f98fcf54ed4791f54c9bca191123f0b93a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

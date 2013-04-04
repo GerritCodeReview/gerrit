@@ -16,7 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.RepoWalksCache;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -41,9 +41,9 @@ public class InRefPredicate extends RevWalkPredicate implements
   private static final Logger log =
       LoggerFactory.getLogger(InRefPredicate.class);
 
-  public InRefPredicate(Provider<ReviewDb> db,
-      GitRepositoryManager repoManager, String ref) {
-    super(db, repoManager, ChangeQueryBuilder.FIELD_INREF, ref);
+  public InRefPredicate(Provider<ReviewDb> db, RepoWalksCache repoWalksCache,
+      String ref) {
+    super(db, repoWalksCache, ChangeQueryBuilder.FIELD_INREF, ref);
   }
 
   @Override

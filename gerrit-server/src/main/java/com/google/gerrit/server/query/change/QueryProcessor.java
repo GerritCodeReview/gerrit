@@ -217,39 +217,43 @@ public class QueryProcessor {
     Predicate<ChangeData> s = compileQuery(queryString, visibleToMe);
     List<ChangeData> results = new ArrayList<ChangeData>();
     HashSet<Change.Id> want = new HashSet<Change.Id>();
-    for (ChangeData d : ((ChangeDataSource) s).read()) {
-      if (d.hasChange()) {
-        // Checking visibleToMe here should be unnecessary, the
-        // query should have already performed it. But we don't
-        // want to trust the query rewriter that much yet.
-        //
-        if (visibleToMe.match(d)) {
-          results.add(d);
-        }
-      } else {
-        want.add(d.getId());
-      }
-    }
-
-    if (!want.isEmpty()) {
-      for (Change c : db.get().changes().get(want)) {
-        ChangeData d = new ChangeData(c);
-        if (visibleToMe.match(d)) {
-          results.add(d);
+    try {
+      for (ChangeData d : ((ChangeDataSource) s).read()) {
+        if (d.hasChange()) {
+          // Checking visibleToMe here should be unnecessary, the
+          // query should have already performed it. But we don't
+          // want to trust the query rewriter that much yet.
+          //
+          if (visibleToMe.match(d)) {
+            results.add(d);
+          }
+        } else {
+          want.add(d.getId());
         }
       }
-    }
 
-    Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
-    int limit = limit(s);
-    if (results.size() > maxLimit) {
-      moreResults = true;
-    }
-    if (limit < results.size()) {
-      results = results.subList(0, limit);
-    }
-    if (sortkeyAfter != null) {
-      Collections.reverse(results);
+      if (!want.isEmpty()) {
+        for (Change c : db.get().changes().get(want)) {
+          ChangeData d = new ChangeData(c);
+          if (visibleToMe.match(d)) {
+            results.add(d);
+          }
+        }
+      }
+
+      Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
+      int limit = limit(s);
+      if (results.size() > maxLimit) {
+        moreResults = true;
+      }
+      if (limit < results.size()) {
+        results = results.subList(0, limit);
+      }
+      if (sortkeyAfter != null) {
+        Collections.reverse(results);
+      }
+    } finally {
+      queryBuilder.release();
     }
     return results;
   }

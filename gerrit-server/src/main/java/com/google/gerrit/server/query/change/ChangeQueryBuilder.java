@@ -42,13 +42,21 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -56,6 +64,56 @@ import java.util.regex.Pattern;
  * Parses a query string meant to be applied to change objects.
  */
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
+  public static class RepoWalk {
+    public final Repository repository;
+    public final RevWalk revWalk;
+
+    public RepoWalk(RevWalk revWalk, Repository repository) {
+      this.repository = repository;
+      this.revWalk = revWalk;
+    }
+  }
+
+  public static class RepoWalksCache {
+    private final GitRepositoryManager repoManager;
+
+    public RepoWalksCache(GitRepositoryManager repoManager) {
+      this.repoManager = repoManager;
+    }
+
+    private Map<Project.NameKey, RepoWalk> repoWalksByProject =
+        new HashMap<Project.NameKey, RepoWalk>();
+
+      public RepoWalk get(Project.NameKey projectName) {
+        RepoWalk repoWalk = repoWalksByProject.get(projectName);
+        if (repoWalk == null) {
+          Repository repo;
+          try {
+            repo = repoManager.openRepository(projectName);
+            final RevWalk rw = new RevWalk(repo);
+            repoWalk = new RepoWalk(rw, repo);
+            repoWalksByProject.put(projectName, repoWalk);
+          } catch (RepositoryNotFoundException e) {
+            log.error(projectName.get() + " does not denote an existing " +
+                    "repository", e);
+          } catch (IOException e) {
+            log.error(projectName.get() + " cannot be read as a " +
+                    "repository", e);
+          }
+        } else {
+          repoWalk.revWalk.reset();
+        }
+        return repoWalk;
+      }
+
+    public void release() {
+      for (RepoWalk repoWalk : repoWalksByProject.values()) {
+        repoWalk.revWalk.release();
+        repoWalk.repository.close();
+      }
+    }
+  }
+
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID =
       Pattern.compile("^[iI][0-9a-f]{4,}.*$");
@@ -97,6 +155,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_TR = "tr";
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
+
+  static final Logger log = LoggerFactory.getLogger(ChangeQueryBuilder.class);
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<ChangeData, ChangeQueryBuilder>(
@@ -148,12 +208,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private final Arguments args;
   private final CurrentUser currentUser;
   private boolean allowsFile;
+  private RepoWalksCache repoWalksCache;
 
   @Inject
   ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
     super(mydef);
     this.args = args;
     this.currentUser = currentUser;
+    repoWalksCache = new RepoWalksCache(args.repoManager);
+  }
+
+  public void release() {
+    repoWalksCache.release();
   }
 
   public void setAllowFile(boolean on) {
@@ -305,12 +371,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> message(String text) {
-    return new MessagePredicate(args.dbProvider, args.repoManager, text);
+    return new MessagePredicate(args.dbProvider, repoWalksCache, text);
   }
 
   @Operator
   public Predicate<ChangeData> inref(String ref) {
-    return new InRefPredicate(args.dbProvider, args.repoManager, ref);
+    return new InRefPredicate(args.dbProvider, repoWalksCache, ref);
   }
 
   @Operator

@@ -14,27 +14,16 @@
 
 package com.google.gerrit.acceptance.git;
 
-import static com.google.gerrit.acceptance.git.GitUtil.add;
 import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
-import static com.google.gerrit.acceptance.git.GitUtil.createCommit;
 import static com.google.gerrit.acceptance.git.GitUtil.createProject;
 import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
-import static com.google.gerrit.acceptance.git.GitUtil.pushHead;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import com.google.common.base.Function;
-import com.google.common.base.Strings;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
@@ -45,9 +34,6 @@ import com.jcraft.jsch.JSchException;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RemoteRefUpdate;
-import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,9 +42,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @RunWith(Parameterized.class)
 public class PushForReviewIT extends AbstractDaemonTest {
@@ -127,30 +111,24 @@ public class PushForReviewIT extends AbstractDaemonTest {
   @Test
   public void testPushForMaster() throws GitAPIException, OrmException,
       IOException {
-    PushOneCommit push = new PushOneCommit();
-    String ref = "refs/for/master";
-    PushResult r = push.to(ref);
-    assertOkStatus(r, ref);
-    assertChange(push.changeId, Change.Status.NEW, PushOneCommit.SUBJECT, null);
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
   }
 
   @Test
   public void testPushForMasterWithTopic() throws GitAPIException,
       OrmException, IOException {
     // specify topic in ref
-    PushOneCommit push = new PushOneCommit();
     String topic = "my/topic";
-    String ref = "refs/for/master/" + topic;
-    PushResult r = push.to(ref);
-    assertOkStatus(r, ref);
-    assertChange(push.changeId, Change.Status.NEW, PushOneCommit.SUBJECT, topic);
+    PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, topic);
 
     // specify topic as option
-    push = new PushOneCommit();
-    ref = "refs/for/master%topic=" + topic;
-    r = push.to(ref);
-    assertOkStatus(r, ref);
-    assertChange(push.changeId, Change.Status.NEW, PushOneCommit.SUBJECT, topic);
+    r = pushTo("refs/for/master%topic=" + topic);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, topic);
   }
 
   @Test
@@ -158,30 +136,24 @@ public class PushForReviewIT extends AbstractDaemonTest {
       IOException, JSchException {
     // cc one user
     TestAccount user = accounts.create("user", "user@example.com", "User");
-    PushOneCommit push = new PushOneCommit();
     String topic = "my/topic";
-    String ref = "refs/for/master/" + topic + "%cc=" + user.email;
-    PushResult r = push.to(ref);
-    assertOkStatus(r, ref);
-    assertChange(push.changeId, Change.Status.NEW, PushOneCommit.SUBJECT, topic);
+    PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%cc=" + user.email);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, topic);
 
     // cc several users
     TestAccount user2 =
         accounts.create("another-user", "another.user@example.com", "Another User");
-    push = new PushOneCommit();
-    ref = "refs/for/master/" + topic + "%cc=" + admin.email + ",cc=" + user.email
-        + ",cc=" + user2.email;
-    r = push.to(ref);
-    assertOkStatus(r, ref);
-    assertChange(push.changeId, Change.Status.NEW, PushOneCommit.SUBJECT, topic);
+    r = pushTo("refs/for/master/" + topic + "%cc=" + admin.email + ",cc="
+        + user.email + ",cc=" + user2.email);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, topic);
 
     // cc non-existing user
     String nonExistingEmail = "non.existing@example.com";
-    push = new PushOneCommit();
-    ref = "refs/for/master/" + topic + "%cc=" + admin.email + ",cc="
-        + nonExistingEmail + ",cc=" + user.email;
-    r = push.to(ref);
-    assertErrorStatus(r, "user \"" + nonExistingEmail + "\" not found", ref);
+    r = pushTo("refs/for/master/" + topic + "%cc=" + admin.email + ",cc="
+        + nonExistingEmail + ",cc=" + user.email);
+    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
   }
 
   @Test
@@ -189,121 +161,52 @@ public class PushForReviewIT extends AbstractDaemonTest {
       OrmException, IOException, JSchException {
     // add one reviewer
     TestAccount user = accounts.create("user", "user@example.com", "User");
-    PushOneCommit push = new PushOneCommit();
     String topic = "my/topic";
-    String ref = "refs/for/master/" + topic + "%r=" + user.email;
-    PushResult r = push.to(ref);
-    assertOkStatus(r, ref);
-    assertChange(push.changeId, Change.Status.NEW, PushOneCommit.SUBJECT,
-        topic, user);
+    PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%r=" + user.email);
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, topic, user);
 
     // add several reviewers
     TestAccount user2 =
         accounts.create("another-user", "another.user@example.com", "Another User");
-    push = new PushOneCommit();
-    ref = "refs/for/master/" + topic + "%r=" + admin.email + ",r=" + user.email
-        + ",r=" + user2.email;
-    r = push.to(ref);
-    assertOkStatus(r, ref);
+    r = pushTo("refs/for/master/" + topic + "%r=" + admin.email + ",r=" + user.email
+        + ",r=" + user2.email);
+    r.assertOkStatus();
     // admin is the owner of the change and should not appear as reviewer
-    assertChange(push.changeId, Change.Status.NEW, PushOneCommit.SUBJECT,
-        topic, user, user2);
+    r.assertChange(Change.Status.NEW, topic, user, user2);
 
     // add non-existing user as reviewer
     String nonExistingEmail = "non.existing@example.com";
-    push = new PushOneCommit();
-    ref = "refs/for/master/" + topic + "%r=" + admin.email + ",r="
-        + nonExistingEmail + ",r=" + user.email;
-    r = push.to(ref);
-    assertErrorStatus(r, "user \"" + nonExistingEmail + "\" not found", ref);
+    r = pushTo("refs/for/master/" + topic + "%r=" + admin.email + ",r="
+        + nonExistingEmail + ",r=" + user.email);
+    r.assertErrorStatus("user \"" + nonExistingEmail + "\" not found");
   }
 
   @Test
   public void testPushForMasterAsDraft() throws GitAPIException, OrmException,
       IOException {
     // create draft by pushing to 'refs/drafts/'
-    PushOneCommit push = new PushOneCommit();
-    String ref = "refs/drafts/master";
-    PushResult r = push.to(ref);
-    assertOkStatus(r, ref);
-    assertChange(push.changeId, Change.Status.DRAFT, PushOneCommit.SUBJECT, null);
+    PushOneCommit.Result r = pushTo("refs/drafts/master");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.DRAFT, null);
 
     // create draft by using 'draft' option
-    push = new PushOneCommit();
-    ref = "refs/for/master%draft";
-    r = push.to(ref);
-    assertOkStatus(r, ref);
-    assertChange(push.changeId, Change.Status.DRAFT, PushOneCommit.SUBJECT, null);
+    r = pushTo("refs/for/master%draft");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.DRAFT, null);
   }
 
   @Test
   public void testPushForNonExistingBranch() throws GitAPIException,
       OrmException, IOException {
-    PushOneCommit push = new PushOneCommit();
     String branchName = "non-existing";
-    String ref = "refs/for/" + branchName;
-    PushResult r = push.to(ref);
-    assertErrorStatus(r, "branch " + branchName + " not found", ref);
+    PushOneCommit.Result r = pushTo("refs/for/" + branchName);
+    r.assertErrorStatus("branch " + branchName + " not found");
   }
 
-  private void assertChange(String changeId, Change.Status expectedStatus,
-      String expectedSubject, String expectedTopic,
-      TestAccount... expectedReviewers) throws OrmException {
-    Change c =
-        Iterables.getOnlyElement(db.changes().byKey(new Change.Key(changeId)).toList());
-    assertEquals(expectedSubject, c.getSubject());
-    assertEquals(expectedStatus, c.getStatus());
-    assertEquals(expectedTopic, Strings.emptyToNull(c.getTopic()));
-    assertReviewers(c, expectedReviewers);
-  }
-
-  private void assertReviewers(Change c, TestAccount... expectedReviewers)
-      throws OrmException {
-    Set<Account.Id> expectedReviewerIds =
-        Sets.newHashSet(Lists.transform(Arrays.asList(expectedReviewers),
-            new Function<TestAccount, Account.Id>() {
-              @Override
-              public Account.Id apply(TestAccount a) {
-                return a.id;
-              }
-            }));
-
-    for (PatchSetApproval psa : db.patchSetApprovals().byPatchSet(
-        c.currentPatchSetId())) {
-      assertTrue("unexpected reviewer " + psa.getAccountId(),
-          expectedReviewerIds.remove(psa.getAccountId()));
-    }
-    assertTrue("missing reviewers: " + expectedReviewerIds,
-        expectedReviewerIds.isEmpty());
-  }
-
-  private static void assertOkStatus(PushResult result, String ref) {
-    assertStatus(Status.OK, null, result, ref);
-  }
-
-  private static void assertErrorStatus(PushResult result,
-      String expectedMessage, String ref) {
-    assertStatus(Status.REJECTED_OTHER_REASON, expectedMessage, result, ref);
-  }
-
-  private static void assertStatus(Status expectedStatus,
-      String expectedMessage, PushResult result, String ref) {
-    RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-    assertEquals(refUpdate.getMessage() + "\n" + result.getMessages(),
-        expectedStatus, refUpdate.getStatus());
-    assertEquals(expectedMessage, refUpdate.getMessage());
-  }
-
-  private class PushOneCommit {
-    final static String FILE_NAME = "a.txt";
-    final static String FILE_CONTENT = "some content";
-    final static String SUBJECT = "test commit";
-    String changeId;
-
-    public PushResult to(String ref) throws GitAPIException, IOException {
-      add(git, FILE_NAME, FILE_CONTENT);
-      changeId = createCommit(git, admin.getIdent(), SUBJECT);
-      return pushHead(git, ref);
-    }
+  private PushOneCommit.Result pushTo(String ref) throws GitAPIException,
+      IOException {
+    PushOneCommit push = new PushOneCommit(db, admin.getIdent());
+    return push.to(git, ref);
   }
 }

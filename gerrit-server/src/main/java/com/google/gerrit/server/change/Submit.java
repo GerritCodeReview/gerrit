@@ -106,6 +106,10 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
 
     checkSubmitRule(rsrc);
     change = submit(rsrc, caller);
+    if (change == null) {
+      throw new ResourceConflictException("change is "
+          + status(dbProvider.get().changes().get(rsrc.getChange().getId())));
+    }
 
     if (input.waitForMerge) {
       mergeQueue.merge(change.getDest());
@@ -123,21 +127,7 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
       case MERGED:
         return new Output(Status.MERGED, change);
       case NEW:
-        // If the merge was attempted and it failed the system usually
-        // writes a comment as a ChangeMessage and sets status to NEW.
-        // Find the relevant message and report that as the conflict.
-        final Timestamp before = rsrc.getChange().getLastUpdatedOn();
-        ChangeMessage msg = Iterables.getFirst(Iterables.filter(
-          Lists.reverse(dbProvider.get().changeMessages()
-              .byChange(change.getId())
-              .toList()),
-          new Predicate<ChangeMessage>() {
-            @Override
-            public boolean apply(ChangeMessage input) {
-              return input.getAuthor() == null
-                  && input.getWrittenOn().getTime() >= before.getTime();
-            }
-          }), null);
+        ChangeMessage msg = getConflictMessage(rsrc);
         if (msg != null) {
           throw new ResourceConflictException(msg.getMessage());
         }
@@ -146,8 +136,30 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
     }
   }
 
-  private Change submit(RevisionResource rsrc, IdentifiedUser caller)
-      throws OrmException, ResourceConflictException {
+  /**
+   * If the merge was attempted and it failed the system usually writes a
+   * comment as a ChangeMessage and sets status to NEW. Find the relevant
+   * message and return it.
+   */
+  public ChangeMessage getConflictMessage(RevisionResource rsrc)
+      throws OrmException {
+    final Timestamp before = rsrc.getChange().getLastUpdatedOn();
+    ChangeMessage msg = Iterables.getFirst(Iterables.filter(
+      Lists.reverse(dbProvider.get().changeMessages()
+          .byChange(rsrc.getChange().getId())
+          .toList()),
+      new Predicate<ChangeMessage>() {
+        @Override
+        public boolean apply(ChangeMessage input) {
+          return input.getAuthor() == null
+              && input.getWrittenOn().getTime() >= before.getTime();
+        }
+      }), null);
+    return msg;
+  }
+
+  public Change submit(RevisionResource rsrc, IdentifiedUser caller)
+      throws OrmException {
     final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     Change change = rsrc.getChange();
     ReviewDb db = dbProvider.get();
@@ -169,8 +181,7 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
           }
         });
       if (change == null) {
-        throw new ResourceConflictException("change is "
-            + status(db.changes().get(rsrc.getChange().getId())));
+        return null;
       }
       db.commit();
     } finally {

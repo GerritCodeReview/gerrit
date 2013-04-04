@@ -333,6 +333,26 @@ grant nothing at all.  This ensures that accidental pushes don't
 make undesired changes to the public repository.
 
 
+[[auto_merge]]
+Auto-Merge during Push
+~~~~~~~~~~~~~~~~~~~~~~
+
+Changes can be directly submitted on push.  This is primarily useful
+for teams that don't want to do code review but want to use Gerrit's
+submit strategies to handle contention on busy branches.  Using
+`%submit` creates a change and submits it immediately, if the caller
+has link:access-control.html#category_submit[Submit] permission on
+`refs/for/<branch>`.
+
+====
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%submit
+====
+
+On auto-merge of a change neither labels nor submit rules are checked.
+If the merge fails the change stays open, but when pushing a new patch
+set the merge can be reattempted by using `%submit` again.
+
+
 repo upload
 -----------
 

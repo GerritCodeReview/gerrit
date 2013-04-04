@@ -15,6 +15,8 @@
 package com.google.gwtexpui.safehtml.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTML;
@@ -23,6 +25,8 @@ import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /** Immutable string safely placed as HTML without further escaping. */
@@ -237,20 +241,59 @@ public abstract class SafeHtml {
     return new SafeHtmlString(asString().replaceAll(regex, repl));
   }
 
+  private static class RegExpReplacement {
+    private final RegExp re;
+    private final String repl;
+
+    private RegExpReplacement(String pat, String repl) {
+      this.re = RegExp.compile(pat);
+      this.repl = repl;
+    }
+  }
+
   /**
-   * Go through the {@link RegexFindReplace} list, calling
-   * {@link #replaceAll(String,String)} on the HTML string for every
-   * find/replace pair in the list.
+   * Replace all find/replace pairs in the list in a single pass.
+   *
+   * @param findReplaceList find/replace pairs to use.
+   * @return a new string, after the replacements have been made.
    */
   public SafeHtml replaceAll(final List<RegexFindReplace> findReplaceList) {
     if (findReplaceList == null) {
       return this;
     }
-    String html = this.asString();
-    for (RegexFindReplace findReplace : findReplaceList) {
-      html = html.replaceAll(findReplace.find(), findReplace.replace());
+    List<RegExpReplacement> repls =
+        new ArrayList<RegExpReplacement>(findReplaceList.size());
+
+    StringBuilder pat = new StringBuilder();
+    Iterator<RegexFindReplace> it = findReplaceList.iterator();
+    while (it.hasNext()) {
+      RegexFindReplace fr = it.next();
+      repls.add(new RegExpReplacement(fr.find(), fr.replace()));
+      pat.append(fr.find());
+      if (it.hasNext()) {
+        pat.append('|');
+      }
     }
-    return new SafeHtmlString(html);
+
+    StringBuilder result = new StringBuilder();
+    RegExp re = RegExp.compile(pat.toString(), "g");
+    String orig = asString();
+    int index = 0;
+    MatchResult mat;
+    while ((mat = re.exec(orig)) != null) {
+      String g = mat.getGroup(0);
+      // Re-run each candidate to find which one matched.
+      for (RegExpReplacement repl : repls) {
+        if (repl.re.exec(g) != null) {
+          result.append(orig.substring(index, mat.getIndex()));
+          result.append(repl.re.replace(g, repl.repl));
+          index = mat.getIndex() + g.length();
+          break;
+        }
+      }
+    }
+    result.append(orig.substring(index, orig.length()));
+    return asis(result.toString());
   }
 
   /** @return a GWT block display widget displaying this HTML. */

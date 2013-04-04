@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "S6riNuX0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-04T12:27:45Z",
+      "side": 1,
+      "message": "Sorry, for not getting back earlier.\n\nYes, I stand convinced :-)\nI\u0027ll add ordering of the tasks and add a project stub to guard\nagainst problems after failing rollback.",
+      "parentUuid": "SfsQK-i4",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rv.OO0nQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 6

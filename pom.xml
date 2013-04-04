@@ -21,7 +21,7 @@ limitations under the License.
   <groupId>gwtexpui</groupId>
   <artifactId>gwtexpui</artifactId>
   <packaging>jar</packaging>
-  <version>1.3.3</version>
+  <version>1.3.4-SNAPSHOT</version>
   <name>gwtexpui</name>
   <description>Extended UI tools for GWT</description>
   <url>https://gerrit.googlesource.com/gwtexpui</url>

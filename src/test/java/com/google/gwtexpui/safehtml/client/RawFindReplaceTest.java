@@ -16,13 +16,13 @@ package com.google.gwtexpui.safehtml.client;
 
 import junit.framework.TestCase;
 
-public class RegexFindReplaceTest extends TestCase {
-  public void testCreate() {
+public class RawFindReplaceTest extends TestCase {
+  public void testFindReplace() {
     final String find = "find";
     final String replace = "replace";
-    final RegexFindReplace a = new RegexFindReplace(find, replace);
-    assertSame(find, a.find());
-    assertSame(replace, a.replace());
+    final RawFindReplace a = new RawFindReplace(find, replace);
+    assertEquals(find, a.pattern().getSource());
+    assertEquals(replace, a.replace(find));
     assertEquals("find = " + find + ", replace = " + replace, a.toString());
   }
 }

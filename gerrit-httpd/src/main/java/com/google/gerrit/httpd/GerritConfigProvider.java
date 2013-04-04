@@ -14,7 +14,10 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.common.data.GerritConfig.CommentLink;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.Realm;
@@ -26,7 +29,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -34,7 +36,6 @@ import com.google.inject.ProvisionException;
 import org.eclipse.jgit.lib.Config;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -148,7 +149,14 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       config.setSshdAddress(sshInfo.getHostKeys().get(0).getHost());
     }
 
-    List<RegexFindReplace> links = new ArrayList<RegexFindReplace>();
+    config.setSerializableCommentLinks(buildCommentLinks(cfg));
+    return config;
+  }
+
+  private static List<CommentLink> buildCommentLinks(Config cfg) {
+    Set<String> sections = cfg.getSubsections("commentlink");
+    List<CommentLink> links = Lists.newArrayListWithCapacity(sections.size());
+
     for (String name : cfg.getSubsections("commentlink")) {
       String match = cfg.getString("commentlink", name, "match");
 
@@ -165,15 +173,19 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       }
 
       String link = cfg.getString("commentlink", name, "link");
+      int hasLink = Strings.isNullOrEmpty(link) ? 0 : 1;
       String html = cfg.getString("commentlink", name, "html");
-      if (html == null || html.isEmpty()) {
-        html = "<a href=\"" + link + "\">$&</a>";
+      int hasHtml = Strings.isNullOrEmpty(html) ? 0 : 1;
+      if (hasLink + hasHtml != 1) {
+        throw new ProvisionException(
+            "commentlink." + name + " must have either link or html");
+      } else if (hasLink == 1) {
+        links.add(CommentLink.newCommentLink(match, link));
+      } else if (hasHtml == 1) {
+        links.add(CommentLink.newRawCommentLink(match, html));
       }
-      links.add(new RegexFindReplace(match, html));
     }
-    config.setCommentLinks(links);
-
-    return config;
+    return links;
   }
 
   @Override

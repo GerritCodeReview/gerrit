@@ -16,6 +16,24 @@
       "revId": "a6b6218302f81b7f79ec3f62dc65aeb0b6d59b61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S6rh02Zk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-04T22:05:16Z",
+      "side": 1,
+      "message": "In our setting, \u0027Registered Users\u0027 want to be able to create projects\nfor their plugins on their own. They do not want to wait for an admin\nto set up the project for them or wait for someone to approve some\nrequest. Registered Users want to create their project right on the\nspot.\n\nWhile granting \u0027createProject\u0027 to \u0027Registered Users\u0027 would work to\nsome extend, this permission is too broad, as \u0027Registered Users\u0027\nshould only be able to create projects starting in something like\n\u0027plugins/\u0027.\n\nOn top of it, when creating the project \u0027plugin/MyCoolExtension\u0027, we\nwant to add a new group \u0027plugin-MyCoolExtension\u0027 to gerrit and make that\ngroup the owner of \u0027plugin/MyCoolExtensions\u0027.\n\nSo basically, an administrator is needed. And this administrator\nbetter not make typos or forget any step in creating the project and add the correct\npeople to the groups. So it\u0027s error-prone.\n\nTemplates should help to bring all this together, and automate it. In this topic, we\ncurrently have flagging projects as templates, template instantiation\n(creating a new project, and copying over all config settings), and\nenforcing a name prefix.\n\nCreating the group and assigning the owner is still missing.\n\nSo what we can do with this topic is to create a project like\n\u0027templates/plugin\u0027, flag it as template, set meaningful defaults, require \u0027plugins/\u0027 prefix,\nand allow \u0027Registered Users\u0027 to instantiate this template.\n\nThen Jane Doe (she\u0027s a Registered User) can create\n\u0027plugin/MyCoolExtenssion\u0027 and start hacking on the project right away.\n\nIf an admin notices that the project name was misspelled (double \u0027s\u0027\nin \u0027Extension\u0027), the admin can just rename it to the correct name\n\u0027plugin/MyCoolExtension\u0027 (no double \u0027s\u0027 in \u0027Extension) using the\ncommits from the rename-project topic. This of course comes with the\ncost of users having to adapt their remotes. But Jane nevertheless got\nher project right away. And Jane could have spelled the name\ncorrectly on the first try as well :-)\n\nIf the project does not meet this or that criteria, admins can remove\nit again with the delete-plugin.\n\nSo instead of being strict and protective about our projects, and\nprevent users from doing something, we want to enable it for them, and\nmake it easy for them to create a working project. We can help in\ncorrecting mistakes afterwards.\n\n------------------------------------------------------------\n\n\u003e When you say template, do you mean a template of only the projects\n\u003e name, or also other parts?\n\nIt\u0027s not just the project name. It\u0027s also the project config. And\nit will be group setup.\n\nIf we add things like importing existing repos (svn, git, ...) to the\n\u0027Create New Project\u0027 screen, we\u0027d benefit from that as well.\n\n------------------------------------------------------------\n\n\u003e issue 1433\n\nThe discussion that led to that issue 1433 is great. But to me issue\n1433 is rather about reviewing individual git operations around\nbranches and projects. In contrast to this, the project-template topic\nis about being able to combine and formalize all requirements and\nsteps that are necessary to create working project that meets a site\u0027s\ncriteria. This covers everything from creating the project itself, setting\nsensible defaults, enforcing rules, creating groups, enforcing access,\nand hopefully to importing initial data :-)\n\nBut once issue 1433 has been implemented, it would be great, if we\ncould add a \u0027template\u0027 parameter there. Maybe by pushing to\n\n  refs/for/refs/meta/config%request-project,template\u003dtemplates/plugin\n\na user that cannot instantiate the template on her own would request\ncreating a new project according to the template templates/plugin.\nThereby we could combine automation of project templates with the\nreviewing capabilities of issue 1433. That\u0027d be awesome :-)",
+      "parentUuid": "S7ZVLZDk",
+      "revId": "a6b6218302f81b7f79ec3f62dc65aeb0b6d59b61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

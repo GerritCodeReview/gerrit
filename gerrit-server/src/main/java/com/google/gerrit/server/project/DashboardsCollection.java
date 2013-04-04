@@ -160,8 +160,8 @@ class DashboardsCollection implements
     DashboardInfo info = new DashboardInfo(refName, path);
     info.project = project;
     info.definingProject = definingProject.getName();
-    info.title = config.getString("dashboard", null, "title");
-    info.description = config.getString("dashboard", null, "description");
+    info.title = replace(project, config.getString("dashboard", null, "title"));
+    info.description = replace(project, config.getString("dashboard", null, "description"));
     info.foreach = config.getString("dashboard", null, "foreach");
 
     if (setDefault) {

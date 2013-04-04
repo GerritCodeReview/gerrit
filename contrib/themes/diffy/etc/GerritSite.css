@@ -1,0 +1,15 @@
+#gerrit_header {
+  display: block !important;
+  margin-bottom: -55px;
+  padding-left: 20px;
+  position: relative;
+  top: -45px;
+  width: 100px;
+}
+
+#gerrit_topmenu {
+  left: 100px;
+  margin-right: 100px;
+  padding-right: 10px;
+  position: relative;
+}

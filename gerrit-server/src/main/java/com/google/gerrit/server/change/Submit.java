@@ -27,17 +27,14 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.PatchSetApproval.LabelId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.change.Submit.Input;
+import com.google.gerrit.server.changedetail.SubmitChange;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,7 +44,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class Submit implements RestModifyView<RevisionResource, Input> {
@@ -105,7 +101,11 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
     }
 
     checkSubmitRule(rsrc);
-    change = submit(rsrc, caller);
+    change = SubmitChange.submit(dbProvider.get(), rsrc.getChange(), rsrc.getPatchSet(), caller);
+    if (change == null) {
+      throw new ResourceConflictException("change is "
+          + status(dbProvider.get().changes().get(rsrc.getChange().getId())));
+    }
 
     if (input.waitForMerge) {
       mergeQueue.merge(change.getDest());
@@ -144,63 +144,6 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
       default:
         throw new ResourceConflictException("change is " + status(change));
     }
-  }
-
-  private Change submit(RevisionResource rsrc, IdentifiedUser caller)
-      throws OrmException, ResourceConflictException {
-    final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    Change change = rsrc.getChange();
-    ReviewDb db = dbProvider.get();
-    db.changes().beginTransaction(change.getId());
-    try {
-      approve(rsrc.getPatchSet(), caller, timestamp);
-      change = db.changes().atomicUpdate(
-        change.getId(),
-        new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setStatus(Change.Status.SUBMITTED);
-              change.setLastUpdatedOn(timestamp);
-              ChangeUtil.computeSortKey(change);
-              return change;
-            }
-            return null;
-          }
-        });
-      if (change == null) {
-        throw new ResourceConflictException("change is "
-            + status(db.changes().get(rsrc.getChange().getId())));
-      }
-      db.commit();
-    } finally {
-      db.rollback();
-    }
-    return change;
-  }
-
-  private void approve(PatchSet rev, IdentifiedUser caller, Timestamp timestamp)
-      throws OrmException {
-    PatchSetApproval submit = Iterables.getFirst(Iterables.filter(
-      dbProvider.get().patchSetApprovals()
-        .byPatchSetUser(rev.getId(), caller.getAccountId()),
-      new Predicate<PatchSetApproval>() {
-        @Override
-        public boolean apply(PatchSetApproval input) {
-          return input.isSubmit();
-        }
-      }), null);
-    if (submit == null) {
-      submit = new PatchSetApproval(
-          new PatchSetApproval.Key(
-              rev.getId(),
-              caller.getAccountId(),
-              LabelId.SUBMIT),
-          (short) 1);
-    }
-    submit.setValue((short) 1);
-    submit.setGranted(timestamp);
-    dbProvider.get().patchSetApprovals().upsert(Collections.singleton(submit));
   }
 
   private void checkSubmitRule(RevisionResource rsrc)

@@ -59,6 +59,9 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -87,6 +90,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -277,6 +281,8 @@ public class ReceiveCommits {
   private Map<String, Ref> allRefs;
 
   private final SubmoduleOp.Factory subOpFactory;
+  private final Provider<Submit> submitProvider;
+  private final MergeQueue mergeQueue;
 
   private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -316,7 +322,9 @@ public class ReceiveCommits {
       ReceiveConfig config,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
-      final SubmoduleOp.Factory subOpFactory) throws IOException {
+      final SubmoduleOp.Factory subOpFactory,
+      final Provider<Submit> submitProvider,
+      final MergeQueue mergeQueue) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.schemaFactory = schemaFactory;
@@ -351,6 +359,8 @@ public class ReceiveCommits {
     this.rejectCommits = loadRejectCommitsMap();
 
     this.subOpFactory = subOpFactory;
+    this.submitProvider = submitProvider;
+    this.mergeQueue = mergeQueue;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -1000,6 +1010,9 @@ public class ReceiveCommits {
     @Option(name = "--draft", usage = "mark new/update changes as draft")
     boolean draft;
 
+    @Option(name = "--submit", usage = "immediately submit the change")
+    boolean submit;
+
     @Option(name = "-r", metaVar = "EMAIL", usage = "add reviewer to changes")
     void reviewer(Account.Id id) {
       reviewer.add(id);
@@ -1022,6 +1035,10 @@ public class ReceiveCommits {
 
     boolean isDraft() {
       return draft;
+    }
+
+    boolean isSubmit() {
+      return submit;
     }
 
     MailRecipients getMailRecipients() {
@@ -1118,6 +1135,21 @@ public class ReceiveCommits {
       errors.put(Error.CODE_REVIEW, ref);
       reject(cmd, "cannot upload review");
       return;
+    }
+
+    if (magicBranch.isDraft() && magicBranch.isSubmit()) {
+      reject(cmd, "cannot submit draft");
+      return;
+    }
+
+    if (magicBranch.isSubmit()) {
+      String n = magicBranch.dest.get();
+      if (n.startsWith(Constants.R_HEADS)) {
+        n = n.substring(Constants.R_HEADS.length());
+      }
+      if (!projectControl.controlForRef(MagicBranch.NEW_CHANGE + n).canSubmit()) {
+        reject(cmd, "submit not allowed");
+      }
     }
 
     // Validate that the new commits are connected with the target
@@ -1493,6 +1525,41 @@ public class ReceiveCommits {
           return "send-email newchange";
         }
       }));
+
+      if (magicBranch != null && magicBranch.isSubmit()) {
+        submit(projectControl.controlFor(change), ps);
+      }
+    }
+  }
+
+  private void submit(ChangeControl changeCtl, PatchSet ps) throws OrmException {
+    Submit submit = submitProvider.get();
+    RevisionResource rsrc = new RevisionResource(new ChangeResource(changeCtl), ps);
+    Change c = submit.submit(rsrc, currentUser);
+    if (c == null) {
+      addError("Submitting change " + changeCtl.getChange().getChangeId()
+          + " failed.");
+    } else {
+      addMessage("");
+      mergeQueue.merge(c.getDest());
+      c = db.changes().get(c.getId());
+      switch (c.getStatus()) {
+        case SUBMITTED:
+          addMessage("Change " + c.getChangeId() + " submitted.");
+          break;
+        case MERGED:
+          addMessage("Change " + c.getChangeId() + " merged.");
+          break;
+        case NEW:
+          ChangeMessage msg = submit.getConflictMessage(rsrc);
+          if (msg != null) {
+            addMessage("Change " + c.getChangeId() + ": " + msg.getMessage());
+            break;
+          }
+        default:
+          addMessage("change " + c.getChangeId() + " is "
+              + c.getStatus().name().toLowerCase());
+      }
     }
   }
 
@@ -1865,6 +1932,11 @@ public class ReceiveCommits {
           return "send-email newpatchset";
         }
       }));
+
+      if (magicBranch != null && magicBranch.isSubmit()) {
+        submit(changeCtl, newPatchSet);
+      }
+
       return newPatchSet.getId();
     }
   }

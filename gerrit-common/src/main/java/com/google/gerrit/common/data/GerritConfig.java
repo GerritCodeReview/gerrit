@@ -20,8 +20,12 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadComma
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gwtexpui.safehtml.client.RegexFindReplace;
+import com.google.gwtexpui.safehtml.client.FindReplace;
+import com.google.gwtexpui.safehtml.client.LinkFindReplace;
+import com.google.gwtexpui.safehtml.client.RawFindReplace;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -44,11 +48,45 @@ public class GerritConfig implements Cloneable {
   protected String editFullNameUrl;
   protected Project.NameKey wildProject;
   protected Set<Account.FieldName> editableAccountFields;
-  protected List<RegexFindReplace> commentLinks;
   protected boolean documentationAvailable;
   protected boolean testChangeMerge;
   protected String anonymousCowardName;
   protected int suggestFrom;
+
+  // Hack to pass FindReplace across the JSON serialization boundary, which
+  // doesn't work with interfaces.
+  public static class CommentLink {
+    public static CommentLink newCommentLink(String find, String link) {
+      return new CommentLink(find, link, true);
+    }
+
+    public static CommentLink newRawCommentLink(String find, String repl) {
+      return new CommentLink(find, repl, false);
+    }
+
+    protected String find;
+    protected String repl;
+    protected boolean isLink;
+
+    protected CommentLink() {
+    }
+
+    private CommentLink(String find, String repl, boolean isLink) {
+      this.find = find;
+      this.repl = repl;
+      this.isLink = isLink;
+    }
+
+    public FindReplace asFindReplace() {
+      if (isLink) {
+        return new LinkFindReplace(find, repl);
+      } else {
+        return new RawFindReplace(find, repl);
+      }
+    }
+  }
+  protected List<CommentLink> commentLinks;
+  private transient List<FindReplace> findReplaceLinks;
 
   public String getRegisterUrl() {
     return registerUrl;
@@ -188,12 +226,26 @@ public class GerritConfig implements Cloneable {
     editableAccountFields = af;
   }
 
-  public List<RegexFindReplace> getCommentLinks() {
+  public List<FindReplace> getCommentLinks() {
+    if (findReplaceLinks == null) {
+      if (commentLinks != null) {
+        findReplaceLinks = new ArrayList<FindReplace>(commentLinks.size());
+        for (CommentLink cl : commentLinks) {
+          findReplaceLinks.add(cl.asFindReplace());
+        }
+        findReplaceLinks = Collections.unmodifiableList(findReplaceLinks);
+      }
+    }
+    return findReplaceLinks;
+  }
+
+  public List<CommentLink> getSerializableCommentLinks() {
     return commentLinks;
   }
 
-  public void setCommentLinks(final List<RegexFindReplace> cl) {
-    commentLinks = cl;
+  public void setSerializableCommentLinks(List<CommentLink> commentLinks) {
+    findReplaceLinks = null;
+    this.commentLinks = Collections.unmodifiableList(commentLinks);
   }
 
   public boolean isDocumentationAvailable() {

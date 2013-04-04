@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S8DKB0Ds",
+        "filename": "contrib/themes/diffy/etc/GerritSite.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-04T14:36:35Z",
+      "side": 1,
+      "message": "Do these files need a copyright header?",
+      "revId": "aad066e9e9e74df9c7f397822cc646b7a8add2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

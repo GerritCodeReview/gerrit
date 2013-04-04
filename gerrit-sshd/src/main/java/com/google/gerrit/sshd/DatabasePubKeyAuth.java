@@ -15,18 +15,14 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.mina.core.future.IoFuture;
-import org.apache.mina.core.future.IoFutureListener;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.util.Buffer;
@@ -104,7 +100,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       if (myHostKeys.contains(suppliedKey)
           || getPeerKeys().contains(suppliedKey)) {
         PeerDaemonUser user = peerFactory.create(sd.getRemoteAddress());
-        return success(username, session, sd, user);
+        return SshUtil.success(username, session, sshScope, sshLog, sd, user);
 
       } else {
         sd.authenticationError(username, "no-matching-key");
@@ -144,12 +140,14 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       }
     }
 
-    if (!createUser(sd, key).getAccount().isActive()) {
+    if (!SshUtil.createUser(sd, userFactory, key.getAccount())
+        .getAccount().isActive()) {
       sd.authenticationError(username, "inactive-account");
       return false;
     }
 
-    return success(username, session, sd, createUser(sd, key));
+    return SshUtil.success(username, session, sshScope, sshLog, sd,
+        SshUtil.createUser(sd, userFactory, key.getAccount()));
   }
 
   private Set<PublicKey> getPeerKeys() {
@@ -159,46 +157,6 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       peerKeyCache = p;
     }
     return p.keys;
-  }
-
-  private boolean success(final String username, final ServerSession session,
-      final SshSession sd, final CurrentUser user) {
-    if (sd.getCurrentUser() == null) {
-      sd.authenticationSuccess(username, user);
-
-      // If this is the first time we've authenticated this
-      // session, record a login event in the log and add
-      // a close listener to record a logout event.
-      //
-      Context ctx = sshScope.newContext(null, sd, null);
-      Context old = sshScope.set(ctx);
-      try {
-        sshLog.onLogin();
-      } finally {
-        sshScope.set(old);
-      }
-
-      session.getIoSession().getCloseFuture().addListener(
-          new IoFutureListener<IoFuture>() {
-            @Override
-            public void operationComplete(IoFuture future) {
-              final Context ctx = sshScope.newContext(null, sd, null);
-              final Context old = sshScope.set(ctx);
-              try {
-                sshLog.onLogout();
-              } finally {
-                sshScope.set(old);
-              }
-            }
-          });
-    }
-
-    return true;
-  }
-
-  private IdentifiedUser createUser(final SshSession sd,
-      final SshKeyCacheEntry key) {
-    return userFactory.create(sd.getRemoteAddress(), key.getAccount());
   }
 
   private SshKeyCacheEntry find(final Iterable<SshKeyCacheEntry> keyList,

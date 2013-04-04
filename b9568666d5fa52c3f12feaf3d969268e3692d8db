@@ -322,6 +322,24 @@
     },
     {
       "key": {
+        "uuid": "S6JoTjWY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-04T04:17:20Z",
+      "side": 1,
+      "message": "Maybe an \u0027update submodules\u0027 button on the branch screen of any superproject?  Also maybe an \u0027update submodules for review\u0027 button?",
+      "parentUuid": "S8DJXEAc",
+      "revId": "b9568666d5fa52c3f12feaf3d969268e3692d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Suck.Ucs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

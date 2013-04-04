@@ -61,6 +61,8 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import org.eclipse.jgit.diff.Edit;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -241,7 +243,15 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
   protected boolean hasDifferences(final PatchScript script) {
     // True if there are differences between the two patch sets
-    boolean hasEdits = !script.getEdits().isEmpty();
+    boolean hasEdits = false;
+    for (Edit e : script.getEdits()) {
+      if (e.getType() != Edit.Type.EMPTY) {
+        hasEdits = true;
+        break;
+      }
+    }
+
+
     // True if this change is a mode change or a pure rename/copy
     boolean hasMeta = !script.getPatchHeader().isEmpty();
 

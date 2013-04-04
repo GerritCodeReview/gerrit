@@ -52,6 +52,24 @@
       "revId": "204b07a6306b4694ed7caeaa7ea1af99afaa5908",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S7DaamK8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-04T08:45:06Z",
+      "side": 1,
+      "message": "\u003e  i am not aware of any Gerrit installation that wouldn\u0027t need \"Verified\" category.\n\nI believe removing the Verfied category was an outcome of the feedback that was received during the Gerrit tutorial at EclipseCon in Bosten last week (I can only guess since I wasn\u0027t there). See https://gerrit-review.googlesource.com/44084",
+      "parentUuid": "S7XVAiBU",
+      "revId": "204b07a6306b4694ed7caeaa7ea1af99afaa5908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

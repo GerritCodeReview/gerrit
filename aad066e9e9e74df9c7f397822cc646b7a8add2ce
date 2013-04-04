@@ -16,6 +16,24 @@
       "revId": "aad066e9e9e74df9c7f397822cc646b7a8add2ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S6hidxaY",
+        "filename": "contrib/themes/diffy/etc/GerritSite.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-04T15:04:20Z",
+      "side": 1,
+      "message": "I\u0027ve added the copyright header to this file, but I believe for the html snippet it\u0027s really not needed. For other html files with more content we also do not have the copyright header.\n\nDone",
+      "parentUuid": "S8DKB0Ds",
+      "revId": "aad066e9e9e74df9c7f397822cc646b7a8add2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

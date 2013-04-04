@@ -34,6 +34,24 @@
       "revId": "204b07a6306b4694ed7caeaa7ea1af99afaa5908",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S7XVAiBU",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-04-04T08:37:16Z",
+      "side": 1,
+      "message": "\u003eIf this is the default for a Gerrit server the administrator would just configure the Verify category once on the the \u0027All-Projects\u0027 project and all other projects would just inherit this category.\n\nSorry, i used wrong term \"project\" here. I meant Gerit installation projects, like openstack, wikimedia and LibreOffice. While talking only for me, i am not aware of any Gerrit installation that wouldn\u0027t need \"Verified\" category.\n\n\u003eStill I agree that there should be one place where it\u0027s explained how to update the project.config file in the refs/meta/config branch, maybe in the already existing project-setup.html?\n\nThank you for that suggestion, i would provide a patch for that.",
+      "parentUuid": "S6lg9fcc",
+      "revId": "204b07a6306b4694ed7caeaa7ea1af99afaa5908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -521,9 +521,9 @@ to be explicitly assigned, even for site administrators.
   link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/access-control.html#category_publish_drafts[publishing]
   other users' draft changes is a new permission.
 
-* Grant most permissions when creation `All-Projects`
+* Grant most permissions when creating `All-Projects`
 +
-Make Gerrit more like a Git server out of the box by granting both
+Make Gerrit more like a Git server out-of-the box by granting both
 Administrators and Project Owners permissions to review changes, submit
 them, create branches, create tags, and push directly to branches.
 
@@ -605,7 +605,7 @@ Selecting publish vs. draft should be done with the options `draft` or
 * Enable content merge by default
 +
 Most teams seem to expect Gerrit to manage simple merges within a
-source code file. Enable this out of the box.
+source code file. Enable this out-of-the-box.
 
 * Added a link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#core.useRecursiveMerge[
   server-level option] to use JGit's new, experimental recursive merger.
@@ -747,7 +747,7 @@ Labels
 +
 Most project teams seem confused with the out-of-the-box experience
 needing to vote on both `Code-Review` and `Verified` categories in
-order to submit a change. Simplify the out of the box workflow to only
+order to submit a change. Simplify the out-of-the-box workflow to only
 have `Code-Review`. When a team installs the Hudson/Jenkins integration
 or their own build system they can now trivially add the `Verified`
 category by pasting 5 lines into `project.config`.

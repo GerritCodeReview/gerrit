@@ -15,9 +15,10 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtexpui.safehtml.client.RegexFindReplace;
+import com.google.gerrit.common.data.GerritConfig.CommentLink;
+import com.google.gwtexpui.safehtml.client.FindReplace;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.ArrayList;
@@ -33,12 +34,19 @@ public class CommentLinkProcessor {
       // One or more of the patterns isn't valid on this browser.
       // Try to filter the list down and remove the invalid ones.
 
-      List<RegexFindReplace> safe = new ArrayList<RegexFindReplace>();
+      List<FindReplace> all = Gerrit.getConfig().getCommentLinks();
+      List<CommentLink> ser = Gerrit.getConfig().getSerializableCommentLinks();
+
+      List<FindReplace> safe = new ArrayList<FindReplace>(all.size());
+      List<CommentLink> safeSer = new ArrayList<CommentLink>(safe.size());
+
       List<PatternError> bad = new ArrayList<PatternError>();
-      for (RegexFindReplace r : Gerrit.getConfig().getCommentLinks()) {
+      for (int i = 0; i < all.size(); i++) {
+        FindReplace r = all.get(i);
         try {
           buf.replaceAll(Collections.singletonList(r));
           safe.add(r);
+          safeSer.add(ser.get(i));
         } catch (RuntimeException why) {
           bad.add(new PatternError(r, why.getMessage()));
         }
@@ -50,7 +58,7 @@ public class CommentLinkProcessor {
         for (PatternError e : bad) {
           msg.append("\n");
           msg.append("\"");
-          msg.append(e.pattern.find());
+          msg.append(e.pattern.pattern().getSource());
           msg.append("\": ");
           msg.append(e.errorMessage);
         }
@@ -67,23 +75,23 @@ public class CommentLinkProcessor {
       }
 
       try {
-        Gerrit.getConfig().setCommentLinks(safe);
+        Gerrit.getConfig().setSerializableCommentLinks(safeSer);
         return buf.replaceAll(safe);
       } catch (RuntimeException err2) {
         // To heck with it. The patterns passed individually above but
-        // failed as a group? Just drop them all and render without.
+        // failed as a group? Just render without.
         //
-        Gerrit.getConfig().setCommentLinks(null);
+        Gerrit.getConfig().setSerializableCommentLinks(null);
         return buf;
       }
     }
   }
 
   private static class PatternError {
-    RegexFindReplace pattern;
+    FindReplace pattern;
     String errorMessage;
 
-    PatternError(RegexFindReplace r, String w) {
+    PatternError(FindReplace r, String w) {
       pattern = r;
       errorMessage = w;
     }

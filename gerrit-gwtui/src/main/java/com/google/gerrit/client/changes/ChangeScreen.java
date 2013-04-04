@@ -387,7 +387,7 @@ public class ChangeScreen extends Screen
     final Timestamp aged = new Timestamp(System.currentTimeMillis() - AGE);
 
     CommentVisibilityStrategy commentVisibilityStrategy =
-        CommentVisibilityStrategy.EXPAND_MOST_RECENT;
+        CommentVisibilityStrategy.EXPAND_RECENT;
     if (Gerrit.isSignedIn()) {
       commentVisibilityStrategy = Gerrit.getUserAccount()
           .getGeneralPreferences().getCommentVisibilityStrategy();
@@ -422,15 +422,15 @@ public class ChangeScreen extends Screen
       switch (commentVisibilityStrategy) {
         case COLLAPSE_ALL:
           break;
-        case EXPAND_RECENT:
-          isOpen = isRecent;
-          break;
         case EXPAND_ALL:
           isOpen = true;
           break;
         case EXPAND_MOST_RECENT:
-        default:
           isOpen = i == msgList.size() - 1;
+          break;
+        case EXPAND_RECENT:
+        default:
+          isOpen = isRecent;
           break;
       }
       cp.setOpen(isOpen);

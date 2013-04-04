@@ -249,7 +249,7 @@ public final class AccountGeneralPreferences {
 
   public CommentVisibilityStrategy getCommentVisibilityStrategy() {
     if (commentVisibilityStrategy == null) {
-      return CommentVisibilityStrategy.EXPAND_MOST_RECENT;
+      return CommentVisibilityStrategy.EXPAND_RECENT;
     }
     return CommentVisibilityStrategy.valueOf(commentVisibilityStrategy);
   }

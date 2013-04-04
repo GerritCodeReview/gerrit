@@ -51,5 +51,7 @@ public class Module extends RestApiModule {
     put(DASHBOARD_KIND).to(SetDashboard.class);
     delete(DASHBOARD_KIND).to(DeleteDashboard.class);
     install(new FactoryModuleBuilder().build(CreateProject.Factory.class));
+
+    get(PROJECT_KIND, "config").to(GetConfig.class);
   }
 }

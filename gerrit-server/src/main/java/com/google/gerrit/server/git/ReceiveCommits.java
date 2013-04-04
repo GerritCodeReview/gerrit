@@ -59,6 +59,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
+import com.google.gerrit.server.changedetail.SubmitChange;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -277,6 +278,7 @@ public class ReceiveCommits {
   private Map<String, Ref> allRefs;
 
   private final SubmoduleOp.Factory subOpFactory;
+  private final MergeQueue mergeQueue;
 
   private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
@@ -316,7 +318,8 @@ public class ReceiveCommits {
       ReceiveConfig config,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
-      final SubmoduleOp.Factory subOpFactory) throws IOException {
+      final SubmoduleOp.Factory subOpFactory,
+      final MergeQueue mergeQueue) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.schemaFactory = schemaFactory;
@@ -351,6 +354,7 @@ public class ReceiveCommits {
     this.rejectCommits = loadRejectCommitsMap();
 
     this.subOpFactory = subOpFactory;
+    this.mergeQueue = mergeQueue;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -1000,6 +1004,9 @@ public class ReceiveCommits {
     @Option(name = "--draft", usage = "mark new/update changes as draft")
     boolean draft;
 
+    @Option(name = "--submit", usage = "submit the change")
+    boolean submit;
+
     @Option(name = "-r", metaVar = "EMAIL", usage = "add reviewer to changes")
     void reviewer(Account.Id id) {
       reviewer.add(id);
@@ -1022,6 +1029,10 @@ public class ReceiveCommits {
 
     boolean isDraft() {
       return draft;
+    }
+
+    boolean isSubmit() {
+      return submit;
     }
 
     MailRecipients getMailRecipients() {
@@ -1493,6 +1504,56 @@ public class ReceiveCommits {
           return "send-email newchange";
         }
       }));
+
+      if (magicBranch != null && magicBranch.isSubmit()) {
+        submit(change, ps);
+      }
+    }
+  }
+
+  private void submit(Change change, PatchSet ps) throws OrmException {
+    if (!projectControl.controlForRef(MagicBranch.NEW_CHANGE + change.getDest().get()).canSubmit()) {
+      addError("Submitting of change " + change.getChangeId() + " not allowed.");
+    } else {
+      Change c = SubmitChange.submit(db, change, ps, currentUser);
+      if (c == null) {
+        addError("Submitting change " + change.getChangeId() + " failed.");
+      } else {
+        addMessage("");
+        mergeQueue.merge(c.getDest());
+        c = db.changes().get(c.getId());
+        switch (c.getStatus()) {
+          case SUBMITTED:
+            addMessage("Change " + c.getChangeId() + " submitted.");
+            break;
+          case MERGED:
+            addMessage("Change " + c.getChangeId() + " merged.");
+            break;
+          case NEW:
+            // If the merge was attempted and it failed the system usually
+            // writes a comment as a ChangeMessage and sets status to NEW.
+            // Find the relevant message and report that as the conflict.
+            final Timestamp before = change.getLastUpdatedOn();
+            ChangeMessage msg = Iterables.getFirst(Iterables.filter(
+              Lists.reverse(db.changeMessages()
+                  .byChange(c.getId())
+                  .toList()),
+              new Predicate<ChangeMessage>() {
+                @Override
+                public boolean apply(ChangeMessage input) {
+                  return input.getAuthor() == null
+                      && input.getWrittenOn().getTime() >= before.getTime();
+                }
+              }), null);
+            if (msg != null) {
+              addMessage("Change " + c.getChangeId() + ": " + msg.getMessage());
+              break;
+            }
+          default:
+            addMessage("change " + c.getChangeId() + " is "
+                + c.getStatus().name().toLowerCase());
+        }
+      }
     }
   }
 
@@ -1865,6 +1926,11 @@ public class ReceiveCommits {
           return "send-email newpatchset";
         }
       }));
+
+      if (magicBranch != null && magicBranch.isSubmit()) {
+        submit(change, newPatchSet);
+      }
+
       return newPatchSet.getId();
     }
   }

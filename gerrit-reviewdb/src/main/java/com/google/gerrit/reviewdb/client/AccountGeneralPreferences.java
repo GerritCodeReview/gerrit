@@ -65,6 +65,13 @@ public final class AccountGeneralPreferences {
     }
   }
 
+  public static enum CommentVisibilityStrategy {
+    COLLAPSE_ALL,
+    EXPAND_MOST_RECENT,
+    EXPAND_RECENT,
+    EXPAND_ALL;
+  }
+
   public static enum TimeFormat {
     /** 12-hour clock: 1:15 am, 2:13 pm */
     HHMM_12("h:mm a"),
@@ -125,6 +132,9 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 12)
   protected boolean relativeDateInChangeTable;
+
+  @Column(id = 13, length = 20, notNull = false)
+  protected String commentVisibilityStrategy;
 
   public AccountGeneralPreferences() {
   }
@@ -235,6 +245,18 @@ public final class AccountGeneralPreferences {
 
   public void setRelativeDateInChangeTable(final boolean relativeDateInChangeTable) {
     this.relativeDateInChangeTable = relativeDateInChangeTable;
+  }
+
+  public CommentVisibilityStrategy getCommentVisibilityStrategy() {
+    if (commentVisibilityStrategy == null) {
+      return CommentVisibilityStrategy.EXPAND_MOST_RECENT;
+    }
+    return CommentVisibilityStrategy.valueOf(commentVisibilityStrategy);
+  }
+
+  public void setCommentVisibilityStrategy(
+      CommentVisibilityStrategy strategy) {
+    commentVisibilityStrategy = strategy.name();
   }
 
   public void resetToDefaults() {

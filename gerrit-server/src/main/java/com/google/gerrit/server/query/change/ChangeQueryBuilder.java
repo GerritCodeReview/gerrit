@@ -42,11 +42,16 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,6 +61,16 @@ import java.util.regex.Pattern;
  * Parses a query string meant to be applied to change objects.
  */
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
+  public static class RepoWalk {
+    public Repository repository;
+    public RevWalk revWalk;
+
+    public RepoWalk(RevWalk revWalk, Repository repository) {
+      this.repository = repository;
+      this.revWalk = revWalk;
+    }
+  }
+
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID =
       Pattern.compile("^[iI][0-9a-f]{4,}.*$");
@@ -145,15 +160,45 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     ChangeQueryBuilder create(CurrentUser user);
   }
 
+  public class RepoWalksCache extends HashMap<Project.NameKey, RepoWalk> {
+    private static final long serialVersionUID = 1L;
+
+    public RepoWalk get(Project.NameKey projectName) throws
+        RepositoryNotFoundException, IOException {
+      RepoWalk repoWalk = super.get(projectName);
+      if (repoWalk == null) {
+        final Repository repo = args.repoManager.openRepository(projectName);
+        final RevWalk rw = new RevWalk(repo);
+        repoWalk = new RepoWalk(rw, repo);
+        put(projectName, repoWalk);
+      } else {
+        repoWalk.revWalk.reset();
+      }
+      return repoWalk;
+    }
+
+    public void release() {
+      for (RepoWalk repoWalk : values()) {
+        repoWalk.revWalk.release();
+        repoWalk.repository.close();
+      }
+    }
+  }
+
   private final Arguments args;
   private final CurrentUser currentUser;
   private boolean allowsFile;
+  private RepoWalksCache repoWalksByProject = new RepoWalksCache();
 
   @Inject
   ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
     super(mydef);
     this.args = args;
     this.currentUser = currentUser;
+  }
+
+  public void release() {
+    repoWalksByProject.release();
   }
 
   public void setAllowFile(boolean on) {
@@ -305,12 +350,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> message(String text) {
-    return new MessagePredicate(args.dbProvider, args.repoManager, text);
+    return new MessagePredicate(args.dbProvider, repoWalksByProject, text);
   }
 
   @Operator
   public Predicate<ChangeData> inref(String ref) {
-    return new InRefPredicate(args.dbProvider, args.repoManager, ref);
+    return new InRefPredicate(args.dbProvider, repoWalksByProject, ref);
   }
 
   @Operator

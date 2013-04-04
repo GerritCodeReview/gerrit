@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.RepoWalksCache;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -35,9 +35,9 @@ public class InRefPredicate extends RevWalkPredicate {
   private static final Logger log =
       LoggerFactory.getLogger(InRefPredicate.class);
 
-  public InRefPredicate(Provider<ReviewDb> db,
-      GitRepositoryManager repoManager, String ref) {
-    super(db, repoManager, ChangeQueryBuilder.FIELD_INREF, ref);
+  public InRefPredicate(Provider<ReviewDb> db, RepoWalksCache repoWalksByProject,
+      String ref) {
+    super(db, repoWalksByProject, ChangeQueryBuilder.FIELD_INREF, ref);
   }
 
   @Override

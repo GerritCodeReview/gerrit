@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder.RepoWalksCache;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -41,8 +41,8 @@ public class MessagePredicate extends RevWalkPredicate {
   private final RevFilter rFilter;
 
   public MessagePredicate(Provider<ReviewDb> db,
-      GitRepositoryManager repoManager, String text) {
-    super(db, repoManager, ChangeQueryBuilder.FIELD_MESSAGE, text);
+      RepoWalksCache repoWalkByProject, String text) {
+    super(db, repoWalkByProject, ChangeQueryBuilder.FIELD_MESSAGE, text);
     this.rFilter = MessageRevFilter.create(text);
   }
 

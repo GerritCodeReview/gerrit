@@ -251,6 +251,7 @@ public class QueryProcessor {
     if (sortkeyAfter != null) {
       Collections.reverse(results);
     }
+    queryBuilder.release();
     return results;
   }
 

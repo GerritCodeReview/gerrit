@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S8HJ7WIU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-04-04T15:23:06Z",
+      "side": 1,
+      "message": "The way I\u0027m using this, it runs on the actual host, so there\u0027s no sharing. This would break me and likely others using this today.",
+      "revId": "278b29d00d7b5482ac870b8fada4c0d2d95352f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

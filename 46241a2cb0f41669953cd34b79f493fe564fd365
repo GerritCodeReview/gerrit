@@ -52,6 +52,58 @@
       "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S7JaIzG4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-04T12:21:34Z",
+      "side": 1,
+      "message": "Given that the number in rXX is only used to get a meaningful order\nwhen sorting the method alphabetically by their names (see\nQueryRewriter around line 33), and that we\u0027re dealing with a Rewrite\nof a compound query anyways, the number should not matter too\nmuch. Any high number (like your r30) looks reasonable to me, so it\ndoes not get in the way, when doing basic rewrites.",
+      "parentUuid": "Si7f2yBY",
+      "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S6nhRYQ4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-04T12:21:34Z",
+      "side": 1,
+      "message": "This new \u0027or\u0027 drops the query\u0027s limit. So we end up getting up to 20\nchanges. The 10 most recent from each of the two sources.\n\nBesides, \u0027or\u0027 just returns the items of the first source, followed by\nthe items of the second source, ... without resorting the joined\nresult set by date. So the items may show in mixed up order.\n\nThe latter item can easily be argued away, as it seems to be an\nunrelated \u0027defect\u0027 of \u0027or\u0027 that hits us in other places as well.",
+      "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S7LaNyH0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-04T12:21:34Z",
+      "side": 1,
+      "message": "byOwnerClosed sorts by lastUpdatedOn.\nclosedByUser (used in line 596 above) sorts by changeSortKey.\n\nWhile lastUpdatedOn and changeSortKey correspond nicely upon closing a\nchange, when adding comments to a closed change, they start to run\napart.\n\nI am not sure, but since Eclipse tells me that r30_byRecentlyClosed is\nthe only place where, both closedByUser and byOwnerClosed is used,\nwould it make sense to harmonize on which column we sort the two\nsources?",
+      "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

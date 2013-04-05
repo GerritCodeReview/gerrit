@@ -45,6 +45,7 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.server.project.CommentLinkInfo;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -64,8 +65,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class ProjectConfig extends VersionedMetaData {
+  public static final String COMMENTLINK = "commentlink";
+  private static final String KEY_MATCH = "match";
+  private static final String KEY_HTML = "html";
+  private static final String KEY_LINK = "link";
+
   private static final String PROJECT_CONFIG = "project.config";
   private static final String GROUP_LIST = "groups";
 
@@ -146,6 +153,22 @@ public class ProjectConfig extends VersionedMetaData {
     ProjectConfig r = new ProjectConfig(update.getProjectName());
     r.load(update, id);
     return r;
+  }
+
+  public static CommentLinkInfo buildCommentLink(Config cfg, String name)
+      throws IllegalArgumentException {
+    String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);
+
+    // Unfortunately this validation isn't entirely complete. Clients
+    // can have exceptions trying to evaluate the pattern if they don't
+    // support a token used, even if the server does support the token.
+    //
+    // At the minimum, we can trap problems related to unmatched groups.
+    Pattern.compile(match);
+
+    String link = cfg.getString(COMMENTLINK, name, KEY_LINK);
+    String html = cfg.getString(COMMENTLINK, name, KEY_HTML);
+    return new CommentLinkInfo(name, match, link, html);
   }
 
   public ProjectConfig(Project.NameKey projectName) {

@@ -94,6 +94,8 @@ import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.CommentLinkInfo;
+import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.PerformCreateProject;
 import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
@@ -112,6 +114,8 @@ import com.google.inject.TypeLiteral;
 
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.Config;
+
+import java.util.List;
 
 
 /** Starts global state with standard dependencies. */
@@ -253,5 +257,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountManager.class);
     bind(ChangeUserName.CurrentUser.class);
     factory(ChangeUserName.Factory.class);
+
+    bind(new TypeLiteral<List<CommentLinkInfo>>() {})
+        .toProvider(CommentLinkProvider.class).in(SINGLETON);
   }
 }

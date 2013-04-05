@@ -89,25 +89,32 @@ overridden by dashboards with the same ref and name.  This makes
 it easy to define common dashboards for every project by simply
 defining project dashboards on the All-Projects project.
 
+Token `${project}`
+~~~~~~~~~~~~~~~~~~
+
 Project dashboard queries may contain the special `${project}` token
-which will be replaced with the project name to which the dashboard is
-being applied.  This is useful for defining dashboards designed to be
-inherited.  With this token, it is possible to cause a query in a
-project dashboard to be restricted to only changes for the project in
-which an inherited dashboard is being applied by simply adding
-`project:${project}` to the query in the dashboard.
+which will be replaced with the name of the project to which the
+dashboard is being applied.  This is useful for defining dashboards
+designed to be inherited.  With this token, it is possible to cause a
+query in a project dashboard to be restricted to only changes for the
+project in which an inherited dashboard is being applied by simply
+adding `project:${project}` to the query in the dashboard.
 
-Section dashboard
-~~~~~~~~~~~~~~~~~
+The `${project}` token can also be used in the link:#dashboard.title[
+dashboard title] and in the link:#dashboard.description[dashboard
+description].
 
-dashboard.title::
+Section `dashboard`
+~~~~~~~~~~~~~~~~~~~
+
+[[dashboard.title]]dashboard.title::
 +
 The title of the dashboard.
 +
 If not specified the path of the dashboard config file is used as
 title.
 
-dashboard.description::
+[[dashboard.description]]dashboard.description::
 +
 The description of the dashboard.
 
@@ -125,8 +132,8 @@ the project to which it is applied:
 ----
 
 
-Section section
-~~~~~~~~~~~~~~~
+Section `section`
+~~~~~~~~~~~~~~~~~
 
 section.<name>.query::
 +

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S8LL7ALI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-05T18:54:15Z",
+      "side": 1,
+      "message": "This is the bug. I overwrite anonymous with Registered Users.",
+      "revId": "f10d3e2a86c1f11c2a2fc76814950bfd425cfd16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "S8JL2-Mg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-05T18:54:15Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary. We know the UUID.",
+      "revId": "f10d3e2a86c1f11c2a2fc76814950bfd425cfd16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

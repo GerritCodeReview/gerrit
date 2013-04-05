@@ -52,6 +52,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -119,7 +120,11 @@ public class ApprovalTable extends Composite {
     fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
     col++;
 
-    for (String name : labels) {
+    List<String> sorted_labels = new ArrayList<String>();
+    sorted_labels.addAll(labels);
+    Collections.sort(sorted_labels);
+
+    for (String name : sorted_labels) {
       table.setText(0, col, name);
       fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
       col++;

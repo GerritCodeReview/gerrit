@@ -1,0 +1,915 @@
+#!/usr/bin/env perl
+
+# Copyright (c) 2013, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+use warnings;
+use strict;
+
+use Getopt::Long qw(:config gnu_getopt);
+use JSON qw(decode_json);
+use Net::LDAP;
+
+$main::VERSION = 1.0;
+
+my @GIT_CONFIG = ('git', 'config');
+my @GERRIT_SQL = ('gerrit', 'gsql', '--format', 'JSON', '-c');
+my @GERRIT_SET_INACTIVE = ('gerrit', 'set-account', '--inactive');
+my @GERRIT_SET_ACTIVE = ('gerrit', 'set-account', '--active');
+my @GERRIT_FLUSH_ACCOUNTS = ('gerrit', 'flush-caches', '--cache', 'accounts');
+
+my $quiet;
+my $verbose;
+my $dry_run = 1;
+
+sub usage {
+    my $name;
+
+    eval {
+        require File::Basename;
+        $name = File::Basename::basename($0);
+    } or
+        $name = substr $0, rindex($0, '/') + 1;
+
+    print 'Usage: ', $name, ' [--help] host [account...]', "\n";
+}
+
+sub help {
+
+    usage;
+
+    print <<EOF;
+
+Sync the Gerrit "Inactive" state for each account with the state of the
+respective account in LDAP.  For each Gerrit account, an LDAP query is
+performed to determine whether the account exists and is enabled.  If the
+Gerrit "Inactive" state conflicts with the state in LDAP, then the Gerrit
+state is updated to match.
+
+Optionally, one or more account names may be specified on the command line to
+limit the set of accounts that is operated on.
+
+OPTIONS
+-b base    use base as the starting point for the LDAP search.  This option
+           may be used multiple times to specify more than one base.
+-D binddn  use the Distinguished Name binddn to bind to the LDAP directory
+-F filter  LDAP filter used to search for Gerrit account name
+-f         actually enable/disable Gerrit accounts
+-G file    Gerrit configuration file to load LDAP settings from
+-H uri     specify URI referring to the LDAP server.  This option may be
+           used multiple times to specify more than one uri.
+-l num     wait at most num seconds for an LDAP search to complete
+-n         dry-run (default)
+-O         use "gerrit gsql" and an SQL UPDATE statement to enable/disable
+           accounts which is compatible with older Gerrit versions.  By default
+           if the Gerrit version is 2.5 or newer, "gerrit set-account" is used.
+-p port    specify port to use to connect to Gerrit
+-q         be quiet.  Only print error messages.
+-s scope   scope of the search performed.  One of base, one, or sub.
+-w passwd  use passwd as the password for simple LDAP authentication
+-x name    a username to exclude from update.  This option may be used multiple
+           times to exclude more than one username.
+-y file    use the complete contents of file as the password for simple LDAP
+           authentication
+-v         increase verbosity
+--help     this text
+--version  version information
+EOF
+}
+
+sub version {
+    my $name;
+
+    eval {
+        require File::Basename;
+        $name = File::Basename::basename($0);
+    } or
+        $name = substr $0, rindex($0, '/') + 1;
+
+    print $name, ' version ', $main::VERSION, "\n";
+}
+
+sub start_command_on_host {
+    my $host = shift;
+    my $port = shift;
+    my @cmd = @_;
+
+    my @SSH = ('ssh', '-p', $port, $host);
+
+    open my $fh, '-|', @SSH, @cmd or
+        die "Error: failed to open ssh handle: $!";
+
+    return $fh;
+}
+
+sub is_account_enabled {
+    my $ldap = shift;
+    my $params = shift;
+    my $account = shift;
+
+    my $ADS_UF_ACCOUNTDISABLE = 0x2;
+
+    my $ldap_searchbases = $params->{accountBase};
+    my $ldap_scope = $params->{accountScope};
+    my $ldap_filter = $params->{accountPattern};
+    my $ldap_timeout = $params->{readTimeout};
+
+    $ldap_filter =~ s/\${username}/$account/;
+
+    foreach my $ldap_searchbase (@$ldap_searchbases) {
+
+        my $result = $ldap->search(base => $ldap_searchbase,
+            filter => $ldap_filter,
+            scope => $ldap_scope,
+            attrs => ['userAccountControl'],
+            timeout => $ldap_timeout,
+        );
+
+        if ($result->is_error) {
+            warn "Warning: LDAP search for $account failed with error: ",
+                $result->error;
+            return -1;
+        }
+
+        next if $result->count == 0;
+
+        if ($result->count > 1) {
+            warn "Warning: found multiple accounts for $account, disabling";
+            my $mesg = $result->abandon;
+            warn "Warning: failed abandoning failed query for $account ",
+                $mesg->error if $mesg && $mesg->is_error;
+            return 0;
+        }
+
+        my $uac = $result->entry(0)->get_value('userAccountControl');
+
+        if (! defined $uac) {
+            warn "Warning: userAccountControl attribute missing for $account";
+            next;
+        }
+
+        return !($uac & $ADS_UF_ACCOUNTDISABLE);
+    }
+
+    return 0;
+}
+
+sub username_to_gerrit_external_id {
+    my $s = shift;
+
+    # escape unescaped double quotes.  i.e. ensure embedded double quotes
+    # are preceded by an odd number of backslashes.
+    $s =~ s/(?<!\\)((?:\\\\)*)\"/$1\\\"/g;
+
+    # wrap single quotes in double quotes.  In the substition, first close
+    # the left-hand side single quote, then double-quote the embedded
+    # single quote, then reopen single quotes.
+    $s =~ s/'/'"'"'/g;
+
+    return '"gerrit:' . $s . '"';
+}
+
+sub start_gerrit_account_lookup {
+    my $host = shift;
+    my $port = shift;
+
+    my @gerrit_cmd;
+
+    if (@_) {
+        @gerrit_cmd = (@GERRIT_SQL, q/'SELECT account_external_ids.account_id,account_external_ids.external_id,accounts.inactive FROM account_external_ids,accounts WHERE account_external_ids.account_id = accounts.account_id AND account_external_ids.external_id IN (/ .
+            join(',', map { username_to_gerrit_external_id $_ } @_) . q/)'/);
+    } else {
+        @gerrit_cmd = (@GERRIT_SQL, q/'SELECT account_external_ids.account_id,account_external_ids.external_id,accounts.inactive FROM account_external_ids,accounts WHERE account_external_ids.account_id = accounts.account_id AND account_external_ids.external_id LIKE "gerrit:%"'/);
+    }
+
+    my $fh = start_command_on_host $host, $port, @gerrit_cmd;
+
+    return $fh;
+}
+
+sub next_gerrit_account {
+    my $fh = shift;
+
+    my $account;
+    while (my $line = <$fh>) {
+        next if $line =~ m/^$/;
+
+        my $entry = decode_json $line;
+
+        warn 'Warning: ', $entry->{message} if $entry->{type} eq 'error';
+
+        next unless $entry->{type} eq 'row';
+        next unless defined $entry->{columns};
+
+        $account = $entry->{columns};
+        last;
+    }
+
+    return $account;
+}
+
+sub finish_gerrit_account_lookup {
+    my $fh = shift;
+
+    close $fh or die "Error: Gerrit query failed: $!";
+}
+
+sub enable_gerrit_account_old {
+    my $host = shift;
+    my $port = shift;
+    my $account_id = shift;
+
+    my @gerrit_query = (@GERRIT_SQL,
+       qq/'UPDATE accounts SET inactive = "N" WHERE account_id = $account_id'/);
+
+    my $success;
+
+    return 1 if $dry_run;
+
+    my $fh = start_command_on_host $host, $port, @gerrit_query;
+
+    while (my $line = <$fh>) {
+        next if $line =~ m/^$/;
+
+        my $entry = decode_json $line;
+
+        warn 'Warning: ', $entry->{message} if $entry->{type} eq 'error';
+
+        next unless $entry->{type} eq 'update-stats';
+
+        my $rowcount = $entry->{rowCount};
+
+        if (defined $success) {
+            warn 'Error: received multiple update-stats lines from Gerrit';
+            $success = 0;
+        } else {
+            $success = ($rowcount == 1);
+        }
+
+        warn "Warning: enabling $account_id action affected $rowcount rows" if
+            $rowcount != 1;
+
+        print 'Enabled account id ', $account_id, ' in ',
+            $entry->{runTimeMilliseconds}, "ms\n" if $verbose;
+    }
+
+    close $fh or return 0;
+
+    return defined $success ? $success : 0;
+}
+
+sub disable_gerrit_account_old {
+    my $host = shift;
+    my $port = shift;
+    my $account_id = shift;
+
+    my @gerrit_query = (@GERRIT_SQL,
+       qq/'UPDATE accounts SET inactive = "Y" WHERE account_id = $account_id'/);
+
+    my $success;
+
+    return 1 if $dry_run;
+
+    my $fh = start_command_on_host $host, $port, @gerrit_query;
+
+    while (my $line = <$fh>) {
+        next if $line =~ m/^$/;
+
+        my $entry = decode_json $line;
+
+        warn 'Warning: ', $entry->{message} if $entry->{type} eq 'error';
+
+        next unless $entry->{type} eq 'update-stats';
+
+        my $rowcount = $entry->{rowCount};
+
+        if (defined $success) {
+            warn 'Error: received multiple update-stats lines from Gerrit';
+            $success = 0;
+        } else {
+            $success = ($rowcount == 1);
+        }
+
+        warn "Warning: disabling $account_id action affected $rowcount rows" if
+            $rowcount != 1;
+
+        print 'Disabled account id ', $account_id, ' in ',
+            $entry->{runTimeMilliseconds}, "ms\n" if $verbose;
+    }
+
+    close $fh or return 0;
+
+    return defined $success ? $success : 0;
+}
+
+sub enable_gerrit_account_2_5 {
+    my $host = shift;
+    my $port = shift;
+    my $account_id = shift;
+
+    my @SSH = ('ssh', '-p', $port, $host, @GERRIT_SET_ACTIVE, $account_id);
+
+    return 1 if $dry_run;
+
+    system(@SSH) == 0;
+}
+
+sub disable_gerrit_account_2_5 {
+    my $host = shift;
+    my $port = shift;
+    my $account_id = shift;
+
+    my @SSH = ('ssh', '-p', $port, $host, @GERRIT_SET_INACTIVE, $account_id);
+
+    return 1 if $dry_run;
+
+    system(@SSH) == 0;
+}
+
+sub gerrit_flush_accounts {
+    my $host = shift;
+    my $port = shift;
+
+    my @SSH = ('ssh', '-p', $port, $host, @GERRIT_FLUSH_ACCOUNTS);
+
+    return 1 if $dry_run;
+
+    system(@SSH) == 0;
+}
+
+sub get_gerrit_version {
+    my $host = shift;
+    my $port = shift;
+
+    my @SSH = ('ssh', '-p', $port, $host, 'gerrit', 'version');
+
+    my $pid = open my $fh, '-|';
+    die "Can't fork: $!" unless defined $pid;
+    if (!$pid) {
+        # The child
+        open STDERR, '>/dev/null' or
+            die "Failed redirecting STDERR to /dev/null: $!";
+        exec @SSH;
+        die "Exec of ssh failed: $!";
+    }
+
+    local $/;
+    my $s = <$fh>;
+
+    close $fh or return;
+
+    chomp $s;
+
+    my $version;
+    if ($s =~ m/^gerrit version (.*)$/) {
+        $version = $1;
+    }
+
+    return $version;
+}
+
+sub gerrit_supports_set_active {
+    my $host = shift;
+    my $port = shift;
+
+    my $version = get_gerrit_version $host, $port;
+    return 0 unless defined $version;
+
+    print "Gerrit version: $version\n" if $verbose;
+
+    my ($major,$minor) = split /\./, $version, 3;
+
+    $major =~ s/^(\d*)\D*$/$1/;
+    $minor =~ s/^(\d*)\D*$/$1/;
+    $major ||= 0;
+    $minor ||= 0;
+
+    print "Gerrit major: $major\n" if $verbose;
+    print "Gerrit minor: $minor\n" if $verbose;
+
+    return ($major > 2 || ($major == 2 && $minor >= 5));
+}
+
+sub git_config_v {
+
+    open(my $fh, '-|', @GIT_CONFIG, @_) or
+        die "Can't fork: $!";
+
+    my @values = <$fh>;
+    chomp(@values);
+    close $fh;
+
+    # Detect if git exited with a status greater than one or if
+    # it was terminated by a signal.  Only exit status zero or
+    # one is acceptable.
+    die "Failed to parse gitconfig" if ($? >> 8 > 1 || $? & 0xFF);
+
+    return if $?;
+
+    return wantarray ? @values : $values[0];
+}
+
+sub lookup_config_in_file {
+    my $filename = shift;
+    my $var = shift;
+
+    return git_config_v '--file', $filename, '--get-all', $var;
+}
+
+sub load_config_section_from_file {
+    my $config_file = shift;
+    my $section = shift;
+    my $config = shift;
+
+    foreach my $key (keys %$config) {
+        if (my @vals = lookup_config_in_file $config_file, "$section.$key") {
+            $config->{$key} = (scalar @vals > 1) ? \@vals : shift @vals;
+        }
+    }
+
+    return undef;
+}
+
+sub load_gerrit_config_section {
+    my $gerrit_config = shift;
+    my $section = shift;
+    my $config = shift;
+
+    load_config_section_from_file $gerrit_config, $section, $config;
+
+    if ($gerrit_config =~ s/[^\/]+\.config$/secure.config/ && -f $gerrit_config)
+    {
+        die "Failed reading from $gerrit_config" unless -r _;
+        load_config_section_from_file $gerrit_config, $section, $config;
+    }
+
+    return undef;
+}
+
+sub ldap_guess_type {
+    my $ldap = shift;
+
+    my $root = $ldap->root_dse(attrs => ['supportedCapabilities']);
+    my $supported = $root->get_value('supportedCapabilities');
+    return (defined($supported) &&
+        index($supported, '1.2.840.113556.1.4.800') != -1) ?
+        'AD' : 'RFC_2307';
+}
+
+sub update_config_for_ldap_type {
+    my $config = shift;
+    my $type = shift;
+
+    my %rfc2307_defaults = (
+        accountPattern => '(uid=${username})',
+    );
+
+    my %ad_defaults = (
+        accountPattern => '(&(objectClass=user)(sAMAccountName=${username}))',
+    );
+
+    my $config_hash = $type eq 'AD' ? \%ad_defaults : \%rfc2307_defaults;
+
+    foreach my $key (keys %{$config_hash}) {
+        $config->{$key} = $config_hash->{$key} unless defined $config->{$key};
+    }
+
+    return $config;
+}
+
+sub parse_gerrit_time_string {
+    my $s = shift;
+
+    if ($s =~ s/^\s*(\d+)\s*(\w+)\s*$/$1/) {
+        my $units = lc $2;
+        SWITCH: for ($units) {
+            /^(?:ms|milliseconds)$/ && do {
+                return $s / 1000.;
+            };
+            /^(?:s|sec|second|seconds)$/ && do {
+                return $s;
+            };
+            /^(?:m|min|minute|minutes)$/ && do {
+                return $s * 60;
+            };
+            /^(?:h|hr|hour|hours)$/ && do {
+                return $s * 3600;
+            };
+            /^(?:d|day|days)$/ && do {
+                return $s * 3600 * 24;
+            };
+            /^(?:w|week|weeks)$/ && do {
+                # 7 days
+                return $s * 3600 * 24 * 7;
+            };
+            /^(?:mon|month|months)$/ && do {
+                # 30 days
+                return $s * 3600 * 24 * 30;
+            };
+            /^(?:y|year|years)$/ && do {
+                # 365 days
+                return $s * 3600 * 24 * 365;
+            };
+            die "Error: unrecognized time units \"$units\"\n";
+        }
+    }
+
+    return $s;
+}
+
+#############################################################################
+
+# main
+
+my @excludes;
+my $need_flush_accounts;
+
+my $enable_gerrit_account = \&enable_gerrit_account_2_5;
+my $disable_gerrit_account = \&disable_gerrit_account_2_5;
+
+my %ldap = (
+    server         => undef,
+    accountBase    => undef,
+    accountScope   => 'sub',
+    accountPattern => undef,
+    username       => undef,
+    password       => undef,
+    readTimeout    => 0,
+);
+
+my $port = 29418;
+
+GetOptions(
+    'b=s'         => \@{$ldap{accountBase}},
+    'D=s'         => \$ldap{username},
+    'F|filter=s'  => sub {
+        shift; # first arg is option name, discard
+        $ldap{accountPattern} = shift;
+        $ldap{accountPattern} .= '=${username}' if
+            index($ldap{accountPattern}, '${username}') == -1;
+    },
+    'f|force'     => sub { $dry_run = 0 },
+    'G=s'         => sub {
+        shift; # first arg is option name, discard
+        my $filename = shift;
+        die "Failed reading from $filename" unless -f $filename && -r _;
+        load_gerrit_config_section $filename, 'ldap', \%ldap;
+        $ldap{accountBase} = [$ldap{accountBase}] unless
+            ref $ldap{accountBase} eq 'ARRAY';
+        $ldap{server} = [$ldap{server}] unless
+            ref $ldap{server} eq 'ARRAY';
+    },
+    'help|?'      => sub {help; exit},
+    'H=s'         => \@{$ldap{server}},
+    'l=s'         => \$ldap{readTimeout},
+    'n|dry-run'   => \$dry_run,
+    'O|old-mode'  => sub {
+        $enable_gerrit_account = \&enable_gerrit_account_old;
+        $disable_gerrit_account = \&disable_gerrit_account_old;
+        $need_flush_accounts = 1;
+    },
+    'p|port=i'    => \$port,
+    'q|quiet'     => \$quiet,
+    's=s'         => \$ldap{accountScope},
+    'w=s'         => \$ldap{password},
+    'x|exclude=s' => \@excludes,
+    'y=s'         => sub {
+        shift; # first arg is option name, discard
+        my $filename = shift;
+        open my $fh, '<', $filename or die "Failed opening $filename: $!\n";
+        local $/;
+        $ldap{password} = <$fh>;
+        close $fh;
+    },
+    'v|verbose:+' => \$verbose,
+    'version'   => sub {version; exit},
+) or die "Invalid options specified.\n";
+
+eval {select STDERR; usage; exit 1} unless @ARGV >= 1;
+
+eval {select STDERR; usage; print "Error: LDAP server not defined\n"; exit 1}
+    unless defined $ldap{server};
+
+eval {select STDERR;
+      usage; print "Error: LDAP search base not defined\n";
+      exit 1}
+      unless defined $ldap{accountBase};
+
+my $host = shift;
+
+my $enabled = 0;
+my $disabled = 0;
+
+$quiet = 0 if $verbose;
+
+# Convert Gerrit accountScopes into their Net::LDAP counterparts
+$ldap{accountScope} = 'sub' if $ldap{accountScope} eq 'subtree';
+$ldap{accountScope} = 'base' if $ldap{accountScope} eq 'object';
+
+$ldap{readTimeout} = parse_gerrit_time_string $ldap{readTimeout};
+
+if (!$need_flush_accounts && !gerrit_supports_set_active($host, $port)) {
+    $enable_gerrit_account = \&enable_gerrit_account_old;
+    $disable_gerrit_account = \&disable_gerrit_account_old;
+    $need_flush_accounts = 1;
+}
+
+print 'Using "old" update mode: ', $need_flush_accounts || 0, "\n" if $verbose;
+
+my $ldap;
+for (my $i = 0; $i <= $#{$ldap{server}}; $i++) {
+    my $server = $ldap{server}->[$i];
+    $ldap = Net::LDAP->new($server) or do {
+        warn "Warning: failed connecting to LDAP server $server: $@\n" if
+            $verbose;
+        next;
+    };
+
+    my $mesg = (defined $ldap{username} && defined $ldap{password}) ?
+        $ldap->bind($ldap{username}, password => $ldap{password}) :
+        $ldap->bind;
+    if ($mesg->is_error) {
+        warn "Warning: failed binding to LDAP server: ", $mesg->error if
+            $verbose;
+        $ldap = undef;
+        next;
+    }
+
+    last;
+}
+die "Error: unable to connect to an LDAP server\n" unless defined $ldap;
+
+update_config_for_ldap_type \%ldap, ldap_guess_type $ldap;
+
+my @accounts_needing_update;
+
+my $gfh = start_gerrit_account_lookup $host, $port, @ARGV;
+
+while (my $account = next_gerrit_account $gfh) {
+
+    # external_id has the form "gerrit:$id"
+    my $id = substr $account->{external_id}, 7;
+
+    next if grep { $id eq $_ } @excludes;
+
+    print <<EOF if $verbose;
+Checking $id...
+  ID: $account->{account_id}
+  Inactive: $account->{inactive}
+EOF
+
+    my $status = is_account_enabled $ldap, \%ldap, $id;
+
+    next if $status == -1;
+
+    my $account_disabled = $status ? 'N' : 'Y';
+
+    print '  Disabled: ', $account_disabled, "\n" if $verbose;
+
+    if ($account_disabled ne uc $account->{inactive}) {
+        # update $account->{inactive} with the desired state
+        $account->{inactive} = $account_disabled;
+        push @accounts_needing_update, $account;
+    }
+}
+
+finish_gerrit_account_lookup $gfh;
+
+my $mesg = $ldap->unbind;
+warn 'Warning: failed unbinding from ldap: ', $mesg->error if $mesg->is_error;
+
+foreach my $account (@accounts_needing_update) {
+
+    # external_id has the form "gerrit:$id"
+    my $id = substr $account->{external_id}, 7;
+
+    # now $account->{inactive} contains the target state for the account
+    if ($account->{inactive} eq 'Y') {
+        print $dry_run ? 'Would disable' : 'Disabling',
+            " account $id ($account->{account_id})\n" unless $quiet;
+        &$disable_gerrit_account($host, $port, $account->{account_id}) or
+            die "Error: failed disabling Gerrit account $id: $!\n";
+        $disabled++;
+    } else {
+        print $dry_run ? 'Would enable' : 'Enabling',
+            " account $id ($account->{account_id})\n" unless $quiet;
+        &$enable_gerrit_account($host, $port, $account->{account_id}) or
+            die "Error: failed enabling Gerrit account $id: $!\n";
+        $enabled++;
+    }
+}
+
+print "Enabled: $enabled\nDisabled: $disabled\n" if $verbose;
+
+if ($disabled || $enabled) {
+    if ($need_flush_accounts && !gerrit_flush_accounts $host, $port) {
+        warn 'Warning: failed to flush Gerrit "accounts" cache';
+    }
+
+    if ($dry_run) {
+        print 'This was a dry-run. Use -f to actually enable/disable accounts.',
+            "\n" unless $quiet;
+    }
+}
+
+exit 0;
+
+__END__
+
+=head1 NAME
+
+gerrit-sync-inactive-with-ldap - Sync Gerrit Inactive state with LDAP
+
+=head1 SYNOPSIS
+
+B<gerrit-sync-inactive-with-ldap> [B<--help>] B<gerrit-host> [B<account>...]
+
+=head1 DESCRIPTION
+
+Sync the Gerrit "Inactive" state for each account with the state of the
+respective account in LDAP.  For each Gerrit account, an LDAP query is
+performed to determine whether the account exists and is enabled.  If the
+Gerrit "Inactive" state conflicts with the LDAP "disabled" state, then the
+Gerrit state is updated to match the LDAP state.  If an account does not
+exist in LDAP, it is treated as disabled.
+
+If any account names are specified on the command line after the gerrit host
+name, they will be used to limit the set of accounts that will be operated on.
+The settings for all other accounts will not be queried or modified.
+
+The connection to Gerrit (for account lookup and modification) is made over
+Gerrit's ssh interface.  The calling user must have an account on the Gerrit
+server, have their ssh keys configured, and have the necessary privileges
+to execute the Gerrit commands.
+
+The command line options borrow heavily from the ldapsearch(1) command.
+Familiarity with that command's options should be helpful.
+
+=head1 OPTIONS
+
+=over
+
+=item B<-b> I<searchbase>
+
+Use I<searchbase> as the starting point for the LDAP search.  This will
+typically have the form OU=people,DC=example,DC=com.  This option
+may be used multiple times to specify more than one base.
+
+This is configured by I<ldap.accountBase> in the Gerrit config file.
+
+=item B<-D> I<binddn>
+
+Use the Distinguished Name I<binddn> to bind to the LDAP directory.  If this
+is not set, then an anonymous connection to the LDAP server will be made.
+
+This is configured by I<ldap.username> in the Gerrit config file.
+
+=item B<-F>|B<--filter> I<filter>
+
+LDAP filter used to search for Gerrit account name.  This is the query pattern
+used to search for a user account.  If a simple attribute name is specified,
+then '=$account' will be appended to the string before each search is
+performed.
+
+e.g. if the following is supplied as the I<filter>:
+
+   sAMAccountName
+
+then this will be used when performing the LDAP lookup:
+
+   sAMAccountName=$account
+
+where "$account" is replaced with each account that is looked up.
+
+The Gerrit-style "${username}" placeholder is also supported.  So the above
+example may be specified like this:
+
+   sAMAccountName=${username}
+
+The default I<filter> is the same as the default that Gerrit uses:
+"(uid=${username})" for RFC2307 servers and
+"(&(objectClass=user)(sAMAccountName=${username}))" for Active Directory
+servers.
+
+This is configured by I<ldap.accountPattern> in the Gerrit config file.
+
+=item B<-f>|B<--force>
+
+By default, B<gerrit-sync-with-ldap> performs the Gerrit lookup and the
+LDAP lookup and reports what would have been done, but it does not actually
+modify the Gerrit settings.  This option forces the updates to be performed
+so that Gerrit accounts are actually enabled or disabled.
+
+=item B<-G> I<file>
+
+Path to Gerrit configuration file F<gerrit.config> to load LDAP settings from.
+If this option is used, then the LDAP settings from the specified file will
+be loaded.  Additionally, if the I<file> has the form $something.config, then
+F<secure.config> will be read also, if it exists.
+
+If any command line switches are used to set LDAP settings, they will
+override the settings read from the Gerrit configuration file.
+
+=item B<-H> I<uri>
+
+Specify URI referring to the LDAP server.  This should have the form
+ldap://host or ldaps://host.  This option may be used multiple times to
+specify more than one server to attempt to connect to.  The server that
+is first connected to successfully will be used.
+
+This is configured by I<ldap.server> in the Gerrit config file.
+
+=item B<-l> I<num>
+
+Wait at most I<num> seconds for an LDAP search to complete.  If the LDAP
+search fails because of a timeout, the account will be left unmodified.
+
+This is configured by I<ldap.readTimeout> in the Gerrit config file.
+
+=item B<-n>|B<--dry-run>
+
+Dry-run.  Perform the Gerrit lookup and the LDAP lookup and report what would
+be done, but do not actually modify the Gerrit settings.  This is the default
+and mainly exists to override a B<-f> that may exist elsewhere on the command
+line.
+
+=item B<-O>|B<--old-mode>
+
+Use an 'SQL UPDATE' statement via 'gerrit gsql' to set the Inactive flag in
+the Gerrit database.  This is compatible with Gerrit servers prior to version
+2.5 which do not provide the 'gerrit set-account' command.  By default, an
+attempt is made to detect the version of the Gerrit server.  If it is
+version 2.5 or newer, then "gerrit set-account" will be used.
+
+=item B<-p>|B<--port> I<port>
+
+Specify port to use to connect to Gerrit.  Default: 29418.
+
+=item B<-q>|B<--quiet>
+
+Quiet mode.  Only errors will be printed.
+
+=item B<-s> I<scope>
+
+Scope of the search performed.  One of base, one, or sub.  Default is "sub",
+aka "subtree".
+
+This is configured by I<ldap.accountScope> in the Gerrit config file.
+
+=item B<-w> I<passwd>
+
+Use I<passwd> as the password for simple LDAP authentication.  Warning, the
+password will be visible in plain text by other users in the process listing.
+
+This is configured by I<ldap.password> in the Gerrit config file.
+
+=item B<-x>|B<--exclude> I<name>
+
+A username to exclude from update.  This option may be used multiple
+times to exclude more than one username.
+
+=item B<-y> I<file>
+
+Use the complete contents of I<file> as the password for simple LDAP
+authentication.
+
+=item B<-v>|B<--verbose>
+
+Increase verbosity.  Overrides B<-q> quiet mode.
+
+=item B<--version>
+
+Version information.
+
+=back
+
+=head1 FILES
+
+=over
+
+=item F<gerrit.config>
+
+=item F<secure.config>
+
+=back
+
+=head1 SEE ALSO
+
+Gerrit, git-config(1), ldapsearch(1), L<Net::LDAP>
+
+=head1 AUTHOR
+
+Brandon Casey bcasey@nvidia.com
+
+=cut

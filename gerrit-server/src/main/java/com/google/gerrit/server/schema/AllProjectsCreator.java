@@ -66,7 +66,7 @@ public class AllProjectsCreator {
     this.anonymous = new GroupReference(
         AccountGroup.ANONYMOUS_USERS,
         "Anonymous Users");
-    this.anonymous = new GroupReference(
+    this.registered = new GroupReference(
         AccountGroup.REGISTERED_USERS,
         "Registered Users");
     this.owners = new GroupReference(

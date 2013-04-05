@@ -420,14 +420,10 @@ public abstract class PatchScreen extends Screen implements
         break;
       }
     }
-    // True if there are differences between the two patch sets
-    boolean hasEdits = !script.getEdits().isEmpty();
-    // True if this change is a mode change or a pure rename/copy
-    boolean hasMeta = !script.getPatchHeader().isEmpty();
 
-    boolean pureMetaChange = !hasEdits && hasMeta;
-
-    if (contentTable instanceof SideBySideTable && pureMetaChange && !contentTable.isDisplayBinary) {
+    if (contentTable instanceof SideBySideTable
+        && contentTable.isPureMetaChange(script)
+        && !contentTable.isDisplayBinary) {
       // User asked for SideBySide (or a link guessed, wrong) and we can't
       // show a pure-rename change there accurately. Switch to
       // the unified view instead. User can set file comments on binary file

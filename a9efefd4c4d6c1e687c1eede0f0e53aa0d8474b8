@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "S8JJLXDk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011097
+      },
+      "writtenOn": "2013-04-05T06:26:21Z",
+      "side": 1,
+      "message": "You could use Lists.newArrayListWithCapacity(labels.size()) so the ArrayList doesn\u0027t need to resize itself or doesn\u0027t need to be as large if the number of elements is smaller than the default number of elements an ArrayList can hold.",
+      "revId": "a9efefd4c4d6c1e687c1eede0f0e53aa0d8474b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -81,18 +81,6 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     text.addKeyDownHandler(new KeyDownHandler() {
       @Override
       public void onKeyDown(final KeyDownEvent event) {
-        if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE
-            && !event.isAnyModifierKeyDown()) {
-          event.preventDefault();
-
-          if (isNew()) {
-            onDiscard();
-          } else {
-            render();
-          }
-          return;
-        }
-
         if ((event.isControlKeyDown() || event.isMetaKeyDown())
             && !event.isAltKeyDown() && !event.isShiftKeyDown()) {
           switch (event.getNativeKeyCode()) {

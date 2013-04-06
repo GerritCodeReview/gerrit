@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TDPb-IOk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-06T04:37:14Z",
+      "side": 1,
+      "message": "Why can\u0027t you just create the Submit view instance and invoke it?\n\nI don\u0027t like these huge static utility methods where the caller has to request all of the objects from Guice and then pass them to the method. It defeats the point of having Guice around to supply dependencies automatically.",
+      "revId": "f68c086ff0c26803879fc3c3fbfd5b46b4908981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

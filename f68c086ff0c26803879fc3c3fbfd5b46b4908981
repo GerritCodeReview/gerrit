@@ -16,6 +16,23 @@
       "revId": "f68c086ff0c26803879fc3c3fbfd5b46b4908981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TCzf2uBo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/SubmitChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-07T17:38:51Z",
+      "side": 1,
+      "message": "Maybe this function should go in the ApprovalsUtil?",
+      "revId": "f68c086ff0c26803879fc3c3fbfd5b46b4908981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

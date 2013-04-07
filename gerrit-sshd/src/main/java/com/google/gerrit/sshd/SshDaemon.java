@@ -152,6 +152,18 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         String.valueOf(MILLISECONDS.convert(ConfigUtil.getTimeUnit(cfg, "sshd",
             null, "loginGraceTime", 120, SECONDS), SECONDS)));
 
+    long idleTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null,
+        "idleTimeout", 0, SECONDS);
+    if (idleTimeoutSeconds == 0) {
+      // Since Apache SSHD does not allow to turn off closing idle connections,
+      // we fake it by using the highest timeout allowed by Apache SSHD, which
+      // amounts to ~24 days.
+      idleTimeoutSeconds = MILLISECONDS.toSeconds(Integer.MAX_VALUE);
+    }
+    getProperties().put(
+        IDLE_TIMEOUT,
+        String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
+
     final int maxConnectionsPerUser =
         cfg.getInt("sshd", "maxConnectionsPerUser", 64);
     if (0 < maxConnectionsPerUser) {

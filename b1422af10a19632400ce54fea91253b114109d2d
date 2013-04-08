@@ -16,6 +16,24 @@
       "revId": "b1422af10a19632400ce54fea91253b114109d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TFgxN94A",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-08T23:41:50Z",
+      "side": 1,
+      "message": "I agree.  It would be nicer to refactor into a class.",
+      "parentUuid": "TEpAftGM",
+      "revId": "b1422af10a19632400ce54fea91253b114109d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

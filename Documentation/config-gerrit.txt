@@ -741,6 +741,11 @@ how the replacement is displayed to the user.
   html = $1<a href=\"http://trak.example.com/$2\">$2</a>
 ----
 
+Comment links can also be specified in `project.config` and sections in
+children override those in parents. The only restriction is that to
+avoid injecting arbitrary user-supplied HTML in the page, comment links
+defined in `project.config` may only supply `link`, not `html`.
+
 [[commentlink.name.match]]commentlink.<name>.match::
 +
 A JavaScript regular expression to match positions to be replaced

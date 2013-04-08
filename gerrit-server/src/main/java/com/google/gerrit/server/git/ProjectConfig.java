@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.common.data.Permission.isPermission;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -66,6 +68,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class ProjectConfig extends VersionedMetaData {
   public static final String COMMENTLINK = "commentlink";
@@ -138,6 +141,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<String, ContributorAgreement> contributorAgreements;
   private Map<String, NotifyConfig> notifySections;
   private Map<String, LabelType> labelSections;
+  private List<CommentLinkInfo> commentLinkSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
 
@@ -155,8 +159,8 @@ public class ProjectConfig extends VersionedMetaData {
     return r;
   }
 
-  public static CommentLinkInfo buildCommentLink(Config cfg, String name)
-      throws IllegalArgumentException {
+  public static CommentLinkInfo buildCommentLink(Config cfg, String name,
+      boolean allowRaw) throws IllegalArgumentException {
     String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);
 
     // Unfortunately this validation isn't entirely complete. Clients
@@ -168,6 +172,8 @@ public class ProjectConfig extends VersionedMetaData {
 
     String link = cfg.getString(COMMENTLINK, name, KEY_LINK);
     String html = cfg.getString(COMMENTLINK, name, KEY_HTML);
+    checkArgument(allowRaw || Strings.isNullOrEmpty(html),
+        "Raw html replacement not allowed");
     return new CommentLinkInfo(name, match, link, html);
   }
 
@@ -254,6 +260,10 @@ public class ProjectConfig extends VersionedMetaData {
 
   public Map<String, LabelType> getLabelSections() {
     return labelSections;
+  }
+
+  public Collection<CommentLinkInfo> getCommentLinkSections() {
+    return commentLinkSections;
   }
 
   public GroupReference resolve(AccountGroup group) {
@@ -356,6 +366,7 @@ public class ProjectConfig extends VersionedMetaData {
     loadAccessSections(rc, groupsByName);
     loadNotifySections(rc, groupsByName);
     loadLabelSections(rc);
+    loadCommentLinkSections(rc);
   }
 
   private void loadAccountsSection(
@@ -611,6 +622,25 @@ public class ProjectConfig extends VersionedMetaData {
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, true));
       labelSections.put(name, label);
     }
+  }
+
+  private void loadCommentLinkSections(Config rc) {
+    Set<String> subsections = rc.getSubsections(COMMENTLINK);
+    commentLinkSections = Lists.newArrayListWithCapacity(subsections.size());
+    for (String name : subsections) {
+      try {
+        commentLinkSections.add(buildCommentLink(rc, name, false));
+      } catch (PatternSyntaxException e) {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Invalid pattern \"%s\" in commentlink.%s.match: %s",
+            rc.getString(COMMENTLINK, name, KEY_MATCH), name, e.getMessage())));
+      } catch (IllegalArgumentException e) {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Error in pattern \"%s\" in commentlink.%s.match: %s",
+            rc.getString(COMMENTLINK, name, KEY_MATCH), name, e.getMessage())));
+      }
+    }
+    commentLinkSections = ImmutableList.copyOf(commentLinkSections);
   }
 
   private Map<String, GroupReference> readGroupList() throws IOException {

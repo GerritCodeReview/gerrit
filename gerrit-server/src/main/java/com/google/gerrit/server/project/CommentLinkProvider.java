@@ -40,7 +40,7 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>> {
     List<CommentLinkInfo> cls =
         Lists.newArrayListWithCapacity(subsections.size());
     for (String name : subsections) {
-      cls.add(ProjectConfig.buildCommentLink(cfg, name));
+      cls.add(ProjectConfig.buildCommentLink(cfg, name, true));
     }
     return ImmutableList.copyOf(cls);
   }

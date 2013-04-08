@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TEDL20Bo",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2013-04-08T09:47:12Z",
+      "side": 1,
+      "message": "Looking at the source, a timeout of 0 means \u0027no timeout\u0027 already:\n\nhttps://git-wip-us.apache.org/repos/asf?p\u003dmina-sshd.git;a\u003dblob;f\u003dsshd-core/src/main/java/org/apache/sshd/server/session/ServerSession.java#l283",
+      "revId": "3d794595788da32585e6ef466df39c3caeb66959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

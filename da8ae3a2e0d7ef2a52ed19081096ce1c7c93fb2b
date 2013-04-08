@@ -16,6 +16,24 @@
       "revId": "da8ae3a2e0d7ef2a52ed19081096ce1c7c93fb2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TEBL7zAA",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitOverHttpModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-04-08T09:53:33Z",
+      "side": 1,
+      "message": "Good catch!\n\nTo be honest I forgot about those bindings, and with AuthType.AUTH_PLUGINS  approach we shouldn\u0027t change old bindings, just add new if statement for handling new auth type.\n\nI\u0027ll update this code and provide new change, since we shouldn\u0027t modify this class in auth topic branch. Also will adjust code in change I875af3d65995d36a70bc698657894f20e5de9101",
+      "parentUuid": "S6thIrXU",
+      "revId": "da8ae3a2e0d7ef2a52ed19081096ce1c7c93fb2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

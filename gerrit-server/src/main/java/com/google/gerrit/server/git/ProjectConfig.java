@@ -75,6 +75,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
   private static final String KEY_LINK = "link";
+  private static final String KEY_ENABLED = "enabled";
 
   private static final String PROJECT_CONFIG = "project.config";
   private static final String GROUP_LIST = "groups";
@@ -162,19 +163,37 @@ public class ProjectConfig extends VersionedMetaData {
   public static CommentLinkInfo buildCommentLink(Config cfg, String name,
       boolean allowRaw) throws IllegalArgumentException {
     String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);
-
-    // Unfortunately this validation isn't entirely complete. Clients
-    // can have exceptions trying to evaluate the pattern if they don't
-    // support a token used, even if the server does support the token.
-    //
-    // At the minimum, we can trap problems related to unmatched groups.
-    Pattern.compile(match);
+    if (match != null) {
+      // Unfortunately this validation isn't entirely complete. Clients
+      // can have exceptions trying to evaluate the pattern if they don't
+      // support a token used, even if the server does support the token.
+      //
+      // At the minimum, we can trap problems related to unmatched groups.
+      Pattern.compile(match);
+    }
 
     String link = cfg.getString(COMMENTLINK, name, KEY_LINK);
     String html = cfg.getString(COMMENTLINK, name, KEY_HTML);
-    checkArgument(allowRaw || Strings.isNullOrEmpty(html),
-        "Raw html replacement not allowed");
-    return new CommentLinkInfo(name, match, link, html);
+    boolean hasHtml = !Strings.isNullOrEmpty(html);
+
+    String rawEnabled = cfg.getString(COMMENTLINK, name, KEY_ENABLED);
+    Boolean enabled;
+    if (rawEnabled != null) {
+      enabled = cfg.getBoolean(COMMENTLINK, name, KEY_ENABLED, true);
+    } else {
+      enabled = null;
+    }
+    checkArgument(allowRaw || !hasHtml, "Raw html replacement not allowed");
+
+    if (Strings.isNullOrEmpty(match) && Strings.isNullOrEmpty(link) && !hasHtml
+        && enabled != null) {
+      if (enabled) {
+        return new CommentLinkInfo.Enabled(name);
+      } else {
+        return new CommentLinkInfo.Disabled(name);
+      }
+    }
+    return new CommentLinkInfo(name, match, link, html, enabled);
   }
 
   public ProjectConfig(Project.NameKey projectName) {

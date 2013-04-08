@@ -106,15 +106,13 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
         throw new NoSuchEntityException();
       }
     }
-
+    projectKey = control.getProject().getNameKey();
     final PatchList list;
 
     try {
       if (psIdBase != null) {
         oldId = toObjectId(psIdBase);
         newId = toObjectId(psIdNew);
-
-        projectKey = control.getProject().getNameKey();
 
         list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
       } else { // OK, means use base to compare
@@ -139,6 +137,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
     detail = new PatchSetDetail();
     detail.setPatchSet(patchSet);
+    detail.setProject(projectKey);
 
     detail.setInfo(infoFactory.get(db, psIdNew));
     detail.setPatches(patches);

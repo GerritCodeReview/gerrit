@@ -15,7 +15,6 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.common.data.GerritConfig.CommentLink;
 import com.google.gwtexpui.safehtml.client.FindReplace;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -26,27 +25,26 @@ import java.util.Collections;
 import java.util.List;
 
 public class CommentLinkProcessor {
-  public static SafeHtml apply(SafeHtml buf) {
-    try {
-      return buf.replaceAll(Gerrit.getConfig().getCommentLinks());
+  private List<FindReplace> commentLinks;
 
+  public CommentLinkProcessor(List<FindReplace> commentLinks) {
+    this.commentLinks = commentLinks;
+  }
+
+  public SafeHtml apply(SafeHtml buf) {
+    try {
+      return buf.replaceAll(commentLinks);
     } catch (RuntimeException err) {
       // One or more of the patterns isn't valid on this browser.
       // Try to filter the list down and remove the invalid ones.
 
-      List<FindReplace> all = Gerrit.getConfig().getCommentLinks();
-      List<CommentLink> ser = Gerrit.getConfig().getSerializableCommentLinks();
-
-      List<FindReplace> safe = new ArrayList<FindReplace>(all.size());
-      List<CommentLink> safeSer = new ArrayList<CommentLink>(safe.size());
+      List<FindReplace> safe = new ArrayList<FindReplace>(commentLinks.size());
 
       List<PatternError> bad = new ArrayList<PatternError>();
-      for (int i = 0; i < all.size(); i++) {
-        FindReplace r = all.get(i);
+      for (FindReplace r : commentLinks) {
         try {
           buf.replaceAll(Collections.singletonList(r));
           safe.add(r);
-          safeSer.add(ser.get(i));
         } catch (RuntimeException why) {
           bad.add(new PatternError(r, why.getMessage()));
         }
@@ -75,13 +73,13 @@ public class CommentLinkProcessor {
       }
 
       try {
-        Gerrit.getConfig().setSerializableCommentLinks(safeSer);
+        commentLinks = safe;
         return buf.replaceAll(safe);
       } catch (RuntimeException err2) {
         // To heck with it. The patterns passed individually above but
         // failed as a group? Just render without.
         //
-        Gerrit.getConfig().setSerializableCommentLinks(null);
+        commentLinks = null;
         return buf;
       }
     }
@@ -95,8 +93,5 @@ public class CommentLinkProcessor {
       pattern = r;
       errorMessage = w;
     }
-  }
-
-  private CommentLinkProcessor() {
   }
 }

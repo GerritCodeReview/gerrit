@@ -33,7 +33,7 @@ public class ProjectApi {
         .put(input, asyncCallback);
   }
 
-  public static RestApi config(Project.NameKey name) {
+  static RestApi config(Project.NameKey name) {
     return new RestApi("/projects/").id(name.get()).view("config");
   }
 

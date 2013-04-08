@@ -23,6 +23,7 @@ import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
@@ -95,6 +96,8 @@ public class Gerrit implements EntryPoint {
       GWT.create(GerritResources.class);
   public static final SystemInfoService SYSTEM_SVC;
   public static final EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
+  public static final ConfigInfoCache projectConfigInfoCache =
+      GWT.create(ConfigInfoCache.class);
 
   private static String myHost;
   private static GerritConfig myConfig;

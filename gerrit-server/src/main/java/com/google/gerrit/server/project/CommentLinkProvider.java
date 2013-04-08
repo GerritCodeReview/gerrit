@@ -20,6 +20,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -40,7 +41,12 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>> {
     List<CommentLinkInfo> cls =
         Lists.newArrayListWithCapacity(subsections.size());
     for (String name : subsections) {
-      cls.add(ProjectConfig.buildCommentLink(cfg, name, true));
+      CommentLinkInfo cl = ProjectConfig.buildCommentLink(cfg, name, true);
+      if (cl.isOverrideOnly()) {
+        throw new ProvisionException(
+            "commentlink " + name + " empty except for \"enabled\"");
+      }
+      cls.add(cl);
     }
     return ImmutableList.copyOf(cls);
   }

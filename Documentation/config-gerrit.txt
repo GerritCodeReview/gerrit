@@ -2368,6 +2368,20 @@ unit suffixes to express their setting:
 +
 By default, 2 minutes.
 
+[[sshd.idleTimeout]]sshd.idleTimeout::
++
+Time in seconds after which the server automatically terminates idle
+connections (or 0 to disable closing of idle connections).  Values
+should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+
++
+By default, 0.
+
 [[sshd.maxConnectionsPerUser]]sshd.maxConnectionsPerUser::
 +
 Maximum number of concurrent SSH sessions that a user account

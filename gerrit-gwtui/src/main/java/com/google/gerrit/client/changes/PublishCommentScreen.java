@@ -20,6 +20,8 @@ import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.patches.AbstractPatchContentTable;
 import com.google.gerrit.client.patches.CommentEditorContainer;
 import com.google.gerrit.client.patches.CommentEditorPanel;
+import com.google.gerrit.client.projects.ConfigInfo;
+import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
@@ -78,6 +80,7 @@ public class PublishCommentScreen extends AccountScreen implements
   private boolean saveStateOnUnload = true;
   private List<CommentEditorPanel> commentEditors;
   private ChangeInfo change;
+  private CommentLinkProcessor commentLinkProcessor;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
     patchSetId = psi;
@@ -148,8 +151,9 @@ public class PublishCommentScreen extends AccountScreen implements
     super.onLoad();
 
     CallbackGroup cbs = new CallbackGroup();
-    ChangeApi.revision(patchSetId).view("review").get(cbs.add(
-        new AsyncCallback<ChangeInfo>() {
+    ChangeApi.revision(patchSetId).view("review")
+        .addParameter("q", "commentlinks")
+        .get(cbs.add(new AsyncCallback<ChangeInfo>() {
           @Override
           public void onSuccess(ChangeInfo result) {
             result.init();
@@ -166,7 +170,7 @@ public class PublishCommentScreen extends AccountScreen implements
           @Override
           protected void preDisplay(final PatchSetPublishDetail result) {
             send.setEnabled(true);
-            display(result);
+            PublishCommentScreen.this.preDisplay(result, this);
           }
 
           @Override
@@ -174,6 +178,24 @@ public class PublishCommentScreen extends AccountScreen implements
             message.setFocus(true);
           }
         }));
+  }
+
+  private void preDisplay(final PatchSetPublishDetail pubDetail,
+      final ScreenLoadCallback<PatchSetPublishDetail> origCb) {
+    ProjectApi.config(pubDetail.getChange().getProject()).get(
+        new AsyncCallback<ConfigInfo>() {
+          @Override
+          public void onSuccess(ConfigInfo result) {
+            commentLinkProcessor =
+                new CommentLinkProcessor(result.commentlinks());
+            display(pubDetail);
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            origCb.onFailure(caught);
+          }
+        });
   }
 
   @Override
@@ -281,7 +303,7 @@ public class PublishCommentScreen extends AccountScreen implements
     for (String value : values) {
       ValueRadioButton b = new ValueRadioButton(label, value);
       SafeHtml buf = new SafeHtmlBuilder().append(b.format());
-      buf = CommentLinkProcessor.apply(buf);
+      buf = commentLinkProcessor.apply(buf);
       SafeHtml.set(b, buf);
 
       if (lastState != null && patchSetId.equals(lastState.patchSetId)
@@ -301,7 +323,7 @@ public class PublishCommentScreen extends AccountScreen implements
     setPageTitle(Util.M.publishComments(r.getChange().getKey().abbreviate(),
         patchSetId.get()));
     descBlock.display(r.getChange(), null, false, r.getPatchSetInfo(), r.getAccounts(),
-        r.getSubmitTypeRecord());
+       r.getSubmitTypeRecord(), commentLinkProcessor);
 
     if (r.getChange().getStatus().isOpen()) {
       initApprovals(approvalPanel);
@@ -337,7 +359,8 @@ public class PublishCommentScreen extends AccountScreen implements
           priorFile = fn;
         }
 
-        final CommentEditorPanel editor = new CommentEditorPanel(c);
+        final CommentEditorPanel editor =
+            new CommentEditorPanel(c, commentLinkProcessor);
         if (c.getLine() == AbstractPatchContentTable.R_HEAD) {
           editor.setAuthorNameText(Util.C.fileCommentHeader());
         } else {

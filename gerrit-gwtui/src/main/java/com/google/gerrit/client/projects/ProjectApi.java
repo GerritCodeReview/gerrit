@@ -15,6 +15,7 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -30,6 +31,10 @@ public class ProjectApi {
     input.setCreateEmptyCommit(createEmptyCcommit);
     new RestApi("/projects/").id(projectName).ifNoneMatch()
         .put(input, asyncCallback);
+  }
+
+  public static RestApi config(Project.NameKey name) {
+    return new RestApi("/projects/").id(name.get()).view("config");
   }
 
   private static class ProjectInput extends JavaScriptObject {

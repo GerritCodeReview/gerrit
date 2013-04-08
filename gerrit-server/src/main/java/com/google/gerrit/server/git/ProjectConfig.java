@@ -66,6 +66,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class ProjectConfig extends VersionedMetaData {
   public static final String COMMENTLINK = "commentlink";
@@ -138,6 +139,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<String, ContributorAgreement> contributorAgreements;
   private Map<String, NotifyConfig> notifySections;
   private Map<String, LabelType> labelSections;
+  private List<CommentLinkInfo> commentLinkSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
 
@@ -356,6 +358,7 @@ public class ProjectConfig extends VersionedMetaData {
     loadAccessSections(rc, groupsByName);
     loadNotifySections(rc, groupsByName);
     loadLabelSections(rc);
+    loadCommentLinkSections(rc);
   }
 
   private void loadAccountsSection(
@@ -611,6 +614,25 @@ public class ProjectConfig extends VersionedMetaData {
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, true));
       labelSections.put(name, label);
     }
+  }
+
+  private void loadCommentLinkSections(Config rc) {
+    Set<String> subsections = rc.getSubsections(COMMENTLINK);
+    commentLinkSections = Lists.newArrayListWithCapacity(subsections.size());
+    for (String name : subsections) {
+      try {
+        commentLinkSections.add(buildCommentLink(rc, name));
+      } catch (PatternSyntaxException e) {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Invalid pattern \"%s\" in commentlink.%s.match: %s",
+            rc.getString(COMMENTLINK, name, KEY_MATCH), name, e.getMessage())));
+      } catch (IllegalArgumentException e) {
+        error(new ValidationError(PROJECT_CONFIG, String.format(
+            "Error in pattern \"%s\" in commentlink.%s.match: %s",
+            rc.getString(COMMENTLINK, name, KEY_MATCH), name, e.getMessage())));
+      }
+    }
+    commentLinkSections = ImmutableList.copyOf(commentLinkSections);
   }
 
   private Map<String, GroupReference> readGroupList() throws IOException {

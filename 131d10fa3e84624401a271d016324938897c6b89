@@ -52,6 +52,24 @@
       "revId": "131d10fa3e84624401a271d016324938897c6b89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TEvBagC0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-08T23:56:42Z",
+      "side": 1,
+      "message": "Right. I\u0027m ok with that. Should I not be ok with that?",
+      "parentUuid": "TFgxmFwM",
+      "revId": "131d10fa3e84624401a271d016324938897c6b89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

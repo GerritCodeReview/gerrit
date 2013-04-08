@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TEtD8HPc",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T20:30:02Z",
+      "side": 1,
+      "message": "s/Some// ?",
+      "revId": "d245448299bcebf14535f526d81081fd27c701b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TFiz2cxo",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T20:30:02Z",
+      "side": 1,
+      "message": "Heh. I know this is what capabilities does. But the RestApiServlet also does the filtering automatically with the fields parameter.",
+      "revId": "d245448299bcebf14535f526d81081fd27c701b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TFgz7twA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T20:30:02Z",
+      "side": 1,
+      "message": "I wonder if this shouldn\u0027t be more like the names in project.config:\n\n* requireContributorAgreement\n* requireSignedOffBy\n* requireChangeId",
+      "revId": "d245448299bcebf14535f526d81081fd27c701b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TErAJmDs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T20:30:02Z",
+      "side": 1,
+      "message": "This one makes sense as useContentMerge. Of course project.config called it mergeContent. *sigh*",
+      "revId": "d245448299bcebf14535f526d81081fd27c701b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TFuz-S.k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T20:30:02Z",
+      "side": 1,
+      "message": "These are fairly cheap to evaluate. Maybe just use fields in RestApiServlet as the filtering method?",
+      "revId": "d245448299bcebf14535f526d81081fd27c701b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

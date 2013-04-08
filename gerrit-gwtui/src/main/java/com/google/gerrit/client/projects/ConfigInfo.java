@@ -16,13 +16,6 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
-import com.google.gwtexpui.safehtml.client.FindReplace;
-import com.google.gwtexpui.safehtml.client.LinkFindReplace;
-import com.google.gwtexpui.safehtml.client.RawFindReplace;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ConfigInfo extends JavaScriptObject {
   public final native JavaScriptObject has_require_change_id()
@@ -45,24 +38,8 @@ public class ConfigInfo extends JavaScriptObject {
   public final native boolean use_signed_off_by()
   /*-{ return this.use_signed_off_by; }-*/;
 
-  private final native NativeMap<CommentLinkInfo> commentlinks0()
+  final native NativeMap<CommentLinkInfo> commentlinks()
   /*-{ return this.commentlinks; }-*/;
-  public final List<FindReplace> commentlinks() {
-    JsArray<CommentLinkInfo> cls = commentlinks0().values();
-    List<FindReplace> commentLinks = new ArrayList<FindReplace>(cls.length());
-    for (int i = 0; i < cls.length(); i++) {
-      CommentLinkInfo cl = cls.get(i);
-      if (!cl.enabled()) {
-        continue;
-      }
-      if (cl.link() != null) {
-        commentLinks.add(new LinkFindReplace(cl.match(), cl.link()));
-      } else {
-        commentLinks.add(new RawFindReplace(cl.match(), cl.html()));
-      }
-    }
-    return commentLinks;
-  }
 
   protected ConfigInfo() {
   }

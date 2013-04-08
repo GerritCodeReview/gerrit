@@ -52,6 +52,9 @@ public class ConfigInfo extends JavaScriptObject {
     List<FindReplace> commentLinks = new ArrayList<FindReplace>(cls.length());
     for (int i = 0; i < cls.length(); i++) {
       CommentLinkInfo cl = cls.get(i);
+      if (!cl.enabled()) {
+        continue;
+      }
       if (cl.link() != null) {
         commentLinks.add(new LinkFindReplace(cl.match(), cl.link()));
       } else {
@@ -68,6 +71,9 @@ public class ConfigInfo extends JavaScriptObject {
     final native String match() /*-{ return this.match; }-*/;
     final native String link() /*-{ return this.link; }-*/;
     final native String html() /*-{ return this.html; }-*/;
+    final native boolean enabled() /*-{
+      return !this.hasOwnProperty('enabled') || this.enabled;
+    }-*/;
 
     protected CommentLinkInfo() {
     }

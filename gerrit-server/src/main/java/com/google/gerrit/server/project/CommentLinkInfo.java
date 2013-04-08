@@ -20,13 +20,37 @@ import com.google.common.base.Strings;
 
 /** Info about a single commentlink section in a config. */
 public class CommentLinkInfo {
+  public static class Enabled extends CommentLinkInfo {
+    public Enabled(String name) {
+      super(name, true);
+    }
+
+    @Override
+    boolean isOverrideOnly() {
+      return true;
+    }
+  }
+
+  public static class Disabled extends CommentLinkInfo {
+    public Disabled(String name) {
+      super(name, false);
+    }
+
+    @Override
+    boolean isOverrideOnly() {
+      return true;
+    }
+  }
+
   public final String match;
   public final String link;
   public final String html;
+  public final Boolean enabled; // null means true
 
   public transient final String name;
 
-  public CommentLinkInfo(String name, String match, String link, String html) {
+  public CommentLinkInfo(String name, String match, String link, String html,
+      Boolean enabled) {
     checkArgument(name != null, "invalid commentlink.name");
     checkArgument(!Strings.isNullOrEmpty(match),
         "invalid commentlink.%s.match", name);
@@ -39,5 +63,30 @@ public class CommentLinkInfo {
     this.match = match;
     this.link = link;
     this.html = html;
+    this.enabled = enabled;
+  }
+
+  private CommentLinkInfo(CommentLinkInfo src, boolean enabled) {
+    this.name = src.name;
+    this.match = src.match;
+    this.link = src.link;
+    this.html = src.html;
+    this.enabled = enabled;
+  }
+
+  private CommentLinkInfo(String name, boolean enabled) {
+    this.name = name;
+    this.match = null;
+    this.link = null;
+    this.html = null;
+    this.enabled = enabled;
+  }
+
+  boolean isOverrideOnly() {
+    return false;
+  }
+
+  CommentLinkInfo inherit(CommentLinkInfo src) {
+    return new CommentLinkInfo(src, enabled);
   }
 }

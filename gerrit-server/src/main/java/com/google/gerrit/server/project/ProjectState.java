@@ -382,7 +382,16 @@ public class ProjectState {
     }
     for (ProjectState s : treeInOrder()) {
       for (CommentLinkInfo cl : s.getConfig().getCommentLinkSections()) {
-        cls.put(cl.name.toLowerCase(), cl);
+        String name = cl.name.toLowerCase();
+        if (cl.isOverrideOnly()) {
+          CommentLinkInfo parent = cls.get(name);
+          if (parent == null) {
+            continue; // Ignore invalid overrides.
+          }
+          cls.put(name, cl.inherit(parent));
+        } else {
+          cls.put(name, cl);
+        }
       }
     }
     return ImmutableList.copyOf(cls.values());

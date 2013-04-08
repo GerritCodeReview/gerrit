@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TEvD-IOk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T20:05:54Z",
+      "side": 1,
+      "message": "Since when does /review accept q\u003dcommentlinks?",
+      "revId": "fd8d48bd249ade53f7dc7565d84c85efb902e69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TGmjsY0w",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T20:05:54Z",
+      "side": 1,
+      "message": "Should we add q\u003dcommentlinks to this call?",
+      "revId": "fd8d48bd249ade53f7dc7565d84c85efb902e69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TEjD2yBo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T20:05:54Z",
+      "side": 1,
+      "message": "Its probably worthwhile to make a CommentLinkCache that stores the last 25 or whatever projects the browser has had to load commentlinks for. The cache should always supply the CommentLinkProcessor as an AsyncCallback. Then we aren\u0027t always loading this on every screen load.\n\ncommentlinks don\u0027t change often, so telling users they need to reload the window in order to pick up edits made at the server is probably fine given the latency decrease that not loading on every screen would give us.",
+      "revId": "fd8d48bd249ade53f7dc7565d84c85efb902e69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TE2-scUw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentLinkProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T20:05:54Z",
+      "side": 1,
+      "message": "This NPEs later. Use an empty list.",
+      "revId": "fd8d48bd249ade53f7dc7565d84c85efb902e69e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

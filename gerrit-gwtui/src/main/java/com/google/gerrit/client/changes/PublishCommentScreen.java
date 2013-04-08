@@ -20,8 +20,7 @@ import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.patches.AbstractPatchContentTable;
 import com.google.gerrit.client.patches.CommentEditorContainer;
 import com.google.gerrit.client.patches.CommentEditorPanel;
-import com.google.gerrit.client.projects.ConfigInfo;
-import com.google.gerrit.client.projects.ProjectApi;
+import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
@@ -181,12 +180,11 @@ public class PublishCommentScreen extends AccountScreen implements
 
   private void preDisplay(final PatchSetPublishDetail pubDetail,
       final ScreenLoadCallback<PatchSetPublishDetail> origCb) {
-    ProjectApi.config(pubDetail.getChange().getProject())
-        .get(new AsyncCallback<ConfigInfo>() {
+    ConfigInfoCache.get(pubDetail.getChange().getProject(),
+        new AsyncCallback<ConfigInfoCache.Entry>() {
           @Override
-          public void onSuccess(ConfigInfo result) {
-            commentLinkProcessor =
-                new CommentLinkProcessor(result.commentlinks());
+          public void onSuccess(ConfigInfoCache.Entry result) {
+            commentLinkProcessor = result.getCommentLinkProcessor();
             display(pubDetail);
           }
 

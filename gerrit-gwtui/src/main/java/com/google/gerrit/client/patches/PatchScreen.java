@@ -21,8 +21,7 @@ import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
-import com.google.gerrit.client.projects.ConfigInfo;
-import com.google.gerrit.client.projects.ProjectApi;
+import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -392,12 +391,11 @@ public abstract class PatchScreen extends Screen implements
     if (commentLinkProcessor == null) {
       // Fetch config in parallel if we haven't previously.
       CallbackGroup cb = new CallbackGroup();
-      ProjectApi.config(patchSetDetail.getProject())
-          .get(cb.add(new AsyncCallback<ConfigInfo>() {
+      ConfigInfoCache.get(patchSetDetail.getProject(),
+          cb.add(new AsyncCallback<ConfigInfoCache.Entry>() {
             @Override
-            public void onSuccess(ConfigInfo result) {
-              commentLinkProcessor =
-                  new CommentLinkProcessor(result.commentlinks());
+            public void onSuccess(ConfigInfoCache.Entry result) {
+              commentLinkProcessor = result.getCommentLinkProcessor();
               contentTable.setCommentLinkProcessor(commentLinkProcessor);
             }
 

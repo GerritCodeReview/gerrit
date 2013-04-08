@@ -19,6 +19,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.DELETE;
 import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
@@ -32,8 +33,8 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;

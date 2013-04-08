@@ -68,8 +68,9 @@ public class CommitMessageBlock extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  public void display(final String commitMessage) {
-    display(null, null, false, commitMessage);
+  public void display(String commitMessage,
+      CommentLinkProcessor commentLinkProcessor) {
+    display(null, null, false, commitMessage, commentLinkProcessor);
   }
 
   private abstract class CommitMessageEditDialog extends CommentedActionDialog<ChangeDetail> {
@@ -103,7 +104,8 @@ public class CommitMessageBlock extends Composite {
   }
 
   public void display(final PatchSet.Id patchSetId,
-      Boolean starred, Boolean canEditCommitMessage, final String commitMessage) {
+      Boolean starred, Boolean canEditCommitMessage, final String commitMessage,
+      CommentLinkProcessor commentLinkProcessor) {
     starPanel.clear();
     if (patchSetId != null && starred != null && Gerrit.isSignedIn()) {
       Change.Id changeId = patchSetId.getParentKey();
@@ -170,7 +172,7 @@ public class CommitMessageBlock extends Composite {
     // Linkify commit summary
     SafeHtml commitSummaryLinkified = new SafeHtmlBuilder().append(commitSummary);
     commitSummaryLinkified = commitSummaryLinkified.linkify();
-    commitSummaryLinkified = CommentLinkProcessor.apply(commitSummaryLinkified);
+    commitSummaryLinkified = commentLinkProcessor.apply(commitSummaryLinkified);
     commitSummaryPre.setInnerHTML(commitSummaryLinkified.asString());
 
     // Hide commit body if there is no body
@@ -180,7 +182,7 @@ public class CommitMessageBlock extends Composite {
       // Linkify commit body
       SafeHtml commitBodyLinkified = new SafeHtmlBuilder().append(commitBody);
       commitBodyLinkified = commitBodyLinkified.linkify();
-      commitBodyLinkified = CommentLinkProcessor.apply(commitBodyLinkified);
+      commitBodyLinkified = commentLinkProcessor.apply(commitBodyLinkified);
       commitBodyLinkified = commitBodyLinkified.replaceAll("\n\n", "<p></p>");
       commitBodyLinkified = commitBodyLinkified.replaceAll("\n", "<br />");
       commitBodyPre.setInnerHTML(commitBodyLinkified.asString());

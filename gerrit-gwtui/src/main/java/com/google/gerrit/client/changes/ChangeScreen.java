@@ -18,7 +18,11 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.projects.ConfigInfo;
+import com.google.gerrit.client.projects.ProjectApi;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
@@ -79,6 +83,7 @@ public class ChangeScreen extends Screen
   private PatchSetsBlock patchSetsBlock;
 
   private Panel comments;
+  private CommentLinkProcessor commentLinkProcessor;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
@@ -260,10 +265,26 @@ public class ChangeScreen extends Screen
   @Override
   public void onValueChange(final ValueChangeEvent<ChangeDetail> event) {
     if (isAttached()) {
-      // Until this screen is fully migrated to the new API, this call must be
-      // sequential, because we can't start an async get at the source of every
-      // call that might trigger a value change.
-      ChangeApi.detail(event.getValue().getChange().getId().get(),
+      // Until this screen is fully migrated to the new API, these calls must
+      // happen sequentially after the ChangeDetail lookup, because we can't
+      // start an async get at the source of every call that might trigger a
+      // value change.
+      CallbackGroup cbs = new CallbackGroup();
+      ProjectApi.config(event.getValue().getChange().getProject())
+          .addParameter("fields", "commentlinks")
+          .get(cbs.add(new GerritCallback<ConfigInfo>() {
+            @Override
+            public void onSuccess(ConfigInfo result) {
+              commentLinkProcessor =
+                  new CommentLinkProcessor(result.commentlinks());
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+              // Handled by last callback's onFailure.
+            }
+          }));
+      ChangeApi.detail(event.getValue().getChange().getId().get(), cbs.add(
           new GerritCallback<com.google.gerrit.client.changes.ChangeInfo>() {
             @Override
             public void onSuccess(
@@ -271,7 +292,7 @@ public class ChangeScreen extends Screen
               changeInfo = result;
               display(event.getValue());
             }
-          });
+          }));
     }
   }
 
@@ -292,7 +313,8 @@ public class ChangeScreen extends Screen
         detail.isStarred(),
         detail.canEditCommitMessage(),
         detail.getCurrentPatchSetDetail().getInfo(),
-        detail.getAccounts(), detail.getSubmitTypeRecord());
+        detail.getAccounts(), detail.getSubmitTypeRecord(),
+        commentLinkProcessor);
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
     approvals.display(changeInfo);
@@ -411,8 +433,8 @@ public class ChangeScreen extends Screen
         isRecent = msg.getWrittenOn().after(aged);
       }
 
-      final CommentPanel cp =
-          new CommentPanel(author, msg.getWrittenOn(), msg.getMessage());
+      final CommentPanel cp = new CommentPanel(author, msg.getWrittenOn(),
+          msg.getMessage(), commentLinkProcessor);
       cp.setRecent(isRecent);
       cp.addStyleName(Gerrit.RESOURCES.css().commentPanelBorder());
       if (i == msgList.size() - 1) {

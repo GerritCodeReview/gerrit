@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class PatchSetDetail {
   protected PatchSet patchSet;
   protected PatchSetInfo info;
   protected List<Patch> patches;
+  protected Project.NameKey project;
 
   public PatchSetDetail() {
   }
@@ -50,5 +52,13 @@ public class PatchSetDetail {
 
   public void setPatches(final List<Patch> p) {
     patches = p;
+  }
+
+  public Project.NameKey getProject() {
+    return project;
+  }
+
+  public void setProject(final Project.NameKey p) {
+    project = p;
   }
 }

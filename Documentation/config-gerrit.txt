@@ -781,6 +781,21 @@ match expression may be accessed as `$'n'`.
 The configuration file eats double quotes, so escaping them as
 `\"` is necessary to protect them from the parser.
 
+[[commentlink.name.enabled]]commentlink.<name>.enabled::
++
+Whether the comment link is enabled. A child project may override a
+section in a parent or the site-wide config that is disabled by
+specifying `enabled = true`.
++
+Disabling sections in `gerrit.config` can be used by site administrators
+to create a library of comment links with `html` set that are not
+user-supplied and thus can be verified to be XSS-free, but are only
+enabled for a subset of projects.
++
+Note that the names and contents of disabled sections are visible even
+to anonymous users via the
+link:rest-api-projects.html#get-config[REST API].
+
 
 [[contactstore]]Section contactstore
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

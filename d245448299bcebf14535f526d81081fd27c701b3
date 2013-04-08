@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "TFixh0.o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-08T23:54:57Z",
+      "side": 1,
+      "message": "I can make the change if you\u0027d like. Personally I would prefer if these matched the values in project.config anyway (except for not being camelcase).",
+      "parentUuid": "TFow4x9c",
+      "revId": "d245448299bcebf14535f526d81081fd27c701b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TErAJmDs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
         "patchSetId": 2

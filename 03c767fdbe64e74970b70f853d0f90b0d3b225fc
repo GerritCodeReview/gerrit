@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TFuwoa5U",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-08T20:59:14Z",
+      "side": 1,
+      "message": "Since I learned about this, used splitOptionValue here. This is slightly more lenient parsing than it was before since splitOptionValue",
+      "revId": "03c767fdbe64e74970b70f853d0f90b0d3b225fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

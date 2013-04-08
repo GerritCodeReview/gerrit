@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TErA72NM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T23:52:07Z",
+      "side": 1,
+      "message": "dead code now",
+      "revId": "222c87cf732ead910134b9b301b0417f675409b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

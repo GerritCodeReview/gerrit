@@ -81,7 +81,6 @@ class UrlModule extends ServletModule {
     serve("/signout").with(HttpLogoutServlet.class);
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);
-    serve("/tools/*").with(ToolServlet.class);
 
     serve("/Main.class").with(notFound());
     serve("/com/google/gerrit/launcher/*").with(notFound());
@@ -100,6 +99,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
 
     filter("/a/*").through(RequireIdentifiedUserFilter.class);
+    serveRegex("^/(?:a/)?tools/(.*)$").with(ToolServlet.class);
     serveRegex("^/(?:a/)?accounts/(.*)$").with(AccountsRestApiServlet.class);
     serveRegex("^/(?:a/)?changes/(.*)$").with(ChangesRestApiServlet.class);
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);

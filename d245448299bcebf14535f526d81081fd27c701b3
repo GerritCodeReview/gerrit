@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "TFow4x9c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T23:51:27Z",
+      "side": 1,
+      "message": "Dammit. We could fix this before 2.6 final ships, but the window is closing fast.",
+      "parentUuid": "TFqwJQzs",
+      "revId": "d245448299bcebf14535f526d81081fd27c701b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TErAJmDs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
         "patchSetId": 2

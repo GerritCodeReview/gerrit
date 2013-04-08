@@ -53,11 +53,13 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
   private final InlineLabel messageSummary;
   private final FlowPanel content;
   private final DoubleClickHTML messageText;
+  private CommentLinkProcessor commentLinkProcessor;
   private FlowPanel buttons;
   private boolean recent;
 
-  public CommentPanel(final AccountInfo author, final Date when, String message) {
-    this();
+  public CommentPanel(final AccountInfo author, final Date when, String message,
+      CommentLinkProcessor commentLinkProcessor) {
+    this(commentLinkProcessor);
 
     setMessageText(message);
     setAuthorNameText(FormatUtil.name(author));
@@ -68,7 +70,8 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     fmt.getElement(0, 2).setTitle(FormatUtil.mediumFormat(when));
   }
 
-  protected CommentPanel() {
+  protected CommentPanel(CommentLinkProcessor commentLinkProcessor) {
+    this.commentLinkProcessor = commentLinkProcessor;
     final FlowPanel body = new FlowPanel();
     initWidget(body);
     setStyleName(Gerrit.RESOURCES.css().commentPanel());
@@ -118,7 +121,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
 
     messageSummary.setText(summarize(message));
     SafeHtml buf = new SafeHtmlBuilder().append(message).wikify();
-    buf = CommentLinkProcessor.apply(buf);
+    buf = commentLinkProcessor.apply(buf);
     SafeHtml.set(messageText, buf);
   }
 

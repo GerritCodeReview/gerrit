@@ -69,6 +69,7 @@ public class ProjectState {
   private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
   private final RulesCache rulesCache;
+  private final List<CommentLinkInfo> commentLinks;
 
   private final ProjectConfig config;
   private final Set<AccountGroup.UUID> localOwners;
@@ -93,6 +94,7 @@ public class ProjectState {
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
       final RulesCache rulesCache,
+      final List<CommentLinkInfo> commentLinks,
       @Assisted final ProjectConfig config) {
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
@@ -101,6 +103,7 @@ public class ProjectState {
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
     this.rulesCache = rulesCache;
+    this.commentLinks = commentLinks;
     this.config = config;
     this.capabilities = isAllProjects
       ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
@@ -361,6 +364,10 @@ public class ProjectState {
       }
     }
     return new LabelTypes(Collections.unmodifiableList(all));
+  }
+
+  public List<CommentLinkInfo> getCommentLinks() {
+    return commentLinks;
   }
 
   private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {

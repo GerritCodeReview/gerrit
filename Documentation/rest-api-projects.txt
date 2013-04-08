@@ -439,7 +439,8 @@ read access to `refs/meta/config`.
     "use_contributor_agreements": false,
     "use_content_merge": true,
     "use_signed_off_by": false,
-    "require_change_id": true
+    "require_change_id": true,
+    "commentlinks": {}
   }
 ----
 
@@ -958,6 +959,10 @@ author or the uploader in the commit message.
 If set, require a valid link:user-changeid.html[Change-Id] footer in any
 commit uploaded for review. This does not apply to commits pushed
 directly to a branch or tag.
+|`commentlinks`|
+Comment link configuration for the project. Has the same format as the
+link:config-gerrit.html#_a_id_commentlink_a_section_commentlink[commentlink section]
+of `gerrit.config`.
 |======================================
 
 

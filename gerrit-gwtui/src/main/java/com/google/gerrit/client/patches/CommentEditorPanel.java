@@ -16,6 +16,7 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -25,10 +26,10 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.sql.Timestamp;
@@ -58,7 +59,9 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
   private final Button discard;
   private final Timer expandTimer;
 
-  public CommentEditorPanel(final PatchLineComment plc) {
+  public CommentEditorPanel(final PatchLineComment plc,
+      final CommentLinkProcessor commentLinkProcessor) {
+    super(commentLinkProcessor);
     comment = plc;
 
     addStyleName(Gerrit.RESOURCES.css().commentEditorPanel());

@@ -21,8 +21,12 @@ import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.projects.ConfigInfo;
+import com.google.gerrit.client.projects.ProjectApi;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.PatchScript;
@@ -38,6 +42,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -97,6 +102,7 @@ public abstract class PatchScreen extends Screen implements
   protected PatchSet.Id idSideB;
   protected PatchScriptSettingsPanel settingsPanel;
   protected TopView topView;
+  protected CommentLinkProcessor commentLinkProcessor;
 
   private ReviewedPanels reviewedPanels;
   private HistoryTable historyTable;
@@ -365,8 +371,9 @@ public abstract class PatchScreen extends Screen implements
     if (isFirst && fileList != null) {
       fileList.movePointerTo(patchKey);
     }
-    PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB, //
-        settingsPanel.getValue(), new ScreenLoadCallback<PatchScript>(this) {
+
+    com.google.gwtjsonrpc.common.AsyncCallback<PatchScript> pscb =
+        new ScreenLoadCallback<PatchScript>(this) {
           @Override
           protected void preDisplay(final PatchScript result) {
             if (rpcSequence == rpcseq) {
@@ -381,7 +388,29 @@ public abstract class PatchScreen extends Screen implements
               super.onFailure(caught);
             }
           }
-        });
+        };
+    if (commentLinkProcessor == null) {
+      // Fetch config in parallel if we haven't previously.
+      CallbackGroup cb = new CallbackGroup();
+      ProjectApi.config(patchSetDetail.getProject())
+          .get(cb.add(new AsyncCallback<ConfigInfo>() {
+            @Override
+            public void onSuccess(ConfigInfo result) {
+              commentLinkProcessor =
+                  new CommentLinkProcessor(result.commentlinks());
+              contentTable.setCommentLinkProcessor(commentLinkProcessor);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+              // Handled by ScreenLoadCallback.onFailure.
+            }
+          }));
+      pscb = cb.addGwtjsonrpc(pscb);
+    }
+
+    PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB, //
+        settingsPanel.getValue(), pscb);
   }
 
   private void onResult(final PatchScript script, final boolean isFirst) {
@@ -397,7 +426,8 @@ public abstract class PatchScreen extends Screen implements
 
     if (idSideB.equals(patchSetDetail.getPatchSet().getId())) {
       commitMessageBlock.setVisible(true);
-      commitMessageBlock.display(patchSetDetail.getInfo().getMessage());
+      commitMessageBlock.display(patchSetDetail.getInfo().getMessage(),
+          commentLinkProcessor);
     } else {
       commitMessageBlock.setVisible(false);
       Util.DETAIL_SVC.patchSetDetail(idSideB,
@@ -405,7 +435,8 @@ public abstract class PatchScreen extends Screen implements
             @Override
             public void onSuccess(PatchSetDetail result) {
               commitMessageBlock.setVisible(true);
-              commitMessageBlock.display(result.getInfo().getMessage());
+              commitMessageBlock.display(result.getInfo().getMessage(),
+                  commentLinkProcessor);
             }
           });
     }
@@ -432,6 +463,7 @@ public abstract class PatchScreen extends Screen implements
       contentTable.removeFromParent();
       contentTable = new UnifiedDiffTable();
       contentTable.fileList = fileList;
+      contentTable.setCommentLinkProcessor(commentLinkProcessor);
       contentPanel.add(contentTable);
       setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
     }

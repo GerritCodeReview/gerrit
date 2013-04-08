@@ -21,6 +21,7 @@ import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
@@ -86,6 +87,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private HandlerRegistration regComment;
   private final KeyCommandSet keysOpenByEnter;
   private HandlerRegistration regOpenByEnter;
+  private CommentLinkProcessor commentLinkProcessor;
   boolean isDisplayBinary;
 
   protected AbstractPatchContentTable() {
@@ -239,6 +241,10 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     idSideB = b;
 
     render(s, d);
+  }
+
+  void setCommentLinkProcessor(CommentLinkProcessor commentLinkProcessor) {
+    this.commentLinkProcessor = commentLinkProcessor;
   }
 
   protected boolean hasDifferences(PatchScript script) {
@@ -553,7 +559,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       return null;
     }
 
-    final CommentEditorPanel ed = new CommentEditorPanel(newComment);
+    final CommentEditorPanel ed =
+        new CommentEditorPanel(newComment, commentLinkProcessor);
     ed.addFocusHandler(this);
     ed.addBlurHandler(this);
     boolean isCommentRow = false;
@@ -690,7 +697,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected void bindComment(final int row, final int col,
       final PatchLineComment line, final boolean isLast, boolean expandComment) {
     if (line.getStatus() == PatchLineComment.Status.DRAFT) {
-      final CommentEditorPanel plc = new CommentEditorPanel(line);
+      final CommentEditorPanel plc =
+          new CommentEditorPanel(line, commentLinkProcessor);
       plc.addFocusHandler(this);
       plc.addBlurHandler(this);
       table.setWidget(row, col, plc);
@@ -864,7 +872,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     final Button replyDone;
 
     PublishedCommentPanel(final AccountInfo author, final PatchLineComment c) {
-      super(author, c.getWrittenOn(), c.getMessage());
+      super(author, c.getWrittenOn(), c.getMessage(), commentLinkProcessor);
       this.comment = c;
 
       reply = new Button(PatchUtil.C.buttonReply());

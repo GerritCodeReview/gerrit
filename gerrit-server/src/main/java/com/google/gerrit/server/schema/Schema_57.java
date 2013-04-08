@@ -125,7 +125,7 @@ public class Schema_57 extends SchemaVersion {
         }
 
         AccountGroup batch = db.accountGroups().get(sc.batchUsersGroupId);
-        stmt.setInt(0, sc.batchUsersGroupId.get());
+        stmt.setInt(1, sc.batchUsersGroupId.get());
         if (batch != null
             && db.accountGroupMembers().byGroup(sc.batchUsersGroupId).toList().isEmpty()
             &&  stmt.executeQuery().first() != false) {

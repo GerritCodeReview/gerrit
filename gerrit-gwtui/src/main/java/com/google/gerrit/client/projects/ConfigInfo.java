@@ -47,7 +47,7 @@ public class ConfigInfo extends JavaScriptObject {
 
   private final native NativeMap<CommentLinkInfo> commentlinks0()
   /*-{ return this.commentlinks; }-*/;
-  public final List<FindReplace> commentlinks() {
+  final List<FindReplace> commentlinks() {
     JsArray<CommentLinkInfo> cls = commentlinks0().values();
     List<FindReplace> commentLinks = new ArrayList<FindReplace>(cls.length());
     for (int i = 0; i < cls.length(); i++) {

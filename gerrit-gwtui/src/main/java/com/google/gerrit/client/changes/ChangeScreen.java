@@ -18,8 +18,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
-import com.google.gerrit.client.projects.ConfigInfo;
-import com.google.gerrit.client.projects.ProjectApi;
+import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -270,12 +269,12 @@ public class ChangeScreen extends Screen
       // start an async get at the source of every call that might trigger a
       // value change.
       CallbackGroup cbs = new CallbackGroup();
-      ProjectApi.config(event.getValue().getChange().getProject())
-          .get(cbs.add(new GerritCallback<ConfigInfo>() {
+      ConfigInfoCache.get(
+          event.getValue().getChange().getProject(),
+          cbs.add(new GerritCallback<ConfigInfoCache.Entry>() {
             @Override
-            public void onSuccess(ConfigInfo result) {
-              commentLinkProcessor =
-                  new CommentLinkProcessor(result.commentlinks());
+            public void onSuccess(ConfigInfoCache.Entry result) {
+              commentLinkProcessor = result.getCommentLinkProcessor();
             }
 
             @Override

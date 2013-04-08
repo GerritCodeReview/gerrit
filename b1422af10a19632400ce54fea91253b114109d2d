@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TEpAftGM",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-04-08T22:46:18Z",
+      "side": 1,
+      "message": "Instead of a global would you consider making small class?\n\nIt could be the start of a larger refactor to clean up lines 160-220.",
+      "revId": "b1422af10a19632400ce54fea91253b114109d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

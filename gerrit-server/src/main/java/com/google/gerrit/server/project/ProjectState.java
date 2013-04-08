@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -296,6 +297,16 @@ public class ProjectState {
   }
 
   /**
+   * @return an iterable that walks in-order from All-Projects through the
+   *     project hierarchy to this project.
+   */
+  public Iterable<ProjectState> treeInOrder() {
+    List<ProjectState> projects = Lists.newArrayList(tree());
+    Collections.reverse(projects);
+    return projects;
+  }
+
+  /**
    * @return an iterable that walks through the parents of this project. Starts
    *         from the immediate parent of this project and progresses up the
    *         hierarchy to All-Projects.
@@ -346,9 +357,7 @@ public class ProjectState {
 
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = Maps.newLinkedHashMap();
-    List<ProjectState> projects = Lists.newArrayList(tree());
-    Collections.reverse(projects);
-    for (ProjectState s : projects) {
+    for (ProjectState s : treeInOrder()) {
       for (LabelType type : s.getConfig().getLabelSections().values()) {
         String lower = type.getName().toLowerCase();
         LabelType old = types.get(lower);
@@ -367,7 +376,16 @@ public class ProjectState {
   }
 
   public List<CommentLinkInfo> getCommentLinks() {
-    return commentLinks;
+    Map<String, CommentLinkInfo> cls = Maps.newLinkedHashMap();
+    for (CommentLinkInfo cl : commentLinks) {
+      cls.put(cl.name.toLowerCase(), cl);
+    }
+    for (ProjectState s : treeInOrder()) {
+      for (CommentLinkInfo cl : s.getConfig().getCommentLinkSections()) {
+        cls.put(cl.name.toLowerCase(), cl);
+      }
+    }
+    return ImmutableList.copyOf(cls.values());
   }
 
   private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {

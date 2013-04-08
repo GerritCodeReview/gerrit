@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Change;
@@ -37,10 +38,11 @@ public class ChangeDescriptionBlock extends Composite {
   }
 
   public void display(Change chg, Boolean starred, Boolean canEditCommitMessage,
-      PatchSetInfo info,
-      final AccountInfoCache acc, SubmitTypeRecord submitTypeRecord) {
+      PatchSetInfo info, AccountInfoCache acc,
+      SubmitTypeRecord submitTypeRecord,
+      CommentLinkProcessor commentLinkProcessor) {
     infoBlock.display(chg, acc, submitTypeRecord);
     messageBlock.display(chg.currentPatchSetId(), starred,
-      canEditCommitMessage,  info.getMessage());
+        canEditCommitMessage, info.getMessage(), commentLinkProcessor);
   }
 }

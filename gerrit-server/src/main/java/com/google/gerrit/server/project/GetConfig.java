@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.OptionUtil;
@@ -22,6 +23,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 
 import org.kohsuke.args4j.Option;
 
+import java.util.Map;
 import java.util.Set;
 
 public class GetConfig implements RestReadView<ProjectResource> {
@@ -40,6 +42,8 @@ public class GetConfig implements RestReadView<ProjectResource> {
     public Boolean useContentMerge;
     public Boolean useSignedOffBy;
     public Boolean requireChangeId;
+
+    public Map<String, CommentLinkInfo> commentlinks;
   }
 
   @Override
@@ -53,6 +57,14 @@ public class GetConfig implements RestReadView<ProjectResource> {
       result.useContentMerge = project.isUseContentMerge();
       result.useSignedOffBy = project.isUseSignedOffBy();
       result.requireChangeId = project.isRequireChangeID();
+    }
+    if (want("commentlinks")) {
+      // commentlinks are visible to anyone, as they are used for linkification
+      // on the client side.
+      result.commentlinks = Maps.newLinkedHashMap();
+      for (CommentLinkInfo cl : project.getCommentLinks()) {
+        result.commentlinks.put(cl.name, cl);
+      }
     }
     return result;
   }

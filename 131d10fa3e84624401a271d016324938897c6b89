@@ -34,6 +34,24 @@
       "revId": "131d10fa3e84624401a271d016324938897c6b89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TFgxmFwM",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-08T23:55:20Z",
+      "side": 1,
+      "message": "Previously if you said fields\u003dfooBar this would match nothing because there is no field named fooBar. But now you would match foobar if such a field existed, because OptionUtil lowercases the input name.",
+      "parentUuid": "TFkxsH.M",
+      "revId": "131d10fa3e84624401a271d016324938897c6b89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

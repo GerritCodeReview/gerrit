@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TErAiuLE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-08T21:55:01Z",
+      "side": 1,
+      "message": "This doesn\u0027t work. ?fields\u003dfoo is broken and I don\u0027t know how to fix it offhand. It filters _all_ fields, not just fields in the top-level object. FieldAttributes gives us the declaring class but that\u0027s not enough, we don\u0027t know if the declaring class is unique in the output structure (think map of maps).\n\n$ curl https://gerrit-review.googlesource.com/changes/44361/detail\\?fields\\\u003dmessages\n)]}\u0027\n{\n  \"messages\": [\n    {},\n    {},\n    {},\n    {},\n    {},\n    {},\n    {}\n  ]\n}",
+      "revId": "6a976db2aa93a65233a7f53a92d376145dd8b8ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -22,6 +22,7 @@ import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.projects.ConfigInfoCache;
+import com.google.gerrit.client.projects.ThemeInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -111,6 +112,7 @@ public abstract class PatchScreen extends Screen implements
   private CommitMessageBlock commitMessageBlock;
   private NavLinks topNav;
   private NavLinks bottomNav;
+  private ThemeInfo theme;
 
   private int rpcSequence;
   private PatchScript lastScript;
@@ -313,6 +315,7 @@ public abstract class PatchScreen extends Screen implements
       regAction.removeHandler();
       regAction = null;
     }
+    Gerrit.THEMER.clear();
     super.onUnload();
   }
 
@@ -388,24 +391,22 @@ public abstract class PatchScreen extends Screen implements
             }
           }
         };
-    if (commentLinkProcessor == null) {
-      // Fetch config in parallel if we haven't previously.
-      CallbackGroup cb = new CallbackGroup();
-      Gerrit.projectConfigInfoCache.get(patchSetDetail.getProject(),
-          cb.add(new AsyncCallback<ConfigInfoCache.Value>() {
-            @Override
-            public void onSuccess(ConfigInfoCache.Value result) {
-              commentLinkProcessor = result.getCommentLinkProcessor();
-              contentTable.setCommentLinkProcessor(commentLinkProcessor);
-            }
+    CallbackGroup cb = new CallbackGroup();
+    Gerrit.projectConfigInfoCache.get(patchSetDetail.getProject(),
+        cb.add(new AsyncCallback<ConfigInfoCache.Value>() {
+          @Override
+          public void onSuccess(ConfigInfoCache.Value result) {
+            commentLinkProcessor = result.getCommentLinkProcessor();
+            contentTable.setCommentLinkProcessor(commentLinkProcessor);
+            theme = result.getTheme();
+          }
 
-            @Override
-            public void onFailure(Throwable caught) {
-              // Handled by ScreenLoadCallback.onFailure.
-            }
-          }));
-      pscb = cb.addGwtjsonrpc(pscb);
-    }
+          @Override
+          public void onFailure(Throwable caught) {
+            // Handled by ScreenLoadCallback.onFailure.
+          }
+        }));
+    pscb = cb.addGwtjsonrpc(pscb);
 
     PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB, //
         settingsPanel.getValue(), pscb);
@@ -419,6 +420,7 @@ public abstract class PatchScreen extends Screen implements
       fileName = fileName.substring(last + 1);
     }
 
+    Gerrit.THEMER.set(theme);
     setWindowTitle(fileName);
     setPageTitle(path);
 

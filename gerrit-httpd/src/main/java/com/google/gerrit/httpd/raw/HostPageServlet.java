@@ -352,11 +352,9 @@ public class HostPageServlet extends HttpServlet {
 
       String css = HtmlDomUtil.readFile(src.getParentFile(), src.getName());
       if (css == null) {
-        banner.getParentNode().removeChild(banner);
         return info;
       }
 
-      banner.removeAttribute("id");
       banner.appendChild(hostDoc.createCDATASection("\n" + css + "\n"));
       return info;
     }
@@ -375,7 +373,7 @@ public class HostPageServlet extends HttpServlet {
 
       Document html = HtmlDomUtil.parseFile(src);
       if (html == null) {
-        banner.getParentNode().removeChild(banner);
+        // TODO: ok to have an empty div?
         return info;
       }
 

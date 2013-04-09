@@ -540,10 +540,10 @@ public class RefControlTest extends TestCase {
     ProjectControl.AssistedFactory projectControlFactory = null;
     RulesCache rulesCache = null;
     all.put(local.getProject().getNameKey(), new ProjectState(
-        projectCache, allProjectsName, projectControlFactory,
+        null, projectCache, allProjectsName, projectControlFactory,
         envFactory, mgr, rulesCache, null, local));
     all.put(parent.getProject().getNameKey(), new ProjectState(
-        projectCache, allProjectsName, projectControlFactory,
+        null, projectCache, allProjectsName, projectControlFactory,
         envFactory, mgr, rulesCache, null, parent));
     return all.get(local.getProject().getNameKey());
   }

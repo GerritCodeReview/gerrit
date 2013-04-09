@@ -113,6 +113,8 @@ public final class Project {
 
   protected String localDefaultDashboardId;
 
+  protected String themeName;
+
   protected Project() {
   }
 
@@ -204,6 +206,14 @@ public final class Project {
 
   public void setLocalDefaultDashboard(final String localDefaultDashboardId) {
     this.localDefaultDashboardId = localDefaultDashboardId;
+  }
+
+  public String getThemeName() {
+    return themeName;
+  }
+
+  public void setThemeName(final String themeName) {
+    this.themeName = themeName;
   }
 
   public void copySettingsFrom(final Project update) {

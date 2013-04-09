@@ -80,8 +80,8 @@ public class GerritCommonTest extends PrologTestCase {
       for (LabelType label : labelTypes.getLabelTypes()) {
         config.getLabelSections().put(label.getName(), label);
       }
-      allProjects = new ProjectState(this, allProjectsName, null, null, null,
-          null, null, config);
+      allProjects = new ProjectState(null, this, allProjectsName, null, null,
+          null, null, null, config);
     }
 
     @Override

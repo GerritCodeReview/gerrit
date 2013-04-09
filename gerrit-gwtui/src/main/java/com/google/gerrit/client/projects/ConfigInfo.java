@@ -41,6 +41,8 @@ public class ConfigInfo extends JavaScriptObject {
   final native NativeMap<CommentLinkInfo> commentlinks()
   /*-{ return this.commentlinks; }-*/;
 
+  final native ThemeInfo theme() /*-{ return this.theme; }-*/;
+
   protected ConfigInfo() {
   }
 

@@ -96,6 +96,7 @@ public class Gerrit implements EntryPoint {
       GWT.create(GerritResources.class);
   public static final SystemInfoService SYSTEM_SVC;
   public static final EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
+  public static Themer THEMER = GWT.create(Themer.class);
   public static final ConfigInfoCache projectConfigInfoCache =
       GWT.create(ConfigInfoCache.class);
 
@@ -555,7 +556,15 @@ public class Gerrit implements EntryPoint {
     if (signInAnchor != null) {
       signInAnchor.setHref(loginRedirect(token));
     }
+
+    saveDefaultTheme();
     loadPlugins(hpd, token);
+  }
+
+  private void saveDefaultTheme() {
+    THEMER.init(Document.get().getElementById("gerrit_sitecss"),
+        Document.get().getElementById("gerrit_header"),
+        Document.get().getElementById("gerrit_footer"));
   }
 
   private void loadPlugins(HostPageData hpd, final String token) {

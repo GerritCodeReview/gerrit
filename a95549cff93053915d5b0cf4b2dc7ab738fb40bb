@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "TKRn2axo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-09T13:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TCfn-F.k",
+      "revId": "a95549cff93053915d5b0cf4b2dc7ab738fb40bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TDNb8JPc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "TGqgJOzs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-09T13:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TDNb8JPc",
+      "revId": "a95549cff93053915d5b0cf4b2dc7ab738fb40bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TCdn8U-c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2013-04-06T04:42:24Z",
       "side": 1,
       "message": "I guess it makes sense to check this late. If the user is lacking permission the changes were created and are now available for review. But what if you don\u0027t want to do code reviews and didn\u0027t mean to create a review?\n\nShould we just check this early and behave like push to refs/heads/master would if you lack permission... no change on the server state is made and the client fails fast?",
+      "revId": "a95549cff93053915d5b0cf4b2dc7ab738fb40bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TGogGdyk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-09T13:17:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TCdn8U-c",
       "revId": "a95549cff93053915d5b0cf4b2dc7ab738fb40bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "TElB27KM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-09T02:22:51Z",
+      "side": 1,
+      "message": "CanonicalWebUrl is no longer used.",
+      "revId": "e2ab4725e76d71542342060c2adc7b38b38914ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TEjBraLw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-09T02:22:51Z",
+      "side": 1,
+      "message": "GitReferenceUpdated is no longer used.",
+      "revId": "e2ab4725e76d71542342060c2adc7b38b38914ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TFkyNP3o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-09T02:22:51Z",
+      "side": 1,
+      "message": "Nullable is no longer used.",
+      "revId": "e2ab4725e76d71542342060c2adc7b38b38914ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "RizeoeMc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1

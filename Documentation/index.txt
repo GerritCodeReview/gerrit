@@ -39,7 +39,7 @@ Configuration
 * link:config-gerrit.html[System Settings]
 * link:config-contact.html[User Contact Information]
 * link:config-gitweb.html[Gitweb Integration]
-* link:config-headerfooter.html[Site Header/Footer]
+* link:config-themes.html[Themes]
 * link:config-sso.html[Single Sign-On Systems]
 * link:config-reverseproxy.html[Reverse Proxy]
 * link:config-hooks.html[Hooks]

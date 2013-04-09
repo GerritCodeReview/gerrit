@@ -30,6 +30,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
     public Boolean requireChangeId;
 
     public Map<String, CommentLinkInfo> commentlinks;
+    public ThemeInfo theme;
   }
 
   @Override
@@ -51,6 +52,9 @@ public class GetConfig implements RestReadView<ProjectResource> {
     for (CommentLinkInfo cl : project.getCommentLinks()) {
       result.commentlinks.put(cl.name, cl);
     }
+
+    // Themes are visible to anyone, as they are rendered client-side.
+    result.theme = project.getTheme();
     return result;
   }
 }

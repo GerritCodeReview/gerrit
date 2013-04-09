@@ -2760,7 +2760,7 @@ Files in this directory provide additional configuration.
 +
 Other files support site customization.
 +
-* link:config-headerfooter.html[Site Header/Footer]
+* link:config-themes.html[Themes]
 
 GERRIT
 ------

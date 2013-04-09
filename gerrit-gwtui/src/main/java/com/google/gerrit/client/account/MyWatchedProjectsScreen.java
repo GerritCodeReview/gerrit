@@ -196,7 +196,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   }
 
   protected void doAddNew() {
-    final String projectName = nameTxt.getText();
+    final String projectName = nameTxt.getText().trim();
     if ("".equals(projectName)) {
       return;
     }

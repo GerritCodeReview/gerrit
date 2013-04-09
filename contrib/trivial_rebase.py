@@ -151,7 +151,7 @@ def Main():
   args = parser.parse_known_args()[0]
   try:
     changeId = re.search(r'\d+', args.changeUrl).group()
-  except:
+  except AttributeError:
     parser.print_help()
     exit(0)
 
@@ -169,7 +169,7 @@ def Main():
     if not prev_patch_id:
       print "GetPatchId failed for commit %s" % (prev_revision)
     if not cur_patch_id:
-      print "GetPatchId failed for commit %s" % (options.commit)
+      print "GetPatchId failed for commit %s" % (args.commit)
     exit(0)
   if cur_patch_id.split()[0] != prev_patch_id.split()[0]:
     # patch-ids don't match

@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.server.data.AccountAttribute;
+import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
+
 public class PatchSetCreatedEvent extends ChangeEvent {
     public final String type = "patchset-created";
     public ChangeAttribute change;

@@ -12,22 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.events;
+package com.google.gerrit.server.data;
 
-import java.util.List;
 
-public class PatchSetAttribute {
-  public String number;
-  public String revision;
-  public List<String> parents;
-  public String ref;
-  public AccountAttribute uploader;
-  public Long createdOn;
-  public AccountAttribute author;
+public class ApprovalAttribute {
+    public String type;
+    public String description;
+    public String value;
 
-  public List<ApprovalAttribute> approvals;
-  public List<PatchSetCommentAttribute> comments;
-  public List<PatchAttribute> files;
-  public int sizeInsertions;
-  public int sizeDeletions;
+    public Long grantedOn;
+    public AccountAttribute by;
 }

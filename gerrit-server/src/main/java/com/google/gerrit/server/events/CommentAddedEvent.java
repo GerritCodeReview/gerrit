@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.server.data.AccountAttribute;
+import com.google.gerrit.server.data.ApprovalAttribute;
+import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
+
 public class CommentAddedEvent extends ChangeEvent {
     public final String type = "comment-added";
     public ChangeAttribute change;

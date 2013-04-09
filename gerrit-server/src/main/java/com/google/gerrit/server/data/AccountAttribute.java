@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.events;
+package com.google.gerrit.server.data;
 
-public class QueryStats {
-  public final String type = "stats";
-  public int rowCount;
-  public long runTimeMilliseconds;
-  public String resumeSortKey;
+public class AccountAttribute {
+    public String name;
+    public String email;
+    public String username;
 }

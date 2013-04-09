@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.server.data.AccountAttribute;
+import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
+
 public class ChangeAbandonedEvent extends ChangeEvent {
     public final String type = "change-abandoned";
     public ChangeAttribute change;

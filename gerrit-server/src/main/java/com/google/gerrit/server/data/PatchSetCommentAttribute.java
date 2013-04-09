@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.events;
+package com.google.gerrit.server.data;
 
-public class DependencyAttribute {
-  public String id;
-  public String number;
-  public String revision;
-  public String ref;
-  public Boolean isCurrentPatchSet;
+
+public class PatchSetCommentAttribute {
+    public String file;
+    public Integer line;
+    public AccountAttribute reviewer;
+    public String message;
 }

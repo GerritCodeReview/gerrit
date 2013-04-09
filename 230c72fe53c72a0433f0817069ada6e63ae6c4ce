@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TErB.OHM",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-09T04:54:11Z",
+      "side": 1,
+      "message": "Not sure a class method should exit.  It might be netter to return instead.",
+      "revId": "230c72fe53c72a0433f0817069ada6e63ae6c4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TEpB7NIM",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-09T04:54:11Z",
+      "side": 1,
+      "message": "In error cases it would be better to raise an exception.",
+      "revId": "230c72fe53c72a0433f0817069ada6e63ae6c4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

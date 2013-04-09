@@ -16,6 +16,24 @@
       "revId": "a5d4c8ba0c03dd4ab1461522b6b973f793f6ea65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TFsyBLz0",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/NoSuchEntityException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-04-09T14:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TFuyE604",
+      "revId": "a5d4c8ba0c03dd4ab1461522b6b973f793f6ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

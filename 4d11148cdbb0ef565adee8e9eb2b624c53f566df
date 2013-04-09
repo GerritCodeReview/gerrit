@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "TEpCtdMM",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-04-09T18:55:02Z",
+      "side": 1,
+      "message": "Nothing is strictly wrong, I would just prefer to not know that those are \"args\" and instead the class should store each individually. I don\u0027t strongly object to the way you do it now, but I think for the future it would be nice to have them stored individually.",
+      "parentUuid": "TKTn7LwE",
+      "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TFgzpdwg",
         "filename": "contrib/trivial_rebase.py",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Can there practically be a (valid) patch set which is not #1 without a previous one? If not, why shouldn\u0027t it be asserted? This was David\u0027s suggestion.",
       "parentUuid": "TFgzpdwg",
+      "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TEnAkUI0",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-04-09T18:55:02Z",
+      "side": 1,
+      "message": "Sorry I didn\u0027t see David\u0027s comment earlier. Given that, I only object to this being included in the class-refactoring change. If you split it into a separate change (before or after this one), then I\u0027m fine with it.\n\nYou could probably also make lines 158/160/198 errors in that new change.",
+      "parentUuid": "TKdn-k.k",
       "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -21,6 +21,7 @@ import com.google.gerrit.client.patches.AbstractPatchContentTable;
 import com.google.gerrit.client.patches.CommentEditorContainer;
 import com.google.gerrit.client.patches.CommentEditorPanel;
 import com.google.gerrit.client.projects.ConfigInfoCache;
+import com.google.gerrit.client.projects.ThemeInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
@@ -80,6 +81,7 @@ public class PublishCommentScreen extends AccountScreen implements
   private List<CommentEditorPanel> commentEditors;
   private ChangeInfo change;
   private CommentLinkProcessor commentLinkProcessor;
+  private ThemeInfo theme;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
     patchSetId = psi;
@@ -185,6 +187,7 @@ public class PublishCommentScreen extends AccountScreen implements
           @Override
           public void onSuccess(ConfigInfoCache.Value result) {
             commentLinkProcessor = result.getCommentLinkProcessor();
+            theme = result.getTheme();
             display(pubDetail);
           }
 
@@ -199,6 +202,7 @@ public class PublishCommentScreen extends AccountScreen implements
   protected void onUnload() {
     super.onUnload();
     lastState = saveStateOnUnload ? new SavedState(this) : null;
+    Gerrit.THEMER.clear();
   }
 
   @Override
@@ -317,6 +321,7 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private void display(final PatchSetPublishDetail r) {
+    Gerrit.THEMER.set(theme);
     setPageTitle(Util.M.publishComments(r.getChange().getKey().abbreviate(),
         patchSetId.get()));
     descBlock.display(r.getChange(), null, false, r.getPatchSetInfo(), r.getAccounts(),

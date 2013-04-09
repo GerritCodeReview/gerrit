@@ -19,6 +19,7 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
+import com.google.gerrit.client.projects.ThemeInfo;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -83,6 +84,7 @@ public class ChangeScreen extends Screen
 
   private Panel comments;
   private CommentLinkProcessor commentLinkProcessor;
+  private ThemeInfo theme;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
@@ -132,6 +134,7 @@ public class ChangeScreen extends Screen
       regAction.removeHandler();
       regAction = null;
     }
+    Gerrit.THEMER.clear();
     super.onUnload();
   }
 
@@ -275,6 +278,7 @@ public class ChangeScreen extends Screen
             @Override
             public void onSuccess(ConfigInfoCache.Value result) {
               commentLinkProcessor = result.getCommentLinkProcessor();
+              theme = result.getTheme();
             }
 
             @Override
@@ -295,6 +299,7 @@ public class ChangeScreen extends Screen
   }
 
   private void display(final ChangeDetail detail) {
+    Gerrit.THEMER.set(theme);
     displayTitle(detail.getChange().getKey(), detail.getChange().getSubject());
     discardDiffBaseIfNotApplicable(detail.getChange().getId());
 

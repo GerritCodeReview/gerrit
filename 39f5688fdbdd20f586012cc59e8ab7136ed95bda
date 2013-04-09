@@ -16,6 +16,24 @@
       "revId": "39f5688fdbdd20f586012cc59e8ab7136ed95bda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMXHx2CA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CommentLinkProvider.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-09T22:29:22Z",
+      "side": 1,
+      "message": "This is gerrit.config we\u0027re looking at here. I just moved the constant to ProjectConfig because as of I96dd6701350761a0af6e3d9babdef4f74ad4e29f it\u0027s shared (and documented as such). And while there\u0027s no central location for config constants in gerrit.config, ProjectConfig is just such a location for project.config.",
+      "parentUuid": "TMpAJ1Ds",
+      "revId": "39f5688fdbdd20f586012cc59e8ab7136ed95bda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

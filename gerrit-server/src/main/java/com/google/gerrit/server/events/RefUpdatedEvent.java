@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.server.data.AccountAttribute;
+import com.google.gerrit.server.data.RefUpdateAttribute;
+
 public class RefUpdatedEvent extends ChangeEvent {
   public final String type = "ref-updated";
   public AccountAttribute submitter;

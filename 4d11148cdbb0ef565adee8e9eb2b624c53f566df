@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TFizkMzI",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-04-09T16:04:05Z",
+      "side": 1,
+      "message": "Why hide all the args inside self.args?\n\nIf you don\u0027t want to parse out the args in Main() you could have a class method that parses them and creates a TrivalRebase instance for you. Or you could do that inside __init__.",
+      "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TFgzpdwg",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-04-09T16:04:05Z",
+      "side": 1,
+      "message": "This wasn\u0027t previously an error, but now you\u0027ll be throwing an AssertionError. Maybe just return instead?\n\n if not prev_revision:\n   # Previous patchset not found in database\n   return\n\nIt might also make more sense for FindPrevRev to check the filesystem instead of the db.\n\n \"git rev-parse refs/changes/%s/%s/%s\" % (get_nn(self.changeId),self.changeId, self.args.patchset - 1)\n\nIf you throw a TODO in there I might be able to write that up later.",
+      "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

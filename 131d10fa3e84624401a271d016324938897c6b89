@@ -70,6 +70,24 @@
       "revId": "131d10fa3e84624401a271d016324938897c6b89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TEpBR9BE",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-09T00:09:26Z",
+      "side": 1,
+      "message": "I guess we\u0027ll accept it.",
+      "parentUuid": "TEvBagC0",
+      "revId": "131d10fa3e84624401a271d016324938897c6b89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

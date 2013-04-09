@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.events;
+package com.google.gerrit.server.data;
 
 import java.util.List;
 
-public class PatchSetAttribute {
-  public String number;
-  public String revision;
-  public List<String> parents;
-  public String ref;
-  public AccountAttribute uploader;
-  public Long createdOn;
-  public AccountAttribute author;
-
-  public List<ApprovalAttribute> approvals;
-  public List<PatchSetCommentAttribute> comments;
-  public List<PatchAttribute> files;
-  public int sizeInsertions;
-  public int sizeDeletions;
+public class SubmitRecordAttribute {
+    public String status;
+    public List<SubmitLabelAttribute> labels;
 }

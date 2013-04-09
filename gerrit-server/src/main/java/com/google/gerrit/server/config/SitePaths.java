@@ -24,6 +24,10 @@ import java.io.IOException;
 /** Important paths within a {@link SitePath}. */
 @Singleton
 public final class SitePaths {
+  public static final String CSS_FILENAME = "GerritSite.css";
+  public static final String HEADER_FILENAME = "GerritSiteHeader.html";
+  public static final String FOOTER_FILENAME = "GerritSiteFooter.html";
+
   public final File site_path;
   public final File bin_dir;
   public final File etc_dir;
@@ -35,6 +39,7 @@ public final class SitePaths {
   public final File mail_dir;
   public final File hooks_dir;
   public final File static_dir;
+  public final File themes_dir;
 
   public final File gerrit_sh;
   public final File gerrit_war;
@@ -71,6 +76,7 @@ public final class SitePaths {
     mail_dir = new File(etc_dir, "mail");
     hooks_dir = new File(site_path, "hooks");
     static_dir = new File(site_path, "static");
+    themes_dir = new File(site_path, "themes");
 
     gerrit_sh = new File(bin_dir, "gerrit.sh");
     gerrit_war = new File(bin_dir, "gerrit.war");
@@ -85,9 +91,9 @@ public final class SitePaths {
     ssh_dsa = new File(etc_dir, "ssh_host_dsa_key");
     peer_keys = new File(etc_dir, "peer_keys");
 
-    site_css = new File(etc_dir, "GerritSite.css");
-    site_header = new File(etc_dir, "GerritSiteHeader.html");
-    site_footer = new File(etc_dir, "GerritSiteFooter.html");
+    site_css = new File(etc_dir, CSS_FILENAME);
+    site_header = new File(etc_dir, HEADER_FILENAME);
+    site_footer = new File(etc_dir, FOOTER_FILENAME);
     site_gitweb = new File(etc_dir, "gitweb_config.perl");
 
     if (site_path.exists()) {

@@ -143,7 +143,7 @@ For more information, see the related topics in this manual:
 
 * link:config-reverseproxy.html[Reverse Proxy]
 * link:config-sso.html[Single Sign-On Systems]
-* link:config-headerfooter.html[Site Header/Footer]
+* link:config-themes.html[Themes]
 * link:config-gitweb.html[Gitweb Integration]
 * link:config-gerrit.html[Other System Settings]
 

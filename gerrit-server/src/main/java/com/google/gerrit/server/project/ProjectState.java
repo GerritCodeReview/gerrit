@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
@@ -35,6 +37,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
@@ -45,7 +48,10 @@ import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -59,11 +65,15 @@ import java.util.Set;
 
 /** Cached information on a project. */
 public class ProjectState {
+  private static final Logger log =
+      LoggerFactory.getLogger(ProjectState.class);
+
   public interface Factory {
     ProjectState create(ProjectConfig config);
   }
 
   private final boolean isAllProjects;
+  private final SitePaths sitePaths;
   private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
   private final ProjectControl.AssistedFactory projectControlFactory;
@@ -84,11 +94,15 @@ public class ProjectState {
   /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
   private volatile List<SectionMatcher> localAccessSections;
 
+  /** Theme information loaded from site_path/themes. */
+  private volatile ThemeInfo theme;
+
   /** If this is all projects, the capabilities used by the server. */
   private final CapabilityCollection capabilities;
 
   @Inject
   public ProjectState(
+      final SitePaths sitePaths,
       final ProjectCache projectCache,
       final AllProjectsName allProjectsName,
       final ProjectControl.AssistedFactory projectControlFactory,
@@ -97,6 +111,7 @@ public class ProjectState {
       final RulesCache rulesCache,
       final List<CommentLinkInfo> commentLinks,
       @Assisted final ProjectConfig config) {
+    this.sitePaths = sitePaths;
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
     this.allProjectsName = allProjectsName;
@@ -395,6 +410,47 @@ public class ProjectState {
       }
     }
     return ImmutableList.copyOf(cls.values());
+  }
+
+  public ThemeInfo getTheme() {
+    ThemeInfo theme = this.theme;
+    if (theme == null) {
+      synchronized (this) {
+        if (this.theme == null) {
+          theme = loadTheme();
+          this.theme = theme;
+        }
+      }
+    }
+    if (theme == ThemeInfo.INHERIT) {
+      ProjectState parent = Iterables.getFirst(parents(), null);
+      return parent != null ? parent.getTheme() : null;
+    }
+    return theme;
+  }
+
+  private ThemeInfo loadTheme() {
+    String name = getConfig().getProject().getName();
+    File dir = new File(sitePaths.themes_dir, name);
+    if (!dir.exists()) {
+      return ThemeInfo.INHERIT;
+    } else if (!dir.isDirectory()) {
+      log.warn("Bad theme for {}: not a directory", name);
+      return ThemeInfo.INHERIT;
+    }
+    try {
+      return new ThemeInfo(name,
+          readFile(new File(dir, SitePaths.CSS_FILENAME)),
+          readFile(new File(dir, SitePaths.HEADER_FILENAME)),
+          readFile(new File(dir, SitePaths.FOOTER_FILENAME)));
+    } catch (IOException e) {
+      log.error("Error reading theme for " + name, e);
+      return ThemeInfo.INHERIT;
+    }
+  }
+
+  private String readFile(File f) throws IOException {
+    return f.exists() ? Files.toString(f, Charsets.UTF_8) : null;
   }
 
   private boolean getInheritableBoolean(Function<Project, InheritableBoolean> func) {

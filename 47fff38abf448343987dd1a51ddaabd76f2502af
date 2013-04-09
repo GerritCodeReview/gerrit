@@ -16,6 +16,24 @@
       "revId": "47fff38abf448343987dd1a51ddaabd76f2502af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMVHs1Es",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-09T22:05:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TKxf2NBo",
+      "revId": "47fff38abf448343987dd1a51ddaabd76f2502af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

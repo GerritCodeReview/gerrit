@@ -18,6 +18,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -55,6 +56,13 @@ public class ChangeInserter {
   public void insertChange(ReviewDb db, Change change, PatchSet ps,
       RevCommit commit, LabelTypes labelTypes, List<FooterLine> footerLines,
       PatchSetInfo info, Set<Account.Id> reviewers) throws OrmException {
+    insertChange(db, change, null, ps, commit, labelTypes, footerLines, info, reviewers);
+  }
+
+  public void insertChange(ReviewDb db, Change change,
+      ChangeMessage changeMessage, PatchSet ps, RevCommit commit,
+      LabelTypes labelTypes, List<FooterLine> footerLines, PatchSetInfo info,
+      Set<Account.Id> reviewers) throws OrmException {
 
     db.changes().beginTransaction(change.getId());
     try {
@@ -64,6 +72,9 @@ public class ChangeInserter {
       ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
       approvalsUtil.addReviewers(db, labelTypes, change, ps, info, reviewers,
           Collections.<Account.Id> emptySet());
+      if (changeMessage != null) {
+        db.changeMessages().insert(Collections.singleton(changeMessage));
+      }
       db.commit();
     } finally {
       db.rollback();

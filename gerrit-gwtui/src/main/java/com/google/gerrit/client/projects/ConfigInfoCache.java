@@ -60,6 +60,10 @@ public class ConfigInfoCache {
       }
       return commentLinkProcessor;
     }
+
+    public ThemeInfo getTheme() {
+      return info.theme();
+    }
   }
 
   private final LinkedHashMap<String, Value> cache;

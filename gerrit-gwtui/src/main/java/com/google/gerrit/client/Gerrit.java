@@ -24,6 +24,7 @@ import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.projects.ConfigInfoCache;
+import com.google.gerrit.client.projects.ThemeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
@@ -50,6 +51,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.StyleElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -117,6 +120,13 @@ public class Gerrit implements EntryPoint {
   private static ViewSite<Screen> body;
   private static PatchScreen patchScreen;
   private static String lastChangeListToken;
+
+  private static StyleElement cssElement;
+  private static Element headerElement;
+  private static Element footerElement;
+  private static String cssText;
+  private static String headerHtml;
+  private static String footerHtml;
 
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
@@ -555,7 +565,21 @@ public class Gerrit implements EntryPoint {
     if (signInAnchor != null) {
       signInAnchor.setHref(loginRedirect(token));
     }
+
+    saveDefaultTheme();
     loadPlugins(hpd, token);
+  }
+
+  private void saveDefaultTheme() {
+    Element cssEl = Document.get().getElementById("gerrit_sitecss");
+    if (cssEl != null && cssEl.getTagName().equalsIgnoreCase("style")) {
+      cssElement = StyleElement.as(cssEl);
+      cssText = cssElement.getCssText();
+    }
+    headerElement = Document.get().getElementById("gerrit_header");
+    headerHtml = headerElement.getInnerHTML();
+    footerElement = Document.get().getElementById("gerrit_footer");
+    footerHtml = footerElement.getInnerHTML();
   }
 
   private void loadPlugins(HostPageData hpd, final String token) {
@@ -752,6 +776,40 @@ public class Gerrit implements EntryPoint {
         siteFooter.setVisible(p.isShowSiteHeader());
       }
       FormatUtil.setPreferences(myAccount.getGeneralPreferences());
+    }
+  }
+
+  public static void setTheme(ThemeInfo theme) {
+    if (theme == null) {
+      clearTheme();
+      return;
+    }
+    String css = theme.css() != null ? theme.css() : cssText;
+    String header = theme.header() != null ? theme.header() : headerHtml;
+    String footer = theme.footer() != null ? theme.footer() : footerHtml;
+
+    if (css != null && cssElement != null) {
+      // TODO(dborowitz): Use setCssText for IE7.
+      cssElement.setInnerHTML(css);
+    }
+    if (header != null && headerElement != null) {
+      headerElement.setInnerHTML(header);
+    }
+    if (footer != null && footerElement != null) {
+      footerElement.setInnerHTML(footer);
+    }
+  }
+
+  public static void clearTheme() {
+    if (cssElement != null) {
+      // TODO(dborowitz): Use setCssText for IE7.
+      cssElement.setInnerHTML(cssText);
+    }
+    if (headerElement != null) {
+      headerElement.setInnerHTML(headerHtml);
+    }
+    if (footerElement != null) {
+      footerElement.setInnerHTML(footerHtml);
     }
   }
 

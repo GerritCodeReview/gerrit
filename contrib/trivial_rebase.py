@@ -149,8 +149,9 @@ def Main():
                            "[default: %(default)s]")
 
   args = parser.parse_known_args()[0]
-  changeId = re.search(r'\d+', args.changeUrl).group()
-  if changeId is None:
+  try:
+    changeId = re.search(r'\d+', args.changeUrl).group()
+  except AttributeError:
     parser.print_help()
     exit(0)
 

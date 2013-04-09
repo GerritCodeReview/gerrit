@@ -64,6 +64,8 @@ public class ConfigInfo extends JavaScriptObject {
     return commentLinks;
   }
 
+  final native ThemeInfo theme() /*-{ return this.theme; }-*/;
+
   protected ConfigInfo() {
   }
 

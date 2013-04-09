@@ -72,7 +72,11 @@ public class BaseServiceImplementation {
     } catch (InvalidQueryException e) {
       callback.onFailure(e);
     } catch (NoSuchProjectException e) {
-      callback.onFailure(new NoSuchEntityException());
+      if (e.getMessage() != null) {
+        callback.onFailure(new NoSuchEntityException(e.getMessage()));
+      } else {
+        callback.onFailure(new NoSuchEntityException());
+      }
     } catch (NoSuchGroupException e) {
       callback.onFailure(new NoSuchEntityException());
     } catch (OrmRuntimeException e) {

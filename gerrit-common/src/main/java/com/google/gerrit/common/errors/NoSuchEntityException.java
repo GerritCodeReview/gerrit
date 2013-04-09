@@ -23,4 +23,8 @@ public class NoSuchEntityException extends Exception {
   public NoSuchEntityException() {
     super(MESSAGE);
   }
+
+  public NoSuchEntityException(String message) {
+    super(message);
+  }
 }

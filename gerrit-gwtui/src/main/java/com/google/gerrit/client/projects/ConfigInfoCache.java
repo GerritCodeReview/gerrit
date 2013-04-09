@@ -42,6 +42,10 @@ public class ConfigInfoCache {
       }
       return commentLinkProcessor;
     }
+
+    public ThemeInfo getTheme() {
+      return info.theme();
+    }
   }
 
   public static void get(Project.NameKey name, AsyncCallback<Entry> cb) {

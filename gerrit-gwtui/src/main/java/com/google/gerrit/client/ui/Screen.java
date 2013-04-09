@@ -15,6 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.projects.ThemeInfo;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -41,6 +42,9 @@ public abstract class Screen extends View {
   private String windowTitle;
   private Widget titleWidget;
 
+  private ThemeInfo theme;
+  private boolean setTheme;
+
   protected Screen() {
     initWidget(new FlowPanel());
     setStyleName(Gerrit.RESOURCES.css().screen());
@@ -51,6 +55,14 @@ public abstract class Screen extends View {
     super.onLoad();
     if (header == null) {
       onInitUI();
+    }
+  }
+
+  @Override
+  protected void onUnload() {
+    super.onUnload();
+    if (setTheme) {
+      Gerrit.THEMER.set(null);
     }
   }
 
@@ -124,6 +136,10 @@ public abstract class Screen extends View {
     body.add(w);
   }
 
+  protected void setTheme(final ThemeInfo t) {
+    theme = t;
+  }
+
   /** Get the history token for this screen. */
   public String getToken() {
     return token;
@@ -167,5 +183,12 @@ public abstract class Screen extends View {
     Gerrit.EVENT_BUS.fireEvent(new ScreenLoadEvent(this));
     Gerrit.setQueryString(null);
     registerKeys();
+
+    if (theme != null) {
+      Gerrit.THEMER.set(theme);
+      setTheme = true;
+    } else {
+      Gerrit.THEMER.clear();
+    }
   }
 }

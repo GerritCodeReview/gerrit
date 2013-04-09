@@ -275,6 +275,7 @@ public class ChangeScreen extends Screen
             @Override
             public void onSuccess(ConfigInfoCache.Entry result) {
               commentLinkProcessor = result.getCommentLinkProcessor();
+              setTheme(result.getTheme());
             }
 
             @Override

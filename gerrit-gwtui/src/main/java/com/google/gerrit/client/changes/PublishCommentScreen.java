@@ -185,6 +185,7 @@ public class PublishCommentScreen extends AccountScreen implements
           @Override
           public void onSuccess(ConfigInfoCache.Entry result) {
             commentLinkProcessor = result.getCommentLinkProcessor();
+            setTheme(result.getTheme());
             display(pubDetail);
           }
 

@@ -514,6 +514,8 @@ a:hover {
   padding-right: 5px;
   border-right: 1px solid trimColor;
   border-bottom: 1px solid trimColor;
+  vertical-align: middle;
+  height: 20px;
 }
 
 .changeTable a.gwt-InlineHyperlink {

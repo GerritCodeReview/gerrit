@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "TKzf7OAE",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-04-09T21:18:13Z",
+      "side": 1,
+      "message": "This should say \"require_change_id\", I think.",
+      "revId": "94379d31fc042fc1ce3ce18932f7c25ad9e73c93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TGigPizw",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 8
@@ -13,6 +30,23 @@
       "writtenOn": "2013-04-09T20:20:36Z",
       "side": 1,
       "message": "[optional] s/project configuration/the effective project configuration",
+      "revId": "94379d31fc042fc1ce3ce18932f7c25ad9e73c93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TK9f-XOk",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-04-09T21:18:13Z",
+      "side": 1,
+      "message": "Likewise.",
       "revId": "94379d31fc042fc1ce3ce18932f7c25ad9e73c93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -49,7 +49,7 @@ limitations under the License.
     <jgitVersion>2.3.1.201302201838-r.78-g8fcde4b</jgitVersion>
     <gwtormVersion>1.6</gwtormVersion>
     <gwtjsonrpcVersion>1.3</gwtjsonrpcVersion>
-    <gwtexpuiVersion>1.3.3</gwtexpuiVersion>
+    <gwtexpuiVersion>1.3.4</gwtexpuiVersion>
     <gwtVersion>2.5.0</gwtVersion>
     <bouncyCastleVersion>140</bouncyCastleVersion>
     <slf4jVersion>1.6.1</slf4jVersion>

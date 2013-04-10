@@ -34,6 +34,24 @@
       "revId": "2eba531f2bdb61228f5df3aa64aed334bd7aa067",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMVEk1Iw",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-10T07:59:05Z",
+      "side": 1,
+      "message": "Is it not better to catch the exception and exit gracefully with an error message, rather than exiting with a raw backtrace?",
+      "parentUuid": "TQ-8Jfzo",
+      "revId": "2eba531f2bdb61228f5df3aa64aed334bd7aa067",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

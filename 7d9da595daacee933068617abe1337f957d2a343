@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TMfGziCQ",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T03:37:32Z",
+      "side": 1,
+      "message": "well not really branch. its the full reference name. so refs/for/refs/heads/master, etc.",
+      "revId": "7d9da595daacee933068617abe1337f957d2a343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMdG2hBc",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T03:37:32Z",
+      "side": 1,
+      "message": "This should be on refs/for/refs/heads/master",
+      "revId": "7d9da595daacee933068617abe1337f957d2a343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TRF77Vf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T03:37:32Z",
+      "side": 1,
+      "message": "fwiw this is \"ref\" just a few lines above.",
+      "revId": "7d9da595daacee933068617abe1337f957d2a343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMZGw-Bk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T03:37:32Z",
+      "side": 1,
+      "message": "Like with push to refs/for/refs/heads/master we should be testing on the full name not the short name.",
+      "revId": "7d9da595daacee933068617abe1337f957d2a343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

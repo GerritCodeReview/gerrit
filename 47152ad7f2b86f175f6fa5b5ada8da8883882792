@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "TMVHDdIE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Themer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-10T03:23:34Z",
+      "side": 1,
+      "message": "I think it would be relatively simple and still accomplish what you say if we cache the child node list, what do you think? Though there\u0027s nothing equivalent for StyleElement, so the CSS will still have to be reparsed.",
+      "parentUuid": "TMXGNWHo",
+      "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TMvCYYLY",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
         "patchSetId": 4
@@ -47,6 +65,24 @@
       "writtenOn": "2013-04-10T00:41:45Z",
       "side": 1,
       "message": "This is too early. You are updating the header and footer before the body changes.\n\nOverride onShowView(), set the theme there, and make sure you call super.onShowView().",
+      "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMrB7uII",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-10T03:23:34Z",
+      "side": 1,
+      "message": "Thanks, will do, and I\u0027ll look at the background rendering to make sure I\u0027m handling errors correctly. (Not that there are really race conditions in JS but I see what you\u0027re saying :)",
+      "parentUuid": "TMdGb5LA",
       "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

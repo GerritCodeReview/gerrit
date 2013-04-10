@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "TMRG97PM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Themer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T03:25:12Z",
+      "side": 1,
+      "message": "Not worth it. Lets just do the innerHTML assignment on theme changes. If we need to cache, we will revisit that later, and if we do so we should cache the entire element by wrapping it into a new \u003cdiv\u003e, not caching the list of children.",
+      "parentUuid": "TMVHDdIE",
+      "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TMvCYYLY",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
         "patchSetId": 4

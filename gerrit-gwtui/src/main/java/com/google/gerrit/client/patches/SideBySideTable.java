@@ -20,7 +20,6 @@ import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.FileMode;

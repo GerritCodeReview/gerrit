@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "TMRGSzJk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-10T00:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TMdFaBC4",
+      "revId": "5c567df788fbc3acc2c169a9041be41547c43618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TMhCSxJk",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-10T00:28:43Z",
       "side": 1,
       "message": "Bad double checked locking idiom.\n\n  ThemeInfo theme \u003d this.theme;\n  if (theme \u003d\u003d null) {\n    synchronized (this) {\n      theme \u003d this.theme;  // this is what you missed\n      if (theme \u003d\u003d null) {\n        theme \u003d loadTheme();\n        this.theme \u003d theme;\n      }\n    }\n  }",
+      "revId": "5c567df788fbc3acc2c169a9041be41547c43618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMTGX0Io",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-10T00:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TMhCSxJk",
       "revId": "5c567df788fbc3acc2c169a9041be41547c43618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

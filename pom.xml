@@ -324,4 +324,11 @@ limitations under the License.
       <uniqueVersion>true</uniqueVersion>
     </repository>
   </distributionManagement>
+
+  <repositories>
+    <repository>
+      <id>gerrit-maven</id>
+      <url>https://gerrit-maven.commondatastorage.googleapis.com</url>
+    </repository>
+  </repositories>
 </project>

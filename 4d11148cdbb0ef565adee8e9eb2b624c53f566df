@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "TRD7siUs",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-04-10T02:51:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TEpCtdMM",
+      "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TFgzpdwg",
         "filename": "contrib/trivial_rebase.py",
         "patchSetId": 3
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Sorry I didn\u0027t see David\u0027s comment earlier. Given that, I only object to this being included in the class-refactoring change. If you split it into a separate change (before or after this one), then I\u0027m fine with it.\n\nYou could probably also make lines 158/160/198 errors in that new change.",
       "parentUuid": "TKdn-k.k",
+      "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TQz-sh0s",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-04-10T02:51:45Z",
+      "side": 1,
+      "message": "158 and 160 are not errors, it is expected for merge commits (I added a comment in line 156). Maybe we should just remove the prints and just return",
+      "parentUuid": "TEnAkUI0",
       "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

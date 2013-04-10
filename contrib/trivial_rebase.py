@@ -216,7 +216,7 @@ class TrivialRebase:
         continue
       else:
         print "Unsupported category: %s" % approval
-        return
+        continue
 
       score = approval["value"]
       gerrit_approve_cmd = ['gerrit', 'approve', '--project', self.project,

@@ -53,6 +53,9 @@ class TrivialRebase:
     parser.add_argument("--server-port", dest="port", default='29418',
                         help="Port to connect to Gerrit's SSH daemon "
                              "[default: %(default)s]")
+    parser.add_argument("--ssh", default="ssh", help="SSH executable")
+    parser.add_argument("--ssh-port-flag", dest="ssh_port_flag", default="-p", help="SSH port flag")
+
     args = parser.parse_known_args()[0]
     if (args.changeUrl is None or
         args.project is None or
@@ -68,6 +71,8 @@ class TrivialRebase:
     self.patchset = args.patchset
     self.private_key_path = args.private_key_path
     self.port = args.port
+    self.ssh = args.ssh
+    self.ssh_port_flag = args.ssh_port_flag
 
   class CheckCallError(OSError):
     """CheckCall() returned non-0."""
@@ -95,7 +100,7 @@ class TrivialRebase:
 
   def GsqlQuery(self, sql_query):
     """Runs a gerrit gsql query and returns the result"""
-    gsql_cmd = ['ssh', '-p', self.port, self.server, 'gerrit', 'gsql',
+    gsql_cmd = [self.ssh, self.ssh_port_flag, self.port, self.server, 'gerrit', 'gsql',
                 '--format', 'JSON', '-c', sql_query]
     try:
       (gsql_out, _gsql_stderr) = self.CheckCall(gsql_cmd)
@@ -150,7 +155,7 @@ class TrivialRebase:
     return patch_id_process.communicate(git_show_process.communicate()[0])[0]
 
   def SuExec(self, as_user, cmd):
-    suexec_cmd = ['ssh', '-l', "Gerrit Code Review", '-p', self.port, self.server]
+    suexec_cmd = [self.ssh, '-l', "Gerrit Code Review", self.ssh_port_flag, self.port, self.server]
     if self.private_key_path:
       suexec_cmd += ['-i', self.private_key_path]
     suexec_cmd += ['suexec', '--as', as_user, '--', cmd]
@@ -196,8 +201,8 @@ class TrivialRebase:
       # commit message changed
       comment_msg = ("\'--message=New patchset patch-id matches previous patchset"
                      ", but commit message has changed.'")
-      comment_cmd = ['ssh', '-p', self.port, self.server, 'gerrit', 'approve',
-                     '--project', self.project, comment_msg, self.commit]
+      comment_cmd = [self.ssh, self.ssh_port_flag, self.port, self.server, 'gerrit',
+                     'approve', '--project', self.project, comment_msg, self.commit]
       self.CheckCall(comment_cmd)
       return
 

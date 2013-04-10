@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "TMfFXCAU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-10T00:29:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TMpBUdAI",
+      "revId": "f60ac4b65f8e2cfbd13eee7a5c9585b7c2352d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TMrBReBE",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfoCache.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-10T00:18:05Z",
       "side": 1,
       "message": "Entry is a better name for the cache entry than Value.",
+      "revId": "f60ac4b65f8e2cfbd13eee7a5c9585b7c2352d95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMbFRgBE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfoCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-10T00:29:34Z",
+      "side": 1,
+      "message": "Not entirely sure I agree, Entry sounds like Map.Entry, which has both a Key part and a Value part. Below this results in a type Map.Entry\u003cString, Entry\u003e.\n\nBut I don\u0027t care strongly enough. Done.",
+      "parentUuid": "TMrBReBE",
       "revId": "f60ac4b65f8e2cfbd13eee7a5c9585b7c2352d95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

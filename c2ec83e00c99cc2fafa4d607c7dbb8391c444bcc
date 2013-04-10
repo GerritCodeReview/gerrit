@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TMvAuIJc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T00:05:25Z",
+      "side": 1,
+      "message": "Here you fetch everything in the config. In another section you (incorrectly) try to fetch only the commentlinks.",
+      "revId": "c2ec83e00c99cc2fafa4d607c7dbb8391c444bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMtAxnPc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T00:05:25Z",
+      "side": 1,
+      "message": "This parameter is not supported by the server. You mean fields here not q.",
+      "revId": "c2ec83e00c99cc2fafa4d607c7dbb8391c444bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

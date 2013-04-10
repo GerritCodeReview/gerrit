@@ -166,9 +166,7 @@ class TrivialRebase:
       # Nothing to detect on first patchset
       return
     prev_revision = self.FindPrevRev()
-    if not prev_revision:
-      # Couldn't find a previous revision
-      return
+    assert prev_revision, "Previous revision not found"
     prev_patch_id = self.GetPatchId(prev_revision)
     cur_patch_id = self.GetPatchId(self.commit)
     if not (prev_patch_id and cur_patch_id):
@@ -228,6 +226,9 @@ def Main():
   try:
     TrivialRebase().Run()
   except ValueError:
+    exit(1)
+  except AssertionError, e:
+    print >> sys.stderr, e
     exit(1)
 
 if __name__ == "__main__":

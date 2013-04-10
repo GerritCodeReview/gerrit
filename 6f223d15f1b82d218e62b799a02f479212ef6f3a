@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TMfE06Lc",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-04-10T13:03:17Z",
+      "side": 1,
+      "message": "Perhaps combine with the line below and use ArgumentParser.error()?",
+      "revId": "6f223d15f1b82d218e62b799a02f479212ef6f3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

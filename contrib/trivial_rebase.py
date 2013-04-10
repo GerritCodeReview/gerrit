@@ -150,8 +150,10 @@ class TrivialRebase:
     return patch_id_process.communicate(git_show_process.communicate()[0])[0]
 
   def SuExec(self, as_user, cmd):
-    suexec_cmd = ['ssh', '-l', "Gerrit Code Review", '-p', self.port, self.server, '-i',
-                  self.private_key_path, 'suexec', '--as', as_user, '--', cmd]
+    suexec_cmd = ['ssh', '-l', "Gerrit Code Review", '-p', self.port, self.server]
+    if self.private_key_path:
+      suexec_cmd += ['-i', self.private_key_path]
+    suexec_cmd += ['suexec', '--as', as_user, '--', cmd]
     self.CheckCall(suexec_cmd)
 
   def DiffCommitMessages(self, prev_commit):

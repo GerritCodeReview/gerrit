@@ -34,6 +34,24 @@
       "revId": "fcf0edc5f75afc110e33326c5e0673aaa71f55e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TRH4PMTs",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-04-10T20:19:41Z",
+      "side": 1,
+      "message": "What kind of logging? print is written to the error_log anyway...",
+      "parentUuid": "TMdE3ZLo",
+      "revId": "fcf0edc5f75afc110e33326c5e0673aaa71f55e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

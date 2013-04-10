@@ -17,9 +17,16 @@ package com.google.gwtexpui.safehtml.client;
 import junit.framework.TestCase;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SafeHtml_ReplaceTest extends TestCase {
+  public void testReplaceEmpty() {
+    SafeHtml o = html("A\nissue42\nB");
+    assertSame(o, o.replaceAll(null));
+    assertSame(o, o.replaceAll(Collections.<FindReplace> emptyList()));
+  }
+
   public void testReplaceOneLink() {
     SafeHtml o = html("A\nissue 42\nB");
     SafeHtml n = o.replaceAll(repls(

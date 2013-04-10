@@ -247,7 +247,7 @@ public abstract class SafeHtml {
    * @return a new string, after the replacements have been made.
    */
   public <T> SafeHtml replaceAll(List<? extends FindReplace> findReplaceList) {
-    if (findReplaceList == null) {
+    if (findReplaceList == null || findReplaceList.isEmpty()) {
       return this;
     }
 

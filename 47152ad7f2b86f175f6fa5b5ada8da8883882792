@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "TMhBHJC0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-10T18:11:31Z",
+      "side": 1,
+      "message": "I ended up moving this logic up into Screen. Now any Screen subclass can call setTheme(theme) anytime before the screen is swapped in and Screen will handle loading/unloading the theme when necessary.",
+      "parentUuid": "TMvCYYLY",
+      "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TMdGb5LA",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
         "patchSetId": 4

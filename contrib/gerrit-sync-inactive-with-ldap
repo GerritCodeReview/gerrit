@@ -70,6 +70,8 @@ OPTIONS
 -H uri     specify URI referring to the LDAP server.  This option may be
            used multiple times to specify more than one uri.
 -l num     wait at most num seconds for an LDAP search to complete
+--ldap-type type
+           Specify the type of LDAP server rather than trying to guess.
 -n         dry-run (default)
 -O         use "gerrit gsql" and an SQL UPDATE statement to enable/disable
            accounts which is compatible with older Gerrit versions.  By default
@@ -113,7 +115,7 @@ sub start_command_on_host {
     return $fh;
 }
 
-sub is_account_enabled {
+sub is_ad_account_enabled {
     my $ldap = shift;
     my $params = shift;
     my $account = shift;
@@ -163,6 +165,10 @@ sub is_account_enabled {
     }
 
     return 0;
+}
+
+sub is_rfc_2307_account_enabled {
+    die "Error: account check for RFC2307 LDAP server is unimplemented.\n";
 }
 
 sub username_to_gerrit_external_id {
@@ -548,7 +554,13 @@ my %ldap = (
     readTimeout    => 0,
 );
 
+my %account_enabled_check = (
+    AD       => \&is_ad_account_enabled,
+    RFC_2307 => \&is_rfc_2307_account_enabled,
+);
+
 my $port = 29418;
+my $ldap_type;
 
 GetOptions(
     'b=s'         => \@{$ldap{accountBase}},
@@ -573,6 +585,14 @@ GetOptions(
     'help|?'      => sub {help; exit},
     'H=s'         => \@{$ldap{server}},
     'l=s'         => \$ldap{readTimeout},
+    'ldap-type=s' => sub {
+        shift; # first arg is option name, discard
+        $ldap_type = uc shift;
+        if (!grep { $ldap_type eq $_ } keys %account_enabled_check) {
+            die "Invalid LDAP type.  Must be one of: ",
+                join(' ', keys %account_enabled_check), "\n";
+        }
+    },
     'n|dry-run'   => \$dry_run,
     'O|old-mode'  => sub {
         $enable_gerrit_account = \&enable_gerrit_account_old;
@@ -650,7 +670,11 @@ for (my $i = 0; $i <= $#{$ldap{server}}; $i++) {
 }
 die "Error: unable to connect to an LDAP server\n" unless defined $ldap;
 
-update_config_for_ldap_type \%ldap, ldap_guess_type $ldap;
+$ldap_type = ldap_guess_type $ldap unless defined $ldap_type;
+
+update_config_for_ldap_type \%ldap, $ldap_type;
+
+my $is_account_enabled = $account_enabled_check{$ldap_type};
 
 my @accounts_needing_update;
 
@@ -669,7 +693,7 @@ Checking $id...
   Inactive: $account->{inactive}
 EOF
 
-    my $status = is_account_enabled $ldap, \%ldap, $id;
+    my $status = &$is_account_enabled($ldap, \%ldap, $id);
 
     next if $status == -1;
 
@@ -836,6 +860,12 @@ Wait at most I<num> seconds for an LDAP search to complete.  If the LDAP
 search fails because of a timeout, the account will be left unmodified.
 
 This is configured by I<ldap.readTimeout> in the Gerrit config file.
+
+=item B<--ldap-type> -I<type>
+
+Specify the type of LDAP server.  By default, the type is guessed
+by examining the supportedCapabilities attribute of the server.  Currently,
+AD (for Active Directory) is the only argument accepted.
 
 =item B<-n>|B<--dry-run>
 

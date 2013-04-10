@@ -38,6 +38,7 @@ import argparse
 import json
 import re
 import subprocess
+import sys
 
 class TrivialRebase:
   def __init__(self):
@@ -167,9 +168,7 @@ class TrivialRebase:
       # Nothing to detect on first patchset
       return
     prev_revision = self.FindPrevRev()
-    if not prev_revision:
-      # Couldn't find a previous revision
-      return
+    assert prev_revision, "Previous revision not found"
     prev_patch_id = self.GetPatchId(prev_revision)
     cur_patch_id = self.GetPatchId(self.commit)
     if not (prev_patch_id and cur_patch_id):
@@ -226,4 +225,7 @@ class TrivialRebase:
       self.SuExec(email_addr, ' '.join(gerrit_approve_cmd))
 
 if __name__ == "__main__":
-  TrivialRebase().Run()
+  try:
+    TrivialRebase().Run()
+  except AssertionError, e:
+    print >> sys.stderr, e

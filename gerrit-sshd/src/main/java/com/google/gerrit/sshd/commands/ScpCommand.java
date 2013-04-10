@@ -92,6 +92,7 @@ final class ScpCommand extends BaseCommand {
 
   private void runImp() {
     try {
+      readAck();
       if (error != null) {
         throw error;
       }

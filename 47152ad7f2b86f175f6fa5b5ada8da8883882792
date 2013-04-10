@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TMXGNWHo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Themer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T00:41:45Z",
+      "side": 1,
+      "message": "I had considered doing this by caching the Elements and just detaching them from the DOM and attaching the new ones. And having ConfigInfoCache store the Elements so the HTML is already parsed.\n\nBut I realize how complex that could be. You need to insert the swapped element at the exact right position. For the header and footer this could be handled by wrapping both inside of a new \u003cdiv\u003e that exists only to be a container for the header/footer swap. But the style element is more difficult. It cannot be easily manipulated except really by doing what you do here.\n\nHeader and footers shouldn\u0027t be very large or complex bits of HTML, so lets just say this is sufficient and try it before we worry about caching the Element handles.\n\nSo this comment is really just describing an alternative solution and why it wasn\u0027t as good as what you have coded.",
+      "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMvCYYLY",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T00:41:45Z",
+      "side": 1,
+      "message": "I think you have some race conditions with updating this data on the page. It might be right to do it here, but only if you successfully installed earlier. A change that fails to load will later call onUnload() when its disposed of off-screen.\n\nRemember the Gerrit UI system uses an off-screen rendering system. The next screen to display is first rendered completely off-screen and then slides on-screen once its ready. During that off-screen rendering its attached to the DOM in a hidden \u003cdiv\u003e. If it fails we detach it from the hidden \u003cdiv\u003e when another screen starts loading.",
+      "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMdGb5LA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T00:41:45Z",
+      "side": 1,
+      "message": "This is too early. You are updating the header and footer before the body changes.\n\nOverride onShowView(), set the theme there, and make sure you call super.onShowView().",
+      "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMZGlXPU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T00:41:45Z",
+      "side": 1,
+      "message": "Same as ChangeScreen.",
+      "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMpClVPU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T00:41:45Z",
+      "side": 1,
+      "message": "Same as ChangeScreen.",
+      "revId": "47152ad7f2b86f175f6fa5b5ada8da8883882792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

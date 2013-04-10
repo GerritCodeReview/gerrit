@@ -16,6 +16,24 @@
       "revId": "f1b36237747f291b4001a71e472a7e7ba4f238a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TMhBrpLs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-10T17:47:33Z",
+      "side": 0,
+      "message": "Unused, and I had previously edited this file and organized imports. Reverted.",
+      "parentUuid": "TMnB2sKQ",
+      "revId": "f1b36237747f291b4001a71e472a7e7ba4f238a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

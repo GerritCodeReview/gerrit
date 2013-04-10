@@ -41,7 +41,6 @@ import subprocess
 
 class TrivialRebase:
   def __init__(self):
-    self.server = 'localhost'
     usage = "%(prog)s <required options> [--server-port=PORT]"
     parser = argparse.ArgumentParser(usage=usage)
     parser.add_argument("--change-url", dest="changeUrl", help="Change URL")
@@ -50,6 +49,8 @@ class TrivialRebase:
     parser.add_argument("--patchset", type=int, help="The patchset number")
     parser.add_argument("--private-key-path", dest="private_key_path",
                         help="Full path to Gerrit SSH daemon's private host key")
+    parser.add_argument("--server", default='localhost',
+                        help="Gerrit SSH server [default: %(default)s]")
     parser.add_argument("--server-port", dest="port", default='29418',
                         help="Port to connect to Gerrit's SSH daemon "
                              "[default: %(default)s]")
@@ -64,6 +65,7 @@ class TrivialRebase:
     self.commit = args.commit
     self.patchset = args.patchset
     self.private_key_path = args.private_key_path
+    self.server = args.server
     self.port = args.port
 
   class CheckCallError(OSError):

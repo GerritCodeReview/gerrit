@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TMnCNUHo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ConfigInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-10T00:18:05Z",
+      "side": 0,
+      "message": "I would have just kept this here as a package method. That keeps the code to do JSON-\u003eGWT conversion inside of the native overlay type rather than inside of the lazy constructor.",
+      "revId": "ae2b2f8bdb4f6edc9fdc263543db3bd9f3b990af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -244,8 +244,7 @@ public class PatchTable extends Composite {
 
     Key thisKey = patch.getKey();
     PatchLink link;
-    if (patchType == PatchScreen.Type.SIDE_BY_SIDE
-        && patch.getPatchType() == Patch.PatchType.UNIFIED) {
+    if (patchType == PatchScreen.Type.SIDE_BY_SIDE) {
       link = new PatchLink.SideBySide("", base, thisKey, index, detail, this);
     } else {
       link = new PatchLink.Unified("", base, thisKey, index, detail, this);

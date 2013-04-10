@@ -141,6 +141,24 @@
       "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TRB7xzSE",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-04-10T03:05:59Z",
+      "side": 1,
+      "message": "For line 198, I chose to just skip such approvals. No reason to completely fail",
+      "parentUuid": "TEnAkUI0",
+      "revId": "4d11148cdbb0ef565adee8e9eb2b624c53f566df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

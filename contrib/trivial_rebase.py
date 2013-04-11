@@ -126,8 +126,8 @@ class TrivialRebase:
     """Get all the approvals on a specific patch set
 
     Returns a list of approval dicts"""
-    sql_query = ("\"SELECT value,account_id,category_id FROM patch_set_approvals "
-                 "WHERE change_id = %s AND patch_set_id = %s AND value != 0\""
+    sql_query = ("\"SELECT value,account_id,ps.category_id,name FROM patch_set_approvals ps, approval_categories ac "
+                 "WHERE change_id = %s AND patch_set_id = %s AND value != 0 AND ps.category_id = ac.category_id\""
                  % (self.changeId, (self.patchset - 1)))
     gsql_out = self.GsqlQuery(sql_query)
     approvals = []
@@ -229,8 +229,8 @@ class TrivialRebase:
         # We don't care about previous submit attempts
         continue
       else:
-        print "Unsupported category: %s" % approval
-        continue
+        self.AppendAcctApproval(acct_approvals, approval['account_id'], '--%s %s' %
+                                (approval['name'].lower().replace(' ', '-'), approval['value']))
 
     gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                           "detection script.\'")

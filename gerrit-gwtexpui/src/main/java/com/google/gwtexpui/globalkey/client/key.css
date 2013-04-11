@@ -1,0 +1,99 @@
+/* Copyright (C) 2009 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@external .popupContent;
+
+.helpPopup {
+  background: #000000 none repeat scroll 0 50%;
+  color: #ffffff;
+  font-family: arial,sans-serif;
+  font-weight: bold;
+  overflow: hidden;
+  text-align: left;
+  text-shadow: 1px 1px 7px #000000;
+  width: 92%;
+  z-index: 1002;
+  opacity: 0.85;
+ }
+
+@if user.agent safari {
+  .helpPopup {
+    \-webkit-border-radius: 10px;
+  }
+}
+@if user.agent gecko1_8 {
+  .helpPopup {
+    \-moz-border-radius: 10px;
+  }
+}
+
+.helpPopup .popupContent {
+  margin: 10px;
+}
+
+.helpPopup hr {
+  width: 100%;
+}
+
+.helpHeader {
+  width: 100%;
+}
+
+.helpHeader td {
+  white-space: nowrap;
+  color: #ffffff;
+}
+
+.helpHeader a,
+.helpHeader a:visited,
+.helpHeader a:hover {
+  color: #dddd00;
+}
+
+.helpHeaderGlue {
+  width: 100%;
+}
+
+.helpTable {
+  width: 90%;
+}
+.helpTable td {
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.helpTableGlue {
+  width: 25px;
+}
+
+.helpGroup {
+  color: #dddd00;
+  padding-top: 0.8em;
+  text-align: left;
+}
+
+.helpKeyStroke {
+  text-align: right;
+}
+
+.helpSeparator {
+  width: 0.5em;
+  text-align: center;
+  font-weight: bold;
+}
+
+.helpKey {
+  color: #dddd00;
+}

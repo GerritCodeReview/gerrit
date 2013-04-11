@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TMTHP0Hs",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-11T00:23:43Z",
+      "side": 1,
+      "message": "Or:\n\n if None in [args.changeUrl, args.project, args.commit, args.patchset]:\n   parser.error(...)",
+      "revId": "cd71ff1a83dc7c8d377cd874fb244481bdab2ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -38,7 +38,6 @@ public class CssLinker extends AbstractLinker {
     return "CssLinker";
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public ArtifactSet link(final TreeLogger logger, final LinkerContext context,
       final ArtifactSet artifacts) throws UnableToCompleteException {
@@ -59,7 +58,7 @@ public class CssLinker extends AbstractLinker {
       }
     }
 
-    for (Artifact a : artifacts) {
+    for (Artifact<?> a : artifacts) {
       if (a instanceof PublicResource) {
         final PublicResource r = (PublicResource) a;
         if (css.containsKey(r.getPartialPath())) {
@@ -109,6 +108,7 @@ public class CssLinker extends AbstractLinker {
   }
 
   private static class CssPubRsrc extends PublicResource {
+    private static final long serialVersionUID = 1L;
     private final PublicResource src;
 
     CssPubRsrc(final String partialPath, final PublicResource r) {

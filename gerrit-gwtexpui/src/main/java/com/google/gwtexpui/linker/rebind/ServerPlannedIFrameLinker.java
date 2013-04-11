@@ -35,7 +35,6 @@ public class ServerPlannedIFrameLinker extends AbstractLinker {
     return "ServerPlannedIFrameLinker";
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public ArtifactSet link(final TreeLogger logger, final LinkerContext context,
       final ArtifactSet artifacts) throws UnableToCompleteException {

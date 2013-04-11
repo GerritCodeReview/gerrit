@@ -72,8 +72,8 @@ limitations under the License.
           <createSourcesJar>true</createSourcesJar>
           <artifactSet>
             <excludes>
-              <exclude>gwtexpui:gwtexpui</exclude>
               <exclude>gwtjsonrpc:gwtjsonrpc</exclude>
+              <exclude>com.google.gerrit:gerrit-gwtexpui</exclude>
               <exclude>com.google.gerrit:gerrit-prettify</exclude>
               <exclude>com.google.gerrit:gerrit-patch-commonsnet</exclude>
               <exclude>com.google.gerrit:gerrit-patch-jgit</exclude>

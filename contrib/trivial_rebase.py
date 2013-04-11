@@ -152,7 +152,8 @@ class TrivialRebase:
     git_show_process = subprocess.Popen(git_show_cmd, stdout=subprocess.PIPE)
     patch_id_process = subprocess.Popen(patch_id_cmd, stdout=subprocess.PIPE,
                                         stdin=git_show_process.stdout)
-    return patch_id_process.communicate()[0]
+    res = patch_id_process.communicate()[0] or '0'
+    return res.split()[0]
 
   def SuExec(self, as_user, cmd):
     suexec_cmd = [self.ssh, '-l', "Gerrit Code Review", self.ssh_port_flag, self.port, self.server]
@@ -180,14 +181,10 @@ class TrivialRebase:
     assert prev_revision, "Previous revision not found"
     prev_patch_id = self.GetPatchId(prev_revision)
     cur_patch_id = self.GetPatchId(self.commit)
-    if not (prev_patch_id and cur_patch_id):
-      # Merge commit
-      if not prev_patch_id:
-        print "GetPatchId failed for commit %s" % (prev_revision)
-      if not cur_patch_id:
-        print "GetPatchId failed for commit %s" % (self.commit)
+    if prev_patch_id == '0' and cur_patch_id == '0':
+      print "commits %s and %s are both empty or merge commits" % (prev_revision, self.commit)
       return
-    if cur_patch_id.split()[0] != prev_patch_id.split()[0]:
+    if cur_patch_id != prev_patch_id:
       # patch-ids don't match
       return
     # Patch ids match. This is a trivial rebase.

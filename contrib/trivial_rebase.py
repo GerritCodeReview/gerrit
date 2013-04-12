@@ -38,187 +38,200 @@ import argparse
 import json
 import re
 import subprocess
+import sys
 
-class CheckCallError(OSError):
-  """CheckCall() returned non-0."""
-  def __init__(self, command, cwd, retcode, stdout, stderr=None):
-    OSError.__init__(self, command, cwd, retcode, stdout, stderr)
-    self.command = command
-    self.cwd = cwd
-    self.retcode = retcode
-    self.stdout = stdout
-    self.stderr = stderr
+class TrivialRebase:
+  def __init__(self):
+    usage = "%(prog)s <required options> [--server-port=PORT]"
+    parser = argparse.ArgumentParser(usage=usage)
+    parser.add_argument("--change-url", dest="changeUrl", help="Change URL")
+    parser.add_argument("--project", help="Project path in Gerrit")
+    parser.add_argument("--commit", help="Git commit-ish for this patchset")
+    parser.add_argument("--patchset", type=int, help="The patchset number")
+    parser.add_argument("--private-key-path", dest="private_key_path",
+                        help="Full path to Gerrit SSH daemon's private host key")
+    parser.add_argument("--server", default='localhost',
+                        help="Gerrit SSH server [default: %(default)s]")
+    parser.add_argument("--server-port", dest="port", default='29418',
+                        help="Port to connect to Gerrit's SSH daemon "
+                             "[default: %(default)s]")
+    parser.add_argument("--ssh", default="ssh", help="SSH executable")
+    parser.add_argument("--ssh-port-flag", dest="ssh_port_flag", default="-p", help="SSH port flag")
 
-def CheckCall(command, cwd=None):
-  """Like subprocess.check_call() but returns stdout.
+    args = parser.parse_known_args()[0]
+    if None in [args.changeUrl, args.project, args.commit, args.patchset]:
+      parser.error("Incomplete arguments")
+    try:
+      self.changeId = re.search(r'\d+$', args.changeUrl).group()
+    except AttributeError:
+      parser.error("Invalid changeId")
+    self.project = args.project
+    self.commit = args.commit
+    self.patchset = args.patchset
+    self.private_key_path = args.private_key_path
+    self.server = args.server
+    self.port = args.port
+    self.ssh = args.ssh
+    self.ssh_port_flag = args.ssh_port_flag
 
-  Works on python 2.4
-  """
-  try:
-    process = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE)
-    std_out, std_err = process.communicate()
-  except OSError, e:
-    raise CheckCallError(command, cwd, e.errno, None)
-  if process.returncode:
-    raise CheckCallError(command, cwd, process.returncode, std_out, std_err)
-  return std_out, std_err
+  class CheckCallError(OSError):
+    """CheckCall() returned non-0."""
+    def __init__(self, command, cwd, retcode, stdout, stderr=None):
+      OSError.__init__(self, command, cwd, retcode, stdout, stderr)
+      self.command = command
+      self.cwd = cwd
+      self.retcode = retcode
+      self.stdout = stdout
+      self.stderr = stderr
 
-def GsqlQuery(sql_query, server, port):
-  """Runs a gerrit gsql query and returns the result"""
-  gsql_cmd = ['ssh', '-p', port, server, 'gerrit', 'gsql', '--format',
-              'JSON', '-c', sql_query]
-  try:
-    (gsql_out, _gsql_stderr) = CheckCall(gsql_cmd)
-  except CheckCallError, e:
-    print "return code is %s" % e.retcode
-    print "stdout and stderr is\n%s%s" % (e.stdout, e.stderr)
-    raise
+  def CheckCall(self, command, cwd=None):
+    """Like subprocess.check_call() but returns stdout.
 
-  new_out = gsql_out.replace('}}\n', '}}\nsplit here\n')
-  return new_out.split('split here\n')
+    Works on python 2.4
+    """
+    try:
+      process = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+      std_out, std_err = process.communicate()
+    except OSError, e:
+      raise self.CheckCallError(command, cwd, e.errno, None)
+    if process.returncode:
+      raise self.CheckCallError(command, cwd, process.returncode, std_out, std_err)
+    return std_out, std_err
 
-def FindPrevRev(changeId, patchset, server, port):
-  """Finds the revision of the previous patch set on the change"""
-  sql_query = ("\"SELECT revision FROM patch_sets WHERE "
-               "change_id = %s AND patch_set_id = %s\"" % (changeId, (patchset - 1)))
-  revisions = GsqlQuery(sql_query, server, port)
+  def GsqlQuery(self, sql_query):
+    """Runs a gerrit gsql query and returns the result"""
+    gsql_cmd = [self.ssh, self.ssh_port_flag, self.port, self.server, 'gerrit', 'gsql',
+                '--format', 'JSON', '-c', sql_query]
+    try:
+      (gsql_out, _gsql_stderr) = self.CheckCall(gsql_cmd)
+    except self.CheckCallError, e:
+      print "return code is %s" % e.retcode
+      print "stdout and stderr is\n%s%s" % (e.stdout, e.stderr)
+      raise
 
-  json_dict = json.loads(revisions[0], strict=False)
-  return json_dict["columns"]["revision"]
+    new_out = gsql_out.replace('}}\n', '}}\nsplit here\n')
+    return new_out.split('split here\n')
 
-def GetApprovals(changeId, patchset, server, port):
-  """Get all the approvals on a specific patch set
+  def FindPrevRev(self):
+    """Finds the revision of the previous patch set on the change"""
+    sql_query = ("\"SELECT revision FROM patch_sets WHERE "
+                 "change_id = %s AND patch_set_id = %s\"" %
+                 (self.changeId, (self.patchset - 1)))
+    revisions = self.GsqlQuery(sql_query)
 
-  Returns a list of approval dicts"""
-  sql_query = ("\"SELECT value,account_id,category_id FROM patch_set_approvals "
-               "WHERE change_id = %s AND patch_set_id = %s AND value != 0\""
-               % (changeId, (patchset - 1)))
-  gsql_out = GsqlQuery(sql_query, server, port)
-  approvals = []
-  for json_str in gsql_out:
-    data = json.loads(json_str, strict=False)
-    if data["type"] == "row":
-      approvals.append(data["columns"])
-  return approvals
+    json_dict = json.loads(revisions[0], strict=False)
+    return json_dict["columns"]["revision"]
 
-def GetEmailFromAcctId(account_id, server, port):
-  """Returns the preferred email address associated with the account_id"""
-  sql_query = ("\"SELECT preferred_email FROM accounts WHERE account_id = %s\""
-               % account_id)
-  email_addr = GsqlQuery(sql_query, server, port)
+  def GetApprovals(self):
+    """Get all the approvals on a specific patch set
 
-  json_dict = json.loads(email_addr[0], strict=False)
-  return json_dict["columns"]["preferred_email"]
+    Returns a list of approval dicts"""
+    sql_query = ("\"SELECT value,account_id,category_id FROM patch_set_approvals "
+                 "WHERE change_id = %s AND patch_set_id = %s AND value != 0\""
+                 % (self.changeId, (self.patchset - 1)))
+    gsql_out = self.GsqlQuery(sql_query)
+    approvals = []
+    for json_str in gsql_out:
+      data = json.loads(json_str, strict=False)
+      if data["type"] == "row":
+        approvals.append(data["columns"])
+    return approvals
 
-def GetPatchId(revision):
-  git_show_cmd = ['git', 'show', revision]
-  patch_id_cmd = ['git', 'patch-id']
-  patch_id_process = subprocess.Popen(patch_id_cmd, stdout=subprocess.PIPE,
-                                      stdin=subprocess.PIPE)
-  git_show_process = subprocess.Popen(git_show_cmd, stdout=subprocess.PIPE)
-  return patch_id_process.communicate(git_show_process.communicate()[0])[0]
+  def GetEmailFromAcctId(self, account_id):
+    """Returns the preferred email address associated with the account_id"""
+    sql_query = ("\"SELECT preferred_email FROM accounts WHERE account_id = %s\""
+                 % account_id)
+    email_addr = self.GsqlQuery(sql_query)
 
-def SuExec(server, port, private_key, as_user, cmd):
-  suexec_cmd = ['ssh', '-l', "Gerrit Code Review", '-p', port, server, '-i',
-                private_key, 'suexec', '--as', as_user, '--', cmd]
-  CheckCall(suexec_cmd)
+    json_dict = json.loads(email_addr[0], strict=False)
+    return json_dict["columns"]["preferred_email"]
 
-def DiffCommitMessages(commit1, commit2):
-  log_cmd1 = ['git', 'log', '--pretty=format:"%an %ae%n%s%n%b"',
-              commit1 + '^!']
-  commit1_log = CheckCall(log_cmd1)
-  log_cmd2 = ['git', 'log', '--pretty=format:"%an %ae%n%s%n%b"',
-              commit2 + '^!']
-  commit2_log = CheckCall(log_cmd2)
-  if commit1_log != commit2_log:
-    return True
-  return False
+  def GetPatchId(self, revision):
+    git_show_cmd = ['git', 'show', revision]
+    patch_id_cmd = ['git', 'patch-id']
+    git_show_process = subprocess.Popen(git_show_cmd, stdout=subprocess.PIPE)
+    patch_id_process = subprocess.Popen(patch_id_cmd, stdout=subprocess.PIPE,
+                                        stdin=git_show_process.stdout)
+    res = patch_id_process.communicate()[0] or '0'
+    return res.split()[0]
 
-def Main():
-  server = 'localhost'
-  usage = "%(prog)s <required options> [--server-port=PORT]"
-  parser = argparse.ArgumentParser(usage=usage)
-  parser.add_argument("--change-url", dest="changeUrl", help="Change URL")
-  parser.add_argument("--project", help="Project path in Gerrit")
-  parser.add_argument("--commit", help="Git commit-ish for this patchset")
-  parser.add_argument("--patchset", type=int, help="The patchset number")
-  parser.add_argument("--private-key-path", dest="private_key_path",
-                      help="Full path to Gerrit SSH daemon's private host key")
-  parser.add_argument("--server-port", dest="port", default='29418',
-                      help="Port to connect to Gerrit's SSH daemon "
-                           "[default: %(default)s]")
+  def SuExec(self, as_user, cmd):
+    suexec_cmd = [self.ssh, '-l', "Gerrit Code Review", self.ssh_port_flag, self.port, self.server]
+    if self.private_key_path:
+      suexec_cmd += ['-i', self.private_key_path]
+    suexec_cmd += ['suexec', '--as', as_user, '--', cmd]
+    self.CheckCall(suexec_cmd)
 
-  args = parser.parse_known_args()[0]
-  try:
-    changeId = re.search(r'\d+', args.changeUrl).group()
-  except AttributeError:
-    parser.print_help()
-    exit(0)
+  def DiffCommitMessages(self, prev_commit):
+    log_cmd1 = ['git', 'log', '--pretty=format:"%an %ae%n%s%n%b"',
+                prev_commit + '^!']
+    commit1_log = self.CheckCall(log_cmd1)
+    log_cmd2 = ['git', 'log', '--pretty=format:"%an %ae%n%s%n%b"',
+                self.commit + '^!']
+    commit2_log = self.CheckCall(log_cmd2)
+    if commit1_log != commit2_log:
+      return True
+    return False
 
-  if args.patchset == 1:
-    # Nothing to detect on first patchset
-    exit(0)
-  prev_revision = None
-  prev_revision = FindPrevRev(changeId, args.patchset, server, args.port)
-  if not prev_revision:
-    # Couldn't find a previous revision
-    exit(0)
-  prev_patch_id = GetPatchId(prev_revision)
-  cur_patch_id = GetPatchId(args.commit)
-  if not (prev_patch_id and cur_patch_id):
-    if not prev_patch_id:
-      print "GetPatchId failed for commit %s" % (prev_revision)
-    if not cur_patch_id:
-      print "GetPatchId failed for commit %s" % (args.commit)
-    exit(0)
-  if cur_patch_id.split()[0] != prev_patch_id.split()[0]:
-    # patch-ids don't match
-    exit(0)
-  # Patch ids match. This is a trivial rebase.
-  # In addition to patch-id we should check if the commit message changed. Most
-  # approvers would want to re-review changes when the commit message changes.
-  changed = DiffCommitMessages(prev_revision, args.commit)
-  if changed:
-    # Insert a comment into the change letting the approvers know only the
-    # commit message changed
-    comment_msg = ("\'--message=New patchset patch-id matches previous patchset"
-                   ", but commit message has changed.'")
-    comment_cmd = ['ssh', '-p', args.port, server, 'gerrit', 'approve',
-                   '--project', args.project, comment_msg, args.commit]
-    CheckCall(comment_cmd)
-    exit(0)
+  def Run(self):
+    if self.patchset == 1:
+      # Nothing to detect on first patchset
+      return
+    prev_revision = self.FindPrevRev()
+    assert prev_revision, "Previous revision not found"
+    prev_patch_id = self.GetPatchId(prev_revision)
+    cur_patch_id = self.GetPatchId(self.commit)
+    if prev_patch_id == '0' and cur_patch_id == '0':
+      print "commits %s and %s are both empty or merge commits" % (prev_revision, self.commit)
+      return
+    if cur_patch_id != prev_patch_id:
+      # patch-ids don't match
+      return
+    # Patch ids match. This is a trivial rebase.
+    # In addition to patch-id we should check if the commit message changed. Most
+    # approvers would want to re-review changes when the commit message changes.
+    changed = self.DiffCommitMessages(prev_revision)
+    if changed:
+      # Insert a comment into the change letting the approvers know only the
+      # commit message changed
+      comment_msg = ("\'--message=New patchset patch-id matches previous patchset"
+                     ", but commit message has changed.'")
+      comment_cmd = [self.ssh, self.ssh_port_flag, self.port, self.server, 'gerrit',
+                     'approve', '--project', self.project, comment_msg, self.commit]
+      self.CheckCall(comment_cmd)
+      return
 
-  # Need to get all approvals on prior patch set, then suexec them onto
-  # this patchset.
-  approvals = GetApprovals(changeId, args.patchset, server, args.port)
-  gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
-                        "detection script.\'")
-  for approval in approvals:
-    # Note: Sites with different 'copy_min_score' values in the
-    # approval_categories DB table might want different behavior here.
-    # Additional categories should also be added if desired.
-    if approval["category_id"] == "CRVW":
-      approve_category = '--code-review'
-    elif approval["category_id"] == "VRIF":
-      # Don't re-add verifies
-      #approve_category = '--verified'
-      continue
-    elif approval["category_id"] == "SUBM":
-      # We don't care about previous submit attempts
-      continue
-    else:
-      print "Unsupported category: %s" % approval
-      exit(0)
+    # Need to get all approvals on prior patch set, then suexec them onto
+    # this patchset.
+    approvals = self.GetApprovals()
+    gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
+                          "detection script.\'")
+    for approval in approvals:
+      # Note: Sites with different 'copy_min_score' values in the
+      # approval_categories DB table might want different behavior here.
+      # Additional categories should also be added if desired.
+      if approval["category_id"] == "CRVW":
+        approve_category = '--code-review'
+      elif approval["category_id"] == "VRIF":
+        # Don't re-add verifies
+        #approve_category = '--verified'
+        continue
+      elif approval["category_id"] == "SUBM":
+        # We don't care about previous submit attempts
+        continue
+      else:
+        print "Unsupported category: %s" % approval
+        continue
 
-    score = approval["value"]
-    gerrit_approve_cmd = ['gerrit', 'approve', '--project', args.project,
-                          '--message', gerrit_approve_msg, approve_category,
-                          score, args.commit]
-    email_addr = GetEmailFromAcctId(approval["account_id"], server,
-                                    args.port)
-    SuExec(server, args.port, args.private_key_path, email_addr,
-           ' '.join(gerrit_approve_cmd))
-  exit(0)
+      score = approval["value"]
+      gerrit_approve_cmd = ['gerrit', 'approve', '--project', self.project,
+                            '--message', gerrit_approve_msg, approve_category,
+                            score, self.commit]
+      email_addr = self.GetEmailFromAcctId(approval["account_id"])
+      self.SuExec(email_addr, ' '.join(gerrit_approve_cmd))
 
 if __name__ == "__main__":
-  Main()
+  try:
+    TrivialRebase().Run()
+  except AssertionError, e:
+    print >> sys.stderr, e

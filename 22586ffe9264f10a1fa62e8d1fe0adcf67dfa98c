@@ -16,6 +16,24 @@
       "revId": "22586ffe9264f10a1fa62e8d1fe0adcf67dfa98c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TRF5mtQM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-12T07:11:14Z",
+      "side": 1,
+      "message": "Actually com.googlesource.gerrit:gs-maven-wagon:jar:3.3 cannot be resolved because \u0027gerrit-maven\u0027 is not specified as pluginRepository. If we add it in the Gerrit parent pom.xml it be can successfully resolved. Maybe this would be a better fix than removing com.googlesource.gerrit:gs-maven-wagon:jar:3.3?\n\n  \u003cpluginRepositories\u003e\n    \u003cpluginRepository\u003e\n      \u003cid\u003egerrit-maven\u003c/id\u003e\n      \u003curl\u003ehttps://gerrit-maven.commondatastorage.googleapis.com\u003c/url\u003e\n    \u003c/pluginRepository\u003e\n  \u003c/pluginRepositories\u003e",
+      "parentUuid": "TQ99RGxE",
+      "revId": "22586ffe9264f10a1fa62e8d1fe0adcf67dfa98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

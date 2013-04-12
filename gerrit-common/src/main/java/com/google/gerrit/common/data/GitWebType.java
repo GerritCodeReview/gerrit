@@ -75,6 +75,9 @@ public class GitWebType {
     * project names */
   private char pathSeparator = '/';
 
+  /** Whether to include links to draft patchsets */
+  private boolean linkDrafts;
+
   /** Private default constructor for gson. */
   protected GitWebType() {
   }
@@ -122,6 +125,15 @@ public class GitWebType {
    */
   public String getFileHistory() {
     return fileHistory;
+  }
+
+  /**
+   * Get whether to link to draft patchsets
+   *
+   * @return True to link
+   */
+  public boolean getLinkDrafts() {
+    return linkDrafts;
   }
 
   /**
@@ -200,5 +212,9 @@ public class GitWebType {
    */
   public void setPathSeparator(char separator) {
     this.pathSeparator = separator;
+  }
+
+  public void setLinkDrafts(boolean linkDrafts) {
+    this.linkDrafts = linkDrafts;
   }
 }

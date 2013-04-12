@@ -91,7 +91,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     final InlineLabel revtxt = new InlineLabel(ps.getRevision().get() + " ");
     revtxt.addStyleName(Gerrit.RESOURCES.css().patchSetRevision());
     getHeader().add(revtxt);
-    if (gw != null) {
+    if (gw != null && gw.isLinkableDraft(ps)) {
       final Anchor revlink =
           new Anchor(gw.getLinkName(), false, gw.toRevision(changeDetail.getChange()
               .getProject(), ps));

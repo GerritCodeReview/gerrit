@@ -1320,6 +1320,16 @@ using the property 'gitweb.pathSeparator'.
 +
 Valid values are the characters '*', '(' and ')'.
 
+[[gitweb.linkDrafts]]gitweb.linkDrafts::
++
+Whether or not Gerrit should provide links to gitweb on draft patch sets.
++
+By default, Gerrit will show links to gitweb on all patch sets. If gitweb
+only allows publicly viewable references, set this to false to remove
+the links to draft patch sets from the change review screen.
++
+Valid values are "true" and "false," default is "true."
+
 [[groups]]Section groups
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

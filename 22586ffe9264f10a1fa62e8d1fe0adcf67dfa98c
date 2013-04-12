@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TQ99RGxE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-12T06:35:16Z",
+      "side": 1,
+      "message": "I\u0027m actually also getting this build error when I\u0027m running the command-line mvn build. Removing this extension fixes the build for me.",
+      "revId": "22586ffe9264f10a1fa62e8d1fe0adcf67dfa98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

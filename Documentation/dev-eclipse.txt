@@ -79,10 +79,9 @@ Duplicate the existing `pgm_daemon` launch configuration:
 Running Hosted Mode
 ~~~~~~~~~~~~~~~~~~~
 
-To debug the GWT code executing in the web browser, three additional Git
+To debug the GWT code executing in the web browser, two additional Git
 repositories need to be cloned.
 
-* https://gerrit.googlesource.com/gwtexpui
 * https://gerrit.googlesource.com/gwtjsonrpc
 * https://gerrit.googlesource.com/gwtorm
 

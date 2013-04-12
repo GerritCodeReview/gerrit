@@ -111,7 +111,6 @@ Release Subprojects
 
 The subprojects to be released are:
 
-* `gwtexpui`
 * `gwtjsonrpc`
 * `gwtorm`
 * `prolog-cafe`

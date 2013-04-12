@@ -12,7 +12,6 @@ Included Components
 |======================================================================
 |Included Package           | License
 |Gerrit Code Review         | <<apache2,Apache License 2.0>>
-|gwtexpui                   | <<apache2,Apache License 2.0>>
 |gwtjsonrpc                 | <<apache2,Apache License 2.0>>
 |gwtorm                     | <<apache2,Apache License 2.0>>
 |Google Gson                | <<apache2,Apache License 2.0>>

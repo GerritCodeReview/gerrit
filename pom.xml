@@ -893,6 +893,13 @@ limitations under the License.
     </dependencies>
   </dependencyManagement>
 
+  <pluginRepositories>
+    <pluginRepository>
+      <id>gerrit-maven</id>
+      <url>https://gerrit-maven.commondatastorage.googleapis.com</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <repositories>
     <repository>
       <id>gerrit-maven</id>

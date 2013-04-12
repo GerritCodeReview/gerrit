@@ -134,6 +134,17 @@ This configuration can help prevent accidental submits when the
 members of `Foo` have submit rights on a project, and the members of
 `Foo-admin` typically do not need to have such rights.
 
+[[ldap_groups]]
+LDAP Groups
+-----------
+
+LDAP groups are Account Groups that are maintained inside of your
+LDAP instance. If you are using LDAP to manage your groups they will
+not appear in the Groups list. However you can use them just like
+regular Account Groups by prefixing your group with "ldap/" in the
+Access Control for a project. For example "ldap/foo-project" will
+add the LDAP "foo-project" group to the access list.
+
 
 Project Access Control Lists
 ----------------------------

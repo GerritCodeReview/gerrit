@@ -43,14 +43,6 @@ limitations under the License.
         </executions>
       </plugin>
     </plugins>
-
-    <extensions>
-      <extension>
-        <groupId>com.googlesource.gerrit</groupId>
-        <artifactId>gs-maven-wagon</artifactId>
-        <version>3.3</version>
-      </extension>
-    </extensions>
   </build>
 
   <dependencies>

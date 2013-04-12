@@ -55,6 +55,7 @@ public class GitWebConfig {
     type.setProject(cfg.getString("gitweb", null, "project"));
     type.setRevision(cfg.getString("gitweb", null, "revision"));
     type.setFileHistory(cfg.getString("gitweb", null, "filehistory"));
+    type.setLinkDrafts(cfg.getBoolean("gitweb", null, "linkdrafts", true));
     String pathSeparator = cfg.getString("gitweb", null, "pathSeparator");
     if (pathSeparator != null) {
       if (pathSeparator.length() == 1) {

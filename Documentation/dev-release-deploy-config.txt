@@ -14,8 +14,7 @@ Jar.
 
 * `gerrit-maven`:
 +
-Bucket to store Gerrit Subproject Artifacts (e.g. `gwtexpui`,
-`gwtjsonrpc` etc.).
+Bucket to store Gerrit Subproject Artifacts (e.g. `gwtjsonrpc` etc.).
 
 * `gerrit-plugins`:
 +

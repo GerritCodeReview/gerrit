@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TRH5h8ek",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-12T06:05:14Z",
+      "side": 1,
+      "message": "Can you add an anchor to this section?\n\n  [[ldap_groups]]\n  LDAP GROUPS\n  -----------\n\nThis question poped up already a few times and it would be nice if one could directly link to this documentation here.",
+      "revId": "a0ea6d43cf415bf899cb315f6aa890eeccb99392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

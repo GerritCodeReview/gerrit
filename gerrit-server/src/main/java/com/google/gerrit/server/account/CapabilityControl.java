@@ -142,6 +142,11 @@ public class CapabilityControl {
         || canAdministrateServer();
   }
 
+  /** @return true if the user can stream Gerrit events. */
+  public boolean canStreamEvents() {
+    return canPerform(GlobalCapability.STREAM_EVENTS);
+  }
+
   /** @return true if the user can run the Git garbage collection. */
   public boolean canRunGC() {
     return canPerform(GlobalCapability.RUN_GC)

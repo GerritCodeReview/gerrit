@@ -23,7 +23,8 @@ Event output is in JSON, one event per line.
 
 ACCESS
 ------
-Any user who has configured an SSH key.
+Caller must be a member of the group that has been granted
+link:access-control.html#capability_streamEvents[the 'Stream Events' capability].
 
 SCRIPTING
 ---------

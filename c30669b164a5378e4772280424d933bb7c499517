@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TVG72bxs",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-13T21:15:05Z",
+      "side": 1,
+      "message": "This isn\u0027t really true. Events are already filtered based on project and branch visibility. What you are adding here is a capability to restrict who can tie up server resources by creating a stream events channel and waiting on events to be filtered and delivered.",
+      "revId": "c30669b164a5378e4772280424d933bb7c499517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

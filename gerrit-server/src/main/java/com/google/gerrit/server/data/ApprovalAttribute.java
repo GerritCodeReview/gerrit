@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.events;
+package com.google.gerrit.server.data;
 
-public class AccountAttribute {
-    public String name;
-    public String email;
-    public String username;
+public class ApprovalAttribute {
+    public String type;
+    public String description;
+    public String value;
+
+    public Long grantedOn;
+    public AccountAttribute by;
 }

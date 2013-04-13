@@ -21,10 +21,10 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.events.ChangeAttribute;
+import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.data.PatchSetAttribute;
+import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
-import com.google.gerrit.server.events.PatchSetAttribute;
-import com.google.gerrit.server.events.QueryStats;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -267,7 +267,7 @@ public class QueryProcessor {
       }
 
       try {
-        final QueryStats stats = new QueryStats();
+        final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = System.currentTimeMillis();
 
         List<ChangeData> results = queryChanges(queryString);

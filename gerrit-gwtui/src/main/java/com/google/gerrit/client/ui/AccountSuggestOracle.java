@@ -53,11 +53,11 @@ public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
     }
 
     public String getDisplayString() {
-      return FormatUtil.nameEmail(info);
+      return FormatUtil.nameEmail(FormatUtil.asInfo(info));
     }
 
     public String getReplacementString() {
-      return FormatUtil.nameEmail(info);
+      return FormatUtil.nameEmail(FormatUtil.asInfo(info));
     }
   }
 }

@@ -65,7 +65,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
     public String getDisplayString() {
       final AccountInfo accountInfo = reviewerInfo.getAccountInfo();
       if (accountInfo != null) {
-        return FormatUtil.nameEmail(accountInfo);
+        return FormatUtil.nameEmail(FormatUtil.asInfo(accountInfo));
       }
       return reviewerInfo.getGroup().getName() + " ("
           + Util.C.suggestedGroupLabel() + ")";
@@ -74,7 +74,7 @@ public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
     public String getReplacementString() {
       final AccountInfo accountInfo = reviewerInfo.getAccountInfo();
       if (accountInfo != null) {
-        return FormatUtil.nameEmail(accountInfo);
+        return FormatUtil.nameEmail(FormatUtil.asInfo(accountInfo));
       }
       return reviewerInfo.getGroup().getName();
     }

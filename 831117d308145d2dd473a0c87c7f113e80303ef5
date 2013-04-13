@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TVswGjyo",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012500
+      },
+      "writtenOn": "2013-04-13T19:46:33Z",
+      "side": 1,
+      "message": "This seems still grant access to Administrators group.",
+      "revId": "831117d308145d2dd473a0c87c7f113e80303ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

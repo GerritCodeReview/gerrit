@@ -1166,6 +1166,15 @@ Allow access to execute `replication start` command, if the
 replication plugin is installed on the server.
 
 
+[[capability_streamEvents]]
+Stream Events
+~~~~~~~~~~~~~
+
+Allow performing streaming of Gerrit events. This capability
+allows the granted group to
+link:cmd-stream-events.html[stream Gerrit events via ssh].
+
+
 [[capability_viewCaches]]
 View Caches
 ~~~~~~~~~~~

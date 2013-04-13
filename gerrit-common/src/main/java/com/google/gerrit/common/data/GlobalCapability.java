@@ -73,6 +73,9 @@ public class GlobalCapability {
   /** Forcefully restart replication to any configured destination. */
   public static final String START_REPLICATION = "startReplication";
 
+  /** Can perform streaming of Gerrit events. */
+  public static final String STREAM_EVENTS = "streamEvents";
+
   /** Can view the server's current cache states. */
   public static final String VIEW_CACHES = "viewCaches";
 
@@ -99,6 +102,7 @@ public class GlobalCapability {
     NAMES_ALL.add(QUERY_LIMIT);
     NAMES_ALL.add(RUN_GC);
     NAMES_ALL.add(START_REPLICATION);
+    NAMES_ALL.add(STREAM_EVENTS);
     NAMES_ALL.add(VIEW_CACHES);
     NAMES_ALL.add(VIEW_CONNECTIONS);
     NAMES_ALL.add(VIEW_QUEUE);

@@ -110,6 +110,11 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     } else {
       addOpenHandler(this);
     }
+
+    if(ps.getHasDraftComments()) {
+      addStyleName(Gerrit.RESOURCES.css().patchSetWithDraft());
+    }
+
   }
 
   public void setDiffBaseId(PatchSet.Id diffBaseId) {

@@ -178,6 +178,12 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     ResultSet<PatchSet> source = db.patchSets().byChange(changeId);
     List<PatchSet> patches = new ArrayList<PatchSet>();
     for (PatchSet ps : source) {
+      final CurrentUser user = control.getCurrentUser();
+      if (user instanceof IdentifiedUser) {
+        final Account.Id me = ((IdentifiedUser) user).getAccountId();
+        ps.setHasDraftComments(db.patchComments()
+            .draftByPatchSetAuthor(ps.getId(), me).toList().size() > 0);
+      }
       if (control.isPatchVisible(ps, db)) {
         patches.add(ps);
       }

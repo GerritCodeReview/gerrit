@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TWQkaSXk",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-15T15:00:22Z",
+      "side": 1,
+      "message": "The return value from authConfig.getLoginHttpHeader may be null (if the auth.httpHeader is not set). I don\u0027t know what req.getHeader(null) will do (throw a NPE or return a null) but we probably shouldn\u0027t even invoke it with null value.\n\nFor me, it looks like if authConfig.getLoginHttpHeader returns null we should also fall back to req.getRemoteUser()",
+      "revId": "5074b274313a4a5ad44117198094ff522358d9fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWWkPhTs",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-15T15:00:22Z",
+      "side": 1,
+      "message": "nit: this line is too long",
+      "revId": "5074b274313a4a5ad44117198094ff522358d9fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

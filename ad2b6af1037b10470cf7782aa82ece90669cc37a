@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TWUlNYYA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-15T18:27:50Z",
+      "side": 1,
+      "message": "Not sure, but since you later also talk about gitweb, and the link actually is a link to gitweb, would \"gitweb links\" be easier to understand than \"repo links\"?",
+      "revId": "ad2b6af1037b10470cf7782aa82ece90669cc37a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWWlIJXI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-15T18:27:50Z",
+      "side": 1,
+      "message": "s/changes/patch sets/",
+      "revId": "ad2b6af1037b10470cf7782aa82ece90669cc37a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWakxffg",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-15T18:27:50Z",
+      "side": 1,
+      "message": "In the other files you use \"patch set\" (2 words) instead of \"patchset\" (1 word)",
+      "revId": "ad2b6af1037b10470cf7782aa82ece90669cc37a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWYkuOZY",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-15T18:27:50Z",
+      "side": 1,
+      "message": "\"patchsets\" vs.\"patch sets\" as above",
+      "revId": "ad2b6af1037b10470cf7782aa82ece90669cc37a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWSk.Lcs",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GitwebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-15T18:27:50Z",
+      "side": 1,
+      "message": "s/patch set/draft/",
+      "revId": "ad2b6af1037b10470cf7782aa82ece90669cc37a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWQlDaVk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GitwebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-15T18:27:50Z",
+      "side": 1,
+      "message": "To me, the “Draft” in the method name is misleading, as the function\nis not only used to determine link visibility for draft patch sets,\nbut it determines linkability for each and every patch set. Draft or\nnot.\n\nWould it make sense to name that method something like “isLinkable”,\n“isLinkablePatchSet”, or (for local consistency) “isLinkableRevision”?",
+      "revId": "ad2b6af1037b10470cf7782aa82ece90669cc37a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

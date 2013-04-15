@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TV0sURUw",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-15T13:53:15Z",
+      "side": 1,
+      "message": "Is this true? I\u0027ve tried the following query and it showed me merged changes as well:\n\n  project:myProject inref:master\n\nThe behaviour looks good to me, but then this description should be adapted.",
+      "revId": "4da3f4b233fd691d7040e922a9d834996b4b439c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

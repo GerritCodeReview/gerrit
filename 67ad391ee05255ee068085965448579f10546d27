@@ -16,6 +16,24 @@
       "revId": "67ad391ee05255ee068085965448579f10546d27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TV.sJsTo",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-04-15T05:36:31Z",
+      "side": 1,
+      "message": "Mostly to provide an example for other categories (or for users that want to copy verified on trivial rebase for some reason)",
+      "parentUuid": "TWOoJpzo",
+      "revId": "67ad391ee05255ee068085965448579f10546d27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

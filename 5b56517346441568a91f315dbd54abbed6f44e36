@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TV2sPgTs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-15T13:44:32Z",
+      "side": 1,
+      "message": "[optional] Add some JavaDoc explaining the purpose of this abstract class.",
+      "revId": "5b56517346441568a91f315dbd54abbed6f44e36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWWn2ZRs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-15T13:44:32Z",
+      "side": 1,
+      "message": "This change claims to be refactoring only, but here we are changing the behaviour. In the old MessagePredicate code it was simply returning false in case of any object not being found in the database, but now we are throwing OrmExceptions. I\u0027m not saying it\u0027s wrong to change this, but if it\u0027s changed it should be separated from the refactoring change. Means it should be an own change.",
+      "revId": "5b56517346441568a91f315dbd54abbed6f44e36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWUn7of8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-15T13:44:32Z",
+      "side": 1,
+      "message": "[optional] I somehow like the old log message more.\n\n  log.error(\"Repository \\\"\" + projectName.get() + \"\\\" unknown.\", e);",
+      "revId": "5b56517346441568a91f315dbd54abbed6f44e36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

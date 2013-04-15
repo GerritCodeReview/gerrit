@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TWckGcSo",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-15T14:18:27Z",
+      "side": 1,
+      "message": "nit: we do not import the Id classes directly, this should rather be Account.Id\n\nnit: missing spaces around \u0027+\u0027",
+      "revId": "669d9c21e556ec7f6ab96e3c09dd5a4c95d44127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

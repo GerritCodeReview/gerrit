@@ -16,6 +16,24 @@
       "revId": "669d9c21e556ec7f6ab96e3c09dd5a4c95d44127",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWEoUM0w",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1012363
+      },
+      "writtenOn": "2013-04-15T14:35:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TWckGcSo",
+      "revId": "669d9c21e556ec7f6ab96e3c09dd5a4c95d44127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

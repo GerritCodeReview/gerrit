@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TWekJtTo",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1325,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-15T13:59:11Z",
+      "side": 1,
+      "message": "[optional] s/draft changes/draft patch sets\n\nLooking at the implementation this seems to work on patch set level. As there can be non-draft changes with draft patch sets this description is not completely accurate.",
+      "revId": "b5d8f8e7bcf9041f57a9a3646e05e815d6f821ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

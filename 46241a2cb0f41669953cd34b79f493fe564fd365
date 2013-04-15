@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "TWckfkWI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-15T17:41:37Z",
+      "side": 1,
+      "message": "Thanks. Seems we can agree on keeping the naming.",
+      "parentUuid": "S7JaIzG4",
+      "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "S6nhRYQ4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
         "patchSetId": 1
@@ -90,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "TWYklmb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-15T17:41:37Z",
+      "side": 1,
+      "message": "The QueryProcessor will handle the resorting and limiting. \nSince I do not want to copy parts of the QueryProcessor logic to this method, I do need 10 of each to ensure the correct result is given back to the user after sorting. This is consistent with how other (limited) Queries and QueryPredicates are handled. \n\nMore so, I do not want to touch the QueryProcessor in this patch. Just restore the functionality that was found in Gerrit pre v2.5.x, without making any sacrifice of performance.",
+      "parentUuid": "S6nhRYQ4",
+      "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "S7LaNyH0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
         "patchSetId": 1
@@ -101,6 +137,24 @@
       "writtenOn": "2013-04-04T12:21:34Z",
       "side": 1,
       "message": "byOwnerClosed sorts by lastUpdatedOn.\nclosedByUser (used in line 596 above) sorts by changeSortKey.\n\nWhile lastUpdatedOn and changeSortKey correspond nicely upon closing a\nchange, when adding comments to a closed change, they start to run\napart.\n\nI am not sure, but since Eclipse tells me that r30_byRecentlyClosed is\nthe only place where, both closedByUser and byOwnerClosed is used,\nwould it make sense to harmonize on which column we sort the two\nsources?",
+      "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TWekiVbI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-15T17:41:37Z",
+      "side": 1,
+      "message": "Yes, since the queries are also aimed at totally different tables (patchset_approvals vs changes). However, the QueryProcessor should handle the resorting fine(?)\n\nThis implementation should give us the same behavior that we saw in pre-v2.5.",
+      "parentUuid": "S7LaNyH0",
       "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

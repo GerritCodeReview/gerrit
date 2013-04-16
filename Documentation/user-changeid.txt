@@ -10,10 +10,10 @@ drafts of it.  By including a unique Change-Id in the commit message,
 Gerrit can automatically associate a new version of a change back
 to its original review, even across cherry-picks and rebases.
 
-To be picked up by Gerrit, a Change-Id line must be in the bottom
-portion (last paragraph) of a commit message, and may be mixed
-together with the Signed-off-by, Acked-by, or other such footers.
-For example:
+To be picked up by Gerrit, a Change-Id line must be in the footer
+(last paragraph) of a commit message, and may be mixed
+together with link:user-signedoffby.html[Signed-off-by], Acked-by,
+or other such lines. For example:
 
 ----
   $ git log -1

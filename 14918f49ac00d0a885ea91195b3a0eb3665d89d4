@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TYELxkiA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-16T00:28:46Z",
+      "side": 1,
+      "message": "Nit: Can you update the author to your full name?",
+      "revId": "14918f49ac00d0a885ea91195b3a0eb3665d89d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

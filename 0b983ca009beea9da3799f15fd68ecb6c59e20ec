@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TctAivLI",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-16T19:38:50Z",
+      "side": 1,
+      "message": "“isLinkableDraft” is now “canLink”",
+      "revId": "0b983ca009beea9da3799f15fd68ecb6c59e20ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

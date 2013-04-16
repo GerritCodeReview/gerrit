@@ -21,6 +21,8 @@ import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 
+import java.util.List;
+
 @CommandMetaData(name = "ls-projects", descr = "List projects visible to the caller")
 final class ListProjectsCommand extends BaseCommand {
   @Inject
@@ -33,7 +35,8 @@ final class ListProjectsCommand extends BaseCommand {
       public void run() throws Exception {
         parseCommandLine(impl);
         if (!impl.getFormat().isJson()) {
-          if (impl.isShowTree() && (impl.getShowBranch() != null)) {
+          List<String> showBranch = impl.getShowBranch();
+          if (impl.isShowTree() && (showBranch != null) && !showBranch.isEmpty()) {
             throw new UnloggedFailure(1, "fatal: --tree and --show-branch options are not compatible.");
           }
           if (impl.isShowTree() && impl.isShowDescription()) {

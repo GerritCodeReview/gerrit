@@ -486,7 +486,8 @@ public class CommitValidators {
         sb.append('\n');
         sb.append(changeId).append(" I").append(c.name());
         sb.append('\n');
-        sb.append("Hint: A potential Change-Id was found, but it was not in the footer of the commit message.");
+        sb.append("Hint: A potential Change-Id was found, but it was not in the ");
+        sb.append("footer (last paragraph) of the commit message.");
       }
     }
     sb.append('\n');

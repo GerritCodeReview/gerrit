@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "Ta9cJ3Do",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-16T12:17:00Z",
+      "side": 1,
+      "message": "Might be worth explicitly stating that the default is true.",
+      "revId": "ad2b6af1037b10470cf7782aa82ece90669cc37a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TWakxffg",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
         "patchSetId": 2

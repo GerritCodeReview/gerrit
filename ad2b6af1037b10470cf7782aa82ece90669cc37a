@@ -101,6 +101,24 @@
       "revId": "ad2b6af1037b10470cf7782aa82ece90669cc37a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TclD2zBo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GitwebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-16T10:58:48Z",
+      "side": 1,
+      "message": "I agree with Christian. This method is not limited to drafts only.\n\nAlso, this method doesn\u0027t really test link-ability (every patch-set is linkable), instead it tests if a link to that patch set should be provided. Therefore, I would propose naming this method like \"canLink\" (as the javadoc of this method says) or \"shouldLink\".",
+      "parentUuid": "TWQlDaVk",
+      "revId": "ad2b6af1037b10470cf7782aa82ece90669cc37a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

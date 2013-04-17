@@ -360,9 +360,11 @@ public class PublishCommentScreen extends AccountScreen implements
         final CommentEditorPanel editor =
             new CommentEditorPanel(c, commentLinkProcessor);
         if (c.getLine() == AbstractPatchContentTable.R_HEAD) {
-          editor.setAuthorNameText(Util.C.fileCommentHeader());
+          editor.setAuthorNameText(Gerrit.getUserAccount().getId(),
+              Util.C.fileCommentHeader());
         } else {
-          editor.setAuthorNameText(Util.M.lineHeader(c.getLine()));
+          editor.setAuthorNameText(Gerrit.getUserAccount().getId(),
+              Util.M.lineHeader(c.getLine()));
         }
         editor.setOpen(true);
         commentEditors.add(editor);

@@ -14,9 +14,14 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class AccountInfo extends JavaScriptObject {
+  public final Account.Id getAccountId() {
+    return new Account.Id(_account_id());
+  }
+
   public final native int _account_id() /*-{ return this._account_id || 0; }-*/;
   public final native String name() /*-{ return this.name; }-*/;
   public final native String email() /*-{ return this.email; }-*/;

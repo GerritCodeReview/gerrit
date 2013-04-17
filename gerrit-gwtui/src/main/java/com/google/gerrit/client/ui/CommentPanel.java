@@ -14,9 +14,11 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -62,7 +64,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     this(commentLinkProcessor);
 
     setMessageText(message);
-    setAuthorNameText(FormatUtil.name(author));
+    setAuthorNameText(author.getAccountId(), FormatUtil.name(author));
     setDateText(FormatUtil.shortFormatDayTime(when));
 
     final CellFormatter fmt = header.getCellFormatter();
@@ -125,8 +127,9 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     SafeHtml.set(messageText, buf);
   }
 
-  public void setAuthorNameText(final String nameText) {
-    header.setText(0, 0, nameText);
+  public void setAuthorNameText(final Account.Id author, final String nameText) {
+    header.setWidget(0, 0, new AvatarImage(author, 26));
+    header.setText(0, 1, nameText);
   }
 
   protected void setDateText(final String dateText) {

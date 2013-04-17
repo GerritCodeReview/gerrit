@@ -28,36 +28,34 @@ during 'init'.
 Apache 2 Configuration
 ----------------------
 
-To run Gerrit behind an Apache server using 'mod_proxy', enable the
+To run Gerrit behind an Apache server we cannot use 'mod_proxy'
+directly, as Gerrit relies on getting unmodified escaped forward
+slashes. Depending on the setting of 'AllowEncodedSlashes',
+'mod_proxy' would either decode encoded slashes, or encode them once
+again. Hence, we resort to using 'mod_rewrite'. To enable the
 necessary Apache2 modules:
 
 ----
-  a2enmod proxy_http
+  a2enmod rewrite
   a2enmod ssl          ; # optional, needed for HTTPS / SSL
 ----
 
-Configure an Apache VirtualHost to proxy to the Gerrit daemon,
-setting the 'ProxyPass' line to use the 'http://' URL configured
-above.  Ensure the path of ProxyPass and httpd.listenUrl match,
-or links will redirect to incorrect locations.
+Configure an Apache VirtualHost to proxy to the Gerrit daemon, setting
+the 'RewriteRule' line to use the 'http://' URL configured above.
+Ensure the path of 'RewriteRule' (the part before '$1') and
+httpd.listenUrl match, or links will redirect to incorrect locations.
+
+Note that this configuration allows to pass encoded characters to the
+virtual host, which is potentially dangerous. Be sure to read up on
+this topic and that you understand the risks.
 
 ----
 	<VirtualHost *>
 	  ServerName review.example.com
 
-	  ProxyRequests Off
-	  ProxyVia Off
-	  ProxyPreserveHost On
-
-	  <Proxy *>
-		Order deny,allow
-		Allow from all
-	  </Proxy>
-
-	  <Location /r/>
-		AllowEncodedSlashes NoDecode
-	  </Location>
-	  ProxyPass /r/ http://127.0.0.1:8081/r/
+	  AllowEncodedSlashes NoDecode
+	  RewriteEngine On
+	  RewriteRule ^/r/(.*) http://localhost:8081/r/$1
 	</VirtualHost>
 ----
 

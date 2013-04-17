@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TjnQAKBE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-17T16:16:35Z",
+      "side": 1,
+      "message": "This approach puts the parity line in the wrong block, it puts the parity line in the block after the odd block instead of fixing the odd block to be even.   Imagine that we want to be able to remove a block or move a block around, your parity row will not move with the (bad) block.  To fix this, the parity row should go at the end of an uneven block, not at the beginning of the block which follow the uneven block.  I suspect this will also make the code much simpler.",
+      "revId": "a5dd1bbca87959597c0b57d8f99aa6e3688ac972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

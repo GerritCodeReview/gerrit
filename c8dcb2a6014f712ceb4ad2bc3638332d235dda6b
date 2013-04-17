@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TgYEyWvo",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-17T14:56:17Z",
+      "side": 1,
+      "message": "I don\u0027t think this really makes any difference. Any gwtorm database implementation I can think of (aka the SQL one and the one we use at Google) will both scan the entire result set before making an iterator available to the caller.",
+      "revId": "c8dcb2a6014f712ceb4ad2bc3638332d235dda6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

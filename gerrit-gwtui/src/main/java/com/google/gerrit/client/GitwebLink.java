@@ -35,6 +35,16 @@ public class GitwebLink {
     type = link.type;
   }
 
+  /**
+   * Can we link to a patch set if it's a draft
+   *
+   * @param ps Patch set to check draft status
+   * @return true if it's not a draft, or we can link to drafts
+   */
+  public boolean canLink(final PatchSet ps) {
+    return !ps.isDraft() || type.getLinkDrafts();
+  }
+
   public String getLinkName() {
     return "(" + type.getLinkName() + ")";
   }

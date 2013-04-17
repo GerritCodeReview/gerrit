@@ -54,6 +54,9 @@ or links will redirect to incorrect locations.
 		Allow from all
 	  </Proxy>
 
+	  <Location /r/>
+		AllowEncodedSlashes NoDecode
+	  </Location>
 	  ProxyPass /r/ http://127.0.0.1:8081/r/
 	</VirtualHost>
 ----

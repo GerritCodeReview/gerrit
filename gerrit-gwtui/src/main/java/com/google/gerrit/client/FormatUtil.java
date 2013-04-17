@@ -125,7 +125,7 @@ public class FormatUtil {
   }
 
   /**
-   * Formats an account as an name and an email address.
+   * Formats an account as a name and an email address.
    * <p>
    * Example output:
    * <ul>
@@ -137,7 +137,7 @@ public class FormatUtil {
    */
   public static String nameEmail(AccountInfo info) {
     String name = info.name();
-    if (name == null) {
+    if (name == null || name.trim().isEmpty()) {
       name = Gerrit.getConfig().getAnonymousCowardName();
     }
 
@@ -172,7 +172,7 @@ public class FormatUtil {
    * returns a longer form that includes the email address.
    */
   public static String name(AccountInfo ai) {
-    if (ai.name() != null) {
+    if (ai.name() != null && !ai.name().trim().isEmpty()) {
       return ai.name();
     }
     String email = ai.email();

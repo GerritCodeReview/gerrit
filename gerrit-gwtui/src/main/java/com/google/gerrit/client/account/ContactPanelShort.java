@@ -348,7 +348,7 @@ class ContactPanelShort extends Composite {
 
   void doSave(final AsyncCallback<Account> onSave) {
     String newName = canEditFullName() ? nameTxt.getText() : null;
-    if ("".equals(newName)) {
+    if (newName != null && newName.trim().isEmpty()) {
       newName = null;
     }
 

@@ -648,8 +648,11 @@ cache.diff_intraline.timeout::
 Maximum number of milliseconds to wait for intraline difference data
 before giving up and disabling it for a particular file pair.  This is
 a work around for an infinite loop bug in the intraline difference
-implementation.  If computation takes longer than the timeout the
-worker thread is terminated and no intraline difference is displayed.
+implementation.
++
+If computation takes longer than the timeout, the worker thread is
+terminated, an error message is shown, and no intraline difference is
+displayed for the file pair.
 +
 Values should use common unit suffixes to express their setting:
 +

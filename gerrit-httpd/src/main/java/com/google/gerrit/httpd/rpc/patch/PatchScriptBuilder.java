@@ -133,6 +133,7 @@ class PatchScriptBuilder {
       throws IOException {
     boolean intralineDifferenceIsPossible = true;
     boolean intralineFailure = false;
+    boolean intralineTimeout = false;
 
     a.path = oldName(content);
     b.path = newName(content);
@@ -160,9 +161,13 @@ class PatchScriptBuilder {
             break;
 
           case ERROR:
-          case TIMEOUT:
             intralineDifferenceIsPossible = false;
             intralineFailure = true;
+            break;
+
+          case TIMEOUT:
+            intralineDifferenceIsPossible = false;
+            intralineTimeout = true;
             break;
         }
       } else {
@@ -212,7 +217,7 @@ class PatchScriptBuilder {
         content.getOldName(), content.getNewName(), a.fileMode, b.fileMode,
         content.getHeaderLines(), diffPrefs, a.dst, b.dst, edits,
         a.displayMethod, b.displayMethod, comments, history, hugeFile,
-        intralineDifferenceIsPossible, intralineFailure);
+        intralineDifferenceIsPossible, intralineFailure, intralineTimeout);
   }
 
   private static boolean isModify(PatchListEntry content) {

@@ -34,6 +34,24 @@
       "revId": "c8dcb2a6014f712ceb4ad2bc3638332d235dda6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TgEI8Uss",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-17T15:07:47Z",
+      "side": 1,
+      "message": "Oh! I missed that. OK, this may have an impact.\n\nThe other way we do this is define a custom query that has \u0027LIMIT 1\u0027 in the @Query expression. But this is also fine.",
+      "parentUuid": "TitgZbYY",
+      "revId": "c8dcb2a6014f712ceb4ad2bc3638332d235dda6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

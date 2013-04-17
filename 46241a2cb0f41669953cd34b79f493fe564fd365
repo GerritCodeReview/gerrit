@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "ThvwUKVA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-17T16:19:40Z",
+      "side": 1,
+      "message": "Thanks for the great work verifying. Since I\u0027m catching the \"limit:10\" in the @Rewrite, it is of course lifted out from query, and the limitation in the QueryProcessor will not find it anymore (just applying the MaxLimit). Depending on the changes we can end up with 20 items.",
+      "parentUuid": "TV.s7cdI",
+      "revId": "46241a2cb0f41669953cd34b79f493fe564fd365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "S7LaNyH0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
         "patchSetId": 1

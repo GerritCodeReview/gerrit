@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TgEIKEjA",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1012512
+      },
+      "writtenOn": "2013-04-17T04:13:25Z",
+      "side": 1,
+      "message": "A more accurate statement would be to \"prevent Apache from returning 404s.\", as the docs say this:\n\n\"With the default value, Off, such URLs are refused with a 404 (Not found) error.\"\n\nhttp://httpd.apache.org/docs/2.2/mod/core.html#allowencodedslashes",
+      "revId": "bb12492644a7e2c6d14e9acc96e62c49e7c80edf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

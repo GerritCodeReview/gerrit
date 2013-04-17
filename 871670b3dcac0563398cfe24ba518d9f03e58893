@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TgWH9FvA",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012512
+      },
+      "writtenOn": "2013-04-17T04:13:25Z",
+      "side": 0,
+      "message": "For this to work, I think you need to also change this line:\n\n    RewriteEngine On\n    RewriteRule ^/r/(.*) http://localhost:8081/r/$1 [NE,P]",
+      "revId": "871670b3dcac0563398cfe24ba518d9f03e58893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

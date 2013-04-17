@@ -16,6 +16,24 @@
       "revId": "c8dcb2a6014f712ceb4ad2bc3638332d235dda6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TitgZbYY",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-17T15:05:01Z",
+      "side": 1,
+      "message": "Hmm... actually I checked gwtorm before doing this change and was under impression that returning an iterator will not load the complete result set.\n\nAbstractResultSet.java:\n\n    public final Iterator\u003cT\u003e iterator() {\n    return new Iterator\u003cT\u003e() {\n      @Override\n      public boolean hasNext() {\n        return AbstractResultSet.this.hasNext();\n      }\n    ...\n    }\n\n    protected abstract boolean hasNext();\n\nJdbcResultSet.java:\n\n  protected boolean hasNext() {\n    if (closed) {\n      return false;\n    }\n\n    if (haveRow \u003d\u003d null) {\n      try {\n        if (rs.next()) {\n          haveRow \u003d Boolean.TRUE;\n        } else {\n          haveRow \u003d Boolean.FALSE;\n          close();\n        }\n      } catch (SQLException err) {\n        close();\n        throw new OrmRuntimeException(access.convertError(\"fetch\", err));\n      }\n    }\n\n    return haveRow;\n  }\n\nAm I missing something?",
+      "parentUuid": "TgYEyWvo",
+      "revId": "c8dcb2a6014f712ceb4ad2bc3638332d235dda6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

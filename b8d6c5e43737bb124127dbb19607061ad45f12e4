@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TYx8VI0s",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002235
+      },
+      "writtenOn": "2013-04-17T02:03:05Z",
+      "side": 1,
+      "message": "Please, follow the same pattern as in the rest of the file.\n\nTwo tabs instead of mix of tabs and spaces.",
+      "revId": "b8d6c5e43737bb124127dbb19607061ad45f12e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

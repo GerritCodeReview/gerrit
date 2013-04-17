@@ -53,6 +53,7 @@ public class PatchScript {
   protected boolean hugeFile;
   protected boolean intralineDifference;
   protected boolean intralineFailure;
+  protected boolean intralineTimeout;
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
       final String nn, final FileMode om, final FileMode nm,
@@ -60,7 +61,7 @@ public class PatchScript {
       final SparseFileContent ca, final SparseFileContent cb,
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
       final CommentDetail cd, final List<Patch> hist, final boolean hf,
-      final boolean id, final boolean idf) {
+      final boolean id, final boolean idf, final boolean idt) {
     changeId = ck;
     changeType = ct;
     oldName = on;
@@ -79,6 +80,7 @@ public class PatchScript {
     hugeFile = hf;
     intralineDifference = id;
     intralineFailure = idf;
+    intralineTimeout = idt;
   }
 
   protected PatchScript() {
@@ -150,6 +152,10 @@ public class PatchScript {
 
   public boolean hasIntralineFailure() {
     return intralineFailure;
+  }
+
+  public boolean hasIntralineTimeout() {
+    return intralineTimeout;
   }
 
   public boolean isExpandAllComments() {

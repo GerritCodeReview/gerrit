@@ -21,7 +21,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FilteredUserInterface;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
@@ -63,6 +63,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
   @Override
   protected void onLoad() {
     super.onLoad();
+    display();
     refresh();
   }
 
@@ -71,9 +72,9 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
         : ADMIN_PROJECTS + "?filter=" + URL.encodeQueryString(subname));
     ProjectMap.match(subname,
         new IgnoreOutdatedFilterResultsCallbackWrapper<ProjectMap>(this,
-            new ScreenLoadCallback<ProjectMap>(this) {
+            new GerritCallback<ProjectMap>() {
               @Override
-              protected void preDisplay(final ProjectMap result) {
+              public void onSuccess(ProjectMap result) {
                 projects.display(result);
               }
             }));

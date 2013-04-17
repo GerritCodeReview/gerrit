@@ -18,7 +18,7 @@ import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.groups.GroupMap;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.FilteredUserInterface;
 import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
@@ -54,6 +54,7 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
   @Override
   protected void onLoad() {
     super.onLoad();
+    display();
     refresh();
   }
 
@@ -62,9 +63,9 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
         : ADMIN_GROUPS + "?filter=" + URL.encodeQueryString(subname));
     GroupMap.match(subname,
         new IgnoreOutdatedFilterResultsCallbackWrapper<GroupMap>(this,
-            new ScreenLoadCallback<GroupMap>(this) {
+            new GerritCallback<GroupMap>() {
               @Override
-              protected void preDisplay(final GroupMap result) {
+              public void onSuccess(GroupMap result) {
                 groups.display(result, subname);
                 groups.finishDisplay();
               }

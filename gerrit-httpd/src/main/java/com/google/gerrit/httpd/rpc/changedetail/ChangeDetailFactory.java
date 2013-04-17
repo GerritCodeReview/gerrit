@@ -182,7 +182,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       if (user instanceof IdentifiedUser) {
         final Account.Id me = ((IdentifiedUser) user).getAccountId();
         ps.setHasDraftComments(db.patchComments()
-            .draftByPatchSetAuthor(ps.getId(), me).toList().size() > 0);
+            .draftByPatchSetAuthor(ps.getId(), me).iterator().hasNext());
       }
       if (control.isPatchVisible(ps, db)) {
         patches.add(ps);

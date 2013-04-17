@@ -6,7 +6,7 @@
  */
 
 body, table td, select {
-  font-family: Arial Unicode MS, Arial, sans-serif;
+  font-family: sans-serif;
   font-size: small;
 }
 pre {

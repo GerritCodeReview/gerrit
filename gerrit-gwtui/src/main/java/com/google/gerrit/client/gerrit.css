@@ -20,7 +20,7 @@
 
 @def black #000000;
 @def white #ffffff;
-@def norm-font  Arial Unicode MS, Arial, sans-serif;
+@def norm-font  sans-serif;
 @def mono-font  monospace;
 
 @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
@@ -1164,7 +1164,7 @@ a:hover.downloadLink {
   margin-right: 5em;
   font-weight: bold;
   font-size: medium;
-  font-family: Arial Unicode;
+  font-family: norm-font;
 }
 
 /** Patch History Table **/

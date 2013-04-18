@@ -1538,7 +1538,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       throws Throwable {
     assertRebase(testRepo, contentMerge);
     RevCommit remoteHead = projectOperations.project(project).getHead("master");
-    assertThat(remoteHead.getFooterLines("Reviewed-On")).isNotEmpty();
     assertThat(remoteHead.getFooterLines("Reviewed-By")).isNotEmpty();
   }
 

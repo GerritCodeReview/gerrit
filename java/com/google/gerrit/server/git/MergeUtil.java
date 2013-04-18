@@ -71,7 +71,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
@@ -543,16 +542,6 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    Optional<String> url = urlFormatter.get().getChangeViewUrl(c.getProject(), c.getId());
-    if (url.isPresent()) {
-      if (!contains(footers, FooterConstants.REVIEWED_ON, url.get())) {
-        msgbuf
-            .append(FooterConstants.REVIEWED_ON.getName())
-            .append(": ")
-            .append(url.get())
-            .append('\n');
-      }
-    }
     PatchSetApproval submitAudit = null;
 
     for (PatchSetApproval a : safeGetApprovals(notes, psId)) {
@@ -598,7 +587,7 @@ public class MergeUtil {
       if (isCodeReview(a.labelId())) {
         tag = "Reviewed-by";
       } else if (isVerified(a.labelId())) {
-        tag = "Tested-by";
+        continue;
       } else {
         final LabelType lt = project.getLabelTypes().byLabel(a.labelId());
         if (lt == null) {

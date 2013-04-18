@@ -199,7 +199,6 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
     assertThat(log.get(0).getShortMessage()).isEqualTo("CHERRY_PICK 1");
     assertThat(log.get(0).name()).isNotEqualTo(r.getCommit().name());
     assertThat(log.get(0).getFullMessage()).contains("Change-Id: " + r.getChangeId());
-    assertThat(log.get(0).getFullMessage()).contains("Reviewed-on: ");
   }
 
   @Test

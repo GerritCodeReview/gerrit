@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TlO7rPzM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-18T03:23:30Z",
+      "side": 1,
+      "message": "I was under the impression that we wanted yo remove our references yo account.ids on the client side for information disclosure reasons?",
+      "revId": "5527706955295996b8d6e620bbe8af5bfca370c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

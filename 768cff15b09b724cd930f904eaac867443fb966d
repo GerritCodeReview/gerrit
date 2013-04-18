@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Tlc0ZqYY",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/container/ConfigurationError.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011097
+      },
+      "writtenOn": "2013-04-18T22:59:44Z",
+      "side": 1,
+      "message": "Don\u0027t you need the [NE,P] at the end also?",
+      "revId": "768cff15b09b724cd930f904eaac867443fb966d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

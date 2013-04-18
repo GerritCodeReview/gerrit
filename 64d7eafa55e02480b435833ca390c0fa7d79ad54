@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "TnObrXjM",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012263
+      },
+      "writtenOn": "2013-04-18T21:38:55Z",
+      "side": 1,
+      "message": "Most of the option letters are taken from the ldapsearch command.  This should make it easier to build the set of options by testing them first with ldapsearch before using them with this script.\n\nSome of the options that are specific to this script do have long versions, but I did not list the long versions in the help output here for brevity.  All options, including the long alternatives are described in the embedded pod documentation which is accessible by doing:\n\n   $ perldoc gerrit-sync-inactive-with-ldap\n\nI can add the long options, but this text is already somewhat long, so my preference would be to not add them.  I don\u0027t feel strongly about it, so let me know if you think the current text along with the embedded documentation is not enough, and I\u0027ll add the long options to the help text.",
+      "parentUuid": "TlE79s.8",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Tlc3wiSA",
         "filename": "contrib/gerrit-sync-inactive-with-ldap",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "writtenOn": "2013-04-18T03:42:38Z",
       "side": 1,
       "message": "This code seems repeated above in the usage function.",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TneXrVjM",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012263
+      },
+      "writtenOn": "2013-04-18T21:38:55Z",
+      "side": 1,
+      "message": "I can break it out into its own function or get rid of it.",
+      "parentUuid": "Tlc3wiSA",
       "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "TncXwWiA",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1012263
+      },
+      "writtenOn": "2013-04-18T21:38:55Z",
+      "side": 1,
+      "message": "Yeah, I think so.  I\u0027ll reroll.  Thanks.",
+      "parentUuid": "TlM7wgyA",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TlK71Nw4",
         "filename": "contrib/gerrit-sync-inactive-with-ldap",
         "patchSetId": 2
@@ -100,6 +154,24 @@
       "writtenOn": "2013-04-18T03:42:38Z",
       "side": 1,
       "message": "Consolidate?",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TnMbwYiA",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1012263
+      },
+      "writtenOn": "2013-04-18T21:38:55Z",
+      "side": 1,
+      "message": "Will reroll.",
+      "parentUuid": "TlK71Nw4",
       "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

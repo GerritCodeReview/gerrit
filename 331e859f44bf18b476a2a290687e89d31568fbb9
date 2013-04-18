@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TkhAHxCc",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-18T08:43:41Z",
+      "side": 1,
+      "message": "Nit: line is too long.",
+      "revId": "331e859f44bf18b476a2a290687e89d31568fbb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

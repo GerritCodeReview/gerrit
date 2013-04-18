@@ -329,6 +329,11 @@ public abstract class ChangeEmail extends NotificationEmail {
         add(RecipientType.CC, ap.getAccountId());
       }
     } catch (OrmException err) {
+      if (includeZero) {
+        log.warn("Cannot CC users that commented on updated change", err);
+      } else {
+        log.warn("Cannot CC users that reviewed updated change", err);
+      }
     }
   }
 

@@ -58,7 +58,7 @@
 
     AllowEncodedSlashes NoDecode
     RewriteEngine On
-    RewriteRule ^<span class='ContextPath'>/r</span>/(.*) http://...<span class='ContextPath'>/r</span>/$1
+    RewriteRule ^<span class='ContextPath'>/r</span>/(.*) http://...<span class='ContextPath'>/r</span>/$1 [NE,P]
 &lt;/VirtualHost&gt;
     </pre>
   </body>

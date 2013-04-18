@@ -34,6 +34,24 @@
       "revId": "a5dd1bbca87959597c0b57d8f99aa6e3688ac972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TlA4Hqyc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-18T19:02:47Z",
+      "side": 1,
+      "message": "I agree some of those are nasty problems, that is one reason I am not a fan of adding any of this code.  The complexity of this patch is already way to big and more than the payoff.  I already do have changes (2 years old) up for review that do move sections around, so it isn\u0027t purely hypothetical.  And yes, it is a pain to deal with the current framework when moving.  But that is all the more reason for me to want to insist that we don\u0027t topple extra complexity on top of this for what I consider to be a hack to workaround a CSS deficiency.  Not to mention that this issue doesn\u0027t exist if you just don\u0027t use conflicting colors. :)  If a simple solution cannot be found, I would rather live with the current warts than to add new ones.  I also have other patches which make each section collapseable that I plan to upload at some point.  I personally would prefer to make it easier to add new functionality to dashboards than to worry about this minor (in my opinion) styling issue.",
+      "parentUuid": "Tk28AcRE",
+      "revId": "a5dd1bbca87959597c0b57d8f99aa6e3688ac972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

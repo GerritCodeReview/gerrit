@@ -216,9 +216,9 @@ class TrivialRebase:
       # Note: Sites with different 'copy_min_score' values in the
       # approval_categories DB table might want different behavior here.
       # Additional categories should also be added if desired.
-      if approval["category_id"] == "CRVW" and approval['value'] != '-2':
+      if approval["category_id"] == "Code-Review" and approval['value'] != '-2':
         self.AppendAcctApproval(approval['account_id'], '--code-review %s' % approval['value'])
-      elif approval["category_id"] == "VRIF":
+      elif approval["category_id"] == "Verified":
         # Don't re-add verifies
         # self.AppendAcctApproval(approval['account_id'], '--verified %s' % approval['value'])
         continue

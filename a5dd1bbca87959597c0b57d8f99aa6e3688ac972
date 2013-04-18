@@ -16,6 +16,24 @@
       "revId": "a5dd1bbca87959597c0b57d8f99aa6e3688ac972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Tk28AcRE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-18T11:29:42Z",
+      "side": 1,
+      "message": "\u003e This approach puts the parity line in the wrong block, it puts the\n\u003e parity line in the block after the odd block instead of fixing the odd\n\u003e block to be even.\n\nIn principle, I fully agree. It would be nice to encapsulate the\nparity correction within each block itself and assure that each block\ncomes with an even number of rows.\n\nWhile that works nicely for examples with a title row (e.g.:\n\n  2n+1: Title row\n  2n+2: 1st Data row\n\n, or\n\n  2n+1: Title row\n  2n+2: 1st Data row\n  2n+3: 2nd Data row\n  2n+4: \u003cInvisible parity row\u003e\n\n), it turns out that the title row is optional :-( And for missing\ntitle rows, we\u0027d need a further row at the beginning of the data block\nto assure that the 1st Data row\u0027s parity matches above\u0027s examples:\n\n  2n+1: \u003cInvisible parity row\u003e\n  2n+2: 1st Data row\n\n, respectively\n\n  2n+1: \u003cInvisible parity row\u003e\n  2n+2: 1st Data row\n  2n+3: 2nd Data row\n  2n+4: \u003cInvisible parity row\u003e\n\nWhile having two parity rows in the last example is ugly enough, we\u0027d\nyet again end up having a parity row immediately before the beginning\nof data block (but admittedly for a different reason).\n\nEven worse: The final parity row is unwarranted in case the above\u0027s\nblock is a table\u0027s last block. But there\u0027s no possibility to determine\nthat from within the block itself :-(\n\nStill there\u0027s yet another problem: \u0027(None)\u0027 rows that indicate that a\nblock is empty.\n\nCurrently, the block itself does not know if there\u0027s a \u0027(None)\u0027 row or\nnot. It\u0027s obviously not counted in rows. This fact is for example well\nhidden by the fact that Section:display removes a row if rows \u003d\u003d 0.\nSo we need to deal with this special case as well, and have to assume\na \u0027(None)\u0027 row if rows \u003d\u003d 0.\n\n\u003e Imagine that we want to be able to remove a block or move a block\n\u003e around, [...]\n\nWhile that would be nice, we currently neither do nor allow this. And\nimplementing that would be fiddly anyways, as titleRow, and dataBegin\ncontain absolute row numbers with a bend at 0/-1. So if one would\nmove them around it does not suffice to shift rows around, we have to\nupdate the index variables as well. And getting their meaning right on\nfirst try is not always straight forward (compare \u0027\u003c\u003d\u0027, and \u0027\u003c\u0027 when\ninserting rows).\n\nSo for our current code base and our current use of change tables, the\nsolution to add the parity row immediately before the data block\nappeared to me to be simpler in code, and was additionally less\nintrusive in html, as it adds at most one parity row—and only if it\u0027s\nreally necessary.\n\nBut I am not married to that approach. And the differences/problems of\neach of the approaches are rather minor matters of taste to me. So if\nyou\u0027re still convinced that adding parity row/s/ directly to the\nrelevant block itself is the right way to do it, just let me know and\nI\u0027ll happily provide a new patch set.",
+      "parentUuid": "TjnQAKBE",
+      "revId": "a5dd1bbca87959597c0b57d8f99aa6e3688ac972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

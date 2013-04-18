@@ -26,5 +26,12 @@ public class DataSourceModule extends AbstractModule {
     bind(DataSourceType.class).annotatedWith(Names.named("mysql")).to(MySql.class);
     bind(DataSourceType.class).annotatedWith(Names.named("oracle")).to(Oracle.class);
     bind(DataSourceType.class).annotatedWith(Names.named("postgresql")).to(PostgreSQL.class);
+    /*
+     * DatabaseMetaData.getDatabaseProductName() returns "sap db" for MaxDB.
+     * For auto-detection of the DB type (com.google.gerrit.pgm.util.SiteProgram#getDbType)
+     * we have to map "sap db" additionally to "maxdb", which is used for explicit configuration.
+     */
+    bind(DataSourceType.class).annotatedWith(Names.named("maxdb")).to(MaxDb.class);
+    bind(DataSourceType.class).annotatedWith(Names.named("sap db")).to(MaxDb.class);
   }
 }

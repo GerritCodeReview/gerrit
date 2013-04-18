@@ -34,6 +34,24 @@
       "revId": "ca421aee6944295f15328adf738917a982f9ad1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TlQ0HsSc",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-18T22:01:35Z",
+      "side": 1,
+      "message": "Legacy code likely.   There are plenty of places where we don\u0027t follow guidelines, they change, or someone approves it without being aware of the guideline. :(  It doesn\u0027t mean we should ignore the guidelines if we think they are valuable.  Feel free to debate the guideline though, I wrote it based on a conversation with spearce... :)",
+      "parentUuid": "Tliwjk7k",
+      "revId": "ca421aee6944295f15328adf738917a982f9ad1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

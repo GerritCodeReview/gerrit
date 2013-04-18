@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Tla31PQ4",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-18T03:42:38Z",
+      "side": 1,
+      "message": "Long options?",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Tlc3wiSA",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-18T03:42:38Z",
+      "side": 1,
+      "message": "This code seems repeated above in the usage function.",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TlM7wgyA",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-18T03:42:38Z",
+      "side": 1,
+      "message": "Seems like this could be consolidated with the enable function above it?",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TlK71Nw4",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-18T03:42:38Z",
+      "side": 1,
+      "message": "Consolidate?",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

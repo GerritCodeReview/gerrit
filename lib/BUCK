@@ -25,7 +25,9 @@ define_license(name = 'DO_NOT_DISTRIBUTE')
 
 maven_jar(
   name = 'gwtorm',
-  id = 'gwtorm:gwtorm:1.8',
+  # TODO this needs to be upgraded to the GTWORM version that will contain 
+  # change https://gerrit-review.googlesource.com/#/c/55241/
+  id = 'gwtorm:gwtorm:1.8', 
   bin_sha1 = '0ec006f69f7b8aa48e22d4bdecea820fd53c0b4b',
   src_sha1 = 'b0e347a3053328f029c93ac347a4761a98293073',
   license = 'Apache2.0',

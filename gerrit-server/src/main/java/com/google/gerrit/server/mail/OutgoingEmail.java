@@ -268,7 +268,7 @@ public abstract class OutgoingEmail {
   protected boolean shouldSendMessage() {
     if (body.length() == 0) {
       // If we have no message body, don't send.
-      //
+      log.warn("Skipping delivery of email with no body");
       return false;
     }
 
@@ -276,7 +276,7 @@ public abstract class OutgoingEmail {
       // If we have nobody to send this message to, then all of our
       // selection filters previously for this type of message were
       // unable to match a destination. Don't bother sending it.
-      //
+      log.info("Skipping delivery of email with no recipients");
       return false;
     }
 

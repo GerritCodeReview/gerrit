@@ -26,5 +26,7 @@ public class DataSourceModule extends AbstractModule {
     bind(DataSourceType.class).annotatedWith(Names.named("mysql")).to(MySql.class);
     bind(DataSourceType.class).annotatedWith(Names.named("oracle")).to(Oracle.class);
     bind(DataSourceType.class).annotatedWith(Names.named("postgresql")).to(PostgreSQL.class);
+    bind(DataSourceType.class).annotatedWith(Names.named("maxdb")).to(MaxDb.class);
+    bind(DataSourceType.class).annotatedWith(Names.named("sap db")).to(MaxDb.class);
   }
 }

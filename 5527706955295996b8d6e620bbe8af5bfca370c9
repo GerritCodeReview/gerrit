@@ -16,6 +16,24 @@
       "revId": "5527706955295996b8d6e620bbe8af5bfca370c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TlszwjyA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-18T05:52:13Z",
+      "side": 1,
+      "message": "Yes, in the long run we want to get rid of using Account.Id, but I don\u0027t see that this change is introducing any new usages of it. AvatarImage used Account.Id before this change and it does so now. Changing AvatarImage to use something else (e-mail-address?) should be done in another change.",
+      "parentUuid": "TlO7rPzM",
+      "revId": "5527706955295996b8d6e620bbe8af5bfca370c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

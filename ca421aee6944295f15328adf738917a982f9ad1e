@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TlG4AbxE",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-18T18:45:38Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be adding fields to DB objects that are not in the object\u0027s DB Table, especially fields loaded from other DB tables.   See here:\n\n  https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_design\n\n\"ORM entity objects should match exactly one row in the database.\"\n\n\nAs much as I want this feature (I was considering implementing it myself), this has me thinking that perhaps we should revert this change?",
+      "revId": "ca421aee6944295f15328adf738917a982f9ad1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

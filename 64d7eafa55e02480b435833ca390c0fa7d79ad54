@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "TlE79s.8",
+        "filename": "contrib/gerrit-sync-inactive-with-ldap",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-18T18:52:54Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand the perl option processing, but it looked like some of these were setup to handle long options, but I don\u0027t see them here in the help.  If I am wrong and it isn\u0027t setup to handle long options, I am suggesting adding them since I would not likely guess many of these shortcuts.",
+      "parentUuid": "TkvAUQFA",
+      "revId": "64d7eafa55e02480b435833ca390c0fa7d79ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Tlc3wiSA",
         "filename": "contrib/gerrit-sync-inactive-with-ldap",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TklD9TO8",
+        "filename": "gerrit-openid/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-18T05:25:47Z",
+      "side": 1,
+      "message": "This change should not really be here, but it somehow got into the commit that went into master and I didn\u0027t think it was good to undo it in this cherry pick.",
+      "revId": "4a86020db21974d3ef2744051cc85a2bf23171ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

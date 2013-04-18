@@ -226,8 +226,8 @@ class TrivialRebase:
         # We don't care about previous submit attempts
         continue
       else:
-        print "Unsupported category: %s" % approval
-        continue
+        self.AppendAcctApproval(acct_approvals, approval['account_id'], '--%s %s' %
+                                (approval['category_id'].lower().replace(' ', '-'), approval['value']))
 
     gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                           "detection script.\'")

@@ -30,11 +30,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 public class ChangeInserter {
@@ -54,22 +52,22 @@ public class ChangeInserter {
   }
 
   public void insertChange(ReviewDb db, Change change, PatchSet ps,
-      RevCommit commit, LabelTypes labelTypes, List<FooterLine> footerLines,
-      PatchSetInfo info, Set<Account.Id> reviewers) throws OrmException {
-    insertChange(db, change, null, ps, commit, labelTypes, footerLines, info, reviewers);
+      RevCommit commit, LabelTypes labelTypes, PatchSetInfo info,
+      Set<Account.Id> reviewers) throws OrmException {
+    insertChange(db, change, null, ps, commit, labelTypes, info, reviewers);
   }
 
   public void insertChange(ReviewDb db, Change change,
       ChangeMessage changeMessage, PatchSet ps, RevCommit commit,
-      LabelTypes labelTypes, List<FooterLine> footerLines, PatchSetInfo info,
-      Set<Account.Id> reviewers) throws OrmException {
+      LabelTypes labelTypes, PatchSetInfo info, Set<Account.Id> reviewers)
+      throws OrmException {
 
     db.changes().beginTransaction(change.getId());
     try {
       ChangeUtil.insertAncestors(db, ps.getId(), commit);
       db.patchSets().insert(Collections.singleton(ps));
       db.changes().insert(Collections.singleton(change));
-      ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
+      ChangeUtil.updateTrackingIds(db, change, trackingFooters, commit.getFooterLines());
       approvalsUtil.addReviewers(db, labelTypes, change, ps, info, reviewers,
           Collections.<Account.Id> emptySet());
       if (changeMessage != null) {

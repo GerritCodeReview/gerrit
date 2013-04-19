@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TrLb6aPo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-19T12:25:45Z",
+      "side": 1,
+      "message": "Perhaps \"unknown\" is not the right word here.\n\nChange it to \"custom\" or something like that?",
+      "revId": "64c36996b5c4f03bae492120533d3e322b4d10d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

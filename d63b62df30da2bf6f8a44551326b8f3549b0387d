@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TlU0m2ck",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011097
+      },
+      "writtenOn": "2013-04-19T00:57:52Z",
+      "side": 1,
+      "message": "The bug report also suggests adding capital I (as in igloo).",
+      "revId": "d63b62df30da2bf6f8a44551326b8f3549b0387d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

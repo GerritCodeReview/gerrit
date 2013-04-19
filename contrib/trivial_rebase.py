@@ -137,6 +137,13 @@ class TrivialRebase:
         approvals.append(data["columns"])
     return approvals
 
+  def AppendAcctApproval(self, account_id, value):
+    try:
+      newval = self.acct_approvals[account_id] + ' ' + value
+    except KeyError:
+      newval = value
+    self.acct_approvals[account_id] = newval
+
   def GetEmailFromAcctId(self, account_id):
     """Returns the preferred email address associated with the account_id"""
     sql_query = ("\"SELECT preferred_email FROM accounts WHERE account_id = %s\""
@@ -204,17 +211,16 @@ class TrivialRebase:
     # Need to get all approvals on prior patch set, then suexec them onto
     # this patchset.
     approvals = self.GetApprovals()
-    gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
-                          "detection script.\'")
+    self.acct_approvals = dict()
     for approval in approvals:
       # Note: Sites with different 'copy_min_score' values in the
       # approval_categories DB table might want different behavior here.
       # Additional categories should also be added if desired.
-      if approval["category_id"] == "CRVW":
-        approve_category = '--code-review'
+      if approval["category_id"] == "CRVW" and approval['value'] != '-2':
+        self.AppendAcctApproval(approval['account_id'], '--code-review %s' % approval['value'])
       elif approval["category_id"] == "VRIF":
         # Don't re-add verifies
-        #approve_category = '--verified'
+        # self.AppendAcctApproval(approval['account_id'], '--verified %s' % approval['value'])
         continue
       elif approval["category_id"] == "SUBM":
         # We don't care about previous submit attempts
@@ -223,11 +229,12 @@ class TrivialRebase:
         print "Unsupported category: %s" % approval
         continue
 
-      score = approval["value"]
+    gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
+                          "detection script.\'")
+    for acct, flags in self.acct_approvals.items():
       gerrit_approve_cmd = ['gerrit', 'approve', '--project', self.project,
-                            '--message', gerrit_approve_msg, approve_category,
-                            score, self.commit]
-      email_addr = self.GetEmailFromAcctId(approval["account_id"])
+                            '--message', gerrit_approve_msg, flags, self.commit]
+      email_addr = self.GetEmailFromAcctId(acct)
       self.SuExec(email_addr, ' '.join(gerrit_approve_cmd))
 
 if __name__ == "__main__":

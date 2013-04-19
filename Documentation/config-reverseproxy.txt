@@ -55,7 +55,7 @@ this topic and that you understand the risks.
 
 	  AllowEncodedSlashes NoDecode
 	  RewriteEngine On
-	  RewriteRule ^/r/(.*) http://localhost:8081/r/$1
+	  RewriteRule ^/r/(.*) http://localhost:8081/r/$1 [NE,P]
 	</VirtualHost>
 ----
 

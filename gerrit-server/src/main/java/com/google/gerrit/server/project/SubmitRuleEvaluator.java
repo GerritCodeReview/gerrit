@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -30,6 +31,7 @@ import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -124,8 +126,7 @@ public class SubmitRuleEvaluator {
    * @return List of {@link Term} objects returned from the evaluated rules.
    * @throws RuleEvalException
    */
-  public ListTerm evaluate() throws RuleEvalException {
-    List<Term> results = new ArrayList<Term>();
+  public List<Term> evaluate() throws RuleEvalException {
     PrologEnvironment env = getPrologEnvironment();
     try {
       submitRule = env.once("gerrit", userRuleLocatorName, new VariableTerm());
@@ -133,6 +134,7 @@ public class SubmitRuleEvaluator {
         env.once("gerrit", "assume_range_from_label");
       }
 
+      List<Term> results = new ArrayList<Term>();
       try {
         for (Term[] template : env.all("gerrit", userRuleWrapperName,
             submitRule, new VariableTerm())) {
@@ -152,7 +154,16 @@ public class SubmitRuleEvaluator {
       if (!skipFilters) {
         resultsTerm = runSubmitFilters(resultsTerm, env);
       }
-      return (ListTerm) resultsTerm;
+      if (resultsTerm.isList()) {
+        List<Term> r = Lists.newArrayList();
+        for (Term t = resultsTerm; t.isList();) {
+          ListTerm l = (ListTerm) t;
+          r.add(l.car().dereference());
+          t = l.cdr().dereference();
+        }
+        return r;
+      }
+      return Collections.emptyList();
     } finally {
       env.close();
     }

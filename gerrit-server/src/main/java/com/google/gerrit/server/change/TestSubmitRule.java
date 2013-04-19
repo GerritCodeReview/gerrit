@@ -129,10 +129,9 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, Input> {
     return out;
   }
 
-  @SuppressWarnings("unchecked")
   private static List<Term> eval(SubmitRuleEvaluator evaluator)
       throws RuleEvalException {
-    return evaluator.evaluate().toJava();
+    return evaluator.evaluate();
   }
 
   static class Record {

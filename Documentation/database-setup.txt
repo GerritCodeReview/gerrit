@@ -33,7 +33,7 @@ password, create a database to store the metadata, and grant the user
 full rights on the newly created database:
 
 ----
-  $ createuser --username=postgres -S -R -D -P -E gerrit2
+  $ createuser --username=postgres -RDIElPS gerrit2
   $ createdb --username=postgres -E UTF-8 -O gerrit2 reviewdb
 ----
 

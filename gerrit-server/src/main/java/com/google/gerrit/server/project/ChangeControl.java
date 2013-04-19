@@ -36,6 +36,7 @@ import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
 import org.slf4j.Logger;
@@ -355,7 +356,7 @@ public class ChangeControl {
           fastEvalLabels,
           "locate_submit_rule", "can_submit",
           "locate_submit_filter", "filter_submit_results");
-      results = evaluator.evaluate().toJava();
+      results = evaluator.evaluate();
     } catch (RuleEvalException e) {
       return logRuleError(e.getMessage(), e);
     }
@@ -492,7 +493,7 @@ public class ChangeControl {
           err);
     }
 
-    List<String> results;
+    List<Term> results;
     SubmitRuleEvaluator evaluator;
     try {
       evaluator = new SubmitRuleEvaluator(db, patchSet,
@@ -500,7 +501,7 @@ public class ChangeControl {
           false,
           "locate_submit_type", "get_submit_type",
           "locate_submit_type_filter", "filter_submit_type_results");
-      results = evaluator.evaluate().toJava();
+      results = evaluator.evaluate();
     } catch (RuleEvalException e) {
       return logTypeRuleError(e.getMessage(), e);
     }
@@ -513,10 +514,15 @@ public class ChangeControl {
       return typeRuleError("Project submit rule has no solution");
     }
 
-    // Take only the first result and convert it to SubmitTypeRecord
-    // This logic will need to change once we support multiple submit types
-    // in the UI
-    String typeName = results.get(0);
+    Term typeTerm = results.get(0);
+    if (!typeTerm.isSymbol()) {
+      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
+          + change.getId() + " of " + getProject().getName()
+          + " did not return a symbol.");
+      return typeRuleError("Project submit rule has invalid solution");
+    }
+
+    String typeName = ((SymbolTerm)typeTerm).name();
     try {
       return SubmitTypeRecord.OK(
           Project.SubmitType.valueOf(typeName.toUpperCase()));

@@ -30,12 +30,12 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
 import org.kohsuke.args4j.Option;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
   private final ReviewDb db;
@@ -76,7 +76,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
           ? new ByteArrayInputStream(input.rule.getBytes(Charsets.UTF_8))
           : null);
 
-    ListTerm results;
+    List<Term> results;
     try {
       results = evaluator.evaluate();
     } catch (RuleEvalException e) {
@@ -84,12 +84,12 @@ public class TestSubmitType implements RestModifyView<RevisionResource, Input> {
           "rule failed with exception: %s",
           e.getMessage()));
     }
-    if (results.isNil()) {
+    if (results.isEmpty()) {
       throw new BadRequestException(String.format(
           "rule %s has no solution",
           evaluator.getSubmitRule()));
     }
-    Term type = results.car();
+    Term type = results.get(0);
     if (!type.isSymbol()) {
       throw new BadRequestException(String.format(
           "rule %s produced invalid result: %s",

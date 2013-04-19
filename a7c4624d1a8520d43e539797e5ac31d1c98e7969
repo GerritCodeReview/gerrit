@@ -34,6 +34,24 @@
       "revId": "a7c4624d1a8520d43e539797e5ac31d1c98e7969",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TlI4Tm2Q",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011097
+      },
+      "writtenOn": "2013-04-19T00:54:32Z",
+      "side": 1,
+      "message": "Actually, is this any different than before, except for dropping -R and adding -l?  There doesn\u0027t appear to be any additional restrictions on the account.",
+      "parentUuid": "TlY0ToWQ",
+      "revId": "a7c4624d1a8520d43e539797e5ac31d1c98e7969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

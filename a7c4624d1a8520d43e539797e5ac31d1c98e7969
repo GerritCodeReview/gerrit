@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "TlY0ToWQ",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011097
+      },
+      "writtenOn": "2013-04-19T00:52:39Z",
+      "side": 1,
+      "message": "On PostgreSQL 9.1 you could add \n\n       -R, --no-createrole\n           The new user will not be allowed to create new roles.",
+      "revId": "a7c4624d1a8520d43e539797e5ac31d1c98e7969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

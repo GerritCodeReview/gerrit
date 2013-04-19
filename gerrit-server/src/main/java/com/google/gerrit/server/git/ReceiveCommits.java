@@ -1466,8 +1466,8 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
 
-      changeInserter.insertChange(db, change, ps, commit, labelTypes,
-          footerLines, info, recipients.getReviewers());
+      changeInserter.insertChange(db, change, ps, commit, labelTypes, info,
+          recipients.getReviewers());
 
       created = true;
 

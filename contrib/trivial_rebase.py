@@ -204,7 +204,8 @@ class TrivialRebase:
       comment_msg = ("\'--message=New patchset patch-id matches previous patchset"
                      ", but commit message has changed.'")
       comment_cmd = [self.ssh, self.ssh_port_flag, self.port, self.server, 'gerrit',
-                     'review', '--project', self.project, comment_msg, self.commit]
+                     'review', '--project', self.project, '--code-review', '0',
+                     comment_msg, self.commit]
       self.CheckCall(comment_cmd)
       return
 

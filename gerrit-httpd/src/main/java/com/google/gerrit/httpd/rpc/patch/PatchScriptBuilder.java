@@ -198,10 +198,11 @@ class PatchScriptBuilder {
         context = diffPrefs.getContext();
         hugeFile = true;
 
-      } else if (diffPrefs.isSyntaxHighlighting()) {
-        // In order to syntax highlight the file properly we need to
-        // give the client the complete file contents. So force our
-        // context temporarily to the complete file size.
+      } else if (diffPrefs.isSyntaxHighlighting()
+          || diffPrefs.getContext() != AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+        // In order to expand the skipped common lines or syntax highlight the
+        // file properly we need to give the client the complete file contents.
+        // So force our context temporarily to the complete file size.
         //
         context = MAX_CONTEXT;
       }

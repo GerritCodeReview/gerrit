@@ -298,7 +298,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     f.setEditFilter(PrettyFormatter.B);
     f.setEditList(s.getEdits());
 
-    if (dp.isSyntaxHighlighting() && s.getA().isWholeFile() && !s.getB().isWholeFile()) {
+    if ((dp.isSyntaxHighlighting() || dp.getContext() != AccountDiffPreference.WHOLE_FILE_CONTEXT)
+        && s.getA().isWholeFile() && !s.getB().isWholeFile()) {
       f.format(s.getB().apply(s.getA(), s.getEdits()));
     } else {
       f.format(s.getB());

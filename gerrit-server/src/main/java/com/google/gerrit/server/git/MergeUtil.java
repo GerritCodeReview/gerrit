@@ -315,11 +315,11 @@ public class MergeUtil {
   }
 
   private static boolean isCodeReview(LabelId id) {
-    return "CRVW".equals(id.get()) || "Code-Review".equalsIgnoreCase(id.get());
+    return "Code-Review".equalsIgnoreCase(id.get());
   }
 
   private static boolean isVerified(LabelId id) {
-    return "VRIF".equals(id.get()) || "Verified".equalsIgnoreCase(id.get());
+    return "Verified".equalsIgnoreCase(id.get());
   }
 
   public List<PatchSetApproval> getApprovalsForCommit(final CodeReviewCommit n) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "T0w-9pfA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-22T11:15:56Z",
+      "side": 1,
+      "message": "Since I9c7e815 is already merged it is better to reference the commit-id here instead of change-id. This way one doesn\u0027t need access to gerrit to look at the referenced change.\n\nSame for the line 16",
+      "revId": "b641df6884d510678dc7a0aa4368047da5add8f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

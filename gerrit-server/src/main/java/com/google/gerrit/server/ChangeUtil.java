@@ -304,8 +304,7 @@ public class ChangeUtil {
 
       LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
       changeInserter.insertChange(db, change, cmsg, ps, revertCommit,
-          labelTypes, revertCommit.getFooterLines(), info,
-          Collections.<Account.Id> emptySet());
+          labelTypes, info, Collections.<Account.Id> emptySet());
 
       final RevertedSender cm = revertedSenderFactory.create(change);
       cm.setFrom(user.getAccountId());

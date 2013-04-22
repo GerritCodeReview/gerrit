@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "T0LIUwE8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-22T11:46:26Z",
+      "side": 1,
+      "message": "Does this mean that we are now always returning the complete file contents to the client? Because of the new condition the complete file content is returned when the user has chosen another context than \u0027Whole File\u0027, but if the \u0027Whole File\u0027 is chosen as context we also need to return the complete file. If it\u0027s true that we are now always returning the whole file, I\u0027m wondering if we need the different if-cases at all, why we are not simply using \u0027MAX_CONTEXT\u0027 in any case?",
+      "revId": "3e2ae3645e47999621e06da94fc88e58601728e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

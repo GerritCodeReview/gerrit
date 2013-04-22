@@ -328,7 +328,6 @@ public class ChangeControl {
     return canSubmit(db, patchSet, null, false, false, false);
   }
 
-  @SuppressWarnings("unchecked")
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed,
       boolean allowDraft) {
@@ -476,7 +475,6 @@ public class ChangeControl {
     return getSubmitTypeRecord(db, patchSet, null);
   }
 
-  @SuppressWarnings("unchecked")
   public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd) {
     try {

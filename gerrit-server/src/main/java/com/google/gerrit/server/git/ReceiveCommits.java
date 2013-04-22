@@ -29,11 +29,13 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
@@ -278,6 +280,7 @@ public class ReceiveCommits {
   private final Map<RevCommit, ReplaceRequest> replaceByCommit =
       new HashMap<RevCommit, ReplaceRequest>();
 
+  private ListMultimap<Change.Id, Ref> refsByChange;
   private Map<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
 
@@ -1588,7 +1591,6 @@ public class ReceiveCommits {
   private void preparePatchSetsForReplace() {
     try {
       readChangesForReplace();
-      readPatchSetsForReplace();
       for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator();
           itr.hasNext();) {
         ReplaceRequest req = itr.next();
@@ -1649,17 +1651,6 @@ public class ReceiveCommits {
     }
   }
 
-  private void readPatchSetsForReplace() throws OrmException {
-    Map<Change.Id, ResultSet<PatchSet>> results = Maps.newHashMap();
-    for (ReplaceRequest request : replaceByChange.values()) {
-      Change.Id id = request.ontoChange;
-      results.put(id, db.patchSets().byChange(id));
-    }
-    for (ReplaceRequest req : replaceByChange.values()) {
-      req.patchSets = results.get(req.ontoChange).toList();
-    }
-  }
-
   private class ReplaceRequest {
     final Change.Id ontoChange;
     final RevCommit newCommit;
@@ -1667,7 +1658,7 @@ public class ReceiveCommits {
     final boolean checkMergedInto;
     Change change;
     ChangeControl changeCtl;
-    List<PatchSet> patchSets;
+    BiMap<RevCommit, PatchSet.Id> revisions;
     PatchSet newPatchSet;
     ReceiveCommand cmd;
     PatchSetInfo info;
@@ -1682,26 +1673,36 @@ public class ReceiveCommits {
       this.newCommit = newCommit;
       this.inputCommand = cmd;
       this.checkMergedInto = checkMergedInto;
+
+      revisions = HashBiMap.create();
+      for (Ref ref : refs(toChange)) {
+        try {
+          revisions.forcePut(
+              rp.getRevWalk().parseCommit(ref.getObjectId()),
+              PatchSet.Id.fromRef(ref.getName()));
+        } catch (IOException err) {
+          log.warn(String.format(
+              "Project %s contains invalid change ref %s",
+              project.getName(), ref.getName()), err);
+        }
+      }
     }
 
     boolean validate(boolean autoClose) throws IOException {
       if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
-      }
-
-      if (change == null || patchSets == null) {
+      } else if (change == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
         return false;
       }
 
       priorPatchSet = change.currentPatchSetId();
-      Map<PatchSet.Id, RevCommit> revisions = parseRevisions();
-      if (revisions == null || !revisions.containsKey(priorPatchSet)) {
+      if (!revisions.containsValue(priorPatchSet)) {
         reject(inputCommand, "change " + ontoChange + " missing revisions");
         return false;
       }
 
-      RevCommit priorCommit = revisions.get(priorPatchSet);
+      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
       if (newCommit == priorCommit) {
         // Ignore requests to make the change its current state.
         skip = true;
@@ -1712,20 +1713,15 @@ public class ReceiveCommits {
       if (!changeCtl.canAddPatchSet()) {
         reject(inputCommand, "cannot replace " + ontoChange);
         return false;
-      }
-
-      if (change.getStatus().isClosed()) {
+      } else if (change.getStatus().isClosed()) {
         reject(inputCommand, "change " + ontoChange + " closed");
+        return false;
+      } else if (revisions.containsKey(newCommit)) {
+        reject(inputCommand, "commit already exists");
         return false;
       }
 
-      for (RevCommit prior : revisions.values()) {
-        // Don't allow the same commit to appear twice on the same change
-        if (newCommit == prior) {
-          reject(inputCommand, "commit already exists");
-          return false;
-        }
-
+      for (RevCommit prior : revisions.keySet()) {
         // Don't allow a change to directly depend upon itself. This is a
         // very common error due to users making a new commit rather than
         // amending when trying to address review comments.
@@ -1788,30 +1784,6 @@ public class ReceiveCommits {
           newCommit,
           newPatchSet.getRefName());
       return true;
-    }
-
-    private Map<PatchSet.Id, RevCommit> parseRevisions() {
-      Map<PatchSet.Id, RevCommit> commits = Maps.newHashMap();
-      for (PatchSet ps : patchSets) {
-        if (ps.getRevision() == null) {
-          log.warn("Patch set " + ps.getId() + " has no revision");
-          return null;
-        }
-
-        String revIdStr = ps.getRevision().get();
-        try {
-          commits.put(
-              ps.getId(),
-              rp.getRevWalk().parseCommit(ObjectId.fromString(revIdStr)));
-        } catch (IllegalArgumentException e) {
-          log.warn("Invalid revision in " + ps.getId() + ": " + revIdStr);
-          return null;
-        } catch (IOException e) {
-          log.error("Change " + change.getId() + " missing " + revIdStr, e);
-          return null;
-        }
-      }
-      return commits;
     }
 
     CheckedFuture<PatchSet.Id, OrmException> insertPatchSet()
@@ -1979,6 +1951,21 @@ public class ReceiveCommits {
     }
   }
 
+  private List<Ref> refs(Change.Id changeId) {
+    if (refsByChange == null) {
+      int estRefsPerChange = 4;
+      refsByChange = ArrayListMultimap.create(
+          allRefs.size() / estRefsPerChange,
+          estRefsPerChange);
+      for (Ref ref : allRefs.values()) {
+        if (ref.getObjectId() != null && PatchSet.isRef(ref.getName())) {
+          refsByChange.put(Change.Id.fromRef(ref.getName()), ref);
+        }
+      }
+    }
+    return refsByChange.get(changeId);
+  }
+
   static boolean parentsEqual(RevCommit a, RevCommit b) {
     if (a.getParentCount() != b.getParentCount()) {
       return false;
@@ -2127,7 +2114,6 @@ public class ReceiveCommits {
           if (onto != null) {
             final ReplaceRequest req = new ReplaceRequest(onto, c, cmd, false);
             req.change = db.changes().get(onto);
-            req.patchSets = db.patchSets().byChange(onto).toList();
             toClose.add(req);
             break;
           }

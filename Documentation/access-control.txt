@@ -652,6 +652,10 @@ In order to submit, all labels (such as `Verified` and `Code-Review`,
 above) must enable submit, and also must not block it.  See above for
 details on each label.
 
+To link:user-upload.html#auto_merge[immediately submit a change on push]
+the caller needs to have the Submit permission on `refs/for/<ref>`
+(e.g. on `refs/for/refs/heads/master`).
+
 
 [[category_view_drafts]]
 View Drafts

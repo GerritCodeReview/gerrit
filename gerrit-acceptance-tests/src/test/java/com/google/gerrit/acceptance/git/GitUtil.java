@@ -107,11 +107,17 @@ public class GitUtil {
 
   public static String createCommit(Git git, PersonIdent i, String msg)
       throws GitAPIException, IOException {
-    return createCommit(git, i, msg, true);
+    return createCommit(git, i, msg, true, false);
   }
 
-  public static String createCommit(Git git, PersonIdent i, String msg,
-      boolean insertChangeId) throws GitAPIException, IOException {
+  public static void amendCommit(Git git, PersonIdent i, String msg, String changeId)
+      throws GitAPIException, IOException {
+    msg = ChangeIdUtil.insertId(msg, ObjectId.fromString(changeId.substring(1)));
+    createCommit(git, i, msg, false, true);
+  }
+
+  private static String createCommit(Git git, PersonIdent i, String msg,
+      boolean insertChangeId, boolean amend) throws GitAPIException, IOException {
     ObjectId changeId = null;
     if (insertChangeId) {
       changeId = computeChangeId(git, i, msg);
@@ -119,6 +125,7 @@ public class GitUtil {
     }
 
     final CommitCommand commitCmd = git.commit();
+    commitCmd.setAmend(amend);
     commitCmd.setAuthor(i);
     commitCmd.setCommitter(i);
     commitCmd.setMessage(msg);

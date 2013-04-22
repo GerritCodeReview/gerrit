@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "T2Or1pw0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-22T17:32:33Z",
+      "side": 1,
+      "message": "I don\u0027t think this is quite the right way to phrase it. I am rewriting the expression to always build the full side of B if A isWholeFile and B !isWholeFile. This is the requirement needed to correctly expand.",
+      "revId": "3fe868a9254f910393804abfdbc36aa7800196a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

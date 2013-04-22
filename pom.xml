@@ -884,14 +884,14 @@ limitations under the License.
   <pluginRepositories>
     <pluginRepository>
       <id>gerrit-maven</id>
-      <url>https://gerrit-maven.commondatastorage.googleapis.com</url>
+      <url>http://gerrit-maven.commondatastorage.googleapis.com</url>
     </pluginRepository>
   </pluginRepositories>
 
   <repositories>
     <repository>
       <id>gerrit-maven</id>
-      <url>https://gerrit-maven.commondatastorage.googleapis.com</url>
+      <url>http://gerrit-maven.commondatastorage.googleapis.com</url>
     </repository>
 
     <repository>

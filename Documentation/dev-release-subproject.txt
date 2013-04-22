@@ -13,9 +13,9 @@ release.
 `gerrit-api-repository` in the `pom.xml` is correct.
 +
 If `Gerrit-ApiVersion` references a released Gerrit version it must be
-`https://gerrit-api.commondatastorage.googleapis.com/release/`, if
+`http://gerrit-api.commondatastorage.googleapis.com/release/`, if
 `Gerrit-ApiVersion` references a snapshot Gerrit version it must be
-`https://gerrit-api.commondatastorage.googleapis.com/snapshot/`.
+`http://gerrit-api.commondatastorage.googleapis.com/snapshot/`.
 
 * Build the latest snapshot and install it into the local Maven
 repository:

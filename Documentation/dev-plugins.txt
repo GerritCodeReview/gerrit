@@ -64,7 +64,7 @@ When starting from this example one should take care to adapt the
 the plugin is developed. If the plugin is developed for a released
 Gerrit version (no `SNAPSHOT` version) then the URL for the
 `gerrit-api-repository` in the `pom.xml` needs to be changed to
-`https://gerrit-api.commondatastorage.googleapis.com/release/`.
+`http://gerrit-api.commondatastorage.googleapis.com/release/`.
 
 [[API]]
 API

@@ -102,7 +102,7 @@ limitations under the License.
   <repositories>
     <repository>
       <id>gerrit-plugins</id>
-      <url>https://gerrit-plugins.commondatastorage.googleapis.com</url>
+      <url>http://gerrit-plugins.commondatastorage.googleapis.com</url>
     </repository>
   </repositories>
 </project>

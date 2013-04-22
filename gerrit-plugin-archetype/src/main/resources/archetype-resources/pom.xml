@@ -94,9 +94,9 @@ limitations under the License.
     <repository>
       <id>gerrit-api-repository</id>
 #if ($gerritApiVersion.endsWith("SNAPSHOT"))
-      <url>https://gerrit-api.commondatastorage.googleapis.com/snapshot/</url>
+      <url>http://gerrit-api.commondatastorage.googleapis.com/snapshot/</url>
 #else
-      <url>https://gerrit-api.commondatastorage.googleapis.com/release/</url>
+      <url>http://gerrit-api.commondatastorage.googleapis.com/release/</url>
 #end
     </repository>
   </repositories>

@@ -353,6 +353,20 @@ If the merge fails the change stays open, but when pushing a new patch
 set the merge can be reattempted by using `%submit` again.
 
 
+[[base]]
+Selecting Merge Base
+~~~~~~~~~~~~~~~~~~~~
+
+By default new changes are opened only for new unique commits
+that have never before been seen by the Gerrit server. Clients
+may override that behavior and force new changes to be created
+by setting the merge base SHA-1 using the '%base' argument:
+
+====
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%base=$(git rev-parse origin/master)
+====
+
+
 repo upload
 -----------
 

@@ -204,7 +204,7 @@ class TrivialRebase:
       comment_msg = ("\'--message=New patchset patch-id matches previous patchset"
                      ", but commit message has changed.'")
       comment_cmd = [self.ssh, self.ssh_port_flag, self.port, self.server, 'gerrit',
-                     'approve', '--project', self.project, comment_msg, self.commit]
+                     'review', '--project', self.project, comment_msg, self.commit]
       self.CheckCall(comment_cmd)
       return
 
@@ -226,16 +226,17 @@ class TrivialRebase:
         # We don't care about previous submit attempts
         continue
       else:
-        print "Unsupported category: %s" % approval
-        continue
+        self.AppendAcctApproval(acct_approvals, approval['account_id'], '--%s %s' %
+                                (approval['category_id'].lower().replace(' ', '-'),
+                                 approval['value']))
 
-    gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
+    gerrit_review_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                           "detection script.\'")
     for acct, flags in self.acct_approvals.items():
-      gerrit_approve_cmd = ['gerrit', 'approve', '--project', self.project,
-                            '--message', gerrit_approve_msg, flags, self.commit]
+      gerrit_review_cmd = ['gerrit', 'review', '--project', self.project,
+                            '--message', gerrit_review_msg, flags, self.commit]
       email_addr = self.GetEmailFromAcctId(acct)
-      self.SuExec(email_addr, ' '.join(gerrit_approve_cmd))
+      self.SuExec(email_addr, ' '.join(gerrit_review_cmd))
 
 if __name__ == "__main__":
   try:

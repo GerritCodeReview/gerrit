@@ -298,17 +298,17 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected SparseHtmlFile getSparseHtmlFileB(PatchScript s) {
     AccountDiffPreference dp = new AccountDiffPreference(s.getDiffPrefs());
 
+    SparseFileContent b = s.getB();
     PrettyFormatter f = ClientSideFormatter.FACTORY.get();
     f.setDiffPrefs(dp);
-    f.setFileName(s.getB().getPath());
+    f.setFileName(b.getPath());
     f.setEditFilter(PrettyFormatter.B);
     f.setEditList(s.getEdits());
 
-    if (dp.isSyntaxHighlighting() && s.getA().isWholeFile() && !s.getB().isWholeFile()) {
-      f.format(s.getB().apply(s.getA(), s.getEdits()));
-    } else {
-      f.format(s.getB());
+    if (s.getA().isWholeFile() && !b.isWholeFile()) {
+      b = b.apply(s.getA(), s.getEdits());
     }
+    f.format(b);
     return f;
   }
 

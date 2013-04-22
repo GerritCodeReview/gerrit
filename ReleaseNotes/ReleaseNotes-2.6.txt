@@ -66,12 +66,9 @@ choice to save the login data locally in the user's password store.
 
 * Always show 'Working ...' message
 +
-The 'Working ...' message is now not anymore sticked to the Gerrit page
-top border so that it is now always displayed, even if the user has
-scrolled down the page and the top border is not visible.
-+
-This change make 'Working ...' message relatively positioned to
-browser top border, so that it is always visible for users.
+The 'Working ...' message is relatively positioned from the top of
+the browser, so that the message is always visible, even if the user
+has scrolled down the page.
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-gerrit.html#suggest.from[
   suggest.from] configures a minimum number of characters before

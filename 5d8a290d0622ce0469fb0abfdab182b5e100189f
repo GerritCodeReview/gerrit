@@ -16,6 +16,24 @@
       "revId": "5d8a290d0622ce0469fb0abfdab182b5e100189f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "T2KoUT08",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1329,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-04-22T19:23:37Z",
+      "side": 1,
+      "message": "Yeah, I got distracted by the CREATE/UPDATE codepaths. Sorry for the false alarm. This change looks correct.",
+      "parentUuid": "T2GoKVzA",
+      "revId": "5d8a290d0622ce0469fb0abfdab182b5e100189f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

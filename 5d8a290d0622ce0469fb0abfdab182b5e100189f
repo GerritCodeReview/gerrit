@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "T2GoKVzA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1329,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-22T19:12:07Z",
+      "side": 1,
+      "message": "I didn\u0027t bypass commit validation. Every commit in the range $base..$tip comes through this loop. Since existing is empty the continue above doesn\u0027t trip and instead we reach this line, which runs validation on each commit sequentially.",
+      "revId": "5d8a290d0622ce0469fb0abfdab182b5e100189f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

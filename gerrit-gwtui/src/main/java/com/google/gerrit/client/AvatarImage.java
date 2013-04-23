@@ -15,7 +15,6 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.user.client.ui.Image;
@@ -23,20 +22,20 @@ import com.google.gwt.user.client.ui.Image;
 public class AvatarImage extends Image {
 
   /** A default sized avatar image. */
-  public AvatarImage(Account.Id account) {
-    this(account, 0);
+  public AvatarImage(String email) {
+    this(email, 0);
   }
 
   /**
    * An avatar image for the given account using the requested size.
    *
-   * @param account The account in which we are interested
+   * @param email The email address of the account in which we are interested
    * @param size A requested size. Note that the size can be ignored depending
    *        on the avatar provider. A size <= 0 indicates to let the provider
    *        decide a default size.
    */
-  public AvatarImage(Account.Id account, int size) {
-    super(url(account, size));
+  public AvatarImage(String email, int size) {
+    super(url(email, size));
 
     if (size > 0) {
       // If the provider does not resize the image, force it in the browser.
@@ -53,12 +52,15 @@ public class AvatarImage extends Image {
     });
   }
 
-  private static String url(Account.Id id, int size) {
+  private static String url(String email, int size) {
+    if (email == null) {
+      return "";
+    }
     String u;
-    if (Gerrit.isSignedIn() && id.equals(Gerrit.getUserAccount().getId())) {
+    if (Gerrit.isSignedIn() && email.equals(Gerrit.getUserAccount().getPreferredEmail())) {
       u = "self";
     } else {
-      u = id.toString();
+      u = email;
     }
     RestApi api = new RestApi("/accounts/").id(u).view("avatar");
     if (size > 0) {

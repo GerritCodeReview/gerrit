@@ -43,7 +43,7 @@ public class CurrentUserPopupPanel extends PluginSafePopupPanel {
 
   public CurrentUserPopupPanel(Account account, boolean canLogOut) {
     super(/* auto hide */true, /* modal */false);
-    avatar = new AvatarImage(account.getId(), 100);
+    avatar = new AvatarImage(account.getPreferredEmail(), 100);
     setWidget(binder.createAndBindUi(this));
     // We must show and then hide this popup so that it is part of the DOM.
     // Otherwise the image does not get any events.  Calling hide() would

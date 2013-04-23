@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "T2igAaxA",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 1701,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-23T12:48:33Z",
+      "side": 1,
+      "message": "Very true. Nice catch :)",
+      "parentUuid": "T2Wkjhbg",
+      "revId": "fa20b16e550e0116b903472138be879e1d997401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "T2MoTg2M",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeDetail.java",
         "patchSetId": 16
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "T2gj9p-A",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeDetail.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-23T12:48:33Z",
+      "side": 1,
+      "message": "Thanks. Should be moved to \"Button to allow Cherry Picking of a change to another branch.\"",
+      "parentUuid": "T2MoTg2M",
+      "revId": "fa20b16e550e0116b903472138be879e1d997401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "T2UkgQao",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 16
@@ -47,6 +83,24 @@
       "writtenOn": "2013-04-23T06:11:27Z",
       "side": 1,
       "message": "The footerLines argument has been removed from insertChange, so this line gives a compiler error.",
+      "revId": "fa20b16e550e0116b903472138be879e1d997401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "T2mgKYzA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-23T12:48:33Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "T2UkgQao",
       "revId": "fa20b16e550e0116b903472138be879e1d997401",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "T2elHdWE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1012297
+      },
+      "writtenOn": "2013-04-23T15:32:13Z",
+      "side": 1,
+      "message": "We are removing the use of the ~.",
+      "parentUuid": "R-wMrro8",
+      "revId": "7e5c41c376cd3bd69adcf7b12bfb26bb9659584d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "QWijvS0E",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-02-27T17:53:39Z",
       "side": 1,
       "message": "nit: no space after \"!\"",
+      "revId": "7e5c41c376cd3bd69adcf7b12bfb26bb9659584d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "T2clMMYc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012297
+      },
+      "writtenOn": "2013-04-23T15:32:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "QWijvS0E",
       "revId": "7e5c41c376cd3bd69adcf7b12bfb26bb9659584d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

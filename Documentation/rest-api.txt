@@ -112,7 +112,7 @@ if options are set which cannot be used together.
 calling user has no sufficient permissions.
 
 E.g. some REST endpoints require that the calling user has certain
-link:access-control.html#system_capabilities[global capabilities]
+link:access-control.html#global_capabilities[global capabilities]
 assigned.
 
 `403 Forbidden` is also used if `self` is used as account ID and the

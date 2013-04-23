@@ -1025,11 +1025,11 @@ on `refs/for/refs/heads/<branch>` rather than permissions to upload changes
 on `refs/heads/<branch>`.
 
 
-[[system_capabilities]]
-System capabilities
+[[global_capabilities]]
+Global Capabilities
 -------------------
 
-The system capabilities control actions that the administrators of
+The global capabilities control actions that the administrators of
 the server can perform which usually affect the entire
 server in some way.  The administrators may delegate these
 capabilities to trusted groups of users.
@@ -1039,6 +1039,9 @@ administrative capabilities without being given complete
 administrative control of the server.  This makes it possible to
 keep fewer users in the administrators group, even while spreading
 much of the server administration burden out to more users.
+
+Global capabilities are assigned to groups in the access rights settings
+of the root project ("`All-Projects`").
 
 Below you find a list of capabilities available:
 

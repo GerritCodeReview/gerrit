@@ -19,6 +19,7 @@ import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
 import com.google.gerrit.client.account.AccountCapabilities;
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
@@ -247,6 +248,11 @@ public class Gerrit implements EntryPoint {
   /** @return the currently signed in user's account data; null if no account */
   public static Account getUserAccount() {
     return myAccount;
+  }
+
+  /** @return the currently signed in user's account data; empty account data if no account */
+  public static AccountInfo getUserAccountInfo() {
+    return FormatUtil.asInfo(myAccount);
   }
 
   /** @return access token to prove user identity during REST API calls. */
@@ -762,9 +768,9 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void whoAmI(boolean canLogOut) {
-    Account account = getUserAccount();
-    final CurrentUserPopupPanel userPopup =
-        new CurrentUserPopupPanel(account, canLogOut);
+    AccountInfo account = getUserAccountInfo();
+    final UserPopupPanel userPopup =
+        new UserPopupPanel(account, canLogOut, true);
     final FlowPanel userSummaryPanel = new FlowPanel();
     class PopupHandler implements KeyDownHandler, ClickHandler {
       private void showHidePopup() {
@@ -791,7 +797,7 @@ public class Gerrit implements EntryPoint {
     final PopupHandler popupHandler = new PopupHandler();
     final InlineLabel l = new InlineLabel(FormatUtil.name(account));
     l.setStyleName(RESOURCES.css().menuBarUserName());
-    final AvatarImage avatar = new AvatarImage(account.getPreferredEmail(), 26);
+    final AvatarImage avatar = new AvatarImage(account, 26, false);
     avatar.setStyleName(RESOURCES.css().menuBarUserNameAvatar());
     userSummaryPanel.setStyleName(RESOURCES.css().menuBarUserNamePanel());
     userSummaryPanel.add(l);

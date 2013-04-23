@@ -19,6 +19,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountUserNameException;
@@ -26,7 +27,6 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.annotation.Nullable;
@@ -57,17 +56,17 @@ class LdapLoginServlet extends HttpServlet {
   private final AccountManager accountManager;
   private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
-  private final SitePaths sitePaths;
+  private final SiteHeaderFooter headers;
 
   @Inject
   LdapLoginServlet(AccountManager accountManager,
       Provider<WebSession> webSession,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      SitePaths sitePaths) {
+      SiteHeaderFooter headers) {
     this.accountManager = accountManager;
     this.webSession = webSession;
     this.urlProvider = urlProvider;
-    this.sitePaths = sitePaths;
+    this.headers = headers;
 
     if (Strings.isNullOrEmpty(urlProvider.get())) {
       log.error("gerrit.canonicalWebUrl must be set in gerrit.config");
@@ -83,13 +82,7 @@ class LdapLoginServlet extends HttpServlet {
       cancel += "#" + token;
     }
 
-    Document doc =
-        HtmlDomUtil.parseFile(LdapLoginServlet.class, "LoginForm.html");
-
-    injectCssFile(doc, "gerrit_sitecss", sitePaths.site_css);
-    injectXmlFile(doc, "gerrit_header", sitePaths.site_header);
-    injectXmlFile(doc, "gerrit_footer", sitePaths.site_footer);
-
+    Document doc = headers.parse(LdapLoginServlet.class, "LoginForm.html");
     HtmlDomUtil.find(doc, "hostName").setTextContent(req.getServerName());
     HtmlDomUtil.find(doc, "login_form").setAttribute("action", self);
     HtmlDomUtil.find(doc, "cancel_link").setAttribute("href", cancel);
@@ -111,42 +104,6 @@ class LdapLoginServlet extends HttpServlet {
       out.write(bin);
     } finally {
       out.close();
-    }
-  }
-
-  private void injectCssFile(final Document hostDoc, final String id,
-      final File src) throws IOException {
-    final Element banner = HtmlDomUtil.find(hostDoc, id);
-    if (banner != null) {
-      while (banner.getFirstChild() != null) {
-        banner.removeChild(banner.getFirstChild());
-      }
-
-      String css = HtmlDomUtil.readFile(src.getParentFile(), src.getName());
-      if (css == null) {
-        banner.getParentNode().removeChild(banner);
-      } else {
-        banner.removeAttribute("id");
-        banner.appendChild(hostDoc.createCDATASection("\n" + css + "\n"));
-      }
-    }
-  }
-
-  private void injectXmlFile(final Document hostDoc, final String id,
-      final File src) throws IOException {
-    final Element banner = HtmlDomUtil.find(hostDoc, id);
-    if (banner != null) {
-      while (banner.getFirstChild() != null) {
-        banner.removeChild(banner.getFirstChild());
-      }
-
-      Document html = HtmlDomUtil.parseFile(src);
-      if (html == null) {
-        banner.getParentNode().removeChild(banner);
-      } else {
-        final Element content = html.getDocumentElement();
-        banner.appendChild(hostDoc.importNode(content, true));
-      }
     }
   }
 

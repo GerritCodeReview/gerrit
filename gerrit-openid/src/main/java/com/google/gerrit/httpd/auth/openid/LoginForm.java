@@ -23,6 +23,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -62,15 +63,18 @@ class LoginForm extends HttpServlet {
   private final OpenIdServiceImpl impl;
   private final int maxRedirectUrlLength;
   private final String ssoUrl;
+  private final SiteHeaderFooter header;
 
   @Inject
   LoginForm(
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       @GerritServerConfig Config config,
       AuthConfig authConfig,
-      OpenIdServiceImpl impl) {
+      OpenIdServiceImpl impl,
+      SiteHeaderFooter header) {
     this.urlProvider = urlProvider;
     this.impl = impl;
+    this.header = header;
     this.maxRedirectUrlLength = config.getInt(
         "openid", "maxRedirectUrlLength",
         10);
@@ -231,7 +235,7 @@ class LoginForm extends HttpServlet {
       cancel += "#" + token;
     }
 
-    Document doc = HtmlDomUtil.parseFile(LoginForm.class, "LoginForm.html");
+    Document doc = header.parse(LoginForm.class, "LoginForm.html");
     HtmlDomUtil.find(doc, "hostName").setTextContent(req.getServerName());
     HtmlDomUtil.find(doc, "login_form").setAttribute("action", self);
     HtmlDomUtil.find(doc, "cancel_link").setAttribute("href", cancel);

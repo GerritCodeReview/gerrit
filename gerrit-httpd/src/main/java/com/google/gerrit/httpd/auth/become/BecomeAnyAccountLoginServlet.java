@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -60,14 +61,18 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<WebSession> webSession;
   private final AccountManager accountManager;
+  private final SiteHeaderFooter headers;
 
   @Inject
   BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
-      final AccountManager am, final ServletContext servletContext) {
+      final AccountManager am,
+      final ServletContext servletContext,
+      SiteHeaderFooter shf) {
     webSession = ws;
     schema = sf;
     accountManager = am;
+    headers = shf;
   }
 
   @Override
@@ -149,7 +154,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private byte[] prepareHtmlOutput() throws IOException, OrmException {
     final String pageName = "BecomeAnyAccount.html";
-    final Document doc = HtmlDomUtil.parseFile(getClass(), pageName);
+    Document doc = headers.parse(getClass(), pageName);
     if (doc == null) {
       throw new FileNotFoundException("No " + pageName + " in webapp");
     }

@@ -13,7 +13,7 @@
         margin-left: 45px;
       }
     </style>
-    <style  id="gerrit_sitecss" type="text/css"></style>
+    <style id="gerrit_sitecss" type="text/css"></style>
   </head>
   <body>
     <div id="gerrit_topmenu" style="height:45px;" class="gerritTopMenu"></div>
@@ -56,28 +56,28 @@
         </tr>
         </table>
       </form>
-
-      <script type="text/javascript">
-        var login_form = document.getElementById('login_form');
-        var f_user = document.getElementById('f_user');
-        var f_pass = document.getElementById('f_pass');
-        f_user.onkeydown = function(e) {
-          if (e.keyCode == 13) {
-            f_pass.focus();
-            return false;
-          }
-        }
-        f_pass.onkeydown = function(e) {
-          if (e.keyCode == 13) {
-            login_form.submit();
-            return false;
-          }
-        }
-        f_user.focus();
-      </script>
       <div style="clear: both; margin-top: 15px; padding-top: 2px; margin-bottom: 15px;">
         <div id="gerrit_footer"></div>
       </div>
     </div>
+
+    <script type="text/javascript">
+      var login_form = document.getElementById('login_form');
+      var f_user = document.getElementById('f_user');
+      var f_pass = document.getElementById('f_pass');
+      f_user.onkeydown = function(e) {
+        if (e.keyCode == 13) {
+          f_pass.focus();
+          return false;
+        }
+      }
+      f_pass.onkeydown = function(e) {
+        if (e.keyCode == 13) {
+          login_form.submit();
+          return false;
+        }
+      }
+      f_user.focus();
+    </script>
   </body>
 </html>

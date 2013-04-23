@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
@@ -62,12 +63,12 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     this(commentLinkProcessor);
 
     setMessageText(message);
-    setAuthorNameText(FormatUtil.name(author));
+    setAuthorNameText(author.email(), FormatUtil.name(author));
     setDateText(FormatUtil.shortFormatDayTime(when));
 
     final CellFormatter fmt = header.getCellFormatter();
-    fmt.getElement(0, 0).setTitle(FormatUtil.nameEmail(author));
-    fmt.getElement(0, 2).setTitle(FormatUtil.mediumFormat(when));
+    fmt.getElement(0, 1).setTitle(FormatUtil.nameEmail(author));
+    fmt.getElement(0, 3).setTitle(FormatUtil.mediumFormat(when));
   }
 
   protected CommentPanel(CommentLinkProcessor commentLinkProcessor) {
@@ -87,14 +88,14 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
         setOpen(!isOpen());
       }
     });
-    header.setText(0, 0, "");
-    header.setWidget(0, 1, messageSummary);
-    header.setText(0, 2, "");
+    header.setText(0, 1, "");
+    header.setWidget(0, 2, messageSummary);
+    header.setText(0, 3, "");
     final CellFormatter fmt = header.getCellFormatter();
-    fmt.setStyleName(0, 0, Gerrit.RESOURCES.css().commentPanelAuthorCell());
-    fmt.setStyleName(0, 1, Gerrit.RESOURCES.css().commentPanelSummaryCell());
-    fmt.setStyleName(0, 2, Gerrit.RESOURCES.css().commentPanelDateCell());
-    fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+    fmt.setStyleName(0, 1, Gerrit.RESOURCES.css().commentPanelAuthorCell());
+    fmt.setStyleName(0, 2, Gerrit.RESOURCES.css().commentPanelSummaryCell());
+    fmt.setStyleName(0, 3, Gerrit.RESOURCES.css().commentPanelDateCell());
+    fmt.setHorizontalAlignment(0, 3, HasHorizontalAlignment.ALIGN_RIGHT);
     body.add(header);
 
     content = new FlowPanel();
@@ -125,12 +126,13 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     SafeHtml.set(messageText, buf);
   }
 
-  public void setAuthorNameText(final String nameText) {
-    header.setText(0, 0, nameText);
+  public void setAuthorNameText(final String authorEmail, final String nameText) {
+    header.setWidget(0, 0, new AvatarImage(authorEmail, 26));
+    header.setText(0, 1, nameText);
   }
 
   protected void setDateText(final String dateText) {
-    header.setText(0, 2, dateText);
+    header.setText(0, 3, dateText);
   }
 
   protected void setMessageTextVisible(final boolean show) {

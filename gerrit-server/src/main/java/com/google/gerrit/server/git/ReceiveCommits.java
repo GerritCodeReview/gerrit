@@ -276,6 +276,7 @@ public class ReceiveCommits {
       new HashMap<Change.Id, ReplaceRequest>();
   private final Map<RevCommit, ReplaceRequest> replaceByCommit =
       new HashMap<RevCommit, ReplaceRequest>();
+  private final Set<RevCommit> validCommits = new HashSet<RevCommit>();
 
   private Map<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
@@ -2037,6 +2038,10 @@ public class ReceiveCommits {
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
       final RevCommit c) throws MissingObjectException, IOException {
 
+    if (validCommits.contains(c)) {
+      return true;
+    }
+
     CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, currentUser);
     CommitValidators commitValidators =
@@ -2049,6 +2054,7 @@ public class ReceiveCommits {
       reject(cmd, e.getMessage());
       return false;
     }
+    validCommits.add(c);
     return true;
   }
 

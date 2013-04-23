@@ -65,7 +65,8 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     comment = plc;
 
     addStyleName(Gerrit.RESOURCES.css().commentEditorPanel());
-    setAuthorNameText(PatchUtil.C.draft());
+    setAuthorNameText(Gerrit.getUserAccount().getPreferredEmail(),
+        PatchUtil.C.draft());
     setMessageText(plc.getMessage());
     addDoubleClickHandler(this);
 

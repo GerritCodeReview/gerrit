@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "T24dCJlM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2013-04-23T17:35:21Z",
+      "side": 1,
+      "message": "So you want to ensure the code to be future proof by dismissing exception types all together? Sorry. But that does not make sense to me. What the code is saying now: \"- Oh. I got a RuntimeException. Well, this must obviously be a group.\"",
+      "parentUuid": "T2Eo5U9o",
+      "revId": "d9f1186ffffc88d6f1a148d114eb6914dff66004",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "T2Wk8Jcw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
         "patchSetId": 2

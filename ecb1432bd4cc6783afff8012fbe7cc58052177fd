@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "T2elgFek",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-23T16:13:36Z",
+      "side": 1,
+      "message": "This is confusing, are you trying to filter these refs (that\u0027s what the name makes me think?), or are you trying to use these refs as a base to advertise after filtering them (which I think the code is doing)?  If the latter, then perhaps a better name would be something like baseRefs or just refs?",
+      "revId": "ecb1432bd4cc6783afff8012fbe7cc58052177fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "T2cllUfc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-23T16:13:36Z",
+      "side": 1,
+      "message": "This logic is confusing, are you basically just doing?:\n\n Map\u003cString, Ref\u003e refs \u003d rp.getAdvertisedRefs(); \n if (refs \u003d\u003d null) {\n   refs \u003d rp.getRepository().getAllRefs();\n }\n if (refsToFilter !\u003d null){\n    refs.putAll(refsToFilter);\n }\n refsToFilter \u003d refs;\n\n Map\u003cString, Ref\u003e r \u003d Maps.newHashMapWithExpectedSize(refs.size());\n for (Map.Entry\u003cString, Ref\u003e e : refs.entrySet()) {\n\nMaybe that is clearer?",
+      "revId": "ecb1432bd4cc6783afff8012fbe7cc58052177fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

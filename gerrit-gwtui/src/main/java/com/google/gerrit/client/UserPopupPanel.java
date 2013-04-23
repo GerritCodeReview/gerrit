@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -24,8 +24,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
-public class CurrentUserPopupPanel extends PluginSafePopupPanel {
-  interface Binder extends UiBinder<Widget, CurrentUserPopupPanel> {
+public class UserPopupPanel extends PluginSafePopupPanel {
+  interface Binder extends UiBinder<Widget, UserPopupPanel> {
   }
 
   private static final Binder binder = GWT.create(Binder.class);
@@ -41,9 +41,10 @@ public class CurrentUserPopupPanel extends PluginSafePopupPanel {
   @UiField
   Anchor settings;
 
-  public CurrentUserPopupPanel(Account account, boolean canLogOut) {
+  public UserPopupPanel(AccountInfo account, boolean canLogOut,
+      boolean showSettingsLink) {
     super(/* auto hide */true, /* modal */false);
-    avatar = new AvatarImage(account.getPreferredEmail(), 100);
+    avatar = new AvatarImage(account, 100, false);
     setWidget(binder.createAndBindUi(this));
     // We must show and then hide this popup so that it is part of the DOM.
     // Otherwise the image does not get any events.  Calling hide() would
@@ -51,17 +52,21 @@ public class CurrentUserPopupPanel extends PluginSafePopupPanel {
     show();
     setVisible(false);
     setStyleName(Gerrit.RESOURCES.css().userInfoPopup());
-    if (account.getFullName() != null) {
-      userName.setText(account.getFullName());
+    if (account.name() != null) {
+      userName.setText(account.name());
     }
-    if (account.getPreferredEmail() != null) {
-      userEmail.setText(account.getPreferredEmail());
+    if (account.email() != null) {
+      userEmail.setText(account.email());
     }
     if (canLogOut) {
       logout.setHref(Gerrit.selfRedirect("/logout"));
     } else {
       logout.setVisible(false);
     }
-    settings.setHref(Gerrit.selfRedirect(PageLinks.SETTINGS));
+    if (showSettingsLink) {
+      settings.setHref(Gerrit.selfRedirect(PageLinks.SETTINGS));
+    } else {
+      settings.setVisible(false);
+    }
   }
 }

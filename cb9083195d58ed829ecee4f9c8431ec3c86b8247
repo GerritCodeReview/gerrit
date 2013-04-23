@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "T3YXwYh8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-23T15:56:09Z",
+      "side": 1,
+      "message": "I am concerned about the performance here, could you test this with one (or 10) million refs?  Because ref counts continue to grow for us and I\u0027d hate to add a new constraint that won\u0027t scale.",
+      "revId": "cb9083195d58ed829ecee4f9c8431ec3c86b8247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

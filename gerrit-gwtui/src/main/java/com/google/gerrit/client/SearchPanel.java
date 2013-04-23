@@ -18,9 +18,6 @@ import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gwt.animation.client.Animation;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -36,40 +33,11 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 class SearchPanel extends Composite {
-  private static final int FULL_SIZE = 70;
-  private static final int SMALL_SIZE = 45;
-
-  private class SizeAnimation extends Animation {
-    int targetSize;
-    int startSize;
-    public void run(boolean expand) {
-      if(expand) {
-        targetSize = FULL_SIZE;
-        startSize = SMALL_SIZE;
-      } else {
-        targetSize = SMALL_SIZE;
-        startSize = FULL_SIZE;
-      }
-      super.run(300);
-    }
-    @Override
-    protected void onUpdate(double progress) {
-      int size = (int) (targetSize * progress + startSize * (1-progress));
-      searchBox.setVisibleLength(size);
-    }
-
-    @Override
-    protected void onComplete() {
-      searchBox.setVisibleLength(targetSize);
-    }
-  }
   private final HintTextBox searchBox;
   private HandlerRegistration regFocus;
-  private final SizeAnimation sizeAnimation;
 
   SearchPanel() {
     final FlowPanel body = new FlowPanel();
-    sizeAnimation = new SizeAnimation();
     initWidget(body);
     setStyleName(Gerrit.RESOURCES.css().searchPanel());
 
@@ -78,9 +46,6 @@ class SearchPanel extends Composite {
     searchBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        if (searchBox.getVisibleLength() == SMALL_SIZE) {
-          sizeAnimation.run(true);
-        }
         if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           if (!suggestionDisplay.isSuggestionSelected) {
             doSearch();
@@ -88,19 +53,11 @@ class SearchPanel extends Composite {
         }
       }
     });
-    searchBox.addBlurHandler(new BlurHandler() {
-      @Override
-      public void onBlur(BlurEvent event) {
-        if (searchBox.getVisibleLength() != SMALL_SIZE) {
-          sizeAnimation.run(false);
-        }
-      }
-    });
 
     final SuggestBox suggestBox =
         new SuggestBox(new SearchSuggestOracle(), searchBox, suggestionDisplay);
     searchBox.setStyleName("gwt-TextBox");
-    searchBox.setVisibleLength(SMALL_SIZE);
+    searchBox.setVisibleLength(70);
     searchBox.setHintText(Gerrit.C.searchHint());
 
     final Button searchButton = new Button(Gerrit.C.searchButton());

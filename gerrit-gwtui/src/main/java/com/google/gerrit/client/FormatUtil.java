@@ -178,7 +178,7 @@ public class FormatUtil {
     return nameEmail(ai);
   }
 
-  private static AccountInfo asInfo(Account acct) {
+  public static AccountInfo asInfo(Account acct) {
     if (acct == null) {
       return AccountInfo.create(0, null, null);
     }

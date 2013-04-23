@@ -63,7 +63,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     this(commentLinkProcessor);
 
     setMessageText(message);
-    setAuthorNameText(author.email(), FormatUtil.name(author));
+    setAuthorNameText(author, FormatUtil.name(author));
     setDateText(FormatUtil.shortFormatDayTime(when));
 
     final CellFormatter fmt = header.getCellFormatter();
@@ -129,8 +129,8 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     SafeHtml.set(messageText, buf);
   }
 
-  public void setAuthorNameText(final String authorEmail, final String nameText) {
-    header.setWidget(0, 0, new AvatarImage(authorEmail, 26));
+  public void setAuthorNameText(final AccountInfo author, final String nameText) {
+    header.setWidget(0, 0, new AvatarImage(author, 26));
     header.setText(0, 1, nameText);
   }
 

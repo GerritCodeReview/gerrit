@@ -16,6 +16,24 @@
       "revId": "cb9083195d58ed829ecee4f9c8431ec3c86b8247",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "T2OpHZ2E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-23T16:05:21Z",
+      "side": 1,
+      "message": "We already have all of the references. This is just storing them as a TreeMap rather than the RefMap/RefList backing that JGit normally uses... and costs O(N log N) time to do it.\n\nWith filters in place for branch permissions these are already copied to HashMap. So its already not free.",
+      "parentUuid": "T3YXwYh8",
+      "revId": "cb9083195d58ed829ecee4f9c8431ec3c86b8247",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

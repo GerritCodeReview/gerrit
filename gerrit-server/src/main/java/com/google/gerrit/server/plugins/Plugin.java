@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -173,6 +174,15 @@ public class Plugin {
   }
 
   void start(PluginGuiceEnvironment env) throws Exception {
+    RequestContext oldContext = env.enter(this);
+    try {
+      startPlugin(env);
+    } finally {
+      env.exit(oldContext);
+    }
+  }
+
+  private void startPlugin(PluginGuiceEnvironment env) throws Exception {
     Injector root = newRootInjector(env);
     manager = new LifecycleManager();
 
@@ -264,9 +274,14 @@ public class Plugin {
     return Guice.createInjector(modules);
   }
 
-  void stop() {
+  void stop(PluginGuiceEnvironment env) {
     if (manager != null) {
-      manager.stop();
+      RequestContext oldContext = env.enter(this);
+      try {
+        manager.stop();
+      } finally {
+        env.exit(oldContext);
+      }
       manager = null;
       sysInjector = null;
       sshInjector = null;

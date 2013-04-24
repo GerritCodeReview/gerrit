@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ChangeTable2 extends NavigationTable<ChangeInfo> {
+public class ChangeListTable extends NavigationTable<ChangeInfo> {
   private static final int C_STAR = 1;
   private static final int C_SUBJECT = 2;
   private static final int C_OWNER = 3;
@@ -58,7 +58,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private int columns;
   private List<String> labelNames;
 
-  public ChangeTable2() {
+  public ChangeListTable() {
     super(Util.C.changeItemHelp());
     columns = BASE_COLUMNS;
     labelNames = Collections.emptyList();
@@ -360,7 +360,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   }
 
   public static class Section {
-    ChangeTable2 parent;
+    ChangeListTable parent;
     String titleText;
     Widget titleWidget;
     int titleRow = -1;

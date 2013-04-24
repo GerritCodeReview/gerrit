@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class DashboardTable extends ChangeTable2 {
+public class DashboardTable extends ChangeListTable {
   private List<Section> sections;
   private String title;
   private List<String> titles;
@@ -61,7 +61,7 @@ public class DashboardTable extends ChangeTable2 {
 
     addStyleName(Gerrit.RESOURCES.css().accountDashboard());
 
-    sections = new ArrayList<ChangeTable2.Section>();
+    sections = new ArrayList<ChangeListTable.Section>();
     int i = 0;
     for (String title : titles) {
       Section s = new Section();

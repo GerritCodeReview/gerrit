@@ -75,9 +75,9 @@ public class ChangeScreen extends Screen
   private IncludedInTable includedInTable;
   private DisclosurePanel includedInPanel;
   private ComplexDisclosurePanel dependenciesPanel;
-  private ChangeTable dependencies;
-  private ChangeTable.Section dependsOn;
-  private ChangeTable.Section neededBy;
+  private ChangeDependenciesTable dependencies;
+  private ChangeDependenciesTable.Section dependsOn;
+  private ChangeDependenciesTable.Section neededBy;
 
   private PatchSetsBlock patchSetsBlock;
 
@@ -179,13 +179,13 @@ public class ChangeScreen extends Screen
     includedInPanel.setContent(includedInTable);
     add(includedInPanel);
 
-    dependencies = new ChangeTable() {
+    dependencies = new ChangeDependenciesTable() {
       {
         table.setWidth("auto");
       }
     };
-    dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
-    dependsOn.setChangeRowFormatter(new ChangeTable.ChangeRowFormatter() {
+    dependsOn = new ChangeDependenciesTable.Section(Util.C.changeScreenDependsOn());
+    dependsOn.setChangeRowFormatter(new ChangeDependenciesTable.ChangeRowFormatter() {
       @Override
       public String getRowStyle(ChangeInfo c) {
         if (! c.isLatest() || Change.Status.ABANDONED.equals(c.getStatus())) {
@@ -202,7 +202,7 @@ public class ChangeScreen extends Screen
         return displayText;
       }
     });
-    neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
+    neededBy = new ChangeDependenciesTable.Section(Util.C.changeScreenNeededBy());
     dependencies.addSection(dependsOn);
     dependencies.addSection(neededBy);
 

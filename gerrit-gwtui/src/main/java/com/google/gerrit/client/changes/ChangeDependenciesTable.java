@@ -40,7 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ChangeTable extends NavigationTable<ChangeInfo> {
+public class ChangeDependenciesTable extends NavigationTable<ChangeInfo> {
   private static final int C_STAR = 1;
   private static final int C_SUBJECT = 2;
   private static final int C_OWNER = 3;
@@ -52,7 +52,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private final List<Section> sections;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
-  public ChangeTable() {
+  public ChangeDependenciesTable() {
     super(Util.C.changeItemHelp());
 
     if (Gerrit.isSignedIn()) {
@@ -260,7 +260,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   public static class Section {
     String titleText;
 
-    ChangeTable parent;
+    ChangeDependenciesTable parent;
     final Account.Id ownerId;
     int titleRow = -1;
     int dataBegin;

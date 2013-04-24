@@ -28,10 +28,10 @@ import java.util.Comparator;
 public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   private final Account.Id ownerId;
   private final boolean mine;
-  private ChangeTable2 table;
-  private ChangeTable2.Section outgoing;
-  private ChangeTable2.Section incoming;
-  private ChangeTable2.Section closed;
+  private ChangeListTable table;
+  private ChangeListTable.Section outgoing;
+  private ChangeListTable.Section incoming;
+  private ChangeListTable.Section closed;
 
   public AccountDashboardScreen(final Account.Id id) {
     ownerId = id;
@@ -41,12 +41,12 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    table = new ChangeTable2();
+    table = new ChangeListTable();
     table.addStyleName(Gerrit.RESOURCES.css().accountDashboard());
 
-    outgoing = new ChangeTable2.Section();
-    incoming = new ChangeTable2.Section();
-    closed = new ChangeTable2.Section();
+    outgoing = new ChangeListTable.Section();
+    incoming = new ChangeListTable.Section();
+    closed = new ChangeListTable.Section();
 
     outgoing.setTitleText(Util.C.outgoingReviews());
     incoming.setTitleText(Util.C.incomingReviews());

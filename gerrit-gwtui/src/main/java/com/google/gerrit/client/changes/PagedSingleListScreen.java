@@ -30,8 +30,8 @@ public abstract class PagedSingleListScreen extends Screen {
   protected static final String MAX_SORTKEY = "z";
 
   protected final int pageSize;
-  private ChangeTable2 table;
-  private ChangeTable2.Section section;
+  private ChangeListTable table;
+  private ChangeListTable.Section section;
   protected Hyperlink prev;
   protected Hyperlink next;
   protected ChangeList changes;
@@ -65,7 +65,7 @@ public abstract class PagedSingleListScreen extends Screen {
     next = new Hyperlink(Util.C.pagedChangeListNext(), true, "");
     next.setVisible(false);
 
-    table = new ChangeTable2() {
+    table = new ChangeListTable() {
       {
         keysNavigation.add(new DoLinkCommand(0, 'p', Util.C
             .changeTablePagePrev(), prev));
@@ -73,7 +73,7 @@ public abstract class PagedSingleListScreen extends Screen {
             .changeTablePageNext(), next));
       }
     };
-    section = new ChangeTable2.Section();
+    section = new ChangeListTable.Section();
     table.addSection(section);
     table.setSavePointerId(anchorPrefix);
     add(table);

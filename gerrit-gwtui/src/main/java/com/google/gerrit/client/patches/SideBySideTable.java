@@ -442,10 +442,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.addStyleName(Gerrit.RESOURCES.css().iconCell());
     m.closeTd();
 
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
-    m.nbsp();
-    m.closeTd();
+    appendLineNumber(m, false);
 
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().sideBySideTableBinaryHeader());
@@ -453,9 +450,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.append(line);
     m.closeTd();
 
-    m.openTd();
-    m.nbsp();
-    m.closeTd();
+    appendLineNumber(m, true);
 
     m.closeTr();
   }

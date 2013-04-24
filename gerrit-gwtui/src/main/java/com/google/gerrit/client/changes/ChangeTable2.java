@@ -19,7 +19,7 @@ import static com.google.gerrit.client.FormatUtil.shortFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
-import com.google.gerrit.client.ui.AccountLink;
+import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -198,7 +198,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
 
     if (c.owner() != null) {
-      table.setWidget(row, C_OWNER, new AccountLink(c.owner(), status));
+      table.setWidget(row, C_OWNER, new AccountLinkPanel(c.owner(), status));
     } else {
       table.setText(row, C_OWNER, "");
     }

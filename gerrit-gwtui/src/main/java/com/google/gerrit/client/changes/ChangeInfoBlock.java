@@ -18,7 +18,7 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AccountLink;
+import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.InlineHyperlink;
@@ -104,7 +104,7 @@ public class ChangeInfoBlock extends Composite {
     changeIdLabel.setPreviewText(chg.getKey().get());
     table.setWidget(R_CHANGE_ID, 1, changeIdLabel);
 
-    table.setWidget(R_OWNER, 1, AccountLink.link(acc, chg.getOwner()));
+    table.setWidget(R_OWNER, 1, AccountLinkPanel.link(acc, chg.getOwner()));
 
     final FlowPanel p = new FlowPanel();
     p.add(new ProjectSearchLink(chg.getProject()));

@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import static com.google.gerrit.client.FormatUtil.shortFormat;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.ui.AccountLink;
+import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -182,8 +182,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
   }
 
-  private AccountLink link(final Account.Id id) {
-    return AccountLink.link(accountCache, id);
+  private AccountLinkPanel link(final Account.Id id) {
+    return AccountLinkPanel.link(accountCache, id);
   }
 
   public void addSection(final Section s) {

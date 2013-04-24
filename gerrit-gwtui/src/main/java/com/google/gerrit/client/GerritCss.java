@@ -21,6 +21,7 @@ public interface GerritCss extends CssResource {
   String accountContactPrivacyDetails();
   String accountDashboard();
   String accountInfoBlock();
+  String accountLinkPanel();
   String accountName();
   String accountPassword();
   String accountUsername();

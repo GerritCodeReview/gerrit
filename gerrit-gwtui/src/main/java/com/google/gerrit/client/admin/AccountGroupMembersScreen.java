@@ -23,7 +23,7 @@ import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
-import com.google.gerrit.client.ui.AccountLink;
+import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
@@ -318,7 +318,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
-      table.setWidget(row, 2, new AccountLink(i));
+      table.setWidget(row, 2, new AccountLinkPanel(i));
       table.setText(row, 3, i.email());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();

@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +94,7 @@ public class PluginLoader implements LifecycleListener {
     disabled = Maps.newConcurrentMap();
     broken = Maps.newHashMap();
     toCleanup = Queues.newArrayDeque();
-    cleanupHandles = new Hashtable<Plugin,CleanupHandle>();
+    cleanupHandles = Maps.newConcurrentMap();
     cleaner = pct;
 
     long checkFrequency = ConfigUtil.getTimeUnit(cfg,

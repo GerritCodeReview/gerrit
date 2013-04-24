@@ -60,6 +60,40 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     mimeUtil.registerMimeDetector(name);
   }
 
+
+  /**
+   * Get specificity of mime types with generic types forced to low values
+   *
+   * "application/octet-stream" is forced to -1.
+   * "text/plain" is forced to 0.
+   * All other mime types return the specificity reported by mimeType itself.
+   *
+   * @param mimeType The mimeType to get the corrected specificity for.
+   * @return The corrected specificity.
+   */
+  /* Although the documentation of MimeType's getSpecificity claims that for
+   * example "application/octet-stream" always has a specificity of 0, it
+   * effectively returns 1 for us. This causes problems when trying to get
+   * the correct mime type via sorting. For example in
+   * [application/octet-stream, image/x-icon] both mime types come with
+   * specificity 1 for us. Hence, getMimeType below may end up using
+   * application/octet-stream instead of the more specific image/x-icon.
+   * Therefore, we have to force the specificity of generic types below the
+   * default of 1.
+   */
+  private int getCorrectedMimeSpecificity(MimeType mimeType) {
+    final int ret;
+    final String mimeTypeStr = mimeType.toString();
+    if (mimeTypeStr.equals("application/octet-stream")) {
+      ret = -1;
+    } else if (mimeTypeStr.equals("text/plain")) {
+      ret = 0;
+    } else {
+      ret = mimeType.getSpecificity();
+    }
+    return ret;
+  }
+
   @SuppressWarnings("unchecked")
   public MimeType getMimeType(final String path, final byte[] content) {
     Set<MimeType> mimeTypes = new HashSet<MimeType>();
@@ -84,7 +118,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     Collections.sort(types, new Comparator<MimeType>() {
       @Override
       public int compare(MimeType a, MimeType b) {
-        return b.getSpecificity() - a.getSpecificity();
+        return getCorrectedMimeSpecificity(b) - getCorrectedMimeSpecificity(a);
       }
     });
     return types.get(0);

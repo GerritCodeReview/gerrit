@@ -16,6 +16,24 @@
       "revId": "d61c6eb312a311a5c40804a089f6c6375fe92b63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UCfn.9.w",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-24T10:17:03Z",
+      "side": 1,
+      "message": "Yes, but not in this change.\n\nThis is a cherry pick of a change that went in on master.  (I should have uploaded it to stable-2.6 in the first place).\n\nFeel free to upload a change.  Or I will do it if I have time (not likely this week).",
+      "parentUuid": "UAmDw8ho",
+      "revId": "d61c6eb312a311a5c40804a089f6c6375fe92b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

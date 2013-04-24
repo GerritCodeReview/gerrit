@@ -1004,6 +1004,10 @@ public class ReceiveCommits {
     RefControl ctl;
     Set<Account.Id> reviewer = Sets.newLinkedHashSet();
     Set<Account.Id> cc = Sets.newLinkedHashSet();
+    RevCommit baseCommit;
+
+    @Option(name = "--base", metaVar = "BASE", usage = "merge base of changes")
+    ObjectId base;
 
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
@@ -1148,13 +1152,31 @@ public class ReceiveCommits {
       reject(cmd, "submit not allowed");
     }
 
+    RevWalk walk = rp.getRevWalk();
+    if (magicBranch.base != null) {
+      try {
+        magicBranch.baseCommit = walk.parseCommit(magicBranch.base);
+      } catch (IncorrectObjectTypeException notCommit) {
+        reject(cmd, "base must be a commit");
+        return;
+      } catch (MissingObjectException e) {
+        reject(cmd, "base not found");
+        return;
+      } catch (IOException e) {
+        log.warn(String.format(
+            "Project %s cannot read %s",
+            project.getName(), magicBranch.base.name()), e);
+        reject(cmd, "internal server error");
+        return;
+      }
+    }
+
     // Validate that the new commits are connected with the target
     // branch.  If they aren't, we want to abort. We do this check by
     // looking to see if we can compute a merge base between the new
     // commits and the target branch head.
     //
     try {
-      final RevWalk walk = rp.getRevWalk();
       final RevCommit tip = walk.parseCommit(magicBranch.cmd.getNewId());
       Ref targetRef = rp.getAdvertisedRefs().get(magicBranch.ctl.getRefName());
       if (targetRef == null || targetRef.getObjectId() == null) {
@@ -1284,10 +1306,14 @@ public class ReceiveCommits {
     try {
       Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(magicBranch.cmd.getNewId()));
-      markHeadsAsUninteresting(
-          walk,
-          existing,
-          magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
+      if (magicBranch.baseCommit != null) {
+        walk.markUninteresting(magicBranch.baseCommit);
+      } else {
+        markHeadsAsUninteresting(
+            walk,
+            existing,
+            magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
+      }
 
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<Change.Key>();

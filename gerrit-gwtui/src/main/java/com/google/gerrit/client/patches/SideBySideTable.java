@@ -187,7 +187,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
           lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
         }
       }
-    }else{
+    } else {
       // Display the patch header for binary
       for (final String line : script.getPatchHeader()) {
         appendFileHeader(nc, line);

@@ -271,7 +271,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
   }
 
-  private void appendImageLine(final SafeHtmlBuilder nc, final String url) {
+  private void appendImageLine(final SafeHtmlBuilder nc, final String url,
+      final boolean syntaxHighlighting, final boolean isInsert) {
     nc.openTr();
     nc.setAttribute("valign", "center");
     nc.setAttribute("align", "center");
@@ -285,6 +286,11 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
     nc.openTd();
     nc.setStyleName(Gerrit.RESOURCES.css().fileLine());
+    if (isInsert) {
+      setStyleInsert(nc, syntaxHighlighting);
+    } else {
+      setStyleDelete(nc, syntaxHighlighting);
+    }
     appendImgTag(nc, url);
     nc.closeTd();
 
@@ -293,6 +299,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void appendImageDifferences(final PatchScript script,
       final SafeHtmlBuilder nc) {
+    final boolean syntaxHighlighting =
+        script.getDiffPrefs().isSyntaxHighlighting();
     final String rawBase = GWT.getHostPageBaseURL() + "cat/";
 
     if (script.getDisplayMethodA() == DisplayMethod.IMG) {
@@ -303,11 +311,11 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         Patch.Key k = new Patch.Key(idSideA, patchKey.get());
         url = rawBase + KeyUtil.encode(k.toString()) + "^0";
       }
-      appendImageLine(nc, url);
+      appendImageLine(nc, url, syntaxHighlighting, false);
     }
     if (script.getDisplayMethodB() == DisplayMethod.IMG) {
       final String url = rawBase + KeyUtil.encode(patchKey.toString()) + "^0";
-      appendImageLine(nc, url);
+      appendImageLine(nc, url, syntaxHighlighting, true);
     }
   }
 
@@ -531,6 +539,22 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
   }
 
+  private void setStyleDelete(final SafeHtmlBuilder m,
+      boolean syntaxHighlighting) {
+    m.addStyleName(Gerrit.RESOURCES.css().diffTextDELETE());
+    if (syntaxHighlighting) {
+      m.addStyleName(Gerrit.RESOURCES.css().fileLineDELETE());
+    }
+  }
+
+  private void setStyleInsert(final SafeHtmlBuilder m,
+      boolean syntaxHighlighting) {
+    m.addStyleName(Gerrit.RESOURCES.css().diffTextINSERT());
+    if (syntaxHighlighting) {
+      m.addStyleName(Gerrit.RESOURCES.css().fileLineINSERT());
+    }
+  }
+
   private void appendLineText(final SafeHtmlBuilder m,
       boolean syntaxHighlighting, final PatchLine.Type type,
       final SparseHtmlFile src, final int i) {
@@ -545,18 +569,12 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         m.append(text);
         break;
       case DELETE:
-        m.addStyleName(Gerrit.RESOURCES.css().diffTextDELETE());
-        if (syntaxHighlighting) {
-          m.addStyleName(Gerrit.RESOURCES.css().fileLineDELETE());
-        }
+        setStyleDelete(m, syntaxHighlighting);
         m.append("-");
         m.append(text);
         break;
       case INSERT:
-        m.addStyleName(Gerrit.RESOURCES.css().diffTextINSERT());
-        if (syntaxHighlighting) {
-          m.addStyleName(Gerrit.RESOURCES.css().fileLineINSERT());
-        }
+        setStyleInsert(m, syntaxHighlighting);
         m.append("+");
         m.append(text);
         break;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UAoAS1mY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-24T11:57:18Z",
+      "side": 1,
+      "message": "optional: rename userFactory to pluginUserFactory\n\nIt wasn\u0027t obvious that this will create a PluginUser until I looked at the type of the userFactory.",
+      "revId": "93a0542394e80d08506881114ec72412a3bec325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

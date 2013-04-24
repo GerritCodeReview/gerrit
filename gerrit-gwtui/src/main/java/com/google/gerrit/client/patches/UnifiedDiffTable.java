@@ -280,18 +280,14 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     nc.setAttribute("align", "center");
 
     nc.openTd();
-    nc.nbsp();
+    nc.setStyleName(Gerrit.RESOURCES.css().iconCell());
     nc.closeTd();
 
-    nc.openTd();
-    nc.nbsp();
-    nc.closeTd();
+    padLineNumberForSideA(nc);
+    padLineNumberForSideB(nc);
 
     nc.openTd();
-    nc.nbsp();
-    nc.closeTd();
-
-    nc.openTd();
+    nc.setStyleName(Gerrit.RESOURCES.css().fileLine());
     if (script.getDisplayMethodA() == DisplayMethod.IMG) {
       if (idSideA == null) {
         appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");

@@ -26,17 +26,14 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.EditList.Hunk;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -301,20 +298,12 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       final SafeHtmlBuilder nc) {
     final boolean syntaxHighlighting =
         script.getDiffPrefs().isSyntaxHighlighting();
-    final String rawBase = GWT.getHostPageBaseURL() + "cat/";
-
     if (script.getDisplayMethodA() == DisplayMethod.IMG) {
-      final String url;
-      if (idSideA == null) {
-        url = rawBase + KeyUtil.encode(patchKey.toString()) + "^1";
-      } else {
-        Patch.Key k = new Patch.Key(idSideA, patchKey.get());
-        url = rawBase + KeyUtil.encode(k.toString()) + "^0";
-      }
+      final String url = getUrlA();
       appendImageLine(nc, url, syntaxHighlighting, false);
     }
     if (script.getDisplayMethodB() == DisplayMethod.IMG) {
-      final String url = rawBase + KeyUtil.encode(patchKey.toString()) + "^0";
+      final String url = getUrlB();
       appendImageLine(nc, url, syntaxHighlighting, true);
     }
   }

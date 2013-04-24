@@ -504,9 +504,9 @@ the first request into the second to ensure it can complete.
 
 cache `"changes"`::
 +
-The size determines the number of projects that will have all its changes
-cached. If the cache is set to 1024, this means all changes for up to
-1024 projects can be held in the cache.
+The size of memoryLimit determines the number of projects that will
+have all its changes cached. If the cache is set to 1024, this means
+all changes for up to 1024 projects can be held in the cache.
 +
 Default size is 0 (disabled). It is disabled by default due to the fact
 that change updates are not communicated between Gerrit servers.

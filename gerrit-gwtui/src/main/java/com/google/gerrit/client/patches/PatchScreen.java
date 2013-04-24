@@ -120,6 +120,7 @@ public abstract class PatchScreen extends Screen implements
   private HandlerRegistration regNavigation;
   private HandlerRegistration regAction;
   private boolean intralineFailure;
+  private boolean intralineTimeout;
 
   /**
    * How this patch should be displayed in the patch screen.
@@ -468,6 +469,7 @@ public abstract class PatchScreen extends Screen implements
     }
 
     intralineFailure = isFirst && script.hasIntralineFailure();
+    intralineTimeout = isFirst && script.hasIntralineTimeout();
   }
 
   @Override
@@ -476,6 +478,9 @@ public abstract class PatchScreen extends Screen implements
     if (intralineFailure) {
       intralineFailure = false;
       new ErrorDialog(PatchUtil.C.intralineFailure()).show();
+    } else if (intralineTimeout) {
+      intralineTimeout = false;
+      new ErrorDialog(PatchUtil.C.intralineTimeout()).show();
     }
     if (topView != null && prefs.get().isRetainHeader()) {
       setTopView(topView);

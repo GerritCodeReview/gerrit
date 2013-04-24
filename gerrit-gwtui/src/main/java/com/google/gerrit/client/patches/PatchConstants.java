@@ -36,6 +36,7 @@ public interface PatchConstants extends Constants {
   String patchHistoryTitle();
   String disabledOnLargeFiles();
   String intralineFailure();
+  String intralineTimeout();
   String illegalNumberOfColumns();
 
   String upToChange();

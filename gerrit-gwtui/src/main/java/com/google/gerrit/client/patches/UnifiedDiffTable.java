@@ -226,46 +226,46 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       appendFileHeader(nc, line);
     }
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
+    if (script.getDisplayMethodA() == DisplayMethod.IMG
+        || script.getDisplayMethodB() == DisplayMethod.IMG) {
+      final String rawBase = GWT.getHostPageBaseURL() + "cat/";
+
+      nc.openTr();
+      nc.setAttribute("valign", "center");
+      nc.setAttribute("align", "center");
+
+      nc.openTd();
+      nc.nbsp();
+      nc.closeTd();
+
+      nc.openTd();
+      nc.nbsp();
+      nc.closeTd();
+
+      nc.openTd();
+      nc.nbsp();
+      nc.closeTd();
+
+      nc.openTd();
+      if (script.getDisplayMethodA() == DisplayMethod.IMG) {
+        if (idSideA == null) {
+          appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
+        } else {
+          Patch.Key k = new Patch.Key(idSideA, patchKey.get());
+          appendImgTag(nc, rawBase + KeyUtil.encode(k.toString()) + "^0");
+        }
+      }
+      if (script.getDisplayMethodB() == DisplayMethod.IMG) {
+        appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^0");
+      }
+      nc.closeTd();
+
+      nc.closeTr();
+    }
+
     if (!isDisplayBinary) {
       final SparseHtmlFile a = getSparseHtmlFileA(script);
       final SparseHtmlFile b = getSparseHtmlFileB(script);
-      if (script.getDisplayMethodA() == DisplayMethod.IMG
-          || script.getDisplayMethodB() == DisplayMethod.IMG) {
-        final String rawBase = GWT.getHostPageBaseURL() + "cat/";
-
-        nc.openTr();
-        nc.setAttribute("valign", "center");
-        nc.setAttribute("align", "center");
-
-        nc.openTd();
-        nc.nbsp();
-        nc.closeTd();
-
-        nc.openTd();
-        nc.nbsp();
-        nc.closeTd();
-
-        nc.openTd();
-        nc.nbsp();
-        nc.closeTd();
-
-        nc.openTd();
-        if (script.getDisplayMethodA() == DisplayMethod.IMG) {
-          if (idSideA == null) {
-            appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
-          } else {
-            Patch.Key k = new Patch.Key(idSideA, patchKey.get());
-            appendImgTag(nc, rawBase + KeyUtil.encode(k.toString()) + "^0");
-          }
-        }
-        if (script.getDisplayMethodB() == DisplayMethod.IMG) {
-          appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^0");
-        }
-        nc.closeTd();
-
-        nc.closeTr();
-      }
-
       if (hasDifferences(script)) {
         final boolean syntaxHighlighting =
             script.getDiffPrefs().isSyntaxHighlighting();

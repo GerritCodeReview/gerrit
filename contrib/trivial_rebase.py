@@ -226,7 +226,7 @@ class TrivialRebase:
         # We don't care about previous submit attempts
         continue
       else:
-        self.AppendAcctApproval(acct_approvals, approval['account_id'], '--%s %s' %
+        self.AppendAcctApproval(approval['account_id'], '--%s %s' %
                                 (approval['category_id'].lower().replace(' ', '-'),
                                  approval['value']))
 

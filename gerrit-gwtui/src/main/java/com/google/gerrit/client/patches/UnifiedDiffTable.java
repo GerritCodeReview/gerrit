@@ -226,19 +226,18 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       appendFileHeader(nc, line);
     }
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
-    if (script.getDisplayMethodA() == DisplayMethod.IMG
-        || script.getDisplayMethodB() == DisplayMethod.IMG) {
-      appendImageDifferences(script, nc);
-    }
 
-    if (!isDisplayBinary) {
-      if (hasDifferences(script)) {
+    if (hasDifferences(script)) {
+      if (script.getDisplayMethodA() == DisplayMethod.IMG
+          || script.getDisplayMethodB() == DisplayMethod.IMG) {
+        appendImageDifferences(script, nc);
+      } else if (!isDisplayBinary) {
         appendTextDifferences(script, nc, lines);
       }
-    }
-    if (!hasDifferences(script)) {
+    } else {
       appendNoDifferences(nc);
     }
+
     resetHtml(nc);
     populateTableHeader(script, detail);
     if (hasDifferences(script)) {

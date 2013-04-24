@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UAmDw8ho",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-04-24T10:10:48Z",
+      "side": 1,
+      "message": "Can we even add more clarification here or at some better place: \n\nPlugins can not contribute new global/plugin own capabilities. In fact, \"Start Replication\" is still im core, even after the functionality was moved to plugin:\n\nStart Replication\n\n\"Allow access to execute replication start command, if the replication plugin is installed on the server.\"",
+      "revId": "d61c6eb312a311a5c40804a089f6c6375fe92b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

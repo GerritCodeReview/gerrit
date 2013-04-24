@@ -271,10 +271,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
   }
 
-  private void appendImageDifferences(final PatchScript script,
-      final SafeHtmlBuilder nc) {
-    final String rawBase = GWT.getHostPageBaseURL() + "cat/";
-
+  private void appendImageLine(final SafeHtmlBuilder nc, final String url) {
     nc.openTr();
     nc.setAttribute("valign", "center");
     nc.setAttribute("align", "center");
@@ -288,20 +285,30 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
     nc.openTd();
     nc.setStyleName(Gerrit.RESOURCES.css().fileLine());
-    if (script.getDisplayMethodA() == DisplayMethod.IMG) {
-      if (idSideA == null) {
-        appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
-      } else {
-        Patch.Key k = new Patch.Key(idSideA, patchKey.get());
-        appendImgTag(nc, rawBase + KeyUtil.encode(k.toString()) + "^0");
-      }
-    }
-    if (script.getDisplayMethodB() == DisplayMethod.IMG) {
-      appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^0");
-    }
+    appendImgTag(nc, url);
     nc.closeTd();
 
     nc.closeTr();
+  }
+
+  private void appendImageDifferences(final PatchScript script,
+      final SafeHtmlBuilder nc) {
+    final String rawBase = GWT.getHostPageBaseURL() + "cat/";
+
+    if (script.getDisplayMethodA() == DisplayMethod.IMG) {
+      final String url;
+      if (idSideA == null) {
+        url = rawBase + KeyUtil.encode(patchKey.toString()) + "^1";
+      } else {
+        Patch.Key k = new Patch.Key(idSideA, patchKey.get());
+        url = rawBase + KeyUtil.encode(k.toString()) + "^0";
+      }
+      appendImageLine(nc, url);
+    }
+    if (script.getDisplayMethodB() == DisplayMethod.IMG) {
+      final String url = rawBase + KeyUtil.encode(patchKey.toString()) + "^0";
+      appendImageLine(nc, url);
+    }
   }
 
   private void appendTextDifferences(final PatchScript script,

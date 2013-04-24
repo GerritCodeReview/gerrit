@@ -21,6 +21,8 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -83,6 +85,7 @@ public class Plugin {
 
   private final CacheKey cacheKey;
   private final String name;
+  private final PluginUser pluginUser;
   private final File srcJar;
   private final FileSnapshot snapshot;
   private final JarFile jarFile;
@@ -102,6 +105,7 @@ public class Plugin {
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   public Plugin(String name,
+      PluginUser pluginUser,
       File srcJar,
       FileSnapshot snapshot,
       JarFile jarFile,
@@ -113,6 +117,7 @@ public class Plugin {
       @Nullable Class<? extends Module> sshModule,
       @Nullable Class<? extends Module> httpModule) {
     this.cacheKey = new CacheKey(name);
+    this.pluginUser = pluginUser;
     this.name = name;
     this.srcJar = srcJar;
     this.snapshot = snapshot;
@@ -129,6 +134,10 @@ public class Plugin {
 
   File getSrcJar() {
     return srcJar;
+  }
+
+  PluginUser getPluginUser() {
+    return pluginUser;
   }
 
   public CacheKey getCacheKey() {
@@ -173,6 +182,15 @@ public class Plugin {
   }
 
   void start(PluginGuiceEnvironment env) throws Exception {
+    RequestContext oldContext = env.enter(this);
+    try {
+      startPlugin(env);
+    } finally {
+      env.exit(oldContext);
+    }
+  }
+
+  private void startPlugin(PluginGuiceEnvironment env) throws Exception {
     Injector root = newRootInjector(env);
     manager = new LifecycleManager();
 
@@ -235,6 +253,7 @@ public class Plugin {
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
+        bind(PluginUser.class).toInstance(pluginUser);
         bind(String.class)
           .annotatedWith(PluginName.class)
           .toInstance(name);
@@ -264,9 +283,14 @@ public class Plugin {
     return Guice.createInjector(modules);
   }
 
-  void stop() {
+  void stop(PluginGuiceEnvironment env) {
     if (manager != null) {
-      manager.stop();
+      RequestContext oldContext = env.enter(this);
+      try {
+        manager.stop();
+      } finally {
+        env.exit(oldContext);
+      }
       manager = null;
       sysInjector = null;
       sshInjector = null;

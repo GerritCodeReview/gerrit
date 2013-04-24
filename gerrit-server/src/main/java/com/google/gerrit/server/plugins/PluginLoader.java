@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.extensions.webui.JavaScriptPlugin;
+import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -72,6 +73,7 @@ public class PluginLoader implements LifecycleListener {
   private final File tmpDir;
   private final PluginGuiceEnvironment env;
   private final ServerInformationImpl srvInfoImpl;
+  private final PluginUser.Factory pluginUserFactory;
   private final ConcurrentMap<String, Plugin> running;
   private final ConcurrentMap<String, Plugin> disabled;
   private final Map<String, FileSnapshot> broken;
@@ -84,6 +86,7 @@ public class PluginLoader implements LifecycleListener {
   public PluginLoader(SitePaths sitePaths,
       PluginGuiceEnvironment pe,
       ServerInformationImpl sii,
+      PluginUser.Factory puf,
       Provider<PluginCleanerTask> pct,
       @GerritServerConfig Config cfg) {
     pluginsDir = sitePaths.plugins_dir;
@@ -91,6 +94,7 @@ public class PluginLoader implements LifecycleListener {
     tmpDir = sitePaths.tmp_dir;
     env = pe;
     srvInfoImpl = sii;
+    pluginUserFactory = puf;
     running = Maps.newConcurrentMap();
     disabled = Maps.newConcurrentMap();
     broken = Maps.newHashMap();
@@ -194,7 +198,7 @@ public class PluginLoader implements LifecycleListener {
   synchronized private void unloadPlugin(Plugin plugin) {
     String name = plugin.getName();
     log.info(String.format("Unloading plugin %s", name));
-    plugin.stop();
+    plugin.stop(env);
     running.remove(name);
     disabled.remove(name);
     toCleanup.add(plugin);
@@ -466,7 +470,7 @@ public class PluginLoader implements LifecycleListener {
       Class<? extends Module> sysModule = load(sysName, pluginLoader);
       Class<? extends Module> sshModule = load(sshName, pluginLoader);
       Class<? extends Module> httpModule = load(httpName, pluginLoader);
-      Plugin plugin = new Plugin(name,
+      Plugin plugin = new Plugin(name, pluginUserFactory.create(name),
           srcJar, snapshot,
           jarFile, manifest,
           new File(dataDir, name), type, pluginLoader,

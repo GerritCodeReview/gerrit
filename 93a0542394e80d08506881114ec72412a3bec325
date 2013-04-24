@@ -16,6 +16,24 @@
       "revId": "93a0542394e80d08506881114ec72412a3bec325",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "T96sZyYY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-24T16:27:39Z",
+      "side": 1,
+      "message": "This is a good suggestion and I will include it in a new patch set.\n\nI was also thinking of refactoring this change slightly so the PluginUser was held by the Plugin and exposed to the plugin\u0027s Guice environment as a singleton. This would remove the need for the replication plugin to create their own InternalUser object with the InternalUser.Factory.\n\nSo I guess wait for the next patch set. :-)",
+      "parentUuid": "UAoAS1mY",
+      "revId": "93a0542394e80d08506881114ec72412a3bec325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

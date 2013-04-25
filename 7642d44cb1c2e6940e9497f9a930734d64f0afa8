@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UCpgclXc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/MimeUtilFileTypeRegistry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-25T13:49:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UCbkfX2s",
+      "revId": "7642d44cb1c2e6940e9497f9a930734d64f0afa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UCZkcm3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/MimeUtilFileTypeRegistry.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-24T20:41:39Z",
       "side": 1,
       "message": "You can use early return:\n\n  if (mimeTypeStr.equals(\"...\") {\n    return -1;\n  } else if (...) {\n    return 0;\n  }\n  return mimeType.getSpecificity();\n\nIts a few lines shorter and better matches other cases within Gerrit where this style works.",
+      "revId": "7642d44cb1c2e6940e9497f9a930734d64f0afa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UCng5wd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/MimeUtilFileTypeRegistry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-25T13:49:49Z",
+      "side": 1,
+      "message": "I always thought we employ \"Don\u0027t break the flow\".\n\nEither way: Done.",
+      "parentUuid": "UCZkcm3c",
       "revId": "7642d44cb1c2e6940e9497f9a930734d64f0afa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

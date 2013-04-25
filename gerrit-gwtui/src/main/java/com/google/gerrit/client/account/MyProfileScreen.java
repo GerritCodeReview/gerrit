@@ -16,19 +16,41 @@ package com.google.gerrit.client.account;
 
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
+import com.google.gerrit.client.AvatarImage;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MyProfileScreen extends SettingsScreen {
+  private AvatarImage avatar;
+  private Anchor changeAvatar;
   private int labelIdx, fieldIdx;
   private Grid info;
 
   @Override
   protected void onInitUI() {
     super.onInitUI();
+
+    HorizontalPanel h = new HorizontalPanel();
+    add(h);
+
+    VerticalPanel v = new VerticalPanel();
+    v.addStyleName(Gerrit.RESOURCES.css().avatarInfoPanel());
+    h.add(v);
+    avatar = new AvatarImage();
+    v.add(avatar);
+    changeAvatar = new Anchor(Util.C.changeAvatar(), "", "_blank");
+    changeAvatar.setVisible(false);
+    v.add(changeAvatar);
 
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       labelIdx = 1;
@@ -41,7 +63,7 @@ public class MyProfileScreen extends SettingsScreen {
     info = new Grid((Gerrit.getConfig().siteHasUsernames() ? 1 : 0) + 4, 2);
     info.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     info.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
-    add(info);
+    h.add(info);
 
     int row = 0;
     if (Gerrit.getConfig().siteHasUsernames()) {
@@ -72,6 +94,16 @@ public class MyProfileScreen extends SettingsScreen {
   }
 
   void display(final Account account) {
+    avatar.setAccount(FormatUtil.asInfo(account), 93, false);
+    new RestApi("/accounts/").id("self").view("avatar.change.url")
+        .get(new GerritCallback<NativeString>() {
+          @Override
+          public void onSuccess(NativeString changeUrl) {
+            changeAvatar.setHref(changeUrl.asString());
+            changeAvatar.setVisible(true);
+          }
+        });
+
     int row = 0;
     if (Gerrit.getConfig().siteHasUsernames()) {
       info.setWidget(row++, fieldIdx, new UsernameField());

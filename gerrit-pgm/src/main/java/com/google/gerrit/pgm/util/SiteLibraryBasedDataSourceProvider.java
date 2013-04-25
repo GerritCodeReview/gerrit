@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.util;
 
+import com.google.common.primitives.Longs;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.schema.DataSourceProvider;
@@ -66,6 +67,11 @@ public class SiteLibraryBasedDataSourceProvider extends DataSourceProvider {
       Arrays.sort(jars, new Comparator<File>() {
         @Override
         public int compare(File a, File b) {
+          // Sort by reverse last-modified time so newer JARs are first.
+          int cmp = Longs.compare(b.lastModified(), a.lastModified());
+          if (cmp != 0) {
+            return cmp;
+          }
           return a.getName().compareTo(b.getName());
         }
       });

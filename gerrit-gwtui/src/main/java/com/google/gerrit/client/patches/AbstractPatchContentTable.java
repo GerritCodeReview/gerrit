@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -61,6 +62,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtorm.client.KeyUtil;
 
 import org.eclipse.jgit.diff.Edit;
 
@@ -310,6 +312,23 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     }
     f.format(b);
     return f;
+  }
+
+  protected String getUrlA() {
+    final String rawBase = GWT.getHostPageBaseURL() + "cat/";
+    final String url;
+    if (idSideA == null) {
+      url = rawBase + KeyUtil.encode(patchKey.toString()) + "^1";
+    } else {
+      Patch.Key k = new Patch.Key(idSideA, patchKey.get());
+      url = rawBase + KeyUtil.encode(k.toString()) + "^0";
+    }
+    return url;
+  }
+
+  protected String getUrlB() {
+    final String rawBase = GWT.getHostPageBaseURL() + "cat/";
+    return rawBase + KeyUtil.encode(patchKey.toString()) + "^0";
   }
 
   protected abstract void render(PatchScript script, final PatchSetDetail detail);

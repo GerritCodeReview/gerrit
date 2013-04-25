@@ -22,6 +22,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.common.EditList;
@@ -39,7 +40,6 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-
 import org.eclipse.jgit.diff.Edit;
 
 import java.util.ArrayList;
@@ -192,6 +192,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
       for (final String line : script.getPatchHeader()) {
         appendFileHeader(nc, line);
       }
+      // If there is a safe picture involved, we show it
+      if (script.getDisplayMethodA() == DisplayMethod.IMG
+          || script.getDisplayMethodB() == DisplayMethod.IMG) {
+        appendImageLine(script, nc);
+      }
     }
     if (!hasDifferences(script)) {
       appendNoDifferences(nc);
@@ -209,6 +214,42 @@ public class SideBySideTable extends AbstractPatchContentTable {
         }
       }
     }
+  }
+
+  private SafeHtml createImage(String url) {
+    SafeHtmlBuilder m = new SafeHtmlBuilder();
+    m.openElement("img");
+    m.setAttribute("src", url);
+    m.closeElement("img");
+    return m.toSafeHtml();
+  }
+
+  private void appendImageLine(final PatchScript script,
+      final SafeHtmlBuilder m) {
+    m.openTr();
+    m.setAttribute("valign", "center");
+    m.setAttribute("align", "center");
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.closeTd();
+
+    appendLineNumber(m, false);
+    if (script.getDisplayMethodA() == DisplayMethod.IMG) {
+      final String url = getUrlA();
+      appendLineText(m, DELETE, createImage(url), false, true);
+    } else {
+      appendLineNone(m, DELETE);
+    }
+    if (script.getDisplayMethodB() == DisplayMethod.IMG) {
+      final String url = getUrlB();
+      appendLineText(m, INSERT, createImage(url), false, true);
+    } else {
+      appendLineNone(m, INSERT);
+    }
+
+    appendLineNumber(m, true);
+    m.closeTr();
   }
 
   private void populateTableHeader(final PatchScript script,

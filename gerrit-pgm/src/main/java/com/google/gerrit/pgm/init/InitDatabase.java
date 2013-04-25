@@ -16,6 +16,8 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.inject.Stage.PRODUCTION;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Binding;
@@ -53,7 +55,7 @@ class InitDatabase implements InitStep {
   public void run() {
     ui.header("SQL Database");
 
-    Set<String> allowedValues = new TreeSet<String>();
+    Set<String> allowedValues = Sets.newTreeSet();
     Injector i = Guice.createInjector(PRODUCTION, new DatabaseConfigModule(site));
     List<Binding<DatabaseConfigInitializer>> dbConfigBindings =
         i.findBindingsByType(new TypeLiteral<DatabaseConfigInitializer>() {});
@@ -62,6 +64,11 @@ class InitDatabase implements InitStep {
       if (annotation instanceof Named) {
         allowedValues.add(((Named) annotation).value());
       }
+    }
+
+    if (!Strings.isNullOrEmpty(database.get("url"))
+        && Strings.isNullOrEmpty(database.get("type"))) {
+      database.set("type", "jdbc");
     }
 
     String dbType =

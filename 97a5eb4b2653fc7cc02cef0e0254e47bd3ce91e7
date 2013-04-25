@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UDdX7-Po",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-25T21:39:54Z",
+      "side": 1,
+      "message": "This is a very ugly syntax. I would prefer something like:\n\n  label:Code-Review\u003d1 BY user:jsmith\n\nThat means adding a token BY to Query.g to support getting this into the parse tree, and then altering the way the parse tree is handled in QueryBuilder so that the BY operator can connect the label and user/group child nodes together into a meaningful predicate.\n\nCurrently the parser can \"sort of\" grok this:\n\n  label:(Code-Review\u003d1 user:jsmith)\n\nby rewriting this as though you had written:\n\n  label:Code-Review\u003d1 label:user:jsmith\n\nUsing () here to bind these isn\u0027t as easy to use as having a specialized operator \"BY\" that accepts a user/group predicate as a child.",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

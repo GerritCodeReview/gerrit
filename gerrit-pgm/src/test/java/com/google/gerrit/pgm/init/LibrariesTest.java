@@ -30,16 +30,14 @@ import java.io.FileNotFoundException;
 public class LibrariesTest extends TestCase {
   public void testCreate() throws FileNotFoundException {
     final SitePaths site = new SitePaths(new File("."));
-    final ReloadSiteLibrary reload = createStrictMock(ReloadSiteLibrary.class);
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);
 
     replay(ui);
-    replay(reload);
 
     Libraries lib = new Libraries(new Provider<LibraryDownloader>() {
       @Override
       public LibraryDownloader get() {
-        return new LibraryDownloader(reload, ui, site);
+        return new LibraryDownloader(ui, site);
       }
     });
 
@@ -47,6 +45,5 @@ public class LibrariesTest extends TestCase {
     assertNotNull(lib.mysqlDriver);
 
     verify(ui);
-    verify(reload);
   }
 }

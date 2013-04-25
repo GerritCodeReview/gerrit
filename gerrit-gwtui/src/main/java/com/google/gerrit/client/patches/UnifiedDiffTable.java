@@ -228,87 +228,12 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
     if (script.getDisplayMethodA() == DisplayMethod.IMG
         || script.getDisplayMethodB() == DisplayMethod.IMG) {
-      final String rawBase = GWT.getHostPageBaseURL() + "cat/";
-
-      nc.openTr();
-      nc.setAttribute("valign", "center");
-      nc.setAttribute("align", "center");
-
-      nc.openTd();
-      nc.nbsp();
-      nc.closeTd();
-
-      nc.openTd();
-      nc.nbsp();
-      nc.closeTd();
-
-      nc.openTd();
-      nc.nbsp();
-      nc.closeTd();
-
-      nc.openTd();
-      if (script.getDisplayMethodA() == DisplayMethod.IMG) {
-        if (idSideA == null) {
-          appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
-        } else {
-          Patch.Key k = new Patch.Key(idSideA, patchKey.get());
-          appendImgTag(nc, rawBase + KeyUtil.encode(k.toString()) + "^0");
-        }
-      }
-      if (script.getDisplayMethodB() == DisplayMethod.IMG) {
-        appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^0");
-      }
-      nc.closeTd();
-
-      nc.closeTr();
+      appendImageDifferences(script, nc);
     }
 
     if (!isDisplayBinary) {
-      final SparseHtmlFile a = getSparseHtmlFileA(script);
-      final SparseHtmlFile b = getSparseHtmlFileB(script);
       if (hasDifferences(script)) {
-        final boolean syntaxHighlighting =
-            script.getDiffPrefs().isSyntaxHighlighting();
-        for (final EditList.Hunk hunk : script.getHunks()) {
-          appendHunkHeader(nc, hunk);
-          while (hunk.next()) {
-            if (hunk.isContextLine()) {
-              openLine(nc);
-              appendLineNumberForSideA(nc, hunk.getCurA());
-              appendLineNumberForSideB(nc, hunk.getCurB());
-              appendLineText(nc, false, CONTEXT, a, hunk.getCurA());
-              closeLine(nc);
-              hunk.incBoth();
-              lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
-
-            } else if (hunk.isDeletedA()) {
-              openLine(nc);
-              appendLineNumberForSideA(nc, hunk.getCurA());
-              padLineNumberForSideB(nc);
-              appendLineText(nc, syntaxHighlighting, DELETE, a, hunk.getCurA());
-              closeLine(nc);
-              hunk.incA();
-              lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
-              if (a.size() == hunk.getCurA()
-                  && script.getA().isMissingNewlineAtEnd()) {
-                appendNoLF(nc);
-              }
-
-            } else if (hunk.isInsertedB()) {
-              openLine(nc);
-              padLineNumberForSideA(nc);
-              appendLineNumberForSideB(nc, hunk.getCurB());
-              appendLineText(nc, syntaxHighlighting, INSERT, b, hunk.getCurB());
-              closeLine(nc);
-              hunk.incB();
-              lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
-              if (b.size() == hunk.getCurB()
-                  && script.getB().isMissingNewlineAtEnd()) {
-                appendNoLF(nc);
-              }
-            }
-          }
-        }
+        appendTextDifferences(script, nc, lines);
       }
     }
     if (!hasDifferences(script)) {
@@ -342,6 +267,91 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
             row++;
           }
           setRowItem(row++, l);
+        }
+      }
+    }
+  }
+
+  private void appendImageDifferences(final PatchScript script,
+      final SafeHtmlBuilder nc) {
+    final String rawBase = GWT.getHostPageBaseURL() + "cat/";
+
+    nc.openTr();
+    nc.setAttribute("valign", "center");
+    nc.setAttribute("align", "center");
+
+    nc.openTd();
+    nc.nbsp();
+    nc.closeTd();
+
+    nc.openTd();
+    nc.nbsp();
+    nc.closeTd();
+
+    nc.openTd();
+    nc.nbsp();
+    nc.closeTd();
+
+    nc.openTd();
+    if (script.getDisplayMethodA() == DisplayMethod.IMG) {
+      if (idSideA == null) {
+        appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
+      } else {
+        Patch.Key k = new Patch.Key(idSideA, patchKey.get());
+        appendImgTag(nc, rawBase + KeyUtil.encode(k.toString()) + "^0");
+      }
+    }
+    if (script.getDisplayMethodB() == DisplayMethod.IMG) {
+      appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^0");
+    }
+    nc.closeTd();
+
+    nc.closeTr();
+  }
+
+  private void appendTextDifferences(final PatchScript script,
+      final SafeHtmlBuilder nc, final ArrayList<PatchLine> lines) {
+    final SparseHtmlFile a = getSparseHtmlFileA(script);
+    final SparseHtmlFile b = getSparseHtmlFileB(script);
+    final boolean syntaxHighlighting =
+        script.getDiffPrefs().isSyntaxHighlighting();
+    for (final EditList.Hunk hunk : script.getHunks()) {
+      appendHunkHeader(nc, hunk);
+      while (hunk.next()) {
+        if (hunk.isContextLine()) {
+          openLine(nc);
+          appendLineNumberForSideA(nc, hunk.getCurA());
+          appendLineNumberForSideB(nc, hunk.getCurB());
+          appendLineText(nc, false, CONTEXT, a, hunk.getCurA());
+          closeLine(nc);
+          hunk.incBoth();
+          lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
+
+        } else if (hunk.isDeletedA()) {
+          openLine(nc);
+          appendLineNumberForSideA(nc, hunk.getCurA());
+          padLineNumberForSideB(nc);
+          appendLineText(nc, syntaxHighlighting, DELETE, a, hunk.getCurA());
+          closeLine(nc);
+          hunk.incA();
+          lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
+          if (a.size() == hunk.getCurA()
+              && script.getA().isMissingNewlineAtEnd()) {
+            appendNoLF(nc);
+          }
+
+        } else if (hunk.isInsertedB()) {
+          openLine(nc);
+          padLineNumberForSideA(nc);
+          appendLineNumberForSideB(nc, hunk.getCurB());
+          appendLineText(nc, syntaxHighlighting, INSERT, b, hunk.getCurB());
+          closeLine(nc);
+          hunk.incB();
+          lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
+          if (b.size() == hunk.getCurB()
+              && script.getB().isMissingNewlineAtEnd()) {
+            appendNoLF(nc);
+          }
         }
       }
     }

@@ -16,6 +16,24 @@
       "revId": "1ee4f869d3ead67c69e13be5975464e4ca29f40a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UCngS4Wk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-25T07:55:52Z",
+      "side": 1,
+      "message": "Bruce, is there any significant difference to Christians code? If not it\u0027s probably not worth rebasing all the changes only to switch the order of those two conditions?",
+      "parentUuid": "UAoA5tuI",
+      "revId": "1ee4f869d3ead67c69e13be5975464e4ca29f40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "93a0542394e80d08506881114ec72412a3bec325",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UAuCGQlU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-04-25T18:32:56Z",
+      "side": 1,
+      "message": "While unrelated here: what would be the best approach to support plugin-own capabilities? Like GlobalCapability.START_REPLICATION is the only thing from replication feature, that is still remained in core with this comment:\n\n  /** Forcefully restart replication to any configured destination. */\n  public static final String START_REPLICATION \u003d \"startReplication\";\n\nSo the requirements are:\n* it should be possible to grant the plugin own capability from Gerrit core UI, (like core global capabilities)\n* plugin can contribute a new plugin own capability\n* plugin\u0027s ssh command can be annotated with that new capability and the whole ACL check would just work like this is the case with core global capability.\n\nMay be i am missing something, but currently the only way to protect plugin\u0027s own ssh commands is to reuse/misuse the existing core global capabilities. Right?",
+      "parentUuid": "T96sZyYY",
+      "revId": "93a0542394e80d08506881114ec72412a3bec325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

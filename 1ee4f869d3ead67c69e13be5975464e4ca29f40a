@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UAoA5tuI",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-04-25T07:11:54Z",
+      "side": 1,
+      "message": "if (hasDifferences(script)) {\n      if (!isDisplayBinary) {\n        appendTextDifferences(script, nc, lines);\n      } else if (script.getDisplayMethodA() \u003d\u003d DisplayMethod.IMG\n          || script.getDisplayMethodB() \u003d\u003d DisplayMethod.IMG) {\n        appendImageDifferences(script, nc);\n      }\n    } else {\n      appendNoDifferences(nc);\n    }",
+      "revId": "1ee4f869d3ead67c69e13be5975464e4ca29f40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

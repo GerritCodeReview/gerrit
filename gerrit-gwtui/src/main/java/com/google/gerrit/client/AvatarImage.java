@@ -17,8 +17,8 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwt.event.dom.client.ErrorEvent;
-import com.google.gwt.event.dom.client.ErrorHandler;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -59,18 +59,17 @@ public class AvatarImage extends Image {
   public AvatarImage(AccountInfo account, int size, boolean addPopup) {
     super(isGerritServer(account) ? getGerritServerAvatarUrl() :
         url(account.email(), size));
+    setVisible(false);
 
     if (size > 0) {
       // If the provider does not resize the image, force it in the browser.
       setSize(size + "px", size + "px");
     }
 
-    addErrorHandler(new ErrorHandler() {
+    addLoadHandler(new LoadHandler() {
       @Override
-      public void onError(ErrorEvent event) {
-        // We got a 404, don't bother showing the image. Either the user doesn't
-        // have an avatar or there is no avatar provider plugin installed.
-        setVisible(false);
+      public void onLoad(LoadEvent event) {
+        setVisible(true);
       }
     });
 

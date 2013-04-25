@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountInfo;
@@ -22,33 +23,46 @@ import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.UserIdentity;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /** Link to any user's account dashboard. */
-public class AccountLink extends InlineHyperlink {
+public class AccountLinkPanel extends FlowPanel {
   /** Create a link after locating account details from an active cache. */
-  public static AccountLink link(AccountInfoCache cache, Account.Id id) {
+  public static AccountLinkPanel link(AccountInfoCache cache, Account.Id id) {
     com.google.gerrit.common.data.AccountInfo ai = cache.get(id);
-    return ai != null ? new AccountLink(ai) : null;
+    return ai != null ? new AccountLinkPanel(ai) : null;
   }
 
-  public AccountLink(com.google.gerrit.common.data.AccountInfo ai) {
+  public AccountLinkPanel(com.google.gerrit.common.data.AccountInfo ai) {
     this(FormatUtil.asInfo(ai));
   }
 
-  public AccountLink(UserIdentity ident) {
+  public AccountLinkPanel(UserIdentity ident) {
     this(AccountInfo.create(
         ident.getAccount().get(),
         ident.getName(),
         ident.getEmail()));
   }
 
-  public AccountLink(AccountInfo info) {
+  public AccountLinkPanel(AccountInfo info) {
     this(info, Change.Status.NEW);
   }
 
-  public AccountLink(AccountInfo info, Change.Status status) {
-    super(FormatUtil.name(info), PageLinks.toAccountQuery(owner(info), status));
-    setTitle(FormatUtil.nameEmail(info));
+  public AccountLinkPanel(AccountInfo info, Change.Status status) {
+    addStyleName(Gerrit.RESOURCES.css().accountLinkPanel());
+
+    InlineHyperlink l =
+        new InlineHyperlink(FormatUtil.name(info), PageLinks.toAccountQuery(
+            owner(info), status)) {
+      @Override
+      public void go() {
+        Gerrit.display(getTargetHistoryToken());
+      }
+    };
+    l.setTitle(FormatUtil.nameEmail(info));
+
+    add(new AvatarImage(info, 16));
+    add(l);
   }
 
   private static String owner(AccountInfo ai) {
@@ -61,10 +75,5 @@ public class AccountLink extends InlineHyperlink {
     } else {
       return "";
     }
-  }
-
-  @Override
-  public void go() {
-    Gerrit.display(getTargetHistoryToken());
   }
 }

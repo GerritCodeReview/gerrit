@@ -21,7 +21,7 @@ import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AccountLink;
+import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
@@ -255,7 +255,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     fp.setStyleName(Gerrit.RESOURCES.css().patchSetUserIdentity());
     if (who.getName() != null) {
       if (who.getAccount() != null) {
-        fp.add(new AccountLink(who));
+        fp.add(new AccountLinkPanel(who));
       } else {
         final InlineLabel lbl = new InlineLabel(who.getName());
         lbl.setStyleName(Gerrit.RESOURCES.css().accountName());

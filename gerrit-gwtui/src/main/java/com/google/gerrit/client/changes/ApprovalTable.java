@@ -27,7 +27,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
-import com.google.gerrit.client.ui.AccountLink;
+import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.ReviewerSuggestOracle;
 import com.google.gerrit.common.data.ApprovalDetail;
@@ -329,7 +329,7 @@ public class ApprovalTable extends Composite {
     final CellFormatter fmt = table.getCellFormatter();
     int col = 0;
 
-    table.setWidget(row, col++, new AccountLink(account));
+    table.setWidget(row, col++, new AccountLinkPanel(account));
     rows.put(account._account_id(), row);
 
     if (ad.canRemove()) {

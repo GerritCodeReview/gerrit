@@ -34,6 +34,24 @@
       "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UDRURdGA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-25T22:28:24Z",
+      "side": 1,
+      "message": "Maybe we modify the way () works then:\n\n  label:(Code-Review\u003d1 user:jsmith age:1h)\n\nCurrently this is not permitted by the query language, so nobody is using this syntax at present.",
+      "parentUuid": "UDZUFhCE",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

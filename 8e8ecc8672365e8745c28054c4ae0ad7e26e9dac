@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UAiBfiig",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-04-25T10:32:10Z",
+      "side": 1,
+      "message": "If there is a picture involved and be accepted to be safe, we show it",
+      "revId": "8e8ecc8672365e8745c28054c4ae0ad7e26e9dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UAkBajjg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-04-25T10:32:10Z",
+      "side": 1,
+      "message": "can this method and \u0027appendImgTag()\u0027 in UnifiedDiffTable be moved to their parent class?",
+      "revId": "8e8ecc8672365e8745c28054c4ae0ad7e26e9dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UCjgMaUg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-04-25T10:32:10Z",
+      "side": 1,
+      "message": "some parts of this method are mostly like those in UnifiedDiffTable.appendImageDifferences() ,\ncan them be abstracted out to their parent class?",
+      "revId": "8e8ecc8672365e8745c28054c4ae0ad7e26e9dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

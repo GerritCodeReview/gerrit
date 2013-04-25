@@ -33,6 +33,7 @@ import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
+import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
@@ -187,6 +188,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeUtil.Factory.class);
     factory(PerformCreateGroup.Factory.class);
     factory(PerformRenameGroup.Factory.class);
+    factory(PluginUser.Factory.class);
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RebasedPatchSetSender.Factory.class);

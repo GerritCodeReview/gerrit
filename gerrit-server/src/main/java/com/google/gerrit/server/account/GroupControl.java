@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -127,6 +128,7 @@ public class GroupControl {
   public boolean isVisible() {
     AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
     return (accountGroup != null && accountGroup.isVisibleToAll())
+      || user instanceof InternalUser
       || user.getEffectiveGroups().contains(group.getGroupUUID())
       || isOwner();
   }

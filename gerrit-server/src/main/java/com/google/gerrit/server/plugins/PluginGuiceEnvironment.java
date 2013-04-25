@@ -32,6 +32,9 @@ import com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.gerrit.server.util.PluginRequestContext;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
 import com.google.inject.Guice;
@@ -65,6 +68,7 @@ import javax.inject.Inject;
 public class PluginGuiceEnvironment {
   private final Injector sysInjector;
   private final ServerInformation srvInfo;
+  private final ThreadLocalRequestContext local;
   private final CopyConfigModule copyConfigModule;
   private final Set<Key<?>> copyConfigKeys;
   private final List<StartPluginListener> onStart;
@@ -90,10 +94,12 @@ public class PluginGuiceEnvironment {
   @Inject
   PluginGuiceEnvironment(
       Injector sysInjector,
+      ThreadLocalRequestContext local,
       ServerInformation srvInfo,
       CopyConfigModule ccm) {
     this.sysInjector = sysInjector;
     this.srvInfo = srvInfo;
+    this.local = local;
     this.copyConfigModule = ccm;
     this.copyConfigKeys = Guice.createInjector(ccm).getAllBindings().keySet();
 
@@ -187,20 +193,33 @@ public class PluginGuiceEnvironment {
     return httpGen.get();
   }
 
+  RequestContext enter(Plugin plugin) {
+    return local.setContext(new PluginRequestContext(plugin.getPluginUser()));
+  }
+
+  void exit(RequestContext old) {
+    local.setContext(old);
+  }
+
   void onStartPlugin(Plugin plugin) {
     for (StartPluginListener l : onStart) {
       l.onStartPlugin(plugin);
     }
 
-    attachItem(sysItems, plugin.getSysInjector(), plugin);
+    RequestContext oldContext = enter(plugin);
+    try {
+      attachItem(sysItems, plugin.getSysInjector(), plugin);
 
-    attachSet(sysSets, plugin.getSysInjector(), plugin);
-    attachSet(sshSets, plugin.getSshInjector(), plugin);
-    attachSet(httpSets, plugin.getHttpInjector(), plugin);
+      attachSet(sysSets, plugin.getSysInjector(), plugin);
+      attachSet(sshSets, plugin.getSshInjector(), plugin);
+      attachSet(httpSets, plugin.getHttpInjector(), plugin);
 
-    attachMap(sysMaps, plugin.getSysInjector(), plugin);
-    attachMap(sshMaps, plugin.getSshInjector(), plugin);
-    attachMap(httpMaps, plugin.getHttpInjector(), plugin);
+      attachMap(sysMaps, plugin.getSysInjector(), plugin);
+      attachMap(sshMaps, plugin.getSshInjector(), plugin);
+      attachMap(httpMaps, plugin.getHttpInjector(), plugin);
+    } finally {
+      exit(oldContext);
+    }
   }
 
   private void attachItem(Map<TypeLiteral<?>, DynamicItem<?>> items,
@@ -244,15 +263,20 @@ public class PluginGuiceEnvironment {
       old.put(h.getKey().getTypeLiteral(), h);
     }
 
-    reattachMap(old, sysMaps, newPlugin.getSysInjector(), newPlugin);
-    reattachMap(old, sshMaps, newPlugin.getSshInjector(), newPlugin);
-    reattachMap(old, httpMaps, newPlugin.getHttpInjector(), newPlugin);
+    RequestContext oldContext = enter(newPlugin);
+    try {
+      reattachMap(old, sysMaps, newPlugin.getSysInjector(), newPlugin);
+      reattachMap(old, sshMaps, newPlugin.getSshInjector(), newPlugin);
+      reattachMap(old, httpMaps, newPlugin.getHttpInjector(), newPlugin);
 
-    reattachSet(old, sysSets, newPlugin.getSysInjector(), newPlugin);
-    reattachSet(old, sshSets, newPlugin.getSshInjector(), newPlugin);
-    reattachSet(old, httpSets, newPlugin.getHttpInjector(), newPlugin);
+      reattachSet(old, sysSets, newPlugin.getSysInjector(), newPlugin);
+      reattachSet(old, sshSets, newPlugin.getSshInjector(), newPlugin);
+      reattachSet(old, httpSets, newPlugin.getHttpInjector(), newPlugin);
 
-    reattachItem(old, sysItems, newPlugin.getSysInjector(), newPlugin);
+      reattachItem(old, sysItems, newPlugin.getSysInjector(), newPlugin);
+    } finally {
+      exit(oldContext);
+    }
   }
 
   private void reattachMap(

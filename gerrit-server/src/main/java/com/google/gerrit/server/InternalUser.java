@@ -31,6 +31,8 @@ import java.util.Set;
  * anything it wants, anytime it wants, given the JVM's own direct access to
  * data. Plugins may use this when they need to have a CurrentUser with read
  * permission on anything.
+ *
+ * @see PluginUser
  */
 public class InternalUser extends CurrentUser {
   public interface Factory {

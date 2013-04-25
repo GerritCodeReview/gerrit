@@ -34,6 +34,24 @@
       "revId": "1ee4f869d3ead67c69e13be5975464e4ca29f40a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UClgXHVg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-04-25T08:06:05Z",
+      "side": 1,
+      "message": "I feel it would be clear and easy to read\n\n           binary or not\n           /             \\\n       not/               \\yes\n         /                 \\\n     test diff            safe IMG or not\n                               /    \\\n                           not/      \\ yes\n                             /        \\\n                      no action    show image\n\n\nI am not strong on it. you can go ahead.",
+      "parentUuid": "UCngS4Wk",
+      "revId": "1ee4f869d3ead67c69e13be5975464e4ca29f40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

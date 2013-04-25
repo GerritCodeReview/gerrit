@@ -12,19 +12,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#gerrit_topmenu {
+  left: 60px;
+  margin-right: 60px;
+  padding-right: 10px;
+  position: relative;
+}
 
-#gerrit_header {
+#diffy_logo {
   display: block !important;
   margin-bottom: -55px;
   padding-left: 20px;
   position: relative;
   top: -45px;
-  width: 100px;
-}
-
-#gerrit_topmenu {
-  left: 100px;
-  margin-right: 100px;
-  padding-right: 10px;
-  position: relative;
+  width: 60px;
 }

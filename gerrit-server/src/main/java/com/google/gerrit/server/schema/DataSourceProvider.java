@@ -39,18 +39,30 @@ import javax.sql.DataSource;
 
 /** Provides access to the DataSource. */
 @Singleton
-public final class DataSourceProvider implements Provider<DataSource>,
+public class DataSourceProvider implements Provider<DataSource>,
     LifecycleListener {
-  private final DataSource ds;
+  private final SitePaths site;
+  private final Config cfg;
+  private final Context ctx;
+  private final DataSourceType dst;
+  private DataSource ds;
 
   @Inject
-  DataSourceProvider(final SitePaths site,
-      @GerritServerConfig final Config cfg, Context ctx, DataSourceType dst) {
-    ds = open(site, cfg, ctx, dst);
+  protected DataSourceProvider(SitePaths site,
+      @GerritServerConfig Config cfg,
+      Context ctx,
+      DataSourceType dst) {
+    this.site = site;
+    this.cfg = cfg;
+    this.ctx = ctx;
+    this.dst = dst;
   }
 
   @Override
   public synchronized DataSource get() {
+    if (ds == null) {
+      ds = open(site, cfg, ctx, dst);
+    }
     return ds;
   }
 

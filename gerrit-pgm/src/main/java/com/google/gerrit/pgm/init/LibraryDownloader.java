@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import com.google.common.base.Strings;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.Die;
+import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 
@@ -42,7 +43,6 @@ import java.security.NoSuchAlgorithmException;
 class LibraryDownloader {
   private final ConsoleUI ui;
   private final File lib_dir;
-  private final ReloadSiteLibrary reload;
 
   private boolean required;
   private String name;
@@ -52,11 +52,9 @@ class LibraryDownloader {
   private File dst;
 
   @Inject
-  LibraryDownloader(final ReloadSiteLibrary reload, final ConsoleUI ui,
-      final SitePaths site) {
+  LibraryDownloader(ConsoleUI ui, SitePaths site) {
     this.ui = ui;
     this.lib_dir = site.lib_dir;
-    this.reload = reload;
   }
 
   void setName(final String name) {
@@ -163,7 +161,9 @@ class LibraryDownloader {
       }
     }
 
-    reload.reload();
+    if (dst.exists()) {
+      IoUtil.loadJARs(dst);
+    }
   }
 
   private void removeStaleVersions() {

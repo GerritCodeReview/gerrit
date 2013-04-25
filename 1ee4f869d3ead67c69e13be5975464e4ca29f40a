@@ -52,6 +52,24 @@
       "revId": "1ee4f869d3ead67c69e13be5975464e4ca29f40a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UAqBKel4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-25T11:10:49Z",
+      "side": 1,
+      "message": "To me, the difference is only visible when diffing files that are both\ntext and image, like SVGs.\n\nWith in the approach I pushed, such images are shown as images next to\neach other\n  http://i.imgur.com/nEB0QHD.png\n\nWith Bruce\u0027s suggestion, they get diffed as plain text files:\n  http://i.imgur.com/MmfJ7CF.png\n\nWhile the later is by far less readable for bigger changes (as in\nthe screenshots), it might be really advantageous for smaller changes.\n\nSo both approaches have their pros and cons. Since users can always\njust fetch the change and look at the text diff / image diff on their\nlocal machine, it\u0027s mostly about which of the two approaches is the\nbetter default for gerrit.\n\nTo me, showing images as images is the better default choice, as\nthat\u0027s most likely how the files get used in the end. So I\u0027d be (per\ndefault) more interested in how the image looks on the screen, not how\nit\u0027s represented in the file.\n\nBut I neither feel strongly about it, so just let me know if you\nprefer the other way.",
+      "parentUuid": "UClgXHVg",
+      "revId": "1ee4f869d3ead67c69e13be5975464e4ca29f40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

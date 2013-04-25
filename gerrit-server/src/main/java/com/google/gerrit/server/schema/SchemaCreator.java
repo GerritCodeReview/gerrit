@@ -51,6 +51,7 @@ public class SchemaCreator {
   private AccountGroup anonymous;
   private AccountGroup registered;
   private AccountGroup owners;
+  private AccountGroup batch;
 
   @Inject
   public SchemaCreator(SitePaths site,
@@ -90,6 +91,7 @@ public class SchemaCreator {
     initSystemConfig(db);
     allProjectsCreator
       .setAdministrators(GroupReference.forGroup(admin))
+      .setBatchUsers(GroupReference.forGroup(batch))
       .create();
     dataSourceType.getIndexScript().run(db);
   }
@@ -131,13 +133,13 @@ public class SchemaCreator {
     c.accountGroupNames().insert(
         Collections.singleton(new AccountGroupName(registered)));
 
-    final AccountGroup batchUsers = newGroup(c, "Non-Interactive Users", null);
-    batchUsers.setDescription("Users who perform batch actions on Gerrit");
-    batchUsers.setOwnerGroupUUID(admin.getGroupUUID());
-    batchUsers.setType(AccountGroup.Type.INTERNAL);
-    c.accountGroups().insert(Collections.singleton(batchUsers));
+    batch = newGroup(c, "Non-Interactive Users", null);
+    batch.setDescription("Users who perform batch actions on Gerrit");
+    batch.setOwnerGroupUUID(admin.getGroupUUID());
+    batch.setType(AccountGroup.Type.INTERNAL);
+    c.accountGroups().insert(Collections.singleton(batch));
     c.accountGroupNames().insert(
-        Collections.singleton(new AccountGroupName(batchUsers)));
+        Collections.singleton(new AccountGroupName(batch)));
 
     owners = newGroup(c, "Project Owners", AccountGroup.PROJECT_OWNERS);
     owners.setDescription("Any owner of the project");

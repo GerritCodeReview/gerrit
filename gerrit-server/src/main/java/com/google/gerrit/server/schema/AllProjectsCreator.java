@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
@@ -50,6 +51,7 @@ public class AllProjectsCreator {
   private final PersonIdent serverUser;
 
   private GroupReference admin;
+  private GroupReference batch;
   private GroupReference anonymous;
   private GroupReference registered;
   private GroupReference owners;
@@ -76,6 +78,11 @@ public class AllProjectsCreator {
 
   public AllProjectsCreator setAdministrators(GroupReference admin) {
     this.admin = admin;
+    return this;
+  }
+
+  public AllProjectsCreator setBatchUsers(GroupReference batch) {
+    this.batch = batch;
     return this;
   }
 
@@ -131,6 +138,13 @@ public class AllProjectsCreator {
 
     grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
     grant(config, all, Permission.READ, admin, anonymous);
+
+    if (batch != null) {
+      Permission priority = cap.getPermission(GlobalCapability.PRIORITY, true);
+      PermissionRule r = rule(config, batch);
+      r.setAction(Action.BATCH);
+      priority.add(r);
+    }
 
     LabelType cr = initCodeReviewLabel(config);
     grant(config, heads, cr, -1, 1, registered);

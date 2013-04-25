@@ -70,6 +70,24 @@
       "revId": "1ee4f869d3ead67c69e13be5975464e4ca29f40a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UCtgiDa0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-25T11:15:03Z",
+      "side": 1,
+      "message": "+1 for showing the images by default",
+      "parentUuid": "UAqBKel4",
+      "revId": "1ee4f869d3ead67c69e13be5975464e4ca29f40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

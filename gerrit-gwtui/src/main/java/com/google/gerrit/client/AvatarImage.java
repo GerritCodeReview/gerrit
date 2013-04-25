@@ -15,6 +15,7 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
@@ -56,7 +57,8 @@ public class AvatarImage extends Image {
    *        avatar image
    */
   public AvatarImage(AccountInfo account, int size, boolean addPopup) {
-    super(url(account.email(), size));
+    super(isGerritServer(account) ? getGerritServerAvatarUrl() :
+        url(account.email(), size));
 
     if (size > 0) {
       // If the provider does not resize the image, force it in the browser.
@@ -78,6 +80,15 @@ public class AvatarImage extends Image {
       addMouseOverHandler(popupHandler);
       addMouseOutHandler(popupHandler);
     }
+  }
+
+  private static boolean isGerritServer(AccountInfo account) {
+    return account._account_id() == 0
+        && Util.C.messageNoAuthor().equals(account.name());
+  }
+
+  private static String getGerritServerAvatarUrl() {
+    return Gerrit.RESOURCES.gerritAvatar().getSafeUri().asString();
   }
 
   private static String url(String email, int size) {

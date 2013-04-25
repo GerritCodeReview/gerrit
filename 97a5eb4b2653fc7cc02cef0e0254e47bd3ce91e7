@@ -70,6 +70,24 @@
       "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UDjQMcEg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-25T22:42:24Z",
+      "side": 1,
+      "message": "The existing AgePredicate wouldn\u0027t know about this usage in a label. Instead we would make the additional fields available to the LabelPredicate as arguments similar to what this change wants to do, and then its up to LabelPredicate to grok these. It could run a new type of PredicateBuilder to convert the parse tree for itself.\n\nAs far as autocomplete, yes, you would have to go back and insert a ( after the label: operator to indicate the grouping, and we would need specialized auto-complete for label: to recognize what parameters are valid within that scope.\n\nIf we are doing a specialized autocomplete for label then we might be able to hint suggestions so that a completion attempt for:\n\n  label:Code-\n\nwould offer things like:\n\n  label:Code-Review\u003d2\n  label:(Code-Review\u003d2 user:\n  label:(Code-Review\u003d2 age:\n\nto give the user a hint on what replacement they can take.",
+      "parentUuid": "UDfUl2LY",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

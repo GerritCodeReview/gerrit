@@ -971,6 +971,13 @@ a:hover {
   float: left;
 }
 
+.avatarInfoPanel {
+  margin-right: 10px;
+}
+.avatarInfoPanel td {
+  text-align: center;
+}
+
 .infoBlock {
   border-collapse: collapse;
   border-spacing: 0;

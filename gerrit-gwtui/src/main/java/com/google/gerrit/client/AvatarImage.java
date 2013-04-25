@@ -29,6 +29,9 @@ import com.google.gwt.user.client.ui.UIObject;
 
 public class AvatarImage extends Image {
 
+  public AvatarImage() {
+  }
+
   /** A default sized avatar image. */
   public AvatarImage(AccountInfo account) {
     this(account, 0);
@@ -57,8 +60,12 @@ public class AvatarImage extends Image {
    *        avatar image
    */
   public AvatarImage(AccountInfo account, int size, boolean addPopup) {
-    super(isGerritServer(account) ? getGerritServerAvatarUrl() :
-        url(account.email(), size));
+    setAccount(account, size, addPopup);
+  }
+
+  public void setAccount(AccountInfo account, int size, boolean addPopup) {
+    setUrl(isGerritServer(account) ? getGerritServerAvatarUrl() :
+      url(account.email(), size));
     setVisible(false);
 
     if (size > 0) {

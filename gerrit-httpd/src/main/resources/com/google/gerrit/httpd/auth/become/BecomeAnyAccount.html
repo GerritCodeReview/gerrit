@@ -29,51 +29,59 @@
         }
       })();
     </script>
+    <style id="gerrit_sitecss" type="text/css"></style>
   </head>
   <body>
-    <h2>Sign In</h2>
-    <table border="0">
-      <tr>
-        <th>Username:</th>
-        <td>
-          <form method="GET">
-            <input type="text" size="30" name="user_name" />
-            <input type="submit" value="Become Account" />
-          </form>
-        </td>
-      </tr>
+    <div id="gerrit_topmenu" style="height:45px;" class="gerritTopMenu"></div>
+    <div id="gerrit_header"></div>
+    <div id="gerrit_body" class="gerritBody">
+      <h2>Sign In</h2>
+      <table border="0">
+        <tr>
+          <th>Username:</th>
+          <td>
+            <form method="GET">
+              <input type="text" size="30" name="user_name" />
+              <input type="submit" value="Become Account" />
+            </form>
+          </td>
+        </tr>
 
-      <tr>
-        <th>Email Address:</th>
-        <td>
-          <form method="GET">
-            <input type="text" size="30" name="preferred_email" />
-            <input type="submit" value="Become Account" />
-          </form>
-        </td>
-      </tr>
+        <tr>
+          <th>Email Address:</th>
+          <td>
+            <form method="GET">
+              <input type="text" size="30" name="preferred_email" />
+              <input type="submit" value="Become Account" />
+            </form>
+          </td>
+        </tr>
 
-      <tr>
-        <th>Account ID:</th>
-        <td>
-          <form method="GET">
-            <input type="text" size="12" name="account_id" />
-            <input type="submit" value="Become Account" />
-          </form>
-        </td>
-      </tr>
+        <tr>
+          <th>Account ID:</th>
+          <td>
+            <form method="GET">
+              <input type="text" size="12" name="account_id" />
+              <input type="submit" value="Become Account" />
+            </form>
+          </td>
+        </tr>
 
-      <tr>
-        <th>Choose:</th>
-        <td id="userlist"/>
-      </tr>
-    </table>
+        <tr>
+          <th>Choose:</th>
+          <td id="userlist"/>
+        </tr>
+      </table>
 
-    <hr />
-    <h2>Register</h2>
-    <form method="POST">
-      <input type="hidden" name="action" value="create_account" />
-      <input type="submit" value="New Account" />
-    </form>
+      <hr />
+      <h2>Register</h2>
+      <form method="POST">
+        <input type="hidden" name="action" value="create_account" />
+        <input type="submit" value="New Account" />
+      </form>
+    </div>
+    <div style="clear: both; margin-top: 15px; padding-top: 2px; margin-bottom: 15px;">
+      <div id="gerrit_footer"></div>
+    </div>
   </body>
 </html>

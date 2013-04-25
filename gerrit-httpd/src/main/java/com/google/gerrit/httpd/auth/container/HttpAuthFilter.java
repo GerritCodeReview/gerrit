@@ -119,12 +119,15 @@ class HttpAuthFilter implements Filter {
     WebSession session = sessionProvider.get();
     if (session.isSignedIn()) {
       String user = getRemoteUser(req);
-      AccountExternalId.Key id = session.getLastLoginExternalId();
-      return user != null
-          && id != null
-          && id.equals(new AccountExternalId.Key(SCHEME_GERRIT, user));
+      return user == null || correctUser(user, session);
     }
     return false;
+  }
+
+  private static boolean correctUser(String user, WebSession session) {
+    AccountExternalId.Key id = session.getLastLoginExternalId();
+    return id != null
+        && id.equals(new AccountExternalId.Key(SCHEME_GERRIT, user));
   }
 
   String getRemoteUser(HttpServletRequest req) {

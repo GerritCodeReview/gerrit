@@ -941,7 +941,6 @@ a:hover {
 }
 
 .sideBySideTableBinaryHeader {
-  border-right: thin solid #b0bdcc;
   border-left:  thin solid #b0bdcc;
   width: 100%;
   color: grey;

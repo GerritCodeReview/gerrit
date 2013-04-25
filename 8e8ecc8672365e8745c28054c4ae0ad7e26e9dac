@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UAgCjZus",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-25T14:38:20Z",
+      "side": 1,
+      "message": "I just added \"safe\" as adjective, as that is shorter.\nDone.",
+      "parentUuid": "UAiBfiig",
+      "revId": "8e8ecc8672365e8745c28054c4ae0ad7e26e9dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UAkBajjg",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "UAoB2Vp8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-25T14:38:20Z",
+      "side": 1,
+      "message": "The methods differ in that createImage returns SafeHtml, while appendImgTag directly appends to the SafeHtmlBuilder.\n\nWe could put appendImgTag to the abstract base class and reuse it here in lines 225-227. But given that appendImgTag is really, really short (just 3 LOC), the readability penalty of putting the code in a separate file outweighs the benefit of code reuse for me.\n\nIf you prefer that variant nonetheless, I\u0027ll happily update the change.",
+      "parentUuid": "UAkBajjg",
+      "revId": "8e8ecc8672365e8745c28054c4ae0ad7e26e9dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UCjgMaUg",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-04-25T10:32:10Z",
       "side": 1,
       "message": "some parts of this method are mostly like those in UnifiedDiffTable.appendImageDifferences() ,\ncan them be abstracted out to their parent class?",
+      "revId": "8e8ecc8672365e8745c28054c4ae0ad7e26e9dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UCrhNGXs",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-04-25T14:38:20Z",
+      "side": 1,
+      "message": "Table rows in Unified Diffs and Side-By-Side diffs look the same, but are different nontheless. We could extract methods that abstract that away and have parameters that switch to this or that mode. But it essentially looks like an overkill to me.\n\nThe only part that really is the same is determining the url. That\u0027s also probably generic enough that it makes sense to have it in AbstractPatchContentTable. So I extracted that.\n\nBut I cannot tell which of the two variants I like more :-)",
+      "parentUuid": "UCjgMaUg",
       "revId": "8e8ecc8672365e8745c28054c4ae0ad7e26e9dac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

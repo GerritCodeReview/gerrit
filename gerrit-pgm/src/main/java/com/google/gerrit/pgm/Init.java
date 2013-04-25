@@ -21,7 +21,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitFlags;
 import com.google.gerrit.pgm.init.InitModule;
-import com.google.gerrit.pgm.init.ReloadSiteLibrary;
 import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.Die;
@@ -121,12 +120,6 @@ public class Init extends SiteProgram {
       protected void configure() {
         bind(ConsoleUI.class).toInstance(ui);
         bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
-        bind(ReloadSiteLibrary.class).toInstance(new ReloadSiteLibrary() {
-          @Override
-          public void reload() {
-            Init.super.loadSiteLib();
-          }
-        });
       }
     });
 

@@ -39,12 +39,12 @@ import javax.sql.DataSource;
 
 /** Provides access to the DataSource. */
 @Singleton
-public final class DataSourceProvider implements Provider<DataSource>,
+public class DataSourceProvider implements Provider<DataSource>,
     LifecycleListener {
   private final DataSource ds;
 
   @Inject
-  DataSourceProvider(final SitePaths site,
+  protected DataSourceProvider(final SitePaths site,
       @GerritServerConfig final Config cfg, Context ctx, DataSourceType dst) {
     ds = open(site, cfg, ctx, dst);
   }

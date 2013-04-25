@@ -257,6 +257,28 @@ The response redirects to the URL of the avatar image.
   Location: https://profiles/avatar/john_doe.jpeg?s=20x20
 ----
 
+[[get-avatar-change-url]]
+Get Avatar Change URL
+~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/avatar.change.url'
+
+Retrieves the URL where the user can change the avatar image.
+
+.Request
+----
+  GET /a/accounts/self/avatar.change.url HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  https://profiles/pictures/john.doe
+----
+
 [[get-diff-preferences]]
 Get Diff Preferences
 ~~~~~~~~~~~~~~~~~~~~

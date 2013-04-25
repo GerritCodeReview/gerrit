@@ -19,6 +19,7 @@ import com.google.gwt.i18n.client.Constants;
 public interface AccountConstants extends Constants {
   String settingsHeading();
 
+  String changeAvatar();
   String fullName();
   String preferredEmail();
   String registeredOn();

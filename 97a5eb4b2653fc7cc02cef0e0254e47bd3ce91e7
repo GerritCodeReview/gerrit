@@ -16,6 +16,24 @@
       "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UDZUFhCE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-25T22:08:58Z",
+      "side": 1,
+      "message": "I don\u0027t think using BY is a generic enough extensible mechanism.  Imagine trying to tie in the time of the approval also, how would you do it? \n\n   label:Code-Review\u003d1 BY user:jsmith BY time:\"1hour ago\"\n\nHere the second BY doesn\u0027t make linguistic sense, and what would it be joining?\n\nThe \",keyword\u003dvalue\" mechanism is easily extensible to many scenarios (we have already used it on other custom operators of ours).  It is also possible to make it order insensitive.  The BY seems strange and un-intuitive, it pretends to join 2 predicates but it really isn\u0027t; it is just a mechanism to add additional parameters to the first Predicate.",
+      "parentUuid": "UDdX7-Po",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

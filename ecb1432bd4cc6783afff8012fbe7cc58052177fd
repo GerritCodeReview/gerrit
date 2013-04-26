@@ -69,6 +69,24 @@
       "revId": "ecb1432bd4cc6783afff8012fbe7cc58052177fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UDnSPiHg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-04-26T17:21:48Z",
+      "side": 1,
+      "message": "Oh, I see.  I think the important piece to highlight in this logic is then the different paths between when prefiltered refs are passed in versus when they are not (something that was not so obvious above).  So perhaps making this loop like:\n\n Map\u003cString, Ref\u003e refs \u003d rp.getAdvertisedRefs(); \n\n if (refsToFilter !\u003d null) {\n   if (refs \u003d\u003d null) {\n     refs \u003d refsToFitler\n   } else {\n     refs.putAll(refsToFilter);\n   }\n } else if (refs \u003d\u003d null) {\n   refs \u003d rp.getRepository().getAllRefs();\n }\n\n Map\u003cString, Ref\u003e r \u003d Maps.newHashMapWithExpectedSize(refs.size());\n for (Map.Entry\u003cString, Ref\u003e e : refs.entrySet()) {\n\n\n\u003e I\u0027m also not sure why you do the \"refsToFilter \u003d refs\" assignment here.\n\nI was doing that just to (I thought) ensure that my code had the same side affects as yours (your code does end up setting refsToFilter and mine now doesn\u0027t, this could affect subsequent calls to this function).",
+      "parentUuid": "UJR1Ds1k",
+      "revId": "ecb1432bd4cc6783afff8012fbe7cc58052177fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UIiD1Kgo",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-26T02:29:15Z",
+      "side": 1,
+      "message": "\"review the Apache 2 Configuration documentation\" would be better.",
+      "revId": "9dc31a5d37a5259f2742339b0ab77ac7670b4948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UDdUpvIo",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-04-26T05:54:39Z",
+      "side": 1,
+      "message": "It does show merged changes when we pair it with operators which match on merged changes as well.\n\nWhen we try the \u0027inref\u0027 operator just by itself, or with \u0027message\u0027(which matches on open changes only), we wee that the query matches on open changes only. For example: \n\n message:foo inref:master",
+      "parentUuid": "TV0sURUw",
+      "revId": "4da3f4b233fd691d7040e922a9d834996b4b439c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TVys.Gcs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-15T15:16:14Z",
       "side": 1,
       "message": "nit: some lines in this method are much longer than 80 characters",
+      "revId": "4da3f4b233fd691d7040e922a9d834996b4b439c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UDfUsuJw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-04-26T05:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TVys.Gcs",
       "revId": "4da3f4b233fd691d7040e922a9d834996b4b439c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

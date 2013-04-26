@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJJ4fvWs",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-26T08:49:08Z",
+      "side": 1,
+      "message": "Why does it, by default, match on open changes (only)?\n\nOpen changes exist on only one ref (like \"refs/changes/23/123/1\"). Searching for open changes on any \"standard\" ref (\"master\", \"refs/heads/master\", \"refs/tags/v1.0\") will result in an empty result as there are no open changes on these refs.\n\nWouldn\u0027t it make more sense that the default behavior, for this operator, is to search on merged changes?",
+      "revId": "78458c68e2de5ff21e0128adce77fff6fe94e2d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -427,11 +427,12 @@ responses are protected from accidential sniffing and treatment as
 HTML thanks to Gson encoding HTML control characters using Unicode
 character escapes within JSON strings.
 
-* Apache reverse proxies need `AllowEncodedSlashes NoDecode`
+* Apache reverse proxies must switch to mod_rewrite
 +
-When Apache is used as a reverse proxy the NoDecode option
-must be set for AllowEncodedSlashes to prevent Apache from
-mangling Gerrit REST API URLs.
+When Apache is used as a reverse proxy the server must be reconfigured
+to use mod_rewrite and AllowEncodedSlashes.  For updated information
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-reverseproxy.html#_apache_2_configuration[
+review Apache 2 Configuration].
 
 Project Dashboards
 ~~~~~~~~~~~~~~~~~~

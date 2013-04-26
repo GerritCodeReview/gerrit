@@ -293,10 +293,6 @@ public class PatchTable extends Composite {
     return listenablePrefs;
   }
 
-  public void setPreferences(ListenableAccountDiffPreference prefs) {
-    listenablePrefs = prefs;
-  }
-
   private class MyTable extends NavigationTable<Patch> {
     private static final int C_PATH = 2;
     private static final int C_DRAFT = 3;

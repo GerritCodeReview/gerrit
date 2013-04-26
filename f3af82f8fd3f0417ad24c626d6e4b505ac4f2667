@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJR0ME0g",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1520,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-04-26T08:06:32Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is important enough for release notes",
+      "revId": "f3af82f8fd3f0417ad24c626d6e4b505ac4f2667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

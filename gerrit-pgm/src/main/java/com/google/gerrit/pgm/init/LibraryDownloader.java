@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.Die;
 import com.google.gerrit.server.config.SitePaths;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -46,6 +48,7 @@ class LibraryDownloader {
   private String name;
   private String jarUrl;
   private String sha1;
+  private String remove;
   private File dst;
 
   @Inject
@@ -66,6 +69,10 @@ class LibraryDownloader {
 
   void setSHA1(final String sha1) {
     this.sha1 = sha1;
+  }
+
+  void setRemove(String remove) {
+    this.remove = remove;
   }
 
   void downloadRequired() {
@@ -123,6 +130,7 @@ class LibraryDownloader {
     }
 
     try {
+      removeStaleVersions();
       doGetByHttp();
       verifyFileChecksum();
     } catch (IOException err) {
@@ -156,6 +164,26 @@ class LibraryDownloader {
     }
 
     reload.reload();
+  }
+
+  private void removeStaleVersions() {
+    if (!Strings.isNullOrEmpty(remove)) {
+      String[] names = lib_dir.list(new FilenameFilter() {
+        @Override
+        public boolean accept(File dir, String name) {
+          return name.matches("^" + remove + "$");
+        }
+      });
+      if (names != null) {
+        for (String old : names) {
+          String bak = "." + old + ".backup";
+          ui.message("Renaming %s to %s", old, bak);
+          if (!new File(lib_dir, old).renameTo(new File(lib_dir, bak))) {
+            throw new Die("cannot rename " + old);
+          }
+        }
+      }
+    }
   }
 
   private void doGetByHttp() throws IOException {

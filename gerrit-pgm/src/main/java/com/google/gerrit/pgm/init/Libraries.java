@@ -78,6 +78,7 @@ class Libraries {
     dl.setName(get(cfg, n, "name"));
     dl.setJarUrl(get(cfg, n, "url"));
     dl.setSHA1(get(cfg, n, "sha1"));
+    dl.setRemove(get(cfg, n, "remove"));
     field.set(this, dl);
   }
 

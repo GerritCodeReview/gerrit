@@ -173,7 +173,7 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
         String displayName;
         if (a.getUserName() != null) {
           displayName = a.getUserName();
-        } else if (a.getFullName() != null) {
+        } else if (a.getFullName() != null && !a.getFullName().isEmpty()) {
           displayName = a.getFullName();
         } else if (a.getPreferredEmail() != null) {
           displayName = a.getPreferredEmail();

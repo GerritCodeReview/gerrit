@@ -427,11 +427,12 @@ responses are protected from accidential sniffing and treatment as
 HTML thanks to Gson encoding HTML control characters using Unicode
 character escapes within JSON strings.
 
-* Apache reverse proxies need `AllowEncodedSlashes NoDecode`
+* Apache reverse proxies must switch to mod_rewrite
 +
-When Apache is used as a reverse proxy the NoDecode option
-must be set for AllowEncodedSlashes to prevent Apache from
-mangling Gerrit REST API URLs.
+When Apache is used as a reverse proxy the server must be reconfigured
+to use mod_rewrite and AllowEncodedSlashes.  For updated information
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-reverseproxy.html#_apache_2_configuration[
+review the Apache 2 Configuration documentation].
 
 Project Dashboards
 ~~~~~~~~~~~~~~~~~~
@@ -1517,6 +1518,15 @@ default time unit.
 ** Use change-url flag for ChangeId
 ** Prevent exception for empty commit
 ** Fix pylint errors
+** Call `gerrit review` instead of `gerrit approve`
+** Make the private key argument optional
+** Support alternative ssh executable, for example `plink`
+** Support custom review labels
+** Correctly handle empty patch ID
++
+If only one of the patch IDs is empty, it should not be considered
+a trivial rebase.
+
 ** Use plain python instead of python2.6
 +
 Windows installation only has python.exe

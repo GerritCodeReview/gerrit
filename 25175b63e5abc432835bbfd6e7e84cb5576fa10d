@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJT36L-s",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-04-26T07:21:21Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be\n  fullName \u003d name.trim()\n?",
+      "revId": "25175b63e5abc432835bbfd6e7e84cb5576fa10d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

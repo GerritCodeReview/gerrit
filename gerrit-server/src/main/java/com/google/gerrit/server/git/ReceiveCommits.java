@@ -130,6 +130,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1589,9 +1590,15 @@ public class ReceiveCommits {
     try {
       readChangesForReplace();
       readPatchSetsForReplace();
-      for (ReplaceRequest req : replaceByChange.values()) {
+      for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator();
+          itr.hasNext();) {
+        ReplaceRequest req = itr.next();
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.validate(false);
+          if (req.skip && req.cmd == null) {
+            itr.remove();
+            replaceByCommit.remove(req.newCommit);
+          }
         }
       }
     } catch (OrmException err) {
@@ -1667,6 +1674,7 @@ public class ReceiveCommits {
     PatchSetInfo info;
     ChangeMessage msg;
     String mergedIntoRef;
+    boolean skip;
     private PatchSet.Id priorPatchSet;
 
     ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
@@ -1687,8 +1695,17 @@ public class ReceiveCommits {
         return false;
       }
 
-      if (change.getStatus().isClosed()) {
-        reject(inputCommand, "change " + ontoChange + " closed");
+      priorPatchSet = change.currentPatchSetId();
+      Map<PatchSet.Id, RevCommit> revisions = parseRevisions();
+      if (revisions == null || !revisions.containsKey(priorPatchSet)) {
+        reject(inputCommand, "change " + ontoChange + " missing revisions");
+        return false;
+      }
+
+      RevCommit priorCommit = revisions.get(priorPatchSet);
+      if (newCommit == priorCommit) {
+        // Ignore requests to make the change its current state.
+        skip = true;
         return false;
       }
 
@@ -1698,86 +1715,62 @@ public class ReceiveCommits {
         return false;
       }
 
-      rp.getRevWalk().parseBody(newCommit);
+      if (change.getStatus().isClosed()) {
+        reject(inputCommand, "change " + ontoChange + " closed");
+        return false;
+      }
 
+      for (RevCommit prior : revisions.values()) {
+        // Don't allow the same commit to appear twice on the same change
+        if (newCommit == prior) {
+          reject(inputCommand, "commit already exists");
+          return false;
+        }
+
+        // Don't allow a change to directly depend upon itself. This is a
+        // very common error due to users making a new commit rather than
+        // amending when trying to address review comments.
+        if (rp.getRevWalk().isMergedInto(prior, newCommit)) {
+          reject(inputCommand, "squash commits first");
+          return false;
+        }
+      }
+
+      rp.getRevWalk().parseBody(newCommit);
       if (!validCommit(changeCtl.getRefControl(), inputCommand, newCommit)) {
         return false;
       }
 
-      priorPatchSet = change.currentPatchSetId();
-      for (final PatchSet ps : patchSets) {
-        if (ps.getRevision() == null) {
-          log.warn("Patch set " + ps.getId() + " has no revision");
-          reject(inputCommand, "change state corrupt");
+      // Don't allow the same tree if the commit message is unmodified
+      // or no parents were updated (rebase), else warn that only part
+      // of the commit was modified.
+      if (newCommit.getTree() == priorCommit.getTree()) {
+        rp.getRevWalk().parseBody(priorCommit);
+        final boolean messageEq =
+            eq(newCommit.getFullMessage(), priorCommit.getFullMessage());
+        final boolean parentsEq = parentsEqual(newCommit, priorCommit);
+        final boolean authorEq = authorEqual(newCommit, priorCommit);
+
+        if (messageEq && parentsEq && authorEq && !autoClose) {
+          reject(inputCommand, "no changes made");
           return false;
-        }
-
-        final String revIdStr = ps.getRevision().get();
-        final ObjectId commitId;
-        try {
-          commitId = ObjectId.fromString(revIdStr);
-        } catch (IllegalArgumentException e) {
-          log.warn("Invalid revision in " + ps.getId() + ": " + revIdStr);
-          reject(inputCommand, "change state corrupt");
-          return false;
-        }
-
-        try {
-          final RevCommit prior = rp.getRevWalk().parseCommit(commitId);
-
-          // Don't allow the same commit to appear twice on the same change
-          //
-          if (newCommit == prior) {
-            reject(inputCommand, "commit already exists");
-            return false;
+        } else {
+          ObjectReader reader = rp.getRevWalk().getObjectReader();
+          StringBuilder msg = new StringBuilder();
+          msg.append("(W) ");
+          msg.append(reader.abbreviate(newCommit).name());
+          msg.append(":");
+          msg.append(" no files changed");
+          if (!authorEq) {
+            msg.append(", author changed");
           }
-
-          // Don't allow a change to directly depend upon itself. This is a
-          // very common error due to users making a new commit rather than
-          // amending when trying to address review comments.
-          //
-          if (rp.getRevWalk().isMergedInto(prior, newCommit)) {
-            reject(inputCommand, "squash commits first");
-            return false;
+          if (!messageEq) {
+            msg.append(", message updated");
           }
-
-          // Don't allow the same tree if the commit message is unmodified
-          // or no parents were updated (rebase), else warn that only part
-          // of the commit was modified.
-          //
-          if (priorPatchSet.equals(ps.getId()) && newCommit.getTree() == prior.getTree()) {
-            rp.getRevWalk().parseBody(prior);
-            final boolean messageEq =
-                eq(newCommit.getFullMessage(), prior.getFullMessage());
-            final boolean parentsEq = parentsEqual(newCommit, prior);
-            final boolean authorEq = authorEqual(newCommit, prior);
-
-            if (messageEq && parentsEq && authorEq && !autoClose) {
-              reject(inputCommand, "no changes made");
-              return false;
-            } else {
-              ObjectReader reader = rp.getRevWalk().getObjectReader();
-              StringBuilder msg = new StringBuilder();
-              msg.append("(W) ");
-              msg.append(reader.abbreviate(newCommit).name());
-              msg.append(":");
-              msg.append(" no files changed");
-              if (!authorEq) {
-                msg.append(", author changed");
-              }
-              if (!messageEq) {
-                msg.append(", message updated");
-              }
-              if (!parentsEq) {
-                msg.append(", was rebased");
-              }
-              addMessage(msg.toString());
-            }
+          if (!parentsEq) {
+            msg.append(", was rebased");
           }
-        } catch (IOException e) {
-          log.error("Change " + change.getId() + " missing " + revIdStr, e);
-          reject(inputCommand, "change state corrupt");
-          return false;
+          addMessage(msg.toString());
         }
       }
 
@@ -1796,6 +1789,30 @@ public class ReceiveCommits {
           newCommit,
           newPatchSet.getRefName());
       return true;
+    }
+
+    private Map<PatchSet.Id, RevCommit> parseRevisions() {
+      Map<PatchSet.Id, RevCommit> commits = Maps.newHashMap();
+      for (PatchSet ps : patchSets) {
+        if (ps.getRevision() == null) {
+          log.warn("Patch set " + ps.getId() + " has no revision");
+          return null;
+        }
+
+        String revIdStr = ps.getRevision().get();
+        try {
+          commits.put(
+              ps.getId(),
+              rp.getRevWalk().parseCommit(ObjectId.fromString(revIdStr)));
+        } catch (IllegalArgumentException e) {
+          log.warn("Invalid revision in " + ps.getId() + ": " + revIdStr);
+          return null;
+        } catch (IOException e) {
+          log.error("Change " + change.getId() + " missing " + revIdStr, e);
+          return null;
+        }
+      }
+      return commits;
     }
 
     CheckedFuture<PatchSet.Id, OrmException> insertPatchSet()

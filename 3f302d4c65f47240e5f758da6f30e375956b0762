@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJT0Rz2A",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-26T08:30:09Z",
+      "side": 1,
+      "message": "Could you provide a bit more details on why is this a good idea?\nI suppose this is a performance optimization?\nIf yes, do you have any numbers which tell how much the performance of a query improves?",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJX0XV1g",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-26T08:30:09Z",
+      "side": 1,
+      "message": "1. Why inheriting from the HashMap?\nThis way RepoWalksCache also inherits (and exposes) the complete HashMap interface which is irrelevant for its purpose and unnecessarily exposes implementation details. \n\nEmbed the HashMap instead.\n\n2. why is this class not static? It only needs the repoManager which could be passed in a constructor.\n\n3. When it becomes static move it up to the RepoWalk class.\n\n4. optional: move the RepoWalksCache into own file?",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJZ0fw2s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-26T08:30:09Z",
+      "side": 1,
+      "message": "Change the return type to RevWalk?\n\nSee also the comment in the RevWalkPredicate:108",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJN4lRbc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-26T08:30:09Z",
+      "side": 1,
+      "message": "After making the class static, accept the repoManager in a constructor.",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJd0lS7c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-26T08:30:09Z",
+      "side": 1,
+      "message": "How important it is to make sure that cached RevWalks are released even in case of an exception?\n\nPut this in a finally block?",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJf0ih6w",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-26T08:30:09Z",
+      "side": 1,
+      "message": "This is the only usage of the RepoWalksCache and it show that we only need the RevWalk object (not the RepoWalk). Change the return type of RepoWalksCache.get to RevWalk?",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

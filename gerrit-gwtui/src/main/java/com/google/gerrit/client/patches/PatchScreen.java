@@ -113,6 +113,7 @@ public abstract class PatchScreen extends Screen implements
   /** The index of the file we are currently looking at among the fileList */
   private int patchIndex;
   private ListenableAccountDiffPreference prefs;
+  private HandlerRegistration prefsHandler;
 
   /** Keys that cause an action on this screen */
   private KeyCommandSet keysNavigation;
@@ -141,19 +142,12 @@ public abstract class PatchScreen extends Screen implements
     idSideB = id.getParentKey();
     this.patchIndex = patchIndex;
 
-    prefs = fileList != null ? fileList.getPreferences() :
-                               new ListenableAccountDiffPreference();
+    prefs = fileList != null
+        ? fileList.getPreferences()
+        : new ListenableAccountDiffPreference();
     if (Gerrit.isSignedIn()) {
       prefs.reset();
     }
-    prefs.addValueChangeHandler(
-        new ValueChangeHandler<AccountDiffPreference>() {
-          @Override
-          public void onValueChange(ValueChangeEvent<AccountDiffPreference> event) {
-            update(event.getValue());
-          }
-        });
-
     reviewedPanels = new ReviewedPanels();
     settingsPanel = new PatchScriptSettingsPanel(prefs);
   }
@@ -301,6 +295,10 @@ public abstract class PatchScreen extends Screen implements
 
   @Override
   protected void onUnload() {
+    if (prefsHandler != null) {
+      prefsHandler.removeHandler();
+      prefsHandler = null;
+    }
     if (regNavigation != null) {
       regNavigation.removeHandler();
       regNavigation = null;
@@ -475,6 +473,15 @@ public abstract class PatchScreen extends Screen implements
   @Override
   public void onShowView() {
     super.onShowView();
+    if (prefsHandler == null) {
+      prefsHandler = prefs.addValueChangeHandler(
+          new ValueChangeHandler<AccountDiffPreference>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<AccountDiffPreference> event) {
+              update(event.getValue());
+            }
+          });
+    }
     if (intralineFailure) {
       intralineFailure = false;
       new ErrorDialog(PatchUtil.C.intralineFailure()).show();

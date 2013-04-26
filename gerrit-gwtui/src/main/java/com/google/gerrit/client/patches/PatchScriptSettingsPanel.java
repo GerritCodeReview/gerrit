@@ -50,7 +50,7 @@ public class PatchScriptSettingsPanel extends Composite implements
   interface MyUiBinder extends UiBinder<Widget, PatchScriptSettingsPanel> {
   }
 
-  private ListenableAccountDiffPreference listenablePrefs;
+  private final ListenableAccountDiffPreference listenablePrefs;
   private boolean enableIntralineDifference = true;
   private boolean enableSmallFileFeatures = true;
 

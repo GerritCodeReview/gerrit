@@ -23,8 +23,11 @@ public class ListenableOldValue<T> extends ListenableValue<T> {
   }
 
   public void set(final T value) {
-    oldValue = get();
-    super.set(value);
-    oldValue = null; // allow it to be gced before the next event
+    try {
+      oldValue = get();
+      super.set(value);
+    } finally {
+      oldValue = null; // allow it to be gced before the next event
+    }
   }
 }

@@ -19,11 +19,11 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -96,11 +96,15 @@ public class MyProfileScreen extends SettingsScreen {
   void display(final Account account) {
     avatar.setAccount(FormatUtil.asInfo(account), 93, false);
     new RestApi("/accounts/").id("self").view("avatar.change.url")
-        .get(new GerritCallback<NativeString>() {
+        .get(new AsyncCallback<NativeString>() {
           @Override
           public void onSuccess(NativeString changeUrl) {
             changeAvatar.setHref(changeUrl.asString());
             changeAvatar.setVisible(true);
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
           }
         });
 

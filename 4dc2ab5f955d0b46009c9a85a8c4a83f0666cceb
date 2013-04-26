@@ -16,6 +16,24 @@
       "revId": "4dc2ab5f955d0b46009c9a85a8c4a83f0666cceb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UDbVNIHs",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/SiteLibraryBasedDataSourceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-26T14:34:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJF45Nd8",
+      "revId": "4dc2ab5f955d0b46009c9a85a8c4a83f0666cceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

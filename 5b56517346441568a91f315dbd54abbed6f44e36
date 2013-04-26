@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "TkbH1oA4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-04-26T05:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TV2sPgTs",
+      "revId": "5b56517346441568a91f315dbd54abbed6f44e36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TWWn2ZRs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "UDlQ.zMk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-04-26T05:40:41Z",
+      "side": 1,
+      "message": "patch #3 restores MessagePredicate behavior.\n\nWe may not want to throw exceptions as one problematic change in a project can cause any queries that include the change to abort.",
+      "parentUuid": "TWWn2ZRs",
+      "revId": "5b56517346441568a91f315dbd54abbed6f44e36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "TWUn7of8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-04-15T13:44:32Z",
       "side": 1,
       "message": "[optional] I somehow like the old log message more.\n\n  log.error(\"Repository \\\"\" + projectName.get() + \"\\\" unknown.\", e);",
+      "revId": "5b56517346441568a91f315dbd54abbed6f44e36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "TknAAUBE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-04-26T05:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "TWUn7of8",
       "revId": "5b56517346441568a91f315dbd54abbed6f44e36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

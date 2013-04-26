@@ -1517,6 +1517,15 @@ default time unit.
 ** Use change-url flag for ChangeId
 ** Prevent exception for empty commit
 ** Fix pylint errors
+** Call `gerrit review` instead of `gerrit approve`
+** Make the private key argument optional
+** Support alternative ssh executable, for example `plink`
+** Support custom review labels
+** Correctly handle empty patch ID
++
+If only one of the patch IDs is empty, it should not be considered
+a trivial rebase.
+
 ** Use plain python instead of python2.6
 +
 Windows installation only has python.exe

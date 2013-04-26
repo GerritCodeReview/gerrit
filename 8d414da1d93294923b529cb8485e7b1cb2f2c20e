@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJL4c.XY",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/libraries.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-04-26T11:46:01Z",
+      "side": 1,
+      "message": "nice way of avoiding escape for the dot :-)",
+      "revId": "8d414da1d93294923b529cb8485e7b1cb2f2c20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

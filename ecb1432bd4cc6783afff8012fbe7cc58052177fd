@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UAgAmxsI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-26T15:46:09Z",
+      "side": 1,
+      "message": "The latter is correct. I agree on the naming.",
+      "parentUuid": "T2elgFek",
+      "revId": "ecb1432bd4cc6783afff8012fbe7cc58052177fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "T2cllUfc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-23T16:13:36Z",
       "side": 1,
       "message": "This logic is confusing, are you basically just doing?:\n\n Map\u003cString, Ref\u003e refs \u003d rp.getAdvertisedRefs(); \n if (refs \u003d\u003d null) {\n   refs \u003d rp.getRepository().getAllRefs();\n }\n if (refsToFilter !\u003d null){\n    refs.putAll(refsToFilter);\n }\n refsToFilter \u003d refs;\n\n Map\u003cString, Ref\u003e r \u003d Maps.newHashMapWithExpectedSize(refs.size());\n for (Map.Entry\u003cString, Ref\u003e e : refs.entrySet()) {\n\nMaybe that is clearer?",
+      "revId": "ecb1432bd4cc6783afff8012fbe7cc58052177fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJR1Ds1k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-26T15:46:09Z",
+      "side": 1,
+      "message": "This wont work.\n\nOne aspect of the fix is to _not_ pass on rp.getRepository().getAllRefs() when we have already supplied a pre-filtered refs list (refsToFilter, soon to be called baseRefs). \n\nWe will end up with objects in BaseReceivePack.advertisedHaves that the user should not be able to see. Essentially enabling a user to craft a merge commit to get hold of code that should not really be reachable.\n\nIt will also come with a performance hit.\n\n  refsToFilter \u003d refs;\n  Map\u003cString, Ref\u003e r \u003d   Maps.newHashMapWithExpectedSize(refs.size());\n   for (Map.Entry\u003cString, Ref\u003e e : refs.entrySet()) {\n\nI\u0027m also not sure why you do the \"refsToFilter \u003d refs\" assignment here.",
+      "parentUuid": "T2cllUfc",
       "revId": "ecb1432bd4cc6783afff8012fbe7cc58052177fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

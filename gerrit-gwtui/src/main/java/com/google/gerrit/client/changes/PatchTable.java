@@ -48,7 +48,9 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PatchTable extends Composite {
   public interface PatchValidator {
@@ -80,6 +82,7 @@ public class PatchTable extends Composite {
   private String savePointerId;
   private PatchSet.Id base;
   private List<Patch> patchList;
+  private Map<Patch.Key, Integer> patchMap;
   private ListenableAccountDiffPreference listenablePrefs;
 
   private List<ClickHandler> clickHandlers;
@@ -97,18 +100,25 @@ public class PatchTable extends Composite {
   }
 
   public int indexOf(Patch.Key patch) {
-    for (int i = 0; i < patchList.size(); i++) {
-      if (patchList.get(i).getKey().equals(patch)) {
-        return i;
+    Integer i = patchMap().get(patch);
+    return i != null ? i : -1;
+  }
+
+  private Map<Key, Integer> patchMap() {
+    if (patchMap == null) {
+      patchMap = new HashMap<Patch.Key, Integer>();
+      for (int i = 0; i < patchList.size(); i++) {
+        patchMap.put(patchList.get(i).getKey(), i);
       }
     }
-    return -1;
+    return patchMap;
   }
 
   public void display(PatchSet.Id base, PatchSetDetail detail) {
     this.base = base;
     this.detail = detail;
     this.patchList = detail.getPatches();
+    this.patchMap = null;
     myTable = null;
 
     final DisplayCommand cmd = new DisplayCommand(patchList, base);
@@ -293,10 +303,6 @@ public class PatchTable extends Composite {
     return listenablePrefs;
   }
 
-  public void setPreferences(ListenableAccountDiffPreference prefs) {
-    listenablePrefs = prefs;
-  }
-
   private class MyTable extends NavigationTable<Patch> {
     private static final int C_PATH = 2;
     private static final int C_DRAFT = 3;
@@ -330,36 +336,33 @@ public class PatchTable extends Composite {
     }
 
     void updateReviewedStatus(final Patch.Key patchKey, boolean reviewed) {
-      final int row = findRow(patchKey);
-      if (0 <= row) {
-        final Patch patch = getRowItem(row);
-        if (patch != null) {
-          patch.setReviewedByCurrentUser(reviewed);
-
+      int idx = patchMap().get(patchKey);
+      if (0 <= idx) {
+        Patch patch = patchList.get(idx);
+        if (patch.isReviewedByCurrentUser() != reviewed) {
+          int row = idx + 1;
           int col = C_SIDEBYSIDE + 2;
           if (patch.getPatchType() == Patch.PatchType.BINARY) {
             col = C_SIDEBYSIDE + 3;
           }
-
           if (reviewed) {
             table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
           } else {
             table.clearCell(row, col);
           }
+          patch.setReviewedByCurrentUser(reviewed);
         }
       }
     }
 
     void notifyDraftDelta(final Patch.Key key, final int delta) {
-      final int row = findRow(key);
-      if (0 <= row) {
-        final Patch p = getRowItem(row);
-        if (p != null) {
-          p.setDraftCount(p.getDraftCount() + delta);
-          final SafeHtmlBuilder m = new SafeHtmlBuilder();
-          appendCommentCount(m, p);
-          SafeHtml.set(table, row, C_DRAFT, m);
-        }
+      int idx = patchMap().get(key);
+      if (0 <= idx) {
+        Patch p = patchList.get(idx);
+        p.setDraftCount(p.getDraftCount() + delta);
+        SafeHtmlBuilder m = new SafeHtmlBuilder();
+        appendCommentCount(m, p);
+        SafeHtml.set(table, idx + 1, C_DRAFT, m);
       }
     }
 

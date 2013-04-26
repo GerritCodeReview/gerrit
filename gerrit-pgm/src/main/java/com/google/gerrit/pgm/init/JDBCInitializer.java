@@ -16,13 +16,28 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.InitUtil.username;
 
-class JDBCInitializer implements DatabaseConfigInitializer {
+import com.google.common.base.Strings;
 
+class JDBCInitializer implements DatabaseConfigInitializer {
   @Override
-  public void initConfig(Section databaseSection) {
-    databaseSection.string("Driver class name", "driver", null);
-    databaseSection.string("URL", "url", null);
-    databaseSection.string("Database username", "username", username());
-    databaseSection.password("username", "password");
+  public void initConfig(Section database) {
+    database.string("URL", "url", null);
+    guessDriver(database);
+    database.string("Driver class name", "driver", null);
+    database.string("Database username", "username", username());
+    database.password("username", "password");
+  }
+
+  private void guessDriver(Section database) {
+    String url = Strings.emptyToNull(database.get("url"));
+    if (url != null && Strings.isNullOrEmpty(database.get("driver"))) {
+      if (url.startsWith("jdbc:h2:")) {
+        database.set("driver", "org.h2.Driver");
+      } else if (url.startsWith("jdbc:mysql:")) {
+        database.set("driver", "com.mysql.jdbc.Driver");
+      } else if (url.startsWith("jdbc:postgresql:")) {
+        database.set("driver", "org.postgresql.Driver");
+      }
+    }
   }
 }

@@ -27,10 +27,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -43,14 +39,13 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.common.VoidResult;
 
-public class PatchScriptSettingsPanel extends Composite implements
-    HasValueChangeHandlers<AccountDiffPreference> {
+public class PatchScriptSettingsPanel extends Composite {
   private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
 
   interface MyUiBinder extends UiBinder<Widget, PatchScriptSettingsPanel> {
   }
 
-  private ListenableAccountDiffPreference listenablePrefs;
+  private final ListenableAccountDiffPreference listenablePrefs;
   private boolean enableIntralineDifference = true;
   private boolean enableSmallFileFeatures = true;
 
@@ -137,12 +132,6 @@ public class PatchScriptSettingsPanel extends Composite implements
     colWidth.addKeyPressHandler(onEnter);
 
     display();
-  }
-
-  @Override
-  public HandlerRegistration addValueChangeHandler(
-      ValueChangeHandler<AccountDiffPreference> handler) {
-    return super.addHandler(handler, ValueChangeEvent.getType());
   }
 
   public void setEnabled(final boolean on) {

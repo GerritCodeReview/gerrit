@@ -1,0 +1,47 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '2.3.1.201302201838-r.175-g1b4320f'
+
+maven_jar(
+  name = 'jgit',
+  group = 'org.eclipse.jgit',
+  artifact = 'org.eclipse.jgit',
+  version = VERSION,
+  exclude = [
+    'META-INF/eclipse.inf',
+    'about.html',
+    'plugin.properties',
+  ],
+  repository = GERRIT,
+  license = 'jgit',
+  sha1 = '6488b0fb2a3524d2aa273099e160e337ac2d9df5',
+)
+
+prebuilt_jar(
+  name = 'Edit',
+  binary_jar = genfile('edit-src.jar'),
+  deps = [':jgit_edit_src'],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'jgit_src',
+  group = 'org.eclipse.jgit',
+  artifact = 'org.eclipse.jgit',
+  version = VERSION,
+  classifier = 'sources',
+  repository = GERRIT,
+  license = 'jgit',
+  sha1 = 'a833911680260b787c3b5028630ca32d29302b9d',
+  visibility = [],
+)
+
+genrule(
+  name = 'jgit_edit_src',
+  cmd = 'unzip -qd $TMP $SRCS org/eclipse/jgit/diff/Edit.java ; ' +
+    'cd $TMP ; '+
+    'zip -D0q $OUT org/eclipse/jgit/diff/Edit.java',
+  srcs = [genfile('jgit_src.jar')],
+  out = 'edit-src.jar',
+  deps = [':jgit_src']
+)

@@ -1,0 +1,28 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '140'
+EXCLUDE = [
+  'META-INF/BCKEY.SF',
+  'META-INF/BCKEY.DSA',
+]
+
+maven_jar(
+  name = 'bcprov',
+  group = 'bouncycastle',
+  artifact = 'bcprov-jdk15',
+  version = VERSION,
+  exclude = EXCLUDE,
+  license = 'bouncycastle',
+  sha1 = '83933f3f3312473afbe42a232392b3feffaadc36',
+)
+
+maven_jar(
+  name = 'bcpg',
+  group = 'bouncycastle',
+  artifact = 'bcpg-jdk15',
+  version = VERSION,
+  exclude = EXCLUDE,
+  license = 'bouncycastle',
+  sha1 = '6fdf17321df065223be5e73a0916a8c6dc383140',
+  deps = [':bcprov'],
+)

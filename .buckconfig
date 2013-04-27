@@ -1,0 +1,5 @@
+[buildfile]
+  includes = //lib/DEFS
+
+[java]
+  src_roots = java, resources

@@ -1,0 +1,37 @@
+java_library(
+  name = 'init',
+  srcs = glob(['src/main/java/**/*.java']),
+  deps = [
+    '//gerrit-server:server',
+    '//gerrit-httpd:httpd',
+    '//gerrit-sshd:sshd',
+
+    '//gerrit-cache-h2:cache-h2',
+    '//gerrit-openid:openid',
+  ],
+  visibility = ['//:gerrit'],
+)
+
+genrule(
+  name = 'webapp_assets',
+  cmd = 'cd $(dirname $OUT)/webapp_assets__srcs/src/main/webapp && ' +
+    'zip -9qr $OUT .',
+  srcs = glob(['src/main/webapp/**/*']),
+  deps = [],
+  out = 'webapp_assets.zip',
+  visibility = ['//:gerrit'],
+)
+
+genrule(
+  name = 'log4j-config__jar',
+  cmd = 'jar cf $OUT -C $(dirname $SRCS) .',
+  srcs = ['src/main/resources/log4j.properties'],
+  out = 'log4j-config.jar',
+)
+
+prebuilt_jar(
+  name = 'log4j-config',
+  binary_jar = genfile('log4j-config.jar'),
+  deps = [':log4j-config__jar'],
+  visibility = ['//:gerrit'],
+)

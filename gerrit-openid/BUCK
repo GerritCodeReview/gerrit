@@ -1,0 +1,17 @@
+java_library(
+  name = 'openid',
+  srcs = glob(['src/main/java/**/*.java']),
+  resources = glob(['src/main/resources/**/*']),
+  deps = [
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-httpd:httpd',
+	  '//lib:guava',
+	  '//lib:jsr305',
+    '//lib:servlet-api-3_0',
+  	'//lib/guice:guice',
+    '//lib/log:api',
+  	'//lib/openid:consumer',
+  ],
+  visibility = ['PUBLIC'],
+)

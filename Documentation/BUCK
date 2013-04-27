@@ -1,0 +1,67 @@
+MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
+SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
+HTML = ['licenses.html']
+ASCIIDOC = ('asciidoc' +
+  ' -o $OUT' +
+  ' -a toc' +
+  ' -a newline="\\n"' +
+  ' -b xhtml11' +
+  ' -f $SRCS')
+
+for t in SRCS:
+  h = t[0:-4] + '.html'
+  genrule(
+    name = h,
+    cmd = ASCIIDOC,
+    srcs = [genfile('asciidoc.conf'), t],
+    deps = [':config'],
+    out = h
+  )
+  HTML.append(h)
+
+genrule(
+  name = 'licenses.txt',
+  cmd = '${:generate_licenses} >$OUT',
+  srcs = [],
+  deps = [':generate_licenses'] + MAIN,
+  out = 'licenses.txt',
+)
+
+genrule(
+  name = 'licenses.html',
+  cmd = ASCIIDOC,
+  srcs = [genfile('asciidoc.conf'), genfile('licenses.txt')],
+  deps = [':config', ':licenses.txt'],
+  out = 'licenses.html',
+)
+
+genrule(
+  name = 'config',
+  cmd = 'cp $SRCS $OUT &&' +
+    'echo "[attributes]" >>$OUT &&' +
+    'echo "revision=`git describe HEAD`" >>$OUT',
+  srcs = ['asciidoc.conf'],
+  out = 'asciidoc.conf',
+)
+
+genrule(
+  name = 'html',
+  cmd = 'cd $TMP &&' +
+    'mkdir Documentation &&' +
+    'mkdir Documentation/images &&' +
+    'cp -l $SRCS Documentation &&' +
+    'mv Documentation/*.{jpg,png} Documentation/images &&' +
+    'zip -qr $OUT *',
+  srcs = [genfile(d) for d in HTML] + glob([
+    'images/*.jpg',
+    'images/*.png',
+  ]),
+  deps = [':' + d for d in HTML],
+  out = 'html.zip',
+  visibility = ['PUBLIC'],
+)
+
+python_binary(
+  name = 'generate_licenses',
+  main = 'generate_licenses.py',
+)

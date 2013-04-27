@@ -1,0 +1,107 @@
+SRC = 'src/main/java/com/google/gwtexpui/'
+
+gwt_module(
+  name = 'Clippy',
+  srcs = glob([SRC + 'clippy/client/*.java']),
+  gwtxml = SRC + 'clippy/Clippy.gwt.xml',
+  resources = [SRC + 'clippy/client/clippy.css'],
+  deps = [
+    ':SafeHtml',
+    ':UserAgent',
+    '//lib/gwt:user',
+    '//lib:LICENSE-clippy',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'clippy_swf',
+  cmd = 'mkdir $TMP/gerrit_ui ;' +
+    'cp $SRCS $TMP/gerrit_ui;' +
+    'cd $TMP;' +
+    'zip -qr $OUT gerrit_ui',
+  srcs = [SRC + 'clippy/public/gwtexpui_clippy1.cache.swf'],
+  out = 'clippy_swf.zip',
+  visibility = ['PUBLIC'],
+)
+
+gwt_module(
+  name = 'CSS',
+  srcs = glob([SRC + 'css/rebind/*.java']),
+  gwtxml = SRC + 'css/CSS.gwt.xml',
+  deps = ['//lib/gwt:dev'],
+  visibility = ['PUBLIC'],
+)
+
+gwt_module(
+  name = 'GlobalKey',
+  srcs = glob([SRC + 'globalkey/client/*.java']),
+  gwtxml = SRC + 'globalkey/GlobalKey.gwt.xml',
+  resources = [
+    SRC + 'globalkey/client/KeyConstants.properties',
+    SRC + 'globalkey/client/key.css',
+  ],
+  deps = [
+    ':SafeHtml',
+    ':UserAgent',
+    '//lib/gwt:user',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+gwt_module(
+  name = 'Linker',
+  srcs = glob([SRC + 'linker/rebind/*.java']),
+  gwtxml = SRC + 'linker/ServerPlannedIFrameLinker.gwt.xml',
+  deps = ['//lib/gwt:dev'],
+  visibility = ['PUBLIC'],
+)
+
+java_library2(
+  name = 'linker_server',
+  srcs = glob([SRC + 'linker/server/*.java']),
+  compile_deps = ['//lib:servlet-api-3_0'],
+  visibility = ['PUBLIC'],
+)
+
+gwt_module(
+  name = 'Progress',
+  srcs = glob([SRC + 'progress/client/*.java']),
+  gwtxml = SRC + 'progress/Progress.gwt.xml',
+  resources = [SRC + 'progress/client/progress.css'],
+  deps = ['//lib/gwt:user'],
+  visibility = ['PUBLIC'],
+)
+
+gwt_module(
+  name = 'SafeHtml',
+  srcs = glob([SRC + 'safehtml/client/*.java']),
+  gwtxml = SRC + 'safehtml/SafeHtml.gwt.xml',
+  resources = [SRC + 'safehtml/client/safehtml.css'],
+  deps = ['//lib/gwt:user'],
+  visibility = ['PUBLIC'],
+)
+
+java_test(
+  name = 'SafeHtml_tests',
+  srcs = glob([
+    'src/test/java/com/google/gwtexpui/safehtml/client/**/*.java',
+  ]),
+  deps = [':SafeHtml', '//lib:junit', '//lib/gwt:dev'],
+  source_under_test = [':SafeHtml'],
+)
+
+gwt_module(
+  name = 'UserAgent',
+  srcs = glob([SRC + 'user/client/*.java']),
+  gwtxml = SRC + 'user/User.gwt.xml',
+  deps = ['//lib/gwt:user'],
+  visibility = ['PUBLIC'],
+)
+
+java_library2(
+  name = 'server',
+  srcs = glob([SRC + 'server/*.java']),
+  compile_deps = ['//lib:servlet-api-3_0'],
+  visibility = ['PUBLIC'],
+)

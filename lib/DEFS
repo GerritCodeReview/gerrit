@@ -1,0 +1,43 @@
+def genantlr(
+    name,
+    srcs,
+    outs,
+    antlr_version):
+  genrule(
+    name = name,
+    srcs = srcs,
+    cmd = '${//lib/antlr:antlr-tool} -o $(dirname $OUT) $SRCS',
+    deps = ['//lib/antlr:antlr-tool'],
+    out = outs[0],
+  )
+
+def gwt_module(
+    name,
+    srcs,
+    gwtxml = None,
+    resources = [],
+    deps = [],
+    visibility = []):
+  if gwtxml:
+    resources += [gwtxml]
+  resources += srcs
+  java_library(
+    name = name,
+    srcs = srcs,
+    deps = deps,
+    resources = resources,
+    visibility = visibility,
+  )
+
+def gwt_application(
+    name,
+    module_target,
+    compiler_opts = [],
+    compiler_jvm_flags = [],
+    deps = []):
+  # TODO(sop): Implement gwt_application
+  genrule(
+    name = name,
+    cmd = "echo >$OUT",
+    deps = [module_target] + deps,
+  )

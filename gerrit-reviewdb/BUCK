@@ -1,0 +1,17 @@
+SRC = 'src/main/java/com/google/gerrit/reviewdb/'
+
+gwt_module(
+  name = 'client',
+  srcs = glob([SRC + 'client/**/*.java']),
+  gwtxml = SRC + 'ReviewDB.gwt.xml',
+  deps = ['//lib:gwtorm'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'server',
+  srcs = glob([SRC + '**/*.java']),
+  resources = glob(['src/main/resources/**/*']),
+  deps = ['//lib:gwtorm'],
+  visibility = ['PUBLIC'],
+)

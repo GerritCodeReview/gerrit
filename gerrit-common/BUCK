@@ -1,0 +1,37 @@
+SRC = 'src/main/java/com/google/gerrit/'
+
+gwt_module(
+  name = 'client',
+  srcs = glob([SRC + 'common/**/*.java']),
+  gwtxml = SRC + 'Common.gwt.xml',
+  deps = [
+   #'//gerrit-gwtexpui:client',
+    '//gerrit-patch-jgit:client',
+    '//gerrit-prettify:client',
+    '//gerrit-reviewdb:client',
+    '//lib:jsr305',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'server',
+  srcs = glob([SRC + 'common/**/*.java']),
+  resources = [genfile('Version')],
+  deps = [
+    ':version',
+    '//gerrit-patch-jgit:server',
+    '//gerrit-prettify:server',
+    '//gerrit-reviewdb:server',
+    '//lib:jsr305',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+#TODO(sop): Move this to binary targets to reduce rebuild cost.
+genrule(
+  name = 'version',
+  cmd = 'git describe HEAD >$OUT',
+  srcs = [],
+  out = 'Version',
+)

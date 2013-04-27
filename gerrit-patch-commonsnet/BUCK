@@ -1,0 +1,11 @@
+java_library(
+  name = 'commons-net',
+  srcs = glob(['src/main/java/org/apache/commons/net/**/*.java']),
+  deps = [
+    '//lib:commons-codec',
+    '//lib:commons-net',
+    '//lib:slf4j-api',
+    '//gerrit-util-ssl:ssl',
+  ],
+  visibility = ['PUBLIC'],
+)

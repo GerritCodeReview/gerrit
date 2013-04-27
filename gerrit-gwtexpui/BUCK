@@ -1,0 +1,18 @@
+SRC = 'src/main/java/com/google/gwtexpui/'
+
+gwt_module(
+  name = 'SafeHtml_client',
+  srcs = glob([SRC + 'safehtml/client/*.java']),
+  gwtxml = SRC + 'safehtml/SafeHtml.gwt.xml',
+  resources = glob([SRC + 'safehtml/client/*.css']),
+  deps = ['//lib:gwt-user'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'SafeHtml_server',
+  srcs = glob([SRC + 'safehtml/client/*.java']),
+  # TODO(sop) Do not depend on gwt-user
+  deps = ['//lib:gwt-user'],
+  visibility = ['PUBLIC'],
+)

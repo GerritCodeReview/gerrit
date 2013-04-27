@@ -1,0 +1,28 @@
+include_defs('//lib/maven.defs')
+
+EXCLUDE = [
+  'META-INF/DEPENDENCIES',
+  'META-INF/LICENSE',
+  'META-INF/NOTICE',
+]
+
+maven_jar(
+  name = 'core',
+  group = 'org.apache.mina',
+  artifact = 'mina-core',
+  version = '2.0.5',
+  license = 'Apache2.0',
+  sha1 = '0e134a3761833a3c28c79331e806f64f985a9eec',
+  exclude = EXCLUDE,
+)
+
+maven_jar(
+  name = 'sshd',
+  deps = [':core'],
+  group = 'org.apache.sshd',
+  artifact = 'sshd-core',
+  version = '0.6.0',
+  license = 'Apache2.0',
+  sha1 = '2b9a119dd77a1decec78b0c511ba400c8655e96e',
+  exclude = EXCLUDE,
+)

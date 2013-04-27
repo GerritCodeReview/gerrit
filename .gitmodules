@@ -1,0 +1,11 @@
+[submodule "plugins/replication"]
+	path = plugins/replication
+	url = plugins/replication
+
+[submodule "plugins/reviewnotes"]
+	path = plugins/reviewnotes
+	url = plugins/reviewnotes
+
+[submodule "plugins/commit-message-length-validator"]
+	path = plugins/commit-message-length-validator
+	url = plugins/commit-message-length-validator

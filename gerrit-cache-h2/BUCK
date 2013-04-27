@@ -1,0 +1,10 @@
+java_library(
+  name = 'cache-h2',
+  srcs = glob(['src/main/java/**/*.java']),
+  deps = [
+    '//gerrit-server:server_noprolog',
+    '//lib:guava',
+    '//lib:h2',
+  ],
+  visibility = ['PUBLIC'],
+)

@@ -1,0 +1,79 @@
+GERRIT = 'http://gerrit-maven.commondatastorage.googleapis.com'
+MAVEN_CENTRAL = 'http://repo1.maven.org/maven2'
+
+def define_license(name):
+  n = 'LICENSE-' + name
+  genrule(
+    name = n,
+    cmd = 'ln -f $SRCS $OUT',
+    srcs = [n],
+    out = n + '.txt',
+    visibility = ['PUBLIC'],
+  )
+
+def maven_jar(
+    name,
+    group, artifact, version,
+    license,
+    exclude = [],
+    exclude_java_sources = False,
+    deps = [],
+    sha1 = '',
+    classifier = None,
+    repository = MAVEN_CENTRAL,
+    visibility = ['PUBLIC']):
+  url = '/'.join([
+    repository,
+    group.replace('.', '/'),
+    artifact,
+    version,
+    artifact + '-' + version])
+  if classifier:
+    url += '-' + classifier
+  downloaded_jar(
+    name = name,
+    version = version,
+    url = url + '.jar',
+    license = license,
+    exclude = exclude,
+    exclude_java_sources = exclude_java_sources,
+    deps = deps,
+    sha1 = sha1,
+    visibility = visibility,
+  )
+
+def downloaded_jar(
+    name,
+    version,
+    url,
+    license,
+    exclude = [],
+    exclude_java_sources = False,
+    deps = [],
+    sha1 = '',
+    visibility = ['PUBLIC']):
+  cmd = ['${//lib:download_jar}', '-o', '$OUT', '-u', url]
+  if sha1:
+    cmd += ['-v', sha1]
+  if exclude:
+    cmd += ['-x'] + exclude
+  if exclude_java_sources:
+    cmd += ['--exclude_java_sources']
+
+  jar = name + '.jar'
+  genrule(
+    name = name + '.download',
+    cmd = ' '.join(cmd),
+    srcs = [],
+    deps = ['//lib:download_jar'],
+    out = jar,
+  )
+  prebuilt_jar(
+    name = name,
+    deps = deps + [
+      ':' + name + '.download',
+      '//lib:LICENSE-' + license,
+    ],
+    binary_jar = genfile(jar),
+    visibility = visibility,
+  )

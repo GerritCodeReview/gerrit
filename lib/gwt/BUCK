@@ -1,0 +1,43 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '2.5.0'
+
+maven_jar(
+  name = 'user',
+  id = 'com.google.gwt:gwt-user:' + VERSION,
+  sha1 = 'bbec0cc2ba81a2601aac55e3783ad0d0ff7d45ac',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'dev',
+  id = 'com.google.gwt:gwt-dev:' + VERSION,
+  sha1 = '3c227524e0978036e76e73e125ac8535a9e8fd7c',
+  license = 'Apache2.0',
+  deps = [
+    ':javax-validation',
+    ':javax-validation_src',
+  ],
+)
+
+maven_jar(
+  name = 'javax-validation',
+  id = 'javax.validation:validation-api:jar:1.0.0.GA',
+  sha1 = 'b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e',
+  license = 'Apache2.0',
+  visibility = [],
+)
+
+maven_jar(
+  name = 'javax-validation_src',
+  id = 'javax.validation:validation-api:sources:1.0.0.GA',
+  sha1 = '7a561191db2203550fbfa40d534d4997624cd369',
+  license = 'Apache2.0',
+  visibility = [],
+)
+
+python_binary(
+  name = 'compiler',
+  main = 'compiler.py',
+  visibility = ['PUBLIC'],
+)

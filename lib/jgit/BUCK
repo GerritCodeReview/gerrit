@@ -1,0 +1,73 @@
+include_defs('//lib/maven.defs')
+
+REPO = GERRIT
+VERS = '2.3.1.201302201838-r.175-g1b4320f'
+
+maven_jar(
+  name = 'jgit',
+  id = 'org.eclipse.jgit:org.eclipse.jgit:' + VERS,
+  sha1 = '6488b0fb2a3524d2aa273099e160e337ac2d9df5',
+  license = 'jgit',
+  repository = REPO,
+  deps = [':ewah'],
+  exclude = [
+    'META-INF/eclipse.inf',
+    'about.html',
+    'plugin.properties',
+  ],
+)
+
+maven_jar(
+  name = 'jgit-servlet',
+  id = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + VERS,
+  sha1 = '6a9d9c0ba77da4436e9f977801025a6f3a12ebab',
+  license = 'jgit',
+  repository = REPO,
+  deps = [':jgit'],
+  exclude = [
+    'about.html',
+    'plugin.properties',
+  ],
+)
+
+maven_jar(
+  name = 'junit',
+  id = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + VERS,
+  sha1 = '76892d01766c13a7fd17afde97611960ab6e3d11',
+  license = 'DO_NOT_DISTRIBUTE',
+  repository = REPO,
+  deps = [':jgit'],
+)
+
+maven_jar(
+  name = 'ewah',
+  id = 'com.googlecode.javaewah:JavaEWAH:0.5.6',
+  sha1 = '1207c0fc8552d4f5f574b50f29321d923521128e',
+  license = 'Apache2.0',
+)
+
+prebuilt_jar(
+  name = 'Edit',
+  binary_jar = genfile('edit-src.jar'),
+  deps = [':jgit_edit_src'],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'jgit_src',
+  id = 'org.eclipse.jgit:org.eclipse.jgit:sources:' + VERS,
+  sha1 = 'a833911680260b787c3b5028630ca32d29302b9d',
+  license = 'jgit',
+  repository = REPO,
+  visibility = [],
+)
+
+genrule(
+  name = 'jgit_edit_src',
+  cmd = 'unzip -qd $TMP $SRCS org/eclipse/jgit/diff/Edit.java;' +
+    'cd $TMP;' +
+    'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
+  srcs = [genfile('org.eclipse.jgit-%s-sources.jar' % VERS)],
+  out = 'edit-src.jar',
+  deps = [':jgit_src']
+)

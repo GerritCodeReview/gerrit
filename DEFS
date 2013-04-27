@@ -1,0 +1,22 @@
+DOCS = ['//Documentation:html.zip']
+
+def gerrit_war(name, ui = 'ui_optdbg', context = []):
+  war(
+    name = name,
+    libs = [
+      '//gerrit-common:version',
+      '//gerrit-war:init',
+      '//gerrit-war:log4j-config',
+      '//lib:postgresql',
+      '//lib/log:impl_log4j',
+    ],
+    pgmlibs = [
+      '//gerrit-pgm:pgm',
+    ],
+    context = [
+      '//gerrit-main:main_bin.jar',
+      '//gerrit-war:webapp_assets.zip',
+      '//gerrit-gwtexpui:clippy_swf.zip',
+      '//gerrit-gwtui:' + ui + '.zip',
+    ] + context,
+  )

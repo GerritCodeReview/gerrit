@@ -1,0 +1,24 @@
+def prolog_cafe_library(
+    name,
+    srcs,
+    deps = [],
+    visibility = []):
+  genrule(
+    name = name + '_prolog2java',
+    cmd = '${//lib/prolog:compiler} $SRCS $DEPS $OUT',
+    srcs = srcs,
+    deps = [
+      '//lib/prolog:compiler',
+      '//lib/prolog:prolog-cafe',
+    ] + deps,
+    out = name + '.jar',
+  )
+  prebuilt_jar(
+    name = name,
+    binary_jar = genfile(name + '.jar'),
+    deps = [
+      ':' + name + '_prolog2java',
+      '//lib/prolog:prolog-cafe',
+    ] + deps,
+    visibility = visibility,
+  )

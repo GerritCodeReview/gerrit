@@ -1,0 +1,37 @@
+def war(
+    name,
+    libs = [],
+    pgmlibs = [],
+    context = [],
+    visibility = []
+    ):
+  cmd = ['${//lib:pack_war}', '-o', '$OUT']
+  dep = []
+  if libs:
+    cmd += ['--lib'] + libs
+    dep += libs
+  if pgmlibs:
+    cmd += ['--pgmlib'] + pgmlibs
+    dep += pgmlibs
+
+  src = []
+  if context:
+    root = get_base_path()
+    if root:
+      root = '/'.join(['..' for c in root.split('/')]) + '/'
+    for r in context:
+      dep.append(r[:r.rindex('.')])
+      if r.startswith('//'):
+        r = root + r[2:]
+      r = r.replace(':', '/')
+      src.append(genfile(r))
+    cmd += ['--war', '$SRCS']
+
+  genrule(
+    name = name,
+    cmd = ' '.join(cmd),
+    srcs = src,
+    deps = dep + ['//lib:pack_war'],
+    out = name + '.war',
+    visibility = visibility,
+  )

@@ -1,0 +1,316 @@
+include_defs('//lib/maven.defs')
+
+define_license(name = 'Apache2.0')
+define_license(name = 'MPL1.1')
+define_license(name = 'PublicDomain')
+define_license(name = 'antlr')
+define_license(name = 'args4j')
+define_license(name = 'bouncycastle')
+define_license(name = 'brics-automaton')
+define_license(name = 'jgit')
+define_license(name = 'jsch')
+define_license(name = 'jsr305')
+define_license(name = 'ow2')
+define_license(name = 'prolog-cafe')
+define_license(name = 'slf4j')
+
+maven_jar(
+  name = 'jgit',
+  group = 'org.eclipse.jgit',
+  artifact = 'org.eclipse.jgit',
+  version = '2.3.1.201302201838-r.175-g1b4320f',
+  exclude = [
+    'META-INF/eclipse.inf',
+    'about.html',
+    'plugin.properties',
+  ],
+  repository = GERRIT,
+  license = 'jgit',
+  sha1 = '6488b0fb2a3524d2aa273099e160e337ac2d9df5',
+)
+
+maven_jar(
+  name = 'gwtorm',
+  group = 'gwtorm',
+  artifact = 'gwtorm',
+  version = '1.6',
+  repository = GERRIT,
+  license = 'Apache2.0',
+  sha1 = '61bcb92f438524260429149910b5261d48812419',
+)
+
+maven_jar(
+  name = 'gwtorm_src',
+  group = 'gwtorm',
+  artifact = 'gwtorm',
+  version = '1.6',
+  classifier = 'sources',
+  repository = GERRIT,
+  license = 'Apache2.0',
+  sha1 = '2624f9d6a750a8aa8f9a5d4b5062b70cd12d1ae7',
+)
+
+maven_jar(
+  name = 'gwtjsonrpc',
+  group = 'gwtjsonrpc',
+  artifact = 'gwtjsonrpc',
+  version = '1.3',
+  repository = GERRIT,
+  license = 'Apache2.0',
+  sha1 = '1717ba11ab0c5160798c80085220a63f864691d3',
+)
+
+maven_jar(
+  name = 'gwtjsonrpc_src',
+  group = 'gwtjsonrpc',
+  artifact = 'gwtjsonrpc',
+  version = '1.3',
+  classifier = 'sources',
+  repository = GERRIT,
+  license = 'Apache2.0',
+  sha1 = '9e01c5d7bd54f8e70066450b372a43c16404789e',
+)
+
+maven_jar(
+  name = 'gson',
+  group = 'com.google.code.gson',
+  artifact = 'gson',
+  version = '2.1',
+  license = 'Apache2.0',
+  sha1 = '2e66da15851f9f5b5079228f856c2f090ba98c38',
+)
+
+maven_jar(
+  name = 'guava',
+  group = 'com.google.guava',
+  artifact = 'guava',
+  version = '14.0',
+  license = 'Apache2.0',
+  sha1 = '67b7be4ee7ba48e4828a42d6d5069761186d4a53',
+)
+
+maven_jar(
+  name = 'asm3',
+  group = 'asm',
+  artifact = 'asm',
+  version = '3.2',
+  license = 'ow2',
+  sha1 = '9bc1511dec6adf302991ced13303e4140fdf9ab7',
+)
+
+maven_jar(
+  name = 'ow2-asm',
+  group = 'org.ow2.asm',
+  artifact = 'asm',
+  version = '4.0',
+  license = 'ow2',
+  sha1 = '659add6efc75a4715d738e73f07505246edf4d66',
+)
+
+maven_jar(
+  name = 'ow2-asm-tree',
+  group = 'org.ow2.asm',
+  artifact = 'asm-tree',
+  version = '4.0',
+  license = 'ow2',
+  sha1 = '67bd266cd17adcee486b76952ece4cc85fe248b8',
+)
+
+maven_jar(
+  name = 'ow2-asm-util',
+  group = 'org.ow2.asm',
+  artifact = 'asm-util',
+  version = '4.0',
+  license = 'ow2',
+  sha1 = 'd7a65f54cda284f9706a750c23d64830bb740c39',
+)
+
+maven_jar(
+  name = 'http-client',
+  group = 'org.apache.httpcomponents',
+  artifact = 'httpclient',
+  version = '4.0',
+  license = 'Apache2.0',
+  sha1 = 'a76d7fd8033d48b4c67b4ccf159abb080c1059b6',
+)
+
+maven_jar(
+  name = 'velocity',
+  group = 'org.apache.velocity',
+  artifact = 'velocity',
+  version = '1.6.4',
+  exclude = ['META-INF/LICENSE', 'META-INF/NOTICE'],
+  license = 'Apache2.0',
+  sha1 = 'fcc58693dd8fc83d714fba149789be37cc19b66d',
+)
+
+maven_jar(
+  name = 'commons-dbcp',
+  group = 'commons-dbcp',
+  artifact = 'commons-dbcp',
+  version = '1.4',
+  exclude = [
+    'META-INF/LICENSE.txt',
+    'META-INF/NOTICE.txt',
+    'testpool.jocl'
+  ],
+  license = 'Apache2.0',
+  sha1 = '30be73c965cc990b153a100aaaaafcf239f82d39',
+)
+
+maven_jar(
+  name = 'commons-lang',
+  group = 'commons-lang',
+  artifact = 'commons-lang',
+  version = '2.5',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+  license = 'Apache2.0',
+  sha1 = 'b0236b252e86419eef20c31a44579d2aee2f0a69',
+)
+
+maven_jar(
+  name = 'commons-net',
+  group = 'commons-net',
+  artifact = 'commons-net',
+  version = '2.2',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+  license = 'Apache2.0',
+  sha1 = '07993c12f63c78378f8c90de4bc2ee62daa7ca3a',
+)
+
+maven_jar(
+  name = 'commons-codec',
+  group = 'commons-codec',
+  artifact = 'commons-codec',
+  version = '1.4',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+  license = 'Apache2.0',
+  sha1 = '4216af16d38465bbab0f3dff8efa14204f7a399a',
+)
+
+maven_jar(
+  name = 'slf4j-api',
+  group = 'org.slf4j',
+  artifact = 'slf4j-api',
+  version = '1.6.1',
+  license = 'slf4j',
+  sha1 = '6f3b8a24bf970f17289b234284c94f43eb42f0e4',
+)
+
+maven_jar(
+  name = 'mina-core',
+  group = 'org.apache.mina',
+  artifact = 'mina-core',
+  version = '2.0.5',
+  license = 'Apache2.0',
+  sha1 = '0e134a3761833a3c28c79331e806f64f985a9eec',
+)
+
+maven_jar(
+  name = 'mina-sshd',
+  deps = [':mina-core'],
+  group = 'org.apache.sshd',
+  artifact = 'sshd-core',
+  version = '0.6.0',
+  license = 'Apache2.0',
+  sha1 = '2b9a119dd77a1decec78b0c511ba400c8655e96e',
+)
+
+maven_jar(
+  name = 'jsch',
+  group = 'com.jcraft',
+  artifact = 'jsch',
+  version = '0.1.44-1',
+  license = 'jsch',
+  sha1 = '2e9ae08de5a71bd0e0d3ba2558598181bfa71d4e',
+)
+
+maven_jar(
+  name = 'servlet-api',
+  group = 'org.apache.tomcat',
+  artifact = 'servlet-api',
+  version = '6.0.29',
+  exclude = ['META-INF/NOTICE', 'META-INF/LICENSE'],
+  license = 'Apache2.0',
+  sha1 = '3e4427754a426a2d3b6f51c9b1131c31cab99ef6',
+)
+
+maven_jar(
+  name = 'jsr305',
+  group = 'com.google.code.findbugs',
+  artifact = 'jsr305',
+  version = '1.3.9',
+  exclude_java_sources = True,
+  license = 'jsr305',
+  sha1 = '40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf',
+)
+
+maven_jar(
+  name = 'args4j',
+  group = 'args4j',
+  artifact = 'args4j',
+  version = '2.0.16',
+  license = 'args4j',
+  sha1 = '9f00fb12820743b9e05c686eba543d64dd43f2b1',
+)
+
+maven_jar(
+  name = 'mime-util',
+  group = 'eu.medsea.mimeutil',
+  artifact = 'mime-util',
+  version = '2.1.3',
+  exclude = ['LICENSE.txt', 'README.txt'],
+  license = 'Apache2.0',
+  sha1 = '0c9cfae15c74f62491d4f28def0dff1dabe52a47',
+)
+
+maven_jar(
+  name = 'juniversalchardet',
+  group = 'com.googlecode.juniversalchardet',
+  artifact = 'juniversalchardet',
+  version = '1.0.3',
+  license = 'MPL1.1',
+  sha1 = 'cd49678784c46aa8789c060538e0154013bb421b',
+)
+
+maven_jar(
+  name = 'brics-automaton',
+  group = 'dk.brics.automaton',
+  artifact = 'automaton',
+  version = '1.11-8',
+  license = 'brics-automaton',
+  sha1 = '6ebfa65eb431ff4b715a23be7a750cbc4cc96d0f',
+)
+
+maven_jar(
+  name = 'pegdown',
+  deps = [':parboiled-java'],
+  group = 'org.pegdown',
+  artifact = 'pegdown',
+  version = '1.1.0',
+  exclude = ['META-INF/LICENSE', 'META-INF/NOTICE'],
+  license = 'Apache2.0',
+  sha1 = '00bcc0c5b025b09ab85bb80a8311ce5c015d005b',
+)
+
+maven_jar(
+  name = 'parboiled-core',
+  group = 'org.parboiled',
+  artifact = 'parboiled-core',
+  version = '1.1.3',
+  license = 'Apache2.0',
+  sha1 = '3fc3013adf98701efcc594a1ea99a3f841dc81bb',
+)
+
+maven_jar(
+  name = 'parboiled-java',
+  deps = [
+    ':parboiled-core',
+   # org.ow2.asm {asm, asm-tree, asm-analysis, asm-util} 4.0
+  ],
+  group = 'org.parboiled',
+  artifact = 'parboiled-java',
+  version = '1.1.3',
+  license = 'Apache2.0',
+  sha1 = 'c2bf2935a8b3eca5f998557190cd6eb34f5536d0',
+)

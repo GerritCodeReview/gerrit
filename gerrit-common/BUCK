@@ -1,0 +1,43 @@
+SRC = 'src/main/java/com/google/gerrit/'
+VER = 'resources/com/google/gerrit/common/Version'
+
+gwt_module(
+  name = 'client',
+  srcs = glob([SRC + 'common/**/*.java']),
+  gwtxml = SRC + 'Common.gwt.xml',
+  deps = [
+    '//gerrit-patch-jgit:client',
+    '//gerrit-prettify:client',
+    '//gerrit-reviewdb:client',
+    '//lib:jsr305',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'server',
+  srcs = glob(
+    [SRC + 'common/**/*.java'],
+    excludes = [
+      SRC + 'common/ClientVersion.java',
+    ],
+  ),
+  resources = [genfile(VER)],
+  deps = [
+    ':version',
+    '//gerrit-patch-jgit:server',
+    '//gerrit-prettify:server',
+    '//gerrit-reviewdb:server',
+    '//lib:jsr305',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+# TODO(sop) Embed git version at *_binary() rule
+genrule(
+  name = 'version',
+  cmd = 'mkdir -p $(dirname $OUT); git describe HEAD >$OUT',
+  srcs = [],
+  out = VER,
+  visibility = ['PUBLIC'],
+)

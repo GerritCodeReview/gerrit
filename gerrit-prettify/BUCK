@@ -1,0 +1,36 @@
+SRC = 'src/main/java/com/google/gerrit/prettify/'
+
+gwt_module(
+  name = 'client',
+  srcs = glob([
+    SRC + 'client/**/*.java',
+    SRC + 'common/**/*.java',
+  ]),
+  gwtxml = SRC + 'PrettyFormatter.gwt.xml',
+  resources = glob([
+    'src/main/resources/com/google/gerrit/prettify/client/**/*',
+  ]),
+  deps = [
+    '//gerrit-patch-jgit:client',
+    '//gerrit-reviewdb:client',
+    '//gerrit-gwtexpui:SafeHtml',
+    '//lib:guava',
+    '//lib:gwtjsonrpc',
+    '//lib:jgit',
+    '//lib/gwt:user',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'server',
+  srcs = glob([SRC + 'common/**/*.java']),
+  deps = [
+    '//gerrit-patch-jgit:server',
+    '//gerrit-reviewdb:server',
+    '//lib:guava',
+    '//lib:gwtjsonrpc',
+    '//lib:jgit',
+  ],
+  visibility = ['PUBLIC'],
+)

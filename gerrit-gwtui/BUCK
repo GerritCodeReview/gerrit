@@ -1,0 +1,48 @@
+MODULE = 'com.google.gerrit.GerritGwtUI'
+
+gwt_application(
+  name = 'ui_opt',
+  module_target = MODULE,
+  compiler_opts = [
+    '-XdisableClassMetadata',
+    '-XdisableCastChecking',
+    '-strict',
+    #'-optimize', '9',
+  ],
+  deps = [':ui_module'],
+)
+
+gwt_application(
+  name = 'ui_dbg',
+  module_target = MODULE,
+  compiler_opts = [
+    '-style', 'PRETTY',
+    '-strict',
+  ],
+  deps = [':ui_module'],
+)
+
+gwt_module(
+  name = 'ui_module',
+  srcs = glob(['src/main/java/**/*.java']),
+  gwtxml = 'src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml',
+  resources = glob(['src/main/java/**/*']),
+  deps = [
+    '//gerrit-gwtexpui:Clippy',
+    '//gerrit-gwtexpui:CSS',
+    '//gerrit-gwtexpui:GlobalKey',
+    '//gerrit-gwtexpui:Linker',
+    '//gerrit-gwtexpui:Progress',
+    '//gerrit-gwtexpui:SafeHtml',
+    '//gerrit-gwtexpui:UserAgent',
+
+    '//gerrit-common:client',
+    '//gerrit-patch-jgit:client',
+    '//gerrit-prettify:client',
+    '//gerrit-reviewdb:client',
+
+    '//lib:gwtjsonrpc',
+    '//lib:gwtjsonrpc_src',
+    '//lib/gwt:user',
+  ],
+)

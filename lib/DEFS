@@ -1,0 +1,51 @@
+def genantlr(
+    name,
+    srcs,
+    outs,
+    antlr_version):
+  genrule(
+    name = name,
+    srcs = srcs,
+    cmd = '${//lib/antlr:antlr-tool} -o $(dirname $OUT) $SRCS',
+    deps = ['//lib/antlr:antlr-tool'],
+    out = outs[0],
+  )
+
+def gwt_module(
+    name,
+    srcs,
+    gwtxml = None,
+    resources = [],
+    deps = [],
+    visibility = []):
+  if gwtxml:
+    resources = resources + [gwtxml]
+  resources += srcs
+  java_library(
+    name = name,
+    srcs = srcs,
+    deps = deps,
+    resources = resources,
+    visibility = visibility,
+  )
+
+def gwt_application(
+    name,
+    module_target,
+    compiler_opts = [],
+    compiler_jvm_flags = [],
+    deps = []):
+  cmd = ['${//lib/gwt:compiler}', module_target]
+  cmd += compiler_opts
+  cmd += [' -- $DEPS']
+
+  genrule(
+    name = name,
+    srcs = [],
+    cmd = ' '.join(cmd),
+    deps = [
+      '//lib/gwt:compiler',
+      '//lib/gwt:dev',
+    ] + deps,
+    out = name + '.zip'
+  )

@@ -1,0 +1,24 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'api',
+  id = 'org.slf4j:slf4j-api:1.6.1',
+  sha1 = '6f3b8a24bf970f17289b234284c94f43eb42f0e4',
+  license = 'slf4j',
+)
+
+maven_jar(
+  name = 'impl_log4j',
+  id = 'org.slf4j:slf4j-log4j12:1.6.1',
+  sha1 = 'bd245d6746cdd4e6203e976e21d597a46f115802',
+  license = 'slf4j',
+  deps = [':log4j'],
+)
+
+maven_jar(
+  name = 'log4j',
+  id = 'log4j:log4j:1.2.16',
+  sha1 = '7999a63bfccbc7c247a9aea10d83d4272bd492c6',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE', 'META-INF/NOTICE'],
+)

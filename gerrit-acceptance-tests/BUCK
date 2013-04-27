@@ -1,0 +1,22 @@
+TEST = [
+  '//gerrit-httpd:httpd',
+  '//gerrit-sshd:sshd',
+  '//gerrit-server:server',
+]
+
+java_test(
+  name = 'acceptance_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = TEST + [
+    '//gerrit-launcher:launcher',
+    '//gerrit-pgm:pgm',
+    '//lib:servlet-api-3_0',
+    '//lib:h2',
+    '//lib:junit',
+    '//lib/jgit:junit',
+    '//lib/openid:http-client',
+  ],
+  source_under_test = TEST,
+  labels = ['slow'],
+  visibility = ['//:eclipse'],
+)

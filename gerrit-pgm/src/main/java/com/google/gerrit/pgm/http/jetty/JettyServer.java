@@ -368,7 +368,7 @@ public class JettyServer {
   private Resource getBaseResource() throws IOException {
     if (baseResource == null) {
       try {
-        baseResource = unpackWar();
+        baseResource = unpackWar(GerritLauncher.getDistributionArchive());
       } catch (FileNotFoundException err) {
         if (err.getMessage() == GerritLauncher.NOT_ARCHIVED) {
           baseResource = useDeveloperBuild();
@@ -380,13 +380,11 @@ public class JettyServer {
     return baseResource;
   }
 
-  private Resource unpackWar() throws IOException {
-    final File srcwar = GerritLauncher.getDistributionArchive();
-
+  private Resource unpackWar(File srcwar) throws IOException {
     // Obtain our local temporary directory, but it comes back as a file
     // so we have to switch it to be a directory post creation.
     //
-    File dstwar = GerritLauncher.createTempFile("gerrit_", "war");
+    File dstwar = File.createTempFile("gerrit_", "_war", site.tmp_dir);;
     if (!dstwar.delete() || !dstwar.mkdir()) {
       throw new IOException("Cannot mkdir " + dstwar.getAbsolutePath());
     }
@@ -474,15 +472,22 @@ public class JettyServer {
       dir = dir.getParentFile();
     }
 
-    // We should be in a Maven style output, that is $jar/target/classes.
-    //
     if (!dir.getName().equals("classes")) {
       throw new FileNotFoundException("Cannot find web root from " + u);
     }
     dir = dir.getParentFile(); // pop classes
-    if (!dir.getName().equals("target")) {
+
+    if ("buck-out".equals(dir.getName())) {
+      // TODO(sop) Remove hacky Eclipse Buck support.
+      return unpackWar(new File(dir, "gen/gerrit-gwtui/ui_dbg.zip"));
+    } else if ("target".equals(dir.getName())) {
+      return useMavenDeveloperBuild(dir);
+    } else {
       throw new FileNotFoundException("Cannot find web root from " + u);
     }
+  }
+
+  private Resource useMavenDeveloperBuild(File dir) throws IOException {
     dir = dir.getParentFile(); // pop target
     dir = dir.getParentFile(); // pop the module we are in
 

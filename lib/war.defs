@@ -1,0 +1,40 @@
+def war(
+    name,
+    libs = [],
+    pgmlibs = [],
+    webapp_jars = [],
+    webapp_zips = [],
+    visibility = []
+    ):
+  cmd = ['${//lib:pack_war}', '-o', '$OUT']
+  deps = []
+  if libs:
+    cmd += ['--lib'] + libs
+    deps += libs
+  if pgmlibs:
+    cmd += ['--pgmlib'] + pgmlibs
+    deps += pgmlibs
+
+  src = []
+  def include(src_list, ext):
+    if src_list:
+      for r in src_list:
+        if r.startswith('//'):
+          r = r[2:]
+        r = r.replace(':', '/')
+        src.append(genfile(r) + ext)
+      deps.extend(src_list)
+
+  include(webapp_jars, '.jar')
+  include(webapp_zips, '.zip')
+  if src:
+    cmd += ['--war', '$SRCS']
+
+  genrule(
+    name = name,
+    cmd = ' '.join(cmd),
+    srcs = src,
+    deps = deps + ['//lib:pack_war'],
+    out = name + '.war',
+    visibility = visibility,
+  )

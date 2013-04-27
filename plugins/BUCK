@@ -1,0 +1,17 @@
+CORE = [
+  'commit-message-length-validator',
+  'replication',
+  'reviewnotes',
+]
+
+genrule(
+  name = 'core',
+  cmd = 'mkdir -p $TMP/WEB-INF/plugins &&' +
+    'for s in $SRCS; do ln -s $s $TMP/WEB-INF/plugins; done;' +
+    'cd $TMP &&' +
+    'zip -qr $OUT .',
+  srcs = [genfile('%s/%s.jar' % (n,n)) for n in CORE],
+  deps = ['//plugins/%s:%s' %(n,n) for n in CORE],
+  out = 'core.zip',
+  visibility = ['//:release'],
+)

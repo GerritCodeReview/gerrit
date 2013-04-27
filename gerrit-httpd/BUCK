@@ -1,0 +1,32 @@
+java_library2(
+  name = 'httpd',
+  srcs = glob(['src/main/java/**/*.java']),
+  resources = glob(['src/main/resources/**/*']),
+  deps = [
+    '//gerrit-gwtexpui:linker_server',
+    '//gerrit-gwtexpui:server',
+    '//gerrit-prettify:server',
+    '//gerrit-server:server',
+    '//lib:gwtjsonrpc',
+    '//lib:jsr305',
+    '//lib:mime-util',
+    '//lib/jgit:jgit-servlet',
+  ],
+  compile_deps = ['//lib:servlet-api-2_5'],
+  visibility = ['PUBLIC'],
+)
+
+java_test(
+  name = 'httpd_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [
+    ':httpd',
+    '//lib:easymock',
+    '//lib:junit',
+    '//lib:servlet-api-2_5',
+    '//lib/jgit:junit',
+  ],
+  source_under_test = [':httpd'],
+  # TODO(sop) Remove after Buck supports Eclipse
+  visibility = ['//:eclipse'],
+)

@@ -1,0 +1,46 @@
+include_defs('//lib/prolog/DEFS')
+
+java_library2(
+  name = 'server',
+  srcs = glob(['src/main/java/**/*.java']),
+  resources = glob(['src/main/resources/**/*']),
+  deps = [
+    '//gerrit-antlr:antlr',
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-util-cli:cli',
+    '//gerrit-util-ssl:ssl',
+    '//gerrit-patch-commonsnet:commons-net',
+    '//lib:automaton',
+    '//lib:commons-dbcp',
+    '//lib:commons-lang',
+    '//lib:commons-net',
+    '//lib:guava',
+    '//lib:jsch',
+    '//lib:jsr305',
+    '//lib:juniversalchardet',
+    '//lib:mime-util',
+    '//lib:ow2-asm',
+    '//lib:ow2-asm-tree',
+    '//lib:ow2-asm-util',
+    '//lib:pegdown',
+    '//lib/prolog:prolog-cafe',
+    '//lib:velocity',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/guice:guice-servlet',
+    '//lib/jgit:jgit',
+    '//lib/log:api',
+  ],
+  compile_deps = [
+    '//lib/bouncycastle:bcpg',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+prolog_cafe_library(
+  name = 'common_rules',
+  srcs = ['src/main/prolog/gerrit_common.pl'],
+  deps = [':server'],
+  visibility = ['PUBLIC'],
+)

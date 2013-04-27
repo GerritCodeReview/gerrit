@@ -1,0 +1,95 @@
+include_defs('//lib/maven.defs')
+
+java_library(
+  name = 'consumer',
+  deps = [
+    ':http-client',
+    ':nekohtml',
+    ':nodeps',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'nodeps',
+  group = 'org.openid4java',
+  artifact = 'openid4java-nodeps',
+  version = '0.9.6',
+  license = 'Apache2.0',
+  sha1 = '52ca394f5f6d38b78e35a5a6a0a341dc5b3aaf34',
+  deps = [
+    ':commons-logging',
+    '//lib/guice:guice',
+  ],
+  visibility = [],
+)
+
+maven_jar(
+  name = 'nekohtml',
+  group = 'net.sourceforge.nekohtml',
+  artifact = 'nekohtml',
+  version = '1.9.10',
+  license = 'Apache2.0',
+  sha1 = '14052461031a7054aa094f5573792feb6686d3de',
+  deps = [':xerces'],
+  visibility = [],
+)
+
+maven_jar(
+  name = 'xerces',
+  group = 'xerces',
+  artifact = 'xercesImpl',
+  version = '2.8.1',
+  license = 'Apache2.0',
+  sha1 = '25101e37ec0c907db6f0612cbf106ee519c1aef1',
+  visibility = [],
+)
+
+maven_jar(
+  name = 'http-client',
+  group = 'org.apache.httpcomponents',
+  artifact = 'httpclient',
+  version = '4.0',
+  exclude = [
+    'META-INF/DEPENDENCIES',
+    'META-INF/LICENSE',
+    'META-INF/NOTICE',
+  ],
+  license = 'Apache2.0',
+  sha1 = 'a76d7fd8033d48b4c67b4ccf159abb080c1059b6',
+  visibility = [],
+  deps = [
+    ':commons-logging',
+    ':http-core',
+    '//lib:commons-codec',
+  ],
+)
+
+maven_jar(
+  name = 'http-core',
+  group = 'org.apache.httpcomponents',
+  artifact = 'httpcore',
+  version = '4.0.1',
+  exclude = [
+    'META-INF/DEPENDENCIES',
+    'META-INF/LICENSE',
+    'META-INF/NOTICE',
+  ],
+  license = 'Apache2.0',
+  sha1 = 'e813b8722c387b22e1adccf7914729db09bcb4a9',
+  visibility = [],
+)
+
+maven_jar(
+  name = 'commons-logging',
+  group = 'commons-logging',
+  artifact = 'commons-logging',
+  version = '1.1.1',
+  exclude = [
+    'META-INF/LICENSE',
+    'META-INF/NOTICE',
+  ],
+  license = 'Apache2.0',
+  sha1 = '5043bfebc3db072ed80fbd362e7caf00e885d8ae',
+  visibility = [],
+)

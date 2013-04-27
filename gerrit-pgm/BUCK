@@ -1,0 +1,21 @@
+java_library2(
+  name = 'pgm',
+  srcs = glob(['src/main/java/**/*.java']),
+  resources = glob(['src/main/resources/**/*']),
+  deps = [
+    '//gerrit-server:server',
+    '//gerrit-httpd:httpd',
+    '//gerrit-sshd:sshd',
+
+    '//gerrit-cache-h2:cache-h2',
+    '//gerrit-openid:openid',
+
+    '//gerrit-util-cli:cli',
+    '//lib/jetty:servlet',
+    '//lib/log:log4j',
+  ],
+  compile_deps = [
+    '//gerrit-launcher:launcher',
+  ],
+  visibility = ['PUBLIC'],
+)

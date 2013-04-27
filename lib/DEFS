@@ -1,0 +1,82 @@
+def genantlr(
+    name,
+    srcs,
+    outs,
+    antlr_version):
+  genrule(
+    name = name,
+    srcs = srcs,
+    cmd = '${//lib/antlr:antlr-tool} -o $(dirname $OUT) $SRCS',
+    deps = ['//lib/antlr:antlr-tool'],
+    out = outs[0],
+  )
+
+def gwt_module(
+    name,
+    srcs,
+    gwtxml = None,
+    resources = [],
+    deps = [],
+    visibility = []):
+  if gwtxml:
+    resources = resources + [gwtxml]
+  resources += srcs
+  java_library(
+    name = name,
+    srcs = srcs,
+    deps = deps,
+    resources = resources,
+    visibility = visibility,
+  )
+
+def gwt_application(
+    name,
+    module_target,
+    compiler_opts = [],
+    compiler_jvm_flags = [],
+    deps = [],
+    visibility = []):
+  cmd = ['${//lib/gwt:compiler}', module_target, '$OUT']
+  cmd += compiler_opts + [' -- $DEPS']
+  genrule(
+    name = name,
+    srcs = [],
+    cmd = ' '.join(cmd),
+    deps = [
+      '//lib/gwt:compiler',
+      '//lib/gwt:dev',
+    ] + deps,
+    out = '%s.zip' % (name,),
+    visibility = visibility,
+  )
+
+def java_library2(
+    name,
+    srcs = [],
+    resources = [],
+    deps = [],
+    compile_deps = [],
+    visibility = []):
+  c = name + '__compile'
+  j = 'lib__%s__output/%s.jar' % (c,c)
+  o = 'lib__%s__output/%s.jar' % (name,name)
+  java_library(
+    name = c,
+    srcs = srcs,
+    resources = resources,
+    deps = deps + compile_deps,
+    visibility = [],
+  )
+  genrule(
+    name = name + '__link',
+    cmd = 'mkdir -p $(dirname $OUT);ln -s $SRCS $OUT',
+    srcs = [genfile(j)],
+    deps = [':' + c],
+    out = o,
+  )
+  prebuilt_jar(
+    name = name,
+    binary_jar = genfile(o),
+    deps = deps + [':%s__link' % (name,)],
+    visibility = visibility,
+  )

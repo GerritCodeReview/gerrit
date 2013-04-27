@@ -1,0 +1,106 @@
+# Copyright (C) 2013 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+GERRIT = 'http://gerrit-maven.commondatastorage.googleapis.com'
+MAVEN_CENTRAL = 'http://repo1.maven.org/maven2'
+
+def define_license(name):
+  n = 'LICENSE-' + name
+  genrule(
+    name = n,
+    cmd = 'cp $SRCS $OUT',
+    srcs = [n],
+    out = n + '.txt',
+    visibility = ['PUBLIC'],
+  )
+
+def maven_jar(
+    name,
+    id,
+    license,
+    exclude = [],
+    exclude_java_sources = False,
+    deps = [],
+    sha1 = '',
+    repository = MAVEN_CENTRAL,
+    attach_source = True,
+    visibility = ['PUBLIC']):
+  from os import path
+
+  parts = id.split(':')
+  if len(parts) == 3:
+    group, artifact, version = parts
+    classifier = 'jar'
+  elif len(parts) == 4:
+    group, artifact, classifier, version = parts
+  else:
+    raise NameError('expected id="groupId:artifactId:[classifier:]version"')
+
+  jar = path.join(name, artifact.lower() + '-' + version)
+  url = '/'.join([
+    repository,
+    group.replace('.', '/'),
+    artifact,
+    version,
+    artifact + '-' + version])
+  if classifier and classifier != 'jar':
+    jar += '-' + classifier
+    url += '-' + classifier
+
+  binjar = jar + '.jar'
+  binurl = url + '.jar'
+
+  if classifier == 'jar':
+    srcjar = jar + '-src.jar'
+    srcurl = url + '-sources.jar'
+  elif classifier == 'source':
+    srcjar, srcurl = binjar, None
+  else:
+    srcjar, srcurl = None, None
+
+  cmd = ['${//lib:download_jar}', '-o', '$OUT', '-u', binurl]
+  if sha1:
+    cmd.extend(['-v', sha1])
+  if exclude:
+    for x in exclude:
+      cmd.extend(['-x', x])
+  if exclude_java_sources:
+    cmd.append('--exclude_java_sources')
+
+  genrule(
+    name = name + '__download_bin',
+    cmd = ' '.join(cmd),
+    srcs = [],
+    deps = ['//lib:download_jar'],
+    out = binjar,
+  )
+  download = [':' + name + '__download_bin']
+
+  if attach_source and srcjar and srcurl:
+    genrule(
+      name = name + '__download_src',
+      cmd = '${//lib:download_jar} -o $OUT -u ' + srcurl,
+      srcs = [],
+      deps = ['//lib:download_jar'],
+      out = srcjar,
+    )
+    download.append(':' + name + '__download_src')
+
+  prebuilt_jar(
+    name = name,
+    deps = deps + download + ['//lib:LICENSE-' + license],
+    binary_jar = genfile(binjar),
+    source_jar = genfile(srcjar) if srcjar else None,
+    visibility = visibility,
+  )

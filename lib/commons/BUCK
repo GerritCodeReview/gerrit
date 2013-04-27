@@ -1,0 +1,75 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'codec',
+  id = 'commons-codec:commons-codec:1.4',
+  sha1 = '4216af16d38465bbab0f3dff8efa14204f7a399a',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+)
+
+maven_jar(
+  name = 'collections',
+  id = 'commons-collections:commons-collections:3.2.1',
+  sha1 = '761ea405b9b37ced573d2df0d1e3a4e0f9edc668',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+  visibility = ['//lib:velocity'],
+)
+
+maven_jar(
+  name = 'dbcp',
+  id = 'commons-dbcp:commons-dbcp:1.4',
+  sha1 = '30be73c965cc990b153a100aaaaafcf239f82d39',
+  license = 'Apache2.0',
+  deps = [':pool'],
+  exclude = [
+    'META-INF/LICENSE.txt',
+    'META-INF/NOTICE.txt',
+    'testpool.jocl'
+  ],
+)
+
+maven_jar(
+  name = 'lang',
+  id = 'commons-lang:commons-lang:2.5',
+  sha1 = 'b0236b252e86419eef20c31a44579d2aee2f0a69',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+)
+
+maven_jar(
+  name = 'logging',
+  id = 'commons-logging:commons-logging:1.1.1',
+  sha1 = '5043bfebc3db072ed80fbd362e7caf00e885d8ae',
+  license = 'Apache2.0',
+  exclude = [
+    'META-INF/LICENSE',
+    'META-INF/NOTICE',
+  ],
+  visibility = ['//lib/openid:'],
+)
+
+maven_jar(
+  name = 'net',
+  id = 'commons-net:commons-net:2.2',
+  sha1 = '07993c12f63c78378f8c90de4bc2ee62daa7ca3a',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+)
+
+maven_jar(
+  name = 'pool',
+  id = 'commons-pool:commons-pool:1.5.5',
+  sha1 = '7d8ffbdc47aa0c5a8afe5dc2aaf512f369f1d19b',
+  license = 'Apache2.0',
+  exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
+)
+
+maven_jar(
+  name = 'oro',
+  id = 'oro:oro:2.0.8',
+  sha1 = '5592374f834645c4ae250f4c9fbb314c9369d698',
+  license = 'Apache1.1',
+  exclude = ['META-INF/LICENSE'],
+)

@@ -1,0 +1,35 @@
+CORE = [
+  'commit-message-length-validator',
+  'replication',
+  'reviewnotes',
+]
+
+# buck audit parses and resolves all deps even if not reachable
+# from the root(s) passed to audit. Filter dependencies to only
+# the ones that currently exist to allow buck to parse cleanly.
+# TODO(sop): buck should more lazily resolve deps
+def filter(names):
+  from os import path
+  h, n = [], []
+  for p in names:
+    if path.exists(path.join(get_base_path(), p, 'BUCK')):
+      h.append(p)
+    else:
+      n.append(p)
+  return h, n
+HAVE, NEED = filter(CORE)
+
+genrule(
+  name = 'core',
+  cmd = '' +
+    ';'.join(['echo >&2 plugins/'+n+' is required.' for n in NEED]) +
+    (';echo >&2;exit 1;' if NEED else '') +
+    'mkdir -p $TMP/WEB-INF/plugins &&' +
+    'for s in $SRCS;do ln -s $s $TMP/WEB-INF/plugins;done;' +
+    'cd $TMP &&' +
+    'zip -qr $OUT .',
+  srcs = [genfile('%s/%s.jar' % (n, n)) for n in CORE],
+  deps = ['//plugins/%s:%s' %(n, n) for n in HAVE],
+  out = 'core.zip',
+  visibility = ['//:release'],
+)

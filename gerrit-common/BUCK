@@ -1,0 +1,53 @@
+SRC = 'src/main/java/com/google/gerrit/'
+VER = 'resources/com/google/gerrit/common/Version'
+
+gwt_module(
+  name = 'client',
+  srcs = glob([SRC + 'common/**/*.java']),
+  gwtxml = SRC + 'Common.gwt.xml',
+  deps = [
+    '//gerrit-patch-jgit:client',
+    '//gerrit-prettify:client',
+    '//gerrit-reviewdb:client',
+    '//lib:jsr305',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'server',
+  srcs = glob(
+    [SRC + 'common/**/*.java'],
+    excludes = [
+      SRC + 'common/ClientVersion.java',
+    ],
+  ),
+  deps = [
+    '//gerrit-patch-jgit:server',
+    '//gerrit-prettify:server',
+    '//gerrit-reviewdb:server',
+    '//lib:jsr305',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'version',
+  resources = [genfile(VER)],
+  deps = [':git_describe'],
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'git_describe',
+  cmd = 'mkdir -p $(dirname $OUT); git describe HEAD >$OUT',
+  srcs = [],
+  out = VER,
+)
+
+java_test(
+  name = 'client_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [':client', '//lib:junit'],
+  source_under_test = [':client'],
+)

@@ -1,0 +1,93 @@
+genrule(
+  name = 'ui_optdbg',
+  cmd = 'for z in $SRCS;do unzip -qod $TMP $z;done;' +
+    'cd $TMP;' +
+    'mkdir -p $(dirname $OUT);' +
+    'zip -9qr $OUT .',
+  srcs = [
+    genfile('ui_dbg.zip'),
+    genfile('ui_opt.zip'),
+  ],
+  deps = [
+    ':ui_opt',
+    ':ui_dbg',
+  ],
+  out = 'ui_optdbg.zip',
+  visibility = ['PUBLIC'],
+)
+
+MODULE = 'com.google.gerrit.GerritGwtUI'
+DEPS = [
+  ':ui_module',
+  '//gerrit-common:version',
+]
+
+gwt_application(
+  name = 'ui_opt',
+  module_target = MODULE,
+  compiler_opts = [
+    '-strict',
+    '-style', 'OBF',
+    '-optimize', '9',
+    '-XdisableClassMetadata',
+    '-XdisableCastChecking',
+  ],
+  deps = DEPS,
+)
+
+gwt_application(
+  name = 'ui_dbg',
+  module_target = MODULE,
+  compiler_opts = [
+    '-strict',
+    '-style', 'PRETTY',
+    '-optimize', '0',
+  ],
+  deps = DEPS,
+)
+
+for ua in ['gecko1_8', 'safari']:
+  gwt_application(
+    name = 'draft_' + ua,
+    module_target = MODULE + ua,
+    compiler_opts = [
+      '-style', 'PRETTY',
+      '-optimize', '0',
+      '-draftCompile',
+    ],
+    deps = DEPS,
+    visibility = ['//:'],
+  )
+
+gwt_module(
+  name = 'ui_module',
+  srcs = glob(['src/main/java/**/*.java']),
+  gwtxml = 'src/main/java/%s.gwt.xml' % (MODULE.replace('.', '/'),),
+  resources = glob(['src/main/java/**/*']),
+  deps = [
+    '//gerrit-gwtexpui:Clippy',
+    '//gerrit-gwtexpui:CSS',
+    '//gerrit-gwtexpui:GlobalKey',
+    '//gerrit-gwtexpui:Linker',
+    '//gerrit-gwtexpui:Progress',
+    '//gerrit-gwtexpui:SafeHtml',
+    '//gerrit-gwtexpui:UserAgent',
+
+    '//gerrit-common:client',
+    '//gerrit-patch-jgit:client',
+    '//gerrit-prettify:client',
+    '//gerrit-reviewdb:client',
+
+    '//lib:gwtjsonrpc',
+    '//lib:gwtjsonrpc_src',
+    '//lib/gwt:user',
+  ],
+  visibility = ['//Documentation:licenses.txt'],
+)
+
+java_test(
+  name = 'ui_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [':ui_module', '//lib:junit', '//lib/gwt:dev'],
+  source_under_test = [':ui_module'],
+)

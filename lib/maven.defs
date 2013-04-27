@@ -1,0 +1,95 @@
+# Copyright (C) 2013 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+GERRIT = 'http://gerrit-maven.commondatastorage.googleapis.com'
+MAVEN_CENTRAL = 'http://repo1.maven.org/maven2'
+
+def define_license(name):
+  n = 'LICENSE-' + name
+  genrule(
+    name = n,
+    cmd = 'cp $SRCS $OUT',
+    srcs = [n],
+    out = n + '.txt',
+    visibility = ['PUBLIC'],
+  )
+
+def maven_jar(
+    name,
+    group, artifact, version,
+    license,
+    exclude = [],
+    exclude_java_sources = False,
+    deps = [],
+    sha1 = '',
+    classifier = None,
+    repository = MAVEN_CENTRAL,
+    visibility = ['PUBLIC']):
+  url = '/'.join([
+    repository,
+    group.replace('.', '/'),
+    artifact,
+    version,
+    artifact + '-' + version])
+  jar = artifact.lower() + '-' + version
+  if classifier:
+    url += '-' + classifier
+    jar += '-' + classifier
+  downloaded_jar(
+    name = name,
+    url = url + '.jar',
+    jar = jar + '.jar',
+    license = license,
+    exclude = exclude,
+    exclude_java_sources = exclude_java_sources,
+    deps = deps,
+    sha1 = sha1,
+    visibility = visibility,
+  )
+
+def downloaded_jar(
+    name,
+    url,
+    jar,
+    license,
+    exclude = [],
+    exclude_java_sources = False,
+    deps = [],
+    sha1 = '',
+    visibility = ['PUBLIC']):
+  cmd = ['${//lib:download_jar}', '-o', '$OUT', '-u', url]
+  if sha1:
+    cmd.extend(['-v', sha1])
+  if exclude:
+    for x in exclude:
+      cmd.extend(['-x', x])
+  if exclude_java_sources:
+    cmd.append('--exclude_java_sources')
+
+  genrule(
+    name = name + '.download',
+    cmd = ' '.join(cmd),
+    srcs = [],
+    deps = ['//lib:download_jar'],
+    out = jar,
+  )
+  prebuilt_jar(
+    name = name,
+    deps = deps + [
+      ':' + name + '.download',
+      '//lib:LICENSE-' + license,
+    ],
+    binary_jar = genfile(jar),
+    visibility = visibility,
+  )

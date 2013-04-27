@@ -1,0 +1,30 @@
+include_defs('//lib/maven.defs')
+
+# This version must match the version that also appears in
+# gerrit-pgm/src/main/resources/com/google/gerrit/pgm/libraries.config
+VERSION = '1.44'
+EXCLUDE = [
+  'META-INF/BCKEY.SF',
+  'META-INF/BCKEY.DSA',
+]
+
+maven_jar(
+  name = 'bcprov',
+  group = 'org.bouncycastle',
+  artifact = 'bcprov-jdk16',
+  version = VERSION,
+  exclude = EXCLUDE,
+  license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
+  sha1 = '6327a5f7a3dc45e0fd735adb5d08c5a74c05c20c',
+)
+
+maven_jar(
+  name = 'bcpg',
+  group = 'org.bouncycastle',
+  artifact = 'bcpg-jdk16',
+  version = VERSION,
+  exclude = EXCLUDE,
+  license = 'DO_NOT_DISTRIBUTE', #'bouncycastle'
+  sha1 = 'ee14f5a29cb3cf9c1edec034ab16e1bbd26e9647',
+  deps = [':bcprov'],
+)

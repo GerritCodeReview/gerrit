@@ -1,0 +1,21 @@
+ANTLR_OUTS = [
+  'QueryLexer.java',
+  'QueryParser.java',
+]
+ANTLR_JAVA = [genfile(f) for f in ANTLR_OUTS]
+
+java_library(
+  name = 'antlr',
+  srcs = glob(['src/main/java/**/*.java']) + ANTLR_JAVA,
+  deps = [
+    ':query_g',
+    '//lib/antlr:java_runtime',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+genantlr(
+  name = 'query_g',
+  srcs = ['src/main/antlr3/com/google/gerrit/server/query/Query.g'],
+  outs = ANTLR_OUTS,
+)

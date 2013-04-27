@@ -1,0 +1,167 @@
+# Copyright (C) 2013 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+def genantlr(
+    name,
+    srcs,
+    outs):
+  genrule(
+    name = name,
+    srcs = srcs,
+    cmd = '${//lib/antlr:antlr-tool} -o $(dirname $OUT) $SRCS',
+    deps = ['//lib/antlr:antlr-tool'],
+    out = outs[0],
+  )
+
+def gwt_module(
+    name,
+    srcs,
+    gwtxml = None,
+    resources = [],
+    deps = [],
+    visibility = []):
+  if gwtxml:
+    resources = resources + [gwtxml]
+  resources += srcs
+  java_library(
+    name = name,
+    srcs = srcs,
+    deps = deps,
+    resources = resources,
+    visibility = visibility,
+  )
+
+def gwt_application(
+    name,
+    module_target,
+    compiler_opts = [],
+    compiler_jvm_flags = [],
+    deps = [],
+    visibility = []):
+  cmd = ['${//lib/gwt:compiler}', module_target, '$OUT']
+  cmd += compiler_opts + ['--', '$DEPS']
+  genrule(
+    name = name,
+    srcs = [],
+    cmd = ' '.join(cmd),
+    deps = [
+      '//lib/gwt:compiler',
+      '//lib/gwt:dev',
+    ] + deps,
+    out = '%s.zip' % name,
+    visibility = visibility,
+  )
+
+# Compiles a Java library with additional compile-time dependencies
+# that do not show up as transitive dependencies to java_library()
+# or java_binary() rule that depends on this library.
+def java_library2(
+    name,
+    srcs = [],
+    resources = [],
+    deps = [],
+    compile_deps = [],
+    visibility = []):
+  c = name + '__compile'
+  t = name + '__link'
+  j = 'lib__%s__output/%s.jar' % (c, c)
+  o = 'lib__%s__output/%s.jar' % (name, name)
+  java_library(
+    name = c,
+    srcs = srcs,
+    resources = resources,
+    deps = deps + compile_deps,
+    visibility = [],
+  )
+  # Break the dependency chain by passing the newly built
+  # JAR to consumers through a prebuilt_jar().
+  genrule(
+    name = t,
+    cmd = 'mkdir $(dirname $OUT);ln -s $SRCS $OUT',
+    srcs = [genfile(j)],
+    deps = [':' + c],
+    out = o,
+  )
+  prebuilt_jar(
+    name = name,
+    binary_jar = genfile(o),
+    deps = deps + [':' + t],
+    visibility = visibility,
+  )
+
+def gerrit_extension(
+    name,
+    deps = [],
+    srcs = [],
+    resources = [],
+    manifest_file = None,
+    visibility = ['PUBLIC']):
+  gerrit_plugin(
+    name = name,
+    deps = deps,
+    srcs = srcs,
+    resources = resources,
+    manifest_file = manifest_file,
+    type = 'extension',
+    visibility = visibility,
+  )
+
+def gerrit_plugin(
+    name,
+    deps = [],
+    srcs = [],
+    resources = [],
+    manifest_file = None,
+    type = 'plugin',
+    visibility = ['PUBLIC']):
+  mf_cmd = 'v=`git describe HEAD` &&'
+  if manifest_file:
+    mf_src = [manifest_file]
+    mf_cmd += 'sed "s:@VERSION@:$v:g" $SRCS >$OUT'
+  else:
+    mf_src = []
+    mf_cmd += 'echo "Manifest-Version: 1.0" >$OUT &&'
+    mf_cmd += 'echo "Gerrit-ApiType: %s" >>$OUT &&' % type
+    mf_cmd += 'echo "Implementation-Version: $v" >>$OUT'
+  genrule(
+    name = name + '__manifest',
+    cmd = mf_cmd,
+    srcs = mf_src,
+    out = 'MANIFEST.MF',
+  )
+  # TODO(sop): Buck should support manifest_file on java_library()
+  java_library(
+    name = name + '__plugin',
+    srcs = srcs,
+    resources = resources,
+    deps = ['//:%s-lib' % type] + deps,
+  )
+  genrule(
+    name = name,
+    cmd = ('cp $SRCDIR/%s__plugin.jar $OUT;' % name) +
+      'cd $TMP;' +
+      'mkdir META-INF;' +
+      'cp $SRCDIR/MANIFEST.MF META-INF/MANIFEST.MF;' +
+      'zip -qu $OUT META-INF/MANIFEST.MF',
+    srcs = [
+      genfile('MANIFEST.MF'),
+      genfile('lib__%s__plugin__output/%s__plugin.jar' % (name, name)),
+    ],
+    deps = [
+      ':%s__plugin' % name,
+      ':%s__manifest' % name,
+    ],
+    out = name + '.jar',
+    visibility = visibility,
+  )

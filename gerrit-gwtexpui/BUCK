@@ -1,0 +1,10 @@
+SRC = 'src/main/java/com/google/gwtexpui/'
+
+gwt_module(
+  name = 'SafeHtml',
+  srcs = glob([SRC + 'safehtml/client/*.java']),
+  gwtxml = SRC + 'safehtml/SafeHtml.gwt.xml',
+  resources = glob([SRC + 'safehtml/client/*.css']),
+  deps = ['//lib:gwt-user'],
+  visibility = ['PUBLIC'],
+)

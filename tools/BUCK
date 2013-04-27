@@ -1,0 +1,7 @@
+genrule(
+  name = 'download_jar.sh',
+  cmd = 'ln -s $SRCS $OUT',
+  srcs = ['download_jar.sh'],
+  out = 'download_jar.sh',
+  visibility = ['PUBLIC'],
+)

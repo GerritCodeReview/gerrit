@@ -1,0 +1,31 @@
+SRC = 'src/main/java/org/eclipse/jgit/'
+
+gwt_module(
+  name = 'client',
+  srcs = [
+    SRC + 'diff/Edit_JsonSerializer.java',
+    SRC + 'diff/ReplaceEdit.java',
+  ],
+  gwtxml = SRC + 'JGit.gwt.xml',
+  deps = [
+    '//lib:gwt-user',
+    '//lib:gwtjsonrpc',
+    '//lib:jgit',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'server',
+  srcs = [
+    SRC + 'diff/EditDeserializer.java',
+    SRC + 'diff/ReplaceEdit.java',
+    SRC + 'internal/storage/file/WindowCacheStatAccessor.java',
+    SRC + 'lib/ObjectIdSerialization.java',
+  ],
+  deps = [
+    '//lib:gson',
+    '//lib:jgit',
+  ],
+  visibility = ['PUBLIC'],
+)

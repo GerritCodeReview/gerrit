@@ -1,0 +1,67 @@
+GERRIT = 'http://gerrit-maven.commondatastorage.googleapis.com'
+MAVEN_CENTRAL = 'http://repo1.maven.org/maven2'
+
+def maven_jar(
+    name,
+    group, artifact, version,
+    license,
+    delete = [],
+    deps = [],
+    sha1 = '',
+    repository = MAVEN_CENTRAL,
+    visibility = ['PUBLIC']):
+  group = group.replace('.', '/')
+  url = '/'.join([
+    repository,
+    group, artifact, version,
+    artifact + '-' + version])
+  third_party_jar(
+    name = name,
+    version = version,
+    url = url + '.jar',
+    license = license,
+    delete = delete,
+    deps = deps,
+    sha1 = sha1,
+    visibility = visibility,
+  )
+
+def third_party_jar(
+    name,
+    version,
+    url,
+    license,
+    delete = [],
+    deps = [],
+    sha1 = '',
+    visibility = ['PUBLIC']):
+  jar = name + '.jar'
+  cmd = '$DEPS "$OUT" \'%s\' \'%s\'' % (url, sha1)
+  if delete:
+    cmd = cmd + ' ; zip -d "$OUT" \'' + "' '".join(delete) + '\''
+  genrule(
+    name = name + '.download',
+    cmd = cmd,
+    deps = ['//tools:download_jar.sh'],
+    srcs = [],
+    out = jar,
+  )
+  prebuilt_jar(
+    name = name,
+    deps = deps + [
+      ':' + name + '.download',
+      '//lib:LICENSE-' + license,
+    ],
+    binary_jar = genfile(jar),
+    visibility = visibility,
+  )
+
+def define_license(name):
+  n = 'LICENSE-' + name
+  genrule(
+    name = n,
+    cmd = 'ln -f $SRCS $OUT',
+    srcs = [n],
+    out = n + '.txt',
+    visibility = ['PUBLIC'],
+  )

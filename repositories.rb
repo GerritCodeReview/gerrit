@@ -1,0 +1,6 @@
+repositories.remote << "https://gerrit-maven.commondatastorage.googleapis.com"
+repositories.remote << "http://download.java.net/maven/2/"
+repositories.remote << "http://download.eclipse.org/jgit/maven"
+repositories.remote << "http://clojars.org/repo"
+repositories.remote << "http://scala-tools.org/repo-releases"
+repositories.remote << "http://repo.jenkins-ci.org/repo"

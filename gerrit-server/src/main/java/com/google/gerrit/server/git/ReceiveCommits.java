@@ -374,11 +374,11 @@ public class ReceiveCommits {
     rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
 
+    List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(4);
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(config.checkReferencedObjectsAreReachable);
-      rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, false));
+      advHooks.add(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, true));
     }
-    List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(3);
     advHooks.add(new AdvertiseRefsHook() {
       @Override
       public void advertiseRefs(BaseReceivePack rp) {

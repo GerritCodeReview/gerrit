@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UJnzwuRo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-28T16:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPEbrsi8",
+      "revId": "2a2e28b4fafb82251e05da06d471ed0b09fc78cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UO2fwMhs",
         "filename": "tools/download_jar.sh",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-28T09:04:04Z",
       "side": 1,
       "message": "on Ubuntu openssl produces extra \u0027(stdin)\u003d \u0027 prefix:\n\n $\u003eopenssl version\n OpenSSL 1.0.1c 10 May 2012\n\n fatal: bad content from http://repo1.maven.org/maven2/com/google/gwt/gwt-user/2.5.0/gwt-user-2.5.0.jar                                             \n       expected bbec0cc2ba81a2601aac55e3783ad0d0ff7d45ac                                                                                           \n       received (stdin)\u003d bbec0cc2ba81a2601aac55e3783ad0d0ff7d45ac\n\nso\n have\u003d$(openssl sha1 -sha1 -hex \u003c\"$OUT\" | sed \u0027s/^.* //\u0027)\nfixed it",
+      "revId": "2a2e28b4fafb82251e05da06d471ed0b09fc78cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPkTrri8",
+        "filename": "tools/download_jar.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-04-28T16:47:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UO2fwMhs",
       "revId": "2a2e28b4fafb82251e05da06d471ed0b09fc78cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

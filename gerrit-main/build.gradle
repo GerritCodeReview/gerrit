@@ -1,0 +1,11 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Main class to bootstrap out of a WAR'
+
+// TODO: This is what the old Maven pom specified 
+sourceCompatibility = '1.2'
+targetCompatibility = '1.2'
+
+dependencies {
+   compile project(':gerrit-launcher')
+}

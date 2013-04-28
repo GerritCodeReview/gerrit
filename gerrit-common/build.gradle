@@ -1,0 +1,19 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Classes common to both server and client.'
+
+dependencies {
+   compile project(':gerrit-gwtexpui')
+   compile project(':gerrit-reviewdb')
+   compile project(':gerrit-prettify')
+   compile project(':gerrit-patch-jgit')
+
+   compile libraries.gwt_servlet 
+   compile libraries.jsr305fb
+}
+
+processResources {
+   filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [ 
+      VERSION_INFO: 'git describe HEAD'.execute().text 
+   ])
+}

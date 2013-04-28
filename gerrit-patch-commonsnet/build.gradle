@@ -1,0 +1,11 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Hacks to expose package-private data from commons-net to Gerrit'
+
+dependencies {
+   compile libraries.commonsnet
+   compile libraries.commonscodec
+   compile libraries.slf4j_api
+
+   compile project(':gerrit-util-ssl')
+}

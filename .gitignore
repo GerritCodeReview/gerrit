@@ -7,3 +7,6 @@
 /.idea
 /gerrit-parent.iml
 *.sublime-*
+/.gradle
+*/build/
+*.swp

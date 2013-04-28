@@ -1,0 +1,21 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Gerrit Acceptance Tests'
+
+dependencies {
+
+   compile project(':gerrit-reviewdb')
+   compile project(':gerrit-server') 
+   
+   compile project(':gerrit-openid')
+   compile project(':gerrit-sshd')
+   compile project(':gerrit-httpd')
+   compile project(':gerrit-pgm') 
+
+   compile libraries.jetty 
+   compile libraries.log4j 
+   compile libraries.slf4j_log4j 
+   compile libraries.args4j
+
+   runtime project(':gerrit-main')
+}

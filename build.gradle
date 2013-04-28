@@ -1,0 +1,63 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+subprojects {
+   apply plugin: 'java'
+   apply plugin: 'eclipse'
+   // TODO: need to make eclipse automatically apply
+   // GoogleFormat.xml style settings
+
+   apply from: file("${rootDir}/dependencies.gradle")
+
+   group = GERRIT_GROUP 
+   version = GERRIT_VERSION 
+
+   repositories { 
+      mavenCentral()
+
+      maven { 
+         name 'gerrit-maven'
+         url 'https://gerrit-maven.commondatastorage.googleapis.com'
+      }
+      maven {
+         name 'jgit-repository'
+         url 'http://download.eclipse.org/jgit/maven'
+      }
+   
+      maven {
+         name 'java.net-repository'
+         url 'http://download.java.net/maven/2/'
+      }
+
+      maven {
+         name 'clojars-repo'
+         url 'http://clojars.org/repo'
+      }
+
+      maven {
+         name 'scala-tools'
+         url 'http://scala-tools.org/repo-releases'
+      }
+   }
+
+
+   // All projects dependent on JUnit and EasyMock for tests
+   dependencies {
+      testCompile libraries.junit
+      testCompile libraries.easymock
+   }
+
+   // All projects produce a projectName-sources.jar
+   task sourcesJar(type: Jar, dependsOn: classes) {
+      classifier = 'sources'
+      from sourceSets.main.allSource
+   }
+
+   artifacts {
+      archives sourcesJar
+   }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.5'
+}
+

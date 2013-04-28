@@ -1,0 +1,11 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Prettify based syntax highlighting'
+
+dependencies {
+   compile project(':gerrit-gwtexpui')
+   compile project(':gerrit-reviewdb')
+   compile project(':gerrit-patch-jgit')
+
+   compile libraries.gwt_user 
+}

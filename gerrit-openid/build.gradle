@@ -1,0 +1,13 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'OpenID'
+
+dependencies {
+   compile libraries.jsr305fb
+   compile libraries.tomcat6_servlet_api
+   compile libraries.jgit_http
+   compile libraries.openid4java_consumer
+
+   compile project(':gerrit-server')
+   compile project(':gerrit-httpd')
+}

@@ -1,0 +1,10 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Implementation of caching backed by Guava and H2'
+
+dependencies {
+   compile project(':gerrit-server')
+
+   compile libraries.guava
+   compile libraries.h2database 
+}

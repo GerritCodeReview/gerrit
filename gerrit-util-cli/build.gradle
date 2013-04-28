@@ -1,0 +1,10 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Utilities to support command line parsing'
+
+dependencies {
+   compile libraries.guava 
+   compile libraries.guice 
+   compile libraries.guice_assistedinject 
+   compile libraries.args4j
+}

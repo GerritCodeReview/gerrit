@@ -1,0 +1,24 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+apply plugin: 'war'
+
+description = 'Gerrit packaged as a standard web application archive'
+
+dependencies {
+   compile project(':gerrit-sshd')
+   compile project(':gerrit-httpd')
+   compile project(':gerrit-openid')
+   compile project(':gerrit-pgm')
+
+   providedCompile libraries.tomcat7_servlet_api
+   providedCompile libraries.tomcat6_servlet_api
+   providedCompile libraries.jetty
+   providedCompile libraries.bcprov
+   providedCompile libraries.bcpg
+
+   compile libraries.slf4j_log4j
+   compile libraries.log4j
+
+   runtime project(':gerrit-main')
+   runtime project(':gerrit-gwtui')
+}

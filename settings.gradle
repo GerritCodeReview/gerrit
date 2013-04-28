@@ -1,0 +1,10 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+rootProject.name = 'gerrit'
+
+include 'gerrit-patch-jgit', 'gerrit-antlr', 'gerrit-prettify', 'gerrit-common', 'gerrit-server',
+   'gerrit-launcher', 'gerrit-main', 'gerrit-extension-api', 'gerrit-patch-commonsnet', 
+   'gerrit-util-cli', 'gerrit-util-ssl', 'gerrit-reviewdb', 'gerrit-gwtexpui', 'gerrit-reviewdb',
+   'gerrit-pgm', 'gerrit-openid', 'gerrit-sshd', 'gerrit-httpd', 'gerrit-acceptance-tests',
+   'gerrit-cache-h2', 'gerrit-gwtui', 'gerrit-gwtuidebug', 'gerrit-plugin-api', 'gerrit-plugin-gwtui', 
+   'gerrit-war'

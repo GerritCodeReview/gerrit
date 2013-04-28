@@ -1,0 +1,3 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Utilities to support SSL based protocols'

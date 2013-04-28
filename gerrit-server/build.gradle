@@ -1,0 +1,77 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Commons server routines'
+
+configurations {
+   prolog {
+      description = "Dependencies required to use Prolog compiler"
+      visible = false
+      extendsFrom compile
+   }
+}
+
+dependencies {
+
+   compile libraries.log4j 
+   compile libraries.jgit 
+   compile libraries.slf4j_api
+   compile libraries.slf4j_log4j
+
+   compile libraries.velocity 
+   compile libraries.commonsdbcp
+   compile libraries.commonslang
+   compile libraries.commonsnet
+   compile libraries.bcpg
+   compile libraries.mimeutil
+
+   compile libraries.guice 
+   compile libraries.guice_servlet
+   compile libraries.guice_assistedinject 
+   compile libraries.aopalliance
+
+   compile project(':gerrit-antlr')
+   compile project(':gerrit-common')
+   compile project(':gerrit-extension-api')
+   compile project(':gerrit-util-cli')
+   compile project(':gerrit-util-ssl')
+   compile project(':gerrit-patch-commonsnet')
+    
+   compile libraries.guava 
+   compile libraries.jsr305fb 
+
+   compile libraries.juniversalchardet 
+    
+   compile libraries.automaton 
+   compile libraries.prologcafe 
+   compile libraries.pegdown 
+ 
+   testCompile libraries.h2database 
+   testCompile libraries.jgit_junit 
+
+   compile libraries.commonscodec
+   compile libraries.args4j
+
+   compile 'org.ow2.asm:asm-all:4.0'
+}
+
+task generateJavaFromProlog(type: JavaExec, group: "Generate") {
+
+   description = "Generate Java source from Prolog rules"
+
+   ext.generatedSrc = file("${buildDir}/generated")
+   inputs.dir file('src/main/prolog')
+   outputs.dir generatedSrc
+
+   classpath = configurations.prolog
+   main 'com.googlecode.prolog_cafe.compiler.Compiler'
+
+   args '--show-stack-trace', '-O', '-am', "${generatedSrc}/prolog-am",
+        '-s', "${generatedSrc}/prolog-java", 
+        'src/main/prolog/gerrit_common.pl'
+}
+
+sourceSets.main.java.srcDir file("${generateJavaFromProlog.generatedSrc}/prolog-java")
+
+compileJava.dependsOn generateJavaFromProlog
+
+tasks['eclipse'].dependsOn generateJavaFromProlog

@@ -1,0 +1,16 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Servlet context for components run inside of an HTTP environment.'
+
+dependencies {
+   compile libraries.tomcat6_servlet_api
+   compile libraries.jsr305fb
+   compile libraries.gwtjsonrpc
+   compile libraries.mimeutil
+   compile libraries.jgit_http
+   testCompile libraries.jgit_junit
+
+   compile project(':gerrit-launcher')
+   compile project(':gerrit-server')
+   compile project(':gerrit-prettify')
+}

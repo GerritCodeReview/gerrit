@@ -1,0 +1,15 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Servlet context for components run inside of an HTTP environment.'
+
+dependencies {
+   compile libraries.log4j 
+   compile libraries.slf4j_log4j 
+
+   compile libraries.mina 
+   compile libraries.sshd 
+ 
+   compile project(':gerrit-util-cli')
+   compile project(':gerrit-server')
+   compile project(':gerrit-cache-h2')
+}

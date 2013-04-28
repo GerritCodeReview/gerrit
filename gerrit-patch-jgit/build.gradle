@@ -1,0 +1,11 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Hacks to expose package-private data from JGit to Gerrit'
+
+dependencies {
+   compile libraries.gwt_user 
+   compile libraries.gwtjsonrpc
+   compile libraries.gson
+
+   compile libraries.jgit 
+}

@@ -1,0 +1,38 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'ANTLR generated sources'
+
+configurations {
+   antlr3 { 
+      description = 'Dependencies required to use the ANTLR generation tool'
+      visible = false 
+   }
+}
+
+dependencies {
+   antlr3 libraries.antlr 
+   compile libraries.antlr_runtime 
+}
+
+task generateGrammarSource(type: JavaExec, group: 'Generate') {
+   description = "Generate Java sources from ANTLR grammar"
+
+   def grammarDir = file('src/main/antlr3')
+
+   inputs.dir grammarDir 
+   outputs.dir file("${buildDir}/generated/antlr")
+
+   classpath = configurations.antlr3
+
+   main 'org.antlr.Tool'
+   args '-o', outputs.files.asPath,
+      fileTree(dir: grammarDir, include: '**/*.g').files.join(" ")
+}
+
+// Add the generated source to the source path
+sourceSets.main.java.srcDir generateGrammarSource.outputs.files.asPath 
+
+// Compile task needs to wait for code generation
+compileJava.dependsOn generateGrammarSource
+// Eclipse task will skip empty source directories
+tasks['eclipse'].dependsOn generateGrammarSource

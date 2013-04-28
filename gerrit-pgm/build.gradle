@@ -1,0 +1,21 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Command line executables'
+
+dependencies {
+   compile libraries.log4j 
+   compile libraries.h2database
+   compile libraries.postgresql
+
+   compile project(':gerrit-main')
+   compile project(':gerrit-util-cli')
+   compile project(':gerrit-server')
+   compile project(':gerrit-openid')
+   compile project(':gerrit-sshd')
+   compile project(':gerrit-httpd')
+
+   compile libraries.jetty
+   compile libraries.tomcat7_servlet_api
+   testCompile libraries.jgit_junit 
+ 
+}

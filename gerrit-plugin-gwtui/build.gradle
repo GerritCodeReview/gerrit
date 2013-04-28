@@ -1,0 +1,8 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'API for UI plugins to build with GWT and integrate with Gerrit'
+
+dependencies {
+   compile libraries.gwt_user
+   compile libraries.gwt_dev
+}

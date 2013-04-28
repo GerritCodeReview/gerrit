@@ -1,0 +1,18 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+apply plugin: 'war'
+
+description = 'Web interface built on top of Google Web Toolkit'
+
+dependencies {
+   compile project(':gerrit-gwtexpui')
+   compile project(':gerrit-common')
+   compile project(':gerrit-patch-jgit')
+   compile project(':gerrit-prettify')
+
+   compile libraries.gwt_user
+   compile libraries.gwtorm
+   compile libraries.gwtjsonrpc
+   compile libraries.jgit
+   providedCompile libraries.validation_api
+}

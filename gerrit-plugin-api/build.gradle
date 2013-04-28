@@ -1,0 +1,30 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'API for tightly coupled plugins to compile against'
+
+dependencies {
+   compile project(':gerrit-sshd') 
+   compile project(':gerrit-httpd') 
+   compile project(':gerrit-pgm') 
+   compile libraries.tomcat6_servlet_api
+}
+
+task shadedJar(type: Jar) {
+   classifier = 'all'
+   from { 
+      configurations.compile.collect {
+         it.isDirectory() ? it : zipTree(it) 
+      }
+   }
+   from(sourceSets.main.output)
+   // TODO: Exclusions from pom
+}
+
+artifacts {
+   archives shadedJar
+}
+
+task shadedSourcesJar {
+   // TODO: Maven build produced a jar with source of dependencies,
+   // but not the source from this project
+}

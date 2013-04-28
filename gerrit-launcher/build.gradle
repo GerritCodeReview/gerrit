@@ -1,0 +1,3 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Bootstraps the rest of our classpath after Main'

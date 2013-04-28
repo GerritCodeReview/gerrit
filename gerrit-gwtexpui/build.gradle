@@ -1,0 +1,8 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+description = 'Extended UI tools for GWT'
+
+dependencies {
+   compile libraries.gwt_user 
+   compile libraries.gwt_dev 
+}

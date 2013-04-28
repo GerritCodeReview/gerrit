@@ -1,0 +1,14 @@
+/* vim:set ts=3 sw=3 expandtab: */
+
+apply plugin: 'war'
+
+description = 'Debugging support for the GWT UI'
+
+dependencies {
+   compile project(':gerrit-gwtui')
+   compile project(':gerrit-war')
+   compile project(':gerrit-patch-jgit')
+   compile project(':gerrit-prettify')
+
+   providedCompile libraries.validation_api
+}

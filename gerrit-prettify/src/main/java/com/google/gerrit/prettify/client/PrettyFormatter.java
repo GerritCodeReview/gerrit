@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.prettify.common;
+package com.google.gerrit.prettify.client;
 
+import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;

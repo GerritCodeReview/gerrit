@@ -898,20 +898,5 @@ limitations under the License.
       <id>jgit-repository</id>
       <url>http://download.eclipse.org/jgit/maven</url>
     </repository>
-
-    <repository>
-      <id>java.net-repository</id>
-      <url>http://download.java.net/maven/2/</url>
-    </repository>
-
-    <repository>
-      <id>clojars-repo</id>
-      <url>http://clojars.org/repo</url>
-    </repository>
-
-    <repository>
-      <id>scala-tools</id>
-      <url>http://scala-tools.org/repo-releases</url>
-    </repository>
   </repositories>
 </project>

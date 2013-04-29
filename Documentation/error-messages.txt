@@ -31,6 +31,7 @@ Error Messages
 * link:error-not-valid-ref.html[not valid ref]
 * link:error-change-upload-blocked.html[One or more refs/for/ names blocks change upload]
 * link:error-permission-denied.html[Permission denied (publickey)]
+* link:error-permission-denied-to-add-patch-set-for-change.html[permission denied to add patch set for change ...]
 * link:error-prohibited-by-gerrit.html[prohibited by Gerrit]
 * link:error-project-not-found.html[Project not found: ...]
 * link:error-squash-commits-first.html[squash commits first]

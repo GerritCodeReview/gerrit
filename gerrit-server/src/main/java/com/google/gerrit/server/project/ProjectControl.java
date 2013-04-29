@@ -211,7 +211,8 @@ public class ProjectControl {
 
   public boolean allRefsAreVisibleExcept(Set<String> except) {
     return user instanceof InternalUser
-        || canPerformOnAllRefs(Permission.READ, except);
+        || (canPerformOnAllRefs(Permission.READ, except) &&
+            canPerformOnAllRefs(Permission.VIEW_DRAFTS, except));
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */

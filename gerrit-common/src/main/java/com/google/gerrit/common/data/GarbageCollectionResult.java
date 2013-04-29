@@ -14,16 +14,16 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Project;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GarbageCollectionResult {
   protected List<Error> errors;
 
   public GarbageCollectionResult() {
-    errors = Lists.newArrayList();
+    errors = new ArrayList<Error>();
   }
 
   public void addError(Error e) {

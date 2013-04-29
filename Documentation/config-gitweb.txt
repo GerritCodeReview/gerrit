@@ -59,8 +59,10 @@ the default source code distribution, and most custom installations.
 Access Control
 ^^^^^^^^^^^^^^
 
-Access controls for internally managed gitweb page views are enforced
-using the standard project READ +1 permission.
+Access to view the internally managed gitweb pages is granted on a per
+project basis. Only the project's owners and users having both 'Read',
+and 'View Drafts' permission for all refs of a project are authorized
+to view the project's gitweb pages.
 
 External/Unmanaged gitweb
 ~~~~~~~~~~~~~~~~~~~~~~~~~

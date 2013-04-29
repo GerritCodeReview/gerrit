@@ -87,6 +87,24 @@
       "revId": "ecb1432bd4cc6783afff8012fbe7cc58052177fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UO8f.vu0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-04-29T16:06:53Z",
+      "side": 1,
+      "message": "Nice. I agree. This is easier to follow. Done.",
+      "parentUuid": "UDnSPiHg",
+      "revId": "ecb1432bd4cc6783afff8012fbe7cc58052177fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

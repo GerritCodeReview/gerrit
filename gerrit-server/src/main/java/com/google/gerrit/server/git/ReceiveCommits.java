@@ -1689,11 +1689,17 @@ public class ReceiveCommits {
       }
     }
 
-    boolean validate(boolean autoClose) throws IOException {
+    boolean validate(boolean autoClose) throws IOException, OrmException {
       if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
       } else if (change == null) {
         reject(inputCommand, "change " + ontoChange + " not found");
+        return false;
+      }
+
+      if (!projectControl.controlFor(change).isVisible(db)) {
+        reject(inputCommand, "permission denied to add patch set for "
+            + "change " + change.getKey());
         return false;
       }
 

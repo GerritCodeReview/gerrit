@@ -230,7 +230,7 @@ public class ChangeScreen extends Screen
 
     patchesGrid = new Grid(1, 2);
     patchesGrid.setStyleName(Gerrit.RESOURCES.css().selectPatchSetOldVersion());
-    patchesGrid.setText(0, 0, Util.C.oldVersionHistory());
+    patchesGrid.setText(0, 0, Util.C.referenceVersion());
     patchesGrid.setWidget(0, 1, patchesList);
     add(patchesGrid);
 

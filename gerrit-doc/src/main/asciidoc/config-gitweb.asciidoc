@@ -116,7 +116,7 @@ $stylesheet = "gitweb.css";
 # logo to use
 $logo = "git-logo.png";
 
-# the ‘favicon’
+# the favicon
 $favicon = "git-favicon.png";
 ----
 

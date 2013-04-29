@@ -109,7 +109,7 @@ commands to gerrit.sh.
   gerrit2@host:~$
 ----
 
-include::config-login-register.txt[]
+include::config-login-register.asciidoc[]
 
 Project creation
 ----------------

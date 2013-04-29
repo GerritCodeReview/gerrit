@@ -1,0 +1,19 @@
+#!/bin/sh
+
+V=$(git describe HEAD)
+
+case "$V" in
+'')
+	echo >&2 "fatal: no annotated tags, cannot determine version"
+	exit 1
+	;;
+
+*-g*)
+	echo >&2 "fatal: snapshot $V, cannot determine version"
+	exit 1
+	;;
+
+v*)
+	echo "$V" | perl -lne 'print $1 if /^v(\d+\.\d+(?:\.\d+)?)/'
+	;;
+esac

@@ -1,0 +1,14 @@
+permission denied to add patch set for change ...
+=================================================
+
+With this error message Gerrit rejects to push a commit to a change
+that is not visible to the user.
+
+This error message means that the commit's change id refers to a
+change that is not visible to the user. To push the commit as new
+change, amend the commit to provide a different change id.
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

@@ -31,7 +31,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
-import com.google.gerrit.prettify.common.PrettyFactory;
+import com.google.gerrit.prettify.client.PrettyFactory;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;

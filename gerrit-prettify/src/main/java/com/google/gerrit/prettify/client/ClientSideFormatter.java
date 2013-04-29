@@ -14,8 +14,6 @@
 
 package com.google.gerrit.prettify.client;
 
-import com.google.gerrit.prettify.common.PrettyFactory;
-import com.google.gerrit.prettify.common.PrettyFormatter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.RootPanel;

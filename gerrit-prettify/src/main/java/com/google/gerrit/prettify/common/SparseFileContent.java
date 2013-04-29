@@ -14,6 +14,7 @@
 
 package com.google.gerrit.prettify.common;
 
+
 import org.eclipse.jgit.diff.Edit;
 
 import java.util.ArrayList;

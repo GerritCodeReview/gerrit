@@ -438,9 +438,11 @@ public class ReceiveCommits {
       Set<PatchSet.Id> toGet = new HashSet<PatchSet.Id>();
       for (Change change : db.changes()
           .byProjectOpenNext(project.getNameKey(), "z", 32)) {
-        PatchSet.Id id = change.currentPatchSetId();
-        if (id != null) {
-          toGet.add(id);
+        if (projectControl.controlFor(change).isVisible(db)) {
+          PatchSet.Id id = change.currentPatchSetId();
+          if (id != null) {
+            toGet.add(id);
+          }
         }
       }
       for (PatchSet ps : db.patchSets().get(toGet)) {

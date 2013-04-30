@@ -44,6 +44,7 @@ import com.google.gwt.user.client.ui.Widget;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private static final int C_STAR = 1;
@@ -141,11 +142,13 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   }
 
   public void updateColumnsForLabels(ChangeList... lists) {
+    Set<String> hidden = Gerrit.getConfig().getHiddenChangeListLabels();
+
     labelNames = new ArrayList<String>();
     for (ChangeList list : lists) {
       for (int i = 0; i < list.length(); i++) {
         for (String name : list.get(i).labels()) {
-          if (!labelNames.contains(name)) {
+          if (!labelNames.contains(name) && !hidden.contains(name)) {
             labelNames.add(name);
           }
         }

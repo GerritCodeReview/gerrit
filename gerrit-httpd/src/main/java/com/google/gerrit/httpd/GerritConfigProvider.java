@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
@@ -142,6 +143,9 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {
       config.setSshdAddress(sshInfo.getHostKeys().get(0).getHost());
     }
+
+    config.setHiddenChangeListLabels(ImmutableSet.copyOf(cfg.getStringList("hiddenlabels", null, "changelist")));
+    config.setHiddenChangeDetailLabels(ImmutableSet.copyOf(cfg.getStringList("hiddenlabels", null, "changedetail")));
 
     return config;
   }

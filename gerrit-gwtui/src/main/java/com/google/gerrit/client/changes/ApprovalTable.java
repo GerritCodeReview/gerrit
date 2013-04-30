@@ -119,7 +119,12 @@ public class ApprovalTable extends Composite {
     fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
     col++;
 
+    Set<String> hiddenLabels = Gerrit.getConfig().getHiddenChangeDetailLabels();
     for (String name : labels) {
+      if (hiddenLabels.contains(name)) {
+        continue;
+      }
+
       table.setText(0, col, name);
       fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
       col++;
@@ -351,7 +356,12 @@ public class ApprovalTable extends Composite {
     }
     fmt.setStyleName(row, col++, Gerrit.RESOURCES.css().removeReviewerCell());
 
+    Set<String> hiddenLabels = Gerrit.getConfig().getHiddenChangeDetailLabels();
     for (String labelName : change.labels()) {
+      if (hiddenLabels.contains(labelName)) {
+        continue;
+      }
+
       fmt.setStyleName(row, col, Gerrit.RESOURCES.css().approvalscore());
       if (!ad.canVote(labelName)) {
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().notVotable());

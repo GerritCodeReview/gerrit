@@ -46,6 +46,8 @@ public class GerritConfig implements Cloneable {
   protected boolean testChangeMerge;
   protected String anonymousCowardName;
   protected int suggestFrom;
+  protected Set<String> hiddenChangeListLabels;
+  protected Set<String> hiddenChangeDetailLabels;
 
   public String getRegisterUrl() {
     return registerUrl;
@@ -224,5 +226,21 @@ public class GerritConfig implements Cloneable {
       return false;
     }
     return true;
+  }
+
+  public Set<String> getHiddenChangeListLabels() {
+    return hiddenChangeListLabels;
+  }
+
+  public void setHiddenChangeListLabels(Set<String> hiddenChangeListLabels) {
+    this.hiddenChangeListLabels = hiddenChangeListLabels;
+  }
+
+  public Set<String> getHiddenChangeDetailLabels() {
+    return hiddenChangeDetailLabels;
+  }
+
+  public void setHiddenChangeDetailLabels(Set<String> hiddenChangeDetailLabels) {
+    this.hiddenChangeDetailLabels = hiddenChangeDetailLabels;
   }
 }

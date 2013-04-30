@@ -26,6 +26,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.PersonIdent;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +105,12 @@ public class AccountInfo {
     return ai;
   }
 
+  public static AccountInfo parse(PersonIdent ident, boolean detailed) {
+    AccountInfo ai = new AccountInfo(new Account.Id(0));
+    ai.fill(ident, detailed);
+    return ai;
+  }
+
   public transient Account.Id _id;
 
   public AccountInfo(Account.Id id) {
@@ -119,5 +127,34 @@ public class AccountInfo {
       _account_id = account.getId().get();
       email = account.getPreferredEmail();
     }
+  }
+
+  private void fill(PersonIdent ident, boolean detailed) {
+    name = ident.getName();
+    if (detailed) {
+      _account_id = 0;
+      email = ident.getEmailAddress();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof AccountInfo)) {
+      return false;
+    }
+    AccountInfo other = (AccountInfo) obj;
+    if (_id.get() != 0) {
+      return _id.equals(other._id);
+    } else {
+      return name.equals(other.name)
+          && ((email != null && email.equals(other.email))
+              || (email == null && other.email == null));
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return _id.hashCode() + name.hashCode()
+        + (email != null ? email.hashCode() : 0);
   }
 }

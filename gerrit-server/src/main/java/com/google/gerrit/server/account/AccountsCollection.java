@@ -87,7 +87,7 @@ public class AccountsCollection implements
     return user;
   }
 
-  private IdentifiedUser _parse(String id) throws AuthException, OrmException {
+   public IdentifiedUser _parse(String id) throws AuthException, OrmException {
     CurrentUser user = self.get();
 
     if (id.equals("self")) {

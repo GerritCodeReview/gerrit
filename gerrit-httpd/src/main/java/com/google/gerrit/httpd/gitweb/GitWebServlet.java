@@ -32,7 +32,6 @@ package com.google.gerrit.httpd.gitweb;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.GitWebConfig;
-import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -140,7 +139,10 @@ class GitWebServlet extends HttpServlet {
 
   private void makeSiteConfig(final SitePaths site,
       final GerritConfig gerritConfig) throws IOException {
-    final File myconf = GerritLauncher.createTempFile("gitweb_config", ".perl");
+    if (!site.tmp_dir.exists()) {
+      site.tmp_dir.mkdirs();
+    }
+    File myconf = File.createTempFile("gitweb_config", ".perl", site.tmp_dir);
 
     // To make our configuration file only readable or writable by us;
     // this reduces the chances of someone tampering with the file.

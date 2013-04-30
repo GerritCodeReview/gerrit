@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UPsQlXrc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1701,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-04-30T02:20:01Z",
+      "side": 1,
+      "message": "This is a new error message, so it should be added in the documentation.",
+      "revId": "e30a46f857ae226a1d671c6f10e08ee4fff6ba57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

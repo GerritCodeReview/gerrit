@@ -14,8 +14,16 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.pgm.Daemon;
+import com.google.gerrit.pgm.Init;
+import com.google.gerrit.server.config.FactoryModule;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.BrokenBarrierException;
@@ -24,13 +32,6 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.pgm.Daemon;
-import com.google.gerrit.pgm.Init;
-import com.google.gerrit.server.config.FactoryModule;
-import com.google.inject.Injector;
-import com.google.inject.Module;
 
 class GerritServer {
 
@@ -74,8 +75,12 @@ class GerritServer {
   }
 
   private static String initSite() throws Exception {
-    DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-    String path = "target/test_site_" + df.format(new Date());
+    String dt = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    File tmp = File.createTempFile("gerrit_test_" + dt + "_", "_site");
+    String path = tmp.getPath();
+    if (!tmp.delete() || !tmp.mkdir()) {
+      throw new IOException("Cannot create " + path);
+    }
     Init init = new Init();
     int rc = init.main(new String[] {"-d", path, "--batch", "--no-auto-start"});
     if (rc != 0) {

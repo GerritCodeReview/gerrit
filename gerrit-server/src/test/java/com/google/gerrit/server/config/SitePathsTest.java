@@ -21,10 +21,11 @@ import junit.framework.TestCase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SitePathsTest extends TestCase {
-  public void testCreate_NotExisting() throws FileNotFoundException {
+  public void testCreate_NotExisting() throws IOException {
     final File root = random();
     final SitePaths site = new SitePaths(root);
     assertTrue(site.isNew);
@@ -32,7 +33,7 @@ public class SitePathsTest extends TestCase {
     assertEquals(new File(root, "etc"), site.etc_dir);
   }
 
-  public void testCreate_Empty() throws FileNotFoundException {
+  public void testCreate_Empty() throws IOException {
     final File root = random();
     try {
       assertTrue(root.mkdir());
@@ -91,8 +92,12 @@ public class SitePathsTest extends TestCase {
     assertEquals(new File(pfx + "a").getCanonicalFile(), site.resolve(pfx + "a"));
   }
 
-  private File random() {
-    final File t = new File("target");
-    return new File(t, "random-name-" + UUID.randomUUID().toString());
+  private File random() throws IOException {
+    String dt = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    File tmp = File.createTempFile("gerrit_test_" + dt + "_", "_site");
+    if (!tmp.delete()) {
+      throw new IOException("Cannot create " + tmp.getPath());
+    }
+    return tmp;
   }
 }

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "UO6cFyiA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2013-04-30T00:06:44Z",
+      "side": 1,
+      "message": "Yup, just wanted to declare in here that they didn\u0027t. The plan is to get them working subsequently if this is the right direction to go in.",
+      "parentUuid": "UJlwSnWk",
+      "revId": "978289be06976d1f5a9a86703a40ac073dced99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJrwF4SA",
         "filename": "gerrit-doc/pom.xml",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2013-04-30T00:02:25Z",
       "side": 1,
       "message": "2013?",
+      "revId": "978289be06976d1f5a9a86703a40ac073dced99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPAb1ugk",
+        "filename": "gerrit-doc/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2013-04-30T00:06:44Z",
+      "side": 1,
+      "message": "Could well be by now. I just grabbed a copy from elsewhere in the project to boot this up.",
+      "parentUuid": "UJrwF4SA",
       "revId": "978289be06976d1f5a9a86703a40ac073dced99b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -81,6 +117,24 @@
       "writtenOn": "2013-04-30T00:02:25Z",
       "side": 1,
       "message": "Why asciidoc2?",
+      "revId": "978289be06976d1f5a9a86703a40ac073dced99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPCb6Nvs",
+        "filename": "gerrit-doc/src/main/asciidoc2/asciidoc.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2013-04-30T00:06:44Z",
+      "side": 1,
+      "message": "This is a placeholder for the files that I couldn\u0027t figure out how or why should be consumed by the asciidoctor maven plugin. This directory should not exist once released, but there are placeholders for the Makefile and GEN-VERSION scripts (as well as the asciidoc.conf file) until I can figure out how or why they\u0027re used.\n\nThe final version shouldn\u0027t have these files, or if they are needed, should be moved elsewhere.",
+      "parentUuid": "UPmQXylg",
       "revId": "978289be06976d1f5a9a86703a40ac073dced99b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

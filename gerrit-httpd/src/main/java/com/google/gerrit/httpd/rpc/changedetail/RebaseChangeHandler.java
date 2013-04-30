@@ -62,7 +62,7 @@ class RebaseChangeHandler extends Handler<ChangeDetail> {
       EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, NoSuchProjectException {
-    rebaseChange.rebase(patchSetId, currentUser.getAccountId());
+    rebaseChange.rebase(patchSetId, currentUser);
     return changeDetailFactory.create(patchSetId.getParentKey()).call();
   }
 }

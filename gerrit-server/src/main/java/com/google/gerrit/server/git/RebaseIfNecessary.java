@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.PathConflictException;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -73,10 +74,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
         } else {
           try {
+            final IdentifiedUser submitter =
+                args.identifiedUserFactory.create(args.mergeUtil.getSubmitter(
+                    n.patchsetId).getAccountId());
             final PatchSet newPatchSet =
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
-                    n.patchsetId, n.change,
-                    args.mergeUtil.getSubmitter(n.patchsetId).getAccountId(),
+                    n.patchsetId, n.change, submitter,
                     newMergeTip, args.mergeUtil);
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {

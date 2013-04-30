@@ -56,10 +56,12 @@ public class ChangeControl {
 
   public static class GenericFactory {
     private final ProjectControl.GenericFactory projectControl;
+    private final Provider<ReviewDb> db;
 
     @Inject
-    GenericFactory(ProjectControl.GenericFactory p) {
+    GenericFactory(ProjectControl.GenericFactory p, Provider<ReviewDb> d) {
       projectControl = p;
+      db = d;
     }
 
     public ChangeControl controlFor(Change change, CurrentUser user)
@@ -70,6 +72,29 @@ public class ChangeControl {
       } catch (NoSuchProjectException e) {
         throw new NoSuchChangeException(change.getId(), e);
       }
+    }
+
+    public ChangeControl controlFor(Change.Id id, CurrentUser user)
+        throws NoSuchChangeException {
+      final Change change;
+      try {
+        change = db.get().changes().get(id);
+        if (change == null) {
+          throw new NoSuchChangeException(id);
+        }
+      } catch (OrmException e) {
+        throw new NoSuchChangeException(id, e);
+      }
+      return controlFor(change, user);
+    }
+
+    public ChangeControl validateFor(Change.Id id, CurrentUser user)
+        throws NoSuchChangeException, OrmException {
+      ChangeControl c = controlFor(id, user);
+      if (!c.isVisible(db.get())) {
+        throw new NoSuchChangeException(c.getChange().getId());
+      }
+      return c;
     }
   }
 

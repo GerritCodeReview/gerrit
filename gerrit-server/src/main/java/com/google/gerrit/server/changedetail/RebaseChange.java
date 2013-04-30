@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -64,7 +65,7 @@ import java.util.List;
 import java.util.Set;
 
 public class RebaseChange {
-  private final ChangeControl.Factory changeControlFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
@@ -76,7 +77,7 @@ public class RebaseChange {
   private final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
-  RebaseChange(final ChangeControl.Factory changeControlFactory,
+  RebaseChange(final ChangeControl.GenericFactory changeControlFactory,
       final PatchSetInfoFactory patchSetInfoFactory, final ReviewDb db,
       @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager,
@@ -122,12 +123,12 @@ public class RebaseChange {
    * @throws IOException thrown if rebase is not possible or not needed
    * @throws InvalidChangeOperationException thrown if rebase is not allowed
    */
-  public void rebase(final PatchSet.Id patchSetId, final Account.Id uploader)
+  public void rebase(final PatchSet.Id patchSetId, final IdentifiedUser uploader)
       throws NoSuchChangeException, EmailException, OrmException, IOException,
       InvalidChangeOperationException {
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl changeControl =
-        changeControlFactory.validateFor(changeId);
+        changeControlFactory.validateFor(changeId, uploader);
     if (!changeControl.canRebase()) {
       throw new InvalidChangeOperationException(
           "Cannot rebase: New patch sets are not allowed to be added to change: "
@@ -166,7 +167,7 @@ public class RebaseChange {
       }
       final ReplacePatchSetSender cm =
           rebasedPatchSetSenderFactory.create(change);
-      cm.setFrom(uploader);
+      cm.setFrom(uploader.getAccountId());
       cm.setPatchSet(newPatchSet);
       cm.addReviewers(oldReviewers);
       cm.addExtraCC(oldCC);
@@ -304,7 +305,7 @@ public class RebaseChange {
    */
   public PatchSet rebase(final Repository git, final RevWalk revWalk,
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
-      final Change chg, final Account.Id uploader, final RevCommit baseCommit,
+      final Change chg, final IdentifiedUser uploader, final RevCommit baseCommit,
       final MergeUtil mergeUtil) throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
@@ -321,7 +322,7 @@ public class RebaseChange {
     PatchSet.Id id = ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
     final PatchSet newPatchSet = new PatchSet(id);
     newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-    newPatchSet.setUploader(uploader);
+    newPatchSet.setUploader(uploader.getAccountId());
     newPatchSet.setRevision(new RevId(rebasedCommit.name()));
     newPatchSet.setDraft(originalPatchSet.isDraft());
 
@@ -377,14 +378,14 @@ public class RebaseChange {
             "Change %s was modified", change.getId()));
       }
 
-      final LabelTypes labelTypes = changeControlFactory.controlFor(change)
+      final LabelTypes labelTypes = changeControlFactory.controlFor(change, uploader)
           .getLabelTypes();
       approvalsUtil.copyVetosToPatchSet(db, labelTypes,
           change.currentPatchSetId());
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(db)), uploader, patchSetId);
+              ChangeUtil.messageUUID(db)), uploader.getAccountId(), patchSetId);
       cmsg.setMessage("Patch Set " + change.currentPatchSetId().get()
           + ": Patch Set " + patchSetId.get() + " was rebased");
       db.changeMessages().insert(Collections.singleton(cmsg));

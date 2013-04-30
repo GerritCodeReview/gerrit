@@ -52,16 +52,23 @@ package com.google.gerrit.server.tools.hooks;
 
 import static org.junit.Assert.fail;
 
+import com.google.common.io.ByteStreams;
+
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.After;
 import org.junit.Before;
 
 import java.io.File;
-import java.net.URISyntaxException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
   protected Repository repository;
+  private File hooksh;
 
   @Override
   @Before
@@ -70,22 +77,48 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
     repository = createWorkRepository();
   }
 
-  protected File getHook(final String name) {
+  @Override
+  @After
+  public void tearDown() throws Exception {
+    if (hooksh != null) {
+      if (!hooksh.delete()) {
+        hooksh.deleteOnExit();
+      }
+      hooksh = null;
+    }
+  }
+
+  protected File getHook(final String name) throws IOException {
     final String scproot = "com/google/gerrit/server/tools/root";
     final String path = scproot + "/hooks/" + name;
-    final URL url = cl().getResource(path);
+    URL url = cl().getResource(path);
     if (url == null) {
       fail("Cannot locate " + path + " in CLASSPATH");
     }
 
     File hook;
-    try {
-      hook = new File(url.toURI());
-    } catch (URISyntaxException e) {
+    if ("file".equals(url.getProtocol())) {
       hook = new File(url.getPath());
-    }
-    if (!hook.isFile()) {
-      fail("Cannot locate " + path + " in CLASSPATH");
+      if (!hook.isFile()) {
+        fail("Cannot locate " + path + " in CLASSPATH");
+      }
+    } else if ("jar".equals(url.getProtocol())) {
+      hooksh = File.createTempFile("hook", "sh");
+      InputStream in = url.openStream();
+      try {
+        FileOutputStream out = new FileOutputStream(hooksh);
+        try {
+          ByteStreams.copy(in, out);
+        } finally {
+          out.close();
+        }
+      } finally {
+        in.close();
+      }
+      hook = hooksh;
+    } else {
+      fail("Cannot invoke " + url);
+      hook = null;
     }
 
     // The hook was copied out of our source control system into the

@@ -15,27 +15,35 @@
 package com.google.gerrit.acceptance;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.IOException;
 
 public class TempFileUtil {
-
-  private static int testCount;
-  private static DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-  private static final File temp = new File(new File("target"), "temp");
-
-  private static String createUniqueTestFolderName() {
-    return "test_" + (df.format(new Date()) + "_" + (testCount++));
+  public static File createTempDirectory() throws IOException {
+    File tmp = File.createTempFile("gerrit_test_", "_site");
+    if (!tmp.delete() || !tmp.mkdir()) {
+      throw new IOException("Cannot create " + tmp.getPath());
+    }
+    return tmp;
   }
 
-  public static File createTempDirectory() {
-    final String name = createUniqueTestFolderName();
-    final File directory = new File(temp, name);
-    if (!directory.mkdirs()) {
-      throw new RuntimeException("failed to create folder '"
-          + directory.getAbsolutePath() + "'");
+  public static void recursivelyDelete(File dir) throws IOException {
+    if (!dir.getPath().equals(dir.getCanonicalPath())) {
+      // Directory symlink reaching outside of temporary space.
+      throw new IOException("Refusing to clear symlink " + dir.getPath());
     }
-    return directory;
+    File[] contents = dir.listFiles();
+    if (contents != null) {
+      for (File d : contents) {
+        if (d.isDirectory()) {
+          recursivelyDelete(d);
+        } else {
+          d.delete();
+        }
+      }
+      dir.delete();
+    }
+  }
+
+  private TempFileUtil() {
   }
 }

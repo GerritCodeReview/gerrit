@@ -77,7 +77,7 @@ public class GitUtil {
     s.exec("gerrit create-project --empty-commit --name \"" + name + "\"");
   }
 
-  public static Git cloneProject(String url) throws GitAPIException {
+  public static Git cloneProject(String url) throws GitAPIException, IOException {
     final File gitDir = TempFileUtil.createTempDirectory();
     final CloneCommand cloneCmd = Git.cloneRepository();
     cloneCmd.setURI(url);

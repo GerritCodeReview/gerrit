@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJlw5Pd8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-04-30T16:44:26Z",
+      "side": 1,
+      "message": "This change is not very invasive and fine as such, but note that LabelTypes aren\u0027t actually user-dependent (i.e. they don\u0027t contain any permission info, just the whole defined range).\n\nIn other places where there is really no user available, we instead inject a ProjetCache and call getLabelTypes() on the ProjectState, which is what {Change,Project}Control.getProjectTypes() delegates to anyway.\n\nIn this case that may or may not end up being cleaner, since this class needs the ChangeControl factory elsewhere anyway.",
+      "revId": "57c6bcd73108dcd28225d3224a6b2f267d65a94d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -747,7 +747,6 @@ Suggested access rights to grant:
 * xref:category_push_merge[`Push merge commit`] to 'refs/for/refs/heads/*'
 * xref:category_forge_author[`Forge Author Identity`] to 'refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Label: Code-Review`] with range '-2' to '+2' for 'refs/heads/*'
-* link:config-labels.html#label_Verified[`Label: Verify`] with range '-1' to '+1' for 'refs/heads/*'
 * xref:category_submit[`Submit`]
 
 If the project is small or the developers are seasoned it might make
@@ -800,7 +799,6 @@ Suggested access rights to grant, that won't block changes:
 
 * xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
 * link:config-labels.html#label_Code-Review[`Label: Code-Review`] with range '-1' to '0' for 'refs/heads/*'
-* link:config-labels.html#label_Verified[`Label: Verify`] with range '0' to '+1' for 'refs/heads/*'
 
 Optional access rights to grant:
 
@@ -993,7 +991,6 @@ Conversion table from 2.1.x series to 2.2.x series
 |=================================================================================
 |Gerrit 2.1.x                 |Gerrit 2.2.x
 |Code review                  |link:config-labels.html#label_Code-Review[Label: Code-Review]
-|Verify                       |link:config-labels.html#label_Verified[Label: Verify]
 |Forge Identity +1            |Forge <<category_forge_author,author>> identity
 |Forge Identity +2            |Forge <<category_forge_committer,committer>> & <<category_forge_author,author>> identity
 |Forge Identity +3            |Forge <<category_forge_server,server>> & <<category_forge_committer,committer>> & <<category_forge_author,author>> identity

@@ -50,8 +50,10 @@
 
 package com.google.gerrit.server.tools.hooks;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
@@ -63,11 +65,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Map;
 
 public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
   protected Repository repository;
-  private File hooksh;
+  private final Map<String, File> hooks = Maps.newTreeMap();
 
   @Override
   @Before
@@ -79,15 +84,21 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
   @Override
   @After
   public void tearDown() throws Exception {
-    if (hooksh != null) {
-      if (!hooksh.delete()) {
-        hooksh.deleteOnExit();
+    super.tearDown();
+    for (File p : hooks.values()) {
+      if (!p.delete()) {
+        p.deleteOnExit();
       }
-      hooksh = null;
     }
+    hooks.clear();
   }
 
   protected File getHook(final String name) throws IOException {
+    File hook = hooks.get(name);
+    if (hook != null) {
+      return hook;
+    }
+
     final String scproot = "com/google/gerrit/server/tools/root";
     final String path = scproot + "/hooks/" + name;
     URL url = cl().getResource(path);
@@ -95,17 +106,22 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
       fail("Cannot locate " + path + " in CLASSPATH");
     }
 
-    File hook;
     if ("file".equals(url.getProtocol())) {
       hook = new File(url.getPath());
       if (!hook.isFile()) {
         fail("Cannot locate " + path + " in CLASSPATH");
       }
+      long time = hook.lastModified();
+      hook.setExecutable(true);
+      hook.setLastModified(time);
+      hooks.put(name, hook);
+      return hook;
     } else if ("jar".equals(url.getProtocol())) {
-      hooksh = File.createTempFile("hook_", ".sh");
+      hook = File.createTempFile("hook_", ".sh", tmp(url.getPath()));
       InputStream in = url.openStream();
       try {
-        FileOutputStream out = new FileOutputStream(hooksh);
+        hooks.put(name, hook);
+        FileOutputStream out = new FileOutputStream(hook);
         try {
           ByteStreams.copy(in, out);
         } finally {
@@ -114,24 +130,40 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
       } finally {
         in.close();
       }
-      hook = hooksh;
+      hook.setExecutable(true);
+      return hook;
     } else {
       fail("Cannot invoke " + url);
-      hook = null;
+      return null;
     }
-
-    // The hook was copied out of our source control system into the
-    // target area by Java tools. Its not executable in the source
-    // are, nor did the copying Java program make it executable in the
-    // destination area. So we must force it to be executable.
-    //
-    final long time = hook.lastModified();
-    hook.setExecutable(true);
-    hook.setLastModified(time);
-    return hook;
   }
 
-  private ClassLoader cl() {
+  private static File tmp(String path) {
+    int bang = path.indexOf('!');
+    assertTrue(path + " starts with file:", path.startsWith("file:"));
+    assertTrue(path + " contains !", 0 < bang);
+
+    File jar;
+    try {
+      jar = new File(new URI(path.substring(0, bang)));
+    } catch (URISyntaxException e) {
+      throw new RuntimeException("cannot locate build directory", e);
+    }
+    File dir = jar.getParentFile();
+    while (dir != null) {
+      String n = dir.getName();
+      if ("buck-out".equals(n) || "target".equals(n)) {
+        File tmp = new File(dir, "tmp");
+        tmp.mkdir();
+        return tmp;
+      }
+      dir = dir.getParentFile();
+    }
+    fail("cannot locate tmp for test");
+    return null;
+  }
+
+  private static ClassLoader cl() {
     return HookTestCase.class.getClassLoader();
   }
 }

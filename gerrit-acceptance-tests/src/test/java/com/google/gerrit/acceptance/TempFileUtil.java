@@ -14,28 +14,80 @@
 
 package com.google.gerrit.acceptance;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class TempFileUtil {
-
-  private static int testCount;
-  private static DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-  private static final File temp = new File(new File("target"), "temp");
-
-  private static String createUniqueTestFolderName() {
-    return "test_" + (df.format(new Date()) + "_" + (testCount++));
+  public static File createTempDirectory() throws IOException {
+    File tmp = File.createTempFile("site_", "", tmp());
+    if (!tmp.delete() || !tmp.mkdir()) {
+      throw new IOException("Cannot create " + tmp.getPath());
+    }
+    return tmp;
   }
 
-  public static File createTempDirectory() {
-    final String name = createUniqueTestFolderName();
-    final File directory = new File(temp, name);
-    if (!directory.mkdirs()) {
-      throw new RuntimeException("failed to create folder '"
-          + directory.getAbsolutePath() + "'");
+  public static void recursivelyDelete(File dir) throws IOException {
+    if (!dir.getPath().equals(dir.getCanonicalPath())) {
+      // Directory symlink reaching outside of temporary space.
+      throw new IOException("Refusing to clear symlink " + dir.getPath());
     }
-    return directory;
+    File[] contents = dir.listFiles();
+    if (contents != null) {
+      for (File d : contents) {
+        if (d.isDirectory()) {
+          recursivelyDelete(d);
+        } else {
+          d.delete();
+        }
+      }
+      dir.delete();
+    }
+  }
+
+  private static File tmp() {
+    URL url = TempFileUtil.class.getResource("TempFileUtil.class");
+    if (url == null) {
+      fail("cannot locate build directory");
+    }
+
+    File clazz;
+    if ("file".equals(url.getProtocol())) {
+      clazz = new File(url.getPath());
+    } else if ("jar".equals(url.getProtocol())) {
+      String path = url.getPath();
+      int bang = path.indexOf('!');
+      assertTrue(path + " starts with file:", path.startsWith("file:"));
+      assertTrue(path + " contains !", 0 < bang);
+      try {
+        clazz = new File(new URI(path.substring(0, bang)));
+      } catch (URISyntaxException e) {
+        throw new RuntimeException("cannot locate build directory", e);
+      }
+    } else {
+      fail("cannot locate build directory");
+      return null;
+    }
+
+    File dir = clazz.getParentFile();
+    while (dir != null) {
+      String n = dir.getName();
+      if ("buck-out".equals(n) || "target".equals(n)) {
+        File tmp = new File(dir, "tmp");
+        tmp.mkdir();
+        return tmp;
+      }
+      dir = dir.getParentFile();
+    }
+    fail("cannot locate tmp for test");
+    return null;
+  }
+
+  private TempFileUtil() {
   }
 }

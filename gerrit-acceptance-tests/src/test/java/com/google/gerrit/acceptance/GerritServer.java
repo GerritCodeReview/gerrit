@@ -14,17 +14,6 @@
 
 package com.google.gerrit.acceptance;
 
-import java.lang.reflect.Field;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
@@ -32,15 +21,21 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 class GerritServer {
 
   /** Returns fully started Gerrit server */
   static GerritServer start() throws Exception {
-
-    final String sitePath = initSite();
-
+    final File site = initSite();
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
-
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
         try {
@@ -56,10 +51,10 @@ class GerritServer {
     ExecutorService daemonService = Executors.newSingleThreadExecutor();
     daemonService.submit(new Callable<Void>() {
       public Void call() throws Exception {
-        int rc = daemon.main(new String[] {"-d", sitePath, "--headless" });
+        int rc = daemon.main(new String[] {"-d", site.getPath(), "--headless" });
         if (rc != 0) {
           System.out.println("Failed to start Gerrit daemon. Check "
-              + sitePath + "/logs/error_log");
+              + site.getPath() + "/logs/error_log");
           serverStarted.reset();
         }
         return null;
@@ -70,18 +65,18 @@ class GerritServer {
     System.out.println("Gerrit Server Started");
 
     Injector i = createTestInjector(daemon);
-    return new GerritServer(i, daemon, daemonService);
+    return new GerritServer(site, i, daemon, daemonService);
   }
 
-  private static String initSite() throws Exception {
-    DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-    String path = "target/test_site_" + df.format(new Date());
+  private static File initSite() throws Exception {
+    File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
-    int rc = init.main(new String[] {"-d", path, "--batch", "--no-auto-start"});
+    int rc = init.main(new String[] {
+        "-d", tmp.getPath(), "--batch", "--no-auto-start"});
     if (rc != 0) {
       throw new RuntimeException("Couldn't initialize site");
     }
-    return path;
+    return tmp;
   }
 
   private static Injector createTestInjector(Daemon daemon) throws Exception {
@@ -103,12 +98,14 @@ class GerritServer {
     return (T) f.get(obj);
   }
 
+  private File sitePath;
   private Daemon daemon;
   private ExecutorService daemonService;
   private Injector testInjector;
 
-  private GerritServer(Injector testInjector,
+  private GerritServer(File sitePath, Injector testInjector,
       Daemon daemon, ExecutorService daemonService) {
+    this.sitePath = sitePath;
     this.testInjector = testInjector;
     this.daemon = daemon;
     this.daemonService = daemonService;
@@ -124,5 +121,6 @@ class GerritServer {
     manager.stop();
     daemonService.shutdownNow();
     daemonService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
+    TempFileUtil.recursivelyDelete(sitePath);
   }
 }

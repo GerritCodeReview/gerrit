@@ -27,12 +27,14 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# This script is designed to detect when a patchset uploaded to Gerrit is
-# 'identical' (determined via git-patch-id) and reapply reviews onto the new
-# patchset from the previous patchset.
+""" This script is designed to detect when a patchset uploaded to Gerrit is
+'identical' (determined via git-patch-id) and reapply reviews onto the new
+patchset from the previous patchset.
 
-# Get usage and help info by running: ./trivial_rebase.py --help
-# Documentation is available here: https://www.codeaurora.org/xwiki/bin/QAEP/Gerrit
+Get usage and help info by running: ./trivial_rebase.py --help
+Documentation is available here: https://www.codeaurora.org/xwiki/bin/QAEP/Gerrit
+
+"""
 
 import argparse
 import json
@@ -88,6 +90,7 @@ class TrivialRebase:
     """Like subprocess.check_call() but returns stdout.
 
     Works on python 2.4
+
     """
     try:
       process = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -99,7 +102,7 @@ class TrivialRebase:
     return std_out, std_err
 
   def GsqlQuery(self, sql_query):
-    """Runs a gerrit gsql query and returns the result"""
+    """Run a gerrit gsql query and return the result."""
     gsql_cmd = [self.ssh, self.ssh_port_flag, self.port, self.server, 'gerrit', 'gsql',
                 '--format', 'JSON', '-c', sql_query]
     try:
@@ -113,7 +116,7 @@ class TrivialRebase:
     return new_out.split('split here\n')
 
   def FindPrevRev(self):
-    """Finds the revision of the previous patch set on the change"""
+    """Find the revision of the previous patch set on the change."""
     sql_query = ("\"SELECT revision FROM patch_sets WHERE "
                  "change_id = %s AND patch_set_id = %s\"" %
                  (self.changeId, (self.patchset - 1)))
@@ -123,9 +126,11 @@ class TrivialRebase:
     return json_dict["columns"]["revision"]
 
   def GetApprovals(self):
-    """Get all the approvals on a specific patch set
+    """Get all the approvals on a specific patch set.
 
-    Returns a list of approval dicts"""
+    Returns a list of approval dicts.
+
+    """
     sql_query = ("\"SELECT value,account_id,category_id FROM patch_set_approvals "
                  "WHERE change_id = %s AND patch_set_id = %s AND value != 0\""
                  % (self.changeId, (self.patchset - 1)))
@@ -145,7 +150,7 @@ class TrivialRebase:
     self.acct_approvals[account_id] = newval
 
   def GetEmailFromAcctId(self, account_id):
-    """Returns the preferred email address associated with the account_id"""
+    """Return the preferred email address associated with the account_id."""
     sql_query = ("\"SELECT preferred_email FROM accounts WHERE account_id = %s\""
                  % account_id)
     email_addr = self.GsqlQuery(sql_query)

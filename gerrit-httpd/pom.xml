@@ -66,12 +66,6 @@ limitations under the License.
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-launcher</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-server</artifactId>
       <version>${project.version}</version>
     </dependency>

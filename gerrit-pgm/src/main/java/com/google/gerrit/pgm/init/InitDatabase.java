@@ -33,7 +33,6 @@ import com.google.inject.name.Names;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 /** Initialize the {@code database} configuration section. */
 @Singleton

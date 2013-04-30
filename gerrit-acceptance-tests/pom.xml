@@ -126,6 +126,9 @@ limitations under the License.
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>2.5</version>
+            <configuration>
+              <argLine>-Djava.io.tmpdir=${project.build.directory}</argLine>
+            </configuration>
             <executions>
               <execution>
                 <id>integration-test</id>

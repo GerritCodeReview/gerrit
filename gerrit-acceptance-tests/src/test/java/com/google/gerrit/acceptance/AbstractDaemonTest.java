@@ -24,7 +24,7 @@ public abstract class AbstractDaemonTest {
 
   @Before
   public final void beforeTest() throws Exception {
-    server = GerritServer.start();
+    server = GerritServer.start(getClass(), getName());
     server.getTestInjector().injectMembers(this);
   }
 

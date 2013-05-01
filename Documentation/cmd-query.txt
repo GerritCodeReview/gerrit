@@ -28,7 +28,9 @@ DESCRIPTION
 Queries the change database and returns results describing changes
 that match the input query.  More recently updated changes appear
 before older changes, which is the same order presented in the
-web interface.
+web interface.  For each matching change, the result contains data
+for the change's latest patch set, even if the query matched on an
+older patch set (for example an older patch set's sha1 revision).
 
 A query may be limited on the number of results it returns with the
 'limit:' operator.  If no limit is supplied an internal default
@@ -41,7 +43,7 @@ Non-option arguments to this command are joined with spaces and
 then parsed as a query. This simplifies calling conventions over
 SSH by permitting operators to appear in different arguments.
 
-Query operators may quote values using matched curly braches
+Query operators may quote values using matched curly braces
 (e.g. `reviewerin:{Developer Group}`) to sidestep issues with 2
 levels of shell quoting (caller shell invoking SSH, and the SSH
 command line parser in the server).
@@ -49,8 +51,9 @@ command line parser in the server).
 OPTIONS
 -------
 --format::
-	Formatting method for the results. TEXT is the default,
-	presenting a human readable display. JSON creates one line
+	Formatting method for the results. `TEXT` is the default,
+	presenting a human readable display. `JSON` returns
+	link:json.html#change[change attributes], one line
 	per matching record, with embedded LFs escaped.
 
 --current-patch-set::

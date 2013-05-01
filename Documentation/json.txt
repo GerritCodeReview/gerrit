@@ -28,7 +28,8 @@ owner:: Owner in <<account,account attribute>>.
 
 url:: Canonical URL to reach this change.
 
-commitMessage:: The full commit message for the change.
+commitMessage:: The full commit message for the change's current patch
+set.
 
 createdOn:: Time in seconds since the UNIX epoch when this change
 was created.

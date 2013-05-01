@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UPsRTHh8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-01T01:44:25Z",
+      "side": 1,
+      "message": "As far as I can see the \"Required\" part of the help text is manually added in the cmd-*.txt files; it is not affected by `required` being set in the annotation.\n\n $ grep Required *.txt\n cmd-ban-commit.txt:\tRequired; name of the project for which the commit should be\n cmd-ban-commit.txt:\tRequired; commit(s) that should be banned.\n cmd-create-account.txt:\tRequired; SSH username of the user account.\n cmd-create-group.txt:\tRequired; name of the new group.\n cmd-create-project.txt:\tRequired; name of the new project to create.  If name ends\n cmd-rename-group.txt:\tRequired; name of the group to be renamed.\n cmd-rename-group.txt:\tRequired; new name of the group.\n cmd-set-account.txt:    Required; Full name, email-address, SSH username or account id.\n cmd-set-project.txt:    Required; name of the project to edit.  If name ends",
+      "revId": "5e4d0e2701786a76b13716330ff79aefa7558efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

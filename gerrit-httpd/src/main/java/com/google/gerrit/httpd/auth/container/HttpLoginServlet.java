@@ -121,7 +121,11 @@ class HttpLoginServlet extends HttpServlet {
     }
 
     final StringBuilder rdr = new StringBuilder();
-    rdr.append(urlProvider.get());
+    String url = urlProvider == null ? null : urlProvider.get();
+    if (url == null) {
+      url = guessCanonicalUrl(req);
+    }
+    rdr.append(url);
     rdr.append('#');
     if (arsp.isNew() && !token.startsWith(PageLinks.REGISTER + "/")) {
       rdr.append(PageLinks.REGISTER);
@@ -163,5 +167,23 @@ class HttpLoginServlet extends HttpServlet {
       token = "/" + token;
     }
     return token;
+  }
+
+  private String guessCanonicalUrl(HttpServletRequest request) {
+    StringBuilder canonicalUrl = new StringBuilder();
+    String scheme = request.getScheme();
+    canonicalUrl.append(scheme);
+    canonicalUrl.append("://");
+    canonicalUrl.append(request.getServerName());
+    int port = request.getServerPort();
+    if((port == 80 && "http".equals(scheme)) ||
+      (port == 443 && "https".equals(scheme))) {
+      // don't add the port
+    } else {
+      canonicalUrl.append(':');
+      canonicalUrl.append(port);
+    }
+    canonicalUrl.append(request.getContextPath());
+    return canonicalUrl.toString();
   }
 }

@@ -68,10 +68,6 @@ class LdapLoginServlet extends HttpServlet {
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.sitePaths = sitePaths;
-
-    if (Strings.isNullOrEmpty(urlProvider.get())) {
-      log.error("gerrit.canonicalWebUrl must be set in gerrit.config");
-    }
   }
 
   private void sendForm(HttpServletRequest req, HttpServletResponse res,
@@ -191,7 +187,11 @@ class LdapLoginServlet extends HttpServlet {
 
     String token = getToken(req);
     StringBuilder dest = new StringBuilder();
-    dest.append(urlProvider.get());
+    String url = urlProvider == null ? null : urlProvider.get();
+    if (url == null) {
+      url = guessCanonicalUrl(req);
+    }
+    dest.append(url);
     dest.append('#');
     dest.append(token);
 
@@ -208,5 +208,23 @@ class LdapLoginServlet extends HttpServlet {
       token = "/" + token;
     }
     return token;
+  }
+
+  private String guessCanonicalUrl(HttpServletRequest request) {
+    StringBuilder canonicalUrl = new StringBuilder();
+    String scheme = request.getScheme();
+    canonicalUrl.append(scheme);
+    canonicalUrl.append("://");
+    canonicalUrl.append(request.getServerName());
+    int port = request.getServerPort();
+    if((port == 80 && "http".equals(scheme)) ||
+      (port == 443 && "https".equals(scheme))) {
+      // don't add the port
+    } else {
+      canonicalUrl.append(':');
+      canonicalUrl.append(port);
+    }
+    canonicalUrl.append(request.getContextPath());
+    return canonicalUrl.toString();
   }
 }

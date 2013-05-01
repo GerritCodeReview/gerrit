@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJjxI8XI",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-01T00:18:27Z",
+      "side": 1,
+      "message": "Add backticks, i.e.\n\n `memoryLimit`",
+      "revId": "a080515d78d638dad9e0f8827bb21443f4dcd8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPqQzgvg",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-01T00:18:27Z",
+      "side": 1,
+      "message": "\"the number of projects for which all changes will be cached\"",
+      "revId": "a080515d78d638dad9e0f8827bb21443f4dcd8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPkRgjuE",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-01T00:18:27Z",
+      "side": 1,
+      "message": "s/size/value",
+      "revId": "a080515d78d638dad9e0f8827bb21443f4dcd8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

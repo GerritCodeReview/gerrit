@@ -49,7 +49,7 @@ public class ListMembers implements RestReadView<GroupResource> {
   private boolean recursive;
 
   @Inject
-  ListMembers(GroupCache groupCache,
+  protected ListMembers(GroupCache groupCache,
       GroupDetailFactory.Factory groupDetailFactory,
       AccountInfo.Loader.Factory accountLoaderFactory) {
     this.groupCache = groupCache;
@@ -63,8 +63,19 @@ public class ListMembers implements RestReadView<GroupResource> {
     if (resource.toAccountGroup() == null) {
       throw new MethodNotAllowedException();
     }
+
+    return apply(resource.getGroupUUID());
+  }
+
+  public List<AccountInfo> apply(AccountGroup group)
+      throws MethodNotAllowedException, OrmException {
+    return apply(group.getGroupUUID());
+  }
+
+  public List<AccountInfo> apply(AccountGroup.UUID groupId)
+      throws MethodNotAllowedException, OrmException {
     final Map<Account.Id, AccountInfo> members =
-        getMembers(resource.getGroupUUID(), new HashSet<AccountGroup.UUID>());
+        getMembers(groupId, new HashSet<AccountGroup.UUID>());
     final List<AccountInfo> memberInfos = Lists.newArrayList(members.values());
     Collections.sort(memberInfos, new Comparator<AccountInfo>() {
       @Override

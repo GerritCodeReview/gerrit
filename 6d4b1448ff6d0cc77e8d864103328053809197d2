@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UO2c.8so",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2013-05-01T10:44:24Z",
+      "side": 1,
+      "message": "You might want to set -extra and -deploy to the same folder to avoid duplicate files. Or maybe simply not set -extra as it slows down the compilation.",
+      "revId": "6d4b1448ff6d0cc77e8d864103328053809197d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPKYc5nY",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2013-05-01T10:44:24Z",
+      "side": 1,
+      "message": "You should probably also use \u0027-Dgwt.persistentunitcachedir\u003d\u0027 + TMP + \u0027unitCache\u0027. GWT tries to provide a sensible default (based on -war) but I prefer setting it explicitly.\n\nHere you\u0027re using TMP\u003denviron[\u0027TMP\u0027] but you might want to set -Djava.io.tmpdir anyway (again, let\u0027s be explicit).",
+      "revId": "6d4b1448ff6d0cc77e8d864103328053809197d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPIYfams",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2013-05-01T10:44:24Z",
+      "side": 1,
+      "message": "Did you know you can actually ask the compiler to directly emit in a jar/zip/war rather than a folder? Indeed, outputting to a directory makes \"debugging\" easier and gives flexibility on the compression options; however, with -Dgwt.normalizeTimestamps it produces a zip where all modified dates are set to 0 (so the zip is independent from the date the files were output, only dependent on their content); something I don\u0027t think you can do with the \u0027zip\u0027 program.",
+      "revId": "6d4b1448ff6d0cc77e8d864103328053809197d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

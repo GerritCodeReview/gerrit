@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJjxfkSg",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-01T04:50:00Z",
+      "side": 0,
+      "message": "We want to leave this block in here so admins can create the label if they want it.",
+      "revId": "92817e8784d44be8949db300b7ecb29389e8c7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

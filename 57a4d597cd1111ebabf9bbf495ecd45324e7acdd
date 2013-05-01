@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UJjyesas",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-01T18:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPGY.7so",
+      "revId": "57a4d597cd1111ebabf9bbf495ecd45324e7acdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UO0dgjuE",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "UPsSiPuY",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-01T18:56:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UO0dgjuE",
+      "revId": "57a4d597cd1111ebabf9bbf495ecd45324e7acdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPCZI9nI",
         "filename": "lib/openid/BUCK",
         "patchSetId": 11
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-01T18:51:55Z",
       "side": 1,
       "message": "Only \"org.openid4java:openid4java-nodeps:jar:0.9.6\" is needed here (i mentioned it during my work on buildr migration). In fact removing :http-client, :nekohtml, :commons-logging and //lib/guice:guice\n\n buck build :gerrit\n\nstill works",
+      "revId": "57a4d597cd1111ebabf9bbf495ecd45324e7acdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJtyiLeY",
+        "filename": "lib/openid/BUCK",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-01T18:56:57Z",
+      "side": 1,
+      "message": "Yes it compiles. But can you login with a Google or Yahoo  OpenID account?",
+      "parentUuid": "UPCZI9nI",
       "revId": "57a4d597cd1111ebabf9bbf495ecd45324e7acdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

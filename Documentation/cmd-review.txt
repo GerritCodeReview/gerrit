@@ -11,7 +11,6 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit review'
   [--project <PROJECT> | -p <PROJECT>]
   [--message <MESSAGE> | -m <MESSAGE>]
-  [--force-message]
   [--submit | -s]
   [--abandon | --restore]
   [--publish]
@@ -50,22 +49,6 @@ OPTIONS
 -m::
 	Optional cover letter to include as part of the message
 	sent to reviewers when the approval states are updated.
-
---force-message::
-	Option which allows Gerrit to publish the --message, even
-	when the labels could not be applied due to the change being
-	closed.
-+
-Used by some scripts/CI-systems, where the results (or links
-to the result) are posted as a message after completion of a
-build (often together with a label-change, indicating the success
-of the build).
-+
-If the message is posted successfully, the command will return
-successfully, even if the label could not be changed.
-+
-This option will not force the message to be posted if the command
-fails because the user is not permitted to change the label.
 
 --help::
 -h::

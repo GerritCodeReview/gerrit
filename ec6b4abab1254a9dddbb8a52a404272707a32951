@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UJrxKwV4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroupMembersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012599
+      },
+      "writtenOn": "2013-05-01T15:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJvxQSRQ",
+      "revId": "ec6b4abab1254a9dddbb8a52a404272707a32951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPoRNJns",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroupMembersCommand.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-01T09:51:12Z",
       "side": 1,
       "message": "This reveals that the group exists.\n\nIt would be better to combine this with the error at line 84; something like:\n\n Group not found or not visible",
+      "revId": "ec6b4abab1254a9dddbb8a52a404272707a32951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPmSUqos",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroupMembersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012599
+      },
+      "writtenOn": "2013-05-01T15:30:52Z",
+      "side": 1,
+      "message": "Done, wasn\u0027t sure if this was a concern.",
+      "parentUuid": "UPoRNJns",
       "revId": "ec6b4abab1254a9dddbb8a52a404272707a32951",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

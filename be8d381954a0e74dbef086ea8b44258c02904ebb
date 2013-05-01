@@ -1,0 +1,803 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJpyspdo",
+        "filename": "BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "ISTM BUCK files are \"code enough\" to require the Apache license header?",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJrypYck",
+        "filename": "BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Ok this is a little silly but based on style we use in our BUILD files these would be on separate lines.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UQWH69vs",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "I would maybe prefer this as a genasciidoc rule def like we do internally. That takes a list of srcs and has this loop in the def body.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPuSfOqM",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: constants go after imports.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJnx72Yg",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: sort imports by module/package name.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJhxwlaA",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Use graph \u003d collections.defaultdict(list) unless you really care about python 2.4 support.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJjx1UZE",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Optional nit: wrap in a main function.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPoSsRto",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Use collections.deque(MAIN)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPqSpQsk",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "popleft() (only on deque, not list). As it is, you\u0027re using a list as a stack and calling it a queue. (Ok, maybe you don\u0027t even care about ordering here.)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJtyJzWc",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "If graph is a defaultdict you can skip this check and everything should just work (although you may end up with some extra keys in graph).",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPkR2TqI",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Heh. So above graph should actually be\n\n  collections.defaultdict(lambda: collections.defaultdict(set))",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPmR7Sok",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "keys() already returns a copy of the keys as a list. A better way to do these two lines anyway is:\n\n  used \u003d sorted(licenses.iterkeys())",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJvyGCVU",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "sorted(licenses[n])",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPgTn9jE",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "(foo,) is only required if foo is a tuple, and is generally considered so unreadable that unless there\u0027s some confusion about the type, just use foo.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UQcH.Yu0",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "print name",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJpyDRUQ",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Should you want 2.5 support, you need at the top:\n\n  from __future__ import with_statement\n\nShould you want 2.4 support, well, don\u0027t use with.\n\nActually I think you can replace this for loop with shutil.copyfileobj(fd, sys.stdout)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPqSAYjc",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Optional nit: this could go on the same line as excludes",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPkTd7mc",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Extract a constant for these?",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJtzQ7U0",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "No (...,) around MODULE.replace()",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPsTQ-k0",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "antlr_version is unused",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJpzaZWo",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: resources.append(gwtxml)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPoTaBmo",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: (c, c)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJlzE3Yk",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: (name, name)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPkTEDoo",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Let me see if I follow. java_library pulls in all the deps as dependencies, which end up in any resuling java_binary. But the output jar itself (in gen) only contains the classes built from the srcs. We don\u0027t want the compile_deps in the java_binary, so we use this prebuilt rule with a different set of deps. The contents of the original jar get flattened into the binary, along with all deps, but no compile_deps. Got it.\n\nI think this warrants a comment.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJhy.VfA",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: (name, lib)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJjzDEYE",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: type",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPiTDEoE",
+        "filename": "lib/bouncycastle/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "libraries.config in gerrit-pgm specifies 144. In addition to correcting that here, I would probably cross-reference both locations with comments saying they need to be in sync. Or, I dunno, extract the version number with git config? That may be uglier than it\u0027s worth.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPsS3ng8",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Apache license header?",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJvy0yQw",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "According to Google style you should only import modules, not members of modules, but maybe we\u0027re not using Google style, so *shrug*",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPuS0Gg0",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: sort",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJty3jQ8",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: if not b",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJpyxBRw",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "This is basically subprocess.check_call, except that actually raises an error instead of exiting silently (which I think I would prefer anyway).",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPqSuIrc",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Optional: wrap in a main function",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPoSxphs",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "I\u0027d probably add short help strings for these.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UQaH7Xvs",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Apache license header?",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPkQjrn4",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "/unit_cache?",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJryuQbc",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "VERSION",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPgQttmg",
+        "filename": "lib/maven.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "We want this to work with Windows eventually, right? So we should probably not use symlinks if avoidable? Maybe for large jars or deep directory structures the performance benefit is worth it, but for just copying text files around it\u0027s probably fine to use cp...",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPiQyMso",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Apache license header?",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPsQ2vrw",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Use subprocess.check_call",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJlwjfX4",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: drop the 0, just war[:war...]",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPuQzusk",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Optional nit: splitlines() instead of split(\u0027\\n\u0027)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJnwouVk",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Optional nit: splitlines() instead of split(\u0027\\n\u0027)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJhwt9Wg",
+        "filename": "lib/war.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "This doesn\u0027t deal properly with root either starting with / or containing multiple consecutive /s. Is either of those possible?\n\nAlso, nit: s/for c in/for _ in/",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJtw2rbw",
+        "filename": "plugins/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Please explain briefly why this is necessary, namely that buck audit parses *all* BUCK files under the working directory and will fail if the submodules are not tracked.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPoRAxhg",
+        "filename": "plugins/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: (n, n)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJjwyMco",
+        "filename": "plugins/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-01T22:18:10Z",
+      "side": 1,
+      "message": "Nit: (n, n)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

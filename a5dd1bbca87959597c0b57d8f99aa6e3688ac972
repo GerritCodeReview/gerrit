@@ -52,6 +52,24 @@
       "revId": "a5dd1bbca87959597c0b57d8f99aa6e3688ac972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UO4c2huk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-01T15:14:43Z",
+      "side": 1,
+      "message": "Hi Martin,\n\n\u003e The complexity of this patch is already way to big and more than the payoff.\n\nCurrently, we have\n\n  theme.tableOddRowColor\n  theme.tableEvenRowColor\n\nin gerrit documentation. At best, they work counter-intuitive and\nunreliably. That\u0027s a bug to me. So this change\u0027s pay-off is fixing\nthis bug :-)\n\n\u003e I already do have changes (2 years old) up for review that do move\n\u003e sections around, so it isn\u0027t purely hypothetical.\n\nI\u0027d love to rebase my change on top of yours, but I could not find the\npatches you talk about. Are they already uploaded? If not, could you\nplease upload them?\n\n\u003e Not to mention that this issue doesn\u0027t exist if you just don\u0027t use\n\u003e conflicting colors. :)\n\nThe problem would not be solved by simply picking three different\ncolors. :-)\n\nLet\u0027s pick a table header color and two different data row colors. One\nof the two data row colors is better suited to go directly underneath\nthe table header. We want to use that color for odd data rows.\n\nHow could we achieve this?\nWithout this (or some other) patch, we cannot.\n\n(Our case is just the extreme variant of the above problem, as table\ncolor \u003d\u003d one of the two data row colors. But the problem stays the\nsame if we chose different colors)",
+      "parentUuid": "TlA4Hqyc",
+      "revId": "a5dd1bbca87959597c0b57d8f99aa6e3688ac972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

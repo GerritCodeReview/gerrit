@@ -60,6 +60,9 @@ link:cmd-ban-commit.html[gerrit ban-commit]::
 link:cmd-ls-groups.html[gerrit ls-groups]::
 	List groups visible to the caller.
 
+link:cmd-ls-group-members.html[gerrit ls-group-members]::
+	List the membership of a group visible to the caller.
+
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 

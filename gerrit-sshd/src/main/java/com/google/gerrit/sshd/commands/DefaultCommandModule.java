@@ -39,6 +39,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, BanCommitCommand.class);
     command(gerrit, FlushCaches.class);
     command(gerrit, ListProjectsCommand.class);
+    command(gerrit, ListGroupMembersCommand.class);
     command(gerrit, ListGroupsCommand.class);
     command(gerrit, LsUserRefs.class);
     command(gerrit, Query.class);

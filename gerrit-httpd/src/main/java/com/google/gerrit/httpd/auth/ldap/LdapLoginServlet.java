@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.auth.ldap;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
@@ -26,7 +27,7 @@ import com.google.gerrit.server.account.AccountUserNameException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -55,28 +56,24 @@ class LdapLoginServlet extends HttpServlet {
 
   private final AccountManager accountManager;
   private final Provider<WebSession> webSession;
-  private final Provider<String> urlProvider;
+  private final CanonicalWebUrl urlProvider;
   private final SiteHeaderFooter headers;
 
   @Inject
   LdapLoginServlet(AccountManager accountManager,
       Provider<WebSession> webSession,
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      CanonicalWebUrl urlProvider,
       SiteHeaderFooter headers) {
     this.accountManager = accountManager;
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.headers = headers;
-
-    if (Strings.isNullOrEmpty(urlProvider.get())) {
-      log.error("gerrit.canonicalWebUrl must be set in gerrit.config");
-    }
   }
 
   private void sendForm(HttpServletRequest req, HttpServletResponse res,
       @Nullable String errorMessage) throws IOException {
     String self = req.getRequestURI();
-    String cancel = Objects.firstNonNull(urlProvider.get(), "/");
+    String cancel = Objects.firstNonNull(urlProvider.get(req), "/");
     String token = getToken(req);
     if (!token.equals("/")) {
       cancel += "#" + token;
@@ -146,11 +143,10 @@ class LdapLoginServlet extends HttpServlet {
       return;
     }
 
-    String token = getToken(req);
     StringBuilder dest = new StringBuilder();
-    dest.append(urlProvider.get());
+    dest.append(urlProvider.get(req));
     dest.append('#');
-    dest.append(token);
+    dest.append(getToken(req));
 
     CacheHeaders.setNotCacheable(res);
     webSession.get().login(ares, "1".equals(remember));

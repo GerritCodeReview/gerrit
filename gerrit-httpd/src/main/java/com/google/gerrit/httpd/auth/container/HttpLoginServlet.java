@@ -15,13 +15,13 @@
 package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -57,13 +57,13 @@ class HttpLoginServlet extends HttpServlet {
       LoggerFactory.getLogger(HttpLoginServlet.class);
 
   private final Provider<WebSession> webSession;
-  private final Provider<String> urlProvider;
+  private final CanonicalWebUrl urlProvider;
   private final AccountManager accountManager;
   private final HttpAuthFilter authFilter;
 
   @Inject
   HttpLoginServlet(final Provider<WebSession> webSession,
-      @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
+      final CanonicalWebUrl urlProvider,
       final AccountManager accountManager,
       final HttpAuthFilter authFilter) {
     this.webSession = webSession;
@@ -121,7 +121,7 @@ class HttpLoginServlet extends HttpServlet {
     }
 
     final StringBuilder rdr = new StringBuilder();
-    rdr.append(urlProvider.get());
+    rdr.append(urlProvider.get(req));
     rdr.append('#');
     if (arsp.isNew() && !token.startsWith(PageLinks.REGISTER + "/")) {
       rdr.append(PageLinks.REGISTER);

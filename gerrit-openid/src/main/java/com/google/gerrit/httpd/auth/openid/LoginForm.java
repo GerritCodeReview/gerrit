@@ -157,7 +157,7 @@ class LoginForm extends HttpServlet {
       remember = false;
     }
 
-    DiscoveryResult r = impl.discover(id, mode, remember, token);
+    DiscoveryResult r = impl.discover(req, id, mode, remember, token);
     switch (r.status) {
       case VALID:
         redirect(r, res);

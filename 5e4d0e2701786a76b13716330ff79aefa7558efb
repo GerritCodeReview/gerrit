@@ -16,6 +16,24 @@
       "revId": "5e4d0e2701786a76b13716330ff79aefa7558efb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UO0c5bt8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-01T10:25:35Z",
+      "side": 1,
+      "message": "Oh, sorry.\nBy commits as 5861954f8618bf34b21a421402d4242b8268e9f5, I was under\nthe impression \u0027documentation\u0027 refers to \u0027Documentation/*.txt\u0027 and\n\u0027help\u0027 refers to the output of an ssh command\u0027s --help.\n\nThe latter is what gets updated automatically from\n\n  gerrit ls-user-refs [--] [--help (-h)] [--only-refs-heads] [--project (-p) PROJECT] [--user (-u) USER]\n\nto\n\n  gerrit ls-user-refs [--] [--help (-h)] [--only-refs-heads] --project (-p) PROJECT --user (-u) USER\n\n(square brackets around last two options removed).\n\nWhat is the proper way to refer to the output of \u0027--help\u0027?\n(I checked the git log of the last two years for the ssh commands, but\nthose above \u0027ssh ... --help\u0027 texts are hardly directly referred to)\n\nI now added the \u0027Required; \u0027 to cmd-ls-user-refs.txt as well. So I can\nuse \u0027documentation\u0027 and \u0027ssh ... --help\u0027. Hopefully, that somehow\nremoves the vagueness.",
+      "parentUuid": "UPsRTHh8",
+      "revId": "5e4d0e2701786a76b13716330ff79aefa7558efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

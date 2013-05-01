@@ -105,10 +105,6 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--submit", aliases = "-s", usage = "submit the specified patch set(s)")
   private boolean submitChange;
 
-  @Option(name = "--force-message", usage = "publish the message, "
-      + "even if the label score cannot be applied due to the change being closed")
-  private boolean forceMessage = false;
-
   @Option(name = "--publish", usage = "publish the specified draft patch set(s)")
   private boolean publishPatchSet;
 

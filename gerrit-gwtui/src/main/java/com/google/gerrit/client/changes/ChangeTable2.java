@@ -48,11 +48,12 @@ import java.util.List;
 public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   private static final int C_STAR = 1;
   private static final int C_SUBJECT = 2;
-  private static final int C_OWNER = 3;
-  private static final int C_PROJECT = 4;
-  private static final int C_BRANCH = 5;
-  private static final int C_LAST_UPDATE = 6;
-  private static final int BASE_COLUMNS = 7;
+  private static final int C_STATUS = 3;
+  private static final int C_OWNER = 4;
+  private static final int C_PROJECT = 5;
+  private static final int C_BRANCH = 6;
+  private static final int C_LAST_UPDATE = 7;
+  private static final int BASE_COLUMNS = 8;
 
   private final List<Section> sections;
   private int columns;
@@ -70,6 +71,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     sections = new ArrayList<Section>();
     table.setText(0, C_STAR, "");
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
+    table.setText(0, C_STATUS, Util.C.changeTableColumnStatus());
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
@@ -90,6 +92,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         }
         if (cell.getCellIndex() == C_STAR) {
           // Don't do anything (handled by star itself).
+        } else if (cell.getCellIndex() == C_STATUS) {
+          // Don't do anything.
         } else if (cell.getCellIndex() == C_OWNER) {
           // Don't do anything.
         } else if (getRowItem(cell.getRowIndex()) != null) {
@@ -191,11 +195,12 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
 
     String subject = Util.cropSubject(c.subject());
+    table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
+
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {
-      subject += " (" + Util.toLongString(status) + ")";
+      table.setText(row, C_STATUS, Util.toLongString(status));
     }
-    table.setWidget(row, C_SUBJECT, new TableChangeLink(subject, c));
 
     if (c.owner() != null) {
       table.setWidget(row, C_OWNER, new AccountLinkPanel(c.owner(), status));

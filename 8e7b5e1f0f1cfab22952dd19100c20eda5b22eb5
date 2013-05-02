@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "UPoTuhug",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T08:08:44Z",
+      "side": 1,
+      "message": "Fixed this with:\n\n $ sudo apt-get install python-argparse\n\nBut it\u0027s still not possible to run with python \u003c 2.7 due to problem with ZipFile below.",
+      "parentUuid": "UJrxUAdY",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPqRU4tU",
         "filename": "lib/download_jar.py",
         "patchSetId": 13
@@ -133,6 +151,23 @@
       "writtenOn": "2013-05-02T06:26:25Z",
       "side": 1,
       "message": "The name `zip` overrides the Python builtin.  Not a problem now, but will be if the builtin is ever needed in this code.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPuThevk",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T08:08:44Z",
+      "side": 1,
+      "message": "With Python 2.6.5 I\u0027m getting this error:\n\n AttributeError: ZipFile instance has no attribute \u0027__exit__\u0027\n\nThis is because support for context managers (i.e. being able to use the `with Object() as x:` construct) was only introduced for ZipFile objects in Python 2.7 [1]\n\nTo work with python \u003c 2.7 this needs to be refactored to not use context management, i.e.:\n\n zip \u003d ZipFile(args.o, \u0027r\u0027)\n for n in zip.namelist():\n   ...\n zip.close()\n\nAt the same time it might be worth putting the whole block in a try/except and catching problems like `zipfile.BadZipfile`\n\n[1] http://docs.python.org/2/library/zipfile.html#zipfile-objects",
       "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

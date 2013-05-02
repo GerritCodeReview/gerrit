@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "UJnxPWUc",
+        "filename": "lib/maven.defs",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-02T03:46:35Z",
+      "side": 1,
+      "message": "Actually, not necessary now. We get SHA-1s through a trusted source (Git over HTTPS) and use those to validate the downloaded file content. Weren\u0027t you the one that wanted to use plaintext HTTP? This is for you. :-)",
+      "parentUuid": "UPgRE1iY",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPiRJ0j8",
         "filename": "lib/pack_war.py",
         "patchSetId": 13

@@ -41,6 +41,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -74,6 +75,7 @@ public class RebaseChange {
   private final ChangeHookRunner hooks;
   private final ApprovalsUtil approvalsUtil;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final ProjectCache projectCache;
 
   @Inject
   RebaseChange(final ChangeControl.Factory changeControlFactory,
@@ -83,7 +85,8 @@ public class RebaseChange {
       final GitReferenceUpdated gitRefUpdated,
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
       final ChangeHookRunner hooks, final ApprovalsUtil approvalsUtil,
-      final MergeUtil.Factory mergeUtilFactory) {
+      final MergeUtil.Factory mergeUtilFactory,
+      final ProjectCache projectCache) {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -94,6 +97,7 @@ public class RebaseChange {
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.projectCache = projectCache;
   }
 
   /**
@@ -377,8 +381,8 @@ public class RebaseChange {
             "Change %s was modified", change.getId()));
       }
 
-      final LabelTypes labelTypes = changeControlFactory.controlFor(change)
-          .getLabelTypes();
+      final LabelTypes labelTypes =
+          projectCache.get(change.getProject()).getLabelTypes();
       approvalsUtil.copyVetosToPatchSet(db, labelTypes,
           change.currentPatchSetId());
 

@@ -8,7 +8,7 @@ gerrit ls-user-refs - List refs visible to a specific user
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit ls-user-ref'
+'ssh' -p <port> <host> 'gerrit ls-user-refs'
   [--project PROJECT> | -p <PROJECT>]
   [--user <USER> | -u <USER>]
   [--only-refs-heads]
@@ -31,11 +31,11 @@ OPTIONS
 -------
 --project::
 -p::
-	Name of the project for which the refs should be listed.
+	Required; Name of the project for which the refs should be listed.
 
 --user::
 -u::
-	User for which the visible refs should be listed. Gerrit
+	Required; User for which the visible refs should be listed. Gerrit
 	will query the database to find matching users, so the
 	full identity/name does not need to be specified.
 

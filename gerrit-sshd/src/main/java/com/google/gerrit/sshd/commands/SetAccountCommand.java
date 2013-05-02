@@ -147,6 +147,7 @@ final class SetAccountCommand extends BaseCommand {
     if (fullName != null) {
       if (realm.allowsEdit(FieldName.FULL_NAME)) {
         account.setFullName(fullName);
+        accountUpdated = true;
       } else {
         throw new UnloggedFailure(1, "The realm doesn't allow editing names");
       }

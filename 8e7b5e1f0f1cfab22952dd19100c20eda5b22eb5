@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "UPiQA8sE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-02T06:48:56Z",
+      "side": 1,
+      "message": "I missed that building within the plugin itself fails. This happens because buck is looking for the repository boundary at the same place Git does, so buck has scoped itself to be within the plugin only and can\u0027t use anything up in the gerrit container. Being anywhere in the gerrit container repository makes buck find what its looking for.\n\nThis of course means I didn\u0027t test building a plugin with buck in isolation either. I hadn\u0027t figured out how to define gerrit_plugin(). It may be that we copy the definition into a DEFS file and add a .buckconfig in the plugin to implicitly load //DEFS like we do in the gerrit project with //lib/DEFS.",
+      "parentUuid": "UJtxdTf4",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJjxJ0T8",
         "filename": "Documentation/generate_licenses.py",
         "patchSetId": 13

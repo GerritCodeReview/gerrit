@@ -2,8 +2,13 @@
 
 from argparse import ArgumentParser
 from os import environ, makedirs, path, symlink
-from sys import exit, stderr
-from subprocess import check_output, Popen
+from sys import exit
+from subprocess import Popen, PIPE
+try:
+  from subprocess import check_output
+except ImportError:
+  def check_output(*cmd):
+    return Popen(*cmd, stdout=PIPE).communicate()[0]
 
 def call(cmd, cwd = None):
   p = Popen(cmd, cwd = cwd)

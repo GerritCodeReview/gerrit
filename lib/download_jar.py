@@ -3,7 +3,7 @@
 from argparse import ArgumentParser
 from hashlib import sha1
 from sys import exit, stderr
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipfile, LargeZipFile
 import subprocess
 
 def hashfile(p):
@@ -43,12 +43,17 @@ if args.v:
     exit(1)
 
 exclude = []
-with ZipFile(args.o, 'r') as zip:
-  for n in zip.namelist():
+try:
+  zip_file = ZipFile(args.o, 'r')
+  for n in zip_file.namelist():
     if n.startswith('META-INF/maven/'):
       exclude.append(n)
     elif args.exclude_java_sources and n.endswith('.java'):
       exclude.append(n)
+except (BadZipfile, LargeZipFile) as err:
+  print >> stderr, "Error opening zip file %s: %s"  % (args.o, str(err))
+  exit(1)
+
 if args.x:
   exclude += args.x
 

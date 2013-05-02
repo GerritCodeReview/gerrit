@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UPGaUros",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-02T11:05:05Z",
+      "side": 1,
+      "message": "The test_site\u0027s created for the tests are now always deleted, but in some cases you want to investigate the test_site after a test has failed to find out what went wrong. Should there be an option for running the tests that allows to keep the test_site\u0027s so that such an investigation is possible?",
+      "revId": "56fccf1368996d1ef0b60f9d4a1bace268ccaa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UO4esRto",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/TempFileUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-02T11:05:05Z",
+      "side": 1,
+      "message": "Should it better be\n\n if (!d.delete()) {\n   d.deleteOnExit();\n }\n\n?\n\nAt least on Windows the deletion of some files always fails :-(",
+      "revId": "56fccf1368996d1ef0b60f9d4a1bace268ccaa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UO2d7Uok",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/GitUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-02T11:05:05Z",
+      "side": 1,
+      "message": "The temp directory which is created here doesn\u0027t get deleted. When it was inside the target folder, it got removed with the next call of  \u0027mvn clean\u0027.",
+      "revId": "56fccf1368996d1ef0b60f9d4a1bace268ccaa52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

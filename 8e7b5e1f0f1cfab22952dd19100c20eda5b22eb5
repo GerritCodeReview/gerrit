@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJrw94Zc",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T02:33:41Z",
+      "side": 1,
+      "message": "OSError is raised here if curl is not installed.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPgRE1iY",
+        "filename": "lib/maven.defs",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T02:33:41Z",
+      "side": 1,
+      "message": "https?",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

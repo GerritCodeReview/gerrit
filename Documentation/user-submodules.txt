@@ -1,5 +1,5 @@
-Gerrit Code Review - Superprojects subscribed to submodules updates
-===================================================================
+Gerrit Code Review - Superproject subscription to submodules updates
+====================================================================
 
 Description
 -----------
@@ -25,7 +25,7 @@ commit having the updated gitlinks.
 Git Submodules Overview
 -----------------------
 
-It is a git feature that allows an external repository to be
+Submodules are a git feature that allows an external repository to be
 attached inside a repository at a specific path. The objective here
 is to provide a brief overview, further details can be found
 in the official git submodule command documentation.
@@ -37,7 +37,7 @@ at path 'a' by executing the following command when being inside
 'super':
 =====
 git submodule add ssh://server/a a
-====
+=====
 
 Still considering the above example, after its execution notice that
 inside the local repository 'super' the 'a' folder is considered a
@@ -63,11 +63,11 @@ Creating a New Subscription
 Defining the Submodule Branch
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is required because Submodule subscription is actually the
+This is required because submodule subscription is actually the
 subscription of a submodule project and one of its branches for
 a branch of a super project.
 
-Since it manages subscriptions in the branch scope, we could have
+Since Gerrit manages subscriptions in the branch scope, we could have
 a scenario having a project called 'super' having a branch 'integration'
 subscribed to a project called 'a' in branch 'integration', and also
 having the same 'super' project but in branch 'dev' subscribed to the 'a'
@@ -77,22 +77,23 @@ After adding the git submodule to a super project, one should edit
 the .gitmodules file to add a branch field to each submodule
 section which is supposed to be subscribed.
 
-The branch field is not filled by the git submodule command. Its value
-should indicate the branch of a submodule project that when updated
-will trigger automatic update of its registered gitlink.
+As the branch field is a Gerrit specific field it will not be filled
+automatically by the git submodule command, so one needs to edit it
+manually. Its value should indicate the branch of a submodule project
+that when updated will trigger automatic update of its registered
+gitlink.
 
-The branch value could be '.' if the submodule project branch
+The branch value could be "'.'" if the submodule project branch
 has the same name as the destination branch of the commit having
 gitlinks/.gitmodules file.
 
-The branch field of a submodule section is a custom git submodule
-feature for Gerrit use. One should always be sure to fill it in
-editing .gitmodules file after adding submodules to a super project,
-if it is the intention to make use of the Gerrit feature introduced here.
+If the intention is to make use of the Gerrit feature described
+here, one should always be sure to update the .gitmodules file after
+adding submodules to a super project.
 
-Any git submodules which are added and not have the branch field
-available in the .gitmodules file will not be subscribed by Gerrit
-to automatically update the superproject.
+If a git submodule is added but the branch field is not added to the
+.gitmodules file, Gerrit will not create a subscribtion for the
+submodule and there will be no automatic updates to the superproject.
 
 Detecting and Subscribing Submodules
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,17 +119,62 @@ is merged in branch 'dev-of-a' of 'a' project, Gerrit automatically
 creates a new commit on branch 'dev' of 'super' updating the gitlink
 to point to the just merged commit.
 
-Canonical Web Url
-~~~~~~~~~~~~~~~~~
+Subscription Limitations
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Gerrit will automatically update only the superprojects that added
-the submodules of urls of the running server (the one described in
-the canonical web url value in Gerrit configuration file).
+Gerrit will only automatically update superprojects where the
+submodules are hosted on the same Gerrit instance as the
+superproject. Gerrit determines this by checking the hostname of the
+submodule specified in the .gitmodules file and comparing it to the
+hostname from the canonical web url.
+
+It is currently not possible to use the submodule subscription feature
+with a canonical web url hostname that differs from the hostname of
+the submodule. Instead relative submodules should be used.
 
 The Gerrit instance administrator group should always certify to
 provide the canonical web url value in its configuration file. Users
-should certify to use the url value of the running Gerrit instance to
-add/subscribe submodules.
+should certify to use the correct hostname of the running Gerrit
+instance to add/subscribe submodules.
+
+Relative submodules
+~~~~~~~~~~~~~~~~~~~
+
+To enable easier usage of Gerrit mirrors and/or distribution over
+several protocols, such as plain git and HTTP(S) as well as SSH, one
+can use relative submodules. This means that instead of providing the
+entire URL to the submodule a relative path is stated in the
+.gitmodules file.
+
+Gerrit will try to match the entire project name of the submodule
+including directories. Therefore it is important to supply the full
+pathname of the Gerrit project, not only relative to the super
+repository. See the following example:
+
+We have a super repository placed under a subdirectory.
+
+  product/super_repository.git
+
+To this repository we wish add a submodule "deeper" into the directory
+structure.
+
+  product/framework/subcomponent.git
+
+Now we need to edit the .gitmodules to include the complete path to
+the Gerrit project. Observe that we need to use two "../" to include
+the complete Gerrit project path.
+
+  path = subcomponent.git
+  url = ../../product/framework/subcomponent.git
+  branch = master
+
+In constrast the following will not setup proper submodule
+subscription, even if the submodule will be successfully cloned by git
+from Gerrit.
+
+  path = subcomponent.git
+  url = ../framework/subcomponent.git
+  branch = master
 
 Removing Subscriptions
 ----------------------

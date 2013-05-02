@@ -71,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "UJrxUAdY",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T07:05:53Z",
+      "side": 1,
+      "message": "argparse is not available in all versions of Python.  On my system with 2.6.5 this fails with ImportError.\n\nThe documentation [1] says it\u0027s from 3.2 but it seems to be available on my laptop that has 2.7.3.\n\nCan this be changed to optparse?\n\n[1] http://docs.python.org/dev/library/argparse.html",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPqRU4tU",
         "filename": "lib/download_jar.py",
         "patchSetId": 13

@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "UJnz2eck",
+        "filename": ".gitmodules",
+        "patchSetId": 13
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T10:15:21Z",
+      "side": 1,
+      "message": "This breaks if Gerrit is cloned from a server where the paths of the repositories are not on this relative path, or don\u0027t exist at all.\n\nFor example in my case I have cloned gerrit from our internal repository where we have a mirror of gerrit and some of the plugins:\n\n git://review/tools/gerrit.git\n\nBut the replication plugin is at a different relative path compared to the original at gerrit-review:\n\n git://review/tools/gerrit/plugins/replication.git\n\nSo running `git submodule update` fails with:\n\n fatal: \u0027/tools/plugins/replication\u0027: not a Gerrit project\n\nAnd for reviewnotes, we don\u0027t have a mirror of it on our server, so that will also fail.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJtxdTf4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -272,6 +289,23 @@
       "writtenOn": "2013-05-02T06:26:25Z",
       "side": 1,
       "message": "stderr is not used.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPqTrgtc",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T10:15:21Z",
+      "side": 1,
+      "message": "check_output is only available from Python 2.7",
       "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

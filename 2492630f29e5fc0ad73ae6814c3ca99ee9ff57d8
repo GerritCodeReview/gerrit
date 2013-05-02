@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UQgAJZjw",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-02T13:06:45Z",
+      "side": 1,
+      "message": "The commit message talks about calling close(), but I don\u0027t see it in here. You should be able to wrap the ZipFile object with contextlib.closing():\n\ntry:\n  with contextlib.closing(ZipFile(args.o, \u0027r\u0027)) as zip:\n    ...\nexcept (...):\n  ...",
+      "revId": "2492630f29e5fc0ad73ae6814c3ca99ee9ff57d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

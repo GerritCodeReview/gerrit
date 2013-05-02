@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "UQQEJajw",
+        "filename": ".gitmodules",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T06:26:25Z",
+      "side": 1,
+      "message": "To make this work on an already existing clone of gerrit, where you\u0027ve cherry picked or merged this change in, you need to do:\n\n $ git submodule init\n $ git submodule update\n\nThe latter will fail since the sha1s referenced in the subprojects are of changes not yet merged, so for each subproject you need to:\n\n $ git reset --hard HEAD\n $ git fetch https://gerrit-review... refs/changes/... \u0026\u0026 git cherry-pick FETCH_HEAD\n\nand then run `submodule update` again.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJtxdTf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T06:26:25Z",
+      "side": 1,
+      "message": "Can you add examples of how to build the plugins?\n\nThe following seem to work OK:\n\nAll core plugins:\n\n $ buck build plugins:core\n\nSpecific plugin:\n\n $ buck build plugins/replication\n\nBut if I try to build a plugin like:\n\n $ cd plugins\n $ buck build replication\n\nIt fails with:\n\n NameError: name \u0027gerrit_plugin\u0027 is not defined",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJjxJ0T8",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T06:26:25Z",
+      "side": 1,
+      "message": "deque does not seem to be used.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPqRU4tU",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T06:26:25Z",
+      "side": 1,
+      "message": "Importing `exit` like this causes it to override Python\u0027s builtin.\n\n \u003e\u003e\u003e type(exit)\n \u003cclass \u0027site.Quitter\u0027\u003e\n \u003e\u003e\u003e from sys import exit\n \u003e\u003e\u003e type(exit)\n \u003ctype \u0027builtin_function_or_method\u0027\u003e\n \u003e\u003e\u003e\n\nSame in the other .py files.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJrw94Zc",
         "filename": "lib/download_jar.py",
         "patchSetId": 13
@@ -13,6 +81,23 @@
       "writtenOn": "2013-05-02T02:33:41Z",
       "side": 1,
       "message": "OSError is raised here if curl is not installed.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJhxEFSc",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T06:26:25Z",
+      "side": 1,
+      "message": "The name `zip` overrides the Python builtin.  Not a problem now, but will be if the builtin is ever needed in this code.",
       "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -66,6 +151,23 @@
       "side": 1,
       "message": "I only commented because you\u0027d said before that you have a requirement to use https for this repository :)\n\nGood that we can now use http. Makes things a little easier.",
       "parentUuid": "UJnxPWUc",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPmT26sk",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T06:26:25Z",
+      "side": 1,
+      "message": "stderr is not used.",
       "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

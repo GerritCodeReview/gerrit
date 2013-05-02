@@ -16,6 +16,24 @@
       "revId": "2492630f29e5fc0ad73ae6814c3ca99ee9ff57d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJjwA8cE",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T14:33:02Z",
+      "side": 1,
+      "message": "Gah.  I made the change locally but it looks like I didn\u0027t commit it.\n\nDidn\u0027t know about contextlib.closing.  Thanks.",
+      "parentUuid": "UQgAJZjw",
+      "revId": "2492630f29e5fc0ad73ae6814c3ca99ee9ff57d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

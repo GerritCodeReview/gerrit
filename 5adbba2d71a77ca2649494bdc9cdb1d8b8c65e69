@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UPsQLHt4",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T15:11:16Z",
+      "side": 1,
+      "message": "might be better to use os.path.join here?",
+      "revId": "5adbba2d71a77ca2649494bdc9cdb1d8b8c65e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

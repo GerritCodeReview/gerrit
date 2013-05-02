@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -34,24 +35,28 @@ import com.google.inject.Provider;
 import java.util.Set;
 
 public class AccountsCollection implements
-    RestCollection<TopLevelResource, AccountResource> {
+    RestCollection<TopLevelResource, AccountResource>,
+    AcceptsCreate<TopLevelResource>{
   private final Provider<CurrentUser> self;
   private final AccountResolver resolver;
   private final AccountControl.Factory accountControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final DynamicMap<RestView<AccountResource>> views;
+  private final CreateAccount.Factory createAccountFactory;
 
   @Inject
   AccountsCollection(Provider<CurrentUser> self,
       AccountResolver resolver,
       AccountControl.Factory accountControlFactory,
       IdentifiedUser.GenericFactory userFactory,
-      DynamicMap<RestView<AccountResource>> views) {
+      DynamicMap<RestView<AccountResource>> views,
+      CreateAccount.Factory createAccountFactory) {
     this.self = self;
     this.resolver = resolver;
     this.accountControlFactory = accountControlFactory;
     this.userFactory = userFactory;
     this.views = views;
+    this.createAccountFactory = createAccountFactory;
   }
 
   @Override
@@ -115,5 +120,11 @@ public class AccountsCollection implements
   @Override
   public DynamicMap<RestView<AccountResource>> views() {
     return views;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public CreateAccount create(TopLevelResource parent, IdString username) {
+    return createAccountFactory.create(username.get());
   }
 }

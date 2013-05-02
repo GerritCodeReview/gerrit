@@ -35,6 +35,50 @@ Returns an account as an link:#account-info[AccountInfo] entity.
   }
 ----
 
+[[create-account]]
+Create Account
+~~~~~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#username[\{username\}]'
+
+Creates a new account.
+
+In the request body additional data for the account can be provided as
+link:#account-input[AccountInput].
+
+.Request
+----
+  PUT /accounts/john HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "ssh_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
+    "http_password": "19D9aIn7zePb",
+    "groups": [
+      "MyProject-Owners"
+    ]
+  }
+----
+
+As response a detailed link:#account-info[AccountInfo] entity is
+returned that describes the created account.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "_account_id": 1000195,
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+  }
+----
+
 [[list-account-capabilities]]
 List Account Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -391,6 +435,11 @@ This can be:
 Identifier of a global capability. Valid values are all field names of
 the link:#capability-info[CapabilityInfo] entity.
 
+[[username]]
+\{username\}
+~~~~~~~~~~~~
+The user name.
+
 
 [[json-entities]]
 JSON Entities
@@ -411,6 +460,26 @@ Only set if detailed account information is requested.
 The email address the user prefers to be contacted through. +
 Only set if detailed account information is requested.
 |===========================
+
+[[account-input]]
+AccountInput
+~~~~~~~~~~~~
+The `AccountInput` entity contains information for the creation of
+a new account.
+
+[options="header",width="50%",cols="1,^2,4"]
+|============================
+|Field Name     ||Description
+|`username`     |optional|
+The user name. If provided, must match the user name from the URL.
+|`name`         |optional|The full name of the user.
+|`email`        |optional|The email address of the user.
+|`ssh_key`      |optional|The public SSH key of the user.
+|`http_password`|optional|The HTTP password of the user.
+|`groups`       |optional|
+A list of link:rest-api-groups.html#group-id[group IDs] that identify
+the groups to which the user should be added.
+|============================
 
 [[capability-info]]
 CapabilityInfo

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UQqD7Wvs",
+        "filename": "Rakefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "i guess not, will dropp it ;-)",
+      "parentUuid": "UJrzXIUE",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPqTXAkE",
         "filename": "Rakefile",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-01T19:54:59Z",
       "side": 1,
       "message": "We have in the past labeled this with Gerrit\u0027s version number, not JGit\u0027s.",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UOyeeuqs",
+        "filename": "Rakefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "Actually i am confused about the versioning here. it is 3.0-SNAPSHOT, but still has 2.3.1 name in it. I noticed it during my work on gerrit-gitblit-plugin migration.",
+      "parentUuid": "UPqTXAkE",
       "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "UO8eiPuY",
+        "filename": "Rakefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "will look into it",
+      "parentUuid": "UPuTN.rI",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJnzJmaA",
         "filename": "Rakefile",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "UO.efQqM",
+        "filename": "Rakefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJnzJmaA",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPmTJCqE",
         "filename": "Rakefile",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2013-05-01T19:54:59Z",
       "side": 1,
       "message": "So dependencies are direct-dependencies only by default and transitive dependencies have to be explicitly requested through this construct?\n\nIf so that fixes some of the more cases in the Gerrit build where a lot of code compiles against servlet API 2.5 (aka TOMCAT), but we later want only API 3.0 for Jetty.",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UO6epSsk",
+        "filename": "Rakefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "yes. there is a function transitive(artifact) that resolves transitive dependencies. But i prefer not to have that magic.",
+      "parentUuid": "UPmTJCqE",
       "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "UPCZflig",
+        "filename": "buildr/dependencies.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "UJlzdvWc",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJryAgTc",
         "filename": "buildr/dependencies.rb",
         "patchSetId": 4
@@ -149,6 +257,24 @@
       "writtenOn": "2013-05-01T19:54:59Z",
       "side": 1,
       "message": "We shouldn\u0027t need gwt-servlet anywhere.",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UQmD68vs",
+        "filename": "buildr/dependencies.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "UJryAgTc",
       "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +298,24 @@
     },
     {
       "key": {
+        "uuid": "UPMZTIh8",
+        "filename": "buildr/dependencies.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "oh, i see it was used with build\u0027r addon antlr.br, that i forked. will drop it.",
+      "parentUuid": "UJvzNqbI",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPgRwVqA",
         "filename": "buildr/dependencies.rb",
         "patchSetId": 4
@@ -183,6 +327,24 @@
       "writtenOn": "2013-05-01T19:54:59Z",
       "side": 1,
       "message": "This dependency is not used and should be dropped.",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UO0ePLng",
+        "filename": "buildr/dependencies.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "UPgRwVqA",
       "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +368,24 @@
     },
     {
       "key": {
+        "uuid": "UQsD.Xu0",
+        "filename": "buildr/dependencies.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "UPoSD5kM",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPiR1UpE",
         "filename": "buildr/dependencies.rb",
         "patchSetId": 4
@@ -217,6 +397,24 @@
       "writtenOn": "2013-05-01T19:54:59Z",
       "side": 1,
       "message": "parboiled-java also needs:\n\n* org.ow2.asm:asm-tree:4.0\n* org.ow2.asm:asm-util:4.0\n* org.ow2.asm:asm-analysis:4.0",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UO2eUsos",
+        "filename": "buildr/dependencies.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "UPiR1UpE",
       "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -240,6 +438,24 @@
     },
     {
       "key": {
+        "uuid": "UPOZQnhQ",
+        "filename": "buildr/dependencies.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "... not to mention passing gerrit-acceptance-test ;-)\n\ndone",
+      "parentUuid": "UPsSJ3mc",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPiTschM",
         "filename": "buildr/prologcc.rb",
         "patchSetId": 4
@@ -251,6 +467,24 @@
       "writtenOn": "2013-05-01T19:54:59Z",
       "side": 1,
       "message": "Reads like Perl or sendmail.cf or ... line noise to me. :-(",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UOweZNsI",
+        "filename": "buildr/prologcc.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "... there is aso \n do \n [block]\n end\n\nsyntax there ...",
+      "parentUuid": "UPiTschM",
       "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -274,6 +508,24 @@
     },
     {
       "key": {
+        "uuid": "UPIZNKns",
+        "filename": "buildr/prologcc.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "jepp. you can call main or any public method. Messing around with return value here. Would it be an option to extend the method to return something useful?",
+      "parentUuid": "UPmTiaiM",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJjzscRM",
         "filename": "buildr/prologcc.rb",
         "patchSetId": 4
@@ -285,6 +537,24 @@
       "writtenOn": "2013-05-01T19:54:59Z",
       "side": 1,
       "message": "This seems unused? I\u0027m curious what its here for.",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPKZKpl4",
+        "filename": "buildr/prologcc.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "Done\n\ni played first with the option to pass it from the invocation, like it is the case with antlr. But  prologToJavaSource actually doesn\u0027t need it, dropped, but it could be passed to prologcc(*args) method with:\n\n :output\u003d\u003eFile.join(task.name, in_package)",
+      "parentUuid": "UJjzscRM",
       "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -308,6 +578,24 @@
     },
     {
       "key": {
+        "uuid": "UO6dKql4",
+        "filename": "buildr/repositories.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJhznNTI",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJnzi.SI",
         "filename": "buildr/repositories.rb",
         "patchSetId": 4
@@ -319,6 +607,24 @@
       "writtenOn": "2013-05-01T19:54:59Z",
       "side": 1,
       "message": "I think these last 3 aren\u0027t used anymore?",
+      "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPAZamjc",
+        "filename": "buildr/repositories.rb",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-02T09:32:57Z",
+      "side": 1,
+      "message": "Done (partially)\n\nbuildr has built in support for JUnit (currently it is suing 4.8, that can be overwritten). Unfortunately, they decided to combine it with JMock and make buildr hard depend on it. I found a thread on buildr\u0027s dev ML, the suggestion to make that dependency to JMock optionally, but AFAIKS it is not implemented. So i added this (http://repo.jenkins-ci.org/repo) repository to fetch JMock and now i documented why ;-)",
+      "parentUuid": "UJnzi.SI",
       "revId": "bd28be051806e3b561c3e150e6b5827824c7dc74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

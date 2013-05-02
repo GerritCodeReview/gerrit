@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "UPoRXZto",
+        "filename": "lib/maven.defs",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-02T04:45:13Z",
+      "side": 1,
+      "message": "I only commented because you\u0027d said before that you have a requirement to use https for this repository :)\n\nGood that we can now use http. Makes things a little easier.",
+      "parentUuid": "UJnxPWUc",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPiRJ0j8",
         "filename": "lib/pack_war.py",
         "patchSetId": 13

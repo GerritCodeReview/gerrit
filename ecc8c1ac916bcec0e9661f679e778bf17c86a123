@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UQcElwrc",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010817
+      },
+      "writtenOn": "2013-05-03T19:07:08Z",
+      "side": 1,
+      "message": "This wasn\u0027t clear the first couple of times I read it.  Maybe a counterexample would help here.\n\n   For example, this will not work because Gerrit does not see the \u0027product\u0027 path element:\n\n    gitmodules file:\n\n      path \u003d subcomponent.git\t\n      url \u003d ../framework/subcomponent.git\n      branch \u003d master",
+      "revId": "ecc8c1ac916bcec0e9661f679e778bf17c86a123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

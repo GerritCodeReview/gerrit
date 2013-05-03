@@ -40,6 +40,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -72,6 +73,7 @@ public class RebaseChange {
   private final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory;
   private final ChangeHookRunner hooks;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final ProjectCache projectCache;
 
   @Inject
   RebaseChange(final ChangeControl.Factory changeControlFactory,
@@ -81,7 +83,8 @@ public class RebaseChange {
       final GitReferenceUpdated gitRefUpdated,
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
       final ChangeHookRunner hooks,
-      final MergeUtil.Factory mergeUtilFactory) {
+      final MergeUtil.Factory mergeUtilFactory,
+      final ProjectCache projectCache) {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -91,6 +94,7 @@ public class RebaseChange {
     this.rebasedPatchSetSenderFactory = rebasedPatchSetSenderFactory;
     this.hooks = hooks;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.projectCache = projectCache;
   }
 
   /**
@@ -374,10 +378,8 @@ public class RebaseChange {
             "Change %s was modified", change.getId()));
       }
 
-      ApprovalsUtil.copyLabels(db,
-          changeControlFactory.controlFor(change).getLabelTypes(),
-          patchSetId,
-          change.currentPatchSetId());
+      ApprovalsUtil.copyLabels(db, projectCache.get(change.getProject())
+          .getLabelTypes(), patchSetId, change.currentPatchSetId());
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),

@@ -16,6 +16,24 @@
       "revId": "1967a6d91b0a950bda47310b7b2fc30c4242fc3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPAYtumg",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-03T13:34:54Z",
+      "side": 1,
+      "message": "This should be clear from the general explanation of the response codes [1]:\n\n  username invalid -\u003e Bad Request\n  account already exists -\u003e Conflict\n  email already used -\u003e Unprocessable Entity  \n\n[1] http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api.html#response-codes",
+      "parentUuid": "UPsTaPj0",
+      "revId": "1967a6d91b0a950bda47310b7b2fc30c4242fc3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

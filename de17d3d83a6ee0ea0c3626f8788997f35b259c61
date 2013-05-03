@@ -16,6 +16,24 @@
       "revId": "de17d3d83a6ee0ea0c3626f8788997f35b259c61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UO2fJEqE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-03T09:57:41Z",
+      "side": 1,
+      "message": "\u003e This seems like an unreasonable restriction.\n\nCurrently, gitweb happily and unconditionally shows drafts.\n\nSo it\u0027s not about adding new, arbitrary restrictions, it\u0027s about\nmaking hidden assumptions visible, and making our currently\nsecurity model visible.\n\n\u003e I suspect that to some the visibility of drafts is not important,\n\u003e but being able to use gitweb is?\n\nIf the gerrit site admins grant \u0027View Drafts\u0027, they can use gitweb\njust as they could before. Forcing them to grant \u0027View Drafts\u0027, makes\nsure the admins of a gerrit site permit gitweb\u0027s draft exposure.",
+      "parentUuid": "UQUESUmk",
+      "revId": "de17d3d83a6ee0ea0c3626f8788997f35b259c61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

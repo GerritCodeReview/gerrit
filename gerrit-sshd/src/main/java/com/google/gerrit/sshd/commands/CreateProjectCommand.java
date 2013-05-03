@@ -18,16 +18,16 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
-import com.google.gerrit.server.project.PerformCreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.project.ListProjects;
+import com.google.gerrit.server.project.PerformCreateProject;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -121,7 +121,7 @@ final class CreateProjectCommand extends SshCommand {
   private PerformCreateProject.Factory factory;
 
   @Inject
-  private SuggestParentCandidates.Factory suggestParentCandidatesFactory;
+  private Provider<ListProjects> listProjectsProvider;
 
   @Override
   protected void run() throws Exception {
@@ -147,10 +147,9 @@ final class CreateProjectCommand extends SshCommand {
         final PerformCreateProject createProject = factory.create(args);
         createProject.createProject();
       } else {
-        List<Project.NameKey> parentCandidates =
-            suggestParentCandidatesFactory.create().getNameKeys();
-
-        for (Project.NameKey parent : parentCandidates) {
+        ListProjects list = listProjectsProvider.get();
+        list.setFilterType(ListProjects.FilterType.PARENT_CANDIDATES);
+        for (String parent : list.apply().keySet()) {
           stdout.print(parent + "\n");
         }
       }

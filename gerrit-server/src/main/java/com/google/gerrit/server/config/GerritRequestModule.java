@@ -27,7 +27,6 @@ import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.inject.servlet.RequestScoped;
 
 /** Bindings for {@link RequestScoped} entities. */
@@ -51,7 +50,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(DeleteDraftPatchSet.Factory.class);
     factory(PublishDraft.Factory.class);
     factory(RemoveReviewer.Factory.class);
-    factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
   }
 }

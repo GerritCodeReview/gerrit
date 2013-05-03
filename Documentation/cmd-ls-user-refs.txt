@@ -31,11 +31,11 @@ OPTIONS
 -------
 --project::
 -p::
-	Required; Name of the project for which the refs should be listed.
+	Name of the project for which the refs should be listed.
 
 --user::
 -u::
-	Required; User for which the visible refs should be listed. Gerrit
+	User for which the visible refs should be listed. Gerrit
 	will query the database to find matching users, so the
 	full identity/name does not need to be specified.
 

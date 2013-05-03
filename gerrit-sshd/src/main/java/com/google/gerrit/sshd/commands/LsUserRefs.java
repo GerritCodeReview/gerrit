@@ -58,11 +58,11 @@ public class LsUserRefs extends SshCommand {
   private ChangeCache changeCache;
 
   @Option(name = "--project", aliases = {"-p"}, metaVar = "PROJECT",
-      required = true, usage = "project for which the refs should be listed")
+      usage = "project for which the refs should be listed")
   private ProjectControl projectControl;
 
   @Option(name = "--user", aliases = {"-u"},  metaVar = "USER",
-      required = true, usage = "user for which the groups should be listed")
+      usage = "user for which the groups should be listed")
   private String userName;
 
   @Option(name = "--only-refs-heads", usage = "list only refs under refs/heads")
@@ -73,6 +73,10 @@ public class LsUserRefs extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    if (userName == null || projectControl == null) {
+      throw new UnloggedFailure(1, "fatal: --user and --project options must be used.");
+    }
+
     Account userAccount = null;
     try {
       userAccount = accountResolver.find(userName);

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "UPEYjsn4",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-03T13:00:11Z",
+      "side": 1,
+      "message": "The cp command on my Mac doesn\u0027t support the -l option.\nFull release build fails because of that:\n\n  cp: illegal option -- l\n  usage: cp [-R [-H | -L | -P]] [-fi | -n] [-apvX] source_file target_file\n         cp [-R [-H | -L | -P]] [-fi | -n] [-apvX] source_file ... target_directory\n  BUILD FAILED: com.facebook.buck.shell.CommandFailedException: Failed with 64: SRCS\u003d\u0027\n\nShawn, you also work on Mac, does it work for you? How?\n\nAnother bad thing is that, when this error happens, and the main buck process stops, the background processes will continue to run for some time:\n\n  [~/dev/buck ((5fd88c6...) *)]$ jps\n  36432 CompilePermsServer\n  35923 Compiler\n  35922 Compiler\n  36426 CompilePermsServer\n  36429 CompilePermsServer\n  36430 CompilePermsServer\n  15818 gerrit.war\n  36499 Jps\n  36431 CompilePermsServer",
+      "revId": "5adbba2d71a77ca2649494bdc9cdb1d8b8c65e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPsQLHt4",
         "filename": "lib/gwt/compiler.py",
         "patchSetId": 14

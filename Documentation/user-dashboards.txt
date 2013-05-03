@@ -70,6 +70,7 @@ Example dashboard config file `MyProject Dashboard`:
 
 ----
 [dashboard]
+  title = Open and Merged
   description = Most recent open and merged changes.
 [section "Open Changes"]
   query = status:open project:myProject limit:15
@@ -81,7 +82,7 @@ Once defined, project dashboards are accessible using stable URLs by
 using the project name, refname and pathname of the dashboard via URLs
 like:
 ----
-  /#/projects/All-Projects,dashboards/Site:Main
+  /#/projects/All-Projects,dashboards
 ----
 
 Project dashboards are inherited from ancestor projects unless

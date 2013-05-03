@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UO8e3ng8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-03T12:32:05Z",
+      "side": 1,
+      "message": "Even if you would like to include changes here, they will be filtered away by the ReceiveCommitsAdvertiseRefsHook() (and if you don\u0027t, you will see some performance issues later on)",
+      "revId": "c3269d96ab120db252f6f0489a4597b51138a593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

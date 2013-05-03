@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UO.e0Ig0",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-03T14:31:21Z",
+      "side": 1,
+      "message": "OK, I guess you installed the coreutils on your Mac?\nThe cp command from coreutils supports the -l option.\n\nAfter installing coreutils this issue is resolved.\n\nEither we have to find an alternative which works with the default OSX commands or document that coreutils must be installed on Mac.",
+      "parentUuid": "UPEYjsn4",
+      "revId": "5adbba2d71a77ca2649494bdc9cdb1d8b8c65e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPsQLHt4",
         "filename": "lib/gwt/compiler.py",
         "patchSetId": 14

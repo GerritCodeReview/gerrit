@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UPsTaPj0",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-03T13:28:18Z",
+      "side": 1,
+      "message": "What response is returned when the creation fails?  For example if the username is invalid, already exists, or another user with the same email address exists.",
+      "revId": "1967a6d91b0a950bda47310b7b2fc30c4242fc3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

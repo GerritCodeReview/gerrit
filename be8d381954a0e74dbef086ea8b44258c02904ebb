@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UPqThQug",
+        "filename": "BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Its not necessary. The build files are fairly short and in general the only way to write what they describe in the language they are, so not very copyrightable or protectable.",
+      "parentUuid": "UJpyspdo",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJrypYck",
         "filename": "BUCK",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Ok this is a little silly but based on style we use in our BUILD files these would be on separate lines.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPkSuTpE",
+        "filename": "BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJrypYck",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "UJvzX6RE",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UQWH69vs",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPuSfOqM",
         "filename": "Documentation/generate_licenses.py",
         "patchSetId": 12
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Nit: constants go after imports.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPmSBCvA",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPuSfOqM",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "UPkR8DjE",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJnx72Yg",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJhxwlaA",
         "filename": "Documentation/generate_licenses.py",
         "patchSetId": 12
@@ -98,6 +188,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Use graph \u003d collections.defaultdict(list) unless you really care about python 2.4 support.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJpySZUk",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJhxwlaA",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "UPgR2Fk8",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPoSsRto",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPqSpQsk",
         "filename": "Documentation/generate_licenses.py",
         "patchSetId": 12
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "UJlx83TA",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPqSpQsk",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJtyJzWc",
         "filename": "Documentation/generate_licenses.py",
         "patchSetId": 12
@@ -166,6 +310,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "If graph is a defaultdict you can skip this check and everything should just work (although you may end up with some extra keys in graph).",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJryPISA",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJtyJzWc",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +368,24 @@
     },
     {
       "key": {
+        "uuid": "UPiR7Ejg",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPmR7Sok",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJvyGCVU",
         "filename": "Documentation/generate_licenses.py",
         "patchSetId": 12
@@ -217,6 +397,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "sorted(licenses[n])",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJnyBme8",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJvyGCVU",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -240,6 +438,24 @@
     },
     {
       "key": {
+        "uuid": "UPsRvnm4",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPgTn9jE",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UQcH.Yu0",
         "filename": "Documentation/generate_licenses.py",
         "patchSetId": 12
@@ -251,6 +467,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "print name",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJhx2VU8",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UQcH.Yu0",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -274,6 +508,24 @@
     },
     {
       "key": {
+        "uuid": "UPuRsGnw",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJpyDRUQ",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPqSAYjc",
         "filename": "gerrit-common/BUCK",
         "patchSetId": 12
@@ -285,6 +537,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Optional nit: this could go on the same line as excludes",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJpzkpfk",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPqSAYjc",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -308,6 +578,24 @@
     },
     {
       "key": {
+        "uuid": "UPmSzSvg",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPkTd7mc",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJtzQ7U0",
         "filename": "gerrit-gwtui/BUCK",
         "patchSetId": 12
@@ -319,6 +607,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "No (...,) around MODULE.replace()",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJrzhYeg",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJtzQ7U0",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -342,6 +648,24 @@
     },
     {
       "key": {
+        "uuid": "UPqS4Ys4",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPsTQ-k0",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJpzaZWo",
         "filename": "lib/DEFS",
         "patchSetId": 12
@@ -353,6 +677,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Nit: resources.append(gwtxml)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPkSV7jY",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "No because it modifies the caller\u0027s array. This is awkward if the caller passed an array from a constant.",
+      "parentUuid": "UJpzaZWo",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -376,6 +718,24 @@
     },
     {
       "key": {
+        "uuid": "UPmSaamo",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPoTaBmo",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJlzE3Yk",
         "filename": "lib/DEFS",
         "patchSetId": 12
@@ -387,6 +747,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Nit: (name, name)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJjytUZA",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJlzE3Yk",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -410,6 +788,24 @@
     },
     {
       "key": {
+        "uuid": "UPgSf9lg",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPkTEDoo",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJhy.VfA",
         "filename": "lib/DEFS",
         "patchSetId": 12
@@ -421,6 +817,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Nit: (name, lib)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJtzBzUY",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJhy.VfA",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -444,6 +858,24 @@
     },
     {
       "key": {
+        "uuid": "UJvy.Cbw",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJjzDEYE",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPiTDEoE",
         "filename": "lib/bouncycastle/BUCK",
         "patchSetId": 12
@@ -455,6 +887,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "libraries.config in gerrit-pgm specifies 144. In addition to correcting that here, I would probably cross-reference both locations with comments saying they need to be in sync. Or, I dunno, extract the version number with git config? That may be uglier than it\u0027s worth.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJhyolX8",
+        "filename": "lib/bouncycastle/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPiTDEoE",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -478,6 +928,24 @@
     },
     {
       "key": {
+        "uuid": "USBrwvRk",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPsS3ng8",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJvy0yQw",
         "filename": "lib/download_jar.py",
         "patchSetId": 12
@@ -489,6 +957,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "According to Google style you should only import modules, not members of modules, but maybe we\u0027re not using Google style, so *shrug*",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJhyfNVk",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Most of these scripts are short so I am more focused on keeping them simple than I am on following Google style. But IIRC the reason Google style recommends importing modules is to prevent shadowing a builtin function that you might want to use later. My goal is to try and have most of these scripts fit in one screen of text and thus not have that be an issue.",
+      "parentUuid": "UJvy0yQw",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -512,6 +998,24 @@
     },
     {
       "key": {
+        "uuid": "UJjykcaI",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPuS0Gg0",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJty3jQ8",
         "filename": "lib/download_jar.py",
         "patchSetId": 12
@@ -523,6 +1027,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Nit: if not b",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJtyI7Rw",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJty3jQ8",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -546,6 +1068,24 @@
     },
     {
       "key": {
+        "uuid": "UPoSSBkk",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJpyxBRw",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPqSuIrc",
         "filename": "lib/download_jar.py",
         "patchSetId": 12
@@ -557,6 +1097,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Optional: wrap in a main function",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPqSPAiA",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "I think wrapping this into a main function is vast overkill. Just moving from /bin/sh to python more than tripled the size of the code, with no real gain other than \"Hey look its in Python!\". *sigh*",
+      "parentUuid": "UPqSuIrc",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -580,6 +1138,24 @@
     },
     {
       "key": {
+        "uuid": "UJvyFqQE",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPoSxphs",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UQaH7Xvs",
         "filename": "lib/gwt/compiler.py",
         "patchSetId": 12
@@ -591,6 +1167,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Apache license header?",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPiSkcqI",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UQaH7Xvs",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -614,6 +1208,24 @@
     },
     {
       "key": {
+        "uuid": "UJpy7Rcs",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPkQjrn4",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJryuQbc",
         "filename": "lib/jgit/BUCK",
         "patchSetId": 12
@@ -625,6 +1237,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "VERSION",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPgSoVn8",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJryuQbc",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -648,6 +1278,24 @@
     },
     {
       "key": {
+        "uuid": "UJnyz2fc",
+        "filename": "lib/maven.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "We do. Good point about not using hard links or symlinks. I\u0027ll change this one to use cp.",
+      "parentUuid": "UPgQttmg",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPiQyMso",
         "filename": "lib/pack_war.py",
         "patchSetId": 12
@@ -659,6 +1307,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Apache license header?",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPuSF.gE",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPiQyMso",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -682,6 +1348,24 @@
     },
     {
       "key": {
+        "uuid": "UJry4gc4",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Can\u0027t use check_call here, it does not accept cwd.",
+      "parentUuid": "UPsQ2vrw",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJlwjfX4",
         "filename": "lib/pack_war.py",
         "patchSetId": 12
@@ -693,6 +1377,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Nit: drop the 0, just war[:war...]",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJlyVvTY",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJlwjfX4",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -716,6 +1418,24 @@
     },
     {
       "key": {
+        "uuid": "UQaEiPqs",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPuQzusk",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJnwouVk",
         "filename": "lib/pack_war.py",
         "patchSetId": 12
@@ -727,6 +1447,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Optional nit: splitlines() instead of split(\u0027\\n\u0027)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJnya.Wk",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJnwouVk",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -750,6 +1488,24 @@
     },
     {
       "key": {
+        "uuid": "UPsTB3kY",
+        "filename": "lib/war.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "According to the BUCK documentation, no, either of these cases should arise.\n\ns/for c in/for _ in/ Done.",
+      "parentUuid": "UJhwt9Wg",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJtw2rbw",
         "filename": "plugins/BUCK",
         "patchSetId": 12
@@ -761,6 +1517,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Please explain briefly why this is necessary, namely that buck audit parses *all* BUCK files under the working directory and will fail if the submodules are not tracked.",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPMY2wrw",
+        "filename": "plugins/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJtw2rbw",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -784,6 +1558,24 @@
     },
     {
       "key": {
+        "uuid": "UPiStUpA",
+        "filename": "plugins/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPoRAxhg",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJjwyMco",
         "filename": "plugins/BUCK",
         "patchSetId": 12
@@ -795,6 +1587,24 @@
       "writtenOn": "2013-05-01T22:18:10Z",
       "side": 1,
       "message": "Nit: (n, n)",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJlyuHZE",
+        "filename": "plugins/BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJjwyMco",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

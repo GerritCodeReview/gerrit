@@ -16,6 +16,24 @@
       "revId": "39c70338758b5493a32b01f90829fef0fe51160d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "USLolUbg",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2013-05-04T15:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "USFoRlV8",
+      "revId": "39c70338758b5493a32b01f90829fef0fe51160d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

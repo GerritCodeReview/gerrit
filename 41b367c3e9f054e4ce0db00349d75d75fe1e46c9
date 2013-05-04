@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "USLr.8es",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-04T07:30:31Z",
+      "side": 1,
+      "message": "It says in the paragraph above that the title should be the file/path name of the dashboard, so this should not be required.  If it is required it sounds like a bug.  I would rather not update the docs to adapt to the bug, any chance you could fix the bug instead?",
+      "revId": "41b367c3e9f054e4ce0db00349d75d75fe1e46c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "UPqRmIpY",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPEZgkuE",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJjxJ0T8",
         "filename": "Documentation/generate_licenses.py",
         "patchSetId": 13
@@ -116,6 +134,24 @@
       "writtenOn": "2013-05-02T06:26:25Z",
       "side": 1,
       "message": "deque does not seem to be used.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJjx7ETg",
+        "filename": "Documentation/generate_licenses.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJjxJ0T8",
       "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "UJrxmQZY",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:50:11Z",
+      "side": 1,
+      "message": "Changed to optparse.",
+      "parentUuid": "UJrxUAdY",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPqRU4tU",
         "filename": "lib/download_jar.py",
         "patchSetId": 13
@@ -174,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "UQQEgSqI",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPqRU4tU",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJrw94Zc",
         "filename": "lib/download_jar.py",
         "patchSetId": 13
@@ -185,6 +257,24 @@
       "writtenOn": "2013-05-02T02:33:41Z",
       "side": 1,
       "message": "OSError is raised here if curl is not installed.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJpxpBWs",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJrw94Zc",
       "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -219,6 +309,24 @@
       "writtenOn": "2013-05-02T08:08:44Z",
       "side": 1,
       "message": "With Python 2.6.5 I\u0027m getting this error:\n\n AttributeError: ZipFile instance has no attribute \u0027__exit__\u0027\n\nThis is because support for context managers (i.e. being able to use the `with Object() as x:` construct) was only introduced for ZipFile objects in Python 2.7 [1]\n\nTo work with python \u003c 2.7 this needs to be refactored to not use context management, i.e.:\n\n zip \u003d ZipFile(args.o, \u0027r\u0027)\n for n in zip.namelist():\n   ...\n zip.close()\n\nAt the same time it might be worth putting the whole block in a try/except and catching problems like `zipfile.BadZipfile`\n\n[1] http://docs.python.org/2/library/zipfile.html#zipfile-objects",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPkSbrl0",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPuThevk",
       "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -295,6 +403,24 @@
     },
     {
       "key": {
+        "uuid": "UJtxvjW4",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPmT26sk",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPqTrgtc",
         "filename": "lib/pack_war.py",
         "patchSetId": 13
@@ -312,6 +438,24 @@
     },
     {
       "key": {
+        "uuid": "USHr1eQk",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPqTrgtc",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPiRJ0j8",
         "filename": "lib/pack_war.py",
         "patchSetId": 13
@@ -323,6 +467,24 @@
       "writtenOn": "2013-05-02T02:36:22Z",
       "side": 1,
       "message": "Raises KeyError if TMP is not in the environment.",
+      "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJvxsyXs",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:50:11Z",
+      "side": 1,
+      "message": "But BUCK should always define TMP in the environment. So I think its reasonable to raise an error if we aren\u0027t being run \"correctly\".",
+      "parentUuid": "UPiRJ0j8",
       "revId": "8e7b5e1f0f1cfab22952dd19100c20eda5b22eb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

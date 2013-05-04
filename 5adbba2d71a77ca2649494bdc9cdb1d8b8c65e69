@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "UPmSgKoE",
+        "filename": "Documentation/BUCK",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:54:49Z",
+      "side": 1,
+      "message": "cp -l removed and replaced with ln -s.",
+      "parentUuid": "UO4exphs",
+      "revId": "5adbba2d71a77ca2649494bdc9cdb1d8b8c65e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UO0cjrn4",
         "filename": "lib/DEFS",
         "patchSetId": 14
@@ -84,6 +102,24 @@
       "writtenOn": "2013-05-03T15:24:42Z",
       "side": 1,
       "message": "Sporadically, \u0027buck build :release\u0027 fails on my machine because the META-INF folder already exists and the mkdir fails.\n\nWould \u0027mkdir -p\u0027 make sense here?\nOr do we really want to fail if the META-INF already exists?",
+      "revId": "5adbba2d71a77ca2649494bdc9cdb1d8b8c65e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJlybfV0",
+        "filename": "lib/DEFS",
+        "patchSetId": 14
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:54:49Z",
+      "side": 1,
+      "message": "There shouldn\u0027t be failures because META-INF already exists. BUCK clears out $TMP before starting a genrule() and every genrule() is given a uniquely named $TMP.\n\nI think the failures you were seeing are caused by the zip file having a slightly newer timestamp than the MANIFEST.MF file and this zip -qu not updating. I\u0027ve worked around this by performing the cp of the zip to $OUT first before we muck with the MANIFEST.MF.",
+      "parentUuid": "UO0cjrn4",
       "revId": "5adbba2d71a77ca2649494bdc9cdb1d8b8c65e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -107,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "UJnyguYA",
+        "filename": "lib/gwt/compiler.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPsQLHt4",
+      "revId": "5adbba2d71a77ca2649494bdc9cdb1d8b8c65e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPOYzvsk",
         "filename": "local.properties",
         "patchSetId": 14
@@ -118,6 +172,24 @@
       "writtenOn": "2013-05-03T23:33:08Z",
       "side": 1,
       "message": "This is no longer needed (yay!)",
+      "revId": "5adbba2d71a77ca2649494bdc9cdb1d8b8c65e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJhyl9Y8",
+        "filename": "local.properties",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-04T00:54:49Z",
+      "side": 1,
+      "message": "Done (file dropped from change).",
+      "parentUuid": "UPOYzvsk",
       "revId": "5adbba2d71a77ca2649494bdc9cdb1d8b8c65e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UPIbuiug",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "This observation does not hold true for me.\nThe first hook only adds objects that already have been added before (rp.getAdvertisedObjects()), so the Set implementation should swallow them.\n\nSame for the ReceiveCommitsAdvertiseRefsHook.\n\nSo the advertised objects stemmed from either advertiseHistory, or VisibleRefFilter.",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPKbrhtc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "Tabs",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPEYYkjg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "Does this mean both measurements are for warm caches, or only the second one?",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "USHpDuVg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "Most of the comments in this file refer to per-se unrelated simplifications.\n\nBut they only become possible due to this change\u0027s modifications, and I am not sure whether or not they belong to this change or a follow-up commit.",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "USBo.-cg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "The name \u0027refsToFilter\u0027 is misleading to me, as it does not hold refs that are to filter.\n\nMuch rather it contains a an already filtered list of refs.\n\nWould something like \u0027filteredRefs\u0027, or \u0027baseRefs\u0027 (that\u0027s the corresponding field of ReceiveCommitsAdvertiseRefsHook) make sense?",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "USNochXg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "As we\u0027re not dropping a hook, why do we decrease to two here?\n\nWell ... upon closer look, maybe your dropping of line 378 (see comments there) allows to remove the whole HookChain, and it suffices to keep only\nReceiveCommitsAdvertiseRefsHook?\n\nFor the inline hook, it seems we can tear that out into the constructor (see comments below)\n\nrp\u0027s original hook (see comments for line 384), need not get added.\n\nHence, we\u0027d be left with only a single hook. No need for a chain.\n\nAlthough those simplifications only become possible due to this change,\nI am not sure whether gerrit\u0027s policy is to include such simplifications right here, or they should go in a separate change.",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPCYA9sE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "(See comment at line 369)\n\nHere, allRefs is always null for me.\nIs there some way to have !\u003d null here?",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPAb7erA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "(See comment at line 369)\n\nSince we dropped the\n\n  rp.setAdvertisedRefs(allRefs, rp.getAdvertisedObjects());\n\nline here, it seems to me all this hook does is setting allRefs.\nIt looks like we could move setting allRefs out of this hook and then\nfinally remove the hook altogether.\n\nI cannot reproduce the problem that lead to introducing this hook in 2cc3ddd2418b152385cdb8031c4493718b8b29b3. But does dropping\n\n  rp.setAdvertisedRefs(allRefs, rp.getAdvertisedObjects());\n\nstill cover that problematic setting?",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPMbkggw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "(See comment at line 369)\n\nSince we do no longer set the VisibleRefFilter, rp.getAdvertiseRefsHook() always yields AdvertiseRefsHook.DEFAULT for me.\n\nHence it gets dropped by the chain construction in line 386.\n\nSo we could spare us the burden of adding it.",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "USDo5QeE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T18:49:26Z",
+      "side": 1,
+      "message": "Since one of this change\u0027s motivations is to cut down on the advertised\nhaves, would it be safe to replace\n\n  rp.getAdvertisedObjects()\n\nin this line by the empty set? After all, none of those Objects are “additional haves”. All of them are already stored on the rp. So it would not make the set final set bigger/smaller. But it could spare us some comparisons.\nSeeing the code for setAdvertisedRefs that would clearly work. But I am not sure if I am interpreting setAdvertisedRefs doclet correctly",
+      "revId": "c5a8535b0ff5d6264567f45195c45cf10c71a0df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

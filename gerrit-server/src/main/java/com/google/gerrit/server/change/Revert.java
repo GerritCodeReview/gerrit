@@ -80,7 +80,8 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
   public Object apply(ChangeResource req, Input input) throws Exception {
     ChangeControl control = req.getControl();
     Change change = req.getChange();
-    if (!control.canAddPatchSet()) {
+    ReviewDb db = dbProvider.get();
+    if (!control.canAddPatchSet(db)) {
       throw new AuthException("revert not permitted");
     } else if (change.getStatus() != Status.MERGED) {
       throw new ResourceConflictException("change is " + status(change));
@@ -95,7 +96,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
           ChangeUtil.revert(control.getRefControl(), change.currentPatchSetId(),
               (IdentifiedUser) control.getCurrentUser(),
               commitValidators,
-              Strings.emptyToNull(input.message), dbProvider.get(),
+              Strings.emptyToNull(input.message), db,
               revertedSenderFactory, hooks, git, patchSetInfoFactory,
               myIdent, changeInserter);
 

@@ -116,7 +116,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
 
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
-    if (!control.canAddPatchSet()) {
+    if (!control.canAddPatchSet(db)) {
       throw new InvalidChangeOperationException(
           "Not allowed to add new Patch Sets to: " + changeId.toString());
     }

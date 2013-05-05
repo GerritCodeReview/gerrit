@@ -1029,6 +1029,13 @@ database.type or database.url for any supported database.
 isn't necessary as it can be constructed from the all of the
 above properties.
 
+[[database.connectionPool]]database.connectionPool::
++
+If true, use connection pooling for database connections. Otherwise, a
+new database connection is opened for each request.
++
+Default is false for MySQL, and true for other database backends.
+
 [[database.poolLimit]]database.poolLimit::
 +
 Maximum number of open database connections.  If the server needs
@@ -1040,11 +1047,17 @@ httpd and sshd threads as some request processing code paths may
 need multiple connections.
 +
 Default is 8.
++
+This setting only applies, if
+<<database.connectionPool,database.connectionPool>> is true.
 
 [[database.poolMinIdle]]database.poolMinIdle::
 +
 Minimum number of connections to keep idle in the pool.
 Default is 4.
++
+This setting only applies, if
+<<database.connectionPool,database.connectionPool>> is true.
 
 [[database.poolMaxIdle]]database.poolMaxIdle::
 +
@@ -1052,6 +1065,9 @@ Maximum number of connections to keep idle in the pool.  If there
 are more idle connections, connections will be closed instead of
 being returned back to the pool.
 Default is 4.
++
+This setting only applies, if
+<<database.connectionPool,database.connectionPool>> is true.
 
 [[database.poolMaxWait]]database.poolMaxWait::
 +
@@ -1070,6 +1086,9 @@ Values should use common unit suffixes to express their setting:
 If a unit suffix is not specified, `milliseconds` is assumed.
 +
 Default is `30 seconds`.
++
+This setting only applies, if
+<<database.connectionPool,database.connectionPool>> is true.
 
 [[download]]Section download
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

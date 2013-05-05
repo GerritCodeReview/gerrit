@@ -229,8 +229,8 @@ public class ChangeControl {
   }
 
   /** Can this user add a patch set to this change? */
-  public boolean canAddPatchSet() {
-    return getRefControl().canUpload();
+  public boolean canAddPatchSet(final ReviewDb db) throws OrmException {
+    return getRefControl().canUpload() && isVisible(db);
   }
 
   /** Is this user the owner of the change? */

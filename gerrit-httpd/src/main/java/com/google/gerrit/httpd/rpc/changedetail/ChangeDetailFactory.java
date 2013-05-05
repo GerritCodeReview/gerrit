@@ -134,10 +134,10 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
 
-    detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
+    detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet(db));
 
     detail.setCanEdit(control.getRefControl().canWrite());
-    detail.setCanEditCommitMessage(change.getStatus().isOpen() && control.canAddPatchSet());
+    detail.setCanEditCommitMessage(change.getStatus().isOpen() && control.canAddPatchSet(db));
     detail.setCanEditTopicName(control.canEditTopicName());
 
     List<SubmitRecord> submitRecords = control.getSubmitRecords(db, patch);

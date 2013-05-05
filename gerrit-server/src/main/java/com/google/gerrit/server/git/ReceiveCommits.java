@@ -1591,7 +1591,7 @@ public class ReceiveCommits {
       this.checkMergedInto = checkMergedInto;
     }
 
-    boolean validate(boolean autoClose) throws IOException {
+    boolean validate(boolean autoClose) throws IOException, OrmException {
       if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
       }
@@ -1607,7 +1607,7 @@ public class ReceiveCommits {
       }
 
       changeCtl = projectControl.controlFor(change);
-      if (!changeCtl.canAddPatchSet()) {
+      if (!changeCtl.canAddPatchSet(db)) {
         reject(inputCommand, "cannot replace " + ontoChange);
         return false;
       }

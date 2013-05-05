@@ -16,6 +16,24 @@
       "revId": "c3269d96ab120db252f6f0489a4597b51138a593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UPMYLIt4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-05T21:02:30Z",
+      "side": 1,
+      "message": "When writing this patch set, I first tried with \u0027false\u0027, but that caused problems when replacing change\u0027s patch sets. But I cannot reproduce this now :-/",
+      "parentUuid": "UO8e3ng8",
+      "revId": "c3269d96ab120db252f6f0489a4597b51138a593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

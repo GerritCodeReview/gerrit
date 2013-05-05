@@ -887,7 +887,7 @@ a:hover {
   font-size: 8pt;
 }
 
-.patchSetWithDraft .header td {
+.patchSetWithDraftComments .header td {
   color: #ff5555;
 }
 

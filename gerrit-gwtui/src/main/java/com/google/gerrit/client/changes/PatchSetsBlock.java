@@ -88,7 +88,8 @@ public class PatchSetsBlock extends Composite {
 
     for (final PatchSet ps : patchSets) {
       final PatchSetComplexDisclosurePanel p =
-          new PatchSetComplexDisclosurePanel(ps, ps == currps);
+          new PatchSetComplexDisclosurePanel(ps, ps == currps,
+              detail.getPatchSetsWithDraftComments().contains(ps.getId()));
       if (diffBaseId != null) {
         p.setDiffBaseId(diffBaseId);
         if (ps == currps) {

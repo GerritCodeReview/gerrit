@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.List;
+import java.util.Set;
 
 /** Detail necessary to display a change. */
 public class ChangeDetail {
@@ -38,6 +39,7 @@ public class ChangeDetail {
   protected List<ChangeInfo> dependsOn;
   protected List<ChangeInfo> neededBy;
   protected List<PatchSet> patchSets;
+  protected Set<PatchSet.Id> patchSetsWithDraftComments;
   protected List<SubmitRecord> submitRecords;
   protected Project.SubmitType submitType;
   protected SubmitTypeRecord submitTypeRecord;
@@ -194,6 +196,14 @@ public class ChangeDetail {
 
   public void setPatchSets(List<PatchSet> s) {
     patchSets = s;
+  }
+
+  public void setPatchSetsWithDraftComments(Set<PatchSet.Id> pwdc) {
+    this.patchSetsWithDraftComments = pwdc;
+  }
+
+  public boolean hasDraftComments(PatchSet.Id id) {
+    return patchSetsWithDraftComments.contains(id);
   }
 
   public void setSubmitRecords(List<SubmitRecord> all) {

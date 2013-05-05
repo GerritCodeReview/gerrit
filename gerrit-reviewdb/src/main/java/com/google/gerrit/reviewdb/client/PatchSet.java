@@ -136,9 +136,6 @@ public final class PatchSet {
   @Column(id = 5)
   protected boolean draft;
 
-  /** Not persisted in the database */
-  protected boolean hasDraftComments;
-
   protected PatchSet() {
   }
 
@@ -188,14 +185,6 @@ public final class PatchSet {
 
   public String getRefName() {
     return id.toRefName();
-  }
-
-  public boolean getHasDraftComments() {
-    return hasDraftComments;
-  }
-
-  public void setHasDraftComments(boolean hasDraftComments) {
-    this.hasDraftComments = hasDraftComments;
   }
 
   @Override

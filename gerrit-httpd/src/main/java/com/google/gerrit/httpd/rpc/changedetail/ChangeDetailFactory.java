@@ -180,19 +180,25 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private void loadPatchSets() throws OrmException {
     ResultSet<PatchSet> source = db.patchSets().byChange(changeId);
     List<PatchSet> patches = new ArrayList<PatchSet>();
+    Set<PatchSet.Id> patchesWithDraftComments = new HashSet<PatchSet.Id>();
+    final CurrentUser user = control.getCurrentUser();
+    final Account.Id me =
+        user instanceof IdentifiedUser ? ((IdentifiedUser) user).getAccountId()
+            : null;
     for (PatchSet ps : source) {
-      final CurrentUser user = control.getCurrentUser();
-      if (user instanceof IdentifiedUser) {
-        final Account.Id me = ((IdentifiedUser) user).getAccountId();
-        ps.setHasDraftComments(db.patchComments()
-            .draftByPatchSetAuthor(ps.getId(), me).iterator().hasNext());
-      }
+      final PatchSet.Id psId = ps.getId();
       if (control.isPatchVisible(ps, db)) {
         patches.add(ps);
+        if (me != null
+            && db.patchComments().draftByPatchSetAuthor(psId, me)
+                .iterator().hasNext()) {
+          patchesWithDraftComments.add(psId);
+        }
       }
-      patchsetsById.put(ps.getId(), ps);
+      patchsetsById.put(psId, ps);
     }
     detail.setPatchSets(patches);
+    detail.setPatchSetsWithDraftComments(patchesWithDraftComments);
   }
 
   private void loadMessages() throws OrmException {

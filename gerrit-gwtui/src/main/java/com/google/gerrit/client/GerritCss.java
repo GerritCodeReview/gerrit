@@ -178,7 +178,6 @@ public interface GerritCss extends CssResource {
   String patchSetLink();
   String patchSetRevision();
   String patchSetUserIdentity();
-  String patchSetWithDraft();
   String patchSizeCell();
   String pluginsTable();
   String posscore();

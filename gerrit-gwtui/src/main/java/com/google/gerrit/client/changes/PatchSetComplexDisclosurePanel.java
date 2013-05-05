@@ -44,6 +44,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
@@ -77,7 +78,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
    * Creates a closed complex disclosure panel for a patch set.
    * The patch set details are loaded when the complex disclosure panel is opened.
    */
-  public PatchSetComplexDisclosurePanel(final PatchSet ps, boolean isOpen) {
+  public PatchSetComplexDisclosurePanel(final PatchSet ps, boolean isOpen,
+      boolean hasDraftComments) {
     super(Util.M.patchSetHeader(ps.getPatchSetId()), isOpen);
     detailCache = ChangeCache.get(ps.getId().getParentKey()).getChangeDetailCache();
     changeDetail = detailCache.get();
@@ -85,6 +87,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
 
     body = new FlowPanel();
     setContent(body);
+
+    if (hasDraftComments) {
+      final Image draftComments = new Image(Gerrit.RESOURCES.draftComments());
+      draftComments.setTitle(Util.C.patchSetWithDraftCommentsToolTip());
+      getHeader().add(draftComments);
+    }
 
     final GitwebLink gw = Gerrit.getGitwebLink();
     final InlineLabel revtxt = new InlineLabel(ps.getRevision().get() + " ");
@@ -108,10 +116,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       ensureLoaded(changeDetail.getCurrentPatchSetDetail());
     } else {
       addOpenHandler(this);
-    }
-
-    if(ps.getHasDraftComments()) {
-      addStyleName(Gerrit.RESOURCES.css().patchSetWithDraft());
     }
 
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UTTU5UOE",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-06T23:25:29Z",
+      "side": 0,
+      "message": "--force-message has been around for a while in release versions. Perhaps we need to keep the flag as a no-op for at least one release?",
+      "revId": "ac87b1318bb169848ea0e5a514fb913bfaec6034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-flags=-Pacceptance
+flags=
 
 while [ $# -gt 0 ]
 do
@@ -13,8 +13,13 @@ do
 		flags="$flags -Dgerrit.plugins.skip=true"
 		shift
 		;;
+	--no-tests|--without-tests)
+		flags="$flags -Dgerrit.acceptance-tests.skip=true"
+		flags="$flags -Dmaven.tests.skip=true"
+		shift
+		;;
 	*)
-		echo >&2 "usage: $0 [--no-documentation] [--no-plugins]"
+		echo >&2 "usage: $0 [--no-documentation] [--no-plugins] [--no-tests]"
 		exit 1
 	esac
 done
@@ -29,7 +34,7 @@ then
 fi
 
 ./tools/version.sh --release &&
-mvn clean package $flags
+mvn clean package verify $flags
 rc=$?
 ./tools/version.sh --reset
 

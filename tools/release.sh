@@ -1,6 +1,6 @@
 #!/bin/sh
 
-flags=
+flags=-Pacceptance
 
 while [ $# -gt 0 ]
 do

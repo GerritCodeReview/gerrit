@@ -6,7 +6,15 @@
 # Java based Maven plugin so its fully portable.
 #
 
-POM_FILES=$(git ls-files | grep pom.xml | grep -v /src/main/resources/archetype-resources/pom.xml)
+SERVER_POMS=$(git ls-files | grep pom.xml | grep -v /src/main/resources/archetype-resources/pom.xml)
+POM_FILES=$SERVER_POMS
+
+# CORE PLUGIN LIST
+PLUGINS="commit-message-length-validator replication reviewnotes"
+for p in $PLUGINS
+do
+	POM_FILES="$POM_FILES $(cd plugins/$p && git ls-files | grep pom.xml | sed s,^,plugins/$p/,)"
+done
 
 case "$1" in
 --snapshot=*)
@@ -27,7 +35,11 @@ case "$1" in
 	;;
 
 --reset)
-	git checkout HEAD -- $POM_FILES
+	git checkout HEAD -- $SERVER_POMS
+	for p in $PLUGINS
+	do
+		(cd plugins/$p; git checkout $(git ls-files | grep pom.xml))
+	done
 	exit $?
 	;;
 

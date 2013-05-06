@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.google.gwt.user.client.ui.ValueBoxBase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -139,6 +140,17 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
     if (widget.isEnabled() ||
         ! (e.getSource() instanceof FocusWidget) ||
         ! ((FocusWidget) e.getSource()).isEnabled() ) {
+      if (e.getSource() instanceof ValueBoxBase) {
+        final TextBoxBase box = ((TextBoxBase) e.getSource());
+        Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+          @Override
+          public void execute() {
+            if (box.getValue().trim().length() == 0) {
+              widget.setEnabled(false);
+            }
+          }
+        });
+      }
       return;
     }
 

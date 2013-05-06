@@ -98,6 +98,23 @@ limitations under the License.
     <module>gerrit-plugin-gwt-archetype</module>
   </modules>
 
+  <profiles>
+    <profile>
+      <id>plugins</id>
+      <activation>
+        <property>
+          <name>!gerrit.plugins.skip</name>
+        </property>
+      </activation>
+      <modules>
+        <!-- CORE PLUGIN LIST -->
+        <module>plugins/commit-message-length-validator</module>
+        <module>plugins/replication</module>
+        <module>plugins/reviewnotes</module>
+      </modules>
+    </profile>
+  </profiles>
+
   <licenses>
     <license>
       <name>Apache License, 2.0</name>

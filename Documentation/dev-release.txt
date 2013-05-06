@@ -132,45 +132,14 @@ the subproject.
 to the released version
 
 
-[[prepare-gerrit]]
-Prepare Gerrit
-~~~~~~~~~~~~~~
+[[build-gerrit]]
+Build Gerrit
+~~~~~~~~~~~~
 
-In all example commands it is assumed that the last release was `2.4`
-and that now the `2.5` release is prepared.
-
-
-[[prepare-war-and-plugin-api]]
-Prepare the Gerrit WAR and the Plugin API Jar
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-* link:dev-readme.html#run-acceptance-tests[Run the acceptance tests]
-
-* Create locally a `stable-2.5` branch for making the new release
-
-* Check in the Gerrit parent `pom.xml` that no `SNAPSHOT` version of a
-Subproject is referenced
-+
-If there is a dependency to a `SNAPSHOT` version,
-link:#subproject[release the subproject] first.
-
-* Create a tag for the Gerrit release
-+
-For an `RC` release:
+* Build the Gerrit WAR
 +
 ====
- git tag -a -m "gerrit 2.5-rc0" v2.5-rc0
-====
-+
-For a final `stable` release:
-+
-====
- git tag -a -m "gerrit 2.5" v2.5
-====
-
-* Build the Gerrit WAR (without plugins) and the Plugin API Jar
-+
-====
+ rm -f ~/.m2/settings.xml
  ./tools/release.sh
 ====
 +
@@ -182,57 +151,6 @@ limits the compilation to a certain browser.
 ========================================================================
 
 * Sanity check WAR
-
-
-[[prepare-core-plugins]]
-Prepare Core Plugins
-^^^^^^^^^^^^^^^^^^^^
-The core plugins to be prepared are:
-
-* `plugins/replication`
-
-For each core plugin do:
-
-* link:dev-release-subproject.html#make-snapshot[Make a snapshot and test it]
-* link:dev-release-subproject.html#prepare-release[Prepare the Release]
-
-* Update the version of the Core Plugin in
-`gerrit-package-plugins/pom.xml` to the released version
-
-[WARNING]
-========================================================================
-Updating the plugin versions in `gerrit-package-plugins/pom.xml`
-invalidates the Gerrit Release Tag which was created before.
-
-If needed delete the tag and recreate it!
-========================================================================
-
-
-[[prepare-war-with-plugins]]
-Prepare Gerrit WAR with Core Plugins
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-* Ensure that the Core Plugins listed in `gerrit-package-plugins/pom.xml`
-point to the latest release version (no dependency to `SNAPSHOT` versions)
-
-* Ensure that the release tag points to the `HEAD` commit
-
-* Include core plugins into WAR
-+
-====
- $ ./tools/version.sh --release && mvn clean package -f gerrit-package-plugins/pom.xml
- $ ./tools/version.sh --reset
-====
-
-* Find WAR that includes the core plugins at
-`gerrit-package-plugins\target\gerrit-full-v2.5.war`
-
-* Compare `gerrit-package-plugins\target\gerrit-full-v2.5.war` with
-  `gerrit-war\target\gerrit-v2.5.war`
-+
-The only difference should be the core plugins jars under
-`WEB-INF\plugins`.
-
 * Test the new Gerrit version
 
 [[publish-gerrit]]

@@ -251,6 +251,7 @@ limitations under the License.
                   <arg value="VERSION=${project.version}" />
                   <arg value="clean" />
                   <arg value="all" />
+                  <arg value="-j8" />
                 </exec>
 
                 <mkdir dir="${dst}" />
@@ -278,6 +279,7 @@ limitations under the License.
                   <arg value="VERSION=${project.version}" />
                   <arg value="clean" />
                   <arg value="all" />
+                  <arg value="-j8" />
                 </exec>
 
                 <mkdir dir="${dst}" />

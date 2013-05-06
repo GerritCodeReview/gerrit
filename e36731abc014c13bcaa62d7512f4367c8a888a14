@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "UJlzpPaU",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-06T14:11:46Z",
+      "side": 1,
+      "message": "The urlProvider can never be null, only its result from get(). So you an drop the ?: operator here.",
+      "revId": "e36731abc014c13bcaa62d7512f4367c8a888a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPuSrumA",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2013-05-04T12:34:19Z",
       "side": 1,
       "message": "Put this in the base class instead of having the same implementation in both derived classes.",
+      "revId": "e36731abc014c13bcaa62d7512f4367c8a888a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJrzMAV0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-06T14:11:46Z",
+      "side": 1,
+      "message": "Since they don\u0027t share a base class this cannot be put there. Instead make it a static method in a helper clas.",
+      "parentUuid": "UPuSrumA",
       "revId": "e36731abc014c13bcaa62d7512f4367c8a888a14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

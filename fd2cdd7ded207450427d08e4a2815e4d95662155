@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "UTRUX9Fg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-06T22:02:07Z",
+      "side": 1,
+      "message": "Its too big of a change for 2.6 at this point. Best I can suggest is we just cancel 2.6 and build 2.7 off tip of master.",
+      "parentUuid": "UPIbkSvk",
+      "revId": "fd2cdd7ded207450427d08e4a2815e4d95662155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJjz48XA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
         "patchSetId": 1

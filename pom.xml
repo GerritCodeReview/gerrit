@@ -421,7 +421,10 @@ limitations under the License.
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore/>
+                     <execute>
+                      <runOnIncremental>false</runOnIncremental>
+                      <runOnConfiguration>true</runOnConfiguration>
+                    </execute>
                   </action>
                 </pluginExecution>
                 <pluginExecution>
@@ -434,7 +437,10 @@ limitations under the License.
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore/>
+                    <execute>
+                      <runOnIncremental>false</runOnIncremental>
+                      <runOnConfiguration>true</runOnConfiguration>
+                   </execute>
                   </action>
                 </pluginExecution>
               </pluginExecutions>

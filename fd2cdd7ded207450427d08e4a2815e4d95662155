@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "UPEauUpE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-06T22:06:40Z",
+      "side": 1,
+      "message": "Canceling 2.6 is not an option for me and IMHO this is also not an option for most of the community members. For me it would be fine if this would be merged into current master. Then I can cherry-pick it to stable-2.6 and do my own 2.6-X release",
+      "parentUuid": "UTRUX9Fg",
+      "revId": "fd2cdd7ded207450427d08e4a2815e4d95662155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJjz48XA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
         "patchSetId": 1

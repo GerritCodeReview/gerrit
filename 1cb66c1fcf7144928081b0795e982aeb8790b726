@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UPkTCzi8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-06T00:59:36Z",
+      "side": 1,
+      "message": "The comma is not necessary.",
+      "revId": "1cb66c1fcf7144928081b0795e982aeb8790b726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

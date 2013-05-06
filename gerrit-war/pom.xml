@@ -242,7 +242,7 @@ limitations under the License.
             <id>include-documentation</id>
             <phase>process-classes</phase>
             <configuration>
-              <target if="gerrit.include-documentation">
+              <target unless="gerrit.documentation.skip">
                 <property name="src" location="${basedir}/../Documentation" />
                 <property name="out" location="${project.build.directory}/${project.build.finalName}" />
                 <property name="dst" location="${out}/Documentation" />
@@ -269,7 +269,7 @@ limitations under the License.
             <id>include-release-notes</id>
             <phase>process-classes</phase>
             <configuration>
-              <target if="gerrit.include-documentation">
+              <target unless="gerrit.documentation.skip">
                 <property name="src" location="${basedir}/../ReleaseNotes" />
                 <property name="out" location="${project.build.directory}/${project.build.finalName}" />
                 <property name="dst" location="${out}/ReleaseNotes" />

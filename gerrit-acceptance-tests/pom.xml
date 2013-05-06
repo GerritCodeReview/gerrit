@@ -115,6 +115,11 @@ limitations under the License.
   <profiles>
     <profile>
       <id>acceptance</id>
+      <activation>
+        <property>
+          <name>!gerrit.acceptance-tests.skip</name>
+        </property>
+      </activation>
       <build>
         <plugins>
           <plugin>

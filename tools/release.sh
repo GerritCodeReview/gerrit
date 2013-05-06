@@ -1,12 +1,12 @@
 #!/bin/sh
 
-include_docs=-Dgerrit.include-documentation=1
+flags=-Pall
 
 while [ $# -gt 0 ]
 do
 	case "$1" in
 	--no-documentation|--without-documentation)
-		include_docs=
+		flags="$flags -Dgerrit.documentation.skip=true"
 		shift
 		;;
 	*)
@@ -24,19 +24,8 @@ then
 	exit 1
 fi
 
-
-if test -n "$include_docs"
-then
-	BINARY=asciidoc
-	if ! command -v $BINARY >/dev/null 2>&1
-	then
-		echo >&2 "error: $BINARY executable was not found. Either install $BINARY or use the --without-documentation option"
-		exit 1
-	fi
-fi
-
 ./tools/version.sh --release &&
-mvn clean install $include_docs -P all
+mvn clean install $flags
 rc=$?
 ./tools/version.sh --reset
 

@@ -77,6 +77,7 @@ limitations under the License.
     <module>gerrit-common</module>
     <module>gerrit-cache-h2</module>
     <module>gerrit-httpd</module>
+    <module>gerrit-gwtui</module>
     <module>gerrit-launcher</module>
     <module>gerrit-main</module>
     <module>gerrit-openid</module>
@@ -88,31 +89,14 @@ limitations under the License.
     <module>gerrit-gwtdebug</module>
     <module>gerrit-war</module>
 
-    <module>gerrit-extension-api</module>
-
-    <module>gerrit-gwtui</module>
-
     <module>gerrit-acceptance-tests</module>
+    <module>gerrit-extension-api</module>
+    <module>gerrit-plugin-api</module>
+    <module>gerrit-plugin-archetype</module>
+    <module>gerrit-plugin-gwtui</module>
+    <module>gerrit-plugin-js-archetype</module>
+    <module>gerrit-plugin-gwt-archetype</module>
   </modules>
-
-  <profiles>
-    <profile>
-      <id>all</id>
-      <modules>
-        <module>gerrit-plugin-api</module>
-        <module>gerrit-plugin-archetype</module>
-        <module>gerrit-plugin-gwtui</module>
-        <module>gerrit-plugin-js-archetype</module>
-        <module>gerrit-plugin-gwt-archetype</module>
-     </modules>
-    </profile>
-    <profile>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <id>no-plugins</id>
-    </profile>
-  </profiles>
 
   <licenses>
     <license>

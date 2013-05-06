@@ -1,6 +1,6 @@
 #!/bin/sh
 
-flags=-Pall
+flags=
 
 while [ $# -gt 0 ]
 do

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UPMbaQj0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2013-05-06T20:10:00Z",
+      "side": 1,
+      "message": "Sorry, perhaps I understood the @Nullable annotation on the urlProvider to mean something different:\n\n  @CanonicalWebUrl @Nullable Provider\u003cString\u003e urlProvider,",
+      "parentUuid": "UJlzpPaU",
+      "revId": "e36731abc014c13bcaa62d7512f4367c8a888a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPuSrumA",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Since they don\u0027t share a base class this cannot be put there. Instead make it a static method in a helper clas.",
       "parentUuid": "UPuSrumA",
+      "revId": "e36731abc014c13bcaa62d7512f4367c8a888a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "USDpgIeE",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1005688
+      },
+      "writtenOn": "2013-05-06T20:10:00Z",
+      "side": 1,
+      "message": "Can do. Any suggestions as to the name/location of the helper class? Is there an existing one that it can be added to, or should there be a new one created?",
+      "parentUuid": "UJrzMAV0",
       "revId": "e36731abc014c13bcaa62d7512f4367c8a888a14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

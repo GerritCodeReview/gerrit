@@ -132,6 +132,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       checkComments(input.comments);
     }
     if (input.notify == null) {
+      log.warn("notify = null; assuming notify = NONE");
       input.notify = NotifyHandling.NONE;
     }
 

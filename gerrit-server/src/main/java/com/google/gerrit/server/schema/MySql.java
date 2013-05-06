@@ -47,6 +47,10 @@ class MySql extends BaseDataSourceType {
 
   @Override
   public boolean usePool() {
+    // MySQL has given us trouble with the connection pool,
+    // sometimes the backend disconnects and the pool winds
+    // up with a stale connection. Fortunately opening up
+    // a new MySQL connection is usually very fast.
     return false;
   }
 }

@@ -138,16 +138,8 @@ Build Gerrit
 * Build the Gerrit WAR
 +
 ====
- rm -f ~/.m2/settings.xml
  ./tools/release.sh
 ====
-+
-[WARNING]
-========================================================================
-Make sure you are compiling the release for all browsers. Check in your
-Maven `~/.m2/settings.xml` file that no Maven profile is active that
-limits the compilation to a certain browser.
-========================================================================
 
 * Sanity check WAR
 * Test the new Gerrit version

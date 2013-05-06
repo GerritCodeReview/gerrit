@@ -151,53 +151,6 @@ limitations under the License.
     </dependency>
   </dependencies>
 
-  <profiles>
-    <profile>
-      <id>all</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUI</GerritGwtUI.browserType>
-        <GerritGwtUI.draftCompile>false</GerritGwtUI.draftCompile>
-      </properties>
-    </profile>
-    <profile>
-      <id>safari</id>
-      <properties>
-        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIsafari</GerritGwtUI.browserType>
-        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
-      </properties>
-    </profile>
-    <profile>
-      <id>chrome</id>
-      <properties>
-        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIsafari</GerritGwtUI.browserType>
-        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
-      </properties>
-    </profile>
-    <profile>
-      <id>webkit</id>
-      <properties>
-        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIsafari</GerritGwtUI.browserType>
-        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
-      </properties>
-    </profile>
-    <profile>
-      <id>gecko1_8</id>
-      <properties>
-        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIgecko1_8</GerritGwtUI.browserType>
-        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
-      </properties>
-    </profile>
-    <profile>
-      <id>firefox</id>
-      <properties>
-        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIgecko1_8</GerritGwtUI.browserType>
-        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
-      </properties>
-    </profile>
-  </profiles>
 
   <build>
     <plugins>
@@ -208,12 +161,11 @@ limitations under the License.
           <execution>
             <id>optimized</id>
             <configuration>
-              <module>${GerritGwtUI.browserType}</module>
+              <module>com.google.gerrit.GerritGwtUI</module>
               <extraJvmArgs>-Xmx512m</extraJvmArgs>
               <compileReport>${gwt.compileReport}</compileReport>
               <disableClassMetadata>true</disableClassMetadata>
               <disableCastChecking>true</disableCastChecking>
-              <draftCompile>${GerritGwtUI.draftCompile}</draftCompile>
             </configuration>
             <goals>
               <goal>compile</goal>
@@ -223,11 +175,10 @@ limitations under the License.
             <id>debug</id>
             <configuration>
               <style>PRETTY</style>
-              <module>${GerritGwtUI.browserType}</module>
+              <module>com.google.gerrit.GerritGwtUI</module>
               <extraJvmArgs>-Xmx512m</extraJvmArgs>
               <disableClassMetadata>true</disableClassMetadata>
               <disableRunAsync>true</disableRunAsync>
-              <draftCompile>true</draftCompile>
               <webappDirectory>${project.build.directory}/${project.build.finalName}_dbg</webappDirectory>
             </configuration>
             <goals>

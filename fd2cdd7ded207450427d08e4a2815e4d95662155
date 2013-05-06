@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UJhzztZc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-06T14:18:14Z",
+      "side": 1,
+      "message": "This is too invasive of a change for this late in the 2.6 cycle.",
+      "revId": "fd2cdd7ded207450427d08e4a2815e4d95662155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UJjz48XA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-06T14:18:14Z",
+      "side": 1,
+      "message": "I don\u0027t want to pass the Project object into the group system. Either the Project.NameKey or a ProjectControl for the current user would be more suitable.\n\nIf we are going to break this interface I wonder if we should first change it to be an abstract base class. Then we can write suggest() as an overloaded method, where the form that takes the project has a concrete implementation that calls the old suggest(String) method by default. Backends that don\u0027t care about the project are then not impacted by such context changes.",
+      "revId": "fd2cdd7ded207450427d08e4a2815e4d95662155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

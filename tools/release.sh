@@ -9,8 +9,12 @@ do
 		flags="$flags -Dgerrit.documentation.skip=true"
 		shift
 		;;
+	--no-plugins|--without-plugins)
+		flags="$flags -Dgerrit.plugins.skip=true"
+		shift
+		;;
 	*)
-		echo >&2 "usage: $0 [--without-documentation]"
+		echo >&2 "usage: $0 [--no-documentation] [--no-plugins]"
 		exit 1
 	esac
 done
@@ -25,7 +29,7 @@ then
 fi
 
 ./tools/version.sh --release &&
-mvn clean install $flags
+mvn clean package $flags
 rc=$?
 ./tools/version.sh --reset
 

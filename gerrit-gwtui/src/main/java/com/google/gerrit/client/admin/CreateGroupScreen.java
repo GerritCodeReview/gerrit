@@ -27,11 +27,14 @@ import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -74,7 +77,24 @@ public class CreateGroupScreen extends Screen {
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
     addPanel.add(new SmallHeading(Util.C.headingCreateGroup()));
 
-    addTxt = new NpTextBox();
+    addTxt = new NpTextBox() {
+      @Override
+      public void onBrowserEvent(Event event) {
+        super.onBrowserEvent(event);
+        if (event.getTypeInt() == Event.ONPASTE) {
+          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+            @Override
+            public void execute() {
+              if (addTxt.getValue().trim().length() != 0) {
+                addNew.setEnabled(true);
+              }
+            }
+          });
+        }
+      }
+    };
+    addTxt.sinkEvents(Event.ONPASTE);
+
     addTxt.setVisibleLength(60);
     addTxt.addKeyPressHandler(new KeyPressHandler() {
       @Override

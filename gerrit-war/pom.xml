@@ -120,6 +120,38 @@ limitations under the License.
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>plugins</id>
+      <activation>
+        <property>
+          <name>!gerrit.plugins.skip</name>
+        </property>
+      </activation>
+      <dependencies>
+        <!-- CORE PLUGIN LIST -->
+        <dependency>
+          <groupId>com.googlesource.gerrit.plugins.replication</groupId>
+          <artifactId>replication</artifactId>
+          <version>${project.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>com.googlesource.gerrit.plugins.reviewnotes</groupId>
+          <artifactId>reviewnotes</artifactId>
+          <version>${project.version}</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>com.googlesource.gerrit.plugins.validators</groupId>
+          <artifactId>commit-message-length-validator</artifactId>
+          <version>${project.version}</version>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
   <build>
 	<pluginManagement>
 	  <plugins>
@@ -189,6 +221,19 @@ limitations under the License.
             <configuration>
               <includeGroupIds>org.apache.tomcat,org.eclipse.jetty</includeGroupIds>
               <excludeArtifactIds>servlet-api</excludeArtifactIds>
+            </configuration>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>copy-plugins</id>
+            <configuration>
+              <!-- CORE PLUGIN LIST -->
+              <includeArtifactIds>commit-message-length-validator,replication,reviewnotes</includeArtifactIds>
+              <includeTypes>jar</includeTypes>
+              <stripVersion>true</stripVersion>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/plugins</outputDirectory>
             </configuration>
             <goals>
               <goal>copy-dependencies</goal>

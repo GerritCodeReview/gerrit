@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UPIbkSvk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-06T21:39:08Z",
+      "side": 1,
+      "message": "Yes this is a braking change, but it is really important for me to have it in 2.6 maybe we can do it less \u0027braking\u0027 with abstract class as you suggested?",
+      "parentUuid": "UJhzztZc",
+      "revId": "fd2cdd7ded207450427d08e4a2815e4d95662155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJjz48XA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-06T14:18:14Z",
       "side": 1,
       "message": "I don\u0027t want to pass the Project object into the group system. Either the Project.NameKey or a ProjectControl for the current user would be more suitable.\n\nIf we are going to break this interface I wonder if we should first change it to be an abstract base class. Then we can write suggest() as an overloaded method, where the form that takes the project has a concrete implementation that calls the old suggest(String) method by default. Backends that don\u0027t care about the project are then not impacted by such context changes.",
+      "revId": "fd2cdd7ded207450427d08e4a2815e4d95662155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "USBplXfE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-06T21:39:08Z",
+      "side": 1,
+      "message": "Project.NameKey will be enough for my current use case, but for future use it could be not enough. Some adopter could be also interested in parent project name which (AFAIK) cannot be obtained easily using Project.NameKey.\n\nProjectControl give us more flexibility for adopters, so personally I would prefer to have it instead of Project object.\n\nAFAIK Group backend is part for gerrit pluging API so we don\u0027t guarantee API compatibility (it is different for extension API) so I wouldn\u0027t bother much about API breakdown... but if you would like to keep backward compatibility I would propose to keep this interface and would add AbstractGroupBackend class where would add Collection\u003cGroupReference\u003e suggest(String, ProjectControl) that in default implementation would cal suggest(String).",
+      "parentUuid": "UJjz48XA",
       "revId": "fd2cdd7ded207450427d08e4a2815e4d95662155",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

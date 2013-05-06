@@ -64,29 +64,39 @@ public class ApprovalsUtil {
   }
 
   /**
-   * Moves the PatchSetApprovals to the specified PatchSet on the change from
-   * the prior PatchSet, while keeping the vetos.
+   * Copy min/max scores from one patch set to another.
    *
    * @throws OrmException
-   * @return List<PatchSetApproval> The previous approvals
    */
-  public static List<PatchSetApproval> copyLabels(ReviewDb db,
-      LabelTypes labelTypes,
-      PatchSet.Id source,
+  public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
+      PatchSet.Id source, PatchSet.Id dest) throws OrmException {
+    Iterable<PatchSetApproval> sourceApprovals =
+        db.patchSetApprovals().byPatchSet(source);
+    copyLabels(db, labelTypes, sourceApprovals, source, dest);
+  }
+
+  /**
+   * Copy a set's min/max scores from one patch set to another.
+   *
+   * @throws OrmException
+   */
+  public static void copyLabels(ReviewDb db, LabelTypes labelTypes,
+      Iterable<PatchSetApproval> sourceApprovals, PatchSet.Id source,
       PatchSet.Id dest) throws OrmException {
     List<PatchSetApproval> copied = Lists.newArrayList();
-    for (PatchSetApproval a : db.patchSetApprovals().byPatchSet(source)) {
-      LabelType type = labelTypes.byLabel(a.getLabelId());
-      if (type == null) {
-        continue;
-      } else if (type.isCopyMinScore() && type.isMaxNegative(a)) {
-        copied.add(new PatchSetApproval(dest, a));
-      } else if (type.isCopyMaxScore() && type.isMaxPositive(a)) {
-        copied.add(new PatchSetApproval(dest, a));
+    for (PatchSetApproval a : sourceApprovals) {
+      if (source.equals(a.getPatchSetId())) {
+        LabelType type = labelTypes.byLabel(a.getLabelId());
+        if (type == null) {
+          continue;
+        } else if (type.isCopyMinScore() && type.isMaxNegative(a)) {
+          copied.add(new PatchSetApproval(dest, a));
+        } else if (type.isCopyMaxScore() && type.isMaxPositive(a)) {
+          copied.add(new PatchSetApproval(dest, a));
+        }
       }
     }
     db.patchSetApprovals().insert(copied);
-    return copied;
   }
 
   public void addReviewers(ReviewDb db, LabelTypes labelTypes, Change change,

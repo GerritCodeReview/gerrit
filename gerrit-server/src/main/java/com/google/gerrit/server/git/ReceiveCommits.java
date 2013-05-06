@@ -51,6 +51,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -1843,9 +1844,12 @@ public class ReceiveCommits {
           mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
         }
 
-        final MailRecipients oldRecipients =
-            getRecipientsFromApprovals(ApprovalsUtil.copyLabels(
-                db, labelTypes, priorPatchSet, newPatchSet.getId()));
+        List<PatchSetApproval> oldChangeApprovals =
+            db.patchSetApprovals().byChange(change.getId()).toList();
+        final MailRecipients oldRecipients = getRecipientsFromApprovals(
+            oldChangeApprovals);
+        ApprovalsUtil.copyLabels(db, labelTypes, oldChangeApprovals,
+            priorPatchSet, newPatchSet.getId());
         approvalsUtil.addReviewers(db, labelTypes, change, newPatchSet, info,
             recipients.getReviewers(), oldRecipients.getAll());
         recipients.add(oldRecipients);

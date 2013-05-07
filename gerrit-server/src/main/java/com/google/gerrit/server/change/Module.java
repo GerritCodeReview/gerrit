@@ -17,7 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.CommentResource.COMMENT_KIND;
 import static com.google.gerrit.server.change.DraftResource.DRAFT_KIND;
-import static com.google.gerrit.server.change.PatchResource.PATCH_KIND;
+import static com.google.gerrit.server.change.FileResource.FILE_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 
@@ -35,12 +35,12 @@ public class Module extends RestApiModule {
     bind(Reviewers.class);
     bind(Drafts.class);
     bind(Comments.class);
-    bind(Patches.class);
+    bind(Files.class);
 
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), COMMENT_KIND);
     DynamicMap.mapOf(binder(), DRAFT_KIND);
-    DynamicMap.mapOf(binder(), PATCH_KIND);
+    DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
     DynamicMap.mapOf(binder(), REVISION_KIND);
 
@@ -76,9 +76,9 @@ public class Module extends RestApiModule {
     child(REVISION_KIND, "comments").to(Comments.class);
     get(COMMENT_KIND).to(GetComment.class);
 
-    child(REVISION_KIND, "files").to(Patches.class);
-    put(PATCH_KIND, "reviewed").to(PutReviewed.class);
-    delete(PATCH_KIND, "reviewed").to(DeleteReviewed.class);
+    child(REVISION_KIND, "files").to(Files.class);
+    put(FILE_KIND, "reviewed").to(PutReviewed.class);
+    delete(FILE_KIND, "reviewed").to(DeleteReviewed.class);
 
     install(new FactoryModule() {
       @Override

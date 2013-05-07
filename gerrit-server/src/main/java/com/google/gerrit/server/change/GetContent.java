@@ -16,11 +16,16 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Charsets.UTF_8;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.DraftRevision;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -36,25 +41,24 @@ import java.io.IOException;
 
 public class GetContent implements RestReadView<PatchResource> {
   private final GitRepositoryManager repoManager;
+  private final Provider<CurrentUser> user;
 
   @Inject
-  GetContent(GitRepositoryManager repoManager) {
+  GetContent(GitRepositoryManager repoManager, Provider<CurrentUser> user) {
     this.repoManager = repoManager;
+    this.user = user;
   }
 
   @Override
-  public String apply(PatchResource rsrc) throws ResourceNotFoundException {
-    // TODO(dborowitz): Implement for draft revisions.
-    rsrc.getRevision().checkPublished();
+  public String apply(PatchResource rsrc) throws ResourceNotFoundException,
+       AuthException, IOException {
     Project.NameKey project = rsrc.getControl().getProject().getNameKey();
     try {
       Repository repo = repoManager.openRepository(project);
       try {
         RevWalk rw = new RevWalk(repo);
         try {
-          RevCommit commit =
-              rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet()
-                  .getRevision().get()));
+          RevCommit commit = getCommit(rsrc, repo, rw);
           RevTree tree = commit.getTree();
           TreeWalk tw = new TreeWalk(repo);
           try {
@@ -82,5 +86,38 @@ public class GetContent implements RestReadView<PatchResource> {
     } catch (IOException e) {
       throw new ResourceNotFoundException();
     }
+  }
+
+  private RevCommit getCommit(PatchResource rsrc, Repository repo, RevWalk rw)
+      throws IOException, AuthException {
+    switch (rsrc.getRevision().getType()) {
+      case PUBLISHED:
+        return getPublishedCommit(rsrc, rw);
+      case DRAFT:
+        RevCommit c = new DraftRevision(checkIdentifiedUser(),
+            rsrc.getPatchSet().getId()).get(repo, rw);
+        if (c != null) {
+          return c;
+        }
+        return getPublishedCommit(rsrc, rw);
+      default:
+        throw new IOException(String.format(
+            "invalid revision type %s for resource %s", rsrc.getRevision()
+                .getType(), rsrc.getPatchKey()));
+    }
+  }
+
+  private IdentifiedUser checkIdentifiedUser() throws AuthException {
+    CurrentUser u = user.get();
+    if (!(u instanceof IdentifiedUser)) {
+      throw new AuthException("drafts only available to authenticated users");
+    }
+    return (IdentifiedUser) u;
+  }
+
+  private RevCommit getPublishedCommit(PatchResource rsrc, RevWalk rw)
+      throws IOException {
+    return rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet()
+        .getRevision().get()));
   }
 }

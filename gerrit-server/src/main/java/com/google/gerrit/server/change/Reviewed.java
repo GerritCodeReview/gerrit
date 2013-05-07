@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
@@ -38,7 +39,8 @@ class Reviewed {
 
     @Override
     public Object apply(FileResource resource, Input input)
-        throws OrmException {
+        throws ResourceNotFoundException, OrmException {
+      resource.getRevision().checkPublished();
       ReviewDb db = dbProvider.get();
       AccountPatchReview apr = getExisting(db, resource);
       if (apr == null) {
@@ -62,7 +64,8 @@ class Reviewed {
 
     @Override
     public Object apply(FileResource resource, Input input)
-        throws OrmException {
+        throws ResourceNotFoundException, OrmException {
+      resource.getRevision().checkPublished();
       ReviewDb db = dbProvider.get();
       AccountPatchReview apr = getExisting(db, resource);
       if (apr != null) {

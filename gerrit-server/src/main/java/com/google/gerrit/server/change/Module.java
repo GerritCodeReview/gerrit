@@ -53,6 +53,7 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "restore").to(Restore.class);
     post(CHANGE_KIND, "revert").to(Revert.class);
     post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
+    post(CHANGE_KIND, "rebase").to(Rebase.CurrentRevision.class);
 
     post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);
@@ -63,6 +64,7 @@ public class Module extends RestApiModule {
     get(REVISION_KIND, "review").to(GetReview.class);
     post(REVISION_KIND, "review").to(PostReview.class);
     post(REVISION_KIND, "submit").to(Submit.class);
+    post(REVISION_KIND, "rebase").to(Rebase.class);
     get(REVISION_KIND, "submit_type").to(TestSubmitType.Get.class);
     get(REVISION_KIND, "patch").to(GetPatch.class);
     post(REVISION_KIND, "test.submit_rule").to(TestSubmitRule.class);

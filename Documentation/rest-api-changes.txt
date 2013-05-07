@@ -710,6 +710,95 @@ the error message is contained in the response body.
   change is new
 ----
 
+[[rebase-change]]
+Rebase Change
+~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/rebase'
+
+Rebases a change.
+
+.Request
+----
+  POST /changes/myProject~master~I3ea943139cb62e86071996f2480e58bf3eeb9dd2/rebase HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the rebased change. Information about the current patch set
+is included.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I3ea943139cb62e86071996f2480e58bf3eeb9dd2",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I3ea943139cb62e86071996f2480e58bf3eeb9dd2",
+    "subject": "Implement Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": false,
+    "_sortkey": "0024cf9a000012bf",
+    "_number": 4799,
+    "owner": {
+      "name": "John Doe"
+    },
+    "current_revision": "27cc4558b5a3d3387dd11ee2df7a117e7e581822",
+    "revisions": {
+      "27cc4558b5a3d3387dd11ee2df7a117e7e581822": {
+        "_number": 2,
+        "fetch": {
+          "http": {
+            "url": "http://gerrit:8080/myProject",
+            "ref": "refs/changes/99/4799/2"
+          }
+        },
+        "commit": {
+          "parents": [
+            {
+              "commit": "b4003890dadd406d80222bf1ad8aca09a4876b70",
+              "subject": "Implement Feature A"
+            }
+        ],
+        "author": {
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "date": "2013-05-07 15:21:27.000000000",
+          "tz": 120
+        },
+        "committer": {
+          "name": "Gerrit Code Review",
+          "email": "gerrit-server@example.com",
+          "date": "2013-05-07 15:35:43.000000000",
+          "tz": 120
+        },
+        "subject": "Implement Feature X",
+        "message": "Implement Feature X\n\nAdded feature X."
+      }
+    }
+  }
+----
+
+If the change cannot be rebased, e.g. due to conflicts, the response is
+"`409 Conflict`" and the error message is contained in the response
+body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  The change could not be rebased due to a path conflict during merge.
+----
+
 [[revert-change]]
 Revert Change
 ~~~~~~~~~~~~~
@@ -1216,6 +1305,95 @@ describes the applied labels.
       "Code-Review": -1
     }
   }
+----
+
+[[rebase-revision]]
+Rebase Revision
+~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/rebase'
+
+Rebases a revision.
+
+.Request
+----
+  POST /changes/myProject~master~I3ea943139cb62e86071996f2480e58bf3eeb9dd2/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/rebase HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the rebased change. Information about the current patch set
+is included.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I3ea943139cb62e86071996f2480e58bf3eeb9dd2",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I3ea943139cb62e86071996f2480e58bf3eeb9dd2",
+    "subject": "Implement Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": false,
+    "_sortkey": "0024cf9a000012bf",
+    "_number": 4799,
+    "owner": {
+      "name": "John Doe"
+    },
+    "current_revision": "27cc4558b5a3d3387dd11ee2df7a117e7e581822",
+    "revisions": {
+      "27cc4558b5a3d3387dd11ee2df7a117e7e581822": {
+        "_number": 2,
+        "fetch": {
+          "http": {
+            "url": "http://gerrit:8080/myProject",
+            "ref": "refs/changes/99/4799/2"
+          }
+        },
+        "commit": {
+          "parents": [
+            {
+              "commit": "b4003890dadd406d80222bf1ad8aca09a4876b70",
+              "subject": "Implement Feature A"
+            }
+        ],
+        "author": {
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "date": "2013-05-07 15:21:27.000000000",
+          "tz": 120
+        },
+        "committer": {
+          "name": "Gerrit Code Review",
+          "email": "gerrit-server@example.com",
+          "date": "2013-05-07 15:35:43.000000000",
+          "tz": 120
+        },
+        "subject": "Implement Feature X",
+        "message": "Implement Feature X\n\nAdded feature X."
+      }
+    }
+  }
+----
+
+If the revision cannot be rebased, e.g. due to conflicts, the response is
+"`409 Conflict`" and the error message is contained in the response
+body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  The change could not be rebased due to a path conflict during merge.
 ----
 
 [[submit-revision]]

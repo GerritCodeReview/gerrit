@@ -27,6 +27,7 @@ import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.ProjectListPopup;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.client.ui.ProjectsTable;
@@ -34,11 +35,14 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -110,8 +114,8 @@ public class CreateProjectScreen extends Screen {
     final VerticalPanel fp = new VerticalPanel();
     fp.setStyleName(Gerrit.RESOURCES.css().createProjectPanel());
 
-    initCreateTxt();
     initCreateButton();
+    initCreateTxt();
     initParentBox();
 
     addGrid(fp);
@@ -129,7 +133,23 @@ public class CreateProjectScreen extends Screen {
   }
 
   private void initCreateTxt() {
-    project = new NpTextBox();
+    project = new NpTextBox() {
+      @Override
+      public void onBrowserEvent(Event event) {
+        super.onBrowserEvent(event);
+        if (event.getTypeInt() == Event.ONPASTE) {
+          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+            @Override
+            public void execute() {
+              if (project.getValue().trim().length() != 0) {
+                create.setEnabled(true);
+              }
+            }
+          });
+        }
+      }
+    };
+    project.sinkEvents(Event.ONPASTE);
     project.setVisibleLength(50);
     project.addKeyPressHandler(new KeyPressHandler() {
       @Override
@@ -139,10 +159,12 @@ public class CreateProjectScreen extends Screen {
         }
       }
     });
+    new OnEditEnabler(create, project);
   }
 
   private void initCreateButton() {
     create = new Button(Util.C.buttonCreateProject());
+    create.setEnabled(false);
     create.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {

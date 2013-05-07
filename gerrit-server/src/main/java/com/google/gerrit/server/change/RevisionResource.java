@@ -65,4 +65,10 @@ public class RevisionResource implements RestResource {
       throw new ResourceNotFoundException();
     }
   }
+
+  void checkEdit() throws ResourceNotFoundException {
+    if (!ps.isEdit()) {
+      throw new ResourceNotFoundException();
+    }
+  }
 }

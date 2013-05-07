@@ -107,7 +107,7 @@ public class GetContent implements RestReadView<FileResource> {
   private IdentifiedUser checkIdentifiedUser() throws AuthException {
     CurrentUser u = user.get();
     if (!(u instanceof IdentifiedUser)) {
-      throw new AuthException("drafts only available to authenticated users");
+      throw new AuthException("edits only available to authenticated users");
     }
     return (IdentifiedUser) u;
   }

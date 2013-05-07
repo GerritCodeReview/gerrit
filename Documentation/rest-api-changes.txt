@@ -1905,6 +1905,33 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+[[put-content]]
+Put Content
+~~~~~~~~~~~
+[verse]
+'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/content'
+
+Puts the content of a file to an edit patch set for a certain revision. If
+the edit patch set doesn't exist yet, it is created. If it exists, then the file
+content is replaced.
+
+.Request
+----
+  PUT /changes/34/revisions/8.edit/files/HelloWorld.java/content HTTP/1.0
+  Content-Type: text/plain;charset-UTF-8
+
+  public class HelloWorld {
+    public static void main(String[] args) {
+      System.out.println("Hello world");
+    }
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
 [[set-reviewed]]
 Set Reviewed
 ~~~~~~~~~~~~

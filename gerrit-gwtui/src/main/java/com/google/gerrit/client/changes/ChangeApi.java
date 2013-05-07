@@ -138,7 +138,7 @@ public class ChangeApi {
     return change(id).view("revisions").id(commit).view(action);
   }
 
-  private static RestApi change(int id) {
+  static RestApi change(int id) {
     // TODO Switch to triplet project~branch~id format in URI.
     return new RestApi("/changes/").id(String.valueOf(id));
   }

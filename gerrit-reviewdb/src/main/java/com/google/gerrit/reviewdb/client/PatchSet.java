@@ -178,12 +178,37 @@ public final class PatchSet {
     createdOn = ts;
   }
 
+  /**
+   * Check whether a revision is a draft.
+   * <p>
+   * Draft revisions can only be seen by reviewers on the change.
+   *
+   * @return whether the revision is a draft.
+   */
   public boolean isDraft() {
     return draft;
   }
 
   public void setDraft(boolean draftStatus) {
     draft = draftStatus;
+  }
+
+  /**
+   * Check whether this is a series of edits on a patch set.
+   * <p>
+   * A patch set may have edits on top of it made by a particular user, but
+   * those edits will never be stored in the database, only in a ref in
+   * refs/edits/.
+   *
+   * @return whether the revision is a draft.
+   */
+  public boolean isEdit() {
+    // Hack: treat null createdOn as an edit.
+    return createdOn == null;
+  }
+
+  public void setEdit() {
+    createdOn = null;
   }
 
   public String getRefName() {

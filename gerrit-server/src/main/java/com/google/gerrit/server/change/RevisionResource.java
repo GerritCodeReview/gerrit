@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -57,5 +58,11 @@ public class RevisionResource implements RestResource {
 
   IdentifiedUser getUser() {
     return (IdentifiedUser) getControl().getCurrentUser();
+  }
+
+  void checkPublished() throws ResourceNotFoundException {
+    if (ps.isEdit()) {
+      throw new ResourceNotFoundException();
+    }
   }
 }

@@ -34,6 +34,24 @@
       "revId": "19c2637a9a67aa3e14ce42517d0d65cdd6d9b8d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UZf0cB3g",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-07T12:32:01Z",
+      "side": 1,
+      "message": "Yes, I already found that and it works.  I\u0027ll upload a new patch set later.",
+      "parentUuid": "UZb0if6s",
+      "revId": "19c2637a9a67aa3e14ce42517d0d65cdd6d9b8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

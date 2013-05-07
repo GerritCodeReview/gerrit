@@ -95,7 +95,11 @@ public class CommentsTest extends TestCase {
     replay(accountLoader, alf);
 
     revRes1 = createMock(RevisionResource.class);
+    revRes1.checkPublished();
+    expectLastCall().anyTimes();
     revRes2 = createMock(RevisionResource.class);
+    revRes2.checkPublished();
+    expectLastCall().anyTimes();
 
     PatchLineCommentAccess plca = createMock(PatchLineCommentAccess.class);
     expect(db.patchComments()).andReturn(plca).anyTimes();

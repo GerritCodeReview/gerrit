@@ -85,6 +85,7 @@ public class Module extends RestApiModule {
     put(FILE_KIND, "reviewed").to(PutReviewed.class);
     delete(FILE_KIND, "reviewed").to(DeleteReviewed.class);
     get(FILE_KIND, "content").to(GetContent.class);
+    put(FILE_KIND, "content").to(PutContent.class);
 
     install(new FactoryModule() {
       @Override

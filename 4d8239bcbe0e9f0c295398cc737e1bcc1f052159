@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UZZ1TAyA",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-07T14:19:32Z",
+      "side": 1,
+      "message": "Is it necessary to add \"External Links\"?  Don\u0027t external links show up with a different icon anyway?",
+      "revId": "4d8239bcbe0e9f0c295398cc737e1bcc1f052159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UXmRaCjk",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-07T14:19:32Z",
+      "side": 1,
+      "message": "Maybe change \"Server Programs\" to something a bit more descriptive?",
+      "revId": "4d8239bcbe0e9f0c295398cc737e1bcc1f052159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

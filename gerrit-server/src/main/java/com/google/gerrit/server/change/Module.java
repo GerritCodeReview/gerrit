@@ -80,6 +80,7 @@ public class Module extends RestApiModule {
     child(REVISION_KIND, "files").to(Patches.class);
     put(PATCH_KIND, "reviewed").to(PutReviewed.class);
     delete(PATCH_KIND, "reviewed").to(DeleteReviewed.class);
+    get(PATCH_KIND, "content").to(GetContent.class);
 
     install(new FactoryModule() {
       @Override

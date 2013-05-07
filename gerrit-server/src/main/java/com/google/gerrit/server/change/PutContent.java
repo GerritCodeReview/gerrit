@@ -81,13 +81,14 @@ public class PutContent implements RestModifyView<FileResource, Input> {
       ObjectInserter ins = repo.newObjectInserter();
       try {
         RevCommit prevEdit = edit.get(repo, rw);
+
         RevCommit base = rw.parseCommit(ObjectId.fromString(
             rev.getPatchSet().getRevision().get()));
         if (prevEdit == null) {
           prevEdit = base;
         }
 
-        ObjectId tree = editTree(rsrc, repo, ins, input, base);
+        ObjectId tree = editTree(rsrc, repo, ins, input, prevEdit);
         if (ObjectId.equals(tree, prevEdit.getTree())) {
           // TODO(dborowitz): Allow empty edits until explicitly deleted?
           return Response.none();
@@ -95,7 +96,7 @@ public class PutContent implements RestModifyView<FileResource, Input> {
 
         CommitBuilder builder = new CommitBuilder();
         builder.setTreeId(tree);
-        builder.setParentIds(base.getParents());
+        builder.setParentIds(prevEdit.getParents());
         builder.setAuthor(prevEdit.getAuthorIdent());
         builder.setCommitter(getCommitterIdent());
         builder.setMessage(prevEdit.getFullMessage());

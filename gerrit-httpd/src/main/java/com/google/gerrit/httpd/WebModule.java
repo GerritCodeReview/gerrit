@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.TopMenuExtension;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
@@ -127,6 +128,7 @@ public class WebModule extends FactoryModule {
     bind(GerritConfigProvider.class);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);
+    DynamicSet.setOf(binder(), TopMenuExtension.class);
 
     install(new AsyncReceiveCommits.Module());
 

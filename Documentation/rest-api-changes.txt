@@ -1932,6 +1932,24 @@ content is replaced.
   HTTP/1.1 200 OK
 ----
 
+[[publish-edit]]
+Publish Edit Patch Set
+~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/publish'
+
+Publishes the edit patch set as a new patch set. The edit patch set ref is deleted.
+
+.Request
+----
+  POST /changes/34/revisions/8.edit/publish HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
 [[set-reviewed]]
 Set Reviewed
 ~~~~~~~~~~~~

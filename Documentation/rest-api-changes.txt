@@ -1847,6 +1847,31 @@ describes the published comment.
   }
 ----
 
+[[get-content]]
+Get Content
+~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#patch-id[\{patch-id\}]/content'
+
+Gets the content of a file from a certain revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/content HTTP/1.0
+----
+
+The content is returned as base64 encoded byte array.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [76, 121, 56, 103, 81, 50, 57, 119, 101, ...]
+----
+
 [[set-reviewed]]
 Set Reviewed
 ~~~~~~~~~~~~

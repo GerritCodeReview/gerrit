@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UZf3Xpz8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-07T21:34:37Z",
+      "side": 1,
+      "message": "IIUC JSON can represent any Unicode string, however, not every byte sequence can be translated to a string. I think we will have to do something like base64 encoding the value here. On the client side GWT *should* use the browser\u0027s native base64 decoder if available (ok, I haven\u0027t checked, but why wouldn\u0027t it? :), so performance shouldn\u0027t be too terrible.",
+      "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UXoSGJlQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-07T21:34:37Z",
+      "side": 1,
+      "message": "IMHO this should just propagate, which will log it and return a 500 to the user.",
+      "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

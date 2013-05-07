@@ -57,13 +57,24 @@ public final class PatchSet {
     @Column(id = 2)
     protected int patchSetId;
 
+    protected boolean isEdit;
+
     protected Id() {
       changeId = new Change.Id();
     }
 
+    public Id(Id id) {
+      this(id.changeId, id.patchSetId, true);
+    }
+
     public Id(final Change.Id change, final int id) {
+      this(change, id, false);
+    }
+
+    public Id(final Change.Id change, final int id, boolean isEdit) {
       this.changeId = change;
       this.patchSetId = id;
+      this.isEdit = isEdit;
     }
 
     @Override
@@ -76,11 +87,20 @@ public final class PatchSet {
       return patchSetId;
     }
 
+    public String getId() {
+      return "" + patchSetId + (isEdit() ? ".edit" : "");
+    }
+
+    public boolean isEdit() {
+      return isEdit;
+    }
+
     @Override
     protected void set(int newValue) {
       patchSetId = newValue;
     }
 
+    /* Todo: Modify this to report an edit ref when appropriate */
     public String toRefName() {
       StringBuilder r = new StringBuilder();
       r.append(REFS_CHANGES);
@@ -136,6 +156,8 @@ public final class PatchSet {
   @Column(id = 5)
   protected boolean draft;
 
+  protected Id editId;
+
   /** Not persisted in the database */
   protected boolean hasDraftComments;
 
@@ -143,15 +165,29 @@ public final class PatchSet {
   }
 
   public PatchSet(final PatchSet.Id k) {
-    id = k;
+    if (k != null && k.isEdit()) {
+      editId = k;
+      id = null;
+    } else {
+      id = k;
+      editId = null;
+    }
+  }
+
+  public boolean isEdit() {
+    return id == null;
   }
 
   public PatchSet.Id getId() {
-    return id;
+    return isEdit() ? editId : id;
   }
 
   public int getPatchSetId() {
-    return id.get();
+    return getId().get();
+  }
+
+  public String getIdString() {
+    return getId().getId();
   }
 
   public RevId getRevision() {
@@ -187,7 +223,7 @@ public final class PatchSet {
   }
 
   public String getRefName() {
-    return id.toRefName();
+    return getId().toRefName();
   }
 
   public boolean getHasDraftComments() {

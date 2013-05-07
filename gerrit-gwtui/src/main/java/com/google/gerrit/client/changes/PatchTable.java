@@ -17,10 +17,15 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
@@ -38,6 +43,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -393,12 +399,24 @@ public class PatchTable extends Composite {
     }
 
     void initializeRow(int row) {
-      Patch patch = PatchTable.this.patchList.get(row - 1);
+      final Patch patch = PatchTable.this.patchList.get(row - 1);
       setRowItem(row, patch);
 
-      Widget nameCol;
-      nameCol = new PatchLink.SideBySide(getDisplayFileName(patch), base,
-          patch.getKey(), row - 1, detail, PatchTable.this);
+      final Image edit = new Image(Gerrit.RESOURCES.edit());
+      edit.addStyleName(Gerrit.RESOURCES.css().link());
+//        edit.setTitle(Util.C.changeInfoBlockTopicAlterTopicToolTip());
+      edit.setTitle("Edit Draft File");
+      edit.addClickHandler(new  ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          new EditFileDialog(patch).center();
+        }
+      });
+
+      final FlowPanel nameCol = new FlowPanel();
+      nameCol.add(edit);
+      nameCol.add(new PatchLink.SideBySide(getDisplayFileName(patch), base,
+          patch.getKey(), row - 1, detail, PatchTable.this));
 
       if (patch.getSourceFileName() != null) {
         final String text;
@@ -411,11 +429,9 @@ public class PatchTable extends Composite {
         }
         final Label line = new Label(text);
         line.setStyleName(Gerrit.RESOURCES.css().sourceFilePath());
-        final FlowPanel cell = new FlowPanel();
-        cell.add(nameCol);
-        cell.add(line);
-        nameCol = cell;
+        nameCol.add(line);
       }
+
       table.setWidget(row, C_PATH, nameCol);
 
       int C_UNIFIED = C_SIDEBYSIDE + 1;
@@ -888,5 +904,56 @@ public class PatchTable extends Composite {
       }
     }
     return true;
+  }
+
+  private class EditFileDialog extends CommentedActionDialog<ChangeDetail> {
+    Patch patch;
+
+    EditFileDialog(Patch patch) {
+      super("Edit Draft File", getDisplayFileName(patch),
+          new ChangeDetailCache.IgnoreErrorCallback());
+      this.patch = patch;
+      sendButton.setText("Save Edit");
+    }
+
+    @Override
+    protected void onLoad() {
+      super.onLoad();
+      ChangeFileApi.getContent(patch.getKey().getParentKey(),
+          patch.getFileName(), new GerritCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+              display(result);
+            }
+          });
+    }
+
+    public void display(String content) {
+      message.setText(content);
+      sendButton.setEnabled(true);
+    }
+
+    @Override
+    public void onSend() {
+      enableButtons(false);
+      /* ToDo: fix REST API so I can edit non edit patchsets */
+      final PatchSet.Id psid = patch.getKey().getParentKey();
+      ChangeFileApi.putContent(new PatchSet.Id(psid),
+          patch.getFileName(), getMessageText(),
+          new GerritCallback<VoidResult>() {
+            @Override
+            public void onSuccess(VoidResult result) {
+              hide();
+              Gerrit.display(PageLinks.toChange(psid.getParentKey()));
+              //   It might be good to force the patchset disclosure "open" here?
+            }
+
+            @Override
+            public void onFailure(final Throwable caught) {
+              enableButtons(true);
+              super.onFailure(caught);
+            }
+          });
+    }
   }
 }

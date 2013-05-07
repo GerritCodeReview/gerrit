@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UdizwExo",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PluginAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T23:35:25Z",
+      "side": 1,
+      "message": "enum names are UPPER_CASE_WITH_UNDERSCORES.",
+      "revId": "0df0d1174b22d1c05fa9d5c9c926e104b7a097e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Udkz1Xwk",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PluginAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T23:35:25Z",
+      "side": 1,
+      "message": "This helper method doesn\u0027t really provide any value. Callers should just test equality.",
+      "revId": "0df0d1174b22d1c05fa9d5c9c926e104b7a097e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ub7P7mPs",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T23:35:25Z",
+      "side": 1,
+      "message": "I don\u0027t want to embed data like this into the host page HTML. It should be dynamic, and determined at the server per-change or per-revision when we are loading that particular resource.\n\nIf its a new REST API for now that has to load sequentially or in parallel with the other data, that\u0027s fine. The UI may slow a little but its relatively easy to implement.",
+      "revId": "0df0d1174b22d1c05fa9d5c9c926e104b7a097e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ub5P.nOw",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/actions/ActionServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T23:35:25Z",
+      "side": 1,
+      "message": "If you use DynamicMap you can just say get(pluginName, actionName). Yes its two arguments but that\u0027s OK.\n\nBut please stop using the old JSON API. You actually want to export actions as new REST API views. Which plugins can already register themselves in their system module. So the action data really just needs to know what RestModifyView or RestReadView its invoking at the server in order to fire the action.\n\nExtensions can register their own views, they have sufficient code to do this. But they can\u0027t accept a ChangeResource or a RevisionResource (aka PatchSet), as these types aren\u0027t in the extension-api. Such code would currently need to be a plugin, but my longer-term evolution is to try and evict more of that API to extension-api since the internals very closely mirror the JSON data you see in the REST API and are something the project wants to maintain.\n\nSo point is, you don\u0027t need this. Just let plugin authors implement RestModifyView and bind the view handler. If both the action and the RestModifyView are interfaces a plugin author can implement them together in the same class. Coupled with auto-registration... I think Guice will bind the class twice, once as the Action definition and again as the RestModifyView that \"fires\" when the action is POSTed to.",
+      "revId": "0df0d1174b22d1c05fa9d5c9c926e104b7a097e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ub3P64Ps",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T23:35:25Z",
+      "side": 1,
+      "message": "Bind these in the system module, aka Gerrit-Module. Its much less complexity for anyone to deal with.",
+      "revId": "0df0d1174b22d1c05fa9d5c9c926e104b7a097e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UdgzrVzA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/actions/Action.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T23:35:25Z",
+      "side": 1,
+      "message": "As much as possible I have been trying to define these things in the extension-api and not plugin-api definition.\n\nI think we can try to get this into the extension-api and hang onto it for a while as an API we can commit to as a project. That makes it safer to build trivial UI integrations, as your integration will probably port forward to new Gerrit servers with relatively little effort.",
+      "revId": "0df0d1174b22d1c05fa9d5c9c926e104b7a097e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UbzPwaBo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/actions/ActionPluginModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T23:35:25Z",
+      "side": 1,
+      "message": "This is overly complicated. Just use a DynamicMap to get the actions. In GlobalGerritModule you say:\n\n  DynamicMap.of(binder(), Action.class);\n\nand plugin authors can declare their action trivially using auto-registration:\n\n  @Export(\"my-action-name\")\n  class MyAction extends Action {\n\nOr bind in their own Guice module:\n\n  bind(Action.class)\n    .annotatedWith(Exports.named(\"my-action-name\")\n    .to(MyAction.class);\n\nAt runtime the server can access all of the actions it knows about by accepting the map in a constructor:\n\n  @Inject\n  SomeClassThatNeedsActions(\n      DynamicMap\u003cAction\u003e allActions) {\n    for (String plugin : allActions.plugins()) {\n      Map\u003cString, Provider\u003cAction\u003e\u003e actions \u003d allActions.byPlugin(plugin);\n  }",
+      "revId": "0df0d1174b22d1c05fa9d5c9c926e104b7a097e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ub1P15Ag",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/actions/Actions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T23:35:25Z",
+      "side": 1,
+      "message": "Unnecessary if you use DynamicMap and @Export.",
+      "revId": "0df0d1174b22d1c05fa9d5c9c926e104b7a097e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

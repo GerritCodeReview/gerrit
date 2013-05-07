@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UTRVlNPE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012372
+      },
+      "writtenOn": "2013-05-07T14:26:13Z",
+      "side": 1,
+      "message": "what happens if the file is binary? It\u0027ll contain invalid unicode characters",
+      "revId": "8b070e0117caa18d45218d3493d4c76c21da0838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

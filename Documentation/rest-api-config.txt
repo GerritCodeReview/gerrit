@@ -135,6 +135,47 @@ The entries in the map are sorted by capability ID.
   }
 ----
 
+[[get-top-menus]]
+Get Top Menus
+~~~~~~~~~~~~~
+[verse]
+'GET /config/server/top-menus'
+
+Returns the list of additional top menu entries.
+
+.Request
+----
+  GET /config/server/top-menus HTTP/1.0
+----
+
+As response a list of the additional top menu entries as
+link:#top-menu-entry-info[TopMenuEntryInfo] entities is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Top Menu Entry",
+      "items": [
+        {
+          "url": "http://gerrit.googlecode.com/",
+          "name": "Gerrit",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+----
+
+
+[[json-entities]]
+JSON Entities
+-------------
+
 [[capability-info]]
 CapabilityInfo
 ~~~~~~~~~~~~~~
@@ -148,6 +189,32 @@ The `CapabilityInfo` entity contains information about a capability.
 |`name`               |capability name
 |=================================
 
+[[top-menu-entry-info]]
+TopMenuEntryInfo
+~~~~~~~~~~~~~~~~
+The `TopMenuEntryInfo` entity contains information about an top menu
+entry.
+
+[options="header",width="50%",cols="1,5"]
+|=================================
+|Field Name           |Description
+|`name`               |Name of the top menu entry.
+|`items`              |List of link:#top-menu-item-info[menu items].
+|=================================
+
+[[top-menu-item-info]]
+TopMenuItemInfo
+~~~~~~~~~~~~~~~
+The `TopMenuItemInfo` entity contains information about an menu item in
+a top menu entry.
+
+[options="header",width="50%",cols="1,5"]
+|=================================
+|Field Name           |Description
+|`url`                |The URL of the menu item link.
+|`name`               |The name of the menu item.
+|`target`             |Target attribute of the menu item link.
+|=================================
 
 GERRIT
 ------

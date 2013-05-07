@@ -732,6 +732,50 @@ Gerrit.install(function(self) {
 });
 ----
 
+[[top-menu-extensions]]
+Top Menu Extensions
+-------------------
+
+Plugins can contribute items to Gerrit's top menu.
+
+Single top menu extension can have multiple elements and will be put as
+a the last element in Gerrit's top menu.
+
+Plugins define the top menu entries by implementing `TopMenu` interface:
+
+[source,java]
+public class MyTopMenuExtension implements TopMenu {
+
+  @Override
+  public List<MenuEntry> getEntries() {
+    return Lists.newArrayList(
+               new MenuEntry("Top Menu Entry", Lists.newArrayList(
+                      new MenuItem("Gerrit", "http://gerrit.googlecode.com/"))));
+  }
+}
+----
+
+If no Guice modules are declared in the manifest, the top menu extension may use
+auto-registration by providing an `@Listen` annotation:
+
+[source,java]
+@Listen
+public class MyTopMenuExtension implements TopMenu {
+  ...
+}
+----
+
+Otherwise the top menu extension must be bound in a plugin module:
+
+[[source,java]]
+public class HelloWorldModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    DynamicSet.bind(binder(), TopMenu.class).to(MyTopMenuExtension.class);
+  }
+}
+----
+
 [[http]]
 HTTP Servlets
 -------------

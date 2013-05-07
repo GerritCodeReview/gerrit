@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.config;
 
+import com.google.gerrit.client.extensions.TopMenuList;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -26,5 +27,13 @@ public class ConfigServerApi {
   /** map of the server wide capabilities (core & plugins). */
   public static void capabilities(AsyncCallback<NativeMap<CapabilityInfo>> cb) {
     new RestApi("/config/server/capabilities/").get(cb);
+  }
+
+  public static void topMenus(AsyncCallback<TopMenuList> cb) {
+    new RestApi("/config/server/").view("top-menus").get(cb);
+  }
+
+  private ConfigServerApi() {
+    // hide default constructor
   }
 }

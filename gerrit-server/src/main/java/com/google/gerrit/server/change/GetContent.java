@@ -42,6 +42,8 @@ public class GetContent implements RestReadView<FileResource> {
   @Override
   public BinaryResult apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException {
+    // TODO(dborowitz): Implement for draft revisions.
+    rsrc.getRevision().checkPublished();
     Project.NameKey project =
         rsrc.getRevision().getControl().getProject().getNameKey();
     Repository repo = repoManager.openRepository(project);

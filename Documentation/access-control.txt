@@ -292,23 +292,18 @@ behavior is generally only useful on the `Read` category when
 granting 'DENY' within a specific project to deny a group access.
 
 
-[[access_labels]]
-Review Labels
--------------
+[[access_category]]
+Access Categories
+-----------------
 
-For every configured label `My-Name` in the project, there is a
-corresponding permission `label-My-Name` with a range corresponding to
-the defined values.
-
-Gerrit comes pre-configured with several default labels that can be
-granted to groups within projects, enabling functionality for that
-group's members. link:config-labels.html[Custom labels] may also be
-defined globally or on a per-project basis.
+Gerrit has several permission categories that can be granted to groups
+within projects, enabling functionality for that group's members.
 
 With the release of the Gerrit 2.2.x series, the web GUI for ACL
 configuration was rewritten from scratch.  Use this
 <<conversion_table,table>> to better understand the access rights
 conversions from the Gerrit 2.1.x to the Gerrit 2.2.x series.
+
 
 [[category_abandon]]
 Abandon
@@ -622,6 +617,7 @@ Users without this access right who are able to upload new patch sets
 can still do the rebase locally and upload the rebased commit as a new
 patch set.
 
+
 [[category_remove_reviewer]]
 Remove Reviewer
 ~~~~~~~~~~~~~~~
@@ -635,6 +631,20 @@ right assigned).
 
 Users without this access right can only remove themselves from the
 reviewer list on a change.
+
+
+[[category_review_labels]]
+Review Labels
+~~~~~~~~~~~~~
+
+For every configured label `My-Name` in the project, there is a
+corresponding permission `label-My-Name` with a range corresponding to
+the defined values.
+
+Gerrit comes pre-configured with two default labels that can be
+granted to groups within projects, enabling functionality for that
+group's members. link:config-labels.html[Custom labels] may also be
+defined globally or on a per-project basis.
 
 
 [[category_submit]]

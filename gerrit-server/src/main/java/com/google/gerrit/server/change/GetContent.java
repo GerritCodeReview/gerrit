@@ -18,8 +18,12 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.RevisionEdit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -33,10 +37,12 @@ import java.io.OutputStream;
 
 public class GetContent implements RestReadView<FileResource> {
   private final GitRepositoryManager repoManager;
+  private final Provider<CurrentUser> user;
 
   @Inject
-  GetContent(GitRepositoryManager repoManager) {
+  GetContent(GitRepositoryManager repoManager, Provider<CurrentUser> user) {
     this.repoManager = repoManager;
+    this.user = user;
   }
 
   @Override
@@ -50,9 +56,7 @@ public class GetContent implements RestReadView<FileResource> {
     try {
       RevWalk rw = new RevWalk(repo);
       try {
-        RevCommit commit =
-            rw.parseCommit(ObjectId.fromString(rsrc.getRevision().getPatchSet()
-                .getRevision().get()));
+        RevCommit commit = getCommit(rsrc, repo, rw);
         TreeWalk tw =
             TreeWalk.forPath(rw.getObjectReader(), rsrc.getPatchKey().get(),
                 commit.getTree().getId());
@@ -77,5 +81,31 @@ public class GetContent implements RestReadView<FileResource> {
     } finally {
       repo.close();
     }
+  }
+
+  private RevCommit getCommit(FileResource rsrc, Repository repo, RevWalk rw)
+      throws IOException, AuthException {
+    if (rsrc.getRevision().getId().isEdit()) {
+      RevCommit c = new RevisionEdit(checkIdentifiedUser(),
+          rsrc.getRevision().getId()).get(repo, rw);
+      if (c != null) {
+        return c;
+      }
+    }
+    return getPublishedCommit(rsrc, rw);
+  }
+
+  private IdentifiedUser checkIdentifiedUser() throws AuthException {
+    CurrentUser u = user.get();
+    if (!(u instanceof IdentifiedUser)) {
+      throw new AuthException("drafts only available to authenticated users");
+    }
+    return (IdentifiedUser) u;
+  }
+
+  private RevCommit getPublishedCommit(FileResource rsrc, RevWalk rw)
+      throws IOException {
+    return rw.parseCommit(ObjectId.fromString(rsrc.getRevision().getPatchSet()
+        .getRevision().get()));
   }
 }

@@ -4,9 +4,9 @@ Gerrit Code Review - Review Labels
 As part of the code review process, reviewers score each change with
 values for each label configured for the project.  The label values that
 a given user is allowed to set are defined according to the
-link:access-control.html#access_labels[access controls].  Gerrit comes
-pre-configured with the Code-Review label that can be granted to groups
-within projects, enabling functionality for that group's members.
+link:access-control.html#category_review_labels[access controls].  Gerrit
+comes pre-configured with the Code-Review label that can be granted to
+groups within projects, enabling functionality for that group's members.
 
 
 [[label_Code-Review]]

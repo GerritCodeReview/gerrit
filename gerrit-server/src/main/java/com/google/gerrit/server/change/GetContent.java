@@ -44,6 +44,8 @@ public class GetContent implements RestReadView<PatchResource> {
 
   @Override
   public String apply(PatchResource rsrc) throws ResourceNotFoundException {
+    // TODO(dborowitz): Implement for draft revisions.
+    rsrc.getRevision().checkPublished();
     Project.NameKey project = rsrc.getControl().getProject().getNameKey();
     try {
       Repository repo = repoManager.openRepository(project);

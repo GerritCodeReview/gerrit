@@ -165,6 +165,44 @@ To use the GWT DETAILED style the package must be recompiled and
 ----
 
 
+[[test-rest-api]]
+Testing the REST API
+~~~~~~~~~~~~~~~~~~~~
+
+Basic testing of REST API functionality can be done with `curl`:
+
+----
+  curl http://localhost:8080/path/to/api/
+----
+
+By default, `curl` sends GET requests.  To test APIs with PUT or POST:
+
+----
+ curl -X PUT http://localhost:8080/path/to/api/
+ curl -X POST http://localhost:8080/path/to/api/
+----
+
+Some REST APIs accept data in the request body in PUT and POST requests.  To submit data from a local file named `input.txt`:
+
+----
+  curl -X PUT -d@input.txt --header "Content-Type: application/json" http://localhost:8080/path/to/api/
+----
+
+To test APIs that require authentication:
+
+----
+ curl -n --digest http://localhost:8080/a/path/to/api/
+----
+
+For authentication to work, the user's link:user-upload.html#http[HTTP password]
+must be specified in the user's `.netrc` file.
+
+.Authentication credentials in .netrc file
+====
+  machine localhost login username password s3cr3t
+====
+
+
 Release Builds
 --------------
 

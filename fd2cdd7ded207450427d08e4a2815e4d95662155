@@ -123,6 +123,24 @@
       "revId": "fd2cdd7ded207450427d08e4a2815e4d95662155",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UTfU2uOk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T00:22:03Z",
+      "side": 1,
+      "message": "Eh, screw it. Just rebase this to master and replace Project here with ProjectControl. We\u0027ll break the API in 2.7.",
+      "parentUuid": "USBplXfE",
+      "revId": "fd2cdd7ded207450427d08e4a2815e4d95662155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

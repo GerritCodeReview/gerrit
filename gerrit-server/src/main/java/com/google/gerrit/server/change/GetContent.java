@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -47,7 +48,7 @@ public class GetContent implements RestReadView<FileResource> {
 
   @Override
   public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException {
+      throws ResourceNotFoundException, IOException, AuthException {
     // TODO(dborowitz): Implement for draft revisions.
     rsrc.getRevision().checkPublished();
     Project.NameKey project =
@@ -98,7 +99,7 @@ public class GetContent implements RestReadView<FileResource> {
   private IdentifiedUser checkIdentifiedUser() throws AuthException {
     CurrentUser u = user.get();
     if (!(u instanceof IdentifiedUser)) {
-      throw new AuthException("drafts only available to authenticated users");
+      throw new AuthException("edits only available to authenticated users");
     }
     return (IdentifiedUser) u;
   }

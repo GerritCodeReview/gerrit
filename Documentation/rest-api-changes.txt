@@ -1708,6 +1708,57 @@ Deletes the reviewed flag of the calling user from a patch of a revision.
   HTTP/1.1 204 No Content
 ----
 
+[[cherry-pick]]
+Cherry Pick Revision
+~~~~~~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/cherrypick'
+
+Cherry picks a revision to a destination branch.
+
+The commit message and destination branch must be provided in the request body inside a
+link:#cherrypick-input[CherryPickInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/cherrypick HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "message" : "Implementing Feature X";
+    "destination" : "release-branch";
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the resulting cherry picked change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#change",
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "project": "myProject",
+    "branch": "release-branch",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9941",
+    "subject": "Implementing Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "reviewed": true,
+    "mergeable": true,
+    "_sortkey": "0023412400000f7d",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
 
 [[ids]]
 IDs
@@ -1760,7 +1811,6 @@ This can be:
 * an abbreviated commit ID that uniquely identifies one revision of the
   change ("674ac754"), at least 4 digits are required
 * a legacy numeric patch number ("1" for first patch set of the change)
-
 
 [[json-entities]]
 JSON Entities
@@ -1910,6 +1960,18 @@ The link:rest-api.html#timestamp[timestamp] this message was posted.
 |`_revision_number`    |optional|
 Which patchset (if any) generated this message.
 |==================================
+
+[[cherrypick-input]]
+CherryPickInput
+~~~~~~~~~~~~~~~
+The `CherryPickInput` entity contains information for cherry-picking a change to a new branch.
+
+[options="header",width="50%",cols="1,6"]
+|===========================
+|Field Name    |Description
+|`message`     |Commit message for the cherry-picked change
+|`destination` |Destination Branch
+|===========================
 
 [[comment-info]]
 CommentInfo

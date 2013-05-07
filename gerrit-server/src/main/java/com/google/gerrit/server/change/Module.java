@@ -68,6 +68,8 @@ public class Module extends RestApiModule {
     post(REVISION_KIND, "test.submit_rule").to(TestSubmitRule.class);
     post(REVISION_KIND, "test.submit_type").to(TestSubmitType.class);
 
+    post(REVISION_KIND, "cherrypick").to(CherryPick.class);
+
     child(REVISION_KIND, "drafts").to(Drafts.class);
     put(REVISION_KIND, "drafts").to(CreateDraft.class);
     get(DRAFT_KIND).to(GetDraft.class);

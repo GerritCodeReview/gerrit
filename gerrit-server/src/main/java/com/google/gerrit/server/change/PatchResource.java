@@ -49,4 +49,8 @@ public class PatchResource implements RestResource {
   public PatchSet getPatchSet() {
     return rev.getPatchSet();
   }
+
+  RevisionResource getRevision() {
+    return rev;
+  }
 }

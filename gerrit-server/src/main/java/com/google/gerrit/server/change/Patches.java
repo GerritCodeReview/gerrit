@@ -44,6 +44,7 @@ class Patches implements ChildCollection<RevisionResource, PatchResource> {
   @Override
   public PatchResource parse(RevisionResource rev, IdString id)
       throws ResourceNotFoundException, OrmException, AuthException {
+    rev.checkPublished();
     return new PatchResource(rev, id.get());
   }
 }

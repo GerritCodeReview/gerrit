@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -27,12 +28,19 @@ public class RevisionResource implements RestResource {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
       new TypeLiteral<RestView<RevisionResource>>() {};
 
+  public static enum Type {
+    PUBLISHED,
+    DRAFT;
+  }
+
   private final ChangeResource change;
   private final PatchSet ps;
+  private final Type type;
 
-  public RevisionResource(ChangeResource change, PatchSet ps) {
+  public RevisionResource(ChangeResource change, PatchSet ps, Type type) {
     this.change = change;
     this.ps = ps;
+    this.type = type;
   }
 
   public ChangeControl getControl() {
@@ -47,7 +55,21 @@ public class RevisionResource implements RestResource {
     return ps;
   }
 
+  public Type getType() {
+    return type;
+  }
+
   Account.Id getAccountId() {
     return ((IdentifiedUser) getControl().getCurrentUser()).getAccountId();
+  }
+
+  void checkPublished() throws ResourceNotFoundException {
+    checkType(Type.PUBLISHED);
+  }
+
+  private void checkType(Type type) throws ResourceNotFoundException {
+    if (this.type != type) {
+      throw new ResourceNotFoundException();
+    }
   }
 }

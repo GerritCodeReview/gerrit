@@ -1903,8 +1903,8 @@ link:#cherrypick-input[CherryPickInput] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "message" : "Implementing Feature X";
-    "destination" : "release-branch";
+    "message" : "Implementing Feature X",
+    "destination" : "release-branch"
   }
 ----
 

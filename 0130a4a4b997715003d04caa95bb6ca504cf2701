@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "UZT3JD6I",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-07T22:09:34Z",
+      "side": 1,
+      "message": "Just use:\n\n  TreeWalk tw \u003d TreeWalk.forPath(rw.getObjectReader());\n  if (tw \u003d\u003d null) {\n    throw new ResourceNotFoundException();\n  }",
+      "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UZf3Xpz8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
         "patchSetId": 3

@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "Udoz.Z.w",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/actions/ActionPluginModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-07T23:43:43Z",
+      "side": 1,
+      "message": "Actually, you can just use the existing rest map:\n\n  DynamicMap\u003cRestView\u003cRevisionResource\u003e\u003e allViews\n\nand loop through that map testing if they implement the Action interface. If they do you can query them to get the display text, if they are enabled, etc. Vastly simpler binding code for plugins/extensions to honor.",
+      "parentUuid": "UbzPwaBo",
+      "revId": "0df0d1174b22d1c05fa9d5c9c926e104b7a097e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ub1P15Ag",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/actions/Actions.java",
         "patchSetId": 4

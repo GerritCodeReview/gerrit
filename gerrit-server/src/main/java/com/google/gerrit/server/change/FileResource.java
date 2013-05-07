@@ -18,6 +18,8 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 
 public class FileResource implements RestResource {
@@ -38,5 +40,13 @@ public class FileResource implements RestResource {
 
   Account.Id getAccountId() {
     return rev.getAccountId();
+  }
+
+  public ChangeControl getControl() {
+    return rev.getControl();
+  }
+
+  public PatchSet getPatchSet() {
+    return rev.getPatchSet();
   }
 }

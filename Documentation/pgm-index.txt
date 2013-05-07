@@ -1,13 +1,15 @@
-Gerrit Code Review - Server Programs
-====================================
+Gerrit Code Review - Server Side Administrative Tools
+=====================================================
 
-Server side programs can be started by executing the WAR file
+Server side tools can be started by executing the WAR file
 through the Java command line.  For example:
 
-  $ java -jar gerrit.war program [options]
+  $ java -jar gerrit.war <tool> [<options>]
 
-[[programs]]Programs
---------------------
+Tool should be one of the following names:
+
+Tools
+-----
 
 link:pgm-init.html[init]::
 	Initialize a new Gerrit server installation.
@@ -28,7 +30,7 @@ version::
 	Display the release version of Gerrit Code Review.
 
 Transition Utilities
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 link:pgm-ScanTrackingIds.html[ScanTrackingIds]::
 	Rescan all changes after configuring trackingids.

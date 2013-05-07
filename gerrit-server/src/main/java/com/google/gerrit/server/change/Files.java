@@ -56,7 +56,6 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
   @Override
   public FileResource parse(RevisionResource rev, IdString id)
       throws ResourceNotFoundException, OrmException, AuthException {
-    rev.checkPublished();
     return new FileResource(rev, id.get());
   }
 

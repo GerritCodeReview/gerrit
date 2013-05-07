@@ -73,6 +73,12 @@ public class RevisionResource implements RestResource {
     }
   }
 
+  void checkEdit() throws ResourceNotFoundException {
+    if (!revId.isEdit()) {
+      throw new ResourceNotFoundException();
+    }
+  }
+
   RevisionId getId() {
     return revId;
   }

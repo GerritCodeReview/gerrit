@@ -26,18 +26,18 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gerrit.server.change.PutDraftComment.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Collections;
 
-class CreateDraft implements RestModifyView<RevisionResource, Input> {
+class CreateDraftComment implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> db;
 
   @Inject
-  CreateDraft(Provider<ReviewDb> db) {
+  CreateDraftComment(Provider<ReviewDb> db) {
     this.db = db;
   }
 

@@ -21,7 +21,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-class ListComments extends ListDrafts {
+class ListComments extends ListDraftComments {
   @Inject
   ListComments(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf) {
     super(db, alf);

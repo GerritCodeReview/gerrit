@@ -28,16 +28,17 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-class Drafts implements ChildCollection<RevisionResource, DraftResource> {
-  private final DynamicMap<RestView<DraftResource>> views;
+class DraftComments
+    implements ChildCollection<RevisionResource, DraftCommentResource> {
+  private final DynamicMap<RestView<DraftCommentResource>> views;
   private final Provider<CurrentUser> user;
-  private final Provider<ListDrafts> list;
+  private final Provider<ListDraftComments> list;
   private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  Drafts(DynamicMap<RestView<DraftResource>> views,
+  DraftComments(DynamicMap<RestView<DraftCommentResource>> views,
       Provider<CurrentUser> user,
-      Provider<ListDrafts> list,
+      Provider<ListDraftComments> list,
       Provider<ReviewDb> dbProvider) {
     this.views = views;
     this.user = user;
@@ -46,7 +47,7 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   }
 
   @Override
-  public DynamicMap<RestView<DraftResource>> views() {
+  public DynamicMap<RestView<DraftCommentResource>> views() {
     return views;
   }
 
@@ -57,7 +58,7 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   }
 
   @Override
-  public DraftResource parse(RevisionResource rev, IdString id)
+  public DraftCommentResource parse(RevisionResource rev, IdString id)
       throws ResourceNotFoundException, OrmException, AuthException {
     checkIdentifiedUser();
     String uuid = id.get();
@@ -66,7 +67,7 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
             rev.getPatchSet().getId(),
             rev.getAccountId())) {
       if (uuid.equals(c.getKey().get())) {
-        return new DraftResource(rev, c);
+        return new DraftCommentResource(rev, c);
       }
     }
     throw new ResourceNotFoundException(id);

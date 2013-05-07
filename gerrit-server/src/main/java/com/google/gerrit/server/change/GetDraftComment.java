@@ -19,9 +19,9 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 
-class GetDraft implements RestReadView<DraftResource> {
+class GetDraftComment implements RestReadView<DraftCommentResource> {
   @Override
-  public Object apply(DraftResource rsrc) throws AuthException,
+  public Object apply(DraftCommentResource rsrc) throws AuthException,
       BadRequestException, ResourceConflictException, Exception {
     return new CommentInfo(rsrc.getComment(), null);
   }

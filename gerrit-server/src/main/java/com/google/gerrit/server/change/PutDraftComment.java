@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.CommentInfo.Side;
-import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gerrit.server.change.PutDraftComment.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -32,7 +32,7 @@ import com.google.inject.Provider;
 import java.sql.Timestamp;
 import java.util.Collections;
 
-class PutDraft implements RestModifyView<DraftResource, Input> {
+class PutDraftComment implements RestModifyView<DraftCommentResource, Input> {
   static class Input {
     String kind;
     String id;
@@ -47,16 +47,16 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
   }
 
   private final Provider<ReviewDb> db;
-  private final Provider<DeleteDraft> delete;
+  private final Provider<DeleteDraftComment> delete;
 
   @Inject
-  PutDraft(Provider<ReviewDb> db, Provider<DeleteDraft> delete) {
+  PutDraftComment(Provider<ReviewDb> db, Provider<DeleteDraftComment> delete) {
     this.db = db;
     this.delete = delete;
   }
 
   @Override
-  public Object apply(DraftResource rsrc, Input in) throws AuthException,
+  public Object apply(DraftCommentResource rsrc, Input in) throws AuthException,
       BadRequestException, ResourceConflictException, OrmException {
     PatchLineComment c = rsrc.getComment();
     if (in == null || in.message == null || in.message.trim().isEmpty()) {

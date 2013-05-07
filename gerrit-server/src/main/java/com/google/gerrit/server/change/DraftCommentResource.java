@@ -24,14 +24,14 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.TypeLiteral;
 
-public class DraftResource implements RestResource {
-  public static final TypeLiteral<RestView<DraftResource>> DRAFT_KIND =
-      new TypeLiteral<RestView<DraftResource>>() {};
+public class DraftCommentResource implements RestResource {
+  public static final TypeLiteral<RestView<DraftCommentResource>>
+      DRAFT_COMMENT_KIND = new TypeLiteral<RestView<DraftCommentResource>>() {};
 
   private final RevisionResource rev;
   private final PatchLineComment comment;
 
-  DraftResource(RevisionResource rev, PatchLineComment c) {
+  DraftCommentResource(RevisionResource rev, PatchLineComment c) {
     this.rev = rev;
     this.comment = c;
   }

@@ -36,12 +36,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-class ListDrafts implements RestReadView<RevisionResource> {
+class ListDraftComments implements RestReadView<RevisionResource> {
   protected final Provider<ReviewDb> db;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
 
   @Inject
-  ListDrafts(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf) {
+  ListDraftComments(Provider<ReviewDb> db, AccountInfo.Loader.Factory alf) {
     this.db = db;
     this.accountLoaderFactory = alf;
   }

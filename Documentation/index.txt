@@ -32,7 +32,7 @@ Project Owner and Power User Guide
 Admin User Guide
 ----------------
 
-* link:pgm-index.html[Server Programs]
+* link:pgm-index.html[Server Side Administrative Tools]
 
 Installation
 ~~~~~~~~~~~~

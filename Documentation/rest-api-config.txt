@@ -147,7 +147,39 @@ The `CapabilityInfo` entity contains information about a capability.
 |`id`                 |capability ID
 |`name`               |capability name
 |=================================
+----
 
+[[get-top-menus]]
+Get Top Menus
+~~~~~~~~~~~~~
+[verse]
+'GET /config/server/top-menus'
+
+Returns the list of additional top menu entries.
+
+.Request
+----
+  GET /config/server/top-menus HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+  {
+    "name": "Top Menu Entry",
+    "items": [
+      {
+        "url": "http://gerrit.googlecode.com/",
+        "name": "Gerrit",
+        "target": "_blank"
+      }
+    ]
+  }
+]
 
 GERRIT
 ------

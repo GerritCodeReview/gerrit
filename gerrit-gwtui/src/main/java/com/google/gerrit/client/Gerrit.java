@@ -24,8 +24,13 @@ import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
+import com.google.gerrit.client.config.ConfigServerApi;
+import com.google.gerrit.client.extensions.TopMenu;
+import com.google.gerrit.client.extensions.TopMenuItem;
+import com.google.gerrit.client.extensions.TopMenuList;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
@@ -86,6 +91,7 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
@@ -109,6 +115,7 @@ public class Gerrit implements EntryPoint {
   private static LinkMenuBar diffBar;
   private static LinkMenuBar projectsBar;
   private static RootPanel topMenu;
+  private static List<TopMenu> topMenuExtensions;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
   private static RootPanel bottomMenu;
@@ -420,6 +427,12 @@ public class Gerrit implements EntryPoint {
         }
         onModuleLoad2(result);
       }
+    });
+    ConfigServerApi.topMenus(new GerritCallback<TopMenuList>() {
+      public void onSuccess(TopMenuList result) {
+        topMenuExtensions = Natives.asList(result);
+        refreshMenuBar();
+      };
     });
   }
 
@@ -784,6 +797,15 @@ public class Gerrit implements EntryPoint {
           break;
       }
     }
+    if (topMenuExtensions != null) {
+      for (TopMenu menu : topMenuExtensions) {
+        LinkMenuBar bar = new LinkMenuBar();
+        for (TopMenuItem item : Natives.asList(menu.getItems())) {
+          addExtensionLink(bar, item);
+        }
+        menuLeft.add(bar, menu.getName());
+      }
+    }
   }
 
   public static void applyUserPreferences() {
@@ -914,6 +936,12 @@ public class Gerrit implements EntryPoint {
       final String href) {
     final Anchor atag = anchor(text, selfRedirect("/Documentation/" + href));
     atag.setTarget("_blank");
+    m.add(atag);
+  }
+
+  private static void addExtensionLink(final LinkMenuBar m, final TopMenuItem item) {
+    final Anchor atag = anchor(item.getName(), item.getUrl());
+    atag.setTarget(item.getTarget());
     m.add(atag);
   }
 }

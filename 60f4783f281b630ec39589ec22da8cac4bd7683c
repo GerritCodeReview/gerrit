@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UXoRQ5hM",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-07T14:59:06Z",
+      "side": 1,
+      "message": "Why does this only include the revision information for patch set 2?",
+      "revId": "60f4783f281b630ec39589ec22da8cac4bd7683c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

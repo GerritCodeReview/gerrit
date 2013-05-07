@@ -18,9 +18,11 @@ SYNOPSIS
 
 DESCRIPTION
 -----------
-Creates a new internal only user account for batch/role access, such
-as from an automated build system or event monitoring over
-link:cmd-stream-events.html[gerrit stream-events].
+Creates a new internal-only user account.
+
+If the account is created without an email address, it may only be
+used for batch/role access, such as from an automated build system
+or event monitoring over link:cmd-stream-events.html[gerrit stream-events].
 
 If LDAP authentication is being used, the user account is created
 without checking the LDAP directory.  Consequently users can be

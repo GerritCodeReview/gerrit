@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UZd1Ni3o",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-07T14:33:59Z",
+      "side": 1,
+      "message": "Nopes, no different icon. It\u0027s the only external link that\u0027s not found under resources.",
+      "parentUuid": "UZZ1TAyA",
+      "revId": "4d8239bcbe0e9f0c295398cc737e1bcc1f052159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UXmRaCjk",
         "filename": "Documentation/index.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-07T14:19:32Z",
       "side": 1,
       "message": "Maybe change \"Server Programs\" to something a bit more descriptive?",
+      "revId": "4d8239bcbe0e9f0c295398cc737e1bcc1f052159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UZR2P83g",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-07T14:33:59Z",
+      "side": 1,
+      "message": "Renaming isn\u0027t really in the scope of my change, only rearranging. OTOH, it\u0027s not easy to understand it as it stands.\n\nThis link was added way back by Shawn in Brads change. Suggestions?\n\"Server side commands\"?\n\nChange-Id: I742a27ce81e3a5e7524210b673267ce70daf0f9e",
+      "parentUuid": "UXmRaCjk",
       "revId": "4d8239bcbe0e9f0c295398cc737e1bcc1f052159",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

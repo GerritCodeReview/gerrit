@@ -14,23 +14,16 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountByEmailCache;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -42,8 +35,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 /** Create a new user account. **/
@@ -69,94 +60,29 @@ final class CreateAccountCommand extends SshCommand {
   private String username;
 
   @Inject
-  private IdentifiedUser currentUser;
-
-  @Inject
-  private ReviewDb db;
-
-  @Inject
-  private SshKeyCache sshKeyCache;
-
-  @Inject
-  private AccountCache accountCache;
-
-  @Inject
-  private AccountByEmailCache byEmailCache;
+  private CreateAccount.Factory createAccountFactory;
 
   @Override
-  protected void run() throws OrmException, IOException,
-      InvalidSshKeyException, UnloggedFailure {
-    if (!username.matches(Account.USER_NAME_PATTERN)) {
-      throw die("Username '" + username + "'"
-          + " must contain only letters, numbers, _, - or .");
-    }
-
-    final Account.Id id = new Account.Id(db.nextAccountId());
-    final AccountSshKey key = readSshKey(id);
-
-    AccountExternalId extUser =
-        new AccountExternalId(id, new AccountExternalId.Key(
-            AccountExternalId.SCHEME_USERNAME, username));
-
-    if (httpPassword != null) {
-      extUser.setPassword(httpPassword);
-    }
-
-    if (db.accountExternalIds().get(extUser.getKey()) != null) {
-      throw die("username '" + username + "' already exists");
-    }
-    if (email != null && db.accountExternalIds().get(getEmailKey()) != null) {
-      throw die("email '" + email + "' already exists");
-    }
-
+  protected void run() throws OrmException, IOException, UnloggedFailure {
+    CreateAccount.Input input = new CreateAccount.Input();
+    input.username = username;
+    input.email = email;
+    input.name = fullName;
+    input.sshKey = readSshKey();
+    input.httpPassword = httpPassword;
+    input.groups = Lists.transform(groups, new Function<AccountGroup.Id, String>() {
+      @Override
+      public String apply(AccountGroup.Id id) {
+        return id.toString();
+      }});
     try {
-      db.accountExternalIds().insert(Collections.singleton(extUser));
-    } catch (OrmDuplicateKeyException duplicateKey) {
-      throw die("username '" + username + "' already exists");
+      createAccountFactory.create(username).apply(TopLevelResource.INSTANCE, input);
+    } catch (RestApiException e) {
+      throw die(e.getMessage());
     }
-
-    if (email != null) {
-      AccountExternalId extMailto = new AccountExternalId(id, getEmailKey());
-      extMailto.setEmailAddress(email);
-      try {
-        db.accountExternalIds().insert(Collections.singleton(extMailto));
-      } catch (OrmDuplicateKeyException duplicateKey) {
-        try {
-          db.accountExternalIds().delete(Collections.singleton(extUser));
-        } catch (OrmException cleanupError) {
-        }
-        throw die("email '" + email + "' already exists");
-      }
-    }
-
-    Account a = new Account(id);
-    a.setFullName(fullName);
-    a.setPreferredEmail(email);
-    db.accounts().insert(Collections.singleton(a));
-
-    if (key != null) {
-      db.accountSshKeys().insert(Collections.singleton(key));
-    }
-
-    for (AccountGroup.Id groupId : new HashSet<AccountGroup.Id>(groups)) {
-      AccountGroupMember m =
-          new AccountGroupMember(new AccountGroupMember.Key(id, groupId));
-      db.accountGroupMembersAudit().insert(Collections.singleton( //
-          new AccountGroupMemberAudit(m, currentUser.getAccountId())));
-      db.accountGroupMembers().insert(Collections.singleton(m));
-    }
-
-    sshKeyCache.evict(username);
-    accountCache.evictByUsername(username);
-    byEmailCache.evict(email);
   }
 
-  private AccountExternalId.Key getEmailKey() {
-    return new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
-  }
-
-  private AccountSshKey readSshKey(final Account.Id id)
-      throws UnsupportedEncodingException, IOException, InvalidSshKeyException {
+  private String readSshKey() throws UnsupportedEncodingException, IOException {
     if (sshKey == null) {
       return null;
     }
@@ -169,6 +95,6 @@ final class CreateAccountCommand extends SshCommand {
         sshKey += line + "\n";
       }
     }
-    return sshKeyCache.create(new AccountSshKey.Id(id, 1), sshKey.trim());
+    return sshKey;
   }
 }

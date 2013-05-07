@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class Module extends RestApiModule {
   @Override
@@ -29,6 +30,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
 
+    put(ACCOUNT_KIND).to(PutAccount.class);
     get(ACCOUNT_KIND).to(GetAccount.class);
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
@@ -37,5 +39,7 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(ACCOUNT_KIND, "preferences.diff").to(SetDiffPreferences.class);
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
+
+    install(new FactoryModuleBuilder().build(CreateAccount.Factory.class));
   }
 }

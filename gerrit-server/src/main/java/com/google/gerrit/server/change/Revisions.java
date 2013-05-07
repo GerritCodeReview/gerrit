@@ -58,7 +58,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     String idStr = id.get();
     boolean edit;
     if (idStr.endsWith(".edit")) {
-      idStr = idStr.substring(0, idStr.length() - 6);
+      idStr = idStr.substring(0, idStr.length() - 5);
       edit = true;
     } else {
       edit = false;
@@ -74,7 +74,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     }
 
     List<PatchSet> match = Lists.newArrayListWithExpectedSize(2);
-    for (PatchSet ps : find(change, id.get())) {
+    for (PatchSet ps : find(change, idStr)) {
       Change.Id changeId = ps.getId().getParentKey();
       if (changeId.equals(change.getChange().getId()) && visible(change, ps)) {
         match.add(ps);

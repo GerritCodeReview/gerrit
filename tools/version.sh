@@ -52,7 +52,7 @@ case "$V" in
 v*) V=$(echo "$V" | perl -pe s/^v//) ;;
 esac
 
-perl -pi -e '
+perl -pi.bak -e '
 	if ($ARGV ne $old_argv) {
 		$seen_version = 0;
 		$old_argv = $ARGV;
@@ -62,3 +62,5 @@ perl -pi -e '
 		s{(<version>).*(</version>)}{${1}'"$V"'${2}};
 	}
 	' $POM_FILES
+git clean -f *.bak
+git submodule foreach git clean -f *.bak

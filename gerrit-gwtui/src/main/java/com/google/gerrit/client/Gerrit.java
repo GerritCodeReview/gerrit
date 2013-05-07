@@ -87,6 +87,8 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
@@ -109,6 +111,8 @@ public class Gerrit implements EntryPoint {
   private static LinkMenuBar menuRight;
   private static LinkMenuBar diffBar;
   private static LinkMenuBar projectsBar;
+  private static List<LinkMenuBar> anonTopMenuExtensions = new ArrayList<LinkMenuBar>();
+  private static List<LinkMenuBar> signTopMenuExtensions = new ArrayList<LinkMenuBar>();
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
   private static SearchPanel searchPanel;
@@ -562,6 +566,7 @@ public class Gerrit implements EntryPoint {
 
     saveDefaultTheme();
     loadPlugins(hpd, token);
+    loadTopMenuExtensions(hpd);
   }
 
   private void saveDefaultTheme() {
@@ -613,6 +618,26 @@ public class Gerrit implements EntryPoint {
         .inject();
   }
 
+  private void loadTopMenuExtensions(HostPageData hpd) {
+    if (hpd.anonymousExtensions != null) {
+      for (Entry<String, String> e : hpd.anonymousExtensions.entrySet()) {
+        LinkMenuBar link = new LinkMenuBar();
+        link.setTitle(e.getKey());
+        anonTopMenuExtensions.add(link);
+      }
+    }
+    if (hpd.signedInExtensions != null) {
+      for (Entry<String, String> e : hpd.signedInExtensions.entrySet()) {
+        LinkMenuBar link = new LinkMenuBar();
+        link.setTitle(e.getKey());
+        signTopMenuExtensions.add(link);
+      }
+    }
+    if (!anonTopMenuExtensions.isEmpty() || !signTopMenuExtensions.isEmpty()) {
+      refreshMenuBar();
+    }
+  }
+
   public static void refreshMenuBar() {
     menuLeft.clear();
     menuRight.clear();
@@ -627,6 +652,7 @@ public class Gerrit implements EntryPoint {
     addLink(m, C.menuAllAbandoned(), PageLinks.toChangeQuery("status:abandoned"));
     menuLeft.add(m, C.menuAll());
 
+    Window.alert("0");
     if (signedIn) {
       m = new LinkMenuBar();
       addLink(m, C.menuMyChanges(), PageLinks.MINE);
@@ -749,6 +775,17 @@ public class Gerrit implements EntryPoint {
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:
           menuRight.add(anchor("Become", loginRedirect("")));
           break;
+      }
+    }
+    if (signedIn) {
+      for (LinkMenuBar menu : signTopMenuExtensions) {
+        Window.alert("b");
+        menuLeft.add(menu, menu.getTitle());
+      }
+    } else {
+      for (LinkMenuBar menu : anonTopMenuExtensions) {
+        Window.alert("a");
+        menuLeft.add(menu, menu.getTitle());
       }
     }
   }

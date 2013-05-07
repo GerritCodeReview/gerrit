@@ -68,4 +68,8 @@ public class RevisionResource implements RestResource {
       throw new ResourceNotFoundException();
     }
   }
+
+  RevisionId getId() {
+    return revId;
+  }
 }

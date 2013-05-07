@@ -16,6 +16,24 @@
       "revId": "60f4783f281b630ec39589ec22da8cac4bd7683c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UZf2pZ8g",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-07T15:48:58Z",
+      "side": 1,
+      "message": "I think returning only the current revision should be enough since this is the revision that was newly created by the rebase. But I think we should also include the commit information for that new revision. This I\u0027ve done with the new patch set.",
+      "parentUuid": "UXoRQ5hM",
+      "revId": "60f4783f281b630ec39589ec22da8cac4bd7683c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

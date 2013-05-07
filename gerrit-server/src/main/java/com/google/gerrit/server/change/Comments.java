@@ -52,6 +52,7 @@ class Comments implements ChildCollection<RevisionResource, CommentResource> {
   @Override
   public CommentResource parse(RevisionResource rev, IdString id)
       throws ResourceNotFoundException, OrmException {
+    rev.checkPublished();
     String uuid = id.get();
     for (PatchLineComment c : dbProvider.get().patchComments()
         .publishedByPatchSet(rev.getPatchSet().getId())) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gwtorm.server.OrmException;
@@ -29,7 +30,9 @@ class GetComment implements RestReadView<CommentResource> {
   }
 
   @Override
-  public Object apply(CommentResource rsrc) throws OrmException {
+  public Object apply(CommentResource rsrc) throws OrmException,
+      ResourceNotFoundException {
+    rsrc.getRevision().checkPublished();
     AccountInfo.Loader accountLoader = accountLoaderFactory.create(true);
     CommentInfo ci = new CommentInfo(rsrc.getComment(), accountLoader);
     accountLoader.fill();

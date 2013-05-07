@@ -48,6 +48,10 @@ public class DraftResource implements RestResource {
     return rev.getPatchSet();
   }
 
+  RevisionResource getRevision() {
+    return rev;
+  }
+
   PatchLineComment getComment() {
     return comment;
   }

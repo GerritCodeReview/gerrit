@@ -60,6 +60,7 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   public DraftResource parse(RevisionResource rev, IdString id)
       throws ResourceNotFoundException, OrmException, AuthException {
     checkIdentifiedUser();
+    rev.checkPublished();
     String uuid = id.get();
     for (PatchLineComment c : dbProvider.get().patchComments()
         .draftByPatchSetAuthor(

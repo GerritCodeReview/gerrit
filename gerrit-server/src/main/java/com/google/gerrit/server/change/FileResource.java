@@ -20,14 +20,14 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.inject.TypeLiteral;
 
-public class PatchResource implements RestResource {
-  public static final TypeLiteral<RestView<PatchResource>> PATCH_KIND =
-      new TypeLiteral<RestView<PatchResource>>() {};
+public class FileResource implements RestResource {
+  public static final TypeLiteral<RestView<FileResource>> PATCH_KIND =
+      new TypeLiteral<RestView<FileResource>>() {};
 
   private final RevisionResource rev;
   private final Patch.Key key;
 
-  PatchResource(RevisionResource rev, String name) {
+  FileResource(RevisionResource rev, String name) {
     this.rev = rev;
     this.key = new Patch.Key(rev.getPatchSet().getId(), name);
   }

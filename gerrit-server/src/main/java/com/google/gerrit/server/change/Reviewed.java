@@ -28,7 +28,7 @@ class Reviewed {
   static class Input {
   }
 
-  static class PutReviewed implements RestModifyView<PatchResource, Input> {
+  static class PutReviewed implements RestModifyView<FileResource, Input> {
     private final Provider<ReviewDb> dbProvider;
 
     @Inject
@@ -37,7 +37,7 @@ class Reviewed {
     }
 
     @Override
-    public Object apply(PatchResource resource, Input input)
+    public Object apply(FileResource resource, Input input)
         throws OrmException {
       ReviewDb db = dbProvider.get();
       AccountPatchReview apr = getExisting(db, resource);
@@ -52,7 +52,7 @@ class Reviewed {
     }
   }
 
-  static class DeleteReviewed implements RestModifyView<PatchResource, Input> {
+  static class DeleteReviewed implements RestModifyView<FileResource, Input> {
     private final Provider<ReviewDb> dbProvider;
 
     @Inject
@@ -61,7 +61,7 @@ class Reviewed {
     }
 
     @Override
-    public Object apply(PatchResource resource, Input input)
+    public Object apply(FileResource resource, Input input)
         throws OrmException {
       ReviewDb db = dbProvider.get();
       AccountPatchReview apr = getExisting(db, resource);
@@ -73,7 +73,7 @@ class Reviewed {
   }
 
   private static AccountPatchReview getExisting(ReviewDb db,
-      PatchResource resource) throws OrmException {
+      FileResource resource) throws OrmException {
     AccountPatchReview.Key key = new AccountPatchReview.Key(
         resource.getPatchKey(), resource.getAccountId());
     return db.accountPatchReviews().get(key);

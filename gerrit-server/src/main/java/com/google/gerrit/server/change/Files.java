@@ -23,16 +23,16 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-class Patches implements ChildCollection<RevisionResource, PatchResource> {
-  private final DynamicMap<RestView<PatchResource>> views;
+class Files implements ChildCollection<RevisionResource, FileResource> {
+  private final DynamicMap<RestView<FileResource>> views;
 
   @Inject
-  Patches(DynamicMap<RestView<PatchResource>> views) {
+  Files(DynamicMap<RestView<FileResource>> views) {
     this.views = views;
   }
 
   @Override
-  public DynamicMap<RestView<PatchResource>> views() {
+  public DynamicMap<RestView<FileResource>> views() {
     return views;
   }
 
@@ -42,8 +42,8 @@ class Patches implements ChildCollection<RevisionResource, PatchResource> {
   }
 
   @Override
-  public PatchResource parse(RevisionResource rev, IdString id)
+  public FileResource parse(RevisionResource rev, IdString id)
       throws ResourceNotFoundException, OrmException, AuthException {
-    return new PatchResource(rev, id.get());
+    return new FileResource(rev, id.get());
   }
 }

@@ -14,13 +14,15 @@
 
 package com.google.gerrit.httpd.raw;
 
+import com.google.common.collect.Lists;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
-import com.google.common.collect.Lists;
 import com.google.common.primitives.Bytes;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.TopMenuExtension;
+import com.google.gerrit.extensions.webui.TopMenuExtension.MenuEntry;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
@@ -72,6 +74,7 @@ public class HostPageServlet extends HttpServlet {
   private final Provider<WebSession> session;
   private final GerritConfig config;
   private final DynamicSet<WebUiPlugin> plugins;
+  private final DynamicSet<TopMenuExtension> topMenuExtensions;
   private final HostPageData.Theme signedOutTheme;
   private final HostPageData.Theme signedInTheme;
   private final SitePaths site;
@@ -86,12 +89,14 @@ public class HostPageServlet extends HttpServlet {
       final SitePaths sp, final ThemeFactory themeFactory,
       final GerritConfig gc, final ServletContext servletContext,
       final DynamicSet<WebUiPlugin> webUiPlugins,
+      final DynamicSet<TopMenuExtension> topMenuExtensions,
       @GerritServerConfig final Config cfg)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
     config = gc;
     plugins = webUiPlugins;
+    this.topMenuExtensions = topMenuExtensions;
     signedOutTheme = themeFactory.getSignedOutTheme();
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
@@ -196,6 +201,7 @@ public class HostPageServlet extends HttpServlet {
       w.write(";");
     }
     plugins(w);
+    topMenuExtensions(w);
 
     final byte[] hpd = w.toString().getBytes("UTF-8");
     final byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
@@ -231,6 +237,33 @@ public class HostPageServlet extends HttpServlet {
       json(urls, w);
       w.write(";");
     }
+  }
+
+  private void topMenuExtensions(StringWriter w) {
+    List<String> signedInEntrys = Lists.newArrayList();
+    List<String> anonymousEntrys = Lists.newArrayList();
+    for (TopMenuExtension extension : topMenuExtensions) {
+      for (MenuEntry entry : extension.getAnonymous()) {
+       anonymousEntrys.add(format(entry));
+      }
+      for (MenuEntry entry : extension.getSignedInEntrys()) {
+        signedInEntrys.add(format(entry));
+      }
+    }
+    if (!signedInEntrys.isEmpty()) {
+      w.write(HPD_ID + ".signedInExtensions=");
+      json(signedInEntrys, w);
+      w.write(";");
+    }
+    if (!anonymousEntrys.isEmpty()) {
+      w.write(HPD_ID + ".anonymousExtensions=");
+      json(signedInEntrys, w);
+      w.write(";");
+    }
+  }
+
+  private String format(MenuEntry entry) {
+    return String.format("%s;%s", entry.getName(), entry.getUrl());
   }
 
   private Page.Content select(HttpServletRequest req) {

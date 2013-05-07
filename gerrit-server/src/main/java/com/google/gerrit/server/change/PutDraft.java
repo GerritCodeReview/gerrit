@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -57,7 +58,9 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
 
   @Override
   public Object apply(DraftResource rsrc, Input in) throws AuthException,
-      BadRequestException, ResourceConflictException, OrmException {
+      BadRequestException, ResourceConflictException, OrmException,
+      ResourceNotFoundException {
+    rsrc.getRevision().checkPublished();
     PatchLineComment c = rsrc.getComment();
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.get().apply(rsrc, null);

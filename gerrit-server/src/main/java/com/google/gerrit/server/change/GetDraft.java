@@ -23,6 +23,7 @@ class GetDraft implements RestReadView<DraftResource> {
   @Override
   public Object apply(DraftResource rsrc) throws AuthException,
       BadRequestException, ResourceConflictException, Exception {
+    rsrc.getRevision().checkPublished();
     return new CommentInfo(rsrc.getComment(), null);
   }
 }

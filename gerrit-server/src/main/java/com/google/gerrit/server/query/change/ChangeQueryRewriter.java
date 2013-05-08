@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -117,6 +118,54 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   public Predicate<ChangeData> r00_newestSortKey(
       @Named("A") SortKeyPredicate.After a, @Named("B") SortKeyPredicate.After b) {
     return a.getValue().compareTo(b.getValue()) >= 0 ? a : b;
+  }
+
+  @Rewrite("status:open L=(label:*)")
+  public Predicate<ChangeData> r03_byLabel(
+      @Named("L") final LabelPredicate l) {
+    return new Source() {
+      {
+        init("r03_byLabel", l);
+      }
+
+      @Override
+      public ResultSet<ChangeData> read() throws OrmException {
+        ResultSet<PatchSetApproval> patchSetApprovals;
+        LabelPredicate.LabelOperator comp = l.getLabelOperator();
+        short value = l.getApprovalValue();
+        PatchSetApproval.LabelId label =
+            new PatchSetApproval.LabelId(l.getType());
+        switch (comp) {
+          case GT_EQ:
+            patchSetApprovals = dbProvider.get().patchSetApprovals().
+                byOpenLabelValueGE(label, value);
+            break;
+          case LT_EQ:
+            patchSetApprovals = dbProvider.get().patchSetApprovals().
+                byOpenLabelValueLE(label, value);
+            break;
+          default:
+            patchSetApprovals = dbProvider.get().patchSetApprovals().
+                byOpenLabelValueEQ(label, value);
+        }
+        return ChangeDataResultSet.patchSetApproval(patchSetApprovals);
+      }
+
+      @Override
+      public boolean match(ChangeData cd) throws OrmException {
+        return cd.change(dbProvider) != null && l.match(cd);
+      }
+
+      @Override
+      public int getCardinality() {
+        return 1000;
+      }
+
+      @Override
+      public int getCost() {
+        return ChangeCosts.cost(ChangeCosts.APPROVALS_SCAN, getCardinality());
+      }
+    };
   }
 
   @Rewrite("status:open P=(project:*) B=(branch:*)")

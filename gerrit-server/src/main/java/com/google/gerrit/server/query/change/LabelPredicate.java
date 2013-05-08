@@ -59,7 +59,13 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     abstract boolean match(int psValue, int expValue);
   }
 
-  private static LabelType type(LabelTypes types, String toFind) {
+  public static enum LabelOperator {
+    EQ,
+    GT_EQ,
+    LT_EQ
+  }
+
+  public static LabelType type(LabelTypes types, String toFind) {
     if (types.byLabel(toFind) != null) {
       return types.byLabel(toFind);
     }
@@ -94,11 +100,11 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     }
   }
 
-  private static int value(String value) {
+  private static short value(String value) {
     if (value.startsWith("+")) {
       value = value.substring(1);
     }
-    return Integer.parseInt(value);
+    return Short.valueOf(value);
   }
 
   private final ProjectCache projectCache;
@@ -107,7 +113,8 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
   private final Test test;
   private final String type;
-  private final int expVal;
+  private final short expVal;
+  private final LabelOperator comp;
 
   LabelPredicate(ProjectCache projectCache,
       ChangeControl.GenericFactory ccFactory,
@@ -124,19 +131,41 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     Matcher m2 = Pattern.compile("([+-]\\d+)$").matcher(value);
     if (m1.find()) {
       type = value.substring(0, m1.start());
-      test = op(m1.group(1));
+      String opStr = m1.group(1);
+      test = op(opStr);
       expVal = value(m1.group(2));
+      if ("=".equals(opStr)) {
+        comp = LabelOperator.EQ;
+      } else if (">=".equals(opStr)) {
+        comp = LabelOperator.GT_EQ;
+      } else {
+        comp = LabelOperator.LT_EQ;
+      }
 
     } else if (m2.find()) {
       type = value.substring(0, m2.start());
+      comp = LabelOperator.EQ;
       test = Test.EQ;
       expVal = value(m2.group(1));
 
     } else {
       type = value;
+      comp = LabelOperator.EQ;
       test = Test.EQ;
       expVal = 1;
     }
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public LabelOperator getLabelOperator() {
+    return comp;
+  }
+
+  public short getApprovalValue() {
+    return expVal;
   }
 
   @Override

@@ -51,4 +51,16 @@ public interface PatchSetApprovalAccess extends
   @Query("WHERE changeOpen = false AND key.accountId = ? ORDER BY changeSortKey")
   ResultSet<PatchSetApproval> closedByUserAll(Account.Id account)
       throws OrmException;
+
+  @Query("WHERE changeOpen = true AND key.categoryId = ? AND value >= ?")
+  ResultSet<PatchSetApproval> byOpenLabelValueGE(PatchSetApproval.LabelId id,
+      short value) throws OrmException;
+
+  @Query("WHERE changeOpen = true AND key.categoryId = ? AND value <= ?")
+  ResultSet<PatchSetApproval> byOpenLabelValueLE(PatchSetApproval.LabelId id,
+      short value) throws OrmException;
+
+  @Query("WHERE changeOpen = true AND key.categoryId = ? AND value = ?")
+  ResultSet<PatchSetApproval> byOpenLabelValueEQ(PatchSetApproval.LabelId id,
+      short value) throws OrmException;
 }

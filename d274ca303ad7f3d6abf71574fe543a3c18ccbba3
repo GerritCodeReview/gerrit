@@ -16,6 +16,24 @@
       "revId": "d274ca303ad7f3d6abf71574fe543a3c18ccbba3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Udiw.U8k",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012599
+      },
+      "writtenOn": "2013-05-08T14:53:52Z",
+      "side": 1,
+      "message": "oops, fixed",
+      "parentUuid": "UeycXWlk",
+      "revId": "d274ca303ad7f3d6abf71574fe543a3c18ccbba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

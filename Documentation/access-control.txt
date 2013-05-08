@@ -24,7 +24,7 @@ This is the Gerrit "root" identity.
 Users in the 'Administrators' group can perform any action under
 the Admin menu, to any group or project, without further validation
 or any other access controls.  In most installations only those
-users who have direct filesystem and database access would be
+users who have direct file system and database access would be
 placed into this group.
 
 Membership in the 'Administrators' group does not imply any other
@@ -53,7 +53,7 @@ Non-Interactive Users
 ~~~~~~~~~~~~~~~~~~~~~
 
 This is an internal user group, members of this group are not expected
-to perform interactive operations on the Gerrit web frontend.
+to perform interactive operations on the Gerrit web front end.
 
 However, sometimes such a user may need a separate thread pool in
 order to prevent it from grabbing threads from the interactive users.
@@ -185,7 +185,7 @@ Reference names can also be described with a regular expression
 by prefixing the reference name with `^`.  For example
 `^refs/heads/[a-z]{1,8}` matches all lower case branch names
 between 1 and 8 characters long.  Within a regular expression `.`
-is a wildcard matching any character, but may be escaped as `\.`.
+is a wild card matching any character, but may be escaped as `\.`.
 The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
 is used for evaluation of regular expression access control
 rules. See the library documentation for details on this
@@ -214,7 +214,7 @@ on the project:
 
 Then the effective range permitted to be used by the user is
 `-2..+2`, as the user's membership of `Foo Leads` effectively grant
-them access to the entire reference space, thanks to the wildcard.
+them access to the entire reference space, thanks to the wild card.
 
 Gerrit also supports exclusive reference-level access control.
 
@@ -240,7 +240,7 @@ Then this user will not have `Code-Review` rights on that change,
 since there is an exclusive access right in place for the
 `refs/heads/qa` branch. This allows locking down access for a
 particular branch to a limited set of users, bypassing inherited
-rights and wildcards.
+rights and wild cards.
 
 In order to grant the ability to `Code-Review` to the members of
 `Foo Leads`, in `refs/heads/qa` then the following access rights
@@ -500,7 +500,7 @@ Push Merge Commits
 ~~~~~~~~~~~~~~~~~~~~
 
 The `Push Merge Commit` access right permits the user to upload merge
-commits.  It's an addon to the <<category_push,Push>> access right, and
+commits.  It's an add-on to the <<category_push,Push>> access right, and
 so it won't be sufficient with only `Push Merge Commit` granted for a
 push to happen.  Some projects wish to restrict merges to being created
 by Gerrit. By granting `Push` without `Push Merge Commit`, the only
@@ -767,7 +767,7 @@ Optional access rights to grant:
 CI system
 ~~~~~~~~~
 
-A typical Continous Integration system should be able to download new changes
+A typical Continuous Integration system should be able to download new changes
 to build and then leave a verdict somehow.
 
 As an example, the popular
@@ -840,7 +840,7 @@ power in the form of being able to delete branches.  Optionally these users
 also have the power to configure access rights in gits assigned to them.
 
 [WARNING]
-These users should be really knowledgable about git, for instance knowing why
+These users should be really knowledgeable about git, for instance knowing why
 tags never should be removed from a server.  This role is granted potentially
 destructive access rights and cleaning up after such a mishap could be time
 consuming!
@@ -985,8 +985,8 @@ category. In the "`All-Projects`" we define the following rules:
 
 ====
   [access "refs/heads/stable*"]
-    label-Release-Proces = block -1..+1 group Anonymous Users
-    label-Release-Proces = -1..+1 group Release Engineers
+    label-Release-Process = block -1..+1 group Anonymous Users
+    label-Release-Process = -1..+1 group Release Engineers
 ====
 
 [[conversion_table]]
@@ -1020,7 +1020,7 @@ Conversion table from 2.1.x series to 2.2.x series
 In Gerrit 2.2.x, the way to set permissions for upload has changed entirely.
 To upload a change for review is no longer a separate permission type,
 instead you grant ordinary push permissions to the actual
-recieving reference. In practice this means that you set push permissions
+receiving reference. In practice this means that you set push permissions
 on `refs/for/refs/heads/<branch>` rather than permissions to upload changes
 on `refs/heads/<branch>`.
 
@@ -1113,7 +1113,7 @@ Kill Task
 Allow the operation of the link:cmd-kill.html[kill command over ssh].  The
 kill command ends tasks that currently occupy the Gerrit server, usually
 a replication task or a user initiated task such as an upload-pack or
-recieve-pack.
+receive-pack.
 
 
 [[capability_priority]]

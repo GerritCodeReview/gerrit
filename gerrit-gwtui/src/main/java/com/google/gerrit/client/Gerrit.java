@@ -338,6 +338,7 @@ public class Gerrit implements EntryPoint {
 
   @Override
   public void onModuleLoad() {
+    GerritJsApi.expose();
     UserAgent.assertNotInIFrame();
 
     KeyUtil.setEncoderImpl(new KeyUtil.Encoder() {

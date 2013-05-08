@@ -28,7 +28,7 @@ class AuditedHttpServletResponse
     super(response);
   }
 
-  int getStatus() {
+  public int getStatus() {
     return status;
   }
 

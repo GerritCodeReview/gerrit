@@ -87,6 +87,13 @@ public class ChangeData {
     }
   }
 
+  public static void ensureAllPatchSetsLoaded(Provider<ReviewDb> db,
+      List<ChangeData> changes) throws OrmException {
+    for (ChangeData cd : changes) {
+      cd.patches(db);
+    }
+  }
+
   public static void ensureCurrentPatchSetLoaded(
       Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
     Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();
@@ -141,6 +148,7 @@ public class ChangeData {
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
   private List<SubmitRecord> submitRecords;
+  private boolean patchesLoaded;
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -321,7 +329,7 @@ public class ChangeData {
    */
   public Collection<PatchSet> patches(Provider<ReviewDb> db)
       throws OrmException {
-    if (patches == null) {
+    if (patches == null || !patchesLoaded) {
       if (limitedIds != null) {
         patches = Lists.newArrayList();
         for (PatchSet ps : db.get().patchSets().byChange(legacyId)) {
@@ -332,6 +340,7 @@ public class ChangeData {
       } else {
         patches = db.get().patchSets().byChange(legacyId).toList();
       }
+      patchesLoaded = true;
     }
     return patches;
   }

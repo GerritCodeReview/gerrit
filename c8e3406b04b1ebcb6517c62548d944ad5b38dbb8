@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ue4eixuQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T08:47:05Z",
+      "side": 1,
+      "message": "With the new rest API endpoint this will be approximately:\n\n  ChangeApi.revisionDraft(patch.getParentKey())\n    .view(\"content\")\n    .get(new AsyncCallback\u003cNativeString\u003e() {\n      @Override\n      public void onSuccess(NativeString result) {\n        display(result.get());\n      }\n      ...onFailure, etc...\n    };\n\nAs discussed we will probably want to add more helper methods in ChangeApi to do this.",
+      "revId": "c8e3406b04b1ebcb6517c62548d944ad5b38dbb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

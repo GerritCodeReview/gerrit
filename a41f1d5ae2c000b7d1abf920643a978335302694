@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UhN7vJTk",
+        "filename": "gerrit-server/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-08T18:56:12Z",
+      "side": 0,
+      "message": "I don\u0027t know why this change was made by Eclipse, so perhaps we should back it out for now?",
+      "revId": "a41f1d5ae2c000b7d1abf920643a978335302694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

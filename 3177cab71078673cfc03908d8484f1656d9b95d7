@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UfyNPSkg",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-08T12:49:19Z",
+      "side": 1,
+      "message": "Nit:\n\nListingBlocks doesn\u0027t allow you to put a title to the block, whereas an ExampleBlock does[1]. I think \u0027.netrc\u0027 would be a good title to this block.\n\nSuggestion:\n.Content of a .netrc\n\u003d\u003d\u003d\u003d\u003d\n  machine localhost login username password s3cr3t\n\u003d\u003d\u003d\u003d\u003d\n\n[1] http://www.methods.co.nz/asciidoc/userguide.html#X48",
+      "revId": "3177cab71078673cfc03908d8484f1656d9b95d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

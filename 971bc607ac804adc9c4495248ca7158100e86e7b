@@ -34,6 +34,24 @@
       "revId": "971bc607ac804adc9c4495248ca7158100e86e7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ub9MfNGo",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/WrappedContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-08T06:50:38Z",
+      "side": 1,
+      "message": "See http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/NoSuchMethodError.html",
+      "parentUuid": "UdiwXM1k",
+      "revId": "971bc607ac804adc9c4495248ca7158100e86e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

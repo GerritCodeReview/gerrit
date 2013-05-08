@@ -1,0 +1,55 @@
+include_defs('//Documentation/asciidoc.defs')
+
+MAIN = ['//gerrit-pgm:pgm', '//gerrit-gwtui:ui_module']
+SRCS = glob(['*.txt'], excludes = ['licenses.txt'])
+HTML = [txt[0:-4] + '.html' for txt in SRCS]
+
+genrule(
+  name = 'html',
+  cmd = 'cd $TMP;' +
+    'mkdir -p Documentation/images;' +
+    'for s in $SRCS;do ln -s $s Documentation;done;' +
+    'mv Documentation/*.{jpg,png} Documentation/images;' +
+    'zip -qr $OUT *',
+  srcs = [genfile(d) for d in HTML] +
+    [genfile('licenses.html')] +
+    glob([
+      'images/*.jpg',
+      'images/*.png',
+    ]),
+  deps = [':' + d for d in HTML] + [':licenses.html'],
+  out = 'html.zip',
+  visibility = ['PUBLIC'],
+)
+
+genasciidoc(
+  name = 'generate_html',
+  srcs = SRCS + [genfile('licenses.txt')],
+  outs = HTML + ['licenses.html'],
+  deps = [':config', ':licenses.txt'],
+  attributes = ['toc', 'newline="\\n"'],
+  backend = 'xhtml11',
+  conf_file = genfile('asciidoc.conf'),
+)
+
+genrule(
+  name = 'licenses.txt',
+  cmd = '${:licenses} >$OUT',
+  srcs = [],
+  deps = [':licenses'] + MAIN,
+  out = 'licenses.txt',
+)
+
+genrule(
+  name = 'config',
+  cmd = 'cp $SRCS $OUT &&' +
+    'echo "[attributes]" >>$OUT &&' +
+    'echo "revision=`git describe HEAD`" >>$OUT',
+  srcs = ['asciidoc.conf'],
+  out = 'asciidoc.conf',
+)
+
+python_binary(
+  name = 'licenses',
+  main = 'licenses.py',
+)

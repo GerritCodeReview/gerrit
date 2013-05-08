@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.http.jetty;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -49,12 +50,15 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InterruptedIOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -72,6 +76,8 @@ import javax.servlet.DispatcherType;
 
 @Singleton
 public class JettyServer {
+  private static final Logger log = LoggerFactory.getLogger(JettyServer.class);
+
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
 
@@ -368,7 +374,7 @@ public class JettyServer {
   private Resource getBaseResource() throws IOException {
     if (baseResource == null) {
       try {
-        baseResource = unpackWar();
+        baseResource = unpackWar(GerritLauncher.getDistributionArchive());
       } catch (FileNotFoundException err) {
         if (err.getMessage() == GerritLauncher.NOT_ARCHIVED) {
           baseResource = useDeveloperBuild();
@@ -380,9 +386,7 @@ public class JettyServer {
     return baseResource;
   }
 
-  private Resource unpackWar() throws IOException {
-    final File srcwar = GerritLauncher.getDistributionArchive();
-
+  private Resource unpackWar(File srcwar) throws IOException {
     // Obtain our local temporary directory, but it comes back as a file
     // so we have to switch it to be a directory post creation.
     //
@@ -474,15 +478,60 @@ public class JettyServer {
       dir = dir.getParentFile();
     }
 
-    // We should be in a Maven style output, that is $jar/target/classes.
-    //
     if (!dir.getName().equals("classes")) {
       throw new FileNotFoundException("Cannot find web root from " + u);
     }
     dir = dir.getParentFile(); // pop classes
-    if (!dir.getName().equals("target")) {
+
+    if ("buck-out".equals(dir.getName())) {
+      String pkg = "gerrit-gwtui";
+      String target = "ui_dbg";
+      File gen = new File(dir, "gen");
+      String out = new File(new File(gen, pkg), target).getAbsolutePath();
+      build(dir.getParentFile(), out + ".rebuild", "//" + pkg + ":" + target);
+      return unpackWar(new File(out + ".zip"));
+    } else if ("target".equals(dir.getName())) {
+      return useMavenDeveloperBuild(dir);
+    } else {
       throw new FileNotFoundException("Cannot find web root from " + u);
     }
+  }
+
+  private static void build(File root, String cmd, String target)
+      throws IOException {
+    long start = System.currentTimeMillis();
+    log.info("BUILDING " + target);
+    Process rebuild = new ProcessBuilder(cmd, target)
+        .directory(root)
+        .redirectErrorStream(true)
+        .start();
+
+    byte[] out;
+    InputStream in = rebuild.getInputStream();
+    try {
+      out = ByteStreams.toByteArray(in);
+    } finally {
+      rebuild.getOutputStream().close();
+      in.close();
+    }
+
+    int status;
+    try {
+      status = rebuild.waitFor();
+    } catch (InterruptedException e) {
+      throw new InterruptedIOException("interrupted waiting for " + cmd);
+    }
+    if (status != 0) {
+      System.err.write(out);
+      System.err.println();
+      System.exit(status);
+    }
+
+    long time = System.currentTimeMillis() - start;
+    log.info(String.format("UPDATED  %s in %.3fs", target, time / 1000.0));
+  }
+
+  private Resource useMavenDeveloperBuild(File dir) throws IOException {
     dir = dir.getParentFile(); // pop target
     dir = dir.getParentFile(); // pop the module we are in
 

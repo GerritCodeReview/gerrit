@@ -1,0 +1,55 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '3.0'
+EXCLUDE = [
+  'META-INF/DEPENDENCIES',
+  'META-INF/LICENSE',
+  'META-INF/NOTICE',
+]
+
+maven_jar(
+  name = 'guice',
+  id = 'com.google.inject:guice:' + VERSION,
+  sha1 = '9d84f15fe35e2c716a02979fb62f50a29f38aefa',
+  license = 'Apache2.0',
+  deps = [
+    ':javax-inject',
+    ':aopalliance',
+  ],
+  exclude = EXCLUDE,
+)
+
+maven_jar(
+  name = 'guice-assistedinject',
+  id = 'com.google.inject.extensions:guice-assistedinject:' + VERSION,
+  sha1 = '544449ddb19f088dcde44f055d30a08835a954a7',
+  license = 'Apache2.0',
+  deps = [':guice'],
+  exclude = EXCLUDE,
+)
+
+maven_jar(
+  name = 'guice-servlet',
+  id = 'com.google.inject.extensions:guice-servlet:' + VERSION,
+  sha1 = '610cde0e8da5a8b7d8efb8f0b8987466ffebaaf9',
+  license = 'Apache2.0',
+  deps = [':guice'],
+  exclude = EXCLUDE,
+)
+
+
+maven_jar(
+  name = 'aopalliance',
+  id = 'aopalliance:aopalliance:1.0',
+  sha1 = '0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8',
+  license = 'PublicDomain',
+  visibility = ['//lib/guice:guice'],
+)
+
+maven_jar(
+  name = 'javax-inject',
+  id = 'javax.inject:javax.inject:1',
+  sha1 = '6975da39a7040257bd51d21a231b76c915872d38',
+  license = 'Apache2.0',
+  visibility = ['//lib/guice:guice'],
+)

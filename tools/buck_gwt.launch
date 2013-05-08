@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/gerrit/buck-out/gen/lib/gwt/dev/gwt-dev-2.5.0.jar"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
+<listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-startupUrl /&#10;-war ${resource_loc:/gerrit}/buck-out/gen/gerrit-gwtui/ui_dbg__tmp/war&#10;-server com.google.gerrit.gwtdebug.GerritDebugLauncher&#10;com.google.gerrit.GerritGwtUI"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="gerrit"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx256M&#10;-Dgwt.persistentunitcachedir=${resource_loc:/gerrit}/buck-out/gen/gerrit-gwtui/ui_dbg__tmp/unit_cache&#10;-Dgerrit.source_root=${resource_loc:/gerrit}&#10;-Dgerrit.site_path=${resource_loc:/gerrit}/../test_site&#10;-da:com.google.gwtexpui.globalkey.client.KeyCommandSet"/>
+</launchConfiguration>

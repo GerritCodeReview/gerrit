@@ -16,6 +16,58 @@
       "revId": "c45525f57f16eb2227c3388dd03763b722867ddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue2d10pA",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T09:44:21Z",
+      "side": 1,
+      "message": "As we discussed in person, this was a mistake on my part due to aggressive searching for all instances of \"category\". The only change I should have made was \"approval category\" -\u003e \"label\"",
+      "parentUuid": "Uf2P6Ivw",
+      "revId": "c45525f57f16eb2227c3388dd03763b722867ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue4eJ5mg",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T09:44:21Z",
+      "side": 1,
+      "message": "I think this is no longer true, Shawn got rid of Verified by default.",
+      "revId": "c45525f57f16eb2227c3388dd03763b722867ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uf6NQmhM",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T09:44:21Z",
+      "side": 1,
+      "message": "OT: I wonder how long we plan to keep these by now very old upgrade descriptions around?",
+      "revId": "c45525f57f16eb2227c3388dd03763b722867ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

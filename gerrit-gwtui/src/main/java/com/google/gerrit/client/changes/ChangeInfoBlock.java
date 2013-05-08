@@ -34,6 +34,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -102,7 +103,11 @@ public class ChangeInfoBlock extends Composite {
     CopyableLabel changeIdLabel =
         new CopyableLabel("Change-Id: " + chg.getKey().get());
     changeIdLabel.setPreviewText(chg.getKey().get());
-    table.setWidget(R_CHANGE_ID, 1, changeIdLabel);
+    Anchor helpAnchor = new Anchor("?", "/Documentation/user-changeid.html");
+    final FlowPanel changeIdContainer = new FlowPanel();
+    changeIdContainer.add(changeIdLabel);
+    changeIdContainer.add(helpAnchor);
+    table.setWidget(R_CHANGE_ID, 1, changeIdContainer);
 
     table.setWidget(R_OWNER, 1, AccountLinkPanel.link(acc, chg.getOwner()));
 

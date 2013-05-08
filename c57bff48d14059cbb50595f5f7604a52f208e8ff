@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uf8MFlsk",
+        "filename": "lib/DEFS",
+        "patchSetId": 21
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:25:11Z",
+      "side": 1,
+      "message": "Thank you, I think this was the single most confusing rule you defined :)",
+      "revId": "c57bff48d14059cbb50595f5f7604a52f208e8ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uf.MCkr4",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:25:11Z",
+      "side": 1,
+      "message": "I think we may want to support a local m2 repository cache eventually. Right now, how do we handle a locally-built version of e.g. JGit? Just change your BUCK files to point to file://path/to/jgit.jar? And the performance gain from not hitting the network (particularly if it\u0027s slow) may be significant. Since we\u0027re checking the SHA-1 of the file it won\u0027t affect correctness.\n\nYes, it\u0027s easy to poison your cache if someone forgets to bump a version number in an upstream pom.xml, but that\u0027s why we\u0027re checking the SHA-1. We could even make it so that if the cache is corrupted (cached a false negative or has the wrong SHA-1) it silently tries again on the network.",
+      "revId": "c57bff48d14059cbb50595f5f7604a52f208e8ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue0f7bq8",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:25:11Z",
+      "side": 1,
+      "message": "except..as is 2.6+, I forget what version we decided we wanted to target.",
+      "revId": "c57bff48d14059cbb50595f5f7604a52f208e8ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

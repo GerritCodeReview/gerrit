@@ -141,6 +141,7 @@ public class ChangeData {
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
   private List<SubmitRecord> submitRecords;
+  private boolean patchesLoaded;
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -321,7 +322,7 @@ public class ChangeData {
    */
   public Collection<PatchSet> patches(Provider<ReviewDb> db)
       throws OrmException {
-    if (patches == null) {
+    if (patches == null || !patchesLoaded) {
       if (limitedIds != null) {
         patches = Lists.newArrayList();
         for (PatchSet ps : db.get().patchSets().byChange(legacyId)) {
@@ -332,6 +333,7 @@ public class ChangeData {
       } else {
         patches = db.get().patchSets().byChange(legacyId).toList();
       }
+      patchesLoaded = true;
     }
     return patches;
   }

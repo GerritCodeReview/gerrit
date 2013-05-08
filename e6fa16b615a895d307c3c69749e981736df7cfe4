@@ -16,6 +16,24 @@
       "revId": "e6fa16b615a895d307c3c69749e981736df7cfe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UewcjNn8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T10:57:51Z",
+      "side": 1,
+      "message": "I think this will work;\n\nCharArrayWriter w \u003d new CharArrayWriter(4 * ((loader.getSize() - 1)/3 + 1)); // 4*ceil(n/3)\nloader.copyTo(BaseEncoding.base64().encodingStream(w));\nreturn w.toString();",
+      "parentUuid": "UeyfJGqI",
+      "revId": "e6fa16b615a895d307c3c69749e981736df7cfe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

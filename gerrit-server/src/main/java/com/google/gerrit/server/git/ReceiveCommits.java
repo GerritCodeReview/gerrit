@@ -1747,12 +1747,16 @@ public class ReceiveCommits {
             eq(newCommit.getFullMessage(), priorCommit.getFullMessage());
         final boolean parentsEq = parentsEqual(newCommit, priorCommit);
         final boolean authorEq = authorEqual(newCommit, priorCommit);
+        final ObjectReader reader = rp.getRevWalk().getObjectReader();
 
         if (messageEq && parentsEq && authorEq && !autoClose) {
+          addMessage(String.format(
+              "(W) No changes between prior commit %s and new commit %s",
+              reader.abbreviate(priorCommit).name(),
+              reader.abbreviate(newCommit).name()));
           reject(inputCommand, "no changes made");
           return false;
         } else {
-          ObjectReader reader = rp.getRevWalk().getObjectReader();
           StringBuilder msg = new StringBuilder();
           msg.append("(W) ");
           msg.append(reader.abbreviate(newCommit).name());

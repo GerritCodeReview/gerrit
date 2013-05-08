@@ -23,9 +23,9 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
 class WrappedFilterConfig implements FilterConfig {
-  private final WrappedContext context;
+  private final ServletContext context;
 
-  WrappedFilterConfig(WrappedContext context) {
+  WrappedFilterConfig(ServletContext context) {
     this.context = context;
   }
 

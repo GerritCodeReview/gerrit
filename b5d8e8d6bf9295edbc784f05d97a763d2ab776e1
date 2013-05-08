@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uf.PrctY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T14:32:58Z",
+      "side": 1,
+      "message": "I think you don\u0027t need to wrap this in a PrintWriter, all that does is provide additional buffering. But copyTo manages its own buffering so that\u0027s unnecessary.\n\nAlso, encodingStream is defined to close the underlying writer when the stream is closed. So you don\u0027t need to hold on to or flush the writer anyway, you can just do:\n\n  OutputStream b64Out \u003d Base64Encoding.base64().encodingStream(\n      new OutputStreamWriter(out, Charsets.UTF_8));\n  loader.copyTo(b64Out);\n  b64Out.close(); // closes the writer\n\nThis avoids one level of finally block :)",
+      "revId": "b5d8e8d6bf9295edbc784f05d97a763d2ab776e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

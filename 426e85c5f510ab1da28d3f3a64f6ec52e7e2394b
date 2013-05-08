@@ -70,6 +70,75 @@
     },
     {
       "key": {
+        "uuid": "UgML04g8",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-08T15:09:54Z",
+      "side": 1,
+      "message": "Perhaps topics that don\u0027t exist could receive an extra sentence or two to explain what they\u0027re supposed to cover? I don\u0027t think \"Setup of ssh\" is completely unambiguous.",
+      "parentUuid": "Uf.NKkl8",
+      "revId": "426e85c5f510ab1da28d3f3a64f6ec52e7e2394b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgQHr6jA",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-08T15:09:54Z",
+      "side": 1,
+      "message": "This section header name is ambiguous and doesn\u0027t help people to decide whether it\u0027s something for them.",
+      "revId": "426e85c5f510ab1da28d3f3a64f6ec52e7e2394b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgeHv5jg",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-08T15:09:54Z",
+      "side": 1,
+      "message": "These two topics (and some others from the server admin section) would fit nicely in a \"Customization and integration\" section. That name could certainly stand some polishing, but it would cover non-admin customization and ways of integrating Gerrit with other tools (CI systems, bug trackers etc).\n\nOn the other hand, extracting these topics would leave ample room for bikeshedding every time a documentation topic is added.",
+      "revId": "426e85c5f510ab1da28d3f3a64f6ec52e7e2394b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgKL53gc",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-08T15:09:54Z",
+      "side": 1,
+      "message": "Optimization of what?",
+      "revId": "426e85c5f510ab1da28d3f3a64f6ec52e7e2394b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UfwOPrng",
         "filename": "Documentation/index.txt",
         "patchSetId": 1

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "Uf.O40s8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-05-08T16:34:13Z",
+      "side": 1,
+      "message": "Can we get rid of this JavaBeans strict compliance ?\nWhy just not making them public as they are final anyway ?",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UewcYljc",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
         "patchSetId": 4
@@ -13,6 +30,74 @@
       "writtenOn": "2013-05-08T15:42:43Z",
       "side": 1,
       "message": "Can we have a position ? Or a \"beforeName\" concept ?\n\nExample:\n- I want to have my entry at position 0 \nOR\n- I want to have my entry inserted before \"Projects\"",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uf8O71sk",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-05-08T16:34:13Z",
+      "side": 1,
+      "message": "Do we strictly need those to be JavaBeans compliant ?\nWhy not simply:\n  public final String url;\n\n... and remove all the boilerplate of getters.",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue8cFnsk",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-05-08T16:34:13Z",
+      "side": 1,
+      "message": "Can we insert the \"target\" part as well ? I would like to control whether the target page has to be rendered in the same tab or not.\n\nExample:\n  private final String target;",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uf4PB3kc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-05-08T16:34:13Z",
+      "side": 1,
+      "message": "See above.\n\nExample:\n  String target",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uf6O.2ro",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-05-08T16:34:13Z",
+      "side": 1,
+      "message": "See above.\n\nExample:\n    this.target \u003d target;",
       "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

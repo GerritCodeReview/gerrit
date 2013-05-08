@@ -16,19 +16,24 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 class Files implements ChildCollection<RevisionResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
+  private final FileInfoJson fileInfoJson;
 
   @Inject
-  Files(DynamicMap<RestView<FileResource>> views) {
+  Files(DynamicMap<RestView<FileResource>> views, FileInfoJson fileInfoJson) {
     this.views = views;
+    this.fileInfoJson = fileInfoJson;
   }
 
   @Override
@@ -38,7 +43,16 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
 
   @Override
   public RestView<RevisionResource> list() throws AuthException {
-    throw new UnsupportedOperationException();
+    return new RestReadView<RevisionResource>() {
+      @Override
+      public Object apply(RevisionResource resource) throws AuthException,
+          BadRequestException, ResourceConflictException, Exception {
+        // TODO: verify permissions
+        // TODO: check parameters
+        // TODO: allow base parameter
+        return fileInfoJson.toFileInfoMap(resource.getChange(), resource.getPatchSet());
+      }
+    };
   }
 
   @Override

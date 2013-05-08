@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uf2Otwo8",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T16:44:43Z",
+      "side": 1,
+      "message": "s/get/gets",
+      "revId": "8dbf73a1adea79515241c6055aa0338d2a198b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgYH-.ug",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T16:44:43Z",
+      "side": 1,
+      "message": "Would it be worth to mention that the review notes are written by the review-notes plugin?",
+      "revId": "8dbf73a1adea79515241c6055aa0338d2a198b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue.cCor4",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T16:44:43Z",
+      "side": 1,
+      "message": "Seems like a word is missing here\n  \"on which the ??? is made.\"",
+      "revId": "8dbf73a1adea79515241c6055aa0338d2a198b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue4faxjs",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T16:44:43Z",
+      "side": 1,
+      "message": "Should we somewhere in this section link to user-upload.html#push_create where the options for this ref spec are described and it\u0027s also explained how topics can be included?",
+      "revId": "8dbf73a1adea79515241c6055aa0338d2a198b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UewfHtmc",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T16:44:43Z",
+      "side": 1,
+      "message": "s/we build/Gerrit builds",
+      "revId": "8dbf73a1adea79515241c6055aa0338d2a198b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue0fRriA",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T16:44:43Z",
+      "side": 1,
+      "message": "maybe better:\n\n\"Push to +refs/drafts/*+ creates a change like push to +refs/for/*+, except that the resulting change...\"",
+      "revId": "8dbf73a1adea79515241c6055aa0338d2a198b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue2fWshs",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T16:44:43Z",
+      "side": 1,
+      "message": "s/a button/a \u0027Publish\u0027 button\n\ns/individual patch sets/individual draft patch sets",
+      "revId": "8dbf73a1adea79515241c6055aa0338d2a198b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UdmxIW3Q",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T16:44:43Z",
+      "side": 1,
+      "message": "s/public for review/into public patch sets for review.",
+      "revId": "8dbf73a1adea79515241c6055aa0338d2a198b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uf2P6Ivw",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T07:40:50Z",
+      "side": 1,
+      "message": "This is something we should clarify, I\u0027ve had the impression that the new name for \u0027category\u0027 is \u0027label\u0027. Dave should know more as he was doing all the work on the custom labels.",
+      "revId": "c45525f57f16eb2227c3388dd03763b722867ddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

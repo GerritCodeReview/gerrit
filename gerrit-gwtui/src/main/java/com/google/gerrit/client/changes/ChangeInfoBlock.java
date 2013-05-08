@@ -17,6 +17,8 @@ package com.google.gerrit.client.changes;
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritJsApi;
+import com.google.gerrit.client.GerritJsApi.NewChangeInfoTableRow;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
@@ -43,6 +45,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
+
+import java.util.List;
 
 public class ChangeInfoBlock extends Composite {
   private static final int R_CHANGE_ID = 0;
@@ -88,6 +92,7 @@ public class ChangeInfoBlock extends Composite {
     fmt.addStyleName(R_CNT - 2, 0, Gerrit.RESOURCES.css().bottomheader());
 
     initWidget(table);
+    getElement().setId("CHANGE_INFO_TABLE");
   }
 
   private void initRow(final int row, final String name) {
@@ -135,6 +140,12 @@ public class ChangeInfoBlock extends Composite {
       } else {
         table.getRowFormatter().setVisible(R_MERGE_TEST, false);
       }
+    }
+    List<NewChangeInfoTableRow> rows = GerritJsApi.informChangeInfoTableModifiers(chg.getId().get());
+    for (NewChangeInfoTableRow row : rows) {
+      int insertRow = table.insertRow(row.position);
+      initRow(insertRow, row.title);
+      table.setWidget(insertRow, 1, row.widget);
     }
 
     if (status.isClosed()) {

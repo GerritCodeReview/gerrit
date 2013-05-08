@@ -1,0 +1,100 @@
+BROWSERS = ['gecko1_8', 'safari', 'ie6', 'ie8', 'ie9']
+MODULE = 'com.google.gerrit.GerritGwtUI'
+DEPS = [
+  ':ui_module',
+  '//gerrit-common:version',
+]
+DEBUG_OPTS = [
+  '-style', 'PRETTY',
+  '-optimize', '0',
+]
+
+genrule(
+  name = 'ui_optdbg',
+  cmd = 'cd $TMP;' +
+    'unzip -q $SRCDIR/ui_dbg.zip;' +
+    'mv' +
+    ' gerrit_ui/gerrit_ui.nocache.js' +
+    ' gerrit_ui/gerrit_dbg.nocache.js;' +
+    'unzip -qo $SRCDIR/ui_opt.zip;' +
+    'mkdir -p $(dirname $OUT);' +
+    'zip -qr $OUT .',
+  srcs = [
+    genfile('ui_dbg.zip'),
+    genfile('ui_opt.zip'),
+  ],
+  deps = [
+    ':ui_dbg',
+    ':ui_opt',
+  ],
+  out = 'ui_optdbg.zip',
+  visibility = ['PUBLIC'],
+)
+
+gwt_application(
+  name = 'ui_opt',
+  module_target = MODULE,
+  compiler_opts = [
+    '-strict',
+    '-style', 'OBF',
+    '-optimize', '9',
+    '-XdisableClassMetadata',
+    '-XdisableCastChecking',
+  ],
+  deps = DEPS,
+)
+
+gwt_application(
+  name = 'ui_dbg',
+  module_target = MODULE,
+  compiler_opts = DEBUG_OPTS + ['-strict'],
+  deps = DEPS,
+  visibility = ['//:eclipse'],
+)
+
+for ua in BROWSERS:
+  gwt_application(
+    name = 'ui_' + ua,
+    module_target = MODULE + '_' + ua,
+    compiler_opts = DEBUG_OPTS + ['-draftCompile'],
+    deps = DEPS,
+    visibility = ['//:'],
+  )
+
+gwt_module(
+  name = 'ui_module',
+  srcs = glob(['src/main/java/**/*.java']),
+  gwtxml = 'src/main/java/%s.gwt.xml' % MODULE.replace('.', '/'),
+  resources = glob(['src/main/java/**/*']),
+  deps = [
+    '//gerrit-gwtexpui:Clippy',
+    '//gerrit-gwtexpui:CSS',
+    '//gerrit-gwtexpui:GlobalKey',
+    '//gerrit-gwtexpui:Linker',
+    '//gerrit-gwtexpui:Progress',
+    '//gerrit-gwtexpui:SafeHtml',
+    '//gerrit-gwtexpui:UserAgent',
+    '//gerrit-common:client',
+    '//gerrit-patch-jgit:client',
+    '//gerrit-prettify:client',
+    '//gerrit-reviewdb:client',
+    '//lib:gwtjsonrpc',
+    '//lib:gwtjsonrpc_src',
+    '//lib/gwt:user',
+  ],
+  visibility = [
+    '//:eclipse_classpath',
+    '//Documentation:licenses.txt',
+  ],
+)
+
+java_test(
+  name = 'ui_tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [
+    ':ui_module',
+    '//lib:junit',
+    '//lib/gwt:dev',
+  ],
+  source_under_test = [':ui_module'],
+)

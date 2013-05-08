@@ -1,0 +1,17 @@
+java_library2(
+  name = 'sshd',
+  srcs = glob(['src/main/java/**/*.java']),
+  deps = [
+    '//gerrit-cache-h2:cache-h2',
+    '//gerrit-server:server',
+    '//gerrit-util-cli:cli',
+    '//lib/log:api',
+    '//lib/log:log4j',
+    '//lib/mina:core',
+    '//lib/mina:sshd',
+  ],
+  compile_deps = [
+    '//lib/bouncycastle:bcprov',
+  ],
+  visibility = ['PUBLIC'],
+)

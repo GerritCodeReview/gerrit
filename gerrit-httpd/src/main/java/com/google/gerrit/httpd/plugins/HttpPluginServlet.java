@@ -63,6 +63,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -172,7 +173,7 @@ class HttpPluginServlet extends HttpServlet
       }
 
       try {
-        WrappedContext ctx = new WrappedContext(plugin, base + name);
+        ServletContext ctx = PluginServletContext.create(plugin, base + name);
         filter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
         log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);

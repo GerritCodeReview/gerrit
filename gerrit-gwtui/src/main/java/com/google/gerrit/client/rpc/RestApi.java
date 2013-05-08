@@ -124,26 +124,29 @@ public class RestApi {
         }
 
       } else if (200 <= status && status < 300) {
-        if (!isJsonBody(res)) {
+        T data;
+        if (isTextBody(res)) {
+          data = NativeString.wrap(res.getText()).cast();
+          res.getText();
+        } else if (isJsonBody(res)) {
+          try {
+            // javac generics bug
+            data = RestApi.<T>cast(parseJson(res));
+          } catch (JSONException e) {
+            if (!background) {
+              RpcStatus.INSTANCE.onRpcComplete();
+            }
+            cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE,
+                "Invalid JSON: " + e.getMessage()));
+            return;
+          }
+        } else {
           if (!background) {
             RpcStatus.INSTANCE.onRpcComplete();
           }
           cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE, "Expected "
-              + JSON_TYPE + "; received Content-Type: "
+              + JSON_TYPE + " or " + TEXT_TYPE + "; received Content-Type: "
               + res.getHeader("Content-Type")));
-          return;
-        }
-
-        T data;
-        try {
-          // javac generics bug
-          data = RestApi.<T>cast(parseJson(res));
-        } catch (JSONException e) {
-          if (!background) {
-            RpcStatus.INSTANCE.onRpcComplete();
-          }
-          cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE,
-              "Invalid JSON: " + e.getMessage()));
           return;
         }
 

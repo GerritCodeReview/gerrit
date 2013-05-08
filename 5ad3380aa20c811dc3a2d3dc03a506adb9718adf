@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Uf8MfVmo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T08:36:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UXgR7Vok",
+      "revId": "5ad3380aa20c811dc3a2d3dc03a506adb9718adf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UdmwRO2A",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionResource.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "Uf.McUng",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T08:36:17Z",
+      "side": 1,
+      "message": "My thinking was for something like POST /changes/X/revisions/Y.draft/review, it should 404 because there is no such endpoint /review corresponding to Y.draft, and it\u0027s about the URL rather than the method.",
+      "parentUuid": "UdmwRO2A",
+      "revId": "5ad3380aa20c811dc3a2d3dc03a506adb9718adf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ue.czgvc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-08T08:06:50Z",
       "side": 1,
       "message": "Why is this always of type \u0027PUBLISHED\u0027? Wouldn\u0027t it be nice to be able to use \u0027current.draft\u0027 as ID for the draft patch set on the current revision?",
+      "revId": "5ad3380aa20c811dc3a2d3dc03a506adb9718adf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UfwM5buA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T08:36:17Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "Ue.czgvc",
       "revId": "5ad3380aa20c811dc3a2d3dc03a506adb9718adf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

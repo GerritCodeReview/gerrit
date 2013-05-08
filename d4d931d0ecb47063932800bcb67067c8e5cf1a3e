@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "UgoD-9ug",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-08T19:26:54Z",
+      "side": 1,
+      "message": "True, to be honest I was considering that when I was writing this, but give a shot for JavaBeans notation. We can change this",
+      "parentUuid": "Uf.O40s8",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UewcYljc",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
         "patchSetId": 4
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "UgmD88vM",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-08T19:26:54Z",
+      "side": 1,
+      "message": "same as above",
+      "parentUuid": "Uf8O71sk",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ue8cFnsk",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
         "patchSetId": 4
@@ -81,6 +117,24 @@
       "writtenOn": "2013-05-08T16:34:13Z",
       "side": 1,
       "message": "Can we insert the \"target\" part as well ? I would like to control whether the target page has to be rendered in the same tab or not.\n\nExample:\n  private final String target;",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ugz8JZz0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-08T19:26:54Z",
+      "side": 1,
+      "message": "good idea",
+      "parentUuid": "Ue8cFnsk",
       "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -115,6 +169,24 @@
       "writtenOn": "2013-05-08T16:34:13Z",
       "side": 1,
       "message": "See above.\n\nExample:\n    this.target \u003d target;",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhB4GrSs",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-08T19:26:54Z",
+      "side": 1,
+      "message": "By default I would use \u0027_blank\u0027 as target and have two parameter constructor. We can consider adding three parameter constructor with target option or setter for this one",
+      "parentUuid": "Uf6O.2ro",
       "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

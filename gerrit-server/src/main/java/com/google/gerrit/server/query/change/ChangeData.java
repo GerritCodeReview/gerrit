@@ -87,6 +87,13 @@ public class ChangeData {
     }
   }
 
+  public static void ensureAllPatchSetsLoaded(
+      Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
+    for (ChangeData cd : changes) {
+      cd.patches(db);
+    }
+  }
+
   public static void ensureCurrentPatchSetLoaded(
       Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
     Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Uf2Oeoqw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T09:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uf0NDZlg",
+      "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UZT3JD6I",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-07T22:09:34Z",
       "side": 1,
       "message": "Just use:\n\n  TreeWalk tw \u003d TreeWalk.forPath(rw.getObjectReader());\n  if (tw \u003d\u003d null) {\n    throw new ResourceNotFoundException();\n  }",
+      "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UfyOUqoo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T09:54:06Z",
+      "side": 1,
+      "message": "Thanks, this looks much easier.\n\nDone.",
+      "parentUuid": "UZT3JD6I",
       "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Uf0OZpsE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T09:54:06Z",
+      "side": 1,
+      "message": "I\u0027ve now did the base64 encoding and the endpoint is returning the byte array. Not sure if this is correct now.\n\nDone.",
+      "parentUuid": "UZf3Xpz8",
+      "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UXoSGJlQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-07T21:34:37Z",
       "side": 1,
       "message": "IMHO this should just propagate, which will log it and return a 500 to the user.",
+      "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue0eZrsE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T09:54:06Z",
+      "side": 1,
+      "message": "Right, it doesn\u0027t make sense to convert this to Not Found.\n\nDone",
+      "parentUuid": "UXoSGJlQ",
       "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

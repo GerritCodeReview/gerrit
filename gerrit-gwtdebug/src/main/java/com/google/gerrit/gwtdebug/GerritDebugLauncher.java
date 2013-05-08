@@ -381,9 +381,15 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     Server server = new Server();
     server.addConnector(connector);
 
-    // warDir is "$top/gerrit-gwtui/target/gwt-hosted-mode"
-    //
-    File top = warDir.getParentFile().getParentFile().getParentFile();
+    File top;
+    String root = System.getProperty("gerrit.source_root");
+    if (root != null) {
+      top = new File(root);
+    } else {
+      // Under Maven warDir is "$top/gerrit-gwtui/target/gwt-hosted-mode"
+      top = warDir.getParentFile().getParentFile().getParentFile();
+    }
+
     File app = new File(top, "gerrit-war/src/main/webapp");
     File webxml = new File(app, "WEB-INF/web.xml");
 

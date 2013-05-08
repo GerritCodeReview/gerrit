@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UewcYljc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-05-08T15:42:43Z",
+      "side": 1,
+      "message": "Can we have a position ? Or a \"beforeName\" concept ?\n\nExample:\n- I want to have my entry at position 0 \nOR\n- I want to have my entry inserted before \"Projects\"",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

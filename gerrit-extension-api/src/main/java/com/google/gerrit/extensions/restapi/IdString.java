@@ -25,6 +25,11 @@ public class IdString {
     return new IdString(id);
   }
 
+  /** Construct an identifier from an already decoded string. */
+  public static IdString fromDecoded(String id) {
+    return new IdString(Url.encode(id));
+  }
+
   private final String urlEncoded;
 
   private IdString(String s) {

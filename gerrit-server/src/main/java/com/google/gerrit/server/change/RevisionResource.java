@@ -35,8 +35,12 @@ public class RevisionResource implements RestResource {
     this.ps = ps;
   }
 
+  public ChangeResource getChangeResource() {
+    return change;
+  }
+
   public ChangeControl getControl() {
-    return change.getControl();
+    return getChangeResource().getControl();
   }
 
   public Change getChange() {

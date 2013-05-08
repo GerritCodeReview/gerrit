@@ -82,6 +82,14 @@ public class ChangeApi {
   }
 
   /** Submit a specific revision of a change. */
+  public static void cherrypick(int id, String commit, String destination, String message, AsyncCallback<ChangeInfo> cb) {
+    CherryPickInput cherryPickInput = CherryPickInput.create();
+    cherryPickInput.setMessage(message);
+    cherryPickInput.setDestination(destination);
+    call(id, commit, "cherrypick").post(cherryPickInput, cb);
+  }
+
+  /** Submit a specific revision of a change. */
   public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
     SubmitInput in = SubmitInput.create();
     in.wait_for_merge(true);
@@ -99,6 +107,17 @@ public class ChangeApi {
     protected Input() {
     }
   }
+
+  private static class CherryPickInput extends JavaScriptObject {
+    static CherryPickInput create() {
+      return (CherryPickInput) createObject();
+    }
+    final native void setDestination(String d) /*-{ this.destination = d; }-*/;
+    final native void setMessage(String m) /*-{ this.message = m; }-*/;
+
+    protected CherryPickInput() {
+    }
+  };
 
   private static class SubmitInput extends JavaScriptObject {
     final native void wait_for_merge(boolean b) /*-{ this.wait_for_merge=b; }-*/;

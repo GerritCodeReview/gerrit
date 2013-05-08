@@ -31,7 +31,21 @@ Building
 From the command line:
 
 ----
-  mvn package
+  mvn clean package
+----
+
+By default the build will run tests and build the documentation.
+
+To build without tests:
+
+----
+  mvn clean package -DskipTests
+----
+
+To build without documentation:
+
+----
+  mvn clean package -Dgerrit.documentation.skip
 ----
 
 Output executable WAR will be placed in:

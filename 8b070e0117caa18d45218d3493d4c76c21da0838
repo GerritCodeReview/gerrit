@@ -16,6 +16,24 @@
       "revId": "8b070e0117caa18d45218d3493d4c76c21da0838",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue2fs8hQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T09:59:26Z",
+      "side": 1,
+      "message": "That was a good point. In the current patch set we now do base64 encoding of the file content.",
+      "parentUuid": "UTRVlNPE",
+      "revId": "8b070e0117caa18d45218d3493d4c76c21da0838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

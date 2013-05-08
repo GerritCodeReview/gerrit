@@ -1,0 +1,13 @@
+java_binary(
+  name = 'main_bin',
+  main_class = 'Main',
+  deps = [':main_lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'main_lib',
+  srcs = ['src/main/java/Main.java'],
+  deps = ['//gerrit-launcher:launcher'],
+  visibility = ['//:eclipse_classpath'],
+)

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ub3NIIHQ",
+        "filename": "tools/version.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-08T14:04:31Z",
+      "side": 1,
+      "message": "I don\u0027t like doing clean -f here. My trees sometimes have little files in them that Git doesn\u0027t know about, aren\u0027t in ignore files, and have never been touched before by this script.\n\nMaybe:\n\n  for pom in $POM_FILES\n  do\n    rm ${pom}.bak\n  done\n\n?",
+      "revId": "46220576d6d49d9bb926315d4d527077535a92e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ProjectAccess {
@@ -28,6 +29,7 @@ public class ProjectAccess {
   protected boolean isConfigVisible;
   protected boolean canUpload;
   protected LabelTypes labelTypes;
+  protected Map<String, String> capabilities;
 
   public ProjectAccess() {
   }
@@ -111,5 +113,13 @@ public class ProjectAccess {
 
   public void setLabelTypes(LabelTypes labelTypes) {
     this.labelTypes = labelTypes;
+  }
+
+  public Map<String, String> getCapabilities() {
+    return capabilities;
+  }
+
+  public void setCapabilities(Map<String, String> capabilities) {
+    this.capabilities = capabilities;
   }
 }

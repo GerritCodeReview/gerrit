@@ -520,7 +520,8 @@ public class ProjectConfig extends VersionedMetaData {
 
     AccessSection capability = null;
     for (String varName : rc.getNames(CAPABILITY)) {
-      if (GlobalCapability.isCapability(varName)) {
+        // We don't know here, if this is a valid capability
+        // because it might be provided by plugin
         if (capability == null) {
           capability = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
           accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability);
@@ -529,7 +530,6 @@ public class ProjectConfig extends VersionedMetaData {
         loadPermissionRules(rc, CAPABILITY, null, varName, groupsByName, perm,
             GlobalCapability.hasRange(varName));
       }
-    }
   }
 
   private List<PermissionRule> loadPermissionRules(Config rc, String section,

@@ -18,7 +18,12 @@ import static com.google.gerrit.common.ProjectAccessUtil.mergeSections;
 import static com.google.gerrit.common.ProjectAccessUtil.removeEmptyPermissionsAndSections;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.common.CapabilityInfo;
+import com.google.gerrit.client.common.CapabilityMap;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
@@ -33,6 +38,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -41,8 +47,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ProjectAccessScreen extends ProjectScreen {
@@ -89,6 +97,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   private Driver driver;
 
   private ProjectAccess access;
+  private CapabilityMap capabilityMap;
 
   public ProjectAccessScreen(final Project.NameKey toShow) {
     super(toShow);
@@ -107,18 +116,37 @@ public class ProjectAccessScreen extends ProjectScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
+    // put asynchronous requests in defined order
+    // Capabilities
+    CallbackGroup cbs = new CallbackGroup();
+    CapabilityMap.capabilities().get(cbs.add(new AsyncCallback<CapabilityMap>() {
+          @Override
+          public void onSuccess(CapabilityMap result) {
+            capabilityMap = result;
+          }
+          @Override
+          public void onFailure(Throwable caught) {
+            // Handled by ScreenLoadCallback.onFailure().
+          }
+        }));
+    // rest stuff
     Util.PROJECT_SVC.projectAccess(getProjectKey(),
-        new ScreenLoadCallback<ProjectAccess>(this) {
+        cbs.addGwtjsonrpc(new ScreenLoadCallback<ProjectAccess>(this) {
           @Override
           public void preDisplay(ProjectAccess access) {
             displayReadOnly(access);
           }
-        });
+        }));
     savedPanel = ACCESS;
   }
 
   private void displayReadOnly(ProjectAccess access) {
     this.access = access;
+    Map<String, String> allCapabilities = new HashMap<String, String>();
+    for (final CapabilityInfo c : Natives.asList(capabilityMap.values())) {
+      allCapabilities.put(c.id(), c.name());
+    }
+    this.access.setCapabilities(allCapabilities);
     accessEditor.setEditing(false);
     UIObject.setVisible(editTools, !access.getOwnerOf().isEmpty() || access.canUpload());
     edit.setEnabled(!access.getOwnerOf().isEmpty() || access.canUpload());

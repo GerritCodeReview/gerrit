@@ -18,6 +18,8 @@ import static com.google.gerrit.extensions.registration.PrivateInternals_Dynamic
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.extensions.common.Capability;
+import com.google.gerrit.extensions.common.StartReplicationCapability;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.ClearPassword;
 import com.google.gerrit.server.account.GeneratePassword;
+import com.google.gerrit.server.common.CapabilitiesCollection;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.FactoryModule;
@@ -129,6 +132,10 @@ public class WebModule extends FactoryModule {
     bind(GerritConfigProvider.class);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);
+
+    DynamicSet.setOf(binder(), Capability.class);
+    DynamicSet.bind(binder(), Capability.class).to(StartReplicationCapability.class);
+    bind(CapabilitiesCollection.class);
 
     factory(ClearPassword.Factory.class);
     install(new AsyncReceiveCommits.Module());

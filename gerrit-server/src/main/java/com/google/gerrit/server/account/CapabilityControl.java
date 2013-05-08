@@ -136,12 +136,6 @@ public class CapabilityControl {
     return canPerform(GlobalCapability.ACCESS_DATABASE);
   }
 
-  /** @return true if the user can force replication to any configured destination. */
-  public boolean canStartReplication() {
-    return canPerform(GlobalCapability.START_REPLICATION)
-        || canAdministrateServer();
-  }
-
   /** @return true if the user can stream Gerrit events. */
   public boolean canStreamEvents() {
     return canPerform(GlobalCapability.STREAM_EVENTS)

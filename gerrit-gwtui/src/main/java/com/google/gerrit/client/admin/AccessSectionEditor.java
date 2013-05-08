@@ -93,9 +93,8 @@ public class AccessSectionEditor extends Composite implements
 
   public AccessSectionEditor(ProjectAccess access) {
     projectAccess = access;
-
     permissionSelector =
-        new ValueListBox<String>(PermissionNameRenderer.INSTANCE);
+        new ValueListBox<String>(new PermissionNameRenderer(access.getCapabilities()));
     permissionSelector.addValueChangeHandler(new ValueChangeHandler<String>() {
       @Override
       public void onValueChange(ValueChangeEvent<String> event) {
@@ -222,7 +221,12 @@ public class AccessSectionEditor extends Composite implements
     List<String> perms = new ArrayList<String>();
 
     if (AccessSection.GLOBAL_CAPABILITIES.equals(value.getName())) {
+      /*
       for (String varName : Util.C.capabilityNames().keySet()) {
+        addPermission(varName, perms);
+      }
+      */
+      for (String varName : projectAccess.getCapabilities().keySet()) {
         addPermission(varName, perms);
       }
     } else if (RefConfigSection.isValid(value.getName())) {
@@ -282,7 +286,7 @@ public class AccessSectionEditor extends Composite implements
     @Override
     public PermissionEditor create(int index) {
       PermissionEditor subEditor =
-          new PermissionEditor(projectAccess.getProjectName(), readOnly, value,
+          new PermissionEditor(projectAccess, readOnly, value,
               projectAccess.getLabelTypes());
       permissionContainer.insert(subEditor, index);
       return subEditor;

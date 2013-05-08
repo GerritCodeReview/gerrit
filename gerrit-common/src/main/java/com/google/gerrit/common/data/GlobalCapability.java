@@ -70,9 +70,6 @@ public class GlobalCapability {
   /** Can run the Git garbage collection. */
   public static final String RUN_GC = "runGC";
 
-  /** Forcefully restart replication to any configured destination. */
-  public static final String START_REPLICATION = "startReplication";
-
   /** Can perform streaming of Gerrit events. */
   public static final String STREAM_EVENTS = "streamEvents";
 
@@ -101,7 +98,6 @@ public class GlobalCapability {
     NAMES_ALL.add(PRIORITY);
     NAMES_ALL.add(QUERY_LIMIT);
     NAMES_ALL.add(RUN_GC);
-    NAMES_ALL.add(START_REPLICATION);
     NAMES_ALL.add(STREAM_EVENTS);
     NAMES_ALL.add(VIEW_CACHES);
     NAMES_ALL.add(VIEW_CONNECTIONS);

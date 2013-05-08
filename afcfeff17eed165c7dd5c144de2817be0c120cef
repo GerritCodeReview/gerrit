@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "Uf4OJ3mg",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1863,
+      "author": {
+        "id": 1012372
+      },
+      "writtenOn": "2013-05-08T10:16:38Z",
+      "side": 1,
+      "message": "if we are returning it as a byte array what\u0027s the reason for base64 encoding it as well?\nThis means for every three bytes of the input file we are representing it as 4 base64 encoded bytes and then transmitting approx 18 bytes for each of these.\nSo approximattely a multiplier of 4.5 per input byte.\n\nWhy not just return a base64 encoded string?",
+      "revId": "afcfeff17eed165c7dd5c144de2817be0c120cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uf2N1wpA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
         "patchSetId": 5

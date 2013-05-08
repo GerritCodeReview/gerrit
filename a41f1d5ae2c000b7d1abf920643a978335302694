@@ -16,6 +16,24 @@
       "revId": "a41f1d5ae2c000b7d1abf920643a978335302694",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhZ35owg",
+        "filename": "gerrit-server/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-08T19:15:25Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "UhN7vJTk",
+      "revId": "a41f1d5ae2c000b7d1abf920643a978335302694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UhX3-9.k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/FileInfoJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-08T19:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uhb30Xw4",
+      "revId": "4d92fa60a91f8f6e584ad4c7f9756b43ec8a3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UhL70WQ4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "UhV38O-M",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-08T19:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UhL70WQ4",
+      "revId": "4d92fa60a91f8f6e584ad4c7f9756b43ec8a3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UhJ75nQg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-08T18:56:12Z",
       "side": 1,
       "message": "This shouldn\u0027t matter for a valid base but we will decode the parameter twice.\n\nMaybe add a method fromDecodedString to IdString to call Url.encode() first to work around double decoding.",
+      "revId": "4d92fa60a91f8f6e584ad4c7f9756b43ec8a3e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhH7-8ek",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Files.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-08T19:15:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UhJ75nQg",
       "revId": "4d92fa60a91f8f6e584ad4c7f9756b43ec8a3e11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -83,6 +83,7 @@ import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.git.validators.MergeValidators.ProjectConfigValidator;
+import com.google.gerrit.server.git.validators.MergeValidators.RequestCommitValidator;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -262,6 +263,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(CommitValidators.Factory.class);
     factory(MergeValidators.Factory.class);
     factory(ProjectConfigValidator.Factory.class);
+    factory(RequestCommitValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);
 
     bind(AccountManager.class);

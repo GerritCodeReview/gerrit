@@ -40,6 +40,9 @@ public interface GitRepositoryManager {
   /** Configurations of project-specific dashboards (canned search queries). */
   public static String REFS_DASHBOARDS = "refs/meta/dashboards/";
 
+  /** Requests. */
+  public static String REFS_REQUESTS = "refs/meta/requests";
+
   /**
    * Prefix applied to merge commit base nodes.
    * <p>

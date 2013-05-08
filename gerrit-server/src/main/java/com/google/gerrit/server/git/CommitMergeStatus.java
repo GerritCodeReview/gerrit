@@ -80,7 +80,11 @@ public enum CommitMergeStatus {
   /** */
   SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN(
       "Change contains a project configuration that changes the parent project.\n"
-          + "The change must be submitted by a Gerrit administrator.");
+          + "The change must be submitted by a Gerrit administrator."),
+
+  /** */
+  INVALID_REQUEST(
+      "Change contains an invalid request.");
 
 
   private String message;

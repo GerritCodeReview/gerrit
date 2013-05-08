@@ -43,6 +43,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.requests.GitBranchRequest;
+import com.google.gerrit.server.git.requests.GitRequest;
+import com.google.gerrit.server.git.requests.GitRequestException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -70,6 +73,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -583,6 +587,15 @@ public class MergeOp {
             }
           }
         }
+      } else if (GitRepositoryManager.REFS_REQUESTS.equals(destBranch.get())) {
+        try {
+          @SuppressWarnings("unused")
+          GitRequest request = getRequest(commit);
+        } catch (GitRequestException gre) {
+          commits.put(changeId, CodeReviewCommit
+              .error(CommitMergeStatus.INVALID_REQUEST));
+          continue;
+        }
       }
 
       commit.change = chg;
@@ -593,7 +606,7 @@ public class MergeOp {
       if (branchTip != null) {
         // If this commit is already merged its a bug in the queuing code
         // that we got back here. Just mark it complete and move on. It's
-        // merged and that is all that mattered to the requestor.
+        // merged and that is all that mattered to the requester.
         //
         try {
           if (rw.isMergedInto(commit, branchTip)) {
@@ -636,6 +649,18 @@ public class MergeOp {
     }
   }
 
+  private GitRequest getRequest(final CodeReviewCommit commit)
+        throws GitRequestException {
+    String requestType = GitRequest.getRequestFooterValue(commit, new FooterKey("Request-Type"));
+    if (requestType.toLowerCase().equals("new-branch")) {
+      String base = GitRequest.getRequestFooterValue(commit, new FooterKey("Base"));
+      String name = GitRequest.getRequestFooterValue(commit, new FooterKey("Branch-Name"));
+      return new GitBranchRequest(name, base);
+    } else {
+      throw new GitRequestException("Invalid request type: " + requestType);
+    }
+  }
+
   private void updateBranch(final SubmitStrategy strategy,
       final RefUpdate branchUpdate) throws MergeException {
     if ((branchTip == null && mergeTip == null) || branchTip == mergeTip) {
@@ -653,6 +678,19 @@ public class MergeOp {
           throw new MergeException("Submit would store invalid"
               + " project configuration " + mergeTip.name() + " for "
               + destProject.getProject().getName(), e);
+        }
+      } else if (GitRepositoryManager.REFS_REQUESTS.equals(branchUpdate.getName())) {
+        try {
+          GitRequest request = getRequest(mergeTip);
+          if (request instanceof GitBranchRequest) {
+            GitBranchRequest branchRequest = (GitBranchRequest)request;
+            throw new MergeException("Passed all checks but not implemented yet! [" +
+                branchRequest.name() + "] [" + branchRequest.base() + "]");
+          } else{
+            throw new MergeException("Invalid request type");
+          }
+        } catch (GitRequestException gre) {
+          throw new MergeException(gre.getMessage());
         }
       }
 

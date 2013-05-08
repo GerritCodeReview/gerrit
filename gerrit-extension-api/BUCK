@@ -1,0 +1,10 @@
+java_library2(
+  name = 'api',
+  srcs = glob(['src/main/java/com/google/gerrit/extensions/**/*.java']),
+  compile_deps = [
+    '//lib/guice:guice',
+    '//lib/guice:guice-servlet',
+    '//lib:servlet-api-3_0',
+  ],
+  visibility = ['PUBLIC'],
+)

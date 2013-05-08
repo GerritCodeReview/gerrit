@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uf6MzOso",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T12:19:28Z",
+      "side": 1,
+      "message": "It would be nice if RestApiServlet didn\u0027t require us to materialize the string here, but I suppose if the file is very large we are going to have other problems as well...",
+      "revId": "0e35a50fba33f189ac0b95827c8a5730918f88f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

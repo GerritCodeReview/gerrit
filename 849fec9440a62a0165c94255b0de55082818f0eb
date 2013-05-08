@@ -16,6 +16,24 @@
       "revId": "849fec9440a62a0165c94255b0de55082818f0eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uf6Mpeos",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-08T08:44:37Z",
+      "side": 1,
+      "message": "No, it is not.  `git cherry-pick -x` will add the line at the end of the message without a separating blank line.",
+      "parentUuid": "UZd3a62o",
+      "revId": "849fec9440a62a0165c94255b0de55082818f0eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

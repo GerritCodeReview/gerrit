@@ -16,6 +16,24 @@
       "revId": "971bc607ac804adc9c4495248ca7158100e86e7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UdiwXM1k",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/WrappedContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-08T06:49:49Z",
+      "side": 1,
+      "message": "I want to mirror the behavior of what happens if the proxy wasn\u0027t used.\n\nIn Java if I declare this:\n\n  interface Foo {\n    void one();\n  }\n\nand clients use it, OK, fine. Now later I define:\n\n  interface Foo {\n    void one(); \n    void two();\n  }\n\nand clients can now call either one or two. Yay. Consider a client compiled against the 2nd Foo that invokes the two() method. If it runs against a JAR that is using the 1st Foo that lacks two(), the JVM throws NoSuchMethodError when the client calls two(). If the client never calls two(), there is no problem, and the client code runs fine.\n\nThat is what I am doing here. I am trying to take client code potentially compiled against 2nd Foo (servlet API 3.0) and run it against an implementation of only 1st Foo (servlet API 2.5). Given what we document in our APIs and in the return values from getMajorVersion, getMinorVersion (see below), no correctly implemented client should ever invoke these missing methods. But if they do I want to show the same behavior as if the proxy was not here.\n\nNoSuchMethodError is the correct exception to throw. I don\u0027t think the method name is necessary because its in the stack trace.",
+      "parentUuid": "Ue.cFQiA",
+      "revId": "971bc607ac804adc9c4495248ca7158100e86e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

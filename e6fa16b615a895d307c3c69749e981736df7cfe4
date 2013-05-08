@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UeyfJGqI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T10:49:35Z",
+      "side": 1,
+      "message": "This may be nicer than the commons codec alternative, yes, but loader.getBytes() is still doing a copy internally to a new byte array. I think you can get around this by using a stream provided by base64() but I\u0027m not too familiar with it.",
+      "revId": "e6fa16b615a895d307c3c69749e981736df7cfe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

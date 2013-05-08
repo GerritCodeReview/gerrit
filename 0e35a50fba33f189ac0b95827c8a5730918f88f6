@@ -34,6 +34,24 @@
       "revId": "0e35a50fba33f189ac0b95827c8a5730918f88f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UfwNKTjc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T12:38:47Z",
+      "side": 1,
+      "message": "You could, but that wouldn\u0027t do the JSON wrapping. Though I wonder, since we\u0027re doing base64 encoding, whether JSON is actually buying us anything. You could just send it as text/plain I guess.",
+      "parentUuid": "UeydPWkg",
+      "revId": "0e35a50fba33f189ac0b95827c8a5730918f88f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

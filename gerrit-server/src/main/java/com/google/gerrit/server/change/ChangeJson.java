@@ -469,16 +469,18 @@ public class ChangeJson {
           continue;
         }
         Integer value;
+        Timestamp date = null;
         PatchSetApproval psa = current.get(accountId, lt.getName());
         if (psa != null) {
           value = Integer.valueOf(psa.getValue());
+          date = psa.getGranted();
         } else {
           // Either the user cannot vote on this label, or there just wasn't a
           // dummy approval for this label. Explicitly check whether the user
           // can vote on this label.
           value = labelNormalizer.canVote(ctl, lt, accountId) ? 0 : null;
         }
-        e.getValue().addApproval(approvalInfo(accountId, value));
+        e.getValue().addApproval(approvalInfo(accountId, value, date));
       }
     }
   }
@@ -522,7 +524,7 @@ public class ChangeJson {
 
       if (detailed) {
         for (String name : labels.keySet()) {
-          ApprovalInfo ai = approvalInfo(accountId, 0);
+          ApprovalInfo ai = approvalInfo(accountId, 0, null);
           byLabel.put(name, ai);
           labels.get(name).addApproval(ai);
         }
@@ -537,6 +539,7 @@ public class ChangeJson {
         ApprovalInfo info = byLabel.get(type.getName());
         if (info != null) {
           info.value = Integer.valueOf(val);
+          info.date = psa.getGranted();
         }
 
         LabelInfo li = labels.get(type.getName());
@@ -561,9 +564,10 @@ public class ChangeJson {
     return labels;
   }
 
-  private ApprovalInfo approvalInfo(Account.Id id, Integer value) {
+  private ApprovalInfo approvalInfo(Account.Id id, Integer value, Timestamp date) {
     ApprovalInfo ai = new ApprovalInfo(id);
     ai.value = value;
+    ai.date = date;
     accountLoader.put(ai);
     return ai;
   }
@@ -963,6 +967,7 @@ public class ChangeJson {
 
   static class ApprovalInfo extends AccountInfo {
     Integer value;
+    Timestamp date;
 
     ApprovalInfo(Account.Id id) {
       super(id);

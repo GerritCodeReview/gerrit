@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "UbxNgzOA",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-08T17:36:54Z",
+      "side": 1,
+      "message": "In git distclean is spelled as:\n\n  git clean -fdX\n\nUnfortunately there is a Git bug in 1.8.2.1 that does not clean buck-out with this command. Fortunately buck clean does.\n\nI added a local cache in buck-cache/, as a sibling of buck-out/.",
+      "parentUuid": "Ue0cSjhc",
+      "revId": "c57bff48d14059cbb50595f5f7604a52f208e8ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ue0f7bq8",
         "filename": "lib/download_jar.py",
         "patchSetId": 21
@@ -65,6 +83,24 @@
       "writtenOn": "2013-05-08T15:25:11Z",
       "side": 1,
       "message": "except..as is 2.6+, I forget what version we decided we wanted to target.",
+      "revId": "c57bff48d14059cbb50595f5f7604a52f208e8ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgWH89vM",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-08T17:36:54Z",
+      "side": 1,
+      "message": "Buck claims it needs Python 2.7. I think we are OK if our macros and helper binaries run on 2.6.",
+      "parentUuid": "Ue0f7bq8",
       "revId": "c57bff48d14059cbb50595f5f7604a52f208e8ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

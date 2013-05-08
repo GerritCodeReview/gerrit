@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "Ue6dQqhM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RevisionResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-08T08:38:14Z",
+      "side": 1,
+      "message": "Makes sense to me.",
+      "parentUuid": "Uf.McUng",
+      "revId": "5ad3380aa20c811dc3a2d3dc03a506adb9718adf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ue.czgvc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Revisions.java",
         "patchSetId": 1

@@ -73,6 +73,7 @@ Duplicate the existing `pgm_daemon` launch configuration:
 
 * Switch to Common tab.
 * Change Save as to be Local file.
+* Close the Debug Configurations dialog and save the changes when prompted.
 
 
 [[hosted-mode]]
@@ -103,22 +104,21 @@ Duplicate the existing `gwtui_dbg` launch configuration:
 
 * Switch to Common tab.
 * Change Save as to be Local file.
+* Close the Debug Configurations dialog and save the changes when prompted.
 
 
 [[known-problems]]
 Known problems
 --------------
 
-* When running Gerrit under the Eclipse debugger, code that attempts
-to load Prolog code may erroneously raise ClassNotFoundException,
-claiming that classes in the `Gerrit` package can't be found. The
-error can often be resolved by rebuilding Gerrit with `mvn package`
-and restarting the debug session.
-
 * OpenID authentication won't work in hosted mode, so you need to change
 the link:config-gerrit.html#auth.type[auth.type] configuration parameter
 to `DEVELOPMENT_BECOME_ANY_ACCOUNT` to disable OpenID and allow you to
 impersonate whatever account you otherwise would've used.
+
+* Error "Cannot create ReviewDb" occurs if the test site is already running.
+Stop the test site with `gerrit.sh stop` before attempting to run hosted mode
+debugging.
 
 * Gerrit site doesn't appear, only directory listing is shown. Web toolkit
 developer browser plugin is missing. If there is no warning, that browser

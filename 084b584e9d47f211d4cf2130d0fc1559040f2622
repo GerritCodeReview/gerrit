@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Ub1MMBEk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012599
+      },
+      "writtenOn": "2013-05-08T06:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPEbd8mc",
+      "revId": "084b584e9d47f211d4cf2130d0fc1559040f2622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPAbn.jE",
         "filename": "Documentation/rest-api-groups.txt",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-03T05:48:44Z",
       "side": 1,
       "message": "There is another example in rest-api-accounts.txt that needs to be adapted. Also in rest-api-accounts.txt the AccountInfo entity is described and the description for the new \u0027username\u0027 field needs to be added.",
+      "revId": "084b584e9d47f211d4cf2130d0fc1559040f2622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ub3MRAGA",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1012599
+      },
+      "writtenOn": "2013-05-08T06:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPAbn.jE",
       "revId": "084b584e9d47f211d4cf2130d0fc1559040f2622",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "UdswIbzs",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroupMembersCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012599
+      },
+      "writtenOn": "2013-05-08T06:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UO.fNArM",
+      "revId": "084b584e9d47f211d4cf2130d0fc1559040f2622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPGbibiM",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroupMembersCommand.java",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-03T05:48:44Z",
       "side": 1,
       "message": "s/ListGroupMembersCommandImpl/ListMembersCommandImpl",
+      "revId": "084b584e9d47f211d4cf2130d0fc1559040f2622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UduwFKyA",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroupMembersCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012599
+      },
+      "writtenOn": "2013-05-08T06:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UPGbibiM",
       "revId": "084b584e9d47f211d4cf2130d0fc1559040f2622",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

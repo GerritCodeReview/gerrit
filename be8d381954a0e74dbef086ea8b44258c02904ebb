@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "Uf2MXggY",
+        "filename": "BUCK",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:25:20Z",
+      "side": 1,
+      "message": "Ok, but the DEFS files surely are actually code :)\n\nBut I\u0027ll defer to you as to when license headers are necessary, that\u0027s fine.",
+      "parentUuid": "UPqThQug",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJrypYck",
         "filename": "BUCK",
         "patchSetId": 12
@@ -701,6 +719,24 @@
     },
     {
       "key": {
+        "uuid": "Uewfxds8",
+        "filename": "lib/DEFS",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:25:20Z",
+      "side": 1,
+      "message": "I assumed you didn\u0027t care about modifying the caller\u0027s array because \"resources +\u003d srcs\" modifies resources in-place as well. Yay Python. So you should fix that below.\n\nAlso typically in Python we strongly discourage mutable default arugments.",
+      "parentUuid": "UPkSV7jY",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPoTaBmo",
         "filename": "lib/DEFS",
         "patchSetId": 12
@@ -975,6 +1011,24 @@
       "side": 1,
       "message": "Most of these scripts are short so I am more focused on keeping them simple than I am on following Google style. But IIRC the reason Google style recommends importing modules is to prevent shadowing a builtin function that you might want to use later. My goal is to try and have most of these scripts fit in one screen of text and thus not have that be an issue.",
       "parentUuid": "UJvy0yQw",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ueyf2esg",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:25:20Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "UJhyfNVk",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -1296,6 +1350,24 @@
     },
     {
       "key": {
+        "uuid": "Ue2cAcsM",
+        "filename": "lib/maven.defs",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:25:20Z",
+      "side": 1,
+      "message": "Missed this one?",
+      "parentUuid": "UJnyz2fc",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPiQyMso",
         "filename": "lib/pack_war.py",
         "patchSetId": 12
@@ -1360,6 +1432,24 @@
       "side": 1,
       "message": "Can\u0027t use check_call here, it does not accept cwd.",
       "parentUuid": "UPsQ2vrw",
+      "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UfwPHrmc",
+        "filename": "lib/pack_war.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:25:20Z",
+      "side": 1,
+      "message": "It should. From the docs:\n\nsubprocess.check_call(args, *, stdin\u003dNone, stdout\u003dNone, stderr\u003dNone, shell\u003dFalse)\nRun command with arguments. Wait for command to complete. If the return code was zero then return, otherwise raise CalledProcessError. The CalledProcessError object will have the return code in the returncode attribute.\n\nThe arguments shown above are merely the most common ones, described below in Frequently Used Arguments (hence the slightly odd notation in the abbreviated signature). The full function signature is the same as that of the Popen constructor - this functions passes all supplied arguments directly through to that interface.\n\n\n\nWhy they think that having a paragraph explaining why the function prototype is incorrect is better than just making it correct...I don\u0027t know.",
+      "parentUuid": "UJry4gc4",
       "revId": "be8d381954a0e74dbef086ea8b44258c02904ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

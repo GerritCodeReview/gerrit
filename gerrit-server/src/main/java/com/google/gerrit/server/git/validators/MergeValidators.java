@@ -29,6 +29,8 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CommitMergeStatus;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.requests.GitRequest;
+import com.google.gerrit.server.git.requests.GitRequestException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -134,6 +136,32 @@ public class MergeValidators {
                   INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND);
             }
           }
+        }
+      }
+    }
+  }
+
+  public static class RequestCommitValidator implements
+      MergeValidationListener {
+
+    public interface Factory {
+      ProjectConfigValidator create();
+    }
+
+    @Override
+    public void onPreMerge(final Repository repo,
+        final CodeReviewCommit commit,
+        final ProjectState destProject,
+        final Branch.NameKey destBranch,
+        final PatchSet.Id patchSetId)
+        throws MergeValidationException {
+      if (GitRepositoryManager.REF_CONFIG.equals(destBranch.get())) {
+        try {
+          @SuppressWarnings("unused")
+          GitRequest request = GitRequest.getRequest(commit);
+        } catch (GitRequestException gre) {
+          throw new MergeValidationException(CommitMergeStatus.
+              INVALID_REQUEST);
         }
       }
     }

@@ -42,6 +42,9 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.requests.GitBranchRequest;
+import com.google.gerrit.server.git.requests.GitRequest;
+import com.google.gerrit.server.git.requests.GitRequestException;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
@@ -504,7 +507,7 @@ public class MergeOp {
       if (branchTip != null) {
         // If this commit is already merged its a bug in the queuing code
         // that we got back here. Just mark it complete and move on. It's
-        // merged and that is all that mattered to the requestor.
+        // merged and that is all that mattered to the requester.
         //
         try {
           if (rw.isMergedInto(commit, branchTip)) {
@@ -569,6 +572,19 @@ public class MergeOp {
           throw new MergeException("Submit would store invalid"
               + " project configuration " + mergeTip.name() + " for "
               + destProject.getProject().getName(), e);
+        }
+      } else if (GitRepositoryManager.REFS_REQUESTS.equals(branchUpdate.getName())) {
+        try {
+          GitRequest request = GitRequest.getRequest(mergeTip);
+          if (request instanceof GitBranchRequest) {
+            GitBranchRequest branchRequest = (GitBranchRequest)request;
+            throw new MergeException("Passed all checks but not implemented yet! [" +
+                branchRequest.name() + "] [" + branchRequest.base() + "]");
+          } else{
+            throw new MergeException("Invalid request type");
+          }
+        } catch (GitRequestException gre) {
+          throw new MergeException(gre.getMessage());
         }
       }
 

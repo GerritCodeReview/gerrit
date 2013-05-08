@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "Ue8fufuk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:27:47Z",
+      "side": 1,
+      "message": "Nit: s/FIX/Fix/ and s/RESTApi/REST API/",
+      "revId": "e3d6452bd76f2f315512ed036554ecf9d9c1e3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UfyMdiig",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "UfyMdiig",
+      "revId": "e3d6452bd76f2f315512ed036554ecf9d9c1e3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue6fhivo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T15:27:47Z",
+      "side": 1,
+      "message": "To be clear, I think you should leave this in here. Without this optimization, it will be hitting the db twice with ALL_REVISIONS: once for ensureCurrentPatchSetsLoaded, then again when cd.patches(db) is called later.",
+      "parentUuid": "Uf6MImuI",
       "revId": "e3d6452bd76f2f315512ed036554ecf9d9c1e3bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,22 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'prolog-cafe',
+  id = 'com.googlecode.prolog-cafe:PrologCafe:1.3',
+  sha1 = '5e0fbf18e8c98c4113f9acc978306884a1152870',
+  license = 'prologcafe',
+  repository = GERRIT,
+)
+
+java_binary(
+  name = 'compiler',
+  main_class = 'BuckPrologCompiler',
+  deps = [':compiler_lib'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'compiler_lib',
+  srcs = ['java/BuckPrologCompiler.java'],
+  deps = [':prolog-cafe'],
+)

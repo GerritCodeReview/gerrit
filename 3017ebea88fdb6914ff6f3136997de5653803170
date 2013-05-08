@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UguDv4jg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-08T18:30:41Z",
+      "side": 1,
+      "message": "Can we put a precompiled version of buck (with all needed patches) somewhere? So if some one has a problem installing software from the source (me don\u0027t) that she can download a precompiled version of buck?",
+      "revId": "3017ebea88fdb6914ff6f3136997de5653803170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

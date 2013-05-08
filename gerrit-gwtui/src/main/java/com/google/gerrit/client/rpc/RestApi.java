@@ -119,7 +119,21 @@ public class RestApi {
         RpcStatus.INSTANCE.onRpcComplete();
 
       } else if (200 <= status && status < 300) {
-        if (!isJsonBody(res)) {
+        T data;
+        if (isTextBody(res)) {
+          data = NativeString.wrap(res.getText()).cast();
+          res.getText();
+        } else if (isJsonBody(res)) {
+          try {
+            // javac generics bug
+            data = RestApi.<T>cast(parseJson(res));
+          } catch (JSONException e) {
+            RpcStatus.INSTANCE.onRpcComplete();
+            cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE,
+                "Invalid JSON: " + e.getMessage()));
+            return;
+          }
+        } else {
           RpcStatus.INSTANCE.onRpcComplete();
           cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE, "Expected "
               + JSON_TYPE + "; received Content-Type: "
@@ -127,20 +141,8 @@ public class RestApi {
           return;
         }
 
-        T data;
-        try {
-          // javac generics bug
-          data = RestApi.<T>cast(parseJson(res));
-        } catch (JSONException e) {
-          RpcStatus.INSTANCE.onRpcComplete();
-          cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE,
-              "Invalid JSON: " + e.getMessage()));
-          return;
-        }
-
         cb.onSuccess(data);
         RpcStatus.INSTANCE.onRpcComplete();
-
       } else {
         String msg;
         if (isTextBody(res)) {

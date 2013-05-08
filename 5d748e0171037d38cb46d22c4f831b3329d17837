@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ug--q3yo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-08T18:31:41Z",
+      "side": 1,
+      "message": "This implementation uses \u0027some kind of\u0027 observer pattern. On JS client side you call:\n\ngerrit.onChangeScreen().addChangeInfoRow(position, title, callback);\n\nthis will register your callback handler, which will get as argument change number and should return DOM element. Then when user enter change screen Gerrit will first call callback function to get widget, then insert row to existing change info table, set propper title and finally set widget from callback result.\n\nImplementing more extension points would require adding more JSNI methods and also modification in GWT interface to be able to inform JS based listeners.",
+      "revId": "5d748e0171037d38cb46d22c4f831b3329d17837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

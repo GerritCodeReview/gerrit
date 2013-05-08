@@ -174,6 +174,12 @@ CREATE INDEX patch_set_approvals_closedByUser
 ON patch_set_approvals (account_id, change_sort_key)
 WHERE change_open = 'N';
 
+--    covers:             byOpenLabelValueGE, byOpenLabelValueLE,
+--                        byOpenLabelValueEQ
+CREATE INDEX patch_set_approvals_byOpenLabel
+ON patch_set_approvals (category_id, value)
+WHERE change_open = 'Y';
+
 
 -- *********************************************************************
 -- ChangeMessageAccess

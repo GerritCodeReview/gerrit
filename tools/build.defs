@@ -1,0 +1,80 @@
+# Copyright (C) 2013 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+DOCS = ['//Documentation:html.zip']
+LIBS = [
+  '//gerrit-common:version',
+  '//gerrit-war:init',
+  '//gerrit-war:log4j-config',
+  '//lib:postgresql',
+  '//lib/log:impl_log4j',
+]
+PGMLIBS = ['//gerrit-pgm:pgm']
+
+def scan_plugins():
+  import os
+  deps = []
+  for n in os.listdir('plugins'):
+    if os.path.exists(os.path.join('plugins', n, 'BUCK')):
+      deps.append('//plugins/%s:%s__plugin__compile' % (n, n))
+  return deps
+
+def war(
+    name,
+    libs = [],
+    pgmlibs = [],
+    context = [],
+    visibility = []
+    ):
+  cmd = ['${//tools:pack_war}', '-o', '$OUT']
+  for l in libs:
+    cmd.extend(['--lib', l])
+  for l in pgmlibs:
+    cmd.extend(['--pgmlib', l])
+
+  src = []
+  dep = []
+  if context:
+    root = get_base_path()
+    if root:
+      root = '/'.join(['..' for _ in root.split('/')]) + '/'
+    for r in context:
+      dep.append(r[:r.rindex('.')])
+      if r.startswith('//'):
+        r = root + r[2:]
+      r = r.replace(':', '/')
+      src.append(genfile(r))
+    cmd.append('$SRCS')
+
+  genrule(
+    name = name,
+    cmd = ' '.join(cmd),
+    srcs = src,
+    deps = libs + pgmlibs + dep + ['//tools:pack_war'],
+    out = name + '.war',
+    visibility = visibility,
+  )
+
+def gerrit_war(name, ui = 'ui_optdbg', context = []):
+  war(
+    name = name,
+    libs = LIBS,
+    pgmlibs = PGMLIBS,
+    context = [
+      '//gerrit-main:main_bin.jar',
+      '//gerrit-war:webapp_assets.zip',
+      '//gerrit-gwtexpui:clippy_swf.zip',
+      '//gerrit-gwtui:' + ui + '.zip',
+    ] + context,
+  )

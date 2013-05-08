@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "Ue8fkvvo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-08T16:47:44Z",
+      "side": 1,
+      "message": "Do we have a working solution if one still need the Gerrit-Module?",
+      "revId": "d4d931d0ecb47063932800bcb67067c8e5cf1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uf.O40s8",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
         "patchSetId": 4

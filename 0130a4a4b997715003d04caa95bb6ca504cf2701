@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "Uf0NDZlg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T08:38:17Z",
+      "side": 1,
+      "message": "I think you want to rebase this on I682f6863 and update the this change description accordingly.",
+      "revId": "0130a4a4b997715003d04caa95bb6ca504cf2701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UZT3JD6I",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetContent.java",
         "patchSetId": 3

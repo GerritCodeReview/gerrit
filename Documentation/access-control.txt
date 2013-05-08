@@ -640,11 +640,6 @@ granted to groups within projects, enabling functionality for that
 group's members. link:config-labels.html[Custom labels] may also be
 defined globally or on a per-project basis.
 
-With the release of the Gerrit 2.2.x series, the web GUI for ACL
-configuration was rewritten from scratch.  Use this
-<<conversion_table,table>> to better understand the access rights
-conversions from the Gerrit 2.1.x to the Gerrit 2.2.x series.
-
 
 [[category_submit]]
 Submit
@@ -997,41 +992,6 @@ category. In the "`All-Projects`" we define the following rules:
     label-Release-Proces = block -1..+1 group Anonymous Users
     label-Release-Proces = -1..+1 group Release Engineers
 ====
-
-[[conversion_table]]
-Conversion table from 2.1.x series to 2.2.x series
---------------------------------------------------
-
-[options="header"]
-|=================================================================================
-|Gerrit 2.1.x                 |Gerrit 2.2.x
-|Code review                  |link:config-labels.html#label_Code-Review[Label: Code-Review]
-|Verify                       |link:config-labels.html#label_Verified[Label: Verify]
-|Forge Identity +1            |Forge <<category_forge_author,author>> identity
-|Forge Identity +2            |Forge <<category_forge_committer,committer>> & <<category_forge_author,author>> identity
-|Forge Identity +3            |Forge <<category_forge_server,server>> & <<category_forge_committer,committer>> & <<category_forge_author,author>> identity
-|Owner                        |<<category_owner,Owner>>
-|Push branch +1               |<<category_push_direct,Push>>
-|Push branch +2               |<<category_create,Create reference>> & <<category_push_direct,Push>>
-|Push branch +3               |<<category_push_direct,Push>> (with force) & <<category_create,Create reference>>
-|Push tag +1 & Push Branch +2 |No support to limit to push signed tag
-|Push tag +2 & Push Branch +2 |<<category_push_annotated,Push annotated tag>>
-|Push Branch +2 (refs/tags/*) |<<category_create,Create reference>> (refs/tags/...)
-|Push Branch +3 (refs/tags/*) |<<category_push_direct,Push>> (with force on refs/tags/...)
-|Read +1                      |<<category_read,Read>>
-|Read +2                      |<<category_read,Read>> & <<category_push_review,Push>> (refs/for/refs/...)
-|Read +3                      |<<category_read,Read>> & <<category_push_review,Push>> (refs/for/refs/...) & <<category_push_merge,Push Merge Commit>>
-|Submit                       |<<category_submit,Submit>>
-|=================================================================================
-
-
-[NOTE]
-In Gerrit 2.2.x, the way to set permissions for upload has changed entirely.
-To upload a change for review is no longer a separate permission type,
-instead you grant ordinary push permissions to the actual
-recieving reference. In practice this means that you set push permissions
-on `refs/for/refs/heads/<branch>` rather than permissions to upload changes
-on `refs/heads/<branch>`.
 
 
 [[global_capabilities]]

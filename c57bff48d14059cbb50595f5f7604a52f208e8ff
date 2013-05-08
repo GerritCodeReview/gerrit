@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "Ue0cSjhc",
+        "filename": "lib/download_jar.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-08T16:25:06Z",
+      "side": 1,
+      "message": "\"I think we may want to support a local m2 repository cache\"\n\n+1\n\ni would go even further and would suggest to differentiate between two different targets: \n :clean and \n :distclean\n\n clean removes everything but not the maven artifacts.\n distclean blows everything away.\n\nSomeone mentioned, that buck doesn\u0027t suck here, like other build systems do, but...",
+      "parentUuid": "Uf.MCkr4",
+      "revId": "c57bff48d14059cbb50595f5f7604a52f208e8ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ue0f7bq8",
         "filename": "lib/download_jar.py",
         "patchSetId": 21

@@ -1,9 +1,10 @@
 /.classpath
 /.project
-/.settings
-/.settings/org.eclipse.jdt.core.prefs
 /.settings/org.maven.ide.eclipse.prefs
 /test_site
 /.idea
 /gerrit-parent.iml
 *.sublime-*
+/buck-cache
+/buck-out
+/local.properties

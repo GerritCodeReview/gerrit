@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -60,12 +61,15 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -74,6 +78,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -653,6 +658,42 @@ public class MergeOp {
           throw new MergeException("Submit would store invalid"
               + " project configuration " + mergeTip.name() + " for "
               + destProject.getProject().getName(), e);
+        }
+      } else if (GitRepositoryManager.REFS_REQUESTS.equals(branchUpdate.getName())) {
+        RevWalk rw = new RevWalk(repo);
+        try {
+          TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), "request.txt",
+              mergeTip.getTree().getId());
+          if (tw == null) {
+            throw new MergeException("Missing request.txt");
+          }
+
+          try {
+            ObjectLoader loader = repo.open(tw.getObjectId(0));
+            Config request = new Config();
+            try {
+              request.fromText(new String(loader.getBytes()));
+              Set<String> branchNames = request.getSubsections("create-branch");
+              if (branchNames.isEmpty()) {
+                throw new MergeException("missing create-branch section");
+              }
+              for (String branchName: branchNames) {
+                String base = request.getString("create-branch", branchName, "base");
+                if (Strings.isNullOrEmpty(base)) {
+                  throw new MergeException("null or empty base");
+                }
+                log.error("Branch [" + branchName + "] base [" + base + "]");
+              }
+            } catch (ConfigInvalidException e) {
+              throw new MergeException("Invalid request.txt");
+            }
+          } finally {
+            tw.release();
+          }
+        } catch (IOException e) {
+          throw new MergeException("Error reading request.txt");
+        } finally {
+          rw.release();
         }
       }
 

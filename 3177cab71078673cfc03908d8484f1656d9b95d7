@@ -16,6 +16,24 @@
       "revId": "3177cab71078673cfc03908d8484f1656d9b95d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ue6fXyhI",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-08T16:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UfyNPSkg",
+      "revId": "3177cab71078673cfc03908d8484f1656d9b95d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

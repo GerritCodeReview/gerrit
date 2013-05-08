@@ -31,7 +31,7 @@ out reviewing other people's changes to relieve the load from
 the approvers.  Even if you are not familiar with Gerrit's
 internals, it would be of great help if you can download, try
 out, and comment on new features.  If it works as advertised,
-say so, and if you have the priviliges to do so, go ahead
+say so, and if you have the privileges to do so, go ahead
 and give it a +1 Verified.  If you would find the feature
 useful, say so and give it a +1 code review.
 
@@ -161,7 +161,7 @@ Here are some guidelines that Gerrit uses:
   * Define non static interfaces after static interfaces in your
     class.
   * Next you should define static types and members.
-  * Finally instance members, then constuctors, and then instance
+  * Finally instance members, then constructors, and then instance
     methods.
   * Some common exceptions are private helper static methods which
     might appear near the instance methods which they help.

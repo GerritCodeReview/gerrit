@@ -64,9 +64,6 @@ import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LabelNormalizer;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -124,7 +121,7 @@ public class ChangeJson {
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeControl.GenericFactory changeControlGenericFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final PatchListCache patchListCache;
+  private final FileInfoJson fileInfoJson;
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<String> urlProvider;
   private final Urls urls;
@@ -143,7 +140,7 @@ public class ChangeJson {
       IdentifiedUser.GenericFactory uf,
       ChangeControl.GenericFactory ccf,
       PatchSetInfoFactory psi,
-      PatchListCache plc,
+      FileInfoJson fileInfoJson,
       AccountInfo.Loader.Factory ailf,
       @CanonicalWebUrl Provider<String> curl,
       Urls urls) {
@@ -154,7 +151,7 @@ public class ChangeJson {
     this.userFactory = uf;
     this.changeControlGenericFactory = ccf;
     this.patchSetInfoFactory = psi;
-    this.patchListCache = plc;
+    this.fileInfoJson = fileInfoJson;
     this.accountLoaderFactory = ailf;
     this.urlProvider = curl;
     this.urls = urls;
@@ -770,49 +767,11 @@ public class ChangeJson {
     }
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
-      PatchList list;
       try {
-        list = patchListCache.get(cd.change(db), in);
+        out.files = fileInfoJson.toFileInfoMap(cd.change(db), in);
+        out.files.remove(Patch.COMMIT_MSG);
       } catch (PatchListNotAvailableException e) {
         log.warn("Cannot load PatchList " + in.getId(), e);
-        list = null;
-      }
-      if (list != null) {
-        out.files = Maps.newTreeMap();
-        for (PatchListEntry e : list.getPatches()) {
-          if (Patch.COMMIT_MSG.equals(e.getNewName())) {
-            continue;
-          }
-
-          FileInfo d = new FileInfo();
-          d.status = e.getChangeType() != Patch.ChangeType.MODIFIED
-              ? e.getChangeType().getCode()
-              : null;
-          d.oldPath = e.getOldName();
-          if (e.getPatchType() == Patch.PatchType.BINARY) {
-            d.binary = true;
-          } else {
-            d.linesInserted = e.getInsertions() > 0 ? e.getInsertions() : null;
-            d.linesDeleted = e.getDeletions() > 0 ? e.getDeletions() : null;
-          }
-
-          FileInfo o = out.files.put(e.getNewName(), d);
-          if (o != null) {
-            // This should only happen on a delete-add break created by JGit
-            // when the file was rewritten and too little content survived. Write
-            // a single record with data from both sides.
-            d.status = Patch.ChangeType.REWRITE.getCode();
-            if (o.binary != null && o.binary) {
-              d.binary = true;
-            }
-            if (o.linesInserted != null) {
-              d.linesInserted = o.linesInserted;
-            }
-            if (o.linesDeleted != null) {
-              d.linesDeleted = o.linesDeleted;
-            }
-          }
-        }
       }
     }
     return out;
@@ -902,7 +861,7 @@ public class ChangeJson {
     int _number;
     Map<String, FetchInfo> fetch;
     CommitInfo commit;
-    Map<String, FileInfo> files;
+    Map<String, FileInfoJson.FileInfo> files;
   }
 
   static class FetchInfo {
@@ -929,14 +888,6 @@ public class ChangeJson {
     GitPerson committer;
     String subject;
     String message;
-  }
-
-  static class FileInfo {
-    Character status;
-    Boolean binary;
-    String oldPath;
-    Integer linesInserted;
-    Integer linesDeleted;
   }
 
   static class LabelInfo {

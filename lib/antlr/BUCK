@@ -1,0 +1,48 @@
+include_defs('//lib/maven.defs')
+
+VERSION = '3.2'
+
+maven_jar(
+  name = 'java_runtime',
+  id = 'org.antlr:antlr-runtime:' + VERSION,
+  sha1 = '31c746001016c6226bd7356c9f87a6a084ce3715',
+  license = 'antlr',
+)
+
+java_binary(
+  name = 'antlr-tool',
+  main_class = 'org.antlr.Tool',
+  deps = [':tool'],
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'stringtemplate',
+  id = 'org.antlr:stringtemplate:' + VERSION,
+  sha1 = '6fe2e3bb57daebd1555494818909f9664376dd6c',
+  license = 'antlr',
+  attach_source = False,
+  visibility = [],
+)
+
+maven_jar(
+  name = 'tool',
+  id = 'org.antlr:antlr:' + VERSION,
+  sha1 = '6b0acabea7bb3da058200a77178057e47e25cb69',
+  license = 'antlr',
+  deps = [
+    ':java_runtime',
+    ':stringtemplate',
+    ':antlr27',
+  ],
+  visibility = [],
+)
+
+maven_jar(
+  name = 'antlr27',
+  id = 'antlr:antlr:2.7.7',
+  sha1 = '83cd2cd674a217ade95a4bb83a8a14f351f48bd0',
+  license = 'antlr',
+  attach_source = False,
+  visibility = [],
+)

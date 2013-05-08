@@ -1017,7 +1017,7 @@ public class ReceiveCommits {
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
-    @Option(name = "--draft", usage = "mark new/update changes as draft")
+    @Option(name = "--draft", usage = "mark new/updated changes as draft")
     boolean draft;
 
     @Option(name = "--submit", usage = "immediately submit the change")

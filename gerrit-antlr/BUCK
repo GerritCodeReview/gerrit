@@ -1,0 +1,49 @@
+ANTLR_OUTS = [
+  'QueryLexer.java',
+  'QueryParser.java',
+]
+
+java_library(
+  name = 'antlr',
+  deps = [':query'],
+  visibility = ['PUBLIC'],
+)
+
+java_library(
+  name = 'query_exception',
+  srcs = ['src/main/java/com/google/gerrit/server/query/QueryParseException.java'],
+)
+
+genantlr(
+  name = 'query_antlr',
+  srcs = ['src/main/antlr3/com/google/gerrit/server/query/Query.g'],
+  outs = ANTLR_OUTS,
+)
+
+java_library(
+  name = 'lib',
+  srcs = [genfile(f) for f in ANTLR_OUTS],
+  deps = [
+    ':query_antlr',
+    ':query_exception',
+    '//lib/antlr:java_runtime',
+  ],
+)
+
+genrule(
+  name = 'query_link',
+  cmd = 'ln -s $SRCS $OUT',
+  srcs = [genfile('lib__lib__output/lib.jar')],
+  deps = [':lib'],
+  out = 'query.jar',
+)
+
+prebuilt_jar(
+  name = 'query',
+  binary_jar = genfile('query.jar'),
+  deps = [
+    ':query_link',
+    ':query_exception',
+    '//lib/antlr:java_runtime',
+  ],
+)

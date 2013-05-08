@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ue.c9Qpc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-08T11:25:25Z",
+      "side": 1,
+      "message": "I think the preferred style is not to use // for split lines.",
+      "revId": "fd07b15ea69245bad71c47ecb3c30a3db04f75fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

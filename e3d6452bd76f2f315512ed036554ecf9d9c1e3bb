@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UfyMdiig",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-08T14:53:21Z",
+      "side": 1,
+      "message": "This is fine as an optimization but I don\u0027t think it was the actual bug. This works as a workaround for the formatList2 case because it ensures cd.patches(db) is called before cd.currentPatchSet(db). But the intent of the API and the too-smart-for-its-own-good caching was that you  should be able to call cd.patches(db) and cd.currentPatchSet(db) in any order and it should just work.",
+      "revId": "e3d6452bd76f2f315512ed036554ecf9d9c1e3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

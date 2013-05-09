@@ -1,12 +1,12 @@
 Gerrit Code Review - Developer Setup
 ====================================
 
-Apache Maven is needed to compile the code, and a SQL database
-to house the review metadata.  H2 is recommended for development
-databases, as it requires no external server process.
+Apache Maven or Facebook Buck is needed to compile the code, and a
+SQL database to house the review metadata.  H2 is recommended for
+development databases, as it requires no external server process.
 
-Get the Source
---------------
+Getting the Source
+------------------
 
 Create a new client workspace:
 
@@ -24,12 +24,15 @@ Configuring Eclipse
 
 To use the Eclipse IDE for development, please see
 link:dev-eclipse.html[Eclipse Setup] for more details on how to
-configure the workspace with the Maven build scripts.
+configure the workspace with the Maven and Buck build scripts.
 
 
 [[build]]
 Building
 --------
+
+Building with Maven
+~~~~~~~~~~~~~~~~~~~
 
 From the command line:
 
@@ -51,10 +54,49 @@ To build without documentation:
   mvn clean package -Dgerrit.documentation.skip
 ----
 
-Output executable WAR will be placed in:
+The output executable WAR will be placed in:
 
 ----
   gerrit-war/target/gerrit-*.war
+----
+
+Building with Buck
+~~~~~~~~~~~~~~~~~~
+
+From the command line:
+
+----
+  buck build :gerrit
+----
+
+The output executable WAR will be placed in:
+
+----
+  buck-out/gen/gerrit.war
+----
+
+To build the extension and plugin API JAR files:
+
+----
+  buck build :api
+----
+
+The output JAR files will be placed in:
+
+----
+  buck-out/gen/{extension,plugin}-api.jar
+----
+
+Running unit tests:
+
+----
+  buck test --all
+----
+
+To exclude slow tests:
+
+----
+  buck test --all -e slow
 ----
 
 Mac OS X

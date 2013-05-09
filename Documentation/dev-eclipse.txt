@@ -21,6 +21,41 @@ For older versions the update site must be manually added; the link can
 be found on the http://www.eclipse.org/m2e/download/[m2eclipse download page].
 
 
+[[buck]]
+Buck
+----
+
+Build the Eclipse project:
+
+----
+  buck build :eclipse
+----
+
+Import existing project from the current working directory.
+
+Import the 'gerrit' folder.  Do not import other Maven based projects.
+
+Expand the 'gerrit' project.
+
+Right click 'buck-out' and select 'Properties'.
+
+Under Attributes check 'Derived'.
+
+If the code doesn't currently compile but an updated classpath is needed,
+refresh the configs and obtain missing JARs:
+
+----
+  buck build :eclipse_project :download
+----
+
+Dependencies are normally downloaded automatically, but Buck can inspect its
+graph and download missing dependencies so future compiles can run without the network:
+
+----
+  buck build :download
+----
+
+
 [[Formatting]]
 Code Formatter Settings
 -----------------------

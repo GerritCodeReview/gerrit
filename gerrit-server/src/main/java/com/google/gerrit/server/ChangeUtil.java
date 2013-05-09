@@ -229,7 +229,7 @@ public class ChangeUtil {
       revertCommitBuilder.addParentId(commitToRevert);
       revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
       revertCommitBuilder.setAuthor(authorIdent);
-      revertCommitBuilder.setCommitter(myIdent);
+      revertCommitBuilder.setCommitter(authorIdent);
 
       if (message == null) {
         message = MessageFormat.format(

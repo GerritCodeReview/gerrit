@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,30 +14,22 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.inject.TypeLiteral;
 
-public class ProjectResource implements RestResource {
-  public static final TypeLiteral<RestView<ProjectResource>> PROJECT_KIND =
-      new TypeLiteral<RestView<ProjectResource>>() {};
+public class BranchResource extends ProjectResource {
+  public static final TypeLiteral<RestView<BranchResource>> BRANCH_KIND =
+      new TypeLiteral<RestView<BranchResource>>() {};
 
-  private final ProjectControl control;
+  private final Branch.NameKey branch;
 
-  public ProjectResource(ProjectControl control) {
-    this.control = control;
+  public BranchResource(ProjectControl control, Branch.NameKey branch) {
+    super(control);
+    this.branch = branch;
   }
 
-  public String getName() {
-    return control.getProject().getName();
-  }
-
-  public Project.NameKey getNameKey() {
-    return control.getProject().getNameKey();
-  }
-
-  public ProjectControl getControl() {
-    return control;
+  public Branch.NameKey getBranch() {
+    return branch;
   }
 }

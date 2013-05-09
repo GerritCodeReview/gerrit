@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UguCTYqI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RevisionEdit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-09T08:22:50Z",
+      "side": 1,
+      "message": "Isn\u0027t this \u0027/\u0027 too much? appendSharded already adds the trailing \u0027/\u0027, isn\u0027t it?",
+      "revId": "f150e57befae11e5c154abd19d52bce39b805cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

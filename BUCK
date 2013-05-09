@@ -1,8 +1,8 @@
 include_defs('//tools/build.defs')
 
 gerrit_war(name = 'gerrit')
-gerrit_war(name = 'chrome',   ui = 'draft_safari')
-gerrit_war(name = 'firefox',  ui = 'draft_gecko1_8')
+gerrit_war(name = 'chrome',   ui = 'ui_chrome')
+gerrit_war(name = 'firefox',  ui = 'ui_firefox')
 gerrit_war(name = 'withdocs', context = DOCS)
 gerrit_war(name = 'release',  context = DOCS + ['//plugins:core.zip'])
 

@@ -1,0 +1,131 @@
+Gerrit Code Review - Building with Buck
+=======================================
+
+Installation
+------------
+
+There is currently no binary distribution of Buck, so it has to be manually
+built and installed.  Apache Ant is required.
+
+Clone the git and build it:
+
+----
+  git clone https://gerrit.googlesource.com/buck
+  cd buck
+  ant
+----
+
+Add the buck executable's location to the system path:
+
+Linux
+~~~~~
+
+----
+  PATH="`pwd`/bin:$PATH"
+----
+
+Mac OS
+~~~~~~
+
+----
+  PATH="`pwd`/bin:/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands:$PATH"
+----
+
+
+Eclipse Project
+---------------
+
+Generating the Eclipse Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Create the Eclipse project by building the `eclipse` target:
+
+----
+  buck build eclipse
+----
+
+In Eclipse, choose 'Import existing project' and select the `gerrit` project
+from the current working directory.  Do not import any of the other Maven
+based projects.
+
+Expand the `gerrit` project, right-click on the `buck-out` folder, select
+'Properties', and then under 'Attributes' check 'Derived'.
+
+Refreshing the Eclipse Project
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If the code doesn't compile and an updated classpath is needed, the configs
+can be refreshed and missing dependency JARs can be downloaded by building
+the `eclipse_project` and `download` targets:
+
+----
+  buck build eclipse_project download
+----
+
+
+Building on the Command Line
+----------------------------
+
+Gerrit Development WAR File
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To build the Gerrit web application:
+
+----
+  buck build gerrit
+----
+
+The output executable WAR will be placed in:
+
+----
+  buck-out/gen/gerrit.war
+----
+
+Extension and Plugin API JAR Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To build the extension and plugin API JAR files:
+
+----
+  buck build api
+----
+
+The output JAR files will be placed in:
+
+----
+  buck-out/gen/{extension,plugin}-api.jar
+----
+
+Running Unit Tests
+------------------
+
+To run all tests including acceptance tests:
+
+----
+  buck test --all
+----
+
+To exclude slow tests:
+
+----
+  buck test --all -e slow
+----
+
+
+Dependencies
+------------
+
+Dependency JARs are normally downloaded automatically, but Buck can inspect
+its graph and download any missing JAR files.  This is useful to enable
+builds to run without network access.
+
+Force a download of dependency JARs by building the `download` target:
+
+----
+  buck build download
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

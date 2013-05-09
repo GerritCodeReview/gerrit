@@ -16,6 +16,24 @@
       "revId": "a1060c9c988d1cb9224f5d7183725770a821357d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uhb0LPzE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-09T06:35:18Z",
+      "side": 1,
+      "message": "Did you actually check out this commit? The error message sounds like the top level BUCK file was missing.",
+      "parentUuid": "Ug98928w",
+      "revId": "a1060c9c988d1cb9224f5d7183725770a821357d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

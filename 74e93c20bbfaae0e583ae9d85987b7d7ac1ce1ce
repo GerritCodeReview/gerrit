@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UgsD6nqs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T12:51:15Z",
+      "side": 1,
+      "message": "If there is no logged in user, then this causes a ProvisionException.\n\nBut I think this is ok: I suppose we can guarantee that this is always called from a context where an IdentifiedUser is available. Because the PatchSet\u0027s uploader is an Account.Id and cannot be null anyway.",
+      "revId": "74e93c20bbfaae0e583ae9d85987b7d7ac1ce1ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgqD-mpk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T12:51:15Z",
+      "side": 1,
+      "message": "I\u0027d probably go ahead and move this to its own file next to InvalidChangeOperationException. But that can wait for a separate change.",
+      "revId": "74e93c20bbfaae0e583ae9d85987b7d7ac1ce1ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

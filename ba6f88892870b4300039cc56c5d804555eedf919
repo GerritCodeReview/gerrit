@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UgmDOMrA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T10:53:36Z",
+      "side": 1,
+      "message": "This isn\u0027t used.",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uhpz5pQg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T10:53:36Z",
+      "side": 1,
+      "message": "You don\u0027t do any validation that patchSet.getId().get() \u003d\u003d currentPatchSetId.get() + 1.\n\nI wonder if you even need to pass the PatchSet here at all. You can infer most of the fields from RevCommit and Change:\n\n-id is currentPatchSetId + 1 as mentioned above\n\n-revision is ObjectId.toString(commit)\n\n-uploader is the current user (a bit of work: inject a Provider\u003cCurrentUser\u003e into this class)\n\n-createdOn is now\n\nSo the only thing you don\u0027t know is the draft bit. I guess you could pass that in.",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ug3.4DwE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T10:53:36Z",
+      "side": 1,
+      "message": "As with PatchSet, you can probably get away with just passing the change message text and creating the ChangeMessage in this method.",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ug--D-4A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T10:53:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be an AtomicUpdate, you\u0027re not changing the entity.\n\nI think what you want instead is to start the transaction, then while in the transaction, read the current version of the change. I think this means you also want to pass just a Change.Id to this method.",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ug1.1SwU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T10:53:36Z",
+      "side": 1,
+      "message": "From a REST API perspective I would like to distinguish this kind of exception from other InvalidChangeOperationExceptions because this should be translated to an HTTP 409 Conflict rather than a 500.",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhD43Keg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T10:53:36Z",
+      "side": 1,
+      "message": "You forgot to create the new ref and fire the ref updated hook.",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

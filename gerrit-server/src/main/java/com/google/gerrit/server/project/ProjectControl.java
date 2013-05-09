@@ -38,6 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,8 +63,8 @@ public class ProjectControl {
     }
 
     public ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
-        throws NoSuchProjectException {
-      final ProjectState p = projectCache.get(nameKey);
+        throws NoSuchProjectException, IOException {
+      final ProjectState p = projectCache.getChecked(nameKey);
       if (p == null) {
         throw new NoSuchProjectException(nameKey);
       }

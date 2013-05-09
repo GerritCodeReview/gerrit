@@ -56,6 +56,7 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
@@ -120,7 +121,7 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   @Override
   public PostResult apply(ChangeResource rsrc, Input input)
       throws BadRequestException, ResourceNotFoundException, AuthException,
-      UnprocessableEntityException, OrmException, EmailException {
+      UnprocessableEntityException, OrmException, EmailException, IOException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }
@@ -147,8 +148,8 @@ public class PostReviewers implements RestModifyView<ChangeResource, Input> {
   }
 
   private PostResult putGroup(ChangeResource rsrc, Input input)
-      throws ResourceNotFoundException, AuthException, BadRequestException,
-      UnprocessableEntityException, OrmException, EmailException {
+      throws BadRequestException,
+      UnprocessableEntityException, OrmException, EmailException, IOException {
     GroupDescription.Basic group = groupsCollection.get().parseInternal(input.reviewer);
     PostResult result = new PostResult();
     if (!isLegalReviewerGroup(group.getGroupUUID())) {

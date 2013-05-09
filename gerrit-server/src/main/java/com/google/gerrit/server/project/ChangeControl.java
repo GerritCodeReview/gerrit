@@ -42,6 +42,7 @@ import com.googlecode.prolog_cafe.lang.Term;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,6 +71,9 @@ public class ChangeControl {
       try {
         return projectControl.controlFor(projectKey, user).controlFor(change);
       } catch (NoSuchProjectException e) {
+        throw new NoSuchChangeException(change.getId(), e);
+      } catch (IOException e) {
+        // TODO: propagate this exception
         throw new NoSuchChangeException(change.getId(), e);
       }
     }

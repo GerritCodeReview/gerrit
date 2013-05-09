@@ -35,6 +35,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
@@ -79,7 +80,7 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
   @Override
   public Object apply(TopLevelResource resource, Input input)
       throws BadRequestException, UnprocessableEntityException,
-      ProjectCreationFailedException {
+      ProjectCreationFailedException, IOException {
     if (input == null) {
       input = new Input();
     }

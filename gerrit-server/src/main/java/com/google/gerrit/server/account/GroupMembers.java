@@ -28,6 +28,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,13 +59,13 @@ public class GroupMembers {
 
   public Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
       final Project.NameKey project) throws NoSuchGroupException,
-      NoSuchProjectException, OrmException {
+      NoSuchProjectException, OrmException, IOException {
     return listAccounts(groupUUID, project, new HashSet<AccountGroup.UUID>());
   }
 
   private Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
       final Project.NameKey project, final Set<AccountGroup.UUID> seen)
-      throws NoSuchGroupException, OrmException, NoSuchProjectException {
+      throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
     if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, seen);
     } else {
@@ -79,7 +80,7 @@ public class GroupMembers {
 
   private Set<Account> getProjectOwners(final Project.NameKey project,
       final Set<AccountGroup.UUID> seen) throws NoSuchProjectException,
-      NoSuchGroupException, OrmException {
+      NoSuchGroupException, OrmException, IOException {
     seen.add(AccountGroup.PROJECT_OWNERS);
     if (project == null) {
       return Collections.emptySet();
@@ -100,7 +101,7 @@ public class GroupMembers {
 
   private Set<Account> getGroupMembers(final AccountGroup group,
       final Project.NameKey project, final Set<AccountGroup.UUID> seen)
-      throws NoSuchGroupException, OrmException, NoSuchProjectException {
+      throws NoSuchGroupException, OrmException, NoSuchProjectException, IOException {
     seen.add(group.getGroupUUID());
     final GroupDetail groupDetail =
         groupDetailFactory.create(group.getId()).call();

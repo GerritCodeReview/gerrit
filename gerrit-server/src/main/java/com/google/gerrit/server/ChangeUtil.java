@@ -399,17 +399,13 @@ public class ChangeUtil {
       }
       gitRefUpdated.fire(change.getProject(), ru);
 
-      final ChangeMessage cmsg =
-          new ChangeMessage(new ChangeMessage.Key(changeId,
-              ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
       final String msg =
           "Patch Set " + newPatchSet.getPatchSetId()
               + ": Commit message was updated";
-      cmsg.setMessage(msg);
 
       change =
           patchSetInserter.insertPatchSet(change, newPatchSet, newCommit,
-              refControl, cmsg, true);
+              refControl, msg, true);
 
       return change.getId();
     } finally {

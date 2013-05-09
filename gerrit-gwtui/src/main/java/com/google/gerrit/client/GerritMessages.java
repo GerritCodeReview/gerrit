@@ -33,4 +33,5 @@ public interface GerritMessages extends Messages {
   String branchCreationConflict(String branchName, String existingBranchName);
 
   String pluginFailed(String scriptPath);
+  String cannotDownloadlPlugin(String scriptPath);
 }

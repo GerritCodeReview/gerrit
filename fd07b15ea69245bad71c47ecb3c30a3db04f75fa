@@ -16,6 +16,24 @@
       "revId": "fd07b15ea69245bad71c47ecb3c30a3db04f75fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UggDdJmg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-05-09T09:34:35Z",
+      "side": 1,
+      "message": "Yes :)\n\nI will trim this commit",
+      "parentUuid": "Ue.c9Qpc",
+      "revId": "fd07b15ea69245bad71c47ecb3c30a3db04f75fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

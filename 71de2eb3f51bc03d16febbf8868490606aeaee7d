@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UgiA.6pI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T12:25:40Z",
+      "side": 1,
+      "message": "Could move to PatchSetInserter? Though I\u0027m not too familiar with CommitValidators, perhaps we don\u0027t always want to do the same type of validation. (Don\u0027t consider this blocking.)",
+      "revId": "71de2eb3f51bc03d16febbf8868490606aeaee7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ugx9Vg9A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T12:25:40Z",
+      "side": 1,
+      "message": "Should probably move to PatchSetInserter, as I mentioned on the parent change.",
+      "revId": "71de2eb3f51bc03d16febbf8868490606aeaee7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

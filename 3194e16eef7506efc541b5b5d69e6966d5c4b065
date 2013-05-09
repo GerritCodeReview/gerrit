@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ug-97-zc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2704,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-05-09T14:17:29Z",
+      "side": 1,
+      "message": "missing \u0027d\u0027 at the end :-)\n\nui-commands.enabled is the correct variable name.",
+      "revId": "3194e16eef7506efc541b5b5d69e6966d5c4b065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ug9.AO.8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2708,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-05-09T14:17:29Z",
+      "side": 1,
+      "message": "Can we include a small sample on what a plugin (or extension) should bind using the appropriate DynamicSet ?\n\nThat would make easier for who wants to use it.",
+      "revId": "3194e16eef7506efc541b5b5d69e6966d5c4b065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

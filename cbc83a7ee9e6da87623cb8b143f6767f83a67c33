@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UgqAOeq4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-09T21:57:44Z",
+      "side": 1,
+      "message": "\"Even though\" (with space) or \"Although\".",
+      "revId": "cbc83a7ee9e6da87623cb8b143f6767f83a67c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

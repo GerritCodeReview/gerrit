@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ug98928w",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-05-09T06:17:26Z",
+      "side": 1,
+      "message": "$ time buck build :eclipse\n BUILD FAILED: No BUCK file BUCK when resolving target //:eclipse in context \n FULLY_QUALIFIED\n real\t0m0.252s\n user   0m0.288s\n sys\t0m0.016s",
+      "revId": "a1060c9c988d1cb9224f5d7183725770a821357d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

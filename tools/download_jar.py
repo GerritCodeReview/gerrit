@@ -62,6 +62,7 @@ cache_ent = path.join(
 if not path.exists(cache_ent):
   try:
     safe_mkdirs(path.dirname(cache_ent))
+    print >>stderr, "Download %s" % args.u
     check_call(['curl', '-sfo', cache_ent, args.u])
   except (OSError, CalledProcessError) as err:
     print >>stderr, "error using curl: %s" % str(err)

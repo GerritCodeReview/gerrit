@@ -112,12 +112,14 @@ public class AccountInfo {
   public Integer _account_id;
   public String name;
   public String email;
+  public String username;
 
   private void fill(Account account, boolean detailed) {
     name = account.getFullName();
     if (detailed) {
       _account_id = account.getId().get();
       email = account.getPreferredEmail();
+      username = account.getUserName();
     }
   }
 }

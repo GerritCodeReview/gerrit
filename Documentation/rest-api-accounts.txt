@@ -31,7 +31,8 @@ Returns an account as an link:#account-info[AccountInfo] entity.
   {
     "_account_id": 1000096,
     "name": "John Doe",
-    "email": "john.doe@example.com"
+    "email": "john.doe@example.com",
+    "username": "john"
   }
 ----
 
@@ -458,6 +459,8 @@ The `AccountInfo` entity contains information about an account.
 Only set if detailed account information is requested.
 |`email`       |optional|
 The email address the user prefers to be contacted through. +
+Only set if detailed account information is requested.
+|`username`    |optional|The username of the user. +
 Only set if detailed account information is requested.
 |===========================
 

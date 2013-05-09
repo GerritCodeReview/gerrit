@@ -293,12 +293,14 @@ describes the group.
       {
         "_account_id": 1000097,
         "name": "Jane Roe",
-        "email": "jane.roe@example.com"
+        "email": "jane.roe@example.com",
+        "username": "jane"
       },
       {
         "_account_id": 1000096,
         "name": "John Doe",
         "email": "john.doe@example.com"
+        "username": "john"
       }
     ],
     "includes": []
@@ -620,12 +622,14 @@ full name, preferred email and id.
     {
       "_account_id": 1000097,
       "name": "Jane Roe",
-      "email": "jane.roe@example.com"
+      "email": "jane.roe@example.com",
+      "username": "jane"
     },
     {
       "_account_id": 1000096,
       "name": "John Doe",
-      "email": "john.doe@example.com"
+      "email": "john.doe@example.com",
+      "username": "john"
     }
   ]
 ----
@@ -657,17 +661,20 @@ are not visible to the calling user are ignored.
     {
       "_account_id": 1000097,
       "name": "Jane Roe",
-      "email": "jane.roe@example.com"
+      "email": "jane.roe@example.com",
+      "username": "jane"
     },
     {
       "_account_id": 1000096,
       "name": "John Doe",
-      "email": "john.doe@example.com"
+      "email": "john.doe@example.com",
+      "username": "john"
     },
     {
       "_account_id": 1000098,
       "name": "Richard Roe",
-      "email": "richard.roe@example.com"
+      "email": "richard.roe@example.com",
+      "username": "rroe"
     }
   ]
 ----
@@ -698,7 +705,8 @@ AccountInfo] entity is returned that describes the group member.
   {
     "_account_id": 1000096,
     "name": "John Doe",
-    "email": "john.doe@example.com"
+    "email": "john.doe@example.com",
+    "username": "john"
   }
 ----
 
@@ -728,7 +736,8 @@ AccountInfo] entity is returned that describes the group member.
   {
     "_account_id": 1000037,
     "name": "John Doe",
-    "email": "john.doe@example.com"
+    "email": "john.doe@example.com",
+    "username": "john"
   }
 ----
 
@@ -782,12 +791,14 @@ already a member of the group.
     {
       "_account_id": 1000057,
       "name": "Jane Roe",
-      "email": "jane.roe@example.com"
+      "email": "jane.roe@example.com",
+      "username": "jane"
     },
     {
       "_account_id": 1000037,
       "name": "John Doe",
-      "email": "john.doe@example.com"
+      "email": "john.doe@example.com",
+      "username": "john"
     }
   ]
 ----

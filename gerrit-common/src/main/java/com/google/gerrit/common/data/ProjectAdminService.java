@@ -58,11 +58,6 @@ public interface ProjectAdminService extends RemoteJsonService {
 
   @Audit
   @SignInRequired
-  void addBranch(Project.NameKey projectName, String branchName,
-      String startingRevision, AsyncCallback<AddBranchResult> callback);
-
-  @Audit
-  @SignInRequired
   void deleteBranch(Project.NameKey projectName, Set<Branch.NameKey> ids,
       AsyncCallback<Set<Branch.NameKey>> callback);
 }

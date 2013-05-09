@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UgsB1-kI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T18:00:50Z",
+      "side": 1,
+      "message": "This looks like a behavior change, could you describe it in the commit message?",
+      "revId": "6fda90d9dfab1972e975713798b93c71750555e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ugx.2o8k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T18:00:50Z",
+      "side": 1,
+      "message": "I notice that here, the ref is updated before the change is inserted, whereas when editing the commit message it\u0027s the opposite. All the more reason to have PatchSetInserter handle the ref update :)",
+      "revId": "6fda90d9dfab1972e975713798b93c71750555e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ug--Bvyo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T18:00:50Z",
+      "side": 1,
+      "message": "Are you sure you don\u0027t want a message here?",
+      "revId": "6fda90d9dfab1972e975713798b93c71750555e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

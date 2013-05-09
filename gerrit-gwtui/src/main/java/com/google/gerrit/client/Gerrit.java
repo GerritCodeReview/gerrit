@@ -44,6 +44,7 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.Callback;
+import com.google.gwt.core.client.CodeDownloadException;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -582,8 +583,12 @@ public class Gerrit implements EntryPoint {
 
               @Override
               public void onFailure(Exception reason) {
-                ErrorDialog d = new ErrorDialog(reason);
-                d.setTitle(M.pluginFailed(url));
+                ErrorDialog d;
+                if (reason instanceof CodeDownloadException) {
+                  d = new ErrorDialog(M.cannotDownloadlPlugin(url));
+                } else {
+                  d = new ErrorDialog(M.pluginFailed(url));
+                }
                 d.center();
               }
             }).inject();

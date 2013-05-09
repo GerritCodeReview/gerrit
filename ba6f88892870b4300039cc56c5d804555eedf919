@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Ug99O.0k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-09T12:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UgmDOMrA",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uhpz5pQg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "UgmA08rI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-09T12:31:25Z",
+      "side": 1,
+      "message": "ID validation: Done. \n\nI\u0027ll work towards removing PatchSet argument, but this changes the logic a bit from what is being used today. I think it would be nice if the first iteratation tries to keep much of the current logic if possible. \n\nAll though when every thing works fine, I\u0027ll continue to work towards moving more logic to the patchset inserter (also planning on handling the ref update here in the future).\n\nIs that ok?",
+      "parentUuid": "Uhpz5pQg",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug3.4DwE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-09T10:53:36Z",
       "side": 1,
       "message": "As with PatchSet, you can probably get away with just passing the change message text and creating the ChangeMessage in this method.",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgkBB7ho",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-09T12:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ug3.4DwE",
       "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "UggBKxjc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-09T12:31:25Z",
+      "side": 1,
+      "message": "I think you are right here. Done.",
+      "parentUuid": "UgqDC.nk",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug1.1SwU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 1
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "UgmBb0gk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-09T12:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ug1.1SwU",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UhD43Keg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 1
@@ -116,6 +206,24 @@
       "writtenOn": "2013-05-09T10:53:36Z",
       "side": 1,
       "message": "You forgot to create the new ref and fire the ref updated hook.",
+      "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgkBYzgo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-09T12:31:25Z",
+      "side": 1,
+      "message": "Today the callers handles that themselves. I plan on bringing in more logic when we see this works. Would that be ok?",
+      "parentUuid": "UhD43Keg",
       "revId": "ba6f88892870b4300039cc56c5d804555eedf919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

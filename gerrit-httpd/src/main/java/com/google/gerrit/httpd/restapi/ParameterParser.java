@@ -159,7 +159,6 @@ class ParameterParser {
    */
   static JsonObject formToJson(HttpServletRequest req)
       throws BadRequestException {
-    @SuppressWarnings("unchecked")
     Map<String, String[]> map = req.getParameterMap();
     return formToJson(map, query(req));
   }

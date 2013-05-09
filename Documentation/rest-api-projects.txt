@@ -483,6 +483,54 @@ The response is the streamed output of the garbage collection.
   done.
 ----
 
+[[branch-endpoints]]
+Branch Endpoints
+----------------
+
+[[list-branches]]
+List Branches
+~~~~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/branches/'
+
+List the branches of a project.
+
+As result a list of link:#branch-info[BranchInfo] entries is
+returned.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/branches/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "ref": "HEAD",
+      "revision": "master"
+    },
+    {
+      "ref": "refs/meta/config",
+      "revision": "76016386a0d8ecc7b6be212424978bb45959d668"
+    },
+    {
+      "ref": "refs/heads/master",
+      "revision": "67ebf73496383c6777035e374d2d664009e2aa5c"
+    },
+    {
+      "ref": "refs/heads/stable",
+      "revision": "64ca533bd0eb5252d2fee83f63da67caae9b4674",
+      "can_delete": true
+    }
+  ]
+----
+
 [[child-project-endpoints]]
 Child Project Endpoints
 -----------------------
@@ -870,6 +918,20 @@ The name of the project.
 [[json-entities]]
 JSON Entities
 -------------
+
+[[branch-info]]
+BranchInfo
+~~~~~~~~~~
+The `BranchInfo` entity contains information about a branch.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=========================
+|Field Name  ||Description
+|`ref`       ||The ref of the branch.
+|`revision`  ||The revision to which the branch points.
+|`can_delete`|`false` if not set|
+Whether the calling user can delete this branch.
+|=========================
 
 [[dashboard-info]]
 DashboardInfo

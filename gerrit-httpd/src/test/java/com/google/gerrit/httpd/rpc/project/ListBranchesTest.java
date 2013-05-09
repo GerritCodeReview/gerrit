@@ -39,6 +39,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
+import com.google.inject.Provider;
 
 import org.easymock.IExpectationSetters;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
@@ -84,6 +85,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
 
     mockDb = createStrictMock(Repository.class);
     pc = createStrictMock(ProjectControl.class);
+    expect(pc.getProject()).andReturn(new Project(name)).anyTimes();
     pcf = createStrictMock(ProjectControl.Factory.class);
     grm = createStrictMock(GitRepositoryManager.class);
     refMocks = new ArrayList<RefControl>();
@@ -125,7 +127,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     validate().andThrow(err);
     doReplay();
     try {
-      new ListBranches(pcf, grm, name).call();
+      new ListBranches(pcf, createListBranchesProvider(grm), name).call();
       fail("did not throw when expected not authorized");
     } catch (NoSuchProjectException e2) {
       assertSame(err, e2);
@@ -161,7 +163,8 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     expectLastCall();
 
     doReplay();
-    final ListBranchesResult r = new ListBranches(pcf, grm, name).call();
+    final ListBranchesResult r =
+        new ListBranches(pcf, createListBranchesProvider(grm), name).call();
     doVerify();
     assertNotNull(r);
     assertNotNull(r.getBranches());
@@ -302,7 +305,8 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     expectLastCall();
 
     doReplay();
-    final ListBranchesResult r = new ListBranches(pcf, grm, name).call();
+    final ListBranchesResult r =
+        new ListBranches(pcf, createListBranchesProvider(grm), name).call();
     doVerify();
     assertNotNull(r);
 
@@ -330,7 +334,8 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     expectLastCall();
 
     doReplay();
-    final ListBranchesResult r = new ListBranches(pcf, grm, name).call();
+    final ListBranchesResult r =
+        new ListBranches(pcf, createListBranchesProvider(grm), name).call();
     doVerify();
     assertNotNull(r);
     assertTrue(r.getBranches().isEmpty());
@@ -359,7 +364,8 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     expectLastCall();
 
     doReplay();
-    final ListBranchesResult r = new ListBranches(pcf, grm, name).call();
+    final ListBranchesResult r =
+        new ListBranches(pcf, createListBranchesProvider(grm), name).call();
     doVerify();
     assertNotNull(r);
 
@@ -370,5 +376,15 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
 
     assertEquals("bar", r.getBranches().get(1).getShortName());
     assertFalse(r.getBranches().get(1).getCanDelete());
+  }
+
+  private static Provider<com.google.gerrit.server.project.ListBranches> createListBranchesProvider(
+      final GitRepositoryManager grm) {
+    return new Provider<com.google.gerrit.server.project.ListBranches>() {
+      @Override
+      public com.google.gerrit.server.project.ListBranches get() {
+        return new com.google.gerrit.server.project.ListBranches(grm);
+      }
+    };
   }
 }

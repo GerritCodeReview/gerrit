@@ -61,6 +61,7 @@ public abstract class BinaryResult implements Closeable {
   private String characterEncoding;
   private long contentLength = -1;
   private boolean gzip = true;
+  private boolean base64 = false;
 
   /** @return the MIME type of the result, for HTTP clients. */
   public String getContentType() {
@@ -107,6 +108,17 @@ public abstract class BinaryResult implements Closeable {
   /** Disable gzip compression for already compressed responses. */
   public BinaryResult disableGzip() {
     this.gzip = false;
+    return this;
+  }
+
+  /** @return true if the result must be base64 encoded. */
+  public boolean isBase64() {
+    return base64;
+  }
+
+  /** Wrap the binary data in base64 encoding. */
+  public BinaryResult base64() {
+    base64 = true;
     return this;
   }
 

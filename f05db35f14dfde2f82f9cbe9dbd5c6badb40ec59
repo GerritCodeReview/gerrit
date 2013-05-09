@@ -16,6 +16,24 @@
       "revId": "f05db35f14dfde2f82f9cbe9dbd5c6badb40ec59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uh9sWE1s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-09T13:22:32Z",
+      "side": 1,
+      "message": "Done. But could not verify since apt-get install asciidoc needs to download all debian package in the world. Which will take hours.",
+      "parentUuid": "Ug59085U",
+      "revId": "f05db35f14dfde2f82f9cbe9dbd5c6badb40ec59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

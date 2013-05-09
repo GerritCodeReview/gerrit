@@ -11,7 +11,7 @@ Get the Source
 Create a new client workspace:
 
 ----
-  git clone https://gerrit.googlesource.com/gerrit
+  git clone --recursive https://gerrit.googlesource.com/gerrit
   cd gerrit
 ----
 

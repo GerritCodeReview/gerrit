@@ -15,6 +15,7 @@ and membership management.  The identity of these groups is set
 in the `system_config` table within the database, so the groups
 can be renamed after installation if desired.
 
+
 [[administrators]]
 Administrators
 ~~~~~~~~~~~~~~
@@ -33,6 +34,7 @@ approval or submit rights in projects.  This is a feature designed
 to permit administrative users to otherwise access Gerrit as any
 other normal user would, without needing two different accounts.
 
+
 [[anonymous_users]]
 Anonymous Users
 ~~~~~~~~~~~~~~~
@@ -48,6 +50,7 @@ without requiring sign in first.  Currently it is only worthwhile
 to grant `Read` access to this group as Gerrit requires an account
 identity for all other operations.
 
+
 [[non-interactive_users]]
 Non-Interactive Users
 ~~~~~~~~~~~~~~~~~~~~~
@@ -62,6 +65,7 @@ These users live in a second thread pool, which separates operations
 made by the non-interactive users from the ones made by the interactive
 users. This ensures that the interactive users can keep working when
 resources are tight.
+
 
 [[project_owners]]
 Project Owners
@@ -79,6 +83,7 @@ project.  Having default access rights for
 <<category_owner,project owners>> assigned on a parent project may
 avoid the need to initially configure access rights for
 newly created child projects.
+
 
 [[registered_users]]
 Registered Users
@@ -133,6 +138,7 @@ are members of `Foo-admin` can thus control the membership of
 This configuration can help prevent accidental submits when the
 members of `Foo` have submit rights on a project, and the members of
 `Foo-admin` typically do not need to have such rights.
+
 
 [[ldap_groups]]
 LDAP Groups
@@ -255,6 +261,7 @@ would be needed:
 |Foo Leads       |refs/heads/qa |Code-Review| -2..+2 |
 |==============================================================
 
+
 OpenID Authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -263,6 +270,7 @@ an account's effective group membership will be restricted to only
 the `Anonymous Users` and `Registered Users` groups, unless *all*
 of its OpenID identities match one or more of the patterns listed
 in the `auth.trustedOpenID` list from `gerrit.config`.
+
 
 All Projects
 ~~~~~~~~~~~~
@@ -282,6 +290,7 @@ This restriction is by design.  Granting ownership to another
 group gives nearly the same level of access as membership in
 `Administrators` does, as group members would be able to alter
 permissions for every managed project including global capabilities.
+
 
 Per-Project
 ~~~~~~~~~~~
@@ -406,6 +415,7 @@ configuration was rewritten from scratch.  Use this
 <<conversion_table,table>> to better understand the access rights
 conversions from the Gerrit 2.1.x to the Gerrit 2.2.x series.
 
+
 [[category_abandon]]
 Abandon
 ~~~~~~~
@@ -416,6 +426,7 @@ change to a given ref.
 
 This also grants the permission to restore a change if the change
 can be uploaded.
+
 
 [[category_create]]
 Create reference
@@ -609,6 +620,7 @@ This applies even for an entry that complements a `Push` entry for
 the intention of the `Push Merge Commit` entry is to allow direct pushes
 of merge commits.
 
+
 [[category_push_annotated]]
 Push Annotated Tag
 ~~~~~~~~~~~~~~~~~~
@@ -718,6 +730,7 @@ Users without this access right who are able to upload new patch sets
 can still do the rebase locally and upload the rebased commit as a new
 patch set.
 
+
 [[category_remove_reviewer]]
 Remove Reviewer
 ~~~~~~~~~~~~~~~
@@ -816,6 +829,7 @@ Below follows a set of typical roles on a server and which access
 rights these roles typically should be granted. You may see them as
 general guidelines for a typical way to set up your project on a
 brand new Gerrit instance.
+
 
 [[examples_contributor]]
 Contributor
@@ -960,6 +974,7 @@ Optional access right to grant:
 
 * <<category_owner,`Owner`>> in the gits they mostly work with.
 
+
 [[examples_administrator]]
 Administrator
 ~~~~~~~~~~~~~
@@ -976,6 +991,7 @@ Mandatory access rights:
 Suggested access rights to grant:
 
 * <<examples_project-owner,Project owner rights>>
+
 
 Enforcing site wide access policies
 -----------------------------------
@@ -1000,6 +1016,7 @@ non-blocked rules as they wish. This gives best of both worlds:
   and providing a meaningful set of default access permissions
 * Project owners can manage access rights of their projects without a danger
   of violating a site wide policy
+
 
 [[block]]
 'BLOCK' access rule
@@ -1049,6 +1066,7 @@ inside the same access section of the same project. An 'ALLOW' rule in a
 different access section of the same project or in any access section in an
 inheriting project cannot override a 'BLOCK' rule.
 
+
 Examples
 ~~~~~~~~
 
@@ -1078,6 +1096,7 @@ owners>> are allowed to create tags, we would extend the example above:
     pushTag = group Project Owners
 ====
 
+
 Let only a dedicated group vote in a special category
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1094,6 +1113,7 @@ category. In the "`All-Projects`" we define the following rules:
     label-Release-Proces = block -1..+1 group Anonymous Users
     label-Release-Proces = -1..+1 group Release Engineers
 ====
+
 
 [[conversion_table]]
 Conversion table from 2.1.x series to 2.2.x series
@@ -1190,6 +1210,7 @@ Allow project creation.  This capability allows the granted group to
 either link:cmd-create-project.html[create new git projects via ssh]
 or via the web UI.
 
+
 [[capability_emailReviewers]]
 Email Reviewers
 ~~~~~~~~~~~~~~~
@@ -1199,6 +1220,7 @@ to deny build bots from emailing reviewers and people who watch the change.
 Instead, only the authors of the change and those who starred it will be
 emailed.  The allow rules are evaluated before deny rules, however the default
 is to allow emailing, if no explicit rule is matched.
+
 
 [[capability_flushCaches]]
 Flush Caches

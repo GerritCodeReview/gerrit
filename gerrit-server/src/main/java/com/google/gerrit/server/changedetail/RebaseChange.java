@@ -75,6 +75,7 @@ public class RebaseChange {
   private final ChangeHookRunner hooks;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ProjectCache projectCache;
+  private final IdentifiedUser currentUser;
 
   @Inject
   RebaseChange(final ChangeControl.GenericFactory changeControlFactory,
@@ -85,7 +86,8 @@ public class RebaseChange {
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
       final ChangeHookRunner hooks,
       final MergeUtil.Factory mergeUtilFactory,
-      final ProjectCache projectCache) {
+      final ProjectCache projectCache,
+      final IdentifiedUser currentUser) {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -96,6 +98,7 @@ public class RebaseChange {
     this.hooks = hooks;
     this.mergeUtilFactory = mergeUtilFactory;
     this.projectCache = projectCache;
+    this.currentUser = currentUser;
   }
 
   /**
@@ -152,10 +155,14 @@ public class RebaseChange {
       final RevCommit baseCommit =
           rw.parseCommit(ObjectId.fromString(baseRev));
 
+      PersonIdent committerIdent =
+          currentUser.newCommitterIdent(myIdent.getWhen(),
+              myIdent.getTimeZone());
+
       final PatchSet newPatchSet =
           rebase(git, rw, inserter, patchSetId, change, uploader.getAccountId(), baseCommit,
               mergeUtilFactory.create(
-                  changeControl.getProjectControl().getProjectState(), true));
+                  changeControl.getProjectControl().getProjectState(), true), committerIdent);
 
       final Set<Account.Id> oldReviewers = Sets.newHashSet();
       final Set<Account.Id> oldCC = Sets.newHashSet();
@@ -307,7 +314,7 @@ public class RebaseChange {
   public PatchSet rebase(final Repository git, final RevWalk revWalk,
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
       final Change chg, final Account.Id uploader, final RevCommit baseCommit,
-      final MergeUtil mergeUtil) throws NoSuchChangeException,
+      final MergeUtil mergeUtil, PersonIdent committerIdent) throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
     Change change = chg;
@@ -316,7 +323,7 @@ public class RebaseChange {
     final RevCommit rebasedCommit;
     ObjectId oldId = ObjectId.fromString(originalPatchSet.getRevision().get());
     ObjectId newId = rebaseCommit(git, inserter, revWalk.parseCommit(oldId),
-        baseCommit, mergeUtil, myIdent);
+        baseCommit, mergeUtil, committerIdent);
 
     rebasedCommit = revWalk.parseCommit(newId);
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UgsCeHls",
+        "filename": "tools/download_jar.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T15:18:11Z",
+      "side": 1,
+      "message": "Optional nit: While you\u0027re in here, mind changing str(err) to err? %s means \"apply str to this value\" so it\u0027s redundant.",
+      "revId": "2879877ef43f8d4aa1a4f23d83eebbc8e1db4f70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

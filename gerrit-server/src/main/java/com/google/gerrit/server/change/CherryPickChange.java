@@ -74,6 +74,7 @@ public class CherryPickChange {
   private final IdentifiedUser currentUser;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter changeInserter;
+  private final PatchSetInserter patchSetInserter;
   final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
@@ -82,6 +83,7 @@ public class CherryPickChange {
       final GitRepositoryManager gitManager, final IdentifiedUser currentUser,
       final CommitValidators.Factory commitValidatorsFactory,
       final ChangeInserter changeInserter,
+      final PatchSetInserter patchSetInserter,
       final MergeUtil.Factory mergeUtilFactory) {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -90,6 +92,7 @@ public class CherryPickChange {
     this.currentUser = currentUser;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserter = changeInserter;
+    this.patchSetInserter = patchSetInserter;
     this.mergeUtilFactory = mergeUtilFactory;
   }
 
@@ -176,16 +179,19 @@ public class CherryPickChange {
                         destRef.getName()), changeKey).toList();
 
         Change change;
+        boolean createNewChange;
+        PatchSet.Id id;
         if (destChanges.size() > 1) {
           throw new InvalidChangeOperationException("Several changes with key "
               + changeKey + " resides on the same branch. "
               + "Cannot create a new patch set.");
         } else if (destChanges.size() == 1) {
-          // The change key exists on the destination branch.
-          throw new InvalidChangeOperationException(
-              "Change with same change-id: " + changeKey
-                  + " already resides on the same branch. "
-                  + "Cannot create a new change.");
+          // The change key exists on the destination branch. The cherry pick
+          // will be added as a new patch set.
+          change = destChanges.get(0);
+          id = ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
+
+          createNewChange = false;
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
@@ -193,18 +199,13 @@ public class CherryPickChange {
               new Change(changeKey, new Change.Id(db.nextChangeId()),
                   currentUser.getAccountId(), new Branch.NameKey(project,
                       destRef.getName()));
+          id = new PatchSet.Id(change.getId(), Change.INITIAL_PATCH_SET_ID);
+          createNewChange = true;
         }
-
-        PatchSet.Id id =
-            new PatchSet.Id(change.getId(), Change.INITIAL_PATCH_SET_ID);
         PatchSet newPatchSet = new PatchSet(id);
         newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
         newPatchSet.setUploader(change.getOwner());
         newPatchSet.setRevision(new RevId(cherryPickCommit.name()));
-
-        PatchSetInfo newPatchSetInfo =
-            patchSetInfoFactory.get(cherryPickCommit, newPatchSet.getId());
-        change.setCurrentPatchSet(newPatchSetInfo);
 
         CommitReceivedEvent commitReceivedEvent =
             new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
@@ -217,8 +218,6 @@ public class CherryPickChange {
         } catch (CommitValidationException e) {
           throw new InvalidChangeOperationException(e.getMessage());
         }
-
-        ChangeUtil.updated(change);
 
         final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
         ru.setExpectedOldObjectId(ObjectId.zeroId());
@@ -242,11 +241,22 @@ public class CherryPickChange {
             + change.getKey().get());
         cmsg.setMessage(msgBuf.toString());
 
-        LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
+        if (createNewChange) {
+          LabelTypes labelTypes =
+              refControl.getProjectControl().getLabelTypes();
 
-        changeInserter.insertChange(db, change, cmsg, newPatchSet,
-            cherryPickCommit, labelTypes, newPatchSetInfo,
-            Collections.<Account.Id> emptySet());
+          PatchSetInfo newPatchSetInfo =
+              patchSetInfoFactory.get(cherryPickCommit, newPatchSet.getId());
+          change.setCurrentPatchSet(newPatchSetInfo);
+          ChangeUtil.updated(change);
+
+          changeInserter.insertChange(db, change, cmsg, newPatchSet,
+              cherryPickCommit, labelTypes, newPatchSetInfo,
+              Collections.<Account.Id> emptySet());
+        } else {
+          patchSetInserter.insertPatchSet(change, newPatchSet,
+              cherryPickCommit, refControl, null, false);
+        }
 
         return change.getId();
       } finally {

@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.project.BranchResource.BRANCH_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.project.CreateProject;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class Module extends RestApiModule {
@@ -29,6 +29,7 @@ public class Module extends RestApiModule {
     bind(DashboardsCollection.class);
 
     DynamicMap.mapOf(binder(), PROJECT_KIND);
+    DynamicMap.mapOf(binder(), BRANCH_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
 
     put(PROJECT_KIND).to(PutProject.class);
@@ -45,6 +46,8 @@ public class Module extends RestApiModule {
 
     get(PROJECT_KIND, "statistics.git").to(GetStatistics.class);
     post(PROJECT_KIND, "gc").to(GarbageCollect.class);
+
+    child(PROJECT_KIND, "branches").to(BranchesCollection.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);

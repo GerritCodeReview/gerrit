@@ -531,6 +531,35 @@ returned.
   ]
 ----
 
+[[get-branch]]
+Get Branch
+~~~~~~~~~~
+[verse]
+'GET /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
+
+Retrieves a branch of a project.
+
+.Request
+----
+  GET /projects/work%2Fmy-project/branches/master HTTP/1.0
+----
+
+As response a link:#branch-info[BranchInfo] entity is returned that
+describes the branch.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "ref": "refs/heads/master",
+    "revision": "67ebf73496383c6777035e374d2d664009e2aa5c"
+  }
+----
+
 [[dashboard-endpoints]]
 Dashboard Endpoints
 -------------------
@@ -758,6 +787,12 @@ requests.
 [[ids]]
 IDs
 ---
+
+[[branch-id]]
+\{branch-id\}
+~~~~~~~~~~~~~
+The name of a branch or `HEAD`. The prefix `refs/heads/` can be
+omitted.
 
 [[dashboard-id]]
 \{dashboard-id\}

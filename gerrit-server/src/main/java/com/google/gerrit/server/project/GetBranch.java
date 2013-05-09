@@ -14,22 +14,13 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
-import com.google.inject.TypeLiteral;
 
-public class BranchResource extends ProjectResource {
-  public static final TypeLiteral<RestView<BranchResource>> BRANCH_KIND =
-      new TypeLiteral<RestView<BranchResource>>() {};
+public class GetBranch implements RestReadView<BranchResource> {
 
-  private final BranchInfo branchInfo;
-
-  public BranchResource(ProjectControl control, BranchInfo branchInfo) {
-    super(control);
-    this.branchInfo = branchInfo;
-  }
-
-  public BranchInfo getBranchInfo() {
-    return branchInfo;
+  @Override
+  public BranchInfo apply(BranchResource rsrc) {
+    return rsrc.getBranchInfo();
   }
 }

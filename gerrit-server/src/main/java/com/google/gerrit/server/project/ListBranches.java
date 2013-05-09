@@ -148,7 +148,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     return b;
   }
 
-  public class BranchInfo {
+  public static class BranchInfo {
     public String ref;
     public String revision;
     public Boolean canDelete;

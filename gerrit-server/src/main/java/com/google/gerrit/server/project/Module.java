@@ -48,6 +48,7 @@ public class Module extends RestApiModule {
     post(PROJECT_KIND, "gc").to(GarbageCollect.class);
 
     child(PROJECT_KIND, "branches").to(BranchesCollection.class);
+    get(BRANCH_KIND).to(GetBranch.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);

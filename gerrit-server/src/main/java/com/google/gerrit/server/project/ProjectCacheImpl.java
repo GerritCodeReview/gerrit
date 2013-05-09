@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Throwables;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
@@ -34,6 +35,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -101,13 +103,18 @@ public class ProjectCacheImpl implements ProjectCache {
     return state;
   }
 
-  /**
-   * Get the cached data for a project by its unique name.
-   *
-   * @param projectName name of the project.
-   * @return the cached data; null if no such project exists.
-   */
+  @Override
   public ProjectState get(final Project.NameKey projectName) {
+     try {
+      return checkedGet(projectName);
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  @Override
+  public ProjectState checkedGet(Project.NameKey projectName)
+      throws IOException {
     if (projectName == null) {
       return null;
     }
@@ -121,12 +128,14 @@ public class ProjectCacheImpl implements ProjectCache {
     } catch (ExecutionException e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
         log.warn(String.format("Cannot read project %s", projectName.get()), e);
+        Throwables.propagateIfInstanceOf(e.getCause(), IOException.class);
+        throw new IOException(e);
       }
       return null;
     }
   }
 
-  /** Invalidate the cached information about the given project. */
+  @Override
   public void evict(final Project p) {
     if (p != null) {
       byName.invalidate(p.getNameKey().get());

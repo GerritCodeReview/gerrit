@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ug59085U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-09T09:23:50Z",
+      "side": 1,
+      "message": "This new field should be explained in the REST API documentation. Can you add the description in rest-api-changes.txt in the \u0027ApprovalInfo\u0027 section?",
+      "revId": "f05db35f14dfde2f82f9cbe9dbd5c6badb40ec59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

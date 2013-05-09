@@ -188,6 +188,7 @@ class ProjectBasicAuthFilter implements Filter {
       super.sendError(sc);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void setStatus(int sc, String sm) {
       status(sc);

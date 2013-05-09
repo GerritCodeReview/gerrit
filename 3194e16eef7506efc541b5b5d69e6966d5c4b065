@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "UgoBTdpg",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2704,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-09T22:32:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this configuration option. This lead to situation that after installing a extension administrator need to update his server configuration (read: stop and start gerrit) to be able to actually use this extension.\n\nIf we don\u0027t document it clearly enough this could lead to lots of  bug reports about not working extension points",
+      "revId": "3194e16eef7506efc541b5b5d69e6966d5c4b065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug9.AO.8",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10

@@ -119,7 +119,7 @@ approvals:: The <<approval,approval attribute>> granted.
 
 comments:: All comments for this patchset in <<patchsetcomment,patchsetComment attributes>>.
 
-files:: All changed files in this patchset in <<patch,patch attributes>>.
+files:: All changed files in this patchset in <<file,file attributes>>.
 
 sizeInsertions:: Size information of insertions of this patchset.
 
@@ -235,9 +235,9 @@ reviewer:: The <<account,account>> that added the comment.
 
 message:: The comment text.
 
-[[patch]]
-patch
------
+[[file]]
+file
+----
 Information about a patch on a file.
 
 file:: The name of the file.  If the file is renamed, the new name.

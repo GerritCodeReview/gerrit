@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ug3.jb.s",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2706,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-09T09:05:43Z",
+      "side": 1,
+      "message": "\"that are\"",
+      "revId": "c5e6ab043787c6920d19642ca2cf3c64c619650a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

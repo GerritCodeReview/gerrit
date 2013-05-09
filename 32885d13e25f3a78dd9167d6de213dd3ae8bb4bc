@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "UguBkgvY",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-09T09:06:34Z",
+      "side": 1,
+      "message": "Done\n\n ui-commands.enabled \u003d true\n\nmust be set, default is false: no UI commands are exposed",
+      "parentUuid": "UhD4gSaM",
+      "revId": "32885d13e25f3a78dd9167d6de213dd3ae8bb4bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uhd0WC1s",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 7
@@ -47,6 +65,24 @@
       "writtenOn": "2013-05-09T03:24:48Z",
       "side": 1,
       "message": "In some cases isVisible is connected with \"are you permitted to call this\". We obviously need a way to just not show a button at all, so isVisible is necessary.\n\nBut we may also want to just not show (or not enable?) buttons a user is not permitted to invoke given their permissions. If a plugin has some sort of way to use custom permissions, we can check if the user has the relevant permission and set the enabled/visible accordingly.\n\nNotice that above with id \u003d plugin + \u0027.\u0027 + e.getKey() we have a unique name for this command within the server. That name could be used as a permission name in the permission system.\n\nUnfortunately it contains characters like \".\" that are not permitted in a Git config key, so it cannot be stored as-is in gerrit.config.\n\nBut I think it may make sense to define plugin specific permissions around specific view names. Hell, we do that in Gerrit server today. gerrit.POST.abandon is the name of the view that the abandon permission corresponds to. Its just not checked automatically in RestApiServlet. I wonder if we should be.",
+      "revId": "32885d13e25f3a78dd9167d6de213dd3ae8bb4bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UggB2RqA",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-09T09:06:34Z",
+      "side": 1,
+      "message": "It might be useful to protect UI Commands with some plugin specific capabilitiy or permission, but the opposite is not always true: we can have \"standalone\" capabilities which only used to protect a ssh command:\n\nhttps://gerrit-review.googlesource.com/#/c/45514/\n\nAlso it is possible, to expose Start-Replication-UI-Command and bind it to Start-Replication-Plugin-Specific-Capability and use that in rendering machinery of ProjectAdmin-Capability/Permission UI and persist it in the project.config file.\n\nWe have to replace the delimiters from \".\" to may be \"-\" in this case.",
+      "parentUuid": "Uhd0WC1s",
       "revId": "32885d13e25f3a78dd9167d6de213dd3ae8bb4bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

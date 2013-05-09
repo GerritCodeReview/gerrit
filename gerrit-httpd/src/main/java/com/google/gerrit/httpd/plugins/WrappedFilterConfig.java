@@ -39,7 +39,7 @@ class WrappedFilterConfig implements FilterConfig {
     return null;
   }
 
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
   public Enumeration getInitParameterNames() {
     return Collections.enumeration(Collections.emptyList());

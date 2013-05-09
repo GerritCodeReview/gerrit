@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UgoCjduo",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-09T13:38:21Z",
+      "side": 1,
+      "message": "s/catgory/category\n\nDone.",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

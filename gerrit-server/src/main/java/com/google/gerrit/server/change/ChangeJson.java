@@ -270,7 +270,7 @@ public class ChangeJson {
       out.revisions = revisions(cd);
       if (out.revisions != null) {
         for (String commit : out.revisions.keySet()) {
-          if (out.revisions.get(commit).isCurrent) {
+          if (has(ALL_REVISIONS) || out.revisions.get(commit).isCurrent) {
             out.current_revision = commit;
             break;
           }

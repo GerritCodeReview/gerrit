@@ -46,7 +46,7 @@ limitations under the License.
   </issueManagement>
 
   <properties>
-    <jgitVersion>2.3.1.201302201838-r.208-g75e1bdb</jgitVersion>
+    <jgitVersion>2.3.1.201302201838-r.211-g36144e1</jgitVersion>
     <gwtormVersion>1.6</gwtormVersion>
     <gwtjsonrpcVersion>1.3</gwtjsonrpcVersion>
     <gwtVersion>2.5.0</gwtVersion>

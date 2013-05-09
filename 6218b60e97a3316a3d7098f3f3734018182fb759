@@ -50,6 +50,24 @@
       "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ugz9YRwo",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T12:17:02Z",
+      "side": 1,
+      "message": "This links to the proper subsection of access_categor{y,ies}, which deals specifically with access controls on labels. I think this is fine.",
+      "parentUuid": "UgkBOjnY",
+      "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

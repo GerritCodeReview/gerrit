@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UguBOwkk",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-09T12:31:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ugz9OB3Y",
+      "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UgiBLimY",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-09T08:19:43Z",
       "side": 1,
       "message": "It now only comes with Code Review pre-configured.",
+      "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ugz-vJ.c",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-09T12:31:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UgiBLimY",
       "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
       "side": 1,
       "message": "This links to the proper subsection of access_categor{y,ies}, which deals specifically with access controls on labels. I think this is fine.",
       "parentUuid": "UgkBOjnY",
+      "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ug-8XfwY",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-09T12:31:02Z",
+      "side": 1,
+      "message": "Thanks for the clarification, Dave!",
+      "parentUuid": "Ugz9YRwo",
       "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

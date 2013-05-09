@@ -165,6 +165,51 @@ To use the GWT DETAILED style the package must be recompiled and
 ----
 
 
+[[test-rest-api]]
+Testing the REST API
+~~~~~~~~~~~~~~~~~~~~
+
+Basic testing of REST API functionality can be done with `curl`:
+
+----
+  curl http://localhost:8080/path/to/api/
+----
+
+By default, `curl` sends `GET` requests.  To test APIs with `PUT` or `POST`,
+an additional argument is required:
+
+----
+ curl -X PUT http://localhost:8080/path/to/api/
+ curl -X POST http://localhost:8080/path/to/api/
+----
+
+Some REST APIs accept data in the request body of `PUT` and `POST` requests.
+
+Test data can be included from a local file:
+
+----
+  curl -X PUT -d@testdata.txt --header "Content-Type: application/json" http://localhost:8080/path/to/api/
+----
+
+To test APIs that require authentication, the username and password must be specified on
+the command line:
+
+----
+ curl --digest --user username:password http://localhost:8080/path/to/api
+----
+
+This makes it easy to switch users for testing of permissions.
+
+It is also possible to test with a username and password from the `.netrc`
+file (on Windows, `_netrc`):
+
+----
+ curl --digest -n http://localhost:8080/a/path/to/api/
+----
+
+In both cases, the password should be the user's link:user-upload.html#http[HTTP password].
+
+
 Release Builds
 --------------
 

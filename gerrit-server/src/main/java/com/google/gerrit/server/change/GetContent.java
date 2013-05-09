@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.BaseEncoding;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.extensions.restapi.StreamingResponse;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -32,7 +30,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 public class GetContent implements RestReadView<FileResource> {
   private final GitRepositoryManager repoManager;
@@ -43,7 +40,7 @@ public class GetContent implements RestReadView<FileResource> {
   }
 
   @Override
-  public StreamingResponse apply(FileResource rsrc)
+  public BinaryResult apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException {
     Project.NameKey project =
         rsrc.getRevision().getControl().getProject().getNameKey();
@@ -61,21 +58,13 @@ public class GetContent implements RestReadView<FileResource> {
           throw new ResourceNotFoundException();
         }
         try {
-          final ObjectLoader loader = repo.open(tw.getObjectId(0));
-          return new StreamingResponse() {
+          final ObjectLoader object = repo.open(tw.getObjectId(0));
+          return new BinaryResult() {
             @Override
-            public String getContentType() {
-              return "text/plain;charset=UTF-8";
+            public void writeTo(OutputStream os) throws IOException {
+              object.copyTo(os);
             }
-
-            @Override
-            public void stream(OutputStream out) throws IOException {
-              OutputStream b64Out = BaseEncoding.base64().encodingStream(
-                  new OutputStreamWriter(out, Charsets.UTF_8));
-              loader.copyTo(b64Out);
-              b64Out.close();
-            }
-          };
+          }.base64();
         } finally {
           tw.release();
         }

@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.math.RoundingMode.CEILING;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
@@ -26,6 +27,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -38,6 +40,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.google.common.io.BaseEncoding;
+import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.HttpAuditEvent;
@@ -627,10 +631,28 @@ public class RestApiServlet extends HttpServlet {
       HttpServletResponse res,
       BinaryResult bin) throws IOException {
     try {
-      res.setContentType(bin.getContentType());
       OutputStream dst = res.getOutputStream();
       try {
         long len = bin.getContentLength();
+        if (bin.isBase64() && 0 <= len && len <= (10 << 20)) {
+          final TemporaryBuffer.Heap buf = base64(bin);
+          len = buf.length();
+          base64(res, bin);
+          bin = new BinaryResult() {
+            @Override
+            public void writeTo(OutputStream os) throws IOException {
+              buf.writeTo(os, null);
+            }
+          }.setContentLength(len);
+        } else if (bin.isBase64()) {
+          len = -1;
+          base64(res, bin);
+          dst = BaseEncoding.base64().encodingStream(
+              new OutputStreamWriter(dst, Charsets.ISO_8859_1));
+        } else {
+          res.setContentType(bin.getContentType());
+        }
+
         boolean gzip = bin.canGzip() && acceptsGzip(req);
         if (gzip && 256 <= len && len <= (10 << 20)) {
           TemporaryBuffer.Heap buf = compress(bin);
@@ -654,6 +676,12 @@ public class RestApiServlet extends HttpServlet {
     } finally {
       bin.close();
     }
+  }
+
+  private static void base64(HttpServletResponse res, BinaryResult bin) {
+    res.setContentType("text/plain; charset=ISO-8859-1");
+    res.setHeader("X-FYI-Content-Encoding", "base64");
+    res.setHeader("X-FYI-Content-Type", bin.getContentType());
   }
 
   private static void replyUncompressed(HttpServletResponse res,
@@ -840,6 +868,18 @@ public class RestApiServlet extends HttpServlet {
       }
     }
     return false;
+  }
+
+  private static TemporaryBuffer.Heap base64(BinaryResult bin)
+      throws IOException {
+    int len = (int) bin.getContentLength();
+    int max = 4 * IntMath.divide(len, 3, CEILING);
+    TemporaryBuffer.Heap buf = heap(max);
+    OutputStream encoded = BaseEncoding.base64().encodingStream(
+        new OutputStreamWriter(buf, Charsets.ISO_8859_1));
+    bin.writeTo(encoded);
+    encoded.close();
+    return buf;
   }
 
   private static TemporaryBuffer.Heap compress(BinaryResult bin)

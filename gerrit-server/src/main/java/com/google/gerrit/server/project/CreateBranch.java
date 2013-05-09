@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,26 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.project;
+package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.data.AddBranchResult;
 import com.google.gerrit.common.errors.InvalidRevisionException;
-import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.CreateBranch.Input;
+import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -45,101 +47,91 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-class AddBranch extends Handler<AddBranchResult> {
-  private static final Logger log = LoggerFactory.getLogger(AddBranch.class);
+public class CreateBranch implements RestModifyView<ProjectResource, Input> {
+  private static final Logger log = LoggerFactory.getLogger(CreateBranch.class);
 
-  interface Factory {
-    AddBranch create(@Assisted Project.NameKey projectName,
-        @Assisted("branchName") String branchName,
-        @Assisted("startingRevision") String startingRevision);
+  static class Input {
+    @DefaultInput
+    String ref;
+    String revision;
   }
 
-  private final ProjectControl.Factory projectControlFactory;
-  private final ListBranches.Factory listBranchesFactory;
+  static interface Factory {
+    CreateBranch create(String ref);
+  }
+
   private final IdentifiedUser identifiedUser;
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
-
-  private final Project.NameKey projectName;
-  private final String branchName;
-  private final String startingRevision;
+  private String ref;
 
   @Inject
-  AddBranch(final ProjectControl.Factory projectControlFactory,
-      final ListBranches.Factory listBranchesFactory,
-      final IdentifiedUser identifiedUser,
-      final GitRepositoryManager repoManager,
-      GitReferenceUpdated referenceUpdated,
-      final ChangeHooks hooks,
-
-      @Assisted Project.NameKey projectName,
-      @Assisted("branchName") String branchName,
-      @Assisted("startingRevision") String startingRevision) {
-    this.projectControlFactory = projectControlFactory;
-    this.listBranchesFactory = listBranchesFactory;
+  CreateBranch(IdentifiedUser identifiedUser, GitRepositoryManager repoManager,
+      GitReferenceUpdated referenceUpdated, ChangeHooks hooks,
+      @Assisted String ref) {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
-
-    this.projectName = projectName;
-    this.branchName = branchName;
-    this.startingRevision = startingRevision;
+    this.ref = ref;
   }
 
   @Override
-  public AddBranchResult call() throws NoSuchProjectException, IOException {
-    final ProjectControl projectControl =
-        projectControlFactory.controlFor(projectName);
+  public BranchInfo apply(ProjectResource rsrc, Input input)
+      throws BadRequestException, ResourceConflictException, IOException {
+    if (input == null) {
+      input = new Input();
+    }
+    if (input.ref != null && !ref.equals(input.ref)) {
+      throw new BadRequestException("ref must match URL");
+    }
+    if (input.revision == null) {
+      input.revision = Constants.HEAD;
+    }
+    while (ref.startsWith("/")) {
+      ref = ref.substring(1);
+    }
+    if (!ref.startsWith(Constants.R_REFS)) {
+      ref = Constants.R_HEADS + ref;
+    }
+    if (!Repository.isValidRefName(ref)) {
+      throw new BadRequestException("invalid branch name \"" + ref + "\"");
+    }
+    if (MagicBranch.isMagicBranch(ref)) {
+      throw new BadRequestException("not allowed to create branches under \""
+          + MagicBranch.getMagicRefNamePrefix(ref) + "\"");
+    }
 
-    String refname = branchName;
-    while (refname.startsWith("/")) {
-      refname = refname.substring(1);
-    }
-    if (!refname.startsWith(Constants.R_REFS)) {
-      refname = Constants.R_HEADS + refname;
-    }
-    if (!Repository.isValidRefName(refname)) {
-      return new AddBranchResult(new AddBranchResult.Error(
-          AddBranchResult.Error.Type.INVALID_NAME, refname));
-    }
-    if (MagicBranch.isMagicBranch(refname)) {
-      return new AddBranchResult(
-          new AddBranchResult.Error(
-              AddBranchResult.Error.Type.BRANCH_CREATION_NOT_ALLOWED_UNDER_REFNAME_PREFIX,
-              MagicBranch.getMagicRefNamePrefix(refname)));
-    }
-
-    final Branch.NameKey name = new Branch.NameKey(projectName, refname);
-    final RefControl refControl = projectControl.controlForRef(name);
-    final Repository repo = repoManager.openRepository(projectName);
+    final Branch.NameKey name = new Branch.NameKey(rsrc.getNameKey(), ref);
+    final RefControl refControl = rsrc.getControl().controlForRef(name);
+    final Repository repo = repoManager.openRepository(rsrc.getNameKey());
     try {
-      final ObjectId revid = parseStartingRevision(repo);
+      final ObjectId revid = parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
       final RevWalk rw = verifyConnected(repo, revid);
       RevObject object = rw.parseAny(revid);
 
-      if (refname.startsWith(Constants.R_HEADS)) {
+      if (ref.startsWith(Constants.R_HEADS)) {
         // Ensure that what we start the branch from is a commit. If we
         // were given a tag, deference to the commit instead.
         //
         try {
           object = rw.parseCommit(object);
         } catch (IncorrectObjectTypeException notCommit) {
-          throw new IllegalStateException(startingRevision + " not a commit");
+          throw new BadRequestException("\"" + input.revision + "\" not a commit");
         }
       }
 
       if (!refControl.canCreate(rw, object)) {
-        throw new IllegalStateException("Cannot create " + refname);
+        throw new IllegalStateException("Cannot create \"" + ref + "\"");
       }
 
       try {
-        final RefUpdate u = repo.updateRef(refname);
+        final RefUpdate u = repo.updateRef(ref);
         u.setExpectedOldObjectId(ObjectId.zeroId());
         u.setNewObjectId(object.copy());
         u.setRefLogIdent(identifiedUser.newRefLogIdent());
-        u.setRefLogMessage("created via web from " + startingRevision, false);
+        u.setRefLogMessage("created via REST from " + input.revision, false);
         final RefUpdate.Result result = u.update(rw);
         switch (result) {
           case FAST_FORWARD:
@@ -149,15 +141,16 @@ class AddBranch extends Handler<AddBranchResult> {
             hooks.doRefUpdatedHook(name, u, identifiedUser.getAccount());
             break;
           case LOCK_FAILURE:
-            if (repo.getRef(refname) != null) {
-              return new AddBranchResult(new AddBranchResult.Error(
-                  AddBranchResult.Error.Type.BRANCH_ALREADY_EXISTS, refname));
+            if (repo.getRef(ref) != null) {
+              throw new ResourceConflictException("branch \"" + ref
+                  + "\" already exists");
             }
-            String refPrefix = getRefPrefix(refname);
+            String refPrefix = getRefPrefix(ref);
             while (!Constants.R_HEADS.equals(refPrefix)) {
               if (repo.getRef(refPrefix) != null) {
-                return new AddBranchResult(new AddBranchResult.Error(
-                    AddBranchResult.Error.Type.BRANCH_CREATION_CONFLICT, refPrefix));
+                throw new ResourceConflictException("Cannot create branch \""
+                    + ref + "\" since it conflicts with branch \"" + refPrefix
+                    + "\".");
               }
               refPrefix = getRefPrefix(refPrefix);
             }
@@ -165,18 +158,21 @@ class AddBranch extends Handler<AddBranchResult> {
             throw new IOException(result.name());
           }
         }
+
+        BranchInfo b = new BranchInfo();
+        b.ref = ref;
+        b.revision = revid.getName();
+        b.setCanDelete(refControl.canDelete());
+        return b;
       } catch (IOException err) {
-        log.error("Cannot create branch " + name, err);
+        log.error("Cannot create branch \"" + name + "\"", err);
         throw err;
       }
     } catch (InvalidRevisionException e) {
-      return new AddBranchResult(new AddBranchResult.Error(
-          AddBranchResult.Error.Type.INVALID_REVISION));
+      throw new BadRequestException("invalid revision \"" + input.revision + "\"");
     } finally {
       repo.close();
     }
-
-    return new AddBranchResult(listBranchesFactory.create(projectName).call());
   }
 
   private static String getRefPrefix(final String refName) {
@@ -187,17 +183,21 @@ class AddBranch extends Handler<AddBranchResult> {
     return Constants.R_HEADS;
   }
 
-  private ObjectId parseStartingRevision(final Repository repo)
+  private ObjectId parseBaseRevision(Repository repo,
+      Project.NameKey projectName, String baseRevision)
       throws InvalidRevisionException {
     try {
-      final ObjectId revid = repo.resolve(startingRevision);
+      final ObjectId revid = repo.resolve(baseRevision);
       if (revid == null) {
         throw new InvalidRevisionException();
       }
       return revid;
     } catch (IOException err) {
-      log.error("Cannot resolve \"" + startingRevision + "\" in project \""
-          + projectName + "\"", err);
+      log.error("Cannot resolve \"" + baseRevision + "\" in project \""
+          + projectName.get() + "\"", err);
+      throw new InvalidRevisionException();
+    } catch (RevisionSyntaxException err) {
+      log.error("Invalid revision syntax \"" + baseRevision + "\"", err);
       throw new InvalidRevisionException();
     }
   }

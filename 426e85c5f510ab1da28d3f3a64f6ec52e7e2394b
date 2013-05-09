@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "Uhnz-.ek",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-09T12:41:15Z",
+      "side": 1,
+      "message": "Sorry for being unclear – I just meant that for topics that don\u0027t exist already it would be helpful during the review to have a description of what the topic is going to cover.",
+      "parentUuid": "Ug1-Oa68",
+      "revId": "426e85c5f510ab1da28d3f3a64f6ec52e7e2394b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug5-r0-w",
         "filename": "Documentation/index.txt",
         "patchSetId": 1
@@ -171,6 +189,24 @@
       "writtenOn": "2013-05-09T10:59:49Z",
       "side": 1,
       "message": "Or project management? I can\u0027t really predict which sections this will contain further down the road, but it could very well be more than just security/access information.\n\nPerhaps we should have a section on how to sunset projects as well, I\u0027m thinking of the state-property in project.config and its options.",
+      "revId": "426e85c5f510ab1da28d3f3a64f6ec52e7e2394b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uh1v8Q-M",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-09T12:41:15Z",
+      "side": 1,
+      "message": "Fair point. Submodule subscriptions definitely belong here, so that was a good move in patch set 2.",
+      "parentUuid": "Ug5-r0-w",
       "revId": "426e85c5f510ab1da28d3f3a64f6ec52e7e2394b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

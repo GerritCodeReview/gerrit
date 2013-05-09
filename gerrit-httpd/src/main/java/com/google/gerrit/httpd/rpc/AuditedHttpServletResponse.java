@@ -39,12 +39,6 @@ class AuditedHttpServletResponse
   }
 
   @Override
-  public void setStatus(int sc, String sm) {
-    super.setStatus(sc, sm);
-    this.status = sc;
-  }
-
-  @Override
   public void sendError(int sc) throws IOException {
     super.sendError(sc);
     this.status = sc;

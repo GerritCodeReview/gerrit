@@ -208,7 +208,11 @@ public class ChangeJson {
     List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
     for (List<ChangeData> changes : in) {
       ChangeData.ensureChangeLoaded(db, changes);
-      ChangeData.ensureCurrentPatchSetLoaded(db, changes);
+      if (has(ALL_REVISIONS)) {
+        ChangeData.ensureAllPatchSetsLoaded(db, changes);
+      } else {
+        ChangeData.ensureCurrentPatchSetLoaded(db, changes);
+      }
       ChangeData.ensureCurrentApprovalsLoaded(db, changes);
       res.add(toChangeInfo(changes));
     }

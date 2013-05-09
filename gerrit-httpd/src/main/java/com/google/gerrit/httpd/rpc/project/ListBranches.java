@@ -14,31 +14,23 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ListBranchesResult;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 class ListBranches extends Handler<ListBranchesResult> {
   interface Factory {
@@ -46,127 +38,37 @@ class ListBranches extends Handler<ListBranchesResult> {
   }
 
   private final ProjectControl.Factory projectControlFactory;
-  private final GitRepositoryManager repoManager;
+  private final Provider<com.google.gerrit.server.project.ListBranches> listBranchesProvider;
 
   private final Project.NameKey projectName;
 
   @Inject
   ListBranches(final ProjectControl.Factory projectControlFactory,
-      final GitRepositoryManager repoManager,
-
+      final Provider<com.google.gerrit.server.project.ListBranches> listBranchesProvider,
       @Assisted final Project.NameKey name) {
     this.projectControlFactory = projectControlFactory;
-    this.repoManager = repoManager;
+    this.listBranchesProvider = listBranchesProvider;
 
     this.projectName = name;
   }
 
   @Override
   public ListBranchesResult call() throws NoSuchProjectException, IOException {
-    final ProjectControl pctl = projectControlFactory.validateFor( //
-        projectName, //
-        ProjectControl.OWNER | ProjectControl.VISIBLE);
-
-    final List<Branch> branches = new ArrayList<Branch>();
-    Branch headBranch = null;
-    Branch configBranch = null;
-    final Set<String> targets = new HashSet<String>();
-
-    final Repository db;
+    ProjectControl pctl =
+        projectControlFactory.validateFor(projectName, ProjectControl.OWNER
+            | ProjectControl.VISIBLE);
     try {
-      db = repoManager.openRepository(projectName);
-    } catch (RepositoryNotFoundException noGitRepository) {
-      return new ListBranchesResult(branches, false, true);
-    }
-    try {
-      final Map<String, Ref> all = db.getAllRefs();
-
-      if (!all.containsKey(Constants.HEAD)) {
-        // The branch pointed to by HEAD doesn't exist yet, so getAllRefs
-        // filtered it out. If we ask for it individually we can find the
-        // underlying target and put it into the map anyway.
-        //
-        try {
-          Ref head = db.getRef(Constants.HEAD);
-          if (head != null) {
-            all.put(Constants.HEAD, head);
-          }
-        } catch (IOException e) {
-          // Ignore the failure reading HEAD.
-        }
+      List<Branch> branches = Lists.newArrayList();
+      List<BranchInfo> branchInfos = listBranchesProvider.get().apply(new ProjectResource(pctl));
+      for (BranchInfo info : branchInfos) {
+        Branch b = new Branch(new Branch.NameKey(projectName, info.ref));
+        b.setRevision(new RevId(info.revision));
+        b.setCanDelete(info.canDelete != null ? true : false);
+        branches.add(b);
       }
-
-      for (final Ref ref : all.values()) {
-        if (ref.isSymbolic()) {
-          targets.add(ref.getTarget().getName());
-        }
-      }
-
-      for (final Ref ref : all.values()) {
-        if (ref.isSymbolic()) {
-          // A symbolic reference to another branch, instead of
-          // showing the resolved value, show the name it references.
-          //
-          String target = ref.getTarget().getName();
-          RefControl targetRefControl = pctl.controlForRef(target);
-          if (!targetRefControl.isVisible()) {
-            continue;
-          }
-          if (target.startsWith(Constants.R_HEADS)) {
-            target = target.substring(Constants.R_HEADS.length());
-          }
-
-          Branch b = createBranch(ref.getName());
-          b.setRevision(new RevId(target));
-
-          if (Constants.HEAD.equals(ref.getName())) {
-            b.setCanDelete(false);
-            headBranch = b;
-          } else {
-            b.setCanDelete(targetRefControl.canDelete());
-            branches.add(b);
-          }
-          continue;
-        }
-
-        final RefControl refControl = pctl.controlForRef(ref.getName());
-        if (refControl.isVisible()) {
-          if (ref.getName().startsWith(Constants.R_HEADS)) {
-            branches.add(createBranch(ref, refControl, targets));
-          } else if (GitRepositoryManager.REF_CONFIG.equals(ref.getName())) {
-            configBranch = createBranch(ref, refControl, targets);
-          }
-        }
-      }
-    } finally {
-      db.close();
+      return new ListBranchesResult(branches, pctl.canAddRefs(), false);
+    } catch (ResourceNotFoundException e) {
+      throw new NoSuchProjectException(projectName);
     }
-    Collections.sort(branches, new Comparator<Branch>() {
-      @Override
-      public int compare(final Branch a, final Branch b) {
-        return a.getName().compareTo(b.getName());
-      }
-    });
-    if (configBranch != null) {
-      branches.add(0, configBranch);
-    }
-    if (headBranch != null) {
-      branches.add(0, headBranch);
-    }
-    return new ListBranchesResult(branches, pctl.canAddRefs(), false);
-  }
-
-  private Branch createBranch(final Ref ref, final RefControl refControl,
-      final Set<String> targets) {
-    final Branch b = createBranch(ref.getName());
-    if (ref.getObjectId() != null) {
-      b.setRevision(new RevId(ref.getObjectId().name()));
-    }
-    b.setCanDelete(!targets.contains(ref.getName()) && refControl.canDelete());
-    return b;
-  }
-
-  private Branch createBranch(final String name) {
-    return new Branch(new Branch.NameKey(projectName, name));
   }
 }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uh1sjI7I",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-09T17:44:18Z",
+      "side": 1,
+      "message": "Should this be a bullet list or ordered list instead of a bunch of paragraphs?",
+      "revId": "8c34e64290e1085879ceb18577b8ddac6bca4347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhzsgV6M",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-09T17:44:18Z",
+      "side": 1,
+      "message": "Should we assume that people are capable of finding and installing Buck, or are there Buck bootstrap instructions elsewhere that I\u0027ve missed?",
+      "revId": "8c34e64290e1085879ceb18577b8ddac6bca4347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uh3sm38M",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-09T17:44:18Z",
+      "side": 1,
+      "message": "This should probably be adjusted to be build tool agnostic.",
+      "revId": "8c34e64290e1085879ceb18577b8ddac6bca4347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

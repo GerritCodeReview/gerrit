@@ -39,11 +39,11 @@ public class Rebase implements RestModifyView<RevisionResource, Input> {
   public static class Input {
   }
 
-  private final RebaseChange rebaseChange;
+  private final Provider<RebaseChange> rebaseChange;
   private final ChangeJson json;
 
   @Inject
-  public Rebase(RebaseChange rebaseChange, ChangeJson json) {
+  public Rebase(Provider<RebaseChange> rebaseChange, ChangeJson json) {
     this.rebaseChange = rebaseChange;
     this.json = json;
   }
@@ -62,7 +62,7 @@ public class Rebase implements RestModifyView<RevisionResource, Input> {
     }
 
     try {
-      rebaseChange.rebase(rsrc.getPatchSet().getId(), rsrc.getUser());
+      rebaseChange.get().rebase(rsrc.getPatchSet().getId(), rsrc.getUser());
     } catch (InvalidChangeOperationException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch (IOException e) {

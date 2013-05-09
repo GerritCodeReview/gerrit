@@ -59,9 +59,12 @@ cache_ent = path.join(
     'buck-cache',
     '%s-%s' % (path.basename(args.o), sha1(args.u).hexdigest()))
 
-if not path.exists(cache_ent):
+if path.exists(cache_ent):
+  print "%s exists" % cache_ent
+else:
   try:
     safe_mkdirs(path.dirname(cache_ent))
+    print >>stderr, "Download %s" % args.u
     check_call(['curl', '-sfo', cache_ent, args.u])
   except (OSError, CalledProcessError) as err:
     print >>stderr, "error using curl: %s" % str(err)

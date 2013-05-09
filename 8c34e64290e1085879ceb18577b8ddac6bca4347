@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Ug18By3s",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-09T22:08:31Z",
+      "side": 1,
+      "message": "It\u0027ll probably look better as a bullet list.",
+      "parentUuid": "Uh1sjI7I",
+      "revId": "8c34e64290e1085879ceb18577b8ddac6bca4347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UhzsgV6M",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "Ug38Ej40",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-09T22:08:31Z",
+      "side": 1,
+      "message": "This should be documented.\n\nI was wondering if it would be better to create a separate document with all the relevant information about the buck build.\n\nThe problem with that approach is that the structure of the buck documentation then differs from the structure of the maven documentation.  Maybe that\u0027s not such a problem though, if we\u0027re going to remove maven later anyway...",
+      "parentUuid": "UhzsgV6M",
+      "revId": "8c34e64290e1085879ceb18577b8ddac6bca4347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uh3sm38M",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-09T17:44:18Z",
       "side": 1,
       "message": "This should probably be adjusted to be build tool agnostic.",
+      "revId": "8c34e64290e1085879ceb18577b8ddac6bca4347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgmABknw",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-09T22:08:31Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll do that.",
+      "parentUuid": "Uh3sm38M",
       "revId": "8c34e64290e1085879ceb18577b8ddac6bca4347",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -17,7 +17,7 @@ from hashlib import sha1
 from optparse import OptionParser
 from os import link, makedirs, path
 import shutil
-from subprocess import check_call
+from subprocess import check_call, CalledProcessError
 from sys import stderr
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
@@ -63,7 +63,7 @@ if not path.exists(cache_ent):
   try:
     safe_mkdirs(path.dirname(cache_ent))
     check_call(['curl', '-sfo', cache_ent, args.u])
-  except OSError as err:
+  except (OSError, CalledProcessError) as err:
     print >>stderr, "error using curl: %s" % str(err)
     exit(1)
 

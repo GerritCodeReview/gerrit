@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UguCZInU",
+        "filename": "tools/download_jar.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-09T15:11:33Z",
+      "side": 1,
+      "message": "Does this need to be stderr rather than stdout? Does Buck swallow stdout? If so, should we tell it not to?",
+      "revId": "af5af327e26b5ecd6c2037435bf7f8fa5cd18ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

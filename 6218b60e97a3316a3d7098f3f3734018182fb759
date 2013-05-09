@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ugz9OB3Y",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-09T08:19:43Z",
+      "side": 1,
+      "message": "s/category/categories",
+      "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgiBLimY",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-09T08:19:43Z",
+      "side": 1,
+      "message": "It now only comes with Code Review pre-configured.",
+      "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgkBOjnY",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-09T08:19:43Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this link to \"access_category\" (or access_categories if you change it according to my suggestion on the other file)?",
+      "revId": "6218b60e97a3316a3d7098f3f3734018182fb759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

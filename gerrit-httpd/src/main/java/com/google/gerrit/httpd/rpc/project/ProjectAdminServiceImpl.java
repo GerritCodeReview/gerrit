@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.AddBranchResult;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
@@ -32,7 +31,6 @@ import java.util.List;
 import java.util.Set;
 
 class ProjectAdminServiceImpl implements ProjectAdminService {
-  private final AddBranch.Factory addBranchFactory;
   private final ChangeProjectAccess.Factory changeProjectAccessFactory;
   private final ReviewProjectAccess.Factory reviewProjectAccessFactory;
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
@@ -43,8 +41,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ProjectDetailFactory.Factory projectDetailFactory;
 
   @Inject
-  ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
-      final ChangeProjectAccess.Factory changeProjectAccessFactory,
+  ProjectAdminServiceImpl(final ChangeProjectAccess.Factory changeProjectAccessFactory,
       final ReviewProjectAccess.Factory reviewProjectAccessFactory,
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
       final DeleteBranches.Factory deleteBranchesFactory,
@@ -52,7 +49,6 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final VisibleProjectDetails.Factory visibleProjectDetailsFactory,
       final ProjectAccessFactory.Factory projectAccessFactory,
       final ProjectDetailFactory.Factory projectDetailFactory) {
-    this.addBranchFactory = addBranchFactory;
     this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.reviewProjectAccessFactory = reviewProjectAccessFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
@@ -118,13 +114,5 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final Set<Branch.NameKey> toRemove,
       final AsyncCallback<Set<Branch.NameKey>> callback) {
     deleteBranchesFactory.create(projectName, toRemove).to(callback);
-  }
-
-  @Override
-  public void addBranch(final Project.NameKey projectName,
-      final String branchName, final String startingRevision,
-      final AsyncCallback<AddBranchResult> callback) {
-    addBranchFactory.create(projectName, branchName, startingRevision).to(
-        callback);
   }
 }

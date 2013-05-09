@@ -560,6 +560,44 @@ describes the branch.
   }
 ----
 
+[[create-branch]]
+Create Branch
+~~~~~~~~~~~~~
+[verse]
+'PUT /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
+
+Creates a new branch.
+
+In the request body additional data for the branch can be provided as
+link:#branch-input[BranchInput].
+
+.Request
+----
+  PUT /projects/MyProject/branches/stable HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "revision": "76016386a0d8ecc7b6be212424978bb45959d668"
+  }
+----
+
+As response the link:#branch-info[BranchInfo] entity is returned that
+describes the created branch.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "ref": "refs/heads/stable",
+    "revision": "76016386a0d8ecc7b6be212424978bb45959d668",
+    "can_delete": true
+  }
+----
+
 [[child-project-endpoints]]
 Child Project Endpoints
 -----------------------
@@ -967,6 +1005,23 @@ The `BranchInfo` entity contains information about a branch.
 |`can_delete`|`false` if not set|
 Whether the calling user can delete this branch.
 |=========================
+
+[[branch-input]]
+BranchInput
+~~~~~~~~~~~
+The `BranchInput` entity contains information for the creation of
+a new branch.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=======================
+|Field Name||Description
+|`ref`     |optional|
+The ref of the branch. +
+If set, must match the branch ID in the URL.
+|`revision`|optional|
+The starting revision of the new branch. +
+If not set, `HEAD` will be used as starting revision.
+|=======================
 
 [[dashboard-info]]
 DashboardInfo

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
+import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -46,7 +47,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 
@@ -321,10 +321,8 @@ public class ChangeUtil {
       final RefControl refControl, CommitValidators commitValidators,
       final IdentifiedUser user, final String message, final ReviewDb db,
       final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
-      final ChangeHooks hooks, Repository git,
-      final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated gitRefUpdated, PersonIdent myIdent,
-      final TrackingFooters trackingFooters)
+      Repository git, final GitReferenceUpdated gitRefUpdated,
+      PersonIdent myIdent, PatchSetInserter patchSetInserter)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, PatchSetInfoNotAvailableException {
@@ -335,15 +333,18 @@ public class ChangeUtil {
     }
 
     if (message == null || message.length() == 0) {
-      throw new InvalidChangeOperationException("The commit message cannot be empty");
+      throw new InvalidChangeOperationException(
+          "The commit message cannot be empty");
     }
 
     final RevWalk revWalk = new RevWalk(git);
     try {
       RevCommit commit =
-          revWalk.parseCommit(ObjectId.fromString(originalPS.getRevision().get()));
+          revWalk.parseCommit(ObjectId.fromString(originalPS.getRevision()
+              .get()));
       if (commit.getFullMessage().equals(message)) {
-        throw new InvalidChangeOperationException("New commit message cannot be same as existing commit message");
+        throw new InvalidChangeOperationException(
+            "New commit message cannot be same as existing commit message");
       }
 
       Date now = myIdent.getWhen();
@@ -375,9 +376,6 @@ public class ChangeUtil {
       newPatchSet.setRevision(new RevId(newCommit.name()));
       newPatchSet.setDraft(originalPS.isDraft());
 
-      final PatchSetInfo info =
-          patchSetInfoFactory.get(newCommit, newPatchSet.getId());
-
       CommitReceivedEvent commitReceivedEvent =
           new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
               newCommit.getId(), newPatchSet.getRefName()), refControl
@@ -401,69 +399,17 @@ public class ChangeUtil {
       }
       gitRefUpdated.fire(change.getProject(), ru);
 
-      db.changes().beginTransaction(change.getId());
-      try {
-        Change updatedChange = db.changes().get(change.getId());
-        if (updatedChange != null && updatedChange.getStatus().isOpen()) {
-          change = updatedChange;
-        } else {
-          throw new InvalidChangeOperationException(String.format(
-              "Change %s is closed", change.getId()));
-        }
+      final ChangeMessage cmsg =
+          new ChangeMessage(new ChangeMessage.Key(changeId,
+              ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
+      final String msg =
+          "Patch Set " + newPatchSet.getPatchSetId()
+              + ": Commit message was updated";
+      cmsg.setMessage(msg);
 
-        ChangeUtil.insertAncestors(db, newPatchSet.getId(), commit);
-        db.patchSets().insert(Collections.singleton(newPatchSet));
-        updatedChange =
-            db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-              @Override
-              public Change update(Change change) {
-                if (change.getStatus().isClosed()) {
-                  return null;
-                }
-                if (!change.currentPatchSetId().equals(patchSetId)) {
-                  return null;
-                }
-                if (change.getStatus() != Change.Status.DRAFT) {
-                  change.setStatus(Change.Status.NEW);
-                }
-                change.setLastSha1MergeTested(null);
-                change.setCurrentPatchSet(info);
-                ChangeUtil.updated(change);
-                return change;
-              }
-            });
-        if (updatedChange != null) {
-          change = updatedChange;
-        } else {
-          throw new InvalidChangeOperationException(String.format(
-              "Change %s was modified", change.getId()));
-        }
-
-        ApprovalsUtil.copyLabels(db,
-            refControl.getProjectControl().getLabelTypes(),
-            originalPS.getId(),
-            change.currentPatchSetId());
-
-        final List<FooterLine> footerLines = newCommit.getFooterLines();
-        updateTrackingIds(db, change, trackingFooters, footerLines);
-
-        final ChangeMessage cmsg =
-            new ChangeMessage(new ChangeMessage.Key(changeId,
-                ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
-        final String msg = "Patch Set " + newPatchSet.getPatchSetId() + ": Commit message was updated";
-        cmsg.setMessage(msg);
-        db.changeMessages().insert(Collections.singleton(cmsg));
-        db.commit();
-
-        final CommitMessageEditedSender cm = commitMessageEditedSenderFactory.create(change);
-        cm.setFrom(user.getAccountId());
-        cm.setChangeMessage(cmsg);
-        cm.send();
-      } finally {
-        db.rollback();
-      }
-
-      hooks.doPatchsetCreatedHook(change, newPatchSet, db);
+      change =
+          patchSetInserter.insertPatchSet(change, newPatchSet, newCommit,
+              refControl, cmsg, true);
 
       return change.getId();
     } finally {

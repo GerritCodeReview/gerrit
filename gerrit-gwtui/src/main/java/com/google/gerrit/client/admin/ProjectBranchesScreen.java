@@ -19,12 +19,13 @@ import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.projects.BranchInfo;
+import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
-import com.google.gerrit.common.data.AddBranchResult;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -185,62 +186,29 @@ public class ProjectBranchesScreen extends ProjectScreen {
     }
 
     addBranch.setEnabled(false);
-    Util.PROJECT_SVC.addBranch(getProjectKey(), branchName, rev,
-        new GerritCallback<AddBranchResult>() {
-          public void onSuccess(final AddBranchResult result) {
-            addBranch.setEnabled(true);
-            if (!result.hasError()) {
-              nameTxtBox.setText("");
-              irevTxtBox.setText("");
-              display(result.getListBranchesResult().getBranches());
-            } else {
-              final AddBranchResult.Error error = result.getError();
-              final String msg;
-              switch (error.getType()) {
-                case INVALID_NAME:
-                  selectAllAndFocus(nameTxtBox);
-                  msg = Gerrit.M.invalidBranchName(branchName);
-                  break;
-
-                case INVALID_REVISION:
-                  selectAllAndFocus(irevTxtBox);
-                  msg = Gerrit.M.invalidRevision(rev);
-                  break;
-
-                case BRANCH_CREATION_NOT_ALLOWED_UNDER_REFNAME_PREFIX:
-                  selectAllAndFocus(nameTxtBox);
-                  msg =
-                      Gerrit.M.branchCreationNotAllowedUnderRefnamePrefix(error
-                          .getRefname());
-                  break;
-
-                case BRANCH_ALREADY_EXISTS:
-                  selectAllAndFocus(nameTxtBox);
-                  msg = Gerrit.M.branchAlreadyExists(error.getRefname());
-                  break;
-
-                case BRANCH_CREATION_CONFLICT:
-                  selectAllAndFocus(nameTxtBox);
-                  msg =
-                      Gerrit.M.branchCreationConflict(branchName,
-                          error.getRefname());
-                  break;
-
-                default:
-                  msg =
-                      Gerrit.M.branchCreationFailed(branchName,
-                          error.toString());
-              }
-              new ErrorDialog(msg).center();
-            }
-          }
-
+    ProjectApi.createBranch(getProjectKey(), branchName, rev,
+        new GerritCallback<BranchInfo>() {
           @Override
-          public void onFailure(final Throwable caught) {
+          public void onSuccess(BranchInfo result) {
             addBranch.setEnabled(true);
-            super.onFailure(caught);
+            nameTxtBox.setText("");
+            irevTxtBox.setText("");
+            Util.PROJECT_SVC.listBranches(getProjectKey(),
+                new GerritCallback<ListBranchesResult>() {
+                  @Override
+                  public void onSuccess(ListBranchesResult result) {
+                    display(result.getBranches());
+                  }
+                });
           }
-        });
+
+      @Override
+      public void onFailure(Throwable caught) {
+        addBranch.setEnabled(true);
+        selectAllAndFocus(nameTxtBox);
+        new ErrorDialog(caught.getMessage()).center();
+      }
+    });
   }
 
   private static void selectAllAndFocus(final TextBox textBox) {

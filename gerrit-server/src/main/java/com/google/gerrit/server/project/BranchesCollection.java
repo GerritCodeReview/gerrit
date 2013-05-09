@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -29,15 +30,18 @@ import java.io.IOException;
 import java.util.List;
 
 public class BranchesCollection implements
-    ChildCollection<ProjectResource, BranchResource> {
+    ChildCollection<ProjectResource, BranchResource>,
+    AcceptsCreate<ProjectResource> {
   private final DynamicMap<RestView<BranchResource>> views;
   private final Provider<ListBranches> list;
+  private final CreateBranch.Factory createBranchFactory;
 
   @Inject
   BranchesCollection(DynamicMap<RestView<BranchResource>> views,
-      Provider<ListBranches> list) {
+      Provider<ListBranches> list, CreateBranch.Factory createBranchFactory) {
     this.views = views;
     this.list = list;
+    this.createBranchFactory = createBranchFactory;
   }
 
   @Override
@@ -65,5 +69,11 @@ public class BranchesCollection implements
   @Override
   public DynamicMap<RestView<BranchResource>> views() {
     return views;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public CreateBranch create(ProjectResource parent, IdString name) {
+    return createBranchFactory.create(name.get());
   }
 }

@@ -28,7 +28,6 @@ public class ProjectModule extends RpcServletModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
-        factory(AddBranch.Factory.class);
         factory(ChangeProjectAccess.Factory.class);
         factory(ReviewProjectAccess.Factory.class);
         factory(ChangeProjectSettings.Factory.class);

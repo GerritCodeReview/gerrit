@@ -33,6 +33,15 @@ public class ProjectApi {
         .put(input, asyncCallback);
   }
 
+  /** Create a new branch */
+  public static void createBranch(Project.NameKey projectName, String ref,
+      String revision, AsyncCallback<BranchInfo> asyncCallback) {
+    BranchInput input = BranchInput.create();
+    input.setRevision(revision);
+    new RestApi("/projects/").id(projectName.get()).view("branches").id(ref)
+        .ifNoneMatch().put(input, asyncCallback);
+  }
+
   static RestApi config(Project.NameKey name) {
     return new RestApi("/projects/").id(name.get()).view("config");
   }
@@ -52,5 +61,16 @@ public class ProjectApi {
     final native void setPermissionsOnly(boolean po) /*-{ if(po)this.permissions_only=po; }-*/;
 
     final native void setCreateEmptyCommit(boolean cc) /*-{ if(cc)this.create_empty_commit=cc; }-*/;
+  }
+
+  private static class BranchInput extends JavaScriptObject {
+    static BranchInput create() {
+      return (BranchInput) createObject();
+    }
+
+    protected BranchInput() {
+    }
+
+    final native void setRevision(String r) /*-{ if(r)this.revision=r; }-*/;
   }
 }

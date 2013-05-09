@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "UguA9osw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-05-09T07:26:34Z",
+      "side": 1,
+      "message": "PATH\u003d\"`pwd`/bin/:$PATH\"",
+      "revId": "a1060c9c988d1cb9224f5d7183725770a821357d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug98928w",
         "filename": "/COMMIT_MSG",
         "patchSetId": 27
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "Did you actually check out this commit? The error message sounds like the top level BUCK file was missing.",
       "parentUuid": "Ug98928w",
+      "revId": "a1060c9c988d1cb9224f5d7183725770a821357d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ug-9ffyc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-05-09T07:26:34Z",
+      "side": 1,
+      "message": "did not. \nmy fault !",
+      "parentUuid": "Uhb0LPzE",
       "revId": "a1060c9c988d1cb9224f5d7183725770a821357d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UguCRIgw",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-10T19:09:39Z",
+      "side": 1,
+      "message": "This makes it sound like this is a planned feature?",
+      "revId": "a0c9372baac8a242d68e4e48e7c7f54440e5b3eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgsCWHgI",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-10T19:09:39Z",
+      "side": 1,
+      "message": "How is this different from subprocess.check_output?\nhttps://cs.corp.google.com/#google3/third_party/python_runtime/v2_7/Lib/subprocess.py\u0026q\u003dfile:subprocess.py\u0026l\u003d600\u0026rcl\u003d46376751",
+      "revId": "a0c9372baac8a242d68e4e48e7c7f54440e5b3eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

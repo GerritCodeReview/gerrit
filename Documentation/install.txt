@@ -146,6 +146,7 @@ For more information, see the related topics in this manual:
 * link:config-themes.html[Themes]
 * link:config-gitweb.html[Gitweb Integration]
 * link:config-gerrit.html[Other System Settings]
+* link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
 
 
 [[anonymous_access]]

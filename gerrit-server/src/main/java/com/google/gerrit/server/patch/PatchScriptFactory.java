@@ -56,7 +56,9 @@ import javax.annotation.Nullable;
 
 public class PatchScriptFactory implements Callable<PatchScript> {
   public interface Factory {
-    PatchScriptFactory create(Patch.Key patchKey,
+    PatchScriptFactory create(
+        ChangeControl control,
+        String filename,
         @Assisted("patchSetA") PatchSet.Id patchSetA,
         @Assisted("patchSetB") PatchSet.Id patchSetB,
         AccountDiffPreference diffPrefs);
@@ -69,20 +71,17 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
   private final ReviewDb db;
-  private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory aicFactory;
 
-  private final Patch.Key patchKey;
+  private final String fileName;
   @Nullable
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
   private final AccountDiffPreference diffPrefs;
 
-  private final PatchSet.Id patchSetId;
   private final Change.Id changeId;
 
   private Change change;
-  private PatchSet patchSet;
   private Project.NameKey projectKey;
   private ChangeControl control;
   private ObjectId aId;
@@ -94,9 +93,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   PatchScriptFactory(final GitRepositoryManager grm,
       Provider<PatchScriptBuilder> builderFactory,
       final PatchListCache patchListCache, final ReviewDb db,
-      final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory aicFactory,
-      @Assisted final Patch.Key patchKey,
+      @Assisted ChangeControl control,
+      @Assisted final String fileName,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
       @Assisted("patchSetB") final PatchSet.Id patchSetB,
       @Assisted final AccountDiffPreference diffPrefs) {
@@ -104,16 +103,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
     this.db = db;
-    this.changeControlFactory = changeControlFactory;
+    this.control = control;
     this.aicFactory = aicFactory;
 
-    this.patchKey = patchKey;
+    this.fileName = fileName;
     this.psa = patchSetA;
     this.psb = patchSetB;
     this.diffPrefs = diffPrefs;
 
-    patchSetId = patchKey.getParentKey();
-    changeId = patchSetId.getParentKey();
+    changeId = patchSetB.getParentKey();
   }
 
   @Override
@@ -122,13 +120,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     validatePatchSetId(psa);
     validatePatchSetId(psb);
 
-    control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
     projectKey = change.getProject();
-    patchSet = db.patchSets().get(patchSetId);
-    if (patchSet == null) {
-      throw new NoSuchChangeException(changeId);
-    }
 
     aId = psa != null ? toObjectId(db, psa) : null;
     bId = toObjectId(db, psb);
@@ -146,7 +139,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     try {
       final PatchList list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
       final PatchScriptBuilder b = newBuilder(list, git);
-      final PatchListEntry content = list.get(patchKey.getFileName());
+      final PatchListEntry content = list.get(fileName);
 
       loadCommentsAndHistory(content.getChangeType(), //
           content.getOldName(), //
@@ -227,7 +220,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     // proper rename detection between the patch sets.
     //
     for (final PatchSet ps : db.patchSets().byChange(changeId)) {
-      String name = patchKey.get();
+      String name = fileName;
       if (psa != null) {
         switch (changeType) {
           case COPIED:

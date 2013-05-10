@@ -33,6 +33,8 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.extensions.webui.UiCommands;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.RevisionEdit;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -45,10 +47,13 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +79,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final PatchListCache patchListCache;
   private final ChangeControl.Factory changeControlFactory;
   private final Revisions revisions;
+  private final GitRepositoryManager repoManager;
 
   private Project.NameKey projectKey;
   private final PatchSet.Id psIdBase;
@@ -91,6 +97,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       final PatchListCache patchListCache,
       final ChangeControl.Factory changeControlFactory,
       final Revisions revisions,
+      final GitRepositoryManager repoManager,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
       @Assisted @Nullable final AccountDiffPreference diffPrefs) {
@@ -99,6 +106,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.patchListCache = patchListCache;
     this.changeControlFactory = changeControlFactory;
     this.revisions = revisions;
+    this.repoManager = repoManager;
 
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
@@ -108,12 +116,34 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   @Override
   public PatchSetDetail call() throws OrmException, NoSuchEntityException,
       PatchSetInfoNotAvailableException, NoSuchChangeException {
-    if (control == null || patchSet == null) {
+    if (control == null) {
       control = changeControlFactory.validateFor(psIdNew.getParentKey());
-      patchSet = db.patchSets().get(psIdNew);
-      if (patchSet == null) {
-        throw new NoSuchEntityException();
+    }
+    if (psIdNew.isEdit()) {
+      CurrentUser user = control.getCurrentUser();
+      if (!(user instanceof IdentifiedUser)) {
+        throw new PatchSetInfoNotAvailableException(
+            new NoSuchEntityException("You must be signed in to retrieve an edit"));
       }
+      Project.NameKey project = control.getProject().getNameKey();
+      try {
+        final Repository repo = repoManager.openRepository(project);
+        try {
+          patchSet = new RevisionEdit((IdentifiedUser) user, psIdNew).getPatchSet(repo);
+        } finally {
+          repo.close();
+        }
+      } catch (RepositoryNotFoundException e) {
+        throw new PatchSetInfoNotAvailableException(e);
+      } catch (IOException e) {
+        throw new PatchSetInfoNotAvailableException(e);
+      }
+    
+    } else {
+      patchSet = db.patchSets().get(psIdNew);
+    }
+    if (patchSet == null) {
+      throw new NoSuchEntityException();
     }
     projectKey = control.getProject().getNameKey();
     final PatchList list;
@@ -137,22 +167,23 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       byKey.put(p.getKey(), p);
     }
 
-    for (final PatchLineComment c : db.patchComments().publishedByPatchSet(psIdNew)) {
-      final Patch p = byKey.get(c.getKey().getParentKey());
-      if (p != null) {
-        p.setCommentCount(p.getCommentCount() + 1);
+    if (! psIdNew.isEdit()) {
+      for (final PatchLineComment c : db.patchComments().publishedByPatchSet(psIdNew)) {
+        final Patch p = byKey.get(c.getKey().getParentKey());
+        if (p != null) {
+          p.setCommentCount(p.getCommentCount() + 1);
+        }
       }
     }
-
     detail = new PatchSetDetail();
     detail.setPatchSet(patchSet);
     detail.setProject(projectKey);
 
-    detail.setInfo(infoFactory.get(db, psIdNew));
+    detail.setInfo(infoFactory.get(db, psIdNew, control.getCurrentUser()));
     detail.setPatches(patches);
 
     final CurrentUser user = control.getCurrentUser();
-    if (user instanceof IdentifiedUser) {
+    if (user instanceof IdentifiedUser && psIdNew.isEdit()) {
       // If we are signed in, compute the number of draft comments by the
       // current user on each of these patch files. This way they can more
       // quickly locate where they have pending drafts, and review them.

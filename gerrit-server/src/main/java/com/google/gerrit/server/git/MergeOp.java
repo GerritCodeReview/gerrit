@@ -924,7 +924,7 @@ public class MergeOp {
           // Go back to the patch set that was actually merged.
           //
           try {
-            c.setCurrentPatchSet(patchSetInfoFactory.get(db, merged));
+            c.setCurrentPatchSet(patchSetInfoFactory.get(db, merged, null));
           } catch (PatchSetInfoNotAvailableException e1) {
             log.error("Cannot read merged patch set " + merged, e1);
           }

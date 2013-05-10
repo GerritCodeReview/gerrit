@@ -420,6 +420,11 @@ public class RefControlTest extends TestCase {
       }
 
       @Override
+      public ProjectState checkedGet(Project.NameKey projectName) {
+        return get(projectName);
+      }
+
+      @Override
       public void evict(Project p) {
       }
 

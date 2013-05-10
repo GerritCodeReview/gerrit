@@ -96,6 +96,11 @@ public class GerritCommonTest extends PrologTestCase {
     }
 
     @Override
+    public ProjectState checkedGet(Project.NameKey projectName) {
+      return get(projectName);
+    }
+
+    @Override
     public void evict(Project p) {
       throw new UnsupportedOperationException();
     }

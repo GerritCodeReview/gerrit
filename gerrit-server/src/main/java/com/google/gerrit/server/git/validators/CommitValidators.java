@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -33,6 +34,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -68,6 +70,7 @@ public class CommitValidators {
   private final PersonIdent gerritIdent;
   private final RefControl refControl;
   private final String canonicalWebUrl;
+  private final String commitMsgHookCommand;
   private final SshInfo sshInfo;
   private final Repository repo;
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
@@ -75,12 +78,15 @@ public class CommitValidators {
   @Inject
   CommitValidators(@GerritPersonIdent final PersonIdent gerritIdent,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
+      @GerritServerConfig final Config config,
       final DynamicSet<CommitValidationListener> commitValidationListeners,
       @Assisted final SshInfo sshInfo,
       @Assisted final Repository repo, @Assisted final RefControl refControl) {
     this.gerritIdent = gerritIdent;
     this.refControl = refControl;
     this.canonicalWebUrl = canonicalWebUrl;
+    this.commitMsgHookCommand =
+        config.getString("gerrit", null, "commitMsgHookCommand");
     this.sshInfo = sshInfo;
     this.repo = repo;
     this.commitValidationListeners = commitValidationListeners;
@@ -100,7 +106,8 @@ public class CommitValidators {
     validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
     if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
         || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()) {
-      validators.add(new ChangeIdValidator(refControl, canonicalWebUrl, sshInfo));
+      validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
+          commitMsgHookCommand, sshInfo));
     }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
@@ -133,7 +140,8 @@ public class CommitValidators {
     validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
     if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
         || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()) {
-      validators.add(new ChangeIdValidator(refControl, canonicalWebUrl, sshInfo));
+      validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
+          commitMsgHookCommand, sshInfo));
     }
     validators.add(new ConfigValidator(refControl, repo));
     validators.add(new PluginCommitValidationListener(commitValidationListeners));
@@ -154,23 +162,24 @@ public class CommitValidators {
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {
-    private final RefControl refControl;
+    private final ProjectControl projectControl;
     private final String canonicalWebUrl;
+    private final String commitMsgHookCommand;
     private final SshInfo sshInfo;
+    private final IdentifiedUser user;
 
     public ChangeIdValidator(RefControl refControl, String canonicalWebUrl,
-        SshInfo sshInfo) {
-      this.refControl = refControl;
+        String commitMsgHookCommand, SshInfo sshInfo) {
+      this.projectControl = refControl.getProjectControl();
       this.canonicalWebUrl = canonicalWebUrl;
+      this.commitMsgHookCommand = commitMsgHookCommand;
       this.sshInfo = sshInfo;
+      this.user = (IdentifiedUser) projectControl.getCurrentUser();
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(
         CommitReceivedEvent receiveEvent) throws CommitValidationException {
-
-      final ProjectControl projectControl = refControl.getProjectControl();
-      IdentifiedUser currentUser = (IdentifiedUser) refControl.getCurrentUser();
       final List<String> idList = receiveEvent.commit.getFooterLines(CHANGE_ID);
 
       List<CommitValidationMessage> messages =
@@ -179,8 +188,8 @@ public class CommitValidators {
       if (idList.isEmpty()) {
         if (projectControl.getProjectState().isRequireChangeID()) {
           String errMsg = "missing Change-Id in commit message footer";
-          messages.add(getFixedCommitMsgWithChangeId(errMsg, receiveEvent.commit,
-              currentUser, canonicalWebUrl, sshInfo));
+          messages.add(getFixedCommitMsgWithChangeId(
+              errMsg, receiveEvent.commit));
           throw new CommitValidationException(errMsg, messages);
         }
       } else if (idList.size() > 1) {
@@ -191,12 +200,99 @@ public class CommitValidators {
         if (!v.matches("^I[0-9a-f]{8,}.*$")) {
           final String errMsg =
               "missing or invalid Change-Id line format in commit message footer";
-          messages.add(getFixedCommitMsgWithChangeId(errMsg, receiveEvent.commit,
-              currentUser, canonicalWebUrl, sshInfo));
+          messages.add(
+              getFixedCommitMsgWithChangeId(errMsg, receiveEvent.commit));
           throw new CommitValidationException(errMsg, messages);
         }
       }
       return Collections.<CommitValidationMessage>emptyList();
+    }
+
+    /**
+     * We handle 3 cases:
+     * 1. No change id in the commit message at all.
+     * 2. Change id last in the commit message but missing empty line to create the footer.
+     * 3. There is a change-id somewhere in the commit message, but we ignore it.
+     *
+     * @return The fixed up commit message
+     */
+    private CommitValidationMessage getFixedCommitMsgWithChangeId(
+        final String errMsg, final RevCommit c) {
+      final String changeId = "Change-Id:";
+      StringBuilder sb = new StringBuilder();
+      sb.append("ERROR: ").append(errMsg);
+      sb.append('\n');
+      sb.append("Suggestion for commit message:\n");
+
+      if (c.getFullMessage().indexOf(changeId) == -1) {
+        sb.append(c.getFullMessage());
+        sb.append('\n');
+        sb.append(changeId).append(" I").append(c.name());
+      } else {
+        String lines[] = c.getFullMessage().trim().split("\n");
+        String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
+
+        if (lastLine.indexOf(changeId) == 0) {
+          for (int i = 0; i < lines.length - 1; i++) {
+            sb.append(lines[i]);
+            sb.append('\n');
+          }
+
+          sb.append('\n');
+          sb.append(lastLine);
+        } else {
+          sb.append(c.getFullMessage());
+          sb.append('\n');
+          sb.append(changeId).append(" I").append(c.name());
+          sb.append('\n');
+          sb.append("Hint: A potential Change-Id was found, but it was not in the ");
+          sb.append("footer (last paragraph) of the commit message.");
+        }
+      }
+      sb.append('\n');
+      sb.append('\n');
+      sb.append("Hint: To automatically insert Change-Id, install the hook:\n");
+      sb.append(getCommitMessageHookInstallationHint()).append('\n');
+      sb.append('\n');
+
+      return new CommitValidationMessage(sb.toString(), false);
+    }
+
+    private String getCommitMessageHookInstallationHint() {
+      final List<HostKey> hostKeys = sshInfo.getHostKeys();
+
+      // If there are no SSH keys, the commit-msg hook must be installed via
+      // HTTP(S) or a custom command
+      if (hostKeys.isEmpty()) {
+        if (commitMsgHookCommand != null) {
+          return commitMsgHookCommand;
+        } else {
+          String p = ".git/hooks/commit-msg";
+          return String.format(
+              "  curl -Lo %s %s/tools/hooks/commit-msg ; chmod +x %s", p,
+              getGerritUrl(canonicalWebUrl), p);
+        }
+      }
+
+      // SSH keys exist, so the hook can be installed with scp.
+      String sshHost;
+      int sshPort;
+      String host = hostKeys.get(0).getHost();
+      int c = host.lastIndexOf(':');
+      if (0 <= c) {
+        if (host.startsWith("*:")) {
+          sshHost = getGerritHost(canonicalWebUrl);
+        } else {
+          sshHost = host.substring(0, c);
+        }
+        sshPort = Integer.parseInt(host.substring(c + 1));
+      } else {
+        sshHost = host;
+        sshPort = 22;
+      }
+
+      return String.format("  scp -p -P %d %s@%s:hooks/commit-msg .git/hooks/",
+          sshPort, user.getUserName(), sshHost);
     }
   }
 
@@ -446,93 +542,6 @@ public class CommitValidators {
     }
     sb.append("\n");
     return new CommitValidationMessage(sb.toString(), false);
-  }
-
-  /**
-   * We handle 3 cases:
-   * 1. No change id in the commit message at all.
-   * 2. Change id last in the commit message but missing empty line to create the footer.
-   * 3. There is a change-id somewhere in the commit message, but we ignore it.
-   *
-   * @return The fixed up commit message
-   */
-  private static CommitValidationMessage getFixedCommitMsgWithChangeId(final String errMsg,
-      final RevCommit c, final IdentifiedUser currentUser,
-      String canonicalWebUrl, final SshInfo sshInfo) {
-    final String changeId = "Change-Id:";
-    StringBuilder sb = new StringBuilder();
-    sb.append("ERROR: ").append(errMsg);
-    sb.append('\n');
-    sb.append("Suggestion for commit message:\n");
-
-    if (c.getFullMessage().indexOf(changeId) == -1) {
-      sb.append(c.getFullMessage());
-      sb.append('\n');
-      sb.append(changeId).append(" I").append(c.name());
-    } else {
-      String lines[] = c.getFullMessage().trim().split("\n");
-      String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
-
-      if (lastLine.indexOf(changeId) == 0) {
-        for (int i = 0; i < lines.length - 1; i++) {
-          sb.append(lines[i]);
-          sb.append('\n');
-        }
-
-        sb.append('\n');
-        sb.append(lastLine);
-      } else {
-        sb.append(c.getFullMessage());
-        sb.append('\n');
-        sb.append(changeId).append(" I").append(c.name());
-        sb.append('\n');
-        sb.append("Hint: A potential Change-Id was found, but it was not in the ");
-        sb.append("footer (last paragraph) of the commit message.");
-      }
-    }
-    sb.append('\n');
-    sb.append('\n');
-    sb.append("Hint: To automatically insert Change-Id, install the hook:\n");
-    sb.append(getCommitMessageHookInstallationHint(currentUser,
-        canonicalWebUrl, sshInfo)).append('\n');
-    sb.append('\n');
-
-    return new CommitValidationMessage(sb.toString(), false);
-  }
-
-  private static String getCommitMessageHookInstallationHint(
-      final IdentifiedUser currentUser, String canonicalWebUrl,
-      final SshInfo sshInfo) {
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-
-    // If there are no SSH keys, the commit-msg hook must be installed via
-    // HTTP(S)
-    if (hostKeys.isEmpty()) {
-      String p = ".git/hooks/commit-msg";
-      return String.format(
-          "  curl -Lo %s %s/tools/hooks/commit-msg ; chmod +x %s", p,
-          getGerritUrl(canonicalWebUrl), p);
-    }
-
-    // SSH keys exist, so the hook can be installed with scp.
-    String sshHost;
-    int sshPort;
-    String host = hostKeys.get(0).getHost();
-    int c = host.lastIndexOf(':');
-    if (0 <= c) {
-      if (host.startsWith("*:")) {
-        sshHost = getGerritHost(canonicalWebUrl);
-      } else {
-        sshHost = host.substring(0, c);
-      }
-      sshPort = Integer.parseInt(host.substring(c + 1));
-    } else {
-      sshHost = host;
-      sshPort = 22;
-    }
-
-    return String.format("  scp -p -P %d %s@%s:hooks/commit-msg .git/hooks/",
-        sshPort, currentUser.getUserName(), sshHost);
   }
 
   /**

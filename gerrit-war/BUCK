@@ -17,8 +17,7 @@ java_library(
 
 genrule(
   name = 'webapp_assets',
-  cmd = 'cd $(dirname $OUT)/webapp_assets__srcs/src/main/webapp && ' +
-    'zip -qr $OUT .',
+  cmd = 'cd $SRCDIR/src/main/webapp; zip -qr $OUT .',
   srcs = glob(['src/main/webapp/**/*']),
   deps = [],
   out = 'webapp_assets.zip',

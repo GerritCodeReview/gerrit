@@ -48,6 +48,8 @@ public class PatchScript {
   protected List<Edit> edits;
   protected DisplayMethod displayMethodA;
   protected DisplayMethod displayMethodB;
+  protected transient String mimeTypeA;
+  protected transient String mimeTypeB;
   protected CommentDetail comments;
   protected List<Patch> history;
   protected boolean hugeFile;
@@ -60,8 +62,9 @@ public class PatchScript {
       final List<String> h, final AccountDiffPreference dp,
       final SparseFileContent ca, final SparseFileContent cb,
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
-      final CommentDetail cd, final List<Patch> hist, final boolean hf,
-      final boolean id, final boolean idf, final boolean idt) {
+      final String mta, final String mtb, final CommentDetail cd,
+      final List<Patch> hist, final boolean hf, final boolean id,
+      final boolean idf, final boolean idt) {
     changeId = ck;
     changeType = ct;
     oldName = on;
@@ -75,6 +78,8 @@ public class PatchScript {
     edits = e;
     displayMethodA = ma;
     displayMethodB = mb;
+    mimeTypeA = mta;
+    mimeTypeB = mtb;
     comments = cd;
     history = hist;
     hugeFile = hf;
@@ -168,6 +173,14 @@ public class PatchScript {
 
   public SparseFileContent getB() {
     return b;
+  }
+
+  public String getMimeTypeA() {
+    return mimeTypeA;
+  }
+
+  public String getMimeTypeB() {
+    return mimeTypeB;
   }
 
   public List<Edit> getEdits() {

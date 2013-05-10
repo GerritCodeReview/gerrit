@@ -1459,19 +1459,17 @@ Gets the formatted patch for one revision.
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/patch HTTP/1.0
 ----
 
-The formatted patch is returned as text wrapped in JSON.
+The formatted patch is returned as text encoded inside base64:
 
 .Response
 ----
   HTTP/1.1 200 OK
   Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
+  Content-Type: text/plain;charset=ISO-8859-1
+  X-FYI-Content-Encoding: base64
+  X-FYI-Content-Type: application/mbox
 
-  )]}'
-  "From 4cf8380e526b96de9a0ad50f745028fe416c4639 Tue, 02 Apr 2013 10:26:14 +0200\nFrom: John Doe \
-  u003cjohn.doe@example.com\u003e\nDate: Thu, 28 Mar 2013 15:23:52 +0200\nSubject: [PATCH] Test Commit\n\n\n
-  diff--git a/a.txt b/a.txt\nindex bb0b141..e613f23 100644\n--- a/a.txt\n+++ b/a.txt\n@@ -1,5 +1,6 @@
-  \n line1\n-line2\n line3\n line4\n+line4.1\n+line4.2\n line5\n"
+  RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
 ----
 
 [[get-submit-type]]

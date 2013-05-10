@@ -107,14 +107,17 @@ public class GetPatch implements RestReadView<RevisionResource> {
     PersonIdent author = commit.getAuthorIdent();
     String subject = commit.getShortMessage();
     String msg = commit.getFullMessage().substring(subject.length());
+    if (msg.startsWith("\n\n")) {
+      msg = msg.substring(2);
+    }
     b.append("From ").append(commit.getName())
      .append(' ')
      .append("Mon Sep 17 00:00:00 2001\n")
      .append("From: ").append(author.getName())
      .append(" <").append(author.getEmailAddress()).append(">\n")
-     .append("Date: ").append(formatDate(author)).append("\n")
-     .append("Subject: [PATCH] ").append(subject)
-     .append("\n\n")
+     .append("Date: ").append(formatDate(author)).append('\n')
+     .append("Subject: [PATCH] ").append(subject).append('\n')
+     .append('\n')
      .append(msg);
     if (!msg.endsWith("\n")) {
      b.append('\n');

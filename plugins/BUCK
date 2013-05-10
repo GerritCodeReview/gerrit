@@ -25,9 +25,9 @@ genrule(
   cmd = '' +
     ';'.join(['echo >&2 plugins/'+n+' is required.' for n in NEED]) +
     (';echo >&2;exit 1;' if NEED else '') +
-    'mkdir -p $TMP/WEB-INF/plugins &&' +
+    'mkdir -p $TMP/WEB-INF/plugins;' +
     'for s in $SRCS;do ln -s $s $TMP/WEB-INF/plugins;done;' +
-    'cd $TMP &&' +
+    'cd $TMP;' +
     'zip -qr $OUT .',
   srcs = [genfile('%s/%s.jar' % (n, n)) for n in CORE],
   deps = ['//%s/%s:%s' % (BASE, n, n) for n in HAVE],

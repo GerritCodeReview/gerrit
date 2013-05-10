@@ -36,6 +36,7 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
+# TODO(sop): BUCK does not promise to run this genrule().
 genrule(
   name = 'git_describe',
   cmd = 'mkdir -p $(dirname $OUT); git describe HEAD >$OUT',

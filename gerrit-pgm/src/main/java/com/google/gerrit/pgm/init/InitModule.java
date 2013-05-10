@@ -23,6 +23,13 @@ import java.lang.annotation.Annotation;
 
 /** Injection configuration for the site initialization process. */
 public class InitModule extends FactoryModule {
+
+  private final boolean standalone;
+
+  public InitModule(boolean standalone) {
+    this.standalone = standalone;
+  }
+
   @Override
   protected void configure() {
     bind(SitePaths.class);
@@ -36,14 +43,20 @@ public class InitModule extends FactoryModule {
     step().to(UpgradeFrom2_0_x.class);
 
     step().to(InitGitManager.class);
-    step().to(InitDatabase.class);
+    if (standalone) {
+      step().to(InitDatabase.class);
+    }
     step().to(InitAuth.class);
     step().to(InitSendEmail.class);
-    step().to(InitContainer.class);
+    if (standalone) {
+      step().to(InitContainer.class);
+    }
     step().to(InitSshd.class);
     step().to(InitHttpd.class);
     step().to(InitCache.class);
-    step().to(InitPlugins.class);
+    if (standalone) {
+      step().to(InitPlugins.class);
+    }
   }
 
   protected LinkedBindingBuilder<InitStep> step() {

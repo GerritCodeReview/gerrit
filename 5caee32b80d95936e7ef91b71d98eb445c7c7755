@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UhP7DAYE",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T19:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UgiAxSlk",
+      "revId": "5caee32b80d95936e7ef91b71d98eb445c7c7755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ugz80x0g",
         "filename": "gerrit-war/BUCK",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-10T18:50:56Z",
       "side": 1,
       "message": "\"; \"?",
+      "revId": "5caee32b80d95936e7ef91b71d98eb445c7c7755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhB7Y7XA",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T19:06:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ugz80x0g",
       "revId": "5caee32b80d95936e7ef91b71d98eb445c7c7755",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

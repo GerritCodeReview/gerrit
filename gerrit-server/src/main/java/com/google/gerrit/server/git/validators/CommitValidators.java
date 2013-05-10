@@ -62,6 +62,9 @@ public class CommitValidators {
   private static final Pattern NEW_PATCHSET = Pattern
       .compile("^refs/changes/(?:[0-9][0-9])?(/[1-9][0-9]*){1,2}(?:/new)?$");
 
+  private static final String GIT_HOOKS_COMMIT_MSG =
+      "`git rev-parse --git-dir`/hooks/commit-msg";
+
   public interface Factory {
     CommitValidators create(RefControl refControl, SshInfo sshInfo,
         Repository repo);
@@ -266,8 +269,8 @@ public class CommitValidators {
 
       // If there are no SSH keys, the commit-msg hook must be installed via
       // HTTP(S)
+      String p = GIT_HOOKS_COMMIT_MSG;
       if (hostKeys.isEmpty()) {
-        String p = ".git/hooks/commit-msg";
         return String.format(
             "  curl -Lo %s %s/tools/hooks/commit-msg ; chmod +x %s", p,
             getGerritUrl(canonicalWebUrl), p);
@@ -290,8 +293,8 @@ public class CommitValidators {
         sshPort = 22;
       }
 
-      return String.format("  scp -p -P %d %s@%s:hooks/commit-msg .git/hooks/",
-          sshPort, user.getUserName(), sshHost);
+      return String.format("  scp -p -P %d %s@%s:hooks/commit-msg %s",
+          sshPort, user.getUserName(), sshHost, p);
     }
   }
 

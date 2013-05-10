@@ -20,8 +20,10 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.common.changes.RevisionId;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.IdentifiedUser;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -75,6 +77,11 @@ public class RevisionEdit {
     this.psid = revId.getPatchSetId();
   }
 
+  public RevisionEdit(IdentifiedUser user, PatchSet.Id psid) {
+    this.user = user;
+    this.psid = psid;
+  }
+
   public String toRefName() {
     return refPrefix(user, psid.getParentKey()).append(psid.get()).toString();
   }
@@ -85,5 +92,20 @@ public class RevisionEdit {
       return null;
     }
     return rw.parseCommit(ref.getObjectId());
+  }
+
+  public PatchSet getPatchSet(Repository repo) throws IOException {
+    PatchSet ps = new PatchSet(psid);
+    ps.setUploader(user.getAccountId());
+    ps.setRevision(getRevId(repo));
+    return ps;
+  }
+
+  public RevId getRevId(Repository repo) throws IOException {
+    Ref ref = repo.getRef(toRefName());
+    if (ref == null) {
+      return null;
+    }
+    return new RevId(ObjectId.toString(ref.getObjectId()));
   }
 }

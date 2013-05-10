@@ -792,7 +792,8 @@ public class ChangeJson {
 
   CommitInfo toCommit(PatchSet in)
       throws PatchSetInfoNotAvailableException {
-    PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId());
+      // would we ever get an edit here?
+    PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId(), null);
     CommitInfo commit = new CommitInfo();
     commit.parents = Lists.newArrayListWithCapacity(info.getParents().size());
     commit.author = toGitPerson(info.getAuthor());

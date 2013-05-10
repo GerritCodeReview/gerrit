@@ -69,6 +69,24 @@
       "revId": "a0c9372baac8a242d68e4e48e7c7f54440e5b3eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ug9.RWww",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-10T19:16:10Z",
+      "side": 1,
+      "message": "Huh. Yes, check_output is new in 2.7, which I guess Jython is not. I guess I thought since Buck requires 2.7 and I\u0027m pretty sure there were 2.7isms in the DEFS files, this wouldn\u0027t be a problem. But I can imagine an architecture in which BUCK files are executed in a different Python environment than DEFS files.",
+      "parentUuid": "UhL69efQ",
+      "revId": "a0c9372baac8a242d68e4e48e7c7f54440e5b3eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

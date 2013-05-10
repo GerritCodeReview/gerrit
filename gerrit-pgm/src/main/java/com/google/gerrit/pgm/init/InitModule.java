@@ -16,13 +16,23 @@ package com.google.gerrit.pgm.init;
 
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Provider;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 
 import java.lang.annotation.Annotation;
 
+import javax.sql.DataSource;
+
 /** Injection configuration for the site initialization process. */
 public class InitModule extends FactoryModule {
+
+  private Class<? extends Provider<DataSource>> dsProvider;
+
+  public InitModule(Class<? extends Provider<DataSource>> dsProvider) {
+    this.dsProvider = dsProvider;
+  }
+
   @Override
   protected void configure() {
     bind(SitePaths.class);
@@ -36,7 +46,9 @@ public class InitModule extends FactoryModule {
     step().to(UpgradeFrom2_0_x.class);
 
     step().to(InitGitManager.class);
-    step().to(InitDatabase.class);
+    if (dsProvider == null) {
+      step().to(InitDatabase.class);
+    }
     step().to(InitAuth.class);
     step().to(InitSendEmail.class);
     step().to(InitContainer.class);

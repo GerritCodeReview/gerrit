@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UhL4sWW0",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-10T21:44:10Z",
+      "side": 0,
+      "message": "FYI, this diff is colored wrong. The comma inside the parens should have be highlight as part of the intra-line diff.",
+      "revId": "82e66ee4e548e60e65db72241b98338b0d049c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

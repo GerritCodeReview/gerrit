@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Ugz9d56I",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-10T01:20:02Z",
+      "side": 1,
+      "message": "style: can you wrap before 80 cols.",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhvwRyWQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-10T01:20:02Z",
+      "side": 1,
+      "message": "style: space after if: \"if (\"",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgmBQcos",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-10T01:20:02Z",
+      "side": 1,
+      "message": "I wonder if this would be ok to remove now (in other words, do not make \"Patch Set\" red anymore since the icon is already red?  It would standout a bit less (but I think still noticeable enough to not be missed), but it would also look less like an error condition.",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgkBdbqE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetsBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-10T01:20:02Z",
+      "side": 1,
+      "message": "What if you just made a hasDraftComments(PatchSet.Id) method on the ChangeDetail instead of the long named settes/getters? Maybe also a hasDraftComments(Set\u003cPatchSet.Id\u003e) to set the list?  Since we know the type from the parameters, no need to include PatchSet in the function names.",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgiBaaqs",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-10T01:20:02Z",
+      "side": 1,
+      "message": "psid? (since you already have \"me\" which is an id also.)",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

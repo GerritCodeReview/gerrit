@@ -374,7 +374,6 @@ Magic references
 These are references with added functionality to them compared to a regular
 git push operation.
 
-
 refs/for/<branch ref>
 ^^^^^^^^^^^^^^^^^^^^^
 
@@ -409,6 +408,7 @@ Access Categories
 
 Gerrit has several permission categories that can be granted to groups
 within projects, enabling functionality for that group's members.
+
 
 
 [[category_abandon]]
@@ -1112,7 +1112,6 @@ category. In the "`All-Projects`" we define the following rules:
     label-Release-Process = block -1..+1 group Anonymous Users
     label-Release-Process = -1..+1 group Release Engineers
 ====
-
 
 [[global_capabilities]]
 Global Capabilities

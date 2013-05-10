@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Uhf3DB4E",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T19:11:36Z",
+      "side": 1,
+      "message": "Based on what the BUCK guys were saying yesterday, yes. They also want a way to embed git describe output into a binary. See https://github.com/facebook/buck/issues/22",
+      "parentUuid": "UguCRIgw",
+      "revId": "a0c9372baac8a242d68e4e48e7c7f54440e5b3eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UgsCWHgI",
         "filename": "gerrit-common/BUCK",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-10T19:09:39Z",
       "side": 1,
       "message": "How is this different from subprocess.check_output?\nhttps://cs.corp.google.com/#google3/third_party/python_runtime/v2_7/Lib/subprocess.py\u0026q\u003dfile:subprocess.py\u0026l\u003d600\u0026rcl\u003d46376751",
+      "revId": "a0c9372baac8a242d68e4e48e7c7f54440e5b3eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhL69efQ",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T19:11:36Z",
+      "side": 1,
+      "message": "Unlike check_output(), this works in Jython, which BUCK currently uses to parse BUCK files.",
+      "parentUuid": "UgsCWHgI",
       "revId": "a0c9372baac8a242d68e4e48e7c7f54440e5b3eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

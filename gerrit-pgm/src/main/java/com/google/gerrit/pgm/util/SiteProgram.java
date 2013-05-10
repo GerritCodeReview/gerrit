@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.util;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -34,6 +35,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import com.google.inject.spi.Message;
 
@@ -51,11 +53,14 @@ public abstract class SiteProgram extends AbstractProgram {
   @Option(name = "--site-path", aliases = {"-d"}, usage = "Local directory containing site data")
   private File sitePath = new File(".");
 
+  private String dbType;
+
   protected SiteProgram() {
   }
 
-  protected SiteProgram(File sitePath) {
+  protected SiteProgram(File sitePath, String dbType) {
     this.sitePath = sitePath;
+    this.dbType = dbType;
   }
 
   /** @return the site path specified on the command line. */
@@ -77,6 +82,12 @@ public abstract class SiteProgram extends AbstractProgram {
 
   /** @return provides database connectivity and site path. */
   protected Injector createDbInjector(final DataSourceProvider.Context context) {
+    return createDbInjector(context, null);
+  }
+
+  protected Injector createDbInjector(final DataSourceProvider.Context context,
+      final Class<? extends Provider<DataSource>> dsProvider) {
+
     final File sitePath = getSitePath();
     final List<Module> modules = new ArrayList<Module>();
 
@@ -89,20 +100,32 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(sitePathModule);
 
     modules.add(new LifecycleModule() {
+      @SuppressWarnings("unchecked")
       @Override
       protected void configure() {
         bind(DataSourceProvider.Context.class).toInstance(context);
-        bind(Key.get(DataSource.class, Names.named("ReviewDb")))
-          .toProvider(SiteLibraryBasedDataSourceProvider.class)
-          .in(SINGLETON);
-        listener().to(SiteLibraryBasedDataSourceProvider.class);
+        if (dsProvider != null) {
+          bind(Key.get(DataSource.class, Names.named("ReviewDb")))
+            .toProvider(dsProvider)
+            .in(SINGLETON);
+          if (LifecycleListener.class.isAssignableFrom(dsProvider)) {
+            listener().to((Class<? extends LifecycleListener>) dsProvider);
+          }
+        } else {
+          bind(Key.get(DataSource.class, Names.named("ReviewDb")))
+            .toProvider(SiteLibraryBasedDataSourceProvider.class)
+            .in(SINGLETON);
+          listener().to(SiteLibraryBasedDataSourceProvider.class);
+        }
       }
     });
     Module configModule = new GerritServerConfigModule();
     modules.add(configModule);
     Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
     Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    String dbType = cfg.getString("database", null, "type");
+    if (this.dbType == null) {
+      dbType = cfg.getString("database", null, "type");
+    }
 
     final DataSourceType dst = Guice.createInjector(new DataSourceModule(), configModule,
             sitePathModule).getInstance(

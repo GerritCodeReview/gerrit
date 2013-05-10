@@ -11,10 +11,13 @@ Get the Source
 Create a new client workspace:
 
 ----
-  git clone https://gerrit.googlesource.com/gerrit
+  git clone --recursive https://gerrit.googlesource.com/gerrit
   cd gerrit
 ----
 
+The `--recursive` option is needed on `git clone` to ensure that
+the core plugins, which are included as git submodules, are also
+cloned.
 
 Configuring Eclipse
 -------------------

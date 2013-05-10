@@ -97,6 +97,10 @@ public class WebAppInitializer extends GuiceServletContextListener {
         sitePath = new File(path);
       }
 
+      if (System.getProperty("gerrit.init") != null) {
+        new SiteInitializer(path, System.getProperty("gerrit.init_path")).init();
+      }
+
       try {
         dbInjector = createDbInjector();
       } catch (CreationException ce) {

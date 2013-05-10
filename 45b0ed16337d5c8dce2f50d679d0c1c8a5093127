@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "UhN6TpaI",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T16:39:44Z",
+      "side": 1,
+      "message": "Here we set content-type text/plain. Here we also set extra headers that the client could look at.",
+      "revId": "45b0ed16337d5c8dce2f50d679d0c1c8a5093127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UgqAkOhs",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 2
@@ -13,6 +30,57 @@
       "writtenOn": "2013-05-10T16:32:48Z",
       "side": 1,
       "message": "Should we set Content-Type: text/plain here? That\u0027s pretty much a given if it\u0027s base64. Unfortunately HTTP doesn\u0027t allow base64 as a valid Transfer-Encoding, otherwise I would recommend setting that here as well.\n\nThe reason I ask is I have I1807ce335 pending to teach RestApi to read text/plain responses. If we could also tweak that to do base64 decoding as well, all the better, but I\u0027m not sure how we would communicate that in the headers.",
+      "revId": "45b0ed16337d5c8dce2f50d679d0c1c8a5093127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhZ1eQyk",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T16:39:44Z",
+      "side": 1,
+      "message": "see text plain",
+      "revId": "45b0ed16337d5c8dce2f50d679d0c1c8a5093127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhL6Y2b8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T16:39:44Z",
+      "side": 1,
+      "message": "see encoding",
+      "revId": "45b0ed16337d5c8dce2f50d679d0c1c8a5093127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhX1Ulwc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T16:39:44Z",
+      "side": 1,
+      "message": "see real content type",
       "revId": "45b0ed16337d5c8dce2f50d679d0c1c8a5093127",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Uhf1fhyc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-10T16:41:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UhL5Z.UQ",
+      "revId": "b2fceb75b574198bfbd14891a22ff580ed81e238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UhN5kxfY",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "Uhd1ky-Y",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-10T16:41:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UhN5kxfY",
+      "revId": "b2fceb75b574198bfbd14891a22ff580ed81e238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UhJ5ePSk",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-10T16:12:02Z",
       "side": 1,
       "message": "Do not import NameKey. Reference it as Project.NameKey.",
+      "revId": "b2fceb75b574198bfbd14891a22ff580ed81e238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhP6OYXo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-10T16:41:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UhJ5ePSk",
       "revId": "b2fceb75b574198bfbd14891a22ff580ed81e238",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

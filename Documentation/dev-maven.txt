@@ -1,0 +1,111 @@
+Gerrit Code Review - Building with Maven
+========================================
+
+Installation
+------------
+
+
+Download and install Maven from the
+link:http://maven.apache.org/download.cgi[Apache Maven Project].
+
+For detailed instructions for configuring and running Maven, please refer
+to the link:http://maven.apache.org/run-maven/index.html[Maven User Documentation].
+
+
+[[eclipse]]
+Eclipse Integration
+-------------------
+
+
+Installing the Maven Integration Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+In Eclipse version 3.7 (Indigo) and later, these are available in the
+default update site and can be found under the 'Collaboration' category.
+
+For older versions the update site must be manually added; the link can
+be found on the http://www.eclipse.org/m2e/download/[m2eclipse download page].
+
+Importing Projects
+~~~~~~~~~~~~~~~~~~
+
+
+Import the projects into Eclipse by going to File -> Import... -> Maven ->
+Existing Maven Projects and selecting the directory containing pom.xml.
+
+Some of the source code is generated with ANTLR sources.  To build
+these files, right click on the imported projects, Maven -> Update
+Project Configuration.  This will resolve compile errors identified
+after import.
+
+
+[[build]]
+Building on the Command Line
+----------------------------
+
+
+Gerrit Development WAR File
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+To build the WAR file from the command line:
+
+----
+  mvn clean package
+----
+
+The output executable WAR will be placed in:
+
+----
+  gerrit-war/target/gerrit-*.war
+----
+
+Running Unit Tests
+~~~~~~~~~~~~~~~~~~
+
+
+By default the build will run the unit tests.
+
+To build without tests:
+
+----
+  mvn clean package -DskipTests
+----
+
+[[run-acceptance-tests]]
+Running the Acceptance Tests
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Acceptance tests are run in the Maven `verify` target:
+
+----
+  mvn clean verify
+----
+
+To build the `verify` target without the acceptance tests:
+
+----
+  mvn clean verify -Dgerrit.acceptance-tests.skip=true
+----
+
+
+Documentation
+~~~~~~~~~~~~~
+
+
+By default the build will generate and include the documentation.
+
+To build without documentation:
+
+----
+  mvn clean package -Dgerrit.documentation.skip
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+

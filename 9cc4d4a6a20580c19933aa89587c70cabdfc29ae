@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UgiCIKtc",
+        "filename": "tools/eclipse/gen_project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-10T19:48:51Z",
+      "side": 1,
+      "message": "Heh. I don\u0027t suppose Buck exposes this somehow with like a symlink?",
+      "revId": "9cc4d4a6a20580c19933aa89587c70cabdfc29ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

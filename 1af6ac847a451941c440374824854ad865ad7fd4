@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UhN7hZR4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T17:39:43Z",
+      "side": 1,
+      "message": "\u0027barrier for\u0027",
+      "revId": "1af6ac847a451941c440374824854ad865ad7fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UhL7mmTI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T17:39:43Z",
+      "side": 1,
+      "message": "What if we instead allowed these to be ZIP or JAR archives with no Java metadata?\n\nZIP your JS and images and CSS into a ZIP and give us the directory. If we see no Java metadata in the manifest, or there is no manifest, and there are no *.class files we treat the plugin as just static assets and serve every file in the JAR/ZIP to the client.",
+      "revId": "1af6ac847a451941c440374824854ad865ad7fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

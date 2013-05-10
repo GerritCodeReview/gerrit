@@ -1,3 +1,9 @@
+[alias]
+  gerrit = //:gerrit
+  release = //:release
+  download = //:download
+  eclipse = //:eclipse
+
 [buildfile]
   includes = //lib/DEFS
 

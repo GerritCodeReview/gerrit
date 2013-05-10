@@ -32,6 +32,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -51,6 +52,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
   private final ChangeDetailFactory.Factory changeDetailFactory;
+  private final ChangeControl.Factory changeControlFactory;
 
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
@@ -58,13 +60,15 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final SaveDraft.Factory saveDraftFactory,
-      final ChangeDetailFactory.Factory changeDetailFactory) {
+      final ChangeDetailFactory.Factory changeDetailFactory,
+      final ChangeControl.Factory changeControlFactory) {
     super(schema, currentUser);
 
     this.deleteDraftPatchSetFactory = deleteDraftPatchSetFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.saveDraftFactory = saveDraftFactory;
     this.changeDetailFactory = changeDetailFactory;
+    this.changeControlFactory = changeControlFactory;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -74,8 +78,16 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       callback.onFailure(new NoSuchEntityException());
       return;
     }
-    Handler.wrap(patchScriptFactoryFactory.create(patchKey, psa, psb, dp))
-      .to(callback);
+
+    new Handler<PatchScript>() {
+      @Override
+      public PatchScript call() throws Exception {
+        Change.Id changeId = patchKey.getParentKey().getParentKey();
+        ChangeControl control = changeControlFactory.validateFor(changeId);
+        return patchScriptFactoryFactory.create(
+            control, patchKey.getFileName(), psa, psb, dp).call();
+      }
+    }.to(callback);
   }
 
   public void saveDraft(final PatchLineComment comment,

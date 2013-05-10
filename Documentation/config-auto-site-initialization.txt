@@ -1,0 +1,82 @@
+Gerrit Code Review - Automatic Site Initialization on Startup
+=============================================================
+
+Description
+-----------
+
+Gerrit supports automatic site initialization on server startup
+when Gerrit runs in a servlet container. Both creation of a new site
+and upgrade of an existing site are supported. Installation of
+plugins during the site creation/initialization is not yet supported.
+
+This feature may be useful for such setups where Gerrit administrators
+don't have direct access to the database and the file system of the
+server where Gerrit should be deployed and, therefore, cannot perform
+the init from their local machine prior to deploying Gerrit on such a
+server. It may also make deployment and testing in a local servlet
+container faster to setup as the init step could be skipped.
+
+Gerrit Configuration
+--------------------
+
+The site initialization will be performed only if the `gerrit.init`
+system property exists (the value of the property is not used, only the
+existence of the property matters).
+
+If the `gerrit.site_path` system property is defined then the init is
+run for that site. The database connectivity, in that case, is defined
+in the `etc/gerrit.config`.
+
+If `gerrit.site_path` is not defined then Gerrit will try to find an
+existing site by looking into the `system_config` table in the database
+defined via the `jdbc/ReviewDb` JNDI property. If the `system_config`
+table exists then the `site_path` from that table is used for the
+initialization. The database connectivity is defined by the
+`jdbc/ReviewDb` JNDI property.
+
+Finally, if neither the `gerrit.site_path` property nor the
+`system_config` table exists, the `gerrit.init_path` system property,
+if defined, will be used to determine the site path. The database
+connectivity, also for this case, is defined by the `jdbc/ReviewDb`
+JNDI property.
+
+Example 1
+~~~~~~~~~
+
+Prepare Tomcat so that a site is initialized at a given path using
+the H2 database (if the site doesn't exist yet) or using whatever
+database is defined in `etc/gerrit.config` of that site:
+
+----
+  $ export CATALINA_OPTS='-Dgerrit.init -Dgerrit.site_path=/path/to/site'
+  $ catalina.sh start
+----
+
+Example 2
+~~~~~~~~~
+
+Prepare Tomcat so that an existing site with the path defined in the
+`system_config` table is initialized (upgraded) on Gerrit startup. The
+assumption is that the `jdbc/ReviewDb` JNDI property is defined in
+Tomcat:
+
+----
+  $ export CATALINA_OPTS='-Dgerrit.init'
+  $ catalina.sh start
+----
+
+Example 3
+~~~~~~~~~
+
+Assuming the database schema doesn't exist in the database defined
+via the `jdbc/ReviewDb` JNDI property, initialize a new site using that
+database and a given path:
+
+----
+  $ export CATALINA_OPTS='-Dgerrit.init -Dgerrit.init_path=/path/to/site'
+  $ catalina.sh start
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

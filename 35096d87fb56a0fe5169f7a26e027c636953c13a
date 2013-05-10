@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UhR00c98",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T16:16:24Z",
+      "side": 1,
+      "message": "installCommitMsgHookCommand?",
+      "revId": "35096d87fb56a0fe5169f7a26e027c636953c13a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

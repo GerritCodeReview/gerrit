@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -37,6 +38,7 @@ import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.RevisionEdit;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -49,6 +51,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -177,7 +180,20 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     return detail;
   }
 
-  private void loadPatchSets() throws OrmException {
+  private void loadPatchSets() throws IOException, OrmException,
+      RepositoryNotFoundException {
+    final CurrentUser user = control.getCurrentUser();
+    final Project.NameKey project = control.getChange().getProject();
+    Map<PatchSet.Id, RevisionEdit> edits = null;
+    if (user instanceof IdentifiedUser) {
+      final Repository repo = repoManager.openRepository(project);
+      try {
+        edits = RevisionEdit.forChange(repo, changeId, (IdentifiedUser) user);
+      } finally {
+        repo.close();
+      }
+    }
+
     ResultSet<PatchSet> source = db.patchSets().byChange(changeId);
     List<PatchSet> patches = new ArrayList<PatchSet>();
     Set<PatchSet.Id> patchesWithDraftComments = new HashSet<PatchSet.Id>();
@@ -187,6 +203,11 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
             : null;
     for (PatchSet ps : source) {
       final PatchSet.Id psId = ps.getId();
+      if (user instanceof IdentifiedUser) {
+        final Account.Id me = ((IdentifiedUser) user).getAccountId();
+        ps.setHasDraftComments(db.patchComments()
+            .draftByPatchSetAuthor(ps.getId(), me).iterator().hasNext());
+      }
       if (control.isPatchVisible(ps, db)) {
         patches.add(ps);
         if (me != null
@@ -196,6 +217,20 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
         }
       }
       patchsetsById.put(psId, ps);
+
+      if (user instanceof IdentifiedUser) {
+        RevisionEdit revEdit = edits.get(new PatchSet.Id(ps.getId()));
+        if (revEdit != null) {
+          final Repository repo = repoManager.openRepository(project);
+          try {
+            ps = revEdit.getPatchSet(repo);
+            patchsetsById.put(ps.getId(), ps);
+            patches.add(ps);
+          } finally {
+            repo.close();
+          }
+        }
+      }
     }
     detail.setPatchSets(patches);
     detail.setPatchSetsWithDraftComments(patchesWithDraftComments);

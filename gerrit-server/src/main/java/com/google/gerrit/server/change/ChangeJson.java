@@ -755,7 +755,8 @@ public class ChangeJson {
 
     if (has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT))) {
       try {
-        PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId());
+        // would we ever get an edit here?
+        PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId(), null);
         out.commit = new CommitInfo();
         out.commit.parents = Lists.newArrayListWithCapacity(info.getParents().size());
         out.commit.author = toGitPerson(info.getAuthor());

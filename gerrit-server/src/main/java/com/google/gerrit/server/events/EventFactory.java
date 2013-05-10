@@ -371,7 +371,7 @@ public class EventFactory {
           p.parents.add(a.getAncestorRevision().get());
         }
 
-        UserIdentity author = psInfoFactory.get(db, pId).getAuthor();
+        UserIdentity author = psInfoFactory.get(db, pId, null).getAuthor();
         if (author.getAccount() == null) {
           p.author = new AccountAttribute();
           p.author.email = author.getEmail();

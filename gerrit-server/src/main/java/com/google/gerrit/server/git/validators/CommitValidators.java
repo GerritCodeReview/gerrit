@@ -510,7 +510,7 @@ public class CommitValidators {
     if (hostKeys.isEmpty()) {
       String p = ".git/hooks/commit-msg";
       return String.format(
-          "  curl -o %s %s/tools/hooks/commit-msg ; chmod +x %s", p,
+          "  curl -Lo %s %s/tools/hooks/commit-msg ; chmod +x %s", p,
           getGerritUrl(canonicalWebUrl), p);
     }
 

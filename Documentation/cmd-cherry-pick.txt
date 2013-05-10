@@ -39,7 +39,7 @@ copy it to your local system:
 ====
   $ scp -p -P 29418 john.doe@review.example.com:bin/gerrit-cherry-pick ~/bin/
 
-  $ curl -o ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
+  $ curl -Lo ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
 ====
 
 GERRIT

@@ -12,8 +12,8 @@ To download a client command or hook, use scp or an http client:
   $ scp -p -P 29418 john.doe@review.example.com:bin/gerrit-cherry-pick ~/bin/
   $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
 
-  $ curl -o ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
-  $ curl -o .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
+  $ curl -Lo ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
+  $ curl -Lo .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 
 For more details on how to determine the correct SSH port number,
 see link:user-upload.html#test_ssh[Testing Your SSH Connection].

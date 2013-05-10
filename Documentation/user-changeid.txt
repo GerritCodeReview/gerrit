@@ -53,7 +53,7 @@ of the local Git repository:
 
   $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
 
-  $ curl -o .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
+  $ curl -Lo .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 
 Then ensure that the execute bit is set on the hook script:
 

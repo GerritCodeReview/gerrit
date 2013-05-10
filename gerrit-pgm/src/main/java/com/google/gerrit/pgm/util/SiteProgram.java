@@ -17,6 +17,8 @@ package com.google.gerrit.pgm.util;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
+import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -29,11 +31,14 @@ import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
+import com.google.inject.Binding;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.inject.spi.Message;
 
@@ -41,21 +46,27 @@ import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Named;
 import javax.sql.DataSource;
 
 public abstract class SiteProgram extends AbstractProgram {
   @Option(name = "--site-path", aliases = {"-d"}, usage = "Local directory containing site data")
   private File sitePath = new File(".");
 
+  protected Provider<DataSource> dsProvider;
+
   protected SiteProgram() {
   }
 
-  protected SiteProgram(File sitePath) {
+  protected SiteProgram(File sitePath, final Provider<DataSource> dsProvider) {
     this.sitePath = sitePath;
+    this.dsProvider = dsProvider;
   }
 
   /** @return the site path specified on the command line. */
@@ -92,17 +103,31 @@ public abstract class SiteProgram extends AbstractProgram {
       @Override
       protected void configure() {
         bind(DataSourceProvider.Context.class).toInstance(context);
-        bind(Key.get(DataSource.class, Names.named("ReviewDb")))
-          .toProvider(SiteLibraryBasedDataSourceProvider.class)
-          .in(SINGLETON);
-        listener().to(SiteLibraryBasedDataSourceProvider.class);
+        if (dsProvider != null) {
+          bind(Key.get(DataSource.class, Names.named("ReviewDb")))
+            .toProvider(dsProvider)
+            .in(SINGLETON);
+          if (LifecycleListener.class.isAssignableFrom(dsProvider.getClass())) {
+            listener().toInstance((LifecycleListener) dsProvider);
+          }
+        } else {
+          bind(Key.get(DataSource.class, Names.named("ReviewDb")))
+            .toProvider(SiteLibraryBasedDataSourceProvider.class)
+            .in(SINGLETON);
+          listener().to(SiteLibraryBasedDataSourceProvider.class);
+        }
       }
     });
     Module configModule = new GerritServerConfigModule();
     modules.add(configModule);
     Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
     Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    String dbType = cfg.getString("database", null, "type");
+    String dbType;
+    if (dsProvider != null) {
+      dbType = getDbType(dsProvider);
+    } else {
+      dbType = cfg.getString("database", null, "type");
+    }
 
     final DataSourceType dst = Guice.createInjector(new DataSourceModule(), configModule,
             sitePathModule).getInstance(
@@ -149,6 +174,44 @@ public abstract class SiteProgram extends AbstractProgram {
       }
       throw die(buf.toString(), new RuntimeException("DbInjector failed", ce));
     }
+  }
+
+  private String getDbType(Provider<DataSource> dsProvider) {
+    String dbProductName;
+    try {
+      Connection conn = dsProvider.get().getConnection();
+      try {
+        dbProductName = conn.getMetaData().getDatabaseProductName().toLowerCase();
+      } finally {
+        conn.close();
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    List<Module> modules = Lists.newArrayList();
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+      }
+    });
+    modules.add(new GerritServerConfigModule());
+    modules.add(new DataSourceModule());
+    Injector i = Guice.createInjector(modules);
+    List<Binding<DataSourceType>> dsTypeBindings =
+        i.findBindingsByType(new TypeLiteral<DataSourceType>() {});
+    for (Binding<DataSourceType> binding : dsTypeBindings) {
+      Annotation annotation = binding.getKey().getAnnotation();
+      if (annotation instanceof Named) {
+        if (((Named) annotation).value().toLowerCase().contains(dbProductName)) {
+          return ((Named) annotation).value();
+        }
+      }
+    }
+    throw new IllegalStateException(String.format(
+        "Cannot guess database type from the database product name '%s'",
+        dbProductName));
   }
 
   @SuppressWarnings("deprecation")

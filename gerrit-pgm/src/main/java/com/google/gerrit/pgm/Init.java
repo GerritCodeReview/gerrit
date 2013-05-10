@@ -62,6 +62,15 @@ public class Init extends SiteProgram {
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
 
+  public Init() {
+  }
+
+  public Init(File sitePath) {
+    super(sitePath);
+    batchMode = true;
+    noAutoStart = true;
+  }
+
   @Override
   public int run() throws Exception {
     ErrorLogFile.errorOnlyConsole();

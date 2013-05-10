@@ -16,6 +16,41 @@
       "revId": "35096d87fb56a0fe5169f7a26e027c636953c13a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UggAmRiY",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-10T16:21:56Z",
+      "side": 1,
+      "message": "Done.\n\nUnder the theory that the longer the option name the less likely people who don\u0027t need it will set it, I suppose?",
+      "parentUuid": "UhR00c98",
+      "revId": "35096d87fb56a0fe5169f7a26e027c636953c13a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UguAqQuo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-10T16:21:56Z",
+      "side": 1,
+      "message": "Moved this up to the top of the method, this should override all other possibilities if set.",
+      "revId": "35096d87fb56a0fe5169f7a26e027c636953c13a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

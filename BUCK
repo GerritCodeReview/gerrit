@@ -14,7 +14,7 @@ genrule(
     ':extension-api',
     ':plugin-api',
   ],
-  out = '__api__',
+  out = '__fake.api__',
 )
 
 java_binary(name = 'extension-api', deps = [':extension-lib'])
@@ -59,7 +59,7 @@ genrule(
     ':_eclipse_project',
     ':_eclipse_classpath',
   ],
-  out = 'eclipse',
+  out = '__fake.eclipse__',
 )
 
 genrule(
@@ -70,7 +70,7 @@ genrule(
     ':_eclipse_project',
     ':_eclipse_classpath_nocompile',
   ],
-  out = 'eclipse',
+  out = '__fake.eclipse__',
 )
 
 java_library(
@@ -110,5 +110,5 @@ genrule(
   cmd = '${//tools:eclipse_classpath}',
   srcs = [],
   deps = ['//tools:eclipse_classpath'],
-  out = '_eclipse_classpath_nocompile',
+  out = '__fake.eclipse__',
 )

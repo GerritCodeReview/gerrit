@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UjNbvBDk",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T22:44:53Z",
+      "side": 1,
+      "message": "Please resolve the merge conflicts with master. This and the child project stuff aren\u0027t happy auto-merging. :-(",
+      "revId": "9f51ea3aa446d2ec39befabcde9b2e5f93798052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjZX5hAg",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T22:44:53Z",
+      "side": 1,
+      "message": "Instead of fixing the old API, maybe just port the web UI onto the new one and discard the old one?",
+      "revId": "9f51ea3aa446d2ec39befabcde9b2e5f93798052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

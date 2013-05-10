@@ -28,6 +28,8 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.io.IOException;
+
 public class ProjectsCollection implements
     RestCollection<TopLevelResource, ProjectResource>,
     AcceptsCreate<TopLevelResource> {
@@ -56,7 +58,7 @@ public class ProjectsCollection implements
 
   @Override
   public ProjectResource parse(TopLevelResource parent, IdString id)
-      throws ResourceNotFoundException {
+      throws ResourceNotFoundException, IOException {
     ProjectResource rsrc = _parse(id.get());
     if (rsrc == null) {
       throw new ResourceNotFoundException(id);
@@ -71,8 +73,10 @@ public class ProjectsCollection implements
    * @return the project
    * @throws UnprocessableEntityException thrown if the project ID cannot be
    *         resolved or if the project is not visible to the calling user
+   * @throws IOException thrown when there is an error.
    */
-  public ProjectResource parse(String id) throws UnprocessableEntityException {
+  public ProjectResource parse(String id)
+      throws UnprocessableEntityException, IOException {
     ProjectResource rsrc = _parse(id);
     if (rsrc == null) {
       throw new UnprocessableEntityException(String.format(
@@ -81,7 +85,7 @@ public class ProjectsCollection implements
     return rsrc;
   }
 
-  private ProjectResource _parse(String id) {
+  private ProjectResource _parse(String id) throws IOException {
     ProjectControl ctl;
     try {
       ctl = controlFactory.controlFor(

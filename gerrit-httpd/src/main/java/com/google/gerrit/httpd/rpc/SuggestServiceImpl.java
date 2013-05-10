@@ -46,6 +46,7 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -218,7 +219,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final String query, final int limit,
       final AsyncCallback<List<ReviewerInfo>> callback) {
     run(callback, new Action<List<ReviewerInfo>>() {
-      public List<ReviewerInfo> run(final ReviewDb db) throws OrmException {
+      public List<ReviewerInfo> run(final ReviewDb db)
+          throws OrmException, Failure {
         final ChangeControl changeControl;
         try {
           changeControl = changeControlFactory.controlFor(change);
@@ -273,7 +275,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   }
 
   private boolean suggestGroupAsReviewer(final Project.NameKey project,
-      final GroupReference group) throws OrmException {
+      final GroupReference group) throws OrmException, Failure {
     if (!PostReviewers.isLegalReviewerGroup(group.getUUID())) {
       return false;
     }
@@ -296,6 +298,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       return false;
     } catch (NoSuchProjectException e) {
       return false;
+    } catch (IOException e) {
+      throw new Failure(e);
     }
 
     return true;

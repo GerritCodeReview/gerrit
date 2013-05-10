@@ -37,6 +37,40 @@
     },
     {
       "key": {
+        "uuid": "UjPbqACs",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T22:22:49Z",
+      "side": 1,
+      "message": "Drop the : now, these are just the bare name thanks to an alias.",
+      "revId": "8c34e64290e1085879ceb18577b8ddac6bca4347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjfXq.Co",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-10T22:22:49Z",
+      "side": 1,
+      "message": "drop the :",
+      "revId": "8c34e64290e1085879ceb18577b8ddac6bca4347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UhzsgV6M",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1

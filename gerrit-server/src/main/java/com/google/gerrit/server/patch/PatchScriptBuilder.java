@@ -211,7 +211,8 @@ class PatchScriptBuilder {
     return new PatchScript(change.getKey(), content.getChangeType(),
         content.getOldName(), content.getNewName(), a.fileMode, b.fileMode,
         content.getHeaderLines(), diffPrefs, a.dst, b.dst, edits,
-        a.displayMethod, b.displayMethod, comments, history, hugeFile,
+        a.displayMethod, b.displayMethod, a.mimeType.toString(),
+        b.mimeType.toString(), comments, history, hugeFile,
         intralineDifferenceIsPossible, intralineFailure, intralineTimeout);
   }
 

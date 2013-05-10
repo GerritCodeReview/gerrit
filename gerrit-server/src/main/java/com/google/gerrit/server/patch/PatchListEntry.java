@@ -171,7 +171,10 @@ public class PatchListEntry {
     final List<String> headerLines = new ArrayList<String>(m.size() - 1);
     for (int i = 1; i < m.size() - 1; i++) {
       final int b = m.get(i);
-      final int e = m.get(i + 1);
+      int e = m.get(i + 1);
+      if (header[e-1] == '\n') {
+        e--;
+      }
       headerLines.add(RawParseUtils.decode(Constants.CHARSET, header, b, e));
     }
     return headerLines;

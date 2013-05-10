@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -98,16 +99,13 @@ final class FlushCaches extends CacheCommand {
 
   private void doBulkFlush() {
     try {
-      for (String plugin : cacheMap.plugins()) {
-        for (Map.Entry<String, Provider<Cache<?, ?>>> entry :
-            cacheMap.byPlugin(plugin).entrySet()) {
-          String n = cacheNameOf(plugin, entry.getKey());
-          if (flush(n)) {
-            try {
-              entry.getValue().get().invalidateAll();
-            } catch (Throwable err) {
-              stderr.println("error: cannot flush cache \"" + n + "\": " + err);
-            }
+      for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+        String n = cacheNameOf(e.getPluginName(), e.getExportName());
+        if (flush(n)) {
+          try {
+            e.getProvider().get().invalidateAll();
+          } catch (Throwable err) {
+            stderr.println("error: cannot flush cache \"" + n + "\": " + err);
           }
         }
       }

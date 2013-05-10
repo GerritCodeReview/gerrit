@@ -9,16 +9,11 @@ runtime debugging environment.
 
 
 [[maven]]
-Maven Plugin
-------------
+Maven
+-----
 
-Install the Maven Integration plugins.
-
-In Eclipse version 3.7 (Indigo) and later, these are available in the
-default update site and can be found under the 'Collaboration' category.
-
-For older versions the update site must be manually added; the link can
-be found on the http://www.eclipse.org/m2e/download/[m2eclipse download page].
+For details of the setup required to build with Maven in Eclipse,
+see the link:dev-maven.html#eclipse[Maven documentation].
 
 
 [[Formatting]]
@@ -32,22 +27,10 @@ This will define the 'Google Format' profile, which the project
 settings prefer when formatting source code.
 
 
-Import Projects
----------------
-
-Import the projects into Eclipse by going to File -> Import... -> Maven ->
-Existing Maven Projects and selecting the directory containing pom.xml.
-
-Some of the source code is generated with ANTLR sources.  To build
-these files, right click on the imported projects, Maven -> Update
-Project Configuration.  This will resolve compile errors identified
-after import.
-
-
 Site Initialization
 -------------------
 
-link:dev-readme.html#build[Build] once on the command line and
+link:dev-maven.html#build[Build] once on the command line and
 then follow link:dev-readme.html#init[Site Initialization] in the
 Developer Setup guide to configure a local site for testing.
 

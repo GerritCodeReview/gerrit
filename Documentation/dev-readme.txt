@@ -5,8 +5,9 @@ Apache Maven is needed to compile the code, and a SQL database
 to house the review metadata.  H2 is recommended for development
 databases, as it requires no external server process.
 
-Get the Source
---------------
+
+Getting the Source
+------------------
 
 Create a new client workspace:
 
@@ -19,46 +20,20 @@ The `--recursive` option is needed on `git clone` to ensure that
 the core plugins, which are included as git submodules, are also
 cloned.
 
+
 Configuring Eclipse
 -------------------
 
 To use the Eclipse IDE for development, please see
-link:dev-eclipse.html[Eclipse Setup] for more details on how to
-configure the workspace with the Maven build scripts.
+link:dev-eclipse.html[Eclipse Setup].
 
+See the link:dev-maven.html[Maven documentation] for more details on
+how to configure the workspace with the Maven build scripts.
 
-[[build]]
-Building
---------
-
-From the command line:
-
-----
-  mvn clean package
-----
-
-By default the build will run tests and build the documentation.
-
-To build without tests:
-
-----
-  mvn clean package -DskipTests
-----
-
-To build without documentation:
-
-----
-  mvn clean package -Dgerrit.documentation.skip
-----
-
-Output executable WAR will be placed in:
-
-----
-  gerrit-war/target/gerrit-*.war
-----
 
 Mac OS X
-~~~~~~~~
+--------
+
 On Mac OS X ensure "Java For Mac OS X 10.5 Upate 4" (or later) has
 been installed, and that `JAVA_HOME` is set to
 "/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home".
@@ -97,6 +72,7 @@ through the web interface:
 Testing
 -------
 
+
 [[run-acceptance-tests]]
 Running the Acceptance Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -117,6 +93,7 @@ To execute the acceptance tests run:
 ----
   mvn clean verify -Pacceptance
 ----
+
 
 Running the Daemon
 ~~~~~~~~~~~~~~~~~~

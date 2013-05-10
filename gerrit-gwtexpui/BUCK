@@ -16,7 +16,7 @@ gwt_module(
 
 genrule(
   name = 'clippy_swf',
-  cmd = 'mkdir $TMP/gerrit_ui ;' +
+  cmd = 'mkdir $TMP/gerrit_ui;' +
     'cp $SRCS $TMP/gerrit_ui;' +
     'cd $TMP;' +
     'zip -qr $OUT gerrit_ui',

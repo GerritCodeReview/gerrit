@@ -16,10 +16,7 @@ gwt_module(
 
 java_library(
   name = 'server',
-  srcs = glob(
-    [SRC + 'common/**/*.java'],
-    excludes = [SRC + 'common/ClientVersion.java'],
-  ),
+  srcs = glob([SRC + 'common/**/*.java']),
   deps = [
     '//gerrit-patch-jgit:server',
     '//gerrit-prettify:server',

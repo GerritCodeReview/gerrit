@@ -21,6 +21,7 @@ import java.util.List;
 
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
+  public String version;
   public Account account;
   public AccountDiffPreference accountDiffPref;
   public String xGerritAuth;

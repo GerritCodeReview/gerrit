@@ -1235,6 +1235,19 @@ By default unset, as the git daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
 
+[[gerrit.installCommitMsgHookCommand]]gerrit.installCommitMsgHookCommand::
++
+Optional command to install the `commit-msg` hook. Typically of the
+form:
+----
+fetch-cmd some://url/to/commit-msg .git/hooks/commit-msg ; chmod +x .git/hooks/commit-msg
+----
++
+By default unset; falls back to using scp from the canonical SSH host,
+or curl from the canonical HTTP URL for the server.  Only necessary if a
+proxy or other server/network configuration prevents clients from
+fetching from the default location.
+
 [[gerrit.gitHttpUrl]]gerrit.gitHttpUrl::
 +
 Optional base URL for repositories available over the HTTP

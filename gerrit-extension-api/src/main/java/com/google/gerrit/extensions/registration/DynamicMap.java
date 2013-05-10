@@ -22,6 +22,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -39,7 +40,7 @@ import java.util.concurrent.ConcurrentMap;
  * internally, and resolve the provider to an instance on demand. This enables
  * registrations to decide between singleton and non-singleton members.
  */
-public abstract class DynamicMap<T> {
+public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
   /**
    * Declare a singleton {@code DynamicMap<T>} with a binder.
    * <p>
@@ -134,6 +135,50 @@ public abstract class DynamicMap<T> {
       }
     }
     return Collections.unmodifiableSortedMap(r);
+  }
+
+  /** Iterate through all entries in an undefined order. */
+  public Iterator<Entry<T>> iterator() {
+    final Iterator<Map.Entry<NamePair, Provider<T>>> i =
+        items.entrySet().iterator();
+    return new Iterator<Entry<T>>() {
+      @Override
+      public boolean hasNext() {
+        return i.hasNext();
+      }
+
+      @Override
+      public Entry<T> next() {
+        final Map.Entry<NamePair, Provider<T>> e = i.next();
+        return new Entry<T>() {
+          @Override
+          public String getPluginName() {
+            return e.getKey().pluginName;
+          }
+
+          @Override
+          public String getExportName() {
+            return e.getKey().exportName;
+          }
+
+          @Override
+          public Provider<T> getProvider() {
+            return e.getValue();
+          }
+        };
+      }
+
+      @Override
+      public void remove() {
+        throw new UnsupportedOperationException();
+      }
+    };
+  }
+
+  public interface Entry<T> {
+    String getPluginName();
+    String getExportName();
+    Provider<T> getProvider();
   }
 
   static class NamePair {

@@ -18,5 +18,5 @@ java_test(
   ],
   source_under_test = TEST,
   labels = ['slow'],
-  visibility = ['//:eclipse_classpath'],
+  visibility = ['//tools/eclipse:classpath'],
 )

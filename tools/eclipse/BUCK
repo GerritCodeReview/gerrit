@@ -1,0 +1,73 @@
+include_defs('//tools/build.defs')
+
+genrule(
+  name = 'eclipse',
+  cmd = '',
+  srcs = [],
+  deps = [
+    ':_classpath',
+    ':_project',
+  ],
+  out = '__fake.eclipse__',
+)
+
+genrule(
+  name = 'eclipse_project',
+  cmd = '',
+  srcs = [],
+  deps = [
+    ':_classpath_nocompile',
+    ':_project',
+  ],
+  out = '__fake.eclipse__',
+)
+
+java_library(
+  name = 'classpath',
+  deps = LIBS + PGMLIBS + [
+    '//gerrit-acceptance-tests:acceptance_tests',
+    '//gerrit-gwtdebug:gwtdebug',
+    '//gerrit-gwtui:ui_module',
+    '//gerrit-httpd:httpd_tests',
+    '//gerrit-main:main_lib',
+    '//gerrit-server:server__compile',
+    '//lib/prolog:compiler_lib',
+  ] + scan_plugins(),
+)
+
+genrule(
+  name = '_project',
+  cmd = '${:gen_project} $OUT',
+  srcs = [],
+  deps = [':gen_project'],
+  out = 'project',
+)
+
+genrule(
+  name = '_classpath',
+  cmd = '${:gen_classpath} $OUT $DEPS',
+  srcs = [],
+  deps = [
+    ':classpath',
+    ':gen_classpath',
+  ],
+  out = 'classpath',
+)
+
+genrule(
+  name = '_classpath_nocompile',
+  cmd = '${:gen_classpath}',
+  srcs = [],
+  deps = [':gen_classpath'],
+  out = '__fake.eclipse__',
+)
+
+python_binary(
+  name = 'gen_classpath',
+  main = 'gen_classpath.py',
+)
+
+python_binary(
+  name = 'gen_project',
+  main = 'gen_project.py',
+)

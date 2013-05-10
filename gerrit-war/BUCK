@@ -12,6 +12,7 @@ java_library(
   visibility = [
     '//:',
     '//gerrit-gwtdebug:gwtdebug',
+    '//tools/eclipse:classpath',
   ],
 )
 
@@ -35,5 +36,8 @@ prebuilt_jar(
   name = 'log4j-config',
   binary_jar = genfile('log4j-config.jar'),
   deps = [':log4j-config__jar'],
-  visibility = ['//:'],
+  visibility = [
+    '//:',
+    '//tools/eclipse:classpath',
+  ],
 )

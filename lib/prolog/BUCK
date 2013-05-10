@@ -19,5 +19,5 @@ java_library(
   name = 'compiler_lib',
   srcs = ['java/BuckPrologCompiler.java'],
   deps = [':prolog-cafe'],
-  visibility = ['//:eclipse_classpath'],
+  visibility = ['//tools/eclipse:classpath'],
 )

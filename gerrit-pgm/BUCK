@@ -21,6 +21,7 @@ java_library2(
   visibility = [
     '//:',
     '//gerrit-acceptance-tests:',
+    '//tools/eclipse:classpath',
     '//Documentation:licenses.txt',
   ],
 )

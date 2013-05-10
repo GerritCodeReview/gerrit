@@ -19,7 +19,9 @@ from os import path, symlink
 from sys import argv
 
 OUT = argv[1]
-ROOT = path.dirname(path.dirname(path.abspath(__file__)))
+ROOT = path.abspath(__file__)
+for _ in range(0, 3):
+  ROOT = path.dirname(ROOT)
 
 p = path.join(ROOT, '.project')
 with open(p, 'w') as fd:

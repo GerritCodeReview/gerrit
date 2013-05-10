@@ -15,15 +15,18 @@
 #
 # TODO(sop): Remove hack after Buck supports Eclipse
 
-from os import path, link
+from os import path, symlink
 import re
 from subprocess import Popen, PIPE
 from sys import argv
 from xml.dom import minidom
 
 OUT = argv[1] if len(argv) >= 2 else None
-ROOT = path.dirname(path.dirname(path.abspath(__file__)))
-MAIN = ['//:eclipse_classpath']
+ROOT = path.abspath(__file__)
+for _ in range(0, 3):
+  ROOT = path.dirname(ROOT)
+
+MAIN = ['//tools/eclipse:classpath']
 GWT = ['//gerrit-gwtui:ui_module']
 JRE = '/'.join([
   'org.eclipse.jdt.launching.JRE_CONTAINER',
@@ -115,4 +118,4 @@ p = path.join(ROOT, '.classpath')
 with open(p, 'w') as fd:
   doc.writexml(fd, addindent = '  ', newl = '\n', encoding='UTF-8')
 if OUT:
-  link(p, OUT)
+  symlink(p, OUT)

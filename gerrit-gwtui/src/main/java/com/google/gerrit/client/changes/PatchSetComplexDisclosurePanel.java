@@ -14,12 +14,15 @@
 
 package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.ActionDialog;
 import com.google.gerrit.client.ui.CherryPickDialog;
@@ -28,6 +31,7 @@ import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
@@ -35,10 +39,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.UserIdentity;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -169,6 +176,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           if (changeDetail.isCurrentPatchSet(detail)) {
             populateActions(detail);
           }
+          populateCommands(detail);
         }
         if (detail.getPatchSet().isDraft()) {
           if (changeDetail.canPublish()) {
@@ -529,6 +537,45 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           b.setEnabled(false);
           Util.MANAGE_SVC.rebaseChange(patchSet.getId(),
               new ChangeDetailCache.GerritWidgetCallback(b));
+        }
+      });
+      actionsPanel.add(b);
+    }
+  }
+
+  private void populateCommands(final PatchSetDetail detail) {
+    for (final UiCommandDetail cmd : detail.getCommands()) {
+      final Button b = new Button(cmd.label);
+      b.setEnabled(cmd.enabled);
+      b.setTitle(cmd.title);
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          AsyncCallback<NativeString> cb =
+              new AsyncCallback<NativeString>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                  b.setEnabled(true);
+                  new ErrorDialog(caught).center();
+                }
+
+                @Override
+                public void onSuccess(NativeString msg) {
+                  b.setEnabled(true);
+                  if (msg != null) {
+                    Window.alert(msg.asString());
+                  }
+                }
+              };
+          RestApi api = ChangeApi.revision(patchSet.getId()).view(cmd.id);
+          if ("PUT".equalsIgnoreCase(cmd.method)) {
+            api.put(JavaScriptObject.createObject(), cb);
+          } else if ("DELETE".equalsIgnoreCase(cmd.method)) {
+            api.delete(cb);
+          } else {
+            api.post(JavaScriptObject.createObject(), cb);
+          }
         }
       });
       actionsPanel.add(b);

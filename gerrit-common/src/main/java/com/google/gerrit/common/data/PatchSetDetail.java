@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 
+import java.util.Collections;
 import java.util.List;
 
 public class PatchSetDetail {
@@ -26,6 +27,7 @@ public class PatchSetDetail {
   protected PatchSetInfo info;
   protected List<Patch> patches;
   protected Project.NameKey project;
+  protected List<UiCommandDetail> commands;
 
   public PatchSetDetail() {
   }
@@ -60,5 +62,16 @@ public class PatchSetDetail {
 
   public void setProject(final Project.NameKey p) {
     project = p;
+  }
+
+  public List<UiCommandDetail> getCommands() {
+    if (commands != null) {
+      return commands;
+    }
+    return Collections.emptyList();
+  }
+
+  public void setCommands(List<UiCommandDetail> cmds) {
+    commands = cmds;
   }
 }

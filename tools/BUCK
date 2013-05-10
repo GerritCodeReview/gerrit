@@ -9,15 +9,3 @@ python_binary(
   main = 'pack_war.py',
   visibility = ['PUBLIC'],
 )
-
-python_binary(
-  name = 'eclipse_classpath',
-  main = 'eclipse_classpath.py',
-  visibility = ['PUBLIC'],
-)
-
-python_binary(
-  name = 'eclipse_project',
-  main = 'eclipse_project.py',
-  visibility = ['PUBLIC'],
-)

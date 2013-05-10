@@ -36,9 +36,20 @@ java_library(
   visibility = ['PUBLIC'],
 )
 
+# TODO(sop): Move git describe into an uncacheable genrule()
+def git_describe():
+  import subprocess
+  cmd = ['git', 'describe', 'HEAD']
+  p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+  v = p.communicate()[0].strip()
+  r = p.returncode
+  if r != 0:
+    raise subprocess.CalledProcessError(r, ' '.join(cmd))
+  return v
+
 genrule(
   name = 'git_describe',
-  cmd = 'mkdir -p $(dirname $OUT); git describe HEAD >$OUT',
+  cmd = 'mkdir -p $(dirname $OUT); echo "%s" >$OUT' % git_describe(),
   srcs = [],
   out = VER,
 )

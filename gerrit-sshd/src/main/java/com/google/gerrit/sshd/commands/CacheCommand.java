@@ -28,10 +28,8 @@ abstract class CacheCommand extends SshCommand {
 
   protected SortedSet<String> cacheNames() {
     SortedSet<String> names = Sets.newTreeSet();
-    for (String plugin : cacheMap.plugins()) {
-      for (String name : cacheMap.byPlugin(plugin).keySet()) {
-        names.add(cacheNameOf(plugin, name));
-      }
+    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+      names.add(cacheNameOf(e.getPluginName(), e.getExportName()));
     }
     return names;
   }

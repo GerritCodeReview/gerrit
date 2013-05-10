@@ -21,6 +21,7 @@ import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.cache.h2.H2CacheImpl;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.WorkQueue;
@@ -208,13 +209,10 @@ final class ShowCaches extends CacheCommand {
 
   private Map<String, Cache<?, ?>> sortedPluginCaches() {
     SortedMap<String, Cache<?, ?>> m = Maps.newTreeMap();
-    for (String plugin : cacheMap.plugins()) {
-      if ("gerrit".equals(plugin)) {
-        continue;
-      }
-      for (Map.Entry<String, Provider<Cache<?, ?>>> entry :
-          cacheMap.byPlugin(plugin).entrySet()) {
-        m.put(cacheNameOf(plugin, entry.getKey()), entry.getValue().get());
+    for (DynamicMap.Entry<Cache<?, ?>> e : cacheMap) {
+      if (!"gerrit".equals(e.getPluginName())) {
+        m.put(cacheNameOf(e.getPluginName(), e.getExportName()),
+            e.getProvider().get());
       }
     }
     return m;

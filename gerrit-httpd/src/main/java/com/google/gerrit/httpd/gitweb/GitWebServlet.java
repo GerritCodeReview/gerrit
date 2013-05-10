@@ -619,7 +619,6 @@ class GitWebServlet extends HttpServlet {
     }, "GitWeb-ErrorLogger").start();
   }
 
-  @SuppressWarnings("unchecked")
   private static Enumeration<String> enumerateHeaderNames(HttpServletRequest req) {
     return req.getHeaderNames();
   }

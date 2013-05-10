@@ -1,4 +1,6 @@
-INIT_SRCS = ['src/main/java/com/google/gerrit/pgm/' + n for n in [
+SRCS = 'src/main/java/com/google/gerrit/pgm/'
+
+INIT_API_SRCS = [SRCS + n for n in [
   'init/InitFlags.java',
   'init/InitStep.java',
   'init/InitStep.java',
@@ -10,7 +12,7 @@ INIT_SRCS = ['src/main/java/com/google/gerrit/pgm/' + n for n in [
 
 java_library(
   name = 'init-api',
-  srcs = INIT_SRCS,
+  srcs = INIT_API_SRCS,
   deps = [
     '//gerrit-server:server',
     '//lib:jsr305',
@@ -23,16 +25,65 @@ java_library(
 
 java_sources(
   name = 'init-api-src',
-  srcs = INIT_SRCS,
+  srcs = INIT_API_SRCS,
   visibility = ['PUBLIC'],
+)
+
+INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
+    [SRCS + n for n in [
+      'init/**/*.java',
+      'util/**/*.java',
+    ]],
+    excludes = INIT_API_SRCS +
+      [SRCS + n for n in [
+        'init/Browser.java',
+        'util/ErrorLogFile.java',
+        'util/GarbageCollectionLogFile.java',
+        'util/LogFileCompressor.java',
+        'util/RuntimeShutdown.java',
+      ]]
+  )
+
+INIT_BASE_RSRCS = ['src/main/resources/com/google/gerrit/pgm/libraries.config']
+
+java_library2(
+  name = 'init-base',
+  srcs = INIT_BASE_SRCS,
+  resources = INIT_BASE_RSRCS,
+  deps = [
+    ':init-api',
+    '//gerrit-common:server',
+    '//gerrit-extension-api:api',
+    '//gerrit-reviewdb:server',
+    '//gerrit-server:server',
+    '//gerrit-util-cli:cli',
+    '//lib/commons:dbcp',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/jgit:jgit',
+    '//lib/mina:sshd',
+    '//lib:args4j',
+    '//lib:guava',
+    '//lib:gwtjsonrpc',
+    '//lib:gwtorm',
+    '//lib:jsr305',
+  ],
+  compile_deps = ['//gerrit-launcher:launcher'],
+  visibility = ['//gerrit-war:'],
 )
 
 java_library2(
   name = 'pgm',
-  srcs = glob(['src/main/java/**/*.java'], excludes = INIT_SRCS),
-  resources = glob(['src/main/resources/**/*']),
+  srcs = glob(
+    ['src/main/java/**/*.java'],
+    excludes = INIT_API_SRCS + INIT_BASE_SRCS
+  ),
+  resources = glob(
+    ['src/main/resources/**/*'],
+    excludes = INIT_BASE_RSRCS),
   deps = [
     ':init-api',
+    ':init-base',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
@@ -49,13 +100,9 @@ java_library2(
     '//lib:args4j',
     '//lib:guava',
     '//lib:gwtorm',
-    '//lib:gwtjsonrpc',
     '//lib:h2',
-    '//lib:jsr305',
     '//lib:servlet-api-3_0',
-    '//lib/commons:dbcp',
     '//lib/guice:guice',
-    '//lib/guice:guice-assistedinject',
     '//lib/guice:guice-servlet',
     '//lib/jetty:server',
     '//lib/jetty:servlet',
@@ -63,7 +110,6 @@ java_library2(
     '//lib/log:api',
     '//lib/log:log4j',
     '//lib/lucene:core',
-    '//lib/mina:sshd',
     '//lib/prolog:prolog-cafe',
   ],
   compile_deps = ['//gerrit-launcher:launcher'],
@@ -80,6 +126,7 @@ java_test(
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
     ':init-api',
+    ':init-base',
     ':pgm',
     '//gerrit-server:server',
     '//lib:junit',

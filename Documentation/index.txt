@@ -62,6 +62,7 @@ Index
 .. link:dev-design.html[System Design]
 .. link:config-contact.html[User Contact Information]
 .. link:config-reverseproxy.html[Reverse Proxy]
+.. link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]
 .. link:pgm-index.html[Server Side Administrative Tools]
 . Developer
 .. link:dev-readme.html[Developer Setup]

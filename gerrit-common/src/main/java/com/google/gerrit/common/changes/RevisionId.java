@@ -26,9 +26,15 @@ public class RevisionId {
   protected PatchSet.Id psid;
   protected boolean isEdit;
 
+  /* Fix: This clsss shouldn't really be needed */
   public RevisionId(PatchSet.Id psid, boolean isEdit) {
-    this.psid = psid;
     this.isEdit = isEdit;
+    this.psid = isEdit ? new PatchSet.Id(psid) : psid;
+  }
+
+  public RevisionId(PatchSet.Id psid) {
+    this.isEdit = psid.isEdit();
+    this.psid = psid;
   }
 
   protected RevisionId() {

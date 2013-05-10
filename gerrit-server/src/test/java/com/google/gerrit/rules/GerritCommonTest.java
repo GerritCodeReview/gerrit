@@ -22,12 +22,14 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.AbstractModule;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -93,6 +95,11 @@ public class GerritCommonTest extends PrologTestCase {
     public ProjectState get(Project.NameKey projectName) {
       assertEquals(allProjectsName, projectName);
       return allProjects;
+    }
+
+    @Override
+    public ProjectState checkedGet(Project.NameKey projectName) {
+      return get(projectName);
     }
 
     @Override

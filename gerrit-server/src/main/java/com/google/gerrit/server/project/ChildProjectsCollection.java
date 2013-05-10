@@ -25,6 +25,8 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.io.IOException;
+
 public class ChildProjectsCollection implements
     ChildCollection<ProjectResource, ChildProjectResource> {
   private final Provider<ListChildProjects> list;
@@ -48,7 +50,7 @@ public class ChildProjectsCollection implements
 
   @Override
   public ChildProjectResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException {
+      throws ResourceNotFoundException, IOException {
     ProjectResource p =
         projectsCollection.get().parse(TopLevelResource.INSTANCE, id);
     ProjectState pp =

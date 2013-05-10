@@ -16,11 +16,11 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Charsets.UTF_8;
 
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
@@ -31,34 +31,31 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class GetPatch implements RestReadView<RevisionResource> {
   private final GitRepositoryManager repoManager;
-  private final SimpleDateFormat df;
 
   @Inject
-  GetPatch(@GerritPersonIdent final PersonIdent gerritIdent,
-      GitRepositoryManager repoManager) {
+  GetPatch(GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
-    this.df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
-    this.df.setCalendar(Calendar.getInstance(gerritIdent.getTimeZone(), Locale.US));
   }
 
   @Override
-  public String apply(RevisionResource rsrc)
+  public BinaryResult apply(RevisionResource rsrc)
       throws ResourceNotFoundException, ResourceConflictException {
     Project.NameKey project = rsrc.getControl().getProject().getNameKey();
+    boolean close = true;
     try {
-      Repository repo = repoManager.openRepository(project);
+      final Repository repo = repoManager.openRepository(project);
       try {
-        RevWalk rw = new RevWalk(repo);
+        final RevWalk rw = new RevWalk(repo);
         try {
-          RevCommit commit =
+          final RevCommit commit =
               rw.parseCommit(ObjectId.fromString(rsrc.getPatchSet()
                   .getRevision().get()));
           RevCommit[] parents = commit.getParents();
@@ -68,37 +65,71 @@ public class GetPatch implements RestReadView<RevisionResource> {
           } else if (parents.length == 0) {
             throw new ResourceConflictException("Revision has no parent.");
           }
-          rw.parseBody(parents[0]);
+          final RevCommit base = parents[0];
+          rw.parseBody(base);
 
-          StringBuilder b = new StringBuilder();
-          appendHeader(b, commit);
-          ByteArrayOutputStream out = new ByteArrayOutputStream();
-          DiffFormatter f = new DiffFormatter(out);
-          f.setRepository(repo);
-          f.format(parents[0].getTree(), commit.getTree());
-          f.flush();
-          b.append(out.toString(UTF_8.name()));
-          return b.toString();
+          BinaryResult bin = new BinaryResult() {
+            @Override
+            public void writeTo(OutputStream out) throws IOException {
+              out.write(formatEmailHeader(commit).getBytes(UTF_8));
+              DiffFormatter fmt = new DiffFormatter(out);
+              fmt.setRepository(repo);
+              fmt.format(base.getTree(), commit.getTree());
+              fmt.flush();
+            }
+
+            @Override
+            public void close() throws IOException {
+              rw.release();
+              repo.close();
+            }
+          }.setContentType("application/mbox")
+           .base64();
+          close = false;
+          return bin;
         } finally {
-          rw.release();
+          if (close) {
+            rw.release();
+          }
         }
       } finally {
-        repo.close();
+        if (close) {
+          repo.close();
+        }
       }
     } catch (IOException e) {
       throw new ResourceNotFoundException();
     }
   }
 
-  private void appendHeader(StringBuilder b, RevCommit commit) {
+  private static String formatEmailHeader(RevCommit commit) {
+    StringBuilder b = new StringBuilder();
     PersonIdent author = commit.getAuthorIdent();
-    b.append("From ").append(commit.getId().getName()).append(" ")
-        .append(df.format(Long.valueOf(System.currentTimeMillis()))).append("\n");
-    b.append("From: ").append(author.getName()).append(" <").append(author.getEmailAddress()).append(">\n");
-    b.append("Date: ").append(df.format(author.getWhen())).append("\n");
-    b.append("Subject: [PATCH] ").append(commit.getShortMessage());
-    String message = commit.getFullMessage().substring(
-        commit.getShortMessage().length());
-    b.append(message).append("\n\n");
+    String subject = commit.getShortMessage();
+    String msg = commit.getFullMessage().substring(subject.length());
+    if (msg.startsWith("\n\n")) {
+      msg = msg.substring(2);
+    }
+    b.append("From ").append(commit.getName())
+     .append(' ')
+     .append("Mon Sep 17 00:00:00 2001\n")
+     .append("From: ").append(author.getName())
+     .append(" <").append(author.getEmailAddress()).append(">\n")
+     .append("Date: ").append(formatDate(author)).append('\n')
+     .append("Subject: [PATCH] ").append(subject).append('\n')
+     .append('\n')
+     .append(msg);
+    if (!msg.endsWith("\n")) {
+     b.append('\n');
+    }
+    return b.append("---\n\n").toString();
+  }
+
+  private static String formatDate(PersonIdent author) {
+    SimpleDateFormat df = new SimpleDateFormat(
+        "EEE, dd MMM yyyy HH:mm:ss Z",
+        Locale.US);
+    df.setCalendar(Calendar.getInstance(author.getTimeZone(), Locale.US));
+    return df.format(author.getWhen());
   }
 }

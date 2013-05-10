@@ -78,7 +78,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
    * The patch set details are loaded when the complex disclosure panel is opened.
    */
   public PatchSetComplexDisclosurePanel(final PatchSet ps, boolean isOpen) {
-    super(Util.M.patchSetHeader(ps.getPatchSetId()), isOpen);
+    super(Util.M.patchSetHeaderS(ps.getIdString()), isOpen);
     detailCache = ChangeCache.get(ps.getId().getParentKey()).getChangeDetailCache();
     changeDetail = detailCache.get();
     patchSet = ps;
@@ -105,7 +105,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     }
 
     if (isOpen) {
-      ensureLoaded(changeDetail.getCurrentPatchSetDetail());
+/*      ensureLoaded(changeDetail.getCurrentPatchSetDetail());*/
+      refresh();
     } else {
       addOpenHandler(this);
     }
@@ -113,7 +114,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     if(ps.getHasDraftComments()) {
       addStyleName(Gerrit.RESOURCES.css().patchSetWithDraft());
     }
-
+    if (ps.isEdit()) {
+      addStyleName(Gerrit.RESOURCES.css().patchSetWithDraft());
+    }
   }
 
   public void setDiffBaseId(PatchSet.Id diffBaseId) {
@@ -637,6 +640,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
             public void onSuccess(final PatchSetDetail result) {
               loadInfoTable(result);
               loadActionPanel(result);
+              loadPatchTable(result);
             }
           });
     }

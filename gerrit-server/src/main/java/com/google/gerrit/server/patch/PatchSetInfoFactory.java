@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -21,13 +22,18 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.RevisionEdit;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -39,7 +45,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 
 /**
  * Factory class creating PatchSetInfo from meta-data found in Git repository.
@@ -66,11 +71,34 @@ public class PatchSetInfoFactory {
     return info;
   }
 
-  public PatchSetInfo get(ReviewDb db, PatchSet.Id patchSetId)
-      throws PatchSetInfoNotAvailableException {
+  public PatchSetInfo get(ReviewDb db, PatchSet.Id patchSetId,
+      CurrentUser currentUser) throws PatchSetInfoNotAvailableException {
     try {
-      final PatchSet patchSet = db.patchSets().get(patchSetId);
-      final Change change = db.changes().get(patchSet.getId().getParentKey());
+      final Change change = db.changes().get(patchSetId.getParentKey());
+
+      /* ToDo: make a common method for the lines below and put in a good place */
+      PatchSet patchSet;
+      if (patchSetId.isEdit()) {
+        if (!(currentUser instanceof IdentifiedUser)) {
+          throw new PatchSetInfoNotAvailableException(
+              new NoSuchEntityException("You must be signed in to retrieve an edit"));
+        }
+        try {
+          final Repository repo = repoManager.openRepository(change.getProject());
+          try {
+            patchSet = new RevisionEdit((IdentifiedUser) currentUser,
+                patchSetId).getPatchSet(repo);
+          } finally {
+            repo.close();
+          }
+        } catch (RepositoryNotFoundException e) {
+          throw new PatchSetInfoNotAvailableException(e);
+        } catch (IOException e) {
+          throw new PatchSetInfoNotAvailableException(e);
+        }
+      } else {
+        patchSet = db.patchSets().get(patchSetId);
+      }
       return get(change, patchSet);
     } catch (OrmException e) {
       throw new PatchSetInfoNotAvailableException(e);

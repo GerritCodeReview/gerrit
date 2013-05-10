@@ -46,6 +46,9 @@ If you enabled Bouncy Castle Crypto during 'init', copy the JAR
 from `'$site_path'/lib` into your servlet container's extensions
 directory so it's available to Gerrit Code Review.
 
+* ('Optional') link:config-auto-site-initialization.html[
+Configure Automatic Site Initialization on Startup]
+
 
 Jetty 7.x
 ---------

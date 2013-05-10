@@ -88,7 +88,7 @@ public final class PatchSet {
     }
 
     public String getId() {
-      return "" + patchSetId + (isEdit() ? ".edit" : "");
+      return "" + patchSetId + (isEdit() ? "+" : "");
     }
 
     public boolean isEdit() {

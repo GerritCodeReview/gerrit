@@ -28,6 +28,7 @@ public interface ChangeMessages extends Messages {
   String changeScreenTitleId(String changeId);
   String outdatedHeader(int outdated);
   String patchSetHeader(int id);
+  String patchSetHeaderS(String id);
   String loadingPatchSet(int id);
   String submitPatchSet(int id);
 

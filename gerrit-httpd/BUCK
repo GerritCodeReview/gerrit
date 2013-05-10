@@ -28,5 +28,5 @@ java_test(
   ],
   source_under_test = [':httpd'],
   # TODO(sop) Remove after Buck supports Eclipse
-  visibility = ['//:eclipse_classpath'],
+  visibility = ['//tools/eclipse:classpath'],
 )

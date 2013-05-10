@@ -75,7 +75,7 @@ gwt_module(
     '//lib/gwt:user',
   ],
   visibility = [
-    '//:eclipse_classpath',
+    '//tools/eclipse:classpath',
     '//Documentation:licenses.txt',
   ],
 )

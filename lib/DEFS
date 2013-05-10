@@ -82,7 +82,7 @@ def java_library2(
     srcs = srcs,
     resources = resources,
     deps = deps + compile_deps,
-    visibility = ['//:eclipse_classpath'],
+    visibility = ['//tools/eclipse:classpath'],
   )
   # Break the dependency chain by passing the newly built
   # JAR to consumers through a prebuilt_jar().

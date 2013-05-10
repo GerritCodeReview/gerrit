@@ -42,73 +42,12 @@ java_library(
 
 genrule(
   name = 'download',
-  cmd = 'buck build $(buck audit classpath --dot :eclipse_classpath' +
+  cmd = 'buck build ' +
+    '$(buck audit classpath --dot //tools/eclipse:classpath' +
     '| egrep \'^  "//lib/\''+
     '| cut -d\\" -f2' +
     '| sort | uniq)',
   srcs = [],
   deps = [],
   out = '__fake.download__',
-)
-
-genrule(
-  name = 'eclipse',
-  cmd = '',
-  srcs = [],
-  deps = [
-    ':_eclipse_project',
-    ':_eclipse_classpath',
-  ],
-  out = '__fake.eclipse__',
-)
-
-genrule(
-  name = 'eclipse_project',
-  cmd = '',
-  srcs = [],
-  deps = [
-    ':_eclipse_project',
-    ':_eclipse_classpath_nocompile',
-  ],
-  out = '__fake.eclipse__',
-)
-
-java_library(
-  name = 'eclipse_classpath',
-  deps = LIBS + PGMLIBS + [
-    '//gerrit-acceptance-tests:acceptance_tests',
-    '//gerrit-gwtdebug:gwtdebug',
-    '//gerrit-gwtui:ui_module',
-    '//gerrit-httpd:httpd_tests',
-    '//gerrit-main:main_lib',
-    '//gerrit-server:server__compile',
-    '//lib/prolog:compiler_lib',
-  ] + scan_plugins(),
-)
-
-genrule(
-  name = '_eclipse_project',
-  cmd = '${//tools:eclipse_project} $OUT',
-  srcs = [],
-  deps = ['//tools:eclipse_project'],
-  out = 'eclipse_project',
-)
-
-genrule(
-  name = '_eclipse_classpath',
-  cmd = '${//tools:eclipse_classpath} $OUT $DEPS',
-  srcs = [],
-  deps = [
-    ':eclipse_classpath',
-    '//tools:eclipse_classpath',
-  ],
-  out = 'eclipse_classpath',
-)
-
-genrule(
-  name = '_eclipse_classpath_nocompile',
-  cmd = '${//tools:eclipse_classpath}',
-  srcs = [],
-  deps = ['//tools:eclipse_classpath'],
-  out = '__fake.eclipse__',
 )

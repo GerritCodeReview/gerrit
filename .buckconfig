@@ -2,7 +2,8 @@
   gerrit = //:gerrit
   release = //:release
   download = //:download
-  eclipse = //:eclipse
+  eclipse = //tools/eclipse:eclipse
+  eclipse_project = //tools/eclipse:eclipse_project
 
 [buildfile]
   includes = //lib/DEFS

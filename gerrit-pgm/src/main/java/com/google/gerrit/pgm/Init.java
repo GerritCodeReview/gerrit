@@ -45,6 +45,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.spi.Message;
 
 import org.kohsuke.args4j.Option;
@@ -54,6 +55,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 /** Initialize a new Gerrit installation. */
 public class Init extends SiteProgram {
   @Option(name = "--batch", usage = "Batch mode; skip interactive prompting")
@@ -62,11 +65,20 @@ public class Init extends SiteProgram {
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
 
+  private Class<? extends Provider<DataSource>> dsProvider;
+
   public Init() {
   }
 
   public Init(File sitePath) {
-    super(sitePath);
+    this(sitePath, null, null);
+  }
+
+  public Init(File sitePath,
+      final Class<? extends Provider<DataSource>> dsProvider,
+      final String dbType) {
+    super(sitePath, dbType);
+    this.dsProvider = dsProvider;
     batchMode = true;
     noAutoStart = true;
   }
@@ -123,7 +135,7 @@ public class Init extends SiteProgram {
     final File sitePath = getSitePath();
     final List<Module> m = new ArrayList<Module>();
 
-    m.add(new InitModule());
+    m.add(new InitModule(dsProvider));
     m.add(new AbstractModule() {
       @Override
       protected void configure() {
@@ -301,7 +313,7 @@ public class Init extends SiteProgram {
         bind(InitFlags.class).toInstance(init.flags);
       }
     });
-    return createDbInjector(SINGLE_USER).createChildInjector(modules);
+    return createDbInjector(SINGLE_USER, dsProvider).createChildInjector(modules);
   }
 
   private static void recursiveDelete(File path) {

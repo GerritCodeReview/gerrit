@@ -18,7 +18,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.httpd.GerritUiOptions;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -93,6 +92,10 @@ public class WebAppInitializer extends GuiceServletContextListener {
       final String path = System.getProperty("gerrit.site_path");
       if (path != null) {
         sitePath = new File(path);
+      }
+
+      if (System.getProperty("gerrit.init") != null) {
+        new SiteInitializer(path, System.getProperty("gerrit.init_path")).init();
       }
 
       try {

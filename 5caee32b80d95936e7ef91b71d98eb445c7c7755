@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UgiAxSlk",
+        "filename": "gerrit-common/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-10T18:50:56Z",
+      "side": 1,
+      "message": "As a hack could you do:\n\n  VERSION \u003d subprocess.check_output([\u0027git\u0027, \u0027describe\u0027, \u0027HEAD\u0027])\n  genrule(name \u003d \u0027git_describe_\u0027 + VERSION, ...)\n\nThen just make sure this rule is only used late enough in the build that it doesn\u0027t trigger rebuilding too much when the rule name changes (which will be pretty constantly).",
+      "revId": "5caee32b80d95936e7ef91b71d98eb445c7c7755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ugz80x0g",
+        "filename": "gerrit-war/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-10T18:50:56Z",
+      "side": 1,
+      "message": "\"; \"?",
+      "revId": "5caee32b80d95936e7ef91b71d98eb445c7c7755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

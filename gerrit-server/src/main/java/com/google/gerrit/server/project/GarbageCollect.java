@@ -18,8 +18,8 @@ import com.google.common.base.Charsets;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.restapi.StreamingResponse;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.project.GarbageCollect.Input;
 import com.google.inject.Inject;
@@ -43,15 +43,10 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public StreamingResponse apply(final ProjectResource rsrc, Input input) {
-    return new StreamingResponse() {
+  public BinaryResult apply(final ProjectResource rsrc, Input input) {
+    return new BinaryResult() {
       @Override
-      public String getContentType() {
-        return "text/plain;charset=UTF-8";
-      }
-
-      @Override
-      public void stream(OutputStream out) throws IOException {
+      public void writeTo(OutputStream out) throws IOException {
         PrintWriter writer = new PrintWriter(
             new OutputStreamWriter(out, Charsets.UTF_8)) {
           @Override
@@ -88,6 +83,7 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
           writer.flush();
         }
       }
-    };
+    }.setContentType("text/plain; charset=UTF-8")
+     .disableGzip();
   }
 }

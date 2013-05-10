@@ -31,7 +31,6 @@ import com.google.gerrit.client.ui.MorphingTabPanel;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.ScreenLoadEvent;
-import com.google.gerrit.common.ClientVersion;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
@@ -434,19 +433,13 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static void populateBottomMenu(final RootPanel btmmenu) {
+  private static void populateBottomMenu(RootPanel btmmenu, HostPageData hpd) {
     final Label keyHelp = new Label(C.keyHelp());
     keyHelp.setStyleName(RESOURCES.css().keyhelp());
     btmmenu.add(keyHelp);
 
-    String vs;
-    if (GWT.isScript()) {
-      final ClientVersion v = GWT.create(ClientVersion.class);
-      vs = v.version().getText();
-      if (vs.startsWith("v")) {
-        vs = vs.substring(1);
-      }
-    } else {
+    String vs = hpd.version;
+    if (vs == null || vs.isEmpty()) {
       vs = "dev";
     }
 
@@ -539,7 +532,7 @@ public class Gerrit implements EntryPoint {
 
     applyUserPreferences();
     initHistoryHooks();
-    populateBottomMenu(gBottomMenu);
+    populateBottomMenu(gBottomMenu, hpd);
     refreshMenuBar();
 
     History.addValueChangeHandler(new ValueChangeHandler<String>() {

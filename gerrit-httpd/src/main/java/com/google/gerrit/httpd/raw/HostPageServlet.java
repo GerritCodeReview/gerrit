@@ -14,10 +14,11 @@
 
 package com.google.gerrit.httpd.raw;
 
+import com.google.common.collect.Lists;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
-import com.google.common.collect.Lists;
 import com.google.common.primitives.Bytes;
+import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -275,6 +276,7 @@ public class HostPageServlet extends HttpServlet {
       footer = injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
 
       final HostPageData pageData = new HostPageData();
+      pageData.version = Version.getVersion();
       pageData.config = config;
 
       final StringWriter w = new StringWriter();

@@ -31,10 +31,7 @@ DEBUG_OPTS = [
   '-optimize', '0',
 ]
 
-APP_DEPS = [
-  ':ui_module',
-  '//gerrit-common:version',
-]
+APP_DEPS = [':ui_module']
 
 def gwt_user_agent_permutations(
     name,

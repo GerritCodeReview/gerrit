@@ -2068,6 +2068,8 @@ In addition `ApprovalInfo` has the following fields:
 The vote that the user has given for the label. If present and zero, the
 user is permitted to vote on the label. If absent, the user is not
 permitted to vote on that label.
+|`date`        |optional|
+The time and date describing when the approval was made.
 |===========================
 
 [[change-info]]

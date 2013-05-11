@@ -17,12 +17,14 @@ package com.google.gerrit.extensions.webui;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 
+import java.util.Set;
+
 public interface UiCommand<R extends RestResource> extends RestView<R> {
   public static enum Place {
     PATCHSET_ACTION_PANEL;
   };
 
-  Place getPlace();
+  Set<Place> getPlaces();
   String getLabel(R resource);
   String getTitle(R resource);
   boolean isVisible(R resource);

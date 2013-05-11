@@ -19,6 +19,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -99,7 +100,8 @@ public class UiCommands {
             }
 
             UiCommand<R> cmd = (UiCommand<R>) view;
-            if (!places.contains(cmd.getPlace()) || !cmd.isVisible(resource)) {
+            if (Sets.intersection(cmd.getPlaces(), places).isEmpty()
+                || !cmd.isVisible(resource)) {
               return null;
             }
 

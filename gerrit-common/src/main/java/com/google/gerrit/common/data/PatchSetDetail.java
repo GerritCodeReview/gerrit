@@ -72,6 +72,6 @@ public class PatchSetDetail {
   }
 
   public void setCommands(List<UiCommandDetail> cmds) {
-    commands = cmds;
+    commands = cmds.isEmpty() ? null : cmds;
   }
 }

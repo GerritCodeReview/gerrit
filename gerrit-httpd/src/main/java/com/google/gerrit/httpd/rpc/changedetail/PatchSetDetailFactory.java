@@ -14,12 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchSetDetail;
-import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
@@ -36,6 +32,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
+import com.google.gerrit.server.extensions.webui.UiCommands;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -52,8 +49,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -177,55 +173,11 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       }
     }
 
-    RevisionResource rev =
-        new RevisionResource(new ChangeResource(control), patchSet);
-    detail.setCommands(buildCommands(rev));
+    detail.setCommands(UiCommands.sorted(UiCommands.from(
+      revisions,
+      new RevisionResource(new ChangeResource(control), patchSet),
+      EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL))));
     return detail;
-  }
-
-  private List<UiCommandDetail> buildCommands(RevisionResource rev) {
-    List<UiCommandDetail> all = Lists.newArrayList();
-    for (DynamicMap.Entry<RestView<RevisionResource>> e : revisions.views()) {
-      int d = e.getExportName().indexOf('.');
-      if (d < 0) {
-        continue;
-      }
-      String method = e.getExportName().substring(0, d);
-      String name = e.getExportName().substring(d + 1);
-      RestView<RevisionResource> view;
-      try {
-        view = e.getProvider().get();
-      } catch (RuntimeException err) {
-        log.error(String.format(
-            "error in view %s.%s",
-            e.getPluginName(), e.getExportName()), err);
-        continue;
-      }
-      if (!(view instanceof UiCommand)) {
-        continue;
-      }
-
-      UiCommand<RevisionResource> cmd = (UiCommand<RevisionResource>) view;
-      if (cmd.getPlace() != UiCommand.Place.PATCHSET_ACTION_PANEL
-          || !cmd.isVisible(rev)) {
-        continue;
-      }
-
-      UiCommandDetail dsc = new UiCommandDetail();
-      dsc.id = e.getPluginName() + '~' + name;
-      dsc.method = method;
-      dsc.label = cmd.getLabel(rev);
-      dsc.title = cmd.getTitle(rev);
-      dsc.enabled = cmd.isEnabled(rev);
-      all.add(dsc);
-    }
-    Collections.sort(all, new Comparator<UiCommandDetail>() {
-      @Override
-      public int compare(UiCommandDetail a, UiCommandDetail b) {
-        return a.id.compareTo(b.id);
-      }
-    });
-    return all.isEmpty() ? null : all;
   }
 
   private ObjectId toObjectId(final PatchSet.Id psId) throws OrmException,

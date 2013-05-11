@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UjNY9xMw",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-11T19:05:43Z",
+      "side": 1,
+      "message": "https://gerrit.googlesource.com/prolog-cafe might be the better link to include here.",
+      "revId": "3b604fcbf656068759b8abd8a8890620720a0cd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

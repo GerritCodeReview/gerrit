@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UgkA0Tkk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-05-11T10:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ugz9d56I",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UhvwRyWQ",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-10T01:20:02Z",
       "side": 1,
       "message": "style: space after if: \"if (\"",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ug58k8xs",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-05-11T10:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UhvwRyWQ",
       "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Ug386Tzs",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-05-11T10:35:22Z",
+      "side": 1,
+      "message": "Yes, that\u0027s an option. If we keep the icon next to the patch set label it does stand out enough, given the shifted alignment of the rest of the line.",
+      "parentUuid": "UgmBQcos",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UgkBdbqE",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetsBlock.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "Ug7.WlwA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetsBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-05-11T10:35:22Z",
+      "side": 1,
+      "message": "I like the idea with hasDraftComments(PatchSet.Id). As for the setter I would keep it as it is for the consistency",
+      "parentUuid": "UgkBdbqE",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UgiBaaqs",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2013-05-10T01:20:02Z",
       "side": 1,
       "message": "psid? (since you already have \"me\" which is an id also.)",
+      "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UgmB.Mu4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-05-11T10:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UgiBaaqs",
       "revId": "3d3ba697a54d558c0e010b66d4d39386855e404c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

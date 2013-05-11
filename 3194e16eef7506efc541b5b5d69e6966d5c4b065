@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "UnsTvPjk",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2704,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-11T06:50:05Z",
+      "side": 1,
+      "message": "If we really want to have such property to limit server ping-pongs. Then we  should compute it! And we can compute it, just check size of DynamicMap\u003cUiCommand\u003e and if it is not empty then inform client to ask for extensions.",
+      "parentUuid": "Ug78ft84",
+      "revId": "3194e16eef7506efc541b5b5d69e6966d5c4b065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug9.AO.8",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10

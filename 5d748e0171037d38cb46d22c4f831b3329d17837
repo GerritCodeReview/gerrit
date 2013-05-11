@@ -34,6 +34,23 @@
       "revId": "5d748e0171037d38cb46d22c4f831b3329d17837",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnoT5Rgg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-11T23:15:25Z",
+      "side": 1,
+      "message": "This URL looks like the right one, for now.\n\nWhen we move around the documentation for structural reasons, not sure how to remember this URL when it\u0027s time for that though.",
+      "revId": "5d748e0171037d38cb46d22c4f831b3329d17837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -206,10 +206,12 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       }
 
       UiCommand<RevisionResource> cmd = (UiCommand<RevisionResource>) view;
-      if (cmd.getPlace() != UiCommand.Place.PATCHSET_ACTION_PANEL
+      if ((cmd.getPlace() != UiCommand.Place.PATCHSET_ACTION_PANEL && cmd
+          .getPlace() != UiCommand.Place.CURRENT_PATCHSET_ACTION_PANEL)
           || !cmd.isVisible(rev)) {
         continue;
       }
+
 
       UiCommandDetail dsc = new UiCommandDetail();
       dsc.id = e.getPluginName() + '~' + name;
@@ -217,6 +219,9 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       dsc.label = cmd.getLabel(rev);
       dsc.title = cmd.getTitle(rev);
       dsc.enabled = cmd.isEnabled(rev);
+      dsc.specifier =
+          cmd.getPlace() == UiCommand.Place.CURRENT_PATCHSET_ACTION_PANEL
+              ? "current" : null;
       all.add(dsc);
     }
     Collections.sort(all, new Comparator<UiCommandDetail>() {

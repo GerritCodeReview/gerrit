@@ -17,6 +17,9 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
 
+import java.util.Collections;
+import java.util.Map;
+
 public class ProjectDetail {
   public Project project;
   public boolean canModifyDescription;
@@ -29,6 +32,7 @@ public class ProjectDetail {
   public InheritedBoolean useSignedOffBy;
   public InheritedBoolean useContentMerge;
   public InheritedBoolean requireChangeID;
+  public Map<String, UiCommandDetail> commands;
 
   public ProjectDetail() {
   }
@@ -75,5 +79,16 @@ public class ProjectDetail {
 
   public void setRequireChangeID(final InheritedBoolean rcid) {
     requireChangeID = rcid;
+  }
+
+  public Map<String, UiCommandDetail> getCommands() {
+    if (commands != null) {
+      return commands;
+    }
+    return Collections.emptyMap();
+  }
+
+  public void setCommands(Map<String, UiCommandDetail> m) {
+    commands = m;
   }
 }

@@ -15,40 +15,56 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.common.data.UiCommandDetail;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Map;
 
 class ProjectDetailFactory extends Handler<ProjectDetail> {
+  private static final Logger log =
+      LoggerFactory.getLogger(ProjectDetailFactory.class);
+
   interface Factory {
     ProjectDetailFactory create(@Assisted Project.NameKey name);
   }
 
   private final ProjectControl.Factory projectControlFactory;
   private final GitRepositoryManager gitRepositoryManager;
+  final ProjectsCollection projectCollection;
 
   private final Project.NameKey projectName;
 
   @Inject
   ProjectDetailFactory(final ProjectControl.Factory projectControlFactory,
       final GitRepositoryManager gitRepositoryManager,
+      final ProjectsCollection projectCollection,
       @Assisted final Project.NameKey name) {
     this.projectControlFactory = projectControlFactory;
     this.gitRepositoryManager = gitRepositoryManager;
+    this.projectCollection = projectCollection;
     this.projectName = name;
   }
 
@@ -111,6 +127,51 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
       git.close();
     }
 
+    ProjectResource proj = new ProjectResource(pc);
+    detail.setCommands(buildCommands(proj));
+
     return detail;
   }
+
+  private Map<String, UiCommandDetail> buildCommands(ProjectResource rev) {
+    Map<String, UiCommandDetail> all = Maps.newTreeMap();
+    for (String plugin : projectCollection.views().plugins()) {
+      for (Map.Entry<String, Provider<RestView<ProjectResource>>> e
+            : projectCollection.views().byPlugin(plugin).entrySet()) {
+        int d = e.getKey().indexOf('.');
+        if (d < 0) {
+          continue;
+        }
+        String method = e.getKey().substring(0, d);
+        String name = e.getKey().substring(d + 1);
+        String id = plugin + '.' + e.getKey();
+        RestView<ProjectResource> view;
+        try {
+          view = e.getValue().get();
+        } catch (RuntimeException err) {
+          log.error(String.format("error in view %s", id), err);
+          continue;
+        }
+        if (!(view instanceof UiCommand)) {
+          continue;
+        }
+
+        UiCommand<ProjectResource> cmd = (UiCommand<ProjectResource>) view;
+        if (cmd.getPlace() != UiCommand.Place.PROJECT_INFO_ACTION_PANEL
+            || !cmd.isVisible(rev)) {
+          continue;
+        }
+
+        UiCommandDetail dsc = new UiCommandDetail();
+        dsc.id = plugin + '~' + name;
+        dsc.method = method;
+        dsc.label = cmd.getLabel(rev);
+        dsc.title = cmd.getTitle(rev);
+        dsc.enabled = cmd.isEnabled(rev);
+        all.put(dsc.id, dsc);
+      }
+    }
+    return all.isEmpty() ? null : all;
+  }
+
 }

@@ -408,7 +408,8 @@ Prolog Cafe - EPL or GPL
 
 Originally developed by Mutsunori BANBARA and Naoyuki TAMURA at the
 Kobe University, JAPAN. Gerrit Code Review uses a fork derived from
-the 1.2.5 release.
+the 1.2.5 release, and offers the corresponding source code at
+link:https://gerrit.googlesource.com/prolog-cafe[].
 
 Prolog Cafe is dual licensed and available under either the
 link:http://opensource.org/licenses/eclipse-1.0.php[Eclipse Public License],

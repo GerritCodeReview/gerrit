@@ -32,7 +32,7 @@ import com.google.inject.Provider;
 
 class CherryPick implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> dbProvider;
-  private final CherryPickChange cherryPickChange;
+  private final Provider<CherryPickChange> cherryPickChange;
   private final ChangeJson json;
 
   static class Input {
@@ -41,7 +41,8 @@ class CherryPick implements RestModifyView<RevisionResource, Input> {
   }
 
   @Inject
-  CherryPick(Provider<ReviewDb> dbProvider, CherryPickChange cherryPickChange,
+  CherryPick(Provider<ReviewDb> dbProvider,
+      Provider<CherryPickChange> cherryPickChange,
       ChangeJson json) {
     this.dbProvider = dbProvider;
     this.cherryPickChange = cherryPickChange;
@@ -79,9 +80,9 @@ class CherryPick implements RestModifyView<RevisionResource, Input> {
 
     final PatchSet.Id patchSetId = revision.getPatchSet().getId();
     try {
-      Change.Id cherryPickedChangeId =
-          cherryPickChange.cherryPick(patchSetId, input.message,
-              input.destination, refControl);
+      Change.Id cherryPickedChangeId = cherryPickChange.get().cherryPick(
+          patchSetId, input.message,
+          input.destination, refControl);
       return json.format(cherryPickedChangeId);
     } catch (InvalidChangeOperationException e) {
       throw new BadRequestException(e.getMessage());

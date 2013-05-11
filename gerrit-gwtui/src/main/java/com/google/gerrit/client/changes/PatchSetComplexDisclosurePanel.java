@@ -563,7 +563,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
                 @Override
                 public void onSuccess(NativeString msg) {
                   b.setEnabled(true);
-                  if (msg != null) {
+                  if (!msg.toString().isEmpty()) {
                     Window.alert(msg.asString());
                   }
                 }

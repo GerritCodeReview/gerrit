@@ -239,6 +239,89 @@ public class MyInitStep implements InitStep {
 }
 ====
 
+[[ui_extension]]
+UI extension
+~~~~~~~~~
+
+Plugins can contribute their own UI commands on core Gerit pages.
+This is useful for worklfow customization or exposing Plugin functionality
+through UI in addition to ssh commands and RestAPI.
+
+For instance plugins to integrate Jira issues to Gerrit changes may
+contribute their own "File bug" button to allow file a bug from core Gerrit
+change page or plugins to integrate continuous integration systems may
+contribute "Schedule" button to allow a CI build to be scheduled manually from
+core Gerrit patch set page.
+
+At the time of this writing three different places on core Gerrit pages are
+supported:
+
+* current patch set action panel
+* patch set action panel
+* project info screen.
+
+It is easy to add a support for more core Gerrit pages, check this for
+inspiration: https://gerrit-review.googlesource.com/#/c/45640/.
+
+Plugins contribute UI commands by implementing UiCommand interface:
+
+====
+class HelloCommand implements UiCommand<RevisionResource>,
+    RestModifyView<RevisionResource, HelloCommand.Input> {
+  static final Logger log = LoggerFactory.getLogger(HelloCommand.class);
+
+  static class Input {
+  }
+
+  private Provider<CurrentUser> cu;
+
+  @Inject
+  HelloCommand(Provider<CurrentUser> cu) {
+    this.cu = cu;
+  }
+
+  @Override
+  public Place getPlace() {
+    return UiCommand.Place.CURRENT_PATCHSET_ACTION_PANEL;
+  }
+
+  @Override
+  public boolean isVisible(RevisionResource rev) {
+    return cu.get().getUserName() != null;
+  }
+
+  @Override
+  public boolean isEnabled(RevisionResource rev) {
+    return isActive(rev);
+  }
+
+  @Override
+  public String getLabel(RevisionResource rev) {
+    return "Hello";
+  }
+
+  @Override
+  public String getTitle(RevisionResource rev) {
+    return isActive(rev)
+        ? "Say Hello to odd patch number"
+        : "No Hello to even patch number, try an odd one";
+  }
+
+  private static boolean isActive(RevisionResource rev) {
+    return rev.getPatchSet().getPatchSetId() % 2 == 1;
+  }
+
+  @Override
+  public String apply(RevisionResource rev, Input input) {
+    String msg = String.format(
+        "Hello %s, greetings from the core gerrit page (for the patch set %d)",
+        cu.get().getUserName(), rev.getPatchSet().getPatchSetId());
+    log.info(msg);
+    return msg;
+  }
+}
+====
+
 [[classpath]]
 Classpath
 ---------

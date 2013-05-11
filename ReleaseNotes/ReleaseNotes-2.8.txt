@@ -1,0 +1,15 @@
+Release notes for Gerrit 2.8
+============================
+
+Gerrit 2.8 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.8.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.8.war]
+
+Release Highlights
+------------------
+* Completely customizable workflow
++
+Plugins can contribute UI commands on core Gerrit pages:
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/dev-plugins.html[
+ui_extension].
+

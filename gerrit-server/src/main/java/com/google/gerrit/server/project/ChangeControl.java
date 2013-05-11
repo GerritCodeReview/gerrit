@@ -366,7 +366,7 @@ public class ChangeControl {
       return Collections.singletonList(rec);
     }
 
-    if (!patchSet.getId().equals(change.currentPatchSetId())) {
+    if (!isCurrentPatchSet(patchSet)) {
       return ruleError("Patch set " + patchSet.getPatchSetId() + " is not current");
     }
 
@@ -401,6 +401,10 @@ public class ChangeControl {
     }
 
     return resultsToSubmitRecord(evaluator.getSubmitRule(), results);
+  }
+
+  public boolean isCurrentPatchSet(PatchSet patchSet) {
+    return patchSet.getId().equals(change.currentPatchSetId());
   }
 
   private List<SubmitRecord> cannotSubmitDraft(ReviewDb db, PatchSet patchSet,

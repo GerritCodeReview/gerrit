@@ -19,7 +19,12 @@ import com.google.gerrit.extensions.restapi.RestView;
 
 public interface UiCommand<R extends RestResource> extends RestView<R> {
   public static enum Place {
-    PATCHSET_ACTION_PANEL;
+    /* all patch sets */
+    PATCHSET_ACTION_PANEL,
+    /* current patch set only */
+    CURRENT_PATCHSET_ACTION_PANEL,
+    /* project info action panel */
+    PROJECT_INFO_ACTION_PANEL;
   };
 
   Place getPlace();

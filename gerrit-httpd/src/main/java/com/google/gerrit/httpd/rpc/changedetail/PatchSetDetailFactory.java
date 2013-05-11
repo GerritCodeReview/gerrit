@@ -44,6 +44,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.UiCommandUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -52,8 +53,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -175,11 +174,12 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
           p.setReviewedByCurrentUser(true);
         }
       }
-    }
 
-    RevisionResource rev =
-        new RevisionResource(new ChangeResource(control), patchSet);
-    detail.setCommands(buildCommands(rev));
+      // collect UiCommands only if we are signed in
+      RevisionResource rev =
+          new RevisionResource(new ChangeResource(control), patchSet);
+      detail.setCommands(buildCommands(rev));
+    }
     return detail;
   }
 
@@ -206,26 +206,26 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       }
 
       UiCommand<RevisionResource> cmd = (UiCommand<RevisionResource>) view;
-      if (cmd.getPlace() != UiCommand.Place.PATCHSET_ACTION_PANEL
-          || !cmd.isVisible(rev)) {
+      // command wants RevisionResource?
+      if (!UiCommandUtil.isCommandForRevisionResource(cmd.getPlace())) {
         continue;
       }
 
-      UiCommandDetail dsc = new UiCommandDetail();
-      dsc.id = e.getPluginName() + '~' + name;
-      dsc.method = method;
-      dsc.label = cmd.getLabel(rev);
-      dsc.title = cmd.getTitle(rev);
-      dsc.enabled = cmd.isEnabled(rev);
-      all.add(dsc);
-    }
-    Collections.sort(all, new Comparator<UiCommandDetail>() {
-      @Override
-      public int compare(UiCommandDetail a, UiCommandDetail b) {
-        return a.id.compareTo(b.id);
+      // command wants only current patch set?
+      if (cmd.getPlace() == UiCommand.Place.CURRENT_PATCHSET_ACTION_PANEL &&
+          !control.isCurrentPatchSet(detail.getPatchSet())) {
+        continue;
       }
-    });
-    return all.isEmpty() ? null : all;
+
+      // command is not visible?
+      if (!cmd.isVisible(rev)) {
+        continue;
+      }
+
+      all.add(UiCommandUtil.createCommandDetail(e.getPluginName(), name,
+          method, cmd, rev));
+    }
+    return UiCommandUtil.sortCommands(all);
   }
 
   private ObjectId toObjectId(final PatchSet.Id psId) throws OrmException,

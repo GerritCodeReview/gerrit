@@ -39,6 +39,7 @@ class AuditedHttpServletResponse
   }
 
   @Override
+  @Deprecated
   public void setStatus(int sc, String sm) {
     super.setStatus(sc, sm);
     this.status = sc;

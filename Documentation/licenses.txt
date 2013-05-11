@@ -416,8 +416,7 @@ or the
 link:http://www.gnu.org/licenses/gpl-2.0.html[GPL version 2.0 (or later)].
 
 In the context of Gerrit Code Review, Prolog Cafe is consumed
-under either the EPL or GPL version 3.0 as GPL version 2.0 is
-not compatible with Apache License 2.0.
+under the EPL.
 
 [[h2]]
 H2 Database - EPL or modified MPL

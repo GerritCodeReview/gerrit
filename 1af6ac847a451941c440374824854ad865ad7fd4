@@ -33,6 +33,24 @@
       "revId": "1af6ac847a451941c440374824854ad865ad7fd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnuTqOis",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-11T06:45:59Z",
+      "side": 1,
+      "message": "The main point here is to not force adopters to build process.\n\nI\u0027ve heard during last users summit that those additional steps of \u0027configuration\u0027 (writing MANIFEST file, and one java class) and building everything with maven for JS devs would be a huge overhead.\n\nIdea is that one could immediately see the result of his work in web browser without \u0027build and deploy\u0027 step. I can imagine people mounting plugins/ directory via nfs or sshfs and editing plugin file \u0027locally\u0027. Another approach is to just run gerrit locally and use plugins/ as a workspace.\n\nStatic content could be served from gerrit/static directory, or as you mentioned directly from plugins/ (smaller resources can be embedded into JS file it self).\n\nWe could also may slightly modify how we deploy plugins. We could create more tree-like structure. Plugins would be installed in theirs own directories inside plugins/. We could also support installing ZIP files where ZIP file would contain all needed assets like CSS and images and would be extracted into \u0027plugins/${plugin-name}\u0027 dir. We would only enforce name of main JS file. IMO such solution would be perfect, but would prefer implement it in smaller steps ;)",
+      "parentUuid": "UhL7mmTI",
+      "revId": "1af6ac847a451941c440374824854ad865ad7fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

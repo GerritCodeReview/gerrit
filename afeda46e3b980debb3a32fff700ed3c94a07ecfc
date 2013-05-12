@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UjfVfmCc",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 1012502
+      },
+      "writtenOn": "2013-05-12T12:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjBY0XN8",
+      "revId": "afeda46e3b980debb3a32fff700ed3c94a07ecfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjRU0VN8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "Un4MQHl4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1012502
+      },
+      "writtenOn": "2013-05-12T12:42:38Z",
+      "side": 1,
+      "message": "It\u0027s done in AllProjectCreator.java. Query capability is added there the same way as StreamEvents cap.",
+      "parentUuid": "UjRU0VN8",
+      "revId": "afeda46e3b980debb3a32fff700ed3c94a07ecfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Un8MWFls",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-12T12:32:14Z",
       "side": 1,
       "message": "Nit: Remove double line feeds.",
+      "revId": "afeda46e3b980debb3a32fff700ed3c94a07ecfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Un6MLGjE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1012502
+      },
+      "writtenOn": "2013-05-12T12:42:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Un8MWFls",
       "revId": "afeda46e3b980debb3a32fff700ed3c94a07ecfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

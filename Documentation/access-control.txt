@@ -1234,6 +1234,11 @@ If a user is granted the priority capability with the 'INTERACTIVE' option,
 regardless if they also have the 'BATCH' option or not, they are in the
 'INTERACTIVE' thread pool.
 
+[[capability_query]]
+Query
+~~~~~
+
+Allow users to link:cmd-query.html[query the change database].
 
 [[capability_queryLimit]]
 Query Limit

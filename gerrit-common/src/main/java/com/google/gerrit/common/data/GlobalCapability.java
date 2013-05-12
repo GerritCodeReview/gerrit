@@ -64,6 +64,9 @@ public class GlobalCapability {
   /** Queue a user can access to submit their tasks to. */
   public static final String PRIORITY = "priority";
 
+  /** Can query the change database */
+  public static final String QUERY = "query";
+
   /** Maximum result limit per executed query. */
   public static final String QUERY_LIMIT = "queryLimit";
 
@@ -99,6 +102,7 @@ public class GlobalCapability {
     NAMES_ALL.add(FLUSH_CACHES);
     NAMES_ALL.add(KILL_TASK);
     NAMES_ALL.add(PRIORITY);
+    NAMES_ALL.add(QUERY);
     NAMES_ALL.add(QUERY_LIMIT);
     NAMES_ALL.add(RUN_GC);
     NAMES_ALL.add(START_REPLICATION);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Un4NH-mI",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-12T22:44:03Z",
+      "side": 1,
+      "message": "Please use two empty lines prefixing the new headline, as the rest of the document does.",
+      "revId": "d591cb1491f84418161e7a293eb5ea904a487aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnsQ9-sw",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-12T22:44:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure if you want an explicit line feed here or not since you did\u0027nt use the space that was left on the previous line. If you indeed did want a linefeed you\u0027ll have to use a specific linefeed character (which I don\u0027t have on the top of my head..), or just inject an empty line here to get a branch new paragraph. Either format is fine with me, but I just don\u0027t know which effect you\u0027re after here.",
+      "revId": "d591cb1491f84418161e7a293eb5ea904a487aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

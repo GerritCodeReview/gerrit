@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UnuQRGmU",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjLb0iA4",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjVX8DPM",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/UiCommandDetail.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-10T22:51:45Z",
       "side": 1,
       "message": "What is a specifier?",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnsQWHls",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/UiCommandDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "i was trying to add a screen agnostic way to make the places more specific. But as you pointed out current patch set can be identified on the server side.",
+      "parentUuid": "UjVX8DPM",
       "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Un0MjRrI",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjTUJkD0",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjJb5jAg",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-10T22:51:45Z",
       "side": 1,
       "message": "List?",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnoQQJl4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjJb5jAg",
       "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "UnyMgSqM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjHb-EOo",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjRUGlCs",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-05-10T22:51:45Z",
       "side": 1,
       "message": "Instead of holding the commands inside of the view, just pass them as an argument to initProjectCommands?",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjdVknPY",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjRUGlCs",
       "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "UnwMdTnE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjFb8FPM",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjDYJmD0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2013-05-10T22:51:45Z",
       "side": 1,
       "message": "refactor this method to use the new one you just added.",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Un.M48t4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjDYJmD0",
       "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "UnkQjTrI",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjdUW3Fo",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjfUR2GQ",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2013-05-10T22:51:45Z",
       "side": 1,
       "message": "The server can tell if the patch set is current. Don\u0027t force this into the client when you can do it right here and simply skip the view.",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnmQmSsQ",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjfUR2GQ",
       "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "UniQgUqM",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjbULYDE",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjBYGnCs",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2013-05-10T22:51:45Z",
       "side": 1,
       "message": "Hmm. Some of this code is common with what is in PatchSetDetailFactory. Could we use a helper method?",
+      "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Un8M99sw",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:03:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjBYGnCs",
       "revId": "e51ddd1d3da8ff1404077819bde9b450af803e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

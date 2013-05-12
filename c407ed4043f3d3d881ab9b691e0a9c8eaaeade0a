@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "UngQdVnE",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-12T20:51:26Z",
+      "side": 1,
+      "message": "it seems to be broken on current master:\n\n buck build api\n BUILD FAILED: No directory api when resolving target //api:api in context  FULLY_QUALIFIED\n\nHowever this works:\n\n buck build //:api\n BUILDING //:api\n BUILD SUCCESSFUL",
+      "revId": "c407ed4043f3d3d881ab9b691e0a9c8eaaeade0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Un.MREmU",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 2

@@ -147,6 +147,9 @@ public class AllProjectsCreator {
 
       Permission stream = cap.getPermission(GlobalCapability.STREAM_EVENTS, true);
       stream.add(rule(config, batch));
+
+      Permission query = cap.getPermission(GlobalCapability.QUERY, true);
+      query.add(rule(config, batch));
     }
 
     LabelType cr = initCodeReviewLabel(config);

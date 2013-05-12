@@ -154,6 +154,13 @@ public class CapabilityControl {
         || canAdministrateServer();
   }
 
+  /** @return true if the user can query the change database. */
+  public boolean canQuery() {
+    return canPerform(GlobalCapability.QUERY)
+        || canAdministrateServer();
+  }
+
+
   /** @return which priority queue the user's tasks should be submitted to. */
   public QueueProvider.QueueType getQueueType() {
     // If a non-generic group (that is not Anonymous Users or Registered Users)

@@ -109,6 +109,9 @@ resume_sortkey:<sortKey>::
 ACCESS
 ------
 Any user who has configured an SSH key.
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted
+link:access-control.html#capability_query[the 'Query' global capability].
 
 SCRIPTING
 ---------

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UjBY0XN8",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-12T12:27:58Z",
+      "side": 1,
+      "message": "Use ~ instead of -",
+      "revId": "afeda46e3b980debb3a32fff700ed3c94a07ecfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjRU0VN8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-12T12:27:58Z",
+      "side": 1,
+      "message": "The commit message also mentions non-interactive users.  Where is that checked?",
+      "revId": "afeda46e3b980debb3a32fff700ed3c94a07ecfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

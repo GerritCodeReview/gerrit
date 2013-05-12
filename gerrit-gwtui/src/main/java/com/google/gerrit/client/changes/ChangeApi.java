@@ -46,6 +46,16 @@ public class ChangeApi {
     call(id, "revert").post(input, cb);
   }
 
+  /** Publish the current user's edit on the last revision of this change. */
+  /* ToDo, force it to be on the last revision */
+  public static void publish(PatchSet.Id id, AsyncCallback<ChangeInfo> cb) {
+    String revision = "" + id.get() + (id.isEdit() ? ".edit" : "");
+    Input input = Input.create();
+    ChangeApi.change(id.getParentKey().get())
+        .view("revisions").id(revision)
+        .view("publish").post(input, cb);
+  }
+
   /** Update the topic of a change. */
   public static void topic(int id, String topic, String msg, AsyncCallback<String> cb) {
     RestApi call = call(id, "topic");

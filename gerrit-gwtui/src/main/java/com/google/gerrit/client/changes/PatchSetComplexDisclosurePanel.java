@@ -52,6 +52,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -200,6 +201,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
               && changeDetail.getPatchSets().size() > 1) {
             populateDeleteDraftPatchSetAction();
           }
+        } else if (detail.getPatchSet().isEdit()) {
+          populatePublishAction();
         }
       }
       body.add(actionsPanel);
@@ -631,8 +634,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       @Override
       public void onClick(final ClickEvent event) {
         b.setEnabled(false);
-        Util.MANAGE_SVC.publish(patchSet.getId(),
-            new ChangeDetailCache.GerritWidgetCallback(b));
+        if (patchSet.isEdit()) {
+          ChangeApi.publish(patchSet.getId(), new WidgetCallback(b));
+        } else {
+          Util.MANAGE_SVC.publish(patchSet.getId(),
+              new ChangeDetailCache.GerritWidgetCallback(b));
+        }
       }
     });
     actionsPanel.add(b);
@@ -748,6 +755,25 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   public void setActive(boolean active) {
     if (patchTable != null) {
       patchTable.setActive(active);
+    }
+  }
+
+  public static class WidgetCallback extends GerritCallback<ChangeInfo> {
+    private FocusWidget widget;
+
+    public WidgetCallback(FocusWidget widget) {
+      this.widget = widget;
+    }
+    @Override
+    public void onSuccess(ChangeInfo result) {
+      Gerrit.display(PageLinks.toChange(new Change.Id(result
+          ._number())));
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+      widget.setEnabled(true);
+      super.onFailure(caught);
     }
   }
 }

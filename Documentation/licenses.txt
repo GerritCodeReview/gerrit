@@ -407,7 +407,8 @@ Prolog Cafe - EPL or GPL
 
 Originally developed by Mutsunori BANBARA and Naoyuki TAMURA at the
 Kobe University, JAPAN. Gerrit Code Review uses a fork derived from
-the 1.2.5 release.
+the 1.2.5 release, and offers the corresponding source code at
+link:https://gerrit.googlesource.com/prolog-cafe[].
 
 Prolog Cafe is dual licensed and available under either the
 link:http://opensource.org/licenses/eclipse-1.0.php[Eclipse Public License],
@@ -415,8 +416,7 @@ or the
 link:http://www.gnu.org/licenses/gpl-2.0.html[GPL version 2.0 (or later)].
 
 In the context of Gerrit Code Review, Prolog Cafe is consumed
-under either the EPL or GPL version 3.0 as GPL version 2.0 is
-not compatible with Apache License 2.0.
+under the EPL.
 
 [[h2]]
 H2 Database - EPL or modified MPL

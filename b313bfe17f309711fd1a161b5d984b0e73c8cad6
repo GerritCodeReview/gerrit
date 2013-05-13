@@ -16,6 +16,24 @@
       "revId": "b313bfe17f309711fd1a161b5d984b0e73c8cad6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Un8Nk1vY",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-13T07:00:42Z",
+      "side": 1,
+      "message": "indeed, i fixed it in https://gerrit-review.googlesource.com/#/c/45640/ by collecting the UI commands only if we are signed in. But i am not sure, if we want to support UI extension for anonymous user also, or later?\n\nIn any events i think it is not logging but design problem.",
+      "parentUuid": "UjFYj9LE",
+      "revId": "b313bfe17f309711fd1a161b5d984b0e73c8cad6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

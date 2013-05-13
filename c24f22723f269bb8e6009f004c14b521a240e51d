@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Un0MqJoA",
+        "filename": "Documentation/dev-maven.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-13T06:21:20Z",
+      "side": 1,
+      "message": "it wasn\u0027t in the original documentation, but shouldn\u0027t we mention here how and from where to install maven: http://maven.apache.org, etc?",
+      "revId": "c24f22723f269bb8e6009f004c14b521a240e51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -133,6 +133,57 @@ Force a download of dependency JARs by building the `download` target:
 ----
 
 
+Build Process Switch Exit Criteria
+----------------------------------
+
+The switch to Buck is an experimental process. Buck will become the
+primary build for Gerrit (and link:dev-maven.html[Maven support]
+removed) only when the following conditions are met.
+
+1. Windows support.
++
+Facebook has an intern who will be working on this (summer 2013).
+
+2. Bootstrap and stable version support.
++
+From a fresh Gerrit clone on a machine without Buck (but with some
+reasonable subset of Buck's dependencies, e.g. Python 2.7), a new
+Gerrit developer should be able to set up and start building with
+Buck by running approximately one command. There should also be some
+idea of a "stable" version of Buck, even if we just tie our build
+to specific known-good SHAs. Binary distributions are another plus,
+which I believe the Buck team has planned.
+
+3. Eclipse support.
++
+Much of this is already there. The build needs to be at least as
+reliable as it is under Maven. (This is kind of a low bar, due to
+issues like Maven not handling generated Prolog source files or
+recompiling the GWT source.)
+
+4. Build without Internet access.
++
+Currently dependencies are downloaded directly from Maven Central
+and Gerrit's Google Cloud Storage bucket. In some environments
+build systems do not have direct network access. It must be possible
+for a developer to swap out the upstream Maven Central URL with an
+internal Maven mirror, or to supply all of the JARs themselves.
+
+5. Shawn's Buck fork merged upstream.
++
+Shawn has a link:https://gerrit.googlesource.com/buck/+log/github-master..master[fork of Buck]
+with some patches necessary to build Gerrit and run its unit tests.
+These patches (or their equivalents) must be in the upstream Buck tree.
+
+6. Fix all incidental issues.
++
+Things come up that don't work. Martin just ran out of file
+descriptors, which sounds like an upstream bug.
++
+There should be a consensus that new bugs like this in upstream
+Buck are not constantly being introduced.
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

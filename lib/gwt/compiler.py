@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
+
 from multiprocessing import cpu_count
 from os import environ, fchmod, makedirs, mkdir, path
 from subprocess import Popen, PIPE
@@ -31,7 +33,7 @@ for a in argv[3:]:
     opt.append(a)
 
 if not outzip.endswith('.zip'):
-  print >>stderr, "%s must end with .zip" % outzip
+  print("%s must end with .zip" % outzip, file=stderr)
   exit(1)
 
 rebuild = outzip[:-4] + '.rebuild'
@@ -56,13 +58,13 @@ cmd = [
 gwt = Popen(cmd, stdout = PIPE, stderr = PIPE)
 out, err = gwt.communicate()
 if gwt.returncode != 0:
-  print >>stderr, out + err
+  print(out + err, file=stderr)
   exit(gwt.returncode)
 
 with open(rebuild, 'w') as fd:
   def shquote(s):
     return s.replace("'", "'\\''")
-  print >>fd, '#!/bin/sh'
-  print >>fd, "PATH='%s'" % shquote(environ['PATH'])
-  print >>fd, 'buck build "$1" || exit'
-  fchmod(fd.fileno(), 0755)
+  print('#!/bin/sh', file=fd)
+  print("PATH='%s'" % shquote(environ['PATH']), file=fd)
+  print('buck build "$1" || exit', file=fd)
+  fchmod(fd.fileno(), 0o755)

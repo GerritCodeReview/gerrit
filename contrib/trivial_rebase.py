@@ -36,6 +36,8 @@ Documentation is available here: https://www.codeaurora.org/xwiki/bin/QAEP/Gerri
 
 """
 
+from __future__ import print_function
+
 import argparse
 import json
 import re
@@ -95,7 +97,7 @@ class TrivialRebase:
     try:
       process = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
       std_out, std_err = process.communicate()
-    except OSError, e:
+    except OSError as e:
       raise self.CheckCallError(command, cwd, e.errno, None)
     if process.returncode:
       raise self.CheckCallError(command, cwd, process.returncode, std_out, std_err)
@@ -107,9 +109,9 @@ class TrivialRebase:
                 '--format', 'JSON', '-c', sql_query]
     try:
       (gsql_out, _gsql_stderr) = self.CheckCall(gsql_cmd)
-    except self.CheckCallError, e:
-      print "return code is %s" % e.retcode
-      print "stdout and stderr is\n%s%s" % (e.stdout, e.stderr)
+    except self.CheckCallError as e:
+      print("return code is %s" % e.retcode)
+      print("stdout and stderr is\n%s%s" % (e.stdout, e.stderr))
       raise
 
     new_out = gsql_out.replace('}}\n', '}}\nsplit here\n')
@@ -194,7 +196,7 @@ class TrivialRebase:
     prev_patch_id = self.GetPatchId(prev_revision)
     cur_patch_id = self.GetPatchId(self.commit)
     if prev_patch_id == '0' and cur_patch_id == '0':
-      print "commits %s and %s are both empty or merge commits" % (prev_revision, self.commit)
+      print("commits %s and %s are both empty or merge commits" % (prev_revision, self.commit))
       return
     if cur_patch_id != prev_patch_id:
       # patch-ids don't match
@@ -237,7 +239,7 @@ class TrivialRebase:
 
     gerrit_review_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                           "detection script.\'")
-    for acct, flags in self.acct_approvals.items():
+    for acct, flags in list(self.acct_approvals.items()):
       gerrit_review_cmd = ['gerrit', 'review', '--project', self.project,
                             '--message', gerrit_review_msg, flags, self.commit]
       email_addr = self.GetEmailFromAcctId(acct)
@@ -246,5 +248,5 @@ class TrivialRebase:
 if __name__ == "__main__":
   try:
     TrivialRebase().Run()
-  except AssertionError, e:
-    print >> sys.stderr, e
+  except AssertionError as e:
+    print(e, file=sys.stderr)

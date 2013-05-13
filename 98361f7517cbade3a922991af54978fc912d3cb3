@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UjbXmwDI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T17:58:16Z",
+      "side": 1,
+      "message": "Correct. We probably should fix this upstream in JGit eventually, but I\u0027d like to get Gerrit using base64 first.",
+      "parentUuid": "UjPbcQG4",
+      "revId": "98361f7517cbade3a922991af54978fc912d3cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjBaB-Do",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-13T17:45:24Z",
       "side": 1,
       "message": "Why did you change this from the current time?",
+      "revId": "98361f7517cbade3a922991af54978fc912d3cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjJbrzPw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T17:58:16Z",
+      "side": 1,
+      "message": "To match what C Git produces. It writes this header with a fixed timestamp.",
+      "parentUuid": "UjBaB-Do",
       "revId": "98361f7517cbade3a922991af54978fc912d3cb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

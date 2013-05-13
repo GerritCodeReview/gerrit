@@ -11,6 +11,11 @@ it under the terms of either:
   * the Eclipse Public License
 ----
 
+In the context of Gerrit Code Review, Prolog Cafe is consumed under
+the <<prologcafe_EPL,EPL>>. Gerrit Code Review uses a fork derived
+from the 1.2.5 release and offers the corresponding source code at
+link:https://gerrit.googlesource.com/prolog-cafe[].
+
 ----
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
@@ -353,6 +358,7 @@ library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.
 ----
 
+[[prologcafe_EPL]]
 ----
 Eclipse Public License - v 1.0
 

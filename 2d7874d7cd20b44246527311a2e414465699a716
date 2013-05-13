@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "UoALwqhk",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-13T13:44:09Z",
+      "side": 1,
+      "message": "s/Format/File Format/ ?\n\nOr, since project.config doesn\u0027t only contain access control sections, perhaps a different name altogether? \"Project Configuration File Format\"?",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UoKL0Xg4",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-13T13:44:09Z",
+      "side": 1,
+      "message": "In the last sentence, it\u0027s somewhat ambiguous what \"it\" pertains to. If you know the subject it\u0027s obvious that it\u0027s the config files in refs/meta/config you mean, but it can easily be interpreted as the web UI (especially when the config files are talked about in plural).\n\nDo we actually use \"git\" in the rest of the documentation? I thought \"project\" was the standard term.",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uo5-0Ew8",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-13T13:44:09Z",
+      "side": 1,
+      "message": "Don\u0027t you also need push permissions for refs/for/refs/meta/config for that?",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjNZkpPY",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 3
@@ -13,6 +64,23 @@
       "writtenOn": "2013-05-13T04:43:11Z",
       "side": 1,
       "message": "s/inherits/inherit from",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UoGL-Nuo",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-13T13:44:09Z",
+      "side": 1,
+      "message": "While there are examples of \u0027git config\u0027 usage in git-config(1), it wouldn\u0027t hurt with an example or two here as well.",
       "revId": "2d7874d7cd20b44246527311a2e414465699a716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -47,6 +115,23 @@
       "writtenOn": "2013-05-09T13:38:21Z",
       "side": 1,
       "message": "s/catgory/category\n\nDone.",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UoML5Ygc",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-13T13:44:09Z",
+      "side": 1,
+      "message": "s/git config/+git config+/",
       "revId": "2d7874d7cd20b44246527311a2e414465699a716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

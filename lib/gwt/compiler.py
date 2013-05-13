@@ -16,7 +16,7 @@
 from __future__ import print_function
 
 from multiprocessing import cpu_count
-from os import environ, fchmod, makedirs, mkdir, path
+from os import environ, makedirs, mkdir, path
 from subprocess import Popen, PIPE
 from sys import argv, stderr
 
@@ -60,11 +60,3 @@ out, err = gwt.communicate()
 if gwt.returncode != 0:
   print(out + err, file=stderr)
   exit(gwt.returncode)
-
-with open(rebuild, 'w') as fd:
-  def shquote(s):
-    return s.replace("'", "'\\''")
-  print('#!/bin/sh', file=fd)
-  print("PATH='%s'" % shquote(environ['PATH']), file=fd)
-  print('buck build "$1" || exit', file=fd)
-  fchmod(fd.fileno(), 0o755)

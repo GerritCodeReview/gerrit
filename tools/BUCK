@@ -9,3 +9,21 @@ python_binary(
   main = 'pack_war.py',
   visibility = ['PUBLIC'],
 )
+
+
+def shquote(s):
+  return s.replace("'", "'\\''")
+
+def os_path():
+  from os import environ
+  return environ.get('PATH')
+
+genrule(
+  name = 'buck.properties',
+  cmd = 'echo buck=`which buck`>$OUT;' +
+    ("echo PATH=\''%s'\' >>$OUT;" % shquote(os_path())),
+  srcs = [],
+  deps = [],
+  out = 'buck.properties',
+  visibility = ['PUBLIC'],
+)

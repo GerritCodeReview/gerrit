@@ -50,6 +50,24 @@
       "revId": "c407ed4043f3d3d881ab9b691e0a9c8eaaeade0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjbVZIEU",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-13T02:47:19Z",
+      "side": 1,
+      "message": "This is intentionally left as it is because back when I did a big cleanup of the documentation in I80ec66de7b2228f9ff45a2f06faf576707195758 this was one correction I was going to do, but the consensus among people I asked was that SQL is pronounced like \"sequel\" which would mean \"a SQL\" is correct.\n\nHowever the Wikipedia entry for SQL [1] uses \"an SQL\".\n\n\"a SQL\" is consistently used in the docs, so if it\u0027s going to be changed to \"an SQL\" it would perhaps be better to do that in a separate change.\n\n[1] http://en.wikipedia.org/wiki/SQL",
+      "parentUuid": "Un.MREmU",
+      "revId": "c407ed4043f3d3d881ab9b691e0a9c8eaaeade0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

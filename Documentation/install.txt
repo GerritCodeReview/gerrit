@@ -9,7 +9,7 @@ the host:
 
 * JDK, minimum version 1.6 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
 
-You'll also need a SQL database to house the review metadata. You have the
+You'll also need an SQL database to house the review metadata. You have the
 choice of either using the embedded H2 or to host your own MySQL or PostgreSQL.
 
 

@@ -28,7 +28,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Parses a SQL script from a resource file and later runs it. */
+/** Parses an SQL script from a resource file and later runs it. */
 class ScriptRunner {
   private final String name;
   private final List<String> commands;

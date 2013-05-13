@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UjdV6XIQ",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T15:55:52Z",
+      "side": 1,
+      "message": "I know I said use this, but actually what I do is symlink buck into ~/bin:\n\n ln -s `pwd`/bin/buck ~/bin/\n\nas ~/bin is already in $PATH on my workstation. Unfortunately I don\u0027t think this is very standardized on Linux.",
+      "revId": "d0525a7ced73a7cc87b202dd10896a6b400e129e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjfV1WJQ",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T15:55:52Z",
+      "side": 1,
+      "message": "I would use a different header here. This process is only an emergency \"oh gawd the tree doesn\u0027t build if only I could get it into eclipse...\". Normally `buck build eclipse` does everything necessary to get you a working environment, and refreshes an existing one.",
+      "revId": "d0525a7ced73a7cc87b202dd10896a6b400e129e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjbVv4MA",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T15:55:52Z",
+      "side": 1,
+      "message": "We should add a section about http proxies. I think you can set http_proxy environment variable and our curl command will make use of it for outgoing network connections.\n\nUnfortunately there is no way to downloaded dependencies not automatically over HTTP from the source sites. So you can\u0027t use your corporate Nexus proxy for example. We should at least mention the current limitation of needing to connect to Maven Central and the Gerrit storage bucket.",
+      "revId": "d0525a7ced73a7cc87b202dd10896a6b400e129e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

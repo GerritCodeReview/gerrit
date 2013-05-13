@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.http.jetty;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.Objects;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.launcher.GerritLauncher;
@@ -54,6 +55,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -68,6 +70,7 @@ import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -488,7 +491,7 @@ public class JettyServer {
       String target = targetForBrowser(System.getProperty("gerrit.browser"));
       File gen = new File(dir, "gen");
       String out = new File(new File(gen, pkg), target).getAbsolutePath();
-      build(dir.getParentFile(), out + ".rebuild", "//" + pkg + ":" + target);
+      build(dir.getParentFile(), gen, "//" + pkg + ":" + target);
       return unpackWar(new File(out + ".zip"));
     } else if ("target".equals(dir.getName())) {
       return useMavenDeveloperBuild(dir);
@@ -507,15 +510,19 @@ public class JettyServer {
     }
   }
 
-  private static void build(File root, String cmd, String target)
+  private static void build(File root, File gen, String target)
       throws IOException {
-    long start = System.currentTimeMillis();
     log.info("buck build " + target);
-    Process rebuild = new ProcessBuilder(cmd, target)
+    Properties properties = loadBuckProperties(gen);
+    String cmd = Objects.firstNonNull(properties.getProperty("buck"), "buck");
+    ProcessBuilder proc = new ProcessBuilder(cmd, target)
         .directory(root)
-        .redirectErrorStream(true)
-        .start();
-
+        .redirectErrorStream(true);
+    if (properties.contains("PATH")) {
+      proc.environment().put("PATH", properties.getProperty("PATH"));
+    }
+    long start = System.currentTimeMillis();
+    Process rebuild = proc.start();
     byte[] out;
     InputStream in = rebuild.getInputStream();
     try {
@@ -539,6 +546,19 @@ public class JettyServer {
 
     long time = System.currentTimeMillis() - start;
     log.info(String.format("UPDATED    %s in %.3fs", target, time / 1000.0));
+  }
+
+  private static Properties loadBuckProperties(File gen)
+      throws FileNotFoundException, IOException {
+    Properties properties = new Properties();
+    InputStream in = new FileInputStream(
+        new File(new File(gen, "tools"), "buck.properties"));
+    try {
+      properties.load(in);
+    } finally {
+      in.close();
+    }
+    return properties;
   }
 
   private Resource useMavenDeveloperBuild(File dir) throws IOException {

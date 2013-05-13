@@ -15,6 +15,8 @@
 #
 # TODO(sop): Remove hack after Buck supports Eclipse
 
+from __future__ import print_function
+
 from os import path, symlink
 from sys import argv
 
@@ -25,7 +27,7 @@ for _ in range(0, 3):
 
 p = path.join(ROOT, '.project')
 with open(p, 'w') as fd:
-  print >>fd, """\
+  print("""\
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
   <name>gerrit</name>
@@ -38,5 +40,5 @@ with open(p, 'w') as fd:
     <nature>org.eclipse.jdt.core.javanature</nature>
   </natures>
 </projectDescription>\
-"""
+""", file=fd)
 symlink(p, OUT)

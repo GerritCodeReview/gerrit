@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-import commands
+
+from __future__ import print_function
+
+import subprocess
 import getopt
 import sys
 
@@ -24,8 +27,8 @@ def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], '', \
             ['change=', 'project=', 'branch=', 'commit=', 'patchset='])
-    except getopt.GetoptError, err:
-        print 'Error: %s' % (err)
+    except getopt.GetoptError as err:
+        print('Error: %s' % (err))
         usage()
         sys.exit(-1)
 
@@ -41,7 +44,7 @@ def main():
         elif arg == '--patchset':
             patchset = value
         else:
-            print 'Error: option %s not recognized' % (arg)
+            print('Error: option %s not recognized' % (arg))
             usage()
             sys.exit(-1)
 
@@ -51,11 +54,11 @@ def main():
         sys.exit(-1)
 
     command = 'git cat-file commit %s' % (commit)
-    status, output = commands.getstatusoutput(command)
+    status, output = subprocess.getstatusoutput(command)
 
     if status != 0:
-        print 'Error running \'%s\'. status: %s, output:\n\n%s' % \
-            (command, status, output)
+        print('Error running \'%s\'. status: %s, output:\n\n%s' % \
+            (command, status, output))
         sys.exit(-1)
 
     commitMessage = output[(output.find('\n\n')+2):]
@@ -74,21 +77,21 @@ def main():
     passes(commit)
 
 def usage():
-    print 'Usage:\n'
-    print sys.argv[0] + ' --change <change id> --project <project name> ' \
-        + '--branch <branch> --commit <sha1> --patchset <patchset id>'
+    print('Usage:\n')
+    print(sys.argv[0] + ' --change <change id> --project <project name> ' \
+        + '--branch <branch> --commit <sha1> --patchset <patchset id>')
 
 def fail( commit, message ):
     command = SSH_COMMAND + FAILURE_SCORE + ' -m \\\"' \
         + _shell_escape( FAILURE_MESSAGE + '\n\n' + message) \
         + '\\\" ' + commit
-    commands.getstatusoutput(command)
+    subprocess.getstatusoutput(command)
     sys.exit(1)
 
 def passes( commit ):
     command = SSH_COMMAND + PASS_SCORE + ' -m \\\"' \
         + _shell_escape(PASS_MESSAGE) + ' \\\" ' + commit
-    commands.getstatusoutput(command)
+    subprocess.getstatusoutput(command)
 
 def _shell_escape(x):
     s = ''

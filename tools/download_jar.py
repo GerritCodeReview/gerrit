@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
+
 from hashlib import sha1
 from optparse import OptionParser
 from os import link, makedirs, path
@@ -65,18 +67,18 @@ if not path.exists(cache_ent):
     print >>stderr, "Download %s" % args.u
     check_call(['curl', '-sfo', cache_ent, args.u])
   except (OSError, CalledProcessError) as err:
-    print >>stderr, "error using curl: %s" % str(err)
+    print("error using curl: %s" % str(err), file=stderr)
     exit(1)
 
 if args.v:
   have = hashfile(cache_ent)
   if args.v != have:
     o = cache_ent[len(root_dir) + 1:]
-    print >>stderr, (
+    print((
       '%s:\n' +
       'expected %s\n' +
       'received %s\n' +
-      '         %s\n') % (args.u, args.v, have, o)
+      '         %s\n') % (args.u, args.v, have, o), file=stderr)
     exit(1)
 
 exclude = []
@@ -92,7 +94,7 @@ if args.exclude_java_sources:
     finally:
       zf.close()
   except (BadZipfile, LargeZipFile) as err:
-    print >>stderr, "error opening %s: %s"  % (cache_ent, str(err))
+    print("error opening %s: %s"  % (cache_ent, str(err)), file=stderr)
     exit(1)
 
 safe_mkdirs(path.dirname(args.o))

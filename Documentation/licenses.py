@@ -15,6 +15,8 @@
 #
 # TODO(sop): Be more detailed: version, link to Maven Central
 
+from __future__ import print_function
+
 from collections import defaultdict, deque
 import re
 from shutil import copyfileobj
@@ -51,9 +53,9 @@ while queue:
       continue
     licenses[dep].add(target)
   queue.extend(graph[target])
-used = sorted(licenses.iterkeys())
+used = sorted(licenses.keys())
 
-print """\
+print("""\
 Gerrit Code Review - Licenses
 =============================
 
@@ -100,30 +102,30 @@ to be installed by the end-user.
 
 Licenses
 --------
-"""
+""")
 
 for n in used:
   libs = sorted(licenses[n])
   name = n[len('//lib:LICENSE-'):]
-  print
-  print '[[%s]]' % name
-  print name
-  print '~' * len(name)
-  print
+  print()
+  print('[[%s]]' % name)
+  print(name)
+  print('~' * len(name))
+  print()
   for d in libs:
     if d.startswith('//lib:') or d.startswith('//lib/'):
       p = d[len('//lib:'):]
     else:
       p = d[d.index(':')+1:].lower()
-    print '* ' + p
-  print
-  print '----'
+    print('* ' + p)
+  print()
+  print('----')
   with open(n[2:].replace(':', '/')) as fd:
     copyfileobj(fd, stdout)
-  print '----'
+  print('----')
 
-print """
+print("""
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
-"""
+""")

@@ -33,6 +33,24 @@
       "revId": "c24f22723f269bb8e6009f004c14b521a240e51d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjNaThKI",
+        "filename": "Documentation/dev-maven.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-13T06:49:58Z",
+      "side": 1,
+      "message": "There are links to the maven download and installation pages at the bottom of dev-readme.\n\nI could move those links into here, but I don\u0027t think it\u0027s worth adding detailed installation instructions.  The process will be different depending on which platform you\u0027re running, and it\u0027s all documented on the links anyway.\n\nAlso I\u0027d rather not spend a lot of effort making this documentation perfect now, if maven is going to be removed later.  If it turns out that maven is kept, then that effort can be spent.",
+      "parentUuid": "Un0MqJoA",
+      "revId": "c24f22723f269bb8e6009f004c14b521a240e51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

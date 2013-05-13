@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UjPbcQG4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-13T17:45:24Z",
+      "side": 1,
+      "message": "I assume this whole block exists just because JGit doesn\u0027t have git-format-patch-alike support?",
+      "revId": "98361f7517cbade3a922991af54978fc912d3cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjBaB-Do",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-13T17:45:24Z",
+      "side": 1,
+      "message": "Why did you change this from the current time?",
+      "revId": "98361f7517cbade3a922991af54978fc912d3cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "UniQ3Mug",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2704,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-13T07:13:47Z",
+      "side": 1,
+      "message": "To be honest I don\u0027t see any problem here. The dynamic nature of plugin loading and DynamicSet/DynamicMap class will only help.\n\nIf you inject DynamicSet\u003cUiCommand\u003e into class constructor and then will use it somewhere in class, then each time this method will be called the DynamicSet will collect actual list of loaded UiCommand. If new plugin will be installed then you will have new entry in DynamicSet.\n\nThe only down side of sending this flag together with HostPageData is, that web session needs to be recreated to  see any new plugins. This  could be also confusing.",
+      "parentUuid": "UnkQqLoA",
+      "revId": "3194e16eef7506efc541b5b5d69e6966d5c4b065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug9.AO.8",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10

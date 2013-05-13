@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Un.OOsno",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-13T19:50:43Z",
+      "side": 1,
+      "message": "I wonder why it is Shawn\u0027s fork and not Gerrit community fork? Suggestion: host BUCK on Gerrit-review to make it easier for the community to contribute.",
+      "revId": "cb486dd013897763bb9d5ff718ca54a1d01a1b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

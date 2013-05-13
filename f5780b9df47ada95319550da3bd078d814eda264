@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UnqRZ4kQ",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-13T19:03:27Z",
+      "side": 1,
+      "message": "Cygwin support should be sufficient.",
+      "revId": "f5780b9df47ada95319550da3bd078d814eda264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnyNOCnY",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-13T19:03:27Z",
+      "side": 1,
+      "message": "s/Interent/Internet",
+      "revId": "f5780b9df47ada95319550da3bd078d814eda264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UjJadDLA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-13T06:52:09Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll look into that.  I realised I missed the plugin build documentation for buck, so I\u0027ll upload a new patch on that change too.\n\nI don\u0027t intend to update dev-release-subproject; that documentation refers to projects (gwtorm, gwtjsonrpc) that still use Maven to build.",
+      "parentUuid": "Un.Nf0ic",
+      "revId": "c24f22723f269bb8e6009f004c14b521a240e51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Un0MqJoA",
         "filename": "Documentation/dev-maven.txt",
         "patchSetId": 2

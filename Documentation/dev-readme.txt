@@ -1,7 +1,7 @@
 Gerrit Code Review - Developer Setup
 ====================================
 
-Apache Maven or Facebook Buck is needed to compile the code, and a
+Apache Maven or Facebook Buck is needed to compile the code, and an
 SQL database to house the review metadata.  H2 is recommended for
 development databases, as it requires no external server process.
 

@@ -147,7 +147,7 @@ public abstract class SchemaVersion {
     }
   }
 
-  /** Execute a SQL statement. */
+  /** Execute an SQL statement. */
   protected void execute(ReviewDb db, String sql) throws SQLException {
     Statement s = ((JdbcSchema) db).getConnection().createStatement();
     try {

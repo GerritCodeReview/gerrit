@@ -117,7 +117,7 @@ Bug Fixes
 ---------
 * GERRIT-5    Remove PatchSetInfo from database and get it always fr...
 +
-A very, very old bug.  We no longer mirror the commit data into the SQL database, but instead pull it directly from Git when needed.  Removing duplicated data simplifies the data store model, something that is important as we shift from a SQL database to a Git backed database.
+A very, very old bug.  We no longer mirror the commit data into the SQL database, but instead pull it directly from Git when needed.  Removing duplicated data simplifies the data store model, something that is important as we shift from an SQL database to a Git backed database.
 
 * GERRIT-220  Fix infinite loop in PatchScriptBuilder
 +

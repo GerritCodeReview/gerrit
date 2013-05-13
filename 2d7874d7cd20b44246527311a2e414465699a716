@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "UjHajkOs",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-13T14:48:07Z",
+      "side": 1,
+      "message": "FYI: i am working on Plugin-specific capabilities. \"Start Replication\" belongs to replication plugin and not to core:\n\n https://gerrit-review.googlesource.com/#/c/45514/\n\nIn near future (2.8?) a Plugin should be able to contribute its own capability.",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UoML5Ygc",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 3

@@ -118,7 +118,7 @@ SSH usernames were permitted to contain any character, including
 oddball characters like '\0' and '/'.  We really want them to
 be a restricted subset which won't cause errors when we try to
 map SSH usernames as file names in a Git repository as we try
-to move away from a SQL database.
+to move away from an SQL database.
 
 * GERRIT-282  Fix reply to comment on left side
 +

@@ -16,6 +16,24 @@
       "revId": "cb486dd013897763bb9d5ff718ca54a1d01a1b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjRXY1HA",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T20:06:40Z",
+      "side": 1,
+      "message": "This fork should not exist. All of these patches should be upstream in the buck tree... except my CLA is still in progress.\n\nI explicitly did not want to manage a fork of buck on gerrit-review. Our CLA has no transitive process with the buck project itself. Any patches made at gerrit-review would have to be uploaded again to GitHub for the buck team to pull, and would need to be accompanied with an executed copy of the FB CLA and not the Android CLA.\n\nSo its \"Shawn\u0027s fork\" until I can get patches upstream. I don\u0027t want to have  \"Gerrit fork\" of buck. I really really don\u0027t.",
+      "parentUuid": "Un.OOsno",
+      "revId": "cb486dd013897763bb9d5ff718ca54a1d01a1b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

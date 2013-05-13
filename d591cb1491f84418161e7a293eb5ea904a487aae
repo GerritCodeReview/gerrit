@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "UjBZLPGY",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T05:18:40Z",
+      "side": 1,
+      "message": "You describe what you did here, but not why. I am very curious to know why you think normal users should not be able to query changes. They can query changes through the web interface, and the backing implementation is the same as the SSH interface. Why should they be able to use the web UI but not the query command?\n\nIf the concern is query cost, there is already a capability called queryLimit to cap the size of result sets. Unfortunately this is not related to the cost to evaluate a query. It was a mistake and should be fixed by replacing queryLimit with a queryCostQuota (or similar name) and capping users by the amount of server cost they expend, no matter what interface they choose to make that (web UI, SSH, REST API, etc.).",
+      "revId": "d591cb1491f84418161e7a293eb5ea904a487aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Un4NH-mI",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2

@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UoOI4Jt8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "UI Extension",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UoAI.asg",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "This line needs one ~ for each character on the prior line.",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjFa1NAU",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "workflow, plugin not Plugin",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjDayuB8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "SSH not ssh, REST API not RestAPI",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UoKJCHlM",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "to allow filing a bug",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uo3-8r-M",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "Use the permalink form /45640 in documentation not /#/c/45640",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uox8J4zw",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "getPlaces() returns an EnumSet",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UoMJHImI",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "Plugins can contribute buttons to activate patch-set specific behavior",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uoz8GJyw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "This should be fixed in its own change.",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UoGIt9pU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "ProjectApi. prefix here is unnecessary, you are in the same class.",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uo98RO2U",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "This should be its own change, not buried inside of this one.",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uo-8Wf1o",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "Rebase onto current master and use UiCommands.",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uo58LszE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/UiCommandUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T23:41:45Z",
+      "side": 1,
+      "message": "Please use UiCommands in master instead of this class.",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

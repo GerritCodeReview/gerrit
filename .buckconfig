@@ -4,6 +4,7 @@
   download = //:download
   eclipse = //tools/eclipse:eclipse
   eclipse_project = //tools/eclipse:eclipse_project
+  api = //:api
 
 [buildfile]
   includes = //lib/DEFS

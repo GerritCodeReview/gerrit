@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UoOIRBmU",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-13T18:47:26Z",
+      "side": 1,
+      "message": "s/equivilents/equivalents/",
+      "revId": "3c8c1ac283d7e7659f7b620266c09b77f0dd4f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

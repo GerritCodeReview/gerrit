@@ -104,6 +104,19 @@ To build without documentation:
 ----
 
 
+Core Plugins
+~~~~~~~~~~~~
+
+
+By default the build will compile and include the core plugins.
+
+To build without core plugins:
+
+----
+  mvn clean package -Dgerrit.plugins.skip
+----
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

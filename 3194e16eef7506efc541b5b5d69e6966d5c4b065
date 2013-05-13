@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "UnkQqLoA",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2704,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-13T07:06:09Z",
+      "side": 1,
+      "message": "It will be hard to do because of dynamic nature of Plugin loading and UiCommand gathering. Consider these order of events:\n\n* Gerrit started (without Plugins)\n* User navigate patch set screen, no custim UiCommands present\n* Plugin \"foo\", that contributes custom UiCommands is loaded through ssh command `ssh gerrit plugin enable foo`\n* User reload current patch set screen and expected behavior is: custom UiCommands are loaded from foo-plugin",
+      "parentUuid": "UnsTvPjk",
+      "revId": "3194e16eef7506efc541b5b5d69e6966d5c4b065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug9.AO.8",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10

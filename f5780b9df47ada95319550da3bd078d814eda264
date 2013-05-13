@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UjBbY3HA",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-13T19:05:57Z",
+      "side": 1,
+      "message": "Actually Cygwin isn\u0027t sufficient. The JVM is not built for Cygwin and Buck uses symlinks. Cygwin style symlinks aren\u0027t resolvable by the JVM.",
+      "parentUuid": "UnqRZ4kQ",
+      "revId": "f5780b9df47ada95319550da3bd078d814eda264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UnyNOCnY",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 3

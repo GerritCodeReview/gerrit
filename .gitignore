@@ -5,6 +5,7 @@
 /.idea
 /gerrit-parent.iml
 *.sublime-*
+/gerrit-package-plugins
 /buck-cache
 /buck-out
 /local.properties

@@ -25,6 +25,8 @@ public interface UiCommand<R extends RestResource> extends RestView<R> {
     PATCHSET_ACTION_PANEL,
     /* current patch set only */
     CURRENT_PATCHSET_ACTION_PANEL,
+    /* project info action panel */
+    PROJECT_INFO_ACTION_PANEL;
   };
 
   Set<Place> getPlaces();

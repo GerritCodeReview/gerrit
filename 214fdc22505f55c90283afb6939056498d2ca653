@@ -34,6 +34,24 @@
       "revId": "214fdc22505f55c90283afb6939056498d2ca653",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UngSvlrU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T19:39:48Z",
+      "side": 1,
+      "message": "yes, i do (but i don\u0027t use Windows and don\u0027t care), so on latest msysgit:\n\n curl --version\n curl 7.26.0 (i686-pc-mingw32)\n\n base64 --version\n sh.exe\": base64: command not found",
+      "parentUuid": "UjBa5-NE",
+      "revId": "214fdc22505f55c90283afb6939056498d2ca653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

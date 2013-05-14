@@ -124,6 +124,7 @@ public interface ChangeConstants extends Constants {
   String patchSetInfoCommitter();
   String patchSetInfoDownload();
   String patchSetInfoParents();
+  String patchSetWithDraftCommentsToolTip();
   String initialCommit();
 
   String buttonRebaseChange();

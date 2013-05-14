@@ -887,10 +887,6 @@ a:hover {
   font-size: 8pt;
 }
 
-.patchSetWithDraft .header td {
-  color: #ff5555;
-}
-
 .changeScreen .gwt-DisclosurePanel .content {
   margin-bottom: 10px;
 }

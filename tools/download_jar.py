@@ -17,7 +17,7 @@ from __future__ import print_function
 
 from hashlib import sha1
 from optparse import OptionParser
-from os import link, makedirs, path
+from os import link, makedirs, path, symlink
 import shutil
 from subprocess import check_call, CalledProcessError
 from sys import stderr

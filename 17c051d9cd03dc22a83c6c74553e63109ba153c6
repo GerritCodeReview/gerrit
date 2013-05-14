@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UpV0tO5U",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-14T13:14:49Z",
+      "side": 1,
+      "message": "Nit:\n\nAs it is a checkbox (according to the old wording, at least?), I think I\u0027d rather suggest \"ticked\" or \"checked\" rather than \"enabled\". But enabled is probably clear enough to be ok.",
+      "revId": "17c051d9cd03dc22a83c6c74553e63109ba153c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

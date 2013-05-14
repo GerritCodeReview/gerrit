@@ -14,7 +14,9 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -172,10 +174,17 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
         }
       }
 
-      detail.setCommands(UiCommands.sorted(UiCommands.from(
-        revisions,
-        new RevisionResource(new ChangeResource(control), patchSet),
-        EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL))));
+      RevisionResource rev =
+          new RevisionResource(new ChangeResource(control), patchSet);
+      List<UiCommandDetail> allPatchSets =
+          Lists.newArrayList(UiCommands.from(revisions, rev,
+              EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL)));
+      if (control.isCurrentPatchSet(patchSet)) {
+        allPatchSets.addAll(Lists.newArrayList(UiCommands.from(revisions, rev,
+            EnumSet.of(UiCommand.Place.CURRENT_PATCHSET_ACTION_PANEL))));
+      }
+
+      detail.setCommands(UiCommands.sorted(allPatchSets));
     }
 
     return detail;

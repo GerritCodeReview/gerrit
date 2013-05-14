@@ -60,6 +60,16 @@ public class UiCommands {
     return s;
   }
 
+  public static List<UiCommandDetail> sorted(List<UiCommandDetail> c) {
+    Collections.sort(c, new Comparator<UiCommandDetail>() {
+      @Override
+      public int compare(UiCommandDetail a, UiCommandDetail b) {
+        return a.id.compareTo(b.id);
+      }
+    });
+    return c;
+  }
+
   public static <R extends RestResource> Iterable<UiCommandDetail> from(
       ChildCollection<?, R> collection,
       R resource,

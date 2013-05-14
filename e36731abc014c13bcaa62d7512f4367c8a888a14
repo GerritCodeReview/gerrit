@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "UjfXGeGk",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T13:35:48Z",
+      "side": 1,
+      "message": "I also thought nullable meant it could be null.",
+      "parentUuid": "UPMbaQj0",
+      "revId": "e36731abc014c13bcaa62d7512f4367c8a888a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UPuSrumA",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
         "patchSetId": 1
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Can do. Any suggestions as to the name/location of the helper class? Is there an existing one that it can be added to, or should there be a new one created?",
       "parentUuid": "UJrzMAV0",
+      "revId": "e36731abc014c13bcaa62d7512f4367c8a888a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjDa8.ME",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T13:35:48Z",
+      "side": 1,
+      "message": "I don\u0027t think there is one in this module.  I guess you can just create a new file under httpd/auth.",
+      "parentUuid": "USDpgIeE",
       "revId": "e36731abc014c13bcaa62d7512f4367c8a888a14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

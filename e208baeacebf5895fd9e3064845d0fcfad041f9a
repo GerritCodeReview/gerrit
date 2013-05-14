@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UjVXizP4",
+        "filename": "tools/download_all.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T06:49:39Z",
+      "side": 1,
+      "message": "Catch CalledProcessError here, otherwise we get a stack trace when it fails.",
+      "revId": "e208baeacebf5895fd9e3064845d0fcfad041f9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

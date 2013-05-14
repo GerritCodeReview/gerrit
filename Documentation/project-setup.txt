@@ -108,9 +108,11 @@ then the change is automatically rebased and then the branch is
 fast-forwarded to the change.
 
 When Gerrit tries to do a merge, by default the merge will only
-succeed if there is no path conflict. By selecting the checkbox
-`Automatically resolve conflicts` Gerrit will try do a content merge
-if a path conflict occurs.
+succeed if there is no path conflict.  A path conflict occurs when
+the same file has also been changed on the other side of the merge.
+
+If `Automatically resolve conflicts` is enabled, Gerrit will try
+to do a content merge when a path conflict occurs.
 
 
 Registering Additional Branches

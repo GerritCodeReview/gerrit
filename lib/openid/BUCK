@@ -1,25 +1,18 @@
 include_defs('//lib/maven.defs')
 
-java_library(
-  name = 'consumer',
-  deps = [
-    ':http-client',
-    ':nekohtml',
-    ':nodeps',
-  ],
-  visibility = ['PUBLIC'],
-)
-
 maven_jar(
-  name = 'nodeps',
-  id = 'org.openid4java:openid4java-nodeps:0.9.6',
-  sha1 = '52ca394f5f6d38b78e35a5a6a0a341dc5b3aaf34',
+  name = 'consumer',
+  id = 'org.openid4java:openid4java:0.9.8',
+  sha1 = 'de4f1b33d3b0f0b2ab1d32834ec1190b39db4160',
   license = 'Apache2.0',
   deps = [
+    ':httpclient',
+    ':nekohtml',
+    ':xerces',
     '//lib/commons:logging',
     '//lib/guice:guice',
   ],
-  visibility = [],
+  visibility = ['PUBLIC'],
 )
 
 maven_jar(
@@ -42,32 +35,30 @@ maven_jar(
 )
 
 maven_jar(
-  name = 'http-client',
-  id = 'org.apache.httpcomponents:httpclient:4.0',
-  sha1 = 'a76d7fd8033d48b4c67b4ccf159abb080c1059b6',
+  name = 'httpclient',
+  id = 'org.apache.httpcomponents:httpclient:4.1',
+  sha1 = '93cd011acb220de08b57d96106e5800d7097742b',
   license = 'Apache2.0',
   deps = [
-    ':http-core',
+    ':httpcore',
     '//lib/commons:codec',
     '//lib/commons:logging',
   ],
   exclude = [
-    'META-INF/DEPENDENCIES',
-    'META-INF/LICENSE',
-    'META-INF/NOTICE',
+    'META-INF/LICENSE.txt',
+    'META-INF/NOTICE.txt',
   ],
   visibility = ['//gerrit-acceptance-tests:'],
 )
 
 maven_jar(
-  name = 'http-core',
-  id = 'org.apache.httpcomponents:httpcore:4.0.1',
-  sha1 = 'e813b8722c387b22e1adccf7914729db09bcb4a9',
+  name = 'httpcore',
+  id = 'org.apache.httpcomponents:httpcore:4.1',
+  sha1 = '33fc26c02f8043ab0ede19eadc8c9885386b255c',
   license = 'Apache2.0',
   exclude = [
-    'META-INF/DEPENDENCIES',
-    'META-INF/LICENSE',
-    'META-INF/NOTICE',
+    'META-INF/LICENSE.txt',
+    'META-INF/NOTICE.txt',
   ],
   visibility = [],
 )

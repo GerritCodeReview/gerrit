@@ -14,7 +14,7 @@ java_test(
     '//lib:h2',
     '//lib:junit',
     '//lib/jgit:junit',
-    '//lib/openid:http-client',
+    '//lib/openid:httpclient',
   ],
   source_under_test = TEST,
   labels = ['slow'],

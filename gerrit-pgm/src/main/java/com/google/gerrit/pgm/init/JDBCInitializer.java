@@ -21,10 +21,11 @@ import com.google.common.base.Strings;
 class JDBCInitializer implements DatabaseConfigInitializer {
   @Override
   public void initConfig(Section database) {
+    boolean hasUrl = Strings.emptyToNull(database.get("url")) != null;
     database.string("URL", "url", null);
     guessDriver(database);
     database.string("Driver class name", "driver", null);
-    database.string("Database username", "username", username());
+    database.string("Database username", "username", hasUrl ? null : username());
     database.password("username", "password");
   }
 

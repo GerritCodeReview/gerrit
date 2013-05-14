@@ -1,6 +1,7 @@
 [alias]
   api = //:api
   download = //:download
+  download_sources = //:download_sources
   gerrit = //:gerrit
   eclipse = //tools/eclipse:eclipse
   eclipse_project = //tools/eclipse:eclipse_project

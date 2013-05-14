@@ -59,7 +59,7 @@ print("""\
 Gerrit Code Review - Licenses
 =============================
 
-Gerrit open source software is licensed under the <<Apache2.0,Apache
+Gerrit open source software is licensed under the <<Apache2_0,Apache
 License 2.0>>.  Executable distributions also include other software
 components that are provided under additional licenses.
 
@@ -108,7 +108,7 @@ for n in used:
   libs = sorted(licenses[n])
   name = n[len('//lib:LICENSE-'):]
   print()
-  print('[[%s]]' % name)
+  print('[[%s]]' % name.replace('.', '_'))
   print(name)
   print('~' * len(name))
   print()

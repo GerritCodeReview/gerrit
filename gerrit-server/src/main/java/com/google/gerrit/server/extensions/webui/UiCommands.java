@@ -60,17 +60,36 @@ public class UiCommands {
     return s;
   }
 
+  public static List<UiCommandDetail> sorted(List<UiCommandDetail> c) {
+    Collections.sort(c, new Comparator<UiCommandDetail>() {
+      @Override
+      public int compare(UiCommandDetail a, UiCommandDetail b) {
+        return a.id.compareTo(b.id);
+      }
+    });
+    return c;
+  }
+
+  public static <R extends RestResource> Iterable<UiCommandDetail> fromWithPredicate(
+      ChildCollection<?, R> collection,
+      R resource,
+      EnumSet<UiCommand.Place> places,
+      Predicate<UiCommand<R>> predicate) {
+    return from(collection.views(), resource, places, predicate);
+  }
+
   public static <R extends RestResource> Iterable<UiCommandDetail> from(
       ChildCollection<?, R> collection,
       R resource,
       EnumSet<UiCommand.Place> places) {
-    return from(collection.views(), resource, places);
+    return from(collection.views(), resource, places, Predicates.<UiCommand<R>>alwaysTrue());
   }
 
   public static <R extends RestResource> Iterable<UiCommandDetail> from(
       DynamicMap<RestView<R>> views,
       final R resource,
-      final EnumSet<UiCommand.Place> places) {
+      final EnumSet<UiCommand.Place> places,
+      final Predicate<UiCommand<R>> predicate) {
     return Iterables.filter(
       Iterables.transform(
         views,
@@ -101,7 +120,8 @@ public class UiCommands {
 
             UiCommand<R> cmd = (UiCommand<R>) view;
             if (Sets.intersection(cmd.getPlaces(), places).isEmpty()
-                || !cmd.isVisible(resource)) {
+                || !cmd.isVisible(resource)
+                || !predicate.apply(cmd)) {
               return null;
             }
 

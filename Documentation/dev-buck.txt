@@ -107,6 +107,43 @@ The output JAR files will be placed in:
 ----
 
 
+Plugins
+~~~~~~~
+
+To build all core plugins:
+
+----
+  buck build plugins:core
+----
+
+The output JAR files for individual plugins will be placed in:
+
+----
+  buck-out/gen/plugins/<name>/<name>.jar
+----
+
+The JAR files will also be packaged in:
+
+----
+  buck-out/gen/plugins/core.zip
+----
+
+To build a specific plugin:
+
+----
+  buck build plugins/<name>
+----
+
+The output JAR file will be be placed in:
+
+----
+  buck-out/gen/plugins/<name>/<name>.jar
+----
+
+Note that when building an individual plugin, the `core.zip` package
+is not regenerated.
+
+
 Running Unit Tests
 ------------------
 

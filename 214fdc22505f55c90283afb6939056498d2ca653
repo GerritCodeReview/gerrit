@@ -52,6 +52,24 @@
       "revId": "214fdc22505f55c90283afb6939056498d2ca653",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UqPrvaTg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-14T19:43:28Z",
+      "side": 1,
+      "message": "You could always pipe to python -c \u0027import base64, sys; print base64.b64encode(sys.stdin.read())\u0027 instead...but I\u0027m still of the opinion this should be dropped.",
+      "parentUuid": "UngSvlrU",
+      "revId": "214fdc22505f55c90283afb6939056498d2ca653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

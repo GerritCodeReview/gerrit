@@ -1,7 +1,7 @@
 Gerrit Code Review - Licenses
 =============================
 
-Gerrit itself is licensed under the <<apache2,Apache License 2.0>>.
+Gerrit itself is licensed under the <<Apache2_0,Apache License 2.0>>.
 Gerrit's executable distributions also include many other software
 components that are covered by additional licenses.
 
@@ -11,33 +11,33 @@ Included Components
 [options="header"]
 |======================================================================
 |Included Package           | License
-|Gerrit Code Review         | <<apache2,Apache License 2.0>>
-|gwtjsonrpc                 | <<apache2,Apache License 2.0>>
-|gwtorm                     | <<apache2,Apache License 2.0>>
-|Google Gson                | <<apache2,Apache License 2.0>>
-|Google Web Toolkit         | <<apache2,Apache License 2.0>>
-|Guice                      | <<apache2,Apache License 2.0>>
-|Guava Libraries            | <<apache2,Apache License 2.0>>
-|Apache Commons Codec       | <<apache2,Apache License 2.0>>
-|Apache Commons DBCP        | <<apache2,Apache License 2.0>>
-|Apache Commons Http Client | <<apache2,Apache License 2.0>>
-|Apache Commons Lang        | <<apache2,Apache License 2.0>>
-|Apache Commons Logging     | <<apache2,Apache License 2.0>>
-|Apache Commons Net         | <<apache2,Apache License 2.0>>
-|Apache Commons Pool        | <<apache2,Apache License 2.0>>
-|Apache Log4J               | <<apache2,Apache License 2.0>>
-|Apache MINA                | <<apache2,Apache License 2.0>>
-|Apache Tomcat Servlet API  | <<apache2,Apache License 2.0>>
-|Apache SSHD                | <<apache2,Apache License 2.0>>, see also <<sshd,NOTICE>>
-|Apache Velocity            | <<apache2,Apache License 2.0>>
-|Apache Xerces              | <<apache2,Apache License 2.0>>
-|OpenID4Java                | <<apache2,Apache License 2.0>>
-|Neko HTML                  | <<apache2,Apache License 2.0>>
-|mime-util                  | <<apache2,Apache License 2.0>>
-|Jetty                      | <<apache2,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
+|Gerrit Code Review         | <<Apache2_0,Apache License 2.0>>
+|gwtjsonrpc                 | <<Apache2_0,Apache License 2.0>>
+|gwtorm                     | <<Apache2_0,Apache License 2.0>>
+|Google Gson                | <<Apache2_0,Apache License 2.0>>
+|Google Web Toolkit         | <<Apache2_0,Apache License 2.0>>
+|Guice                      | <<Apache2_0,Apache License 2.0>>
+|Guava Libraries            | <<Apache2_0,Apache License 2.0>>
+|Apache Commons Codec       | <<Apache2_0,Apache License 2.0>>
+|Apache Commons DBCP        | <<Apache2_0,Apache License 2.0>>
+|Apache Commons Http Client | <<Apache2_0,Apache License 2.0>>
+|Apache Commons Lang        | <<Apache2_0,Apache License 2.0>>
+|Apache Commons Logging     | <<Apache2_0,Apache License 2.0>>
+|Apache Commons Net         | <<Apache2_0,Apache License 2.0>>
+|Apache Commons Pool        | <<Apache2_0,Apache License 2.0>>
+|Apache Log4J               | <<Apache2_0,Apache License 2.0>>
+|Apache MINA                | <<Apache2_0,Apache License 2.0>>
+|Apache Tomcat Servlet API  | <<Apache2_0,Apache License 2.0>>
+|Apache SSHD                | <<Apache2_0,Apache License 2.0>>, see also <<sshd,NOTICE>>
+|Apache Velocity            | <<Apache2_0,Apache License 2.0>>
+|Apache Xerces              | <<Apache2_0,Apache License 2.0>>
+|OpenID4Java                | <<Apache2_0,Apache License 2.0>>
+|Neko HTML                  | <<Apache2_0,Apache License 2.0>>
+|mime-util                  | <<Apache2_0,Apache License 2.0>>
+|Jetty                      | <<Apache2_0,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
 |Prolog Cafe                | <<prolog_cafe,EPL or GPL>>
-|Google Code Prettify       | <<apache2,Apache License 2.0>>
-|JavaEWAH                   | <<apache2,Apache License 2.0>>
+|Google Code Prettify       | <<Apache2_0,Apache License 2.0>>
+|JavaEWAH                   | <<Apache2_0,Apache License 2.0>>
 |JGit                       | <<jgit,New-Style BSD>>
 |JSch                       | <<sshd,New-Style BSD>>
 |PostgreSQL JDBC Driver     | <<postgresql,New-Style BSD>>
@@ -52,7 +52,7 @@ Included Components
 |JSR 305                    | <<jsr305,New-Style BSD>>
 |dk.brics.automaton         | <<automaton,New-Style BSD>>
 |Java Concurrency in Practice Annotations | <<jcip,Create Commons Attribution License>>
-|pegdown                    | <<apache2,Apache License 2.0>>
+|pegdown                    | <<Apache2_0,Apache License 2.0>>
 |======================================================================
 
 Cryptography Notice
@@ -94,7 +94,7 @@ to be installed by the end-user.
 Licenses
 --------
 
-[[apache2]]
+[[Apache2_0]]
 Apache License 2.0
 ~~~~~~~~~~~~~~~~~~
 

@@ -16,6 +16,41 @@
       "revId": "af74deb7cb8841de2c81a474412140de79d551a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjJZ6rDE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-14T16:34:14Z",
+      "side": 1,
+      "message": "+1. Given my comment below, there may only be one usage (in getGerritUrl), where you could just inline it.\n\nAlso if we\u0027re playing Guava golf: CharMatcher.is(\u0027/\u0027) :)",
+      "parentUuid": "UoAJlCvA",
+      "revId": "af74deb7cb8841de2c81a474412140de79d551a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjLZ1qEM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-14T16:34:14Z",
+      "side": 1,
+      "message": "Not sure how just the host, especially if extracted from a URL object, could have a trailing slash.",
+      "revId": "af74deb7cb8841de2c81a474412140de79d551a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 
@@ -42,7 +43,6 @@ public class Browser {
     if (url == null) {
       return;
     }
-
     if (url.startsWith("proxy-")) {
       url = url.substring("proxy-".length());
     }
@@ -54,15 +54,19 @@ public class Browser {
       System.err.println("error: invalid httpd.listenUrl: " + url);
       return;
     }
-    final String hostname = uri.getHost();
-    final int port = InitUtil.portOf(uri);
+    waitForServer(uri);
+    openBrowser(uri, link);
+  }
 
-    System.err.print("Waiting for server to start ... ");
+  private void waitForServer(URI uri) throws IOException {
+    String host = uri.getHost();
+    int port = InitUtil.portOf(uri);
+    System.err.format("Waiting for server on %s:%d ... ", host, port);
     System.err.flush();
     for (;;) {
-      final Socket s;
+      Socket s;
       try {
-        s = new Socket(hostname, port);
+        s = new Socket(host, port);
       } catch (IOException e) {
         try {
           Thread.sleep(100);
@@ -74,18 +78,33 @@ public class Browser {
       break;
     }
     System.err.println("OK");
+  }
 
-    url = cfg.getString("gerrit", null, "canonicalWebUrl");
-    if (url == null || url.isEmpty()) {
+  private String resolveUrl(URI uri, String link) {
+    String url = cfg.getString("gerrit", null, "canonicalWebUrl");
+    if (Strings.isNullOrEmpty(url)) {
       url = uri.toString();
     }
     if (!url.endsWith("/")) {
       url += "/";
     }
-    if (link != null && !link.isEmpty()) {
+    if (!Strings.isNullOrEmpty(link)) {
       url += "#" + link;
     }
-    System.err.println("Opening browser ...");
-    org.h2.tools.Server.openBrowser(url);
+    return url;
+  }
+
+  private void openBrowser(URI uri, String link) {
+    String url = resolveUrl(uri, link);
+    System.err.format("Opening %s ...", url);
+    System.err.flush();
+    try {
+      org.h2.tools.Server.openBrowser(url);
+      System.err.println("OK");
+    } catch (Exception e) {
+      System.err.println("FAILED");
+      System.err.println("Open Gerrit with a JavaScript capable browser:");
+      System.err.println("  " + url);
+    }
   }
 }

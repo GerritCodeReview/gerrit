@@ -1,10 +1,10 @@
 [alias]
-  gerrit = //:gerrit
-  release = //:release
+  api = //:api
   download = //:download
+  gerrit = //:gerrit
   eclipse = //tools/eclipse:eclipse
   eclipse_project = //tools/eclipse:eclipse_project
-  api = //:api
+  release = //:release
 
 [buildfile]
   includes = //lib/DEFS

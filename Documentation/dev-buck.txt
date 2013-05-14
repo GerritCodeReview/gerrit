@@ -6,7 +6,8 @@ Installation
 ------------
 
 There is currently no binary distribution of Buck, so it has to be manually
-built and installed.  Apache Ant is required.
+built and installed.  Apache Ant is required.  Currently only Linux and Mac
+OS are supported.
 
 Clone the git and build it:
 
@@ -16,22 +17,23 @@ Clone the git and build it:
   ant
 ----
 
-Add the buck executable's location to the system path:
-
-
-Linux
-~~~~~
+Make sure you have a bin/ directory in your home directory and that it is included in your path:
 
 ----
-  PATH="`pwd`/bin:$PATH"
+  mkdir ~/bin
+  PATH=~/bin:$PATH
 ----
 
-
-Mac OS
-~~~~~~
+Add a symbolic link in ~/bin to the buck executable:
 
 ----
-  PATH="`pwd`/bin:/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands:$PATH"
+  ln -s `pwd`/bin/buck ~/bin/
+----
+
+Verify that buck is accessible:
+
+----
+  which buck
 ----
 
 

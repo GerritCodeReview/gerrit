@@ -56,12 +56,13 @@ Expand the `gerrit` project, right-click on the `buck-out` folder, select
 'Properties', and then under 'Attributes' check 'Derived'.
 
 
-Refreshing the Eclipse Project
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Refreshing the Classpath
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-If the code doesn't compile and an updated classpath is needed, the configs
-can be refreshed and missing dependency JARs can be downloaded by building
-the `eclipse_project` and `download` targets:
+Normally `buck build eclipse` does everything necessary to generate a working Eclipse
+environment, but if the code doesn't compile and an updated classpath is needed, the
+Eclipse project can be refreshed and missing dependency JARs can be downloaded by
+building the `eclipse_project` and `download` targets:
 
 ----
   buck build eclipse_project download

@@ -45,13 +45,16 @@ public class Themer {
   }
 
   public void set(ThemeInfo theme) {
+    if (theme == null) {
+      set(cssText, headerHtml, footerHtml);
+    }
     set(theme.css() != null ? theme.css() : cssText,
         theme.header() != null ? theme.header() : headerHtml,
         theme.footer() != null ? theme.footer() : footerHtml);
   }
 
   public void clear() {
-    set(cssText, headerHtml, footerHtml);
+    set(null);
   }
 
   void init(Element css, Element header, Element footer) {

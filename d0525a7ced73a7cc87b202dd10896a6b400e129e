@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "UjDZBmBw",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T01:55:08Z",
+      "side": 1,
+      "message": "Users who\u0027ve installed repo according to the Android documentation [1] will have a ~/bin path\n\nI guess we could use the same instructions here, i.e.  \"Make sure you have a bin/ directory in your home directory and that it is included in your path\"\n\nDone in https://gerrit-review.googlesource.com/#/c/45713/\n\n[1] http://source.android.com/source/downloading.html",
+      "parentUuid": "UjdV6XIQ",
+      "revId": "d0525a7ced73a7cc87b202dd10896a6b400e129e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjBY.nJI",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T01:55:08Z",
+      "side": 1,
+      "message": "I haven\u0027t tried to build on my Mac yet.  Is it really necessary to add \"/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands\" in the path?\n\nIf not, we don\u0027t need to have two sections here; we can use the same instructions for both Linux and Mac.",
+      "revId": "d0525a7ced73a7cc87b202dd10896a6b400e129e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjfV1WJQ",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 4
@@ -36,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "UjXW4KAE",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T01:55:08Z",
+      "side": 1,
+      "message": "This section is rewritten in https://gerrit-review.googlesource.com/#/c/45712/",
+      "parentUuid": "UjfV1WJQ",
+      "revId": "d0525a7ced73a7cc87b202dd10896a6b400e129e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjbVv4MA",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 4
@@ -47,6 +100,24 @@
       "writtenOn": "2013-05-13T15:55:52Z",
       "side": 1,
       "message": "We should add a section about http proxies. I think you can set http_proxy environment variable and our curl command will make use of it for outgoing network connections.\n\nUnfortunately there is no way to downloaded dependencies not automatically over HTTP from the source sites. So you can\u0027t use your corporate Nexus proxy for example. We should at least mention the current limitation of needing to connect to Maven Central and the Gerrit storage bucket.",
+      "revId": "d0525a7ced73a7cc87b202dd10896a6b400e129e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uox8gA6M",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T01:55:08Z",
+      "side": 1,
+      "message": "Yes, `http_proxy` works; I am using that.\n\nI\u0027ve uploaded a new change with more documentation in this area.\n\nhttps://gerrit-review.googlesource.com/#/c/45711/",
+      "parentUuid": "UjbVv4MA",
       "revId": "d0525a7ced73a7cc87b202dd10896a6b400e129e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

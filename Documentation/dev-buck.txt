@@ -71,6 +71,19 @@ building the `eclipse_project` and `download` targets:
 ----
 
 
+Attaching Sources
+~~~~~~~~~~~~~~~~~
+
+To save time and bandwidth source JARs are only downloaded by the buck
+build where necessary to compile Java source into JavaScript using the
+GWT compiler.  Additional sources may be obtained, allowing Eclipse to
+show documentation or dive into the implementation of a library JAR:
+
+----
+  buck build download_sources
+----
+
+
 Building on the Command Line
 ----------------------------
 

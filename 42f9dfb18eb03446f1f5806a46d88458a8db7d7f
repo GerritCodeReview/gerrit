@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UnqSYwr8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UoOI4Jt8",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UoAI.asg",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-13T23:41:45Z",
       "side": 1,
       "message": "This line needs one ~ for each character on the prior line.",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Upb353wc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UoAI.asg",
       "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "UnoSdxq8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjFa1NAU",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjDayuB8",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-13T23:41:45Z",
       "side": 1,
       "message": "SSH not ssh, REST API not RestAPI",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UpV3-e.k",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjDayuB8",
       "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "UnmSj6us",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UoKJCHlM",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uo3-8r-M",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2013-05-13T23:41:45Z",
       "side": 1,
       "message": "Use the permalink form /45640 in documentation not /#/c/45640",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UpX38t-M",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uo3-8r-M",
       "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "UnkSg7tw",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uox8J4zw",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UoMJHImI",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 3
@@ -132,6 +258,24 @@
       "writtenOn": "2013-05-13T23:41:45Z",
       "side": 1,
       "message": "Plugins can contribute buttons to activate patch-set specific behavior",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UpR0J8zw",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UoMJHImI",
       "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "UnuSOuno",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uoz8GJyw",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UoGIt9pU",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
         "patchSetId": 3
@@ -166,6 +328,24 @@
       "writtenOn": "2013-05-13T23:41:45Z",
       "side": 1,
       "message": "ProjectApi. prefix here is unnecessary, you are in the same class.",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UpZ30Iw8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UoGIt9pU",
       "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "UoEI0cuA",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uo98RO2U",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uo-8Wf1o",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 3
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "Upf3vZzg",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uo-8Wf1o",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uo58LszE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/UiCommandUtil.java",
         "patchSetId": 3
@@ -217,6 +433,24 @@
       "writtenOn": "2013-05-13T23:41:45Z",
       "side": 1,
       "message": "Please use UiCommands in master instead of this class.",
+      "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnsSTvqI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/UiCommandUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T07:44:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uo58LszE",
       "revId": "42f9dfb18eb03446f1f5806a46d88458a8db7d7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

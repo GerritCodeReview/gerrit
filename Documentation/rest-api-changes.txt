@@ -1845,6 +1845,42 @@ describes the published comment.
   }
 ----
 
+[[list-files]]
+List Files
+~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/'
+
+Lists the files that were modified, added or deleted in a revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/ HTTP/1.0
+----
+
+As result a map is returned that maps the file path to a list of
+link:#file-info[FileInfo] entries. The entries in the map are
+sorted by file path.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "/COMMIT_MSG": {
+      "status": "A",
+      "lines_inserted": 7
+    },
+    "gerrit-server/Fsrc/main/java/com/google/gerrit/server/project/RefControl.java": {
+      "lines_inserted": 5,
+      "lines_deleted": 3
+    }
+  }
+----
+
 [[get-content]]
 Get Content
 ~~~~~~~~~~~

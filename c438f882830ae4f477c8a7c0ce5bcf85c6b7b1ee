@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UpX0qd4A",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-14T14:27:07Z",
+      "side": 1,
+      "message": "Should this rather be named \u0027name\u0027? Or is \u0027ref\u0027 ok?",
+      "revId": "c438f882830ae4f477c8a7c0ce5bcf85c6b7b1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

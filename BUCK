@@ -42,12 +42,16 @@ java_library(
 
 genrule(
   name = 'download',
-  cmd = 'buck build ' +
-    '$(buck audit classpath --dot //tools/eclipse:classpath' +
-    '| egrep \'^  "//lib/\''+
-    '| cut -d\\" -f2' +
-    '| sort | uniq)',
+  cmd = '${//tools:download_all}',
   srcs = [],
-  deps = [],
+  deps = ['//tools:download_all'],
+  out = '__fake.download__',
+)
+
+genrule(
+  name = 'download_sources',
+  cmd = '${//tools:download_all} --src',
+  srcs = [],
+  deps = ['//tools:download_all'],
   out = '__fake.download__',
 )

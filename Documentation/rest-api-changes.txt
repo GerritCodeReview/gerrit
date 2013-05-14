@@ -1849,7 +1849,7 @@ describes the published comment.
 Get Content
 ~~~~~~~~~~~
 [verse]
-'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#patch-id[\{patch-id\}]/content'
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/content'
 
 Gets the content of a file from a certain revision.
 
@@ -1873,9 +1873,9 @@ The content is returned as base64 encoded string.
 Set Reviewed
 ~~~~~~~~~~~~
 [verse]
-'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#patch-id[\{patch-id\}]/reviewed'
+'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/reviewed'
 
-Marks a patch of a revision as reviewed by the calling user.
+Marks a file of a revision as reviewed by the calling user.
 
 .Request
 ----
@@ -1887,16 +1887,16 @@ Marks a patch of a revision as reviewed by the calling user.
   HTTP/1.1 201 Created
 ----
 
-If the patch was already marked as reviewed by the calling user the
+If the file was already marked as reviewed by the calling user the
 response is "`200 OK`".
 
 [[delete-reviewed]]
 Delete Reviewed
 ~~~~~~~~~~~~~~~
 [verse]
-'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#patch-id[\{patch-id\}]/reviewed'
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/reviewed'
 
-Deletes the reviewed flag of the calling user from a patch of a revision.
+Deletes the reviewed flag of the calling user from a file of a revision.
 
 .Request
 ----
@@ -1994,10 +1994,10 @@ UUID of a published comment.
 ~~~~~~~~~~~~
 UUID of a draft comment.
 
-[[patch-id]]
-\{patch-id\}
+[[file-id]]
+\{file-id\}
 ~~~~~~~~~~~~
-The file path of the patch.
+The path of the file.
 
 [[revision-id]]
 \{revision-id\}

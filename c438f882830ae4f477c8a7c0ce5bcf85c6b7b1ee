@@ -16,6 +16,58 @@
       "revId": "c438f882830ae4f477c8a7c0ce5bcf85c6b7b1ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uo-89H8w",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-14T15:10:58Z",
+      "side": 1,
+      "message": "I think ref is OK here. In DashboardInfo we use ref. Makes sense.",
+      "parentUuid": "UpX0qd4A",
+      "revId": "c438f882830ae4f477c8a7c0ce5bcf85c6b7b1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjJajzJs",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListBranches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-14T15:10:58Z",
+      "side": 1,
+      "message": "I would prefer to use:\n\n  Objects.firstNonNull(info.canDelete, false)\n\nthat way if canDelete\u003dBoolean.FALSE its still honored here.",
+      "revId": "c438f882830ae4f477c8a7c0ce5bcf85c6b7b1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjXXbiEI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListBranches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-14T15:10:58Z",
+      "side": 1,
+      "message": "static",
+      "revId": "c438f882830ae4f477c8a7c0ce5bcf85c6b7b1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

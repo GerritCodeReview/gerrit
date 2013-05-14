@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "UnsTIXqA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-14T17:49:19Z",
+      "side": 1,
+      "message": "I will refactor the ref-updates into the PatchSetInserter, but I will do that as a separate change since it affects a few other features.",
+      "parentUuid": "Ug9-G.0A",
+      "revId": "6fda90d9dfab1972e975713798b93c71750555e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug--Bvyo",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 1
@@ -83,6 +101,24 @@
       "writtenOn": "2013-05-09T18:00:50Z",
       "side": 1,
       "message": "Are you sure you don\u0027t want a message here?",
+      "revId": "6fda90d9dfab1972e975713798b93c71750555e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnuTDWoE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-14T17:49:19Z",
+      "side": 1,
+      "message": "Cherry Pick is a bit different from other similar features, since we want to add the message on the old Change and not the new one. For the ChangeInserter it worked nicely, since it expected a ChangeMessage (and not a String), and we could setup the destination for the message before passing it to the Inserter.\n\nSo, for now I\u0027m letting the PatchSetInserter support both String and ChangeMessage (for those times when you want to direct the ChangeMessage to another Change than the destination one).",
+      "parentUuid": "Ug--Bvyo",
       "revId": "6fda90d9dfab1972e975713798b93c71750555e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

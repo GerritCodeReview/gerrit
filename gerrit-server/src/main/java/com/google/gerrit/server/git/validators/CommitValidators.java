@@ -546,6 +546,15 @@ public class CommitValidators {
     return new CommitValidationMessage(sb.toString(), false);
   }
 
+  private static String trimTrailingSlashes(String s) {
+    if (s != null) {
+      while (s.endsWith("/")) {
+        s = s.substring(0, s.lastIndexOf("/"));
+      }
+    }
+    return s;
+  }
+
   /**
    * Get the Gerrit URL.
    *
@@ -555,10 +564,7 @@ public class CommitValidators {
    */
   private static String getGerritUrl(String canonicalWebUrl) {
     if (canonicalWebUrl != null) {
-      if (canonicalWebUrl.endsWith("/")) {
-        return canonicalWebUrl.substring(0, canonicalWebUrl.lastIndexOf("/"));
-      }
-      return canonicalWebUrl;
+      return trimTrailingSlashes(canonicalWebUrl);
     } else {
       return "http://" + getGerritHost(canonicalWebUrl);
     }
@@ -568,20 +574,24 @@ public class CommitValidators {
    * Get the Gerrit hostname.
    *
    * @return the hostname from the canonical URL if it is configured, otherwise
-   *         whatever the OS says the hostname is.
+   *         whatever the OS says the hostname is, with any trailing slash
+   *         removed.
    */
   private static String getGerritHost(String canonicalWebUrl) {
-    String host;
+    String host = null;
     if (canonicalWebUrl != null) {
       try {
         host = new URL(canonicalWebUrl).getHost();
       } catch (MalformedURLException e) {
-        host = SystemReader.getInstance().getHostname();
+        // Ignore
       }
-    } else {
+    }
+
+    if (host == null) {
       host = SystemReader.getInstance().getHostname();
     }
-    return host;
+
+    return trimTrailingSlashes(host);
   }
 
   private static void addError(String error,

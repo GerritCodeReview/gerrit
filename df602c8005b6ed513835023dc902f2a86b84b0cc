@@ -16,6 +16,24 @@
       "revId": "df602c8005b6ed513835023dc902f2a86b84b0cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnqQsQm0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T21:46:54Z",
+      "side": 1,
+      "message": "Done, abandon it",
+      "parentUuid": "UpxsJ.zw",
+      "revId": "df602c8005b6ed513835023dc902f2a86b84b0cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

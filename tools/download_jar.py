@@ -65,7 +65,7 @@ if not path.exists(cache_ent):
   try:
     safe_mkdirs(path.dirname(cache_ent))
     print('Download %s' % args.u, file=stderr)
-    check_call(['curl', '-sfo', cache_ent, args.u])
+    check_call(['curl', '--proxy-anyauth', '-sfo', cache_ent, args.u])
   except (OSError, CalledProcessError) as err:
     print('error using curl: %s' % str(err), file=stderr)
     exit(1)

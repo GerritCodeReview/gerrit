@@ -254,6 +254,16 @@ descriptors, which sounds like an upstream bug.
 There should be a consensus that new bugs like this in upstream
 Buck are not constantly being introduced.
 
+7. Set up buck based build machinery for custom plugins,
+i. e. helloworld-plugin. Once we've switched to buck, other plugins authors
+might want to switch to buck too. It should be very easy doable:
+
+cd ~/projects/gerrit && buck build api
+cd ~/projects/helloworld && buck build plugin && ls buck-out/gen/helloworld.jar
+
+Note: It should be an option that the second command grabs just created
+plugin-api.jar artifact from the first command, instead of downloading
+plugin-api.jar from central repository.
 
 GERRIT
 ------

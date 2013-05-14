@@ -59,6 +59,19 @@ public class PatchSetInserter {
       final RevCommit commit, RefControl refControl, String message,
       boolean copyLabels) throws OrmException, InvalidChangeOperationException,
       NoSuchChangeException {
+    final ChangeMessage cmsg =
+        new ChangeMessage(new ChangeMessage.Key(change.getId(),
+            ChangeUtil.messageUUID(db)), user.getAccountId(), patchSet.getId());
+    cmsg.setMessage(message);
+
+    return insertPatchSet(change, patchSet, commit, refControl, cmsg,
+        copyLabels);
+  }
+
+  public Change insertPatchSet(Change change, final PatchSet patchSet,
+      final RevCommit commit, RefControl refControl, ChangeMessage changeMessage,
+      boolean copyLabels) throws OrmException, InvalidChangeOperationException,
+      NoSuchChangeException {
 
     final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
 
@@ -114,14 +127,8 @@ public class PatchSetInserter {
       final List<FooterLine> footerLines = commit.getFooterLines();
       ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
 
-      if (message != null) {
-        final ChangeMessage cmsg =
-            new ChangeMessage(new ChangeMessage.Key(change.getId(),
-                ChangeUtil.messageUUID(db)), user.getAccountId(),
-                patchSet.getId());
-
-        cmsg.setMessage(message);
-        db.changeMessages().insert(Collections.singleton(cmsg));
+      if (changeMessage != null) {
+        db.changeMessages().insert(Collections.singleton(changeMessage));
       }
       db.commit();
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.common.base.Predicate;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.extensions.webui.UiCommand;
@@ -49,7 +50,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,9 +174,18 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     }
 
     detail.setCommands(UiCommands.sorted(UiCommands.from(
-      revisions,
-      new RevisionResource(new ChangeResource(control), patchSet),
-      EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL))));
+        revisions.views(), new RevisionResource(new ChangeResource(control), patchSet),
+        new Predicate<UiCommand<RevisionResource>>() {
+          @Override
+          public boolean apply(@Nullable UiCommand<RevisionResource> cmd) {
+            return cmd.getPlaces().contains(
+                UiCommand.Place.PATCHSET_ACTION_PANEL)
+                || (cmd.getPlaces().contains(
+                    UiCommand.Place.CURRENT_PATCHSET_ACTION_PANEL) && control
+                    .isCurrentPatchSet(patchSet));
+          }
+        })));
+
     return detail;
   }
 

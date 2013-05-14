@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "Ug9-G.0A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-14T14:31:32Z",
+      "side": 1,
+      "message": "I agree.",
+      "parentUuid": "Ugx.2o8k",
+      "revId": "6fda90d9dfab1972e975713798b93c71750555e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ug--Bvyo",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
         "patchSetId": 1

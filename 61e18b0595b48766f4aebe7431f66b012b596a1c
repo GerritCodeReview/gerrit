@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uoz8dx3E",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-14T03:11:25Z",
+      "side": 1,
+      "message": "Hmm, I just realized that this probably should be a query which returns the comments for all patch sets together since that would be a single query instead of a db round trip for each ps which is expensive.  Overall, this will grab the same amount of data from the db.  I don\u0027t know how, but ideally to improve this even more, that query would return only one comment per PS.  But I won\u0027t hold up this fix for any of that.",
+      "revId": "61e18b0595b48766f4aebe7431f66b012b596a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

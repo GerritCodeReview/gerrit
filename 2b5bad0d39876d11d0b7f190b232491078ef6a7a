@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UpzsGNyw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-14T20:39:18Z",
+      "side": 1,
+      "message": "change.Rebase needs to take Provider\u003cRebaseChange\u003e and not RebaseChange in its constructor.",
+      "revId": "2b5bad0d39876d11d0b7f190b232491078ef6a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

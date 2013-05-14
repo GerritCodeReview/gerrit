@@ -1,4 +1,10 @@
 python_binary(
+  name = 'download_all',
+  main = 'download_all.py',
+  visibility = ['PUBLIC'],
+)
+
+python_binary(
   name = 'download_jar',
   main = 'download_jar.py',
   visibility = ['PUBLIC'],

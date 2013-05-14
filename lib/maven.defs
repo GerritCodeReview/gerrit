@@ -72,7 +72,6 @@ def maven_jar(
     deps = ['//tools:download_jar'],
     out = binjar,
   )
-  download = [':' + name + '__download_bin']
   license = ['//lib:LICENSE-' + license]
 
   if src_sha1 or attach_source:
@@ -90,16 +89,21 @@ def maven_jar(
       prebuilt_jar(
         name = name + '_src',
         binary_jar = genfile(srcjar),
-        deps = [':' + name + '__download_src'] + license,
+        deps = license + [':' + name + '__download_src'],
         visibility = visibility,
       )
-    download.append(':' + name + '__download_src')
   else:
     srcjar = None
+    genrule(
+      name = name + '__download_src',
+      cmd = ':>$OUT',
+      srcs = [],
+      out = '__' + name + '__no_src',
+    )
 
   prebuilt_jar(
     name = name,
-    deps = deps + download + license,
+    deps = deps + license + [':' + name + '__download_bin'],
     binary_jar = genfile(binjar),
     source_jar = genfile(srcjar) if srcjar else None,
     visibility = visibility,

@@ -16,6 +16,24 @@
       "revId": "990f75d3fac4186789497930e32e4c094aecf657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Upb0Q-10",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T10:02:20Z",
+      "side": 1,
+      "message": "Shawn pointed out, that msg is never null. Even if command\u0027s\n\n apply()\n\nmethod returns null, it is still empty here. Some magic behind NativeString?",
+      "parentUuid": "UniSt8tQ",
+      "revId": "990f75d3fac4186789497930e32e4c094aecf657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

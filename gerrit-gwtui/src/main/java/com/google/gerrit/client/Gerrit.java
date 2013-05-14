@@ -680,6 +680,7 @@ public class Gerrit implements EntryPoint {
       addDocLink(m, C.menuDocumentationSearch(), "user-search.html");
       addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");
       addDocLink(m, C.menuDocumentationAccess(), "access-control.html");
+      addDocLink(m, C.menuDocumentationAPI(), "rest-api.html");
       menuLeft.add(m, C.menuDocumentation());
     }
 

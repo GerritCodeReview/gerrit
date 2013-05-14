@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UpxsJ.zw",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-14T20:37:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is necessary. I fixed the one existing view that had trouble.",
+      "revId": "df602c8005b6ed513835023dc902f2a86b84b0cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

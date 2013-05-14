@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UnoTrhvw",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-14T14:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjNbvBDk",
+      "revId": "9f51ea3aa446d2ec39befabcde9b2e5f93798052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjZX5hAg",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListBranches.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-10T22:44:53Z",
       "side": 1,
       "message": "Instead of fixing the old API, maybe just port the web UI onto the new one and discard the old one?",
+      "revId": "9f51ea3aa446d2ec39befabcde9b2e5f93798052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UnmTRqk8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-14T14:27:03Z",
+      "side": 1,
+      "message": "Yes, I want to do this, but I was thinking to do it in a follow-up change. Basically the problem is that the old AddBranch API is using this because it wants to return all branches. So first I want to add support for creating branches via REST and then adapt the web UI and remove the old API.",
+      "parentUuid": "UjZX5hAg",
       "revId": "9f51ea3aa446d2ec39befabcde9b2e5f93798052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

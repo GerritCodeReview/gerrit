@@ -10,14 +10,21 @@ genrule(
     'mkdir -p Documentation/images;' +
     'for s in $SRCS;do ln -s $s Documentation;done;' +
     'mv Documentation/*.{jpg,png} Documentation/images;' +
+    'rm Documentation/licenses.txt;' +
+    'ln -s $SRCDIR/licenses.txt LICENSES.txt;' +
     'zip -qr $OUT *',
   srcs = [genfile(d) for d in HTML] +
-    [genfile('licenses.html')] +
     glob([
       'images/*.jpg',
       'images/*.png',
-    ]),
-  deps = [':' + d for d in HTML] + [':licenses.html'],
+    ]) + [
+    genfile('licenses.html'),
+    genfile('licenses.txt'),
+  ],
+  deps = [':' + d for d in HTML] + [
+    ':licenses.html',
+    ':licenses.txt',
+  ],
   out = 'html.zip',
   visibility = ['PUBLIC'],
 )

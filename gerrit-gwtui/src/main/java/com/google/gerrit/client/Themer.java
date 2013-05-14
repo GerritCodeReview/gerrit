@@ -45,13 +45,17 @@ public class Themer {
   }
 
   public void set(ThemeInfo theme) {
-    set(theme.css() != null ? theme.css() : cssText,
-        theme.header() != null ? theme.header() : headerHtml,
-        theme.footer() != null ? theme.footer() : footerHtml);
+    if (theme != null) {
+      set(theme.css() != null ? theme.css() : cssText,
+          theme.header() != null ? theme.header() : headerHtml,
+          theme.footer() != null ? theme.footer() : footerHtml);
+    } else {
+      set(cssText, headerHtml, footerHtml);
+    }
   }
 
   public void clear() {
-    set(cssText, headerHtml, footerHtml);
+    set(null);
   }
 
   void init(Element css, Element header, Element footer) {

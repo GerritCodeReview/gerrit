@@ -62,7 +62,7 @@ public abstract class Screen extends View {
   protected void onUnload() {
     super.onUnload();
     if (setTheme) {
-      Gerrit.THEMER.set(null);
+      Gerrit.THEMER.clear();
     }
   }
 

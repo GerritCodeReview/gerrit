@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UjLYRKBQ",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T04:58:21Z",
+      "side": 1,
+      "message": "\"to local mirrors of Maven Central and the Gerrit storage bucket is supported by...\"",
+      "revId": "f43bc296ae4fa7269be5ecec99795ce248da0de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjBbsXO4",
+        "filename": "tools/download_jar.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T04:58:21Z",
+      "side": 1,
+      "message": "Might be worth adding `and path.is_file(local_prop)`",
+      "revId": "f43bc296ae4fa7269be5ecec99795ce248da0de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjPYXoAY",
+        "filename": "tools/download_jar.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T04:58:21Z",
+      "side": 1,
+      "message": "Put a `try .. except` block around this in case for some reason the file is not readable.",
+      "revId": "f43bc296ae4fa7269be5ecec99795ce248da0de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UjVU0DLI",
+        "filename": "tools/download_jar.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-14T04:58:21Z",
+      "side": 1,
+      "message": "Is it possible that this method will receive an invalid URL?  If `url` does not contain a colon character, ValueError will be raised here.\n\n \u003e\u003e\u003e url \u003d \"localhost\"\n \u003e\u003e\u003e s \u003d url.index(\u0027:\u0027)\n Traceback (most recent call last):\n   File \"\u003cstdin\u003e\", line 1, in \u003cmodule\u003e\n ValueError: substring not found\n \u003e\u003e\u003e",
+      "revId": "f43bc296ae4fa7269be5ecec99795ce248da0de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

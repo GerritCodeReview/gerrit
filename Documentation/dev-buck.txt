@@ -250,6 +250,29 @@ descriptors, which sounds like an upstream bug.
 There should be a consensus that new bugs like this in upstream
 Buck are not constantly being introduced.
 
+5. Support development of custom plugins.
++
+There are three different alternatives for custom plugins:
++
+The first is to build with BUCK in tree; your plugin builds against
+whatever version of Gerrit you have the sources checked out for. This
+is the simplest method on master right now. The BUCK definition is
+only a few lines of code and the rest "just works". But you are
+working from a Gerrit source tree, which is maybe not the ideal way to
+develop.
++
+Another is to continue to use Maven. We just have to package the
+archetypes to support creating a new plugin, but existing plugins can
+develop against the API JAR(s) if they are installed into a Maven
+repository. tools/deploy_api.sh is how we did this for release
+versions of Gerrit. Something similar probably still be used with BUCK
+to publish the precompiled JARs.
++
+The third option is to support a BUCK based plugin build outside of
+the Gerrit tree. This is harder because there is functionality
+developed as macros in the Gerrit tree that plugins would want to use
+(e.g. gerrit_plugin rule).
+
 
 GERRIT
 ------

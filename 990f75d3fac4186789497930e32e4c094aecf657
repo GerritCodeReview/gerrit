@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UniSt8tQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-14T08:07:57Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be\n\n if (msg !\u003d null \u0026\u0026 !msg.toString().isEmpty()) {\n\n?",
+      "revId": "990f75d3fac4186789497930e32e4c094aecf657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

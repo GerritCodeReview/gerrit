@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UpX0jV7I",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010404
+      },
+      "writtenOn": "2013-05-14T11:24:50Z",
+      "side": 1,
+      "message": "Not \"with a buck build target\". Either maintain the maven archetype or provide a skeleton (that builds with Buck) in a git repo that you simply clone to get started.",
+      "revId": "0bd9dfb9c3072c0c417febf62a0ed0288284c757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -225,7 +225,12 @@ Shawn has a link:https://gerrit.googlesource.com/buck/+log/github-master..master
 with some patches necessary to build Gerrit and run its unit tests.
 These patches (or their equivalents) must be in the upstream Buck tree.
 
-5. Fix all incidental issues.
+5. Plugin archetypes.
++
+A developer should be able to create a plugin archetype with
+a buck build target.
+
+6. Fix all incidental issues.
 +
 Things come up that don't work. Martin just ran out of file
 descriptors, which sounds like an upstream bug.

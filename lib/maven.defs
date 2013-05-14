@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-GERRIT = 'http://gerrit-maven.commondatastorage.googleapis.com'
-MAVEN_CENTRAL = 'http://repo1.maven.org/maven2'
+GERRIT = 'GERRIT:'
+MAVEN_CENTRAL = 'MAVEN_CENTRAL:'
 
 def define_license(name):
   n = 'LICENSE-' + name

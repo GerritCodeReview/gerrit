@@ -23,6 +23,11 @@ from subprocess import check_call, CalledProcessError
 from sys import stderr
 from zipfile import ZipFile, BadZipfile, LargeZipFile
 
+REPO_ROOTS = {
+  'GERRIT': 'http://gerrit-maven.commondatastorage.googleapis.com',
+  'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
+}
+
 def hashfile(p):
   d = sha1()
   with open(p, 'rb') as f:
@@ -42,6 +47,46 @@ def safe_mkdirs(d):
     if not path.isdir(d):
       raise err
 
+def download_properties(root_dir):
+  local_prop = path.join(root_dir, 'local.properties')
+  p = {}
+  if path.isfile(local_prop):
+    try:
+      with open(local_prop) as fd:
+        for line in fd:
+          if line.startswith('download.'):
+            d = [e.strip() for e in line.split('=', 1)]
+            name, url = d[0], d[1]
+            p[name[len('download.'):]] = url
+    except OSError as err:
+      pass
+  return p
+
+def cache_entry(root_dir, args):
+  if args.v:
+    h = args.v
+  else:
+    h = sha1(args.u).hexdigest()
+  name = '%s-%s' % (path.basename(args.o), h)
+  return path.join(root_dir, 'buck-cache', name)
+
+def resolve_url(url, redirects):
+  s = url.find(':')
+  if s < 0:
+    return url
+  scheme, rest = url[:s], url[s+1:]
+  if scheme not in REPO_ROOTS:
+    return url
+  if scheme in redirects:
+    root = redirects[scheme]
+  else:
+    root = REPO_ROOTS[scheme]
+  while root.endswith('/'):
+    root = root[:-1]
+  while rest.startswith('/'):
+    rest = rest[1:]
+  return '/'.join([root, rest])
+
 opts = OptionParser()
 opts.add_option('-o', help='local output file')
 opts.add_option('-u', help='URL to download')
@@ -56,16 +101,15 @@ while root_dir:
   if n == 'buck-out':
     break
 
-cache_ent = path.join(
-    root_dir,
-    'buck-cache',
-    '%s-%s' % (path.basename(args.o), sha1(args.u).hexdigest()))
+redirects = download_properties(root_dir)
+cache_ent = cache_entry(root_dir, args)
+src_url = resolve_url(args.u, redirects)
 
 if not path.exists(cache_ent):
   try:
     safe_mkdirs(path.dirname(cache_ent))
-    print('Download %s' % args.u, file=stderr)
-    check_call(['curl', '--proxy-anyauth', '-sfo', cache_ent, args.u])
+    print('Download %s' % src_url, file=stderr)
+    check_call(['curl', '--proxy-anyauth', '-sfo', cache_ent, src_url])
   except (OSError, CalledProcessError) as err:
     print('error using curl: %s' % str(err), file=stderr)
     exit(1)
@@ -78,7 +122,7 @@ if args.v:
       '%s:\n' +
       'expected %s\n' +
       'received %s\n' +
-      '         %s\n') % (args.u, args.v, have, o), file=stderr)
+      '         %s\n') % (src_url, args.v, have, o), file=stderr)
     exit(1)
 
 exclude = []

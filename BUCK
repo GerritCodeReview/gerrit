@@ -44,7 +44,7 @@ genrule(
   name = 'download',
   cmd = 'buck build ' +
     '$(buck audit classpath --dot //tools/eclipse:classpath' +
-    '| egrep \'^  "//lib/\''+
+    '| egrep \'"//lib/[^"]*__download_[^"]*" -> "//tools:download_jar"\'' +
     '| cut -d\\" -f2' +
     '| sort | uniq)',
   srcs = [],

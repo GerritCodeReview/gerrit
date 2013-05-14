@@ -55,6 +55,7 @@ based projects.
 Expand the `gerrit` project, right-click on the `buck-out` folder, select
 'Properties', and then under 'Attributes' check 'Derived'.
 
+
 Refreshing the Eclipse Project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -102,6 +103,7 @@ The output JAR files will be placed in:
   buck-out/gen/{extension,plugin}-api.jar
 ----
 
+
 Running Unit Tests
 ------------------
 
@@ -118,19 +120,27 @@ To exclude slow tests:
 ----
 
 
-
 Dependencies
 ------------
 
 Dependency JARs are normally downloaded automatically, but Buck can inspect
 its graph and download any missing JAR files.  This is useful to enable
-builds to run without network access.
+subsequent builds to run without network access.
 
 Force a download of dependency JARs by building the `download` target:
 
 ----
   buck build download
 ----
+
+Currently there is no way to download dependencies other than over an HTTP
+connection from the source sites (Maven Central and the Gerrit storage
+bucket).  It is not yet possible to use, for example, a corporate Nexus
+proxy.
+
+Users behind an HTTP proxy should set the `http_proxy` environment variable
+to point to their proxy.  Dependencies are downloaded with `curl` which will
+make use of this setting for outgoing network connections.
 
 
 Build Process Switch Exit Criteria

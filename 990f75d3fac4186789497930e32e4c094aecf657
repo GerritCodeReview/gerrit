@@ -52,6 +52,24 @@
       "revId": "990f75d3fac4186789497930e32e4c094aecf657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UpT0dz3E",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T11:41:48Z",
+      "side": 1,
+      "message": "\"Have you verified that \u0027msg\u0027 can\u0027t be null?\"\n\nYes i did.\n\n\"Other question, shouldn\u0027t this be rather \u0027msg.asString()\u0027 than \u0027msg.toString()\u0027?\"\n\nyes, you are right, will change that.",
+      "parentUuid": "UpV0mm8M",
+      "revId": "990f75d3fac4186789497930e32e4c094aecf657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

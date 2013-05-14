@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UoAJlCvA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-14T09:59:32Z",
+      "side": 1,
+      "message": "shorter using Guava:\n\n return CharMatcher.anyOf(\"/\").trimTrailingFrom(host);\n\nor may be even move it in a global util class?",
+      "revId": "af74deb7cb8841de2c81a474412140de79d551a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

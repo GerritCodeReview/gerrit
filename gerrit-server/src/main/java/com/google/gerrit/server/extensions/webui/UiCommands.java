@@ -22,7 +22,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiCommand;
@@ -61,16 +60,20 @@ public class UiCommands {
   }
 
   public static <R extends RestResource> Iterable<UiCommandDetail> from(
-      ChildCollection<?, R> collection,
-      R resource,
-      EnumSet<UiCommand.Place> places) {
-    return from(collection.views(), resource, places);
+      final DynamicMap<RestView<R>> views, R resource,
+      final EnumSet<UiCommand.Place> places) {
+    return from(views, resource, new Predicate<UiCommand<R>>() {
+      @Override
+      public boolean apply(@Nullable UiCommand<R> cmd) {
+        return !Sets.intersection(cmd.getPlaces(), places).isEmpty();
+      }
+    });
   }
 
   public static <R extends RestResource> Iterable<UiCommandDetail> from(
       DynamicMap<RestView<R>> views,
       final R resource,
-      final EnumSet<UiCommand.Place> places) {
+      final Predicate<UiCommand<R>> predicate) {
     return Iterables.filter(
       Iterables.transform(
         views,
@@ -100,8 +103,7 @@ public class UiCommands {
             }
 
             UiCommand<R> cmd = (UiCommand<R>) view;
-            if (Sets.intersection(cmd.getPlaces(), places).isEmpty()
-                || !cmd.isVisible(resource)) {
+            if (!cmd.isVisible(resource) || !predicate.apply(cmd)) {
               return null;
             }
 

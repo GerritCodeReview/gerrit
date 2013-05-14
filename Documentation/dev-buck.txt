@@ -220,8 +220,7 @@ Build Process Switch Exit Criteria
 ----------------------------------
 
 The switch to Buck is an experimental process. Buck will become the
-primary build for Gerrit (and link:dev-maven.html[Maven support]
-removed) only when the following conditions are met.
+primary build for Gerrit only when the following conditions are met.
 
 1. Windows support.
 +

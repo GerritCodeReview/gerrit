@@ -15,8 +15,11 @@
 package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -70,15 +73,25 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
     }
 
     public class FormatPatchCommandLink extends DownloadCommandLink {
-      public FormatPatchCommandLink() {
+      private final PatchSet.Id id;
+
+      public FormatPatchCommandLink(PatchSet.Id id) {
         super(DownloadCommand.FORMAT_PATCH, "patch");
+        this.id = id;
       }
 
       @Override
       protected void setCurrentUrl(DownloadUrlLink link) {
+        String cmd;
+        if (link.urlType == DownloadScheme.SSH) {
+          cmd = "git fetch " + link.getUrlData()
+              + " && git checkout FETCH_HEAD";
+        } else {
+          String url = ChangeApi.revision(id).view("patch").url();
+          cmd = "curl " + url + " | base64 --decode";
+        }
         widget.setVisible(true);
-        copyLabel.setText("git fetch " + link.getUrlData()
-            + " && git format-patch -1 --stdout FETCH_HEAD");
+        copyLabel.setText(cmd);
       }
     }
 

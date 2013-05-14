@@ -241,7 +241,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         }
         if (allowedCommands.contains(DownloadCommand.FORMAT_PATCH)
             || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-          commands.add(cmdLinkfactory.new FormatPatchCommandLink());
+          commands.add(cmdLinkfactory.new FormatPatchCommandLink(patchSet.getId()));
         }
       }
     }

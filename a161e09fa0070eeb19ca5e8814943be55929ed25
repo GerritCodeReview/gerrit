@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UjVXYjEM",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-14T15:25:37Z",
+      "side": 1,
+      "message": "This needs to be rebased.",
+      "revId": "a161e09fa0070eeb19ca5e8814943be55929ed25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -21,7 +21,10 @@ import java.util.Set;
 
 public interface UiCommand<R extends RestResource> extends RestView<R> {
   public static enum Place {
-    PATCHSET_ACTION_PANEL;
+    /* All patch sets */
+    PATCHSET_ACTION_PANEL,
+    /* Current patch set only */
+    CURRENT_PATCHSET_ACTION_PANEL,
   };
 
   Set<Place> getPlaces();

@@ -136,17 +136,21 @@ Force a download of dependency JARs by building the `download` target:
   buck build download
 ----
 
-Currently there is no way to download dependencies other than over an HTTP
-connection from the source sites (Maven Central and the Gerrit storage
-bucket).  It is not yet possible to use, for example, a corporate Nexus
-proxy.
-
 When downloading from behind a proxy (which is common in some corporate
 environments), it might be necessary to explicitly specify the proxy that
 is then used by `curl`:
 
 ----
   export http_proxy=http://<proxy_user_id>:<proxy_password>@<proxy_server>:<proxy_port>
+----
+
+Redirection to local mirrors of Maven Central and the Gerrit storage
+bucket is supported by defining specific properties in
+`local.properties`, a file that is not tracked by Git:
+
+----
+  echo download.GERRIT = http://nexus.my-company.com/ >>local.properties
+  echo download.MAVEN_CENTRAL = http://nexus.my-company.com/ >>local.properties
 ----
 
 

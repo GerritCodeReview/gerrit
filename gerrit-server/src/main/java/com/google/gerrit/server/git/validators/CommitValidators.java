@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -555,10 +556,7 @@ public class CommitValidators {
    */
   private static String getGerritUrl(String canonicalWebUrl) {
     if (canonicalWebUrl != null) {
-      if (canonicalWebUrl.endsWith("/")) {
-        return canonicalWebUrl.substring(0, canonicalWebUrl.lastIndexOf("/"));
-      }
-      return canonicalWebUrl;
+      return CharMatcher.is('/').trimTrailingFrom(canonicalWebUrl);
     } else {
       return "http://" + getGerritHost(canonicalWebUrl);
     }

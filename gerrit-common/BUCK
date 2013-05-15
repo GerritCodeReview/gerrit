@@ -9,7 +9,10 @@ gwt_module(
     '//gerrit-patch-jgit:client',
     '//gerrit-prettify:client',
     '//gerrit-reviewdb:client',
+    '//lib:gwtjsonrpc',
+    '//lib:gwtorm',
     '//lib:jsr305',
+    '//lib/jgit:jgit',
   ],
   visibility = ['PUBLIC'],
 )
@@ -21,7 +24,10 @@ java_library(
     '//gerrit-patch-jgit:server',
     '//gerrit-prettify:server',
     '//gerrit-reviewdb:server',
+    '//lib:gwtjsonrpc',
+    '//lib:gwtorm',
     '//lib:jsr305',
+    '//lib/jgit:jgit',
   ],
   visibility = ['PUBLIC'],
 )

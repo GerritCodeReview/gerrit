@@ -35,6 +35,7 @@ def maven_jar(
     sha1 = '', bin_sha1 = '', src_sha1 = '',
     repository = MAVEN_CENTRAL,
     attach_source = True,
+    export_deps = False,
     visibility = ['PUBLIC']):
   from os import path
 
@@ -101,10 +102,24 @@ def maven_jar(
       out = '__' + name + '__no_src',
     )
 
-  prebuilt_jar(
-    name = name,
-    deps = deps + license + [':' + name + '__download_bin'],
-    binary_jar = genfile(binjar),
-    source_jar = genfile(srcjar) if srcjar else None,
-    visibility = visibility,
-  )
+  if export_deps:
+    prebuilt_jar(
+      name = name + '__jar',
+      deps = deps + license + [':' + name + '__download_bin'],
+      binary_jar = genfile(binjar),
+      source_jar = genfile(srcjar) if srcjar else None,
+    )
+    java_library(
+      name = name,
+      deps = [':' + name + '__jar'],
+      export_deps = True,
+      visibility = visibility,
+    )
+  else:
+    prebuilt_jar(
+      name = name,
+      deps = deps + license + [':' + name + '__download_bin'],
+      binary_jar = genfile(binjar),
+      source_jar = genfile(srcjar) if srcjar else None,
+      visibility = visibility,
+    )

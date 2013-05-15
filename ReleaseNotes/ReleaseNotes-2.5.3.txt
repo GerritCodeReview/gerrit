@@ -5,9 +5,9 @@ Gerrit 2.5.3 is now available:
 
 link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.3.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.3.war]
 
-There are no schema changes from any member of the 2.5.x versions.
+There are no schema changes from any of the 2.5.x versions.
 
-However, if upgrading from anything earlier version, follow the upgrade
+However, if upgrading from a version older than 2.5, follow the upgrade
 procedure in the 2.5 link:ReleaseNotes-2.5.html[Release Notes].
 
 Security Fixes

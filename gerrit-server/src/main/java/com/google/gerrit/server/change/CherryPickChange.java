@@ -223,17 +223,7 @@ public class CherryPickChange {
     } catch (CommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());
     }
-
-    final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(cherryPickCommit);
-    ru.disableRefLog();
-    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-      throw new IOException(String.format(
-          "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
-          change.getDest().getParentKey().get(), ru.getResult()));
-    }
-    patchSetInserter.insertPatchSet(change, newPatchSet,
+    patchSetInserter.insertPatchSet(git, revWalk, change, newPatchSet,
         cherryPickCommit, refControl, buildChangeMessage(patchSetId, change),
         false);
     return change.getId();

@@ -23,6 +23,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -31,9 +32,14 @@ import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,35 +49,52 @@ public class PatchSetInserter {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
   private final IdentifiedUser user;
+  private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
-  public PatchSetInserter(final ChangeHooks hooks,
-      final TrackingFooters trackingFooters, final ReviewDb db,
-      final PatchSetInfoFactory patchSetInfoFactory, final IdentifiedUser user) {
+  public PatchSetInserter(ChangeHooks hooks,
+      TrackingFooters trackingFooters,
+      ReviewDb db,
+      PatchSetInfoFactory patchSetInfoFactory,
+      IdentifiedUser user,
+      GitReferenceUpdated gitRefUpdated) {
     this.hooks = hooks;
     this.trackingFooters = trackingFooters;
     this.db = db;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.user = user;
+    this.gitRefUpdated = gitRefUpdated;
   }
 
-  public Change insertPatchSet(Change change, final PatchSet patchSet,
-      final RevCommit commit, RefControl refControl, String message,
-      boolean copyLabels) throws OrmException, InvalidChangeOperationException,
-      NoSuchChangeException {
+  public Change insertPatchSet(Repository git, RevWalk revWalk,
+      Change change, PatchSet patchSet, RevCommit commit, RefControl refControl,
+      String message, boolean copyLabels) throws OrmException,
+      InvalidChangeOperationException, NoSuchChangeException, IOException {
     final ChangeMessage cmsg =
         new ChangeMessage(new ChangeMessage.Key(change.getId(),
             ChangeUtil.messageUUID(db)), user.getAccountId(), patchSet.getId());
     cmsg.setMessage(message);
 
-    return insertPatchSet(change, patchSet, commit, refControl, cmsg,
-        copyLabels);
+    return insertPatchSet(git, revWalk, change, patchSet, commit, refControl,
+        cmsg, copyLabels);
   }
 
-  public Change insertPatchSet(Change change, final PatchSet patchSet,
-      final RevCommit commit, RefControl refControl, ChangeMessage changeMessage,
-      boolean copyLabels) throws OrmException, InvalidChangeOperationException,
-      NoSuchChangeException {
+  public Change insertPatchSet(Repository git, RevWalk revWalk,
+      Change change, final PatchSet patchSet, final RevCommit commit,
+      RefControl refControl, ChangeMessage changeMessage, boolean copyLabels)
+      throws OrmException, InvalidChangeOperationException,
+      NoSuchChangeException, IOException {
+
+    RefUpdate ru = git.updateRef(patchSet.getRefName());
+    ru.setExpectedOldObjectId(ObjectId.zeroId());
+    ru.setNewObjectId(commit);
+    ru.disableRefLog();
+    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+      throw new IOException(String.format(
+          "Failed to create ref %s in %s: %s", patchSet.getRefName(),
+          change.getDest().getParentKey().get(), ru.getResult()));
+    }
+    gitRefUpdated.fire(change.getProject(), ru);
 
     final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
 

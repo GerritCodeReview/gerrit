@@ -321,8 +321,7 @@ public class ChangeUtil {
       final RefControl refControl, CommitValidators commitValidators,
       final IdentifiedUser user, final String message, final ReviewDb db,
       final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
-      Repository git, final GitReferenceUpdated gitRefUpdated,
-      PersonIdent myIdent, PatchSetInserter patchSetInserter)
+      Repository git, PersonIdent myIdent, PatchSetInserter patchSetInserter)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, PatchSetInfoNotAvailableException {
@@ -388,24 +387,12 @@ public class ChangeUtil {
         throw new InvalidChangeOperationException(e.getMessage());
       }
 
-      final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
-      ru.setExpectedOldObjectId(ObjectId.zeroId());
-      ru.setNewObjectId(newCommit);
-      ru.disableRefLog();
-      if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-        throw new IOException(String.format(
-            "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
-            change.getDest().getParentKey().get(), ru.getResult()));
-      }
-      gitRefUpdated.fire(change.getProject(), ru);
-
       final String msg =
           "Patch Set " + newPatchSet.getPatchSetId()
               + ": Commit message was updated";
 
-      change =
-          patchSetInserter.insertPatchSet(change, newPatchSet, newCommit,
-              refControl, msg, true);
+      change = patchSetInserter.insertPatchSet(git, revWalk, change,
+          newPatchSet, newCommit, refControl, msg, true);
 
       return change.getId();
     } finally {

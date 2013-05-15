@@ -166,13 +166,13 @@ public class ProjectBranchesScreen extends ProjectScreen {
   }
 
   private void doAddNewBranch() {
-    final String branchName = nameTxtBox.getText();
+    final String branchName = nameTxtBox.getText().trim();
     if ("".equals(branchName)) {
       nameTxtBox.setFocus(true);
       return;
     }
 
-    final String rev = irevTxtBox.getText();
+    final String rev = irevTxtBox.getText().trim();
     if ("".equals(rev)) {
       irevTxtBox.setText("HEAD");
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {

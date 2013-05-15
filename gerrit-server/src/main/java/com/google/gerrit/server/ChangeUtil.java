@@ -321,7 +321,8 @@ public class ChangeUtil {
       final RefControl refControl, CommitValidators commitValidators,
       final IdentifiedUser user, final String message, final ReviewDb db,
       final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
-      Repository git, PersonIdent myIdent, PatchSetInserter patchSetInserter)
+      Repository git, PersonIdent myIdent,
+      PatchSetInserter.Factory patchSetInserterFactory)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, PatchSetInfoNotAvailableException {
@@ -391,8 +392,12 @@ public class ChangeUtil {
           "Patch Set " + newPatchSet.getPatchSetId()
               + ": Commit message was updated";
 
-      change = patchSetInserter.insertPatchSet(git, revWalk, change,
-          newPatchSet, newCommit, refControl, msg, true);
+      change = patchSetInserterFactory.create(git, revWalk, change, newCommit)
+          .setPatchSet(newPatchSet)
+          .setRefControl(refControl)
+          .setMessage(msg)
+          .setCopyLabels(true)
+          .insert();
 
       return change.getId();
     } finally {

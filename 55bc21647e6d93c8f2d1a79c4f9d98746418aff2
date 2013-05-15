@@ -16,6 +16,24 @@
       "revId": "55bc21647e6d93c8f2d1a79c4f9d98746418aff2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UspD09A4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-15T07:27:49Z",
+      "side": 1,
+      "message": "Yeah. I guess if you don\u0027t edit the \"Change-ID: \" in the footer of the new cherry-pick commit, you will not have much use of the message. Ideas for a better message?",
+      "parentUuid": "UqFomlcM",
+      "revId": "55bc21647e6d93c8f2d1a79c4f9d98746418aff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

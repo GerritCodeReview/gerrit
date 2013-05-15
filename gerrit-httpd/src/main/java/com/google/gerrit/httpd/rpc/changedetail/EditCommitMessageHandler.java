@@ -25,7 +25,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
@@ -65,7 +64,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
-  private final PatchSetInserter patchSetInserter;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
 
   @Inject
   EditCommitMessageHandler(final ChangeControl.Factory changeControlFactory,
@@ -77,7 +76,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       final CommitValidators.Factory commitValidatorsFactory,
       final GitRepositoryManager gitManager,
       @GerritPersonIdent final PersonIdent myIdent,
-      final PatchSetInserter patchSetInserter) {
+      final PatchSetInserter.Factory patchSetInserterFactory) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
@@ -88,7 +87,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.gitManager = gitManager;
     this.myIdent = myIdent;
-    this.patchSetInserter = patchSetInserter;
+    this.patchSetInserterFactory = patchSetInserterFactory;
   }
 
   @Override
@@ -114,8 +113,9 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       CommitValidators commitValidators =
           commitValidatorsFactory.create(control.getRefControl(), new NoSshInfo(), git);
 
-      ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(), commitValidators, currentUser, message, db,
-          commitMessageEditedSenderFactory, git, myIdent, patchSetInserter);
+      ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(),
+          commitValidators, currentUser, message, db,
+          commitMessageEditedSenderFactory, git, myIdent, patchSetInserterFactory);
 
       return changeDetailFactory.create(changeId).call();
     } finally {

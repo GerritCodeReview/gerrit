@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UqLqdca8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-15T15:19:12Z",
+      "side": 1,
+      "message": "Not sure this constructor makes sense at first blush. I think I would prefer a static method with a descriptive name, maybe editOf.",
+      "revId": "d41de224590b596ad38617e091c13e231a2061b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UqFqj9eo",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-15T15:19:12Z",
+      "side": 1,
+      "message": "I\u0027d make this constructor private.",
+      "revId": "d41de224590b596ad38617e091c13e231a2061b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Up1ujA.s",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-15T15:19:12Z",
+      "side": 1,
+      "message": "So I understand: this is stored separately from id to make it impossible to call insert(new PatchSet(new PatchSet.Id(cid, true))? I think I am ok with this.",
+      "revId": "d41de224590b596ad38617e091c13e231a2061b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Up7udZ68",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-15T15:19:12Z",
+      "side": 1,
+      "message": "Modify either this method or Id.toString to indicate it\u0027s an edit.",
+      "revId": "d41de224590b596ad38617e091c13e231a2061b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

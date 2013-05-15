@@ -16,7 +16,6 @@ package com.google.gerrit.sshd;
 
 import com.google.inject.Key;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.sshd.server.Command;
 
 import java.lang.annotation.Annotation;
@@ -124,7 +123,7 @@ public class Commands {
     NestedCommandNameImpl(final CommandName parent, final String name) {
       this.parent = parent;
       this.name = name;
-      this.descr = StringUtils.EMPTY;
+      this.descr = "";
     }
 
     NestedCommandNameImpl(final CommandName parent, final String name,

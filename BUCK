@@ -26,6 +26,7 @@ java_library(
     '//lib/guice:guice-servlet',
     '//lib:servlet-api-3_0',
   ],
+  export_deps = True,
   visibility = ['PUBLIC'],
 )
 
@@ -37,6 +38,7 @@ java_library(
     '//gerrit-sshd:sshd',
     '//gerrit-httpd:httpd',
   ],
+  export_deps = True,
   visibility = ['PUBLIC'],
 )
 

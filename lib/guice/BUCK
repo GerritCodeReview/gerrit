@@ -7,16 +7,24 @@ EXCLUDE = [
   'META-INF/NOTICE',
 ]
 
-maven_jar(
+java_library(
   name = 'guice',
+  deps = [
+    ':guice_library',
+    ':javax-inject',
+  ],
+  export_deps = True,
+  visibility = ['PUBLIC'],
+)
+
+maven_jar(
+  name = 'guice_library',
   id = 'com.google.inject:guice:' + VERSION,
   sha1 = '9d84f15fe35e2c716a02979fb62f50a29f38aefa',
   license = 'Apache2.0',
-  deps = [
-    ':javax-inject',
-    ':aopalliance',
-  ],
+  deps = [':aopalliance'],
   exclude = EXCLUDE,
+  visibility = [],
 )
 
 maven_jar(
@@ -36,7 +44,6 @@ maven_jar(
   deps = [':guice'],
   exclude = EXCLUDE,
 )
-
 
 maven_jar(
   name = 'aopalliance',

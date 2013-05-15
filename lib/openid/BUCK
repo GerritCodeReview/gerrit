@@ -60,5 +60,4 @@ maven_jar(
     'META-INF/LICENSE.txt',
     'META-INF/NOTICE.txt',
   ],
-  visibility = [],
 )

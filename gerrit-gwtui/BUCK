@@ -72,7 +72,10 @@ gwt_module(
     '//gerrit-reviewdb:client',
     '//lib:gwtjsonrpc',
     '//lib:gwtjsonrpc_src',
+    '//lib:gwtorm',
+    '//lib:jsr305',
     '//lib/gwt:user',
+    '//lib/jgit:jgit',
   ],
   visibility = [
     '//tools/eclipse:classpath',
@@ -87,6 +90,7 @@ java_test(
     ':ui_module',
     '//lib:junit',
     '//lib/gwt:dev',
+    '//lib/jgit:jgit',
   ],
   source_under_test = [':ui_module'],
 )

@@ -16,6 +16,24 @@
       "revId": "9575da07b79f00a4172aa901a1cad243be1d80f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UslD-bOk",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-15T09:17:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UZX36t-s",
+      "revId": "9575da07b79f00a4172aa901a1cad243be1d80f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

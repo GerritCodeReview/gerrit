@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UsvAWoFo",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-15T21:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UoALwqhk",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UoKL0Xg4",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-13T13:44:09Z",
       "side": 1,
       "message": "In the last sentence, it\u0027s somewhat ambiguous what \"it\" pertains to. If you know the subject it\u0027s obvious that it\u0027s the config files in refs/meta/config you mean, but it can easily be interpreted as the web UI (especially when the config files are talked about in plural).\n\nDo we actually use \"git\" in the rest of the documentation? I thought \"project\" was the standard term.",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UtM4Rg2U",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-15T21:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UoKL0Xg4",
       "revId": "2d7874d7cd20b44246527311a2e414465699a716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "UtO4Wv1o",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-15T21:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uo5-0Ew8",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjNZkpPY",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-13T04:43:11Z",
       "side": 1,
       "message": "s/inherits/inherit from",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UspALlDE",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-15T21:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjNZkpPY",
       "revId": "2d7874d7cd20b44246527311a2e414465699a716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "UtI4LezE",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-15T21:49:24Z",
+      "side": 1,
+      "message": "This is a good point, and one that I\u0027ve used on others when reviewing their documentation. Probably the tomcat docs mostly actually. I\u0027m not sure it should be an example this early however, this I figured I\u0027d save for each individual setting later on.\n\nI\u0027ll see if I can however supply a template rather than an example of the general format of running the git config command in this setting. That probably increases understanding further down with the examples.",
+      "parentUuid": "UoGL-Nuo",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjTVOMHY",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2013-05-13T04:43:11Z",
       "side": 1,
       "message": "s/appear/appears",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UtK4Qt10",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-15T21:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjTVOMHY",
       "revId": "2d7874d7cd20b44246527311a2e414465699a716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "UslAmjMM",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-15T21:49:24Z",
+      "side": 1,
+      "message": "You\u0027re right, replication is no longer core.\n\nNot sure how we should handle it.. Remove it from here then? Or have a common plugins-section that mentions the \"public\" plugins?",
+      "parentUuid": "UjHajkOs",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UoML5Ygc",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 3
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "UtE4m88M",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-15T21:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UoML5Ygc",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UjRVLNGY",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 3
@@ -166,6 +310,24 @@
       "writtenOn": "2013-05-13T04:43:11Z",
       "side": 1,
       "message": "s/interpretor/interpreter",
+      "revId": "2d7874d7cd20b44246527311a2e414465699a716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UsnAjkLI",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-05-15T21:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UjRVLNGY",
       "revId": "2d7874d7cd20b44246527311a2e414465699a716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

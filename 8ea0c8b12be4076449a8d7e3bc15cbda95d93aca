@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UqDo0AeA",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-15T02:32:57Z",
+      "side": 0,
+      "message": "This error message is removed, but not added in the new implementation in CanonicalWebUrl.java.  Is that OK?",
+      "revId": "8ea0c8b12be4076449a8d7e3bc15cbda95d93aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

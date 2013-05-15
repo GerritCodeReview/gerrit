@@ -27,8 +27,12 @@ Configuring Eclipse
 To use the Eclipse IDE for development, please see
 link:dev-eclipse.html[Eclipse Setup].
 
-See the link:dev-maven.html[Maven documentation] for more details on
-how to configure the workspace with the Maven build scripts.
+For details on how to configure the Eclipse workspace with Maven
+or Buck, refer to:
+
+1. link:dev-maven.html#eclipse[Eclipse integration with Maven]
+
+2. link:dev-buck.html#eclipse[Eclipse integration with Buck]
 
 
 Mac OS X
@@ -73,7 +77,7 @@ Testing
 -------
 
 
-[[run-acceptance-tests]]
+[[tests]]
 Running the Acceptance Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -84,8 +88,12 @@ A new review site is created for each test and the Gerrit daemon is
 started on that site. When the test has finished the Gerrit daemon is
 shutdown.
 
-For instructions on running the integration tests with Maven, please
-click link:dev-maven.html#run-acceptance-tests[here].
+For instructions on running the integration tests with Maven or Buck,
+please refer to:
+
+1. link:dev-maven.html#tests[Running integration tests with Maven]
+
+2. link:dev-buck.html#tests[Running integration tests with Buck]
 
 
 Running the Daemon

@@ -73,7 +73,7 @@ To build without tests:
   mvn clean package -DskipTests
 ----
 
-[[run-acceptance-tests]]
+[[tests]]
 Running the Acceptance Tests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

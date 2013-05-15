@@ -37,8 +37,9 @@ Verify that buck is accessible:
 ----
 
 
-Eclipse Project
----------------
+[[eclipse]]
+Eclipse Integration
+-------------------
 
 
 Generating the Eclipse Project
@@ -157,6 +158,7 @@ Note that when building an individual plugin, the `core.zip` package
 is not regenerated.
 
 
+[[tests]]
 Running Unit Tests
 ------------------
 

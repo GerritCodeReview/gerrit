@@ -318,8 +318,8 @@ public class ChangeUtil {
   }
 
   public static Change.Id editCommitMessage(final PatchSet.Id patchSetId,
-      final RefControl refControl, CommitValidators commitValidators,
-      final IdentifiedUser user, final String message, final ReviewDb db,
+      final RefControl refControl, final IdentifiedUser user,
+      final String message, final ReviewDb db,
       final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
       Repository git, PersonIdent myIdent,
       PatchSetInserter.Factory patchSetInserterFactory)
@@ -376,18 +376,6 @@ public class ChangeUtil {
       newPatchSet.setRevision(new RevId(newCommit.name()));
       newPatchSet.setDraft(originalPS.isDraft());
 
-      CommitReceivedEvent commitReceivedEvent =
-          new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-              newCommit.getId(), newPatchSet.getRefName()), refControl
-              .getProjectControl().getProject(), refControl.getRefName(),
-              newCommit, user);
-
-      try {
-        commitValidators.validateForReceiveCommits(commitReceivedEvent);
-      } catch (CommitValidationException e) {
-        throw new InvalidChangeOperationException(e.getMessage());
-      }
-
       final String msg =
           "Patch Set " + newPatchSet.getPatchSetId()
               + ": Commit message was updated";
@@ -397,6 +385,7 @@ public class ChangeUtil {
           .setRefControl(refControl)
           .setMessage(msg)
           .setCopyLabels(true)
+          .setValidateForReceiveCommits(true)
           .insert();
 
       return change.getId();

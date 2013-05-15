@@ -122,9 +122,6 @@ public class CherryPickChange {
     }
 
     try {
-      CommitValidators commitValidators =
-          commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
-
       RevWalk revWalk = new RevWalk(git);
       try {
         Ref destRef = git.getRef(destinationBranch);
@@ -186,12 +183,12 @@ public class CherryPickChange {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
           return insertPatchSet(git, revWalk, destChanges.get(0), patchSetId,
-              cherryPickCommit, refControl, commitValidators);
+              cherryPickCommit, refControl);
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
           return createNewChange(git, revWalk, changeKey, project, patchSetId, destRef,
-              cherryPickCommit, refControl, commitValidators);
+              cherryPickCommit, refControl);
         }
       } finally {
         revWalk.release();
@@ -203,26 +200,14 @@ public class CherryPickChange {
 
   private Change.Id insertPatchSet(Repository git, RevWalk revWalk, Change change,
       PatchSet.Id patchSetId, RevCommit cherryPickCommit,
-      RefControl refControl, CommitValidators commitValidators)
-      throws InvalidChangeOperationException, IOException, OrmException,
-      NoSuchChangeException {
+      RefControl refControl) throws InvalidChangeOperationException,
+      IOException, OrmException, NoSuchChangeException {
     PatchSet.Id id = ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
     PatchSet newPatchSet = new PatchSet(id);
     newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
     newPatchSet.setUploader(change.getOwner());
     newPatchSet.setRevision(new RevId(cherryPickCommit.name()));
 
-    CommitReceivedEvent commitReceivedEvent =
-        new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-            cherryPickCommit.getId(), newPatchSet.getRefName()), refControl
-            .getProjectControl().getProject(), refControl.getRefName(),
-            cherryPickCommit, currentUser);
-
-    try {
-      commitValidators.validateForGerritCommits(commitReceivedEvent);
-    } catch (CommitValidationException e) {
-      throw new InvalidChangeOperationException(e.getMessage());
-    }
     patchSetInserterFactory.create(git, revWalk, change, cherryPickCommit)
         .setPatchSet(newPatchSet)
         .setRefControl(refControl)
@@ -233,9 +218,8 @@ public class CherryPickChange {
 
   private Change.Id createNewChange(Repository git, RevWalk revWalk,
       Change.Key changeKey, Project.NameKey project, PatchSet.Id patchSetId,
-      Ref destRef, RevCommit cherryPickCommit, RefControl refControl,
-      CommitValidators commitValidators) throws OrmException,
-      InvalidChangeOperationException, IOException {
+      Ref destRef, RevCommit cherryPickCommit, RefControl refControl)
+      throws OrmException, InvalidChangeOperationException, IOException {
     Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()),
             currentUser.getAccountId(), new Branch.NameKey(project,
@@ -246,6 +230,8 @@ public class CherryPickChange {
     newPatchSet.setUploader(change.getOwner());
     newPatchSet.setRevision(new RevId(cherryPickCommit.name()));
 
+    CommitValidators commitValidators =
+        commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
     CommitReceivedEvent commitReceivedEvent =
         new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
             cherryPickCommit.getId(), newPatchSet.getRefName()), refControl

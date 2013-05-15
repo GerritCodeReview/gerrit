@@ -26,10 +26,15 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.ssh.NoSshInfo;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -41,6 +46,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -57,6 +63,8 @@ public class PatchSetInserter {
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final GitReferenceUpdated gitRefUpdated;
+  private final CommitValidators.Factory commitValidatorsFactory;
+  private boolean validateForReceiveCommits;
 
   private final Repository git;
   private final RevWalk revWalk;
@@ -67,6 +75,7 @@ public class PatchSetInserter {
   private RefControl refControl;
   private ChangeMessage changeMessage;
   private boolean copyLabels;
+  private SshInfo sshInfo;
 
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
@@ -75,6 +84,7 @@ public class PatchSetInserter {
       PatchSetInfoFactory patchSetInfoFactory,
       IdentifiedUser user,
       GitReferenceUpdated gitRefUpdated,
+      CommitValidators.Factory commitValidatorsFactory,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted Change change,
@@ -85,6 +95,7 @@ public class PatchSetInserter {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.user = user;
     this.gitRefUpdated = gitRefUpdated;
+    this.commitValidatorsFactory = commitValidatorsFactory;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -125,10 +136,25 @@ public class PatchSetInserter {
     return this;
   }
 
+  public PatchSetInserter setSshInfo(SshInfo sshInfo) {
+    if (sshInfo == null) {
+      sshInfo = new NoSshInfo();
+    }
+    this.sshInfo = sshInfo;
+    return this;
+  }
+
+  public PatchSetInserter setValidateForReceiveCommits(boolean validate) {
+    this.validateForReceiveCommits = validate;
+    return this;
+  }
+
   public Change insert() throws InvalidChangeOperationException, OrmException,
       IOException {
     checkState(patchSet != null, "patch set not set");
     checkState(refControl != null, "ref control not set");
+
+    validate();
 
     Change updatedChange;
     RefUpdate ru = git.updateRef(patchSet.getRefName());
@@ -197,6 +223,26 @@ public class PatchSetInserter {
       db.rollback();
     }
     return updatedChange;
+  }
+
+  private void validate() throws InvalidChangeOperationException {
+    CommitValidators cv = commitValidatorsFactory.create(refControl, sshInfo, git);
+
+    CommitReceivedEvent event = new CommitReceivedEvent(
+        new ReceiveCommand(ObjectId.zeroId(), commit.getId(),
+            patchSet.getRefName()),
+        refControl.getProjectControl().getProject(), refControl.getRefName(),
+        commit, user);
+
+    try {
+      if (validateForReceiveCommits) {
+        cv.validateForReceiveCommits(event);
+      } else {
+        cv.validateForGerritCommits(event);
+      }
+    } catch (CommitValidationException e) {
+      throw new InvalidChangeOperationException(e.getMessage());
+    }
   }
 
   public class ChangeModifiedException extends InvalidChangeOperationException {

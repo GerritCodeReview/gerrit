@@ -215,7 +215,9 @@ public class RestApiServlet extends HttpServlet {
         IdString id = path.remove(0);
         try {
           rsrc = rc.parse(rsrc, id);
-          checkPreconditions(req, rsrc);
+          if (path.isEmpty()) {
+            checkPreconditions(req, rsrc);
+          }
         } catch (ResourceNotFoundException e) {
           if (rc instanceof AcceptsCreate
               && path.isEmpty()

@@ -21,6 +21,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -49,6 +50,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 
@@ -151,9 +153,7 @@ public class PatchSetInserter {
 
   public Change insert() throws InvalidChangeOperationException, OrmException,
       IOException {
-    checkState(patchSet != null, "patch set not set");
-    checkState(refControl != null, "ref control not set");
-
+    init();
     validate();
 
     Change updatedChange;
@@ -223,6 +223,17 @@ public class PatchSetInserter {
       db.rollback();
     }
     return updatedChange;
+  }
+
+  private void init() {
+    checkState(refControl != null, "ref control not set");
+    if (patchSet == null) {
+      patchSet = new PatchSet(
+          ChangeUtil.nextPatchSetId(git, change.currentPatchSetId()));
+      patchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+      patchSet.setUploader(change.getOwner());
+      patchSet.setRevision(new RevId(commit.name()));
+    }
   }
 
   private void validate() throws InvalidChangeOperationException {

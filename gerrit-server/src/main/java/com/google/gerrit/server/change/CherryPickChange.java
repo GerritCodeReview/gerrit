@@ -202,14 +202,7 @@ public class CherryPickChange {
       PatchSet.Id patchSetId, RevCommit cherryPickCommit,
       RefControl refControl) throws InvalidChangeOperationException,
       IOException, OrmException, NoSuchChangeException {
-    PatchSet.Id id = ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
-    PatchSet newPatchSet = new PatchSet(id);
-    newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-    newPatchSet.setUploader(change.getOwner());
-    newPatchSet.setRevision(new RevId(cherryPickCommit.name()));
-
     patchSetInserterFactory.create(git, revWalk, change, cherryPickCommit)
-        .setPatchSet(newPatchSet)
         .setRefControl(refControl)
         .setMessage(buildChangeMessage(patchSetId, change))
         .insert();

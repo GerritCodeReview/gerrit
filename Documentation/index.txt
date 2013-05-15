@@ -5,7 +5,7 @@ Index
 -----
 
 . General info
-.. link:licenses.html[Licenses and Notices]
+.. link:general/licenses.html[Licenses and Notices]
 . Installing
 .. link:intro-quick.html[A Quick Introduction To Gerrit]
 .. link:install.html[Installation Guide]

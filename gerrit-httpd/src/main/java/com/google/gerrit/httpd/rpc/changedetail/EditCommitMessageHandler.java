@@ -26,14 +26,12 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -61,7 +59,6 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final PatchSet.Id patchSetId;
   @Nullable
   private final String message;
-  private final CommitValidators.Factory commitValidatorsFactory;
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
   private final PatchSetInserter.Factory patchSetInserterFactory;
@@ -73,7 +70,6 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message,
-      final CommitValidators.Factory commitValidatorsFactory,
       final GitRepositoryManager gitManager,
       @GerritPersonIdent final PersonIdent myIdent,
       final PatchSetInserter.Factory patchSetInserterFactory) {
@@ -84,7 +80,6 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.commitMessageEditedSenderFactory = commitMessageEditedSenderFactory;
     this.patchSetId = patchSetId;
     this.message = message;
-    this.commitValidatorsFactory = commitValidatorsFactory;
     this.gitManager = gitManager;
     this.myIdent = myIdent;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -110,13 +105,9 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       throw new NoSuchChangeException(changeId, e);
     }
     try {
-      CommitValidators commitValidators =
-          commitValidatorsFactory.create(control.getRefControl(), new NoSshInfo(), git);
-
       ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(),
-          commitValidators, currentUser, message, db,
-          commitMessageEditedSenderFactory, git, myIdent, patchSetInserterFactory);
-
+          currentUser, message, db, commitMessageEditedSenderFactory, git,
+          myIdent, patchSetInserterFactory);
       return changeDetailFactory.create(changeId).call();
     } finally {
       git.close();

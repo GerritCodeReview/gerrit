@@ -70,12 +70,12 @@ public class ChangeInserter {
       ChangeUtil.updateTrackingIds(db, change, trackingFooters, commit.getFooterLines());
       approvalsUtil.addReviewers(db, labelTypes, change, ps, info, reviewers,
           Collections.<Account.Id> emptySet());
-      if (changeMessage != null) {
-        db.changeMessages().insert(Collections.singleton(changeMessage));
-      }
       db.commit();
     } finally {
       db.rollback();
+    }
+    if (changeMessage != null) {
+      db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
     gitRefUpdated.fire(change.getProject(), ps.getRefName(), ObjectId.zeroId(),

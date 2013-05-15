@@ -92,6 +92,7 @@ public class Module extends RestApiModule {
         factory(ReviewerResource.Factory.class);
         factory(AccountInfo.Loader.Factory.class);
         factory(EmailReviewComments.Factory.class);
+        factory(PatchSetInserter.Factory.class);
       }
     });
   }

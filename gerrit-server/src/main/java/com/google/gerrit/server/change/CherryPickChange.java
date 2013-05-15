@@ -74,7 +74,7 @@ public class CherryPickChange {
   private final IdentifiedUser currentUser;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter changeInserter;
-  private final PatchSetInserter patchSetInserter;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
   final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
@@ -83,7 +83,7 @@ public class CherryPickChange {
       final GitRepositoryManager gitManager, final IdentifiedUser currentUser,
       final CommitValidators.Factory commitValidatorsFactory,
       final ChangeInserter changeInserter,
-      final PatchSetInserter patchSetInserter,
+      final PatchSetInserter.Factory patchSetInserterFactory,
       final MergeUtil.Factory mergeUtilFactory) {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -92,7 +92,7 @@ public class CherryPickChange {
     this.currentUser = currentUser;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserter = changeInserter;
-    this.patchSetInserter = patchSetInserter;
+    this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
   }
 
@@ -223,9 +223,11 @@ public class CherryPickChange {
     } catch (CommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());
     }
-    patchSetInserter.insertPatchSet(git, revWalk, change, newPatchSet,
-        cherryPickCommit, refControl, buildChangeMessage(patchSetId, change),
-        false);
+    patchSetInserterFactory
+        .create(git, revWalk, refControl, change, cherryPickCommit)
+        .setPatchSet(newPatchSet)
+        .setMessage(buildChangeMessage(patchSetId, change))
+        .insert();
     return change.getId();
   }
 

@@ -75,7 +75,7 @@ once the change has been reviewed and approved.
 image::images/intro-quick-central-gerrit.png[Gerrit in place of Central Repository]
 
 Like any repository hosting solution, Gerrit has a powerful
-link:access-control.html[access control model.]
+link:projects/access-control.html[access control model.]
 Users can even be granted access to push directly into the central
 repository, bypassing code review entirely. Gerrit can even be used
 without code review, used simply to host the repositories and

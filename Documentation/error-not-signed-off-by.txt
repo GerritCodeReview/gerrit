@@ -8,7 +8,7 @@ required and the commit message footer does not contain it, Gerrit rejects
 to push the commit with this error message.
 
 This policy can be bypassed by having the access right
-link:access-control.html#category_forge_committer['Forge Committer'].
+link:projects/access-control.html#category_forge_committer['Forge Committer'].
 
 This error may happen for different reasons if you do not have the
 access right to forge the committer identity:

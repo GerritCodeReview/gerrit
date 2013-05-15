@@ -494,39 +494,39 @@ capabilities of a user.
 |=================================
 |Field Name          ||Description
 |`administrateServer`|not set if `false`|Whether the user has the
-link:access-control.html#capability_administrateServer[Administrate
+link:projects/access-control.html#capability_administrateServer[Administrate
 Server] capability.
-|`queryLimit`||The link:access-control.html#capability_queryLimit[Query
+|`queryLimit`||The link:projects/access-control.html#capability_queryLimit[Query
 Limit] of the user as link:#query-limit-info[QueryLimitInfo].
 |`createAccount`     |not set if `false`|Whether the user has the
-link:access-control.html#capability_createAccount[Create Account]
+link:projects/access-control.html#capability_createAccount[Create Account]
 capability.
 |`createGroup`       |not set if `false`|Whether the user has the
-link:access-control.html#capability_createGroup[Create Group]
+link:projects/access-control.html#capability_createGroup[Create Group]
 capability.
 |`createProject`     |not set if `false`|Whether the user has the
-link:access-control.html#capability_createProject[Create Project]
+link:projects/access-control.html#capability_createProject[Create Project]
 capability.
 |`emailReviewers`    |not set if `false`|Whether the user has the
-link:access-control.html#capability_emailReviewers[Email Reviewers]
+link:projects/access-control.html#capability_emailReviewers[Email Reviewers]
 capability.
 |`killTask`          |not set if `false`|Whether the user has the
-link:access-control.html#capability_kill[Kill Task] capability.
+link:projects/access-control.html#capability_kill[Kill Task] capability.
 |`viewCaches`        |not set if `false`|Whether the user has the
-link:access-control.html#capability_viewCaches[View Caches] capability.
+link:projects/access-control.html#capability_viewCaches[View Caches] capability.
 |`flushCaches`       |not set if `false`|Whether the user has the
-link:access-control.html#capability_flushCaches[Flush Caches]
+link:projects/access-control.html#capability_flushCaches[Flush Caches]
 capability.
 |`viewConnections`   |not set if `false`|Whether the user has the
-link:access-control.html#capability_viewConnections[View Connections]
+link:projects/access-control.html#capability_viewConnections[View Connections]
 capability.
 |`viewQueue`         |not set if `false`|Whether the user has the
-link:access-control.html#capability_viewQueue[View Queue] capability.
+link:projects/access-control.html#capability_viewQueue[View Queue] capability.
 |`runGC`  |not set if `false`|Whether the user has the
-link:access-control.html#capability_runGC[Run Garbage Collection]
+link:projects/access-control.html#capability_runGC[Run Garbage Collection]
 capability.
 |`startReplication`  |not set if `false`|Whether the user has the
-link:access-control.html#capability_startReplication[Start Replication]
+link:projects/access-control.html#capability_startReplication[Start Replication]
 capability.
 |=================================
 
@@ -627,7 +627,7 @@ Number of spaces that should be used to display one tab.
 QueryLimitInfo
 ~~~~~~~~~~~~~~
 The `QueryLimitInfo` entity contains information about the
-link:access-control.html#capability_queryLimit[Query Limit] of a user.
+link:projects/access-control.html#capability_queryLimit[Query Limit] of a user.
 
 [options="header",width="50%",cols="1,6"]
 |================================

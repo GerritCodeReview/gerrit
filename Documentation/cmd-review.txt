@@ -129,7 +129,7 @@ Abandon an active change:
 SEE ALSO
 --------
 
-* link:access-control.html[Access Controls]
+* link:projects/access-control.html[Access Controls]
 
 GERRIT
 ------

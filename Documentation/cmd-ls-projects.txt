@@ -149,7 +149,7 @@ Clone any project visible to the user:
 SEE ALSO
 --------
 
-* link:access-control.html[Access Controls]
+* link:projects/access-control.html[Access Controls]
 
 GERRIT
 ------

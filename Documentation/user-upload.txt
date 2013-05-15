@@ -308,10 +308,10 @@ Here follows a few examples of how to configure this in Gerrit:
 * Update: Any existing branch can be fast-forwarded to a new commit.
 This is the safest mode as commits cannot be discarded.  Creation
 of new branches is rejected. Can be configured with
-link:access-control.html#category_push_direct['Push'] access.
+link:projects/access-control.html#category_push_direct['Push'] access.
 * Create: Allows creation of a new branch if the name does not
 already designate an existing branch name.  Needs
-link:access-control.html#category_create['Create Reference']
+link:projects/access-control.html#category_create['Create Reference']
 configured. Please note that once created, this permission doesn't
 grant the right to update the branch with further commits (see above
 for update details).
@@ -320,7 +320,7 @@ branch to be deleted.  Since a force push is effectively a delete
 followed by a create, but performed atomically on the server and
 logged, this also permits forced push updates to branches.
 To grant this access, configure
-link:access-control.html#category_push_direct['Push'] with the
+link:projects/access-control.html#category_push_direct['Push'] with the
 'Force' option ticked.
 
 To push annotated tags, the `Push Annotated Tag` project right must
@@ -341,7 +341,7 @@ Changes can be directly submitted on push.  This is primarily useful
 for teams that don't want to do code review but want to use Gerrit's
 submit strategies to handle contention on busy branches.  Using
 `%submit` creates a change and submits it immediately, if the caller
-has link:access-control.html#category_submit[Submit] permission on
+has link:projects/access-control.html#category_submit[Submit] permission on
 `refs/for/<ref>` (e.g. on `refs/for/refs/heads/master`).
 
 ====

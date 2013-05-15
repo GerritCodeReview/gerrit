@@ -7,7 +7,7 @@ project to which the push is done.
 
 If you need to upload merge commits, you can contact one of the
 project owners and request permission to upload merge commits
-(access right link:access-control.html#category_push_merge['Push Merge Commit'])
+(access right link:projects/access-control.html#category_push_merge['Push Merge Commit'])
 for this project.
 
 If one of your changes could not be merged in Gerrit due to conflicts

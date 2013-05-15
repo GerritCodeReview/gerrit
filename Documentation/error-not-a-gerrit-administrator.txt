@@ -6,7 +6,7 @@ requires administrator privileges if the user is not a Gerrit
 administrator.
 
 The Gerrit link:cmd-index.html#admin_commands[administrator commands] can only be executed by users who
-are member of the Gerrit link:access-control.html#administrators[Administrators] group.
+are member of the Gerrit link:projects/access-control.html#administrators[Administrators] group.
 
 
 GERRIT

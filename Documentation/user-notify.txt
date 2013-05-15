@@ -33,7 +33,7 @@ repository, and are placed inside of the `project.config` file.
 
 To edit the project level notify settings, ensure the project owner
 has Push permission already granted for the `refs/meta/config`
-branch. Consult link:access-control.html[access controls] for
+branch. Consult link:projects/access-control.html[access controls] for
 details on how access permissions work.
 
 Initialize a temporary Git repository to edit the configuration:

@@ -150,7 +150,7 @@ SEE ALSO
 
 * link:user-search.html[Query Operators]
 * link:json.html[JSON Data Formats]
-* link:access-control.html[Access Controls]
+* link:projects/access-control.html[Access Controls]
 
 GERRIT
 ------

@@ -8,7 +8,7 @@ Contributor agreements are global and can be configured by modifying
 the `project.config` file on the `All-Projects` project. Push permission
 needs to be granted for the `refs/meta/config` branch to be able to push
 back the `project.config` file. Consult
-link:access-control.html[access controls] for details on how access
+link:projects/access-control.html[access controls] for details on how access
 permissions work.
 
 To retrieve the `project.config` file, initialize a temporary Git

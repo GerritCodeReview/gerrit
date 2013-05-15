@@ -66,7 +66,7 @@ Reparent all children of `myParent` to `myOtherParent`:
 SEE ALSO
 --------
 
-* link:access-control.html[Access Controls]
+* link:projects/access-control.html[Access Controls]
 
 GERRIT
 ------

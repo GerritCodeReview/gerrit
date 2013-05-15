@@ -25,7 +25,7 @@ ACCESS
 ------
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted
-link:access-control.html#capability_streamEvents[the 'Stream Events' global capability].
+link:projects/access-control.html#capability_streamEvents[the 'Stream Events' global capability].
 
 SCRIPTING
 ---------
@@ -157,7 +157,7 @@ SEE ALSO
 --------
 
 * link:json.html[JSON Data Formats]
-* link:access-control.html[Access Controls]
+* link:projects/access-control.html[Access Controls]
 
 GERRIT
 ------

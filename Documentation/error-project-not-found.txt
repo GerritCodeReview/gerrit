@@ -17,7 +17,7 @@ If you are facing this problem, do the following:
 . Go in the Gerrit WebUI to 'Projects' > 'List' and check that the
   project is listed. If the project is not listed the project either
   does not exist or you don't have
-  link:access-control.html#category_read['Read'] access for it. This
+  link:projects/access-control.html#category_read['Read'] access for it. This
   means if you are certain that the project name is right you should
   contact the Gerrit Administrator or project owner to request access
   to the project.

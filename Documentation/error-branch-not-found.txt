@@ -26,7 +26,7 @@ If it was your intention to create a new branch you can either
   tab you can then create a new branch).
 
 Please note that you need to be granted the
-link:access-control.html#category_create['Create reference'] access to create new branches.
+link:projects/access-control.html#category_create['Create reference'] access to create new branches.
 
 
 GERRIT

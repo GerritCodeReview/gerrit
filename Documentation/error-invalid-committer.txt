@@ -6,7 +6,7 @@ the committer matches one of the registered e-mail addresses of the
 pushing user. If this is not the case pushing the commit fails with
 the error message "invalid committer". This policy can be
 bypassed by having the access right
-link:access-control.html#category_forge_committer['Forge Committer'].
+link:projects/access-control.html#category_forge_committer['Forge Committer'].
 
 This error may happen for two reasons:
 

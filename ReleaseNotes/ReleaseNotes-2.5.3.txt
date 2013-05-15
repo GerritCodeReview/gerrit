@@ -1,0 +1,22 @@
+Release notes for Gerrit 2.5.3
+==============================
+
+Gerrit 2.5.3 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.3.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.3.war]
+
+There are no schema changes from any member of the 2.5.x versions.
+
+However, if upgrading from anything earlier version, follow the upgrade
+procedure in the 2.5 link:ReleaseNotes-2.5.html[Release Notes].
+
+Security Fixes
+--------------
+* Patch vulnerabilities in OpenID client library
++
+Installations using OpenID for authentication were vulnerable to a
+number of attacks over the network.  The openid4java client library
+was identified as the entry point.  In this release Gerrit updated to
+the latest 0.9.8 release, which patches the known attack vectors.
+
+No other changes since 2.5.2.

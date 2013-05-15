@@ -34,8 +34,8 @@ maven_jar(
     ':continuation',
     ':http',
   ],
+  export_deps = True,
   exclude = EXCLUDE,
-  visibility = [],
 )
 
 maven_jar(
@@ -44,7 +44,6 @@ maven_jar(
   sha1 = 'f60cfe6267038000b459508529c88737601081e4',
   license = 'Apache2.0',
   exclude = EXCLUDE,
-  visibility = [],
 )
 
 maven_jar(
@@ -54,7 +53,6 @@ maven_jar(
   license = 'Apache2.0',
   deps = [':io'],
   exclude = EXCLUDE,
-  visibility = [],
 )
 
 maven_jar(

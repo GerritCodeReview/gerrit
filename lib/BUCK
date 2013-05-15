@@ -169,7 +169,6 @@ maven_jar(
   sha1 = '3fc3013adf98701efcc594a1ea99a3f841dc81bb',
   license = 'Apache2.0',
   attach_source = False,
-  visibility = [],
 )
 
 maven_jar(

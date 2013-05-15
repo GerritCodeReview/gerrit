@@ -178,9 +178,6 @@ public class CherryPickChange {
                     new Branch.NameKey(db.changes().get(changeId).getProject(),
                         destRef.getName()), changeKey).toList();
 
-        Change change;
-        boolean createNewChange;
-        PatchSet.Id id;
         if (destChanges.size() > 1) {
           throw new InvalidChangeOperationException("Several changes with key "
               + changeKey + " resides on the same branch. "
@@ -188,82 +185,126 @@ public class CherryPickChange {
         } else if (destChanges.size() == 1) {
           // The change key exists on the destination branch. The cherry pick
           // will be added as a new patch set.
-          change = destChanges.get(0);
-          id = ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
-
-          createNewChange = false;
+          return insertPatchSet(git, revWalk, destChanges.get(0), patchSetId,
+              cherryPickCommit, refControl, commitValidators);
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
-          change =
-              new Change(changeKey, new Change.Id(db.nextChangeId()),
-                  currentUser.getAccountId(), new Branch.NameKey(project,
-                      destRef.getName()));
-          id = new PatchSet.Id(change.getId(), Change.INITIAL_PATCH_SET_ID);
-          createNewChange = true;
+          return createNewChange(git, revWalk, changeKey, project, patchSetId, destRef,
+              cherryPickCommit, refControl, commitValidators);
         }
-        PatchSet newPatchSet = new PatchSet(id);
-        newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-        newPatchSet.setUploader(change.getOwner());
-        newPatchSet.setRevision(new RevId(cherryPickCommit.name()));
-
-        CommitReceivedEvent commitReceivedEvent =
-            new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-                cherryPickCommit.getId(), newPatchSet.getRefName()), refControl
-                .getProjectControl().getProject(), refControl.getRefName(),
-                cherryPickCommit, currentUser);
-
-        try {
-          commitValidators.validateForGerritCommits(commitReceivedEvent);
-        } catch (CommitValidationException e) {
-          throw new InvalidChangeOperationException(e.getMessage());
-        }
-
-        final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
-        ru.setExpectedOldObjectId(ObjectId.zeroId());
-        ru.setNewObjectId(cherryPickCommit);
-        ru.disableRefLog();
-        if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-          throw new IOException(String.format(
-              "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
-              change.getDest().getParentKey().get(), ru.getResult()));
-        }
-
-        final ChangeMessage cmsg =
-            new ChangeMessage(new ChangeMessage.Key(changeId,
-                ChangeUtil.messageUUID(db)), currentUser.getAccountId(),
-                patchSetId);
-        final StringBuilder msgBuf =
-            new StringBuilder("Patch Set " + patchSetId.get()
-                + ": Cherry Picked");
-        msgBuf.append("\n\n");
-        msgBuf.append("This patchset was cherry picked to change: "
-            + change.getKey().get());
-        cmsg.setMessage(msgBuf.toString());
-
-        if (createNewChange) {
-          LabelTypes labelTypes =
-              refControl.getProjectControl().getLabelTypes();
-
-          PatchSetInfo newPatchSetInfo =
-              patchSetInfoFactory.get(cherryPickCommit, newPatchSet.getId());
-          change.setCurrentPatchSet(newPatchSetInfo);
-          ChangeUtil.updated(change);
-
-          changeInserter.insertChange(db, change, cmsg, newPatchSet,
-              cherryPickCommit, labelTypes, newPatchSetInfo,
-              Collections.<Account.Id> emptySet());
-        } else {
-          patchSetInserter.insertPatchSet(change, newPatchSet,
-              cherryPickCommit, refControl, cmsg, false);
-        }
-
-        return change.getId();
       } finally {
         revWalk.release();
       }
     } finally {
       git.close();
     }
+  }
+
+  private Change.Id insertPatchSet(Repository git, RevWalk revWalk, Change change,
+      PatchSet.Id patchSetId, RevCommit cherryPickCommit,
+      RefControl refControl, CommitValidators commitValidators)
+      throws InvalidChangeOperationException, IOException, OrmException,
+      NoSuchChangeException {
+    PatchSet.Id id = ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
+    PatchSet newPatchSet = new PatchSet(id);
+    newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+    newPatchSet.setUploader(change.getOwner());
+    newPatchSet.setRevision(new RevId(cherryPickCommit.name()));
+
+    CommitReceivedEvent commitReceivedEvent =
+        new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
+            cherryPickCommit.getId(), newPatchSet.getRefName()), refControl
+            .getProjectControl().getProject(), refControl.getRefName(),
+            cherryPickCommit, currentUser);
+
+    try {
+      commitValidators.validateForGerritCommits(commitReceivedEvent);
+    } catch (CommitValidationException e) {
+      throw new InvalidChangeOperationException(e.getMessage());
+    }
+
+    final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
+    ru.setExpectedOldObjectId(ObjectId.zeroId());
+    ru.setNewObjectId(cherryPickCommit);
+    ru.disableRefLog();
+    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+      throw new IOException(String.format(
+          "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
+          change.getDest().getParentKey().get(), ru.getResult()));
+    }
+    patchSetInserter.insertPatchSet(change, newPatchSet,
+        cherryPickCommit, refControl, buildChangeMessage(patchSetId, change),
+        false);
+    return change.getId();
+  }
+
+  private Change.Id createNewChange(Repository git, RevWalk revWalk,
+      Change.Key changeKey, Project.NameKey project, PatchSet.Id patchSetId,
+      Ref destRef, RevCommit cherryPickCommit, RefControl refControl,
+      CommitValidators commitValidators) throws OrmException,
+      InvalidChangeOperationException, IOException {
+    Change change =
+        new Change(changeKey, new Change.Id(db.nextChangeId()),
+            currentUser.getAccountId(), new Branch.NameKey(project,
+                destRef.getName()));
+    PatchSet.Id id = new PatchSet.Id(change.getId(), Change.INITIAL_PATCH_SET_ID);
+    PatchSet newPatchSet = new PatchSet(id);
+    newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+    newPatchSet.setUploader(change.getOwner());
+    newPatchSet.setRevision(new RevId(cherryPickCommit.name()));
+
+    CommitReceivedEvent commitReceivedEvent =
+        new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
+            cherryPickCommit.getId(), newPatchSet.getRefName()), refControl
+            .getProjectControl().getProject(), refControl.getRefName(),
+            cherryPickCommit, currentUser);
+
+    try {
+      commitValidators.validateForGerritCommits(commitReceivedEvent);
+    } catch (CommitValidationException e) {
+      throw new InvalidChangeOperationException(e.getMessage());
+    }
+
+    final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
+    ru.setExpectedOldObjectId(ObjectId.zeroId());
+    ru.setNewObjectId(cherryPickCommit);
+    ru.disableRefLog();
+    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+      throw new IOException(String.format(
+          "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
+          change.getDest().getParentKey().get(), ru.getResult()));
+    }
+
+    LabelTypes labelTypes =
+        refControl.getProjectControl().getLabelTypes();
+
+    PatchSetInfo newPatchSetInfo =
+        patchSetInfoFactory.get(cherryPickCommit, newPatchSet.getId());
+    change.setCurrentPatchSet(newPatchSetInfo);
+    ChangeUtil.updated(change);
+
+    changeInserter.insertChange(db, change,
+        buildChangeMessage(patchSetId, change), newPatchSet,
+        cherryPickCommit, labelTypes, newPatchSetInfo,
+        Collections.<Account.Id> emptySet());
+
+    return change.getId();
+  }
+
+  private ChangeMessage buildChangeMessage(PatchSet.Id patchSetId, Change dest)
+      throws OrmException {
+    ChangeMessage cmsg =
+        new ChangeMessage(new ChangeMessage.Key(patchSetId.getParentKey(),
+            ChangeUtil.messageUUID(db)), currentUser.getAccountId(),
+            patchSetId);
+    StringBuilder msgBuf =
+        new StringBuilder("Patch Set " + patchSetId.get()
+            + ": Cherry Picked");
+    msgBuf.append("\n\n");
+    msgBuf.append("This patchset was cherry picked to change: "
+        + dest.getKey().get());
+    cmsg.setMessage(msgBuf.toString());
+    return cmsg;
   }
 }

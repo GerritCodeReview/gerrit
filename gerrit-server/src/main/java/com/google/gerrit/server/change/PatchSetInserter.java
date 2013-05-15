@@ -126,11 +126,11 @@ public class PatchSetInserter {
 
       final List<FooterLine> footerLines = commit.getFooterLines();
       ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
+      db.commit();
 
       if (changeMessage != null) {
         db.changeMessages().insert(Collections.singleton(changeMessage));
       }
-      db.commit();
 
       hooks.doPatchsetCreatedHook(change, patchSet, db);
     } finally {

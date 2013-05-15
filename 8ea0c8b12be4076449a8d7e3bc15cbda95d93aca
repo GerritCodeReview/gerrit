@@ -16,6 +16,24 @@
       "revId": "8ea0c8b12be4076449a8d7e3bc15cbda95d93aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Upzs0998",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-15T02:36:42Z",
+      "side": 0,
+      "message": "Yes, I think so. The field used to be optional, there are a lot of servers that don\u0027t have it set that work fine.",
+      "parentUuid": "UqDo0AeA",
+      "revId": "8ea0c8b12be4076449a8d7e3bc15cbda95d93aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

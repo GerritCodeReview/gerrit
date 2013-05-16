@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
 import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
+import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -28,6 +29,7 @@ public class Module extends RestApiModule {
     bind(Capabilities.class);
 
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
+    DynamicMap.mapOf(binder(), EMAIL_KIND);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
 
     put(ACCOUNT_KIND).to(PutAccount.class);
@@ -35,6 +37,7 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "name").to(GetName.class);
     put(ACCOUNT_KIND, "name").to(PutName.class);
     delete(ACCOUNT_KIND, "name").to(PutName.class);
+    child(ACCOUNT_KIND, "emails").to(Emails.class);
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
     child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);

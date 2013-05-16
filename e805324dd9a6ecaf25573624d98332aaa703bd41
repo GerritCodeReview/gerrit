@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uu.dkovY",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-16T15:52:32Z",
+      "side": 1,
+      "message": "~/.gerritcodereview",
+      "revId": "e805324dd9a6ecaf25573624d98332aaa703bd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uukgtf5U",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-16T15:52:32Z",
+      "side": 1,
+      "message": ".gerritcodereview",
+      "revId": "e805324dd9a6ecaf25573624d98332aaa703bd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uumgqw4A",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-16T15:52:32Z",
+      "side": 1,
+      "message": "~/.gerritcodereview",
+      "revId": "e805324dd9a6ecaf25573624d98332aaa703bd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uu8dfHig",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-16T15:52:32Z",
+      "side": 1,
+      "message": "~/.gerritcodereview according to the code.",
+      "revId": "e805324dd9a6ecaf25573624d98332aaa703bd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

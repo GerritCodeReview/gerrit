@@ -125,8 +125,12 @@ if not path.exists(cache_ent):
     safe_mkdirs(path.dirname(cache_ent))
     print('Download %s' % src_url, file=stderr)
     check_call(['curl', '--proxy-anyauth', '-sfo', cache_ent, src_url])
-  except (OSError, CalledProcessError) as err:
-    print('error using curl: %s' % str(err), file=stderr)
+  except OSError as err:
+    print('error creating directory %s: %s' %
+          (path.dirname(cache_ent), err), file=stderr)
+    exit(1)
+  except CalledProcessError as err:
+    print('error using curl: %s' % err, file=stderr)
     exit(1)
 
 if args.v:
@@ -153,7 +157,7 @@ if args.exclude_java_sources:
     finally:
       zf.close()
   except (BadZipfile, LargeZipFile) as err:
-    print("error opening %s: %s"  % (cache_ent, str(err)), file=stderr)
+    print("error opening %s: %s"  % (cache_ent, err), file=stderr)
     exit(1)
 
 safe_mkdirs(path.dirname(args.o))

@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountResource.Email;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -27,12 +28,14 @@ public class Emails implements
     ChildCollection<AccountResource, AccountResource.Email> {
   private final DynamicMap<RestView<AccountResource.Email>> views;
   private final Provider<GetEmails> get;
+  private final AccountByEmailCache byEmailCache;
 
   @Inject
   Emails(DynamicMap<RestView<AccountResource.Email>> views,
-      Provider<GetEmails> get) {
+      Provider<GetEmails> get, AccountByEmailCache byEmailCache) {
     this.views = views;
     this.get = get;
+    this.byEmailCache = byEmailCache;
   }
 
   @Override
@@ -43,6 +46,11 @@ public class Emails implements
   @Override
   public AccountResource.Email parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException {
+    for (Account.Id a : byEmailCache.get(id.get())) {
+      if (parent.getUser().getAccountId().equals(a)) {
+        return new AccountResource.Email(parent.getUser(), id.get());
+      }
+    }
     throw new ResourceNotFoundException();
   }
 

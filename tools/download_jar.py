@@ -163,7 +163,10 @@ if args.exclude_java_sources:
 safe_mkdirs(path.dirname(args.o))
 if exclude:
   shutil.copyfile(cache_ent, args.o)
-  check_call(['zip', '-d', args.o] + exclude)
+  try:
+    check_call(['zip', '-d', args.o] + exclude)
+  except CalledProcessError as err:
+    print('error removing files from zip: %s' % err, file=stderr)
 else:
   try:
     link(cache_ent, args.o)

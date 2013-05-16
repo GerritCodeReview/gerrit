@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "Ux7vq5yk",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-16T15:52:01Z",
+      "side": 1,
+      "message": "Should the last part be \"... and any projects that inherit from it\" or \"... and any projects that inherit its permissions\"?\n\nStyle nit: For some reason I prefer \"The project.config file contains ...\" over \"This file contains ...\"",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ux5vvKzo",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-16T15:52:01Z",
+      "side": 1,
+      "message": "IIRC Git has recently standardized its documentation to use \"Git\" when talking about the project itself and \"git\" when talking about a Git repository. Or did you mean \"git config\" as in the command, i.e. this is actually a formatting bug?",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UshAgBKM",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -36,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "Ux-v0bw8",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-16T15:52:01Z",
+      "side": 1,
+      "message": "This example contains both actual examples (\"refs/*\") and metalanguage (\"permission\"). Maybe pick one representation and stick to it?\n\n [access \"\u003cref\u003e\"]\n         \u003cpermission\u003e \u003d group Administrators\n\nor\n\n [access \"refs/*\"]\n         read \u003d group Administrators\n\n(Open re what formatting to apply to metalanguage.)",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UsjAdCHI",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -47,6 +98,91 @@
       "writtenOn": "2013-05-15T22:08:54Z",
       "side": 1,
       "message": "Needs `-escaping instead of +-escaping, since the contain *\u0027s.",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UveXvtjg",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-16T15:52:01Z",
+      "side": 1,
+      "message": "s/Project categories/Project section/ ?",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UvYX0wg4",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-16T15:52:01Z",
+      "side": 1,
+      "message": "Assuming you\u0027ll list the actual strings to put into project.config as well (and link to the corresponding description in the access control document)?",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ux9v5swc",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-16T15:52:01Z",
+      "side": 1,
+      "message": "s/are/is/ right?",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uxzv-9.o",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-16T15:52:01Z",
+      "side": 1,
+      "message": "Add something like this?\n\nIn order to reference a group in project.config, it must be listed in the +groups+ file. When editing permissions through the web UI this file is maintained automatically, but when pushing updates to +refs/meta/config+ this must be dealt with by hand. Gerrit will refuse +project.config+ files that refer to groups not listed in +groups+.\n\nThe UUID of a group can be found on the General tab of the group\u0027s page in the web UI or via the +-v+ option to the +ls-groups+ SSH command.",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UvaX5vgc",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-05-16T15:52:01Z",
+      "side": 1,
+      "message": "I don\u0027t quite like the first sentence. Suggestion:\n\nThe +rules.pl+ files allows you to replace or amend the default Prolog rules that control e.g. what conditions need to be fulfilled for a change to be submittable.",
       "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

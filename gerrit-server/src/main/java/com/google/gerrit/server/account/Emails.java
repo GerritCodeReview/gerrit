@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -46,6 +47,13 @@ public class Emails implements
   @Override
   public AccountResource.Email parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException {
+    if ("preferred".equals(id.get())) {
+      String preferredEmail = parent.getUser().getAccount().getPreferredEmail();
+      if (!Strings.isNullOrEmpty(preferredEmail)) {
+        return new AccountResource.Email(parent.getUser(), preferredEmail);
+      }
+      throw new ResourceNotFoundException();
+    }
     for (Account.Id a : byEmailCache.get(id.get())) {
       if (parent.getUser().getAccountId().equals(a)) {
         return new AccountResource.Email(parent.getUser(), id.get());

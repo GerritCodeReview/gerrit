@@ -224,6 +224,27 @@ describes the email address.
   }
 ----
 
+[[set-preferred Email]]
+Set Preferred Email
+~~~~~~~~~~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]/preferred'
+
+Sets an email address as preferred email address for an account.
+
+.Request
+----
+  PUT /accounts/self/emails/john.doe@example.com/preferred HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 201 Created
+----
+
+If the email address was already the preferred email address of the
+account the response is "`200 OK`".
+
 [[list-account-capabilities]]
 List Account Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~

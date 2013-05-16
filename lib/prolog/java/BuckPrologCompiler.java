@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.compiler.Compiler;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.jar.JarEntry;
@@ -28,9 +32,6 @@ import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
-
-import com.googlecode.prolog_cafe.compiler.CompileException;
-import com.googlecode.prolog_cafe.compiler.Compiler;
 
 public class BuckPrologCompiler {
   public static void main(String[] argv) throws IOException, CompileException {
@@ -82,14 +83,16 @@ public class BuckPrologCompiler {
         classpath.append(jar.getPath());
       }
       ArrayList<String> args = new ArrayList<String>();
-      args.add("-g:none");
-      args.add("-nowarn");
+      args.addAll(Arrays.asList(new String[]{
+          "-source", "6",
+          "-target", "6",
+          "-g:none",
+          "-nowarn",
+          "-d", classes.getPath()}));
       if (classpath.length() > 0) {
         args.add("-classpath");
         args.add(classpath.toString());
       }
-      args.add("-d");
-      args.add(classes.getPath());
       if (!javac.getTask(null, fm, d, args, null,
           fm.getJavaFileObjectsFromFiles(find(java, ".java"))).call()) {
         StringBuilder msg = new StringBuilder();

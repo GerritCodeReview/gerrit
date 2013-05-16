@@ -126,6 +126,9 @@ public class GroupControl {
 
   /** Can this user see this group exists? */
   public boolean isVisible() {
+    if( group.getGroupUUID().get().startsWith("ldap:") ) {
+      return true;
+    }
     AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
     return (accountGroup != null && accountGroup.isVisibleToAll())
       || user instanceof InternalUser

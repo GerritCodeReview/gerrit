@@ -83,7 +83,7 @@ public class GroupJson {
 
   private GroupInfo init(GroupDescription.Basic group) {
     GroupInfo info = new GroupInfo();
-    info.id = Url.encode(group.getGroupUUID().get());
+    info.id = group.getGroupUUID().get();
     info.name = Strings.emptyToNull(group.getName());
     info.url = Strings.emptyToNull(group.getUrl());
     info.options = new GroupOptionsInfo(group);
@@ -93,7 +93,7 @@ public class GroupJson {
       info.description = Strings.emptyToNull(g.getDescription());
       info.groupId = g.getId().get();
       if (g.getOwnerGroupUUID() != null) {
-        info.ownerId = Url.encode(g.getOwnerGroupUUID().get());
+        info.ownerId = g.getOwnerGroupUUID().get();
         GroupDescription.Basic o = groupBackend.get(g.getOwnerGroupUUID());
         if (o != null) {
           info.owner = o.getName();

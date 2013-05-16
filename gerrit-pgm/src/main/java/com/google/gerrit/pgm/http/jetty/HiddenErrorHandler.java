@@ -69,11 +69,17 @@ class HiddenErrorHandler extends ErrorHandler {
   private static void log(HttpServletRequest req) {
     Throwable err = (Throwable)req.getAttribute("javax.servlet.error.exception");
     if (err != null) {
-      String uri = req.getRequestURI();
-      if (!Strings.isNullOrEmpty(req.getQueryString())) {
-        uri += "?" + req.getQueryString();
+      try {
+        String uri = req.getRequestURI();
+        if (!Strings.isNullOrEmpty(req.getQueryString())) {
+          uri += "?" + req.getQueryString();
+        }
+        log.error(String.format("Error in %s %s", req.getMethod(), uri), err);
+      } finally {
+        if (err instanceof OutOfMemoryError) {
+          System.exit(42);
+        }
       }
-      log.error(String.format("Error in %s %s", req.getMethod(), uri), err);
     }
   }
 }

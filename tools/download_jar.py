@@ -96,11 +96,9 @@ def resolve_url(url, redirects):
     root = redirects[scheme]
   else:
     root = REPO_ROOTS[scheme]
-  while root.endswith('/'):
-    root = root[:-1]
-  while rest.startswith('/'):
-    rest = rest[1:]
-  return '/'.join([root, rest])
+  root = root.rstrip('/')
+  rest = rest.lstrip('/')
+  return path.join(root, rest)
 
 opts = OptionParser()
 opts.add_option('-o', help='local output file')

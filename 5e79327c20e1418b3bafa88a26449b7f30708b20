@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UuwdOlnU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateBranch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-16T16:07:40Z",
+      "side": 1,
+      "message": "I think revision should be the @DefaultInput. Then you can just put the SHA-1 at the URL and the branch is created correctly.\n\nThe way you have it now you can put the branch to itself, leaving the required revision property unspecified. That... makes no sense.",
+      "revId": "5e79327c20e1418b3bafa88a26449b7f30708b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

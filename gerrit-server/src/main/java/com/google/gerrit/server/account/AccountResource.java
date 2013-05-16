@@ -26,6 +26,9 @@ public class AccountResource implements RestResource {
   public static final TypeLiteral<RestView<Capability>> CAPABILITY_KIND =
       new TypeLiteral<RestView<Capability>>() {};
 
+  public static final TypeLiteral<RestView<Email>> EMAIL_KIND =
+      new TypeLiteral<RestView<Email>>() {};
+
   private final IdentifiedUser user;
 
   public AccountResource(IdentifiedUser user) {
@@ -55,6 +58,19 @@ public class AccountResource implements RestResource {
 
     public boolean has() {
       return user.getCapabilities().canPerform(getCapability());
+    }
+  }
+
+  static class Email extends AccountResource {
+    private final String email;
+
+    public Email(IdentifiedUser user, String email) {
+      super(user);
+      this.email = email;
+    }
+
+    public String getEmail() {
+      return email;
     }
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UxV0GOyw",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-16T08:49:58Z",
+      "side": 1,
+      "message": "Actually I think it is JSON, it\u0027s a simple String wrapped in JSON. As you can see in line 102 the response also includes the magic prefix that we use for JSON responses. It\u0027s for example the same pattern that we already have for returning the project description [1]. AFAIK it\u0027s a security feature that simple strings are wrapped in JSON.\n\n[1] http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/rest-api-projects.html#get-project-description",
+      "parentUuid": "Uuwc3duc",
+      "revId": "e6a7fee968edaea516ab0831aabc94edea4a3ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uuug9U8w",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 1

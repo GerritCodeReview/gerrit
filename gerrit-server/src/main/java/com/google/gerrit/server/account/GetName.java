@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.restapi;
+package com.google.gerrit.server.account;
 
-/** Method is not acceptable on the resource (HTTP 405 Method Not Allowed). */
-public class MethodNotAllowedException extends RestApiException {
-  private static final long serialVersionUID = 1L;
+import com.google.common.base.Strings;
+import com.google.gerrit.extensions.restapi.RestReadView;
 
-  public MethodNotAllowedException() {
-    super();
-  }
-
-  /** @param msg error text for client describing why the method is not allowed. */
-  public MethodNotAllowedException(String msg) {
-    super(msg);
+public class GetName implements RestReadView<AccountResource> {
+  @Override
+  public String apply(AccountResource rsrc) {
+    return Strings.nullToEmpty(rsrc.getUser().getAccount().getFullName());
   }
 }

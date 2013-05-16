@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UuwcJtjw",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-16T01:11:45Z",
+      "side": 1,
+      "message": "s/the/a\n\n(this is inconsistent in the rest of the documentation)",
+      "revId": "b9a5b8fec14507e742308e6c8c8b619e527a75ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UuycGOiw",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-16T01:11:45Z",
+      "side": 1,
+      "message": "Would `name` be better?  Or `ref_name`?",
+      "revId": "b9a5b8fec14507e742308e6c8c8b619e527a75ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UuggJxzw",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-16T01:11:45Z",
+      "side": 1,
+      "message": "Can we change `starting` to `base`?",
+      "revId": "b9a5b8fec14507e742308e6c8c8b619e527a75ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

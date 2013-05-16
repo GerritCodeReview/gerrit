@@ -47,6 +47,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 
@@ -266,11 +267,14 @@ public class ChangeUtil {
       ps.setUploader(change.getOwner());
       ps.setRevision(new RevId(revertCommit.name()));
 
+      String tmp = refControl.getRefName();
+      final String refName = MagicBranch.NEW_PUBLISH_CHANGE//
+          + tmp.substring(tmp.lastIndexOf("/") + 1);
+
       CommitReceivedEvent commitReceivedEvent =
           new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-              revertCommit.getId(), ps.getRefName()), refControl
-              .getProjectControl().getProject(), refControl.getRefName(),
-              revertCommit, user);
+              revertCommit.getId(), refName), refControl.getProjectControl()
+              .getProject(), refControl.getRefName(), revertCommit, user);
 
       try {
         commitValidators.validateForGerritCommits(commitReceivedEvent);
@@ -376,12 +380,13 @@ public class ChangeUtil {
       newPatchSet.setRevision(new RevId(newCommit.name()));
       newPatchSet.setDraft(originalPS.isDraft());
 
+      final String refName = newPatchSet.getRefName();
       CommitReceivedEvent commitReceivedEvent =
           new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-              newCommit.getId(), newPatchSet.getRefName()), refControl
+              newCommit.getId(), refName.substring(0,
+                  refName.lastIndexOf("/") + 1) + "new"), refControl
               .getProjectControl().getProject(), refControl.getRefName(),
               newCommit, user);
-
       try {
         commitValidators.validateForReceiveCommits(commitReceivedEvent);
       } catch (CommitValidationException e) {

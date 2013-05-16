@@ -28,6 +28,10 @@ REPO_ROOTS = {
   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
 }
 
+GERRIT_HOME = '~/.gerritcodereview'
+LOCAL_PROPERTIES = 'local.properties'
+
+
 def hashfile(p):
   d = sha1()
   with open(p, 'rb') as f:
@@ -48,8 +52,19 @@ def safe_mkdirs(d):
       raise err
 
 def download_properties(root_dir):
-  local_prop = path.join(root_dir, 'local.properties')
+  """ Get the download properties.
+
+  First tries to find the properties file in the given root directory,
+  and if not found there, tries in the Gerrit settings folder in the
+  user's home directory.
+
+  Returns a set of download properties, which may be empty.
+
+  """
   p = {}
+  local_prop = path.join(root_dir, LOCAL_PROPERTIES)
+  if not path.isfile(local_prop):
+    local_prop = path.join(path.expanduser(GERRIT_HOME), LOCAL_PROPERTIES)
   if path.isfile(local_prop):
     try:
       with open(local_prop) as fd:
@@ -58,7 +73,7 @@ def download_properties(root_dir):
             d = [e.strip() for e in line.split('=', 1)]
             name, url = d[0], d[1]
             p[name[len('download.'):]] = url
-    except OSError as err:
+    except OSError:
       pass
   return p
 

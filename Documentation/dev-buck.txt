@@ -205,6 +205,10 @@ bucket is supported by defining specific properties in
   echo download.MAVEN_CENTRAL = http://nexus.my-company.com/ >>local.properties
 ----
 
+The `local.properties` file may be placed in the root of the gerrit repository
+being built, or in `~/.gerritcodereview/`.  The file in the root of the gerrit
+repository has precedence.
+
 
 Build Process Switch Exit Criteria
 ----------------------------------

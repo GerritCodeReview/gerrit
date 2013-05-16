@@ -77,9 +77,5 @@ public interface AccountSecurity extends RemoteJsonService {
 
   @Audit
   @SignInRequired
-  void registerEmail(String address, AsyncCallback<Account> callback);
-
-  @Audit
-  @SignInRequired
   void validateEmail(String token, AsyncCallback<VoidResult> callback);
 }

@@ -338,7 +338,7 @@ public class RestApiServlet extends HttpServlet {
       replyError(res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
     } catch (JsonParseException e) {
       replyError(res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
-    } catch (Exception e) {
+    } catch (Throwable e) {
       status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);
     } finally {

@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.rpc.account;
 import com.google.gerrit.httpd.rpc.RpcServletModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.server.config.FactoryModule;
-import com.google.gerrit.server.mail.RegisterNewEmailSender;
 
 public class AccountModule extends RpcServletModule {
   public AccountModule() {
@@ -32,7 +31,6 @@ public class AccountModule extends RpcServletModule {
         factory(AgreementInfoFactory.Factory.class);
         factory(DeleteExternalIds.Factory.class);
         factory(ExternalIdDetailFactory.Factory.class);
-        factory(RegisterNewEmailSender.Factory.class);
       }
     });
     rpc(AccountSecurityImpl.class);

@@ -386,46 +386,42 @@ public class AccountManager {
    *         cannot be linked at this time.
    */
   public AuthResult link(final Account.Id to, AuthRequest who)
-      throws AccountException {
+      throws AccountException, OrmException {
+    final ReviewDb db = schema.open();
     try {
-      final ReviewDb db = schema.open();
-      try {
-        who = realm.link(db, to, who);
+      who = realm.link(db, to, who);
 
-        final AccountExternalId.Key key = id(who);
-        AccountExternalId extId = db.accountExternalIds().get(key);
-        if (extId != null) {
-          if (!extId.getAccountId().equals(to)) {
-            throw new AccountException("Identity in use by another account");
-          }
-          update(db, who, extId);
+      final AccountExternalId.Key key = id(who);
+      AccountExternalId extId = db.accountExternalIds().get(key);
+      if (extId != null) {
+        if (!extId.getAccountId().equals(to)) {
+          throw new AccountException("Identity in use by another account");
+        }
+        update(db, who, extId);
 
-        } else {
-          extId = createId(to, who);
-          extId.setEmailAddress(who.getEmailAddress());
-          db.accountExternalIds().insert(Collections.singleton(extId));
+      } else {
+        extId = createId(to, who);
+        extId.setEmailAddress(who.getEmailAddress());
+        db.accountExternalIds().insert(Collections.singleton(extId));
 
-          if (who.getEmailAddress() != null) {
-            final Account a = db.accounts().get(to);
-            if (a.getPreferredEmail() == null) {
-              a.setPreferredEmail(who.getEmailAddress());
-              db.accounts().update(Collections.singleton(a));
-            }
-          }
-
-          if (who.getEmailAddress() != null) {
-            byEmailCache.evict(who.getEmailAddress());
-            byIdCache.evict(to);
+        if (who.getEmailAddress() != null) {
+          final Account a = db.accounts().get(to);
+          if (a.getPreferredEmail() == null) {
+            a.setPreferredEmail(who.getEmailAddress());
+            db.accounts().update(Collections.singleton(a));
           }
         }
 
-        return new AuthResult(to, key, false);
-
-      } finally {
-        db.close();
+        if (who.getEmailAddress() != null) {
+          byEmailCache.evict(who.getEmailAddress());
+          byIdCache.evict(to);
+        }
       }
-    } catch (OrmException e) {
-      throw new AccountException("Cannot link identity", e);
+
+      return new AuthResult(to, key, false);
+
+    } finally {
+      db.close();
     }
   }
 

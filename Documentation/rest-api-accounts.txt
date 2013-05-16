@@ -224,6 +224,38 @@ describes the email address.
   }
 ----
 
+[[create-account-email]]
+Create Account Email
+~~~~~~~~~~~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
+
+Registers a new email address for the user. A verification email is
+sent with a link that needs to be visited to confirm the email address,
+unless `DEVELOPMENT_BECOME_ANY_ACCOUNT` is used as authentication type.
+For the development mode email addresses are directly added without
+confirmation.
+
+.Request
+----
+  PUT /accounts/self/emails/john.doe@example.com HTTP/1.0
+----
+
+As response the new email address is returned as
+link:#email-info[EmailInfo] entity.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "email": "john.doe@example.com"
+  }
+----
+
 [[set-preferred Email]]
 Set Preferred Email
 ~~~~~~~~~~~~~~~~~~~

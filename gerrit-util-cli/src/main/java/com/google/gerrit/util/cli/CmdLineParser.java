@@ -34,6 +34,7 @@
 
 package com.google.gerrit.util.cli;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -153,12 +154,7 @@ public class CmdLineParser {
         }
         out.write('=');
 
-        String var = handler.getDefaultMetaVariable();
-        if (handler instanceof EnumOptionHandler) {
-          var = var.substring(1, var.length() - 1);
-          var = var.replaceAll(" ", "");
-        }
-        out.write(var);
+        out.write(metaVar(handler, n));
         if (!n.required()) {
           out.write(']');
         }
@@ -184,6 +180,17 @@ public class CmdLineParser {
         out.write(']');
       }
     }
+  }
+
+  private static String metaVar(OptionHandler<?> handler, NamedOptionDef n) {
+    String var = n.metaVar();
+    if (Strings.isNullOrEmpty(var)) {
+      var = handler.getDefaultMetaVariable();
+      if (handler instanceof EnumOptionHandler) {
+        var = var.substring(1, var.length() - 1).replace(" ", "");
+      }
+    }
+    return var;
   }
 
   public boolean wasHelpRequestedByOption() {

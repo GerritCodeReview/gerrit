@@ -6,6 +6,7 @@ java_library2(
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',
+    '//gerrit-gwtexpui:server',
     '//gerrit-httpd:httpd',
     '//gerrit-openid:openid',
     '//gerrit-server:common_rules',

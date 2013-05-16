@@ -332,6 +332,7 @@ public class JettyServer {
     // for Gerrit plug-ins to enable user-level sessions.
     //
     app.setSessionHandler(new SessionHandler());
+    app.setErrorHandler(new HiddenErrorHandler());
 
     // This is the path we are accessed by clients within our domain.
     //

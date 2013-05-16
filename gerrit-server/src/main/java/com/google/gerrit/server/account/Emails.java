@@ -15,10 +15,14 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource.Email;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -27,12 +31,17 @@ public class Emails implements
     ChildCollection<AccountResource, AccountResource.Email> {
   private final DynamicMap<RestView<AccountResource.Email>> views;
   private final Provider<GetEmails> get;
+  private final AccountByEmailCache byEmailCache;
+  private final Provider<CurrentUser> self;
 
   @Inject
   Emails(DynamicMap<RestView<AccountResource.Email>> views,
-      Provider<GetEmails> get) {
+      Provider<GetEmails> get, AccountByEmailCache byEmailCache,
+      Provider<CurrentUser> self) {
     this.views = views;
     this.get = get;
+    this.byEmailCache = byEmailCache;
+    this.self = self;
   }
 
   @Override
@@ -42,7 +51,19 @@ public class Emails implements
 
   @Override
   public AccountResource.Email parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException {
+      throws AuthException, ResourceNotFoundException {
+    if (!(self.get() instanceof IdentifiedUser)) {
+      throw new AuthException("Authentication required");
+    }
+    IdentifiedUser s = (IdentifiedUser) self.get();
+    if (s.getAccountId().get() == parent.getUser().getAccountId().get()
+        || s.getCapabilities().canAdministrateServer()) {
+      for (Account.Id a : byEmailCache.get(id.get())) {
+        if (parent.getUser().getAccountId().equals(a)) {
+          return new AccountResource.Email(parent.getUser(), id.get());
+        }
+      }
+    }
     throw new ResourceNotFoundException();
   }
 

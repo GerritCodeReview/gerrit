@@ -195,6 +195,35 @@ link:#email-info[EmailInfo] entities.
   ]
 ----
 
+[[get-account-email]]
+Get Account Email
+~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
+
+Retrieves an email address of a user.
+
+.Request
+----
+  GET /accounts/self/emails/john.doe@example.com HTTP/1.0
+----
+
+As response an link:#email-info[EmailInfo] entity is returned that
+describes the email address.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "email": "john.doe@example.com",
+    "preferred": true
+  }
+----
+
 [[list-account-capabilities]]
 List Account Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -550,6 +579,11 @@ This can be:
 ~~~~~~~~~~~~~~~~~
 Identifier of a global capability. Valid values are all field names of
 the link:#capability-info[CapabilityInfo] entity.
+
+[[email-id]]
+\{email-id\}
+~~~~~~~~~~~~~~
+An email address.
 
 [[username]]
 \{username\}

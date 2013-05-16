@@ -583,7 +583,8 @@ the link:#capability-info[CapabilityInfo] entity.
 [[email-id]]
 \{email-id\}
 ~~~~~~~~~~~~~~
-An email address.
+An email address, or `preferred` for the preferred email address of the
+user.
 
 [[username]]
 \{username\}

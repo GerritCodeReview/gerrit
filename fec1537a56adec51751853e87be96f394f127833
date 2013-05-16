@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uu0eKTl0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-16T23:58:11Z",
+      "side": 0,
+      "message": "We can\u0027t drop the Url.encode here. Some backends might create UUIDs that are not valid in a URL and need to be encoded.",
+      "revId": "fec1537a56adec51751853e87be96f394f127833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UukjR-04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-16T23:58:11Z",
+      "side": 0,
+      "message": "Same here.",
+      "revId": "fec1537a56adec51751853e87be96f394f127833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

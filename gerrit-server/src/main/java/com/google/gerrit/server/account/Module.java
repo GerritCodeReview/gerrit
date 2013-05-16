@@ -39,6 +39,7 @@ public class Module extends RestApiModule {
     delete(ACCOUNT_KIND, "name").to(PutName.class);
     child(ACCOUNT_KIND, "emails").to(Emails.class);
     get(EMAIL_KIND).to(GetEmail.class);
+    put(EMAIL_KIND).to(PutEmail.class);
     put(EMAIL_KIND, "preferred").to(PutPreferred.class);
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
@@ -49,5 +50,6 @@ public class Module extends RestApiModule {
     get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
 
     install(new FactoryModuleBuilder().build(CreateAccount.Factory.class));
+    install(new FactoryModuleBuilder().build(CreateEmail.Factory.class));
   }
 }

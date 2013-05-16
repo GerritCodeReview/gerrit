@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -26,17 +27,21 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class Emails implements
-    ChildCollection<AccountResource, AccountResource.Email> {
+    ChildCollection<AccountResource, AccountResource.Email>,
+    AcceptsCreate<AccountResource> {
   private final DynamicMap<RestView<AccountResource.Email>> views;
   private final Provider<GetEmails> get;
   private final AccountByEmailCache byEmailCache;
+  private final CreateEmail.Factory createEmailFactory;
 
   @Inject
   Emails(DynamicMap<RestView<AccountResource.Email>> views,
-      Provider<GetEmails> get, AccountByEmailCache byEmailCache) {
+      Provider<GetEmails> get, AccountByEmailCache byEmailCache,
+      CreateEmail.Factory createEmailFactory) {
     this.views = views;
     this.get = get;
     this.byEmailCache = byEmailCache;
+    this.createEmailFactory = createEmailFactory;
   }
 
   @Override
@@ -65,5 +70,11 @@ public class Emails implements
   @Override
   public DynamicMap<RestView<Email>> views() {
     return views;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public CreateEmail create(AccountResource parent, IdString email) {
+    return createEmailFactory.create(email.get());
   }
 }

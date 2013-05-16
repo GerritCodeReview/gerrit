@@ -18,7 +18,6 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
@@ -30,7 +29,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -39,16 +37,13 @@ import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.ClearPassword;
 import com.google.gerrit.server.account.GeneratePassword;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
-import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -57,23 +52,17 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
-  private final Logger log = LoggerFactory.getLogger(getClass());
   private final ContactStore contactStore;
-  private final AuthConfig authConfig;
   private final Realm realm;
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> user;
   private final EmailTokenVerifier emailTokenVerifier;
-  private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
@@ -92,11 +81,10 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser, final ContactStore cs,
-      final AuthConfig ac, final Realm r, final Provider<IdentifiedUser> u,
+      final Realm r, final Provider<IdentifiedUser> u,
       final EmailTokenVerifier etv, final ProjectCache pc,
-      final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
-      final AccountByEmailCache abec, final AccountCache uac,
-      final AccountManager am,
+      final SshKeyCache skc, final AccountByEmailCache abec,
+      final AccountCache uac, final AccountManager am,
       final ClearPassword.Factory clearPasswordFactory,
       final GeneratePassword.Factory generatePasswordFactory,
       final ChangeUserName.CurrentUser changeUserNameFactory,
@@ -105,12 +93,10 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ChangeHooks hooks, final GroupCache groupCache) {
     super(schema, currentUser);
     contactStore = cs;
-    authConfig = ac;
     realm = r;
     user = u;
     emailTokenVerifier = etv;
     projectCache = pc;
-    registerNewEmailFactory = esf;
     sshKeyCache = skc;
     byEmailCache = abec;
     accountCache = uac;
@@ -296,31 +282,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void registerEmail(final String address,
-      final AsyncCallback<Account> cb) {
-    if (authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
-      try {
-        accountManager.link(user.get().getAccountId(),
-            AuthRequest.forEmail(address));
-        cb.onSuccess(user.get().getAccount());
-      } catch (AccountException e) {
-        cb.onFailure(e);
-      }
-    } else {
-      try {
-        final RegisterNewEmailSender sender;
-        sender = registerNewEmailFactory.create(address);
-        sender.send();
-      } catch (EmailException e) {
-        log.error("Cannot send email verification message to " + address, e);
-        cb.onFailure(e);
-      } catch (RuntimeException e) {
-        log.error("Cannot send email verification message to " + address, e);
-        cb.onFailure(e);
-      }
-    }
-  }
-
   public void validateEmail(final String tokenString,
       final AsyncCallback<VoidResult> callback) {
     try {
@@ -335,6 +296,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     } catch (EmailTokenVerifier.InvalidTokenException e) {
       callback.onFailure(e);
     } catch (AccountException e) {
+      callback.onFailure(e);
+    } catch (OrmException e) {
       callback.onFailure(e);
     }
   }

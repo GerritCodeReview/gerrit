@@ -80,6 +80,84 @@ returned that describes the created account.
   }
 ----
 
+[[get-account-name]]
+Get Account Name
+~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/name'
+
+Retrieves the full name of an account.
+
+.Request
+----
+  GET /accounts/self/name HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "John Doe"
+----
+
+If the account does not have a name an empty string is returned.
+
+[[set-account-name]]
+Set Account Name
+~~~~~~~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#account-id[\{account-id\}]/name'
+
+Sets the full name of an account.
+
+The new account name must be provided in the request body inside
+a link:#account-name-input[AccountNameInput] entity.
+
+.Request
+----
+  PUT /accounts/self/name HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "name": "John F. Doe"
+  }
+----
+
+As response the new account name is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "John F. Doe"
+----
+
+If the name was deleted the response is "`204 No Content`".
+
+[[delete-account-name]]
+Delete Account Name
+~~~~~~~~~~~~~~~~~~~
+[verse]
+'DELETE /accounts/link:#account-id[\{account-id\}]/name'
+
+Deletes the name of an account.
+
+.Request
+----
+  DELETE /accounts/self/name HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[list-account-capabilities]]
 List Account Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -483,6 +561,19 @@ The user name. If provided, must match the user name from the URL.
 A list of link:rest-api-groups.html#group-id[group IDs] that identify
 the groups to which the user should be added.
 |============================
+
+[[account-name-input]]
+AccountNameInput
+~~~~~~~~~~~~~~~~
+The `AccountNameInput` entity contains information for setting a name
+for an account.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=============================
+|Field Name ||Description
+|`name`     |optional|The new full name of the account. +
+If not set, the account name is deleted.
+|=============================
 
 [[capability-info]]
 CapabilityInfo

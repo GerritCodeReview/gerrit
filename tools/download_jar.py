@@ -96,10 +96,8 @@ def resolve_url(url, redirects):
     root = redirects[scheme]
   else:
     root = REPO_ROOTS[scheme]
-  while root.endswith('/'):
-    root = root[:-1]
-  while rest.startswith('/'):
-    rest = rest[1:]
+  root = root.rstrip('/')
+  rest = rest.lstrip('/')
   return '/'.join([root, rest])
 
 opts = OptionParser()

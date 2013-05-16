@@ -159,7 +159,9 @@ public class PatchTable extends Composite {
   }
 
   public void movePointerTo(final Patch.Key k) {
-    myTable.movePointerTo(k);
+    if (myTable != null) {
+      myTable.movePointerTo(k);
+    }
   }
 
   public void setActive(boolean active) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UuigGCyw",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-16T01:14:20Z",
+      "side": 1,
+      "message": "I\u0027d rather get this merged than worry about this nit in a TODO :)",
+      "parentUuid": "Uumj8A-Q",
+      "revId": "33ee76a5d850c682119129b7ac4e6ef551b84c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uu0f-ruk",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/Commands.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-16T01:03:27Z",
       "side": 1,
       "message": "Is this to remove a dependency?",
+      "revId": "33ee76a5d850c682119129b7ac4e6ef551b84c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uu.cW4lo",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/Commands.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-16T01:14:20Z",
+      "side": 1,
+      "message": "Yes:\n\n  $ find gerrit-sshd -name \\*.java | xargs grep commons.lang",
+      "parentUuid": "Uu0f-ruk",
       "revId": "33ee76a5d850c682119129b7ac4e6ef551b84c15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

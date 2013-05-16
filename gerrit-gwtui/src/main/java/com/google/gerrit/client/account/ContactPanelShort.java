@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.errors.EmailException;
@@ -283,13 +284,16 @@ class ContactPanelShort extends Composite {
 
         inEmail.setEnabled(false);
         register.setEnabled(false);
-        Util.ACCOUNT_SEC.registerEmail(addr, new GerritCallback<Account>() {
-          public void onSuccess(Account currentUser) {
+        AccountApi.registerEmail("self", addr, new GerritCallback<NativeString>() {
+          @Override
+          public void onSuccess(NativeString result) {
             box.hide();
             if (Gerrit.getConfig().getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
               currentEmail = addr;
               if (emailPick.getItemCount() == 0) {
-                onSaveSuccess(currentUser);
+                final Account me = Gerrit.getUserAccount();
+                me.setPreferredEmail(addr);
+                onSaveSuccess(me);
               } else {
                 save.setEnabled(true);
               }

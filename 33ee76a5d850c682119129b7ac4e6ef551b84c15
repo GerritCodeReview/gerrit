@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "Uukgm38M",
+        "filename": "gerrit-server/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-16T01:44:32Z",
+      "side": 1,
+      "message": "That\u0027s why I reviewed +1 instead of -1 :)",
+      "parentUuid": "UuigGCyw",
+      "revId": "33ee76a5d850c682119129b7ac4e6ef551b84c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uu0f-ruk",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/Commands.java",
         "patchSetId": 2

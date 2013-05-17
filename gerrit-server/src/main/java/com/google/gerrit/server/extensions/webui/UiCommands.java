@@ -88,6 +88,13 @@ public class UiCommands {
   public static <R extends RestResource> Iterable<UiCommandDetail> from(
       DynamicMap<RestView<R>> views,
       final R resource,
+      final EnumSet<UiCommand.Place> places) {
+    return from(views, resource, places, Predicates.<UiCommand<R>>alwaysTrue());
+  }
+
+  public static <R extends RestResource> Iterable<UiCommandDetail> from(
+      DynamicMap<RestView<R>> views,
+      final R resource,
       final EnumSet<UiCommand.Place> places,
       final Predicate<UiCommand<R>> predicate) {
     return Iterables.filter(

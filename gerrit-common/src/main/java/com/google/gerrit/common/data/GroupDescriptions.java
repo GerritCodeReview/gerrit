@@ -44,6 +44,10 @@ public class GroupDescriptions {
         return group.getName();
       }
 
+      public boolean isVisibleToAll() {
+        return group.isVisibleToAll();
+      }
+
       @Override
       public AccountGroup getAccountGroup() {
         return group;

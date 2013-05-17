@@ -15,12 +15,14 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CreateEmail.Input;
 import com.google.gerrit.server.account.GetEmails.EmailInfo;
 import com.google.gerrit.server.config.AuthConfig;
@@ -39,6 +41,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   static class Input {
     String email;
     boolean preferred;
+    boolean noConfirmation;
   }
 
   static interface Factory {
@@ -49,31 +52,39 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   private final AccountManager accountManager;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final Provider<PutPreferred> putPreferredProvider;
+  private final Provider<CurrentUser> self;
   private final String email;
 
   @Inject
   CreateEmail(AuthConfig authConfig, AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
-      Provider<PutPreferred> putPreferredProvider, @Assisted String email) {
+      Provider<PutPreferred> putPreferredProvider, Provider<CurrentUser> self,
+      @Assisted String email) {
     this.authConfig = authConfig;
     this.accountManager = accountManager;
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.putPreferredProvider = putPreferredProvider;
+    this.self = self;
     this.email = email;
   }
 
   @Override
   public Object apply(AccountResource rsrc, Input input)
       throws BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, OrmException, EmailException {
+      ResourceNotFoundException, AuthException, OrmException, EmailException {
     if (input == null) {
       input = new Input();
     }
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }
+    if (input.noConfirmation && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("not allowed to add email address without confirmation, "
+          + "need to be Gerrit administrator");
+    }
 
-    if (authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+    if (input.noConfirmation
+        || authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
       try {
         accountManager.link(rsrc.getUser().getAccountId(),
             AuthRequest.forEmail(email));

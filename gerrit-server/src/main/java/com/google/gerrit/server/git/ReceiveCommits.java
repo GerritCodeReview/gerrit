@@ -1470,7 +1470,8 @@ public class ReceiveCommits {
           currentUser.getAccountId(),
           magicBranch.dest);
       change.setTopic(magicBranch.topic);
-      ins = changeInserterFactory.create(ctl, change, c);
+      ins = changeInserterFactory.create(ctl, change, c)
+          .setRequestScopePropagator(requestScopePropagator);
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
           ins.getPatchSet().getRefName());
     }

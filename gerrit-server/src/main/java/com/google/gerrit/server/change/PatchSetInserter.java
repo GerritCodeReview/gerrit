@@ -30,6 +30,7 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.RefControl;
@@ -66,6 +67,7 @@ public class PatchSetInserter {
   private final IdentifiedUser user;
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
+  private final ChangeIndexer indexer;
   private boolean validateForReceiveCommits;
 
   private final Repository git;
@@ -87,6 +89,7 @@ public class PatchSetInserter {
       IdentifiedUser user,
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
+      ChangeIndexer indexer,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted RefControl refControl,
@@ -99,6 +102,7 @@ public class PatchSetInserter {
     this.user = user;
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
+    this.indexer = indexer;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -212,6 +216,7 @@ public class PatchSetInserter {
         db.changeMessages().insert(Collections.singleton(changeMessage));
       }
 
+      indexer.index(change);
       hooks.doPatchsetCreatedHook(change, patchSet, db);
     } finally {
       db.rollback();

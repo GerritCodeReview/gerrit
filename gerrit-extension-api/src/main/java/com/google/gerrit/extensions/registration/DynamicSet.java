@@ -26,6 +26,7 @@ import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -125,6 +126,11 @@ public class DynamicSet<T> implements Iterable<T> {
       TypeLiteral<T> type,
       Named name) {
     return binder.bind(type).annotatedWith(name);
+  }
+
+  public static <T> DynamicSet<T> emptySet() {
+    return new DynamicSet<T>(
+        Collections.<AtomicReference<Provider<T>>> emptySet());
   }
 
   private final CopyOnWriteArrayList<AtomicReference<Provider<T>>> items;

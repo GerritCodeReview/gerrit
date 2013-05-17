@@ -26,6 +26,8 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -40,15 +42,21 @@ public class ChangeInserter {
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final TrackingFooters trackingFooters;
+  private final WorkQueue workQueue;
+  private final ChangeIndexer.Factory indexerFactory;
 
   @Inject
   public ChangeInserter(final GitReferenceUpdated gitRefUpdated,
       ChangeHooks hooks, ApprovalsUtil approvalsUtil,
-      TrackingFooters trackingFooters) {
+      TrackingFooters trackingFooters,
+      WorkQueue workQueue,
+      ChangeIndexer.Factory indexerFactory) {
     this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.trackingFooters = trackingFooters;
+    this.workQueue = workQueue;
+    this.indexerFactory = indexerFactory;
   }
 
   public void insertChange(ReviewDb db, Change change, PatchSet ps,
@@ -78,6 +86,7 @@ public class ChangeInserter {
       db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
+    workQueue.getDefaultQueue().submit(indexerFactory.create(change));
     gitRefUpdated.fire(change.getProject(), ps.getRefName(), ObjectId.zeroId(),
         commit);
     hooks.doPatchsetCreatedHook(change, ps, db);

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Function;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -183,6 +185,10 @@ public class ChangeData {
     currentFiles = filePaths;
   }
 
+  public List<String> getCurrentFilePaths() {
+    return currentFiles;
+  }
+
   public List<String> currentFilePaths(Provider<ReviewDb> db,
       PatchListCache cache) throws OrmException {
     if (currentFiles == null) {
@@ -232,6 +238,10 @@ public class ChangeData {
 
   public Change.Id getId() {
     return legacyId;
+  }
+
+  public Integer getIdNum() {
+    return legacyId.get();
   }
 
   public Change getChange() {
@@ -444,5 +454,14 @@ public class ChangeData {
 
   public List<SubmitRecord> getSubmitRecords() {
     return submitRecords;
+  }
+
+  public void fillIndexFields(Provider<ReviewDb> db, PatchListCache plc)
+      throws OrmException {
+    currentFilePaths(db, plc);
+  }
+
+  public void checkIndexFields() {
+    checkState(currentFiles != null, "missing file paths");
   }
 }

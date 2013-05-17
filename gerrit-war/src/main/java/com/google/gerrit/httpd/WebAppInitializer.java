@@ -18,11 +18,11 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.httpd.GerritUiOptions;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.lucene.LuceneChangeIndex;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfig;
@@ -236,6 +236,8 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
+    modules.add(new com.google.gerrit.server.index.Module());
+    modules.add(LuceneChangeIndex.module());
     modules.add(new CanonicalWebUrlModule() {
       @Override
       protected Class<? extends Provider<String>> provider() {

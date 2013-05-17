@@ -12,6 +12,7 @@ java_library2(
     '//gerrit-extension-api:api',
     '//gerrit-patch-commonsnet:commons-net',
     '//gerrit-patch-jgit:server',
+    '//gerrit-prettify:server',
     '//gerrit-reviewdb:server',
     '//gerrit-util-cli:cli',
     '//gerrit-util-ssl:ssl',

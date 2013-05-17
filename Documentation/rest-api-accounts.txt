@@ -236,9 +236,17 @@ unless `DEVELOPMENT_BECOME_ANY_ACCOUNT` is used as authentication type.
 For the development mode email addresses are directly added without
 confirmation.
 
+In the request body additional data for the email address can be
+provided as link:#email-input[EmailInput].
+
 .Request
 ----
   PUT /accounts/self/emails/john.doe@example.com HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "preferred": true
+  }
 ----
 
 As response the new email address is returned as
@@ -252,7 +260,8 @@ link:#email-info[EmailInfo] entity.
 
   )]}'
   {
-    "email": "john.doe@example.com"
+    "email": "john.doe@example.com",
+    "preferred": true
   }
 ----
 
@@ -851,6 +860,23 @@ user.
 |`email`    ||The email address.
 |`preferred`|not set if `false`|
 Whether this is the preferred email address of the user.
+|========================
+
+[[email-input]]
+EmailInput
+~~~~~~~~~~
+The `EmailInput` entity contains information for registering a new
+email address.
+
+[options="header",width="50%",cols="1,^1,5"]
+|========================
+|Field Name ||Description
+|`email`    ||
+The email address. If provided, must match the email address from the
+URL.
+|`preferred`|`false` if not set|
+Whether the new email address should become the preferred email address
+of the user.
 |========================
 
 [[query-limit-info]]

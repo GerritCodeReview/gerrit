@@ -40,6 +40,7 @@ public final class SitePaths {
   public final File hooks_dir;
   public final File static_dir;
   public final File themes_dir;
+  public final File index_dir;
 
   public final File gerrit_sh;
   public final File gerrit_war;
@@ -77,6 +78,7 @@ public final class SitePaths {
     hooks_dir = new File(site_path, "hooks");
     static_dir = new File(site_path, "static");
     themes_dir = new File(site_path, "themes");
+    index_dir = new File(site_path, "index");
 
     gerrit_sh = new File(bin_dir, "gerrit.sh");
     gerrit_war = new File(bin_dir, "gerrit.war");

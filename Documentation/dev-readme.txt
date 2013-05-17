@@ -156,12 +156,13 @@ Basic testing of REST API functionality can be done with `curl`:
   curl http://localhost:8080/path/to/api/
 ----
 
-By default, `curl` sends `GET` requests.  To test APIs with `PUT` or `POST`,
-an additional argument is required:
+By default, `curl` sends `GET` requests.  To test APIs with `PUT`, `POST`,
+or `DELETE`, an additional argument is required:
 
 ----
  curl -X PUT http://localhost:8080/path/to/api/
  curl -X POST http://localhost:8080/path/to/api/
+ curl -X DELETE http://localhost:8080/path/to/api/
 ----
 
 Some REST APIs accept data in the request body of `PUT` and `POST` requests.

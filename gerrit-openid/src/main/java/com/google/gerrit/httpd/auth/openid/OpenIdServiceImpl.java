@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.auth.openid;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
+import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.client.KeyUtil;
@@ -63,7 +63,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Nullable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -93,7 +92,7 @@ class OpenIdServiceImpl {
 
   private final Provider<WebSession> webSession;
   private final Provider<IdentifiedUser> identifiedUser;
-  private final Provider<String> urlProvider;
+  private final CanonicalWebUrl urlProvider;
   private final AccountManager accountManager;
   private final ConsumerManager manager;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
@@ -105,7 +104,7 @@ class OpenIdServiceImpl {
   @Inject
   OpenIdServiceImpl(final Provider<WebSession> cf,
       final Provider<IdentifiedUser> iu,
-      @CanonicalWebUrl @Nullable final Provider<String> up,
+      CanonicalWebUrl up,
       @GerritServerConfig final Config config, final AuthConfig ac,
       final AccountManager am) throws ConsumerException, MalformedURLException {
 
@@ -145,10 +144,10 @@ class OpenIdServiceImpl {
   }
 
   @SuppressWarnings("unchecked")
-  DiscoveryResult discover(final String openidIdentifier, final SignInMode mode,
-      final boolean remember, final String returnToken) {
+  DiscoveryResult discover(HttpServletRequest req, String openidIdentifier,
+      final SignInMode mode, final boolean remember, final String returnToken) {
     final State state;
-    state = init(openidIdentifier, mode, remember, returnToken);
+    state = init(req, openidIdentifier, mode, remember, returnToken);
     if (state == null) {
       return new DiscoveryResult(DiscoveryResult.Status.NO_PROVIDER);
     }
@@ -235,7 +234,7 @@ class OpenIdServiceImpl {
       return;
     }
 
-    state = init(rediscoverIdentifier, mode, remember, returnToken);
+    state = init(req, rediscoverIdentifier, mode, remember, returnToken);
     if (state == null) {
       // Re-discovery must have failed, we can't run a login.
       //
@@ -482,7 +481,7 @@ class OpenIdServiceImpl {
     }
 
     final StringBuilder rdr = new StringBuilder();
-    rdr.append(urlProvider.get());
+    rdr.append(urlProvider.get(req));
     rdr.append('#');
     if (isNew && !token.startsWith(PageLinks.REGISTER + "/")) {
       rdr.append(PageLinks.REGISTER);
@@ -507,7 +506,7 @@ class OpenIdServiceImpl {
       webSession.get().logout();
     }
     final StringBuilder rdr = new StringBuilder();
-    rdr.append(urlProvider.get());
+    rdr.append(urlProvider.get(req));
     rdr.append('#');
     rdr.append("SignInFailure");
     rdr.append(',');
@@ -517,8 +516,8 @@ class OpenIdServiceImpl {
     rsp.sendRedirect(rdr.toString());
   }
 
-  private State init(final String openidIdentifier, final SignInMode mode,
-      final boolean remember, final String returnToken) {
+  private State init(HttpServletRequest req, final String openidIdentifier,
+      final SignInMode mode, final boolean remember, final String returnToken) {
     final List<?> list;
     try {
       list = manager.discover(openidIdentifier);
@@ -530,7 +529,7 @@ class OpenIdServiceImpl {
       return null;
     }
 
-    final String contextUrl = urlProvider.get();
+    final String contextUrl = urlProvider.get(req);
     final DiscoveryInformation discovered = manager.associate(list);
     final UrlEncoded retTo = new UrlEncoded(contextUrl + RETURN_URL);
     retTo.put(P_MODE, mode.name());

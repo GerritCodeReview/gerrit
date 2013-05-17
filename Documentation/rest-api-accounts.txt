@@ -161,6 +161,72 @@ Deletes the name of an account.
   HTTP/1.1 204 No Content
 ----
 
+[[get-account-state]]
+Get Account state
+~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/state'
+
+Retrieves the state of an account.
+
+.Request
+----
+  GET /accounts/john.doe@example.com/state HTTP/1.0
+----
+
+As response "`active`" is returned for an active account and
+"`inactive`" is returned for an inactive account.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "active"
+----
+
+[[set-account-active]]
+Set Account Active
+~~~~~~~~~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#account-id[\{account-id\}]/active'
+
+Sets the account state to active.
+
+.Request
+----
+  PUT /accounts/john.doe@example.com/active HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 201 Created
+----
+
+If the account was already active the response is "`200 OK`".
+
+[[set-account-inactive]]
+Set Account Inactive
+~~~~~~~~~~~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#account-id[\{account-id\}]/inactive'
+
+Sets the account state to inactive.
+
+.Request
+----
+  PUT /accounts/john.doe@example.com/inactive HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 201 Created
+----
+
+If the account was already inactive the response is "`200 OK`".
+
 [[list-account-emails]]
 List Account Emails
 ~~~~~~~~~~~~~~~~~~~

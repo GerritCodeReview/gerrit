@@ -191,6 +191,14 @@ file (on Windows, `_netrc`):
 
 In both cases, the password should be the user's link:user-upload.html#http[HTTP password].
 
+To verify the headers returned from a REST API call, use `curl` in verbose mode:
+
+----
+  curl -v -n --digest -X DELETE http://localhost:8080/a/path/to/api/
+----
+
+The headers on both the request and the response will be printed.
+
 
 Release Builds
 --------------

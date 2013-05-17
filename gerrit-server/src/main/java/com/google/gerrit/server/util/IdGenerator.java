@@ -48,8 +48,12 @@ public class IdGenerator {
 
   private static final int salt = 0x9e3779b9;
 
+  static int mix(int in) {
+    return mix(salt, in);
+  }
+
   /** A very simple bit permutation to mask a simple incrementer. */
-  static int mix(final int in) {
+  public static int mix(final int salt, final int in) {
     short v0 = hi16(in);
     short v1 = lo16(in);
     v0 += ((v1 << 2) + 0 ^ v1) + (salt ^ (v1 >>> 3)) + 1;

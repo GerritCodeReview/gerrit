@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
@@ -60,11 +59,9 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.ChangeIdUtil;
-import org.eclipse.jgit.util.NB;
-
 import java.io.IOException;
+
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -77,6 +74,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 public class ChangeUtil {
+  private static final Object uuidLock = new Object();
+  private static final int SEED = 0x2418e6f9;
   private static int uuidPrefix;
   private static int uuidSeq;
 
@@ -88,25 +87,19 @@ public class ChangeUtil {
    * @return the new unique identifier.
    * @throws OrmException the database couldn't be incremented.
    */
-  public static String messageUUID(final ReviewDb db) throws OrmException {
-    final byte[] raw = new byte[8];
-    fill(raw, db);
-
-    // Make the resulting base64 string more URL friendly.
-    return CharMatcher.is('A').trimLeadingFrom(
-           CharMatcher.is('=').trimTrailingFrom(Base64.encodeBytes(raw)))
-        .replace('+', '.')
-        .replace('/', '-');
-  }
-
-  private static synchronized void fill(byte[] raw, ReviewDb db)
-      throws OrmException {
-    if (uuidSeq == 0) {
-      uuidPrefix = db.nextChangeMessageId();
-      uuidSeq = Integer.MAX_VALUE;
+  public static String messageUUID(ReviewDb db) throws OrmException {
+    int p, s;
+    synchronized (uuidLock) {
+      if (uuidSeq == 0) {
+        uuidPrefix = db.nextChangeMessageId();
+        uuidSeq = Integer.MAX_VALUE;
+      }
+      p = uuidPrefix;
+      s = uuidSeq--;
     }
-    NB.encodeInt32(raw, 0, uuidPrefix);
-    NB.encodeInt32(raw, 4, IdGenerator.mix(uuidPrefix, uuidSeq--));
+    return IdGenerator.format(IdGenerator.mix(SEED, p))
+        + '_'
+        + IdGenerator.format(IdGenerator.mix(p, s));
   }
 
   public static void touch(final Change change, ReviewDb db)

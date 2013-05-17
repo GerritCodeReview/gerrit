@@ -267,6 +267,24 @@ link:#email-info[EmailInfo] entity.
   }
 ----
 
+[[delete-account-email]]
+Delete Account Email
+~~~~~~~~~~~~~~~~~~~~
+[verse]
+'DELETE /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]'
+
+Deletes an email address of an account.
+
+.Request
+----
+  DELETE /accounts/self/emails/john.doe@example.com HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[set-preferred Email]]
 Set Preferred Email
 ~~~~~~~~~~~~~~~~~~~

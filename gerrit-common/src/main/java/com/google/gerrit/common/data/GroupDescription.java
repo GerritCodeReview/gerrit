@@ -32,6 +32,9 @@ public class GroupDescription {
     /** @return the non-null name of the group. */
     String getName();
 
+    /** @return the public visibility of the group. */
+    boolean isVisibleToAll();
+
     /**
      * @return optional email address to send to the group's members. If
      *         provided, Gerrit will use this email address to send

@@ -151,6 +151,11 @@ public class LdapGroupBackend implements GroupBackend {
       }
 
       @Override
+      public boolean isVisibleToAll() {
+        return true;
+      }
+
+      @Override
       @Nullable
       public String getEmailAddress() {
         return null;

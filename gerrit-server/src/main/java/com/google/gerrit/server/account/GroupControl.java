@@ -126,8 +126,7 @@ public class GroupControl {
 
   /** Can this user see this group exists? */
   public boolean isVisible() {
-    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
-    return (accountGroup != null && accountGroup.isVisibleToAll())
+    return group.isVisibleToAll()
       || user instanceof InternalUser
       || user.getEffectiveGroups().contains(group.getGroupUUID())
       || isOwner();

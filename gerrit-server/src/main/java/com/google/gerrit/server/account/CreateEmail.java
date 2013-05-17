@@ -16,7 +16,10 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -38,6 +41,9 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   static class Input {
+    @DefaultInput
+    String email;
+    boolean preferred;
   }
 
   static interface Factory {
@@ -48,23 +54,26 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   private final AuthConfig authConfig;
   private final AccountManager accountManager;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
+  private final Provider<PutPreferred> putPreferredProvider;
   private final String email;
 
   @Inject
   CreateEmail(Provider<CurrentUser> self, AuthConfig authConfig,
       AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
-      @Assisted String email) {
+      Provider<PutPreferred> putPreferredProvider, @Assisted String email) {
     this.self = self;
     this.authConfig = authConfig;
     this.accountManager = accountManager;
     this.registerNewEmailFactory = registerNewEmailFactory;
+    this.putPreferredProvider = putPreferredProvider;
     this.email = email;
   }
 
   @Override
   public Object apply(AccountResource rsrc, Input input) throws AuthException,
-      ResourceConflictException, OrmException, EmailException {
+      BadRequestException, ResourceConflictException,
+      ResourceNotFoundException, OrmException, EmailException {
     if (!(self.get() instanceof IdentifiedUser)) {
       throw new AuthException("Authentication required");
     }
@@ -73,6 +82,13 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to add email address");
     }
+    if (input == null) {
+      input = new Input();
+    }
+    if (input.email != null && !email.equals(input.email)) {
+      throw new BadRequestException("email address must match URL");
+    }
+
     if (authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
       try {
         accountManager.link(rsrc.getUser().getAccountId(),
@@ -94,6 +110,11 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
     }
     EmailInfo e = new EmailInfo();
     e.email = email;
+    if (input.preferred) {
+      putPreferredProvider.get().apply(
+          new AccountResource.Email(rsrc.getUser(), email), null);
+      e.setPreferred(true);
+    }
     return Response.created(e);
   }
 }

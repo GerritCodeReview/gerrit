@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uxnw3ueY",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-17T09:00:32Z",
+      "side": 1,
+      "message": "Too many \u0027~\u0027 here...",
+      "revId": "9b3492d9e919b6b0149d8717b135fdce0488fd92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

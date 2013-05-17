@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -45,7 +46,7 @@ public class GroupControl {
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(who, group);
+      return new GroupControl(who, group, groupBackend);
     }
   }
 
@@ -85,7 +86,7 @@ public class GroupControl {
     }
 
     public GroupControl controlFor(GroupDescription.Basic group) {
-      return new GroupControl(user.get(), group);
+      return new GroupControl(user.get(), group, groupBackend);
     }
 
     public GroupControl validateFor(final AccountGroup.Id groupId)
@@ -109,11 +110,13 @@ public class GroupControl {
 
   private final CurrentUser user;
   private final GroupDescription.Basic group;
+  private final GroupBackend groupBackend;
   private Boolean isOwner;
 
-  GroupControl(CurrentUser who, GroupDescription.Basic gd) {
+  GroupControl(CurrentUser who, GroupDescription.Basic gd, GroupBackend gb) {
     user = who;
-    group =  gd;
+    group = gd;
+    groupBackend = gb;
   }
 
   public GroupDescription.Basic getGroup() {
@@ -126,8 +129,10 @@ public class GroupControl {
 
   /** Can this user see this group exists? */
   public boolean isVisible() {
+    GroupReference suggestedGroup = GroupBackends.findExactSuggestion(groupBackend, group.getGroupUUID().get());
     AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
     return (accountGroup != null && accountGroup.isVisibleToAll())
+      || suggestedGroup != null
       || user instanceof InternalUser
       || user.getEffectiveGroups().contains(group.getGroupUUID())
       || isOwner();

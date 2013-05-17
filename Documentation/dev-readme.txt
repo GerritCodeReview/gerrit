@@ -176,7 +176,7 @@ To test APIs that require authentication, the username and password must be spec
 the command line:
 
 ----
- curl --digest --user username:password http://localhost:8080/path/to/api
+ curl --digest --user username:password http://localhost:8080/a/path/to/api/
 ----
 
 This makes it easy to switch users for testing of permissions.

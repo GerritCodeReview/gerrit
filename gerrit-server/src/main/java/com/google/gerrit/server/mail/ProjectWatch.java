@@ -24,8 +24,8 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -202,7 +202,7 @@ public class ProjectWatch {
     }
 
     if (filter != null) {
-      qb.setAllowFile(true);
+      qb.setAllowFileRegex(true);
       Predicate<ChangeData> filterPredicate = qb.parse(filter);
       if (p == null) {
         p = filterPredicate;

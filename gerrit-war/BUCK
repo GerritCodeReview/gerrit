@@ -5,6 +5,7 @@ java_library2(
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-extension-api:api',
     '//gerrit-httpd:httpd',
+    '//gerrit-lucene:lucene',
     '//gerrit-openid:openid',
     '//gerrit-reviewdb:server',
     '//gerrit-server:common_rules',

@@ -29,8 +29,10 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -52,6 +54,7 @@ public class ChangeInserter {
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final TrackingFooters trackingFooters;
+  private final ChangeIndexer indexer;
 
   private final RefControl refControl;
   private final Change change;
@@ -59,6 +62,7 @@ public class ChangeInserter {
   private final RevCommit commit;
   private final PatchSetInfo patchSetInfo;
 
+  private RequestScopePropagator requestScopePropagator;
   private ChangeMessage changeMessage;
   private Set<Account.Id> reviewers;
   private boolean draft;
@@ -70,6 +74,7 @@ public class ChangeInserter {
       ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       TrackingFooters trackingFooters,
+      ChangeIndexer indexer,
       @Assisted RefControl refControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
@@ -78,6 +83,7 @@ public class ChangeInserter {
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.trackingFooters = trackingFooters;
+    this.indexer = indexer;
     this.refControl = refControl;
     this.change = change;
     this.commit = commit;
@@ -96,6 +102,11 @@ public class ChangeInserter {
     patchSetInfo = patchSetInfoFactory.get(commit, patchSet.getId());
     change.setCurrentPatchSet(patchSetInfo);
     ChangeUtil.computeSortKey(change);
+  }
+
+  public ChangeInserter setRequestScopePropagator(RequestScopePropagator rsp) {
+    requestScopePropagator = rsp;
+    return this;
   }
 
   public ChangeInserter setMessage(ChangeMessage changeMessage) {
@@ -140,6 +151,7 @@ public class ChangeInserter {
       db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
+    indexer.index(change, requestScopePropagator);
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
     hooks.doPatchsetCreatedHook(change, patchSet, db);

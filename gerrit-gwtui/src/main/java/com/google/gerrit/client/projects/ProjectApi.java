@@ -40,10 +40,14 @@ public class ProjectApi {
     input.setRevision(revision);
     new RestApi("/projects/").id(projectName.get()).view("branches").id(ref)
         .ifNoneMatch().put(input, asyncCallback);
+  }  
+
+  public static RestApi project(Project.NameKey name) {
+    return new RestApi("/projects/").id(name.get());
   }
 
   static RestApi config(Project.NameKey name) {
-    return new RestApi("/projects/").id(name.get()).view("config");
+    return project(name).view("config");
   }
 
   private static class ProjectInput extends JavaScriptObject {

@@ -161,6 +161,67 @@ Deletes the name of an account.
   HTTP/1.1 204 No Content
 ----
 
+[[get-active]]
+Get Active
+~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/active'
+
+Checks if an account is active.
+
+.Request
+----
+  GET /accounts/john.doe@example.com/active HTTP/1.0
+----
+
+As response `200 OK` is returned for an active account and
+`404 Not Found` is returned for an inactive account.
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
+[[set-active]]
+Set Active
+~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#account-id[\{account-id\}]/active'
+
+Sets the account state to active.
+
+.Request
+----
+  PUT /accounts/john.doe@example.com/active HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 201 Created
+----
+
+If the account was already active the response is `200 OK`.
+
+[[delete-active]]
+Delete Active
+~~~~~~~~~~~~~
+[verse]
+'DELETE /accounts/link:#account-id[\{account-id\}]/active'
+
+Sets the account state to inactive.
+
+.Request
+----
+  DELETE /accounts/john.doe@example.com/active HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+If the account was already inactive the response is `404 Not Found`.
+
 [[list-account-emails]]
 List Account Emails
 ~~~~~~~~~~~~~~~~~~~

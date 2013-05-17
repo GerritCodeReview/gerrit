@@ -14,28 +14,42 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.ConfirmationCallback;
+import com.google.gerrit.client.ConfirmationDialog;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.download.DownloadPanel;
+import com.google.gerrit.client.extensions.UiCommandResult;
+import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+
+import java.util.List;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private String projectName;
@@ -202,6 +216,86 @@ public class ProjectInfoScreen extends ProjectScreen {
     grid.addHtml(Util.C.useSignedOffBy(), signedOffBy);
   }
 
+  private void initProjectCommands(final List<UiCommandDetail> commands) {
+    if (commands == null || commands.isEmpty()) {
+      return;
+    }
+    grid.addHeader(new SmallHeading(Util.C.headingProjectCommands()));
+    FlowPanel actionsPanel = new FlowPanel();
+    actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
+    actionsPanel.setVisible(true);
+    populateCommands(commands, actionsPanel);
+    grid.add(Util.C.headingCommands(), actionsPanel);
+  }
+
+  private void populateCommands(final List<UiCommandDetail> commands,
+      final FlowPanel actionsPanel) {
+    for (final UiCommandDetail cmd : commands) {
+      final Button b = new Button(cmd.label);
+      b.setEnabled(cmd.enabled);
+      b.setTitle(cmd.title);
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          if (cmd.confirmationMessage != null
+              && !cmd.confirmationMessage.isEmpty()) {
+            ConfirmationDialog confirmationDialog =
+                new ConfirmationDialog(cmd.title, new SafeHtmlBuilder()
+                    .append(cmd.confirmationMessage),
+                    new ConfirmationCallback() {
+                      @Override
+                      public void onOk() {
+                        postProcessCommand(cmd, b);
+                      }
+                    });
+            confirmationDialog.center();
+          } else {
+            postProcessCommand(cmd, b);
+          }
+        }
+
+        private void postProcessCommand(final UiCommandDetail cmd,
+            final Button b) {
+          b.setEnabled(false);
+          b.setEnabled(false);
+          AsyncCallback<UiCommandResult> cb =
+              new AsyncCallback<UiCommandResult>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                  b.setEnabled(true);
+                  new ErrorDialog(caught).center();
+                }
+
+                @Override
+                public void onSuccess(UiCommandResult r) {
+                  b.setEnabled(true);
+                  if (r.message() != null && !r.message().isEmpty()) {
+                    Window.alert(r.message());
+                  }
+                  if (UiCommandResult.Action.REDIRECT.name().equals(
+                      r.action())) {
+                    Gerrit.display(r.location());
+                  } else if (UiCommandResult.Action.RELOAD.name().equals(
+                      r.action())) {
+                    // better way to reload current page?
+                    Gerrit.display("/admin/projects/" + project.getName());
+                  }
+                }
+              };
+          RestApi api = ProjectApi.project(project.getNameKey()).view(cmd.id);
+          if ("PUT".equalsIgnoreCase(cmd.method)) {
+            api.put(JavaScriptObject.createObject(), cb);
+          } else if ("DELETE".equalsIgnoreCase(cmd.method)) {
+            api.delete(cb);
+          } else {
+            api.post(JavaScriptObject.createObject(), cb);
+          }
+        }
+      });
+      actionsPanel.add(b);
+    }
+  }
+
   private void setSubmitType(final Project.SubmitType newSubmitType) {
     int index = -1;
     if (submitType != null) {
@@ -269,7 +363,6 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   void display(final ProjectDetail result) {
     project = result.project;
-
     descTxt.setText(project.getDescription());
     setBool(contributorAgreements, result.useContributorAgreements);
     setBool(signedOffBy, result.useSignedOffBy);
@@ -278,6 +371,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     setSubmitType(project.getSubmitType());
     setState(project.getState());
 
+    initProjectCommands(result.getCommands());
     saveProject.setEnabled(false);
   }
 

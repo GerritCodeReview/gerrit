@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "Uu0flbgQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-17T18:30:13Z",
+      "side": 1,
+      "message": "Doesn\u0027t have to be public",
+      "revId": "4c544eda9e83887055807b20ef67b82a6e2eac7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uu.f1grs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
         "patchSetId": 3

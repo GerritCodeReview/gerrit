@@ -26,7 +26,7 @@ public class GroupInfo extends JavaScriptObject {
   }
 
   public final AccountGroup.UUID getGroupUUID() {
-    return new AccountGroup.UUID(URL.decodePathSegment(id()));
+    return new AccountGroup.UUID(URL.decodePathSegment(URL.decodeQueryString(id())));
   }
 
   public final native String id() /*-{ return this.id; }-*/;
@@ -46,13 +46,13 @@ public class GroupInfo extends JavaScriptObject {
   public final AccountGroup.UUID getOwnerUUID() {
     String owner = owner_id();
     if (owner != null) {
-        return new AccountGroup.UUID(URL.decodePathSegment(owner));
+        return new AccountGroup.UUID(URL.decodePathSegment(URL.decodeQueryString(owner)));
     }
     return null;
   }
 
   public final void setOwnerUUID(AccountGroup.UUID uuid) {
-    owner_id(URL.encodePathSegment(uuid.get()));
+    owner_id(URL.encodePathSegment(URL.encodeQueryString(uuid.get())));
   }
 
   protected GroupInfo() {

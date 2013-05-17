@@ -1,0 +1,5 @@
+[pep8]
+max_line_length = 80
+show_pep8 = True
+show_source = True
+ignore = E111,E121

@@ -28,7 +28,8 @@ REPO_ROOTS = {
   'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
 }
 
-GERRIT_HOME = '~/.gerritcodereview'
+GERRIT_HOME = path.expanduser('~/.gerritcodereview')
+CACHE_DIR = path.join(GERRIT_HOME, 'buck-cache')
 LOCAL_PROPERTIES = 'local.properties'
 
 
@@ -64,7 +65,7 @@ def download_properties(root_dir):
   p = {}
   local_prop = path.join(root_dir, LOCAL_PROPERTIES)
   if not path.isfile(local_prop):
-    local_prop = path.join(path.expanduser(GERRIT_HOME), LOCAL_PROPERTIES)
+    local_prop = path.join(GERRIT_HOME, LOCAL_PROPERTIES)
   if path.isfile(local_prop):
     try:
       with open(local_prop) as fd:
@@ -77,13 +78,13 @@ def download_properties(root_dir):
       pass
   return p
 
-def cache_entry(root_dir, args):
+def cache_entry(args):
   if args.v:
     h = args.v
   else:
     h = sha1(args.u).hexdigest()
   name = '%s-%s' % (path.basename(args.o), h)
-  return path.join(root_dir, 'buck-cache', name)
+  return path.join(CACHE_DIR, name)
 
 def resolve_url(url, redirects):
   s = url.find(':')
@@ -115,7 +116,7 @@ while root_dir:
     break
 
 redirects = download_properties(root_dir)
-cache_ent = cache_entry(root_dir, args)
+cache_ent = cache_entry(args)
 src_url = resolve_url(args.u, redirects)
 
 if not path.exists(cache_ent):

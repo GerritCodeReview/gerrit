@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UvSUGLiw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-05-17T00:12:42Z",
+      "side": 1,
+      "message": "Sounds like it... but it\u0027s actually in the GroupControl logic... I\u0027ll explain on that page...",
+      "parentUuid": "Uu2eHUlI",
+      "revId": "d177170ba4a1ea0e1c6709df7edfc431fd50e0de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UxV00e.A",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-16T23:58:11Z",
       "side": 1,
       "message": "This decision belongs in the LDAP system and not here.",
+      "revId": "d177170ba4a1ea0e1c6709df7edfc431fd50e0de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UvcURWmU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-05-17T00:12:42Z",
+      "side": 1,
+      "message": "I totally agree from a structural standpoint (though, this does fix this specific issue).  The problem that actually happens is GroupDescriptions.toAccountGroup() ends up failing and returning null.  So, I suppose the more accurate fix would be to investigate why that fails, but I believe when I was investigating, I found it was trying to map to an internal group (which wouldn\u0027t exist for LDAP).",
+      "parentUuid": "UxV00e.A",
       "revId": "d177170ba4a1ea0e1c6709df7edfc431fd50e0de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

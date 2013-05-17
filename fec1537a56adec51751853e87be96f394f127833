@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Ux5sWC1o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-05-17T00:12:42Z",
+      "side": 0,
+      "message": "I\u0027m confused by this.  The UUID itself is URI encoded, so it shouldn\u0027t have any characters that aren\u0027t allowed.  The exact situation I describe should be an example of UUIDs not valid in a URL and needing encoding (ldap:CN\u003dfoo,OU\u003dNorth America,DC\u003dyoyodyne,DC\u003dcom) -- all of those special characters should be escaped.  However, double-encoding actually changes the contents of the field, and there\u0027s no matching decode step.",
+      "parentUuid": "Uu0eKTl0",
+      "revId": "fec1537a56adec51751853e87be96f394f127833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UukjR-04",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
         "patchSetId": 1

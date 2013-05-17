@@ -24,6 +24,8 @@ java_test(
     '//lib:junit',
     '//lib:servlet-api-3_0',
 
+    '//lib/log:impl_log4j',
+    '//lib/log:log4j',
     '//lib/guice:guice',
     '//lib/jgit:jgit',
     '//lib/jgit:junit',

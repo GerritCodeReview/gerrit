@@ -47,8 +47,11 @@ java_test(
   srcs = glob(['src/test/java/**/*.java']),
   deps = [
     ':pgm',
+    '//gerrit-server:server',
     '//lib:junit',
     '//lib:easymock',
+    '//lib/guice:guice',
+    '//lib/jgit:jgit',
     '//lib/jgit:junit',
   ],
   source_under_test = [':pgm'],

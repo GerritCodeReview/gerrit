@@ -90,6 +90,7 @@ java_test(
   deps = [
     ':SafeHtml',
     '//lib:junit',
+    '//lib/gwt:user',
     '//lib/gwt:dev',
   ],
   source_under_test = [':SafeHtml'],

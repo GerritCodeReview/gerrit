@@ -5,7 +5,7 @@ Gerrit Code Review comes with a REST like API available over HTTP.
 The API is suitable for automated tools to build upon, as well as
 supporting some ad-hoc scripting use cases.
 
-See also: link:dev-readme.html#test-rest-api[Developer setup: Testing the REST API].
+See also: link:dev-rest-api.html[REST API Developers' Notes].
 
 Endpoints
 ---------

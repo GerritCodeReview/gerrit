@@ -42,6 +42,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.IdGenerator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
@@ -61,9 +62,7 @@ import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.ChangeIdUtil;
-import org.eclipse.jgit.util.NB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,9 +77,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 public class ChangeUtil {
-
   private static final Logger log = LoggerFactory.getLogger(ChangeUtil.class);
 
+  private static final Object uuidLock = new Object();
   private static int uuidPrefix;
   private static int uuidSeq;
 
@@ -92,20 +91,19 @@ public class ChangeUtil {
    * @return the new unique identifier.
    * @throws OrmException the database couldn't be incremented.
    */
-  public static String messageUUID(final ReviewDb db) throws OrmException {
-    final byte[] raw = new byte[8];
-    fill(raw, db);
-    return Base64.encodeBytes(raw);
-  }
-
-  private static synchronized void fill(byte[] raw, ReviewDb db)
-      throws OrmException {
-    if (uuidSeq == 0) {
-      uuidPrefix = db.nextChangeMessageId();
-      uuidSeq = Integer.MAX_VALUE;
+  public static String messageUUID(ReviewDb db) throws OrmException {
+    int p, s;
+    synchronized (uuidLock) {
+      if (uuidSeq == 0) {
+        uuidPrefix = db.nextChangeMessageId();
+        uuidSeq = Integer.MAX_VALUE;
+      }
+      p = uuidPrefix;
+      s = uuidSeq--;
     }
-    NB.encodeInt32(raw, 0, uuidPrefix);
-    NB.encodeInt32(raw, 4, uuidSeq--);
+    return IdGenerator.format(p)
+        + '_'
+        + IdGenerator.format(IdGenerator.mix(p, s));
   }
 
   public static void touch(final Change change, ReviewDb db)

@@ -16,13 +16,17 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.extensions.webui.UiCommands;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -32,23 +36,28 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.EnumSet;
 
 class ProjectDetailFactory extends Handler<ProjectDetail> {
+
   interface Factory {
     ProjectDetailFactory create(@Assisted Project.NameKey name);
   }
 
   private final ProjectControl.Factory projectControlFactory;
   private final GitRepositoryManager gitRepositoryManager;
+  final ProjectsCollection projectCollection;
 
   private final Project.NameKey projectName;
 
   @Inject
   ProjectDetailFactory(final ProjectControl.Factory projectControlFactory,
       final GitRepositoryManager gitRepositoryManager,
+      final ProjectsCollection projectCollection,
       @Assisted final Project.NameKey name) {
     this.projectControlFactory = projectControlFactory;
     this.gitRepositoryManager = gitRepositoryManager;
+    this.projectCollection = projectCollection;
     this.projectName = name;
   }
 
@@ -110,6 +119,10 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     } finally {
       git.close();
     }
+
+    detail.setCommands(UiCommands.sorted(UiCommands.from(
+        projectCollection.views(), new ProjectResource(pc),
+        EnumSet.of(UiCommand.Place.PROJECT_INFO_ACTION_PANEL))));
 
     return detail;
   }

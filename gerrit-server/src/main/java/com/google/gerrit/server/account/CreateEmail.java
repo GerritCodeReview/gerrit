@@ -15,7 +15,9 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -25,6 +27,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.slf4j.Logger;
@@ -34,6 +37,8 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   static class Input {
+    String email;
+    boolean preferred;
   }
 
   static interface Factory {
@@ -43,21 +48,32 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   private final AuthConfig authConfig;
   private final AccountManager accountManager;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
+  private final Provider<PutPreferred> putPreferredProvider;
   private final String email;
 
   @Inject
   CreateEmail(AuthConfig authConfig, AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
-      @Assisted String email) {
+      Provider<PutPreferred> putPreferredProvider, @Assisted String email) {
     this.authConfig = authConfig;
     this.accountManager = accountManager;
     this.registerNewEmailFactory = registerNewEmailFactory;
+    this.putPreferredProvider = putPreferredProvider;
     this.email = email;
   }
 
   @Override
   public Object apply(AccountResource rsrc, Input input)
-      throws ResourceConflictException, OrmException, EmailException {
+      throws BadRequestException, ResourceConflictException,
+      ResourceNotFoundException,
+      OrmException, EmailException {
+    if (input == null) {
+      input = new Input();
+    }
+    if (input.email != null && !email.equals(input.email)) {
+      throw new BadRequestException("email address must match URL");
+    }
+
     if (authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
       try {
         accountManager.link(rsrc.getUser().getAccountId(),
@@ -79,6 +95,11 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
     }
     EmailInfo e = new EmailInfo();
     e.email = email;
+    if (input.preferred) {
+      putPreferredProvider.get().apply(
+          new AccountResource.Email(rsrc.getUser(), email), null);
+      e.setPreferred(true);
+    }
     return Response.created(e);
   }
 }

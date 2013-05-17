@@ -92,7 +92,6 @@ import com.google.gerrit.server.mail.RebasedPatchSetSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.VelocityRuntimeProvider;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
-import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.ChangeControl;
@@ -187,7 +186,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(MergeUtil.Factory.class);
-    factory(PatchScriptFactory.Factory.class);
     factory(PerformCreateGroup.Factory.class);
     factory(PerformRenameGroup.Factory.class);
     factory(PluginUser.Factory.class);

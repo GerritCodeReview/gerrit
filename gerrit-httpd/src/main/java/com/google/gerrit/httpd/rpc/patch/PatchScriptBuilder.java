@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.httpd.rpc.patch;
 
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
@@ -26,6 +26,11 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.patch.IntraLineDiff;
+import com.google.gerrit.server.patch.IntraLineDiffKey;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
 
 import eu.medsea.mimeutil.MimeType;

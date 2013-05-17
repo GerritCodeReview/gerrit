@@ -435,42 +435,38 @@ public class AccountManager {
    *         cannot be unlinked at this time.
    */
   public AuthResult unlink(final Account.Id from, AuthRequest who)
-      throws AccountException {
+      throws AccountException, OrmException {
+    final ReviewDb db = schema.open();
     try {
-      final ReviewDb db = schema.open();
-      try {
-        who = realm.unlink(db, from, who);
+      who = realm.unlink(db, from, who);
 
-        final AccountExternalId.Key key = id(who);
-        AccountExternalId extId = db.accountExternalIds().get(key);
-        if (extId != null) {
-          if (!extId.getAccountId().equals(from)) {
-            throw new AccountException("Identity in use by another account");
+      final AccountExternalId.Key key = id(who);
+      AccountExternalId extId = db.accountExternalIds().get(key);
+      if (extId != null) {
+        if (!extId.getAccountId().equals(from)) {
+          throw new AccountException("Identity in use by another account");
+        }
+        db.accountExternalIds().delete(Collections.singleton(extId));
+
+        if (who.getEmailAddress() != null) {
+          final Account a = db.accounts().get(from);
+          if (a.getPreferredEmail() != null
+              && a.getPreferredEmail().equals(who.getEmailAddress())) {
+            a.setPreferredEmail(null);
+            db.accounts().update(Collections.singleton(a));
           }
-          db.accountExternalIds().delete(Collections.singleton(extId));
-
-          if (who.getEmailAddress() != null) {
-            final Account a = db.accounts().get(from);
-            if (a.getPreferredEmail() != null
-                && a.getPreferredEmail().equals(who.getEmailAddress())) {
-              a.setPreferredEmail(null);
-              db.accounts().update(Collections.singleton(a));
-            }
-            byEmailCache.evict(who.getEmailAddress());
-            byIdCache.evict(from);
-          }
-
-        } else {
-          throw new AccountException("Identity not found");
+          byEmailCache.evict(who.getEmailAddress());
+          byIdCache.evict(from);
         }
 
-        return new AuthResult(from, key, false);
-
-      } finally {
-        db.close();
+      } else {
+        throw new AccountException("Identity not found");
       }
-    } catch (OrmException e) {
-      throw new AccountException("Cannot unlink identity", e);
+
+      return new AuthResult(from, key, false);
+
+    } finally {
+      db.close();
     }
   }
 

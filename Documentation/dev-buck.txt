@@ -59,6 +59,10 @@ based projects.
 Expand the `gerrit` project, right-click on the `buck-out` folder, select
 'Properties', and then under 'Attributes' check 'Derived'.
 
+Note that if you make any changes in the project configuration that get
+saved to the `.project` file, for example adding Resource Filters on a
+folder, they will be overwritten the next time you run `buck build eclipse`.
+
 
 Refreshing the Classpath
 ~~~~~~~~~~~~~~~~~~~~~~~~

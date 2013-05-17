@@ -28,9 +28,11 @@ public class PatchModule extends RpcServletModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
+        factory(PatchScriptFactory.Factory.class);
         factory(SaveDraft.Factory.class);
       }
     });
+    bind(PatchScriptBuilder.class);
     rpc(PatchDetailServiceImpl.class);
   }
 }

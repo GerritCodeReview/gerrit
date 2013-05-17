@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
+import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,6 +30,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
+import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -72,7 +74,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       callback.onFailure(new NoSuchEntityException());
       return;
     }
-    patchScriptFactoryFactory.create(patchKey, psa, psb, dp).to(callback);
+    Handler.wrap(patchScriptFactoryFactory.create(patchKey, psa, psb, dp))
+      .to(callback);
   }
 
   public void saveDraft(final PatchLineComment comment,

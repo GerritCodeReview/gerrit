@@ -30,6 +30,8 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -113,6 +115,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
+    final ChangeIndex index;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -125,7 +128,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AllProjectsName allProjectsName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
-        ProjectCache projectCache) {
+        ProjectCache projectCache,
+        ChangeIndex index) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -137,6 +141,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
       this.projectCache = projectCache;
+      this.index = index;
     }
   }
 
@@ -146,7 +151,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private final Arguments args;
   private final CurrentUser currentUser;
-  private boolean allowsFile;
+  private boolean allowFileRegex;
 
   @Inject
   ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
@@ -155,8 +160,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     this.currentUser = currentUser;
   }
 
-  public void setAllowFile(boolean on) {
-    allowsFile = on;
+  public void setAllowFileRegex(boolean on) {
+    allowFileRegex = on;
   }
 
   @Operator
@@ -284,15 +289,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
-    if (!allowsFile) {
-      throw error("operator not permitted here: file:" + file);
+    if (allowFileRegex) {
+      if (file.startsWith("^")) {
+        return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
+      } else {
+        throw new IllegalArgumentException();
+      }
+    } else {
+      if (!file.startsWith("^")) {
+        // TODO(dborowitz): Wrap predicates in query rewriter, not here.
+        return new PredicateWrapper(
+            args.index,
+            new EqualsFilePredicate(args.dbProvider, args.patchListCache, file));
+      } else {
+        throw error("regular expression not permitted here: file:" + file);
+      }
     }
-
-    if (file.startsWith("^")) {
-      return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
-    }
-
-    throw new IllegalArgumentException();
   }
 
   @Operator

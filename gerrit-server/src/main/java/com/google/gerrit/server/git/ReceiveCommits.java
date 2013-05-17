@@ -74,6 +74,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
@@ -266,6 +267,7 @@ public class ReceiveCommits {
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
+  private final ChangeIndexer.Factory changeIndexerFactory;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -326,6 +328,7 @@ public class ReceiveCommits {
       final SshInfo sshInfo,
       final AllProjectsName allProjectsName,
       ReceiveConfig config,
+      final ChangeIndexer.Factory changeIndexerFactory,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
       final SubmoduleOp.Factory subOpFactory,
@@ -356,6 +359,7 @@ public class ReceiveCommits {
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
     this.receiveConfig = config;
+    this.changeIndexerFactory = changeIndexerFactory;
 
     this.projectControl = projectControl;
     this.labelTypes = projectControl.getLabelTypes();
@@ -1552,6 +1556,9 @@ public class ReceiveCommits {
           return "send-email newchange";
         }
       }));
+
+      workQueue.getDefaultQueue().submit(
+          requestScopePropagator.wrap(changeIndexerFactory.create(change)));
 
       if (magicBranch != null && magicBranch.isSubmit()) {
         submit(projectControl.controlFor(change), ps);

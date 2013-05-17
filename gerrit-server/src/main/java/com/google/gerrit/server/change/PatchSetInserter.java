@@ -28,8 +28,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.RefControl;
@@ -66,6 +68,8 @@ public class PatchSetInserter {
   private final IdentifiedUser user;
   private final GitReferenceUpdated gitRefUpdated;
   private final CommitValidators.Factory commitValidatorsFactory;
+  private final WorkQueue workQueue;
+  private final ChangeIndexer.Factory indexerFactory;
   private boolean validateForReceiveCommits;
 
   private final Repository git;
@@ -87,6 +91,8 @@ public class PatchSetInserter {
       IdentifiedUser user,
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
+      WorkQueue workQueue,
+      ChangeIndexer.Factory indexerFactory,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted RefControl refControl,
@@ -99,6 +105,8 @@ public class PatchSetInserter {
     this.user = user;
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
+    this.workQueue = workQueue;
+    this.indexerFactory = indexerFactory;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -212,6 +220,7 @@ public class PatchSetInserter {
         db.changeMessages().insert(Collections.singleton(changeMessage));
       }
 
+      workQueue.getDefaultQueue().submit(indexerFactory.create(change));
       hooks.doPatchsetCreatedHook(change, patchSet, db);
     } finally {
       db.rollback();

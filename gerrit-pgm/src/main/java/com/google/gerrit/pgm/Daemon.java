@@ -28,6 +28,7 @@ import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.lucene.LuceneChangeIndex;
 import com.google.gerrit.pgm.http.jetty.GetUserFilter;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
@@ -319,6 +320,8 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
+    modules.add(new com.google.gerrit.server.index.Module());
+    modules.add(LuceneChangeIndex.module());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

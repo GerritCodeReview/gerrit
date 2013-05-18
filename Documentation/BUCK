@@ -41,9 +41,9 @@ genasciidoc(
 
 genrule(
   name = 'licenses.txt',
-  cmd = '${:licenses} >$OUT',
+  cmd = '${:gen_licenses} >$OUT',
   srcs = [],
-  deps = [':licenses'] + MAIN,
+  deps = [':gen_licenses'] + MAIN,
   out = 'licenses.txt',
 )
 
@@ -57,6 +57,6 @@ genrule(
 )
 
 python_binary(
-  name = 'licenses',
-  main = 'licenses.py',
+  name = 'gen_licenses',
+  main = 'gen_licenses.py',
 )

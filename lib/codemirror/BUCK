@@ -1,0 +1,35 @@
+VERSION = '3.13'
+SHA1 = '7a83ae686d75afd30bb152d7683f2dc27e59ea82'
+URL = 'http://codemirror.net/codemirror-%s.zip' % VERSION
+
+# TODO(sop) Repackage by license boundaries.
+# TODO(sop) Minify with Closure JS compiler.
+genrule(
+  name = 'codemirror',
+  cmd = ';'.join([
+    'cd $TMP',
+    'mkdir net META-INF',
+    'unzip -d net $SRCS',
+    'mv net/codemirror-%s net/codemirror' % VERSION,
+    'echo "Manifest-Version: 1.0" >META-INF/MANIFEST.MF',
+    'zip -r $OUT *'
+  ]),
+  srcs = [genfile('dist.zip')],
+  deps = [
+    ':download',
+    '//lib:LICENSE-codemirror',
+  ],
+  out = 'codemirror.jar',
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'download',
+  cmd = '${//tools:download_file}' +
+    ' -o $OUT' +
+    ' -u ' + URL +
+    ' -v ' + SHA1,
+  srcs = [],
+  deps = ['//tools:download_file'],
+  out = 'dist.zip',
+)

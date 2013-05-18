@@ -14,7 +14,6 @@
 
 package com.google.gwtexpui.clippy.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -47,7 +46,6 @@ import com.google.gwtexpui.user.client.UserAgent;
 public class CopyableLabel extends Composite implements HasText {
   private static final int SWF_WIDTH = 110;
   private static final int SWF_HEIGHT = 14;
-  private static String swfUrl;
   private static boolean flashEnabled = true;
 
   static {
@@ -63,10 +61,7 @@ public class CopyableLabel extends Composite implements HasText {
   }
 
   private static String swfUrl() {
-    if (swfUrl == null) {
-      swfUrl = GWT.getModuleBaseURL() + "gwtexpui_clippy1.cache.swf";
-    }
-    return swfUrl;
+    return ClippyResources.I.swf().getSafeUri().asString();
   }
 
   private final FlowPanel content;

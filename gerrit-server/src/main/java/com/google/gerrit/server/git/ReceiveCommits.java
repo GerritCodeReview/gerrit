@@ -1434,6 +1434,7 @@ public class ReceiveCommits {
     List<PatchSet> patchSets;
     PatchSet newPatchSet;
     ReceiveCommand cmd;
+    boolean skip;
     PatchSetInfo info;
     ChangeMessage msg;
     String mergedIntoRef;
@@ -1510,7 +1511,7 @@ public class ReceiveCommits {
             return false;
           }
 
-          // Don't allow the same tree if the commit message is unmodified
+          // Skip if the same tree and if the commit message is unmodified
           // or no parents were updated (rebase), else warn that only part
           // of the commit was modified.
           //
@@ -1522,8 +1523,7 @@ public class ReceiveCommits {
             final boolean authorEq = authorEqual(newCommit, prior);
 
             if (messageEq && parentsEq && authorEq && !autoClose) {
-              reject(inputCommand, "no changes made");
-              return false;
+              skip = true;
             } else {
               ObjectReader reader = rp.getRevWalk().getObjectReader();
               StringBuilder msg = new StringBuilder();
@@ -1550,19 +1550,22 @@ public class ReceiveCommits {
         }
       }
 
-      change.nextPatchSetId();
-      newPatchSet = new PatchSet(change.currPatchSetId());
-      newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-      newPatchSet.setUploader(currentUser.getAccountId());
-      newPatchSet.setRevision(toRevId(newCommit));
-      if (newChange != null && MagicBranch.isDraft(newChange.getRefName())) {
-        newPatchSet.setDraft(true);
+      if (!skip) {
+        change.nextPatchSetId();
+        newPatchSet = new PatchSet(change.currPatchSetId());
+        newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+        newPatchSet.setUploader(currentUser.getAccountId());
+        newPatchSet.setRevision(toRevId(newCommit));
+        if (newChange != null && MagicBranch.isDraft(newChange.getRefName())) {
+          newPatchSet.setDraft(true);
+        }
+        info = patchSetInfoFactory.get(newCommit, newPatchSet.getId());
+        cmd = new ReceiveCommand(
+            ObjectId.zeroId(),
+            newCommit,
+            newPatchSet.getRefName());
       }
-      info = patchSetInfoFactory.get(newCommit, newPatchSet.getId());
-      cmd = new ReceiveCommand(
-          ObjectId.zeroId(),
-          newCommit,
-          newPatchSet.getRefName());
+
       return true;
     }
 

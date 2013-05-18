@@ -218,7 +218,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         p.getTimeFormat());
     relativeDateInChangeTable.setValue(p.isRelativeDateInChangeTable());
     setListBox(commentVisibilityStrategy,
-        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_MOST_RECENT,
+        AccountGeneralPreferences.CommentVisibilityStrategy.EXPAND_RECENT,
         p.getCommentVisibilityStrategy());
   }
 
@@ -285,7 +285,7 @@ public class MyPreferencesScreen extends SettingsScreen {
         AccountGeneralPreferences.TimeFormat.values()));
     p.setRelativeDateInChangeTable(relativeDateInChangeTable.getValue());
     p.setCommentVisibilityStrategy(getListBox(commentVisibilityStrategy,
-        CommentVisibilityStrategy.EXPAND_MOST_RECENT,
+        CommentVisibilityStrategy.EXPAND_RECENT,
         CommentVisibilityStrategy.values()));
 
     enable(false);

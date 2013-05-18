@@ -14,13 +14,12 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import com.google.gwtexpui.server.CacheHeaders;
 
 import org.eclipse.jetty.http.HttpHeaders;
+import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.AbstractHttpConnection;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ErrorHandler;
@@ -35,35 +34,40 @@ import javax.servlet.http.HttpServletResponse;
 
 class HiddenErrorHandler extends ErrorHandler {
   private static final Logger log = LoggerFactory.getLogger(HiddenErrorHandler.class);
-  private static final byte[] MSG = "Internal server error\n".getBytes(Charsets.ISO_8859_1);
 
   public void handle(String target, Request baseRequest,
       HttpServletRequest req, HttpServletResponse res) throws IOException {
-    AbstractHttpConnection.getCurrentConnection().getRequest().setHandled(true);
+    AbstractHttpConnection conn = AbstractHttpConnection.getCurrentConnection();
+    conn.getRequest().setHandled(true);
     try {
       log(req);
     } finally {
-      replyGenericError(res);
+      reply(conn, res);
     }
   }
 
-  private void replyGenericError(HttpServletResponse res) throws IOException {
-    if (!res.isCommitted()) {
-      res.reset();
-      res.setStatus(SC_INTERNAL_SERVER_ERROR);
-      res.setHeader(HttpHeaders.CONTENT_TYPE, "text/plain; charset=ISO-8859-1");
-      res.setContentLength(MSG.length);
+  private void reply(AbstractHttpConnection conn, HttpServletResponse res)
+      throws IOException {
+    byte[] msg = message(conn);
+    res.setHeader(HttpHeaders.CONTENT_TYPE, "text/plain; charset=ISO-8859-1");
+    res.setContentLength(msg.length);
+    try {
+      CacheHeaders.setNotCacheable(res);
+    } finally {
+      ServletOutputStream out = res.getOutputStream();
       try {
-        CacheHeaders.setNotCacheable(res);
+        out.write(msg);
       } finally {
-        ServletOutputStream out = res.getOutputStream();
-        try {
-          out.write(MSG);
-        } finally {
-          out.close();
-        }
+        out.close();
       }
     }
+  }
+
+  private static byte[] message(AbstractHttpConnection conn) {
+    String msg = conn.getResponse().getReason();
+    if (msg == null)
+      msg = HttpStatus.getMessage(conn.getResponse().getStatus());
+    return msg.getBytes(Charsets.ISO_8859_1);
   }
 
   private static void log(HttpServletRequest req) {

@@ -239,6 +239,107 @@ public class MyInitStep implements InitStep {
 }
 ====
 
+[[ui_extension]]
+UI Extension
+~~~~~~~~~~~~
+
+Plugins can contribute their own UI commands on core Gerrit pages.
+This is useful for workflow customization or exposing plugin functionality
+through the UI in addition to SSH commands and the REST API.
+
+For instance a plugin to integrate Jira with Gerrit changes may
+contribute its own "File bug" button to allow filing a bug from the change
+page or plugins to integrate continuous integration systems may
+contribute a "Schedule" button to allow a CI build to be scheduled manually from
+the patch set panel.
+
+Three different places on core Gerrit pages are supported:
+
+* Current patch set action panel
+* Patch set action panel
+* Project info screen.
+
+Plugins contribute UI commands by implementing the `UiCommand` interface:
+
+====
+class HelloCommand implements UiCommand<RevisionResource>,
+    RestModifyView<RevisionResource, HelloCommand.Input> {
+  static final Logger log = LoggerFactory.getLogger(HelloCommand.class);
+
+  static class Input {
+  }
+
+  private Provider<CurrentUser> cu;
+
+  @Inject
+  HelloCommand(Provider<CurrentUser> cu) {
+    this.cu = cu;
+  }
+
+  @Override
+  public EnumSet<Place> getPlaces() {
+    return EnumSet.of(UiCommand.Place.CURRENT_PATCHSET_ACTION_PANEL);
+  }
+
+  @Override
+  public boolean isVisible(RevisionResource rev) {
+    return cu.get().getUserName() != null;
+  }
+
+  @Override
+  public boolean isEnabled(RevisionResource rev) {
+    return isActive(rev);
+  }
+
+  @Override
+  public String getLabel(RevisionResource rev) {
+    return "Hello";
+  }
+
+  @Override
+  public String getConfirmationMessage(RevisionResource rev) {
+    return "Are you sure you want to say hello?";
+  }
+
+  @Override
+  public String getTitle(RevisionResource rev) {
+    return isActive(rev)
+        ? "Say Hello to odd patch number"
+        : "No Hello to even patch number, try an odd one";
+  }
+
+  private static boolean isActive(RevisionResource rev) {
+    return rev.getPatchSet().getPatchSetId() % 2 == 1;
+  }
+
+  @Override
+  public Result apply(RevisionResource rev, Input input) {
+    String msg = String.format(
+        "Hello %s, greetings from the core gerrit page (for the patch set %d)",
+        cu.get().getUserName(), rev.getPatchSet().getPatchSetId());
+    log.info(msg);
+    Result result = new Result();
+    result.message = msg;
+    result.action = Result.Action.NONE;
+    return result;
+  }
+}
+====
+
+The `apply` method returns an instance of a `UiCommand.Result`. `Result.action`
+specifies which action is taken after command triggering:
+
+`Action.NONE`::
+  `Action.message` is shown, if it has non empty value
+
+`Action.RELOAD`::
+  reload current screen
+
+`Action.REDIRECT`::
+  redirect to another URL: `Result.location` attribute must be set with the
+  screen. Currently only Gerrit screens are supported, for example
+  "/admin/projects".
+
 [[classpath]]
 Classpath
 ---------

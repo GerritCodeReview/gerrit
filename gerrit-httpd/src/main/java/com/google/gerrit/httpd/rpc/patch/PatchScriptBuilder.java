@@ -346,7 +346,7 @@ class PatchScriptBuilder {
     }
 
     final Edit last = edits.get(edits.size() - 1);
-    return last.getBeginB() + (a - last.getEndA());
+    return last.getEndB() + (a - last.getEndA());
   }
 
   private int mapB2A(final int b) {
@@ -372,7 +372,7 @@ class PatchScriptBuilder {
     }
 
     final Edit last = edits.get(edits.size() - 1);
-    return last.getBeginA() + (b - last.getEndB());
+    return last.getEndA() + (b - last.getEndB());
   }
 
   private void packContent(boolean ignoredWhitespace) {

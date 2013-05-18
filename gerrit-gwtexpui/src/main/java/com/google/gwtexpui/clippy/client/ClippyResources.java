@@ -16,10 +16,16 @@ package com.google.gwtexpui.clippy.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.DataResource;
+import com.google.gwt.resources.client.DataResource.DoNotEmbed;
 
 public interface ClippyResources extends ClientBundle {
   public static final ClippyResources I = GWT.create(ClippyResources.class);
 
   @Source("clippy.css")
   ClippyCss css();
+
+  @Source("clippy.swf")
+  @DoNotEmbed
+  DataResource swf();
 }

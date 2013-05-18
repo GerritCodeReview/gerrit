@@ -74,7 +74,6 @@ def gerrit_war(name, ui = 'ui_optdbg', context = []):
     context = [
       '//gerrit-main:main_bin.jar',
       '//gerrit-war:webapp_assets.zip',
-      '//gerrit-gwtexpui:clippy_swf.zip',
       '//gerrit-gwtui:' + ui + '.zip',
     ] + context,
   )

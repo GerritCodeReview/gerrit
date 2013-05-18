@@ -1,0 +1,29 @@
+VERSION = '3.12'
+SHA1 = 'bddad737c850bd492e73a34e6bd5d9ae46f421a1'
+URL = 'http://codemirror.net/codemirror-%s.zip' % VERSION
+
+genrule(
+  name = 'codemirror',
+  cmd = 'cd $TMP;' +
+    'unzip $SRCS;' +
+    ('mv codemirror-%s codemirror;' % VERSION) +
+    'zip -r $OUT codemirror/lib',
+  srcs = [genfile('dist.zip')],
+  deps = [
+    ':download',
+    '//lib:LICENSE-codemirror',
+  ],
+  out = 'codemirror.zip',
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'download',
+  cmd = '${//tools:download_jar}' +
+    ' -o $OUT' +
+    ' -u ' + URL +
+    ' -v ' + SHA1,
+  srcs = [],
+  deps = ['//tools:download_jar'],
+  out = 'dist.zip',
+)

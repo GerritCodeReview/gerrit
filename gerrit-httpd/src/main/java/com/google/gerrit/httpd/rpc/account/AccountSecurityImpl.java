@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -217,12 +218,17 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ContactInformation info, final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException, Failure {
-        final Account me = db.accounts().get(user.get().getAccountId());
+        IdentifiedUser self = user.get();
+        final Account me = db.accounts().get(self.getAccountId());
         final String oldEmail = me.getPreferredEmail();
         if (realm.allowsEdit(Account.FieldName.FULL_NAME)) {
-          me.setFullName(name != null && !name.isEmpty() ? name : null);
+          me.setFullName(Strings.emptyToNull(name));
         }
-        me.setPreferredEmail(emailAddr);
+        if (!Strings.isNullOrEmpty(emailAddr)
+            && !self.getEmailAddresses().contains(emailAddr)) {
+          throw new Failure(new PermissionDeniedException("Email address must be verified"));
+        }
+        me.setPreferredEmail(Strings.emptyToNull(emailAddr));
         if (useContactInfo) {
           if (ContactInformation.hasAddress(info)
               || (me.isContactFiled() && ContactInformation.hasData(info))) {

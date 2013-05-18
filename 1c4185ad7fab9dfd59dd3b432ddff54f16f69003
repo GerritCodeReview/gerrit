@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uy3cJkDw",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-18T02:14:20Z",
+      "side": 1,
+      "message": "I would prefer to put the 2.8 release notes in a separate commit.\n\nI already started working on it but didn\u0027t upload yet.",
+      "revId": "1c4185ad7fab9dfd59dd3b432ddff54f16f69003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+Release notes for Gerrit 2.5.4
+==============================
+
+Gerrit 2.5.4 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.4.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.4.war]
+
+There are no schema changes from any of the 2.5.x versions.
+
+However, if upgrading from a version older than 2.5, follow the upgrade
+procedure in the 2.5 link:ReleaseNotes-2.5.html[Release Notes].
+
+Bug Fixes
+---------
+* Require preferred email to be verified
++
+Some users were able to select a preferred email address that was
+not previously verified. This may have allowed the server to send
+notifications to an invalid destination, resulting in higher than
+usual bounce rates.
+
+No other changes since 2.5.3.

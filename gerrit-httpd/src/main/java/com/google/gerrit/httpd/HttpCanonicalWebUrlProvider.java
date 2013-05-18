@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -26,7 +25,7 @@ import org.eclipse.jgit.lib.Config;
 
 import javax.servlet.http.HttpServletRequest;
 
-/** Sets {@link CanonicalWebUrl} to current HTTP request if not configured. */
+/** Sets {@code CanonicalWebUrl} to current HTTP request if not configured. */
 public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
   private Provider<HttpServletRequest> requestProvider;
 
@@ -65,13 +64,7 @@ public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
           throw noWeb;
         }
       }
-
-      final StringBuffer url = req.getRequestURL();
-      url.setLength(url.length() - req.getServletPath().length());
-      if (url.charAt(url.length() - 1) != '/') {
-        url.append('/');
-      }
-      return url.toString();
+      return CanonicalWebUrl.computeFromRequest(req);
     }
 
     // We have no way of guessing our HTTP url.

@@ -366,7 +366,7 @@ public abstract class PatchScreen extends Screen implements
     lastScript = null;
     settingsPanel.setEnabled(false);
     reviewedPanels.populate(patchKey, fileList, patchIndex, getPatchScreenType());
-    if (isFirst && fileList != null) {
+    if (isFirst && fileList != null && fileList.isLoaded()) {
       fileList.movePointerTo(patchKey);
     }
 

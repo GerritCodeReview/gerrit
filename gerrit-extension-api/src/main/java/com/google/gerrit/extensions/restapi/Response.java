@@ -19,6 +19,10 @@ public abstract class Response<T> {
   @SuppressWarnings({"rawtypes"})
   private static final Response NONE = new None();
 
+  public enum CacheControl {
+    NONE, PUBLIC, PRIVATE;
+  }
+
   /** HTTP 200 OK: pointless wrapper for type safety. */
   public static <T> Response<T> ok(T value) {
     return new Impl<T>(200, value);
@@ -50,11 +54,14 @@ public abstract class Response<T> {
 
   public abstract int statusCode();
   public abstract T value();
+  public abstract CacheControl caching();
+  public abstract Response<T> caching(CacheControl c);
   public abstract String toString();
 
   private static final class Impl<T> extends Response<T> {
     private final int statusCode;
     private final T value;
+    private CacheControl caching = CacheControl.NONE;
 
     private Impl(int sc, T val) {
       statusCode = sc;
@@ -69,6 +76,17 @@ public abstract class Response<T> {
     @Override
     public T value() {
       return value;
+    }
+
+    @Override
+    public CacheControl caching() {
+      return caching;
+    }
+
+    @Override
+    public Response<T> caching(CacheControl c) {
+      caching = c;
+      return this;
     }
 
     @Override
@@ -87,6 +105,16 @@ public abstract class Response<T> {
     }
 
     public Object value() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CacheControl caching() {
+      return CacheControl.NONE;
+    }
+
+    @Override
+    public Response<Object> caching(CacheControl c) {
       throw new UnsupportedOperationException();
     }
 

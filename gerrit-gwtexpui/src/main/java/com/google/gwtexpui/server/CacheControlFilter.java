@@ -72,17 +72,14 @@ public class CacheControlFilter implements Filter {
 
   private static boolean cacheForever(final String pathInfo,
       final HttpServletRequest req) {
-    if (pathInfo.endsWith(".cache.html")) {
-      return true;
-    } else if (pathInfo.endsWith(".cache.gif")) {
-      return true;
-    } else if (pathInfo.endsWith(".cache.png")) {
-      return true;
-    } else if (pathInfo.endsWith(".cache.css")) {
-      return true;
-    } else if (pathInfo.endsWith(".cache.jar")) {
-      return true;
-    } else if (pathInfo.endsWith(".cache.swf")) {
+    if (pathInfo.endsWith(".cache.html")
+        || pathInfo.endsWith(".cache.gif")
+        || pathInfo.endsWith(".cache.png")
+        || pathInfo.endsWith(".cache.css")
+        || pathInfo.endsWith(".cache.jar")
+        || pathInfo.endsWith(".cache.swf")
+        || pathInfo.endsWith(".cache.txt")
+        || pathInfo.endsWith(".cache.js")) {
       return true;
     } else if (pathInfo.endsWith(".nocache.js")) {
       final String v = req.getParameter("content");

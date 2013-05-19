@@ -16,6 +16,41 @@
       "revId": "a9efefd4c4d6c1e687c1eede0f0e53aa0d8474b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UzFY0VOA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-19T16:07:24Z",
+      "side": 1,
+      "message": "The Lists class is not available on the client for us :-/",
+      "parentUuid": "S8JJLXDk",
+      "revId": "a9efefd4c4d6c1e687c1eede0f0e53aa0d8474b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1A78i-I",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-19T16:07:24Z",
+      "side": 1,
+      "message": "Here, we\u0027d be using the labels unsorted.\n\nSo, this patch sets only sorts the header columns, but not the actual votes.",
+      "revId": "a9efefd4c4d6c1e687c1eede0f0e53aa0d8474b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

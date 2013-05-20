@@ -83,7 +83,8 @@ public class GarbageCollect implements RestModifyView<ProjectResource, Input> {
           writer.flush();
         }
       }
-    }.setContentType("text/plain; charset=UTF-8")
+    }.setContentType("text/plain")
+     .setCharacterEncoding(Charsets.UTF_8.name())
      .disableGzip();
   }
 }

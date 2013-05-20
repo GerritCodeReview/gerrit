@@ -64,7 +64,8 @@ public class GetContent implements RestReadView<FileResource> {
             public void writeTo(OutputStream os) throws IOException {
               object.copyTo(os);
             }
-          }.setContentLength(object.getSize()).base64();
+          }.setContentLength(object.getSize())
+           .base64();
         } finally {
           tw.release();
         }

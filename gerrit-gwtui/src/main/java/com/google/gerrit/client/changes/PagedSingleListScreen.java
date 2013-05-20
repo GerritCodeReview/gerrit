@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
@@ -23,6 +24,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 public abstract class PagedSingleListScreen extends Screen {
@@ -35,6 +37,7 @@ public abstract class PagedSingleListScreen extends Screen {
   protected Hyperlink prev;
   protected Hyperlink next;
   protected ChangeList changes;
+  private CopyableLabel copySearchResult;
 
   protected final String anchorPrefix;
   protected boolean useLoadPrev;
@@ -88,6 +91,12 @@ public abstract class PagedSingleListScreen extends Screen {
     section = new ChangeTable2.Section();
     table.addSection(section);
     table.setSavePointerId(anchorPrefix);
+
+    HorizontalPanel copySearchResultPanel = new HorizontalPanel();
+    copySearchResultPanel.add(new Label(Util.C.pagedCopySearchResults()));
+    copySearchResultPanel.add(copySearchResult = new CopyableLabel("", false));
+    setTitleFarEast(copySearchResultPanel);
+
     add(table);
 
     final HorizontalPanel buttons = new HorizontalPanel();
@@ -145,7 +154,16 @@ public abstract class PagedSingleListScreen extends Screen {
     }
     table.updateColumnsForLabels(result);
     section.display(result);
+    updateCopySearchResult();
     table.finishDisplay();
+  }
+
+  protected void updateCopySearchResult() {
+    String links = "";
+    for(int i = 0; i < changes.size(); i++){
+      links += ChangeLink.permalink(changes.get(i).legacy_id()) + "\n";
+    }
+    copySearchResult.setText(links);
   }
 
   private static final class DoLinkCommand extends KeyCommand {

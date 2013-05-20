@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UzPaYAME",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-20T04:01:12Z",
+      "side": 1,
+      "message": "As a non-admin user I am not able to set the account\u0027s own name.",
+      "revId": "1ce6f821a6a7be8ccd52cd99ef0c04ec4cbc5a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UyzejmOw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-20T04:01:12Z",
+      "side": 1,
+      "message": "Should this check be moved before the check at lines 58-61?",
+      "revId": "1ce6f821a6a7be8ccd52cd99ef0c04ec4cbc5a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

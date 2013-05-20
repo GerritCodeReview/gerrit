@@ -42,10 +42,10 @@ Testing
 Running the Daemon
 ~~~~~~~~~~~~~~~~~~
 
-Duplicate the existing `pgm_daemon` launch configuration:
+Duplicate the existing launch configuration:
 
 * Run -> Debug Configurations ...
-* Java Application -> `pgm_daemon`
+* Java Application -> `pgm_daemon` (for Maven) or `buck_daemon_ui_*` (for Buck)
 * Right click, Duplicate
 
 * Modify the name to be unique.
@@ -60,7 +60,6 @@ Duplicate the existing `pgm_daemon` launch configuration:
 * Close the Debug Configurations dialog and save the changes when prompted.
 
 
-[[hosted-mode]]
 Running Hosted Mode
 ~~~~~~~~~~~~~~~~~~~
 
@@ -73,10 +72,10 @@ repositories need to be cloned.
 In Eclipse, import the pom.xml file in the root directory of each of
 these cloned gits via General -> Maven Projects.
 
-Duplicate the existing `gwtui_dbg` launch configuration:
+Duplicate the existing launch configuration:
 
 * Run -> Debug Configurations ...
-* Java Application -> `gwtui_dbg`
+* Java Application -> `gwtui_dbg` (for Maven) or `buck_gwt_debug` (for Buck)
 * Right click, Duplicate
 
 * Modify the name to be unique.

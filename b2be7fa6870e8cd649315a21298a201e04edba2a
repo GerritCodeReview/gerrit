@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UyxfOVK4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-20T18:28:50Z",
+      "side": 1,
+      "message": "document that skip needs to be handled",
+      "revId": "b2be7fa6870e8cd649315a21298a201e04edba2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

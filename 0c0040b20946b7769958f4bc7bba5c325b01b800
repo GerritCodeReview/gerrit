@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uy7eOiHk",
+        "filename": ".pydevproject",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-20T02:33:08Z",
+      "side": 1,
+      "message": "Oops. I was just preparing a new patch set to remove this unwanted change.",
+      "revId": "0c0040b20946b7769958f4bc7bba5c325b01b800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

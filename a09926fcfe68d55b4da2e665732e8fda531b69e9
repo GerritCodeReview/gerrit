@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UzPa9oPM",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-20T18:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uy1eB7Dk",
+      "revId": "a09926fcfe68d55b4da2e665732e8fda531b69e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UzBbOXK4",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "Uy3fbUHA",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-20T18:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UzBbOXK4",
+      "revId": "a09926fcfe68d55b4da2e665732e8fda531b69e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uy7fcyG0",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-20T18:17:40Z",
       "side": 1,
       "message": "you should also add a TODO to minify.\n\nAlso you will probably want a theme other than default.",
+      "revId": "a09926fcfe68d55b4da2e665732e8fda531b69e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uy1fYzHE",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-20T18:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Uy7fcyG0",
       "revId": "a09926fcfe68d55b4da2e665732e8fda531b69e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -81,6 +135,24 @@
       "writtenOn": "2013-05-20T18:17:40Z",
       "side": 1,
       "message": "\"download_jar\" name seems inaccurate",
+      "revId": "a09926fcfe68d55b4da2e665732e8fda531b69e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UzJbIrJ8",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-20T18:33:19Z",
+      "side": 1,
+      "message": "Renamed download_file in I643f81fc06d790cebaa0eb677fa232ba0c652053.",
+      "parentUuid": "UzHbbUHA",
       "revId": "a09926fcfe68d55b4da2e665732e8fda531b69e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

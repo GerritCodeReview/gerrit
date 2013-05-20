@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UzJbhzB8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-20T15:52:24Z",
+      "side": 1,
+      "message": "if it is the anonymous user, you could cache it public.",
+      "revId": "3fab79c2009c3d6ba031dbb86964efe98c237cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

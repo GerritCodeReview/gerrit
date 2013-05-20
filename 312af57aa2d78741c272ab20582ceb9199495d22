@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UzJZ6bIM",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-20T10:26:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "U1M4Qw18",
+      "revId": "312af57aa2d78741c272ab20582ceb9199495d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "U028J0Tw",
         "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-20T10:03:36Z",
       "side": 1,
       "message": "s/mvn build package/mvn clean verify\n\nThe acceptance tests are integration tests and are executed in the Maven verify lifecycle phase, which is not included for \u0027mvn clean package\u0027. IIRC in addition there was a Maven profile which had to be enabled and this profile was removed.",
+      "revId": "312af57aa2d78741c272ab20582ceb9199495d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uy1eqjL0",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-20T10:26:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "U028J0Tw",
       "revId": "312af57aa2d78741c272ab20582ceb9199495d22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

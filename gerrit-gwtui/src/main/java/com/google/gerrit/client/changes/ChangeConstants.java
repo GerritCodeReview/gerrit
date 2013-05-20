@@ -188,6 +188,7 @@ public interface ChangeConstants extends Constants {
 
   String pagedChangeListPrev();
   String pagedChangeListNext();
+  String pagedCopySearchResults();
 
   String draftPatchSetLabel();
 

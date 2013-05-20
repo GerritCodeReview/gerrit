@@ -15,7 +15,9 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
@@ -23,6 +25,8 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 public abstract class PagedSingleListScreen extends Screen {
@@ -35,6 +39,7 @@ public abstract class PagedSingleListScreen extends Screen {
   private ChangeTable2.Section section;
   private Hyperlink prev;
   private Hyperlink next;
+  private CopyableLabel copySearchResult;
 
   protected PagedSingleListScreen(String anchorToken, int start) {
     anchorPrefix = anchorToken;
@@ -80,6 +85,14 @@ public abstract class PagedSingleListScreen extends Screen {
     section = new ChangeTable2.Section();
     table.addSection(section);
     table.setSavePointerId(anchorPrefix);
+
+    if (CopyableLabel.isFlashEnabled()) {
+      HorizontalPanel copySearchResultPanel = new HorizontalPanel();
+      copySearchResultPanel.add(new Label(Util.C.pagedCopySearchResults()));
+      copySearchResultPanel.add(copySearchResult = new CopyableLabel("", false));
+      setTitleFarEast(copySearchResultPanel);
+    }
+
     add(table);
 
     final HorizontalPanel buttons = new HorizontalPanel();
@@ -121,7 +134,18 @@ public abstract class PagedSingleListScreen extends Screen {
     }
     table.updateColumnsForLabels(result);
     section.display(result);
+    updateCopySearchResult();
     table.finishDisplay();
+  }
+
+  protected void updateCopySearchResult() {
+    if (copySearchResult != null) {
+      String links = "";
+      for (ChangeInfo i : Natives.asList(changes)) {
+        links += ChangeLink.permalink(i.legacy_id()) + "\n";
+      }
+      copySearchResult.setText(links);
+    }
   }
 
   private static final class DoLinkCommand extends KeyCommand {

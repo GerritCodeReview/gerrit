@@ -5,8 +5,8 @@ python_binary(
 )
 
 python_binary(
-  name = 'download_jar',
-  main = 'download_jar.py',
+  name = 'download_file',
+  main = 'download_file.py',
   visibility = ['PUBLIC'],
 )
 

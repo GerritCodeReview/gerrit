@@ -535,7 +535,7 @@ public class RestApiServlet extends HttpServlet {
       Multimap<String, String> config,
       Object result)
       throws IOException {
-    final TemporaryBuffer.Heap buf = heap(Integer.MAX_VALUE);
+    TemporaryBuffer.Heap buf = heap(Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
     Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
     Gson gson = newGson(config, req);
@@ -546,18 +546,9 @@ public class RestApiServlet extends HttpServlet {
     }
     w.write('\n');
     w.flush();
-
-    replyBinaryResult(req, res, new BinaryResult() {
-      @Override
-      public long getContentLength() {
-        return buf.length();
-      }
-
-      @Override
-      public void writeTo(OutputStream os) throws IOException {
-        buf.writeTo(os, null);
-      }
-    }.setContentType(JSON_TYPE).setCharacterEncoding(UTF_8.name()));
+    replyBinaryResult(req, res, asBinaryResult(buf)
+      .setContentType(JSON_TYPE)
+      .setCharacterEncoding(UTF_8.name()));
   }
 
   private static Gson newGson(Multimap<String, String> config,
@@ -627,68 +618,78 @@ public class RestApiServlet extends HttpServlet {
       @Nullable HttpServletRequest req,
       HttpServletResponse res,
       BinaryResult bin) throws IOException {
+    final BinaryResult appResult = bin;
     try {
+      if (bin.isBase64()) {
+        bin = stackBase64(res, bin);
+      }
+      if (bin.canGzip() && acceptsGzip(req)) {
+        bin = stackGzip(res, bin);
+      }
+
+      res.setContentType(bin.getContentType());
+      long len = bin.getContentLength();
+      if (0 <= len && len < Integer.MAX_VALUE) {
+        res.setContentLength((int) len);
+      } else if (0 <= len) {
+        res.setHeader("Content-Length", Long.toString(len));
+      }
+
       OutputStream dst = res.getOutputStream();
       try {
-        long len = bin.getContentLength();
-        if (bin.isBase64() && 0 <= len && len <= (10 << 20)) {
-          final TemporaryBuffer.Heap buf = base64(bin);
-          len = buf.length();
-          base64(res, bin);
-          bin = new BinaryResult() {
-            @Override
-            public void writeTo(OutputStream os) throws IOException {
-              buf.writeTo(os, null);
-            }
-          }.setContentLength(len);
-        } else if (bin.isBase64()) {
-          len = -1;
-          base64(res, bin);
-          dst = BaseEncoding.base64().encodingStream(
-              new OutputStreamWriter(dst, Charsets.ISO_8859_1));
-        } else {
-          res.setContentType(bin.getContentType());
-        }
-
-        boolean gzip = bin.canGzip() && acceptsGzip(req);
-        if (gzip && 256 <= len && len <= (10 << 20)) {
-          TemporaryBuffer.Heap buf = compress(bin);
-          if (buf.length() < len) {
-            res.setContentLength((int) buf.length());
-            res.setHeader("Content-Encoding", "gzip");
-            buf.writeTo(dst, null);
-          } else {
-            replyUncompressed(res, dst, bin, len);
-          }
-        } else if (gzip) {
-          res.setHeader("Content-Encoding", "gzip");
-          dst = new GZIPOutputStream(dst);
-          bin.writeTo(dst);
-        } else {
-          replyUncompressed(res, dst, bin, len);
-        }
+        bin.writeTo(dst);
       } finally {
         dst.close();
       }
     } finally {
-      bin.close();
+      appResult.close();
     }
   }
 
-  private static void base64(HttpServletResponse res, BinaryResult bin) {
-    res.setContentType("text/plain; charset=ISO-8859-1");
+  private static BinaryResult stackBase64(HttpServletResponse res,
+      final BinaryResult src) throws IOException {
+    BinaryResult b64;
+    long len = src.getContentLength();
+    if (0 <= len && len <= (7 << 20)) {
+      b64 = base64(src);
+    } else {
+      b64 = new BinaryResult() {
+        @Override
+        public void writeTo(OutputStream out) throws IOException {
+          OutputStream e = BaseEncoding.base64().encodingStream(
+              new OutputStreamWriter(out, Charsets.ISO_8859_1));
+          src.writeTo(e);
+          e.flush();
+        }
+      };
+    }
     res.setHeader("X-FYI-Content-Encoding", "base64");
-    res.setHeader("X-FYI-Content-Type", bin.getContentType());
+    res.setHeader("X-FYI-Content-Type", src.getContentType());
+    return b64.setContentType("text/plain").setCharacterEncoding("ISO-8859-1");
   }
 
-  private static void replyUncompressed(HttpServletResponse res,
-      OutputStream dst, BinaryResult bin, long len) throws IOException {
-    if (0 <= len && len < Integer.MAX_VALUE) {
-      res.setContentLength((int) len);
-    } else if (0 <= len) {
-      res.setHeader("Content-Length", Long.toString(len));
+  private static BinaryResult stackGzip(HttpServletResponse res,
+      final BinaryResult src) throws IOException {
+    BinaryResult gz;
+    long len = src.getContentLength();
+    if (256 <= len && len <= (10 << 20)) {
+      gz = compress(src);
+      if (len <= gz.getContentLength()) {
+        return src;
+      }
+    } else {
+      gz = new BinaryResult() {
+        @Override
+        public void writeTo(OutputStream out) throws IOException {
+          GZIPOutputStream gz = new GZIPOutputStream(out);
+          src.writeTo(gz);
+          gz.finish();
+          gz.flush();
+        }
+      };
     }
-    bin.writeTo(dst);
+    res.setHeader("Content-Encoding", "gzip");
+    return gz.setContentType(src.getContentType());
   }
 
   private RestView<RestResource> view(
@@ -867,26 +868,33 @@ public class RestApiServlet extends HttpServlet {
     return false;
   }
 
-  private static TemporaryBuffer.Heap base64(BinaryResult bin)
+  private static BinaryResult base64(BinaryResult bin)
       throws IOException {
-    int len = (int) bin.getContentLength();
-    int max = 4 * IntMath.divide(len, 3, CEILING);
+    int max = 4 * IntMath.divide((int) bin.getContentLength(), 3, CEILING);
     TemporaryBuffer.Heap buf = heap(max);
     OutputStream encoded = BaseEncoding.base64().encodingStream(
         new OutputStreamWriter(buf, Charsets.ISO_8859_1));
     bin.writeTo(encoded);
     encoded.close();
-    return buf;
+    return asBinaryResult(buf);
   }
 
-  private static TemporaryBuffer.Heap compress(BinaryResult bin)
+  private static BinaryResult compress(BinaryResult bin)
       throws IOException {
     TemporaryBuffer.Heap buf = heap(20 << 20);
     GZIPOutputStream gz = new GZIPOutputStream(buf);
     bin.writeTo(gz);
-    gz.finish();
-    gz.flush();
-    return buf;
+    gz.close();
+    return asBinaryResult(buf).setContentType(bin.getContentType());
+  }
+
+  private static BinaryResult asBinaryResult(final TemporaryBuffer.Heap buf) {
+    return new BinaryResult() {
+      @Override
+      public void writeTo(OutputStream os) throws IOException {
+        buf.writeTo(os, null);
+      }
+    }.setContentLength(buf.length());
   }
 
   private static Heap heap(int max) {

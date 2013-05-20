@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UzPZZIEQ",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-20T02:25:11Z",
+      "side": 1,
+      "message": "Need to put `+` at the beginning of blank lines between the paragraphs, otherwise asciidoc doesn\u0027t treat the paragraphs as belonging to the bullet list entry.\n\nI\u0027ll upload a new patch set; this needs to be rebased on top of the other doc changes anyway.",
+      "revId": "a66bc383a336cf8726b27ab41028905265a85591",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

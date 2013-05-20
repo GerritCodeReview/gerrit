@@ -4,24 +4,16 @@ gwt_module(
   name = 'Clippy',
   srcs = glob([SRC + 'clippy/client/*.java']),
   gwtxml = SRC + 'clippy/Clippy.gwt.xml',
-  resources = [SRC + 'clippy/client/clippy.css'],
+  resources = [
+    SRC + 'clippy/client/clippy.css',
+    SRC + 'clippy/client/clippy.swf',
+  ],
   deps = [
     ':SafeHtml',
     ':UserAgent',
     '//lib/gwt:user',
     '//lib:LICENSE-clippy',
   ],
-  visibility = ['PUBLIC'],
-)
-
-genrule(
-  name = 'clippy_swf',
-  cmd = 'mkdir $TMP/gerrit_ui;' +
-    'cp $SRCS $TMP/gerrit_ui;' +
-    'cd $TMP;' +
-    'zip -qr $OUT gerrit_ui',
-  srcs = [SRC + 'clippy/public/gwtexpui_clippy1.cache.swf'],
-  out = 'clippy_swf.zip',
   visibility = ['PUBLIC'],
 )
 

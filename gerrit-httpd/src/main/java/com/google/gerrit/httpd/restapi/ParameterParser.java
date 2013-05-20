@@ -33,6 +33,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -79,6 +80,7 @@ class ParameterParser {
       msg.write('\n');
       clp.printUsage(msg, null);
       msg.write('\n');
+      CacheHeaders.setNotCacheable(res);
       replyBinaryResult(req, res,
           BinaryResult.create(msg.toString()).setContentType("text/plain"));
       return false;

@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Account;
@@ -149,7 +150,7 @@ public class GetDiff implements RestReadView<FileResource> {
       result.diffHeader = ps.getPatchHeader();
     }
     result.content = content.lines;
-    return result;
+    return Response.ok(result).caching(Response.CacheControl.PRIVATE);
   }
 
   static class Result {

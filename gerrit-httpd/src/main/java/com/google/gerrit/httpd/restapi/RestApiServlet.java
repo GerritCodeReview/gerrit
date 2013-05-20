@@ -112,6 +112,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
@@ -184,7 +185,6 @@ public class RestApiServlet extends HttpServlet {
   protected final void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
     long auditStartTs = System.currentTimeMillis();
-    CacheHeaders.setNotCacheable(res);
     res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
     int status = SC_OK;
@@ -302,9 +302,13 @@ public class RestApiServlet extends HttpServlet {
         @SuppressWarnings("rawtypes")
         Response r = (Response) result;
         status = r.statusCode();
+        configureCaching(req, res, r);
       } else if (result instanceof Response.Redirect) {
+        CacheHeaders.setNotCacheable(res);
         res.sendRedirect(((Response.Redirect) result).location());
         return;
+      } else {
+        CacheHeaders.setNotCacheable(res);
       }
       res.setStatus(status);
 
@@ -346,6 +350,26 @@ public class RestApiServlet extends HttpServlet {
           .getSessionId(), globals.currentUser.get(), req.getRequestURI(),
           auditStartTs, params, req.getMethod(), inputRequestBody, status,
           result));
+    }
+  }
+
+  private static <T> void configureCaching(HttpServletRequest req,
+      HttpServletResponse res, Response<T> r) {
+    if ("GET".equals(req.getMethod())) {
+      switch (r.caching()) {
+        case NONE:
+        default:
+          CacheHeaders.setNotCacheable(res);
+          break;
+        case PRIVATE:
+          CacheHeaders.setCacheablePrivate(res, 7, TimeUnit.DAYS);
+          break;
+        case PUBLIC:
+          CacheHeaders.setCacheable(req, res, 7, TimeUnit.DAYS);
+          break;
+      }
+    } else {
+      CacheHeaders.setNotCacheable(res);
     }
   }
 
@@ -818,6 +842,7 @@ public class RestApiServlet extends HttpServlet {
   static void replyError(HttpServletResponse res, int statusCode, String msg)
       throws IOException {
     res.setStatus(statusCode);
+    CacheHeaders.setNotCacheable(res);
     replyText(null, res, msg);
   }
 

@@ -16,6 +16,24 @@
       "revId": "76e794e39baa3cfd62cb4387b0a5f94b11c9acd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1C4tB5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-20T18:56:13Z",
+      "side": 1,
+      "message": "Naturally I fully agree that this is not really deadly crucial. But\nexposing haves that should not be visible to the user seems like\ngiving away more information than we should.\n\nAs we cannot anticipate how a user might exploit such information, I\u0027d\nmuch rather do a database query than expose information that the user\nshould not see.",
+      "parentUuid": "Uy9f5fAc",
+      "revId": "76e794e39baa3cfd62cb4387b0a5f94b11c9acd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

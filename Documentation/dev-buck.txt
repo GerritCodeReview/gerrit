@@ -90,6 +90,7 @@ show documentation or dive into the implementation of a library JAR:
 ----
 
 
+[[build]]
 Building on the Command Line
 ----------------------------
 

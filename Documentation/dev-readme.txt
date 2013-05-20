@@ -21,6 +21,17 @@ the core plugins, which are included as git submodules, are also
 cloned.
 
 
+Compiling
+---------
+
+For details on how to build the source code with Maven or Buck,
+refer to:
+
+1. link:dev-maven.html#build[Building on the command line with Maven]
+
+2. link:dev-buck.html#build[Building on the command line with Buck]
+
+
 Configuring Eclipse
 -------------------
 

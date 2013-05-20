@@ -8,7 +8,7 @@
   release = //:release
 
 [buildfile]
-  includes = //lib/DEFS
+  includes = //tools/DEFS
 
 [java]
   src_roots = java, resources

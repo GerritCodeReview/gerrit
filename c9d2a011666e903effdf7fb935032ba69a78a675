@@ -16,6 +16,24 @@
       "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1M5HI2I",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-20T18:44:27Z",
+      "side": 1,
+      "message": "\u003e [...] or make drafts useless.\n\nWell ... as of now drafts already are useless, as they can be pulled\ndirectly by users that do not have access to them. That\u0027s\ncounter-intuitive and the site-admins can do nothing about it.\n\nIf this change does anything, then it is making drafts use/ful/.\n\n\u003e This is going to either render performance unacceptable in some cases\n\nLet\u0027s have some numbers.\nOn my machine calling allRefsAreVisibleExcept 100000 times amounts for\n\n* ~88ms when checking only for READ.\n* ~80ms when checking only for READ and VIEW_DRAFTS.\n\nThe fact that checking for more conditions is faster than checking for\nless conditions shows that other causes have by far more influence.\n\nGiven that those numbers are for 100000 function calls, and we\ntypically have 1, or 2 per request clearly shows that the performance\nloss you hint at, cannot stem from the function itself getting too\nslow.\n\nSo, as allRefsAreVisibleExcept gets also used where we check whether or\nnot a short-cut through logic is allowed, I assume you hint towards the\nassociated performance loss from no longer being able to take the\ndraft-exposing short cuts.\n\nUsers still can use the draft-exposing short-cuts, if the site admin\ndecides to grant them VIEW_DRAFTS.\n\n\nSo up to now, it was \"There is no way to keep drafts hidden, but we\nprovide unconditional short-cuts through code logic\". This change\nturns that statement into \"You may choose on a per group basis between\nwhether\n\n* users are priviledged enough to see drafts and therefore are allowed some short-cuts through code, or\n* users should be kept well isolated from other\u0027s drafts and therefore cannot take the draft-exposing short-cuts\".\n\n\u003e I guess killing two features in favor of making drafts work\n\u003e correctly on tiny repositories is worth it?\n\nWhich two features get killed by this change?\nAnd why do you limit to tiny repositories?",
+      "parentUuid": "Uy-f0gA8",
+      "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

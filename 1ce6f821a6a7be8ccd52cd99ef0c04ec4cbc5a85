@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "U1I4Wu1k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-20T10:00:38Z",
+      "side": 1,
+      "message": "Strange, I thought I had tried this...\n\nDone.",
+      "parentUuid": "UzNadBK8",
+      "revId": "1ce6f821a6a7be8ccd52cd99ef0c04ec4cbc5a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UyzejmOw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
         "patchSetId": 5
@@ -48,6 +66,24 @@
       "writtenOn": "2013-05-20T04:01:12Z",
       "side": 1,
       "message": "Should this check be moved before the check at lines 58-61?",
+      "revId": "1ce6f821a6a7be8ccd52cd99ef0c04ec4cbc5a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U08-53Qc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-20T10:00:38Z",
+      "side": 1,
+      "message": "I would keep the loading from the database and writing back to the database as close together as possible to keep possibilities for race conditions minimal. Anyway it\u0027s unlikely that the account does not exist in the database after it was found in the cache.",
+      "parentUuid": "UyzejmOw",
       "revId": "1ce6f821a6a7be8ccd52cd99ef0c04ec4cbc5a85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

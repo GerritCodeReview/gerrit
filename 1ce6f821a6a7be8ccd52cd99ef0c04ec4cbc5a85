@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UzNadBK8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-20T04:59:20Z",
+      "side": 1,
+      "message": "The problem seems to be with the comparison of self.get() and rsrc.getUser() being equal.\n\nIf I change it to this, it works as expected:\n\n  IdentifiedUser s \u003d (IdentifiedUser)(self.get());\n  if (s.getAccountId().get() !\u003d rsrc.getUser().getAccountId().get()) {\n    if (!self.get().getCapabilities().canAdministrateServer()) {\n      throw new AuthException(\"not allowed to change name\");\n    }\n  }",
+      "parentUuid": "UzPaYAME",
+      "revId": "1ce6f821a6a7be8ccd52cd99ef0c04ec4cbc5a85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UyzejmOw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
         "patchSetId": 5

@@ -52,6 +52,24 @@
       "revId": "5b746399b0a46a7e660f586974900343f9997959",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uy1c.DJM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-21T09:28:18Z",
+      "side": 1,
+      "message": "Confirmed - it also happens with \u0027merge if necessary\u0027",
+      "parentUuid": "U1M5eAyo",
+      "revId": "5b746399b0a46a7e660f586974900343f9997959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

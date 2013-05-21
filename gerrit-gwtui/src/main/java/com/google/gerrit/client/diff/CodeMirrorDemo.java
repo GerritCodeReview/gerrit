@@ -19,11 +19,10 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -38,6 +37,7 @@ public class CodeMirrorDemo extends Screen {
   private final String path;
 
   private FlowPanel editorContainer;
+  private DiffTable diffTable;
   private CodeMirror cmA;
   private CodeMirror cmB;
   private HandlerRegistration resizeHandler;
@@ -90,8 +90,12 @@ public class CodeMirrorDemo extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
-    cmA.refresh();
-    cmB.refresh();
+    if (cmA != null) {
+      cmA.refresh();
+    }
+    if (cmB != null) {
+      cmB.refresh();
+    }
   }
 
   @Override
@@ -112,8 +116,10 @@ public class CodeMirrorDemo extends Screen {
   }
 
   private void display(DiffInfo diff) {
-    cmA = displaySide(diff.meta_a(), diff.text_a());
-    cmB = displaySide(diff.meta_b(), diff.text_b());
+    diffTable = new DiffTable();
+    cmA = displaySide(diff.meta_a(), diff.text_a(),diffTable.getCmA());
+    cmB = displaySide(diff.meta_b(), diff.text_b(),diffTable.getCmB());
+    editorContainer.getElement().appendChild(diffTable.getElement());
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
@@ -129,7 +135,8 @@ public class CodeMirrorDemo extends Screen {
     });
   }
 
-  private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents) {
+  private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents,
+      DivElement ele) {
     if (meta == null) {
       return null; // TODO: Handle empty contents
     }
@@ -139,9 +146,7 @@ public class CodeMirrorDemo extends Screen {
       .set("tabSize", 2)
       .set("mode", getContentType(meta))
       .set("value", contents);
-    Element child = DOM.createDiv();
-    editorContainer.getElement().appendChild(child);
-    final CodeMirror cm = CodeMirror.create(child, cfg);
+    final CodeMirror cm = CodeMirror.create(ele, cfg);
     cm.setWidth("100%");
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
     return cm;

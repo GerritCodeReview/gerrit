@@ -25,7 +25,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,14 +35,12 @@ public class RebaseIfNecessary extends SubmitStrategy {
 
   private final RebaseChange rebaseChange;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
-  private final PersonIdent committerIdent;
 
   RebaseIfNecessary(final SubmitStrategy.Arguments args,
-      final RebaseChange rebaseChange, PersonIdent committerIdent) {
+      final RebaseChange rebaseChange) {
     super(args);
     this.rebaseChange = rebaseChange;
     this.newCommits = new HashMap<Change.Id, CodeReviewCommit>();
-    this.committerIdent = committerIdent;
   }
 
   @Override
@@ -80,7 +77,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
                     n.patchsetId, n.change,
                     args.mergeUtil.getSubmitter(n.patchsetId).getAccountId(),
-                    newMergeTip, args.mergeUtil, committerIdent);
+                    newMergeTip, args.mergeUtil);
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));

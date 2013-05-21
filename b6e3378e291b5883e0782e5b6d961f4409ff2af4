@@ -16,6 +16,24 @@
       "revId": "b6e3378e291b5883e0782e5b6d961f4409ff2af4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1I5k.-U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-21T09:22:59Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "Uyzc3GLo",
+      "revId": "b6e3378e291b5883e0782e5b6d961f4409ff2af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

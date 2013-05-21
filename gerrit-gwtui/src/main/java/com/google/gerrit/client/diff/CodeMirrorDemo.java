@@ -19,15 +19,20 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.ModeInjector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CodeMirrorDemo extends Screen {
   private static final int HEADER_FOOTER = 60 + 15 * 2 + 38;
@@ -36,8 +41,9 @@ public class CodeMirrorDemo extends Screen {
   private final String path;
 
   private FlowPanel editorContainer;
-  private CodeMirror cm;
-  private HandlerRegistration resizeHandler;
+  private CodeMirror cmA;
+  private CodeMirror cmB;
+  private final List<HandlerRegistration> handlerList;
 
   public CodeMirrorDemo(
       PatchSet.Id base,
@@ -46,6 +52,7 @@ public class CodeMirrorDemo extends Screen {
     this.base = base;
     this.revision = revision;
     this.path = path;
+    this.handlerList = new ArrayList<HandlerRegistration>();
   }
 
   @Override
@@ -87,41 +94,55 @@ public class CodeMirrorDemo extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
-    cm.refresh();
+    cmA.refresh();
+    cmB.refresh();
   }
 
   @Override
   protected void onUnload() {
     super.onUnload();
-
-    if (resizeHandler != null) {
-      resizeHandler.removeHandler();
-      resizeHandler = null;
+    for (HandlerRegistration h: handlerList) {
+      h.removeHandler();
     }
-    if (cm != null) {
-      cm.getWrapperElement().removeFromParent();
-      cm = null;
+    handlerList.clear();
+    if (cmA != null) {
+      cmA.getWrapperElement().removeFromParent();
+      cmA = null;
+    }
+    if (cmB != null) {
+      cmB.getWrapperElement().removeFromParent();
+      cmB = null;
     }
   }
 
   private void display(DiffInfo diff) {
+    cmA = displaySide(diff.meta_a(), diff.text_a());
+    cmB = displaySide(diff.meta_b(), diff.text_b());
+  }
+
+  private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents) {
+    if (meta == null) {
+      return null; // TODO: Handle empty contents
+    }
     Configuration cfg = Configuration.create()
       .set("readOnly", true)
       .set("lineNumbers", true)
       .set("tabSize", 2)
-      .set("mode", getContentType(diff.meta_b()))
-      .set("value", diff.text_b());
-
-    cm = CodeMirror.create(editorContainer.getElement(), cfg);
+      .set("mode", getContentType(meta))
+      .set("value", contents);
+    Element child = DOM.createDiv();
+    editorContainer.getElement().appendChild(child);
+    final CodeMirror cm = CodeMirror.create(child, cfg);
     cm.setWidth("100%");
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
-    resizeHandler = Window.addResizeHandler(new ResizeHandler() {
+    handlerList.add(Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
         cm.setHeight(event.getHeight() - HEADER_FOOTER);
         cm.refresh();
       }
-    });
+    }));
+    return cm;
   }
 
   private static String getContentType(DiffInfo.FileMeta meta) {

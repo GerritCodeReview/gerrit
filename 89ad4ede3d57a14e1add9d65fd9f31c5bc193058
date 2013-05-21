@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "U5d30KxA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-21T14:11:58Z",
+      "side": 1,
+      "message": "I thought you were trying to use the currentUser here during a rebase and not the uploader.",
+      "revId": "89ad4ede3d57a14e1add9d65fd9f31c5bc193058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

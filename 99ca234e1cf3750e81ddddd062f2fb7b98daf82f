@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "U12sJwTw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-21T14:05:40Z",
+      "side": 0,
+      "message": "Did you try CurrentUser, or Provider\u003cCurrentUser\u003e?",
+      "revId": "99ca234e1cf3750e81ddddd062f2fb7b98daf82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

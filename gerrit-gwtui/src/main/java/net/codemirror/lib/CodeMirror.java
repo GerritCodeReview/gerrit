@@ -25,6 +25,8 @@ import com.google.gwt.resources.client.ResourceException;
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 
+import net.codemirror.mode.Modes;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,6 +53,9 @@ public class CodeMirror extends JavaScriptObject {
   public static void install() {
     asyncInjectCss(Lib.I.css());
     asyncInjectScript(Lib.I.js().getSafeUri());
+
+    // TODO lazy load modes, e.g. http://codemirror.net/addon/mode/loadmode.js
+    asyncInjectScript(Modes.I.clike().getSafeUri());
   }
 
   private static void asyncInjectCss(ExternalTextResource css) {

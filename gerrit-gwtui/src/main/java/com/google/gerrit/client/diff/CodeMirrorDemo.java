@@ -94,7 +94,11 @@ public class CodeMirrorDemo extends Screen {
       .set("tabSize", 2)
       .set("value", diff.text_b());
     if (diff.meta_b() != null && diff.meta_b().content_type() != null) {
-      cfg.set("mode", diff.meta_b().content_type());
+      String mode = diff.meta_b().content_type();
+      if ("text/x-java-source".equals(mode)) {
+        mode = "text/x-java";
+      }
+      cfg.set("mode", mode);
     }
 
     cm = CodeMirror.create(editorContainer.getElement(), cfg);

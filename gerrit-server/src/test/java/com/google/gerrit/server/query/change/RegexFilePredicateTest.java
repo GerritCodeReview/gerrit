@@ -76,7 +76,7 @@ public class RegexFilePredicateTest extends TestCase {
   private static ChangeData change(String... files) {
     Arrays.sort(files);
     ChangeData cd = new ChangeData(new Change.Id(1));
-    cd.setCurrentFilePaths(files);
+    cd.setCurrentFilePaths(Arrays.asList(files));
     return cd;
   }
 }

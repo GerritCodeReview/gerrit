@@ -24,7 +24,8 @@ import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 class RegexFilePredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> db;
@@ -67,7 +68,7 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    String[] files = object.currentFilePaths(db, cache);
+    List<String> files = object.currentFilePaths(db, cache);
     if (files != null) {
       int begin, end;
 
@@ -76,7 +77,7 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData> {
         end = find(files, prefixEnd);
       } else {
         begin = 0;
-        end = files.length;
+        end = files.size();
       }
 
       if (prefixOnly) {
@@ -84,7 +85,7 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData> {
       }
 
       while (begin < end) {
-        if (pattern.run(files[begin++])) {
+        if (pattern.run(files.get(begin++))) {
           return true;
         }
       }
@@ -100,8 +101,8 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData> {
     }
   }
 
-  private static int find(String[] files, String p) {
-    int r = Arrays.binarySearch(files, p);
+  private static int find(List<String> files, String p) {
+    int r = Collections.binarySearch(files, p);
     return r < 0 ? -(r + 1) : r;
   }
 

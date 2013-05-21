@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.Ordering;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,7 +30,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -62,9 +62,7 @@ public class CommentSender extends ReplyToChangeSender {
         paths.add(p.getFileName());
       }
     }
-    String[] names = paths.toArray(new String[paths.size()]);
-    Arrays.sort(names);
-    changeData.setCurrentFilePaths(names);
+    changeData.setCurrentFilePaths(Ordering.natural().sortedCopy(paths));
   }
 
   @Override

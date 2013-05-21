@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UzDY3GLo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-21T01:16:18Z",
+      "side": 1,
+      "message": "This returns false when the email is set up with an OpenId account, as is the case with both my test accounts (one with my corporate account, one with my personal Gmail account).\n\nIt only returns true for the additional email address(es) that I add via the Web UI.\n\nIf I change the code like this, it works as expected:\n\n  for (AccountExternalId extId : ids) {\n    String email \u003d extId.getEmailAddress();\n    if (email !\u003d null) {\n      EmailInfo e \u003d new EmailInfo();\n      e.email \u003d email;\n      e.setPreferred(email.equals(\n          rsrc.getUser().getAccount().getPreferredEmail()));\n      emails.add(e);\n    }\n  }",
+      "revId": "86a72ace0856954b92d24478b4dae987f8ebf716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uyxe1tAY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-21T01:16:18Z",
+      "side": 1,
+      "message": "Nit: extra blank line.",
+      "revId": "86a72ace0856954b92d24478b4dae987f8ebf716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

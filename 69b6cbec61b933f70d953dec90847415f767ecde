@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "005e52fd_b8ef7939",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-21T22:39:02Z",
+      "side": 1,
+      "message": "How about using one handler and calling the setHeight method on both cmA and cmB instead of using two handlers?",
+      "revId": "69b6cbec61b933f70d953dec90847415f767ecde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

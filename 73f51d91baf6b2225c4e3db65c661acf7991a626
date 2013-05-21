@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UzLbGiGg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-21T18:51:28Z",
+      "side": 1,
+      "message": "I was being a little paranoid here, if the server doesn\u0027t assign a content type then at least the UI will still load.",
+      "parentUuid": "UzFbsVO8",
+      "revId": "73f51d91baf6b2225c4e3db65c661acf7991a626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UzDYMOPY",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/ModeInjector.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-21T18:45:44Z",
       "side": 1,
       "message": "nit: perhaps the mimeAlias should be in a different file, especially since it is a different format.",
+      "revId": "73f51d91baf6b2225c4e3db65c661acf7991a626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UzJbLjHI",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/ModeInjector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-21T18:51:28Z",
+      "side": 1,
+      "message": "Noted. I may the alias information out in another change.",
+      "parentUuid": "UzDYMOPY",
       "revId": "73f51d91baf6b2225c4e3db65c661acf7991a626",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Uy7fGiGg",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/ModeInjector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-21T18:51:28Z",
+      "side": 1,
+      "message": "Cleans up the caller slightly, if the server doesn\u0027t give us a MIME type we can just pass null through to the loader and have a no-op load.",
+      "parentUuid": "UzBYJPOY",
+      "revId": "73f51d91baf6b2225c4e3db65c661acf7991a626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UzHYGsNU",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/ModeInjector.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-21T18:45:44Z",
       "side": 1,
       "message": "you never add to loading",
+      "revId": "73f51d91baf6b2225c4e3db65c661acf7991a626",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uy5fLhHI",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/ModeInjector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-21T18:51:28Z",
+      "side": 1,
+      "message": "Will fix in a follow-up change, thanks.",
+      "parentUuid": "UzHYGsNU",
       "revId": "73f51d91baf6b2225c4e3db65c661acf7991a626",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

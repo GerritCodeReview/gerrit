@@ -16,6 +16,24 @@
       "revId": "992dc9b5cc76f58130eb06c74ccbfe8c241d8348",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uy5ccJC0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-21T17:15:44Z",
+      "side": 1,
+      "message": "I agree. Let me give some perspective.\n\nIn a downstream change, PatchSet becomes optional.\n\nI was originally thinking RefControl would be optional, since in theory it\u0027s always derivable from (project, branch, CurrentUser), and that way we could push the canUploadPatchSet check into this class. But I think the way the REST API code path works that\u0027s probably not going to happen.\n\nSo, I just killed RefControl entirely.",
+      "parentUuid": "U5Z3qoyo",
+      "revId": "992dc9b5cc76f58130eb06c74ccbfe8c241d8348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

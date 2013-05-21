@@ -16,6 +16,24 @@
       "revId": "0d9727d4133aa17edb9d8c4b087df6890067f486",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U0283Eec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Emails.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-21T12:49:43Z",
+      "side": 1,
+      "message": "Right, this was a bad idea to change this line :-(\n\nDone.",
+      "parentUuid": "Uy7fwSM0",
+      "revId": "0d9727d4133aa17edb9d8c4b087df6890067f486",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

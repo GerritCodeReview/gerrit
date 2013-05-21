@@ -16,6 +16,24 @@
       "revId": "4df66e9f31dee1a6edc2216ff8af96c39ee364db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1M50Q5c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutPreferred.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-21T13:37:37Z",
+      "side": 1,
+      "message": "Actually the check was correct, but the check instanceof IdentifiedUser was missing.\n\nDone.",
+      "parentUuid": "U1O6YH8E",
+      "revId": "4df66e9f31dee1a6edc2216ff8af96c39ee364db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

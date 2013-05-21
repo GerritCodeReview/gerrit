@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "Uy1evLLQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-21T05:09:57Z",
+      "side": 1,
+      "message": "Re. Martin\u0027s comment, we should probably check that the user is fetching their own email addresses, or is an administrator.",
+      "revId": "86a72ace0856954b92d24478b4dae987f8ebf716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UzDY3GLo",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
         "patchSetId": 7

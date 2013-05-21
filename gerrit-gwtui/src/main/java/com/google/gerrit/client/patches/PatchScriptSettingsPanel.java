@@ -314,7 +314,7 @@ public class PatchScriptSettingsPanel extends Composite {
     if (0 <= sel) {
       return Short.parseShort(context.getValue(sel));
     }
-    return (short) getValue().getContext();
+    return getValue().getContext();
   }
 
   private void setContext(int ctx) {

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "U0..YIcE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T16:51:08Z",
+      "side": 1,
+      "message": "make both fields final",
+      "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1C7Rh1A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T16:51:08Z",
+      "side": 1,
+      "message": "This should be a private field.",
+      "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U04.TVaM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T16:51:08Z",
+      "side": 1,
+      "message": "1. make this field private.\n\n2. This is also subclassing the HashMap :-)\nWhen I suggested embedding instead of subclassing I was thinking about something like:\n\n  Map\u003cProject.NameKey, RepoWalk\u003e repoWalksByProject \u003d new HashMap\u003cProject.NameKey, RepoWalk\u003e();\n\n  public RepoWalk get(Project.NameKey projectName) {\n    RepoWalk walk \u003d repoWalksByProject.get(projectName);\n    if (walk \u003d\u003d null) {\n      ... do whatever necesary...\n      repoWalksByProject.put(projectName, walk);\n    } else {\n      walk.revWalk.reset();\n    }\n    reset repoWalk;\n  }",
+      "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1A7OS64",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T16:51:08Z",
+      "side": 1,
+      "message": "Once you get rid of the inheritance from the HashMap, the method signature can become type safe. See the previos comment.",
+      "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1G7bj3A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T16:51:08Z",
+      "side": 1,
+      "message": "This repoWalk will stay in the cache after the revWalk is released and the repository closed. Is it safe to keep them in the cache? Are they still (re)usable? JGit is not explicitly telling anything against reuse...\n\nHowever, it looks like you are, anyway, creating a new instance of the cache for every ChangeQueryBuilder and the question of reuse is not important.",
+      "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

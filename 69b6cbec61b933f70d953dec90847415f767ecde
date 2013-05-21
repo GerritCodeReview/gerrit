@@ -16,6 +16,24 @@
       "revId": "69b6cbec61b933f70d953dec90847415f767ecde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "005e52fd_f8f9f106",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-21T23:08:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "005e52fd_b8ef7939",
+      "revId": "69b6cbec61b933f70d953dec90847415f767ecde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

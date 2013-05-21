@@ -16,6 +16,24 @@
       "revId": "3b7a2af2c8f4d2e12f2ed9d8b264602abc665781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U14sWrVk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-21T14:14:19Z",
+      "side": 1,
+      "message": "The transaction issue exists only with our database; no other system has this problem. Lets just say Google has done something odd with the transaction semantics. When you issue beginTransaction(Change.Id) you can only touch records that have that specific Change.Id in their primary key.",
+      "parentUuid": "U1C6jR.w",
+      "revId": "3b7a2af2c8f4d2e12f2ed9d8b264602abc665781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

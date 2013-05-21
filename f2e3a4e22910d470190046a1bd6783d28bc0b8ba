@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "UyzfbmEM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-21T20:51:50Z",
+      "side": 1,
+      "message": "Hmm, is that messageUUID\u0027 uniqueness race prone?  If so, was it just a race prone before?",
+      "revId": "f2e3a4e22910d470190046a1bd6783d28bc0b8ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UyxfYFEM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-21T20:51:50Z",
+      "side": 1,
+      "message": "I guess this class could eventually figure the PS# itself if not set?",
+      "revId": "f2e3a4e22910d470190046a1bd6783d28bc0b8ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uy3flEPM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-21T20:51:50Z",
+      "side": 1,
+      "message": "This definition should probably stay closer to its first use.",
+      "revId": "f2e3a4e22910d470190046a1bd6783d28bc0b8ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

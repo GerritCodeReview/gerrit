@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UzBbYHEM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-21T20:59:45Z",
+      "side": 1,
+      "message": "This code is moved out of callers, so it\u0027s no worse than before. But not to worry, messageUUID takes a global lock within the process (and gwtorm implementations are supposed to avoid races on @Sequences cross-process if applicable).",
+      "parentUuid": "UyzfbmEM",
+      "revId": "f2e3a4e22910d470190046a1bd6783d28bc0b8ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UyxfYFEM",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-21T20:51:50Z",
       "side": 1,
       "message": "I guess this class could eventually figure the PS# itself if not set?",
+      "revId": "f2e3a4e22910d470190046a1bd6783d28bc0b8ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UzHblEPM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-21T20:59:45Z",
+      "side": 1,
+      "message": "Yes, it does exactly that in https://gerrit-review.googlesource.com/45805",
+      "parentUuid": "UyxfYFEM",
       "revId": "f2e3a4e22910d470190046a1bd6783d28bc0b8ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

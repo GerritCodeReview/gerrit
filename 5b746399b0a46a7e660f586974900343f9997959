@@ -34,6 +34,24 @@
       "revId": "5b746399b0a46a7e660f586974900343f9997959",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1M5eAyo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-21T09:25:45Z",
+      "side": 1,
+      "message": "You are probably right, in any case (independent of the submit type)  we inject RebaseChange into SubmitStrategyFactory and for constructing RebaseChange it needs to inject the current user... which fails.",
+      "parentUuid": "UzJZO7Eg",
+      "revId": "5b746399b0a46a7e660f586974900343f9997959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

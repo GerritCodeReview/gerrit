@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "U029O8XY",
+        "filename": "Documentation/user-dependencies.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T15:13:05Z",
+      "side": 1,
+      "message": "1. This example is not compatible with the ChangeTriplet.format method which will use the tilde \u0027~\u0027 character as the delimiter.\n\n2. What if \u0027myotherproject\u0027 is the project this change belongs to? Will the dependency footer be ignored in that case?",
+      "revId": "9833717d34501bc67d382b7a2155463a8ed35b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Sualufcg",
         "filename": "Documentation/user-dependencies.txt",
         "patchSetId": 2
@@ -36,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "U0w9RJRc",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T15:13:05Z",
+      "side": 1,
+      "message": "What if there is a Dependency footer which points to a change from the same project? Looks like such a case will be treated as a cross project dependency at the line 310.",
+      "revId": "9833717d34501bc67d382b7a2155463a8ed35b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "SuUmEoUs",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 2
@@ -64,6 +98,40 @@
       "writtenOn": "2013-03-28T19:27:29Z",
       "side": 1,
       "message": "It seems like you\u0027re able to add only one cross project dependency per change, or am I missing something?\n\nIt\u0027d be really nice if we could add multiple cross project dependencies.",
+      "revId": "9833717d34501bc67d382b7a2155463a8ed35b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1O7mXzM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T15:13:05Z",
+      "side": 1,
+      "message": "I don\u0027t understand why do we need this set of hardcoded values to implement cross-project dependencies ;-)",
+      "revId": "9833717d34501bc67d382b7a2155463a8ed35b3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U009LLWU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T15:13:05Z",
+      "side": 1,
+      "message": "We should probably exclude the dependencies from footer lines which point to the same project?",
       "revId": "9833717d34501bc67d382b7a2155463a8ed35b3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -75,7 +75,6 @@ public class RebaseChange {
   private final ChangeHookRunner hooks;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ProjectCache projectCache;
-  private final IdentifiedUser currentUser;
 
   @Inject
   RebaseChange(final ChangeControl.GenericFactory changeControlFactory,
@@ -86,8 +85,7 @@ public class RebaseChange {
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
       final ChangeHookRunner hooks,
       final MergeUtil.Factory mergeUtilFactory,
-      final ProjectCache projectCache,
-      final IdentifiedUser currentUser) {
+      final ProjectCache projectCache) {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -98,7 +96,6 @@ public class RebaseChange {
     this.hooks = hooks;
     this.mergeUtilFactory = mergeUtilFactory;
     this.projectCache = projectCache;
-    this.currentUser = currentUser;
   }
 
   /**
@@ -156,7 +153,7 @@ public class RebaseChange {
           rw.parseCommit(ObjectId.fromString(baseRev));
 
       PersonIdent committerIdent =
-          currentUser.newCommitterIdent(myIdent.getWhen(),
+          uploader.newCommitterIdent(myIdent.getWhen(),
               myIdent.getTimeZone());
 
       final PatchSet newPatchSet =

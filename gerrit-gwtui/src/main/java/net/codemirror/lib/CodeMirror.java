@@ -14,7 +14,9 @@
 
 package net.codemirror.lib;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.resources.client.ExternalTextResource;
@@ -26,7 +28,26 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CodeMirror {
+/**
+ * Glue to connect CodeMirror to be callable from GWT.
+ *
+ * @link http://codemirror.net/doc/manual.html#api
+ */
+public class CodeMirror extends JavaScriptObject {
+  public static native CodeMirror create(Element parent, Configuration cfg) /*-{
+    return $wnd.CodeMirror(parent, cfg);
+  }-*/;
+
+  public final native void setValue(String v) /*-{ this.setValue(v); }-*/;
+
+  public final native void setWidth(int w) /*-{ this.setSize(w, null); }-*/;
+  public final native void setWidth(String w) /*-{ this.setSize(w, null); }-*/;
+  public final native void setHeight(int h) /*-{ this.setSize(null, h); }-*/;
+  public final native void setHeight(String h) /*-{ this.setSize(null, h); }-*/;
+
+  public final native void refresh() /*-{ this.refresh(); }-*/;
+  public final native Element getWrapperElement() /*-{ return this.getWrapperElement(); }-*/;
+
   public static void install() {
     asyncInjectCss(Lib.I.css());
     asyncInjectScript(Lib.I.js().getSafeUri());
@@ -63,6 +84,6 @@ public class CodeMirror {
     log.log(Level.SEVERE, "Cannot fetch CSS", e);
   }
 
-  private CodeMirror() {
+  protected CodeMirror() {
   }
 }

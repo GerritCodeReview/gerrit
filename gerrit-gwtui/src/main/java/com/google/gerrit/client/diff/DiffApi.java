@@ -37,7 +37,9 @@ public class DiffApi {
   }
 
   public DiffApi base(PatchSet.Id id) {
-    call.addParameter("base", id.get());
+    if (id != null) {
+      call.addParameter("base", id.get());
+    }
     return this;
   }
 

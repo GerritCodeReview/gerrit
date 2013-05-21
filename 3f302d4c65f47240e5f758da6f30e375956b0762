@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "UzHZYcAs",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-21T11:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJT0Rz2A",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJX0XV1g",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-04-26T08:30:09Z",
       "side": 1,
       "message": "1. Why inheriting from the HashMap?\nThis way RepoWalksCache also inherits (and exposes) the complete HashMap interface which is irrelevant for its purpose and unnecessarily exposes implementation details. \n\nEmbed the HashMap instead.\n\n2. why is this class not static? It only needs the repoManager which could be passed in a constructor.\n\n3. When it becomes static move it up to the RepoWalk class.\n\n4. optional: move the RepoWalksCache into own file?",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1yv-ueo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-21T11:55:31Z",
+      "side": 1,
+      "message": ".\n\n 1. done\n 2. done\n 3. done",
+      "parentUuid": "UJX0XV1g",
       "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "Uy9cxfMY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-21T11:55:31Z",
+      "side": 1,
+      "message": "The return type will be incompatible with HashMap\u003cProject.NameKey,ChangeQueryBuilder.RepoWalk\u003e.get  then, wouldn\u0027t it ?",
+      "parentUuid": "UJZ0fw2s",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJN4lRbc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "Uy5cnBIk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-21T11:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJN4lRbc",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJd0lS7c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2013-04-26T08:30:09Z",
       "side": 1,
       "message": "How important it is to make sure that cached RevWalks are released even in case of an exception?\n\nPut this in a finally block?",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uy-csgG4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-21T11:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UJd0lS7c",
       "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

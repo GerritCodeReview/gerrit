@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Uy7fwSM0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/Emails.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-21T10:33:31Z",
+      "side": 1,
+      "message": "This is preventing the admin user from getting the email address of another user.",
+      "revId": "0d9727d4133aa17edb9d8c4b087df6890067f486",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

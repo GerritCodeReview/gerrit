@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "U1K5fNyg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-21T09:17:29Z",
+      "side": 1,
+      "message": "I guess this happens when the \u0027Rebase If Necessary\u0027 submit strategy is used. The merge is executed in a background thread and at this moment we don\u0027t have a current user. This is why trying to inject a current user fails at this place.",
+      "revId": "5b746399b0a46a7e660f586974900343f9997959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

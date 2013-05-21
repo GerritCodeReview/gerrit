@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "U06842d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-21T09:17:29Z",
+      "side": 0,
+      "message": "Instead of directly injecting the current user (which will not work in case a merge is done) can we inject a provider for the current user?\n\n  Provider\u003cIdentifiedUser\u003e currentUser\n\nThis provider needs only to be used in the one rebase method that is not used by the merge thread. I expect this to fix the problem, but right now I don\u0027t have time to verify.",
+      "revId": "99ca234e1cf3750e81ddddd062f2fb7b98daf82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

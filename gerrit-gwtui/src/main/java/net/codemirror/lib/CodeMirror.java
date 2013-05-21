@@ -15,18 +15,8 @@
 package net.codemirror.lib;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ScriptElement;
-import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.resources.client.ExternalTextResource;
-import com.google.gwt.resources.client.ResourceCallback;
-import com.google.gwt.resources.client.ResourceException;
-import com.google.gwt.resources.client.TextResource;
-import com.google.gwt.safehtml.shared.SafeUri;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * Glue to connect CodeMirror to be callable from GWT.
@@ -34,6 +24,10 @@ import java.util.logging.Logger;
  * @link http://codemirror.net/doc/manual.html#api
  */
 public class CodeMirror extends JavaScriptObject {
+  public static void initLibrary(AsyncCallback<Void> cb) {
+    Loader.initLibrary(cb);
+  }
+
   public static native CodeMirror create(Element parent, Configuration cfg) /*-{
     return $wnd.CodeMirror(parent, cfg);
   }-*/;
@@ -47,42 +41,6 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void refresh() /*-{ this.refresh(); }-*/;
   public final native Element getWrapperElement() /*-{ return this.getWrapperElement(); }-*/;
-
-  public static void install() {
-    asyncInjectCss(Lib.I.css());
-    asyncInjectScript(Lib.I.js().getSafeUri());
-  }
-
-  private static void asyncInjectCss(ExternalTextResource css) {
-    try {
-      css.getText(new ResourceCallback<TextResource>() {
-        @Override
-        public void onSuccess(TextResource resource) {
-          StyleInjector.inject(resource.getText());
-        }
-
-        @Override
-        public void onError(ResourceException e) {
-          error(e);
-        }
-      });
-    } catch (ResourceException e) {
-      error(e);
-    }
-  }
-
-  private static void asyncInjectScript(SafeUri uri) {
-    ScriptElement script = Document.get().createScriptElement();
-    script.setSrc(uri.asString());
-    script.setLang("javascript");
-    script.setType("text/javascript");
-    Document.get().getBody().appendChild(script);
-  }
-
-  private static void error(ResourceException e) {
-    Logger log = Logger.getLogger("net.codemirror");
-    log.log(Level.SEVERE, "Cannot fetch CSS", e);
-  }
 
   protected CodeMirror() {
   }

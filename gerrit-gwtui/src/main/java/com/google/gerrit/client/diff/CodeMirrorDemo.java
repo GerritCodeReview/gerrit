@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.rpc.CallbackGroup;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -25,6 +27,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.ModeInjector;
 
 public class CodeMirrorDemo extends Screen {
   private static final int HEADER_FOOTER = 60 + 15 * 2 + 38;
@@ -55,16 +58,30 @@ public class CodeMirrorDemo extends Screen {
   protected void onLoad() {
     super.onLoad();
 
+    CallbackGroup group = new CallbackGroup();
+    CodeMirror.initLibrary(group.add(new GerritCallback<Void>() {
+      @Override
+      public void onSuccess(Void result) {
+      }
+    }));
     DiffApi.diff(revision, path)
       .base(base)
       .wholeFile()
       .ignoreWhitespace(DiffApi.IgnoreWhitespace.NONE)
-      .get(new ScreenLoadCallback<DiffInfo>(this) {
+      .get(group.add(new GerritCallback<DiffInfo>() {
         @Override
-        protected void preDisplay(DiffInfo diff) {
-          display(diff);
+        public void onSuccess(final DiffInfo diff) {
+          new ModeInjector()
+            .add(getContentType(diff.meta_a()))
+            .add(getContentType(diff.meta_b()))
+            .inject(new ScreenLoadCallback<Void>(CodeMirrorDemo.this){
+              @Override
+              protected void preDisplay(Void result) {
+                display(diff);
+              }
+            });
         }
-      });
+      }));
   }
 
   @Override
@@ -92,10 +109,8 @@ public class CodeMirrorDemo extends Screen {
       .set("readOnly", true)
       .set("lineNumbers", true)
       .set("tabSize", 2)
+      .set("mode", getContentType(diff.meta_b()))
       .set("value", diff.text_b());
-    if (diff.meta_b() != null && diff.meta_b().content_type() != null) {
-      cfg.set("mode", diff.meta_b().content_type());
-    }
 
     cm = CodeMirror.create(editorContainer.getElement(), cfg);
     cm.setWidth("100%");
@@ -107,5 +122,11 @@ public class CodeMirrorDemo extends Screen {
         cm.refresh();
       }
     });
+  }
+
+  private static String getContentType(DiffInfo.FileMeta meta) {
+    return meta != null && meta.content_type() != null
+        ? ModeInjector.getContentType(meta.content_type())
+        : null;
   }
 }

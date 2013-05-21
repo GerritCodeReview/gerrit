@@ -51,7 +51,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -141,7 +140,7 @@ public class ChangeData {
   private ListMultimap<PatchSet.Id, PatchSetApproval> limitedApprovals;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
-  private String[] currentFiles;
+  private List<String> currentFiles;
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
@@ -180,11 +179,11 @@ public class ChangeData {
     return limitedIds;
   }
 
-  public void setCurrentFilePaths(String[] filePaths) {
+  public void setCurrentFilePaths(List<String> filePaths) {
     currentFiles = filePaths;
   }
 
-  public String[] currentFilePaths(Provider<ReviewDb> db,
+  public List<String> currentFilePaths(Provider<ReviewDb> db,
       PatchListCache cache) throws OrmException {
     if (currentFiles == null) {
       Change c = change(db);
@@ -200,7 +199,7 @@ public class ChangeData {
       try {
         p = cache.get(c, ps);
       } catch (PatchListNotAvailableException e) {
-        currentFiles = new String[0];
+        currentFiles = Collections.emptyList();
         return currentFiles;
       }
 
@@ -226,8 +225,8 @@ public class ChangeData {
             break;
         }
       }
-      currentFiles = r.toArray(new String[r.size()]);
-      Arrays.sort(currentFiles);
+      Collections.sort(r);
+      currentFiles = Collections.unmodifiableList(r);
     }
     return currentFiles;
   }

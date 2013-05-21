@@ -34,6 +34,24 @@
       "revId": "992dc9b5cc76f58130eb06c74ccbfe8c241d8348",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uy9cWnAg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-21T17:36:50Z",
+      "side": 1,
+      "message": "Ugh, I take this back, refControl is used downstream for more besides just the LabelTypes. I would kind of like to avoid passing a _5th_ required arg to create, but I don\u0027t see much way around it.\n\n(Note that we can\u0027t depend on the PerRequestProjectControlCache to make recreating RefControls cheap because the REST API doesn\u0027t use RequestScope.)",
+      "parentUuid": "Uy5ccJC0",
+      "revId": "992dc9b5cc76f58130eb06c74ccbfe8c241d8348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "89ad4ede3d57a14e1add9d65fd9f31c5bc193058",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U0.9ZQUQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-21T14:16:50Z",
+      "side": 1,
+      "message": "The description was:\n@param uploader the user that creates the rebased patch set\n\nSo I figured it actually is the current user, but a badly named variable.",
+      "parentUuid": "U5d30KxA",
+      "revId": "89ad4ede3d57a14e1add9d65fd9f31c5bc193058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

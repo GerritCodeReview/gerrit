@@ -56,6 +56,9 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   @Override
   public Object apply(AccountResource rsrc, Input input) throws AuthException,
       MethodNotAllowedException, ResourceNotFoundException, OrmException {
+    if (!(self.get() instanceof IdentifiedUser)) {
+      throw new AuthException("Authentication required");
+    }
     IdentifiedUser s = (IdentifiedUser) self.get();
     if (s.getAccountId().get() != rsrc.getUser().getAccountId().get()
         && !self.get().getCapabilities().canAdministrateServer()) {

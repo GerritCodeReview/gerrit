@@ -85,8 +85,6 @@ import com.google.gwtjsonrpc.client.impl.ResultDeserializer;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
-import net.codemirror.lib.CodeMirror;
-
 import java.util.ArrayList;
 
 public class Gerrit implements EntryPoint {
@@ -368,7 +366,6 @@ public class Gerrit implements EntryPoint {
 
     initHostname();
     Window.setTitle(M.windowTitle1(myHost));
-    CodeMirror.install();
 
     final HostPageDataService hpd = GWT.create(HostPageDataService.class);
     hpd.load(new GerritCallback<HostPageData>() {

@@ -34,6 +34,24 @@
       "revId": "b6e3378e291b5883e0782e5b6d961f4409ff2af4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UzNZIZD4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-21T09:25:22Z",
+      "side": 1,
+      "message": "It was a lucky catch :)\n\nI\u0027d rebooted my system, so didn\u0027t have the command history of previous tests in my shell, and simply forgot to add /a/ in the command line...",
+      "parentUuid": "U1I5k.-U",
+      "revId": "b6e3378e291b5883e0782e5b6d961f4409ff2af4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

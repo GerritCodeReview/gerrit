@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "U06.OGXk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T16:51:36Z",
+      "side": 1,
+      "message": "This only matters if this class extends the HashMap\u003cProject.NameKey, RepoWalk\u003e. I suggested not inheriting the HashMap but embedding it. In that case you can return RevWalk (or anything else).",
+      "parentUuid": "Uy9cxfMY",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UJN4lRbc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -188,6 +206,24 @@
       "writtenOn": "2013-04-26T08:30:09Z",
       "side": 1,
       "message": "This is the only usage of the RepoWalksCache and it show that we only need the RevWalk object (not the RepoWalk). Change the return type of RepoWalksCache.get to RevWalk?",
+      "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Uy7cXqAc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-21T16:51:36Z",
+      "side": 1,
+      "message": "this comment was wrong as I didn\u0027t see the repoWalk.repository. Sorry.",
+      "parentUuid": "UJf0ih6w",
       "revId": "3f302d4c65f47240e5f758da6f30e375956b0762",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

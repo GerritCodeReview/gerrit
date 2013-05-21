@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "U1C6jR.w",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2013-05-21T12:30:30Z",
+      "side": 1,
+      "message": "How is the issue you are solving manifesting itself? It seemed to work when I wrote the code.",
+      "revId": "3b7a2af2c8f4d2e12f2ed9d8b264602abc665781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

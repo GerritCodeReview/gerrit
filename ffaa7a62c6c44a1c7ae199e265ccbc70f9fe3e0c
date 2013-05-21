@@ -84,6 +84,24 @@
       "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "UyzcMOPY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-21T17:29:43Z",
+      "side": 1,
+      "message": "Or to be really safe, once the HashMap is embedded, you could just eliminate the HashMap after a release.",
+      "parentUuid": "U1G7bj3A",
+      "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

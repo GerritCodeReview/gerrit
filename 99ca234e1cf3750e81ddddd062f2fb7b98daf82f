@@ -16,6 +16,24 @@
       "revId": "99ca234e1cf3750e81ddddd062f2fb7b98daf82f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "U1E6Bczo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-21T14:09:21Z",
+      "side": 0,
+      "message": "No. Since I did not see the need for the field at all. Is it needed somewhere else?",
+      "parentUuid": "U12sJwTw",
+      "revId": "99ca234e1cf3750e81ddddd062f2fb7b98daf82f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

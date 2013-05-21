@@ -173,6 +173,7 @@ public class ModeInjector {
         continue;
       }
 
+      loading.add(d);
       beginLoading(d);
     }
   }

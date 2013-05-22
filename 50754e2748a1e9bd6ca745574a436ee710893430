@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "801fa244_e4477a61",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-22T18:13:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "005e52fd_9838f5de",
+      "revId": "50754e2748a1e9bd6ca745574a436ee710893430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a022e687_052652c2",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiCommand.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-22T09:28:10Z",
       "side": 1,
       "message": "s/current/Current",
+      "revId": "50754e2748a1e9bd6ca745574a436ee710893430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0251a91_a6166659",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-22T18:13:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a022e687_052652c2",
       "revId": "50754e2748a1e9bd6ca745574a436ee710893430",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

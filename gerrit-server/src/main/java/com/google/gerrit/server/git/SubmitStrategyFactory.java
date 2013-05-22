@@ -22,6 +22,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -54,6 +55,7 @@ public class SubmitStrategyFactory {
   private final RebaseChange rebaseChange;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
+  private final ChangeIndexer indexer;
 
   @Inject
   SubmitStrategyFactory(
@@ -63,7 +65,8 @@ public class SubmitStrategyFactory {
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final GitReferenceUpdated gitRefUpdated, final RebaseChange rebaseChange,
       final ProjectCache projectCache,
-      final MergeUtil.Factory mergeUtilFactory) {
+      final MergeUtil.Factory mergeUtilFactory,
+      final ChangeIndexer indexer) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -71,6 +74,7 @@ public class SubmitStrategyFactory {
     this.rebaseChange = rebaseChange;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
+    this.indexer = indexer;
   }
 
   public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
@@ -82,7 +86,7 @@ public class SubmitStrategyFactory {
     final SubmitStrategy.Arguments args =
         new SubmitStrategy.Arguments(identifiedUserFactory, myIdent, db, repo,
             rw, inserter, canMergeFlag, alreadyAccepted, destBranch,
-            mergeUtilFactory.create(project));
+            mergeUtilFactory.create(project), indexer);
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args, patchSetInfoFactory, gitRefUpdated);

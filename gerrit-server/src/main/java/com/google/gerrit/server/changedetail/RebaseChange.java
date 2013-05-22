@@ -35,6 +35,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.RebasedPatchSetSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -75,6 +76,7 @@ public class RebaseChange {
   private final ChangeHookRunner hooks;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ProjectCache projectCache;
+  private final ChangeIndexer indexer;
 
   @Inject
   RebaseChange(final ChangeControl.GenericFactory changeControlFactory,
@@ -85,7 +87,8 @@ public class RebaseChange {
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
       final ChangeHookRunner hooks,
       final MergeUtil.Factory mergeUtilFactory,
-      final ProjectCache projectCache) {
+      final ProjectCache projectCache,
+      final ChangeIndexer changeIndexer) {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -96,6 +99,7 @@ public class RebaseChange {
     this.hooks = hooks;
     this.mergeUtilFactory = mergeUtilFactory;
     this.projectCache = projectCache;
+    this.indexer = changeIndexer;
   }
 
   /**
@@ -156,10 +160,10 @@ public class RebaseChange {
           uploader.newCommitterIdent(myIdent.getWhen(),
               myIdent.getTimeZone());
 
-      final PatchSet newPatchSet =
-          rebase(git, rw, inserter, patchSetId, change, uploader.getAccountId(), baseCommit,
-              mergeUtilFactory.create(
-                  changeControl.getProjectControl().getProjectState(), true), committerIdent);
+      final PatchSet newPatchSet = rebase(git, rw, inserter, patchSetId, change,
+          uploader.getAccountId(), baseCommit, mergeUtilFactory.create(
+              changeControl.getProjectControl().getProjectState(), true),
+          committerIdent, indexer);
 
       final Set<Account.Id> oldReviewers = Sets.newHashSet();
       final Set<Account.Id> oldCC = Sets.newHashSet();
@@ -301,6 +305,7 @@ public class RebaseChange {
    * @param uploader the user that creates the rebased patch set
    * @param baseCommit the commit that should be the new base
    * @param mergeUtil merge utilities for the destination project
+   * @param indexer helper for indexing the change
    * @return the new patch set which is based on the given base commit
    * @throws NoSuchChangeException thrown if the change to which the patch set
    *         belongs does not exist or is not visible to the user
@@ -311,7 +316,8 @@ public class RebaseChange {
   public PatchSet rebase(final Repository git, final RevWalk revWalk,
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
       final Change chg, final Account.Id uploader, final RevCommit baseCommit,
-      final MergeUtil mergeUtil, PersonIdent committerIdent) throws NoSuchChangeException,
+      final MergeUtil mergeUtil, PersonIdent committerIdent,
+      final ChangeIndexer indexer) throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
     Change change = chg;
@@ -383,6 +389,7 @@ public class RebaseChange {
             "Change %s was modified", change.getId()));
       }
 
+      indexer.index(change);
       ApprovalsUtil.copyLabels(db, projectCache.get(change.getProject())
           .getLabelTypes(), patchSetId, change.currentPatchSetId());
 

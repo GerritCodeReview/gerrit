@@ -80,7 +80,7 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
                     n.patchsetId, n.change,
                     args.mergeUtil.getSubmitter(n.patchsetId).getAccountId(),
-                    newMergeTip, args.mergeUtil, committerIdent);
+                    newMergeTip, args.mergeUtil, committerIdent, args.indexer);
             List<PatchSetApproval> approvals = Lists.newArrayList();
             for (PatchSetApproval a : args.mergeUtil.getApprovalsForCommit(n)) {
               approvals.add(new PatchSetApproval(newPatchSet.getId(), a));

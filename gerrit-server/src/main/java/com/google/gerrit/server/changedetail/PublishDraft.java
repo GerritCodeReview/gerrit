@@ -33,6 +33,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -75,6 +77,8 @@ public class PublishDraft implements Callable<ReviewResult> {
   private final AccountResolver accountResolver;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
+  private final ChangeIndexer indexer;
+  private final RequestScopePropagator requestScopePropagator;
 
   private final PatchSet.Id patchSetId;
 
@@ -87,6 +91,8 @@ public class PublishDraft implements Callable<ReviewResult> {
       final AccountResolver accountResolver,
       final CreateChangeSender.Factory createChangeSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
+      final ChangeIndexer indexer,
+      final RequestScopePropagator requestScopePropagator,
       @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
@@ -97,6 +103,8 @@ public class PublishDraft implements Callable<ReviewResult> {
     this.accountResolver = accountResolver;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.indexer = indexer;
+    this.requestScopePropagator = requestScopePropagator;
 
     this.patchSetId = patchSetId;
   }
@@ -146,6 +154,7 @@ public class PublishDraft implements Callable<ReviewResult> {
       });
 
       if (!updatedPatchSet.isDraft() || updatedChange.getStatus() == Change.Status.NEW) {
+        indexer.index(updatedChange, requestScopePropagator);
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, db);
 
         sendNotifications(control.getChange().getStatus() == Change.Status.DRAFT,

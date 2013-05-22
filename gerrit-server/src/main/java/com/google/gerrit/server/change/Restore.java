@@ -28,6 +28,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Restore.Input;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.project.ChangeControl;
@@ -48,6 +49,7 @@ public class Restore implements RestModifyView<ChangeResource, Input> {
   private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
+  private final ChangeIndexer indexer;
 
   public static class Input {
     @DefaultInput
@@ -58,11 +60,13 @@ public class Restore implements RestModifyView<ChangeResource, Input> {
   Restore(ChangeHooks hooks,
       RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
-      ChangeJson json) {
+      ChangeJson json,
+      ChangeIndexer indexer) {
     this.hooks = hooks;
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
+    this.indexer = indexer;
   }
 
   @Override
@@ -98,6 +102,7 @@ public class Restore implements RestModifyView<ChangeResource, Input> {
         throw new ResourceConflictException("change is "
             + status(db.changes().get(req.getChange().getId())));
       }
+      indexer.index(change);
       message = newMessage(input, caller, change);
       db.changeMessages().insert(Collections.singleton(message));
       new ApprovalsUtil(db).syncChangeStatus(change);

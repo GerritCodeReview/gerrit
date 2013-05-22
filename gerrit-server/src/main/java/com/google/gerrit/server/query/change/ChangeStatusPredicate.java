@@ -19,7 +19,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
@@ -34,8 +35,8 @@ import java.util.List;
  * status:} but may also be {@code is:} to help do-what-i-meanery for end-users
  * searching for changes. Either operator name has the same meaning.
  */
-final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
-  private static final ImmutableBiMap<Change.Status, String> VALUES;
+public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
+  public static final ImmutableBiMap<Change.Status, String> VALUES;
 
   static {
     ImmutableBiMap.Builder<Change.Status, String> values =
@@ -70,14 +71,14 @@ final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
   private final Change.Status status;
 
   ChangeStatusPredicate(Provider<ReviewDb> dbProvider, String value) {
-    super(ChangeQueryBuilder.FIELD_STATUS, value);
+    super(ChangeField.STATUS, value);
     this.dbProvider = dbProvider;
     status = VALUES.inverse().get(value);
     checkArgument(status != null, "invalid change status: %s", value);
   }
 
   ChangeStatusPredicate(Provider<ReviewDb> dbProvider, Change.Status status) {
-    super(ChangeQueryBuilder.FIELD_STATUS, VALUES.get(status));
+    super(ChangeField.STATUS, VALUES.get(status));
     this.dbProvider = dbProvider;
     this.status = status;
   }

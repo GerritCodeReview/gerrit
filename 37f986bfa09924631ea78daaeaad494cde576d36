@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c03c3aa5_aeef1739",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-22T05:27:21Z",
+      "side": 1,
+      "message": "nit: either use the full package name or don\u0027t. Here you also have it imported so maybe don\u0027t use the full package name on the type?",
+      "revId": "37f986bfa09924631ea78daaeaad494cde576d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0305ecf_a7ef4a39",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-22T05:27:21Z",
+      "side": 1,
+      "message": "nit: static",
+      "revId": "37f986bfa09924631ea78daaeaad494cde576d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0305ecf_87116666",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-22T05:27:21Z",
+      "side": 1,
+      "message": "I see what you are trying to do here, but I disagree with the definition format. I\u0027m not a fan of using reflection to invoke the method on ChangeData, this tends to be brittle if we don\u0027t have a small unit test to verify every definition is correct and working.\n\nIts somewhat messy, but I had thought we were going to do something like having a FieldDef with subclasses of SingleFieldDef and RepeatedFieldDef that are type parameterized for the return type. If these are abstract and have a T get(ChangeData) that you implement by anonymous classes for each field we can get compile-time type checking.\n\nAs for finding the fields to verify the schema, use reflection to loop through the fields declared in ChangeField and check the static final ones that FieldDef can be assigned from.",
+      "revId": "37f986bfa09924631ea78daaeaad494cde576d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c03c3aa5_4e2073a4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-22T05:27:21Z",
+      "side": 1,
+      "message": "This is more of a replace as you have it. I was thinking about trying to do some sort of faster path where the caller supplies specific fields that were modified. But maybe this just won\u0027t map well onto Lucene or any other index.",
+      "revId": "37f986bfa09924631ea78daaeaad494cde576d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

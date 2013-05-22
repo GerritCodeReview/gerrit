@@ -295,7 +295,7 @@ public class SchemaCreator {
         new LabelValue((short) 0, "No score"),
         new LabelValue((short) -1, "I would prefer that you didn't submit this"),
         new LabelValue((short) -2, "Do not submit")));
-    type.setAbbreviatedName("CR");
+    type.setAbbreviation("CR");
     type.setCopyMinScore(true);
     c.getLabelSections().put(type.getName(), type);
     return type;

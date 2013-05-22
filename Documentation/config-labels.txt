@@ -175,8 +175,8 @@ text"`. The `<#>` may be any positive or negative number with an
 optional leading `+`.
 
 
-[[label_abbreviatedName]]
-`label.Label-Name.abbreviatedName`
+[[label_abbreviation]]
+`label.Label-Name.abbreviation`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An abbreviated name for a label shown as a compact column header, for

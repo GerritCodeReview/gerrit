@@ -93,7 +93,7 @@ public class LabelType {
 
   protected String name;
 
-  protected String abbreviatedName;
+  protected String abbreviation;
   protected String functionName;
   protected boolean copyMinScore;
 
@@ -113,7 +113,7 @@ public class LabelType {
     canOverride = true;
     values = sortValues(valueList);
 
-    abbreviatedName = defaultAbbreviation(name);
+    abbreviation = defaultAbbreviation(name);
     functionName = "MaxWithBlock";
 
     maxNegative = Short.MIN_VALUE;
@@ -136,12 +136,12 @@ public class LabelType {
     return psa.getLabelId().get().equalsIgnoreCase(name);
   }
 
-  public String getAbbreviatedName() {
-    return abbreviatedName;
+  public String getAbbreviation() {
+    return abbreviation;
   }
 
-  public void setAbbreviatedName(String abbreviatedName) {
-    this.abbreviatedName = abbreviatedName;
+  public void setAbbreviation(String abbreviation) {
+    this.abbreviation = abbreviation;
   }
 
   public String getFunctionName() {

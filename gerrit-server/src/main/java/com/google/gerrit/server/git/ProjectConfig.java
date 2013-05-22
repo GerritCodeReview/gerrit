@@ -566,7 +566,7 @@ public class ProjectConfig extends VersionedMetaData {
       }
       String abbr = rc.getString(LABEL, name, KEY_ABBREVIATION);
       if (abbr != null) {
-        label.setAbbreviatedName(abbr);
+        label.setAbbreviation(abbr);
       }
 
       String functionName = Objects.firstNonNull(
@@ -837,9 +837,9 @@ public class ProjectConfig extends VersionedMetaData {
       rc.setString(LABEL, name, KEY_FUNCTION, label.getFunctionName());
 
       if (!LabelType.defaultAbbreviation(name)
-          .equals(label.getAbbreviatedName())) {
+          .equals(label.getAbbreviation())) {
         rc.setString(
-            LABEL, name, KEY_ABBREVIATION, label.getAbbreviatedName());
+            LABEL, name, KEY_ABBREVIATION, label.getAbbreviation());
       } else {
         rc.unset(LABEL, name, KEY_ABBREVIATION);
       }

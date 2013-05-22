@@ -71,7 +71,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     }
 
     for (LabelType lt : types.getLabelTypes()) {
-      if (toFind.equalsIgnoreCase(lt.getAbbreviatedName())) {
+      if (toFind.equalsIgnoreCase(lt.getAbbreviation())) {
         return lt;
       }
     }

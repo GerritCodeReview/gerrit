@@ -16,6 +16,24 @@
       "revId": "dd223f9217f3fbb6b2347aa3297f2d289c2300da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a022e687_25fc2ef3",
+        "filename": "gerrit-plugin-api/dependency-reduced-pom.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-22T06:29:45Z",
+      "side": 1,
+      "message": "Removed in patch set 9.",
+      "parentUuid": "005e52fd_382369b3",
+      "revId": "dd223f9217f3fbb6b2347aa3297f2d289c2300da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

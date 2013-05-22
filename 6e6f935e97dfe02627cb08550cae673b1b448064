@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a022e687_a5ef3e39",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-22T04:30:51Z",
+      "side": 0,
+      "message": "Why is this file removed?",
+      "revId": "6e6f935e97dfe02627cb08550cae673b1b448064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

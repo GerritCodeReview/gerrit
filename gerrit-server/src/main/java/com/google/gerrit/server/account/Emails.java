@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -52,6 +53,14 @@ public class Emails implements
   @Override
   public AccountResource.Email parse(AccountResource parent, IdString id)
       throws AuthException, ResourceNotFoundException {
+    if ("preferred".equals(id.get())) {
+      String preferredEmail = parent.getUser().getAccount().getPreferredEmail();
+      if (!Strings.isNullOrEmpty(preferredEmail)) {
+        return new AccountResource.Email(parent.getUser(), preferredEmail);
+      }
+      throw new ResourceNotFoundException();
+    }
+
     if (!(self.get() instanceof IdentifiedUser)) {
       throw new AuthException("Authentication required");
     }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "005e52fd_d8426d54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-22T11:55:12Z",
+      "side": 1,
+      "message": "I think we said it\u0027s enough to have Push permission on refs/meta/requests.",
+      "parentUuid": "801fa244_042656c2",
+      "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "801fa244_e4105a5f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-22T10:43:37Z",
       "side": 1,
       "message": "Yes, we should check that the commit is empty. If we later have an idea for what the content could be useful, we can still change it.",
+      "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a022e687_45204aa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-22T11:55:12Z",
+      "side": 1,
+      "message": "I wonder if we should also do these checks when the commits are received.  I.e. to prevent that we have a commit with invalid meta data, etc.",
+      "parentUuid": "801fa244_e4105a5f",
       "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a022e687_25234eb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-22T11:55:12Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll add that.",
+      "parentUuid": "c03c3aa5_ee475f61",
+      "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "801fa244_c40b5e30",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-22T10:43:37Z",
       "side": 1,
       "message": "It should probably be checked that \u0027base\u0027 and \u0027name\u0027 contain valid values. \n\nShould it be checked whether the requested branch exists already?",
+      "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "005e52fd_f8473161",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-22T11:55:12Z",
+      "side": 1,
+      "message": "My intention was to leave all the validation like that to the REST API, and here it should be enough to simply check that the keys exist and are not empty.",
+      "parentUuid": "801fa244_c40b5e30",
       "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

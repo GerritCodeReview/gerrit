@@ -94,10 +94,10 @@ final class ShowQueue extends SshCommand {
       }
     });
 
-    taskNameWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 8 - 4;
+    taskNameWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 12 - 4 - 4;
 
-    stdout.print(String.format("%-8s %-12s %-8s %s\n", //
-        "Task", "State", "", "Command"));
+    stdout.print(String.format("%-8s %-12s %-12s %-4s %s\n", //
+        "Task", "State", "StartTime", "", "Command"));
     stdout.print("----------------------------------------------"
         + "--------------------------------\n");
 
@@ -149,10 +149,12 @@ final class ShowQueue extends SshCommand {
         }
       }
 
+      String startTime = startTime(task.getStartTime());
+
       // Shows information about tasks depending on the user rights
       if (viewAll || (!hasCustomizedPrint && regularUserCanSee)) {
-        stdout.print(String.format("%8s %-12s %-8s %s\n", //
-            id(task.getTaskId()), start, "", format(task)));
+        stdout.print(String.format("%8s %-12s %-12s %-4s %s\n", //
+            id(task.getTaskId()), start, startTime, "", format(task)));
       } else if (regularUserCanSee) {
         if (remoteName == null) {
           remoteName = projectName.get();
@@ -160,8 +162,8 @@ final class ShowQueue extends SshCommand {
           remoteName = remoteName + "/" + projectName;
         }
 
-        stdout.print(String.format("%8s %-12s %-8s %s\n", //
-            id(task.getTaskId()), start, "", remoteName));
+        stdout.print(String.format("%8s %-12s %-4s %s\n", //
+            id(task.getTaskId()), start, startTime, "", remoteName));
       }
     }
     stdout.print("----------------------------------------------"
@@ -180,7 +182,15 @@ final class ShowQueue extends SshCommand {
 
   private static String time(final long now, final long delay) {
     final Date when = new Date(now + delay);
-    if (delay < 24 * 60 * 60 * 1000L) {
+    return format(when, delay);
+  }
+
+  private static String startTime(final Date when) {
+    return format(when, System.currentTimeMillis() - when.getTime());
+  }
+
+  private static String format(final Date when, final long timeFromNow) {
+    if (timeFromNow < 24 * 60 * 60 * 1000L) {
       return new SimpleDateFormat("HH:mm:ss.SSS").format(when);
     }
     return new SimpleDateFormat("MMM-dd HH:mm").format(when);

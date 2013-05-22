@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -248,6 +249,7 @@ public class WorkQueue {
     private final Executor executor;
     private final int taskId;
     private final AtomicBoolean running;
+    private final Date startTime;
 
     Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor,
         int taskId) {
@@ -256,6 +258,7 @@ public class WorkQueue {
       this.executor = executor;
       this.taskId = taskId;
       this.running = new AtomicBoolean();
+      this.startTime = new Date();
     }
 
     public int getTaskId() {
@@ -279,6 +282,10 @@ public class WorkQueue {
       }
 
       return State.OTHER;
+    }
+
+    public Date getStartTime() {
+      return startTime;
     }
 
     public boolean cancel(boolean mayInterruptIfRunning) {

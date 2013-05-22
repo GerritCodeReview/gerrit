@@ -33,6 +33,24 @@
       "revId": "900f80f9cf3e75bb22d6237390a49983e3d7c714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a022e687_a5165e59",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutPreferred.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-22T06:35:02Z",
+      "side": 1,
+      "message": "Ah, we posted at the same time.  OK, I\u0027ll wait for the next patch set before continuing verification.",
+      "parentUuid": "a022e687_6506262d",
+      "revId": "900f80f9cf3e75bb22d6237390a49983e3d7c714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

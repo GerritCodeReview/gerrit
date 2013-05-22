@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
@@ -22,11 +25,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 
 /**
  * Predicate for a {@link Change.Status}.
@@ -36,17 +35,15 @@ import java.util.Map;
  * searching for changes. Either operator name has the same meaning.
  */
 final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
-  private static final Map<String, Change.Status> byName;
-  private static final EnumMap<Change.Status, String> byEnum;
+  private static final ImmutableBiMap<Change.Status, String> VALUES;
 
   static {
-    byName = new HashMap<String, Change.Status>();
-    byEnum = new EnumMap<Change.Status, String>(Change.Status.class);
-    for (final Change.Status s : Change.Status.values()) {
-      final String name = s.name().toLowerCase();
-      byName.put(name, s);
-      byEnum.put(s, name);
+    ImmutableBiMap.Builder<Change.Status, String> values =
+        ImmutableBiMap.builder();
+    for (Change.Status s : Change.Status.values()) {
+      values.put(s, s.name().toLowerCase());
     }
+    VALUES = values.build();
   }
 
   static Predicate<ChangeData> open(Provider<ReviewDb> dbProvider) {
@@ -69,23 +66,18 @@ final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
     return r.size() == 1 ? r.get(0) : or(r);
   }
 
-  private static Change.Status parse(final String value) {
-    final Change.Status s = byName.get(value);
-    if (s == null) {
-      throw new IllegalArgumentException();
-    }
-    return s;
-  }
-
   private final Provider<ReviewDb> dbProvider;
   private final Change.Status status;
 
   ChangeStatusPredicate(Provider<ReviewDb> dbProvider, String value) {
-    this(dbProvider, parse(value));
+    super(ChangeQueryBuilder.FIELD_STATUS, value);
+    this.dbProvider = dbProvider;
+    status = VALUES.inverse().get(value);
+    checkArgument(status != null, "invalid change status: %s", value);
   }
 
   ChangeStatusPredicate(Provider<ReviewDb> dbProvider, Change.Status status) {
-    super(ChangeQueryBuilder.FIELD_STATUS, byEnum.get(status));
+    super(ChangeQueryBuilder.FIELD_STATUS, VALUES.get(status));
     this.dbProvider = dbProvider;
     this.status = status;
   }

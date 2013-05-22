@@ -17,7 +17,7 @@ from __future__ import print_function
 
 from hashlib import sha1
 from optparse import OptionParser
-from os import link, makedirs, path, symlink
+from os import link, makedirs, path, remove, symlink
 import shutil
 from subprocess import check_call, CalledProcessError
 from sys import stderr
@@ -135,12 +135,14 @@ if not path.exists(cache_ent):
 if args.v:
   have = hashfile(cache_ent)
   if args.v != have:
-    o = cache_ent[len(root_dir) + 1:]
     print((
       '%s:\n' +
       'expected %s\n' +
-      'received %s\n' +
-      '         %s\n') % (src_url, args.v, have, o), file=stderr)
+      'received %s\n') % (src_url, args.v, have), file=stderr)
+    try:
+      remove(cache_ent)
+    except OSError:
+      pass
     exit(1)
 
 exclude = []

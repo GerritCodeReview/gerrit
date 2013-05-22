@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "801fa244_242352b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-22T12:13:43Z",
+      "side": 1,
+      "message": "Ok, should be fine for the beginning!",
+      "parentUuid": "005e52fd_d8426d54",
+      "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "801fa244_e4105a5f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I wonder if we should also do these checks when the commits are received.  I.e. to prevent that we have a commit with invalid meta data, etc.",
       "parentUuid": "801fa244_e4105a5f",
+      "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0251a91_26fc36f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-22T12:13:43Z",
+      "side": 1,
+      "message": "Yes, we should. Actually the same is done for updates to refs/meta/config. Already on push it is verified that the pushed project configuration is valid. Have a look at ReceiveCommits line 832 to 892. I think this is the place where also the validation for refs/meta/requests should happen.",
+      "parentUuid": "a022e687_45204aa4",
       "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -136,6 +172,24 @@
       "side": 1,
       "message": "My intention was to leave all the validation like that to the REST API, and here it should be enough to simply check that the keys exist and are not empty.",
       "parentUuid": "801fa244_c40b5e30",
+      "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "801fa244_44204ea4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-22T12:13:43Z",
+      "side": 1,
+      "message": "Right, at this place it should be enough to reply on the validation in the REST API.",
+      "parentUuid": "005e52fd_f8473161",
       "revId": "c80e75292b8182335cca3638f0879ca34cfce661",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

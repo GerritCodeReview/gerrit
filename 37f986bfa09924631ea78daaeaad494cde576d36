@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "601c6e52_83ea3e2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-22T19:41:49Z",
+      "side": 1,
+      "message": "Done. Note we no longer need any changes to ChangeData to support indexing.",
+      "parentUuid": "005e52fd_b864d9f5",
+      "revId": "37f986bfa09924631ea78daaeaad494cde576d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c03c3aa5_4e2073a4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
         "patchSetId": 1

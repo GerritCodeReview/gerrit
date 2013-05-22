@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "005e52fd_58373de6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-22T14:04:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "U0..YIcE",
+      "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "U1C7Rh1A",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a022e687_853882de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-22T14:04:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "U1C7Rh1A",
+      "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "U04.TVaM",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-21T16:51:08Z",
       "side": 1,
       "message": "1. make this field private.\n\n2. This is also subclassing the HashMap :-)\nWhen I suggested embedding instead of subclassing I was thinking about something like:\n\n  Map\u003cProject.NameKey, RepoWalk\u003e repoWalksByProject \u003d new HashMap\u003cProject.NameKey, RepoWalk\u003e();\n\n  public RepoWalk get(Project.NameKey projectName) {\n    RepoWalk walk \u003d repoWalksByProject.get(projectName);\n    if (walk \u003d\u003d null) {\n      ... do whatever necesary...\n      repoWalksByProject.put(projectName, walk);\n    } else {\n      walk.revWalk.reset();\n    }\n    reset repoWalk;\n  }",
+      "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "005e52fd_783401e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-22T14:04:55Z",
+      "side": 1,
+      "message": ".\n 1. done\n 2. done",
+      "parentUuid": "U04.TVaM",
       "revId": "ffaa7a62c6c44a1c7ae199e265ccbc70f9fe3e0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

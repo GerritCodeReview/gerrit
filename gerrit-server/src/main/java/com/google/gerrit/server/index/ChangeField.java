@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.server.OrmException;
 
 import java.lang.reflect.Field;
@@ -46,6 +47,18 @@ public class ChangeField {
         @Override
         public Integer get(ChangeData input, FillArgs args) {
           return input.getId().get();
+        }
+      };
+
+  /** Change status string, in the same format as {@code status:}. */
+  public static final FieldDef<ChangeData, String> STATUS =
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_STATUS,
+          FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return ChangeStatusPredicate.VALUES.get(
+              input.change(args.db).getStatus());
         }
       };
 

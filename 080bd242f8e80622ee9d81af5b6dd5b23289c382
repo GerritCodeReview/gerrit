@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c03c3aa5_0eff4bea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-22T04:21:47Z",
+      "side": 1,
+      "message": "Will this fail with a NoSshInfo?  If so, perhaps the two new setters should be combined into one?",
+      "revId": "080bd242f8e80622ee9d81af5b6dd5b23289c382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

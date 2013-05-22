@@ -16,6 +16,24 @@
       "revId": "43887e1ede211b21ca5dfbbcc14be41d7ee11e18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a022e687_651d4671",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-22T12:57:23Z",
+      "side": 1,
+      "message": "should just return all changes then? I went with Saša suggestion as I couldn\u0027t think of an use-case where we\u0027d want to use this operator on open changes.\n\n \u003e\u003e\u003edefault operation to query on merged changes, but if paired with something like status:open it should return open changes\nhow can we accomplish this ?",
+      "parentUuid": "U5R3-c.o",
+      "revId": "43887e1ede211b21ca5dfbbcc14be41d7ee11e18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

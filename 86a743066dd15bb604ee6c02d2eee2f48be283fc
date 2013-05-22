@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0305ecf_87ea462a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-22T01:53:13Z",
+      "side": 1,
+      "message": "You should assign this to resizeHandler so onUnload can detach and reclaim memory.",
+      "revId": "86a743066dd15bb604ee6c02d2eee2f48be283fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

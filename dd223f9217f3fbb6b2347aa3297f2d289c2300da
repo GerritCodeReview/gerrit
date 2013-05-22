@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "005e52fd_382369b3",
+        "filename": "gerrit-plugin-api/dependency-reduced-pom.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-22T06:28:52Z",
+      "side": 1,
+      "message": "I guess this file was added unintentionally.",
+      "revId": "dd223f9217f3fbb6b2347aa3297f2d289c2300da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

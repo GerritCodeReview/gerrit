@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "005e52fd_b864d9f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-22T16:28:54Z",
+      "side": 1,
+      "message": "Yeah, I had this and it worked, and I reasoned that this was not terribly brittle because I at least check that the method on ChangeData matches the expected type based on the field type. So if it breaks, it will fail fast at class load time.\n\nBut I\u0027ve thought about it some more and I think the Single/RepeatableFieldDef approach has some additional advantages besides better compile-time safety, like not forcing ChangeData to expose methods only for the purposes of indexing. I will do that.\n\nI was just going to enumerate the fields explicitly but I suppose I can use reflection for that too.",
+      "parentUuid": "e0305ecf_87116666",
+      "revId": "37f986bfa09924631ea78daaeaad494cde576d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c03c3aa5_4e2073a4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2013-05-22T05:27:21Z",
       "side": 1,
       "message": "This is more of a replace as you have it. I was thinking about trying to do some sort of faster path where the caller supplies specific fields that were modified. But maybe this just won\u0027t map well onto Lucene or any other index.",
+      "revId": "37f986bfa09924631ea78daaeaad494cde576d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a022e687_c5427a54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-22T16:28:54Z",
+      "side": 1,
+      "message": "Lucene only has delete-and-insert, and it calls this operation \"update\", hence the name. But I wouldn\u0027t mind calling it \"replace\" here.\n\nThe problem with implementing \"update just these fields\" is that for Lucene, the best we could do is get-modify-delete-insert. So this devolves to either to filling in the fields just like we would for delete-insert, or requiring that all fields be stored in the index, which so far I wasn\u0027t counting on doing.",
+      "parentUuid": "c03c3aa5_4e2073a4",
       "revId": "37f986bfa09924631ea78daaeaad494cde576d36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

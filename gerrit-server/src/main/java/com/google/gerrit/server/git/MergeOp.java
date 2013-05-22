@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
+
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -43,6 +44,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -153,6 +155,7 @@ public class MergeOp {
   private final WorkQueue workQueue;
   private final RequestScopePropagator requestScopePropagator;
   private final AllProjectsName allProjectsName;
+  private final ChangeIndexer indexer;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -168,7 +171,8 @@ public class MergeOp {
       final SubmoduleOp.Factory subOpFactory,
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
-      final AllProjectsName allProjectsName) {
+      final AllProjectsName allProjectsName,
+      final ChangeIndexer indexer) {
     repoManager = grm;
     schemaFactory = sf;
     labelNormalizer = fs;
@@ -188,6 +192,7 @@ public class MergeOp {
     this.workQueue = workQueue;
     this.requestScopePropagator = requestScopePropagator;
     this.allProjectsName = allProjectsName;
+    this.indexer = indexer;
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
@@ -758,6 +763,7 @@ public class MergeOp {
       } catch (OrmException err) {
         log.warn("Error updating change status for " + c.getId(), err);
       }
+      indexer.index(c);
     }
   }
 

@@ -36,6 +36,7 @@ import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.change.Submit.Input;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -72,14 +73,17 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
   private final MergeQueue mergeQueue;
+  private final ChangeIndexer indexer;
 
   @Inject
   Submit(Provider<ReviewDb> dbProvider,
       GitRepositoryManager repoManager,
-      MergeQueue mergeQueue) {
+      MergeQueue mergeQueue,
+      ChangeIndexer indexer) {
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.mergeQueue = mergeQueue;
+    this.indexer = indexer;
   }
 
   @Override
@@ -187,6 +191,7 @@ public class Submit implements RestModifyView<RevisionResource, Input> {
     } finally {
       db.rollback();
     }
+    indexer.index(change);
     return change;
   }
 

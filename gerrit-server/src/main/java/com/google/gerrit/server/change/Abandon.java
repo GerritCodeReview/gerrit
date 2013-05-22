@@ -28,6 +28,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Abandon.Input;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.project.ChangeControl;
@@ -48,6 +49,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
+  private final ChangeIndexer indexer;
 
   public static class Input {
     @DefaultInput
@@ -58,11 +60,13 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
   Abandon(ChangeHooks hooks,
       AbandonedSender.Factory abandonedSenderFactory,
       Provider<ReviewDb> dbProvider,
-      ChangeJson json) {
+      ChangeJson json,
+      ChangeIndexer indexer) {
     this.hooks = hooks;
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
+    this.indexer = indexer;
   }
 
   @Override
@@ -107,6 +111,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
       db.rollback();
     }
 
+    indexer.index(change);
     try {
       ReplyToChangeSender cm = abandonedSenderFactory.create(change);
       cm.setFrom(caller.getAccountId());

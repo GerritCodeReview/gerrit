@@ -74,6 +74,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
@@ -263,6 +264,7 @@ public class ReceiveCommits {
   private final WorkQueue workQueue;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
+  private final ChangeIndexer indexer;
   private final SshInfo sshInfo;
   private final AllProjectsName allProjectsName;
   private final ReceiveConfig receiveConfig;
@@ -323,6 +325,7 @@ public class ReceiveCommits {
       final WorkQueue workQueue,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
+      final ChangeIndexer indexer,
       final SshInfo sshInfo,
       final AllProjectsName allProjectsName,
       ReceiveConfig config,
@@ -353,6 +356,7 @@ public class ReceiveCommits {
     this.workQueue = workQueue;
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
+    this.indexer = indexer;
     this.sshInfo = sshInfo;
     this.allProjectsName = allProjectsName;
     this.receiveConfig = config;
@@ -1905,6 +1909,7 @@ public class ReceiveCommits {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
+      indexer.index(change, requestScopePropagator);
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
@@ -2207,7 +2212,7 @@ public class ReceiveCommits {
 
   private void markChangeMergedByPush(final ReviewDb db,
       final ReplaceRequest result) throws OrmException {
-    final Change change = result.change;
+    Change change = result.change;
     final String mergedIntoRef = result.mergedIntoRef;
 
     change.setCurrentPatchSet(result.info);
@@ -2235,17 +2240,19 @@ public class ReceiveCommits {
 
     db.changeMessages().insert(Collections.singleton(msg));
 
-    db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        if (change.getStatus().isOpen()) {
-          change.setCurrentPatchSet(result.info);
-          change.setStatus(Change.Status.MERGED);
-          ChangeUtil.updated(change);
-        }
-        return change;
-      }
-    });
+    change = db.changes().atomicUpdate(
+        change.getId(), new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change change) {
+            if (change.getStatus().isOpen()) {
+              change.setCurrentPatchSet(result.info);
+              change.setStatus(Change.Status.MERGED);
+              ChangeUtil.updated(change);
+            }
+            return change;
+          }
+        });
+    indexer.index(change, requestScopePropagator);
   }
 
   private void sendMergedEmail(final ReplaceRequest result) {

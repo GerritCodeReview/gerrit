@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.ChangeIndexer;
 
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -55,13 +56,15 @@ public abstract class SubmitStrategy {
     protected final Set<RevCommit> alreadyAccepted;
     protected final Branch.NameKey destBranch;
     protected final MergeUtil mergeUtil;
+    protected final ChangeIndexer indexer;
     protected final MergeSorter mergeSorter;
 
     Arguments(final IdentifiedUser.GenericFactory identifiedUserFactory,
         final PersonIdent myIdent, final ReviewDb db, final Repository repo,
         final RevWalk rw, final ObjectInserter inserter,
         final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
-        final Branch.NameKey destBranch, final MergeUtil mergeUtil) {
+        final Branch.NameKey destBranch, final MergeUtil mergeUtil,
+        final ChangeIndexer indexer) {
       this.identifiedUserFactory = identifiedUserFactory;
       this.myIdent = myIdent;
       this.db = db;
@@ -73,6 +76,7 @@ public abstract class SubmitStrategy {
       this.alreadyAccepted = alreadyAccepted;
       this.destBranch = destBranch;
       this.mergeUtil = mergeUtil;
+      this.indexer = indexer;
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag);
     }
   }

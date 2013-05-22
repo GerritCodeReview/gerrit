@@ -16,6 +16,24 @@
       "revId": "080bd242f8e80622ee9d81af5b6dd5b23289c382",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a022e687_e5477661",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-22T16:57:57Z",
+      "side": 1,
+      "message": "It will fail with null, but NoSshInfo is fine, that\u0027s how we do all of our commit validation for googlesource.com currently.",
+      "parentUuid": "c03c3aa5_0eff4bea",
+      "revId": "080bd242f8e80622ee9d81af5b6dd5b23289c382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

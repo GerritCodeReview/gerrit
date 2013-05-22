@@ -24,9 +24,8 @@ cloned.
 Compiling
 ---------
 
-For details on how to build the source code Buck, refer to:
-
-1. link:dev-buck.html#build[Building on the command line with Buck]
+For details on how to build the source code with Buck, refer to:
+link:dev-buck.html#build[Building on the command line with Buck].
 
 
 Configuring Eclipse
@@ -35,9 +34,8 @@ Configuring Eclipse
 To use the Eclipse IDE for development, please see
 link:dev-eclipse.html[Eclipse Setup].
 
-For details on how to configure the Eclipse workspace with Buck:
-
-1. link:dev-buck.html#eclipse[Eclipse integration with Buck]
+For details on how to configure the Eclipse workspace with Buck,
+refer to: link:dev-buck.html#eclipse[Eclipse integration with Buck].
 
 
 Mac OS X
@@ -95,8 +93,7 @@ shutdown.
 
 For instructions on running the integration tests with Buck,
 please refer to:
-
-1. link:dev-buck.html#tests[Running integration tests with Buck]
+link:dev-buck.html#tests[Running integration tests with Buck].
 
 
 Running the Daemon

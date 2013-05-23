@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "005e52fd_383449b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-23T18:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "601c6e52_634b8265",
+      "revId": "34f5575428e6797443ab1147a00c5561eda77ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "005e52fd_78afa1b4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
         "patchSetId": 2
@@ -98,6 +116,24 @@
       "writtenOn": "2013-05-23T18:19:45Z",
       "side": 1,
       "message": "Please write a more descriptive comment.",
+      "revId": "34f5575428e6797443ab1147a00c5561eda77ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "601c6e52_e39db2ae",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-23T18:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "005e52fd_78afa1b4",
       "revId": "34f5575428e6797443ab1147a00c5561eda77ac1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "601c6e52_03a3aeeb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-23T18:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "005e52fd_58b2dd1f",
+      "revId": "34f5575428e6797443ab1147a00c5561eda77ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "005e52fd_9822b579",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
         "patchSetId": 2
@@ -132,6 +186,24 @@
       "writtenOn": "2013-05-23T18:19:45Z",
       "side": 1,
       "message": "rename MyUiBinder -\u003e Binder",
+      "revId": "34f5575428e6797443ab1147a00c5561eda77ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "601c6e52_23a0aadc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-23T18:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "005e52fd_9822b579",
       "revId": "34f5575428e6797443ab1147a00c5561eda77ac1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +227,24 @@
     },
     {
       "key": {
+        "uuid": "005e52fd_5841fd1a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-23T18:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "005e52fd_b8277988",
+      "revId": "34f5575428e6797443ab1147a00c5561eda77ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "005e52fd_d82c2d6f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
         "patchSetId": 2
@@ -166,6 +256,24 @@
       "writtenOn": "2013-05-23T18:19:45Z",
       "side": 1,
       "message": "drop public",
+      "revId": "34f5575428e6797443ab1147a00c5561eda77ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "005e52fd_783ec193",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-23T18:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "005e52fd_d82c2d6f",
       "revId": "34f5575428e6797443ab1147a00c5561eda77ac1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

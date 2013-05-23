@@ -18,7 +18,6 @@ import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHA
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
@@ -33,7 +32,6 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Module;
 import com.google.inject.Singleton;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -73,54 +71,11 @@ import java.util.List;
  * other threads' searchers.
  */
 @Singleton
-public class LuceneChangeIndex implements ChangeIndex {
+public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   private static final Logger log =
       LoggerFactory.getLogger(LuceneChangeIndex.class);
 
   private static final Version VERSION = Version.LUCENE_43;
-
-  public static Module module() {
-    return new LifecycleModule() {
-      @Override
-      protected void configure() {
-        bind(ChangeIndex.class).to(LuceneChangeIndex.class);
-        listener().to(Lifecycle.class);
-      }
-    };
-  }
-
-  static class Lifecycle implements LifecycleListener {
-    private final LuceneChangeIndex index;
-
-    @Inject
-    Lifecycle(LuceneChangeIndex index) {
-      this.index = index;
-    }
-
-    @Override
-    public void start() {
-      // Do nothing.
-    }
-
-    @Override
-    public void stop() {
-      try {
-        index.searcherManager.close();
-      } catch (IOException e) {
-        log.warn("error closing Lucene searcher", e);
-      }
-      try {
-        index.writer.close(true);
-      } catch (IOException e) {
-        log.warn("error closing Lucene writer", e);
-      }
-      try {
-        index.dir.close();
-      } catch (IOException e) {
-        log.warn("error closing Lucene directory", e);
-      }
-    }
-  }
 
   private final FillArgs fillArgs;
   private final Directory dir;
@@ -137,6 +92,30 @@ public class LuceneChangeIndex implements ChangeIndex {
     writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
     writer = new IndexWriter(dir, writerConfig);
     searcherManager = new SearcherManager(writer, true, null);
+  }
+
+  @Override
+  public void start() {
+    // Do nothing.
+  }
+
+  @Override
+  public void stop() {
+    try {
+      searcherManager.close();
+    } catch (IOException e) {
+      log.warn("error closing Lucene searcher", e);
+    }
+    try {
+      writer.close(true);
+    } catch (IOException e) {
+      log.warn("error closing Lucene writer", e);
+    }
+    try {
+      dir.close();
+    } catch (IOException e) {
+      log.warn("error closing Lucene directory", e);
+    }
   }
 
   @Override

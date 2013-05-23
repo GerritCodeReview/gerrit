@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.package com.google.gerrit.server.git;
 
-package com.google.gerrit.server.index;
+package com.google.gerrit.lucene;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.index.ChangeIndex;
 
 public class Module extends LifecycleModule {
   @Override
   protected void configure() {
-    install(new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(ChangeIndexer.Factory.class);
-      }
-    });
+    bind(ChangeIndex.class).to(LuceneChangeIndex.class);
+    listener().to(LuceneChangeIndex.class);
   }
 }

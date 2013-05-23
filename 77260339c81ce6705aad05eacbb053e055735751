@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "801fa244_a464a2f5",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T07:36:13Z",
+      "side": 1,
+      "message": "* Code mirror integration and optional usage for side by side diff.",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "801fa244_845fa628",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T07:36:13Z",
+      "side": 1,
+      "message": "* Comment draft icon is shown on the patch set panel, if review is in process and contains unpublished comment(s).",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0251a91_06265ac2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T07:36:13Z",
+      "side": 1,
+      "message": "* Plugins may now contribute buttons to patch set action panel\n\nSuport for other places are still under review:\n\n* https://gerrit-review.googlesource.com/#/c/45732/\n* https://gerrit-review.googlesource.com/#/c/45640/",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

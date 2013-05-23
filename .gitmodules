@@ -9,3 +9,7 @@
 [submodule "plugins/commit-message-length-validator"]
 	path = plugins/commit-message-length-validator
 	url = https://gerrit.googlesource.com/plugins/commit-message-length-validator
+
+[submodule "plugins/helloworld"]
+	path = plugins/helloworld
+	url = https://gerrit.googlesource.com/plugins/helloworld

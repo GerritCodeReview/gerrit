@@ -51,6 +51,24 @@
       "revId": "ccc87a8bf9e6663c09bba53cc79692fdc4943e10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0251a91_86388ade",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-23T09:08:46Z",
+      "side": 1,
+      "message": "After playing around with the submodule support in 2.5, if feel that there may be times where \"/\" can be correct. \n\nAlbeit a bit Iate, feel this is a bit dangerous, since there may be projects today running @ 2.5 that actually use \"/\".\n\nSome times you just want to get rid of the server names from the .gitmodules files, but still traverse from the root. The \"/\" should be fine in those places(?) Or does regular Git don\u0027t support traversing from the root?",
+      "parentUuid": "AAALfH///8w\u003d",
+      "revId": "ccc87a8bf9e6663c09bba53cc79692fdc4943e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

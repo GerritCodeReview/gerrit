@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1decfd78_e1fac6f6",
+        "filename": ".buckconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T01:03:44Z",
+      "side": 1,
+      "message": "I have been trying to keep this list alphasorted.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1decfd78_a104be24",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T01:03:44Z",
+      "side": 1,
+      "message": "Don\u0027t do this. There is no place for a version tag in BUCK files. It should be brought in automatically by something like the version rule in gerrit-common.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0305ecf_27235ab3",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T01:03:44Z",
+      "side": 1,
+      "message": "style-nit: format like the genrule below you. If you need more than one line then you use many lines, one line per named parameter.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0305ecf_47204ea4",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T01:03:44Z",
+      "side": 1,
+      "message": "deps not dep",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0305ecf_671d5271",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T01:03:44Z",
+      "side": 1,
+      "message": "inline this as srcs \u003d [] below. No need for it to appear here.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0305ecf_873886de",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T01:03:44Z",
+      "side": 1,
+      "message": "This is a fake target. Elsewhere I make out be a fake name, e.g.:\n\n  out \u003d \u0027__fake.%s__\u0027 % name\n\njust in case the genrule tries to make the name in buck-out/gen its more obvious this name is a bad name and shouldn\u0027t have been made.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1decfd78_8113fa6c",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T01:03:44Z",
+      "side": 1,
+      "message": "Unnecessary. The default visibility is the empty list.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1decfd78_6118f686",
+        "filename": "tools/install_api.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T01:03:44Z",
+      "side": 1,
+      "message": "Don\u0027t do this. Instead you want to take these as srcs so they appear in $SRCDIR. Then you can pass something like:\n\n  -p $SRCDIR/plugin-api.jar -e $SRCDIR/extension-api.jar\n\nin the genrule() and now you have clean paths in the python app in the p and e options.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0305ecf_a73d8acd",
+        "filename": "tools/install_api.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T01:03:44Z",
+      "side": 1,
+      "message": "Sadly we don\u0027t make these JARs yet.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c0251a91_262a767f",
+        "filename": ".buckconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T21:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1decfd78_e1fac6f6",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1decfd78_a104be24",
         "filename": "BUCK",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-23T01:03:44Z",
       "side": 1,
       "message": "Don\u0027t do this. There is no place for a version tag in BUCK files. It should be brought in automatically by something like the version rule in gerrit-common.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0251a91_463772e6",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T21:14:16Z",
+      "side": 1,
+      "message": "well, we don\u0027t have it in gerrit-common either\n\n git describe HEAD\n\ngives us this: v2.7-rc1-296-g122812d\n\nbut we want this:\n\n 2.8-SNAPSHOT or may be 3.0 or whatever, \nso i introduced VERSION file in the Gerrit base directory",
+      "parentUuid": "1decfd78_a104be24",
       "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7d041902_5c183d86",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T21:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0305ecf_27235ab3",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_47204ea4",
         "filename": "tools/build.defs",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-23T01:03:44Z",
       "side": 1,
       "message": "deps not dep",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0251a91_66346ee1",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T21:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0305ecf_47204ea4",
       "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "801fa244_8475e695",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T21:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0305ecf_671d5271",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_873886de",
         "filename": "tools/build.defs",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-05-23T01:03:44Z",
       "side": 1,
       "message": "This is a fake target. Elsewhere I make out be a fake name, e.g.:\n\n  out \u003d \u0027__fake.%s__\u0027 % name\n\njust in case the genrule tries to make the name in buck-out/gen its more obvious this name is a bad name and shouldn\u0027t have been made.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1decfd78_6166b600",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T21:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0305ecf_873886de",
       "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "c0251a91_865faa28",
+        "filename": "tools/build.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T21:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1decfd78_8113fa6c",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1decfd78_6118f686",
         "filename": "tools/install_api.py",
         "patchSetId": 1
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "c0251a91_a664a6f5",
+        "filename": "tools/install_api.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T21:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1decfd78_6118f686",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_a73d8acd",
         "filename": "tools/install_api.py",
         "patchSetId": 1
@@ -149,6 +293,24 @@
       "writtenOn": "2013-05-23T01:03:44Z",
       "side": 1,
       "message": "Sadly we don\u0027t make these JARs yet.",
+      "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0251a91_e65e9e29",
+        "filename": "tools/install_api.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T21:14:16Z",
+      "side": 1,
+      "message": "Why?",
+      "parentUuid": "e0305ecf_a73d8acd",
       "revId": "f3207cb7a2d6858a81331c9e71fab8e3f838b57d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

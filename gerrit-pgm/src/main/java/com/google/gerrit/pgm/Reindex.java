@@ -14,6 +14,9 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.gerrit.lucene.IndexVersionCheck.SCHEMA_VERSIONS;
+import static com.google.gerrit.lucene.IndexVersionCheck.gerritIndexConfig;
+import static com.google.gerrit.lucene.LuceneChangeIndex.LUCENE_VERSION;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 
 import com.google.common.base.Stopwatch;
@@ -40,10 +43,14 @@ import com.google.inject.TypeLiteral;
 
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -86,6 +93,7 @@ public class Reindex extends SiteProgram {
     index.getWriter().commit();
     double elapsed = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Reindexed %d changes in %.02fms", i, elapsed);
+    writeVersion();
 
     manager.stop();
     return 0;
@@ -94,7 +102,7 @@ public class Reindex extends SiteProgram {
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
     modules.add(PatchListCacheImpl.module());
-    modules.add(new LuceneIndexModule());
+    modules.add(new LuceneIndexModule(false));
     modules.add(new AbstractModule() {
       @SuppressWarnings("rawtypes")
       @Override
@@ -127,5 +135,17 @@ public class Reindex extends SiteProgram {
         dir.close();
       }
     }
+  }
+
+  private void writeVersion() throws IOException, ConfigInvalidException {
+    FileBasedConfig cfg =
+        new FileBasedConfig(gerritIndexConfig(sitePaths), FS.detect());
+    cfg.load();
+
+    for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
+      cfg.setInt("index", e.getKey(), "schemaVersion", e.getValue());
+    }
+    cfg.setEnum("lucene", null, "version", LUCENE_VERSION);
+    cfg.save();
   }
 }

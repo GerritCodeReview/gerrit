@@ -36,6 +36,9 @@ import java.util.Map;
  * Used to generate a schema for index implementations that require one.
  */
 public class ChangeField {
+  /** Increment whenever making schema changes. */
+  public static final int SCHEMA_VERSION = 1;
+
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
       new FieldDef.Single<ChangeData, Integer>(ChangeQueryBuilder.FIELD_CHANGE,

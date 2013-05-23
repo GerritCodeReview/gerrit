@@ -75,7 +75,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   private static final Logger log =
       LoggerFactory.getLogger(LuceneChangeIndex.class);
 
-  private static final Version VERSION = Version.LUCENE_43;
+  public static final Version LUCENE_VERSION = Version.LUCENE_43;
 
   private final FillArgs fillArgs;
   private final Directory dir;
@@ -88,7 +88,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     this.fillArgs = fillArgs;
     dir = FSDirectory.open(new File(sitePaths.index_dir, "changes"));
     IndexWriterConfig writerConfig =
-        new IndexWriterConfig(VERSION, new StandardAnalyzer(VERSION));
+        new IndexWriterConfig(LUCENE_VERSION, new StandardAnalyzer(LUCENE_VERSION));
     writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
     writer = new IndexWriter(dir, writerConfig);
     searcherManager = new SearcherManager(writer, true, null);
@@ -141,6 +141,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     } else {
       throw badFieldType(p.getType());
     }
+  }
+
+  public Directory getDirectory() {
+    return dir;
   }
 
   public IndexWriter getWriter() {

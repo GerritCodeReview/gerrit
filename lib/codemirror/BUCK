@@ -14,7 +14,7 @@ genrule(
     'echo "Manifest-Version: 1.0" >META-INF/MANIFEST.MF',
     'zip -r $OUT *'
   ]),
-  srcs = [genfile('dist.zip')],
+  srcs = [genfile('codemirror-' + VERSION + '.zip')],
   deps = [
     ':download',
     '//lib:LICENSE-codemirror',
@@ -31,5 +31,5 @@ genrule(
     ' -v ' + SHA1,
   srcs = [],
   deps = ['//tools:download_file'],
-  out = 'dist.zip',
+  out = 'codemirror-' + VERSION + '.zip',
 )

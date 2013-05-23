@@ -25,7 +25,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PutName.Input;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -54,16 +53,16 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
-  public Object apply(AccountResource rsrc, Input input) throws AuthException,
-      MethodNotAllowedException, ResourceNotFoundException, OrmException {
-    IdentifiedUser s = (IdentifiedUser) self.get();
-    if (s.getAccountId().get() != rsrc.getUser().getAccountId().get()
+  public Response<String> apply(AccountResource rsrc, Input input)
+      throws AuthException, MethodNotAllowedException,
+      ResourceNotFoundException, OrmException {
+    if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to change name");
     }
 
     if (!realm.allowsEdit(FieldName.FULL_NAME)) {
-      throw new MethodNotAllowedException("The realm doesn't allow editing names");
+      throw new MethodNotAllowedException("realm does not allow editing name");
     }
 
     if (input == null) {
@@ -72,13 +71,13 @@ public class PutName implements RestModifyView<AccountResource, Input> {
 
     Account a = dbProvider.get().accounts().get(rsrc.getUser().getAccountId());
     if (a == null) {
-      throw new ResourceNotFoundException("No such account: "
-          + rsrc.getUser().getAccountId());
+      throw new ResourceNotFoundException("account not found");
     }
     a.setFullName(input.name);
     dbProvider.get().accounts().update(Collections.singleton(a));
     byIdCache.evict(a.getId());
-    return Strings.isNullOrEmpty(a.getFullName()) ?
-        Response.none() : a.getFullName();
+    return Strings.isNullOrEmpty(a.getFullName())
+        ? Response.<String> none()
+        : Response.ok(a.getFullName());
   }
 }

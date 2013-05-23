@@ -19,11 +19,9 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.CreateEmail.Input;
 
 public class PutEmail implements RestModifyView<AccountResource.Email, Input> {
-
   @Override
   public Object apply(AccountResource.Email rsrc, Input input)
       throws ResourceConflictException {
-    throw new ResourceConflictException("Email \"" + rsrc.getEmail()
-        + "\" already exists");
+    throw new ResourceConflictException("email exists");
   }
 }

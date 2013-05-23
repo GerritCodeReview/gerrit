@@ -22,7 +22,6 @@ public class PutAccount implements RestModifyView<AccountResource, Input> {
   @Override
   public Object apply(AccountResource resource, Input input)
       throws ResourceConflictException {
-    throw new ResourceConflictException("Account \"" + resource.getUser().getNameEmail()
-        + "\" already exists");
+    throw new ResourceConflictException("account exists");
   }
 }

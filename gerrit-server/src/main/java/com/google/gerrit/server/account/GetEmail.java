@@ -18,13 +18,11 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.GetEmails.EmailInfo;
 
 public class GetEmail implements RestReadView<AccountResource.Email> {
-
   @Override
   public EmailInfo apply(AccountResource.Email rsrc) {
     EmailInfo e = new EmailInfo();
     e.email = rsrc.getEmail();
-    e.setPreferred(rsrc.getEmail().equals(
-        rsrc.getUser().getAccount().getPreferredEmail()));
+    e.preferred(rsrc.getUser().getAccount().getPreferredEmail());
     return e;
   }
 }

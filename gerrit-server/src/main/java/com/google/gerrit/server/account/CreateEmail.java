@@ -18,13 +18,14 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CreateEmail.Input;
 import com.google.gerrit.server.account.GetEmails.EmailInfo;
 import com.google.gerrit.server.config.AuthConfig;
@@ -52,6 +53,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   }
 
   private final Provider<CurrentUser> self;
+  private final Realm realm;
   private final AuthConfig authConfig;
   private final AccountManager accountManager;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
@@ -59,11 +61,15 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   private final String email;
 
   @Inject
-  CreateEmail(Provider<CurrentUser> self, AuthConfig authConfig,
+  CreateEmail(Provider<CurrentUser> self,
+      Realm realm,
+      AuthConfig authConfig,
       AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
-      Provider<PutPreferred> putPreferredProvider, @Assisted String email) {
+      Provider<PutPreferred> putPreferredProvider,
+      @Assisted String email) {
     this.self = self;
+    this.realm = realm;
     this.authConfig = authConfig;
     this.accountManager = accountManager;
     this.registerNewEmailFactory = registerNewEmailFactory;
@@ -74,21 +80,28 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
   @Override
   public Object apply(AccountResource rsrc, Input input) throws AuthException,
       BadRequestException, ResourceConflictException,
-      ResourceNotFoundException, OrmException, EmailException {
-    IdentifiedUser s = (IdentifiedUser) self.get();
-    if (s.getAccountId().get() != rsrc.getUser().getAccountId().get()
+      ResourceNotFoundException, OrmException, EmailException,
+      MethodNotAllowedException {
+    if (self.get() != rsrc.getUser()
         && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to add email address");
     }
+
+    if (!realm.allowsEdit(FieldName.REGISTER_NEW_EMAIL)) {
+      throw new MethodNotAllowedException("realm does not allow adding emails");
+    }
+
     if (input == null) {
       input = new Input();
     }
+
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }
-    if (input.noConfirmation && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not allowed to add email address without confirmation, "
-          + "need to be Gerrit administrator");
+
+    if (input.noConfirmation
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("must be administrator to use no_confirmation");
     }
 
     EmailInfo info = new EmailInfo();
@@ -105,7 +118,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
         putPreferredProvider.get().apply(
             new AccountResource.Email(rsrc.getUser(), email),
             null);
-        info.setPreferred(true);
+        info.preferred = true;
       }
     } else {
       try {

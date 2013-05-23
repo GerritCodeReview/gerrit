@@ -17,13 +17,11 @@ package com.google.gerrit.server.account;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource.Email;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -53,27 +51,24 @@ public class Emails implements
   }
 
   @Override
-  public AccountResource.Email parse(AccountResource parent, IdString id)
-      throws AuthException, ResourceNotFoundException {
-    if ("preferred".equals(id.get())) {
-      String preferredEmail = parent.getUser().getAccount().getPreferredEmail();
-      if (!Strings.isNullOrEmpty(preferredEmail)) {
-        return new AccountResource.Email(parent.getUser(), preferredEmail);
-      }
+  public AccountResource.Email parse(AccountResource rsrc, IdString id)
+      throws ResourceNotFoundException {
+    if (self.get() != rsrc.getUser()
+        && !self.get().getCapabilities().canAdministrateServer()) {
       throw new ResourceNotFoundException();
     }
 
-    if (!(self.get() instanceof IdentifiedUser)) {
-      throw new AuthException("Authentication required");
-    }
-    IdentifiedUser s = (IdentifiedUser) self.get();
-    if (s.getAccountId().equals(parent.getUser().getAccountId())
-        || s.getCapabilities().canAdministrateServer()) {
-      if (parent.getUser().getEmailAddresses().contains(id.get())) {
-        return new AccountResource.Email(parent.getUser(), id.get());
+    if ("preferred".equals(id.get())) {
+      String email = rsrc.getUser().getAccount().getPreferredEmail();
+      if (Strings.isNullOrEmpty(email)) {
+        throw new ResourceNotFoundException();
       }
+      return new AccountResource.Email(rsrc.getUser(), email);
+    } else if (rsrc.getUser().getEmailAddresses().contains(id.get())) {
+      return new AccountResource.Email(rsrc.getUser(), id.get());
+    } else {
+      throw new ResourceNotFoundException();
     }
-    throw new ResourceNotFoundException();
   }
 
   @Override

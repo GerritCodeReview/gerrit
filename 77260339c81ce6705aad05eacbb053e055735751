@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "801fa244_644b8a65",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T10:52:46Z",
+      "side": 1,
+      "message": "we should split it between RN 2.7 \u0026 2.8:\n\nReleaseNotes-2.7.txt:\n\n* Patch sets that have draft comments are highlighted with an icon\n\nReleaseNotes-2.8.txt:\n\n* Rework/Improvement of highlighting of patch sets with drafts",
+      "parentUuid": "601c6e52_23234ab3",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0251a91_06265ac2",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 6

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "005e52fd_3851a917",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-23T00:23:03Z",
+      "side": 1,
+      "message": "Is there anything specific that we need from this upstream version, or is this just a general update?",
+      "revId": "1aa74946733c61101397664776b6b34f0747a535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package net.codemirror.lib;
 
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.ScriptElement;
@@ -24,6 +25,8 @@ import com.google.gwt.resources.client.ResourceException;
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import net.codemirror.addon.Addons;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,8 +39,14 @@ class Loader {
     if (isLibLoaded()) {
       cb.onSuccess(null);
     } else {
+      CallbackGroup group = new CallbackGroup();
       injectCss(Lib.I.css());
-      injectScript(Lib.I.js().getSafeUri(), cb);
+      injectScript(
+          Lib.I.js().getSafeUri(), group.add(new AsyncCallback<Void>() {
+            public void onFailure(Throwable caught) {}
+            public void onSuccess(Void result) {}
+          }));
+      injectScript(Addons.I.mark_selection().getSafeUri(), group.add(cb));
     }
   }
 

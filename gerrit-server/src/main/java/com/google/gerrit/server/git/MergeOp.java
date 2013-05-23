@@ -42,7 +42,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
@@ -157,7 +156,6 @@ public class MergeOp {
   private final SubmoduleOp.Factory subOpFactory;
   private final WorkQueue workQueue;
   private final RequestScopePropagator requestScopePropagator;
-  private final AllProjectsName allProjectsName;
   private final ChangeIndexer indexer;
 
   @Inject
@@ -174,7 +172,6 @@ public class MergeOp {
       final SubmoduleOp.Factory subOpFactory,
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
-      final AllProjectsName allProjectsName,
       final ChangeIndexer indexer,
       final MergeValidators.Factory mergeValidatorsFactory) {
     repoManager = grm;
@@ -195,7 +192,6 @@ public class MergeOp {
     this.subOpFactory = subOpFactory;
     this.workQueue = workQueue;
     this.requestScopePropagator = requestScopePropagator;
-    this.allProjectsName = allProjectsName;
     this.indexer = indexer;
     this.mergeValidatorsFactory = mergeValidatorsFactory;
     destBranch = branch;
@@ -555,52 +551,6 @@ public class MergeOp {
       } catch (MergeValidationException mve) {
         commits.put(changeId, CodeReviewCommit.error(mve.getStatus()));
         continue;
-      }
-
-      if (GitRepositoryManager.REF_CONFIG.equals(destBranch.get())) {
-        final Project.NameKey newParent;
-        try {
-          ProjectConfig cfg =
-              new ProjectConfig(destProject.getProject().getNameKey());
-          cfg.load(repo, commit);
-          newParent = cfg.getProject().getParent(allProjectsName);
-        } catch (Exception e) {
-          commits.put(changeId, CodeReviewCommit
-              .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION));
-          continue;
-        }
-        final Project.NameKey oldParent =
-            destProject.getProject().getParent(allProjectsName);
-        if (oldParent == null) {
-          // update of the 'All-Projects' project
-          if (newParent != null) {
-            commits.put(changeId, CodeReviewCommit
-                .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT));
-            continue;
-          }
-        } else {
-          if (!oldParent.equals(newParent)) {
-            final PatchSetApproval psa = getSubmitter(db, ps.getId());
-            if (psa == null) {
-              commits.put(changeId, CodeReviewCommit
-                  .error(CommitMergeStatus.SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN));
-              continue;
-            }
-            final IdentifiedUser submitter =
-                identifiedUserFactory.create(psa.getAccountId());
-            if (!submitter.getCapabilities().canAdministrateServer()) {
-              commits.put(changeId, CodeReviewCommit
-                  .error(CommitMergeStatus.SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN));
-              continue;
-            }
-
-            if (projectCache.get(newParent) == null) {
-              commits.put(changeId, CodeReviewCommit
-                  .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND));
-              continue;
-            }
-          }
-        }
       }
 
       commit.change = chg;

@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "601c6e52_23234ab3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-23T09:41:50Z",
+      "side": 1,
+      "message": "Actually, the initial change for this feature [1] went into 2.7 but it looks like the reworking of it only went to master [2] and is not included in 2.7\n\n[1] https://gerrit-review.googlesource.com/#/c/44630/\n\n[2] https://gerrit-review.googlesource.com/#/c/45600/",
+      "parentUuid": "005e52fd_7881613a",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0251a91_06265ac2",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 6

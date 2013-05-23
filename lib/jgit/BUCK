@@ -1,11 +1,11 @@
+include_defs('//VERSION')
 include_defs('//lib/maven.defs')
 
 REPO = GERRIT
-VERS = '2.3.1.201302201838-r.211-g36144e1'
 
 maven_jar(
   name = 'jgit',
-  id = 'org.eclipse.jgit:org.eclipse.jgit:' + VERS,
+  id = 'org.eclipse.jgit:org.eclipse.jgit:' + JGIT_VER,
   bin_sha1 = '4328d64fb5f5a5a07795965801850a10901b0979',
   src_sha1 = 'e55f1e231138df01edee9014df94ca3c6cbf0d8e',
   license = 'jgit',
@@ -20,7 +20,7 @@ maven_jar(
 
 maven_jar(
   name = 'jgit-servlet',
-  id = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + VERS,
+  id = 'org.eclipse.jgit:org.eclipse.jgit.http.server:' + JGIT_VER,
   sha1 = '269b4096780247a26368985b05e4b66f16785946',
   license = 'jgit',
   repository = REPO,
@@ -33,7 +33,7 @@ maven_jar(
 
 maven_jar(
   name = 'junit',
-  id = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + VERS,
+  id = 'org.eclipse.jgit:org.eclipse.jgit.junit:' + JGIT_VER,
   sha1 = '0fa01088b0f7a847dabafec59318221828832b36',
   license = 'DO_NOT_DISTRIBUTE',
   repository = REPO,
@@ -59,7 +59,7 @@ genrule(
   cmd = 'unzip -qd $TMP $SRCS org/eclipse/jgit/diff/Edit.java;' +
     'cd $TMP;' +
     'zip -Dq $OUT org/eclipse/jgit/diff/Edit.java',
-  srcs = [genfile('jgit/org.eclipse.jgit-%s-src.jar' % VERS)],
+  srcs = [genfile('jgit/org.eclipse.jgit-%s-src.jar' % JGIT_VER)],
   out = 'edit-src.jar',
   deps = [':jgit_src']
 )

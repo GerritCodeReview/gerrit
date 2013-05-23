@@ -77,6 +77,8 @@ import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.validators.MergeCommitValidationListener;
+import com.google.gerrit.server.git.validators.MergeCommitValidators;
 import com.google.gerrit.server.git.validators.ReceiveCommitValidationListener;
 import com.google.gerrit.server.git.validators.ReceiveCommitValidators;
 import com.google.gerrit.server.mail.AddReviewerSender;
@@ -251,11 +253,13 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
     DynamicSet.setOf(binder(), ChangeListener.class);
     DynamicSet.setOf(binder(), ReceiveCommitValidationListener.class);
+    DynamicSet.setOf(binder(), MergeCommitValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
 
     bind(AnonymousUser.class);
 
     factory(ReceiveCommitValidators.Factory.class);
+    factory(MergeCommitValidators.Factory.class);
     factory(NotesBranchUtil.Factory.class);
 
     bind(AccountManager.class);

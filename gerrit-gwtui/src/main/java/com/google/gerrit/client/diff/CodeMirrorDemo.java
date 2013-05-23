@@ -14,19 +14,23 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.ModeInjector;
 
 public class CodeMirrorDemo extends Screen {
@@ -116,6 +120,7 @@ public class CodeMirrorDemo extends Screen {
   private void display(DiffInfo diff) {
     cmA = displaySide(diff.meta_a(), diff.text_a(), diffTable.getCmA());
     cmB = displaySide(diff.meta_b(), diff.text_b(), diffTable.getCmB());
+    render(diff);
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
@@ -141,11 +146,62 @@ public class CodeMirrorDemo extends Screen {
       .set("lineNumbers", true)
       .set("tabSize", 2)
       .set("mode", getContentType(meta))
-      .set("value", contents);
+      .set("value", contents)
+      .setInfinity("viewportMargin");
     final CodeMirror cm = CodeMirror.create(ele, cfg);
     cm.setWidth("100%");
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
     return cm;
+  }
+
+  private void addPadding(int line, CodeMirror cm) {
+    Element div = DOM.createDiv();
+    div.setAttribute("style", "background-color: #E6E6E6");
+    div.appendChild(DOM.createElement("br"));
+    cm.addLineWidget(line, div, null);
+  }
+
+  private void render(DiffInfo diff) {
+    JsArray<Region> regions = diff.content();
+    Configuration insertOpt = Configuration.create()
+        .set("className", "insert").set("readOnly", "true");
+    Configuration deleteOpt = Configuration.create()
+        .set("className", "delete").set("readOnly", "true");
+    int lineA = 0, lineB = 0;
+    for (int i = 0; i < regions.length(); i++) {
+      Region current = regions.get(i);
+      if (current.ab() != null) {
+        lineA += current.ab().length();
+        lineB += current.ab().length();
+      } else if (current.a() == null && current.b() != null) {
+        int delta = current.b().length();
+        for (int j = 0; j < delta; j++) {
+          addPadding(lineA-1, cmA);
+        }
+        for (int j = 0; j < delta; j++) {
+          cmB.addLineClass(lineB, "wrap", "insert");
+          LineCharacter from = LineCharacter.create(lineB, 0).setLine(lineB)
+              .setCh(0);
+          cmB.markText(from, from, insertOpt);
+          lineB++;
+        }
+      } else if (current.a() != null && current.b() == null) {
+        int delta = current.a().length();
+        for (int j = 0; j < delta; j++) {
+          addPadding(lineB-1, cmB);
+        }
+        for (int j = 0; j < delta; j++) {
+          cmA.addLineClass(lineA, "wrap", "delete");
+          LineCharacter from = LineCharacter.create(lineA, 0).setLine(lineA)
+              .setCh(0);
+          cmA.markText(from, from, deleteOpt);
+          lineA++;
+        }
+      } else { // TODO: Handle intraline edit.
+        lineA += current.a().length();
+        lineB += current.a().length();
+      }
+    }
   }
 
   private static String getContentType(DiffInfo.FileMeta meta) {

@@ -42,6 +42,21 @@ public class CodeMirror extends JavaScriptObject {
   public final native void refresh() /*-{ this.refresh(); }-*/;
   public final native Element getWrapperElement() /*-{ return this.getWrapperElement(); }-*/;
 
+  public final native void markText(LineCharacter from, LineCharacter to,
+      Configuration options) /*-{
+    this.markText(from, to, options);
+  }-*/;
+
+  public final native void addLineClass(int line, String where,
+      String lineClass) /*-{
+    this.addLineClass(line, where, lineClass);
+  }-*/;
+
+  public final native void addLineWidget(int line, Element node,
+      Configuration options) /*-{
+    this.addLineWidget(line, node, options);
+  }-*/;
+
   protected CodeMirror() {
   }
 }

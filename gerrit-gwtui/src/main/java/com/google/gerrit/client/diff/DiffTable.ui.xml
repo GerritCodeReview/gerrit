@@ -16,7 +16,41 @@ limitations under the License.
 -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-  <g:HTMLPanel>
+  <ui:style field='css'>
+    @external .CodeMirror, .CodeMirror-linenumber, .CodeMirror-selectedtext, .CodeMirror-scroll, .insert, .delete, .intraline;
+
+    .difftable .CodeMirror {
+      border: 1px solid #eee;
+      height: auto;
+    }
+    .difftable .CodeMirror pre {
+      padding: 0;
+      overflow: hidden;
+    }
+    .insert,
+    .insert .CodeMirror-linenumber {
+      background-color: #dfd;
+    }
+    .delete,
+    .delete .CodeMirror-linenumber {
+      background-color: #fee;
+    }
+    .intraline {
+      background-color: #9f9;
+    }
+    .difftable .CodeMirror-selectedtext.intraline,
+    .difftable .CodeMirror-selectedtext.insert {
+      opacity: 0.5;
+    }
+    .difftable .CodeMirror-scroll {
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+    <!--.difftable .CodeMirror-vscrollbar {
+      display: none !important;
+    }-->
+  </ui:style>
+  <g:HTMLPanel styleName='{css.difftable}'>
     <table>
       <tr>
         <td><div ui:field='cmA'></div></td>

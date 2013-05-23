@@ -16,6 +16,24 @@
       "revId": "1aa74946733c61101397664776b6b34f0747a535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1decfd78_41f4d20e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-23T00:36:55Z",
+      "side": 1,
+      "message": "Nothing specific that I saw. But every time they push something I have a conflict in my patch series, so I\u0027m trying to keep somewhat current to reduce any pain later when I can finally contribute these back to them.\n\nA nice feature is Java compile messages are more useful. They don\u0027t print the entire javac command line anymore, so the javac output is more likely to still be visible on your terminal when you get your prompt back.",
+      "parentUuid": "005e52fd_3851a917",
+      "revId": "1aa74946733c61101397664776b6b34f0747a535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

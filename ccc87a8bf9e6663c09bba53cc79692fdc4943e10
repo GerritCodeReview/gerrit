@@ -69,6 +69,24 @@
       "revId": "ccc87a8bf9e6663c09bba53cc79692fdc4943e10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1decfd78_012c8a98",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2013-05-23T09:22:36Z",
+      "side": 1,
+      "message": "Forget it. \"/\" seems broken anyway. So i\u0027m guessing no users will be hurt by this change.",
+      "parentUuid": "c0251a91_86388ade",
+      "revId": "ccc87a8bf9e6663c09bba53cc79692fdc4943e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

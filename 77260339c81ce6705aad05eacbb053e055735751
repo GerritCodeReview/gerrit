@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "005e52fd_58849d4b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-23T07:40:57Z",
+      "side": 1,
+      "message": "AFAIK code mirror integration is part of the inline editing feature.  I\u0027ll add that as a separate item when it\u0027s completed.",
+      "parentUuid": "801fa244_a464a2f5",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "801fa244_845fa628",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "801fa244_e45e9a29",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-23T07:40:57Z",
+      "side": 1,
+      "message": "Already included at line 54/55.",
+      "parentUuid": "801fa244_845fa628",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0251a91_06265ac2",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-23T07:36:13Z",
       "side": 1,
       "message": "* Plugins may now contribute buttons to patch set action panel\n\nSuport for other places are still under review:\n\n* https://gerrit-review.googlesource.com/#/c/45732/\n* https://gerrit-review.googlesource.com/#/c/45640/",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "005e52fd_3887e952",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-23T07:40:57Z",
+      "side": 1,
+      "message": "I\u0027ll expand this and add a link to the documentation when your changes are merged.",
+      "parentUuid": "c0251a91_06265ac2",
       "revId": "77260339c81ce6705aad05eacbb053e055735751",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

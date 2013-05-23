@@ -87,6 +87,24 @@
       "revId": "ccc87a8bf9e6663c09bba53cc79692fdc4943e10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "801fa244_64aaaabe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2013-05-23T18:43:55Z",
+      "side": 1,
+      "message": "I have been thinking to rewrite this part so the Gerrit project matching will be easier: \n\n - take super repo name + full path to submodule\n - normalized the pathname (remove .. on the right and the path-part on the left)\n - Hopefully we should get a proper name\n - Just do a lookup of the name directly into the Gerrit project list.\n\nThe current matching actually contains a bigger problem, if you have these projects:\n\n foo.git\n platform/subproduct/foo.git\n\nEven if you specify the second repo the current project matching will find the first project and setup subscription for that. We where hit by this problem and I had to dig around inside the database to find it. In the end we move the old repo to foo_old.git to avoid this.",
+      "parentUuid": "1decfd78_012c8a98",
+      "revId": "ccc87a8bf9e6663c09bba53cc79692fdc4943e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

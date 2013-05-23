@@ -71,6 +71,7 @@ public class GetEmails implements RestReadView<AccountResource> {
   public static class EmailInfo {
     public String email;
     public Boolean preferred;
+    public Boolean pendingConfirmation;
 
     void setPreferred(boolean preferred) {
       this.preferred = preferred ? true : null;

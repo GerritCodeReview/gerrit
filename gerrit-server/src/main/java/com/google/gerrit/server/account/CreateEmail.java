@@ -91,6 +91,8 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
           + "need to be Gerrit administrator");
     }
 
+    EmailInfo info = new EmailInfo();
+    info.email = email;
     if (input.noConfirmation
         || authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
       try {
@@ -99,10 +101,16 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
       } catch (AccountException e) {
         throw new ResourceConflictException(e.getMessage());
       }
+      if (input.preferred) {
+        putPreferredProvider.get().apply(
+            new AccountResource.Email(rsrc.getUser(), email),
+            null);
+        info.setPreferred(true);
+      }
     } else {
       try {
-        RegisterNewEmailSender sender = registerNewEmailFactory.create(email);
-        sender.send();
+        registerNewEmailFactory.create(email).send();
+        info.pendingConfirmation = true;
       } catch (EmailException e) {
         log.error("Cannot send email verification message to " + email, e);
         throw e;
@@ -111,13 +119,6 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
         throw e;
       }
     }
-    EmailInfo e = new EmailInfo();
-    e.email = email;
-    if (input.preferred) {
-      putPreferredProvider.get().apply(
-          new AccountResource.Email(rsrc.getUser(), email), null);
-      e.setPreferred(true);
-    }
-    return Response.created(e);
+    return Response.created(info);
   }
 }

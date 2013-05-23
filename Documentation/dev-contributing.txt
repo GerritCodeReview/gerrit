@@ -101,6 +101,15 @@ copy one from the checkout and make it executable:
   chmod +x .git/hooks/commit-msg
 ====
 
+If you are working on core plugins, you will also need to install it in
+the submodules:
+
+====
+  cp .git/hooks/commit-msg .git/modules/plugins/<plugin>/hooks/
+  chmod +x .git/modules/plugins/<plugin>/hooks/commit-msg
+====
+
+
 To set up git's remote for easy pushing, run the following:
 
 ====

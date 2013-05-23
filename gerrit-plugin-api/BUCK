@@ -1,0 +1,17 @@
+include_defs('//VERSION')
+
+# TODO(davido): add the sources of dependend libraries too
+genrule(
+  name = 'api_src',
+  cmd = 'for s in $DEPS;do unzip -qd $TMP $s;done;' +
+    'cd $TMP;' +
+    'zip -qr $OUT *',
+  srcs = [],
+  deps = [
+    '//gerrit-server:server_src',
+    '//gerrit-sshd:sshd_src',
+    '//gerrit-httpd:httpd_src'
+  ],
+  out = '../plugin-api-%s-src.jar' % GERRIT_VER,
+  visibility = ['PUBLIC'],
+)

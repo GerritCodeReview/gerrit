@@ -29,3 +29,13 @@ java_library2(
   ],
   visibility = ['PUBLIC'],
 )
+
+genrule(
+  name = 'sshd_src',
+  cmd = 'cd $(echo $SRCS | cut -d" " -f1 | sed "s@\\(.*/main\\)/.*@\\1@")/java;' +
+    'zip -qr $OUT *',
+  srcs = glob(['src/main/java/**/*.java']),
+  deps = [],
+  out = 'sshd-src.jar',
+  visibility = ['PUBLIC'],
+)

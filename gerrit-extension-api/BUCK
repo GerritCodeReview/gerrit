@@ -1,6 +1,18 @@
+include_defs('//VERSION')
+
 java_library2(
   name = 'api',
   srcs = glob(['src/main/java/com/google/gerrit/extensions/**/*.java']),
   compile_deps = ['//lib/guice:guice'],
+  visibility = ['PUBLIC'],
+)
+
+genrule(
+  name = 'api_src',
+  cmd = 'cd $(echo $SRCS | cut -d" " -f1 | sed "s@\\(.*/main\\)/.*@\\1@")/java;' +
+    'zip -qr $OUT com/google/gerrit/extensions/*',
+  srcs = glob(['src/main/java/com/google/gerrit/extensions/**/*.java']),
+  deps = [],
+  out = '../extension-api-%s-src.jar' % GERRIT_VER,
   visibility = ['PUBLIC'],
 )

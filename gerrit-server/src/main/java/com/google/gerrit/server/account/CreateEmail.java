@@ -44,6 +44,7 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
     @DefaultInput
     String email;
     boolean preferred;
+    boolean noConfirmation;
   }
 
   static interface Factory {
@@ -85,8 +86,13 @@ public class CreateEmail implements RestModifyView<AccountResource, Input> {
     if (input.email != null && !email.equals(input.email)) {
       throw new BadRequestException("email address must match URL");
     }
+    if (input.noConfirmation && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new AuthException("not allowed to add email address without confirmation, "
+          + "need to be Gerrit administrator");
+    }
 
-    if (authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+    if (input.noConfirmation
+        || authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
       try {
         accountManager.link(rsrc.getUser().getAccountId(),
             AuthRequest.forEmail(email));

@@ -269,6 +269,8 @@ final class SetAccountCommand extends BaseCommand {
       manager.link(id, AuthRequest.forEmail(mailAddress));
     } catch (AccountException ex) {
       throw die(ex.getMessage());
+    } catch (OrmException ex) {
+      throw die(ex.getMessage());
     }
   }
 

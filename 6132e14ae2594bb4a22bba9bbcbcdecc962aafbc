@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0305ecf_072d7696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-23T02:55:02Z",
+      "side": 1,
+      "message": "The above 2 pieces don\u0027t feel 100% essential for this change and I propose you perhaps make them in a follow on change in order to keep this one simple.",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1decfd78_c120e2a6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-23T02:55:02Z",
+      "side": 1,
+      "message": "I really liked Gustaf\u0027s idea to make special merge options register interest in a branch instead of adding code to this class for each special case (or maybe it just registers interest in all branches?).  So perhaps make something like a MergeListener Interface with several methods that MergeOp would call.  Here it would call  validateChange(), and below it could call a preMerge() method, likely it would also have a postMerge() method.  But since you don\u0027t need that last one yet, it could come later.  We just created a listener for that last method and will be pushing the idea up for review soon, maybe it will be something you could build upon.",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

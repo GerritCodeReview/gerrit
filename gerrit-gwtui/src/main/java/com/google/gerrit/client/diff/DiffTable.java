@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -29,11 +30,21 @@ class DiffTable extends Composite {
   interface Binder extends UiBinder<HTMLPanel, DiffTable> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
+  interface LineStyle extends CssResource {
+    String insert();
+    String delete();
+    String intraline();
+    String padding();
+  }
+
   @UiField
   DivElement cmA;
 
   @UiField
   DivElement cmB;
+
+  @UiField
+  LineStyle style;
 
   DiffTable() {
     initWidget(uiBinder.createAndBindUi(this));

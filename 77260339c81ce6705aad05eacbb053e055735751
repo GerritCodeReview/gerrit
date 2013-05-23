@@ -179,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "801fa244_c498bec1",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-23T11:54:07Z",
+      "side": 1,
+      "message": "I\u0027ve cherry picked the latter for 2.7",
+      "parentUuid": "801fa244_644b8a65",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0251a91_06265ac2",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 6

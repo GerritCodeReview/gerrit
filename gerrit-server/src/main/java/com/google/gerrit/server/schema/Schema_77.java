@@ -229,7 +229,7 @@ public class Schema_77 extends SchemaVersion {
         LegacyLabelType type =
             new LegacyLabelType(getLabelName(catRs.getString("name")), values);
         type.setId(id);
-        type.setAbbreviatedName(catRs.getString("abbreviated_name"));
+        type.setAbbreviation(catRs.getString("abbreviated_name"));
         type.setFunctionName(catRs.getString("function_name"));
         type.setCopyMinScore("Y".equals(catRs.getString("copy_min_score")));
         types.add(type);

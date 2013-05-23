@@ -114,7 +114,7 @@ public class SchemaCreatorTest extends TestCase {
     LabelType codeReview = getLabelTypes().byLabel("Code-Review");
     assertNotNull(codeReview);
     assertEquals("Code-Review", codeReview.getName());
-    assertEquals("CR", codeReview.getAbbreviatedName());
+    assertEquals("CR", codeReview.getAbbreviation());
     assertEquals("MaxWithBlock", codeReview.getFunctionName());
     assertTrue(codeReview.isCopyMinScore());
     assertValueRange(codeReview, 2, 1, 0, -1, -2);

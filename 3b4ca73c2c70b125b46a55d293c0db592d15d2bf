@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "601c6e52_434e8676",
+        "filename": "tools/download_all.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-23T18:00:03Z",
+      "side": 1,
+      "message": "ISTM you should be able to drop this block. But I\u0027m confused because I looked at the output of buck audit and there\u0027s a whole bunch of __download_bin targets with no corresponding __download_src targets, even though both should exist and depend on download_file.",
+      "revId": "3b4ca73c2c70b125b46a55d293c0db592d15d2bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c0251a91_661d4e71",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T07:54:04Z",
+      "side": 1,
+      "message": "code mirror will be used for both: inline editing and side by side diff",
+      "parentUuid": "005e52fd_58849d4b",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "801fa244_845fa628",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 6
@@ -66,6 +84,41 @@
       "side": 1,
       "message": "Already included at line 54/55.",
       "parentUuid": "801fa244_845fa628",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0251a91_462052a4",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T07:54:04Z",
+      "side": 1,
+      "message": "oh, missed it ;-)",
+      "parentUuid": "801fa244_e45e9a29",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0251a91_262356b3",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T07:54:04Z",
+      "side": 1,
+      "message": "i think it is easier to read if the lines are swapped (first what, then why):\n\n* Patch sets that have draft comments are highlighted with an icon: \nlink:https://code.google.com/p/gerrit/issues/detail?id\u003d667[Issue 667]\n\nwell, below the whole document is organized in this order...",
       "revId": "77260339c81ce6705aad05eacbb053e055735751",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -33,6 +33,24 @@
       "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "005e52fd_38a0c9dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-23T04:21:46Z",
+      "side": 1,
+      "message": "It looks like the CommitValidationListener framework could be reused here.  I\u0027ll have a play around with it this afternoon.",
+      "parentUuid": "1decfd78_c120e2a6",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9df70d47_fdfdc7f0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-23T19:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d041902_fcfdc9f0",
+      "revId": "f0fa4a7e5c41b167d7ec47a724f9b4ac880593d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df70d47_1df99304",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-23T19:54:28Z",
       "side": 1,
       "message": "space after comma",
+      "revId": "f0fa4a7e5c41b167d7ec47a724f9b4ac880593d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_9c048525",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-23T19:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df70d47_1df99304",
       "revId": "f0fa4a7e5c41b167d7ec47a724f9b4ac880593d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

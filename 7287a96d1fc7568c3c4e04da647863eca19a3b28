@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0305ecf_a764aaf5",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-23T04:54:30Z",
+      "side": 1,
+      "message": "Perhaps you should choose active as the keyword for all 3 of these requests?  You could GET active to find out the state (return 200 or 404).  Then you could PUT active and DEL active for setting it.",
+      "revId": "7287a96d1fc7568c3c4e04da647863eca19a3b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

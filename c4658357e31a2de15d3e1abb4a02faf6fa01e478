@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9df70d47_5def1b3a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-23T19:32:05Z",
+      "side": 1,
+      "message": "2013",
+      "revId": "c4658357e31a2de15d3e1abb4a02faf6fa01e478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_3cf4510e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-23T19:32:05Z",
+      "side": 1,
+      "message": "2013",
+      "revId": "c4658357e31a2de15d3e1abb4a02faf6fa01e478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

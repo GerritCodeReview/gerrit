@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "005e52fd_b84e9948",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-23T18:36:03Z",
+      "side": 1,
+      "message": "You should mention that the lines may not line up correct if there are inserts or deletes.",
+      "revId": "1080a1844601ba4d95eec8888fcec02841028e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "601c6e52_43ada6d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-23T18:36:03Z",
+      "side": 1,
+      "message": "what does \"to demo\" mean? did you mean \"to use\"?",
+      "revId": "1080a1844601ba4d95eec8888fcec02841028e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -18,9 +18,22 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.index.ChangeIndex;
 
 public class Module extends LifecycleModule {
+  private final boolean checkVersion;
+
+  public Module() {
+    this(true);
+  }
+
+  public Module(boolean checkVersion) {
+    this.checkVersion = checkVersion;
+  }
+
   @Override
   protected void configure() {
     bind(ChangeIndex.class).to(LuceneChangeIndex.class);
     listener().to(LuceneChangeIndex.class);
+    if (checkVersion) {
+      listener().to(IndexVersionCheck.class);
+    }
   }
 }

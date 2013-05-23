@@ -321,7 +321,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
     modules.add(new com.google.gerrit.server.index.Module());
-    modules.add(LuceneChangeIndex.module());
+    modules.add(new com.google.gerrit.lucene.Module());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

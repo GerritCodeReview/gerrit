@@ -77,3 +77,20 @@ def gerrit_war(name, ui = 'ui_optdbg', context = []):
       '//gerrit-gwtui:' + ui + '.zip',
     ] + context,
   )
+
+def api_util(
+    name,
+    deps
+    ):
+  cmd = [
+      '${//tools:api_util}',
+      '-a', name,
+      '-s', '$SRCDIR'
+  ]
+  genrule(
+    name = 'api_%s' % name,
+    cmd = ' '.join(cmd),
+    srcs = [],
+    deps = deps + ['//tools:api_util'],
+    out = '__fake.api_%s__' % name
+  )

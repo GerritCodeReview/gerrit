@@ -30,10 +30,23 @@ public class LuceneIndexModule extends LifecycleModule {
         .getBoolean("index", null, "enabled", false);
   }
 
+  private final boolean checkVersion;
+
+  public LuceneIndexModule() {
+    this(true);
+  }
+
+  public LuceneIndexModule(boolean checkVersion) {
+    this.checkVersion = checkVersion;
+  }
+
   @Override
   protected void configure() {
     bind(ChangeIndex.class).to(LuceneChangeIndex.class);
     bind(ChangeIndexer.class).to(ChangeIndexerImpl.class);
     listener().to(LuceneChangeIndex.class);
+    if (checkVersion) {
+      listener().to(IndexVersionCheck.class);
+    }
   }
 }

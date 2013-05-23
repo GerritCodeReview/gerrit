@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "005e52fd_7881613a",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-23T07:59:36Z",
+      "side": 1,
+      "message": "Note that you\u0027re reading the source text.  When it\u0027s rendered as HTML by asciidoc it will look like:\n\n Issue 667: Patch sets that have ...\n\nAnd \"Issue 667\" is a hyperlink.",
+      "parentUuid": "c0251a91_262356b3",
+      "revId": "77260339c81ce6705aad05eacbb053e055735751",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0251a91_06265ac2",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 6

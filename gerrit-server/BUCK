@@ -83,3 +83,15 @@ java_test(
   ],
   source_under_test = [':server'],
 )
+
+genrule(
+  name = 'server_src',
+  cmd = 'cd $(echo $SRCS | cut -d" " -f1 | sed "s@\\(.*/main\\)/.*@\\1@")/java;' +
+    'zip -qr $OUT *;' +
+    'cd $(echo $SRCS | cut -d" " -f1 | sed "s@\\(.*/main\\)/.*@\\1@")/resources;' +
+    'zip -gqr $OUT *',
+  srcs = glob(['src/main/java/**/*.java'],['src/main/resources/**/*']),
+  deps = [],
+  out = 'server-src.jar',
+  visibility = ['PUBLIC'],
+)

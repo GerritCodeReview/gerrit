@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0251a91_a63d86cd",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T12:32:43Z",
+      "side": 1,
+      "message": "This implies that we are always going to use the index as a secondary index and not as a primary database?\n\nFor example, to add a \"tag a change with an arbitrary tag\" feature to Gerrit, we would have to:\n\n 1. extend data base\n 2. persist the map \"change\" -\u003e \"list of tags\" in the data base \n 3. include tag field in the document\n 4. rebuild the index\n\nIn contrary using the index as a primary data base would mean\n\n 1. user add/replace a tag to the change: document replaced in the index with new field added/replaced\n 2. user read a change, to show the tags, we would need to search the index.\n 3. we can not drop/rebuild the index without the data corruption.",
+      "revId": "ad939136d58e57ae519ae0826829ee229beca060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "801fa244_04a3b6eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T12:32:43Z",
+      "side": 1,
+      "message": "Why not to add it hard coded to ALL and do it with reflection? Because we are lazy to exend it every time we add a new field ;-)",
+      "revId": "ad939136d58e57ae519ae0826829ee229beca060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "801fa244_e49dbaae",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T12:32:43Z",
+      "side": 1,
+      "message": "More generic interface:\n Index\u003cI, R\u003e\n\nwhere I is a Input type and R result type?\n\nFor example to have an index for the Gerrit documentation we would want to have something like\n\n DocumentationIndex\u003cDocumentData, DocumentDataSource\u003e",
+      "revId": "ad939136d58e57ae519ae0826829ee229beca060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "801fa244_a493c2a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-23T12:32:43Z",
+      "side": 1,
+      "message": "What about \n\n public void delete(ChangeData cd);\n\nOne option for index partitioning on open and closed changes is to have two change indexes \"active change index\" and \"closed change index\". Once a change is closed (merged or abandoned) it get deleted from the \"active change index\" and added to the \"closed change index\" index.",
+      "revId": "ad939136d58e57ae519ae0826829ee229beca060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

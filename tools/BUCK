@@ -16,6 +16,11 @@ python_binary(
   visibility = ['PUBLIC'],
 )
 
+python_binary(
+  name = 'api_util',
+  main = 'api_util.py',
+  visibility = ['PUBLIC'],
+)
 
 def shquote(s):
   return s.replace("'", "'\\''")

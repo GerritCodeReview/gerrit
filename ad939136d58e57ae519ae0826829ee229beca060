@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "005e52fd_f8c2d17a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-23T17:51:35Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to use the index as a primary data source, at the very least until we have more experience with Lucene and can trust that it won\u0027t get corrupted. It should always be able to be rebuilt from the sources of truth.\n\nBeyond that, we already have *tons* of places where there\u0027s potential data corruption because we\u0027re doing a bunch of sequential, non-atomic writes to git and the db. Adding a third data source that needs to be in sync will only make this worse. I\u0027d much rather move away from the db and have only one source of truth (git data).\n\nAnd I don\u0027t think the extra step of rebuilding the index is a big deal. It\u0027s a few lines of code change to ChangeField to get it indexed, and I\u0027m working on an index schema versioning change that will take care of reindexing on an upgrade in the same way we do for the db.",
+      "parentUuid": "c0251a91_a63d86cd",
+      "revId": "ad939136d58e57ae519ae0826829ee229beca060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "801fa244_04a3b6eb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-23T12:32:43Z",
       "side": 1,
       "message": "Why not to add it hard coded to ALL and do it with reflection? Because we are lazy to exend it every time we add a new field ;-)",
+      "revId": "ad939136d58e57ae519ae0826829ee229beca060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "601c6e52_e35e9229",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-23T17:51:35Z",
+      "side": 1,
+      "message": "It was Shawn\u0027s idea? :)",
+      "parentUuid": "801fa244_04a3b6eb",
       "revId": "ad939136d58e57ae519ae0826829ee229beca060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "005e52fd_18b86500",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-23T17:51:35Z",
+      "side": 1,
+      "message": "I agree, but we can punt on this for now.\n\nThough with your example for documentation, I\u0027m not sure we would be using the same query language and data source object hierarchy for that.",
+      "parentUuid": "801fa244_e49dbaae",
+      "revId": "ad939136d58e57ae519ae0826829ee229beca060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "801fa244_a493c2a2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-23T12:32:43Z",
       "side": 1,
       "message": "What about \n\n public void delete(ChangeData cd);\n\nOne option for index partitioning on open and closed changes is to have two change indexes \"active change index\" and \"closed change index\". Once a change is closed (merged or abandoned) it get deleted from the \"active change index\" and added to the \"closed change index\" index.",
+      "revId": "ad939136d58e57ae519ae0826829ee229beca060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "601c6e52_23518a17",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-23T17:51:35Z",
+      "side": 1,
+      "message": "Yes, this will probably happen. Keeping the interface simple for now but we will add to it as necessary.",
+      "parentUuid": "801fa244_a493c2a2",
       "revId": "ad939136d58e57ae519ae0826829ee229beca060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

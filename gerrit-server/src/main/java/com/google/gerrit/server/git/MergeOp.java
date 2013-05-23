@@ -41,8 +41,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.validators.MergeValidationException;
+import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -130,6 +131,7 @@ public class MergeOp {
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final MergeQueue mergeQueue;
+  private final MergeValidators.Factory commitValidatorsFactory;
 
   private final Branch.NameKey destBranch;
   private ProjectState destProject;
@@ -152,7 +154,6 @@ public class MergeOp {
   private final SubmoduleOp.Factory subOpFactory;
   private final WorkQueue workQueue;
   private final RequestScopePropagator requestScopePropagator;
-  private final AllProjectsName allProjectsName;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -168,7 +169,7 @@ public class MergeOp {
       final SubmoduleOp.Factory subOpFactory,
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
-      final AllProjectsName allProjectsName) {
+      final MergeValidators.Factory commitValidatorsFactory) {
     repoManager = grm;
     schemaFactory = sf;
     labelNormalizer = fs;
@@ -187,7 +188,7 @@ public class MergeOp {
     this.subOpFactory = subOpFactory;
     this.workQueue = workQueue;
     this.requestScopePropagator = requestScopePropagator;
-    this.allProjectsName = allProjectsName;
+    this.commitValidatorsFactory = commitValidatorsFactory;
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
@@ -539,50 +540,12 @@ public class MergeOp {
         continue;
       }
 
-      if (GitRepositoryManager.REF_CONFIG.equals(destBranch.get())) {
-        final Project.NameKey newParent;
-        try {
-          ProjectConfig cfg =
-              new ProjectConfig(destProject.getProject().getNameKey());
-          cfg.load(repo, commit);
-          newParent = cfg.getProject().getParent(allProjectsName);
-        } catch (Exception e) {
-          commits.put(changeId, CodeReviewCommit
-              .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION));
-          continue;
-        }
-        final Project.NameKey oldParent =
-            destProject.getProject().getParent(allProjectsName);
-        if (oldParent == null) {
-          // update of the 'All-Projects' project
-          if (newParent != null) {
-            commits.put(changeId, CodeReviewCommit
-                .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT));
-            continue;
-          }
-        } else {
-          if (!oldParent.equals(newParent)) {
-            final PatchSetApproval psa = getSubmitter(db, ps.getId());
-            if (psa == null) {
-              commits.put(changeId, CodeReviewCommit
-                  .error(CommitMergeStatus.SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN));
-              continue;
-            }
-            final IdentifiedUser submitter =
-                identifiedUserFactory.create(psa.getAccountId());
-            if (!submitter.getCapabilities().canAdministrateServer()) {
-              commits.put(changeId, CodeReviewCommit
-                  .error(CommitMergeStatus.SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN));
-              continue;
-            }
-
-            if (projectCache.get(newParent) == null) {
-              commits.put(changeId, CodeReviewCommit
-                  .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND));
-              continue;
-            }
-          }
-        }
+      MergeValidators commitValidators = commitValidatorsFactory.create(repo);
+      try {
+        commitValidators.validatePreMergeCommit(commit, destProject, destBranch);
+      } catch (MergeValidationException cve) {
+        commits.put(changeId, CodeReviewCommit.error(cve.getStatus()));
+        continue;
       }
 
       commit.change = chg;

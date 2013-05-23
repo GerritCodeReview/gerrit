@@ -1,10 +1,18 @@
 include_defs('//tools/build.defs')
 
+# TODO(davido): better place for it?
+VERSION='2.8-SNAPSHOT'
+
 gerrit_war(name = 'gerrit')
 gerrit_war(name = 'chrome',   ui = 'ui_chrome')
 gerrit_war(name = 'firefox',  ui = 'ui_firefox')
 gerrit_war(name = 'withdocs', context = DOCS)
 gerrit_war(name = 'release',  context = DOCS + ['//plugins:core.zip'])
+
+install_api(name = 'install_api', version=VERSION, dep = [
+    ':extension-api',
+    ':plugin-api',
+  ])
 
 genrule(
   name = 'api',

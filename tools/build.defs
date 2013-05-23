@@ -77,3 +77,19 @@ def gerrit_war(name, ui = 'ui_optdbg', context = []):
       '//gerrit-gwtui:' + ui + '.zip',
     ] + context,
   )
+
+def install_api(
+    name,
+    version,
+    dep = []
+    ):
+  cmd = ['${//tools:install_api}', '-v', version]
+  src = []
+  genrule(
+    name = name,
+    cmd = ' '.join(cmd),
+    srcs = src,
+    deps = dep + ['//tools:install_api'],
+    out = name,
+    visibility = []
+  )

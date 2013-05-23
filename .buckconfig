@@ -1,5 +1,6 @@
 [alias]
   api = //:api
+  install_api = //:install_api
   download = //:download
   download_sources = //:download_sources
   gerrit = //:gerrit

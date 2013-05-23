@@ -16,6 +16,11 @@ python_binary(
   visibility = ['PUBLIC'],
 )
 
+python_binary(
+  name = 'install_api',
+  main = 'install_api.py',
+  visibility = ['PUBLIC'],
+)
 
 def shquote(s):
   return s.replace("'", "'\\''")

@@ -126,6 +126,17 @@ The output JAR files will be placed in:
   buck-out/gen/{extension,plugin}-api.jar
 ----
 
+Install {extension,plugin}-api in to the local maven repository:
+
+----
+  buck build api_install
+----
+
+Install {extension,plugin}-api in to the remote maven repository:
+
+----
+  buck build api_deploy
+----
 
 Plugins
 ~~~~~~~
@@ -266,7 +277,9 @@ archetypes to support creating a new plugin, but existing plugins can
 develop against the API JAR(s) if they are installed into a Maven
 repository. tools/deploy_api.sh is how we did this for release
 versions of Gerrit. Something similar probably still be used with BUCK
-to publish the precompiled JARs.
+to publish the precompiled JARs. (Note: this is partially done with the
+target: `buck build api_install`; after issuing this command the new api
+version can be consumed by maven driven custom plugins).
 +
 The third option is to support a BUCK based plugin build outside of
 the Gerrit tree. This is harder because there is functionality

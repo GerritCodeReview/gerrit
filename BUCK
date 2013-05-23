@@ -6,6 +6,21 @@ gerrit_war(name = 'firefox',  ui = 'ui_firefox')
 gerrit_war(name = 'withdocs', context = DOCS)
 gerrit_war(name = 'release',  context = DOCS + ['//plugins:core.zip'])
 
+api_deps = [
+    ':extension-api',
+    ':plugin-api',
+  ]
+
+api_util(
+  name = 'install',
+  deps = api_deps
+)
+
+api_util(
+  name = 'deploy',
+  deps = api_deps
+)
+
 genrule(
   name = 'api',
   cmd = 'echo',

@@ -26,14 +26,14 @@ import java.util.List;
  * validation and can be then subject to extra validation checks.
  */
 @ExtensionPoint
-public interface CommitValidationListener {
+public interface ReceiveCommitValidationListener {
   /**
    * Commit validation.
    *
    * @param received commit event details
    * @return list of validation messages
-   * @throws CommitValidationException if validation fails
+   * @throws ReceiveCommitValidationException if validation fails
    */
-  public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-      throws CommitValidationException;
+  public List<ReceiveCommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+      throws ReceiveCommitValidationException;
 }

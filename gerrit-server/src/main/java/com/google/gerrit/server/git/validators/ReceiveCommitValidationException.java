@@ -17,26 +17,26 @@ package com.google.gerrit.server.git.validators;
 import java.util.Collections;
 import java.util.List;
 
-public class CommitValidationException extends Exception {
+public class ReceiveCommitValidationException extends Exception {
   private static final long serialVersionUID = 1L;
-  private final List<CommitValidationMessage> messages;
+  private final List<ReceiveCommitValidationMessage> messages;
 
-  public CommitValidationException(String reason, List<CommitValidationMessage> messages) {
+  public ReceiveCommitValidationException(String reason, List<ReceiveCommitValidationMessage> messages) {
     super(reason);
     this.messages = messages;
   }
 
-  public CommitValidationException(String reason) {
+  public ReceiveCommitValidationException(String reason) {
     super(reason);
     this.messages = Collections.emptyList();
   }
 
-  public CommitValidationException(String reason, Throwable why) {
+  public ReceiveCommitValidationException(String reason, Throwable why) {
     super(reason, why);
     this.messages = Collections.emptyList();
   }
 
-  public List<CommitValidationMessage> getMessages() {
+  public List<ReceiveCommitValidationMessage> getMessages() {
     return messages;
   }
 }

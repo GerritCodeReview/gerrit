@@ -28,8 +28,8 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidationException;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -66,7 +66,7 @@ public class CherryPickChange {
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
   private final IdentifiedUser currentUser;
-  private final CommitValidators.Factory commitValidatorsFactory;
+  private final ReceiveCommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   final MergeUtil.Factory mergeUtilFactory;
@@ -75,7 +75,7 @@ public class CherryPickChange {
   CherryPickChange(final PatchSetInfoFactory patchSetInfoFactory,
       final ReviewDb db, @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager, final IdentifiedUser currentUser,
-      final CommitValidators.Factory commitValidatorsFactory,
+      final ReceiveCommitValidators.Factory commitValidatorsFactory,
       final ChangeInserter.Factory changeInserterFactory,
       final PatchSetInserter.Factory patchSetInserterFactory,
       final MergeUtil.Factory mergeUtilFactory) {
@@ -215,7 +215,7 @@ public class CherryPickChange {
         changeInserterFactory.create(refControl, change, cherryPickCommit);
     PatchSet newPatchSet = ins.getPatchSet();
 
-    CommitValidators commitValidators =
+    ReceiveCommitValidators commitValidators =
         commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
     CommitReceivedEvent commitReceivedEvent =
         new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
@@ -225,7 +225,7 @@ public class CherryPickChange {
 
     try {
       commitValidators.validateForGerritCommits(commitReceivedEvent);
-    } catch (CommitValidationException e) {
+    } catch (ReceiveCommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());
     }
 

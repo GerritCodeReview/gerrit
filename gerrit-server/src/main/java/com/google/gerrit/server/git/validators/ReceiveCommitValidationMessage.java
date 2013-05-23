@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.git.validators;
 
-public class CommitValidationMessage {
+public class ReceiveCommitValidationMessage {
   private final String message;
   private final boolean isError;
 
-  public CommitValidationMessage(final String message, final boolean isError) {
+  public ReceiveCommitValidationMessage(final String message, final boolean isError) {
     this.message = message;
     this.isError = isError;
   }

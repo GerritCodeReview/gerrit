@@ -28,7 +28,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Revert.Input;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -43,7 +43,7 @@ import org.eclipse.jgit.lib.Repository;
 public class Revert implements RestModifyView<ChangeResource, Input> {
   private final ChangeHooks hooks;
   private final RevertedSender.Factory revertedSenderFactory;
-  private final CommitValidators.Factory commitValidatorsFactory;
+  private final ReceiveCommitValidators.Factory commitValidatorsFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
   private final GitRepositoryManager gitManager;
@@ -58,7 +58,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
   @Inject
   Revert(ChangeHooks hooks,
       RevertedSender.Factory revertedSenderFactory,
-      final CommitValidators.Factory commitValidatorsFactory,
+      final ReceiveCommitValidators.Factory commitValidatorsFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson json,
       GitRepositoryManager gitManager,
@@ -88,7 +88,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
 
     final Repository git = gitManager.openRepository(control.getProject().getNameKey());
     try {
-      CommitValidators commitValidators =
+      ReceiveCommitValidators commitValidators =
           commitValidatorsFactory.create(control.getRefControl(), new NoSshInfo(), git);
 
       Change.Id revertedChangeId =

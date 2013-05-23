@@ -71,9 +71,9 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidationMessage;
-import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidationException;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidationMessage;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidators;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
@@ -256,7 +256,7 @@ public class ReceiveCommits {
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
-  private final CommitValidators.Factory commitValidatorsFactory;
+  private final ReceiveCommitValidators.Factory commitValidatorsFactory;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
   private final ChangeInserter.Factory changeInserterFactory;
@@ -290,7 +290,7 @@ public class ReceiveCommits {
   private final Provider<Submit> submitProvider;
   private final MergeQueue mergeQueue;
 
-  private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
+  private final List<ReceiveCommitValidationMessage> messages = new ArrayList<ReceiveCommitValidationMessage>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
   private Task newProgress;
   private Task replaceProgress;
@@ -316,7 +316,7 @@ public class ReceiveCommits {
       final TagCache tagCache,
       final ChangeCache changeCache,
       final ChangeInserter.Factory changeInserterFactory,
-      final CommitValidators.Factory commitValidatorsFactory,
+      final ReceiveCommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
@@ -517,15 +517,15 @@ public class ReceiveCommits {
   }
 
   private void addMessage(String message) {
-    messages.add(new CommitValidationMessage(message, false));
+    messages.add(new ReceiveCommitValidationMessage(message, false));
   }
 
   void addError(String error) {
-    messages.add(new CommitValidationMessage(error, true));
+    messages.add(new ReceiveCommitValidationMessage(error, true));
   }
 
   void sendMessages() {
-    for (CommitValidationMessage m : messages) {
+    for (ReceiveCommitValidationMessage m : messages) {
       if (m.isError()) {
         messageSender.sendError(m.getMessage());
       } else {
@@ -2068,12 +2068,12 @@ public class ReceiveCommits {
 
     CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, currentUser);
-    CommitValidators commitValidators =
+    ReceiveCommitValidators commitValidators =
         commitValidatorsFactory.create(ctl, sshInfo, repo);
 
     try {
       messages.addAll(commitValidators.validateForReceiveCommits(receiveEvent));
-    } catch (CommitValidationException e) {
+    } catch (ReceiveCommitValidationException e) {
       messages.addAll(e.getMessages());
       reject(cmd, e.getMessage());
       return false;

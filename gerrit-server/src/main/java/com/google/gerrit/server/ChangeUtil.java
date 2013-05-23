@@ -32,8 +32,8 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidationException;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidators;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -189,7 +189,7 @@ public class ChangeUtil {
   }
 
   public static Change.Id revert(RefControl refControl, PatchSet.Id patchSetId,
-      IdentifiedUser user, CommitValidators commitValidators, String message,
+      IdentifiedUser user, ReceiveCommitValidators commitValidators, String message,
       ReviewDb db, RevertedSender.Factory revertedSenderFactory,
       ChangeHooks hooks, Repository git,
       PatchSetInfoFactory patchSetInfoFactory, PersonIdent myIdent,
@@ -260,7 +260,7 @@ public class ChangeUtil {
 
       try {
         commitValidators.validateForGerritCommits(commitReceivedEvent);
-      } catch (CommitValidationException e) {
+      } catch (ReceiveCommitValidationException e) {
         throw new InvalidChangeOperationException(e.getMessage());
       }
 

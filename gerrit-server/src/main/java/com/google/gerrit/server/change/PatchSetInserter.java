@@ -28,8 +28,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidationException;
+import com.google.gerrit.server.git.validators.ReceiveCommitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.RefControl;
@@ -65,7 +65,7 @@ public class PatchSetInserter {
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final GitReferenceUpdated gitRefUpdated;
-  private final CommitValidators.Factory commitValidatorsFactory;
+  private final ReceiveCommitValidators.Factory commitValidatorsFactory;
   private boolean validateForReceiveCommits;
 
   private final Repository git;
@@ -86,7 +86,7 @@ public class PatchSetInserter {
       PatchSetInfoFactory patchSetInfoFactory,
       IdentifiedUser user,
       GitReferenceUpdated gitRefUpdated,
-      CommitValidators.Factory commitValidatorsFactory,
+      ReceiveCommitValidators.Factory commitValidatorsFactory,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted RefControl refControl,
@@ -233,7 +233,7 @@ public class PatchSetInserter {
   }
 
   private void validate() throws InvalidChangeOperationException {
-    CommitValidators cv = commitValidatorsFactory.create(refControl, sshInfo, git);
+    ReceiveCommitValidators cv = commitValidatorsFactory.create(refControl, sshInfo, git);
 
     CommitReceivedEvent event = new CommitReceivedEvent(
         new ReceiveCommand(ObjectId.zeroId(), commit.getId(),
@@ -247,7 +247,7 @@ public class PatchSetInserter {
       } else {
         cv.validateForGerritCommits(event);
       }
-    } catch (CommitValidationException e) {
+    } catch (ReceiveCommitValidationException e) {
       throw new InvalidChangeOperationException(e.getMessage());
     }
   }

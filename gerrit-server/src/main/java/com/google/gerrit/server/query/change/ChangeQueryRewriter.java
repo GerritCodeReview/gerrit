@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryRewriter;
@@ -43,11 +44,14 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
                   null, null, null, null, null), null));
 
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeIndex index;
 
   @Inject
-  ChangeQueryRewriter(Provider<ReviewDb> dbProvider) {
+  ChangeQueryRewriter(Provider<ReviewDb> dbProvider,
+      ChangeIndex index) {
     super(mydef);
     this.dbProvider = dbProvider;
+    this.index = index;
   }
 
   @Override
@@ -58,6 +62,11 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   @Override
   public Predicate<ChangeData> or(Collection<? extends Predicate<ChangeData>> l) {
     return hasSource(l) ? new OrSource(l) : super.or(l);
+  }
+
+  @Override
+  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
+    return super.rewrite(new IndexRewrite(index).rewrite(in));
   }
 
   @Rewrite("-status:open")

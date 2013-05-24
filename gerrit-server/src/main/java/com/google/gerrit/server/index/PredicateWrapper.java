@@ -33,10 +33,10 @@ import java.util.Collection;
  */
 public class PredicateWrapper extends Predicate<ChangeData> implements
     ChangeDataSource {
-  private final IndexPredicate<ChangeData> pred;
+  private final Predicate<ChangeData> pred;
   private final ChangeDataSource source;
 
-  public PredicateWrapper(ChangeIndex index, IndexPredicate<ChangeData> pred)
+  public PredicateWrapper(ChangeIndex index, Predicate<ChangeData> pred)
       throws QueryParseException {
     this.pred = pred;
     this.source = index.getSource(pred);
@@ -83,5 +83,10 @@ public class PredicateWrapper extends Predicate<ChangeData> implements
     return other != null
         && getClass() == other.getClass()
         && pred.equals(((PredicateWrapper) other).pred);
+  }
+
+  @Override
+  public String toString() {
+    return "index(" + pred + ")";
   }
 }

@@ -16,6 +16,10 @@ package com.google.gerrit.lucene;
 
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE;
 
+import static org.apache.lucene.search.BooleanClause.Occur.MUST;
+import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
+import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
+
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
@@ -26,6 +30,10 @@ import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.query.AndPredicate;
+import com.google.gerrit.server.query.NotPredicate;
+import com.google.gerrit.server.query.OrPredicate;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
@@ -43,6 +51,8 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -132,15 +142,9 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public ChangeDataSource getSource(IndexPredicate<ChangeData> p)
+  public ChangeDataSource getSource(Predicate<ChangeData> p)
       throws QueryParseException {
-    if (p.getType() == FieldType.INTEGER) {
-      return intQuery(p);
-    } else if (p.getType() == FieldType.EXACT) {
-      return exactQuery(p);
-    } else {
-      throw badFieldType(p.getType());
-    }
+    return new QuerySource(toQuery(p));
   }
 
   public Directory getDirectory() {
@@ -156,13 +160,47 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     searcherManager.maybeRefresh();
   }
 
+  private Query toQuery(Predicate<ChangeData> p) throws QueryParseException {
+    if (p.getClass() == AndPredicate.class) {
+      return booleanQuery(p, MUST);
+    } else if (p.getClass() == OrPredicate.class) {
+      return booleanQuery(p, SHOULD);
+    } else if (p.getClass() == NotPredicate.class) {
+      return booleanQuery(p, MUST_NOT);
+    } else if (p instanceof IndexPredicate) {
+      return fieldQuery((IndexPredicate<ChangeData>) p);
+    } else {
+      throw new QueryParseException("Cannot convert to index predicate: " + p);
+    }
+  }
+
+  private Query booleanQuery(Predicate<ChangeData> p, BooleanClause.Occur o)
+      throws QueryParseException {
+    BooleanQuery q = new BooleanQuery();
+    for (int i = 0; i < p.getChildCount(); i++) {
+      q.add(toQuery(p.getChild(i)), o);
+    }
+    return q;
+  }
+
+  private Query fieldQuery(IndexPredicate<ChangeData> p)
+      throws QueryParseException {
+    if (p.getType() == FieldType.INTEGER) {
+      return intQuery(p);
+    } else if (p.getType() == FieldType.EXACT) {
+      return exactQuery(p);
+    } else {
+      throw badFieldType(p.getType());
+    }
+  }
+
   private Term intTerm(String name, int value) {
     BytesRef bytes = new BytesRef(NumericUtils.BUF_SIZE_INT);
     NumericUtils.intToPrefixCodedBytes(value, 0, bytes);
     return new Term(name, bytes);
   }
 
-  private QuerySource intQuery(IndexPredicate<ChangeData> p)
+  private Query intQuery(IndexPredicate<ChangeData> p)
       throws QueryParseException {
     int value;
     try {
@@ -172,12 +210,11 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     } catch (IllegalArgumentException e) {
       throw new QueryParseException("not an integer: " + p.getValue());
     }
-    return new QuerySource(new TermQuery(intTerm(p.getOperator(), value)));
+    return new TermQuery(intTerm(p.getOperator(), value));
   }
 
-  private QuerySource exactQuery(IndexPredicate<ChangeData> p) {
-    return new QuerySource(new TermQuery(
-        new Term(p.getOperator(), p.getValue())));
+  private Query exactQuery(IndexPredicate<ChangeData> p) {
+    return new TermQuery(new Term(p.getOperator(), p.getValue()));
   }
 
   private class QuerySource implements ChangeDataSource {

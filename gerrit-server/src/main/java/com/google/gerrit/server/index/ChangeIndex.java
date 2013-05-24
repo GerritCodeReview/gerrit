@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
@@ -62,12 +63,14 @@ public interface ChangeIndex {
    * Convert the given operator predicate into a source searching the index and
    * returning only the documents matching that predicate.
    *
-   * @param p the predicate to match.
+   * @param p the predicate to match. Must be a tree containing only AND, OR,
+   *     or NOT predicates as internal nodes, and {@link IndexPredicate}s as
+   *     leaves.
    * @return a source of documents matching the predicate.
    *
    * @throws QueryParseException if the predicate could not be converted to an
    *     indexed data source.
    */
-  public ChangeDataSource getSource(IndexPredicate<ChangeData> p)
+  public ChangeDataSource getSource(Predicate<ChangeData> p)
       throws QueryParseException;
 }

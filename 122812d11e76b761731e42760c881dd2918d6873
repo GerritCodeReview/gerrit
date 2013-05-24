@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d041902_bc2061a5",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "s/in to/to",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9df70d47_bd073f29",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "- s/Install/Deploy\n- s/in to/to",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_9c1da573",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "s/api/API",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9df70d47_9d048325",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "s/maven/Maven",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9df70d47_7d13f76d",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "environ is not used.",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9df70d47_fd26e7c2",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "This code is duplicated from `pack_war.py`.  It might be better to put it in a common module.",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_7c3899db",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "Nit: add spaces around the \u003d operator",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_5c3dddc9",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "Add the valid actions in the help text.",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_1c475566",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "Nit: too many spaces before operator %",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9df70d47_3d0d6f44",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "Use `abspath` here.",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9df70d47_5d183b86",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "Enclose this in a try...except block.  On error, log it and exit.\n\nIt might also be worth adding a check that `version_file` exists before trying to open it.",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_3c421156",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "Nit: too many spaces before operator %",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9df70d47_1d12b366",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "Nit: spacing in this entire block.\n\n- Put only one space after `:`\n- Don\u0027t put spaces after `[`",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_fc2b8980",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "- Enclose these in `try...except` blocks and log any errors.\n- Nit: don\u0027t put spaces after/before parentheses.",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_dc28cd86",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-24T00:25:35Z",
+      "side": 1,
+      "message": "Nit: trailing blank line",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

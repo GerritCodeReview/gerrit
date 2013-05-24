@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d041902_9c4b6563",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-24T15:38:32Z",
+      "side": 1,
+      "message": "Please sum up some of our review discussion in this commit message. Basically, we can\u0027t count on the order of labels returned from JSON, and we will eventually modify the JSON structure so this is possible, but for now it\u0027s not even consistent.",
+      "revId": "4f552ab00a1df05ad20450e744065170ccdf5315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

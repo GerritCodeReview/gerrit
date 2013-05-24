@@ -30,7 +30,6 @@ import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
-import java.io.IOException;
 import java.util.Collection;
 
 public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {

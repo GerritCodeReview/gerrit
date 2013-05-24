@@ -49,6 +49,11 @@ public interface ChangeIndex {
           }
 
           @Override
+          public void delete(ChangeData cd) throws IOException {
+            // Do nothing.
+          }
+
+          @Override
           public ChangeDataSource getSource(Predicate<ChangeData> p)
               throws QueryParseException {
             throw new UnsupportedOperationException();
@@ -76,7 +81,7 @@ public interface ChangeIndex {
   /**
    * Update a change document in the index.
    * <p>
-   * Semantically equivalent to removing the document and reinserting it with
+   * Semantically equivalent to deleting the document and reinserting it with
    * new field values. Results may not be immediately visible to searchers, but
    * should be visible within a reasonable amount of time.
    *
@@ -86,6 +91,15 @@ public interface ChangeIndex {
    * @throws IOException
    */
   public void replace(ChangeData cd) throws IOException;
+
+  /**
+   * Delete a change document from the index.
+   *
+   * @param cd change document.
+   *
+   * @throws IOException
+   */
+  public void delete(ChangeData cd) throws IOException;
 
   /**
    * Convert the given operator predicate into a source searching the index and

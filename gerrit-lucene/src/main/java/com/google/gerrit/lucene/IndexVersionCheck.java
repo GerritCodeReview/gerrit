@@ -36,7 +36,8 @@ import java.util.Map;
 
 public class IndexVersionCheck implements LifecycleListener {
   public static final Map<String, Integer> SCHEMA_VERSIONS = ImmutableMap.of(
-      "changes", ChangeField.SCHEMA_VERSION);
+      "changes_open", ChangeField.SCHEMA_VERSION,
+      "changes_closed", ChangeField.SCHEMA_VERSION);
 
   public static File gerritIndexConfig(SitePaths sitePaths) {
     return new File(sitePaths.index_dir, "gerrit_index.config");

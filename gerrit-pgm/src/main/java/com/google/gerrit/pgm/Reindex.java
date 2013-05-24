@@ -23,7 +23,6 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.lucene.LuceneChangeIndex;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Change;
@@ -31,9 +30,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
@@ -84,17 +82,14 @@ public class Reindex extends SiteProgram {
     ReviewDb db = schema.open();
     dbRef.set(db);
 
-    LuceneChangeIndex index = (LuceneChangeIndex) sysInjector
-        .getInstance(ChangeIndex.Manager.class)
-        .get("changes");
+    ChangeIndexer indexer = sysInjector.getInstance(ChangeIndexer.class);
 
     Stopwatch sw = new Stopwatch().start();
     int i = 0;
     for (Change change : db.changes().all()) {
-      index.insert(new ChangeData(change));
+      indexer.index(change).get();
       i++;
     }
-    index.getWriter().commit();
     double elapsed = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Reindexed %d changes in %.02fms", i, elapsed);
     writeVersion();
@@ -128,15 +123,17 @@ public class Reindex extends SiteProgram {
   }
 
   private void deleteAll() throws IOException {
-    File file = new File(sitePaths.index_dir, "changes");
-    if (file.exists()) {
-      Directory dir = FSDirectory.open(file);
-      try {
-        for (String name : dir.listAll()) {
-          dir.deleteFile(name);
+    for (String index : SCHEMA_VERSIONS.keySet()) {
+      File file = new File(sitePaths.index_dir, index);
+      if (file.exists()) {
+        Directory dir = FSDirectory.open(file);
+        try {
+          for (String name : dir.listAll()) {
+            dir.deleteFile(name);
+          }
+        } finally {
+          dir.close();
         }
-      } finally {
-        dir.close();
       }
     }
   }

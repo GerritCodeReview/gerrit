@@ -16,6 +16,8 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.PredicateWrapper;
@@ -28,20 +30,41 @@ import com.google.inject.Inject;
 
 import java.io.IOException;
 import java.util.BitSet;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 /** Rewriter that pushes boolean logic into the secondary index. */
 public class IndexRewriteImpl implements IndexRewrite {
-  private final ChangeIndex index;
+  private static final Set<Change.Status> OPEN_STATUSES;
+  private static final Set<Change.Status> CLOSED_STATUSES;
+
+  static {
+    EnumSet<Change.Status> open = EnumSet.noneOf(Change.Status.class);
+    EnumSet<Change.Status> closed = EnumSet.noneOf(Change.Status.class);
+    for (Change.Status s : Change.Status.values()) {
+      if (s.isOpen()) {
+        open.add(s);
+      } else {
+        closed.add(s);
+      }
+    }
+    OPEN_STATUSES = Sets.immutableEnumSet(open);
+    CLOSED_STATUSES = Sets.immutableEnumSet(closed);
+  }
+
+  private final ChangeIndex openIndex;
+  private final ChangeIndex closedIndex;
 
   @Inject
   IndexRewriteImpl(ChangeIndex.Manager indexManager) throws IOException {
-    this(indexManager.get("changes"));
+    this(indexManager.get("changes_open"), indexManager.get("changes_closed"));
   }
 
   @VisibleForTesting
-  IndexRewriteImpl(ChangeIndex index) {
-    this.index = index;
+  IndexRewriteImpl(ChangeIndex openIndex, ChangeIndex closedIndex) {
+    this.openIndex = openIndex;
+    this.closedIndex = closedIndex;
   }
 
   @Override
@@ -158,9 +181,43 @@ public class IndexRewriteImpl implements IndexRewrite {
     }
   }
 
+  @VisibleForTesting
+  static EnumSet<Change.Status> getPossibleStatus(Predicate<ChangeData> in) {
+    if (in instanceof ChangeStatusPredicate) {
+      return EnumSet.of(((ChangeStatusPredicate) in).getStatus());
+    } else if (in.getClass() == NotPredicate.class) {
+      return EnumSet.complementOf(getPossibleStatus(in.getChild(0)));
+    } else if (in.getClass() == OrPredicate.class) {
+      EnumSet<Change.Status> s = EnumSet.noneOf(Change.Status.class);
+      for (int i = 0; i < in.getChildCount(); i++) {
+        s.addAll(getPossibleStatus(in.getChild(i)));
+      }
+      return s;
+    } else if (in.getClass() == AndPredicate.class) {
+      EnumSet<Change.Status> s = EnumSet.allOf(Change.Status.class);
+      for (int i = 0; i < in.getChildCount(); i++) {
+        s.retainAll(getPossibleStatus(in.getChild(i)));
+      }
+      return s;
+    } else if (in.getChildCount() == 0) {
+      return EnumSet.allOf(Change.Status.class);
+    } else {
+      throw new IllegalStateException(
+          "Invalid predicate type in change index query: " + in.getClass());
+    }
+  }
+
   private PredicateWrapper wrap(Predicate<ChangeData> p) {
     try {
-      return new PredicateWrapper(p, index);
+      Set<Change.Status> possibleStatus = getPossibleStatus(p);
+      List<ChangeIndex> indexes = Lists.newArrayListWithCapacity(2);
+      if (!Sets.intersection(possibleStatus, OPEN_STATUSES).isEmpty()) {
+        indexes.add(openIndex);
+      }
+      if (!Sets.intersection(possibleStatus, CLOSED_STATUSES).isEmpty()) {
+        indexes.add(closedIndex);
+      }
+      return new PredicateWrapper(p, indexes);
     } catch (QueryParseException e) {
       throw new IllegalStateException(
           "Failed to convert " + p + " to index predicate", e);

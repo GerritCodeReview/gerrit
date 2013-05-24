@@ -14,7 +14,14 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
+import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
+import static com.google.gerrit.reviewdb.client.Change.Status.MERGED;
+import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
+import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
+
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.query.AndPredicate;
@@ -27,6 +34,8 @@ import com.google.gwtorm.server.ResultSet;
 import junit.framework.TestCase;
 
 import java.io.IOException;
+import java.util.EnumSet;
+import java.util.Set;
 
 @SuppressWarnings("unchecked")
 public class IndexRewriteTest extends TestCase {
@@ -38,6 +47,11 @@ public class IndexRewriteTest extends TestCase {
 
     @Override
     public void replace(ChangeData cd) throws IOException {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void delete(ChangeData cd) throws IOException {
       throw new UnsupportedOperationException();
     }
 
@@ -65,20 +79,22 @@ public class IndexRewriteTest extends TestCase {
     }
   }
 
-  private DummyIndex index;
+  private DummyIndex openIndex;
+  private DummyIndex closedIndex;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewrite rewrite;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    index = new DummyIndex();
+    openIndex = new DummyIndex();
+    closedIndex = new DummyIndex();
     queryBuilder = new ChangeQueryBuilder(
         new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
             null, null, null, null, null, null),
         null);
 
-    rewrite = new IndexRewriteImpl(index);
+    rewrite = new IndexRewriteImpl(openIndex, closedIndex);
   }
 
   public void testIndexPredicate() throws Exception {
@@ -166,6 +182,22 @@ public class IndexRewriteTest extends TestCase {
         out.getChildren());
   }
 
+  public void testGetPossibleStatus() throws Exception {
+    assertEquals(EnumSet.allOf(Change.Status.class), status("file:a"));
+    assertEquals(EnumSet.of(NEW), status("is:new"));
+    assertEquals(EnumSet.of(SUBMITTED, DRAFT, MERGED, ABANDONED),
+        status("-is:new"));
+    assertEquals(EnumSet.of(NEW, MERGED), status("is:new OR is:merged"));
+
+    EnumSet<Change.Status> none = EnumSet.noneOf(Change.Status.class);
+    assertEquals(none, status("is:new is:merged"));
+    assertEquals(none, status("(is:new is:draft) (is:merged is:submitted)"));
+    assertEquals(none, status("(is:new is:draft) (is:merged is:submitted)"));
+
+    assertEquals(EnumSet.of(MERGED, SUBMITTED),
+        status("(is:new is:draft) OR (is:merged OR is:submitted)"));
+  }
+
   private Predicate<ChangeData> parse(String query) throws QueryParseException {
     return queryBuilder.parse(query);
   }
@@ -176,6 +208,10 @@ public class IndexRewriteTest extends TestCase {
 
   private PredicateWrapper wrap(Predicate<ChangeData> p)
       throws QueryParseException {
-    return new PredicateWrapper(p, index);
+    return new PredicateWrapper(p, openIndex);
+  }
+
+  private Set<Change.Status> status(String query) throws QueryParseException {
+    return IndexRewriteImpl.getPossibleStatus(parse(query));
   }
 }

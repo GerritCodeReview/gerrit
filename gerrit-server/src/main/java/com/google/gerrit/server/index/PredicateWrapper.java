@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.server.query.Predicate;
@@ -41,10 +42,15 @@ public class PredicateWrapper extends Predicate<ChangeData> implements
   private final Predicate<ChangeData> pred;
   private final List<ChangeDataSource> sources;
 
-  public PredicateWrapper(Predicate<ChangeData> pred, ChangeIndex... indexes)
+  public PredicateWrapper(Predicate<ChangeData> pred, ChangeIndex index)
       throws QueryParseException {
+    this(pred, ImmutableList.of(index));
+  }
+
+  public PredicateWrapper(Predicate<ChangeData> pred,
+      Collection<ChangeIndex> indexes) throws QueryParseException {
     this.pred = pred;
-    sources = Lists.newArrayListWithCapacity(indexes.length);
+    sources = Lists.newArrayListWithCapacity(indexes.size());
     for (ChangeIndex index : indexes) {
       sources.add(index.getSource(pred));
     }

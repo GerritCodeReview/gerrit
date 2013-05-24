@@ -21,9 +21,7 @@ import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
@@ -39,8 +37,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -129,6 +125,12 @@ public class LuceneChangeIndex implements ChangeIndex {
   public void replace(ChangeData cd) throws IOException {
     writer.updateDocument(intTerm(FIELD_CHANGE, cd.getId().get()),
         toDocument(cd));
+    commit();
+  }
+
+  @Override
+  public void delete(ChangeData cd) throws IOException {
+    writer.deleteDocuments(intTerm(FIELD_CHANGE, cd.getId().get()));
     commit();
   }
 

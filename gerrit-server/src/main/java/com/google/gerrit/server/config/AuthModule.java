@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.auth.AuthBackend;
-import com.google.gerrit.server.auth.InternalAuthBackend;
+import com.google.gerrit.server.auth.InternalPasswordCredentialsVerifier;
+import com.google.gerrit.server.auth.PasswordCredentials;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -47,7 +47,8 @@ public class AuthModule extends AbstractModule {
 
       default:
         bind(Realm.class).to(DefaultRealm.class);
-        DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);
+        DynamicItem.bind(binder(), PasswordCredentials.VERIFIER_TYPE).to(
+            InternalPasswordCredentialsVerifier.class);
         break;
     }
   }

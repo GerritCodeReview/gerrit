@@ -16,14 +16,11 @@ package com.google.gerrit.server.auth.ldap;
 
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.AuthException;
-import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.auth.AuthUser;
 import com.google.gerrit.server.auth.InvalidCredentialsException;
-import com.google.gerrit.server.auth.MissingCredentialsException;
-import com.google.gerrit.server.auth.UnknownUserException;
-import com.google.gerrit.server.auth.UserNotAllowedException;
+import com.google.gerrit.server.auth.PasswordCredentials;
+import com.google.gerrit.server.auth.PasswordCredentialsVerifier;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -38,46 +35,33 @@ import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.security.auth.login.LoginException;
 
-/**
- * Implementation of AuthBackend for the LDAP authentication system.
- */
-public class LdapAuthBackend implements AuthBackend {
-  private static final Logger log = LoggerFactory.getLogger(LdapAuthBackend.class);
+public class LdapPasswordCredentialsVerifier extends
+    PasswordCredentialsVerifier {
+  private static final Logger log = LoggerFactory
+      .getLogger(LdapPasswordCredentialsVerifier.class);
 
   private final Helper helper;
-  private final AuthConfig authConfig;
-  private final boolean lowerCaseUsername;
+  private final AuthType authType;
+  private final boolean usernameToLowerCase;
 
   @Inject
-  public LdapAuthBackend(Helper helper,
+  public LdapPasswordCredentialsVerifier(Helper helper,
       AuthConfig authConfig,
       @GerritServerConfig Config config) {
     this.helper = helper;
-    this.authConfig = authConfig;
-    this.lowerCaseUsername =
+    this.authType = authConfig.getAuthType();
+    this.usernameToLowerCase =
         config.getBoolean("ldap", "localUsernameToLowerCase", false);
   }
 
   @Override
-  public String getDomain() {
-    return "ldap";
-  }
-
-  @Override
-  public AuthUser authenticate(AuthRequest req)
-      throws MissingCredentialsException, InvalidCredentialsException,
-      UnknownUserException, UserNotAllowedException, AuthException {
-    if (req.getUsername() == null) {
-      throw new MissingCredentialsException();
-    }
-
-    final String username = lowerCaseUsername
-        ? req.getUsername().toLowerCase(Locale.US)
-        : req.getUsername();
+  protected PasswordAuthUser lookup(PasswordCredentials creds)
+      throws AuthException {
+    final String username = normalizeUsername(creds);
     try {
       final DirContext ctx;
-      if (authConfig.getAuthType() == AuthType.LDAP_BIND) {
-        ctx = helper.authenticate(username, req.getPassword());
+      if (authType == AuthType.LDAP_BIND) {
+        ctx = helper.authenticate(username, creds.getPassword());
       } else {
         ctx = helper.open();
       }
@@ -85,13 +69,15 @@ public class LdapAuthBackend implements AuthBackend {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
         final LdapQuery.Result m = helper.findAccount(schema, ctx, username);
 
-        if (authConfig.getAuthType() == AuthType.LDAP) {
+        if (authType == AuthType.LDAP) {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //
-          helper.authenticate(m.getDN(), req.getPassword());
+          helper.authenticate(m.getDN(), creds.getPassword());
         }
-        return new AuthUser(new AuthUser.UUID(username), username);
+        return new PasswordAuthUser(
+            new AuthUser(new AuthUser.UUID(username), username),
+            creds.getPassword());
       } finally {
         try {
           ctx.close();
@@ -109,5 +95,11 @@ public class LdapAuthBackend implements AuthBackend {
       log.error("Cannot authenticate server via JAAS", e);
       throw new AuthException("Cannot query LDAP for account", e);
     }
+  }
+
+  private String normalizeUsername(PasswordCredentials creds) {
+    return usernameToLowerCase
+        ? creds.getUsername().toLowerCase(Locale.US)
+        : creds.getUsername();
   }
 }

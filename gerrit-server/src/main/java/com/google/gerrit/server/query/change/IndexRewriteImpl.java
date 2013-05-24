@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexPredicate;
@@ -25,6 +26,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.inject.Inject;
 
+import java.io.IOException;
 import java.util.BitSet;
 import java.util.List;
 
@@ -33,6 +35,11 @@ public class IndexRewriteImpl implements IndexRewrite {
   private final ChangeIndex index;
 
   @Inject
+  IndexRewriteImpl(ChangeIndex.Manager indexManager) throws IOException {
+    this(indexManager.get("changes"));
+  }
+
+  @VisibleForTesting
   IndexRewriteImpl(ChangeIndex index) {
     this.index = index;
   }

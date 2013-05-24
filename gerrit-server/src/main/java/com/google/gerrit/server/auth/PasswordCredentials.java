@@ -14,35 +14,40 @@
 
 package com.google.gerrit.server.auth;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Objects;
 import com.google.gerrit.common.Nullable;
+import com.google.inject.TypeLiteral;
 
 /**
- * Defines an abstract request for user authentication to Gerrit.
+ * Credentials implementation for password based user verification
  */
-public abstract class AuthRequest {
+public class PasswordCredentials extends Credentials {
+  public static final TypeLiteral<CredentialsVerifier<PasswordCredentials>> VERIFIER_TYPE =
+      new TypeLiteral<CredentialsVerifier<PasswordCredentials>>() {};
+
   private final String username;
   private final String password;
 
-  protected AuthRequest(String username, String password) {
-    this.username = username;
+  public PasswordCredentials(String username, String password) {
+    this.username = checkNotNull(username);
     this.password = password;
   }
 
   /**
-   * Returns the username to be authenticated.
+   * Returns the username.
    *
-   * @return username for authentication or null for anonymous access.
+   * @return username for authentication.
    */
-  @Nullable
   public final String getUsername() {
     return username;
   }
 
   /**
-   * Returns the user's credentials
+   * Returns the user's password.
    *
-   * @return user's credentials or null
+   * @return user's password or null
    */
   @Nullable
   public final String getPassword() {

@@ -63,8 +63,7 @@ import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.account.UniversalGroupBackend;
-import com.google.gerrit.server.auth.AuthBackend;
-import com.google.gerrit.server.auth.UniversalAuthBackend;
+import com.google.gerrit.server.auth.PasswordCredentials;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
@@ -134,6 +133,7 @@ public class GerritGlobalModule extends FactoryModule {
 
   @Override
   protected void configure() {
+    DynamicItem.itemOf(binder(), PasswordCredentials.VERIFIER_TYPE);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
     bind(QueryDocumentationExecutor.class).in(SINGLETON);
@@ -188,9 +188,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)
         .in(SINGLETON);
-
-    bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
-    DynamicSet.setOf(binder(), AuthBackend.class);
 
     bind(GroupControl.Factory.class).in(SINGLETON);
     bind(GroupControl.GenericFactory.class).in(SINGLETON);

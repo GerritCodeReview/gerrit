@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,50 +18,33 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import java.util.Locale;
 
-@Singleton
-public class InternalAuthBackend implements AuthBackend {
+public class InternalUserBackend {
   private final AccountCache accountCache;
-  private final AuthConfig authConfig;
+  private final boolean usernameToLowerCase;
 
   @Inject
-  InternalAuthBackend(AccountCache accountCache, AuthConfig authConfig) {
+  InternalUserBackend(AccountCache accountCache, AuthConfig authConfig) {
     this.accountCache = accountCache;
-    this.authConfig = authConfig;
+    this.usernameToLowerCase = authConfig.isUserNameToLowerCase();
   }
 
-  @Override
-  public String getDomain() {
-    return "gerrit";
-  }
-
-  @Override
-  public AuthUser authenticate(AuthRequest req)
-      throws MissingCredentialsException, InvalidCredentialsException,
-      UnknownUserException, UserNotAllowedException, AuthException {
-    if (req.getUsername() == null || req.getPassword() == null) {
-      throw new MissingCredentialsException();
-    }
-
-    String username;
-    if (authConfig.isUserNameToLowerCase()) {
-      username = req.getUsername().toLowerCase(Locale.US);
-    } else {
-      username = req.getUsername();
-    }
-
-    final AccountState who = accountCache.getByUsername(username);
+  public AccountState getByUsername(String username)
+      throws UnknownUserException, UserNotAllowedException {
+    username = normalizeUsername(username);
+    AccountState who = accountCache.getByUsername(username);
     if (who == null) {
       throw new UnknownUserException();
     } else if (!who.getAccount().isActive()) {
       throw new UserNotAllowedException("Authentication failed for " + username
           + ": account inactive or not provisioned in Gerrit");
     }
+    return who;
+  }
 
-    req.checkPassword(who.getPassword(username));
-    return new AuthUser(new AuthUser.UUID(username), username);
+  private String normalizeUsername(String username) {
+    return usernameToLowerCase ? username.toLowerCase(Locale.US) : username;
   }
 }

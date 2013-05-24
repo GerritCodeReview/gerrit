@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.SchemaFactory;
@@ -82,7 +83,10 @@ public class Reindex extends SiteProgram {
         Key.get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
     ReviewDb db = schema.open();
     dbRef.set(db);
-    LuceneChangeIndex index = sysInjector.getInstance(LuceneChangeIndex.class);
+
+    LuceneChangeIndex index = (LuceneChangeIndex) sysInjector
+        .getInstance(ChangeIndex.Manager.class)
+        .get("changes");
 
     Stopwatch sw = new Stopwatch().start();
     int i = 0;

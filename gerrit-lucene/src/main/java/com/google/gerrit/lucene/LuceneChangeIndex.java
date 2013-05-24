@@ -80,8 +80,7 @@ import java.util.List;
  * though there may be some lag between a committed write and it showing up to
  * other threads' searchers.
  */
-@Singleton
-public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
+public class LuceneChangeIndex implements ChangeIndex {
   private static final Logger log =
       LoggerFactory.getLogger(LuceneChangeIndex.class);
 
@@ -92,11 +91,9 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   private final IndexWriter writer;
   private final SearcherManager searcherManager;
 
-  @Inject
-  LuceneChangeIndex(SitePaths sitePaths,
-      FillArgs fillArgs) throws IOException {
+  LuceneChangeIndex(File file, FillArgs fillArgs) throws IOException {
     this.fillArgs = fillArgs;
-    dir = FSDirectory.open(new File(sitePaths.index_dir, "changes"));
+    dir = FSDirectory.open(file);
     IndexWriterConfig writerConfig =
         new IndexWriterConfig(LUCENE_VERSION, new StandardAnalyzer(LUCENE_VERSION));
     writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
@@ -104,13 +101,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     searcherManager = new SearcherManager(writer, true, null);
   }
 
-  @Override
-  public void start() {
-    // Do nothing.
-  }
-
-  @Override
-  public void stop() {
+  void close() {
     try {
       searcherManager.close();
     } catch (IOException e) {

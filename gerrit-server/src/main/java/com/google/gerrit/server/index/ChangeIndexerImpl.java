@@ -41,9 +41,9 @@ public class ChangeIndexerImpl implements ChangeIndexer {
 
   @Inject
   ChangeIndexerImpl(WorkQueue workQueue,
-      ChangeIndex index) {
+      ChangeIndex.Manager indexManager) throws IOException {
     this.workQueue = workQueue;
-    this.index = index;
+    this.index = indexManager.get("changes");
   }
 
   @Override

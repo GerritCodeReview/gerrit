@@ -44,10 +44,10 @@ public class LuceneIndexModule extends LifecycleModule {
 
   @Override
   protected void configure() {
-    bind(ChangeIndex.class).to(LuceneChangeIndex.class);
+    bind(ChangeIndex.Manager.class).to(LuceneChangeIndexManager.class);
     bind(ChangeIndexer.class).to(ChangeIndexerImpl.class);
     bind(IndexRewrite.class).to(IndexRewriteImpl.class);
-    listener().to(LuceneChangeIndex.class);
+    listener().to(LuceneChangeIndexManager.class);
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);
     }

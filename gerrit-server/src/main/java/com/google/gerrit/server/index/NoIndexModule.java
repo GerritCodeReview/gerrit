@@ -24,7 +24,7 @@ public class NoIndexModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bind(ChangeIndex.class).toInstance(ChangeIndex.DISABLED);
+    bind(ChangeIndex.Manager.class).toInstance(ChangeIndex.Manager.DISABLED);
     bind(ChangeIndexer.class).toInstance(ChangeIndexer.DISABLED);
     bind(IndexRewrite.class).toInstance(IndexRewrite.DISABLED);
   }

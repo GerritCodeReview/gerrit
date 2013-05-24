@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -22,6 +24,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Wrapper combining an {@link IndexPredicate} together with a
@@ -34,27 +39,63 @@ import java.util.Collection;
 public class PredicateWrapper extends Predicate<ChangeData> implements
     ChangeDataSource {
   private final Predicate<ChangeData> pred;
-  private final ChangeDataSource source;
+  private final List<ChangeDataSource> sources;
 
-  public PredicateWrapper(ChangeIndex index, Predicate<ChangeData> pred)
+  public PredicateWrapper(Predicate<ChangeData> pred, ChangeIndex... indexes)
       throws QueryParseException {
     this.pred = pred;
-    this.source = index.getSource(pred);
+    sources = Lists.newArrayListWithCapacity(indexes.length);
+    for (ChangeIndex index : indexes) {
+      sources.add(index.getSource(pred));
+    }
   }
 
   @Override
   public int getCardinality() {
-    return source.getCardinality();
+    int n = 0;
+    for (ChangeDataSource source : sources) {
+      n += source.getCardinality();
+    }
+    return n;
   }
 
   @Override
   public boolean hasChange() {
-    return source.hasChange();
+    for (ChangeDataSource source : sources) {
+      if (!source.hasChange()) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    return source.read();
+    final List<ResultSet<ChangeData>> results =
+        Lists.newArrayListWithCapacity(sources.size());
+    for (ChangeDataSource source : sources) {
+      results.add(source.read());
+    }
+    return new ResultSet<ChangeData>() {
+      @Override
+      public Iterator<ChangeData> iterator() {
+        // TODO(dborowitz): May return duplicates since moving a document
+        // between indexes is not atomic.
+        return Iterables.concat(results).iterator();
+      }
+
+      @Override
+      public List<ChangeData> toList() {
+        return Collections.unmodifiableList(Lists.newArrayList(iterator()));
+      }
+
+      @Override
+      public void close() {
+        for (ResultSet<ChangeData> rs : results) {
+          rs.close();
+        }
+      }
+    };
   }
 
   @Override

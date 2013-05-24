@@ -54,4 +54,9 @@ class EqualsFilePredicate extends IndexPredicate<ChangeData> {
   public int getCost() {
     return 1;
   }
+
+  @Override
+  public boolean isIndexOnly() {
+    return true;
+  }
 }

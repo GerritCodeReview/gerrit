@@ -59,9 +59,8 @@ import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.UniversalGroupBackend;
-import com.google.gerrit.server.auth.AuthBackend;
-import com.google.gerrit.server.auth.InternalAuthBackend;
-import com.google.gerrit.server.auth.UniversalAuthBackend;
+import com.google.gerrit.server.auth.InternalPasswordCredentialsVerifier;
+import com.google.gerrit.server.auth.PasswordCredentials;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
@@ -132,6 +131,7 @@ public class GerritGlobalModule extends FactoryModule {
 
   @Override
   protected void configure() {
+    DynamicItem.itemOf(binder(), PasswordCredentials.VERIFIER_TYPE);
     switch (loginType) {
       case HTTP_LDAP:
       case LDAP:
@@ -145,7 +145,8 @@ public class GerritGlobalModule extends FactoryModule {
 
       default:
         bind(Realm.class).to(DefaultRealm.class);
-        DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);
+        DynamicItem.bind(binder(), PasswordCredentials.VERIFIER_TYPE)
+            .to(InternalPasswordCredentialsVerifier.class);
         break;
     }
 
@@ -202,9 +203,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)
         .in(SINGLETON);
-
-    bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
-    DynamicSet.setOf(binder(), AuthBackend.class);
 
     bind(GroupControl.Factory.class).in(SINGLETON);
     bind(GroupControl.GenericFactory.class).in(SINGLETON);

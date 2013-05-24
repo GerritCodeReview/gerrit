@@ -18,11 +18,13 @@ import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.auth.PasswordCredentials;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
@@ -62,6 +64,8 @@ public class LdapModule extends CacheModule {
 
     bind(Helper.class);
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
+    DynamicItem.bind(binder(), PasswordCredentials.VERIFIER_TYPE)
+        .to(LdapPasswordCredentialsVerifier.class);
 
     DynamicSet.bind(binder(), GroupBackend.class).to(LdapGroupBackend.class);
   }

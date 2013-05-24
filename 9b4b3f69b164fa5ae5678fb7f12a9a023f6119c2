@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d041902_dc232db1",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ContainerHttpAtuhProtocolHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-24T17:14:35Z",
+      "side": 1,
+      "message": "Atuh -\u003e Auth",
+      "revId": "9b4b3f69b164fa5ae5678fb7f12a9a023f6119c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_3c0d7144",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/HttpAuthProtocolHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-24T17:14:35Z",
+      "side": 1,
+      "message": "This should only take a HttpServletRequest req and I will likely rename this to extractCredentials.  Furthermore AuthRequest -\u003e Credentials.\n\nI think I figured out what _should_ work for a design for verifying credentials.\n\n + An AuthBackend provides mechanism for looking up user.\n + An AuthProtocol handles extracting credentials.\n + Credentials will be extended to a specific type, which the AuthProtocol produces from extractCredentials() i.e. PasswordCredentials.\n\nHere is the new part:\n  + A set of CredentialVerifiers will be bound to the specific credentials type, and will perform the authorization for a specific backend.\n\nThis allows an AuthBackend to be used for multiple types of authentication. Furthermore, it would allow the same verification code to be used, regardless of the protocol i.e SSH password auth vs http password auth.",
+      "revId": "9b4b3f69b164fa5ae5678fb7f12a9a023f6119c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_fc26e9c2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/HttpAuthProtocolHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-24T17:14:35Z",
+      "side": 1,
+      "message": "Eventually this class will also support the authentication flow via:\n\nvoid login(HttpServletRequest req, HttpServletResponse resp)",
+      "revId": "9b4b3f69b164fa5ae5678fb7f12a9a023f6119c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d041902_1c12b566",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/HttpAuthProtocolHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-24T17:14:35Z",
+      "side": 1,
+      "message": "I don\u0027t remember why this was needed, but I will likely remove it.",
+      "revId": "9b4b3f69b164fa5ae5678fb7f12a9a023f6119c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

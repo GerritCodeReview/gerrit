@@ -176,6 +176,6 @@ public class IndexRewriteTest extends TestCase {
 
   private PredicateWrapper wrap(Predicate<ChangeData> p)
       throws QueryParseException {
-    return new PredicateWrapper(index, p);
+    return new PredicateWrapper(p, index);
   }
 }

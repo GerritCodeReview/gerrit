@@ -153,7 +153,7 @@ public class IndexRewriteImpl implements IndexRewrite {
 
   private PredicateWrapper wrap(Predicate<ChangeData> p) {
     try {
-      return new PredicateWrapper(index, p);
+      return new PredicateWrapper(p, index);
     } catch (QueryParseException e) {
       throw new IllegalStateException(
           "Failed to convert " + p + " to index predicate", e);

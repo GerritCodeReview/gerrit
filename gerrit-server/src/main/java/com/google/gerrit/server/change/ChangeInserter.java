@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
+
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.reviewdb.client.Account;
@@ -21,11 +23,13 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -40,8 +44,7 @@ import java.util.Set;
 
 public class ChangeInserter {
   public static interface Factory {
-    ChangeInserter create(RefControl ctl, Change c, PatchSet ps, RevCommit rc,
-        PatchSetInfo psi);
+    ChangeInserter create(RefControl ctl, Change c, RevCommit rc);
   }
 
   private final Provider<ReviewDb> dbProvider;
@@ -58,18 +61,18 @@ public class ChangeInserter {
 
   private ChangeMessage changeMessage;
   private Set<Account.Id> reviewers;
+  private boolean draft;
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
+      PatchSetInfoFactory patchSetInfoFactory,
       GitReferenceUpdated gitRefUpdated,
       ChangeHooks hooks,
       ApprovalsUtil approvalsUtil,
       TrackingFooters trackingFooters,
       @Assisted RefControl refControl,
       @Assisted Change change,
-      @Assisted PatchSet patchSet,
-      @Assisted RevCommit commit,
-      @Assisted PatchSetInfo patchSetInfo) {
+      @Assisted RevCommit commit) {
     this.dbProvider = dbProvider;
     this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
@@ -77,11 +80,22 @@ public class ChangeInserter {
     this.trackingFooters = trackingFooters;
     this.refControl = refControl;
     this.change = change;
-    this.patchSet = patchSet;
     this.commit = commit;
-    this.patchSetInfo = patchSetInfo;
 
     this.reviewers = Collections.emptySet();
+
+    patchSet =
+        new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
+    patchSet.setCreatedOn(change.getCreatedOn());
+    patchSet.setUploader(change.getOwner());
+    patchSet.setRevision(new RevId(commit.name()));
+    if (draft) {
+      change.setStatus(Change.Status.DRAFT);
+      patchSet.setDraft(true);
+    }
+    patchSetInfo = patchSetInfoFactory.get(commit, patchSet.getId());
+    change.setCurrentPatchSet(patchSetInfo);
+    ChangeUtil.computeSortKey(change);
   }
 
   public ChangeInserter setMessage(ChangeMessage changeMessage) {
@@ -92,6 +106,19 @@ public class ChangeInserter {
   public ChangeInserter setReviewers(Set<Account.Id> reviewers) {
     this.reviewers = reviewers;
     return this;
+  }
+
+  public ChangeInserter setDraft(boolean draft) {
+    this.draft = draft;
+    return this;
+  }
+
+  public PatchSet getPatchSet() {
+    return patchSet;
+  }
+
+  public PatchSetInfo getPatchSetInfo() {
+    return patchSetInfo;
   }
 
   public void insert() throws OrmException {

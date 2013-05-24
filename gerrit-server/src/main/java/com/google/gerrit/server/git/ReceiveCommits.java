@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
@@ -1458,37 +1458,21 @@ public class ReceiveCommits {
   private class CreateRequest {
     final RevCommit commit;
     final Change change;
-    final PatchSet ps;
     final ReceiveCommand cmd;
-    private final RefControl ctl;
-    private final PatchSetInfo info;
+    final ChangeInserter ins;
     boolean created;
 
     CreateRequest(RefControl ctl, RevCommit c, Change.Key changeKey)
         throws OrmException {
-      this.ctl = ctl;
       commit = c;
-
       change = new Change(changeKey,
           new Change.Id(db.nextChangeId()),
           currentUser.getAccountId(),
           magicBranch.dest);
       change.setTopic(magicBranch.topic);
-
-      ps = new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
-      ps.setCreatedOn(change.getCreatedOn());
-      ps.setUploader(change.getOwner());
-      ps.setRevision(toRevId(c));
-
-      if (magicBranch.isDraft()) {
-        change.setStatus(Change.Status.DRAFT);
-        ps.setDraft(true);
-      }
-
-      info = patchSetInfoFactory.get(c, ps.getId());
-      change.setCurrentPatchSet(info);
-      ChangeUtil.updated(change);
-      cmd = new ReceiveCommand(ObjectId.zeroId(), c, ps.getRefName());
+      ins = changeInserterFactory.create(ctl, change, c);
+      cmd = new ReceiveCommand(ObjectId.zeroId(), c,
+          ins.getPatchSet().getRefName());
     }
 
     CheckedFuture<Void, OrmException> insertChange() throws IOException {
@@ -1519,6 +1503,7 @@ public class ReceiveCommits {
     }
 
     private void insertChange(ReviewDb db) throws OrmException {
+      final PatchSet ps = ins.getPatchSet();
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();
       final MailRecipients recipients = new MailRecipients();
@@ -1528,10 +1513,7 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
 
-      changeInserterFactory.create(ctl, change, ps, commit, info)
-          .setReviewers(recipients.getReviewers())
-          .insert();
-
+      ins.setReviewers(recipients.getReviewers()).insert();
       created = true;
 
       workQueue.getDefaultQueue()
@@ -1542,7 +1524,7 @@ public class ReceiveCommits {
             CreateChangeSender cm =
                 createChangeSenderFactory.create(change);
             cm.setFrom(me);
-            cm.setPatchSet(ps, info);
+            cm.setPatchSet(ps, ins.getPatchSetInfo());
             cm.addReviewers(recipients.getReviewers());
             cm.addExtraCC(recipients.getCcOnly());
             cm.send();

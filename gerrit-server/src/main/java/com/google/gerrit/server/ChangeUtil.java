@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -249,13 +248,9 @@ public class ChangeUtil {
           user.getAccountId(),
           changeToRevert.getDest());
       change.setTopic(changeToRevert.getTopic());
-
-      PatchSet.Id id =
-          new PatchSet.Id(change.getId(), Change.INITIAL_PATCH_SET_ID);
-      final PatchSet ps = new PatchSet(id);
-      ps.setCreatedOn(change.getCreatedOn());
-      ps.setUploader(change.getOwner());
-      ps.setRevision(new RevId(revertCommit.name()));
+      ChangeInserter ins =
+          changeInserterFactory.create(refControl, change, revertCommit);
+      PatchSet ps = ins.getPatchSet();
 
       CommitReceivedEvent commitReceivedEvent =
           new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
@@ -268,11 +263,6 @@ public class ChangeUtil {
       } catch (CommitValidationException e) {
         throw new InvalidChangeOperationException(e.getMessage());
       }
-
-      PatchSetInfo info = patchSetInfoFactory.get(revertCommit, ps.getId());
-      change.setCurrentPatchSet(info);
-      ChangeUtil.updated(change);
-
 
       final RefUpdate ru = git.updateRef(ps.getRefName());
       ru.setExpectedOldObjectId(ObjectId.zeroId());
@@ -293,9 +283,7 @@ public class ChangeUtil {
       msgBuf.append("This patchset was reverted in change: " + change.getKey().get());
       cmsg.setMessage(msgBuf.toString());
 
-      changeInserterFactory.create(refControl, change, ps, revertCommit, info)
-          .setMessage(cmsg)
-          .insert();
+      ins.setMessage(cmsg).insert();
 
       final RevertedSender cm = revertedSenderFactory.create(change);
       cm.setFrom(user.getAccountId());

@@ -259,7 +259,7 @@ public class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
-  private final ChangeInserter changeInserter;
+  private final ChangeInserter.Factory changeInserterFactory;
   private final WorkQueue workQueue;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
@@ -315,7 +315,7 @@ public class ReceiveCommits {
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
       final ChangeCache changeCache,
-      final ChangeInserter changeInserter,
+      final ChangeInserter.Factory changeInserterFactory,
       final CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
@@ -348,7 +348,7 @@ public class ReceiveCommits {
     this.canonicalWebUrl = canonicalWebUrl;
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
-    this.changeInserter = changeInserter;
+    this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.workQueue = workQueue;
     this.changeUpdateExector = changeUpdateExector;
@@ -1342,7 +1342,7 @@ public class ReceiveCommits {
         Change.Key changeKey = new Change.Key("I" + c.name());
         final List<String> idList = c.getFooterLines(CHANGE_ID);
         if (idList.isEmpty()) {
-          newChanges.add(new CreateRequest(c, changeKey));
+          newChanges.add(new CreateRequest(magicBranch.ctl, c, changeKey));
           continue;
         }
 
@@ -1392,7 +1392,7 @@ public class ReceiveCommits {
 
           newChangeIds.add(p.changeKey);
         }
-        newChanges.add(new CreateRequest(p.commit, p.changeKey));
+        newChanges.add(new CreateRequest(magicBranch.ctl, p.commit, p.changeKey));
       }
     } catch (IOException e) {
       // Should never happen, the core receive process would have
@@ -1460,10 +1460,13 @@ public class ReceiveCommits {
     final Change change;
     final PatchSet ps;
     final ReceiveCommand cmd;
+    private final RefControl ctl;
     private final PatchSetInfo info;
     boolean created;
 
-    CreateRequest(RevCommit c, Change.Key changeKey) throws OrmException {
+    CreateRequest(RefControl ctl, RevCommit c, Change.Key changeKey)
+        throws OrmException {
+      this.ctl = ctl;
       commit = c;
 
       change = new Change(changeKey,
@@ -1525,8 +1528,9 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
 
-      changeInserter.insertChange(db, change, ps, commit, labelTypes, info,
-          recipients.getReviewers());
+      changeInserterFactory.create(ctl, change, ps, commit, info)
+          .setReviewers(recipients.getReviewers())
+          .insert();
 
       created = true;
 

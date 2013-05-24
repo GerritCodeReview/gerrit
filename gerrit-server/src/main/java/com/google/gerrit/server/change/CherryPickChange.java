@@ -19,9 +19,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -57,7 +55,6 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.List;
 
 public class CherryPickChange {
@@ -214,11 +211,9 @@ public class CherryPickChange {
         new Change(changeKey, new Change.Id(db.nextChangeId()),
             currentUser.getAccountId(), new Branch.NameKey(project,
                 destRef.getName()));
-    PatchSet.Id id = new PatchSet.Id(change.getId(), Change.INITIAL_PATCH_SET_ID);
-    PatchSet newPatchSet = new PatchSet(id);
-    newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-    newPatchSet.setUploader(change.getOwner());
-    newPatchSet.setRevision(new RevId(cherryPickCommit.name()));
+    ChangeInserter ins =
+        changeInserterFactory.create(refControl, change, cherryPickCommit);
+    PatchSet newPatchSet = ins.getPatchSet();
 
     CommitValidators commitValidators =
         commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
@@ -244,16 +239,7 @@ public class CherryPickChange {
           change.getDest().getParentKey().get(), ru.getResult()));
     }
 
-    PatchSetInfo newPatchSetInfo =
-        patchSetInfoFactory.get(cherryPickCommit, newPatchSet.getId());
-    change.setCurrentPatchSet(newPatchSetInfo);
-    ChangeUtil.updated(change);
-
-    changeInserterFactory
-        .create(refControl, change, newPatchSet, cherryPickCommit,
-            newPatchSetInfo)
-        .setMessage(buildChangeMessage(patchSetId, change))
-        .insert();
+    ins.setMessage(buildChangeMessage(patchSetId, change)).insert();
 
     return change.getId();
   }

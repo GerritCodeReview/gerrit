@@ -26,8 +26,11 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -36,40 +39,72 @@ import java.util.Collections;
 import java.util.Set;
 
 public class ChangeInserter {
+  public static interface Factory {
+    ChangeInserter create(RefControl ctl, Change c, PatchSet ps, RevCommit rc,
+        PatchSetInfo psi);
+  }
+
+  private final Provider<ReviewDb> dbProvider;
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final TrackingFooters trackingFooters;
 
+  private final RefControl refControl;
+  private final Change change;
+  private final PatchSet patchSet;
+  private final RevCommit commit;
+  private final PatchSetInfo patchSetInfo;
+
+  private ChangeMessage changeMessage;
+  private Set<Account.Id> reviewers;
+
   @Inject
-  public ChangeInserter(final GitReferenceUpdated gitRefUpdated,
-      ChangeHooks hooks, ApprovalsUtil approvalsUtil,
-      TrackingFooters trackingFooters) {
+  ChangeInserter(Provider<ReviewDb> dbProvider,
+      GitReferenceUpdated gitRefUpdated,
+      ChangeHooks hooks,
+      ApprovalsUtil approvalsUtil,
+      TrackingFooters trackingFooters,
+      @Assisted RefControl refControl,
+      @Assisted Change change,
+      @Assisted PatchSet patchSet,
+      @Assisted RevCommit commit,
+      @Assisted PatchSetInfo patchSetInfo) {
+    this.dbProvider = dbProvider;
     this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
     this.trackingFooters = trackingFooters;
+    this.refControl = refControl;
+    this.change = change;
+    this.patchSet = patchSet;
+    this.commit = commit;
+    this.patchSetInfo = patchSetInfo;
+
+    this.reviewers = Collections.emptySet();
   }
 
-  public void insertChange(ReviewDb db, Change change, PatchSet ps,
-      RevCommit commit, LabelTypes labelTypes, PatchSetInfo info,
-      Set<Account.Id> reviewers) throws OrmException {
-    insertChange(db, change, null, ps, commit, labelTypes, info, reviewers);
+  public ChangeInserter setMessage(ChangeMessage changeMessage) {
+    this.changeMessage = changeMessage;
+    return this;
   }
 
-  public void insertChange(ReviewDb db, Change change,
-      ChangeMessage changeMessage, PatchSet ps, RevCommit commit,
-      LabelTypes labelTypes, PatchSetInfo info, Set<Account.Id> reviewers)
-      throws OrmException {
+  public ChangeInserter setReviewers(Set<Account.Id> reviewers) {
+    this.reviewers = reviewers;
+    return this;
+  }
 
+  public void insert() throws OrmException {
+    ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {
-      ChangeUtil.insertAncestors(db, ps.getId(), commit);
-      db.patchSets().insert(Collections.singleton(ps));
+      ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
+      db.patchSets().insert(Collections.singleton(patchSet));
       db.changes().insert(Collections.singleton(change));
       ChangeUtil.updateTrackingIds(db, change, trackingFooters, commit.getFooterLines());
-      approvalsUtil.addReviewers(db, labelTypes, change, ps, info, reviewers,
-          Collections.<Account.Id> emptySet());
+      LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
+      approvalsUtil.addReviewers(db, labelTypes, change, patchSet, patchSetInfo,
+          reviewers, Collections.<Account.Id> emptySet());
       db.commit();
     } finally {
       db.rollback();
@@ -78,8 +113,8 @@ public class ChangeInserter {
       db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
-    gitRefUpdated.fire(change.getProject(), ps.getRefName(), ObjectId.zeroId(),
-        commit);
-    hooks.doPatchsetCreatedHook(change, ps, db);
+    gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
+        ObjectId.zeroId(), commit);
+    hooks.doPatchsetCreatedHook(change, patchSet, db);
   }
 }

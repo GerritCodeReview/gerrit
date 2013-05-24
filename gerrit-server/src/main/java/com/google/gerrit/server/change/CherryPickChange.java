@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -60,7 +58,6 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
 
 public class CherryPickChange {
@@ -73,7 +70,7 @@ public class CherryPickChange {
   private final PersonIdent myIdent;
   private final IdentifiedUser currentUser;
   private final CommitValidators.Factory commitValidatorsFactory;
-  private final ChangeInserter changeInserter;
+  private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   final MergeUtil.Factory mergeUtilFactory;
 
@@ -82,7 +79,7 @@ public class CherryPickChange {
       final ReviewDb db, @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager, final IdentifiedUser currentUser,
       final CommitValidators.Factory commitValidatorsFactory,
-      final ChangeInserter changeInserter,
+      final ChangeInserter.Factory changeInserterFactory,
       final PatchSetInserter.Factory patchSetInserterFactory,
       final MergeUtil.Factory mergeUtilFactory) {
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -91,7 +88,7 @@ public class CherryPickChange {
     this.myIdent = myIdent;
     this.currentUser = currentUser;
     this.commitValidatorsFactory = commitValidatorsFactory;
-    this.changeInserter = changeInserter;
+    this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
   }
@@ -247,18 +244,16 @@ public class CherryPickChange {
           change.getDest().getParentKey().get(), ru.getResult()));
     }
 
-    LabelTypes labelTypes =
-        refControl.getProjectControl().getLabelTypes();
-
     PatchSetInfo newPatchSetInfo =
         patchSetInfoFactory.get(cherryPickCommit, newPatchSet.getId());
     change.setCurrentPatchSet(newPatchSetInfo);
     ChangeUtil.updated(change);
 
-    changeInserter.insertChange(db, change,
-        buildChangeMessage(patchSetId, change), newPatchSet,
-        cherryPickCommit, labelTypes, newPatchSetInfo,
-        Collections.<Account.Id> emptySet());
+    changeInserterFactory
+        .create(refControl, change, newPatchSet, cherryPickCommit,
+            newPatchSetInfo)
+        .setMessage(buildChangeMessage(patchSetId, change))
+        .insert();
 
     return change.getId();
   }

@@ -15,9 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -196,7 +194,7 @@ public class ChangeUtil {
       ReviewDb db, RevertedSender.Factory revertedSenderFactory,
       ChangeHooks hooks, Repository git,
       PatchSetInfoFactory patchSetInfoFactory, PersonIdent myIdent,
-      ChangeInserter changeInserter)
+      ChangeInserter.Factory changeInserterFactory)
           throws NoSuchChangeException, EmailException,
       OrmException, MissingObjectException, IncorrectObjectTypeException,
       IOException, InvalidChangeOperationException {
@@ -295,9 +293,9 @@ public class ChangeUtil {
       msgBuf.append("This patchset was reverted in change: " + change.getKey().get());
       cmsg.setMessage(msgBuf.toString());
 
-      LabelTypes labelTypes = refControl.getProjectControl().getLabelTypes();
-      changeInserter.insertChange(db, change, cmsg, ps, revertCommit,
-          labelTypes, info, Collections.<Account.Id> emptySet());
+      changeInserterFactory.create(refControl, change, ps, revertCommit, info)
+          .setMessage(cmsg)
+          .insert();
 
       final RevertedSender cm = revertedSenderFactory.create(change);
       cm.setFrom(user.getAccountId());

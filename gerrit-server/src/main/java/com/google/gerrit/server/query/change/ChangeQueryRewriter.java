@@ -43,11 +43,14 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
                   null, null, null, null, null), null));
 
   private final Provider<ReviewDb> dbProvider;
+  private final IndexRewrite indexRewrite;
 
   @Inject
-  ChangeQueryRewriter(Provider<ReviewDb> dbProvider) {
+  ChangeQueryRewriter(Provider<ReviewDb> dbProvider,
+      IndexRewrite indexRewrite) {
     super(mydef);
     this.dbProvider = dbProvider;
+    this.indexRewrite = indexRewrite;
   }
 
   @Override
@@ -58,6 +61,11 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   @Override
   public Predicate<ChangeData> or(Collection<? extends Predicate<ChangeData>> l) {
     return hasSource(l) ? new OrSource(l) : super.or(l);
+  }
+
+  @Override
+  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
+    return super.rewrite(indexRewrite.rewrite(in));
   }
 
   @Rewrite("-status:open")

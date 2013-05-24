@@ -31,7 +31,6 @@ import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -297,10 +296,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
     } else {
       if (!file.startsWith("^") && args.index != ChangeIndex.DISABLED) {
-        // TODO(dborowitz): Wrap predicates in query rewriter, not here.
-        return new PredicateWrapper(
-            args.index,
-            new EqualsFilePredicate(args.dbProvider, args.patchListCache, file));
+        return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
       } else {
         throw error("regular expression not permitted here: file:" + file);
       }

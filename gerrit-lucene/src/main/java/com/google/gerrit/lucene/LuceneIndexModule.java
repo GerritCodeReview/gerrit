@@ -19,6 +19,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.index.ChangeIndexerImpl;
+import com.google.gerrit.server.query.change.IndexRewrite;
+import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 
@@ -44,6 +46,7 @@ public class LuceneIndexModule extends LifecycleModule {
   protected void configure() {
     bind(ChangeIndex.class).to(LuceneChangeIndex.class);
     bind(ChangeIndexer.class).to(ChangeIndexerImpl.class);
+    bind(IndexRewrite.class).to(IndexRewriteImpl.class);
     listener().to(LuceneChangeIndex.class);
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);

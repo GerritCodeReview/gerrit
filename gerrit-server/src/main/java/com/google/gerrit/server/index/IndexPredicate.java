@@ -28,4 +28,12 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> {
   public FieldType<?> getType() {
     return def.getType();
   }
+
+  /**
+   * @return whether this predicate can only be satisfied by looking at the
+   *     secondary index, i.e. it cannot be expressed as a query over the DB.
+   */
+  public boolean isIndexOnly() {
+    return false;
+  }
 }

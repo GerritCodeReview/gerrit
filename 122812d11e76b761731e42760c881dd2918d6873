@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3d5e212c_6aea172c",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d041902_bc2061a5",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df70d47_bd073f29",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-24T00:25:35Z",
       "side": 1,
       "message": "- s/Install/Deploy\n- s/in to/to",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d3259f2_ac070329",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df70d47_bd073f29",
       "revId": "122812d11e76b761731e42760c881dd2918d6873",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3d5e212c_4aef533a",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d041902_9c1da573",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df70d47_9d048325",
         "filename": "Documentation/dev-buck.txt",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-24T00:25:35Z",
       "side": 1,
       "message": "s/maven/Maven",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d3259f2_8c044725",
+        "filename": "Documentation/dev-buck.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df70d47_9d048325",
       "revId": "122812d11e76b761731e42760c881dd2918d6873",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3d5e212c_2af41f0e",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df70d47_7d13f76d",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df70d47_fd26e7c2",
         "filename": "tools/api_util.py",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "7d3259f2_ec262bc3",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "under tools/gerit/utils.py ?",
+      "parentUuid": "9df70d47_fd26e7c2",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d041902_7c3899db",
         "filename": "tools/api_util.py",
         "patchSetId": 2
@@ -115,6 +223,24 @@
       "writtenOn": "2013-05-24T00:25:35Z",
       "side": 1,
       "message": "Nit: add spaces around the \u003d operator",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d3259f2_0c129766",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d041902_7c3899db",
       "revId": "122812d11e76b761731e42760c881dd2918d6873",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "3d5e212c_aa07ef28",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d041902_1c475566",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df70d47_3d0d6f44",
         "filename": "tools/api_util.py",
         "patchSetId": 2
@@ -166,6 +310,24 @@
       "writtenOn": "2013-05-24T00:25:35Z",
       "side": 1,
       "message": "Use `abspath` here.",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d5e212c_8a042b25",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df70d47_3d0d6f44",
       "revId": "122812d11e76b761731e42760c881dd2918d6873",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "3d5e212c_0af95b04",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df70d47_5d183b86",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d041902_3c421156",
         "filename": "tools/api_util.py",
         "patchSetId": 2
@@ -200,6 +380,24 @@
       "writtenOn": "2013-05-24T00:25:35Z",
       "side": 1,
       "message": "Nit: too many spaces before operator %",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d5e212c_eafde7f0",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d041902_3c421156",
       "revId": "122812d11e76b761731e42760c881dd2918d6873",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "3d5e212c_cafa23f7",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df70d47_1d12b366",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d041902_fc2b8980",
         "filename": "tools/api_util.py",
         "patchSetId": 2
@@ -240,6 +456,24 @@
     },
     {
       "key": {
+        "uuid": "7d3259f2_4c189f86",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d041902_fc2b8980",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d041902_dc28cd86",
         "filename": "tools/api_util.py",
         "patchSetId": 2
@@ -251,6 +485,24 @@
       "writtenOn": "2013-05-24T00:25:35Z",
       "side": 1,
       "message": "Nit: trailing blank line",
+      "revId": "122812d11e76b761731e42760c881dd2918d6873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d3259f2_2c0d5344",
+        "filename": "tools/api_util.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-24T16:48:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d041902_dc28cd86",
       "revId": "122812d11e76b761731e42760c881dd2918d6873",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -67,6 +67,23 @@
       "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd57290e_88043725",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-25T18:21:55Z",
+      "side": 1,
+      "message": "This should maybe run in a thread pool using by default the same as the number of CPUs on the machine. Creating ChangeData with patch set data might take 500ms per change, 100,000 changes sequentially takes 13 hours. Same thing with 8 threads might complete in 1.7 hours.\n\nIf the index writer isn\u0027t thread safe here you can use a bounded queue to migrate Document instances from the worker threads into the index writing thread. The part I think we really need to run in parallel is the Gerrit ChangeData fill logic, not so much the Lucene indexing part.\n\nI know Lucene does let you write indexes in parallel and then merge them together when done. This can make indexing faster too. But that recommendation is based on several year old information, Lucene may have improved things since.",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

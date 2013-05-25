@@ -16,10 +16,10 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.CommentedActionDialog;
+import com.google.gerrit.client.ui.CodeMirrorActionDialog;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -43,7 +43,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -52,6 +51,8 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+
+import net.codemirror.lib.CodeMirror;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -908,7 +909,7 @@ public class PatchTable extends Composite {
     return true;
   }
 
-  private class EditFileDialog extends CommentedActionDialog<ChangeDetail> {
+  private class EditFileDialog extends CodeMirrorActionDialog<ChangeDetail> {
     Patch patch;
 
     EditFileDialog(Patch patch) {
@@ -931,7 +932,7 @@ public class PatchTable extends Composite {
     }
 
     public void display(String content) {
-      message.setText(content);
+      message.setValue(content);
       sendButton.setEnabled(true);
     }
 

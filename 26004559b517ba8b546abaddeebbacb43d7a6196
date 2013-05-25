@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9df70d47_bd35ffe0",
+        "filename": "plugins/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-25T00:05:44Z",
+      "side": 1,
+      "message": "If you want it in the set we develop against, register the gitmodule but don\u0027t put it into CORE. No build errors will show during release unless the plugin is present. But it won\u0027t wind up in the package.",
+      "revId": "26004559b517ba8b546abaddeebbacb43d7a6196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1534,3 +1534,7 @@ a:hover.downloadLink {
 .projectFilterLabel {
   margin-right: 5px;
 }
+
+.patchSetWithEdit .header td {
+  color: #ff5555;
+}

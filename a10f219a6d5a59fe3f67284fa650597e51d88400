@@ -16,6 +16,23 @@
       "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd5c2538_a7072a29",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011922
+      },
+      "writtenOn": "2013-05-25T07:04:58Z",
+      "side": 1,
+      "message": "Also, why not use \u0027git rev-parse --git-dir\u0027",
+      "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

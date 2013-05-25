@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd57290e_28f42b0e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-25T00:43:05Z",
+      "side": 1,
+      "message": "We were talking on IM about possible issues where the index didn\u0027t commit all writes from the background work thread before the JVM terminates. Those updates are lost and won\u0027t be applied upon server startup.\n\nOnce we have things in Git on branches we might be able to use Git SHA-1s to verify the index is current, and run updates if not.\n\nIn the interim a startup task could be run in the background to scan for changes whose last_updated_on field is \u003e some marker saved periodically by the index code in a text file on disk. Update any change open or closed that has a last_updated_on that is more recent than the marker, and then move the marker forward.\n\nThis could easily be its own follow-on change, I\u0027m not requiring it to be implemented here at this time.",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd57290e_68ea232c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-25T00:43:05Z",
+      "side": 1,
+      "message": "You could implement this in terms of:\n\n  add(doc, f, Collections.singletonList(f.get(cd, fillArgs));\n\nand then do similar in addRepeatableField:\n\n  add(doc, f, f.get(cd, fillArgs));\n\nand now the type switch exists only once.",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd57290e_48ef5f3a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-25T00:43:05Z",
+      "side": 1,
+      "message": "cd is unused here",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d2f558c_4bef653a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-25T00:43:05Z",
+      "side": 1,
+      "message": "cd is unused here",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd57290e_a807fb28",
+        "filename": "tools/api_util.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011922
+      },
+      "writtenOn": "2013-05-25T12:56:39Z",
+      "side": 1,
+      "message": "This won\u0027t work in python3, so can you change it to \"except Exception as e\" instead.",
+      "revId": "a7dd49246a0aba6087ef9159960fd3c1d01bfc97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

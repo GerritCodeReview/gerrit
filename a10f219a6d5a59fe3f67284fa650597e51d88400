@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d2f558c_2bf4190e",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-25T03:47:24Z",
+      "side": 1,
+      "message": "Use copy -p and avoid having to set execute?",
+      "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

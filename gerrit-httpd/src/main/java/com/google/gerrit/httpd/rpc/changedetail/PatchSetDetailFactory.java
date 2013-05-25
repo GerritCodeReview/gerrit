@@ -29,15 +29,12 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-<<<<<<< HEAD
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
 import com.google.gerrit.server.extensions.webui.UiCommands;
-=======
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RevisionEdit;
->>>>>>> [RFC] display EDIT patchesets on ChangeScreen
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -51,16 +48,13 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-<<<<<<< HEAD
-import java.util.EnumSet;
-=======
 import java.io.IOException;
->>>>>>> [RFC] display EDIT patchesets on ChangeScreen
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,7 +138,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       } catch (IOException e) {
         throw new PatchSetInfoNotAvailableException(e);
       }
-    
+
     } else {
       patchSet = db.patchSets().get(psIdNew);
     }

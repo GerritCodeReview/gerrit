@@ -54,19 +54,19 @@ public class PublishEdit implements RestModifyView<RevisionResource, Input> {
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<CurrentUser> user;
-  private final PatchSetInserter patchSetInserter;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeJson json;
 
   @Inject
   PublishEdit(GitRepositoryManager repoManager,
       Provider<ReviewDb> dbProvider,
       Provider<CurrentUser> user,
-      PatchSetInserter patchSetInserter,
+      PatchSetInserter.Factory patchSetInserterFactory,
       ChangeJson json) {
     this.repoManager = repoManager;
     this.dbProvider = dbProvider;
     this.user = user;
-    this.patchSetInserter = patchSetInserter;
+    this.patchSetInserterFactory = patchSetInserterFactory;
     this.json = json;
     json.addOption(ListChangesOption.ALL_REVISIONS);
   }
@@ -99,13 +99,16 @@ public class PublishEdit implements RestModifyView<RevisionResource, Input> {
       ps.setRevision(new RevId(ObjectId.toString(commit)));
       ps.setUploader(iu.getAccountId());
       ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-      patchSetInserter.insertPatchSet(c, ps, commit, ctl.getRefControl(),
-          "Published new edits", false);
 
       BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
       ru.addCommand(new ReceiveCommand(commit, ObjectId.zeroId(), edit.toRefName()));
       ru.addCommand(new ReceiveCommand(ObjectId.zeroId(), commit, ps.getId().toRefName()));
       RevWalk rw = new RevWalk(repo);
+
+      PatchSetInserter inserter =
+          patchSetInserterFactory.create(repo, rw, ctl.getRefControl(), c,
+              commit);
+      inserter.setPatchSet(ps).setMessage("Published new edits").insert();
       try {
         ru.execute(rw, NullProgressMonitor.INSTANCE);
       } finally {

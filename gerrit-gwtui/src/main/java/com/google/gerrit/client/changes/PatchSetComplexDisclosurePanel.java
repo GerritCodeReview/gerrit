@@ -130,9 +130,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       addOpenHandler(this);
     }
 
-    // TODO(davido): Gerrit.RESOURCES.css().patchSetWithDraft() removed on HEAD
     if (ps.isEdit()) {
-      addStyleName(Gerrit.RESOURCES.css().patchSetWithDraft());
+      addStyleName(Gerrit.RESOURCES.css().patchSetWithEdit());
     }
   }
 

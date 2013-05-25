@@ -33,11 +33,14 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public final native void setValue(String v) /*-{ this.setValue(v); }-*/;
+  public final native String getValue() /*-{ return this.getValue(); }-*/;
 
   public final native void setWidth(int w) /*-{ this.setSize(w, null); }-*/;
   public final native void setWidth(String w) /*-{ this.setSize(w, null); }-*/;
   public final native void setHeight(int h) /*-{ this.setSize(null, h); }-*/;
   public final native void setHeight(String h) /*-{ this.setSize(null, h); }-*/;
+
+  public final native void setMode(String m) /*-{ this.setOption("mode", m); }-*/;
 
   public final native void refresh() /*-{ this.refresh(); }-*/;
   public final native Element getWrapperElement() /*-{ return this.getWrapperElement(); }-*/;

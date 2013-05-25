@@ -19,7 +19,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.CommentedActionDialog;
+import com.google.gerrit.client.ui.CodeMirrorActionDialog;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -908,7 +908,7 @@ public class PatchTable extends Composite {
     return true;
   }
 
-  private class EditFileDialog extends CommentedActionDialog<ChangeDetail> {
+  private class EditFileDialog extends CodeMirrorActionDialog<ChangeDetail> {
     Patch patch;
 
     EditFileDialog(Patch patch) {
@@ -925,14 +925,12 @@ public class PatchTable extends Composite {
           patch.getFileName(), new GerritCallback<String>() {
             @Override
             public void onSuccess(String result) {
-              display(result);
+              setContent(result);
+              // TODO(davido): extend REST API to return contentType too
+              setContentType("text/x-java-source");
+              sendButton.setEnabled(true);
             }
           });
-    }
-
-    public void display(String content) {
-      message.setText(content);
-      sendButton.setEnabled(true);
     }
 
     @Override
@@ -941,7 +939,7 @@ public class PatchTable extends Composite {
       /* ToDo: fix REST API so I can edit non edit patchsets */
       final PatchSet.Id psid = patch.getKey().getParentKey();
       ChangeFileApi.putContent(new PatchSet.Id(psid),
-          patch.getFileName(), getMessageText(),
+          patch.getFileName(), getContent(),
           new GerritCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {

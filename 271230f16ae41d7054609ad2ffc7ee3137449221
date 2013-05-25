@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd57290e_6813436e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IndexRewrite.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-25T18:24:35Z",
+      "side": 1,
+      "message": "This has a small problem with partial rewrites. Lets say I give you the query:\n\n  status:open project:gerrit file:README\n\nThis rewrites now into:\n\n  project:gerrit AND index(status:open file:README)\n\nthe existing SQL database query no longer has the status:open hint. Its been moved into the secondary index only. Until everything is going to the secondary index I think we need to add a special case for something like status predicate and duplicate it on both sides of the rewrite:\n\n  (status:open project:gerrit) AND index(status:open file:README)",
+      "revId": "271230f16ae41d7054609ad2ffc7ee3137449221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -88,8 +88,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
    */
   public PatchSetComplexDisclosurePanel(final PatchSet ps, boolean isOpen,
       boolean hasDraftComments) {
-      // HEAD
-      //    super(Util.M.patchSetHeader(ps.getPatchSetId()), isOpen);
     super(Util.M.patchSetHeaderS(ps.getIdString()), isOpen);
     detailCache = ChangeCache.get(ps.getId().getParentKey()).getChangeDetailCache();
     changeDetail = detailCache.get();

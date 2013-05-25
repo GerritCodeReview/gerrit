@@ -32,6 +32,10 @@ import com.google.gerrit.server.change.PublishEdit.Input;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RevisionEdit;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.RefControl;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -54,7 +58,7 @@ public class PublishEdit implements RestModifyView<RevisionResource, Input> {
   private final GitRepositoryManager repoManager;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<CurrentUser> user;
-  private final PatchSetInserter patchSetInserter;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ChangeJson json;
 
   @Inject
@@ -62,11 +66,12 @@ public class PublishEdit implements RestModifyView<RevisionResource, Input> {
       Provider<ReviewDb> dbProvider,
       Provider<CurrentUser> user,
       PatchSetInserter patchSetInserter,
+      PatchSetInserter.Factory patchSetInserterFactory,
       ChangeJson json) {
     this.repoManager = repoManager;
     this.dbProvider = dbProvider;
     this.user = user;
-    this.patchSetInserter = patchSetInserter;
+    this.patchSetInserterFactory = patchSetInserterFactory;
     this.json = json;
     json.addOption(ListChangesOption.ALL_REVISIONS);
   }
@@ -99,14 +104,15 @@ public class PublishEdit implements RestModifyView<RevisionResource, Input> {
       ps.setRevision(new RevId(ObjectId.toString(commit)));
       ps.setUploader(iu.getAccountId());
       ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-      patchSetInserter.insertPatchSet(c, ps, commit, ctl.getRefControl(),
-          "Published new edits", false);
 
       BatchRefUpdate ru = repo.getRefDatabase().newBatchUpdate();
       ru.addCommand(new ReceiveCommand(commit, ObjectId.zeroId(), edit.toRefName()));
       ru.addCommand(new ReceiveCommand(ObjectId.zeroId(), commit, ps.getId().toRefName()));
       RevWalk rw = new RevWalk(repo);
+      insertPatchSet(repo, rw, c, "Published new edits",
+          commit, ctl.getRefControl());
       try {
+
         ru.execute(rw, NullProgressMonitor.INSTANCE);
       } finally {
         rw.release();
@@ -123,6 +129,14 @@ public class PublishEdit implements RestModifyView<RevisionResource, Input> {
     } finally {
       repo.close();
     }
+  }
+
+  private void insertPatchSet(Repository git, RevWalk revWalk, Change change,
+      String msg, RevCommit commit, RefControl refControl)
+      throws InvalidChangeOperationException, IOException, OrmException,
+      NoSuchChangeException {
+    patchSetInserterFactory.create(git, revWalk, refControl, change, commit)
+        .setMessage(msg).insert();
   }
 
   private IdentifiedUser checkIdentifiedUser() throws AuthException {

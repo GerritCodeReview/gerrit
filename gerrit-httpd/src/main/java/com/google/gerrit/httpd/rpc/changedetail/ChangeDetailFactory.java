@@ -197,17 +197,11 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     ResultSet<PatchSet> source = db.patchSets().byChange(changeId);
     List<PatchSet> patches = new ArrayList<PatchSet>();
     Set<PatchSet.Id> patchesWithDraftComments = new HashSet<PatchSet.Id>();
-    final CurrentUser user = control.getCurrentUser();
     final Account.Id me =
         user instanceof IdentifiedUser ? ((IdentifiedUser) user).getAccountId()
             : null;
     for (PatchSet ps : source) {
       final PatchSet.Id psId = ps.getId();
-      if (user instanceof IdentifiedUser) {
-        final Account.Id me = ((IdentifiedUser) user).getAccountId();
-        ps.setHasDraftComments(db.patchComments()
-            .draftByPatchSetAuthor(ps.getId(), me).iterator().hasNext());
-      }
       if (control.isPatchVisible(ps, db)) {
         patches.add(ps);
         if (me != null
@@ -218,7 +212,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       }
       patchsetsById.put(psId, ps);
 
-      if (user instanceof IdentifiedUser) {
+      if (me != null) {
         RevisionEdit revEdit = edits.get(new PatchSet.Id(ps.getId()));
         if (revEdit != null) {
           final Repository repo = repoManager.openRepository(project);

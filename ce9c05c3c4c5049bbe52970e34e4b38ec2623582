@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3d8381c6_42f95203",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/StartReplicationCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-26T17:25:01Z",
+      "side": 1,
+      "message": "Because it is going to be used by RequiresCapability-Annotation, i. e.:\n\n @RequiresCapability(StartReplicationCapability.START_REPLICATION)\n final class StartCommand extends SshCommand {\n [...]\n\nIt s still to clarify how to solve dynamic plugin prefix problem, and static cpabaility name, that requires by the RequiresCapability-Annotation.\n\nFor example plugin can be named replication-42.jar in this case the Capability prefix should be replication-42~startReplication.\n\nDave B. suggested not to use that Annotation at all and check instead programmatically if the current user have the required capability.",
+      "parentUuid": "1d631df3_09f96904",
+      "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d887de1_81ef5a39",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-26T15:14:57Z",
       "side": 1,
       "message": "Can you update the docs to describe the new endpoint?",
+      "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d887de1_21f44e0e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-26T17:25:01Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "1d887de1_81ef5a39",
       "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

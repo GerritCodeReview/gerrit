@@ -16,6 +16,23 @@
       "revId": "0375db020629dac94ad346f508cdfb544e19fd7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d483578_c3fa16f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-26T21:26:53Z",
+      "side": 1,
+      "message": "Another use case is to have project wide statistics across all users and have a sexy project statistics screen, something like this:\n\n http://www.ohloh.net/p/gerrit\n\nThe Endoint for this would be:\n\n GET on /projects/\u003cproject-name\u003e/statistics\n\nWe would schedule batch jobs per project base (configuration) and gather the data for it in background.",
+      "revId": "0375db020629dac94ad346f508cdfb544e19fd7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

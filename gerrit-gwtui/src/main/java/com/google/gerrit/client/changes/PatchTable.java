@@ -18,7 +18,9 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.ui.CodeMirrorActionDialog;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
@@ -40,6 +42,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -921,16 +924,29 @@ public class PatchTable extends Composite {
     @Override
     protected void onLoad() {
       super.onLoad();
+
+      // put asynchronous request in defined order
+      CallbackGroup cbs = new CallbackGroup();
+      ChangeFileApi.getContentType(patch.getKey().getParentKey(),
+          patch.getFileName(), cbs.add(new AsyncCallback<NativeString>() {
+            @Override
+            public void onSuccess(NativeString contentType) {
+              setContentType(contentType.asString());
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          }));
+
       ChangeFileApi.getContent(patch.getKey().getParentKey(),
-          patch.getFileName(), new GerritCallback<String>() {
+          patch.getFileName(), cbs.add(new GerritCallback<String>() {
             @Override
             public void onSuccess(String result) {
               setContent(result);
-              // TODO(davido): extend REST API to return contentType too
-              setContentType("text/x-java-source");
               sendButton.setEnabled(true);
             }
-          });
+          }));
     }
 
     @Override

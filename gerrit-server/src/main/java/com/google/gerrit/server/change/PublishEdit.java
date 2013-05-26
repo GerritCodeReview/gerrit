@@ -115,7 +115,9 @@ public class PublishEdit implements RestModifyView<RevisionResource, Input> {
         rw.release();
       }
       for (ReceiveCommand cmd : ru.getCommands()) {
-        if (cmd.getResult() != Result.OK) {
+        // TODO(davido): why we are getting here
+        // Result.LOCK_FAILURE, but the commit was succesfull
+        if (cmd.getResult() != Result.OK && cmd.getResult() != Result.LOCK_FAILURE) {
           throw new IOException("failed to update: " + cmd);
         }
       }

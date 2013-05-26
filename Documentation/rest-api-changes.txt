@@ -1932,6 +1932,30 @@ content is replaced.
   HTTP/1.1 200 OK
 ----
 
+[[get-content-type]]
+Get Content Type
+~~~~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/content_type'
+
+Gets the content type of a file from a certain revision.
+
+.Request
+----
+  GET /changes/34/revisions/8.edit/files/HelloWorld.java/content_type
+----
+
+The content type is returned as a string.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  text/x-java-source
+----
+
 [[publish-edit]]
 Publish Edit Patch Set
 ~~~~~~~~~~~~~~~~~~~~~~

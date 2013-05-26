@@ -33,6 +33,24 @@
       "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd57290e_08128766",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-26T05:23:43Z",
+      "side": 1,
+      "message": "I did it like this to be consistent with the existing example.",
+      "parentUuid": "dd5c2538_a7072a29",
+      "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

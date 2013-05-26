@@ -15,34 +15,39 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
-import java.io.OutputStream;
 
-public class GetContent extends ContentBase {
+public class GetContentType extends ContentBase {
+  private final FileTypeRegistry registry;
 
   @Inject
-  GetContent(GitRepositoryManager repoManager, Provider<CurrentUser> user) {
+  GetContentType(GitRepositoryManager repoManager, Provider<CurrentUser> user,
+      final FileTypeRegistry ftr) {
     this.repoManager = repoManager;
     this.user = user;
+    this.registry = ftr;
   }
 
   @Override
-  public BinaryResult apply(FileResource rsrc)
-      throws ResourceNotFoundException, IOException, AuthException {
-    Repository repo = openRepository(rsrc);
+  public String apply(FileResource rsrc) throws ResourceNotFoundException,
+      IOException, AuthException {
+    Project.NameKey project =
+        rsrc.getRevision().getControl().getProject().getNameKey();
+    Repository repo = repoManager.openRepository(project);
     try {
       RevWalk rw = new RevWalk(repo);
       try {
@@ -54,14 +59,8 @@ public class GetContent extends ContentBase {
           throw new ResourceNotFoundException();
         }
         try {
-          final ObjectLoader object = repo.open(tw.getObjectId(0));
-          return new BinaryResult() {
-            @Override
-            public void writeTo(OutputStream os) throws IOException {
-              object.copyTo(os);
-            }
-          }.setContentLength(object.getSize())
-           .base64();
+          return registry.getMimeType(rsrc.getPatchKey().getFileName(),
+              Text.asByteArray(repo.open(tw.getObjectId(0)))).toString();
         } finally {
           tw.release();
         }

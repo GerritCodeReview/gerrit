@@ -2,10 +2,17 @@ VERSION = '3.13'
 SHA1 = '7a83ae686d75afd30bb152d7683f2dc27e59ea82'
 URL = 'http://codemirror.net/codemirror-%s.zip' % VERSION
 
+prebuilt_jar(
+  name = 'codemirror',
+  binary_jar = genfile('codemirror.jar'),
+  deps = [':codemirror__jar'],
+  visibility = ['PUBLIC'],
+)
+
 # TODO(sop) Repackage by license boundaries.
 # TODO(sop) Minify with Closure JS compiler.
 genrule(
-  name = 'codemirror',
+  name = 'codemirror__jar',
   cmd = ';'.join([
     'cd $TMP',
     'mkdir net META-INF',
@@ -20,7 +27,6 @@ genrule(
     '//lib:LICENSE-codemirror',
   ],
   out = 'codemirror.jar',
-  visibility = ['PUBLIC'],
 )
 
 genrule(

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fd57290e_a8201ba5",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-26T19:27:49Z",
+      "side": 1,
+      "message": "Ack, thanks for the suggestion.",
+      "parentUuid": "fd57290e_28f42b0e",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd57290e_68ea232c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 3
@@ -81,6 +99,24 @@
       "writtenOn": "2013-05-25T18:21:55Z",
       "side": 1,
       "message": "This should maybe run in a thread pool using by default the same as the number of CPUs on the machine. Creating ChangeData with patch set data might take 500ms per change, 100,000 changes sequentially takes 13 hours. Same thing with 8 threads might complete in 1.7 hours.\n\nIf the index writer isn\u0027t thread safe here you can use a bounded queue to migrate Document instances from the worker threads into the index writing thread. The part I think we really need to run in parallel is the Gerrit ChangeData fill logic, not so much the Lucene indexing part.\n\nI know Lucene does let you write indexes in parallel and then merge them together when done. This can make indexing faster too. But that recommendation is based on several year old information, Lucene may have improved things since.",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7da0995a_5cea9d2b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-26T19:27:49Z",
+      "side": 1,
+      "message": "I have no problem doing this in a threadpool, and IndexWriters are indeed threadsafe (see also how there is a single writer instance per ChangeIndex). But I think your 500ms/change is a bit pessimistic. On my test server on my workstation, I can index at the rate of 2-3 commits/ms. (Though admittedly, these are toy commits with tiny trees.)",
+      "parentUuid": "fd57290e_88043725",
       "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

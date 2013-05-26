@@ -18,7 +18,6 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -40,6 +39,12 @@ public class ChangeFileApi {
     public void onFailure(Throwable caught) {
       wrapped.onFailure(caught);
     }
+  }
+
+  /** Get the content type of a File in a PatchSet. */
+  public static void getContentType(PatchSet.Id id, String filename,
+      AsyncCallback<NativeString> cb) {
+      contentType(id, filename).get(cb);
   }
 
   /** Get the contents of a File in a PatchSet. */
@@ -67,6 +72,15 @@ public class ChangeFileApi {
         .view("revisions").id(revision)
         .view("files").id(filename)
         .view("content");
+  }
+
+  private static RestApi contentType(PatchSet.Id id, String filename) {
+    // Create a getRevision() on PatchSet.Id?
+    String revision = "" + id.get() + (id.isEdit() ? ".edit" : "");
+    return ChangeApi.change(id.getParentKey().get())
+        .view("revisions").id(revision)
+        .view("files").id(filename)
+        .view("content_type");
   }
 
   /* ToDo: is this OK? These may not work on all browsers. */

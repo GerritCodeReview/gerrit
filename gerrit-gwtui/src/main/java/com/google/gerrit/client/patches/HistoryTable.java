@@ -102,7 +102,7 @@ class HistoryTable extends FancyFlexTable<Patch> {
     int col=2;
     for (final Patch k : result) {
       final PatchSet.Id psId = k.getKey().getParentKey();
-      table.setText(0, col, String.valueOf(psId.get()));
+      table.setText(0, col, psId.getId());
       fmt.setStyleName(0, col, Gerrit.RESOURCES.css().patchHistoryTablePatchSetHeader());
       fmt.addStyleName(0, col, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(0, col, Gerrit.RESOURCES.css().topMostCell());

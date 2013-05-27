@@ -115,7 +115,7 @@ public class Dispatcher {
     if (diffBase != null) {
       p.append(diffBase.get()).append("..");
     }
-    p.append(ps.get()).append("/").append(KeyUtil.encode(id.get()));
+    p.append(ps.getId()).append("/").append(KeyUtil.encode(id.get()));
     if (type != null && !type.isEmpty()) {
       p.append(",").append(type);
     }
@@ -482,12 +482,20 @@ public class Dispatcher {
     PatchSet.Id base;
     PatchSet.Id ps;
     int dotdot = psIdStr.indexOf("..");
+    // reconstruct the edit patch set attribute:
+    // psIdStr="1"  => isEdit false
+    // psIdStr="1+" => isEdit true
+    boolean isEdit = false;
+    if (psIdStr.indexOf('+') > 0) {
+      isEdit = true;
+      psIdStr = psIdStr.substring(0, psIdStr.length() - 1);
+    }
     if (1 <= dotdot) {
       base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)));
+      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)), isEdit);
     } else {
       base = null;
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr));
+      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr), isEdit);
     }
 
     if (!rest.isEmpty()) {

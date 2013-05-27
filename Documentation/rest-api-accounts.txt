@@ -244,11 +244,6 @@ provided as link:#email-input[EmailInput].
 .Request
 ----
   PUT /accounts/self/emails/john.doe@example.com HTTP/1.0
-  Content-Type: application/json;charset=UTF-8
-
-  {
-    "preferred": true
-  }
 ----
 
 As response the new email address is returned as
@@ -263,7 +258,7 @@ link:#email-info[EmailInfo] entity.
   )]}'
   {
     "email": "john.doe@example.com",
-    "preferred": true
+    "pending_confirmation": true
   }
 ----
 
@@ -882,7 +877,8 @@ The email address. If provided, must match the email address from the
 URL.
 |`preferred`      |`false` if not set|
 Whether the new email address should become the preferred email address
-of the user.
+of the user (only supported if `no_confirmation` is set or if the
+authentication type is `DEVELOPMENT_BECOME_ANY_ACCOUNT`).
 |`no_confirmation`|`false` if not set|
 Whether the email address should be added without confirmation. In this
 case no verification email is sent to the user. +

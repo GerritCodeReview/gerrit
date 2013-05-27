@@ -49,11 +49,13 @@ public class ChangeApi {
   /** Publish the current user's edit on the last revision of this change. */
   /* ToDo, force it to be on the last revision */
   public static void publish(PatchSet.Id id, AsyncCallback<ChangeInfo> cb) {
-    String revision = "" + id.get() + (id.isEdit() ? ".edit" : "");
-    Input input = Input.create();
-    ChangeApi.change(id.getParentKey().get())
-        .view("revisions").id(revision)
-        .view("publish").post(input, cb);
+    call(id.getParentKey().get(), editOrPublishedRevision(id), "publish").post(
+        Input.create(), cb);
+  }
+
+  public static void discard(PatchSet.Id id, AsyncCallback<ChangeInfo> cb) {
+    call(id.getParentKey().get(), editOrPublishedRevision(id), "discard")
+        .delete(cb);
   }
 
   /** Update the topic of a change. */
@@ -155,5 +157,9 @@ public class ChangeApi {
 
   public static String emptyToNull(String str) {
     return str == null || str.isEmpty() ? null : str;
+  }
+
+  private static String editOrPublishedRevision(PatchSet.Id id) {
+    return "" + id.get() + (id.isEdit() ? ".edit" : "");
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d483578_831d3e73",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-27T13:57:07Z",
+      "side": 1,
+      "message": "The decision of which header name to use could be made (and then cached in a private field) already in the constructor. The HttpAuthFilter is doing the same thing already. Look there for an example.\n\nIt is not wrong what you are doing here but it would be nicer if we keep the same style in these two filters (as they do a very similar thing).",
+      "revId": "26a73d27b444f11b3869c2f8525f4268074bf1d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d483578_c32336b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-27T13:12:54Z",
+      "side": 1,
+      "message": "nit: indentation level of this method is wrong",
+      "revId": "d3559c105b1f0842e08f25ba3c99fb97a6f1e634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d8381c6_c21d6272",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-27T13:12:54Z",
+      "side": 1,
+      "message": "Please also clean the repoWalksByProject map.",
+      "revId": "d3559c105b1f0842e08f25ba3c99fb97a6f1e634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d483578_a3203aa5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-27T13:12:54Z",
+      "side": 1,
+      "message": "I know this is not from this change but why is this field public?\nIt should be either private or, at most, protected (if used by any subclass).",
+      "revId": "d3559c105b1f0842e08f25ba3c99fb97a6f1e634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d8381c6_623816dc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RevWalkPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-27T13:12:54Z",
+      "side": 1,
+      "message": "Make this field private",
+      "revId": "d3559c105b1f0842e08f25ba3c99fb97a6f1e634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

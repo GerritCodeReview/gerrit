@@ -67,7 +67,7 @@ public class PatchSetSelectBox extends Composite {
   PatchSet.Id idActive;
   Side side;
   PatchScreen.Type screenType;
-  Map<Integer, Anchor> links;
+  Map<String, Anchor> links;
   private Label patchSet;
 
   @UiField
@@ -90,7 +90,7 @@ public class PatchSetSelectBox extends Composite {
     this.idSideA = idSideA;
     this.idSideB = idSideB;
     this.idActive = (side == Side.A) ? idSideA : idSideB;
-    this.links = new HashMap<Integer, Anchor>();
+    this.links = new HashMap<String, Anchor>();
 
     linkPanel.clear();
 
@@ -115,26 +115,26 @@ public class PatchSetSelectBox extends Composite {
       baseLink = createLink(PatchUtil.C.patchBase(), null);
     }
 
-    links.put(0, baseLink);
+    links.put("0", baseLink);
     if (screenType == PatchScreen.Type.UNIFIED || side == Side.A) {
       linkPanel.add(baseLink);
     }
 
     if (side == Side.B) {
-      links.get(0).setStyleName(style.hidden());
+      links.get("0").setStyleName(style.hidden());
     }
 
     for (Patch patch : script.getHistory()) {
       PatchSet.Id psId = patch.getKey().getParentKey();
-      Anchor anchor = createLink(Integer.toString(psId.get()), psId);
-      links.put(psId.get(), anchor);
+      Anchor anchor = createLink(psId.getId(), psId);
+      links.put(psId.getId(), anchor);
       linkPanel.add(anchor);
     }
 
     if (idActive == null && side == Side.A) {
-      links.get(0).setStyleName(style.selected());
+      links.get("0").setStyleName(style.selected());
     } else {
-      links.get(idActive.get()).setStyleName(style.selected());
+      links.get(idActive.getId()).setStyleName(style.selected());
     }
 
     Anchor downloadLink = createDownloadLink();

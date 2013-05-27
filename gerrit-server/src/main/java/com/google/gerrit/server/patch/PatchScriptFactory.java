@@ -14,23 +14,26 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
+import com.google.gerrit.server.git.RevisionEdit;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -41,6 +44,7 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,6 +76,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchListCache patchListCache;
   private final ReviewDb db;
   private final AccountInfoCacheFactory.Factory aicFactory;
+  private final Provider<CurrentUser> user;
 
   private final String fileName;
   @Nullable
@@ -94,6 +99,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       Provider<PatchScriptBuilder> builderFactory,
       final PatchListCache patchListCache, final ReviewDb db,
       final AccountInfoCacheFactory.Factory aicFactory,
+      final Provider<CurrentUser> user,
       @Assisted ChangeControl control,
       @Assisted final String fileName,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
@@ -105,6 +111,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.db = db;
     this.control = control;
     this.aicFactory = aicFactory;
+    this.user = user;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -116,7 +123,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   @Override
   public PatchScript call() throws OrmException, NoSuchChangeException,
-      LargeObjectException {
+      LargeObjectException, AuthException, IOException {
     validatePatchSetId(psa);
     validatePatchSetId(psb);
 
@@ -178,7 +185,11 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private ObjectId toObjectId(final ReviewDb db, final PatchSet.Id psId)
-      throws OrmException, NoSuchChangeException {
+      throws OrmException, NoSuchChangeException, AuthException, RepositoryNotFoundException, IOException {
+    if (psId.isEdit()) {
+        return toEditObjectId(psId);
+    }
+
     if (!changeId.equals(psId.getParentKey())) {
       throw new NoSuchChangeException(changeId);
     }
@@ -197,6 +208,30 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
+  private ObjectId toEditObjectId(final PatchSet.Id psId) throws AuthException,
+      RepositoryNotFoundException, IOException {
+    Repository repo = repoManager.openRepository(projectKey);
+    try {
+      RevisionEdit revEdit = new RevisionEdit(checkIdentifiedUser(), psId);
+      RevWalk rw = new RevWalk(repo);
+      try {
+        return revEdit.get(repo, rw).getId();
+      } finally {
+        rw.release();
+      }
+    } finally {
+      repo.close();
+    }
+  }
+
+  protected IdentifiedUser checkIdentifiedUser() throws AuthException {
+    CurrentUser u = user.get();
+    if (!(u instanceof IdentifiedUser)) {
+      throw new AuthException("edits only available to authenticated users");
+    }
+    return (IdentifiedUser) u;
+  }
+
   private void validatePatchSetId(final PatchSet.Id psId)
       throws NoSuchChangeException {
     if (psId == null) { // OK, means use base;
@@ -207,19 +242,30 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private void loadCommentsAndHistory(final ChangeType changeType,
-      final String oldName, final String newName) throws OrmException {
+      final String oldName, final String newName) throws OrmException,
+      RepositoryNotFoundException, IOException {
     history = new ArrayList<Patch>();
     comments = new CommentDetail(psa, psb);
-
+    final CurrentUser user = control.getCurrentUser();
     final Map<Patch.Key, Patch> byKey = new HashMap<Patch.Key, Patch>();
     final AccountInfoCacheFactory aic = aicFactory.create();
+    Map<PatchSet.Id, RevisionEdit> edits =
+        ImmutableMap.<PatchSet.Id, RevisionEdit> of();
+    if (user instanceof IdentifiedUser) {
+      final Repository repo = repoManager.openRepository(projectKey);
+      try {
+        edits = RevisionEdit.forChange(repo, changeId, (IdentifiedUser) user);
+      } finally {
+        repo.close();
+      }
+    }
 
     // This seems like a cheap trick. It doesn't properly account for a
     // file that gets renamed between patch set 1 and patch set 2. We
     // will wind up packing the wrong Patch object because we didn't do
     // proper rename detection between the patch sets.
     //
-    for (final PatchSet ps : db.patchSets().byChange(changeId)) {
+    for (PatchSet ps : db.patchSets().byChange(changeId)) {
       String name = fileName;
       if (psa != null) {
         switch (changeType) {
@@ -238,9 +284,23 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         }
       }
 
-      final Patch p = new Patch(new Patch.Key(ps.getId(), name));
+      Patch p = new Patch(new Patch.Key(ps.getId(), name));
       history.add(p);
       byKey.put(p.getKey(), p);
+
+      // handle patch set edits
+      RevisionEdit revEdit = edits.get(ps.getId());
+      if (revEdit != null) {
+        final Repository repo = repoManager.openRepository(projectKey);
+        try {
+          ps = revEdit.getPatchSet(repo);
+          p = new Patch(new Patch.Key(ps.getId(), name));
+          history.add(p);
+          byKey.put(p.getKey(), p);
+        } finally {
+          repo.close();
+        }
+      }
     }
 
     switch (changeType) {
@@ -265,7 +325,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         break;
     }
 
-    final CurrentUser user = control.getCurrentUser();
     if (user instanceof IdentifiedUser) {
       final Account.Id me = ((IdentifiedUser) user).getAccountId();
       switch (changeType) {

@@ -423,6 +423,14 @@ class ContactPanelShort extends Composite {
       }
     }
     if (emailPick.getItemCount() > 0) {
+      if (currentEmail == null) {
+        int index = emailListIndexOf("");
+        if (index != -1) {
+          emailPick.removeItem(index);
+        }
+        emailPick.insertItem("", 0);
+        emailPick.setSelectedIndex(0);
+      }
       emailPick.setVisible(true);
       emailPick.setEnabled(true);
       if (canRegisterNewEmail()) {

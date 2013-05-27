@@ -83,6 +83,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -113,9 +114,9 @@ public class Dispatcher {
     StringBuilder p = new StringBuilder();
     p.append("/c/").append(c).append("/");
     if (diffBase != null) {
-      p.append(diffBase.get()).append("..");
+      p.append(diffBase.getId()).append("..");
     }
-    p.append(ps.get()).append("/").append(KeyUtil.encode(id.get()));
+    p.append(ps.getId()).append("/").append(KeyUtil.encode(id.get()));
     if (type != null && !type.isEmpty()) {
       p.append(",").append(type);
     }
@@ -479,16 +480,15 @@ public class Dispatcher {
       rest = "";
     }
 
-    PatchSet.Id base;
-    PatchSet.Id ps;
     int dotdot = psIdStr.indexOf("..");
+    PatchSet.Id base = null;
+    String psStr = psIdStr;
     if (1 <= dotdot) {
-      base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)));
-    } else {
-      base = null;
-      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr));
+      String baseStr = psIdStr.substring(0, dotdot);
+      base = str2PatchSetId(id, baseStr);
+      psStr = psIdStr.substring(dotdot + 2);
     }
+    PatchSet.Id ps = str2PatchSetId(id, psStr);
 
     if (!rest.isEmpty()) {
       Patch.Key p = new Patch.Key(ps, KeyUtil.decode(rest));
@@ -502,6 +502,14 @@ public class Dispatcher {
         Gerrit.display(token, new NotFoundScreen());
       }
     }
+  }
+
+  // parse stringified patch set with respect of '+' char,
+  // so "1+" is translated as an edit patch set,
+  // whereas "1" as not an edit patch set
+  private static Id str2PatchSetId(Change.Id id, String ps) {
+    return new PatchSet.Id(id, Integer.parseInt(ps.replaceFirst("\\+$", "")),
+        ps.endsWith("+"));
   }
 
   private static void publish(final PatchSet.Id ps) {

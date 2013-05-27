@@ -197,6 +197,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           }
         } else if (detail.getPatchSet().isEdit()) {
           populatePublishAction();
+          populateDiscardEditAction();
         }
       }
       body.add(actionsPanel);
@@ -616,6 +617,18 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           Util.MANAGE_SVC.publish(patchSet.getId(),
               new ChangeDetailCache.GerritWidgetCallback(b));
         }
+      }
+    });
+    actionsPanel.add(b);
+  }
+
+  private void populateDiscardEditAction() {
+    final Button b = new Button(Util.C.buttonDiscardEdit());
+    b.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        b.setEnabled(false);
+        ChangeApi.discard(patchSet.getId(), new WidgetCallback(b));
       }
     });
     actionsPanel.add(b);

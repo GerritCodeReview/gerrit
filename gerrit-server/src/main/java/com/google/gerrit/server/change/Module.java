@@ -66,6 +66,7 @@ public class Module extends RestApiModule {
     post(REVISION_KIND, "submit").to(Submit.class);
     post(REVISION_KIND, "rebase").to(Rebase.class);
     post(REVISION_KIND, "publish").to(PublishEdit.class);
+    delete(REVISION_KIND, "discard").to(DeleteEdit.class);
     get(REVISION_KIND, "submit_type").to(TestSubmitType.Get.class);
     get(REVISION_KIND, "patch").to(GetPatch.class);
     post(REVISION_KIND, "test.submit_rule").to(TestSubmitRule.class);

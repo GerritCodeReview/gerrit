@@ -165,6 +165,7 @@ public interface ChangeConstants extends Constants {
   String buttonRestoreChangeSend();
 
   String buttonPublishPatchSet();
+  String buttonDiscardEdit();
 
   String buttonDeleteDraftChange();
   String buttonDeleteDraftPatchSet();

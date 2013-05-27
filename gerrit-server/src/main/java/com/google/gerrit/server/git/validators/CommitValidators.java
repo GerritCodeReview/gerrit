@@ -24,6 +24,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -109,7 +110,9 @@ public class CommitValidators {
     validators.add(new CommitterUploaderValidator(refControl, canonicalWebUrl));
     validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
     if (MagicBranch.isMagicBranch(receiveEvent.command.getRefName())
-        || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()) {
+        || NEW_PATCHSET.matcher(receiveEvent.command.getRefName()).matches()
+        || ReceiveCommits.NEW_PATCHSET.matcher(
+            receiveEvent.command.getRefName()).matches()) {
       validators.add(new ChangeIdValidator(refControl, canonicalWebUrl,
           installCommitMsgHookCommand, sshInfo));
     }

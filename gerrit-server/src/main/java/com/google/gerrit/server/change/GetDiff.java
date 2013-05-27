@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -31,12 +32,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.kohsuke.args4j.CmdLineException;
@@ -48,6 +50,7 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
+import java.io.IOException;
 import java.util.List;
 
 public class GetDiff implements RestReadView<FileResource> {
@@ -74,8 +77,9 @@ public class GetDiff implements RestReadView<FileResource> {
   }
 
   @Override
-  public Object apply(FileResource resource)
-      throws OrmException, NoSuchChangeException, LargeObjectException, ResourceNotFoundException {
+  public Object apply(FileResource resource) throws OrmException,
+      NoSuchChangeException, LargeObjectException, ResourceNotFoundException,
+      IOException, AuthException {
     PatchSet.Id basePatchSet = null;
     if (base != null) {
       RevisionResource baseResource = revisions.get().parse(

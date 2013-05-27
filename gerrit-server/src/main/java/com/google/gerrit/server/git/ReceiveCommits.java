@@ -145,11 +145,11 @@ import javax.annotation.Nullable;
 
 /** Receives change upload using the Git receive-pack protocol. */
 public class ReceiveCommits {
-  private static final Logger log =
-      LoggerFactory.getLogger(ReceiveCommits.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(ReceiveCommits.class);
 
-  public static final Pattern NEW_PATCHSET =
-      Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
+  public static final Pattern NEW_PATCHSET = Pattern
+      .compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
@@ -158,15 +158,15 @@ public class ReceiveCommits {
           + "if you feel the configuration is incorrect";
 
   private enum Error {
-        CONFIG_UPDATE("You are not allowed to perform this operation.\n"
+    CONFIG_UPDATE("You are not allowed to perform this operation.\n"
         + "Configuration changes can only be pushed by project owners\n"
         + "who also have 'Push' rights on " + GitRepositoryManager.REF_CONFIG),
-        UPDATE("You are not allowed to perform this operation.\n"
-        + "To push into this reference you need 'Push' rights."),
-        DELETE("You need 'Push' rights with the 'Force Push'\n"
-            + "flag set to delete references."),
-        DELETE_CHANGES("Cannot delete from 'refs/changes'"),
-        CODE_REVIEW("You need 'Push' rights to upload code review requests.\n"
+    UPDATE("You are not allowed to perform this operation.\n"
+        + "To push into this reference you need 'Push' rights."), DELETE(
+        "You need 'Push' rights with the 'Force Push'\n"
+            + "flag set to delete references."), DELETE_CHANGES(
+        "Cannot delete from 'refs/changes'"), CODE_REVIEW(
+        "You need 'Push' rights to upload code review requests.\n"
             + "Verify that you are pushing to the right branch.");
 
     private final String value;
@@ -186,9 +186,13 @@ public class ReceiveCommits {
 
   public interface MessageSender {
     void sendMessage(String what);
+
     void sendError(String what);
+
     void sendBytes(byte[] what);
+
     void sendBytes(byte[] what, int off, int len);
+
     void flush();
   }
 
@@ -290,7 +294,8 @@ public class ReceiveCommits {
   private final Provider<Submit> submitProvider;
   private final MergeQueue mergeQueue;
 
-  private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
+  private final List<CommitValidationMessage> messages =
+      new ArrayList<CommitValidationMessage>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
   private Task newProgress;
   private Task replaceProgress;
@@ -308,29 +313,21 @@ public class ReceiveCommits {
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final GitReferenceUpdated gitRefUpdated,
-      final PatchSetInfoFactory patchSetInfoFactory,
-      final ChangeHooks hooks,
-      final ApprovalsUtil approvalsUtil,
-      final ProjectCache projectCache,
-      final GitRepositoryManager repoManager,
-      final TagCache tagCache,
-      final ChangeCache changeCache,
-      final ChangeInserter changeInserter,
+      final PatchSetInfoFactory patchSetInfoFactory, final ChangeHooks hooks,
+      final ApprovalsUtil approvalsUtil, final ProjectCache projectCache,
+      final GitRepositoryManager repoManager, final TagCache tagCache,
+      final ChangeCache changeCache, final ChangeInserter changeInserter,
       final CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
-      final TrackingFooters trackingFooters,
-      final WorkQueue workQueue,
+      final TrackingFooters trackingFooters, final WorkQueue workQueue,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
-      final SshInfo sshInfo,
-      final AllProjectsName allProjectsName,
-      ReceiveConfig config,
-      @Assisted final ProjectControl projectControl,
-      @Assisted final Repository repo,
-      final SubmoduleOp.Factory subOpFactory,
-      final Provider<Submit> submitProvider,
-      final MergeQueue mergeQueue) throws IOException {
+      final SshInfo sshInfo, final AllProjectsName allProjectsName,
+      ReceiveConfig config, @Assisted final ProjectControl projectControl,
+      @Assisted final Repository repo, final SubmoduleOp.Factory subOpFactory,
+      final Provider<Submit> submitProvider, final MergeQueue mergeQueue)
+      throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.schemaFactory = schemaFactory;
@@ -377,7 +374,8 @@ public class ReceiveCommits {
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(config.checkReferencedObjectsAreReachable);
-      rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, false));
+      rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo,
+          projectControl, db, false));
     }
     List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(3);
     advHooks.add(new AdvertiseRefsHook() {
@@ -437,8 +435,8 @@ public class ReceiveCommits {
     // Advertise some recent open changes, in case a commit is based one.
     try {
       Set<PatchSet.Id> toGet = new HashSet<PatchSet.Id>();
-      for (Change change : db.changes()
-          .byProjectOpenNext(project.getNameKey(), "z", 32)) {
+      for (Change change : db.changes().byProjectOpenNext(project.getNameKey(),
+          "z", 32)) {
         PatchSet.Id id = change.currentPatchSetId();
         if (id != null) {
           toGet.add(id);
@@ -498,7 +496,8 @@ public class ReceiveCommits {
         }
       }
     } catch (IOException err) {
-      log.error("Error trying to advertise history on " + project.getNameKey(), err);
+      log.error("Error trying to advertise history on " + project.getNameKey(),
+          err);
     }
     rw.reset();
     rp.getAdvertisedObjects().addAll(toInclude);
@@ -562,8 +561,9 @@ public class ReceiveCommits {
             cnt++;
           }
         }
-        log.error(String.format(
-            "Failed to store %d refs in %s", cnt, project.getName()), err);
+        log.error(
+            String.format("Failed to store %d refs in %s", cnt,
+                project.getName()), err);
       }
     }
 
@@ -589,10 +589,8 @@ public class ReceiveCommits {
             break;
 
           case UPDATE: // otherwise known as a fast-forward
-            tagCache.updateFastForward(project.getNameKey(),
-                c.getRefName(),
-                c.getOldId(),
-                c.getNewId());
+            tagCache.updateFastForward(project.getNameKey(), c.getRefName(),
+                c.getOldId(), c.getNewId());
             if (isHead(c)) {
               autoCloseChanges(c);
             }
@@ -623,9 +621,7 @@ public class ReceiveCommits {
               c.getOldId(), c.getNewId());
           hooks.doRefUpdatedHook(
               new Branch.NameKey(project.getNameKey(), c.getRefName()),
-              c.getOldId(),
-              c.getNewId(),
-              currentUser.getAccount());
+              c.getOldId(), c.getNewId(), currentUser.getAccount());
         }
       }
     }
@@ -645,10 +641,9 @@ public class ReceiveCommits {
       addMessage("");
       addMessage("New Changes:");
       for (CreateRequest c : created) {
-        StringBuilder m = new StringBuilder()
-            .append("  ")
-            .append(url)
-            .append(c.change.getChangeId());
+        StringBuilder m =
+            new StringBuilder().append("  ").append(url)
+                .append(c.change.getChangeId());
         if (c.change.getStatus() == Change.Status.DRAFT) {
           m.append(" [DRAFT]");
         }
@@ -677,14 +672,12 @@ public class ReceiveCommits {
           }
         } catch (IOException err) {
           reject(replace.inputCommand, "internal server error");
-          log.error(String.format(
-              "Cannot add patch set to %d of %s",
-              e.getKey().get(), project.getName()), err);
+          log.error(String.format("Cannot add patch set to %d of %s", e
+              .getKey().get(), project.getName()), err);
         } catch (OrmException err) {
           reject(replace.inputCommand, "internal server error");
-          log.error(String.format(
-              "Cannot add patch set to %d of %s",
-              e.getKey().get(), project.getName()), err);
+          log.error(String.format("Cannot add patch set to %d of %s", e
+              .getKey().get(), project.getName()), err);
         }
       } else if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
         reject(replace.inputCommand, "internal server error");
@@ -708,8 +701,8 @@ public class ReceiveCommits {
       // system isn't working correctly anymore and abort.
       reject(magicBranch.cmd, "internal server error");
       log.error(String.format(
-          "Only %d of %d new change refs created in %s; aborting",
-          okToInsert, replaceCount + newChanges.size(), project.getName()));
+          "Only %d of %d new change refs created in %s; aborting", okToInsert,
+          replaceCount + newChanges.size(), project.getName()));
       return;
     }
 
@@ -776,9 +769,9 @@ public class ReceiveCommits {
         continue;
       }
 
-      HookResult result = hooks.doRefUpdateHook(project, cmd.getRefName(),
-                              currentUser.getAccount(), cmd.getOldId(),
-                              cmd.getNewId());
+      HookResult result =
+          hooks.doRefUpdateHook(project, cmd.getRefName(),
+              currentUser.getAccount(), cmd.getOldId(), cmd.getNewId());
 
       if (result != null) {
         final String message = result.toString().trim();
@@ -853,23 +846,27 @@ public class ReceiveCommits {
                     + cmd.getNewId().name() + " for " + project.getName());
                 continue;
               }
-              Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
+              Project.NameKey newParent =
+                  cfg.getProject().getParent(allProjectsName);
               Project.NameKey oldParent = project.getParent(allProjectsName);
               if (oldParent == null) {
                 // update of the 'All-Projects' project
                 if (newParent != null) {
-                  reject(cmd, "invalid project configuration: root project cannot have parent");
+                  reject(cmd,
+                      "invalid project configuration: root project cannot have parent");
                   continue;
                 }
               } else {
                 if (!oldParent.equals(newParent)
                     && !currentUser.getCapabilities().canAdministrateServer()) {
-                  reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
+                  reject(cmd,
+                      "invalid project configuration: only Gerrit admin can set parent");
                   continue;
                 }
 
                 if (projectCache.get(newParent) == null) {
-                  reject(cmd, "invalid project configuration: parent does not exist");
+                  reject(cmd,
+                      "invalid project configuration: parent does not exist");
                   continue;
                 }
               }
@@ -898,8 +895,9 @@ public class ReceiveCommits {
     try {
       obj = rp.getRevWalk().parseAny(cmd.getNewId());
     } catch (IOException err) {
-      log.error("Invalid object " + cmd.getNewId().name() + " for "
-          + cmd.getRefName() + " creation", err);
+      log.error(
+          "Invalid object " + cmd.getNewId().name() + " for "
+              + cmd.getRefName() + " creation", err);
       reject(cmd, "invalid object");
       return;
     }
@@ -941,8 +939,9 @@ public class ReceiveCommits {
     try {
       obj = rp.getRevWalk().parseAny(cmd.getNewId());
     } catch (IOException err) {
-      log.error("Invalid object " + cmd.getNewId().name() + " for "
-          + cmd.getRefName(), err);
+      log.error(
+          "Invalid object " + cmd.getNewId().name() + " for "
+              + cmd.getRefName(), err);
       reject(cmd, "invalid object");
       return false;
     }
@@ -979,8 +978,9 @@ public class ReceiveCommits {
     } catch (IncorrectObjectTypeException notCommit) {
       newObject = null;
     } catch (IOException err) {
-      log.error("Invalid object " + cmd.getNewId().name() + " for "
-          + cmd.getRefName() + " forced update", err);
+      log.error(
+          "Invalid object " + cmd.getNewId().name() + " for "
+              + cmd.getRefName() + " forced update", err);
       reject(cmd, "invalid object");
       return;
     }
@@ -1152,8 +1152,9 @@ public class ReceiveCommits {
       return;
     }
 
-    if (magicBranch.isSubmit() && !projectControl.controlForRef(
-        MagicBranch.NEW_CHANGE + ref).canSubmit()) {
+    if (magicBranch.isSubmit()
+        && !projectControl.controlForRef(MagicBranch.NEW_CHANGE + ref)
+            .canSubmit()) {
       reject(cmd, "submit not allowed");
     }
 
@@ -1168,16 +1169,15 @@ public class ReceiveCommits {
         reject(cmd, "base not found");
         return;
       } catch (IOException e) {
-        log.warn(String.format(
-            "Project %s cannot read %s",
-            project.getName(), magicBranch.base.name()), e);
+        log.warn(String.format("Project %s cannot read %s", project.getName(),
+            magicBranch.base.name()), e);
         reject(cmd, "internal server error");
         return;
       }
     }
 
     // Validate that the new commits are connected with the target
-    // branch.  If they aren't, we want to abort. We do this check by
+    // branch. If they aren't, we want to abort. We do this check by
     // looking to see if we can compute a merge base between the new
     // commits and the target branch head.
     //
@@ -1272,7 +1272,8 @@ public class ReceiveCommits {
       return;
     }
     if (!project.getNameKey().equals(changeEnt.getProject())) {
-      reject(cmd, "change " + changeId + " does not belong to project " + project.getName());
+      reject(cmd, "change " + changeId + " does not belong to project "
+          + project.getName());
       return;
     }
 
@@ -1314,10 +1315,8 @@ public class ReceiveCommits {
       if (magicBranch.baseCommit != null) {
         walk.markUninteresting(magicBranch.baseCommit);
       } else {
-        markHeadsAsUninteresting(
-            walk,
-            existing,
-            magicBranch.ctl != null ? magicBranch.ctl.getRefName() : null);
+        markHeadsAsUninteresting(walk, existing, magicBranch.ctl != null
+            ? magicBranch.ctl.getRefName() : null);
       }
 
       List<ChangeLookup> pending = Lists.newArrayList();
@@ -1417,10 +1416,8 @@ public class ReceiveCommits {
     return newChanges;
   }
 
-  private void markHeadsAsUninteresting(
-      final RevWalk walk,
-      Set<ObjectId> existing,
-      @Nullable String forRef) {
+  private void markHeadsAsUninteresting(final RevWalk walk,
+      Set<ObjectId> existing, @Nullable String forRef) {
     for (Ref ref : allRefs.values()) {
       if (ref.getObjectId() == null) {
         continue;
@@ -1431,8 +1428,9 @@ public class ReceiveCommits {
         try {
           walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
         } catch (IOException e) {
-          log.warn(String.format("Invalid ref %s in %s",
-              ref.getName(), project.getName()), e);
+          log.warn(
+              String.format("Invalid ref %s in %s", ref.getName(),
+                  project.getName()), e);
           continue;
         }
       }
@@ -1466,10 +1464,9 @@ public class ReceiveCommits {
     CreateRequest(RevCommit c, Change.Key changeKey) throws OrmException {
       commit = c;
 
-      change = new Change(changeKey,
-          new Change.Id(db.nextChangeId()),
-          currentUser.getAccountId(),
-          magicBranch.dest);
+      change =
+          new Change(changeKey, new Change.Id(db.nextChangeId()),
+              currentUser.getAccountId(), magicBranch.dest);
       change.setTopic(magicBranch.topic);
 
       ps = new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
@@ -1492,26 +1489,27 @@ public class ReceiveCommits {
       rp.getRevWalk().parseBody(commit);
 
       final Thread caller = Thread.currentThread();
-      ListenableFuture<Void> future = changeUpdateExector.submit(
-          requestScopePropagator.wrap(new Callable<Void>() {
-        @Override
-        public Void call() throws OrmException {
-          if (caller == Thread.currentThread()) {
-            insertChange(db);
-          } else {
-            ReviewDb db = schemaFactory.open();
-            try {
-              insertChange(db);
-            } finally {
-              db.close();
-            }
-          }
-          synchronized (newProgress) {
-            newProgress.update(1);
-          }
-          return null;
-        }
-      }));
+      ListenableFuture<Void> future =
+          changeUpdateExector.submit(requestScopePropagator
+              .wrap(new Callable<Void>() {
+                @Override
+                public Void call() throws OrmException {
+                  if (caller == Thread.currentThread()) {
+                    insertChange(db);
+                  } else {
+                    ReviewDb db = schemaFactory.open();
+                    try {
+                      insertChange(db);
+                    } finally {
+                      db.close();
+                    }
+                  }
+                  synchronized (newProgress) {
+                    newProgress.update(1);
+                  }
+                  return null;
+                }
+              }));
       return Futures.makeChecked(future, ORM_EXCEPTION);
     }
 
@@ -1522,7 +1520,8 @@ public class ReceiveCommits {
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
       }
-      recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
+      recipients
+          .add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
 
       changeInserter.insertChange(db, change, ps, commit, labelTypes, info,
@@ -1530,28 +1529,29 @@ public class ReceiveCommits {
 
       created = true;
 
-      workQueue.getDefaultQueue()
-          .submit(requestScopePropagator.wrap(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            CreateChangeSender cm =
-                createChangeSenderFactory.create(change);
-            cm.setFrom(me);
-            cm.setPatchSet(ps, info);
-            cm.addReviewers(recipients.getReviewers());
-            cm.addExtraCC(recipients.getCcOnly());
-            cm.send();
-          } catch (Exception e) {
-            log.error("Cannot send email for new change " + change.getId(), e);
-          }
-        }
+      workQueue.getDefaultQueue().submit(
+          requestScopePropagator.wrap(new Runnable() {
+            @Override
+            public void run() {
+              try {
+                CreateChangeSender cm =
+                    createChangeSenderFactory.create(change);
+                cm.setFrom(me);
+                cm.setPatchSet(ps, info);
+                cm.addReviewers(recipients.getReviewers());
+                cm.addExtraCC(recipients.getCcOnly());
+                cm.send();
+              } catch (Exception e) {
+                log.error("Cannot send email for new change " + change.getId(),
+                    e);
+              }
+            }
 
-        @Override
-        public String toString() {
-          return "send-email newchange";
-        }
-      }));
+            @Override
+            public String toString() {
+              return "send-email newchange";
+            }
+          }));
 
       if (magicBranch != null && magicBranch.isSubmit()) {
         submit(projectControl.controlFor(change), ps);
@@ -1561,7 +1561,8 @@ public class ReceiveCommits {
 
   private void submit(ChangeControl changeCtl, PatchSet ps) throws OrmException {
     Submit submit = submitProvider.get();
-    RevisionResource rsrc = new RevisionResource(new ChangeResource(changeCtl), ps);
+    RevisionResource rsrc =
+        new RevisionResource(new ChangeResource(changeCtl), ps);
     Change c = submit.submit(rsrc, currentUser);
     if (c == null) {
       addError("Submitting change " + changeCtl.getChange().getChangeId()
@@ -1593,8 +1594,8 @@ public class ReceiveCommits {
   private void preparePatchSetsForReplace() {
     try {
       readChangesForReplace();
-      for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator();
-          itr.hasNext();) {
+      for (Iterator<ReplaceRequest> itr = replaceByChange.values().iterator(); itr
+          .hasNext();) {
         ReplaceRequest req = itr.next();
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.validate(false);
@@ -1608,14 +1609,16 @@ public class ReceiveCommits {
       log.error("Cannot read database before replacement", err);
       for (ReplaceRequest req : replaceByChange.values()) {
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
-          req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");
+          req.inputCommand.setResult(REJECTED_OTHER_REASON,
+              "internal server error");
         }
       }
     } catch (IOException err) {
       log.error("Cannot read repository before replacement", err);
       for (ReplaceRequest req : replaceByChange.values()) {
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
-          req.inputCommand.setResult(REJECTED_OTHER_REASON, "internal server error");
+          req.inputCommand.setResult(REJECTED_OTHER_REASON,
+              "internal server error");
         }
       }
     }
@@ -1679,12 +1682,10 @@ public class ReceiveCommits {
       revisions = HashBiMap.create();
       for (Ref ref : refs(toChange)) {
         try {
-          revisions.forcePut(
-              rp.getRevWalk().parseCommit(ref.getObjectId()),
+          revisions.forcePut(rp.getRevWalk().parseCommit(ref.getObjectId()),
               PatchSet.Id.fromRef(ref.getName()));
         } catch (IOException err) {
-          log.warn(String.format(
-              "Project %s contains invalid change ref %s",
+          log.warn(String.format("Project %s contains invalid change ref %s",
               project.getName(), ref.getName()), err);
         }
       }
@@ -1785,10 +1786,9 @@ public class ReceiveCommits {
         newPatchSet.setDraft(true);
       }
       info = patchSetInfoFactory.get(newCommit, newPatchSet.getId());
-      cmd = new ReceiveCommand(
-          ObjectId.zeroId(),
-          newCommit,
-          newPatchSet.getRefName());
+      cmd =
+          new ReceiveCommand(ObjectId.zeroId(), newCommit,
+              newPatchSet.getRefName());
       return true;
     }
 
@@ -1797,28 +1797,29 @@ public class ReceiveCommits {
       rp.getRevWalk().parseBody(newCommit);
 
       final Thread caller = Thread.currentThread();
-      ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
-          requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
-        @Override
-        public PatchSet.Id call() throws OrmException {
-          try {
-            if (caller == Thread.currentThread()) {
-              return insertPatchSet(db);
-            } else {
-              ReviewDb db = schemaFactory.open();
-              try {
-                return insertPatchSet(db);
-              } finally {
-                db.close();
-              }
-            }
-          } finally {
-            synchronized (replaceProgress) {
-              replaceProgress.update(1);
-            }
-          }
-        }
-      }));
+      ListenableFuture<PatchSet.Id> future =
+          changeUpdateExector.submit(requestScopePropagator
+              .wrap(new Callable<PatchSet.Id>() {
+                @Override
+                public PatchSet.Id call() throws OrmException {
+                  try {
+                    if (caller == Thread.currentThread()) {
+                      return insertPatchSet(db);
+                    } else {
+                      ReviewDb db = schemaFactory.open();
+                      try {
+                        return insertPatchSet(db);
+                      } finally {
+                        db.close();
+                      }
+                    }
+                  } finally {
+                    synchronized (replaceProgress) {
+                      replaceProgress.update(1);
+                    }
+                  }
+                }
+              }));
       return Futures.makeChecked(future, ORM_EXCEPTION);
     }
 
@@ -1829,7 +1830,8 @@ public class ReceiveCommits {
       if (magicBranch != null) {
         recipients.add(magicBranch.getMailRecipients());
       }
-      recipients.add(getRecipientsFromFooters(accountResolver, newPatchSet, footerLines));
+      recipients.add(getRecipientsFromFooters(accountResolver, newPatchSet,
+          footerLines));
       recipients.remove(me);
 
       db.changes().beginTransaction(change.getId());
@@ -1844,14 +1846,15 @@ public class ReceiveCommits {
         db.patchSets().insert(Collections.singleton(newPatchSet));
 
         if (checkMergedInto) {
-          final Ref mergedInto = findMergedInto(change.getDest().get(), newCommit);
+          final Ref mergedInto =
+              findMergedInto(change.getDest().get(), newCommit);
           mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
         }
 
         List<PatchSetApproval> oldChangeApprovals =
             db.patchSetApprovals().byChange(change.getId()).toList();
-        final MailRecipients oldRecipients = getRecipientsFromApprovals(
-            oldChangeApprovals);
+        final MailRecipients oldRecipients =
+            getRecipientsFromApprovals(oldChangeApprovals);
         ApprovalsUtil.copyLabels(db, labelTypes, oldChangeApprovals,
             priorPatchSet, newPatchSet.getId());
         approvalsUtil.addReviewers(db, labelTypes, change, newPatchSet, info,
@@ -1859,43 +1862,48 @@ public class ReceiveCommits {
         recipients.add(oldRecipients);
 
         msg =
-            new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-                .messageUUID(db)), me, newPatchSet.getCreatedOn(), newPatchSet.getId());
-        msg.setMessage("Uploaded patch set " + newPatchSet.getPatchSetId() + ".");
+            new ChangeMessage(new ChangeMessage.Key(change.getId(),
+                ChangeUtil.messageUUID(db)), me, newPatchSet.getCreatedOn(),
+                newPatchSet.getId());
+        msg.setMessage("Uploaded patch set " + newPatchSet.getPatchSetId()
+            + ".");
         db.changeMessages().insert(Collections.singleton(msg));
         if (change.currentPatchSetId().equals(priorPatchSet)) {
-          ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
+          ChangeUtil
+              .updateTrackingIds(db, change, trackingFooters, footerLines);
         }
 
         if (mergedIntoRef == null) {
           // Change should be new, so it can go through review again.
           //
           change =
-              db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-                @Override
-                public Change update(Change change) {
-                  if (change.getStatus().isClosed()) {
-                    return null;
-                  }
+              db.changes().atomicUpdate(change.getId(),
+                  new AtomicUpdate<Change>() {
+                    @Override
+                    public Change update(Change change) {
+                      if (change.getStatus().isClosed()) {
+                        return null;
+                      }
 
-                  if (!change.currentPatchSetId().equals(priorPatchSet)) {
-                    return change;
-                  }
+                      if (!change.currentPatchSetId().equals(priorPatchSet)) {
+                        return change;
+                      }
 
-                  if (magicBranch != null && magicBranch.topic != null) {
-                    change.setTopic(magicBranch.topic);
-                  }
-                  if (change.getStatus() == Change.Status.DRAFT && newPatchSet.isDraft()) {
-                    // Leave in draft status.
-                  } else {
-                    change.setStatus(Change.Status.NEW);
-                  }
-                  change.setLastSha1MergeTested(null);
-                  change.setCurrentPatchSet(info);
-                  ChangeUtil.updated(change);
-                  return change;
-                }
-              });
+                      if (magicBranch != null && magicBranch.topic != null) {
+                        change.setTopic(magicBranch.topic);
+                      }
+                      if (change.getStatus() == Change.Status.DRAFT
+                          && newPatchSet.isDraft()) {
+                        // Leave in draft status.
+                      } else {
+                        change.setStatus(Change.Status.NEW);
+                      }
+                      change.setLastSha1MergeTested(null);
+                      change.setCurrentPatchSet(info);
+                      ChangeUtil.updated(change);
+                      return change;
+                    }
+                  });
           if (change == null) {
             db.patchSets().delete(Collections.singleton(newPatchSet));
             db.changeMessages().delete(Collections.singleton(msg));
@@ -1922,35 +1930,37 @@ public class ReceiveCommits {
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
-        hooks.doChangeMergedHook(
-            change, currentUser.getAccount(), newPatchSet, db);
+        hooks.doChangeMergedHook(change, currentUser.getAccount(), newPatchSet,
+            db);
       }
-      workQueue.getDefaultQueue()
-          .submit(requestScopePropagator.wrap(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            ReplacePatchSetSender cm =
-                replacePatchSetFactory.create(change);
-            cm.setFrom(me);
-            cm.setPatchSet(newPatchSet, info);
-            cm.setChangeMessage(msg);
-            cm.addReviewers(recipients.getReviewers());
-            cm.addExtraCC(recipients.getCcOnly());
-            cm.send();
-          } catch (Exception e) {
-            log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
-          }
-          if (mergedIntoRef != null) {
-            sendMergedEmail(ReplaceRequest.this);
-          }
-        }
+      workQueue.getDefaultQueue().submit(
+          requestScopePropagator.wrap(new Runnable() {
+            @Override
+            public void run() {
+              try {
+                ReplacePatchSetSender cm =
+                    replacePatchSetFactory.create(change);
+                cm.setFrom(me);
+                cm.setPatchSet(newPatchSet, info);
+                cm.setChangeMessage(msg);
+                cm.addReviewers(recipients.getReviewers());
+                cm.addExtraCC(recipients.getCcOnly());
+                cm.send();
+              } catch (Exception e) {
+                log.error(
+                    "Cannot send email for new patch set "
+                        + newPatchSet.getId(), e);
+              }
+              if (mergedIntoRef != null) {
+                sendMergedEmail(ReplaceRequest.this);
+              }
+            }
 
-        @Override
-        public String toString() {
-          return "send-email newpatchset";
-        }
-      }));
+            @Override
+            public String toString() {
+              return "send-email newpatchset";
+            }
+          }));
 
       if (magicBranch != null && magicBranch.isSubmit()) {
         submit(changeCtl, newPatchSet);
@@ -1963,9 +1973,9 @@ public class ReceiveCommits {
   private List<Ref> refs(Change.Id changeId) {
     if (refsByChange == null) {
       int estRefsPerChange = 4;
-      refsByChange = ArrayListMultimap.create(
-          allRefs.size() / estRefsPerChange,
-          estRefsPerChange);
+      refsByChange =
+          ArrayListMultimap.create(allRefs.size() / estRefsPerChange,
+              estRefsPerChange);
       for (Ref ref : allRefs.values()) {
         if (ref.getObjectId() != null && PatchSet.isRef(ref.getName())) {
           refsByChange.put(Change.Id.fromRef(ref.getName()), ref);
@@ -2046,8 +2056,8 @@ public class ReceiveCommits {
         && !projectControl.getProjectState().isUseSignedOffBy()
         && Iterables.isEmpty(rejectCommits)
         && !GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())
-        && !(MagicBranch.isMagicBranch(cmd.getRefName())
-            || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
+        && !(MagicBranch.isMagicBranch(cmd.getRefName()) || NEW_PATCHSET
+            .matcher(cmd.getRefName()).matches())) {
       return;
     }
 
@@ -2106,8 +2116,9 @@ public class ReceiveCommits {
       }
 
       final Map<ObjectId, Ref> byCommit = changeRefsById();
-      final Map<Change.Key, Change.Id> byKey = openChangesByKey(
-          new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
+      final Map<Change.Key, Change.Id> byKey =
+          openChangesByKey(new Branch.NameKey(project.getNameKey(),
+              cmd.getRefName()));
       final List<ReplaceRequest> toClose = new ArrayList<ReplaceRequest>();
       RevCommit c;
       while ((c = rw.next()) != null) {
@@ -2135,9 +2146,8 @@ public class ReceiveCommits {
       }
 
       for (final ReplaceRequest req : toClose) {
-        final PatchSet.Id psi = req.validate(true)
-            ? req.insertPatchSet().checkedGet()
-            : null;
+        final PatchSet.Id psi =
+            req.validate(true) ? req.insertPatchSet().checkedGet() : null;
         if (psi != null) {
           closeChange(req.inputCommand, psi, req.newCommit);
           closeProgress.update(1);
@@ -2164,8 +2174,8 @@ public class ReceiveCommits {
     }
   }
 
-  private Change.Key closeChange(final ReceiveCommand cmd, final PatchSet.Id psi,
-      final RevCommit commit) throws OrmException {
+  private Change.Key closeChange(final ReceiveCommand cmd,
+      final PatchSet.Id psi, final RevCommit commit) throws OrmException {
     final String refName = cmd.getRefName();
     final Change.Id cid = psi.getParentKey();
 
@@ -2176,9 +2186,9 @@ public class ReceiveCommits {
       return null;
     }
 
-    if (change.getStatus() == Change.Status.MERGED ||
-        change.getStatus() == Change.Status.ABANDONED ||
-        !change.getDest().get().equals(refName)) {
+    if (change.getStatus() == Change.Status.MERGED
+        || change.getStatus() == Change.Status.ABANDONED
+        || !change.getDest().get().equals(refName)) {
       // If it's already merged or the commit is not aimed for
       // this change's destination, don't make further updates.
       //
@@ -2191,8 +2201,8 @@ public class ReceiveCommits {
     result.info = patchSetInfoFactory.get(commit, psi);
     result.mergedIntoRef = refName;
     markChangeMergedByPush(db, result);
-    hooks.doChangeMergedHook(
-        change, currentUser.getAccount(), result.newPatchSet, db);
+    hooks.doChangeMergedHook(change, currentUser.getAccount(),
+        result.newPatchSet, db);
     sendMergedEmail(result);
     return change.getKey();
   }
@@ -2242,8 +2252,9 @@ public class ReceiveCommits {
     }
     msgBuf.append(".");
     final ChangeMessage msg =
-        new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-            .messageUUID(db)), currentUser.getAccountId(), result.info.getKey());
+        new ChangeMessage(new ChangeMessage.Key(change.getId(),
+            ChangeUtil.messageUUID(db)), currentUser.getAccountId(),
+            result.info.getKey());
     msg.setMessage(msgBuf.toString());
 
     db.changeMessages().insert(Collections.singleton(msg));
@@ -2262,26 +2273,27 @@ public class ReceiveCommits {
   }
 
   private void sendMergedEmail(final ReplaceRequest result) {
-    workQueue.getDefaultQueue()
-        .submit(requestScopePropagator.wrap(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          final MergedSender cm = mergedSenderFactory.create(result.changeCtl);
-          cm.setFrom(currentUser.getAccountId());
-          cm.setPatchSet(result.newPatchSet, result.info);
-          cm.send();
-        } catch (Exception e) {
-          final PatchSet.Id psi = result.newPatchSet.getId();
-          log.error("Cannot send email for submitted patch set " + psi, e);
-        }
-      }
+    workQueue.getDefaultQueue().submit(
+        requestScopePropagator.wrap(new Runnable() {
+          @Override
+          public void run() {
+            try {
+              final MergedSender cm =
+                  mergedSenderFactory.create(result.changeCtl);
+              cm.setFrom(currentUser.getAccountId());
+              cm.setPatchSet(result.newPatchSet, result.info);
+              cm.send();
+            } catch (Exception e) {
+              final PatchSet.Id psi = result.newPatchSet.getId();
+              log.error("Cannot send email for submitted patch set " + psi, e);
+            }
+          }
 
-      @Override
-      public String toString() {
-        return "send-email merged";
-      }
-    }));
+          @Override
+          public String toString() {
+            return "send-email merged";
+          }
+        }));
   }
 
   private static RevId toRevId(final RevCommit src) {

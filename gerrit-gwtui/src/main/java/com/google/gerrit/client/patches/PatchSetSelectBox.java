@@ -126,7 +126,7 @@ public class PatchSetSelectBox extends Composite {
 
     for (Patch patch : script.getHistory()) {
       PatchSet.Id psId = patch.getKey().getParentKey();
-      Anchor anchor = createLink(Integer.toString(psId.get()), psId);
+      Anchor anchor = createLink(psId.getId(), psId);
       links.put(psId.get(), anchor);
       linkPanel.add(anchor);
     }

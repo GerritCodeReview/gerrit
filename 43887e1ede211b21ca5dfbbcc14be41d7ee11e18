@@ -52,6 +52,24 @@
       "revId": "43887e1ede211b21ca5dfbbcc14be41d7ee11e18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d715dc7_59eaa32b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2013-05-27T06:40:02Z",
+      "side": 1,
+      "message": "In patch#5 change data source is all changes for inref predicate.\n\n\nWe can alter the behavior to match on merged changes only by default (gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java: line 402), but this will mean that all predicates which do not implement ChangeDataSource will also match on merged changes only by default, which is not desired ?",
+      "parentUuid": "801fa244_a43d82cd",
+      "revId": "43887e1ede211b21ca5dfbbcc14be41d7ee11e18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d8381c6_0224aab8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-27T12:48:50Z",
+      "side": 1,
+      "message": "nit: we use two indentation level for a wrapped line",
+      "revId": "5d10619754b0a118f908ee4b5a25ce41e693b1d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d483578_e32632c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-27T12:48:50Z",
+      "side": 1,
+      "message": "nit: we use two indentation level for a wrapped line",
+      "revId": "5d10619754b0a118f908ee4b5a25ce41e693b1d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

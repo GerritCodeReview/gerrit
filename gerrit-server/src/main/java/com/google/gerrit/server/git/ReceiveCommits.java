@@ -2211,6 +2211,7 @@ public class ReceiveCommits {
 
     ReplaceRequest result = new ReplaceRequest(cid, commit, cmd, false);
     result.change = change;
+    result.changeCtl = projectControl.controlFor(change);
     result.newPatchSet = ps;
     result.info = patchSetInfoFactory.get(commit, psi);
     result.mergedIntoRef = refName;

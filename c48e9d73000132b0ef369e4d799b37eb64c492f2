@@ -16,6 +16,24 @@
       "revId": "c48e9d73000132b0ef369e4d799b37eb64c492f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d8381c6_42471265",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-05-28T07:25:24Z",
+      "side": 1,
+      "message": "when I editing https://gerrit-review.googlesource.com/#/c/46201/\n find the the java code format of this class is mess, \n\n I just crtl +A and ctrl +F \n have not touch these line by hand directly.\n\n select \u0027Ignore Whitespace\u0027 to \u0027None\u0027\n you can  find many part of this class need format",
+      "parentUuid": "1d715dc7_b9041f25",
+      "revId": "c48e9d73000132b0ef369e4d799b37eb64c492f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

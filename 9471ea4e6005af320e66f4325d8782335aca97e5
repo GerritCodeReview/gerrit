@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd57290e_a835bbe0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ContentBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-28T06:20:35Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "9471ea4e6005af320e66f4325d8782335aca97e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -30,11 +30,13 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
@@ -276,7 +278,7 @@ public class ReceiveCommits {
       new HashMap<RevCommit, ReplaceRequest>();
   private final Set<RevCommit> validCommits = new HashSet<RevCommit>();
 
-  private Map<ObjectId, Ref> refsById;
+  private SetMultimap<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
 
   private final SubmoduleOp.Factory subOpFactory;
@@ -2011,20 +2013,22 @@ public class ReceiveCommits {
         rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
       }
 
-      final Map<ObjectId, Ref> byCommit = changeRefsById();
+      final SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
       final Map<Change.Key, Change.Id> byKey = openChangesByKey(
           new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
       final List<ReplaceRequest> toClose = new ArrayList<ReplaceRequest>();
       RevCommit c;
       while ((c = rw.next()) != null) {
-        final Ref ref = byCommit.get(c.copy());
-        if (ref != null) {
-          rw.parseBody(c);
-          Change.Key closedChange =
-              closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
-          closeProgress.update(1);
-          if (closedChange != null) {
-            byKey.remove(closedChange);
+        final Set<Ref> refs = byCommit.get(c.copy());
+        for (Ref ref : refs) {
+          if (ref != null) {
+            rw.parseBody(c);
+            Change.Key closedChange =
+                closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
+            closeProgress.update(1);
+            if (closedChange != null) {
+              byKey.remove(closedChange);
+            }
           }
         }
 
@@ -2104,9 +2108,9 @@ public class ReceiveCommits {
     return change.getKey();
   }
 
-  private Map<ObjectId, Ref> changeRefsById() throws IOException {
+  private SetMultimap<ObjectId, Ref> changeRefsById() throws IOException {
     if (refsById == null) {
-      refsById = new HashMap<ObjectId, Ref>();
+      refsById =  HashMultimap.create();
       for (Ref r : repo.getRefDatabase().getRefs("refs/changes/").values()) {
         if (PatchSet.isRef(r.getName())) {
           refsById.put(r.getObjectId(), r);

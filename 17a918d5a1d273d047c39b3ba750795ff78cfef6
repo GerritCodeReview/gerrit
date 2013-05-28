@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1d715dc7_3947af66",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-28T22:26:45Z",
+      "side": 1,
+      "message": "Done. Inlined add{Single,Repeatable}Field as well",
+      "parentUuid": "fd57290e_68ea232c",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd57290e_48ef5f3a",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 3
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1d887de1_41f95203",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-28T22:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd57290e_48ef5f3a",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d2f558c_4bef653a",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 3
@@ -82,6 +118,24 @@
       "writtenOn": "2013-05-25T00:43:05Z",
       "side": 1,
       "message": "cd is unused here",
+      "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd57290e_4893dfa4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-28T22:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d2f558c_4bef653a",
       "revId": "17a918d5a1d273d047c39b3ba750795ff78cfef6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

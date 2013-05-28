@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -30,5 +31,30 @@ public class AccountApi {
     JavaScriptObject in = JavaScriptObject.createObject();
     new RestApi("/accounts/").id(account).view("emails").id(email)
         .ifNoneMatch().put(in, cb);
+  }
+
+  /** Generate a new HTTP password */
+  public static void generateHttpPassword(String account,
+      AsyncCallback<NativeString> cb) {
+    HttpPasswordInput in = HttpPasswordInput.create();
+    in.generate(true);
+    new RestApi("/accounts/").id(account).view("password.http").put(in, cb);
+  }
+
+  /** Clear HTTP password */
+  public static void clearHttpPassword(String account,
+      AsyncCallback<VoidResult> cb) {
+    new RestApi("/accounts/").id(account).view("password.http").delete(cb);
+  }
+
+  private static class HttpPasswordInput extends JavaScriptObject {
+    final native void generate(boolean g) /*-{ if(g)this.generate=g; }-*/;
+
+    static HttpPasswordInput create() {
+      return (HttpPasswordInput) createObject();
+    }
+
+    protected HttpPasswordInput() {
+    }
   }
 }

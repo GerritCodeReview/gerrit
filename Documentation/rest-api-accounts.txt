@@ -222,6 +222,85 @@ Sets the account state to inactive.
 
 If the account was already inactive the response is `404 Not Found`.
 
+[[get-http-password]]
+Get HTTP Password
+~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/password.http'
+
+Retrieves the HTTP password of an account.
+
+.Request
+----
+  GET /accounts/john.doe@example.com/password.http HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "ETxgpih8xrNs"
+----
+
+If the account does not have an HTTP password an empty string is returned.
+
+[[set-http-password]]
+Set/Generate HTTP Password
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'PUT /accounts/link:#account-id[\{account-id\}]/password.http'
+
+Sets/Generates the HTTP password of an account.
+
+The options for setting/generating the HTTP password must be provided
+in the request body inside a link:#http-password-input[
+HttpPasswordInput] entity.
+
+.Request
+----
+  PUT /accounts/self/password.http HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "generate": true
+  }
+----
+
+As response the new HTTP password is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "ETxgpih8xrNs"
+----
+
+If the HTTP password was deleted the response is "`204 No Content`".
+
+[[delete-http-password]]
+Delete HTTP Password
+~~~~~~~~~~~~~~~~~~~~
+[verse]
+'DELETE /accounts/link:#account-id[\{account-id\}]/password.http'
+
+Deletes the HTTP password of an account.
+
+.Request
+----
+  DELETE /accounts/self/password.http HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[list-account-emails]]
 List Account Emails
 ~~~~~~~~~~~~~~~~~~~
@@ -964,6 +1043,24 @@ case no verification email is sent to the user. +
 Only Gerrit administrators are allowed to add email addresses without
 confirmation.
 |==============================
+
+[[http-password-input]]
+HttpPasswordInput
+~~~~~~~~~~~~~~~~~
+The `HttpPasswordInput` entity contains information for setting/generating
+an HTTP password.
+
+[options="header",width="50%",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`generate`     |`false` if not set|
+Whether a new HTTP password should be generated
+|`http_password`|optional|
+The new HTTP password. Only Gerrit administrators may set the HTTP
+password directly. +
+If empty or not set and `generate` is false or not set, the HTTP
+password is deleted.
+|============================
 
 [[query-limit-info]]
 QueryLimitInfo

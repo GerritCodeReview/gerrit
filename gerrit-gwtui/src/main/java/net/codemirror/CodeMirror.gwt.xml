@@ -16,6 +16,7 @@
 <module>
   <inherits name='com.google.gwt.logging.Logging'/>
   <inherits name='com.google.gwt.resources.Resources'/>
+  <source path='addon'/>
   <source path='lib'/>
   <source path='mode'/>
 </module>

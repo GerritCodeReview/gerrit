@@ -28,7 +28,8 @@ public class CodeMirror extends JavaScriptObject {
     Loader.initLibrary(cb);
   }
 
-  public static native CodeMirror create(Element parent, Configuration cfg) /*-{
+  public static native CodeMirror create(Element parent,
+      Configuration cfg) /*-{
     return $wnd.CodeMirror(parent, cfg);
   }-*/;
 
@@ -41,6 +42,30 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void refresh() /*-{ this.refresh(); }-*/;
   public final native Element getWrapperElement() /*-{ return this.getWrapperElement(); }-*/;
+
+  public final native void markText(LineCharacter from, LineCharacter to,
+      Configuration options) /*-{
+    this.markText(from, to, options);
+  }-*/;
+
+  public enum LineClassWhere {
+    TEXT, BACKGROUND, WRAP;
+  }
+
+  public final void addLineClass(int line, LineClassWhere where,
+      String className) {
+    addLineClassNative(line, where.name().toLowerCase(), className);
+  }
+
+  private final native void addLineClassNative(int line, String where,
+      String lineClass) /*-{
+    this.addLineClass(line, where, lineClass);
+  }-*/;
+
+  public final native void addLineWidget(int line, Element node,
+      Configuration options) /*-{
+    this.addLineWidget(line, node, options);
+  }-*/;
 
   protected CodeMirror() {
   }

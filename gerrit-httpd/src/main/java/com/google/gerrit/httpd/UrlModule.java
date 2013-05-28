@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.httpd.admin.ConfigFilesRestApiServlet;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
@@ -104,6 +105,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?changes/(.*)$").with(ChangesRestApiServlet.class);
     serveRegex("^/(?:a/)?groups/(.*)?$").with(GroupsRestApiServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ProjectsRestApiServlet.class);
+    serveRegex("^/(?:a/)?configfiles/(.*)?$").with(ConfigFilesRestApiServlet.class);
 
     if (cfg.deprecatedQuery) {
       serve("/query").with(DeprecatedChangeQueryServlet.class);

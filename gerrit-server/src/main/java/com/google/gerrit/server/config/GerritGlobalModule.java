@@ -244,6 +244,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new com.google.gerrit.server.change.Module());
     install(new com.google.gerrit.server.group.Module());
     install(new com.google.gerrit.server.project.Module());
+    install(new com.google.gerrit.server.admin.Module());
 
     bind(GitReferenceUpdated.class);
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});

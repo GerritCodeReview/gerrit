@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d7979b4_149874bc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-28T23:40:37Z",
+      "side": 1,
+      "message": "Either make \"from\" again (I was wrong about the local), or use markText outside of the loop with delta (to be tried).",
+      "revId": "fcc7dc996939c4426858c8ceae366fd0fdb1e039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d7c6da5_d5a19ce3",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-28T23:40:37Z",
+      "side": 1,
+      "message": "don\u0027t line wrap this?",
+      "revId": "fcc7dc996939c4426858c8ceae366fd0fdb1e039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d7c6da5_f59e18a7",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-28T23:40:37Z",
+      "side": 1,
+      "message": "don\u0027t line wrap here?",
+      "revId": "fcc7dc996939c4426858c8ceae366fd0fdb1e039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_349d70ad",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-28T23:40:37Z",
+      "side": 1,
+      "message": "make this private, we want callers to use the enum version.",
+      "revId": "fcc7dc996939c4426858c8ceae366fd0fdb1e039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9d7c6da5_b51d0073",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_f5fa98f6",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d7c6da5_9507a429",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "please use a CSS class for this.",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_743d28ca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_9507a429",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9d7c6da5_75668800",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_150dd443",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d938d17_7def573a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "wrap lines on . so:\n\n  Configuration insertOpt \u003d Configuration.create()\n      .set(\"className\", \"insert\")\n      .set(\"readOnly\", \"true\");",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d7c6da5_f5285886",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d938d17_7def573a",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "7d7979b4_9407a429",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d887de1_e1fd06f1",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d7979b4_d4fd1cf1",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "lineA - 1, we use spaces around operators.",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_b4042025",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_d4fd1cf1",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "7d7979b4_d4543c0b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_d5267cc3",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d7c6da5_55134c6d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "aren\u0027t these setLine,setCh doing the same thing that the create call does?",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_f42378b0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done. I\u0027ve just changed those to private methods.",
+      "parentUuid": "9d7c6da5_55134c6d",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "9d7c6da5_953564e1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_b5042025",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d7c6da5_35125067",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "same as above",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_942004a6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_35125067",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "9d7c6da5_55382cdb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_34f9f004",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d7979b4_14f4f40d",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/CodeMirror.gwt.xml",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "trailing whitespace",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d7c6da5_753d28ca",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/CodeMirror.gwt.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_14f4f40d",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "9d7c6da5_1542b455",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_7518c886",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d7c6da5_d5fd1cf1",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Configuration.java",
         "patchSetId": 1
@@ -234,6 +468,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "unnecessary blank line",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_54134c6d",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Configuration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_d5fd1cf1",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "9d7c6da5_3547b066",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineCharacter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_75ef683a",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d7c6da5_15f4f40d",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineCharacter.java",
         "patchSetId": 1
@@ -268,6 +538,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "this.line \u003d line;",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_7418c886",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineCharacter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_15f4f40d",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "7d7979b4_140dd443",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineCharacter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_54ea6c2b",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d7c6da5_35f9f004",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineCharacter.java",
         "patchSetId": 1
@@ -302,6 +608,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "We usually try to put this all on one line for shorter methods, and we try to avoid blank lines between such methods:\n\n  public final native int getLine() /*-{ return this.line; }-*/;\n  public final native int getCh() /*-{ return this.ch; }-*/;",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_34125067",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineCharacter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_35f9f004",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "9d7c6da5_d52bdc80",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineCharacter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_74ef683a",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d7c6da5_55ea6c2b",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Loader.java",
         "patchSetId": 1
@@ -336,6 +678,24 @@
       "writtenOn": "2013-05-28T22:25:59Z",
       "side": 1,
       "message": "Looks like an unnecessary indent change here?",
+      "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_d4267cc3",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Loader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-28T23:25:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_55ea6c2b",
       "revId": "a3094be55bfbae725e9d4733f5af89a7c5e7c056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d7c6da5_b532e0f4",
+        "filename": "lib/jgit/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-28T23:11:48Z",
+      "side": 0,
+      "message": "This is an unrelated change that should not be mingled with the source jar support.",
+      "revId": "e1f8288fc71101692ffa4c27736176557277d857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

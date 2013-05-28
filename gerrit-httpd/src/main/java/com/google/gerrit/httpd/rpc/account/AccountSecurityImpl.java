@@ -39,8 +39,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
-import com.google.gerrit.server.account.ClearPassword;
-import com.google.gerrit.server.account.GeneratePassword;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.contact.ContactStore;
@@ -70,8 +68,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AccountManager accountManager;
   private final boolean useContactInfo;
 
-  private final ClearPassword.Factory clearPasswordFactory;
-  private final GeneratePassword.Factory generatePasswordFactory;
   private final ChangeUserName.CurrentUser changeUserNameFactory;
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
@@ -86,8 +82,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final EmailTokenVerifier etv, final ProjectCache pc,
       final SshKeyCache skc, final AccountByEmailCache abec,
       final AccountCache uac, final AccountManager am,
-      final ClearPassword.Factory clearPasswordFactory,
-      final GeneratePassword.Factory generatePasswordFactory,
       final ChangeUserName.CurrentUser changeUserNameFactory,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
@@ -105,8 +99,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
 
-    this.clearPasswordFactory = clearPasswordFactory;
-    this.generatePasswordFactory = generatePasswordFactory;
     this.changeUserNameFactory = changeUserNameFactory;
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
@@ -177,18 +169,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       callback.onFailure(new PermissionDeniedException("Not allowed to change"
           + " username"));
     }
-  }
-
-  @Override
-  public void generatePassword(AccountExternalId.Key key,
-      AsyncCallback<AccountExternalId> callback) {
-    Handler.wrap(generatePasswordFactory.create(key)).to(callback);
-  }
-
-  @Override
-  public void clearPassword(AccountExternalId.Key key,
-      AsyncCallback<AccountExternalId> callback) {
-    Handler.wrap(clearPasswordFactory.create(key)).to(callback);
   }
 
   public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {

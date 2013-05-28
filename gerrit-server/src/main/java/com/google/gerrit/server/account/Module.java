@@ -45,6 +45,9 @@ public class Module extends RestApiModule {
     put(EMAIL_KIND).to(PutEmail.class);
     delete(EMAIL_KIND).to(DeleteEmail.class);
     put(EMAIL_KIND, "preferred").to(PutPreferred.class);
+    get(ACCOUNT_KIND, "password.http").to(GetHttpPassword.class);
+    put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
+    delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
     child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);

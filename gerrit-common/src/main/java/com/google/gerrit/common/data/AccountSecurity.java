@@ -47,16 +47,6 @@ public interface AccountSecurity extends RemoteJsonService {
   @SignInRequired
   void changeUserName(String newName, AsyncCallback<VoidResult> callback);
 
-  @Audit
-  @SignInRequired
-  void generatePassword(AccountExternalId.Key key,
-      AsyncCallback<AccountExternalId> callback);
-
-  @Audit
-  @SignInRequired
-  void clearPassword(AccountExternalId.Key key,
-      AsyncCallback<AccountExternalId> gerritCallback);
-
   @SignInRequired
   void myExternalIds(AsyncCallback<List<AccountExternalId>> callback);
 

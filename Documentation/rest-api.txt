@@ -17,6 +17,8 @@ link:rest-api-groups.html[/groups/]::
   Group related REST endpoints
 link:rest-api-projects.html[/projects/]::
   Project related REST endpoints
+link:rest-api-configfiles.html[/configfiles/]::
+  Server config files related REST endpoints
 
 Protocol Details
 ----------------

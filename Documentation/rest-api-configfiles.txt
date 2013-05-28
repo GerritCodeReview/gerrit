@@ -1,0 +1,48 @@
+Gerrit Code Review - /configfiles/ REST API
+===========================================
+
+This page describes the server config files related REST endpoints.
+Please also take note of the general information on the
+link:rest-api.html[REST API].
+
+Endpoints
+---------
+
+[[configfiles-endpoints]]
+Config Files Endpoints
+----------------------
+
+[[get-configfile]]
+Get Config File
+~~~~~~~~~~~~~~~
+[verse]
+'GET /configfiles/link:#configfile-name[\{configfile-name\}]'
+
+Retrieves a config file.
+
+.Request
+----
+  GET /configfiles/etc%2Fgerrit.config HTTP/1.0
+----
+
+The content of the file is returned as text encoded inside base64:
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=ISO-8859-1
+  X-FYI-Content-Encoding: base64
+  X-FYI-Content-Type: application/octet-stream
+
+  W2dlcnJpdF0KCWJhc2VQYXRoID0gZ2l0CgljYW5vbmljYWxXZWJ...
+----
+
+[[configfile-name]]
+\{configfile-name\}
+~~~~~~~~~~~~~~~~~~~
+Config file name relative to the `SITE_PATH`.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

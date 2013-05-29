@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d023d42_71f4980f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-29T17:37:53Z",
+      "side": 1,
+      "message": "why are you marking text? line classes should be handling these since you are highlighting the entire line.",
+      "revId": "427bf7dc4c46820e06bd694ce8553b4a5d0a5fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_31ea102b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-29T17:37:53Z",
+      "side": 1,
+      "message": "bug: this should be b()",
+      "revId": "427bf7dc4c46820e06bd694ce8553b4a5d0a5fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

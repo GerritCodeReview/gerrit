@@ -31,8 +31,7 @@ class DiffTable extends Composite {
   private static Binder uiBinder = GWT.create(Binder.class);
 
   interface LineStyle extends CssResource {
-    String insert();
-    String delete();
+    String diff();
     String intraline();
     String padding();
   }

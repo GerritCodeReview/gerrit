@@ -16,7 +16,7 @@ limitations under the License.
 -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-  <ui:style field='css'>
+  <ui:style field='override'>
     @external .CodeMirror, .CodeMirror-selectedtext, .CodeMirror-scroll;
 
     .difftable .CodeMirror {
@@ -42,27 +42,26 @@ limitations under the License.
   <ui:style type='com.google.gerrit.client.diff.DiffTable.LineStyle'>
     @external .CodeMirror-linenumber;
 
-    .insert,
-    .insert .CodeMirror-linenumber {
-      background-color: #dfd;
-    }
-    .delete,
-    .delete .CodeMirror-linenumber {
+    .a .diff,
+    .a .diff .CodeMirror-linenumber {
       background-color: #fee;
     }
-    .intraline {
+    .b .diff,
+    .b .diff .CodeMirror-linenumber {
+      background-color: #dfd;
+    }
+    .b .intraline {
       background-color: #9f9;
     }
     .padding {
       background-color: #eee;
-      height: 1em;
     }
   </ui:style>
-  <g:HTMLPanel styleName='{css.difftable}'>
+  <g:HTMLPanel styleName='{override.difftable}'>
     <table>
       <tr>
-        <td><div ui:field='cmA'></div></td>
-        <td><div ui:field='cmB'></div></td>
+        <td><div ui:field='cmA' class='{style.a}'></div></td>
+        <td><div ui:field='cmB' class='{style.b}'></div></td>
       </tr>
     </table>
   </g:HTMLPanel>

@@ -31,7 +31,6 @@ import com.google.gwt.user.client.Window;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
-import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.ModeInjector;
 
 public class CodeMirrorDemo extends Screen {
@@ -155,20 +154,8 @@ public class CodeMirrorDemo extends Screen {
     return cm;
   }
 
-  private void addPadding(CodeMirror cm, int line) {
-    Element div = DOM.createDiv();
-    div.setClassName(diffTable.style.padding());
-    cm.addLineWidget(line, div, null);
-  }
-
   private void render(DiffInfo diff) {
     JsArray<Region> regions = diff.content();
-    Configuration insertOpt = Configuration.create()
-        .set("className", diffTable.style.insert())
-        .set("readOnly", true);
-    Configuration deleteOpt = Configuration.create()
-        .set("className", diffTable.style.delete())
-        .set("readOnly", true);
     int lineA = 0, lineB = 0;
     for (int i = 0; i < regions.length(); i++) {
       Region current = regions.get(i);
@@ -177,33 +164,42 @@ public class CodeMirrorDemo extends Screen {
         lineB += current.ab().length();
       } else if (current.a() == null && current.b() != null) {
         int delta = current.b().length();
-        for (int j = 0; j < delta; j++) {
-          addPadding(cmA, lineA - 1);
-        }
-        for (int j = 0; j < delta; j++) {
-          cmB.addLineClass(lineB, LineClassWhere.WRAP,
-              diffTable.style.insert());
-          LineCharacter from = LineCharacter.create(lineB, 0);
-          cmB.markText(from, from, insertOpt);
-          lineB++;
-        }
+        padLines(cmA, delta, lineA - 1);
+        lineB = colorLine(delta, lineA, lineB, true);
       } else if (current.a() != null && current.b() == null) {
         int delta = current.a().length();
-        for (int j = 0; j < delta; j++) {
-          addPadding(cmB, lineB - 1);
-        }
-        for (int j = 0; j < delta; j++) {
-          cmA.addLineClass(lineA, LineClassWhere.WRAP,
-              diffTable.style.delete());
-          LineCharacter from = LineCharacter.create(lineA, 0);
-          cmA.markText(from, from, deleteOpt);
-          lineA++;
-        }
-      } else { // TODO: Handle intraline edit.
-        lineA += current.a().length();
-        lineB += current.a().length();
+        padLines(cmB, delta, lineB - 1);
+        lineA = colorLine(delta, lineA, lineB, false);
+      } else {
+        lineA = colorLine(current.a().length(), lineA, lineB, false);
+        lineB = colorLine(current.b().length(), lineA, lineB, true);
       }
     }
+  }
+
+  private void padLines(CodeMirror cm, int delta, int where) {
+    for (int i = 0; i < delta; i++) {
+      genPadding(cm, where);
+    }
+  }
+
+  private void genPadding(CodeMirror cm, int line) {
+    Element div = DOM.createDiv();
+    div.setClassName(diffTable.style.padding());
+    cm.addLineWidget(line, div,
+        Configuration.create().set("coverGutter", true));
+  }
+
+  private int colorLine(int delta, int lineA, int lineB, boolean isInsert) {
+    CodeMirror cm = isInsert ? cmB : cmA;
+    String style = isInsert ?
+        diffTable.style.insert() : diffTable.style.delete();
+    int line = isInsert ? lineB : lineA;
+    for (int i = 0; i < delta; i++) {
+      cm.addLineClass(line, LineClassWhere.WRAP, style);
+      line++;
+    }
+    return line;
   }
 
   private static String getContentType(DiffInfo.FileMeta meta) {

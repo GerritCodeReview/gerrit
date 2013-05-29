@@ -30,7 +30,7 @@ opts.add_option('--pgmlib', action='append', help='target for WEB-INF/pgm-lib')
 args, ctx = opts.parse_args()
 
 war = environ['TMP']
-root = war[:war.index('buck-out')]
+root = war[:war.index('buck-gen')]
 jars = set()
 
 def link_jars(libs, dir):
@@ -40,8 +40,8 @@ def link_jars(libs, dir):
     if j not in jars:
       jars.add(j)
       n = path.basename(j)
-      if j.startswith('buck-out/gen/gerrit-'):
-        n = j.split('/')[2] + '-' + n
+      if j.startswith('buck-gen/gerrit-'):
+        n = j.split('/')[1] + '-' + n
       symlink(path.join(root, j), path.join(dir, n))
 
 if args.lib:

@@ -69,7 +69,7 @@ for p in query_classpath(MAIN):
     gwt_lib.add(p)
     continue
 
-  if p.startswith('buck-out/gen/lib/gwt/'):
+  if p.startswith('buck-gen/lib/gwt/'):
     # gwt_module() depends on huge shaded GWT JARs that import
     # incorrect versions of classes for Gerrit. Collect into
     # a private grouping for later use.
@@ -112,7 +112,7 @@ for s in sorted(gwt_src):
   classpathentry('lib', path.join(ROOT, s, 'src', 'main', 'java'))
 
 classpathentry('con', JRE)
-classpathentry('output', 'buck-out/classes')
+classpathentry('output', 'buck-gen/classes')
 
 p = path.join(ROOT, '.classpath')
 with open(p, 'w') as fd:

@@ -487,12 +487,11 @@ public class JettyServer {
     }
     dir = dir.getParentFile(); // pop classes
 
-    if ("buck-out".equals(dir.getName())) {
+    if ("buck-gen".equals(dir.getName())) {
       String pkg = "gerrit-gwtui";
       String target = targetForBrowser(System.getProperty("gerrit.browser"));
-      File gen = new File(dir, "gen");
-      String out = new File(new File(gen, pkg), target).getAbsolutePath();
-      build(dir.getParentFile(), gen, "//" + pkg + ":" + target);
+      String out = new File(new File(dir, pkg), target).getAbsolutePath();
+      build(dir.getParentFile(), dir, "//" + pkg + ":" + target);
       return unpackWar(new File(out + ".zip"));
     } else if ("target".equals(dir.getName())) {
       return useMavenDeveloperBuild(dir);

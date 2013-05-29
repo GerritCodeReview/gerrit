@@ -56,8 +56,9 @@ In Eclipse, choose 'Import existing project' and select the `gerrit` project
 from the current working directory.  Do not import any of the other Maven
 based projects.
 
-Expand the `gerrit` project, right-click on the `buck-out` folder, select
-'Properties', and then under 'Attributes' check 'Derived'.
+Expand the `gerrit` project, right-click on the `buck-bin` folder, select
+'Properties', and then under 'Attributes' check 'Derived'. Repeat for the
+`buck-gen` folder.
 
 Note that if you make any changes in the project configuration that get
 saved to the `.project` file, for example adding Resource Filters on a
@@ -107,7 +108,7 @@ To build the Gerrit web application:
 The output executable WAR will be placed in:
 
 ----
-  buck-out/gen/gerrit.war
+  buck-gen/gerrit.war
 ----
 
 
@@ -123,7 +124,7 @@ To build the extension and plugin API JAR files:
 The output JAR files will be placed in:
 
 ----
-  buck-out/gen/{extension,plugin}-api.jar
+  buck-gen/{extension,plugin}-api.jar
 ----
 
 
@@ -139,13 +140,13 @@ To build all core plugins:
 The output JAR files for individual plugins will be placed in:
 
 ----
-  buck-out/gen/plugins/<name>/<name>.jar
+  buck-gen/plugins/<name>/<name>.jar
 ----
 
 The JAR files will also be packaged in:
 
 ----
-  buck-out/gen/plugins/core.zip
+  buck-gen/plugins/core.zip
 ----
 
 To build a specific plugin:
@@ -157,7 +158,7 @@ To build a specific plugin:
 The output JAR file will be be placed in:
 
 ----
-  buck-out/gen/plugins/<name>/<name>.jar
+  buck-gen/plugins/<name>/<name>.jar
 ----
 
 Note that when building an individual plugin, the `core.zip` package

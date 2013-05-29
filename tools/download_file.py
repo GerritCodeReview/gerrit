@@ -112,7 +112,7 @@ args, _ = opts.parse_args()
 root_dir = args.o
 while root_dir:
   root_dir, n = path.split(root_dir)
-  if n == 'buck-out':
+  if n == 'buck-gen':
     break
 
 redirects = download_properties(root_dir)

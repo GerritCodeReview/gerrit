@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7da7b98a_c4fd5ef1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T07:25:43Z",
+      "side": 1,
+      "message": "Shawn, are you sure that this check always works?\n\nI\u0027m having a case where I\u0027m getting two different object instances for the same user and hence this check fails.\n\n self.get()\n\t (com.google.gerrit.server.IdentifiedUser) IdentifiedUser[account 1000032]\n rsrc.getUser()\n\t (com.google.gerrit.server.IdentifiedUser) IdentifiedUser[account 1000032]\n self.get() !\u003d rsrc.getUser()\n\t (boolean) true\n\nI remeber that David had the same issue [1] which is why it was not done like this in the first place.\n\n[1] https://gerrit-review.googlesource.com/#/c/45860/5/gerrit-server/src/main/java/com/google/gerrit/server/account/PutName.java",
+      "revId": "b2249e90f9e7add973c5d854e2f23f6e49174d27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

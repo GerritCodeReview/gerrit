@@ -7,5 +7,7 @@
 /gerrit-parent.iml
 *.sublime-*
 /gerrit-package-plugins
+/.buckconfig.local
+/.buckd
 /buck-out
 /local.properties

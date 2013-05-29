@@ -156,3 +156,25 @@ def gerrit_plugin(
     ],
     visibility = visibility,
   )
+
+def java_sources(
+    name,
+    srcs,
+    out,
+    visibility = []
+  ):
+  s = name + '__sources'
+  o = 'lib__%s__sources__output/%s__sources.jar' % (name, name)
+  java_library(
+    name = s,
+    resources = srcs,
+    visibility = visibility,
+  )
+  genrule(
+    name = name,
+    cmd = 'ln -s $SRCS $OUT',
+    srcs = [genfile(o)],
+    deps = [':' + s],
+    out = out,
+    visibility = visibility,
+  )

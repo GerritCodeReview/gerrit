@@ -13,6 +13,8 @@ genrule(
   deps = [
     ':extension-api',
     ':plugin-api',
+    '//gerrit-extension-api:api_src',
+    '//gerrit-plugin-api:api_src',
   ],
   out = '__fake.api__',
 )

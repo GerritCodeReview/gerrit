@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.TypeLiteral;
 
@@ -78,9 +79,15 @@ public class AccountResource implements RestResource {
   }
 
   static class SshKey extends AccountResource {
+    private final AccountSshKey sshKey;
 
-    public SshKey(IdentifiedUser user) {
+    public SshKey(IdentifiedUser user, AccountSshKey sshKey) {
       super(user);
+      this.sshKey = sshKey;
+    }
+
+    public AccountSshKey getSshKey() {
+      return sshKey;
     }
   }
 }

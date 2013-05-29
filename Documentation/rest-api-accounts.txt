@@ -476,6 +476,39 @@ link:#ssh-key-info[SshKeyInfo] entities.
   ]
 ----
 
+[[get-ssh-key]]
+Get SSH Key
+~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/sshkeys/link:#ssh-key-id[\{ssh-key-id\}]'
+
+Retrieves an SSH key of a user.
+
+.Request
+----
+  GET /accounts/self/sshkeys/1 HTTP/1.0
+----
+
+As response an link:#ssh-key-info[SshKeyInfo] entity is returned that
+describes the SSH key.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "seq": 1,
+    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
+    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
+    "algorithm": "ssh-rsa",
+    "comment": "john.doe@example.com",
+    "valid": true
+  }
+----
+
 [[list-account-capabilities]]
 List Account Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -842,6 +875,11 @@ user.
 \{username\}
 ~~~~~~~~~~~~
 The user name.
+
+[[ssh-key-id]]
+\{ssh-key-id\}
+~~~~~~~~~~~~
+The sequence number of the SSH key.
 
 
 [[json-entities]]

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d023d42_1118ac85",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-29T18:40:32Z",
+      "side": 1,
+      "message": "I wonder if its better to just use setHeight(\"\" + delta + \"em\") once and have a single DOM element cover the entire span.",
+      "revId": "a29bdaafad29d11cdbb7175ed091eeac66638f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_a9fdfdf1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-29T18:40:32Z",
+      "side": 1,
+      "message": "i usually try to break lines before ? and :, for example:\n\n  String style \u003d isInsert\n      ? diffTable.style.insert()\n      : diffTable.style.delete();",
+      "revId": "a29bdaafad29d11cdbb7175ed091eeac66638f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

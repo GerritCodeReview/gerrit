@@ -13,9 +13,15 @@ python_binary(
 python_binary(
   name = 'pack_war',
   main = 'pack_war.py',
+  deps = [':util'],
   visibility = ['PUBLIC'],
 )
 
+python_library(
+  name = 'util',
+  srcs = ['gerrit/util.py'],
+  visibility = ['PUBLIC'],
+)
 
 def shquote(s):
   return s.replace("'", "'\\''")

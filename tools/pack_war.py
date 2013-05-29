@@ -16,12 +16,7 @@
 from optparse import OptionParser
 from os import environ, makedirs, path, symlink
 from subprocess import check_call
-try:
-  from subprocess import check_output
-except ImportError:
-  from subprocess import Popen, PIPE
-  def check_output(*cmd):
-    return Popen(*cmd, stdout=PIPE).communicate()[0]
+from gerrit.util import check_output
 
 opts = OptionParser()
 opts.add_option('-o', help='path to write WAR to')

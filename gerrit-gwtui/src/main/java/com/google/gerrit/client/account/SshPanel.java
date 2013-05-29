@@ -17,12 +17,14 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -158,10 +160,12 @@ class SshPanel extends Composite {
     if (txt != null && txt.length() > 0) {
       addNew.setEnabled(false);
       Util.ACCOUNT_SEC.addSshKey(txt, new GerritCallback<AccountSshKey>() {
-        public void onSuccess(final AccountSshKey result) {
+        public void onSuccess(final AccountSshKey k) {
           addNew.setEnabled(true);
           addTxt.setText("");
-          keys.addOneKey(result);
+          keys.addOneKey(SshKeyInfo.create(k.getKey().get(),
+              k.getSshPublicKey(), k.getEncodedKey(), k.getAlgorithm(),
+              k.getComment(), k.isValid()));
           if (!keys.isVisible()) {
             showAddKeyBlock(false);
             setKeyTableVisible(true);
@@ -196,10 +200,11 @@ class SshPanel extends Composite {
   protected void onLoad() {
     super.onLoad();
 
-    Util.ACCOUNT_SEC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
-      public void onSuccess(final List<AccountSshKey> result) {
-        keys.display(result);
-        if (result.isEmpty() && keys.isVisible()) {
+    AccountApi.getSshKeys("self", new GerritCallback<JsArray<SshKeyInfo>>() {
+      @Override
+      public void onSuccess(JsArray<SshKeyInfo> result) {
+        keys.display(Natives.asList(result));
+        if (result.length() == 0 && keys.isVisible()) {
           showAddKeyBlock(true);
         }
         if (++loadCount == 2) {
@@ -229,7 +234,7 @@ class SshPanel extends Composite {
     addKeyBlock.setVisible(show);
   }
 
-  private class SshKeyTable extends FancyFlexTable<AccountSshKey> {
+  private class SshKeyTable extends FancyFlexTable<SshKeyInfo> {
     private ValueChangeHandler<Boolean> updateDeleteHandler;
 
     SshKeyTable() {
@@ -257,9 +262,9 @@ class SshPanel extends Composite {
     void deleteChecked() {
       final HashSet<AccountSshKey.Id> ids = new HashSet<AccountSshKey.Id>();
       for (int row = 1; row < table.getRowCount(); row++) {
-        final AccountSshKey k = getRowItem(row);
+        final SshKeyInfo k = getRowItem(row);
         if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          ids.add(k.getKey());
+          ids.add(new AccountSshKey.Id(Gerrit.getUserAccount().getId(), k.seq()));
         }
       }
       if (ids.isEmpty()) {
@@ -268,15 +273,17 @@ class SshPanel extends Composite {
         Util.ACCOUNT_SEC.deleteSshKeys(ids, new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
             for (int row = 1; row < table.getRowCount();) {
-              final AccountSshKey k = getRowItem(row);
-              if (k != null && ids.contains(k.getKey())) {
+              final SshKeyInfo k = getRowItem(row);
+              if (k != null
+                  && ids.contains(new AccountSshKey.Id(Gerrit.getUserAccount()
+                      .getId(), k.seq()))) {
                 table.removeRow(row);
               } else {
                 row++;
               }
             }
             if (table.getRowCount() == 1) {
-              display(Collections.<AccountSshKey> emptyList());
+              display(Collections.<SshKeyInfo> emptyList());
             } else {
               updateDeleteButton();
             }
@@ -285,14 +292,14 @@ class SshPanel extends Composite {
       }
     }
 
-    void display(final List<AccountSshKey> result) {
+    void display(final List<SshKeyInfo> result) {
       if (result.isEmpty()) {
         setKeyTableVisible(false);
         showAddKeyBlock(true);
       } else {
         while (1 < table.getRowCount())
           table.removeRow(table.getRowCount() - 1);
-        for (final AccountSshKey k : result) {
+        for (final SshKeyInfo k : result) {
           addOneKey(k);
         }
         setKeyTableVisible(true);
@@ -300,7 +307,7 @@ class SshPanel extends Composite {
       }
     }
 
-    void addOneKey(final AccountSshKey k) {
+    void addOneKey(final SshKeyInfo k) {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       final int row = table.getRowCount();
       table.insertRow(row);
@@ -318,13 +325,13 @@ class SshPanel extends Composite {
         table.setText(row, 2, Util.C.sshKeyInvalid());
         fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().sshKeyPanelInvalid());
       }
-      table.setText(row, 3, k.getAlgorithm());
+      table.setText(row, 3, k.algorithm());
 
-      CopyableLabel keyLabel = new CopyableLabel(k.getSshPublicKey());
-      keyLabel.setPreviewText(elide(k.getEncodedKey(), 40));
+      CopyableLabel keyLabel = new CopyableLabel(k.sshPublicKey());
+      keyLabel.setPreviewText(elide(k.encodedKey(), 40));
       table.setWidget(row, 4, keyLabel);
 
-      table.setText(row, 5, k.getComment());
+      table.setText(row, 5, k.comment());
 
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().sshKeyPanelEncodedKey());

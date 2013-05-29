@@ -16,6 +16,24 @@
       "revId": "3b4ca73c2c70b125b46a55d293c0db592d15d2bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5da4b586_63efc23a",
+        "filename": "tools/download_all.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-29T00:51:47Z",
+      "side": 1,
+      "message": "The __download_src targets don\u0027t exist in the classpath, so they aren\u0027t in the buck audit you ran. That\u0027s OK/normal/expected.",
+      "parentUuid": "601c6e52_434e8676",
+      "revId": "3b4ca73c2c70b125b46a55d293c0db592d15d2bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdadb16a_26f9d604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T06:16:02Z",
+      "side": 1,
+      "message": "s/chagneCtl/changeCtl",
+      "revId": "6b8e692956a73e785ee2fadf3d8d6327c0933c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

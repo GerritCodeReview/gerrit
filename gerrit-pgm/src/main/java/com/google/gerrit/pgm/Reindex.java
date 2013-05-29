@@ -31,6 +31,7 @@ import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
@@ -45,15 +46,20 @@ import org.apache.lucene.store.FSDirectory;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Reindex extends SiteProgram {
+  @Option(name = "--threads", usage = "Number of threads to use for indexing")
+  private int threads = Runtime.getRuntime().availableProcessors();
+
   private final LifecycleManager manager = new LifecycleManager();
   private final AtomicReference<ReviewDb> dbRef =
       new AtomicReference<ReviewDb>();
@@ -65,7 +71,7 @@ public class Reindex extends SiteProgram {
   public int run() throws Exception {
     mustHaveValidSite();
     dbInjector = createDbInjector(SINGLE_USER);
-    if (!LuceneIndexModule.isEnabled(dbInjector)) {
+    if (!IndexModule.isEnabled(dbInjector)) {
       throw die("Secondary index not enabled");
     }
 
@@ -84,11 +90,15 @@ public class Reindex extends SiteProgram {
 
     ChangeIndexer indexer = sysInjector.getInstance(ChangeIndexer.class);
 
+    List<Future<?>> futures = Lists.newArrayList();
     Stopwatch sw = new Stopwatch().start();
     int i = 0;
     for (Change change : db.changes().all()) {
-      indexer.index(change).get();
+      futures.add(indexer.index(change));
       i++;
+    }
+    for (Future<?> future : futures) {
+      future.get();
     }
     double elapsed = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
     System.out.format("Reindexed %d changes in %.02fms", i, elapsed);
@@ -101,7 +111,7 @@ public class Reindex extends SiteProgram {
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
     modules.add(PatchListCacheImpl.module());
-    modules.add(new LuceneIndexModule(false));
+    modules.add(new LuceneIndexModule(false, threads));
     modules.add(new AbstractModule() {
       @SuppressWarnings("rawtypes")
       @Override

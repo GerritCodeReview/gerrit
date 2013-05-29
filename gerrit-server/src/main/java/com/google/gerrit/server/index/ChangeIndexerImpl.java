@@ -15,7 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
@@ -36,14 +36,14 @@ public class ChangeIndexerImpl implements ChangeIndexer {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeIndexerImpl.class);
 
-  private final WorkQueue workQueue;
+  private final Executor executor;
   private final ChangeIndex openIndex;
   private final ChangeIndex closedIndex;
 
   @Inject
-  ChangeIndexerImpl(WorkQueue workQueue,
+  ChangeIndexerImpl(@IndexExecutor Executor executor,
       ChangeIndex.Manager indexManager) throws IOException {
-    this.workQueue = workQueue;
+    this.executor = executor;
     this.openIndex = indexManager.get("changes_open");
     this.closedIndex = indexManager.get("changes_closed");
   }
@@ -59,7 +59,7 @@ public class ChangeIndexerImpl implements ChangeIndexer {
     if (prop != null) {
       task = prop.wrap(task);
     }
-    return workQueue.getDefaultQueue().submit(task);
+    return executor.submit(task);
   }
 
   private class Task implements Runnable {

@@ -15,38 +15,26 @@
 package com.google.gerrit.lucene;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.index.ChangeIndexerImpl;
-import com.google.gerrit.server.query.change.IndexRewrite;
-import com.google.gerrit.server.query.change.IndexRewriteImpl;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-
-import org.eclipse.jgit.lib.Config;
+import com.google.gerrit.server.index.IndexModule;
 
 public class LuceneIndexModule extends LifecycleModule {
-  public static boolean isEnabled(Injector injector) {
-    return injector.getInstance(Key.get(Config.class, GerritServerConfig.class))
-        .getBoolean("index", null, "enabled", false);
-  }
-
   private final boolean checkVersion;
+  private final int threads;
 
   public LuceneIndexModule() {
-    this(true);
+    this(true, 0);
   }
 
-  public LuceneIndexModule(boolean checkVersion) {
+  public LuceneIndexModule(boolean checkVersion, int threads) {
     this.checkVersion = checkVersion;
+    this.threads = threads;
   }
 
   @Override
   protected void configure() {
+    install(new IndexModule(threads));
     bind(ChangeIndex.Manager.class).to(LuceneChangeIndexManager.class);
-    bind(ChangeIndexer.class).to(ChangeIndexerImpl.class);
-    bind(IndexRewrite.class).to(IndexRewriteImpl.class);
     listener().to(LuceneChangeIndexManager.class);
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd1931c1_26ead62a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_f5513818",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d7c6da5_155b943b",
         "filename": "BUCK",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-28T23:11:48Z",
       "side": 1,
       "message": "ident is 2 spaces",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd1931c1_06efda3a",
+        "filename": "BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_155b943b",
       "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9d162d8e_25eace2a",
+        "filename": "BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_f4285886",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d7979b4_943564e1",
         "filename": "BUCK",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-28T23:11:48Z",
       "side": 1,
       "message": "Why can\u0027t we do this renaming magic inside of the Maven glue? Why does it have to be in the BUCK output?",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd1931c1_66f4ce0f",
+        "filename": "BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_943564e1",
       "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "bd1931c1_46f9d203",
+        "filename": "VERSION",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "so let\u0027s drop Maven support in future. Currently we need it for plugin development, though.",
+      "parentUuid": "7d7979b4_54382cdb",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d7979b4_b41d0073",
         "filename": "VERSION",
         "patchSetId": 10
@@ -98,6 +188,24 @@
       "writtenOn": "2013-05-28T23:11:48Z",
       "side": 1,
       "message": "These two shouldn\u0027t be named here.",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd1931c1_a6fd26f2",
+        "filename": "VERSION",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_b41d0073",
       "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "bd1931c1_86faaaf5",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_356010df",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d887de1_a107fe28",
         "filename": "gerrit-extension-api/BUCK",
         "patchSetId": 10
@@ -132,6 +258,24 @@
       "writtenOn": "2013-05-28T23:11:48Z",
       "side": 1,
       "message": "cd $SRCDIR ; zip -9qr $OUT .\n\ndone.",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d162d8e_05efd23a",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d887de1_a107fe28",
       "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "bd1931c1_e6071e28",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_d5543c0b",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d7979b4_b432e0f4",
         "filename": "gerrit-extension-api/BUCK",
         "patchSetId": 10
@@ -166,6 +328,24 @@
       "writtenOn": "2013-05-28T23:11:48Z",
       "side": 1,
       "message": "Buck should produce a stable JAR name. If Maven wants this renamed it should be done during the install/deploy phase.",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d162d8e_65f4c60f",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_b432e0f4",
       "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "9d162d8e_45f9ca03",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_54610ce5",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d7979b4_3447b066",
         "filename": "tools/BUCK",
         "patchSetId": 10
@@ -200,6 +398,24 @@
       "writtenOn": "2013-05-28T23:11:48Z",
       "side": 1,
       "message": "must depend on python_library() that holds tools/gerrit/api.py.",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d162d8e_85faa2f5",
+        "filename": "tools/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_3447b066",
       "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "bd1931c1_c604a226",
+        "filename": "tools/BUCK",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_1442b455",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d7979b4_d42bdc80",
         "filename": "tools/api_util.py",
         "patchSetId": 10
@@ -234,6 +468,24 @@
       "writtenOn": "2013-05-28T23:11:48Z",
       "side": 1,
       "message": "please use variables for the indexes of cmd that aren\u0027t referenced dynamically. I think it reads worse with fragments wedged into here.",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd1931c1_2613f66e",
+        "filename": "tools/api_util.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_d42bdc80",
       "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "9d162d8e_e5071628",
+        "filename": "tools/build.defs",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d7c6da5_55610ce5",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d7979b4_74668800",
         "filename": "tools/gerrit/util.py",
         "patchSetId": 10
@@ -268,6 +538,24 @@
       "writtenOn": "2013-05-28T23:11:48Z",
       "side": 1,
       "message": "Maybe this refactoring out of pack_war should be its own commit?",
+      "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d162d8e_c5049a26",
+        "filename": "tools/gerrit/util.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_74668800",
       "revId": "5c89c9565faab2b0c9b2b40eac51b787bc2a961b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

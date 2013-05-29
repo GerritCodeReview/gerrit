@@ -18,7 +18,7 @@ import re
 from subprocess import check_call, CalledProcessError, Popen, PIPE
 
 MAIN = ['//tools/eclipse:classpath']
-PAT = re.compile(r'"(//.*?__download_[^"]*)" -> "//tools:download_file"')
+PAT = re.compile(r'"(//.*?)" -> "//tools:download_file"')
 
 opts = OptionParser()
 opts.add_option('--src', action='store_true')

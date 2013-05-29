@@ -30,7 +30,6 @@ import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
@@ -61,7 +60,6 @@ public class CherryPickChange {
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
@@ -72,14 +70,12 @@ public class CherryPickChange {
   final MergeUtil.Factory mergeUtilFactory;
 
   @Inject
-  CherryPickChange(final PatchSetInfoFactory patchSetInfoFactory,
-      final ReviewDb db, @GerritPersonIdent final PersonIdent myIdent,
+  CherryPickChange(final ReviewDb db, @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager, final IdentifiedUser currentUser,
       final CommitValidators.Factory commitValidatorsFactory,
       final ChangeInserter.Factory changeInserterFactory,
       final PatchSetInserter.Factory patchSetInserterFactory,
       final MergeUtil.Factory mergeUtilFactory) {
-    this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
     this.gitManager = gitManager;
     this.myIdent = myIdent;

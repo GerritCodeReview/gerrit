@@ -67,6 +67,24 @@
       "revId": "9b4b3f69b164fa5ae5678fb7f12a9a023f6119c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdadb16a_e6fadef6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/HttpAuthProtocolHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-05-29T07:10:08Z",
+      "side": 1,
+      "message": "AFAIR this was added to handle git authentication properly. Git will always try access repository anonymously and based on result/response will retry using another authentication method.\n\nIn handle method we don\u0027t know if this is anonymous try or not therefore we extracted this into separate method.",
+      "parentUuid": "7d041902_1c12b566",
+      "revId": "9b4b3f69b164fa5ae5678fb7f12a9a023f6119c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

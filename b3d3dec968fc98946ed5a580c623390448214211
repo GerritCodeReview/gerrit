@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdadb16a_66182e87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "s/commitValidatorsFactory/mergeValidatorsFactory",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7da7b98a_64182a87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "s/cve/mve",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdadb16a_060dba43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "[optional] explain that this method is invoked right before merging the commit",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7da7b98a_040db643",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "[optional] s/onPreMergeCommit/onPreMerge",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5da4b586_03f4ce0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "nit: one blank line too much",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7da7b98a_c426bec3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "nit: we are now trying to avoid using \u0027final\u0027",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdadb16a_26123667",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "nit: it\u0027s easier to read if the assisted parameters come after the injected parameters",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7da7b98a_24123267",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "is it possible to get the PatchSet injected? Shouldn\u0027t this be assisted?",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d7979b4_f4ccd8b6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "[optional] s/validatePreMergeCommit/validatePreMerge",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7da7b98a_e423bab0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T10:17:12Z",
+      "side": 1,
+      "message": "use Guava: Lists.newLinkedList()",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+include_defs('//VERSION')
 
 DOCS = ['//Documentation:html.zip']
 LIBS = [
@@ -76,4 +77,22 @@ def gerrit_war(name, ui = 'ui_optdbg', context = []):
       '//gerrit-war:webapp_assets.zip',
       '//gerrit-gwtui:' + ui + '.zip',
     ] + context,
+  )
+
+def api(
+    name,
+    deps
+    ):
+  cmd = [
+    '${//tools:api}',
+    '-a', name,
+    '-v', GERRIT_VER,
+    '-g', '$SRCDIR/../'
+  ]
+  genrule(
+    name = 'api_%s' % name,
+    cmd = ' '.join(cmd),
+    srcs = [],
+    deps = deps + ['//tools:api'],
+    out = '__fake.api_%s__' % name
   )

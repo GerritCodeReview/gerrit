@@ -17,6 +17,13 @@ python_binary(
   visibility = ['PUBLIC'],
 )
 
+python_binary(
+  name = 'api',
+  main = 'gerrit/api.py',
+  deps = [':util'],
+  visibility = ['PUBLIC'],
+)
+
 python_library(
   name = 'util',
   srcs = ['gerrit/util.py'],

@@ -156,3 +156,34 @@ def gerrit_plugin(
     ],
     visibility = visibility,
   )
+
+def gensrc(
+    name,
+    srcs,
+    out,
+    visibility
+  ):
+  genrule(
+    name = name,
+    cmd = 'cd $SRCDIR ; zip -9qr $OUT .',
+    srcs = srcs,
+    out = out,
+    visibility = visibility,
+  )
+
+def gensrc2(
+    name,
+    srcs,
+    out,
+    visibility
+  ):
+  genrule(
+    name = name,
+    cmd = 'cd $(echo $SRCS | cut -d" " -f1 | sed "s@\\(.*/main\\)/.*@\\1@")/java;' +
+      'zip -9qr $OUT *;' +
+      'cd $(echo $SRCS | cut -d" " -f1 | sed "s@\\(.*/main\\)/.*@\\1@")/resources;' +
+      'zip -g9qr $OUT .',
+    srcs = srcs,
+    out = out,
+    visibility = visibility,
+  )

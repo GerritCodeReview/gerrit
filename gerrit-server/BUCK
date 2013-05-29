@@ -1,9 +1,11 @@
 include_defs('//lib/prolog/DEFS')
 
+SRCS = glob(['src/main/java/**/*.java'])
+
 # TODO(sop) break up gerrit-server java_library(), its too big
 java_library2(
   name = 'server',
-  srcs = glob(['src/main/java/**/*.java']),
+  srcs = SRCS,
   resources = glob(['src/main/resources/**/*']),
   deps = [
     '//gerrit-antlr:query_exception',
@@ -48,6 +50,13 @@ java_library2(
     '//lib/bouncycastle:bcprov',
     '//lib/bouncycastle:bcpg',
   ],
+  visibility = ['PUBLIC'],
+)
+
+gensrc2(
+  name = 'server_src',
+  srcs = SRCS,
+  out = 'server-src.jar',
   visibility = ['PUBLIC'],
 )
 

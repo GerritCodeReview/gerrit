@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d023d42_b1fd60f2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-29T19:34:50Z",
+      "side": 1,
+      "message": "when a.length !\u003d b.length, you need to pad the lines of the shorter side.",
+      "revId": "9be6b93afb3cad01e068e9137cb7f75228bb8d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_91fadcf5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-29T19:34:50Z",
+      "side": 1,
+      "message": "update this api to be\n\n private Element newEmptyLineElement() {\n    Element div \u003d DOM.createDiv();\n    div.setClassName(diffTable.style.padding());\n    return div;\n  }\n\nwhere padLines becomes:\n  private void padLines(CodeMirror cm, int line, int cnt) {\n    Configuration cfg \u003d Configuration.create().set(\"coverGutter\", true);\n    for (int i \u003d 0; i \u003c cnt; i++) {\n      cm.addLineWidget(line, newEmptyLineElement(), cfg);\n    }\n  }\n\nAlso rename padLines to insertEmptyLines",
+      "revId": "9be6b93afb3cad01e068e9137cb7f75228bb8d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_3113306f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-05-29T19:34:50Z",
+      "side": 1,
+      "message": "Make this more like padLines:\n\n private void colorLine(CodeMirror cm, int line, int cnt)\n\nAlso, you shouldn\u0027t need a separate insert \u0026 delete line style for left and right. It should be a \"diff\", which is colored different based on whether the parent is the A side or the B side.",
+      "revId": "9be6b93afb3cad01e068e9137cb7f75228bb8d76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

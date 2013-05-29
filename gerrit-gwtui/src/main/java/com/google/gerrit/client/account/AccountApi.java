@@ -18,6 +18,7 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -31,6 +32,12 @@ public class AccountApi {
     JavaScriptObject in = JavaScriptObject.createObject();
     new RestApi("/accounts/").id(account).view("emails").id(email)
         .ifNoneMatch().put(in, cb);
+  }
+
+  /** Retrieve SSH keys */
+  public static void getSshKeys(String account,
+      AsyncCallback<JsArray<SshKeyInfo>> cb) {
+    new RestApi("/accounts/").id(account).view("sshkeys").get(cb);
   }
 
   /** Generate a new HTTP password */

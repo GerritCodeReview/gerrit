@@ -29,6 +29,9 @@ public class AccountResource implements RestResource {
   public static final TypeLiteral<RestView<Email>> EMAIL_KIND =
       new TypeLiteral<RestView<Email>>() {};
 
+  public static final TypeLiteral<RestView<SshKey>> SSH_KEY_KIND =
+      new TypeLiteral<RestView<SshKey>>() {};
+
   private final IdentifiedUser user;
 
   public AccountResource(IdentifiedUser user) {
@@ -71,6 +74,13 @@ public class AccountResource implements RestResource {
 
     public String getEmail() {
       return email;
+    }
+  }
+
+  static class SshKey extends AccountResource {
+
+    public SshKey(IdentifiedUser user) {
+      super(user);
     }
   }
 }

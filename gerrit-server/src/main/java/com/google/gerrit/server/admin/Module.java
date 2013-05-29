@@ -25,5 +25,6 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), CONFIG_FILE_KIND);
 
     get(CONFIG_FILE_KIND).to(GetConfigFile.class);
+    put(CONFIG_FILE_KIND).to(UpdateConfigFile.class);
   }
 }

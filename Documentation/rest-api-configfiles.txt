@@ -38,6 +38,39 @@ The content of the file is returned as text encoded inside base64:
   W2dlcnJpdF0KCWJhc2VQYXRoID0gZ2l0CgljYW5vbmljYWxXZWJ...
 ----
 
+[[upload-configfile]]
+Upload Config File
+~~~~~~~~~~~~~~~~~~
+[verse]
+'PUT /configfiles/link:#configfile-name[\{configfile-name\}]'
+
+Uploads and replaces a server config file.
+
+The new content of the config file must be provided in the request body.
+
+.Request
+----
+  PUT /a/configfiles/etc%2Fgerrit.config HTTP/1.0
+  Content-Type: text/plain
+
+  [gerrit]
+	  basePath = git
+	  canonicalWebUrl = http://...
+  ...
+----
+
+A `200 OK` response is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  ""
+----
+
 [[configfile-name]]
 \{configfile-name\}
 ~~~~~~~~~~~~~~~~~~~

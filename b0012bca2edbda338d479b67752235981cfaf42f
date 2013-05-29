@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d162d8e_05187285",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-29T21:41:15Z",
+      "side": 1,
+      "message": "CodeMirror integration with syntax highlighting for different programming languages, which is used for:\n\n* Inline editing (create, change, compare, publish and discard of patch set edits direct in browser)\n* New diff screen",
+      "revId": "b0012bca2edbda338d479b67752235981cfaf42f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

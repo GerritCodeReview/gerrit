@@ -15,10 +15,9 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.util.RequestScopePropagator;
-
-import java.util.concurrent.Future;
 
 /**
  * Helper for (re)indexing a change document.
@@ -30,12 +29,13 @@ public interface ChangeIndexer {
   /** Instance indicating secondary index is disabled. */
   public static final ChangeIndexer DISABLED = new ChangeIndexer() {
     @Override
-    public Future<?> index(Change change) {
+    public ListenableFuture<?> index(Change change) {
       return Futures.immediateFuture(null);
     }
 
     @Override
-    public Future<?> index(Change change, RequestScopePropagator prop) {
+    public ListenableFuture<?> index(Change change,
+        RequestScopePropagator prop) {
       return Futures.immediateFuture(null);
     }
   };
@@ -44,14 +44,16 @@ public interface ChangeIndexer {
    * Start indexing a change.
    *
    * @param change change to index.
+   * @return future for the indexing task.
    */
-  public Future<?> index(Change change);
+  public ListenableFuture<?> index(Change change);
 
   /**
    * Start indexing a change.
    *
    * @param change change to index.
    * @param prop propagator to wrap any created runnables in.
+   * @return future for the indexing task.
    */
-  public Future<?> index(Change change, RequestScopePropagator prop);
+  public ListenableFuture<?> index(Change change, RequestScopePropagator prop);
 }

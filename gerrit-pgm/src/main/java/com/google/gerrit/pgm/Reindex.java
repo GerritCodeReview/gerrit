@@ -21,8 +21,12 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Change;
@@ -31,13 +35,16 @@ import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 
 import org.apache.lucene.store.Directory;
@@ -45,18 +52,26 @@ import org.apache.lucene.store.FSDirectory;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Reindex extends SiteProgram {
-  private final LifecycleManager manager = new LifecycleManager();
-  private final AtomicReference<ReviewDb> dbRef =
-      new AtomicReference<ReviewDb>();
+  private static final Logger log = LoggerFactory.getLogger(Reindex.class);
+
+  @Option(name = "--threads", usage = "Number of threads to use for indexing")
+  private int threads = Runtime.getRuntime().availableProcessors();
+
   private Injector dbInjector;
   private Injector sysInjector;
   private SitePaths sitePaths;
@@ -65,53 +80,37 @@ public class Reindex extends SiteProgram {
   public int run() throws Exception {
     mustHaveValidSite();
     dbInjector = createDbInjector(SINGLE_USER);
-    if (!LuceneIndexModule.isEnabled(dbInjector)) {
+    if (!IndexModule.isEnabled(dbInjector)) {
       throw die("Secondary index not enabled");
     }
-
+    LifecycleManager dbManager = new LifecycleManager();
+    dbManager.add(dbInjector);
+    dbManager.start();
     sitePaths = dbInjector.getInstance(SitePaths.class);
-    deleteAll();
 
     sysInjector = createSysInjector();
-    manager.add(dbInjector);
-    manager.add(sysInjector);
-    manager.start();
+    LifecycleManager sysManager = new LifecycleManager();
+    sysManager.add(sysInjector);
+    sysManager.start();
 
-    SchemaFactory<ReviewDb> schema = dbInjector.getInstance(
-        Key.get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
-    ReviewDb db = schema.open();
-    dbRef.set(db);
-
-    ChangeIndexer indexer = sysInjector.getInstance(ChangeIndexer.class);
-
-    Stopwatch sw = new Stopwatch().start();
-    int i = 0;
-    for (Change change : db.changes().all()) {
-      indexer.index(change).get();
-      i++;
-    }
-    double elapsed = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-    System.out.format("Reindexed %d changes in %.02fms", i, elapsed);
+    deleteAll();
+    int result = indexAll();
     writeVersion();
 
-    manager.stop();
-    return 0;
+    sysManager.stop();
+    dbManager.stop();
+    return result;
   }
 
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
     modules.add(PatchListCacheImpl.module());
-    modules.add(new LuceneIndexModule(false));
+    modules.add(new LuceneIndexModule(false, threads));
+    modules.add(new ReviewDbModule());
     modules.add(new AbstractModule() {
       @SuppressWarnings("rawtypes")
       @Override
       protected void configure() {
-        bind(ReviewDb.class).toProvider(new Provider<ReviewDb>() {
-          @Override
-          public ReviewDb get() {
-            return dbRef.get();
-          }
-        });
         // Plugins are not loaded and we're just running through each change
         // once, so don't worry about cache removal.
         bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
@@ -120,6 +119,47 @@ public class Reindex extends SiteProgram {
       }
     });
     return dbInjector.createChildInjector(modules);
+  }
+
+  private class ReviewDbModule extends LifecycleModule {
+    @Override
+    protected void configure() {
+      final SchemaFactory<ReviewDb> schema = dbInjector.getInstance(
+          Key.get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
+      final List<ReviewDb> dbs = Collections.synchronizedList(
+          Lists.<ReviewDb> newArrayListWithCapacity(threads + 1));
+      final ThreadLocal<ReviewDb> localDb = new ThreadLocal<ReviewDb>();
+
+      bind(ReviewDb.class).toProvider(new Provider<ReviewDb>() {
+        @Override
+        public ReviewDb get() {
+          ReviewDb db = localDb.get();
+          if (db == null) {
+            try {
+              db = schema.open();
+              dbs.add(db);
+              localDb.set(db);
+            } catch (OrmException e) {
+              throw new ProvisionException("unable to open ReviewDb", e);
+            }
+          }
+          return db;
+        }
+      });
+      listener().toInstance(new LifecycleListener() {
+        @Override
+        public void start() {
+          // Do nothing.
+        }
+
+        @Override
+        public void stop() {
+          for (ReviewDb db : dbs) {
+            db.close();
+          }
+        }
+      });
+    }
   }
 
   private void deleteAll() throws IOException {
@@ -138,7 +178,44 @@ public class Reindex extends SiteProgram {
     }
   }
 
-  private void writeVersion() throws IOException, ConfigInvalidException {
+  private int indexAll() throws Exception {
+    ReviewDb db = sysInjector.getInstance(ReviewDb.class);
+    ChangeIndexer indexer = sysInjector.getInstance(ChangeIndexer.class);
+    Stopwatch sw = new Stopwatch().start();
+    int queueLen = 2 * threads;
+    final Semaphore sem = new Semaphore(queueLen);
+    final AtomicBoolean ok = new AtomicBoolean(true);
+    int i = 0;
+    for (final Change change : db.changes().all()) {
+      sem.acquire();
+      final ListenableFuture<?> future = indexer.index(change);
+      future.addListener(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            future.get();
+          } catch (InterruptedException e) {
+            log.error("Failed to index change " + change.getId(), e);
+            ok.set(false);
+          } catch (ExecutionException e) {
+            log.error("Failed to index change " + change.getId(), e);
+            ok.set(false);
+          } finally {
+            sem.release();
+          }
+        }
+      }, MoreExecutors.sameThreadExecutor());
+      i++;
+    }
+    sem.acquire(queueLen);
+    double elapsed = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+    System.out.format("Reindexed %d changes in %.02fms", i, elapsed);
+
+    return ok.get() ? 0 : 1;
+  }
+
+  private void writeVersion() throws IOException,
+      ConfigInvalidException {
     FileBasedConfig cfg =
         new FileBasedConfig(gerritIndexConfig(sitePaths), FS.detect());
     cfg.load();

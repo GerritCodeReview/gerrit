@@ -16,6 +16,24 @@
       "revId": "4f552ab00a1df05ad20450e744065170ccdf5315",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdadb16a_e623beb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-29T15:32:05Z",
+      "side": 1,
+      "message": "Done in patch set 4.",
+      "parentUuid": "7d041902_9c4b6563",
+      "revId": "4f552ab00a1df05ad20450e744065170ccdf5315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

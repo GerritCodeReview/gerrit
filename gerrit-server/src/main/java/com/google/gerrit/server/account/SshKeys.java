@@ -19,6 +19,10 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -26,12 +30,17 @@ public class SshKeys implements
     ChildCollection<AccountResource, AccountResource.SshKey> {
   private final DynamicMap<RestView<AccountResource.SshKey>> views;
   private final Provider<GetSshKeys> list;
+  private final Provider<CurrentUser> self;
+  private final Provider<ReviewDb> dbProvider;
 
   @Inject
   SshKeys(DynamicMap<RestView<AccountResource.SshKey>> views,
-      Provider<GetSshKeys> list) {
+      Provider<GetSshKeys> list, Provider<CurrentUser> self,
+      Provider<ReviewDb> dbProvider) {
     this.views = views;
     this.list = list;
+    this.self = self;
+    this.dbProvider = dbProvider;
   }
 
   @Override
@@ -40,9 +49,25 @@ public class SshKeys implements
   }
 
   @Override
-  public AccountResource.SshKey parse(AccountResource parent, IdString id)
-      throws ResourceNotFoundException {
-    throw new ResourceNotFoundException(id);
+  public AccountResource.SshKey parse(AccountResource rsrc, IdString id)
+      throws ResourceNotFoundException, OrmException {
+    if (self.get() != rsrc.getUser()
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      throw new ResourceNotFoundException();
+    }
+
+    try {
+      int seq = Integer.parseInt(id.get(), 10);
+      AccountSshKey sshKey =
+          dbProvider.get().accountSshKeys()
+              .get(new AccountSshKey.Id(rsrc.getUser().getAccountId(), seq));
+      if (sshKey == null) {
+        throw new ResourceNotFoundException(id);
+      }
+      return new AccountResource.SshKey(rsrc.getUser(), sshKey);
+    } catch (NumberFormatException e) {
+      throw new ResourceNotFoundException(id);
+    }
   }
 
   @Override

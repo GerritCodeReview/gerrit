@@ -8,11 +8,13 @@ gerrit_war(name = 'release',  context = DOCS + ['//plugins:core.zip'])
 
 genrule(
   name = 'api',
-  cmd = 'echo',
+  cmd = '',
   srcs = [],
   deps = [
     ':extension-api',
+    ':extension-api-src',
     ':plugin-api',
+    ':plugin-api-src',
   ],
   out = '__fake.api__',
 )
@@ -29,17 +31,32 @@ java_library(
   export_deps = True,
   visibility = ['PUBLIC'],
 )
+genrule(
+  name = 'extension-api-src',
+  cmd = 'ln -s $DEPS $OUT',
+  srcs = [],
+  deps = ['//gerrit-extension-api:api-src'],
+  out = 'extension-api-src.jar',
+)
+
+PLUGIN_API = [
+  '//gerrit-server:server',
+  '//gerrit-sshd:sshd',
+  '//gerrit-httpd:httpd',
+]
 
 java_binary(name = 'plugin-api', deps = [':plugin-lib'])
 java_library(
   name = 'plugin-lib',
-  deps = [
-    '//gerrit-server:server',
-    '//gerrit-sshd:sshd',
-    '//gerrit-httpd:httpd',
-  ],
+  deps = PLUGIN_API,
   export_deps = True,
   visibility = ['PUBLIC'],
+)
+java_binary(
+  name = 'plugin-api-src',
+  deps = [
+    '//gerrit-extension-api:api-src',
+  ] + [d + '-src' for d in PLUGIN_API],
 )
 
 genrule(

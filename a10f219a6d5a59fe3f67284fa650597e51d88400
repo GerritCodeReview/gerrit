@@ -51,6 +51,24 @@
       "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_6942e556",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-29T22:07:06Z",
+      "side": 1,
+      "message": "I don\u0027t know that consitency matters much here.  If I have to manually types all the plugin names for each commands, I would be much happier to run 1 command per plugin than 2.",
+      "parentUuid": "fd57290e_08128766",
+      "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

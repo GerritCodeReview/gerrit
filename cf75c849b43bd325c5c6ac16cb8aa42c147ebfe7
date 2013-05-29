@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d023d42_3177b09f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-29T23:04:08Z",
+      "side": 1,
+      "message": "Will handle empty files in the next change.",
+      "parentUuid": "1d2b1dc4_a9269dc1",
+      "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_5147d464",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-29T20:22:29Z",
       "side": 1,
       "message": "change the order and name of your vars:\n\n  private void insertEmptyLines(CodeMirror cm, int line, int cnt) {",
+      "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_715bf83a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-29T23:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_5147d464",
       "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1d023d42_1166ecfe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-29T23:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2b1dc4_49128167",
+      "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_b12ba081",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-29T20:22:29Z",
       "side": 1,
       "message": "remove this.",
+      "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_093d29cb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-29T23:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_b12ba081",
       "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1d2b1dc4_2938edda",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-29T23:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_91281c86",
+      "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_f13528e0",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
         "patchSetId": 5
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "1d2b1dc4_c91dd172",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-29T23:04:08Z",
+      "side": 1,
+      "message": "Done. This is a hack to force the scrollbar to hide without loading the entire DOM. I will look into that later.",
+      "parentUuid": "1d023d42_f13528e0",
+      "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_d132a4f5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
         "patchSetId": 5
@@ -115,6 +223,24 @@
       "writtenOn": "2013-05-29T20:22:29Z",
       "side": 1,
       "message": "merge this with above.",
+      "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_316170e7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-05-29T23:04:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_d132a4f5",
       "revId": "cf75c849b43bd325c5c6ac16cb8aa42c147ebfe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

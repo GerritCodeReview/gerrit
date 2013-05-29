@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -31,7 +32,6 @@ import com.google.gwt.user.client.Window;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
-import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.ModeInjector;
 
 public class CodeMirrorDemo extends Screen {
@@ -140,7 +140,7 @@ public class CodeMirrorDemo extends Screen {
   private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents,
       Element ele) {
     if (meta == null) {
-      return null; // TODO: Handle empty contents
+      contents = "";
     }
     Configuration cfg = Configuration.create()
       .set("readOnly", true)
@@ -155,20 +155,8 @@ public class CodeMirrorDemo extends Screen {
     return cm;
   }
 
-  private void addPadding(CodeMirror cm, int line) {
-    Element div = DOM.createDiv();
-    div.setClassName(diffTable.style.padding());
-    cm.addLineWidget(line, div, null);
-  }
-
   private void render(DiffInfo diff) {
     JsArray<Region> regions = diff.content();
-    Configuration insertOpt = Configuration.create()
-        .set("className", diffTable.style.insert())
-        .set("readOnly", true);
-    Configuration deleteOpt = Configuration.create()
-        .set("className", diffTable.style.delete())
-        .set("readOnly", true);
     int lineA = 0, lineB = 0;
     for (int i = 0; i < regions.length(); i++) {
       Region current = regions.get(i);
@@ -177,33 +165,41 @@ public class CodeMirrorDemo extends Screen {
         lineB += current.ab().length();
       } else if (current.a() == null && current.b() != null) {
         int delta = current.b().length();
-        for (int j = 0; j < delta; j++) {
-          addPadding(cmA, lineA - 1);
-        }
-        for (int j = 0; j < delta; j++) {
-          cmB.addLineClass(lineB, LineClassWhere.WRAP,
-              diffTable.style.insert());
-          LineCharacter from = LineCharacter.create(lineB, 0);
-          cmB.markText(from, from, insertOpt);
-          lineB++;
-        }
+        insertEmptyLines(cmA, lineA, delta);
+        lineB = colorLines(cmB, lineB, delta);
       } else if (current.a() != null && current.b() == null) {
         int delta = current.a().length();
-        for (int j = 0; j < delta; j++) {
-          addPadding(cmB, lineB - 1);
+        insertEmptyLines(cmB, lineB, delta);
+        lineA = colorLines(cmA, lineA, delta);
+      } else { // TODO: Implement intraline
+        int aLength = current.a().length();
+        int bLength = current.b().length();
+        lineA = colorLines(cmA, lineA, aLength);
+        lineB = colorLines(cmB, lineB, bLength);
+        if (aLength < bLength) {
+          insertEmptyLines(cmA, lineA, bLength - aLength);
+        } else if (aLength > bLength) {
+          insertEmptyLines(cmB, lineB, aLength - bLength);
         }
-        for (int j = 0; j < delta; j++) {
-          cmA.addLineClass(lineA, LineClassWhere.WRAP,
-              diffTable.style.delete());
-          LineCharacter from = LineCharacter.create(lineA, 0);
-          cmA.markText(from, from, deleteOpt);
-          lineA++;
-        }
-      } else { // TODO: Handle intraline edit.
-        lineA += current.a().length();
-        lineB += current.a().length();
       }
     }
+  }
+
+  private void insertEmptyLines(CodeMirror cm, int line, int cnt) {
+    Element div = DOM.createDiv();
+    div.setClassName(diffTable.style.padding());
+    div.getStyle().setHeight(cnt, Unit.EM);
+    Configuration config = Configuration.create()
+        .set("coverGutter", true)
+        .set("above", line == 0);
+    cm.addLineWidget(line == 0 ? 0 : (line - 1), div, config);
+  }
+
+  private int colorLines(CodeMirror cm, int line, int cnt) {
+    for (int i = 0; i < cnt; i++) {
+      cm.addLineClass(line, LineClassWhere.WRAP, diffTable.style.diff());
+    }
+    return line + cnt;
   }
 
   private static String getContentType(DiffInfo.FileMeta meta) {

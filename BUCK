@@ -6,18 +6,23 @@ gerrit_war(name = 'firefox',  ui = 'ui_firefox')
 gerrit_war(name = 'withdocs', context = DOCS)
 gerrit_war(name = 'release',  context = DOCS + ['//plugins:core.zip'])
 
+API_DEPS = [
+  ':extension-api',
+  ':extension-api-src',
+  ':plugin-api',
+  ':plugin-api-src',
+]
+
 genrule(
   name = 'api',
   cmd = '',
   srcs = [],
-  deps = [
-    ':extension-api',
-    ':extension-api-src',
-    ':plugin-api',
-    ':plugin-api-src',
-  ],
+  deps = API_DEPS,
   out = '__fake.api__',
 )
+
+maven_install(deps = API_DEPS)
+maven_deploy(deps = API_DEPS)
 
 java_binary(name = 'extension-api', deps = [':extension-lib'])
 java_library(

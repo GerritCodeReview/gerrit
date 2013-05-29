@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+include_defs('//VERSION')
 
 DOCS = ['//Documentation:html.zip']
 LIBS = [
@@ -76,4 +77,34 @@ def gerrit_war(name, ui = 'ui_optdbg', context = []):
       '//gerrit-war:webapp_assets.zip',
       '//gerrit-gwtui:' + ui + '.zip',
     ] + context,
+  )
+
+def maven_deploy(
+    deps
+    ):
+  _maven_util('deploy', deps)
+
+def maven_install(
+    deps
+    ):
+  _maven_util(
+    name = 'install',
+    deps = deps)
+
+def _maven_util(
+    name,
+    deps
+    ):
+  cmd = [
+    '${//tools:maven_deploy}',
+    '-a', name,
+    '-v', GERRIT_VER,
+    '-d', '"$DEPS"'
+  ]
+  genrule(
+    name = 'api_%s' % name,
+    cmd = ' '.join(cmd),
+    srcs = [],
+    deps = deps + ['//tools:maven_deploy'],
+    out = '__fake.api_%s__' % name
   )

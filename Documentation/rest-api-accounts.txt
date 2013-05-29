@@ -441,6 +441,41 @@ Sets an email address as preferred email address for an account.
 If the email address was already the preferred email address of the
 account the response is "`200 OK`".
 
+[[list-ssh-keys]]
+List SSH Keys
+~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/sshkeys'
+
+Returns the SSH keys of an account.
+
+.Request
+----
+  GET /accounts/self/sshkeys HTTP/1.0
+----
+
+As response the SSH keys of the account are returned as a list of
+link:#ssh-key-info[SshKeyInfo] entities.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "seq": 1,
+      "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
+      "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
+      "algorithm": "ssh-rsa",
+      "comment": "john.doe@example.com",
+      "valid": true
+    }
+  ]
+----
+
 [[list-account-capabilities]]
 List Account Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1074,6 +1109,23 @@ link:access-control.html#capability_queryLimit[Query Limit] of a user.
 |`min`               |Lower limit.
 |`max`               |Upper limit.
 |================================
+
+[[ssh-key-info]]
+SshKeyInfo
+~~~~~~~~~~
+The `SshKeyInfo` entity contains information about an SSH key of a
+user.
+
+[options="header",width="50%",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`seq`           ||The sequence number of the SSH key.
+|`ssh_public_key`||The complete public SSH key.
+|`encoded_key`   ||The encoded key.
+|`algorithm`     ||The algorithm of the SSH key.
+|`comment`       |optional|The comment of the SSH key.
+|`valid`         ||Whether the SSH key is valid.
+|=============================
 
 
 GERRIT

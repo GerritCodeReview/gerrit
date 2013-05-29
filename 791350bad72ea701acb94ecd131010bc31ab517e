@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdadb16a_a604e624",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T08:49:26Z",
+      "side": 1,
+      "message": "We use the same check in all other account REST endpoints, but I\u0027m not sure that it is always working, see my inline comment at [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/46104/1/gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

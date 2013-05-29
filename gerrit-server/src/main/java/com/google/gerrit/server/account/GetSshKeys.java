@@ -49,24 +49,26 @@ public class GetSshKeys implements RestReadView<AccountResource> {
     List<SshKeyInfo> sshKeys = Lists.newArrayList();
     for (AccountSshKey sshKey : dbProvider.get().accountSshKeys()
         .byAccount(rsrc.getUser().getAccountId()).toList()) {
-      SshKeyInfo info = new SshKeyInfo();
-      info.seq = sshKey.getKey().get();
-      info.sshPublicKey = sshKey.getSshPublicKey();
-      info.encodedKey = sshKey.getEncodedKey();
-      info.algorithm = sshKey.getAlgorithm();
-      info.comment = Strings.emptyToNull(sshKey.getComment());
-      info.valid = sshKey.isValid();
-      sshKeys.add(info);
+      sshKeys.add(new SshKeyInfo(sshKey));
     }
     return sshKeys;
   }
 
   public static class SshKeyInfo {
-    public int seq;
-    public String sshPublicKey;
-    public String encodedKey;
-    public String algorithm;
-    public String comment;
-    public boolean valid;
+    public SshKeyInfo(AccountSshKey sshKey) {
+      seq = sshKey.getKey().get();
+      sshPublicKey = sshKey.getSshPublicKey();
+      encodedKey = sshKey.getEncodedKey();
+      algorithm = sshKey.getAlgorithm();
+      comment = Strings.emptyToNull(sshKey.getComment());
+      valid = sshKey.isValid();
+    }
+
+    int seq;
+    String sshPublicKey;
+    String encodedKey;
+    String algorithm;
+    String comment;
+    boolean valid;
   }
 }

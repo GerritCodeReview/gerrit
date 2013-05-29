@@ -16,6 +16,24 @@
       "revId": "271230f16ae41d7054609ad2ffc7ee3137449221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_29eaad2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IndexRewrite.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-29T18:11:57Z",
+      "side": 1,
+      "message": "Done. Ended up adding another recursive check, because in the example you gave status:open actually parses as (status:new OR status:submitted OR status:draft), and I assume that\u0027s an important enough optimization to keep around.\n\nWould be nice to have a way to avoid multiple recursive walks without the code getting too messy. But by the time we\u0027re getting into this level of rewriting, the assumption is that the query tree isn\u0027t all that deep.",
+      "parentUuid": "fd57290e_6813436e",
+      "revId": "271230f16ae41d7054609ad2ffc7ee3137449221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

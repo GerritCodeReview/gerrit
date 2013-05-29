@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7da7b98a_a41dc272",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-29T14:18:12Z",
+      "side": 1,
+      "message": "Should we restirct the access to the SSH keys to the owning user and Gerrit administrators?",
+      "revId": "41a0130f83845194d9841f9f4ca2011fb9e1d09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

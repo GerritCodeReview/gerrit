@@ -51,6 +51,7 @@ import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.NoIndexModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
@@ -321,7 +322,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
-    if (LuceneIndexModule.isEnabled(cfgInjector)) {
+    if (IndexModule.isEnabled(cfgInjector)) {
       modules.add(new LuceneIndexModule());
     } else {
       modules.add(new NoIndexModule());

@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
@@ -24,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.concurrent.Future;
 
 /**
  * Helper for (re)indexing a change document.
@@ -36,30 +36,31 @@ public class ChangeIndexerImpl implements ChangeIndexer {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeIndexerImpl.class);
 
-  private final WorkQueue workQueue;
+  private final ListeningScheduledExecutorService executor;
   private final ChangeIndex openIndex;
   private final ChangeIndex closedIndex;
 
   @Inject
-  ChangeIndexerImpl(WorkQueue workQueue,
+  ChangeIndexerImpl(@IndexExecutor ListeningScheduledExecutorService executor,
       ChangeIndex.Manager indexManager) throws IOException {
-    this.workQueue = workQueue;
+    this.executor = executor;
     this.openIndex = indexManager.get("changes_open");
     this.closedIndex = indexManager.get("changes_closed");
   }
 
   @Override
-  public Future<?> index(Change change) {
+  public ListenableFuture<?> index(Change change) {
     return index(change, null);
   }
 
   @Override
-  public Future<?> index(Change change, RequestScopePropagator prop) {
+  public ListenableFuture<?> index(Change change,
+      RequestScopePropagator prop) {
     Runnable task = new Task(change);
     if (prop != null) {
       task = prop.wrap(task);
     }
-    return workQueue.getDefaultQueue().submit(task);
+    return executor.submit(task);
   }
 
   private class Task implements Runnable {

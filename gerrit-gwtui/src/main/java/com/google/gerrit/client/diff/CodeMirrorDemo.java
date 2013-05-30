@@ -197,7 +197,7 @@ public class CodeMirrorDemo extends Screen {
 
   private int colorLines(CodeMirror cm, int line, int cnt) {
     for (int i = 0; i < cnt; i++) {
-      cm.addLineClass(line, LineClassWhere.WRAP, diffTable.style.diff());
+      cm.addLineClass(line + i, LineClassWhere.WRAP, diffTable.style.diff());
     }
     return line + cnt;
   }

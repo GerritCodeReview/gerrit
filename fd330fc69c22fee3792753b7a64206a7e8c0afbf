@@ -16,6 +16,24 @@
       "revId": "fd330fc69c22fee3792753b7a64206a7e8c0afbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_11270c8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T05:45:23Z",
+      "side": 1,
+      "message": "Submitters being able to rebase matches existing behavior, and is a somewhat plausible story for default permissions. It might be worth keeping submitters here.",
+      "parentUuid": "1d023d42_3122107c",
+      "revId": "fd330fc69c22fee3792753b7a64206a7e8c0afbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

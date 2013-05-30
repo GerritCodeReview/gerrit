@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd2425f5_87faa6f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-30T04:45:48Z",
+      "side": 1,
+      "message": "This change should not require changing the create() call, can you add the repo parameter to it in the parent change instead?",
+      "revId": "bc80aa24e01aabf9d4eb90579a3cbf847fdc9b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd2425f5_47f9ce03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-30T04:45:48Z",
+      "side": 1,
+      "message": "I am inclined to feel like this validator is standalone enough to merrit its one file?  That would prevent this class from growing wildly.",
+      "revId": "bc80aa24e01aabf9d4eb90579a3cbf847fdc9b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

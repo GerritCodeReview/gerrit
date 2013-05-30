@@ -37,6 +37,41 @@
     },
     {
       "key": {
+        "uuid": "fd1f299f_e807f327",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-30T04:52:53Z",
+      "side": 1,
+      "message": "Hmm, but a plugin developer should not have to look inside the gerrit code base, only at the interface and the docs.  It is not clear from either what the purpose of these validators even is (rejecting commits).",
+      "parentUuid": "1d2b1dc4_c9d67146",
+      "revId": "3817e0a879a12e3052b06df61638a6a97a6b0ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd1f299f_a8fdfbf1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-30T04:52:53Z",
+      "side": 1,
+      "message": "I am not seeing the benefit of separating the construction from the validation call here?  Perhaps it would be more valuable if the construction were move up outside the loop so that it need only be done once?  This might more clearly illuminate parameters that should go to the constructor versus the onPreMerge() method.",
+      "revId": "3817e0a879a12e3052b06df61638a6a97a6b0ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd2425f5_67f4d20f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -66,6 +101,24 @@
       "side": 1,
       "message": "The patch set and other info can be passed in via the MergeValidators.  This is added in the next commit [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/46361/2/gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
       "parentUuid": "dd2425f5_67f4d20f",
+      "revId": "3817e0a879a12e3052b06df61638a6a97a6b0ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd1f299f_88fab7f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-30T04:52:53Z",
+      "side": 1,
+      "message": "But you should strive to get the interfaces \"correct\" in this change so that they need not the changed in the next change.",
+      "parentUuid": "1d2b1dc4_e9d9b576",
       "revId": "3817e0a879a12e3052b06df61638a6a97a6b0ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

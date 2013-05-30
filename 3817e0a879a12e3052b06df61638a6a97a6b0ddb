@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "1d023d42_71bf78eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T04:59:29Z",
+      "side": 1,
+      "message": "Just following the same pattern as the CommitValidators.",
+      "parentUuid": "fd1f299f_a8fdfbf1",
+      "revId": "3817e0a879a12e3052b06df61638a6a97a6b0ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd2425f5_67f4d20f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "But you should strive to get the interfaces \"correct\" in this change so that they need not the changed in the next change.",
       "parentUuid": "1d2b1dc4_e9d9b576",
+      "revId": "3817e0a879a12e3052b06df61638a6a97a6b0ddb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_49c44188",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T04:59:29Z",
+      "side": 1,
+      "message": "The `validatePreMerge` interface does not change in the next change.  The patch set gets injected in the constructor of MergeValidators.",
+      "parentUuid": "fd1f299f_88fab7f5",
       "revId": "3817e0a879a12e3052b06df61638a6a97a6b0ddb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

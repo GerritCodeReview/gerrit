@@ -2,14 +2,18 @@ Gerrit Code Review - Commit Validation
 ======================================
 
 Gerrit supports link:dev-plugins.html[plugin-based] validation of
-uploaded commits.
+commits.
 
-This allows plugins to perform additional validation checks against
-uploaded commits, and send back a warning or error message to the git
-client.
+Plugins implementing the `CommitValidationListener` interface can
+perform additional validation checks against new commits.
 
-To make use of this feature, a plugin must implement the `CommitValidationListener`
-interface.
+If the commit fails the validation, the plugin can either provide a
+message that will be sent back to the git client, or throw an exception
+which will cause the commit to be rejected.
+
+Validation applies to both commits uploaded via `git push`, and new
+commits generated via Gerrit's Web UI features such as the rebase, revert
+and cherry-pick buttons.
 
 Out of the box, Gerrit includes a plugin that checks the length of the
 subject and body lines of commit messages on uploaded commits.

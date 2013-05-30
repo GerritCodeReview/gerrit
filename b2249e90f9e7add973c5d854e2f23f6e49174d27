@@ -52,6 +52,24 @@
       "revId": "b2249e90f9e7add973c5d854e2f23f6e49174d27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_0927e98b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:02:58Z",
+      "side": 1,
+      "message": "I think this was partly intentional... if you want to access your account, use \"self\" in the URL. :-)",
+      "parentUuid": "1d2b1dc4_c9af91b2",
+      "revId": "b2249e90f9e7add973c5d854e2f23f6e49174d27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

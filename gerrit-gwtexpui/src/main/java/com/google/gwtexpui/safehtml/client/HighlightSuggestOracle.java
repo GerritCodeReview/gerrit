@@ -79,7 +79,18 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
       if (!html) {
         ds = escape(ds);
       }
-      displayString = sgi(ds, qstr, "<strong>$1</strong>");
+
+      // We now surround qstr by <strong>. But the chosen approach is not too
+      // smooth, if qstr is small (e.g.: "t") and this small qstr may occur in
+      // escapes (e.g.: "Tim &lt;email@example.org&gt;"). Those escapes will
+      // get <strong>-ed as well (e.g.: "&lt;" -> "&<strong>l</strong>t;"). But
+      // as repairing those mangled escapes is easier than not mangling them in
+      // first place, we repair them afterwards.
+      ds = sgi(ds, qstr, "<strong>$1</strong>");
+      // Repairing <strong>-ed escapes.
+      ds = sgi(ds, "(&[a-z]*)<strong>([a-z]*)</strong>([a-z]*;)", "$1$2$3");
+
+      displayString = ds;
     }
 
     private static native String sgi(String inString, String pat, String newHtml)

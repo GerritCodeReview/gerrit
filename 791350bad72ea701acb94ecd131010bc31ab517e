@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "1d023d42_1150ace6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:21:08Z",
+      "side": 1,
+      "message": "return createObject().cast(); removes the need to cast. :-)",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_c93cb19b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:21:08Z",
+      "side": 1,
+      "message": "We can use the cache here for a read:\n\n  AccountState s \u003d rsrc.getUser().state();\n  if (s.getUserName() \u003d\u003d null) {\n    throw new ResourceNotFoundException();\n  }\n  String p \u003d s.getPassword(s.getUserName());\n  if (p \u003d\u003d null) {\n    throw new ResourceNotFoundException();\n  }",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdadb16a_a604e624",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
         "patchSetId": 1
@@ -13,6 +47,57 @@
       "writtenOn": "2013-05-29T08:49:26Z",
       "side": 1,
       "message": "We use the same check in all other account REST endpoints, but I\u0027m not sure that it is always working, see my inline comment at [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/46104/1/gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_514a3434",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:21:08Z",
+      "side": 1,
+      "message": "username can be null. in such cases we shouldn\u0027t NPE somewhere in the db code but instead fail the rest API with a ResourceConflictException or similar.",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_095089e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:21:08Z",
+      "side": 1,
+      "message": "nit: line beak after block before declaring a new variable",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_915bfc06",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:21:08Z",
+      "side": 1,
+      "message": "nit: line break before ? and :",
       "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

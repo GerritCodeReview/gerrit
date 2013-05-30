@@ -16,13 +16,25 @@ def genantlr(
     name,
     srcs,
     outs):
+  tmp = name + '.srcjar'
   genrule(
     name = name,
     srcs = srcs,
-    cmd = '${//lib/antlr:antlr-tool} -o $(dirname $OUT) $SRCS',
+    cmd = '${//lib/antlr:antlr-tool} -o $TMP $SRCS;'
+      + 'cd $TMP;'
+      + 'zip -qr $OUT .',
     deps = ['//lib/antlr:antlr-tool'],
-    out = outs[0],
+    out = tmp,
   )
+  for o in outs:
+    genrule(
+      name = o,
+      cmd = 'unzip -qp $SRCS %s >$OUT' % o,
+      srcs = [genfile(tmp)],
+      deps = [':' + name],
+      out = o,
+    )
+
 
 def gwt_module(
     name,

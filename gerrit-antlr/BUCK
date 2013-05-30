@@ -3,7 +3,6 @@ ANTLR_OUTS = [
   'QueryParser.java',
 ]
 PARSER_DEPS = [
-  ':query_antlr',
   ':query_exception',
   '//lib/antlr:java_runtime',
 ]
@@ -24,7 +23,7 @@ genantlr(
 java_library(
   name = 'lib',
   srcs = [genfile(f) for f in ANTLR_OUTS],
-  deps = PARSER_DEPS,
+  deps = PARSER_DEPS + [':' + f for f in ANTLR_OUTS],
 )
 
 genrule(

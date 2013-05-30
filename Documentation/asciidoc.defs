@@ -46,7 +46,7 @@ def genasciidoc(
     )
   genrule(
     name = name,
-    cmd = '',
+    cmd = ':>$OUT',
     srcs = [],
     deps = [':' + o for o in outs],
     out = name + '__done',

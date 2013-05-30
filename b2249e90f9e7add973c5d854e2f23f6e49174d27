@@ -34,6 +34,24 @@
       "revId": "b2249e90f9e7add973c5d854e2f23f6e49174d27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_c9af91b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T05:52:58Z",
+      "side": 1,
+      "message": "I was testing with user IDs (1000001 etc) and it didn\u0027t work in the case that the ID was for the calling user.",
+      "parentUuid": "1d2b1dc4_e9b2551e",
+      "revId": "b2249e90f9e7add973c5d854e2f23f6e49174d27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

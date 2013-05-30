@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d2b1dc4_89e0f9f6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-30T16:22:44Z",
+      "side": 1,
+      "message": "I think this will be the only reindexing class. The default behavior is to reindex everything. There may be flags to reindex a subset if we have so much stuff that this will take too long.",
+      "parentUuid": "bd1931c1_e620bea6",
+      "revId": "5cb02e35ae0fab57844e7040c93be7ff8746b159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd1931c1_8623cab1",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1d2b1dc4_a9e33d02",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-30T16:22:44Z",
+      "side": 1,
+      "message": "You\u0027re saying implementing a request scope here would be *less* messy than a module with a single custom provider? I disagree :)",
+      "parentUuid": "bd1931c1_8623cab1",
+      "revId": "5cb02e35ae0fab57844e7040c93be7ff8746b159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d162d8e_c51dba72",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-30T13:13:05Z",
       "side": 1,
       "message": "shouldn\u0027t it be \n\n Lists.\u003cReviewDb\u003e newArrayListWithCapacity(2*threads + 1))\n\nYou open 2*threads unique  DB connections + one from main thread.",
+      "revId": "5cb02e35ae0fab57844e7040c93be7ff8746b159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_51ffd499",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-30T16:22:44Z",
+      "side": 1,
+      "message": "No, we don\u0027t need extra ReviewDbs for the tasks waiting in the queue. The issue is that ReviewDb is not threadsafe. So there is one ReviewDb per thread.",
+      "parentUuid": "9d162d8e_c51dba72",
       "revId": "5cb02e35ae0fab57844e7040c93be7ff8746b159",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

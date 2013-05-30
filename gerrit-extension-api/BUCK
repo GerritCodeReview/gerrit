@@ -1,6 +1,14 @@
+SRCS = glob(['src/main/java/com/google/gerrit/extensions/**/*.java'])
+
 java_library2(
   name = 'api',
-  srcs = glob(['src/main/java/com/google/gerrit/extensions/**/*.java']),
+  srcs = SRCS,
   compile_deps = ['//lib/guice:guice'],
+  visibility = ['PUBLIC'],
+)
+
+java_sources(
+  name = 'api-src',
+  srcs = SRCS,
   visibility = ['PUBLIC'],
 )

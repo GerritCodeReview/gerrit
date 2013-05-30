@@ -1,7 +1,10 @@
+SRCS = glob(['src/main/java/**/*.java'])
+RESOURCES = glob(['src/main/resources/**/*'])
+
 java_library2(
   name = 'httpd',
-  srcs = glob(['src/main/java/**/*.java']),
-  resources = glob(['src/main/resources/**/*']),
+  srcs = SRCS,
+  resources = RESOURCES,
   deps = [
     '//gerrit-antlr:query_exception',
     '//gerrit-common:server',
@@ -30,6 +33,12 @@ java_library2(
     '//lib/log:api',
   ],
   compile_deps = ['//lib:servlet-api-3_0'],
+  visibility = ['PUBLIC'],
+)
+
+java_sources(
+  name = 'httpd-src',
+  srcs = SRCS + RESOURCES,
   visibility = ['PUBLIC'],
 )
 

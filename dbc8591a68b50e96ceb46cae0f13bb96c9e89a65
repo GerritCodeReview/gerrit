@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d2b1dc4_4931e1c4",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:09:00Z",
+      "side": 1,
+      "message": "The source code is not necessary for plugins to compile, and should not be folded into the unified extension-api JAR created above by the \"extension-api\" target. Instead this should be part of the \"api\" target listed in the genrule() above.",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_f13fe88c",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:09:00Z",
+      "side": 1,
+      "message": "Please don\u0027t make the output of something \"..\". It makes the namespace of the build tree very confusing.",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_692ca56c",
+        "filename": "gerrit-plugin-api/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:09:00Z",
+      "side": 1,
+      "message": "Don\u0027t create things in \"..\".",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_513194c4",
+        "filename": "tools/DEFS",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:09:00Z",
+      "side": 1,
+      "message": "genfoo() is usually used to make a foo by generating it. genrule(), genantlr(), etc. I think src is too generic of a term for java sources.\n\nI would have named this java_sources() ,or zip().",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d023d42_b13560b3",
+        "filename": "tools/DEFS",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:09:00Z",
+      "side": 1,
+      "message": "default this to []",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_2922ad7b",
+        "filename": "tools/DEFS",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:09:00Z",
+      "side": 1,
+      "message": "Oh right we need to drop the prefix up through \"java\" or \"resources\" directory name when building up the source tree for zip. That means the simple example I gave you above doesn\u0027t actually work.\n\nThis sort of ugly rewrite should be done in a python_application() or java_application() that we invoke through a genrule(). The python or java is easier to maintain than an ugly shell pipeline with multiple levels of escapes.\n\nBuck actually can do this better itself:\n\n  java_library(\n    name \u003d \u0027api_src\u0027,\n    resources \u003d glob([\u0027src/main/java/com/google/gerrit/extensions/**/*.java\u0027]),\n  )\n\nThat is just put the source files into the resources of a java_library and call it done. I don\u0027t know why I didn\u0027t think of this yesterday.",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

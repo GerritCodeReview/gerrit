@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d023d42_d1a8e4c4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-30T08:35:33Z",
+      "side": 1,
+      "message": "Done, though since I changed the ChangeIndexer interface it made it so I can still pass in a thread count.",
+      "parentUuid": "1d2b1dc4_e94ed573",
+      "revId": "d2e7ef6d8548b34805479b64e75a2e74946c9b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_f1ab68be",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-29T22:52:02Z",
       "side": 1,
       "message": "This is not actually thread-safe. Each thread needs its own ReviewDb object instance.",
+      "revId": "d2e7ef6d8548b34805479b64e75a2e74946c9b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_699825be",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-30T08:35:33Z",
+      "side": 1,
+      "message": "Done. Please don\u0027t hate my ReviewDbModule too much.\n\n(I wasn\u0027t using an AtomicReference here for thread-safety, just to make sure this LifecycleManager was started before the db was opened. I figured it\u0027s probably less confusion to just have two LifecycleManagers.)",
+      "parentUuid": "1d023d42_f1ab68be",
       "revId": "d2e7ef6d8548b34805479b64e75a2e74946c9b43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

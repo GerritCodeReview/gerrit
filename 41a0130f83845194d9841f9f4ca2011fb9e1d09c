@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "1d023d42_d15584d3",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:29:19Z",
+      "side": 1,
+      "message": "id is usually a string",
+      "revId": "41a0130f83845194d9841f9f4ca2011fb9e1d09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_6945c524",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:29:19Z",
+      "side": 1,
+      "message": "field name is spelled wrong here",
+      "revId": "41a0130f83845194d9841f9f4ca2011fb9e1d09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_494a8134",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SshKeyInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:29:19Z",
+      "side": 1,
+      "message": "this might be worth line wrapping:\n\n  return {\n    \u0027id\u0027: id,\n    \u0027ssh_public_key\u0027 : sshPublicKey,\n  ....",
+      "revId": "41a0130f83845194d9841f9f4ca2011fb9e1d09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7da7b98a_a41dc272",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetSshKeys.java",
         "patchSetId": 1
@@ -13,6 +64,41 @@
       "writtenOn": "2013-05-29T14:18:12Z",
       "side": 1,
       "message": "Should we restirct the access to the SSH keys to the owning user and Gerrit administrators?",
+      "revId": "41a0130f83845194d9841f9f4ca2011fb9e1d09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd1931c1_46127267",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:29:19Z",
+      "side": 1,
+      "message": "Yes, this should be restricted to owning user and admin.",
+      "parentUuid": "7da7b98a_a41dc272",
+      "revId": "41a0130f83845194d9841f9f4ca2011fb9e1d09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_a95e9df6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T06:29:19Z",
+      "side": 1,
+      "message": "id in the rest apis is usually a string",
       "revId": "41a0130f83845194d9841f9f4ca2011fb9e1d09c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

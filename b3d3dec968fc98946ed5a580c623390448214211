@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d023d42_f1d9a876",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdadb16a_66182e87",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7da7b98a_64182a87",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-29T10:17:12Z",
       "side": 1,
       "message": "s/cve/mve",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_49eba1fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7da7b98a_64182a87",
       "revId": "b3d3dec968fc98946ed5a580c623390448214211",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1d023d42_b1cf20aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdadb16a_060dba43",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7da7b98a_040db643",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidationListener.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "1d2b1dc4_89875952",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidationListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7da7b98a_040db643",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5da4b586_03f4ce0d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2013-05-29T10:17:12Z",
       "side": 1,
       "message": "nit: one blank line too much",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_e984154f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5da4b586_03f4ce0d",
       "revId": "b3d3dec968fc98946ed5a580c623390448214211",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "1d023d42_91cc9cb6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "Done (referring to Edwin\u0027s comment).",
+      "parentUuid": "7da7b98a_c426bec3",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdadb16a_26123667",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 2
@@ -133,6 +241,24 @@
       "writtenOn": "2013-05-29T10:17:12Z",
       "side": 1,
       "message": "nit: it\u0027s easier to read if the assisted parameters come after the injected parameters",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_c981513d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdadb16a_26123667",
       "revId": "b3d3dec968fc98946ed5a580c623390448214211",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "1d2b1dc4_29dc6d6b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "I\u0027m not sure.  It seems to work OK like this.",
+      "parentUuid": "7da7b98a_24123267",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d7979b4_f4ccd8b6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 2
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "1d2b1dc4_09e1a91d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d7979b4_f4ccd8b6",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7da7b98a_e423bab0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 2
@@ -184,6 +346,24 @@
       "writtenOn": "2013-05-29T10:17:12Z",
       "side": 1,
       "message": "use Guava: Lists.newLinkedList()",
+      "revId": "b3d3dec968fc98946ed5a580c623390448214211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_69e66537",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-05-30T02:49:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7da7b98a_e423bab0",
       "revId": "b3d3dec968fc98946ed5a580c623390448214211",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

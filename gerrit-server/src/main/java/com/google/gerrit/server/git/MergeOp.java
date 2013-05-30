@@ -44,6 +44,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.validators.MergeValidationException;
+import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
@@ -132,6 +134,7 @@ public class MergeOp {
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ChangeControl.GenericFactory changeControlFactory;
   private final MergeQueue mergeQueue;
+  private final MergeValidators.Factory mergeValidatorsFactory;
 
   private final Branch.NameKey destBranch;
   private ProjectState destProject;
@@ -172,7 +175,8 @@ public class MergeOp {
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
       final AllProjectsName allProjectsName,
-      final ChangeIndexer indexer) {
+      final ChangeIndexer indexer,
+      final MergeValidators.Factory mergeValidatorsFactory) {
     repoManager = grm;
     schemaFactory = sf;
     labelNormalizer = fs;
@@ -193,6 +197,7 @@ public class MergeOp {
     this.requestScopePropagator = requestScopePropagator;
     this.allProjectsName = allProjectsName;
     this.indexer = indexer;
+    this.mergeValidatorsFactory = mergeValidatorsFactory;
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
@@ -541,6 +546,14 @@ public class MergeOp {
         log.error("Invalid commit " + id.name() + " on " + chg.getKey(), e);
         commits.put(changeId, CodeReviewCommit
             .error(CommitMergeStatus.REVISION_GONE));
+        continue;
+      }
+
+      MergeValidators mergeValidators = mergeValidatorsFactory.create();
+      try {
+        mergeValidators.validatePreMerge(commit, destProject, destBranch);
+      } catch (MergeValidationException mve) {
+        commits.put(changeId, CodeReviewCommit.error(mve.getStatus()));
         continue;
       }
 

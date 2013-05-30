@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd1931c1_e620bea6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-30T13:13:05Z",
+      "side": 1,
+      "message": "Is this class supposed to be reused in any way for not change based indices? If not may be we should give it less generic name, like ChangeReindexer? Clearly, DocumentationIndex (to index Gerrit documentation) would be something completely different. But still would use ThreadPool, and reindex between Releases. Should we have then  DocumentationReindexer class?",
+      "revId": "5cb02e35ae0fab57844e7040c93be7ff8746b159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd1931c1_8623cab1",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-30T13:13:05Z",
+      "side": 1,
+      "message": "that\u0027s messy. We want here custom (i. e. thread) guice scope.",
+      "revId": "5cb02e35ae0fab57844e7040c93be7ff8746b159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d162d8e_c51dba72",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-30T13:13:05Z",
+      "side": 1,
+      "message": "shouldn\u0027t it be \n\n Lists.\u003cReviewDb\u003e newArrayListWithCapacity(2*threads + 1))\n\nYou open 2*threads unique  DB connections + one from main thread.",
+      "revId": "5cb02e35ae0fab57844e7040c93be7ff8746b159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

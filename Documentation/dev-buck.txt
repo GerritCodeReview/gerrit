@@ -216,6 +216,23 @@ being built, or in `~/.gerritcodereview/`.  The file in the root of the gerrit
 repository has precedence.
 
 
+Caching Build Results
+~~~~~~~~~~~~~~~~~~~~~
+
+Build results can be locally cached, saving rebuild time when
+switching between Git branches. Buck's documentation covers
+caching in link:http://facebook.github.io/buck/concept/buckconfig.html[buckconfig].
+The trivial case using a local directory is:
+
+----
+  cat >.buckconfig.local <<EOF
+  [cache]
+    mode = dir
+    dir = buck-cache
+  EOF
+----
+
+
 Build Process Switch Exit Criteria
 ----------------------------------
 

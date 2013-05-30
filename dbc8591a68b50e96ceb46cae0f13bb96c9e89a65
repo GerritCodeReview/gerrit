@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd1931c1_66420e57",
+        "filename": "BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-30T20:48:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2b1dc4_4931e1c4",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_f13fe88c",
         "filename": "gerrit-extension-api/BUCK",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-30T06:09:00Z",
       "side": 1,
       "message": "Please don\u0027t make the output of something \"..\". It makes the namespace of the build tree very confusing.",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd1931c1_46471265",
+        "filename": "gerrit-extension-api/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-30T20:48:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_f13fe88c",
       "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9d162d8e_0566b2fe",
+        "filename": "gerrit-plugin-api/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-30T20:48:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2b1dc4_692ca56c",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_513194c4",
         "filename": "tools/DEFS",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9d162d8e_655b263b",
+        "filename": "tools/DEFS",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-30T20:48:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_513194c4",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_b13560b3",
         "filename": "tools/DEFS",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2013-05-30T06:09:00Z",
       "side": 1,
       "message": "default this to []",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd1931c1_a62b6681",
+        "filename": "tools/DEFS",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-30T20:48:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_b13560b3",
       "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -132,6 +222,24 @@
       "writtenOn": "2013-05-30T06:26:31Z",
       "side": 1,
       "message": "it doesn\u0027t work, because we are using naked genrule here and not java_library. So there are no resources under src/main/resources. My hope was, that something like this:\n\n    cmd \u003d \u0027cd $SRCDIR/src/main/java ; zip -9qr $OUT .;\u0027 +\n      \u0027cd  $SRCDIR/src/main/resources ; zip -g9qr $OUT .\u0027,\n\nwould work, but it doesn\u0027t because resources are not there, even when i pass it to the call of gensrc (from gerrit/gerrit-server/BUCK) with:\n\n SRCS \u003d glob([\u0027src/main/java/**/*.java\u0027])\n RESOURCES \u003d glob([\u0027src/main/resources/**/*\u0027])\n\n [...]\n \n gensrc2(\n   name \u003d \u0027server_src\u0027,\n   srcs \u003d [SRCS, RESOURCES],\n   out \u003d \u0027server-src.jar\u0027,\n   visibility \u003d [\u0027PUBLIC\u0027],\n )\n\nAny thoughts on this?",
+      "parentUuid": "1d2b1dc4_2922ad7b",
+      "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d162d8e_4560aadf",
+        "filename": "tools/DEFS",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-30T20:48:14Z",
+      "side": 1,
+      "message": "Done\n\nit looks like Gerrit missing a feature:\nremove comments, that don\u0027t make any sense, like these below ;-)\n\nThanks for the hint with java_library and resource.",
       "parentUuid": "1d2b1dc4_2922ad7b",
       "revId": "dbc8591a68b50e96ceb46cae0f13bb96c9e89a65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

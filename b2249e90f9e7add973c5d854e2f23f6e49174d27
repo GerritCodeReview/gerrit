@@ -16,6 +16,24 @@
       "revId": "b2249e90f9e7add973c5d854e2f23f6e49174d27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2b1dc4_e9b2551e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetEmails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-05-30T05:48:22Z",
+      "side": 1,
+      "message": "What was the URL in this case? Did you use \"self\" or something else to name the user? If the token was \"self\" this should be reference equal and its fine.",
+      "parentUuid": "7da7b98a_c4fd5ef1",
+      "revId": "b2249e90f9e7add973c5d854e2f23f6e49174d27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

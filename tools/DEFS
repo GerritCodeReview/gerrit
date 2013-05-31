@@ -118,6 +118,7 @@ def gerrit_extension(
     srcs = [],
     resources = [],
     manifest_file = None,
+    manifest_entries = None,
     visibility = ['PUBLIC']):
   gerrit_plugin(
     name = name,
@@ -125,6 +126,7 @@ def gerrit_extension(
     srcs = srcs,
     resources = resources,
     manifest_file = manifest_file,
+    manifest_entries = manifest_entries,
     type = 'extension',
     visibility = visibility,
   )
@@ -135,6 +137,7 @@ def gerrit_plugin(
     srcs = [],
     resources = [],
     manifest_file = None,
+    manifest_entries = None,
     type = 'plugin',
     visibility = ['PUBLIC']):
   mf_cmd = 'v=$(git describe HEAD);'
@@ -146,6 +149,9 @@ def gerrit_plugin(
     mf_cmd += 'echo "Manifest-Version: 1.0" >$OUT;'
     mf_cmd += 'echo "Gerrit-ApiType: %s" >>$OUT;' % type
     mf_cmd += 'echo "Implementation-Version: $v" >>$OUT'
+  if manifest_entries:
+    for line in manifest_entries:
+       mf_cmd += ';echo "%s" >> $OUT' % line
   genrule(
     name = name + '__manifest',
     cmd = mf_cmd,

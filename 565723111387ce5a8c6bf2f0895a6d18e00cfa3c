@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d96d959_0c77d79e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AddSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T15:03:32Z",
+      "side": 1,
+      "message": "Do we need to check whether SSH is enabled on the server and if not fail with \u0027Method Not Allowed\u0027? If yes, how would we check this? Trying to inject SshInfo fails and I\u0027m not sure what exactly needs to be changed in the Guice bindings to make it work.",
+      "revId": "565723111387ce5a8c6bf2f0895a6d18e00cfa3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

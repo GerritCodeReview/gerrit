@@ -16,6 +16,24 @@
       "revId": "7cc3fd4c3dd0f48606349bf8ba9a2d4ccd6e7175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3db461dd_ba9e11a6",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-31T14:51:09Z",
+      "side": 1,
+      "message": "I was thinking about the order and decided to put it at the end because this end-point is intended for a different purpose than the 4 above.\nMaybe we should have a new section (Admin Endpoints?)?",
+      "parentUuid": "7d96d959_8ca107e5",
+      "revId": "7cc3fd4c3dd0f48606349bf8ba9a2d4ccd6e7175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

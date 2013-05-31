@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3db461dd_da074528",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T08:39:45Z",
+      "side": 1,
+      "message": "Cool :-)\n\nDone",
+      "parentUuid": "1d023d42_1150ace6",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d2b1dc4_c93cb19b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-30T06:21:08Z",
       "side": 1,
       "message": "We can use the cache here for a read:\n\n  AccountState s \u003d rsrc.getUser().state();\n  if (s.getUserName() \u003d\u003d null) {\n    throw new ResourceNotFoundException();\n  }\n  String p \u003d s.getPassword(s.getUserName());\n  if (p \u003d\u003d null) {\n    throw new ResourceNotFoundException();\n  }",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3db461dd_fa040926",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T08:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2b1dc4_c93cb19b",
       "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "7d96d959_acfa43f5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T08:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_514a3434",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d2b1dc4_095089e6",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
         "patchSetId": 1
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "3db461dd_1a137d6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T08:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2b1dc4_095089e6",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_915bfc06",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
         "patchSetId": 1
@@ -98,6 +170,24 @@
       "writtenOn": "2013-05-30T06:21:08Z",
       "side": 1,
       "message": "nit: line break before ? and :",
+      "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3db461dd_3a184186",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T08:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_915bfc06",
       "revId": "791350bad72ea701acb94ecd131010bc31ab517e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5de595f1_7b471f65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-05-31T18:58:41Z",
+      "side": 1,
+      "message": "While I agree that for some users it will be unlikely that they will use this without specifying a project, it\u0027s actually our most common use case today. We have a common tag name across 500 or so projects, and using inref:refs/tags/\u003ctag name\u003e lets us find all changes tagged in all of those 500 projects.\n\nWe could still probably use the optimization you suggested, but our query would look like\n\n inref:refs/tags/foo (project:X OR project:Y OR ...)\n\nAnd I\u0027m not sure how easily that will fit into the query rewriter.\n\nI\u0027m fine with offering the optimized version as a follow-on change, but do you really feel it needs to be included in this change?",
+      "parentUuid": "7d96d959_4c71dfa5",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3db461dd_da2025a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T10:37:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2b1dc4_e958950b",
+      "revId": "3cb9fe530c59aa322fa7f1f96c75bb2f99212c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d2b1dc4_c955d1d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SshKeys.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3db461dd_fa1de971",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T10:37:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2b1dc4_c955d1d3",
+      "revId": "3cb9fe530c59aa322fa7f1f96c75bb2f99212c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d023d42_31f050cc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SshKeys.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-30T06:31:42Z",
       "side": 1,
       "message": "check for current user or admin before reading the database",
+      "revId": "3cb9fe530c59aa322fa7f1f96c75bb2f99212c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3db461dd_1a38ddda",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/SshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T10:37:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d023d42_31f050cc",
       "revId": "3cb9fe530c59aa322fa7f1f96c75bb2f99212c6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

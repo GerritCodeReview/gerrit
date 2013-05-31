@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3db461dd_5af4150f",
+        "filename": "tools/api.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-31T07:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5de595f1_fb040f26",
+      "revId": "ea6f43be9e897749f2518d6e6dd7dea05c700104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dcb8167_e2070628",
         "filename": "tools/api.py",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-30T22:12:46Z",
       "side": 1,
       "message": "I meant put the fragment into the variable, not use a variable as a constant:\n\n  plugin \u003d [\u0027-DartifactId\u003dgerrit-plugin-api\u0027]\n  common \u003d [\n    \u0027-DgroupId\u003dcom.google.gerrit\u0027,\n    \u0027-Dversion\u003d%s\u0027 % version,\n  ]",
+      "revId": "ea6f43be9e897749f2518d6e6dd7dea05c700104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d96d959_2cef333b",
+        "filename": "tools/api.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-31T07:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dcb8167_e2070628",
       "revId": "ea6f43be9e897749f2518d6e6dd7dea05c700104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3db461dd_7af9d903",
+        "filename": "tools/build.defs",
+        "patchSetId": 13
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-31T07:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dcb8167_a2fdfef1",
+      "revId": "ea6f43be9e897749f2518d6e6dd7dea05c700104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dcb8167_c2fa02f7",
         "filename": "tools/build.defs",
         "patchSetId": 13
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "7d96d959_4cf47f0f",
+        "filename": "tools/build.defs",
+        "patchSetId": 13
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-31T07:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dcb8167_c2fa02f7",
+      "revId": "ea6f43be9e897749f2518d6e6dd7dea05c700104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5de595f1_1b137b6e",
         "filename": "tools/build.defs",
         "patchSetId": 13
@@ -81,6 +153,24 @@
       "writtenOn": "2013-05-30T22:12:46Z",
       "side": 1,
       "message": "Pass in the inputs that matter. Maybe $DEPS?",
+      "revId": "ea6f43be9e897749f2518d6e6dd7dea05c700104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3db461dd_9afdcdf2",
+        "filename": "tools/build.defs",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-31T07:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5de595f1_1b137b6e",
       "revId": "ea6f43be9e897749f2518d6e6dd7dea05c700104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

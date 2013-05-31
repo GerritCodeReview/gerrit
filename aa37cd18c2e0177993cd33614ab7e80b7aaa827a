@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "7d96d959_ac516319",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-31T13:27:18Z",
+      "side": 1,
+      "message": "Thanks for the clarification!",
+      "parentUuid": "7d96d959_0c6197e6",
+      "revId": "aa37cd18c2e0177993cd33614ab7e80b7aaa827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d96d959_6c477b65",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/UpdateConfigFile.java",
         "patchSetId": 1

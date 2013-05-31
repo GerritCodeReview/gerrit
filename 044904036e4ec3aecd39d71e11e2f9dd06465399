@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3db461dd_fa3249f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-31T12:47:34Z",
+      "side": 1,
+      "message": "Oh, thanks.\nDone.",
+      "parentUuid": "3dcb8167_8212ba64",
+      "revId": "044904036e4ec3aecd39d71e11e2f9dd06465399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5de595f1_5b0d0343",
         "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-31T00:57:41Z",
       "side": 1,
       "message": "\"in the first place\"",
+      "revId": "044904036e4ec3aecd39d71e11e2f9dd06465399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3db461dd_1a61bde6",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/HighlightSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-05-31T12:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5de595f1_5b0d0343",
       "revId": "044904036e4ec3aecd39d71e11e2f9dd06465399",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

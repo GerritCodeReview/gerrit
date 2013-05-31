@@ -304,6 +304,11 @@ public class RestApi {
     sendJSON(POST, content, cb);
   }
 
+  public <T extends JavaScriptObject> void post(String content,
+      AsyncCallback<T> cb) {
+    sendRaw(POST, content, cb);
+  }
+
   public <T extends JavaScriptObject> void put(AsyncCallback<T> cb) {
     send(PUT, cb);
   }
@@ -323,6 +328,19 @@ public class RestApi {
       String body = new JSONObject(content).toString();
       RequestBuilder req = request(method);
       req.setHeader("Content-Type", JSON_UTF8);
+      req.sendRequest(body, httpCallback);
+    } catch (RequestException e) {
+      httpCallback.onError(null, e);
+    }
+  }
+
+  private <T extends JavaScriptObject> void sendRaw(Method method, String body,
+      AsyncCallback<T> cb) {
+    HttpCallback<T> httpCallback = new HttpCallback<T>(cb);
+    try {
+      RpcStatus.INSTANCE.onRpcStart();
+      RequestBuilder req = request(method);
+      req.setHeader("Content-Type", TEXT_TYPE);
       req.sendRequest(body, httpCallback);
     } catch (RequestException e) {
       httpCallback.onError(null, e);

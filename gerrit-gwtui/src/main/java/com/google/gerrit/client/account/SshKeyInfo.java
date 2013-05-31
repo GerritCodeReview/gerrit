@@ -24,18 +24,6 @@ public class SshKeyInfo extends JavaScriptObject {
   public final native String comment() /*-{ return this.comment; }-*/;
   public final native boolean isValid() /*-{ return this['valid'] ? true : false; }-*/;
 
-  public static native SshKeyInfo create(int seq, String sshPublicKey,
-      String encodedKey, String algorithm, String comment, boolean valid) /*-{
-    return {
-      'seq': seq,
-      'ssh_public_key': sshPublicKey,
-      'encoded_key': encodedKey,
-      'algorithm': algorithm,
-      'comment': comment,
-      'valid': valid
-    };
-  }-*/;
-
   protected SshKeyInfo() {
   }
 }

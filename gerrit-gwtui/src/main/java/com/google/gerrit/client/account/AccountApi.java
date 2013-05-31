@@ -40,6 +40,13 @@ public class AccountApi {
     new RestApi("/accounts/").id(account).view("sshkeys").get(cb);
   }
 
+  /** Add a new SSH keys */
+  public static void addSshKey(String account, String sshPublicKey,
+      AsyncCallback<SshKeyInfo> cb) {
+    new RestApi("/accounts/").id(account).view("sshkeys")
+        .post(sshPublicKey, cb);
+  }
+
   /** Generate a new HTTP password */
   public static void generateHttpPassword(String account,
       AsyncCallback<NativeString> cb) {

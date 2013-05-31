@@ -18,7 +18,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
-import com.google.gerrit.extensions.restapi.PutInput;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -38,7 +38,7 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
   static class Input {
     @DefaultInput
     String url;
-    PutInput raw;
+    RawInput raw;
   }
 
   private final PluginLoader loader;

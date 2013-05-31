@@ -34,6 +34,24 @@
       "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_f8e9d136",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-31T20:38:00Z",
+      "side": 1,
+      "message": "If this is your realistic use case then I am also fine with the inref operator as it is now.\n\nLet\u0027s try to provide an optimised version in a follow-up change.",
+      "parentUuid": "5de595f1_7b471f65",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

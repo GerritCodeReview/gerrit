@@ -159,13 +159,11 @@ class SshPanel extends Composite {
     final String txt = addTxt.getText();
     if (txt != null && txt.length() > 0) {
       addNew.setEnabled(false);
-      Util.ACCOUNT_SEC.addSshKey(txt, new GerritCallback<AccountSshKey>() {
-        public void onSuccess(final AccountSshKey k) {
+      AccountApi.addSshKey("self", txt, new GerritCallback<SshKeyInfo>() {
+        public void onSuccess(final SshKeyInfo k) {
           addNew.setEnabled(true);
           addTxt.setText("");
-          keys.addOneKey(SshKeyInfo.create(k.getKey().get(),
-              k.getSshPublicKey(), k.getEncodedKey(), k.getAlgorithm(),
-              k.getComment(), k.isValid()));
+          keys.addOneKey(k);
           if (!keys.isVisible()) {
             showAddKeyBlock(false);
             setKeyTableVisible(true);

@@ -33,10 +33,6 @@ import java.util.Set;
 public interface AccountSecurity extends RemoteJsonService {
   @Audit
   @SignInRequired
-  void addSshKey(String keyText, AsyncCallback<AccountSshKey> callback);
-
-  @Audit
-  @SignInRequired
   void deleteSshKeys(Set<AccountSshKey.Id> ids,
       AsyncCallback<VoidResult> callback);
 

@@ -56,7 +56,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
-import com.google.gerrit.extensions.restapi.PutInput;
+import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -439,8 +439,9 @@ public class RestApiServlet extends HttpServlet {
       } finally {
         br.close();
       }
-    } else if ("PUT".equals(req.getMethod()) && acceptsPutInput(type)) {
-      return parsePutInput(req, type);
+    } else if (("PUT".equals(req.getMethod()) || "POST".equals(req.getMethod()))
+        && acceptsRawInput(type)) {
+      return parseRawInput(req, type);
     } else if ("DELETE".equals(req.getMethod()) && hasNoBody(req)) {
       return null;
     } else if (hasNoBody(req)) {
@@ -476,10 +477,10 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings("rawtypes")
-  private static boolean acceptsPutInput(Type type) {
+  private static boolean acceptsRawInput(Type type) {
     if (type instanceof Class) {
       for (Field f : ((Class) type).getDeclaredFields()) {
-        if (f.getType() == PutInput.class) {
+        if (f.getType() == RawInput.class) {
           return true;
         }
       }
@@ -487,15 +488,15 @@ public class RestApiServlet extends HttpServlet {
     return false;
   }
 
-  private Object parsePutInput(final HttpServletRequest req, Type type)
+  private Object parseRawInput(final HttpServletRequest req, Type type)
       throws SecurityException, NoSuchMethodException,
       IllegalArgumentException, InstantiationException, IllegalAccessException,
       InvocationTargetException, MethodNotAllowedException {
     Object obj = createInstance(type);
     for (Field f : obj.getClass().getDeclaredFields()) {
-      if (f.getType() == PutInput.class) {
+      if (f.getType() == RawInput.class) {
         f.setAccessible(true);
-        f.set(obj, new PutInput() {
+        f.set(obj, new RawInput() {
           @Override
           public String getContentType() {
             return req.getContentType();

@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7d96d959_0c6197e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T13:20:35Z",
+      "side": 1,
+      "message": "I prefer having the documentation in the same change that adds the new REST endpoint. When writing the documentation it can happen that you find some minor issues with the implementation and then you can fix them immediately. But I\u0027m not insisting on this, I would be also fine with having one documentation change for the series. In the end it matters that the documentation is there.",
+      "parentUuid": "7d96d959_cc35cfe0",
+      "revId": "aa37cd18c2e0177993cd33614ab7e80b7aaa827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d96d959_6c477b65",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/UpdateConfigFile.java",
         "patchSetId": 1

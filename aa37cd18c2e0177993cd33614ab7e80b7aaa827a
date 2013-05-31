@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5de595f1_db2033a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T12:50:48Z",
+      "side": 1,
+      "message": "s|/configfiles/|/configfiles/\u003cfile-id\u003e",
+      "revId": "aa37cd18c2e0177993cd33614ab7e80b7aaa827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3db461dd_5a5b353a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T12:50:48Z",
+      "side": 1,
+      "message": "Please add documentation for this new REST endpoint.",
+      "revId": "aa37cd18c2e0177993cd33614ab7e80b7aaa827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d96d959_6c477b65",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/UpdateConfigFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T12:50:48Z",
+      "side": 1,
+      "message": "s/PluginLoader.class/UpdateConfigFile.class",
+      "revId": "aa37cd18c2e0177993cd33614ab7e80b7aaa827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d96d959_2c3d73cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/UpdateConfigFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T12:50:48Z",
+      "side": 1,
+      "message": "[optional] s/resource/rsrc",
+      "revId": "aa37cd18c2e0177993cd33614ab7e80b7aaa827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3db461dd_da3585e0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/UpdateConfigFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T12:50:48Z",
+      "side": 1,
+      "message": "Do not specify \u0027Exception\u0027 in the throws clause but list the concrete exceptions that are thrown.",
+      "revId": "aa37cd18c2e0177993cd33614ab7e80b7aaa827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d96d959_4c42bf56",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/UpdateConfigFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-05-31T12:50:48Z",
+      "side": 1,
+      "message": "Do we need to log this as error? This is not really a server error, but just an error from the user that provided the invalid file. Failing with BadRequest only should be enough.",
+      "revId": "aa37cd18c2e0177993cd33614ab7e80b7aaa827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

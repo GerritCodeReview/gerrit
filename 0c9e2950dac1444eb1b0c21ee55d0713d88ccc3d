@@ -70,6 +70,24 @@
       "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_d6eee43c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-05-31T21:20:58Z",
+      "side": 1,
+      "message": "Martin clarified some of the backstory on this for me and I realize now my comments were out of context.\n\nIt seems defaulting to status:open previously didn\u0027t need this optimization, but in trying to move the default to status:merged Kaushik took this approach. I understand that changing the default after merging would be confusing for users. I also definitely understand that unconditionally loading all changes from the database is not the right thing to do, but I\u0027m not sure we know a better way.\n\nDo you have any suggestions?",
+      "parentUuid": "fdb9e9f9_f8e9d136",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

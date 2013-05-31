@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d96d959_4c71dfa5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-31T15:07:36Z",
+      "side": 1,
+      "message": "This will unconditionally load all changes from the database which could be an unnecessary performance penalty.\n\nMost of the time we would like to search for changes that are contained in-a-ref of one project.\n\n  inref:stable project:X\n\nWhile a query like\n\n  inref:stable\n\nis possible, it is unlikely that someone will want to search for all changes in ALL projects that are contained in the refs/heads/stable on that project.\n\nI suggest looking at the ChangeQueryRewriter and trying to add an optimization for the (likely) case that the project is also specified. In that case a query which will fetch from the changes table but limited only to that project should be used.",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

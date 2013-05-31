@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "7d96d959_cc35cfe0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-05-31T13:15:16Z",
+      "side": 1,
+      "message": "Also not related here: \n\nInline edit serie introduced a lot of new REST APIs. All are undocumented. Should i edit every related change in the serie and add the documentation there or is it sufficient to add a new documentation change to the serie?",
+      "parentUuid": "3db461dd_5a5b353a",
+      "revId": "aa37cd18c2e0177993cd33614ab7e80b7aaa827a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d96d959_6c477b65",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/UpdateConfigFile.java",
         "patchSetId": 1

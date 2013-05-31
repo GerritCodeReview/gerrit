@@ -16,6 +16,23 @@
       "revId": "c64399fe934b5092781eb5a763dedea82d4ae411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dd0ed3c_f512f868",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-05-31T22:43:40Z",
+      "side": 1,
+      "message": "(Note to self:) I suspect iterating this way is going to thrash the kernel buffer cache, since changes will be sorted by ID and in the typical case will be uniformly distributed across many projects. Probably better to list projects first and then call changes().byProject().",
+      "revId": "c64399fe934b5092781eb5a763dedea82d4ae411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

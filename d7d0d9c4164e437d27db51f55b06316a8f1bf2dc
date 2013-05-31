@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7d96d959_8c54a70a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-31T14:00:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3db461dd_7a60f9df",
+      "revId": "d7d0d9c4164e437d27db51f55b06316a8f1bf2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3db461dd_9a54ed0a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/ConfigFilesCollection.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7d96d959_4c5b9f3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/ConfigFilesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-31T14:00:01Z",
+      "side": 1,
+      "message": "I would prefer keeping the annotation as long as it does the job. If we would need a more sophisticated check then doing it here would be the way to go.",
+      "parentUuid": "3db461dd_9a54ed0a",
+      "revId": "d7d0d9c4164e437d27db51f55b06316a8f1bf2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d96d959_ac288385",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/Module.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-05-31T12:55:19Z",
       "side": 1,
       "message": "Please document this new REST endpoint.",
+      "revId": "d7d0d9c4164e437d27db51f55b06316a8f1bf2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d96d959_6c605be0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-05-31T14:00:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d96d959_ac288385",
       "revId": "d7d0d9c4164e437d27db51f55b06316a8f1bf2dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

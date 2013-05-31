@@ -52,6 +52,24 @@
       "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_f6e9e036",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-05-31T21:16:51Z",
+      "side": 1,
+      "message": "I think there is a missunderstanding here.  I agree with Sasa, we can\u0027t have this load all the changes as a data source.  Let\u0027s go back to what we are trying to achieve.  \n\nPS3 behaves simply, and is likely the best PS to think about.  It adds a predicate and just behaves as any simple predicate does in Gerrit.  I believe that it is a standard default for Predicates to show only open changes, Project predicate is an exception (I think that exception comes in via r99_byProject.)  So PS3 is not coding the inref predicate to do that, the query framework is doing it by default.\n\nSo Sasa thinks that this predicate should return merged changes by default.  I agree it is a more sane policy to do that for this specific predicate, but I don\u0027t think that anyone knows how to do that?  That is the objective here, not to create a new data source, we just want to change the default.  I don\u0027t think this PS does that, it just causes all changes to be returned (which isn\u0027t the point of adding new datasources, they are for optimizing so you don\u0027t scan all the changes in the change table)?  \n\nDo we agree on the objective at least, PS3 was good except for the default?  If we agree, does anyone know what the appropriate way to achieve that is?",
+      "parentUuid": "fdb9e9f9_f8e9d136",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

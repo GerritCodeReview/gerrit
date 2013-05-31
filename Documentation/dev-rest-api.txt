@@ -40,6 +40,14 @@ Test data can be included from a local file:
   curl -X PUT -d@testdata.txt --header "Content-Type: application/json" http://localhost:8080/path/to/api/
 ----
 
+Note that the `-d` option will remove the newlines from the content of the
+local file. If the content should be sent as-is then use the `--data-binary`
+option instead:
+
+----
+  curl -X PUT --data-binary @testdata.txt --header "Content-Type: text/plain" http://localhost:8080/path/to/api/
+----
+
 
 Authentication
 ~~~~~~~~~~~~~~

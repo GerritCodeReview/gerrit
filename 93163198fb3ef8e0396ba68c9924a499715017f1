@@ -16,6 +16,24 @@
       "revId": "93163198fb3ef8e0396ba68c9924a499715017f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_d8ee0d3d",
+        "filename": "tools/DEFS",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-01T07:06:23Z",
+      "side": 1,
+      "message": "yes, of course,\nDone",
+      "parentUuid": "9dd0ed3c_151e946d",
+      "revId": "93163198fb3ef8e0396ba68c9924a499715017f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

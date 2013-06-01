@@ -75,6 +75,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   // SearchSuggestOracle up to date.
 
   public static final String FIELD_AGE = "age";
+  public static final String FIELD_BASENAME = "basename";
   public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_COMMIT = "commit";
@@ -295,13 +296,30 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         throw new IllegalArgumentException();
       }
     } else {
-      if (file.startsWith("^")) {
-        throw error("regular expression not permitted here: file:" + file);
-      }
-      if (args.indexManager == ChangeIndex.Manager.DISABLED) {
-        throw error("supplied query is using secondary index while it is disabled");
-      }
+      checkNotRegex(file);
+      checkSecondaryIndexEnabled();
       return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
+    }
+  }
+
+  @Operator
+  public Predicate<ChangeData> basename(String basename)
+      throws QueryParseException {
+    checkNotRegex(basename);
+    checkSecondaryIndexEnabled();
+    return new EqualsBasenamePredicate(args.dbProvider, args.patchListCache,
+        basename);
+  }
+
+  private void checkSecondaryIndexEnabled() throws QueryParseException {
+    if (args.indexManager == ChangeIndex.Manager.DISABLED) {
+      throw error("supplied query is using secondary index while it is disabled");
+    }
+  }
+
+  private void checkNotRegex(String file) throws QueryParseException {
+    if (file.startsWith("^")) {
+      throw error("regular expression not permitted here: file:" + file);
     }
   }
 

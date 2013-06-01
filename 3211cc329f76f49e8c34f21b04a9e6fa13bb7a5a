@@ -16,6 +16,24 @@
       "revId": "3211cc329f76f49e8c34f21b04a9e6fa13bb7a5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddbee5e1_b7f36827",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/RawInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-01T14:21:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_362198a9",
+      "revId": "3211cc329f76f49e8c34f21b04a9e6fa13bb7a5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

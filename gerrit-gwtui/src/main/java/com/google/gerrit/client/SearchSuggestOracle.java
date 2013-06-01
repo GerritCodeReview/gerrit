@@ -67,7 +67,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
   static {
     suggestions.add("age:");
     suggestions.add("age:1week"); // Give an example age
-
+    suggestions.add("basename:");
     suggestions.add("change:");
 
     suggestions.add("owner:");

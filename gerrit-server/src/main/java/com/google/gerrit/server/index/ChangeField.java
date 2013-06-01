@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -25,6 +28,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 /**
  * Fields indexed on change documents.
@@ -70,6 +75,24 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.currentFilePaths(args.db, args.patchListCache);
+        }
+      };
+
+  /** List of base filenames modified in the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> BASENAME =
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_BASENAME, FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return Iterables.transform(
+              input.currentFilePaths(args.db, args.patchListCache),
+              new Function<String, String>() {
+                @Override
+                public String apply(String input) {
+                  return Files.getNameWithoutExtension(input);
+                }
+              });
         }
       };
 

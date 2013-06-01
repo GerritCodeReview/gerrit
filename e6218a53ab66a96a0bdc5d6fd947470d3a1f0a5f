@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dd0ed3c_b5412053",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-01T22:42:29Z",
+      "side": 1,
+      "message": "I was thinking this would just get rolled into file:, i.e. for each file, emit both the full path and the basename. Seems like a burden on the user to remember that basename: and file: have different semantics.\n\nI\u0027d probably also emit the filename both with/without prefix. It would be weird for file:Foo to work but file:Foo.java not to.",
+      "revId": "e6218a53ab66a96a0bdc5d6fd947470d3a1f0a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

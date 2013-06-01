@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bdd3f145_d63ca4d0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-01T22:42:55Z",
+      "side": 1,
+      "message": "This needs to be incremented to trigger a reindex.",
+      "revId": "e6218a53ab66a96a0bdc5d6fd947470d3a1f0a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dd0ed3c_b5412053",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1

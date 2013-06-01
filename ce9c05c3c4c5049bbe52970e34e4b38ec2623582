@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9dd0ed3c_752708c0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/Capability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-01T03:14:13Z",
+      "side": 1,
+      "message": "Please do not abbreviate names such as description.",
+      "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d631df3_09f96904",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/StartReplicationCapability.java",
         "patchSetId": 1
@@ -37,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9dd0ed3c_55240cb9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/StartReplicationCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-01T03:14:13Z",
+      "side": 1,
+      "message": "The way this should work is:\n\nPlugin defines its requires such as (string literal used to be explicit in the example, a constant may make more sense):\n\n  @RequiresCapability(\"startReplication\")\n  public class StartReplicationCommand ... {\n\nThe capability checking code needs to be aware of what plugin it sucked the command or view object out of. It already knows the plugin name, it was parsed as part of the SSH command invocation or the URL that was parsed to find the view.\n\nThe capability checking code combines the plugin name with the name it sees in the annotation. Thus the annotation does not have a prefix like \"replication-\".\n\nTo declare a capability for the server UI, yes it will be necessary to define a mapping inside of the plugin. Given our existing framework the easiest way to do that is with a DynamicMap\u003cCapabilityDefinition\u003e. Bind the name using @Export(\"startReplication\") on the Capability class. Now the only thing the class needs is the description string:\n\n  @Export(\"startReplication\")\n  public StartReplicationCapability extends CapabilityDefinition {\n    public String getDescription() {\n      return \"Start Replication\";\n    }\n  }\n\nUsing DynamicMap\u003cCapabilityDefinition\u003e makes it trivial for the server to lookup a description by name on the fly.\n\nWe might also want to later add to this interface a method like:\n\n  public boolean isImpliedBy(String name) {\n    return \"administrateServer\".equals(name);\n  }\n\nso the default behavior is the permission is implied by admins the way most are, but a plugin could chose to modify its behavior on that.",
+      "parentUuid": "3d8381c6_42f95203",
+      "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d887de1_81ef5a39",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 1
@@ -66,6 +101,23 @@
       "side": 1,
       "message": "will do",
       "parentUuid": "1d887de1_81ef5a39",
+      "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_562414b9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/common/CapabilitiesRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-01T03:14:13Z",
+      "side": 1,
+      "message": "I would rather define a top level entity called ConfigServlet to obtain server information through. I think we need to export a lot more things in the near future that aren\u0027t /changes/, /accounts/, or /projects/.\n\nI guess I propose the URL space /config/server/capabilities for this use case, where the \"server\" name is a hard-coded constant in the ConfigCollection parser. Any IdString other than \"server\" would fail at this time. \"capabilities\" would then be able to be a CapabilitiesCollection the way you have defined here.",
       "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

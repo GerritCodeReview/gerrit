@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd3f145_362198a9",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/RawInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-01T04:19:59Z",
+      "side": 1,
+      "message": "Or POST.",
+      "revId": "3211cc329f76f49e8c34f21b04a9e6fa13bb7a5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

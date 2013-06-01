@@ -295,12 +295,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         throw new IllegalArgumentException();
       }
     } else {
-      if (!file.startsWith("^")
-          && args.indexManager != ChangeIndex.Manager.DISABLED) {
-        return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
-      } else {
+      if (file.startsWith("^")) {
         throw error("regular expression not permitted here: file:" + file);
       }
+      if (args.indexManager == ChangeIndex.Manager.DISABLED) {
+        throw error("supplied query is using secondary index while it is disabled");
+      }
+      return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
     }
   }
 

@@ -209,7 +209,7 @@ public class Reindex extends SiteProgram {
     }
     sem.acquire(queueLen);
     double elapsed = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-    System.out.format("Reindexed %d changes in %.02fms", i, elapsed);
+    System.out.format("Reindexed %d changes in %.02fms\n", i, elapsed);
 
     return ok.get() ? 0 : 1;
   }

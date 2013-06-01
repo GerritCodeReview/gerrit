@@ -29,4 +29,5 @@ public interface UiCommand<R extends RestResource> extends RestView<R> {
   String getTitle(R resource);
   boolean isVisible(R resource);
   boolean isEnabled(R resource);
+  String getConfirmationMessage(R resource);
 }

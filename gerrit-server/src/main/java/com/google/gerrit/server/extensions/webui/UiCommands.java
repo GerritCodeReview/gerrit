@@ -111,6 +111,7 @@ public class UiCommands {
             dsc.label = cmd.getLabel(resource);
             dsc.title = cmd.getTitle(resource);
             dsc.enabled = cmd.isEnabled(resource);
+            dsc.confirmationMessage = cmd.getConfirmationMessage(resource);
             return dsc;
           }
         }),

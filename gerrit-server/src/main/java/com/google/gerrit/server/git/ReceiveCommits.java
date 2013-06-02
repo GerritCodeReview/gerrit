@@ -1476,6 +1476,9 @@ public class ReceiveCommits {
       change.setTopic(magicBranch.topic);
       ins = changeInserterFactory.create(ctl, change, c)
           .setRequestScopePropagator(requestScopePropagator);
+      if (magicBranch.isDraft()) {
+        ins.setDraft();
+      }
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
           ins.getPatchSet().getRefName());
     }

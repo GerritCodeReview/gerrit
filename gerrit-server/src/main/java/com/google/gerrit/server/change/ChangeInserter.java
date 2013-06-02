@@ -65,7 +65,6 @@ public class ChangeInserter {
   private RequestScopePropagator requestScopePropagator;
   private ChangeMessage changeMessage;
   private Set<Account.Id> reviewers;
-  private boolean draft;
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
@@ -95,10 +94,6 @@ public class ChangeInserter {
     patchSet.setCreatedOn(change.getCreatedOn());
     patchSet.setUploader(change.getOwner());
     patchSet.setRevision(new RevId(commit.name()));
-    if (draft) {
-      change.setStatus(Change.Status.DRAFT);
-      patchSet.setDraft(true);
-    }
     patchSetInfo = patchSetInfoFactory.get(commit, patchSet.getId());
     change.setCurrentPatchSet(patchSetInfo);
     ChangeUtil.computeSortKey(change);
@@ -119,8 +114,9 @@ public class ChangeInserter {
     return this;
   }
 
-  public ChangeInserter setDraft(boolean draft) {
-    this.draft = draft;
+  public ChangeInserter setDraft() {
+    change.setStatus(Change.Status.DRAFT);
+    patchSet.setDraft(true);
     return this;
   }
 

@@ -30,4 +30,20 @@ public interface UiCommand<R extends RestResource> extends RestView<R> {
   boolean isVisible(R resource);
   boolean isEnabled(R resource);
   String getConfirmationMessage(R resource);
+
+  public static class Result {
+    public static enum Action {
+      /* No action */
+      NONE,
+      /* Reload current page */
+      RELOAD,
+      /* Redirect request to a location */
+      REDIRECT,
+    };
+
+    final String kind = "gerritcodereview#uicommandresult";
+    public String message;
+    public Action action;
+    public String location;
+  }
 }

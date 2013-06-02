@@ -47,6 +47,7 @@ import java.util.Set;
 
 public class PushOneCommit {
   public final static String SUBJECT = "test commit";
+  public final static String TAG = "v1.0";
 
   private final static String FILE_NAME = "a.txt";
   private final static String FILE_CONTENT = "some content";
@@ -80,13 +81,25 @@ public class PushOneCommit {
 
   public Result to(Git git, String ref)
       throws GitAPIException, IOException {
+    _to(git, ref);
+    return new Result(db, ref, pushHead(git, ref, false), changeId, subject);
+  }
+
+  public Result toWithTag(Git git, String ref)
+      throws GitAPIException, IOException {
+    _to(git, ref);
+    git.tag().setName(TAG).setAnnotated(false).call();
+    return new Result(db, ref, pushHead(git, ref, true), changeId, subject);
+  }
+
+  private void _to(Git git, String ref)
+      throws GitAPIException, IOException {
     add(git, fileName, content);
     if (changeId != null) {
       amendCommit(git, i, subject, changeId);
     } else {
       changeId = createCommit(git, i, subject);
     }
-    return new Result(db, ref, pushHead(git, ref), changeId, subject);
   }
 
   public static class Result {

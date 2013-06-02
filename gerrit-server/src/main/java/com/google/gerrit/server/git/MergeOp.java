@@ -390,7 +390,7 @@ public class MergeOp {
   private SubmitStrategy createStrategy(final SubmitType submitType)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
-        canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
+        canMergeFlag, getAlreadyAccepted(branchTip, toMerge.get(submitType)), destBranch);
   }
 
   private void openRepository() throws MergeException {
@@ -451,18 +451,24 @@ public class MergeOp {
     }
   }
 
-  private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip)
-      throws MergeException {
+  private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip,
+      final List<CodeReviewCommit> toMerge) throws MergeException {
     final Set<RevCommit> alreadyAccepted = new HashSet<RevCommit>();
 
     if (branchTip != null) {
       alreadyAccepted.add(branchTip);
     }
 
+    Set<String> toMergeSha1 = new HashSet<String>();
+    for (CodeReviewCommit rvc : toMerge) {
+      toMergeSha1.add(rvc.getName());
+    }
+
     try {
       for (final Ref r : repo.getAllRefs().values()) {
         if (r.getName().startsWith(Constants.R_HEADS)
-            || r.getName().startsWith(Constants.R_TAGS)) {
+            || (r.getName().startsWith(Constants.R_TAGS) && !toMergeSha1
+                .contains(r.getObjectId().getName()))) {
           try {
             alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
           } catch (IncorrectObjectTypeException iote) {

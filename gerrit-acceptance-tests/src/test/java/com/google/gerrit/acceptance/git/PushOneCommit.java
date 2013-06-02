@@ -58,6 +58,7 @@ public class PushOneCommit {
   private final String fileName;
   private final String content;
   private String changeId;
+  private String tagName;
 
   public PushOneCommit(ReviewDb db, PersonIdent i) {
     this(db, i, SUBJECT, FILE_NAME, FILE_CONTENT);
@@ -86,7 +87,14 @@ public class PushOneCommit {
     } else {
       changeId = createCommit(git, i, subject);
     }
-    return new Result(db, ref, pushHead(git, ref), changeId, subject);
+    if (tagName != null) {
+      git.tag().setName(tagName).setAnnotated(false).call();
+    }
+    return new Result(db, ref, pushHead(git, ref, tagName != null), changeId, subject);
+  }
+
+  public void setTag(final String tagName) {
+    this.tagName = tagName;
   }
 
   public static class Result {

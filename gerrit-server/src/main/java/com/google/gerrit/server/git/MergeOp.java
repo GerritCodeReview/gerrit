@@ -405,14 +405,14 @@ public class MergeOp {
 
     try {
       for (final Ref r : repo.getAllRefs().values()) {
-        if (r.getName().startsWith(Constants.R_HEADS)
-            || r.getName().startsWith(Constants.R_TAGS)) {
+        if (r.getName().startsWith(Constants.R_HEADS)) {
           try {
             alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
           } catch (IncorrectObjectTypeException iote) {
             // Not a commit? Skip over it.
           }
         }
+
       }
     } catch (IOException e) {
       throw new MergeException("Failed to determine already accepted commits.", e);

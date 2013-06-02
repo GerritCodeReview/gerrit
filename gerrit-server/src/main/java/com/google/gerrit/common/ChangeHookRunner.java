@@ -469,11 +469,13 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     }
 
     public void doChangeAbandonedHook(final Change change, final Account account,
-          final String reason, final ReviewDb db) throws OrmException {
+          final PatchSet patchSet, final String reason, final ReviewDb db)
+          throws OrmException {
         final ChangeAbandonedEvent event = new ChangeAbandonedEvent();
 
         event.change = eventFactory.asChangeAttribute(change);
         event.abandoner = eventFactory.asAccountAttribute(account);
+        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         event.reason = reason;
         fireEvent(change, event, db);
 
@@ -484,17 +486,20 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
         addArg(args, "--abandoner", getDisplayName(account));
+        addArg(args, "--commit", event.patchSet.revision);
         addArg(args, "--reason", reason == null ? "" : reason);
 
         runHook(change.getProject(), changeAbandonedHook, args);
     }
 
     public void doChangeRestoredHook(final Change change, final Account account,
-          final String reason, final ReviewDb db) throws OrmException {
+          final PatchSet patchSet, final String reason, final ReviewDb db)
+          throws OrmException {
         final ChangeRestoredEvent event = new ChangeRestoredEvent();
 
         event.change = eventFactory.asChangeAttribute(change);
         event.restorer = eventFactory.asAccountAttribute(account);
+        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         event.reason = reason;
         fireEvent(change, event, db);
 
@@ -505,6 +510,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
         addArg(args, "--restorer", getDisplayName(account));
+        addArg(args, "--commit", event.patchSet.revision);
         addArg(args, "--reason", reason == null ? "" : reason);
 
         runHook(change.getProject(), changeRestoredHook, args);

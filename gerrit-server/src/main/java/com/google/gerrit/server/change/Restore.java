@@ -121,6 +121,7 @@ public class Restore implements RestModifyView<ChangeResource, Input> {
     }
     hooks.doChangeRestoredHook(change,
         caller.getAccount(),
+        db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         dbProvider.get());
     return json.format(change);

@@ -122,6 +122,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
     }
     hooks.doChangeAbandonedHook(change,
         caller.getAccount(),
+        db.patchSets().get(change.currentPatchSetId()),
         Strings.emptyToNull(input.message),
         db);
     return json.format(change);

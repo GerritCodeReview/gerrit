@@ -21,9 +21,9 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.download.DownloadPanel;
+import com.google.gerrit.client.extensions.UiCommandResult;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.ActionDialog;
@@ -53,8 +53,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -308,6 +308,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     infoTable.setWidget(R_PARENTS, 1, parentsTable);
   }
 
+  private void redisplay() {
+    Gerrit.display(
+        PageLinks.toChange(patchSet.getId().getParentKey()),
+        new ChangeScreen(patchSet.getId().getParentKey()));
+  }
+
   private void populateActions(final PatchSetDetail detail) {
     final boolean isOpen = changeDetail.getChange().getStatus().isOpen();
 
@@ -339,12 +345,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
                       b.setEnabled(true);
                       super.onFailure(err);
                     }
-                  }
-
-                  private void redisplay() {
-                    Gerrit.display(
-                        PageLinks.toChange(patchSet.getId().getParentKey()),
-                        new ChangeScreen(patchSet.getId().getParentKey()));
                   }
               });
         }
@@ -577,8 +577,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         private void postProcessCommand(final UiCommandDetail cmd,
             final Button b) {
           b.setEnabled(false);
-          AsyncCallback<NativeString> cb =
-              new AsyncCallback<NativeString>() {
+          AsyncCallback<UiCommandResult> cb =
+              new AsyncCallback<UiCommandResult>() {
                 @Override
                 public void onFailure(Throwable caught) {
                   b.setEnabled(true);
@@ -586,10 +586,17 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
                 }
 
                 @Override
-                public void onSuccess(NativeString msg) {
+                public void onSuccess(UiCommandResult r) {
                   b.setEnabled(true);
-                  if (msg != null && !msg.asString().isEmpty()) {
-                    Window.alert(msg.asString());
+                  if (r.message() != null && !r.message().isEmpty()) {
+                    Window.alert(r.message());
+                  }
+                  if (UiCommandResult.Action.REDIRECT.name().equals(
+                      r.action())) {
+                    Gerrit.display(r.location());
+                  } else if (UiCommandResult.Action.RELOAD.name().equals(
+                      r.action())) {
+                    redisplay();
                   }
                 }
               };

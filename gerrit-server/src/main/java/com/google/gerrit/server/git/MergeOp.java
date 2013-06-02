@@ -333,7 +333,7 @@ public class MergeOp {
   private SubmitStrategy createStrategy(final SubmitType submitType)
       throws MergeException, NoSuchProjectException {
     return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
-        canMergeFlag, getAlreadyAccepted(branchTip), destBranch);
+        canMergeFlag, getAlreadyAccepted(branchTip, toMerge.get(submitType)), destBranch);
   }
 
   private void openRepository() throws MergeException {
@@ -394,24 +394,34 @@ public class MergeOp {
     }
   }
 
-  private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip)
-      throws MergeException {
+  private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip,
+      final List<CodeReviewCommit> toMerge) throws MergeException {
     final Set<RevCommit> alreadyAccepted = new HashSet<RevCommit>();
 
     if (branchTip != null) {
       alreadyAccepted.add(branchTip);
     }
 
+    Set<String> toMergeSha1 = new HashSet<String>();
+    for (CodeReviewCommit rvc : toMerge) {
+      toMergeSha1.add(rvc.getName());
+    }
+
     try {
       for (final Ref r : repo.getAllRefs().values()) {
+        boolean isTag = false;
         if (r.getName().startsWith(Constants.R_HEADS)
-            || r.getName().startsWith(Constants.R_TAGS)) {
+            || (isTag = r.getName().startsWith(Constants.R_TAGS))) {
           try {
-            alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
+            RevCommit commit = rw.parseCommit(r.getObjectId());
+            if (!isTag || !toMergeSha1.contains(commit.getName())) {
+              alreadyAccepted.add(commit);
+            }
           } catch (IncorrectObjectTypeException iote) {
             // Not a commit? Skip over it.
           }
         }
+
       }
     } catch (IOException e) {
       throw new MergeException("Failed to determine already accepted commits.", e);

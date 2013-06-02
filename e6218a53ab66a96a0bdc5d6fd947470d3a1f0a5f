@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fdb9e9f9_f812f168",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-02T03:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_d63ca4d0",
+      "revId": "e6218a53ab66a96a0bdc5d6fd947470d3a1f0a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dd0ed3c_b5412053",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-01T22:42:29Z",
       "side": 1,
       "message": "I was thinking this would just get rolled into file:, i.e. for each file, emit both the full path and the basename. Seems like a burden on the user to remember that basename: and file: have different semantics.\n\nI\u0027d probably also emit the filename both with/without prefix. It would be weird for file:Foo to work but file:Foo.java not to.",
+      "revId": "e6218a53ab66a96a0bdc5d6fd947470d3a1f0a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddbee5e1_37087837",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-02T03:58:42Z",
+      "side": 1,
+      "message": "If user has both files in tree: \"Foo\" and \"Foo.java\" he would catch both with your file:\u003cbasename|exact file name\u003e approach and would have exact match with two different operators: file:\u003cexact file name\u003e and basename:\u003cexact bathename\u003e. But it is subtle different, i let you decide...",
+      "parentUuid": "9dd0ed3c_b5412053",
       "revId": "e6218a53ab66a96a0bdc5d6fd947470d3a1f0a5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

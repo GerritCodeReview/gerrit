@@ -113,7 +113,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   @Test
   public void submitOnPush() throws GitAPIException, OrmException,
       IOException, ConfigInvalidException {
-    grantSubmit(project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     PushOneCommit.Result r = pushTo("refs/for/master%submit");
     r.assertOkStatus();
     r.assertChange(Change.Status.MERGED, null, admin);
@@ -122,9 +122,25 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitOnPushWithTag() throws GitAPIException, OrmException,
+      IOException, ConfigInvalidException {
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
+    grant(Permission.CREATE, project, "refs/tags/*");
+    final String tag = "v1.0";
+    PushOneCommit push = new PushOneCommit(db, admin.getIdent());
+    push.setTag(tag);
+    PushOneCommit.Result r = push.to(git, "refs/for/master%submit");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.MERGED, null, admin);
+    assertSubmitApproval(r.getPatchSetId());
+    assertCommit(project, "refs/heads/master");
+    assertTag(project, "refs/heads/master", tag);
+  }
+
+  @Test
   public void submitOnPushToRefsMetaConfig() throws GitAPIException,
       OrmException, IOException, ConfigInvalidException {
-    grantSubmit(project, "refs/for/refs/meta/config");
+    grant(Permission.SUBMIT, project, "refs/for/refs/meta/config");
 
     git.fetch().setRefSpecs(new RefSpec("refs/meta/config:refs/meta/config")).call();
     ObjectId objectId = git.getRepository().getRef("refs/meta/config").getObjectId();
@@ -145,7 +161,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     push(master, "one change", "a.txt", "some content");
     git.checkout().setName(objectId.getName()).call();
 
-    grantSubmit(project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "a.txt", "other content");
     r.assertOkStatus();
@@ -161,7 +177,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     push(master, "one change", "a.txt", "some content");
     git.checkout().setName(objectId.getName()).call();
 
-    grantSubmit(project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     PushOneCommit.Result r =
         push("refs/for/master%submit", "other change", "b.txt", "other content");
     r.assertOkStatus();
@@ -175,7 +191,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     PushOneCommit.Result r =
         push("refs/for/master", PushOneCommit.SUBJECT, "a.txt", "some content");
 
-    grantSubmit(project, "refs/for/refs/heads/master");
+    grant(Permission.SUBMIT, project, "refs/for/refs/heads/master");
     r = push("refs/for/master%submit", PushOneCommit.SUBJECT, "a.txt",
         "other content", r.getChangeId());
     r.assertOkStatus();
@@ -220,13 +236,13 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
     r.assertErrorStatus("branch " + branchName + " not found");
   }
 
-  private void grantSubmit(Project.NameKey project, String ref)
+  private void grant(String permission, Project.NameKey project, String ref)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     MetaDataUpdate md = metaDataUpdateFactory.create(project);
-    md.setMessage("Grant submit on " + ref);
+    md.setMessage(String.format("Grant %s on %s", permission, ref));
     ProjectConfig config = ProjectConfig.read(md);
     AccessSection s = config.getAccessSection(ref, true);
-    Permission p = s.getPermission(Permission.SUBMIT, true);
+    Permission p = s.getPermission(permission, true);
     AccountGroup adminGroup = groupCache.get(new AccountGroup.NameKey("Administrators"));
     p.add(new PermissionRule(config.resolve(adminGroup)));
     config.commit(md);
@@ -269,6 +285,23 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
         assertEquals("Merge \"" + subject + "\"", c.getShortMessage());
         assertEquals(admin.email, c.getAuthorIdent().getEmailAddress());
         assertEquals(serverIdent.getEmailAddress(), c.getCommitterIdent().getEmailAddress());
+      } finally {
+        rw.release();
+      }
+    } finally {
+      r.close();
+    }
+  }
+
+  private void assertTag(Project.NameKey project, String branch, String tagName)
+      throws IOException {
+    Repository r = repoManager.openRepository(project);
+    try {
+      RevWalk rw = new RevWalk(r);
+      try {
+        ObjectId headCommit = r.getRef(branch).getObjectId();
+        ObjectId taggedCommit = r.getRef(tagName).getObjectId();
+        assertEquals(headCommit, taggedCommit);
       } finally {
         rw.release();
       }

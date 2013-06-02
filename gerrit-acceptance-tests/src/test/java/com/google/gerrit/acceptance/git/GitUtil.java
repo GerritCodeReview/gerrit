@@ -161,9 +161,13 @@ public class GitUtil {
     }
   }
 
-  public static PushResult pushHead(Git git, String ref) throws GitAPIException {
+  public static PushResult pushHead(Git git, String ref, boolean pushTags)
+      throws GitAPIException {
     PushCommand pushCmd = git.push();
     pushCmd.setRefSpecs(new RefSpec("HEAD:" + ref));
+    if (pushTags) {
+      pushCmd.setPushTags();
+    }
     Iterable<PushResult> r = pushCmd.call();
     return Iterables.getOnlyElement(r);
   }

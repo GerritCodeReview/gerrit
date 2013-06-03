@@ -59,6 +59,29 @@ this topic and that you understand the risks.
 	</VirtualHost>
 ----
 
+If you are running an Apache version below 2.2.18 (where
+'AllowEncodedSlashes NoDecode' is not supported), you can use the
+'proxy_http' module and pass the parameter 'nocanon' to the
+'ProxyPass' option together with 'AllowEncodedSlashes On':
+
+----
+	<VirtualHost *>
+	  ServerName review.example.com
+
+	  ProxyRequests Off
+	  ProxyVia Off
+	  ProxyPreserveHost On
+
+	  <Proxy *>
+	    Order deny,allow
+	    Allow from all
+	  </Proxy>
+
+	  AllowEncodedSlashes On
+	  ProxyPass /r/ http://127.0.0.1:8081/r/ nocanon
+	</VirtualHost>
+----
+
 SSL
 ~~~
 
@@ -79,6 +102,16 @@ the SSL engine in the Apache VirtualHost block:
 See the Apache 'mod_ssl' documentation for more details on how to
 configure SSL within the server, like controlling how strong of an
 encryption algorithm is required.
+
+Troubleshooting
+~~~~~~~~~~~~~~~
+
+If you are encountering 'Page Not Found' errors when opening the change
+screen, your Apache proxy is very likely decoding the passed URL.
+Make sure to either use 'mod_rewrite' together with
+'AllowEncodedSlashes NoDecode' or instead (if 'NoDecode' is not
+available) 'mod_proxy' together with 'AllowEncodedSlashes No' and
+'ProxyPass .. nocanon'.
 
 
 Nginx Configuration
@@ -123,6 +156,14 @@ the SSL engine in the Nginx server statement:
 See the Nginx 'http ssl module' documentation for more details on
 how to configure SSL within the server, like controlling how strong
 of an encryption algorithm is required.
+
+Troubleshooting
+~~~~~~~~~~~~~~~
+
+If you are encountering 'Page Not Found' errors when opening the change
+screen, your Nginx proxy is very likely decoding the passed URL.
+Make sure to use a 'proxy_pass' URL without any path (esp. no trailing
+'/' after the 'host:port').
 
 GERRIT
 ------

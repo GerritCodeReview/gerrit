@@ -15,12 +15,14 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.diff.DiffInfo.Region;
+import com.google.gerrit.client.diff.DiffInfo.Span;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -32,6 +34,7 @@ import com.google.gwt.user.client.Window;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.ModeInjector;
 
 public class CodeMirrorDemo extends Screen {
@@ -73,6 +76,7 @@ public class CodeMirrorDemo extends Screen {
     DiffApi.diff(revision, path)
       .base(base)
       .wholeFile()
+      .intraline()
       .ignoreWhitespace(DiffApi.IgnoreWhitespace.NONE)
       .get(group.add(new GerritCallback<DiffInfo>() {
         @Override
@@ -171,9 +175,13 @@ public class CodeMirrorDemo extends Screen {
         int delta = current.a().length();
         insertEmptyLines(cmB, lineB, delta);
         lineA = colorLines(cmA, lineA, delta);
-      } else { // TODO: Implement intraline
+      } else {
+        JsArrayString currentA = current.a();
+        JsArrayString currentB = current.b();
         int aLength = current.a().length();
         int bLength = current.b().length();
+        int origLineA = lineA;
+        int origLineB = lineB;
         lineA = colorLines(cmA, lineA, aLength);
         lineB = colorLines(cmB, lineB, bLength);
         if (aLength < bLength) {
@@ -181,6 +189,8 @@ public class CodeMirrorDemo extends Screen {
         } else if (aLength > bLength) {
           insertEmptyLines(cmB, lineB, aLength - bLength);
         }
+        markEdit(cmA, currentA, current.edit_a(), origLineA);
+        markEdit(cmB, currentB, current.edit_b(), origLineB);
       }
     }
   }
@@ -202,9 +212,78 @@ public class CodeMirrorDemo extends Screen {
     return line + cnt;
   }
 
+  private void markEdit(CodeMirror cm, JsArrayString lines,
+      JsArray<Span> edits, int startLine) {
+    int pos = 0;
+    LineIterator iter = new LineIterator(lines, startLine);
+    Configuration diffOpt = Configuration.create()
+        .set("className", diffTable.style.diff())
+        .set("readOnly", true);
+    Configuration editOpt = Configuration.create()
+        .set("className", diffTable.style.intraline())
+        .set("readOnly", true);
+    LineCharacter last = LineCharacter.create(0, 0);
+    for (int i = 0; i < edits.length(); i++) {
+      Span span = edits.get(i);
+      LineCharacter from = iter.advance(span.begin() - pos);
+      LineCharacter to = iter.advance(span.length());
+      int fromLine = from.getLine();
+      pos = span.begin() + span.length();
+      if (last.getLine() == fromLine) {
+        cm.markText(last, from, diffOpt);
+      } else {
+        cm.markText(LineCharacter.create(fromLine, 0), from, diffOpt);
+      }
+      cm.markText(from, to, editOpt);
+      last = to;
+      for (int line = fromLine; line < to.getLine(); line++) {
+        cm.addLineClass(line, LineClassWhere.BACKGROUND,
+            diffTable.style.intraline());
+      }
+    }
+  }
+
   private static String getContentType(DiffInfo.FileMeta meta) {
     return meta != null && meta.content_type() != null
         ? ModeInjector.getContentType(meta.content_type())
         : null;
+  }
+
+  private class LineIterator {
+    private JsArrayString lines;
+    private int startLine;
+    private int currLineIndex;
+    private int currLineOffset;
+
+    private LineIterator(JsArrayString lineArray, int start) {
+      lines = lineArray;
+      startLine = start;
+      currLineIndex = 0;
+      currLineOffset = 0;
+    }
+
+    private LineCharacter advance(int numOfChar) {
+      while (currLineIndex < lines.length()) {
+        String line = lines.get(currLineIndex).substring(currLineOffset);
+        int lengthWithNewline = line.length() + 1;
+        if (numOfChar < lengthWithNewline) {
+          LineCharacter at = LineCharacter.create(startLine + currLineIndex,
+              numOfChar + currLineOffset);
+          currLineOffset += numOfChar;
+          if (currLineOffset == line.length()) {
+            advanceLine();
+          }
+          return at;
+        }
+        numOfChar -= lengthWithNewline;
+        advanceLine();
+      }
+      throw new IllegalStateException("LineIterator index out of bound");
+    }
+
+    private void advanceLine() {
+      currLineIndex++;
+      currLineOffset = 0;
+    }
   }
 }

@@ -16,6 +16,24 @@
       "revId": "9bfddea5115ffedde2a40307c717266799402da5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddbee5e1_d7c93ca2",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011597
+      },
+      "writtenOn": "2013-06-03T20:29:13Z",
+      "side": 1,
+      "message": "But isn\u0027t the problem that the proxy transforms / to %2F, which is encoding for me. Nevertheless, you\u0027re more into the topic.\n\nIf you give me a short feedback that it should be really decoded, I will push a new patch set.",
+      "parentUuid": "fdb9e9f9_58b67d15",
+      "revId": "9bfddea5115ffedde2a40307c717266799402da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

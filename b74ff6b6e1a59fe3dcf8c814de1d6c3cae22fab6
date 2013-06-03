@@ -16,6 +16,24 @@
       "revId": "b74ff6b6e1a59fe3dcf8c814de1d6c3cae22fab6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_78b94103",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-03T16:48:16Z",
+      "side": 1,
+      "message": "This is already checked in the parse method in SshKeys. Do you mean it should be checked here once more?",
+      "parentUuid": "fdb9e9f9_38850949",
+      "revId": "b74ff6b6e1a59fe3dcf8c814de1d6c3cae22fab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

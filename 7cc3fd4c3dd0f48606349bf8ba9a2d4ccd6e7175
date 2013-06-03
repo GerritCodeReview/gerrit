@@ -138,6 +138,24 @@
       "revId": "7cc3fd4c3dd0f48606349bf8ba9a2d4ccd6e7175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddbee5e1_17a9f4c6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/GetConfigFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-03T14:34:47Z",
+      "side": 1,
+      "message": "OK, agreed. I am going to do this as a plugin.",
+      "parentUuid": "ddbee5e1_37acf8d6",
+      "revId": "7cc3fd4c3dd0f48606349bf8ba9a2d4ccd6e7175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

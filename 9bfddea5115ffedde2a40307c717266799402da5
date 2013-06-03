@@ -34,6 +34,24 @@
       "revId": "9bfddea5115ffedde2a40307c717266799402da5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dcaf591_33088837",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-06-03T20:30:20Z",
+      "side": 1,
+      "message": "Ouch. I think the terminology is going to make my head hurt, but the option is called \"nodecode\" in Apache, and it does in fact prevent the translation from %2F to /... so I believe you\u0027re right.",
+      "parentUuid": "fdb9e9f9_58b67d15",
+      "revId": "9bfddea5115ffedde2a40307c717266799402da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

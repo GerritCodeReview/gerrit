@@ -102,6 +102,24 @@
       "revId": "7cc3fd4c3dd0f48606349bf8ba9a2d4ccd6e7175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddbee5e1_77a270e9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/GetConfigFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-03T14:29:46Z",
+      "side": 1,
+      "message": "Your concerns are understandable. And even if the availability of this API would be made configurable there still would be a risk that it gets started due to a bug. Just the presence of this API in the server code seems very risky.\n\nI am thinking about implementing the download/upload of server config files as a plugin. Only the init on startup would stay in the core.",
+      "parentUuid": "ddbee5e1_b797e88e",
+      "revId": "7cc3fd4c3dd0f48606349bf8ba9a2d4ccd6e7175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

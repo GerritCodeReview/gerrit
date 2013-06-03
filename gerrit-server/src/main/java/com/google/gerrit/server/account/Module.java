@@ -53,6 +53,7 @@ public class Module extends RestApiModule {
     child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);
     post(ACCOUNT_KIND, "sshkeys").to(AddSshKey.class);
     get(SSH_KEY_KIND).to(GetSshKey.class);
+    delete(SSH_KEY_KIND).to(DeleteSshKey.class);
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
     child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);

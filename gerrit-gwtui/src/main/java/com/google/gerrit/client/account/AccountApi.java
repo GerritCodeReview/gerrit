@@ -29,9 +29,15 @@ import java.util.Set;
  * accounts.
  */
 public class AccountApi {
+  /** Retrieve email addresses */
+  public static void getEmails(String account,
+      AsyncCallback<JsArray<EmailInfo>> cb) {
+    new RestApi("/accounts/").id(account).view("emails").get(cb);
+  }
+
   /** Register a new email address */
   public static void registerEmail(String account, String email,
-      AsyncCallback<NativeString> cb) {
+      AsyncCallback<EmailInfo> cb) {
     JavaScriptObject in = JavaScriptObject.createObject();
     new RestApi("/accounts/").id(account).view("emails").id(email)
         .ifNoneMatch().put(in, cb);

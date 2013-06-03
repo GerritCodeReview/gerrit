@@ -17,15 +17,15 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.ContactInformation;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -45,12 +45,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.common.AsyncCallback;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 class ContactPanelShort extends Composite {
   protected final FlowPanel body;
@@ -210,28 +204,19 @@ class ContactPanelShort extends Composite {
         postLoad();
       }
     });
-    Util.ACCOUNT_SEC
-        .myExternalIds(new GerritCallback<List<AccountExternalId>>() {
-          public void onSuccess(final List<AccountExternalId> result) {
-            if (!isAttached()) {
-              return;
-            }
-            final Set<String> emails = new HashSet<String>();
-            for (final AccountExternalId i : result) {
-              if (i.getEmailAddress() != null
-                  && i.getEmailAddress().length() > 0) {
-                emails.add(i.getEmailAddress());
-              }
-            }
-            final List<String> addrs = new ArrayList<String>(emails);
-            Collections.sort(addrs);
-            for (String s : addrs) {
-              emailPick.addItem(s);
-            }
-            haveEmails = true;
-            postLoad();
-          }
-        });
+    AccountApi.getEmails("self", new GerritCallback<JsArray<EmailInfo>>() {
+      @Override
+      public void onSuccess(JsArray<EmailInfo> result) {
+        if (!isAttached()) {
+          return;
+        }
+        for (EmailInfo i : Natives.asList(result)) {
+          emailPick.addItem(i.email());
+        }
+        haveEmails = true;
+        postLoad();
+      }
+    });
   }
 
   private void postLoad() {
@@ -284,9 +269,9 @@ class ContactPanelShort extends Composite {
 
         inEmail.setEnabled(false);
         register.setEnabled(false);
-        AccountApi.registerEmail("self", addr, new GerritCallback<NativeString>() {
+        AccountApi.registerEmail("self", addr, new GerritCallback<EmailInfo>() {
           @Override
-          public void onSuccess(NativeString result) {
+          public void onSuccess(EmailInfo result) {
             box.hide();
             if (Gerrit.getConfig().getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
               currentEmail = addr;

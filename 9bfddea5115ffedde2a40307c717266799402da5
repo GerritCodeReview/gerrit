@@ -70,6 +70,24 @@
       "revId": "9bfddea5115ffedde2a40307c717266799402da5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dcaf591_f3121069",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-06-03T20:35:58Z",
+      "side": 1,
+      "message": "How about this instead: \"Gerrit now requires passed URLs to remain unchanged by the proxy.\" -- specifically, encoding things where Gerrit doesn\u0027t expect them and decoding things where Gerrit wants encoded would both be a problem.  Bit of a cop-out, but technically correct still. ;)",
+      "parentUuid": "5dcaf591_33088837",
+      "revId": "9bfddea5115ffedde2a40307c717266799402da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

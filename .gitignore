@@ -12,3 +12,4 @@
 /buck-cache
 /buck-out
 /local.properties
+*.pyc

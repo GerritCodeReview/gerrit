@@ -69,6 +69,24 @@
       "revId": "e6218a53ab66a96a0bdc5d6fd947470d3a1f0a5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_985f7525",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-03T13:09:25Z",
+      "side": 1,
+      "message": "I agree with Dave Borowitz here, file:Foo or file:Foo.java should just work. Users shouldn\u0027t have to use basename: to query for a file.\n\nfile: might be misnamed. Maybe path: should be the full path and file: should be the more generic form that matches either the full path or the basename?",
+      "parentUuid": "ddbee5e1_37087837",
+      "revId": "e6218a53ab66a96a0bdc5d6fd947470d3a1f0a5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

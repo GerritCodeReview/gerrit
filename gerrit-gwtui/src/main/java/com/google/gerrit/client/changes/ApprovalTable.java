@@ -52,6 +52,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -105,6 +106,13 @@ public class ApprovalTable extends Composite {
     setStyleName(Gerrit.RESOURCES.css().approvalTable());
   }
 
+  /**
+   * Sets the header row
+   *
+   * @param labels The list of labels to display in the header. This list does
+   *    not get resorted, so be sure that the list's elements are in the same
+   *    order as the list of labels passed to the {@code displayRow} method.
+   */
   private void displayHeader(Collection<String> labels) {
     table.resizeColumns(2 + labels.size());
 
@@ -144,12 +152,14 @@ public class ApprovalTable extends Composite {
     if (byUser.isEmpty()) {
       table.setVisible(false);
     } else {
-      displayHeader(change.labels());
+      List<String> labels = new ArrayList<String>(change.labels());
+      Collections.sort(labels);
+      displayHeader(labels);
       table.resizeRows(1 + byUser.size());
       int i = 1;
       for (ApprovalDetail ad : ApprovalDetail.sort(
           byUser.values(), change.owner()._account_id())) {
-        displayRow(i++, ad, change, accounts.get(ad.getAccount().get()));
+        displayRow(i++, ad, labels, accounts.get(ad.getAccount().get()));
       }
       table.setVisible(true);
     }
@@ -324,8 +334,18 @@ public class ApprovalTable extends Composite {
         });
   }
 
-  private void displayRow(int row, final ApprovalDetail ad, ChangeInfo change,
-      AccountInfo account) {
+  /**
+   * Sets the reviewer data for a row.
+   *
+   * @param row The number of the row on which to set the reviewer.
+   * @param ad The details for this reviewer's approval.
+   * @param labels The list of labels to show. This list does not get resorted,
+   *    so be sure that the list's elements are in the same order as the list
+   *    of labels passed to the {@code displayHeader} method.
+   * @param account The account information for the approval.
+   */
+  private void displayRow(int row, final ApprovalDetail ad,
+      List<String> labels, AccountInfo account) {
     final CellFormatter fmt = table.getCellFormatter();
     int col = 0;
 
@@ -351,7 +371,7 @@ public class ApprovalTable extends Composite {
     }
     fmt.setStyleName(row, col++, Gerrit.RESOURCES.css().removeReviewerCell());
 
-    for (String labelName : change.labels()) {
+    for (String labelName : labels) {
       fmt.setStyleName(row, col, Gerrit.RESOURCES.css().approvalscore());
       if (!ad.canVote(labelName)) {
         fmt.addStyleName(row, col, Gerrit.RESOURCES.css().notVotable());

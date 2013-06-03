@@ -52,6 +52,24 @@
       "revId": "9bfddea5115ffedde2a40307c717266799402da5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_18b00515",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011597
+      },
+      "writtenOn": "2013-06-03T20:33:05Z",
+      "side": 1,
+      "message": "Ah, yes.. it makes a lot of sense, of course :-)",
+      "parentUuid": "5dcaf591_33088837",
+      "revId": "9bfddea5115ffedde2a40307c717266799402da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

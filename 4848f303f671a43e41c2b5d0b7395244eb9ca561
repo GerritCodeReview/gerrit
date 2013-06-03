@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ddbee5e1_b7e5a82a",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-03T16:42:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddbee5e1_f77680a0",
+      "revId": "4848f303f671a43e41c2b5d0b7395244eb9ca561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb9e9f9_18a925c7",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-03T14:47:04Z",
       "side": 1,
       "message": "\"username must be set\" ?",
+      "revId": "4848f303f671a43e41c2b5d0b7395244eb9ca561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_18d7e543",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-03T16:42:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdb9e9f9_18a925c7",
       "revId": "4848f303f671a43e41c2b5d0b7395244eb9ca561",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

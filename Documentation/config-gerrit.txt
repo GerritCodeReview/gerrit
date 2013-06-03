@@ -2275,28 +2275,6 @@ If true the deprecated `/query` URL is available to return JSON
 and text results for changes. If false, the URL is disabled and
 returns 404 to clients. Default is true, enabling `/query`.
 
-[[site.upgradeSchemaOnStartup]]site.upgradeSchemaOnStartup::
-+
-Control whether schema upgrade should be done on Gerrit startup. The following
-values are supported:
-+
-* `OFF`
-+
-No automatic schema upgrade on startup.
-+
-* `AUTO`
-+
-Perform schema migration on startup, if necessary.  If, as a result of
-schema migration, there would be any unused database objects they will
-be dropped automatically.
-+
-* `AUTO_NO_PRUNE`
-+
-Like `AUTO` but unused database objects will not be pruned.
-
-+
-The default is `OFF`.
-
 [[ssh-alias]] Section ssh-alias
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

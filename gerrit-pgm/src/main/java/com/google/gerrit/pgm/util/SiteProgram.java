@@ -51,6 +51,13 @@ public abstract class SiteProgram extends AbstractProgram {
   @Option(name = "--site-path", aliases = {"-d"}, usage = "Local directory containing site data")
   private File sitePath = new File(".");
 
+  protected SiteProgram() {
+  }
+
+  protected SiteProgram(File sitePath) {
+    this.sitePath = sitePath;
+  }
+
   /** @return the site path specified on the command line. */
   protected File getSitePath() {
     File path = sitePath.getAbsoluteFile();

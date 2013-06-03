@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdb9e9f9_f8db1173",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-03T15:19:16Z",
+      "side": 1,
+      "message": "This could be a CallbackGroup instead:\n\n  CallbackGroup group \u003d new CallbackGroup();\n  for (int seq : sequenceNumbers) {\n    new RestApi(\"/accounts/\")\n      .id(account)\n      .view(\"sshkeys\")\n      .id(seq)\n      .delete(group.add(cb));\n    cb \u003d CallbackGroup.emptyCallback();\n  }\n\nand define emptyCallback():\n\n  \u003cT\u003e\n  static AsyncCallback\u003cT\u003e emptyCallback() {\n    return new AsyncCallback\u003cT\u003e() {\n      public void onSuccess(T result) {}\n      public void onError(Throwable err) {}\n    };\n  }\n\nWe have another place in the CodeMirror loading path that needs this empty callback code. So overall I think we would be net-negative if that refactoring happens after this emptyCallback method is defined, instead of adding 49 lines to the project with CountingCallback.",
+      "revId": "634a7f3cbe75b52662fdf19fcee33f221f53e8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

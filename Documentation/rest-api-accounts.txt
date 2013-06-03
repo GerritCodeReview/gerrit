@@ -547,6 +547,24 @@ describes the new SSH key.
   }
 ----
 
+[[delete-ssh-key]]
+Delete SSH Key
+~~~~~~~~~~~~~~
+[verse]
+'DELETE /accounts/link:#account-id[\{account-id\}]/sshkeys/link:#ssh-key-id[\{ssh-key-id\}]'
+
+Deletes an SSH key of a user.
+
+.Request
+----
+  DELETE /accounts/self/sshkeys/2 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[list-account-capabilities]]
 List Account Capabilities
 ~~~~~~~~~~~~~~~~~~~~~~~~~

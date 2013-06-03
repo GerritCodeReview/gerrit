@@ -491,7 +491,7 @@ public class Dispatcher {
     }
 
     if (!rest.isEmpty()) {
-      Patch.Key p = new Patch.Key(ps, rest);
+      Patch.Key p = new Patch.Key(ps, KeyUtil.decode(rest));
       patch(token, base, p, 0, null, null, panel);
     } else {
       if (panel == null) {

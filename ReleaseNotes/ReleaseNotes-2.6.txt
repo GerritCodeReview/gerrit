@@ -23,6 +23,16 @@ Schema Change
 a later 2.1.x version), and then to 2.6.x.  If you are upgrading from 2.2.x.x or
 newer, you may ignore this warning and upgrade directly to 2.6.x.
 
+Proxy Configuration
+-------------------
+
+If you are running a reverse proxy in front of Gerrit (e.g. Apache or Nginx), make sure to check your
+configuration, especially if you are encountering 'Page Not Found' errors when opening the change screen.
+See the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-reverseproxy.html[
+Reverse Proxy Configuration] for details.
+
+Gerrit now requires passed URLs to be unchanged by the proxy.
+
 Release Highlights
 ------------------
 * 42x improvement on `git clone` and `git fetch`

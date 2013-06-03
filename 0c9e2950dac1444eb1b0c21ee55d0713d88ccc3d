@@ -88,6 +88,24 @@
       "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddbee5e1_97750494",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-03T14:49:00Z",
+      "side": 1,
+      "message": "\u003e Do we agree on the objective at least, PS3 was good except for the default?\n\nYes.\n\n\u003e If we agree, does anyone know what the appropriate way to achieve that is?\n\nI don\u0027t know yet. Will have to look at the QueryRewriter code a bit more in order to first understand how it works before I can propose anything.",
+      "parentUuid": "bdd3f145_f6e9e036",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

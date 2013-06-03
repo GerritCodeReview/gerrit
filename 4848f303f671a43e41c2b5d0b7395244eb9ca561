@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddbee5e1_f77680a0",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-03T14:47:04Z",
+      "side": 1,
+      "message": "This documentation disagrees with the implementation of GetHttpPassword. The implementation returns 404 on null.",
+      "revId": "4848f303f671a43e41c2b5d0b7395244eb9ca561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_18a925c7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-03T14:47:04Z",
+      "side": 1,
+      "message": "\"username must be set\" ?",
+      "revId": "4848f303f671a43e41c2b5d0b7395244eb9ca561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

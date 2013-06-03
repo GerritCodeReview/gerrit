@@ -120,6 +120,24 @@
       "revId": "7cc3fd4c3dd0f48606349bf8ba9a2d4ccd6e7175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddbee5e1_37acf8d6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/admin/GetConfigFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-03T14:31:39Z",
+      "side": 1,
+      "message": "Yes, I was just coming back here to suggest running this in a plugin rather than in the core server. I think it belongs in a plugin. Installation an admin can decide if they want this feature and take its associated risks, or not.\n\nAn admin can hack a server by installing a plugin remotely. So if the feature is not enabled the admin can add it remotely, use it, and disable the plugin. :-)",
+      "parentUuid": "ddbee5e1_77a270e9",
+      "revId": "7cc3fd4c3dd0f48606349bf8ba9a2d4ccd6e7175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

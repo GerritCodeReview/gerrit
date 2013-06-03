@@ -43,6 +43,18 @@ public class CallbackGroup {
   private final Map<Object, Object> results;
   private boolean failed;
 
+  public static <T> AsyncCallback<T> emptyCallback() {
+    return new AsyncCallback<T>() {
+      @Override
+      public void onSuccess(T result) {
+      }
+
+      @Override
+      public void onFailure(Throwable err) {
+      }
+    };
+  }
+
   public CallbackGroup() {
     callbacks = new ArrayList<Object>();
     results = new HashMap<Object, Object>();

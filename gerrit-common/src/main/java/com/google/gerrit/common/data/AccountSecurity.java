@@ -18,7 +18,6 @@ import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -31,11 +30,6 @@ import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface AccountSecurity extends RemoteJsonService {
-  @Audit
-  @SignInRequired
-  void deleteSshKeys(Set<AccountSshKey.Id> ids,
-      AsyncCallback<VoidResult> callback);
-
   @Audit
   @SignInRequired
   void changeUserName(String newName, AsyncCallback<VoidResult> callback);

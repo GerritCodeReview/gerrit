@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdb9e9f9_f860b1e4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-03T13:00:25Z",
+      "side": 1,
+      "message": "I would just go with a simpler one:\n\n  throw error(\"secondary index must be enabled for file:\" + file);",
+      "revId": "cb8b638e3e7d00e47a40ee4f3592bc25db196306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

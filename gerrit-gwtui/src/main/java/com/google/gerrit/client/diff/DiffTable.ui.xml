@@ -44,6 +44,9 @@ limitations under the License.
     .b .diff .CodeMirror-linenumber {
       background-color: #dfd;
     }
+    .a .intraline {
+      background-color: #faa;
+    }
     .b .intraline {
       background-color: #9f9;
     }

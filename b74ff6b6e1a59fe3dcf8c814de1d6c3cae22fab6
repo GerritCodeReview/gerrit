@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdb9e9f9_38850949",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteSshKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-03T15:05:38Z",
+      "side": 1,
+      "message": "Please add a check to verify the caller doing the delete is the target user or the admin.",
+      "revId": "b74ff6b6e1a59fe3dcf8c814de1d6c3cae22fab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

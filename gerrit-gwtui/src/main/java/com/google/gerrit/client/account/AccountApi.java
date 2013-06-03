@@ -15,11 +15,14 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.Set;
 
 /**
  * A collection of static methods which work on the Gerrit REST API for specific
@@ -45,6 +48,17 @@ public class AccountApi {
       AsyncCallback<SshKeyInfo> cb) {
     new RestApi("/accounts/").id(account).view("sshkeys")
         .post(sshPublicKey, cb);
+  }
+
+  /** Delete SSH keys */
+  public static void deleteSshKeys(String account,
+      Set<Integer> sequenceNumbers, AsyncCallback<VoidResult> cb) {
+    CallbackGroup group = new CallbackGroup();
+    for (int seq : sequenceNumbers) {
+      new RestApi("/accounts/").id(account).view("sshkeys").id(seq)
+          .delete(group.add(cb));
+      cb = CallbackGroup.emptyCallback();
+    }
   }
 
   /** Generate a new HTTP password */

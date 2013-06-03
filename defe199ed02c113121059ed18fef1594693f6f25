@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddbee5e1_97c3c480",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-03T20:49:38Z",
+      "side": 1,
+      "message": "If the nocanon flag works, why did we have to switch to mod_rewrite?\n\nmod_rewrite doesn\u0027t use connection pooling and HTTP keep-live, while mod_proxy can. And most installations \u003c\u003d 2.5 are using mod_proxy. So there is some reasonable argument for ditching the mod_rewrite version and using mod_proxy if we can.",
+      "revId": "defe199ed02c113121059ed18fef1594693f6f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_d8260d8e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-03T20:49:38Z",
+      "side": 1,
+      "message": "Should this block be removed and/or merged with the block at the top?",
+      "revId": "defe199ed02c113121059ed18fef1594693f6f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

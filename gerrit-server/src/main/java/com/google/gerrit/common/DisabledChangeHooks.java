@@ -37,7 +37,7 @@ public final class DisabledChangeHooks implements ChangeHooks {
 
   @Override
   public void doChangeAbandonedHook(Change change, Account account,
-      String reason, ReviewDb db) {
+      PatchSet patchSet, String reason, ReviewDb db) {
   }
 
   @Override
@@ -52,7 +52,7 @@ public final class DisabledChangeHooks implements ChangeHooks {
 
   @Override
   public void doChangeRestoredHook(Change change, Account account,
-      String reason, ReviewDb db) {
+      PatchSet patchSet, String reason, ReviewDb db) {
   }
 
   @Override

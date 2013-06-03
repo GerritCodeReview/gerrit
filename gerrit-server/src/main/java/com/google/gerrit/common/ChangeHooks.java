@@ -103,7 +103,7 @@ public interface ChangeHooks {
    * @throws OrmException
    */
   public void doChangeAbandonedHook(Change change, Account account,
-      String reason, ReviewDb db) throws OrmException;
+      PatchSet patchSet, String reason, ReviewDb db) throws OrmException;
 
   /**
    * Fire the Change Restored Hook.
@@ -114,7 +114,7 @@ public interface ChangeHooks {
    * @throws OrmException
    */
   public void doChangeRestoredHook(Change change, Account account,
-      String reason, ReviewDb db) throws OrmException;
+      PatchSet patchSet, String reason, ReviewDb db) throws OrmException;
 
   /**
    * Fire the Ref Updated Hook

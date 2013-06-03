@@ -90,7 +90,7 @@ change-abandoned
 Called whenever a change has been abandoned.
 
 ====
-  change-abandoned --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --abandoner <abandoner> --reason <reason>
+  change-abandoned --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --abandoner <abandoner> --commit <sha1> --reason <reason>
 ====
 
 change-restored
@@ -99,7 +99,7 @@ change-restored
 Called whenever a change has been restored.
 
 ====
-  change-restored --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --restorer <restorer> --reason <reason>
+  change-restored --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --restorer <restorer> --commit <sha1> --reason <reason>
 ====
 
 ref-updated

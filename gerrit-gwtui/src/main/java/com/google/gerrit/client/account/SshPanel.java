@@ -16,6 +16,7 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
@@ -23,7 +24,6 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -197,25 +196,27 @@ class SshPanel extends Composite {
   @Override
   protected void onLoad() {
     super.onLoad();
-
-    AccountApi.getSshKeys("self", new GerritCallback<JsArray<SshKeyInfo>>() {
-      @Override
-      public void onSuccess(JsArray<SshKeyInfo> result) {
-        keys.display(Natives.asList(result));
-        if (result.length() == 0 && keys.isVisible()) {
-          showAddKeyBlock(true);
+    refreshSshKeys();
+    Gerrit.SYSTEM_SVC.daemonHostKeys(new GerritCallback<List<SshHostKey>>() {
+      public void onSuccess(final List<SshHostKey> result) {
+        serverKeys.clear();
+        for (final SshHostKey keyInfo : result) {
+          serverKeys.add(new SshHostKeyPanel(keyInfo));
         }
         if (++loadCount == 2) {
           display();
         }
       }
     });
+  }
 
-    Gerrit.SYSTEM_SVC.daemonHostKeys(new GerritCallback<List<SshHostKey>>() {
-      public void onSuccess(final List<SshHostKey> result) {
-        serverKeys.clear();
-        for (final SshHostKey keyInfo : result) {
-          serverKeys.add(new SshHostKeyPanel(keyInfo));
+  private void refreshSshKeys() {
+    AccountApi.getSshKeys("self", new GerritCallback<JsArray<SshKeyInfo>>() {
+      @Override
+      public void onSuccess(JsArray<SshKeyInfo> result) {
+        keys.display(Natives.asList(result));
+        if (result.length() == 0 && keys.isVisible()) {
+          showAddKeyBlock(true);
         }
         if (++loadCount == 2) {
           display();
@@ -258,35 +259,41 @@ class SshPanel extends Composite {
     }
 
     void deleteChecked() {
-      final HashSet<AccountSshKey.Id> ids = new HashSet<AccountSshKey.Id>();
+      final HashSet<Integer> sequenceNumbers = new HashSet<Integer>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final SshKeyInfo k = getRowItem(row);
         if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          ids.add(new AccountSshKey.Id(Gerrit.getUserAccount().getId(), k.seq()));
+          sequenceNumbers.add(k.seq());
         }
       }
-      if (ids.isEmpty()) {
+      if (sequenceNumbers.isEmpty()) {
         updateDeleteButton();
       } else {
-        Util.ACCOUNT_SEC.deleteSshKeys(ids, new GerritCallback<VoidResult>() {
-          public void onSuccess(final VoidResult result) {
-            for (int row = 1; row < table.getRowCount();) {
-              final SshKeyInfo k = getRowItem(row);
-              if (k != null
-                  && ids.contains(new AccountSshKey.Id(Gerrit.getUserAccount()
-                      .getId(), k.seq()))) {
-                table.removeRow(row);
-              } else {
-                row++;
+        AccountApi.deleteSshKeys("self", sequenceNumbers,
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(VoidResult result) {
+                for (int row = 1; row < table.getRowCount();) {
+                  final SshKeyInfo k = getRowItem(row);
+                  if (k != null && sequenceNumbers.contains(k.seq())) {
+                    table.removeRow(row);
+                  } else {
+                    row++;
+                  }
+                }
+                if (table.getRowCount() == 1) {
+                  display(Collections.<SshKeyInfo> emptyList());
+                } else {
+                  updateDeleteButton();
+                }
               }
-            }
-            if (table.getRowCount() == 1) {
-              display(Collections.<SshKeyInfo> emptyList());
-            } else {
-              updateDeleteButton();
-            }
-          }
-        });
+
+              @Override
+              public void onFailure(Throwable caught) {
+                refreshSshKeys();
+                updateDeleteButton();
+                super.onFailure(caught);
+              }
+            });
       }
     }
 

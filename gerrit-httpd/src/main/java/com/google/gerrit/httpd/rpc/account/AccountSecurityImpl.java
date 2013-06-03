@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
-import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -43,7 +42,6 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmException;
@@ -61,7 +59,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> user;
   private final EmailTokenVerifier emailTokenVerifier;
-  private final SshKeyCache sshKeyCache;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
   private final AccountManager accountManager;
@@ -79,8 +76,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser, final ContactStore cs,
       final Realm r, final Provider<IdentifiedUser> u,
       final EmailTokenVerifier etv, final ProjectCache pc,
-      final SshKeyCache skc, final AccountByEmailCache abec,
-      final AccountCache uac, final AccountManager am,
+      final AccountByEmailCache abec, final AccountCache uac,
+      final AccountManager am,
       final ChangeUserName.CurrentUser changeUserNameFactory,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
@@ -91,7 +88,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     user = u;
     emailTokenVerifier = etv;
     projectCache = pc;
-    sshKeyCache = skc;
     byEmailCache = abec;
     accountCache = uac;
     accountManager = am;
@@ -103,28 +99,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.hooks = hooks;
     this.groupCache = groupCache;
-  }
-
-  public void deleteSshKeys(final Set<AccountSshKey.Id> ids,
-      final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account.Id me = user.get().getAccountId();
-        for (final AccountSshKey.Id keyId : ids) {
-          if (!me.equals(keyId.getParentKey()))
-            throw new Failure(new NoSuchEntityException());
-        }
-
-        db.accountSshKeys().deleteKeys(ids);
-        uncacheSshKeys();
-
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
-  private void uncacheSshKeys() {
-    sshKeyCache.evict(user.get().getUserName());
   }
 
   @Override

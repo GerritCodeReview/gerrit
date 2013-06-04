@@ -161,6 +161,31 @@ Deletes the name of an account.
   HTTP/1.1 204 No Content
 ----
 
+[[get-username]]
+Get Username
+~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/username'
+
+Retrieves the username of an account.
+
+.Request
+----
+  GET /accounts/self/username HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "john.doe"
+----
+
+If the account does not have a username the response is `404 Not Found`.
+
 [[get-active]]
 Get Active
 ~~~~~~~~~~

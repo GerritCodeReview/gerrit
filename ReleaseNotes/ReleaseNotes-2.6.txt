@@ -1222,6 +1222,13 @@ confusing.
 * Prevent account's full name from being set to empty string.  Set it to
   null instead.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=1682[Issue 1682]:
+Correctly handle paths with URL-escaped characters
++
+URL-unescape the path portion of a change history token to correctly
+handle paths with URL-escapable characters, i.e. '+', ' ', etc.
+
+
 REST API
 ~~~~~~~~
 * Fix returning of 'Email Reviewers' capability via REST

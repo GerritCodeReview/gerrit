@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5dcaf591_5329c487",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupDescription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-06-04T13:02:19Z",
+      "side": 1,
+      "message": "I see.  The problem stems from adding an included group requires you can see said group, but effectively, there\u0027s no way to tell if an LDAP group is visible or not without this... though interestingly, the suggestion API doesn\u0027t care.  I\u0027d be willing to consider other ideas, but right now, it looks like I need information at the GroupDescription level that I can\u0027t find any other way.",
+      "parentUuid": "fdb9e9f9_d8f4cdc1",
+      "revId": "9b2b0ac4d7b6fbc6462bbb9dc8e74214d09f7bc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb9e9f9_f8ef91e8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-04T06:43:57Z",
       "side": 1,
       "message": "If the URL encoding for the id field is removed, please adapt the documentation of the GroupInfo entity in rest-api-groups.txt where the id field is described.",
+      "revId": "9b2b0ac4d7b6fbc6462bbb9dc8e74214d09f7bc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3de5411c_522434b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-06-04T13:02:19Z",
+      "side": 1,
+      "message": "The field is still encoded once--this just removes a second encode that I could find no matching decode for.  I will check the REST API documentation, though.",
+      "parentUuid": "fdb9e9f9_f8ef91e8",
       "revId": "9b2b0ac4d7b6fbc6462bbb9dc8e74214d09f7bc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

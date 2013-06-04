@@ -29,6 +29,11 @@ import java.util.Set;
  * accounts.
  */
 public class AccountApi {
+  /** Retrieve the username */
+  public static void getUsername(String account, AsyncCallback<NativeString> cb) {
+    new RestApi("/accounts/").id(account).view("username").get(cb);
+  }
+
   /** Retrieve email addresses */
   public static void getEmails(String account,
       AsyncCallback<JsArray<EmailInfo>> cb) {
@@ -71,6 +76,12 @@ public class AccountApi {
           .delete(group.add(cb));
       cb = CallbackGroup.emptyCallback();
     }
+  }
+
+  /** Retrieve the HTTP password */
+  public static void getHttpPassword(String account,
+      AsyncCallback<NativeString> cb) {
+    new RestApi("/accounts/").id(account).view("password.http").get(cb);
   }
 
   /** Generate a new HTTP password */

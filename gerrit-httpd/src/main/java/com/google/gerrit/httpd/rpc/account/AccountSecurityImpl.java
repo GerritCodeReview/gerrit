@@ -19,7 +19,6 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
-import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
@@ -104,29 +103,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.hooks = hooks;
     this.groupCache = groupCache;
-  }
-
-  public void addSshKey(final String keyText,
-      final AsyncCallback<AccountSshKey> callback) {
-    run(callback, new Action<AccountSshKey>() {
-      public AccountSshKey run(final ReviewDb db) throws OrmException, Failure {
-        int max = 0;
-        final Account.Id me = user.get().getAccountId();
-        for (final AccountSshKey k : db.accountSshKeys().byAccount(me)) {
-          max = Math.max(max, k.getKey().get());
-        }
-
-        final AccountSshKey key;
-        try {
-          key = sshKeyCache.create(new AccountSshKey.Id(me, max + 1), keyText);
-        } catch (InvalidSshKeyException e) {
-          throw new Failure(e);
-        }
-        db.accountSshKeys().insert(Collections.singleton(key));
-        uncacheSshKeys();
-        return key;
-      }
-    });
   }
 
   public void deleteSshKeys(final Set<AccountSshKey.Id> ids,

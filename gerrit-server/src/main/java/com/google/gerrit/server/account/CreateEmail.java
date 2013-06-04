@@ -41,14 +41,14 @@ import org.slf4j.LoggerFactory;
 public class CreateEmail implements RestModifyView<AccountResource, Input> {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String email;
-    boolean preferred;
-    boolean noConfirmation;
+    public String email;
+    public boolean preferred;
+    public boolean noConfirmation;
   }
 
-  static interface Factory {
+  public static interface Factory {
     CreateEmail create(String email);
   }
 

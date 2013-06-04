@@ -65,7 +65,7 @@ public class AccountResource implements RestResource {
     }
   }
 
-  static class Email extends AccountResource {
+  public static class Email extends AccountResource {
     private final String email;
 
     public Email(IdentifiedUser user, String email) {

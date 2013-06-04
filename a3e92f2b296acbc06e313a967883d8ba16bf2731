@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dea3def_7155f803",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-04T12:17:46Z",
+      "side": 1,
+      "message": "Sounds like we should drop this block altogether, keep the recommendation below to use AllowEncodedSlashes On and ProxyPass ... nocanon.\n\nThis also appears in the gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/container/ConfigurationError.html.",
+      "revId": "a3e92f2b296acbc06e313a967883d8ba16bf2731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

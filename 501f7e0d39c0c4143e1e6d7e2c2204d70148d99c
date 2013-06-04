@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bdd3f145_56b65415",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-06-04T15:41:11Z",
+      "side": 1,
+      "message": "Commit history shows these 2 NEW_PATCHSET ever were same, at that time\n there was not this bug. Later  CommitValidators.NEW_PATCHSET was    \n shifted for  [a] and [b],  these update make [1] cannot get validation now.\n\n [a]: new change created by \u0027Revert\u0027 button.\n [b]: new patchset created by \u0027Edit Commit Message\u0027 icon.\n\n [1]: Change-Id of patchset pushed by \u0027refs/changes/*\u0027,\n e.g. \u0027refs/changes/23456/new\u0027 or \u0027refs/changes/23456\u0027,",
+      "parentUuid": "9dd0ed3c_55b64c15",
+      "revId": "501f7e0d39c0c4143e1e6d7e2c2204d70148d99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb9e9f9_f8931154",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-04T12:04:22Z",
       "side": 1,
       "message": "I think its a bug this pattern differs from the one in ReceiveCommits.",
+      "revId": "501f7e0d39c0c4143e1e6d7e2c2204d70148d99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_76b95003",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-06-04T15:41:11Z",
+      "side": 1,
+      "message": "I agree with you completely . in fact I ever had a net way to fix this bug by\n patch-set 34 of https://gerrit-review.googlesource.com/#/c/40950/34\n will you please give me a little time to have a look on it, if it make sense I  \n  would like take it back and rebased it.",
+      "parentUuid": "fdb9e9f9_f8931154",
       "revId": "501f7e0d39c0c4143e1e6d7e2c2204d70148d99c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

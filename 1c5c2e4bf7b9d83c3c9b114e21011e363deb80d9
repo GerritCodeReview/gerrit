@@ -53,6 +53,57 @@
     },
     {
       "key": {
+        "uuid": "9dd0ed3c_b597e08e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-04T18:31:34Z",
+      "side": 1,
+      "message": "this should be static and how about EditIterator",
+      "revId": "1c5c2e4bf7b9d83c3c9b114e21011e363deb80d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_b697e88e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-04T18:31:34Z",
+      "side": 1,
+      "message": "final",
+      "revId": "1c5c2e4bf7b9d83c3c9b114e21011e363deb80d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dd0ed3c_959ce4b1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-04T18:31:34Z",
+      "side": 1,
+      "message": "final",
+      "revId": "1c5c2e4bf7b9d83c3c9b114e21011e363deb80d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb9e9f9_58e1ddf8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 1

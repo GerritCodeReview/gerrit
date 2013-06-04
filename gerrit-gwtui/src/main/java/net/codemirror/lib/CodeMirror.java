@@ -67,6 +67,18 @@ public class CodeMirror extends JavaScriptObject {
     this.addLineWidget(line, node, options);
   }-*/;
 
+  public final native ScrollInfo getScrollInfo() /*-{
+    return this.getScrollInfo();
+  }-*/;
+
+  public final native void scrollTo(int x, int y) /*-{
+    this.scrollTo(x, y);
+  }-*/;
+
+  public final native void on(String event, JavaScriptObject func) /*-{
+    this.on(event, func);
+  }-*/;
+
   protected CodeMirror() {
   }
 }

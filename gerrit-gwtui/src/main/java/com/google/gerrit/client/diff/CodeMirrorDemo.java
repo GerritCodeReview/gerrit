@@ -21,6 +21,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
@@ -139,6 +140,9 @@ public class CodeMirrorDemo extends Screen {
         }
       }
     });
+    cmA.on("scroll", doScroll(cmB));
+    cmB.on("scroll", doScroll(cmA));
+    Window.enableScrolling(false);
   }
 
   private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents,
@@ -147,12 +151,11 @@ public class CodeMirrorDemo extends Screen {
       contents = "";
     }
     Configuration cfg = Configuration.create()
-      .set("readOnly", true)
+      .set("readOnly", "nocursor")
       .set("lineNumbers", true)
       .set("tabSize", 2)
       .set("mode", getContentType(meta))
-      .set("value", contents)
-      .setInfinity("viewportMargin");
+      .set("value", contents);
     final CodeMirror cm = CodeMirror.create(ele, cfg);
     cm.setWidth("100%");
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
@@ -242,6 +245,15 @@ public class CodeMirrorDemo extends Screen {
       }
     }
   }
+
+  public native JavaScriptObject doScroll(CodeMirror cm) /*-{
+    var cmA = this.@com.google.gerrit.client.diff.CodeMirrorDemo::cmA;
+    var cmB = this.@com.google.gerrit.client.diff.CodeMirrorDemo::cmB;
+    var other = cm == cmA ? cmB : cmA;
+    return function() {
+      cm.scrollTo(null, other.getScrollInfo().top);
+    };
+  }-*/;
 
   private static String getContentType(DiffInfo.FileMeta meta) {
     return meta != null && meta.content_type() != null

@@ -17,13 +17,9 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style type='com.google.gerrit.client.diff.DiffTable.LineStyle'>
-    @external .CodeMirror, .CodeMirror-selectedtext, .CodeMirror-scroll;
-    @external .CodeMirror-linenumber;
-
-    .difftable .CodeMirror {
-      border: 1px solid #eee;
-      height: auto;
-    }
+    @external .CodeMirror, .CodeMirror-selectedtext;
+    @external .CodeMirror-linenumber, .CodeMirror-vscrollbar;
+    @external .CodeMirror-hscrollbar;
     .difftable .CodeMirror pre {
       padding: 0;
       overflow: hidden;
@@ -31,10 +27,6 @@ limitations under the License.
     .difftable .CodeMirror-selectedtext.intraline,
     .difftable .CodeMirror-selectedtext.insert {
       opacity: 0.5;
-    }
-    .difftable .CodeMirror-scroll {
-      overflow-x: hidden;
-      overflow-y: hidden;
     }
     .a .diff,
     .a .diff .CodeMirror-linenumber {
@@ -52,6 +44,12 @@ limitations under the License.
     }
     .padding {
       background-color: #eee;
+    }
+    .CodeMirror-hscrollbar {
+      display: none !important;
+    }
+    .a .CodeMirror-vscrollbar {
+      display: none !important;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>

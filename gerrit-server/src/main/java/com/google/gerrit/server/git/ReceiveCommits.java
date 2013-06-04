@@ -1810,6 +1810,14 @@ public class ReceiveCommits {
                   }
                   change.setLastSha1MergeTested(null);
                   change.setCurrentPatchSet(info);
+
+                  final List<String> idList = newCommit.getFooterLines(CHANGE_ID);
+                  if (idList.isEmpty()) {
+                    change.setKey(new Change.Key("I" + newCommit.name()));
+                  } else {
+                    change.setKey(new Change.Key(idList.get(idList.size() - 1).trim()));
+                  }
+
                   ChangeUtil.updated(change);
                   return change;
                 }

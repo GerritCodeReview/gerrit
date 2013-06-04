@@ -17,7 +17,9 @@ package com.google.gerrit.client.account;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -152,10 +154,12 @@ public class MyPasswordScreen extends SettingsScreen {
   private void doGeneratePassword() {
     if (id != null) {
       enableUI(false);
-      Util.ACCOUNT_SEC.generatePassword(id.getKey(),
-          new GerritCallback<AccountExternalId>() {
-            public void onSuccess(final AccountExternalId result) {
-              display(result);
+      AccountApi.generateHttpPassword("self",
+          new GerritCallback<NativeString>() {
+            @Override
+            public void onSuccess(NativeString newPassword) {
+              id.setPassword(newPassword.asString());
+              display(id);
             }
 
             @Override
@@ -169,10 +173,12 @@ public class MyPasswordScreen extends SettingsScreen {
   private void doClearPassword() {
     if (id != null) {
       enableUI(false);
-      Util.ACCOUNT_SEC.clearPassword(id.getKey(),
-          new GerritCallback<AccountExternalId>() {
-            public void onSuccess(final AccountExternalId result) {
-              display(result);
+      AccountApi.clearHttpPassword("self",
+          new GerritCallback<VoidResult>() {
+            @Override
+            public void onSuccess(VoidResult result) {
+              id.setPassword(null);
+              display(id);
             }
 
             @Override

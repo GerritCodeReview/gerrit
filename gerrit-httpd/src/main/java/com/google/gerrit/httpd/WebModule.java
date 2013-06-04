@@ -29,8 +29,6 @@ import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.account.ClearPassword;
-import com.google.gerrit.server.account.GeneratePassword;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.FactoryModule;
@@ -130,10 +128,8 @@ public class WebModule extends FactoryModule {
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
     DynamicSet.setOf(binder(), WebUiPlugin.class);
 
-    factory(ClearPassword.Factory.class);
     install(new AsyncReceiveCommits.Module());
     install(new CmdLineParserModule());
-    factory(GeneratePassword.Factory.class);
 
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);

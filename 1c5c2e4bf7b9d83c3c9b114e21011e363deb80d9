@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdb9e9f9_78e4a10a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-04T08:22:46Z",
+      "side": 1,
+      "message": "use currentA here?",
+      "revId": "1c5c2e4bf7b9d83c3c9b114e21011e363deb80d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dea3def_b10c8048",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-04T08:22:46Z",
+      "side": 1,
+      "message": "use currentB here?",
+      "revId": "1c5c2e4bf7b9d83c3c9b114e21011e363deb80d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_18eb65d9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-04T08:22:46Z",
+      "side": 1,
+      "message": "span.end()?",
+      "revId": "1c5c2e4bf7b9d83c3c9b114e21011e363deb80d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_58e1ddf8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-04T08:22:46Z",
+      "side": 1,
+      "message": "setting to 0 is unnecessary. the jvm will do this for you.",
+      "revId": "1c5c2e4bf7b9d83c3c9b114e21011e363deb80d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_38ee29e9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-04T08:22:46Z",
+      "side": 1,
+      "message": "nit: manually line break here:\n\n  LineCharacter at \u003d LineCharacter.create(\n      startLine + currLineIndex,\n      numOfChar + currLineOffset);",
+      "revId": "1c5c2e4bf7b9d83c3c9b114e21011e363deb80d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

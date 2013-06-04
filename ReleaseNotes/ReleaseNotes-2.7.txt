@@ -1,0 +1,246 @@
+Release notes for Gerrit 2.7
+============================
+
+
+Gerrit 2.7 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.7.war[
+http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.7.war]
+
+
+Schema Change
+-------------
+
+
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+*WARNING:* Upgrading to 2.7.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.7.x.  If you are upgrading from 2.2.x.x or
+newer, you may ignore this warning and upgrade directly to 2.7.x.
+
+
+
+Release Highlights
+------------------
+
+
+* New `copyMaxScore` setting for labels.
+* Comment links configurable per project.
+* Themes configurable per project.
+* Better support for binary files and images in diff screens.
+* User avatars.
+* Several new REST APIS.
+
+
+New Features
+------------
+
+
+General
+~~~~~~~
+
+* New `copyMaxScore` setting for labels.
++
+Labels can be link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/config-labels.html#label_copyMaxScore[
+configured] to copy approvals forward to the next patch set.
+
+* Comment links can be link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/config-gerrit.html#commentlink[
+defined per project in the project configuration].
+
+* Gerrit administrators can define project-specific themes.
++
+Themes can be link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/config-themes.html[
+configured site-wide or per project].
+
+* New '/a/tools' URL.
++
+This allows users to download the `commit-msg` hook via the command line if the
+Gerrit server requires authentication globally.
+
+* New 'Stream Events' global capability.
++
+The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/access-control.txt#capability_streamEvents[
+Stream Events capability] controls access to the `stream-events` ssh command.
++
+Only administrators and users having this capability are allowed to use `stream-events`.
+
+* Allow opening new changes on existing commits.
++
+The %base argument can be used with refs/for/ to identify a specific revision the server should
+start to look for new commits at. Any commits in the range $base..$tip will be opened as a new
+change, even if the commit already has another change on a different branch.
+
+* New setting `gitweb.linkDrafts` to control if gitweb links are shown on drafts.
++
+By default, Gerrit will show links to gitweb on all patch sets.  If the
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/config-gerrit.html#gitweb.linkDrafts[
+gitweb.linkDrafts setting] is set to 'false', links will not be shown on
+draft patch sets.
+
+* Allow changes to be automatically submitted on push.
++
+Teams that want to use Gerrit's submit strategies to handle contention on busy
+branches can use %submit to create a change and have it
+link:link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/user-upload.html#auto_merge[
+immediately submitted], if the caller has Submit permission on refs/for/<ref>.
+
+
+Web UI
+~~~~~~
+
+
+Global
+^^^^^^
+
+* The search box no longer automatically resizes.  Its width is fixed at 70 pixels.
+
+* User avatars are displayed in several places in the Web UI.  "Diffy" is used as
+avatar for the Gerrit server itself.
+
+
+Change Screens
+^^^^^^^^^^^^^^
+
+
+* Highlight patch sets that have drafts.
++
+Patch sets having unpublished draft comments are higlighted with an icon.
+
+* Option to show relative times in change tables.
++
+A new preference setting allows the user to decide if absolute or relative dates
+should be shown in change tables.
+
+* Option to set default visibility of change comments.
++
+A new preference setting allows the user to set the default visibility of
+change comments.
+
+
+Diff Screens
+^^^^^^^^^^^^
+
+* Show images in side-by-side and unified diffs
+
+* Show diffed images above/below each other in unified diffs.
+
+* Harmonize unified diff's styling of images with that of text
+
+
+REST API
+~~~~~~~~
+
+
+Several new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api.html[
+REST API endpoints] are added.
+
+Accounts
+^^^^^^^^
+
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api-accounts.html#get-diff-preferences[
+Get account diff preferences]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api-accounts.html#set-diff-preferences[
+Set account diff preferences]
+
+
+Changes
+^^^^^^^
+
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api-changes.html#list-comments[
+List comments]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api-changes.html#get-comment[
+Get comment]
+
+
+
+Projects
+^^^^^^^^
+
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api-projects.html#get-config[
+Get project configuration]
+
+
+ssh
+~~~
+
+
+* Support link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/config-gerrit.html#sshd.kerberosKeytab[
+Kerberos authentication for ssh interaction].
+
+
+Bug Fixes
+---------
+
+General
+~~~~~~~
+
+* Postpone check for first account until adding an account.
+
+
+Web UI
+~~~~~~
+
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1848[Issue 1848]:
+Don't discard inline comments when escape key is pressed.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1863[Issue 1863]:
+Drop Arial Unicode MS font and request only sans-serif.
++
+Arial Unicode MS does not have a bold version. Selecting this font prevents
+correct display of bold text on Mac OS X. Simplify the selector to sans-serif
+and allow the browser to use the user's preferred font in this family.
+
+
+REST API
+~~~~~~~~
+
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1819[Issue 1819]:
+Include change-level messages to the payload returned from
+the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/rest-api-changes#get-change-detail[
+Get Change Detail REST API endpoint].
+
+
+Email
+~~~~~
+
+* Log failure to access reviewer list for notification emails
+
+* Log when appropriate if email delivery is skipped.
+
+
+Tools
+~~~~~
+
+
+* The release build now builds for all browser configurations.
+
+
+Upgrades
+--------
+
+* `gwtexpui` is now built in the gerrit tree rather than linking a separate module.
+
+
+
+Documentation
+-------------
+
+
+* Update the access control documentation to clarify how to set
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/access-control.html#global_capabilities[
+global capabilities].
+
+* Clarify the
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.7/config-gerrit.html#cache_names[
+change cache configuration]
+

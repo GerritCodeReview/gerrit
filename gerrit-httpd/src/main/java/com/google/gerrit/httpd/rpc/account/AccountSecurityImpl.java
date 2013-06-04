@@ -106,15 +106,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.groupCache = groupCache;
   }
 
-  public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
-    run(callback, new Action<List<AccountSshKey>>() {
-      public List<AccountSshKey> run(ReviewDb db) throws OrmException {
-        IdentifiedUser u = user.get();
-        return db.accountSshKeys().byAccount(u.getAccountId()).toList();
-      }
-    });
-  }
-
   public void addSshKey(final String keyText,
       final AsyncCallback<AccountSshKey> callback) {
     run(callback, new Action<AccountSshKey>() {

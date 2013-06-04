@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
 import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
 import static com.google.gerrit.server.account.AccountResource.EMAIL_KIND;
+import static com.google.gerrit.server.account.AccountResource.SSH_KEY_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -30,6 +31,7 @@ public class Module extends RestApiModule {
 
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
     DynamicMap.mapOf(binder(), EMAIL_KIND);
+    DynamicMap.mapOf(binder(), SSH_KEY_KIND);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
 
     put(ACCOUNT_KIND).to(PutAccount.class);
@@ -48,6 +50,7 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "password.http").to(GetHttpPassword.class);
     put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
     delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
+    child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);
     get(ACCOUNT_KIND, "avatar").to(GetAvatar.class);
     get(ACCOUNT_KIND, "avatar.change.url").to(GetAvatarChangeUrl.class);
     child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);

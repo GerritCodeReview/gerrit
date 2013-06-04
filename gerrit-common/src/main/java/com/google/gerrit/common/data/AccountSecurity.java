@@ -31,9 +31,6 @@ import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface AccountSecurity extends RemoteJsonService {
-  @SignInRequired
-  void mySshKeys(AsyncCallback<List<AccountSshKey>> callback);
-
   @Audit
   @SignInRequired
   void addSshKey(String keyText, AsyncCallback<AccountSshKey> callback);

@@ -33,6 +33,10 @@ public class CodeMirror extends JavaScriptObject {
     return $wnd.CodeMirror(parent, cfg);
   }-*/;
 
+  public final native void setOption(String option, boolean value) /*-{
+    this.setOption(option, value);
+  }-*/;
+
   public final native void setValue(String v) /*-{ this.setValue(v); }-*/;
 
   public final native void setWidth(int w) /*-{ this.setSize(w, null); }-*/;
@@ -65,6 +69,24 @@ public class CodeMirror extends JavaScriptObject {
   public final native void addLineWidget(int line, Element node,
       Configuration options) /*-{
     this.addLineWidget(line, node, options);
+  }-*/;
+
+  public final native void scrollTo(int x, int y) /*-{
+    this.scrollTo(x, y);
+  }-*/;
+
+  public final native void scrollToY(int y) /*-{
+    this.scrollTo(null, y);
+  }-*/;
+
+  public final native ScrollInfo getScrollInfo() /*-{
+    return this.getScrollInfo();
+  }-*/;
+
+  public final native void on(String event, Runnable thunk) /*-{
+    this.on(event, function() {
+      $entry(thunk.@java.lang.Runnable::run()());
+    });
   }-*/;
 
   protected CodeMirror() {

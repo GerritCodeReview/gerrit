@@ -20,6 +20,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
+import com.google.gerrit.httpd.auth.HttpAuthProtocol;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
@@ -85,6 +86,7 @@ public class WebModule extends FactoryModule {
     }
     install(new RunAsFilter.Module());
 
+    install(HttpAuthProtocol.module());
     switch (authConfig.getAuthType()) {
       case HTTP:
       case HTTP_LDAP:

@@ -139,6 +139,9 @@ public class CodeMirrorDemo extends Screen {
         }
       }
     });
+    cmA.on("scroll", doScroll(cmB));
+    cmB.on("scroll", doScroll(cmA));
+    Window.enableScrolling(false);
   }
 
   private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents,
@@ -147,12 +150,12 @@ public class CodeMirrorDemo extends Screen {
       contents = "";
     }
     Configuration cfg = Configuration.create()
-      .set("readOnly", true)
+      .set("readOnly", "nocursor")
       .set("lineNumbers", true)
       .set("tabSize", 2)
       .set("mode", getContentType(meta))
-      .set("value", contents)
-      .setInfinity("viewportMargin");
+      .set("styleSelectedText", true)
+      .set("value", contents);
     final CodeMirror cm = CodeMirror.create(ele, cfg);
     cm.setWidth("100%");
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
@@ -241,6 +244,15 @@ public class CodeMirrorDemo extends Screen {
             diffTable.style.intraline());
       }
     }
+  }
+
+  public Runnable doScroll(final CodeMirror cm) {
+    final CodeMirror other = cm == cmA ? cmB : cmA;
+    return new Runnable() {
+      public void run() {
+        cm.scrollToY(other.getScrollInfo().getTop());
+      }
+    };
   }
 
   private static String getContentType(DiffInfo.FileMeta meta) {

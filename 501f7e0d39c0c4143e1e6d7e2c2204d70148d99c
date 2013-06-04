@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dd0ed3c_55b64c15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-04T12:04:22Z",
+      "side": 1,
+      "message": "Isn\u0027t this just a copy of the pattern in ReceiveCommits?",
+      "revId": "501f7e0d39c0c4143e1e6d7e2c2204d70148d99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_f8931154",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-04T12:04:22Z",
+      "side": 1,
+      "message": "I think its a bug this pattern differs from the one in ReceiveCommits.",
+      "revId": "501f7e0d39c0c4143e1e6d7e2c2204d70148d99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3de5411c_92117c64",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/SshPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-04T03:36:10Z",
+      "side": 1,
+      "message": "Is this added functionality?",
+      "revId": "d0ab8a2c247e9341b21dcc4eb9fccf3f763b88ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,28 +14,29 @@
 
 package com.google.gerrit.sshd.commands;
 
-
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.extensions.restapi.RawInput;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.FieldName;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.CreateEmail;
+import com.google.gerrit.server.account.DeleteActive;
 import com.google.gerrit.server.account.DeleteEmail;
+import com.google.gerrit.server.account.DeleteSshKey;
 import com.google.gerrit.server.account.GetEmails;
 import com.google.gerrit.server.account.GetEmails.EmailInfo;
-import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.account.GetSshKeys;
+import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
+import com.google.gerrit.server.account.PutActive;
+import com.google.gerrit.server.account.PutHttpPassword;
+import com.google.gerrit.server.account.PutName;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -44,7 +45,9 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -86,18 +89,6 @@ final class SetAccountCommand extends BaseCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private ReviewDb db;
-
-  @Inject
-  private SshKeyCache sshKeyCache;
-
-  @Inject
-  private AccountCache byIdCache;
-
-  @Inject
-  private Realm realm;
-
-  @Inject
   private IdentifiedUser.GenericFactory genericUserFactory;
 
   @Inject
@@ -108,6 +99,27 @@ final class SetAccountCommand extends BaseCommand {
 
   @Inject
   private Provider<DeleteEmail> deleteEmailProvider;
+
+  @Inject
+  private Provider<PutName> putNameProvider;
+
+  @Inject
+  private Provider<PutHttpPassword> putHttpPasswordProvider;
+
+  @Inject
+  private Provider<PutActive> putActiveProvider;
+
+  @Inject
+  private Provider<DeleteActive> deleteActiveProvider;
+
+  @Inject
+  private Provider<AddSshKey> addSshKeyProvider;
+
+  @Inject
+  private Provider<GetSshKeys> getSshKeysProvider;
+
+  @Inject
+  private Provider<DeleteSshKey> deleteSshKeyProvider;
 
   private IdentifiedUser user;
   private AccountResource rsrc;
@@ -150,139 +162,125 @@ final class SetAccountCommand extends BaseCommand {
   private void setAccount() throws OrmException, IOException, UnloggedFailure {
     user = genericUserFactory.create(id);
     rsrc = new AccountResource(user);
-    final Account account = db.accounts().get(id);
-    boolean accountUpdated = false;
-    boolean sshKeysUpdated = false;
-
-    for (String email : addEmails) {
-      addEmail(email);
-    }
-
-    for (String email : deleteEmails) {
-      deleteEmail(email);
-    }
-
-    if (fullName != null) {
-      if (realm.allowsEdit(FieldName.FULL_NAME)) {
-        account.setFullName(fullName);
-        accountUpdated = true;
-      } else {
-        throw new UnloggedFailure(1, "The realm doesn't allow editing names");
+    try {
+      for (String email : addEmails) {
+        addEmail(email);
       }
-    }
 
-    if (httpPassword != null) {
-      setHttpPassword(id, httpPassword);
-    }
+      for (String email : deleteEmails) {
+        deleteEmail(email);
+      }
 
-    if (active) {
-      accountUpdated = true;
-      account.setActive(true);
-    } else if (inactive) {
-      accountUpdated = true;
-      account.setActive(false);
-    }
+      if (fullName != null) {
+        PutName.Input in = new PutName.Input();
+        in.name = fullName;
+        putNameProvider.get().apply(rsrc, in);
+      }
 
-    addSshKeys = readSshKey(addSshKeys);
-    if (!addSshKeys.isEmpty()) {
-      sshKeysUpdated = true;
-      addSshKeys(addSshKeys, account);
-    }
+      if (httpPassword != null) {
+        PutHttpPassword.Input in = new PutHttpPassword.Input();
+        in.httpPassword = httpPassword;
+        putHttpPasswordProvider.get().apply(rsrc, in);
+      }
 
-    deleteSshKeys = readSshKey(deleteSshKeys);
-    if (!deleteSshKeys.isEmpty()) {
-      sshKeysUpdated = true;
-      deleteSshKeys(deleteSshKeys, account);
-    }
+      if (active) {
+        putActiveProvider.get().apply(rsrc, null);
+      } else if (inactive) {
+        try {
+          deleteActiveProvider.get().apply(rsrc, null);
+        } catch (ResourceNotFoundException e) {
+          // user is already inactive
+        }
+      }
 
-    if (accountUpdated) {
-      db.accounts().update(Collections.singleton(account));
-      byIdCache.evict(id);
-    }
+      addSshKeys = readSshKey(addSshKeys);
+      if (!addSshKeys.isEmpty()) {
+        addSshKeys(addSshKeys);
+      }
 
-    if (sshKeysUpdated) {
-      sshKeyCache.evict(account.getUserName());
+      deleteSshKeys = readSshKey(deleteSshKeys);
+      if (!deleteSshKeys.isEmpty()) {
+        deleteSshKeys(deleteSshKeys);
+      }
+    } catch (RestApiException e) {
+      throw die(e.getMessage());
     }
   }
 
-  private void addSshKeys(final List<String> keys, final Account account)
-      throws OrmException, UnloggedFailure {
-    List<AccountSshKey> accountKeys = new ArrayList<AccountSshKey>();
-    int seq = db.accountSshKeys().byAccount(account.getId()).toList().size();
-    for (String key : keys) {
-      try {
-        seq++;
-        AccountSshKey accountSshKey = sshKeyCache.create(
-            new AccountSshKey.Id(account.getId(), seq), key.trim());
-        accountKeys.add(accountSshKey);
-      } catch (InvalidSshKeyException e) {
-        throw new UnloggedFailure(1, "fatal: invalid ssh key");
-      }
+  private void addSshKeys(List<String> sshKeys) throws RestApiException,
+      UnloggedFailure, OrmException, IOException {
+    for (final String sshKey : sshKeys) {
+      AddSshKey.Input in = new AddSshKey.Input();
+      in.raw = new RawInput() {
+        @Override
+        public InputStream getInputStream() throws IOException {
+          return new ByteArrayInputStream(sshKey.getBytes("UTF-8"));
+        }
+
+        @Override
+        public String getContentType() {
+          return "plain/text";
+        }
+
+        @Override
+        public long getContentLength() {
+          return sshKey.length();
+        }
+      };
+      addSshKeyProvider.get().apply(rsrc, in);
     }
-    db.accountSshKeys().insert(accountKeys);
   }
 
-  private void deleteSshKeys(final List<String> keys, final Account account)
-      throws OrmException {
-    ResultSet<AccountSshKey> allKeys = db.accountSshKeys().byAccount(account.getId());
-    if (keys.contains("ALL")) {
-      db.accountSshKeys().delete(allKeys);
+  private void deleteSshKeys(List<String> sshKeys) throws RestApiException,
+      OrmException {
+    List<SshKeyInfo> infos = getSshKeysProvider.get().apply(rsrc);
+    if (sshKeys.contains("ALL")) {
+      for (SshKeyInfo i : infos) {
+        deleteSshKey(i);
+      }
     } else {
-      List<AccountSshKey> accountKeys = new ArrayList<AccountSshKey>();
-      for (String key : keys) {
-        for (AccountSshKey accountSshKey : allKeys) {
-          if (key.trim().equals(accountSshKey.getSshPublicKey())
-              || accountSshKey.getComment().trim().equals(key)) {
-            accountKeys.add(accountSshKey);
+      for (String sshKey : sshKeys) {
+        for (SshKeyInfo i : infos) {
+          if (sshKey.trim().equals(i.sshPublicKey)
+              || sshKey.trim().equals(i.comment)) {
+            deleteSshKey(i);
           }
         }
       }
-      db.accountSshKeys().delete(accountKeys);
     }
   }
 
-  private void addEmail(String email) throws OrmException,
-      UnloggedFailure {
+  private void deleteSshKey(SshKeyInfo i) throws OrmException {
+    AccountSshKey sshKey = new AccountSshKey(
+        new AccountSshKey.Id(user.getAccountId(), i.seq), i.sshPublicKey);
+    deleteSshKeyProvider.get().apply(
+        new AccountResource.SshKey(user, sshKey), null);
+  }
+
+  private void addEmail(String email) throws UnloggedFailure, RestApiException,
+      OrmException {
     CreateEmail.Input in = new CreateEmail.Input();
     in.email = email;
     in.noConfirmation = true;
     try {
       createEmailFactory.create(email).apply(rsrc, in);
-    } catch (RestApiException e) {
-      throw die(e.getMessage());
     } catch (EmailException e) {
       throw die(e.getMessage());
     }
   }
 
-  private void deleteEmail(String email)
-      throws UnloggedFailure, OrmException {
-    try {
-      if (email.equals("ALL")) {
-        List<EmailInfo> emails = getEmailsProvider.get().apply(rsrc);
-        DeleteEmail deleteEmail = deleteEmailProvider.get();
-        for (EmailInfo e : emails) {
-          deleteEmail.apply(new AccountResource.Email(user, e.email),
-              new DeleteEmail.Input());
-        }
-      } else {
-        deleteEmailProvider.get().apply(new AccountResource.Email(user, email),
+  private void deleteEmail(String email) throws UnloggedFailure,
+      RestApiException, OrmException {
+    if (email.equals("ALL")) {
+      List<EmailInfo> emails = getEmailsProvider.get().apply(rsrc);
+      DeleteEmail deleteEmail = deleteEmailProvider.get();
+      for (EmailInfo e : emails) {
+        deleteEmail.apply(new AccountResource.Email(user, e.email),
             new DeleteEmail.Input());
       }
-    } catch (RestApiException e) {
-      throw die(e.getMessage());
-    }
-  }
-
-  private void setHttpPassword(Account.Id id, final String httpPassword)
-      throws UnloggedFailure, OrmException {
-    ResultSet<AccountExternalId> ids = db.accountExternalIds().byAccount(id);
-    for (AccountExternalId extId: ids) {
-      if (extId.isScheme(AccountExternalId.SCHEME_USERNAME)) {
-        extId.setPassword(httpPassword);
-        db.accountExternalIds().update(Collections.singleton(extId));
-        byIdCache.evict(id);
-      }
+    } else {
+      deleteEmailProvider.get().apply(new AccountResource.Email(user, email),
+          new DeleteEmail.Input());
     }
   }
 

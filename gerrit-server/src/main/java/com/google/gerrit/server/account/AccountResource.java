@@ -78,7 +78,7 @@ public class AccountResource implements RestResource {
     }
   }
 
-  static class SshKey extends AccountResource {
+  public static class SshKey extends AccountResource {
     private final AccountSshKey sshKey;
 
     public SshKey(IdentifiedUser user, AccountSshKey sshKey) {

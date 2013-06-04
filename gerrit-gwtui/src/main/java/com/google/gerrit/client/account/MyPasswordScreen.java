@@ -14,14 +14,12 @@
 
 package com.google.gerrit.client.account;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
-
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeString;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -33,13 +31,10 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
-import java.util.List;
-
 public class MyPasswordScreen extends SettingsScreen {
   private CopyableLabel password;
   private Button generatePassword;
   private Button clearPassword;
-  private AccountExternalId id;
 
   @Override
   protected void onInitUI() {
@@ -103,37 +98,48 @@ public class MyPasswordScreen extends SettingsScreen {
     }
 
     enableUI(false);
-    Util.ACCOUNT_SEC
-        .myExternalIds(new ScreenLoadCallback<List<AccountExternalId>>(this) {
-          public void preDisplay(final List<AccountExternalId> result) {
-            AccountExternalId id = null;
-            for (AccountExternalId i : result) {
-              if (i.isScheme(SCHEME_USERNAME)) {
-                id = i;
-                break;
-              }
-            }
-            display(id);
-          }
-        });
+    AccountApi.getUsername("self", new GerritCallback<NativeString>() {
+      @Override
+      public void onSuccess(NativeString user) {
+        Gerrit.getUserAccount().setUserName(user.asString());
+        refreshHttpPassword();
+      }
+
+      @Override
+      public void onFailure(final Throwable caught) {
+        if (RestApi.isNotFound(caught)) {
+          Gerrit.getUserAccount().setUserName(null);
+          display();
+        } else {
+          super.onFailure(caught);
+        }
+      }
+    });
   }
 
-  private void display(AccountExternalId id) {
-    String user, pass;
-    if (id != null) {
-      user = id.getSchemeRest();
-      pass = id.getPassword();
-    } else {
-      user = null;
-      pass = null;
-    }
-    this.id = id;
+  private void refreshHttpPassword() {
+    AccountApi.getHttpPassword("self", new ScreenLoadCallback<NativeString>(
+        this) {
+      @Override
+      protected void preDisplay(NativeString httpPassword) {
+        display(httpPassword.asString());
+      }
 
-    Gerrit.getUserAccount().setUserName(user);
+      @Override
+      public void onFailure(final Throwable caught) {
+        if (RestApi.isNotFound(caught)) {
+          display(null);
+          display();
+        } else {
+          super.onFailure(caught);
+        }
+      }
+    });
+  }
 
+  private void display(String pass) {
     password.setText(pass != null ? pass : "");
     password.setVisible(pass != null);
-
     enableUI(true);
   }
 
@@ -152,14 +158,13 @@ public class MyPasswordScreen extends SettingsScreen {
   }
 
   private void doGeneratePassword() {
-    if (id != null) {
+    if (Gerrit.getUserAccount().getUserName() != null) {
       enableUI(false);
       AccountApi.generateHttpPassword("self",
           new GerritCallback<NativeString>() {
             @Override
             public void onSuccess(NativeString newPassword) {
-              id.setPassword(newPassword.asString());
-              display(id);
+              display(newPassword.asString());
             }
 
             @Override
@@ -171,14 +176,13 @@ public class MyPasswordScreen extends SettingsScreen {
   }
 
   private void doClearPassword() {
-    if (id != null) {
+    if (Gerrit.getUserAccount().getUserName() != null) {
       enableUI(false);
       AccountApi.clearHttpPassword("self",
           new GerritCallback<VoidResult>() {
             @Override
             public void onSuccess(VoidResult result) {
-              id.setPassword(null);
-              display(id);
+              display(null);
             }
 
             @Override
@@ -190,9 +194,9 @@ public class MyPasswordScreen extends SettingsScreen {
   }
 
   private void enableUI(boolean on) {
-    on &= id != null;
+    on &= Gerrit.getUserAccount().getUserName() != null;
 
     generatePassword.setEnabled(on);
-    clearPassword.setVisible(on && id.getPassword() != null);
+    clearPassword.setVisible(on && !"".equals(password.getText()));
   }
 }

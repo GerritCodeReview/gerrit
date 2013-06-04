@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dea3def_91117c64",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-04T09:17:50Z",
+      "side": 1,
+      "message": "I think this shouldn\u0027t be checked here. The decision when/if this filter is used is made outside of this filter (in the GitOverHttpModule). If AuthType should be checked then it should also be checked there before this filter is even registered.\n\nThe filter itself should just do what it does and leave to the configuration code to decide when to use it.",
+      "revId": "e0197f7e1527babfc397769384271f5ddd4e9b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dea3def_712738c0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-04T09:17:50Z",
+      "side": 1,
+      "message": "optional: use the same code as in the HttpAuthFilter:\n\n  loginHttpHeader \u003d firstNonNull(\n        emptyToNull(authConfig.getLoginHttpHeader()),\n        AUTHORIZATION);\n\nThis would also protected against an empty string value of the auth.httpheader.",
+      "revId": "e0197f7e1527babfc397769384271f5ddd4e9b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dea3def_512434b9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-04T09:17:50Z",
+      "side": 1,
+      "message": "Using:\n\n  new AccountExternalId.Key(SCHEME_GERRIT, externalUsername).get()\n\nis more consistent than concatenating the two strings here.",
+      "revId": "e0197f7e1527babfc397769384271f5ddd4e9b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

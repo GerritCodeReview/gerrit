@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "fdb9e9f9_98a2d597",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-04T16:34:03Z",
+      "side": 1,
+      "message": "Is base-ref the base on which the new-branch-name has to be created? If yes, why not use the parent commit of the branch-creation-request commit to specify the base? Then, it is clear where to create the empty commit:\n\n    o (branch-creation-request)\n   /\n  o A\n  |\n  o\n\nThe new branch would point to the commit A which is the parent of the branch-creation-request.\n\n\nOtherwise, if the Base: is specified in the commit message then the empty commit could be created on any commit. For me, it feels unintuitive.",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

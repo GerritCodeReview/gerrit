@@ -38,7 +38,6 @@ Global
 
 * The change status is shown in a separate column on dashboards and search results.
 
-
 Change Screens
 ^^^^^^^^^^^^^^
 
@@ -54,7 +53,6 @@ be used.
 
 REST API
 ~~~~~~~~
-
 
 Several new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api.html[
 REST API endpoints] are added.
@@ -98,6 +96,22 @@ Set account state to active]
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#delete-active[
 Set account state to inactive]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#get-http-password[
+Get account HTTP password]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#set-http-password[
+Set or generate account HTTP password]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#delete-http-password[
+Delete account HTTP password]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#list-ssh-keys[
+List account SSH keys]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#get-ssh-key[
+Get account SSH key]
+
 
 Changes
 ^^^^^^^
@@ -163,6 +177,16 @@ configurable].
 New `ls-members` command].
 
 
+Daemon
+~~~~~~
+
+
+* Add `--init` option to Daemon to initialize site on daemon start.
++
+The `--init` option will also upgrade an already existing site and is processed in
+non-interactive (batch) mode.
+
+
 Bug Fixes
 ---------
 
@@ -182,10 +206,15 @@ preferred email address.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1574[Issue 1574]:
 Correctly highlight matches of text in escaped HTML entities in suggestion results.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=1814[Issue 1814]:
+Sort labels alphabetically by name in the approval table.
+
 
 REST API
 ~~~~~~~~
 
+
+* Support raw input also in POST requests.
 
 * Show granted date for labels/all when using `/changes/`.
 

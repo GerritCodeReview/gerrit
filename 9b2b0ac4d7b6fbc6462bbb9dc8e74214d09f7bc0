@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "fdb9e9f9_b89d995f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-04T14:08:33Z",
+      "side": 1,
+      "message": "Ah OK, didn\u0027t know it was double encoded. Then it should be OK.",
+      "parentUuid": "3de5411c_522434b9",
+      "revId": "9b2b0ac4d7b6fbc6462bbb9dc8e74214d09f7bc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dea3def_51fb14fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
         "patchSetId": 2

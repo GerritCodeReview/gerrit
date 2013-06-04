@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "3de5411c_3221b0a9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-06-04T15:24:15Z",
+      "side": 1,
+      "message": "I tested this, and you may actually be right... the REST API escapes them, but they most certainly aren\u0027t URL/URI encoded.  For a test, I added an LDAP group then fetched the details back via the REST API and inspected the JSON...\n\nIt\u0027s most certainly returning:\n\n ldap:CN\\u003dgroup,OU\\u003dfoobar,DC\\u003dblah,DC\\u003dcom",
+      "parentUuid": "fdb9e9f9_b89d995f",
+      "revId": "9b2b0ac4d7b6fbc6462bbb9dc8e74214d09f7bc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dea3def_51fb14fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/group/GroupJson.java",
         "patchSetId": 2

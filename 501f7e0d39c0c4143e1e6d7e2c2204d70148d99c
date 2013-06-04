@@ -69,6 +69,24 @@
       "revId": "501f7e0d39c0c4143e1e6d7e2c2204d70148d99c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dd0ed3c_15b0d414",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-06-04T15:51:09Z",
+      "side": 1,
+      "message": "in short.  the idea of patchset 34 is as below:\n  firstly delete CommitValidators.NEW_PATCHSET and use\n  ReceiveCommits.NEW_PATCHSET only, \n\n as this will get [a] and [b]  failed to get  Change-Id validation, because their    \n ReceiveCommand refs are in a pattern like \u0027refs/changes/89/12389/1\u0027.\n so make a further update:  \n for [a], change its ReceiveCommand\u0027s ref to \u0027refs/publish/\u003cbranch name\u003e.\n for [b], change its ReceiveCommand\u0027s ref to be like \u0027refs/changes/89/12389/new\u0027.",
+      "parentUuid": "bdd3f145_76b95003",
+      "revId": "501f7e0d39c0c4143e1e6d7e2c2204d70148d99c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class DeleteEmail implements RestModifyView<AccountResource.Email, Input> {
-  static class Input {
+  public static class Input {
   }
 
   private final Provider<CurrentUser> self;

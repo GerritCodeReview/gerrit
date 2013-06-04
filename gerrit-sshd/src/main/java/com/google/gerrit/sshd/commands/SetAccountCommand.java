@@ -15,7 +15,9 @@
 package com.google.gerrit.sshd.commands;
 
 
+import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -23,9 +25,11 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.CreateEmail;
+import com.google.gerrit.server.account.DeleteEmail;
+import com.google.gerrit.server.account.GetEmails;
+import com.google.gerrit.server.account.GetEmails.EmailInfo;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.sshd.BaseCommand;
@@ -33,6 +37,7 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
@@ -84,9 +89,6 @@ final class SetAccountCommand extends BaseCommand {
   private ReviewDb db;
 
   @Inject
-  private AccountManager manager;
-
-  @Inject
   private SshKeyCache sshKeyCache;
 
   @Inject
@@ -94,6 +96,21 @@ final class SetAccountCommand extends BaseCommand {
 
   @Inject
   private Realm realm;
+
+  @Inject
+  private IdentifiedUser.GenericFactory genericUserFactory;
+
+  @Inject
+  private CreateEmail.Factory createEmailFactory;
+
+  @Inject
+  private Provider<GetEmails> getEmailsProvider;
+
+  @Inject
+  private Provider<DeleteEmail> deleteEmailProvider;
+
+  private IdentifiedUser user;
+  private AccountResource rsrc;
 
   @Override
   public void start(final Environment env) {
@@ -131,17 +148,18 @@ final class SetAccountCommand extends BaseCommand {
   }
 
   private void setAccount() throws OrmException, IOException, UnloggedFailure {
-
+    user = genericUserFactory.create(id);
+    rsrc = new AccountResource(user);
     final Account account = db.accounts().get(id);
     boolean accountUpdated = false;
     boolean sshKeysUpdated = false;
 
     for (String email : addEmails) {
-      link(id, email);
+      addEmail(email);
     }
 
     for (String email : deleteEmails) {
-      deleteMail(id, email);
+      deleteEmail(email);
     }
 
     if (fullName != null) {
@@ -223,22 +241,36 @@ final class SetAccountCommand extends BaseCommand {
     }
   }
 
-  private void deleteMail(Account.Id id, final String mailAddress)
+  private void addEmail(String email) throws OrmException,
+      UnloggedFailure {
+    CreateEmail.Input in = new CreateEmail.Input();
+    in.email = email;
+    in.noConfirmation = true;
+    try {
+      createEmailFactory.create(email).apply(rsrc, in);
+    } catch (RestApiException e) {
+      throw die(e.getMessage());
+    } catch (EmailException e) {
+      throw die(e.getMessage());
+    }
+  }
+
+  private void deleteEmail(String email)
       throws UnloggedFailure, OrmException {
-    if (mailAddress.equals("ALL")) {
-      ResultSet<AccountExternalId> ids = db.accountExternalIds().byAccount(id);
-      for (AccountExternalId extId : ids) {
-        if (extId.isScheme(AccountExternalId.SCHEME_MAILTO)) {
-          unlink(id, extId.getEmailAddress());
+    try {
+      if (email.equals("ALL")) {
+        List<EmailInfo> emails = getEmailsProvider.get().apply(rsrc);
+        DeleteEmail deleteEmail = deleteEmailProvider.get();
+        for (EmailInfo e : emails) {
+          deleteEmail.apply(new AccountResource.Email(user, e.email),
+              new DeleteEmail.Input());
         }
+      } else {
+        deleteEmailProvider.get().apply(new AccountResource.Email(user, email),
+            new DeleteEmail.Input());
       }
-    } else {
-      AccountExternalId.Key key = new AccountExternalId.Key(
-          AccountExternalId.SCHEME_MAILTO, mailAddress);
-      AccountExternalId extId = db.accountExternalIds().get(key);
-      if (extId != null) {
-        unlink(id, mailAddress);
-      }
+    } catch (RestApiException e) {
+      throw die(e.getMessage());
     }
   }
 
@@ -251,28 +283,6 @@ final class SetAccountCommand extends BaseCommand {
         db.accountExternalIds().update(Collections.singleton(extId));
         byIdCache.evict(id);
       }
-    }
-  }
-
-  private void unlink(Account.Id id, final String mailAddress)
-      throws UnloggedFailure {
-    try {
-      manager.unlink(id, AuthRequest.forEmail(mailAddress));
-    } catch (AccountException ex) {
-      throw die(ex.getMessage());
-    } catch (OrmException ex) {
-      throw die(ex.getMessage());
-    }
-  }
-
-  private void link(Account.Id id, final String mailAddress)
-      throws UnloggedFailure {
-    try {
-      manager.link(id, AuthRequest.forEmail(mailAddress));
-    } catch (AccountException ex) {
-      throw die(ex.getMessage());
-    } catch (OrmException ex) {
-      throw die(ex.getMessage());
     }
   }
 

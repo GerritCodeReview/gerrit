@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1dea3def_11058c1f",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011597
+      },
+      "writtenOn": "2013-06-04T07:00:23Z",
+      "side": 1,
+      "message": "I have no clue :-)\n\nTYPO3\u0027s Gerrit is in production with mod_proxy + nocanon since last night and it works fine (https://review.typo3.org)",
+      "parentUuid": "ddbee5e1_97c3c480",
+      "revId": "defe199ed02c113121059ed18fef1594693f6f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd3f145_16d7bc43",
         "filename": "Documentation/config-reverseproxy.txt",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-04T03:25:23Z",
       "side": 1,
       "message": "remove \", yet\".",
+      "revId": "defe199ed02c113121059ed18fef1594693f6f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_b8f919b8",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011597
+      },
+      "writtenOn": "2013-06-04T07:00:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_16d7bc43",
       "revId": "defe199ed02c113121059ed18fef1594693f6f25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "fdb9e9f9_98fe559c",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011597
+      },
+      "writtenOn": "2013-06-04T07:00:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dd0ed3c_35dab06b",
+      "revId": "defe199ed02c113121059ed18fef1594693f6f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb9e9f9_d8260d8e",
         "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-03T20:49:38Z",
       "side": 1,
       "message": "Should this block be removed and/or merged with the block at the top?",
+      "revId": "defe199ed02c113121059ed18fef1594693f6f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dea3def_f1120869",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1011597
+      },
+      "writtenOn": "2013-06-04T07:00:23Z",
+      "side": 1,
+      "message": "Removing it..",
+      "parentUuid": "fdb9e9f9_d8260d8e",
       "revId": "defe199ed02c113121059ed18fef1594693f6f25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

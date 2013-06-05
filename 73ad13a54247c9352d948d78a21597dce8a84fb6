@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdb9e9f9_3892a94c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1990,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-05T06:47:58Z",
+      "side": 1,
+      "message": "There is another parameter, called \u0027base\u0027, which should be described as well.",
+      "revId": "73ad13a54247c9352d948d78a21597dce8a84fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_b876b94d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2394,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-05T06:47:58Z",
+      "side": 1,
+      "message": "/s/\"1,^1,6\"/\"1,^1,5\"",
+      "revId": "73ad13a54247c9352d948d78a21597dce8a84fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_586e7d72",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2404,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-05T06:47:58Z",
+      "side": 1,
+      "message": "s/skipped/skipped on both sides",
+      "revId": "73ad13a54247c9352d948d78a21597dce8a84fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dea3def_71a298e9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2411,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-05T06:47:58Z",
+      "side": 1,
+      "message": "s/innformation/information",
+      "revId": "73ad13a54247c9352d948d78a21597dce8a84fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dea3def_b197e08e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2426,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-05T06:47:58Z",
+      "side": 1,
+      "message": "/s/\"1,^1,6\"/\"1,^1,5\"",
+      "revId": "73ad13a54247c9352d948d78a21597dce8a84fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_f87c3131",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2434,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-05T06:47:58Z",
+      "side": 1,
+      "message": "Not related to your documentation change, but this is inconsistent with the FileInfo entity that also contains the ChangeType information:\n\n 1. In FileInfo the field is just called \u0027status\u0027\n 2. In FileInfo the field is not set if the change_type is \u0027modified\u0027, \n     \u0027modified\u0027 is assumed as default if this field is not set\n 3. In FileInfo we only return a single character (\u0027A\u0027 for \u0027ADDED\u0027 etc.)\n\nWe might want to fix these inconsistencies before this REST API is included into a release.",
+      "revId": "73ad13a54247c9352d948d78a21597dce8a84fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_d8816df3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2435,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-05T06:47:58Z",
+      "side": 1,
+      "message": "[optional] Maybe it should be added that this field is only set if intraline differences were requested.",
+      "revId": "73ad13a54247c9352d948d78a21597dce8a84fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_386bc962",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2449,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-05T06:47:58Z",
+      "side": 1,
+      "message": "[optional] The description looks correct to me, but it\u0027s still difficult to understand how the intraline differences are represented. Maybe it would make sense to add a short example below.",
+      "revId": "73ad13a54247c9352d948d78a21597dce8a84fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

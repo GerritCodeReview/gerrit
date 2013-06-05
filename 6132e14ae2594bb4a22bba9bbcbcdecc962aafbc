@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "bdd3f145_765f10f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-05T08:26:16Z",
+      "side": 1,
+      "message": "Yes, we discussed a solution like this and rejected it because it would result in unwanted empty commits on the actual branch.\n\nSay your master branch looks like this:\n\n o C (master)\n |\n o B\n |\n o A\n\nAnd you want to create a new branch `new` from commit `B`.\n\nWith your proposal, pushing an empty commit on the actual branch, you would end up with:\n\n o C (master)   /-o D (new)\n |             /\n o B ----------\n | \n o A\n\nWhereas with the proposal in this change, you end up with:\n o C (master)\n |\n o B (new)\n |\n o A\n\n(the empty commit still exists but it\u0027s hidden away on the refs/meta/request branch)",
+      "parentUuid": "fdb9e9f9_b8a3598d",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

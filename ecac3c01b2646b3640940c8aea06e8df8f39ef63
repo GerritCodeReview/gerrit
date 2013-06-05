@@ -16,6 +16,24 @@
       "revId": "ecac3c01b2646b3640940c8aea06e8df8f39ef63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dea3def_b17000a4",
+        "filename": "ReleaseNotes/ReleaseNotes-2.7.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-05T07:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dea3def_31ac10d7",
+      "revId": "ecac3c01b2646b3640940c8aea06e8df8f39ef63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

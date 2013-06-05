@@ -87,6 +87,7 @@ public abstract class OutgoingEmail {
 
     init();
     format();
+    appendText(velocifyFile("Footer.vm"));
     if (shouldSendMessage()) {
       if (fromId != null) {
         final Account fromUser = args.accountCache.get(fromId).getAccount();

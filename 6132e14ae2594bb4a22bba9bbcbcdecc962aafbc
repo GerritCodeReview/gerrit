@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9dd0ed3c_5533eccc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-05T00:11:51Z",
+      "side": 1,
+      "message": "The empty commit is on refs/meta/requests, so the parent commit is not going to be the one from which the new branch is created.",
+      "parentUuid": "fdb9e9f9_98a2d597",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

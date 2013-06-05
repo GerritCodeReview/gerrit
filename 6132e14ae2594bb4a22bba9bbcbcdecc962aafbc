@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "fdb9e9f9_f8c2f12e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-05T10:27:51Z",
+      "side": 1,
+      "message": "\u003e What does the history of refs/meta/requests look like if every commit on it is based on a different commit from master (or any other random branch)?\n\nMaybe this is the main question. I was also thinking about the (meaning of and the commit graph of) the refs/meta/requests branch history in both your and my proposal. While discussing it with Edwin, he even made another interesting question: do we need the history of the refs/meta/requests branch at all? Should the only purpose of refs/meta/requests branch be to push a branch creation request for review? On submit, the new branch is created, the change closed but the refs/meta/requests is not updated? Does it make sense?\n\n\u003e If you look for example at refs/meta/config or refs/notes/review all the commits are in sequence, based on the previous commit on the branch.\n\nAssuming we would like to merge the empty commits into the refs/meta/requests I could also imagine creation of merge commits on that branch so that we have still see the sequence between the branch creation requests.\n\nAgain, the main question for me right now is: does the history of the refs/meta/requests justify its existence?",
+      "parentUuid": "bdd3f145_f6efa0e8",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

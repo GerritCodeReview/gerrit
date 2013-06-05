@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "bdd3f145_f6efa0e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-05T09:33:45Z",
+      "side": 1,
+      "message": "My point wasn\u0027t about visibility of commits from a security point of view.\n\nWhat does the history of refs/meta/requests look like if every commit on it is based on a different commit from master (or any other random branch)?\n\nIf you look for example at refs/meta/config or refs/notes/review all the commits are in sequence, based on the previous commit on the branch.",
+      "parentUuid": "fdb9e9f9_38b869b5",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

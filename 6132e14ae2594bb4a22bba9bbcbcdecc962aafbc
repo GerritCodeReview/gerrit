@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "bdd8516c_8ef83b02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-05T18:34:42Z",
+      "side": 1,
+      "message": "I think that the history of refs/meta/requests should reflect all the requests that have been merged.  This provides an audit log for who requested new branches.  \n\nI also think that this history needs to be disconnected from the real repository branches because real branches may get deleted and obliterated and we don\u0027t want the references to objects on refs/meta/requests getting in the way of garbage collection/pruning of those objects.  \n\nAlso, how would these requests ever get merged to refs/meta/requests if they are connected to real branches, wouldn\u0027t that leave the whole thing open to meaningless merge conflicts?",
+      "parentUuid": "fdb9e9f9_f8c2f12e",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

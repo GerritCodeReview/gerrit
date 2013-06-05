@@ -106,6 +106,24 @@
       "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_d8c72d3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-05T13:33:10Z",
+      "side": 1,
+      "message": "I tried understanding how the query rewriter works and tried adding rewrite rules that would:\n- rewrite \"inref:X\" to \"status:closed inref:X\"\n- stop rewriting if when both \"inref\" and \"status\" are contained in the predicate\n\nHowever, my trials ended up in an infinite rewrite which eventually fails with the StackOverflowError :-(\n\nI think, at this point, we need an input from someone who fully understands the query rewriter (probably only Shawn). I am not sure if my approach to this problem is good and/or if my implementation is good.\n\nBasically, I tried adding the following to the ChangeQueryRewriter:\n\n  @SuppressWarnings(\"unchecked\")\n  @Rewrite(\"S\u003d(status:*) I\u003d(inref:*)\")\n  public Predicate\u003cChangeData\u003e r80_inrefStatus(@Named(\"S\") final ChangeStatusPredicate s,\n      @Named(\"I\") final InRefPredicate i) {\n    return and(s, i);\n  }\n  \n  @SuppressWarnings(\"unchecked\")\n  @Rewrite(\"I\u003d(inref:*)\")\n  public Predicate\u003cChangeData\u003e r85_inref(@Named(\"I\") final InRefPredicate p) {\n    return and(ChangeStatusPredicate.closed(dbProvider), p);\n  }\n\nThe purpose of the first method was to stop rewriting once the predicate contains both status and the inref operators.\nThe purpose of the second method was to add the status:closed to the inref without status specified.\n\nAs said this fails with the StackOverflowError.",
+      "parentUuid": "bdd3f145_d6eee43c",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

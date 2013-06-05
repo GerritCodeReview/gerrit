@@ -142,6 +142,24 @@
       "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_98c1b52a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-05T21:17:22Z",
+      "side": 1,
+      "message": "\u003e how about creating a source based on status and validate the data using match() method of InrefPredicate.\n\nCould you try that? I will probably not be able to work on that until Monday.\n\nDo we, at least, agree that what I proposed in my previous comment makes sense:\n- rewrite \"inref:X\" to \"status:closed inref:X\"\n- stop rewriting when both \"inref\" and \"status\" are contained in the predicate\n?",
+      "parentUuid": "bdd8516c_aef3f726",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

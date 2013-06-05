@@ -181,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "1dea3def_11822c41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-05T21:13:39Z",
+      "side": 1,
+      "message": "\u003e I think that the history of refs/meta/requests should reflect all the requests that have been merged. This provides an audit log for who requested new branches.\n\nThe branch-creation-request changes in Gerrit (database) also provide such a log. The refs/meta/requests would provide the audit log in the Git repository, which may be an advantage.\n\n\u003e I also think that this history needs to be disconnected from the real repository branches because real branches may get deleted and obliterated and we don\u0027t want the references to objects on refs/meta/requests getting in the way of garbage collection/pruning of those objects.\n\nThis is a valid argument against having references from refs/meta/requests to the commits in the source code branches.\n\n\u003e Also, how would these requests ever get merged to refs/meta/requests if they are connected to real branches, wouldn\u0027t that leave the whole thing open to meaningless merge conflicts?\n\nI don\u0027t think this would be a problem as merging two empty commits would result in an empty commit. Even if not, we could just have a custom merger which simply creates an empty merge commit for such merges.\n\n----\n\nThinking again about the whole discussion I think I wanted to clarify it for myself if the existence\nof the refs/meta/requests history was something that was wanted from the beginning of this idea or a side effect of expressing branch-creation-requests via a commit pushed to a refs/meta/requests branch. In my understanding the main idea is to review branch creation. Merging of the empty commit\ninto refs/meta/requests is a side effect of that implementation.\n\nIn other words, if we would have a first-class branch creation request (which I am NOT proposing to do) would we also in that case want the refs/meta/requests branch as the audit log?\n\n----\n\nAnyway, I agree on NOT having references from refs/meta/requests to the source code commits.",
+      "parentUuid": "bdd8516c_8ef83b02",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

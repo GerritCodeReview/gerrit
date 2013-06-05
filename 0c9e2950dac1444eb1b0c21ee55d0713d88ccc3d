@@ -124,6 +124,24 @@
       "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_aef3f726",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1005956
+      },
+      "writtenOn": "2013-06-05T17:17:10Z",
+      "side": 1,
+      "message": "As per my understanding, based on your rules, query rewriter again rewrites \"inref:*\" to \"and(status:closed inref:*)\", so it would result in something like\n\n i \u003d\u003e and(s\u003dclosed, i) \u003d\u003e and(s\u003dclosed, and(s\u003dclosed, i)) \u003d\u003e .....\n\nSo, in  @Rewrite(\"S\u003d(status:*) I\u003d(inref:*)\"),  instead of just returning \"and(s, i)\", how about creating a source based on status and validate the data using match() method of InrefPredicate.",
+      "parentUuid": "fdb9e9f9_d8c72d3d",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

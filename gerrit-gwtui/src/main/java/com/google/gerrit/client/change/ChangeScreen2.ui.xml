@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.gerrit.client.change.Resources'/>
+  <ui:style type='com.google.gerrit.client.change.ChangeScreen2.Styles'>
+    @extern .gwt-Button;
+    @def INFO_WIDTH 450px;
+    @def HEADER_HEIGHT 29px;
+
+    .headerLine {
+      position: relative;
+      background-color: #bcf;
+      height: HEADER_HEIGHT;
+    }
+
+    .sectionHeader {
+      font-weight: bold;
+      color: #000;
+      padding: 7px 10px;
+    }
+
+    .idBlock {
+      position: relative;
+      width: INFO_WIDTH;
+      height: HEADER_HEIGHT;
+      background-color: #888;
+      color: white;
+      font-weight: bold;
+    }
+    .idLine {
+      padding: 2px;
+    }
+    .star, .idText, .permalink {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .star, .permalink {
+      cursor: pointer;
+    }
+    .idStatus {
+      position: absolute;
+      margin-top: 2px;
+      margin-bottom: 2px;
+      margin-left: 5px;
+      margin-right: 5px;
+      top: 0;
+      right: 0;
+    }
+    .star {
+      width: 15px; 
+      height: 15px;
+    }
+    .permalink {
+      margin-left: 5px;
+      height: 14px;
+      width: 14px;
+    }
+
+    .headerButtons {
+      position: absolute;
+      top: 0;
+      left: INFO_WIDTH;
+    }
+
+    .headerTable {
+      background-color: rgba(0, 0, 0, 0.07);
+      border-spacing: 0;
+      width: 100%;
+    }
+
+    .headerTable th {
+      width: 60px;
+      color: #444;
+      font-weight: normal;
+      text-align: left;
+      padding-right: 5px;
+    }
+
+    .infoColumn {
+      width: 440px;
+      padding-right: 10px;
+      vertical-align: top;
+    }
+
+    #change_infoTable {
+      border-spacing: 0;
+      width: 100%;
+      margin-left: 2px;
+      margin-right: 5px;
+    }
+
+    .notMergeable {
+      float: right;
+      font-weight: bold;
+      color: red;
+    }
+
+    .commitColumn {
+      padding: 0;
+      vertical-align: top;
+    }
+
+    .commitHeader {
+      border-spacing: 0;
+      padding: 0;
+      width: 564px;
+    }
+    .commitHeader th {
+      width: 70px;
+    }
+
+    .commitMessageBox {
+      margin: 2px;
+    }
+    .commitMessage {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid #fff;
+      background-color: white;
+      font-family: monospace;
+      white-space: pre;
+      width: 47em;
+    }
+
+    #change_actions {
+      padding-top: 2px;
+      padding-bottom: 20px;
+    }
+    button {
+      margin: 0 3px 0 0;
+      border-color: rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-weight: bold;
+      border: 1px solid;
+      cursor: pointer;
+      -webkit-border-radius: 2px;
+      -webkit-box-sizing: content-box;
+    }
+    button div {
+      width: 70px;
+      white-space: nowrap;
+    }
+    button.normal {
+      color: #444;
+      background-color: #f5f5f5;
+      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
+    }
+    button.normal div {color: #444;}
+    button.red {
+      color: #d14836;
+      background-color: #d14836;
+      background-image: -webkit-linear-gradient(top, #d14836, #d14836);
+    }
+    button.red div {color: #fff;}
+
+    button.submit {
+      float: right;
+      color: white;
+      background-color: #4d90fe;
+      background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
+    }
+    button.submit div {color: #fff;}
+
+    .labels {
+      border-spacing: 0;
+      padding: 0;
+    }
+    .labelName {
+      color: #444;
+      text-align: left;
+      padding-right: 5px;
+    }
+    .label_user {white-space: nowrap;}
+    .label_ok {color: #060;}
+    .label_reject {color: #d14836;}
+    .label_need {color: rgb(189, 189, 67);}
+    .label_may {color: #fff;}
+  </ui:style>
+
+  <g:HTMLPanel>
+    <div class='{style.headerLine}'>
+      <div class='{style.idBlock}'>
+        <div class='{style.idLine}'>
+          <span class='{style.star}'>
+            <g:Image ui:field='starIcon'/>
+          </span>
+          <span class='{style.idText}'>
+            <ui:msg>Change <span ui:field='changeIdText'/> by <span ui:field='ownerText'/></ui:msg>
+          </span>
+          <a ui:field='permalink' class='{style.permalink}'>
+            <g:Image ui:field='reload' resource='{res.reload}'/>
+          </a>
+        </div>
+
+        <div class='{style.idStatus}'>
+          <span ui:field='statusText' class='{style.idText}'/>
+        </div>
+      </div>
+      <div class='{style.headerButtons}'/>
+    </div>
+
+    <table class='{style.headerTable}'>
+      <tr>
+        <td class='{style.infoColumn}'>
+          <table id='change_infoTable'>
+            <tr>
+              <th><ui:msg>Reviewers</ui:msg></th>
+              <td><span ui:field='reviewersText'/></td>
+            </tr>
+            <tr>
+              <th><ui:msg>CC</ui:msg></th>
+              <td><span ui:field='ccText'/></td>
+            </tr>
+            <tr>
+              <th><ui:msg>Project</ui:msg></th>
+              <td><span ui:field='projectText'/></td>
+            </tr>
+            <tr>
+              <th><ui:msg>Branch</ui:msg></th>
+              <td><span ui:field='branchText'/></td>
+            </tr>
+            <tr>
+              <th><ui:msg>Strategy</ui:msg></th>
+              <td>
+                <span ui:field='submitTypeText'/>
+                <div ui:field='notMergeable' class='{style.notMergeable}'>
+                  <ui:msg>Cannot Merge</ui:msg>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="2" id="change_actions">
+                <g:Button ui:field='cherryPick' styleName='{style.normal}'>
+                  <div><ui:msg>Cherry Pick</ui:msg></div>
+                </g:Button>
+                <g:Button ui:field='rebase' styleName='{style.normal}'>
+                  <div><ui:msg>Rebase</ui:msg></div>
+                </g:Button>
+                <g:Button ui:field='abandon' styleName='{style.red}'>
+                  <div><ui:msg>Abandon</ui:msg></div>
+                </g:Button>
+                <g:Button ui:field='restore' styleName='{style.red}'>
+                  <div><ui:msg>Restore</ui:msg></div>
+                </g:Button>
+                <g:Button ui:field='revert' styleName='{style.red}'>
+                  <div><ui:msg>Revert</ui:msg></div>
+                </g:Button>
+
+                <g:Button ui:field='submit' styleName='{style.submit}'>
+                  <div><ui:msg>Submit</ui:msg></div>
+                </g:Button>
+              </td>
+            </tr>
+
+            <tr>
+              <th><ui:msg>Id</ui:msg></th>
+              <td><span ui:field='idText'/></td>
+            </tr>
+            <tr>
+              <th><span ui:field='actionText'/></th>
+              <td><span ui:field='actionDate'/></td>
+            </tr>
+            <tr>
+              <th><ui:msg>Topic</ui:msg></th>
+              <td><span ui:field='topicText'/></td>
+            </tr>
+          </table>
+        </td>
+        <td class='{style.commitColumn}'>
+          <table class='{style.commitHeader}'>
+            <tr>
+              <th><ui:msg>Commit</ui:msg></th>
+              <td colspan="2"><span ui:field='commitName'/></td>
+            </tr>
+            <tr>
+              <th><ui:msg>Author</ui:msg></th>
+              <td><span ui:field='authorNameEmail'/></td>
+              <td><span ui:field='authorDate'/></td>
+            </tr>
+            <tr>
+              <th><ui:msg>Committer</ui:msg></th>
+              <td><span ui:field='committerNameEmail'/></td>
+              <td><span ui:field='committerDate'/></td>
+            </tr>
+          </table>
+
+          <div class='{style.commitMessageBox}'>
+            <div class='{style.commitMessage}' ui:field='commitMessageText'/>
+          </div>
+
+          <g:Grid ui:field='labels' styleName='{style.labels}'/>
+        </td>
+      </tr>
+    </table>
+
+    <div class='{style.headerLine}'>
+      <div class='{style.sectionHeader}'>Files</div>
+    </div>
+    <g:FlowPanel ui:field='filesParent'/>
+
+    <div class='{style.headerLine}'>
+      <div class='{style.sectionHeader}'>History</div>
+    </div>
+    <g:FlowPanel ui:field='history'/>
+  </g:HTMLPanel>
+</ui:UiBinder>

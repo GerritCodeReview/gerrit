@@ -18,13 +18,13 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
-class SubmitFailureDialog extends ErrorDialog {
-  static boolean isConflict(Throwable err) {
+public class SubmitFailureDialog extends ErrorDialog {
+  public static boolean isConflict(Throwable err) {
     return err instanceof RemoteJsonException
         && 409 == ((RemoteJsonException) err).getCode();
   }
 
-  SubmitFailureDialog(String msg) {
+  public SubmitFailureDialog(String msg) {
     super(new SafeHtmlBuilder().append(msg.trim()).wikify());
     setText(Util.C.submitFailed());
   }

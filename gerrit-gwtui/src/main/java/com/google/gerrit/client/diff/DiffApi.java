@@ -15,6 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,6 +24,13 @@ public class DiffApi {
   public enum IgnoreWhitespace {
     NONE, TRAILING, CHANGED, ALL;
   };
+
+  public static void list(int id, String revision,
+      AsyncCallback<NativeMap<FileInfo>> cb) {
+    ChangeApi.revision(id, revision)
+      .view("files")
+      .get(NativeMap.copyKeysIntoChildren(cb));
+  }
 
   public static DiffApi diff(PatchSet.Id id, String path) {
     return new DiffApi(ChangeApi.revision(id)

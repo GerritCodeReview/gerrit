@@ -65,6 +65,10 @@ public class ChangeApi {
     call(id, "detail").get(cb);
   }
 
+  public static RestApi revision(int id, String revision) {
+    return change(id).view("revisions").id(revision);
+  }
+
   public static RestApi revision(PatchSet.Id id) {
     return change(id.getParentKey().get()).view("revisions").id(id.get());
   }
@@ -94,6 +98,12 @@ public class ChangeApi {
     SubmitInput in = SubmitInput.create();
     in.wait_for_merge(true);
     call(id, commit, "submit").post(in, cb);
+  }
+
+  /** Rebase a revision onto the branch tip. */
+  public static void rebase(int id, String commit, AsyncCallback<ChangeInfo> cb) {
+    JavaScriptObject in = JavaScriptObject.createObject();
+    call(id, commit, "rebase").post(in, cb);
   }
 
   private static class Input extends JavaScriptObject {

@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.diff;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class SubmitInfo extends JavaScriptObject {
-  final Change.Status status() {
-    return Change.Status.valueOf(statusRaw());
-  }
+public class FileInfo extends JavaScriptObject {
+  public final native String path() /*-{ return this.path; }-*/;
+  public final native String old_path() /*-{ return this.old_path; }-*/;
+  public final native int lines_inserted() /*-{ return this.lines_inserted || 0; }-*/;
+  public final native int lines_deleted() /*-{ return this.lines_deleted || 0; }-*/;
+  public final native boolean binary() /*-{ return this.binary || false; }-*/;
 
-  private final native String statusRaw() /*-{ return this.status; }-*/;
-
-  protected SubmitInfo() {
+  protected FileInfo() {
   }
 }

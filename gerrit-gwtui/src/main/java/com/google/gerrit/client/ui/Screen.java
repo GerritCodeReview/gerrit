@@ -48,6 +48,7 @@ public abstract class Screen extends View {
   protected Screen() {
     initWidget(new FlowPanel());
     setStyleName(Gerrit.RESOURCES.css().screen());
+    body = new FlowPanel();
   }
 
   @Override
@@ -76,7 +77,7 @@ public abstract class Screen extends View {
   protected void onInitUI() {
     final FlowPanel me = (FlowPanel) getWidget();
     me.add(header = new Grid(1, Cols.values().length));
-    me.add(body = new FlowPanel());
+    me.add(body);
 
     headerText = new InlineLabel();
     if (titleWidget == null) {

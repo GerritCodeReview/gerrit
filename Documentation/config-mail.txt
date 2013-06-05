@@ -65,6 +65,12 @@ The `CommitMessageEdited.vm` template will determine the contents of the email
 related to a user editing the commit message through the Gerrit UI.  It is a
 `ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
 
+Footer.vm
+~~~~~~~~~
+
+The `Footer.vm` template will determine the contents of the footer text
+appended to all outgoing emails.
+
 Merged.vm
 ~~~~~~~~~
 

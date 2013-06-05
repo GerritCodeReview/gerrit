@@ -1905,6 +1905,172 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+[[get-diff]]
+Get Diff
+~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/diff'
+
+Gets the diff of a file from a certain revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/diff HTTP/1.0
+----
+
+As response a link:#diff-info[DiffInfo] entity is returned that describes the diff.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]
+  {
+    "meta_a": {
+      "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "content_type": "text/x-java-source"
+    },
+    "meta_b": {
+      "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "content_type": "text/x-java-source"
+    },
+    "change_type": "MODIFIED",
+    "diff_header": [
+      "diff --git a/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java b/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "index 59b7670..9faf81c 100644",
+      "--- a/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "+++ b/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java"
+    ],
+    "content": [
+      {
+        "ab": [
+          "// Copyright (C) 2010 The Android Open Source Project",
+          "//",
+          "// Licensed under the Apache License, Version 2.0 (the \"License\");",
+          "// you may not use this file except in compliance with the License.",
+          "// You may obtain a copy of the License at",
+          "//",
+          "// http://www.apache.org/licenses/LICENSE-2.0",
+          "//",
+          "// Unless required by applicable law or agreed to in writing, software",
+          "// distributed under the License is distributed on an \"AS IS\" BASIS,",
+          "// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.",
+          "// See the License for the specific language governing permissions and",
+          "// limitations under the License."
+        ]
+      },
+      {
+        "b": [
+          "//",
+          "// Add some more lines in the header."
+        ]
+      },
+      {
+        "ab": [
+          "",
+          "package com.google.gerrit.server.project;",
+          "",
+          "import com.google.common.collect.Maps;",
+          ...
+        ]
+      }
+      ...
+    ]
+  }
+----
+
+If the `intraline` parameter is specified, intraline differences are included in the diff.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/b6b9c10649b9041884046119ab794374470a1b45/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/diff?intraline HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]
+  {
+    "meta_a": {
+      "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "content_type": "text/x-java-source"
+    },
+    "meta_b": {
+      "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "content_type": "text/x-java-source"
+    },
+    "change_type": "MODIFIED",
+    "diff_header": [
+      "diff --git a/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java b/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "index 59b7670..9faf81c 100644",
+      "--- a/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "+++ b/gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java"
+    ],
+    "content": [
+      ...
+      {
+        "a": [
+          "/** Manages access control for Git references (aka branches, tags). */"
+        ],
+        "b": [
+          "/** Manages access control for the Git references (aka branches, tags). */"
+        ],
+        "edit_a": [],
+        "edit_b": [
+          [
+            31,
+            4
+          ]
+        ]
+      }
+      ]
+    }
+----
+
+The `base` parameter can be specified to control the base patch set from which the diff should
+be generated.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/b6b9c10649b9041884046119ab794374470a1b45/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/diff?base=2 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]
+  {
+    "meta_a": {
+      "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "content_type": "text/x-java-source"
+    },
+    "meta_b": {
+      "name": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+      "content_type": "text/x-java-source"
+    },
+    "change_type": "MODIFIED",
+    "content": [
+      {
+        "skip": 578
+      }
+    ]
+  }
+----
+
+If the `ignore-whitespace` parameter is specified, whitespace differences are not included
+in the result.
+
+The `context` parameter can be specified to control the number of lines of surrounding context
+in the diff.
+
 [[set-reviewed]]
 Set Reviewed
 ~~~~~~~~~~~~
@@ -2300,6 +2466,72 @@ link:#git-person-info[GitPersonInfo] entity.
 The subject of the commit (header line of the commit message).
 |`message`     |The commit message.
 |==========================
+
+[[diff-content]]
+DiffContent
+~~~~~~~~~~~
+The `DiffContent` entity contains information about the content differences
+in a file.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==========================
+|Field Name ||Description
+|`a`        |optional|Content only in the file on side A (deleted in B).
+|`b`        |optional|Content only in the file on side B (added in B).
+|`ab`       |optional|Content in the file on both sides (unchanged).
+|`edit_a`   |optional|Text sections deleted from side A as a
+link:#diff-intraline-info[DiffIntralineInfo] entity.
+|`edit_b`   |optional|Text sections inserted in side B as a
+link:#diff-intraline-info[DiffIntralineInfo] entity.
+|`skip`     |optional|count of lines skipped on both sides when the file is
+too large to include all common lines.
+|==========================
+
+[[diff-file-meta-info]]
+DiffFileMetaInfo
+~~~~~~~~~~~~~~~~
+The `DiffFileMetaInfo` entity contains meta information about a file diff.
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name    |Description
+|`name`        |The name of the file.
+|`content_type`|The content type of the file.
+|==========================
+
+[[diff-info]]
+DiffInfo
+~~~~~~~~
+The `DiffInfo` entity contains information about the diff of a file
+in a revision.
+
+[options="header",width="50%",cols="1,^1,5"]
+|==========================
+|Field Name        ||Description
+|`meta_a`          ||Meta information about the file on side A as a
+link:#diff-file-meta-info[DiffFileMetaInfo] entity.
+|`meta_b`          ||Meta information about the file on side B as a
+link:#diff-file-meta-info[DiffFileMetaInfo] entity.
+|`change_type`     ||The type of change (`ADDED`, `MODIFIED`, `DELETED`, `RENAMED`
+`COPIED`, `REWRITE`).
+|`intraline_status`|only set when the `intraline` parameter was specified in the request|
+Intraline status (`OK`, `ERROR`, `TIMEOUT`).
+|`diff_header`     ||A list of strings representing the patch set diff header.
+|`content`         ||The content differences in the file as a list of
+link:#diff-content[DiffContent] entities.
+|==========================
+
+[[diff-intraline-info]]
+DiffIntralineInfo
+~~~~~~~~~~~~~~~~~
+The `DiffIntralineInfo` entity contains information about intraline edits in a
+file.
+
+The information consists of a list of <offset, length> pairs.  The offset is from
+the beginning of the line and the length is the number of characters inserted or
+deleted.
+
+Note that the implied newline character is included in the offset position.
 
 [[fetch-info]]
 FetchInfo

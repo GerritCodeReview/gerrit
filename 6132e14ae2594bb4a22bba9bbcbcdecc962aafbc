@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "9dd0ed3c_55e1acf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-05T08:49:45Z",
+      "side": 1,
+      "message": "Maybe I\u0027m still misunderstanding it but I\u0027m not sure how that would work.\n\nThe commits on master wouldn\u0027t be reachable from refs/meta/request.  They don\u0027t have any common base with master. Same as the refs/meta/config and refs/notes/review branches.\n\n o C (master)\n |\n o B\n |\n o A\n \n o G (refs/meta/requests)\n |\n o F\n |\n o E\n |\n o D\n \n o K (refs/meta/config)\n |\n o J\n |\n o I\n |\n o H\n \n o O (refs/notes/review)\n |\n o N\n |\n o M\n |\n o L",
+      "parentUuid": "1dea3def_5188b460",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

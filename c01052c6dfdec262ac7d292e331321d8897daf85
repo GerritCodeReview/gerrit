@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3de5411c_121eac6d",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-05T05:43:22Z",
+      "side": 1,
+      "message": "+ The contents of this footer will appear below all other footers.",
+      "revId": "c01052c6dfdec262ac7d292e331321d8897daf85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3de5411c_f237a8eb",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Footer.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-05T05:43:22Z",
+      "side": 1,
+      "message": "Also mention that this will be below all other footers?",
+      "revId": "c01052c6dfdec262ac7d292e331321d8897daf85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

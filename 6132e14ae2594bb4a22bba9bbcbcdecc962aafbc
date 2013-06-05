@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "fdb9e9f9_b8a3598d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-05T08:07:24Z",
+      "side": 1,
+      "message": "I know that what I wrote was discussed (during the last Hackathon) but Edwin couldn\u0027t recall the details.\n\nCould you provide some more details from the discussion? Why is \"my\" proposal not going to work?",
+      "parentUuid": "9dd0ed3c_5533eccc",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

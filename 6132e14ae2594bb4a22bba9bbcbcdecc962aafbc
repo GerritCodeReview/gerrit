@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "fdb9e9f9_38b869b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-05T09:23:27Z",
+      "side": 1,
+      "message": "\u003e The commits on master wouldn\u0027t be reachable from refs/meta/request. They don\u0027t have any common base with master. Same as the refs/meta/config and refs/notes/review branches.\n\nI cannot think of any issues with commits on master (or any other refs/heads/*) being reachable from a meta branch. We don\u0027t have such cases yet but this shouldn\u0027t mean that it is forbidden.",
+      "parentUuid": "9dd0ed3c_55e1acf8",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

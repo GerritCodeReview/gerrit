@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "1dea3def_5188b460",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-05T08:36:30Z",
+      "side": 1,
+      "message": "I think there is a misunderstanding about what I proposed. In my proposal the empty commit would still be pushed to the refs/meta/request branch, just that its parent commit would be the base of the new branch.\n\nTaking your example the request would look like:\n o C (master)   /-o D (refs/meta/reqeust)\n |             /\n o B ----------\n | \n o A\n\nand, after the new branch gets created:\n\n o C (master)   /-o D (refs/meta/request)\n |             /\n o B --------------- (new)\n | \n o A\n\nNo extra empty commit on the \"new\" branch.",
+      "parentUuid": "bdd3f145_765f10f5",
+      "revId": "6132e14ae2594bb4a22bba9bbcbcdecc962aafbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0305ecf_072d7696",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

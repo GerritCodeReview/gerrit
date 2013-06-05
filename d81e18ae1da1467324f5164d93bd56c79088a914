@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd8516c_ceee433d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2062,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-05T16:22:37Z",
+      "side": 1,
+      "message": "skip 578 shouldn\u0027t actually happen.  It is is all common i would have expected one item in the list for \u0027ab\u0027",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_eee9ff36",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2068,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-05T16:22:37Z",
+      "side": 1,
+      "message": "this is an enum of:\nNONE, TRAILING, CHANGED, ALL",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_56e1b4f8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2071,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-05T16:22:37Z",
+      "side": 1,
+      "message": "this can be ALL or # of lines",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3de5411c_b2412053",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2484,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-05T16:22:37Z",
+      "side": 1,
+      "message": "furthermore, edit_a and edit_b are one present during a replace e.g. both `a` and `b` are present.",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3de5411c_92461c67",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-05T16:22:37Z",
+      "side": 1,
+      "message": "meta_a will not be present when the file is added.",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dcaf591_b35a5835",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2513,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-05T16:22:37Z",
+      "side": 1,
+      "message": "meta_b will not be present when the file is deleted",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3de5411c_722cd899",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2530,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-05T16:22:37Z",
+      "side": 1,
+      "message": "the pairs are in ascending offset order and there is not overlap.",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dcaf591_7355e003",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2531,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-05T16:22:37Z",
+      "side": 1,
+      "message": "The offset is from the beginning of the related diff content lines.\n\nThe length is the number of characters that were edited.",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dcaf591_935f5c25",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2534,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-05T16:22:37Z",
+      "side": 1,
+      "message": "Note that the implied newline character is included at the end of each line when computing the offset and length and thus it is possible for the edits to span newlines.",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.server.account.AccountInfo;
@@ -22,9 +23,6 @@ import com.google.gerrit.server.account.AccountInfo;
 import java.sql.Timestamp;
 
 public class CommentInfo {
-  static enum Side {
-    PARENT, REVISION;
-  }
 
   final String kind = "gerritcodereview#comment";
   String id;

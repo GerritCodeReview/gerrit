@@ -42,6 +42,8 @@ import com.google.gerrit.server.change.PostReview.Input;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.gerrit.common.changes.Side;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,7 +94,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   static class Comment {
     String id;
-    CommentInfo.Side side;
+    Side side;
     int line;
     String inReplyTo;
     String message;
@@ -289,7 +291,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         }
         e.setStatus(PatchLineComment.Status.PUBLISHED);
         e.setWrittenOn(timestamp);
-        e.setSide(c.side == CommentInfo.Side.PARENT ? (short) 0 : (short) 1);
+        e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
         e.setMessage(c.message);
         (create ? ins : upd).add(e);
       }

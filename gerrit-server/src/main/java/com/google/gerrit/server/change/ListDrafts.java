@@ -26,7 +26,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.change.CommentInfo;
-import com.google.gerrit.server.change.CommentInfo.Side;
+import com.google.gerrit.common.changes.Side;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

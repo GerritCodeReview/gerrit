@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bdd8516c_2e4f0772",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-06T22:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd8516c_6e550f04",
+      "revId": "3f822d8ad22b787cc6541f999814481744d9be70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd3f145_d6b384f7",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentInfo.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-06T22:33:36Z",
       "side": 1,
       "message": "Which property will this be used for?\n\nElsewhere in gerrit (e.g., ChangeInfo.java) the common pattern is\n\n public final native boolean has_something_or_other()\n /*-{ return this.hasOwnProperty(\u0027something_or_other\u0027) }-*/;",
+      "revId": "3f822d8ad22b787cc6541f999814481744d9be70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_b6a80881",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-06T22:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_d6b384f7",
       "revId": "3f822d8ad22b787cc6541f999814481744d9be70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bdd3f145_16e1fce7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffTable.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-06T17:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_56d77414",
+      "revId": "81245c8b7ae98bb948224e444ce6cf53bd85c28b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dcaf591_134c6c79",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-06T16:08:43Z",
       "side": 1,
       "message": "this should probably be wrapped in an $entry()\n\nThis implicitly-defined function ensures that the Java-derived method is executed with the uncaught exception handler installed and pumps a number of other utility services. The $entry function is reentrant-safe and should be used anywhere that GWT-derived JavaScript may be called into from a non-GWT context.",
+      "revId": "81245c8b7ae98bb948224e444ce6cf53bd85c28b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_ae5ad734",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-06T17:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dcaf591_134c6c79",
       "revId": "81245c8b7ae98bb948224e444ce6cf53bd85c28b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

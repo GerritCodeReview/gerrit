@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fdb9e9f9_38e629d2",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiCommandResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-06T07:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddbee5e1_772710c0",
+      "revId": "d5e84c25e2bf5b466e8472adde2ccd2eb3bbb17a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddbee5e1_57240cb9",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-02T20:48:55Z",
       "side": 1,
       "message": "This is confusing and under-documented. Consider instead:\n\n  // URL to follow.\n  // May be http:// or https:// to follow an external URL.\n  // Otherwise assumed to be an anchor component after the # in a URL,\n  // e.g. \"/c/46422/\" or \"/q/status:open,n,z\".\n  String redirect;\n\n  // Reload the current screen. May not be combined with redirect.\n  boolean reload;\n\nAlternatively make action an enum. We will add values to it, and try not to remove them. Even if you make action an enum the redirect address should be in a field named \"redirect\" or \"location\" and not something as generic as actionDetail. If we have other actions that need data, we will create more fields for them as necessary.",
+      "revId": "d5e84c25e2bf5b466e8472adde2ccd2eb3bbb17a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_18e365c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-06T07:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddbee5e1_57240cb9",
       "revId": "d5e84c25e2bf5b466e8472adde2ccd2eb3bbb17a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

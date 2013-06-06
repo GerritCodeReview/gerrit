@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "fdb9e9f9_584f9de9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-06-06T17:52:02Z",
+      "side": 1,
+      "message": "If you mean that the refs/heads/master points to the just pushed tagged commit (before submitting a change) then this is not happening. \nI have a different understanding of the bug. When we push a commit with a tag (or push a commit and then separately push a tag), do a review, submit a change then the status of the change is getting stuck in \"submitted, merge pending\". And the problematic part is that the newly pushed tag is no different than any other pushed before (there is no indication that the commit it points to is not part of the branch yet).",
+      "parentUuid": "1dea3def_d126e48d",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb9e9f9_980f75ab",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
         "patchSetId": 1

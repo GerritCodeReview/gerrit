@@ -1905,6 +1905,97 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+[[get-content-type]]
+Get Content Type
+~~~~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/content_type'
+
+Gets the content of a file from a certain revision.
+
+.Request
+----
+  GET /changes/34/revisions/8.edit/files/HelloWorld.java/content_type
+----
+
+The content type is returned as string.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: text/plain;charset=UTF-8
+
+  )]}'
+"text/x-java-source"
+----
+
+[[put-content]]
+Put Content
+~~~~~~~~~~~
+[verse]
+'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/files/link:#file-id[\{file-id\}]/content'
+
+Puts the content of a file to a edit patch set for a certain revision. If
+edit patch set doesn't exist yet, it is created, if it is exist, then the file
+content is replaced.
+
+.Request
+----
+  PUT /changes/34/revisions/8.edit/files/HelloWorld.java/content HTTP/1.0
+  Content-Type: text/plain;charset-UTF-8
+
+  public class HelloWorld {
+    public static void main(String[] args) {
+      System.out.println("Hello world");
+    }
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: text/plain;charset=UTF-8
+----
+
+[[publish-edit]]
+Publish Edit Patch Set
+~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/publish'
+
+Publish the edit patch set as a next patch set. The edit patch set ref is deleted.
+
+.Request
+----
+  POST /changes/34/revisions/8.edit/publish HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: text/plain;charset=UTF-8
+----
+
+[[delete-edit]]
+Delete Edit Patch Set
+~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'DELETE /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/discard'
+
+Delete the edit patch set.
+
+.Request
+----
+  DELETE /changes/34/revisions/8.edit/discard HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: text/plain;charset=UTF-8
+----
+
 [[set-reviewed]]
 Set Reviewed
 ~~~~~~~~~~~~

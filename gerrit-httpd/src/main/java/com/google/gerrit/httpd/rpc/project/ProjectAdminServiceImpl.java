@@ -19,7 +19,6 @@ import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -28,13 +27,11 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.List;
-import java.util.Set;
 
 class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ChangeProjectAccess.Factory changeProjectAccessFactory;
   private final ReviewProjectAccess.Factory reviewProjectAccessFactory;
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
-  private final DeleteBranches.Factory deleteBranchesFactory;
   private final ListBranches.Factory listBranchesFactory;
   private final VisibleProjectDetails.Factory visibleProjectDetailsFactory;
   private final ProjectAccessFactory.Factory projectAccessFactory;
@@ -44,7 +41,6 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   ProjectAdminServiceImpl(final ChangeProjectAccess.Factory changeProjectAccessFactory,
       final ReviewProjectAccess.Factory reviewProjectAccessFactory,
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
-      final DeleteBranches.Factory deleteBranchesFactory,
       final ListBranches.Factory listBranchesFactory,
       final VisibleProjectDetails.Factory visibleProjectDetailsFactory,
       final ProjectAccessFactory.Factory projectAccessFactory,
@@ -52,7 +48,6 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.reviewProjectAccessFactory = reviewProjectAccessFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
-    this.deleteBranchesFactory = deleteBranchesFactory;
     this.listBranchesFactory = listBranchesFactory;
     this.visibleProjectDetailsFactory = visibleProjectDetailsFactory;
     this.projectAccessFactory = projectAccessFactory;
@@ -107,12 +102,5 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   public void listBranches(final Project.NameKey projectName,
       final AsyncCallback<ListBranchesResult> callback) {
     listBranchesFactory.create(projectName).to(callback);
-  }
-
-  @Override
-  public void deleteBranch(final Project.NameKey projectName,
-      final Set<Branch.NameKey> toRemove,
-      final AsyncCallback<Set<Branch.NameKey>> callback) {
-    deleteBranchesFactory.create(projectName, toRemove).to(callback);
   }
 }

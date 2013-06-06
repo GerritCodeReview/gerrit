@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
@@ -92,7 +93,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   static class Comment {
     String id;
-    CommentInfo.Side side;
+    Side side;
     int line;
     String inReplyTo;
     String message;
@@ -289,7 +290,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         }
         e.setStatus(PatchLineComment.Status.PUBLISHED);
         e.setWrittenOn(timestamp);
-        e.setSide(c.side == CommentInfo.Side.PARENT ? (short) 0 : (short) 1);
+        e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
         e.setMessage(c.message);
         (create ? ins : upd).add(e);
       }

@@ -18,6 +18,7 @@ import static com.google.common.base.Objects.firstNonNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -25,8 +26,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountInfo;
-import com.google.gerrit.server.change.CommentInfo;
-import com.google.gerrit.server.change.CommentInfo.Side;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

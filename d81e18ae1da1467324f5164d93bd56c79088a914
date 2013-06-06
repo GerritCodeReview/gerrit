@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bdd3f145_f618c039",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2062,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-06T04:03:09Z",
+      "side": 1,
+      "message": "This is a verbatim copy and paste of the output that I got when I ran the command.  If it\u0027s not supposed to be like this, maybe it\u0027s a bug?",
+      "parentUuid": "bdd8516c_ceee433d",
+      "revId": "d81e18ae1da1467324f5164d93bd56c79088a914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd8516c_eee9ff36",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3

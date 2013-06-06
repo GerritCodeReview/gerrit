@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd8516c_0e4c4b79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-06-06T23:00:13Z",
+      "side": 1,
+      "message": "So, this is a JSNI wrapper for the /changes/\u003cchange\u003e/revisions/\u003crevision\u003e/comments/ REST API?",
+      "revId": "c9e7f641be2f6867b7999a483377431c52a8010d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_ce92c3a0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-06-06T23:00:13Z",
+      "side": 1,
+      "message": "Style: separate from single-line wrappers with a blank line",
+      "revId": "c9e7f641be2f6867b7999a483377431c52a8010d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_ee8d7f7e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-06-06T23:00:13Z",
+      "side": 1,
+      "message": "Can this be shared with com.google.gerrit.server.CommentInfo (in a package under com.google.gerrit.common, for example)?",
+      "revId": "c9e7f641be2f6867b7999a483377431c52a8010d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_56c09441",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-06-06T23:00:13Z",
+      "side": 1,
+      "message": "Would it work to instead use NativeMap\u003cJSArray\u003cCommentInfo\u003e\u003e directly?",
+      "revId": "c9e7f641be2f6867b7999a483377431c52a8010d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

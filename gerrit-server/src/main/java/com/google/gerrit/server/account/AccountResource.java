@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.TypeLiteral;
 
 public class AccountResource implements RestResource {
@@ -32,6 +33,9 @@ public class AccountResource implements RestResource {
 
   public static final TypeLiteral<RestView<SshKey>> SSH_KEY_KIND =
       new TypeLiteral<RestView<SshKey>>() {};
+
+  public static final TypeLiteral<RestView<Project>> PROJECT_KIND =
+      new TypeLiteral<RestView<Project>>() {};
 
   private final IdentifiedUser user;
 
@@ -88,6 +92,19 @@ public class AccountResource implements RestResource {
 
     public AccountSshKey getSshKey() {
       return sshKey;
+    }
+  }
+
+  static class Project extends AccountResource {
+    private final ProjectControl control;
+
+    Project(IdentifiedUser user, ProjectControl control) {
+      super(user);
+      this.control = control;
+    }
+
+    public ProjectControl getControl() {
+      return control;
     }
   }
 }

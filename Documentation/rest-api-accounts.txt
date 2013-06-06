@@ -921,6 +921,29 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   }
 ----
 
+[[check-can-create-refs]]
+Check Can Create Refs
+~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/projects/link:rest-api-projects.html#project-name[\{project-name\}]/createRefs'
+
+Checks if a user can create refs in a project.
+
+.Request
+----
+  GET /a/accounts/self/projects/MyProject/createRefs HTTP/1.0
+----
+
+If the user can create refs in the project the response is `200 OK`.
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
+If the user can't create refs in the project the response is
+`404 Not Found`.
+
 
 [[ids]]
 IDs

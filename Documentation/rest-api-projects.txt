@@ -598,6 +598,24 @@ describes the created branch.
   }
 ----
 
+[[delete-branch]]
+Delete Branch
+~~~~~~~~~~~~~
+[verse]
+'DELETE /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]'
+
+Deletes a branch.
+
+.Request
+----
+  DELETE /projects/MyProject/branches/stable HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[child-project-endpoints]]
 Child Project Endpoints
 -----------------------

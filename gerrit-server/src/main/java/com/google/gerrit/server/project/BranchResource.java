@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.project.ListBranches.BranchInfo;
 import com.google.inject.TypeLiteral;
 
@@ -31,5 +32,13 @@ public class BranchResource extends ProjectResource {
 
   public BranchInfo getBranchInfo() {
     return branchInfo;
+  }
+
+  public Branch.NameKey getBranchKey() {
+    return new Branch.NameKey(getNameKey(), branchInfo.ref);
+  }
+
+  public String getRef() {
+    return branchInfo.ref;
   }
 }

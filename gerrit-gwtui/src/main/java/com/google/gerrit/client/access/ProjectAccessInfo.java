@@ -12,22 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.projects;
+package com.google.gerrit.client.access;
 
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class BranchInfo extends JavaScriptObject {
-  public final String getShortName() {
-    return ref().startsWith(Branch.R_HEADS)
-        ? ref().substring(Branch.R_HEADS.length())
-        : ref();
-  }
+public class ProjectAccessInfo extends JavaScriptObject {
+  public final native boolean canAddRefs() /*-{ return this.can_add ? true : false; }-*/;
 
-  public final native String ref() /*-{ return this.ref; }-*/;
-  public final native String revision() /*-{ return this.revision; }-*/;
-  public final native boolean canDelete() /*-{ return this['can_delete'] ? true : false; }-*/;
-
-  protected BranchInfo() {
+  protected ProjectAccessInfo() {
   }
 }

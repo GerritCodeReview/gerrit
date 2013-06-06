@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -25,7 +24,6 @@ import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
 
 import java.util.List;
-import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface ProjectAdminService extends RemoteJsonService {
@@ -55,9 +53,4 @@ public interface ProjectAdminService extends RemoteJsonService {
 
   void listBranches(Project.NameKey projectName,
       AsyncCallback<ListBranchesResult> callback);
-
-  @Audit
-  @SignInRequired
-  void deleteBranch(Project.NameKey projectName, Set<Branch.NameKey> ids,
-      AsyncCallback<Set<Branch.NameKey>> callback);
 }

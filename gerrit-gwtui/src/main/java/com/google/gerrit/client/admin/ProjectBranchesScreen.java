@@ -19,17 +19,19 @@ import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.VoidResult;
+import com.google.gerrit.client.access.AccessMap;
+import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.projects.BranchInfo;
 import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
-import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -43,9 +45,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.HashSet;
@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectBranchesScreen extends ProjectScreen {
-  private BranchesTable branches;
+  private BranchesTable branchTable;
   private Button delBranch;
   private Button addBranch;
   private HintTextBox nameTxtBox;
@@ -67,32 +67,32 @@ public class ProjectBranchesScreen extends ProjectScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.PROJECT_SVC.listBranches(getProjectKey(),
-        new ScreenLoadCallback<ListBranchesResult>(this) {
+    addPanel.setVisible(false);
+    AccessMap.get(getProjectKey(),
+        new GerritCallback<ProjectAccessInfo>() {
           @Override
-          public void preDisplay(final ListBranchesResult result) {
-            if (result.getNoRepository()) {
-              branches.setVisible(false);
-              addPanel.setVisible(false);
-              delBranch.setVisible(false);
-
-              Label no = new Label(Util.C.errorNoGitRepository());
-              no.setStyleName(Gerrit.RESOURCES.css().smallHeading());
-              add(no);
-
-            } else {
-              enableForm(true);
-              display(result.getBranches());
-              addPanel.setVisible(result.getCanAdd());
-            }
+          public void onSuccess(ProjectAccessInfo result) {
+            addPanel.setVisible(result.canAddRefs());
           }
         });
+    refreshBranches();
     savedPanel = BRANCH;
   }
 
-  private void display(final List<Branch> listBranches) {
-    branches.display(listBranches);
-    delBranch.setVisible(branches.hasBranchCanDelete());
+  private void refreshBranches() {
+    ProjectApi.getBranches(getProjectKey(),
+        new ScreenLoadCallback<JsArray<BranchInfo>>(this) {
+          @Override
+          public void preDisplay(final JsArray<BranchInfo> result) {
+            enableForm(true);
+            display(Natives.asList(result));
+          }
+        });
+  }
+
+  private void display(final List<BranchInfo> branches) {
+    branchTable.display(branches);
+    delBranch.setVisible(branchTable.hasBranchCanDelete());
   }
 
   private void enableForm(final boolean on) {
@@ -150,17 +150,17 @@ public class ProjectBranchesScreen extends ProjectScreen {
     addPanel.add(addGrid);
     addPanel.add(addBranch);
 
-    branches = new BranchesTable();
+    branchTable = new BranchesTable();
 
     delBranch = new Button(Util.C.buttonDeleteBranch());
     delBranch.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        branches.deleteChecked();
+        branchTable.deleteChecked();
       }
     });
 
-    add(branches);
+    add(branchTable);
     add(delBranch);
     add(addPanel);
   }
@@ -189,17 +189,11 @@ public class ProjectBranchesScreen extends ProjectScreen {
     ProjectApi.createBranch(getProjectKey(), branchName, rev,
         new GerritCallback<BranchInfo>() {
           @Override
-          public void onSuccess(BranchInfo result) {
+          public void onSuccess(BranchInfo branch) {
             addBranch.setEnabled(true);
             nameTxtBox.setText("");
             irevTxtBox.setText("");
-            Util.PROJECT_SVC.listBranches(getProjectKey(),
-                new GerritCallback<ListBranchesResult>() {
-                  @Override
-                  public void onSuccess(ListBranchesResult result) {
-                    display(result.getBranches());
-                  }
-                });
+            refreshBranches();
           }
 
       @Override
@@ -216,7 +210,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
     textBox.setFocus(true);
   }
 
-  private class BranchesTable extends FancyFlexTable<Branch> {
+  private class BranchesTable extends FancyFlexTable<BranchInfo> {
     boolean canDelete;
 
     BranchesTable() {
@@ -240,16 +234,16 @@ public class ProjectBranchesScreen extends ProjectScreen {
       b.closeElement("b");
 
       b.openElement("p");
-      final HashSet<Branch.NameKey> ids = new HashSet<Branch.NameKey>();
+      final HashSet<String> ids = new HashSet<String>();
       for (int row = 1; row < table.getRowCount(); row++) {
-        final Branch k = getRowItem(row);
+        final BranchInfo k = getRowItem(row);
         if (k != null && table.getWidget(row, 1) instanceof CheckBox
             && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           if (!ids.isEmpty()) {
             b.append(",").br();
           }
-          b.append(k.getName());
-          ids.add(k.getNameKey());
+          b.append(k.ref());
+          ids.add(k.ref());
         }
       }
       b.closeElement("p");
@@ -268,53 +262,35 @@ public class ProjectBranchesScreen extends ProjectScreen {
       confirmationDialog.center();
     }
 
-    private void deleteBranches(final Set<Branch.NameKey> branchIds) {
-      Util.PROJECT_SVC.deleteBranch(getProjectKey(), branchIds,
-          new GerritCallback<Set<Branch.NameKey>>() {
-            public void onSuccess(final Set<Branch.NameKey> deleted) {
-              if (!deleted.isEmpty()) {
-                for (int row = 1; row < table.getRowCount();) {
-                  final Branch k = getRowItem(row);
-                  if (k != null && deleted.contains(k.getNameKey())) {
-                    table.removeRow(row);
-                  } else {
-                    row++;
-                  }
+    private void deleteBranches(final Set<String> branches) {
+      ProjectApi.deleteBranches(getProjectKey(), branches,
+          new GerritCallback<VoidResult>() {
+            public void onSuccess(VoidResult result) {
+              for (int row = 1; row < table.getRowCount();) {
+                BranchInfo k = getRowItem(row);
+                if (k != null && branches.contains(k.ref())) {
+                  table.removeRow(row);
+                } else {
+                  row++;
                 }
               }
+            }
 
-              branchIds.removeAll(deleted);
-              if (!branchIds.isEmpty()) {
-                final VerticalPanel p = new VerticalPanel();
-                final ErrorDialog errorDialog = new ErrorDialog(p);
-                final Label l = new Label(Util.C.branchDeletionOpenChanges());
-                l.setStyleName(Gerrit.RESOURCES.css().errorDialogText());
-                p.add(l);
-                for (final Branch.NameKey branch : branchIds) {
-                  final BranchLink link =
-                      new BranchLink(branch.getParentKey(), Change.Status.NEW,
-                          branch.get(), null) {
-                    @Override
-                    public void go() {
-                      errorDialog.hide();
-                      super.go();
-                    };
-                  };
-                  p.add(link);
-                }
-                errorDialog.center();
-              }
+            @Override
+            public void onFailure(Throwable caught) {
+              refreshBranches();
+              super.onFailure(caught);
             }
           });
     }
 
-    void display(final List<Branch> result) {
+    void display(List<BranchInfo> branches) {
       canDelete = false;
 
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final Branch k : result) {
+      for (final BranchInfo k : branches) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
@@ -322,10 +298,10 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
     }
 
-    void populate(final int row, final Branch k) {
+    void populate(int row, BranchInfo k) {
       final GitwebLink c = Gerrit.getGitwebLink();
 
-      if (k.getCanDelete()) {
+      if (k.canDelete()) {
         table.setWidget(row, 1, new CheckBox());
         canDelete = true;
       } else {
@@ -334,15 +310,15 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
       table.setText(row, 2, k.getShortName());
 
-      if (k.getRevision() != null) {
-        table.setText(row, 3, k.getRevision().get());
+      if (k.revision() != null) {
+        table.setText(row, 3, k.revision());
       } else {
         table.setText(row, 3, "");
       }
 
       if (c != null) {
-        table.setWidget(row, 4, new Anchor(c.getLinkName(), false, c.toBranch(k
-            .getNameKey())));
+        table.setWidget(row, 4, new Anchor(c.getLinkName(), false,
+            c.toBranch(new Branch.NameKey(getProjectKey(), k.ref()))));
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();

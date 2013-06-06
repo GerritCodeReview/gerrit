@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "bdd8516c_ae97778e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-06T23:38:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd8516c_ce92c3a0",
+      "revId": "c9e7f641be2f6867b7999a483377431c52a8010d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd8516c_ee8d7f7e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentInfo.java",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "bdd8516c_6ea2afe9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-06T23:38:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd8516c_ee8d7f7e",
+      "revId": "c9e7f641be2f6867b7999a483377431c52a8010d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd3f145_56c09441",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentMap.java",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2013-06-06T23:00:13Z",
       "side": 1,
       "message": "Would it work to instead use NativeMap\u003cJSArray\u003cCommentInfo\u003e\u003e directly?",
+      "revId": "c9e7f641be2f6867b7999a483377431c52a8010d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_8e9cbbb1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-06T23:38:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_56c09441",
       "revId": "c9e7f641be2f6867b7999a483377431c52a8010d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

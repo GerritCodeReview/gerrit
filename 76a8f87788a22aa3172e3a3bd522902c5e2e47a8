@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdb9e9f9_b80a399b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/PushOneCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-06T08:19:39Z",
+      "side": 1,
+      "message": "Since tag names need to be unique within a repository having a hard-coded tag name here means, for the same repository the tag option can only be used only once. I think it would be better to have a \u0027setTag(String name)\u0027 method to set the tag name from outside. Then you can also remove the \u0027toWithTag\u0027 method below and just stay with a \u0027if (tagname !\u003d null)\u0027 in the \u0027to\u0027 method.",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_58d9dd15",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/PushOneCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-06T08:19:39Z",
+      "side": 1,
+      "message": "s/_to/commit\n\nparameter \u0027ref\u0027 is not used and should be removed",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_7805c189",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-06T08:19:39Z",
+      "side": 1,
+      "message": "I believe this doesn\u0027t test the main issue. The main issue is that when you are pushing a commit with a tag for review that then the destination branch is updated immediately although the change is in review and not yet submitted. A correct test would be to\n\n 1. create a commit with tag and push to refs/for/master\n 2. verify that the tag was successfully pushed\n 3. verify that the destination branch (refs/heads/master) was not updated\n 4. submit the change (e.g. via REST)\n 5. verify that the change is successfully merged and that the branch is updated.\n\nThis test should then be of course in another test class.\n\nI actually believe that your fix in MergeOp doesn\u0027t solve this problem.",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_980f75ab",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-06T08:19:39Z",
+      "side": 1,
+      "message": "[optional] s/commitSha1/headCommit\n\n[optional] Just compare the ObjectId\u0027s directly, then you don\u0027t need to invoke \u0027getName()\u0027.",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dea3def_31b3f025",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-06T08:19:39Z",
+      "side": 1,
+      "message": "[optional] s/tag/taggedCommit",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_d815edc0",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-06T08:19:39Z",
+      "side": 1,
+      "message": "Inline this method. There is only a single caller and it\u0027s not worth to have this method.",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

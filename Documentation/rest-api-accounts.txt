@@ -921,6 +921,56 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   }
 ----
 
+[[list-project-capabilities]]
+List Project Capabilities
+~~~~~~~~~~~~~~~~~~~~~~~~~
+[verse]
+'GET /accounts/link:#account-id[\{account-id\}]/projects/link:rest-api-projects.html#project-name[\{project-name\}]/capabilities'
+
+Returns the capabilities that are enabled for the specified user on the
+project.
+
+.Request
+----
+  GET /accounts/self/projects/MyProject/capabilities HTTP/1.0
+----
+
+As response the project capabilities of the user are returned as a
+link:#project-capability-info[ProjectCapabilityInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "createRef": true
+  }
+----
+
+To filter the set of project capabilities the `q` parameter can be used.
+Filtering may decrease the response time by avoiding looking at every
+possible alternative for the user.
+
+.Request
+----
+  GET /accounts/self/projects/MyProject/capabilities?q=createRef HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "createRef": true
+  }
+----
+
 
 [[ids]]
 IDs
@@ -1228,6 +1278,19 @@ link:access-control.html#capability_queryLimit[Query Limit] of a user.
 |`min`               |Lower limit.
 |`max`               |Upper limit.
 |================================
+
+[[project-capability-info]]
+ProjectCapabilityInfo
+~~~~~~~~~~~~~~~~~~~~~
+The `ProjectCapabilityInfo` entity contains information about the
+capabilities of a user on a project.
+
+[options="header",width="50%",cols="1,^1,5"]
+|=================================
+|Field Name          ||Description
+|`createRef`         |not set if `false`|
+Whether the user can create any new refs on that project.
+|=================================
 
 [[ssh-key-info]]
 SshKeyInfo

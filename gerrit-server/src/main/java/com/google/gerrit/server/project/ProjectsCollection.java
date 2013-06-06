@@ -59,7 +59,16 @@ public class ProjectsCollection implements
   @Override
   public ProjectResource parse(TopLevelResource parent, IdString id)
       throws ResourceNotFoundException, IOException {
-    ProjectResource rsrc = _parse(id.get());
+    ProjectResource rsrc = _parse(id.get(), user.get());
+    if (rsrc == null) {
+      throw new ResourceNotFoundException(id);
+    }
+    return rsrc;
+  }
+
+  public ProjectResource parse(TopLevelResource parent, IdString id,
+      CurrentUser user) throws ResourceNotFoundException, IOException {
+    ProjectResource rsrc = _parse(id.get(), user);
     if (rsrc == null) {
       throw new ResourceNotFoundException(id);
     }
@@ -77,7 +86,7 @@ public class ProjectsCollection implements
    */
   public ProjectResource parse(String id)
       throws UnprocessableEntityException, IOException {
-    ProjectResource rsrc = _parse(id);
+    ProjectResource rsrc = _parse(id, user.get());
     if (rsrc == null) {
       throw new UnprocessableEntityException(String.format(
           "Project Not Found: %s", id));
@@ -85,12 +94,11 @@ public class ProjectsCollection implements
     return rsrc;
   }
 
-  private ProjectResource _parse(String id) throws IOException {
+  private ProjectResource _parse(String id, CurrentUser user)
+      throws IOException {
     ProjectControl ctl;
     try {
-      ctl = controlFactory.controlFor(
-          new Project.NameKey(id),
-          user.get());
+      ctl = controlFactory.controlFor(new Project.NameKey(id), user);
     } catch (NoSuchProjectException e) {
       return null;
     }

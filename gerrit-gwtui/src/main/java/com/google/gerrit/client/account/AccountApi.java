@@ -18,6 +18,7 @@ import com.google.gerrit.client.VoidResult;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -107,5 +108,12 @@ public class AccountApi {
 
     protected HttpPasswordInput() {
     }
+  }
+
+  /** Checks whether the user can create refs on the project */
+  public static void canCreateRefs(String account, Project.NameKey projectName,
+      AsyncCallback<VoidResult> cb) {
+    new RestApi("/accounts/").id(account).view("projects")
+        .id(projectName.get()).view("createRefs").get(cb);
   }
 }

@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "1dea3def_d126e48d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-06-06T08:48:55Z",
+      "side": 1,
+      "message": "What do you exactly mean that the destination branch is updated?",
+      "parentUuid": "fdb9e9f9_7805c189",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb9e9f9_980f75ab",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
         "patchSetId": 1

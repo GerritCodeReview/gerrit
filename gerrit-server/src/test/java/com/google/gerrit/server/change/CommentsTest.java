@@ -22,6 +22,7 @@ import static org.easymock.EasyMock.replay;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -36,7 +37,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountInfo;
-import com.google.gerrit.server.change.CommentInfo.Side;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.AbstractModule;
@@ -216,7 +216,7 @@ public class CommentsTest extends TestCase {
     PatchLineComment plc =
         new PatchLineComment(id, line, authorId, inReplyToUuid);
     plc.setMessage(message);
-    plc.setSide(side == CommentInfo.Side.PARENT ? (short) 0 : (short) 1);
+    plc.setSide(side == Side.PARENT ? (short) 0 : (short) 1);
     plc.setStatus(Status.PUBLISHED);
     plc.setWrittenOn(new Timestamp(millis));
     return plc;

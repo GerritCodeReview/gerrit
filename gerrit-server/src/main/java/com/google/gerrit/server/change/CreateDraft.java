@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -60,7 +61,7 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
         rsrc.getAccountId(),
         Url.decode(in.inReplyTo));
     c.setStatus(Status.DRAFT);
-    c.setSide(in.side == CommentInfo.Side.PARENT ? (short) 0 : (short) 1);
+    c.setSide(in.side == Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
     db.get().patchComments().insert(Collections.singleton(c));
     return Response.created(new CommentInfo(c, null));

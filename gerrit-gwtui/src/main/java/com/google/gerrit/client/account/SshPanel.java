@@ -269,6 +269,7 @@ class SshPanel extends Composite {
       if (sequenceNumbers.isEmpty()) {
         updateDeleteButton();
       } else {
+        deleteKey.setEnabled(false);
         AccountApi.deleteSshKeys("self", sequenceNumbers,
             new GerritCallback<VoidResult>() {
               public void onSuccess(VoidResult result) {

@@ -50,6 +50,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -194,7 +195,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
             addBranch.setEnabled(true);
             nameTxtBox.setText("");
             irevTxtBox.setText("");
-            refreshBranches();
+            branchTable.insert(branch);
           }
 
       @Override
@@ -312,6 +313,37 @@ public class ProjectBranchesScreen extends ProjectScreen {
         applyDataRowStyle(row);
         populate(row, k);
       }
+    }
+
+    void insert(BranchInfo info) {
+      Comparator<BranchInfo> c = new Comparator<BranchInfo>() {
+        @Override
+        public int compare(BranchInfo a, BranchInfo b) {
+          return a.ref().compareTo(b.ref());
+        }
+      };
+      int insertPosition = table.getRowCount();
+      int left = 1;
+      int right = table.getRowCount() - 1;
+      while (left <= right) {
+        int middle = (left + right) >>> 1; // (left+right)/2
+        BranchInfo i = getRowItem(middle);
+        int cmp = c.compare(i, info);
+
+        if (cmp < 0) {
+          left = middle + 1;
+        } else if (cmp > 0) {
+          right = middle - 1;
+        } else {
+          // branch is already contained in the table
+          return;
+        }
+      }
+      insertPosition = left;
+
+      table.insertRow(insertPosition);
+      applyDataRowStyle(insertPosition);
+      populate(insertPosition, info);
     }
 
     void populate(int row, BranchInfo k) {

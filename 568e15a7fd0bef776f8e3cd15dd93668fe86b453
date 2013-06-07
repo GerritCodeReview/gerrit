@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dcaf591_73a280e9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-07T13:59:35Z",
+      "side": 1,
+      "message": "Maybe NavigationTable could use a int getInsertRow(\u003cComparator\u003e, \u003citem\u003e) method?",
+      "revId": "568e15a7fd0bef776f8e3cd15dd93668fe86b453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -118,6 +118,9 @@ Add account SSH key]
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#delete-ssh-key[
 Delete account SSH key]
 
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-accounts.html#get-username[
+Get account username]
+
 Changes
 ^^^^^^^
 
@@ -134,11 +137,9 @@ Get content of a file in a revision]
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-patch[
 Get revision as a formatted patch]
 
-Groups
-^^^^^^
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-diff[
+Get diff of a file in a revision]
 
-
-* TODO
 
 Projects
 ^^^^^^^^
@@ -152,6 +153,9 @@ Get branch]
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#create-branch[
 Create branch]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#delete-branch[
+Delete branch]
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#list-child-projects[
 List child projects]

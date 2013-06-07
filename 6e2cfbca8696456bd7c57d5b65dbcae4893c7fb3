@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3de5411c_f260c8e4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2535,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-07T21:41:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dfe2dbb_e5e91637",
+      "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dfe2dbb_c5ee1a3d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-07T18:59:58Z",
       "side": 1,
       "message": "bad formatting, you have tabs in this file and we use only spaces",
+      "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dfe2dbb_65fe46ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-07T21:41:56Z",
+      "side": 1,
+      "message": "Done. this is what i get for using vim on my laptop.",
+      "parentUuid": "9dfe2dbb_c5ee1a3d",
       "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9dfe2dbb_45fb4afc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-07T21:41:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dfe2dbb_a5f31e27",
+      "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5df835d2_e3e91237",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-07T18:59:58Z",
       "side": 1,
       "message": "lastB \u003d getEndB()",
+      "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5df835d2_a3f31a27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-07T21:41:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5df835d2_e3e91237",
       "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

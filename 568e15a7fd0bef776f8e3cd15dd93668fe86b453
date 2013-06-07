@@ -16,6 +16,24 @@
       "revId": "568e15a7fd0bef776f8e3cd15dd93668fe86b453",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1dea3def_d14f0444",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-07T15:06:35Z",
+      "side": 1,
+      "message": "Uhm, yes, I guess it\u0027s time for this. Just was lazy...\n\nI\u0027ll pick it up next week.",
+      "parentUuid": "5dcaf591_73a280e9",
+      "revId": "568e15a7fd0bef776f8e3cd15dd93668fe86b453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

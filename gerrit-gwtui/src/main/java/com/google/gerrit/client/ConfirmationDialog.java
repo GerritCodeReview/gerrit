@@ -55,6 +55,7 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
       @Override
       public void onClick(ClickEvent event) {
         hide();
+        callback.onCancel();
       }
     });
     buttons.add(cancelButton);

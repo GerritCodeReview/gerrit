@@ -2531,14 +2531,13 @@ DiffIntralineInfo
 The `DiffIntralineInfo` entity contains information about intraline edits in a
 file.
 
-The information consists of a list of `<offset, length>` pairs.  The pairs are in
-ascending order and there is no overlap.  The offset is from the beginning of the
-related diff content lines, and the length is the number of characters that were
-edited.
+The information consists of a list of `<skip length, mark length>` pairs.  Where
+the skip length is the number of characters between the current edit and next
+edit. The mark length is the number of edited characters following the skip.
+The start of the edits is from the beginning of the related diff content lines.
 
-Note that the implied newline character is included at the end of each line when
-computing the offset and length, and thus it is possible for the edits to span
-newlines.
+Note that the implied newline character at the end of each line is include in
+the length calculation, and thus it is possible for the edits to span newlines.
 
 [[fetch-info]]
 FetchInfo

@@ -249,12 +249,16 @@ public class GetDiff implements RestReadView<FileResource> {
       if (internalEdit != null && !internalEdit.isEmpty()) {
         e.editA = Lists.newArrayListWithCapacity(internalEdit.size() * 2);
         e.editB = Lists.newArrayListWithCapacity(internalEdit.size() * 2);
+	int lastA = 0;
+	int lastB = 0;
         for (Edit edit : internalEdit) {
           if (edit.getBeginA() != edit.getEndA()) {
-            e.editA.add(ImmutableList.of(edit.getBeginA(), edit.getEndA() - edit.getBeginA()));
+            e.editA.add(ImmutableList.of(edit.getBeginA() - lastA, edit.getEndA() - edit.getBeginA()));
+	    lastA = edit.getBeginA() + edit.getEndA();
           }
           if (edit.getBeginB() != edit.getEndB()) {
-            e.editB.add(ImmutableList.of(edit.getBeginB(), edit.getEndB() - edit.getBeginB()));
+            e.editB.add(ImmutableList.of(edit.getBeginB() - lastB, edit.getEndB() - edit.getBeginB()));
+	    lastB = edit.getBeginB() + edit.getEndB();
           }
         }
       }

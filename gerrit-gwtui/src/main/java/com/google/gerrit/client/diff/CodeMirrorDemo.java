@@ -217,7 +217,6 @@ public class CodeMirrorDemo extends Screen {
 
   private void markEdit(CodeMirror cm, JsArrayString lines,
       JsArray<Span> edits, int startLine) {
-    int pos = 0;
     EditIterator iter = new EditIterator(lines, startLine);
     Configuration diffOpt = Configuration.create()
         .set("className", diffTable.style.diff())
@@ -228,10 +227,9 @@ public class CodeMirrorDemo extends Screen {
     LineCharacter last = LineCharacter.create(0, 0);
     for (int i = 0; i < edits.length(); i++) {
       Span span = edits.get(i);
-      LineCharacter from = iter.advance(span.begin() - pos);
-      LineCharacter to = iter.advance(span.length());
+      LineCharacter from = iter.advance(span.skip());
+      LineCharacter to = iter.advance(span.mark());
       int fromLine = from.getLine();
-      pos = span.end();
       if (last.getLine() == fromLine) {
         cm.markText(last, from, diffOpt);
       } else {

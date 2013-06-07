@@ -160,6 +160,24 @@
       "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5df835d2_c3173657",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/InRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T23:17:56Z",
+      "side": 1,
+      "message": "Ravi correctly understood the rewrite loop. One way to get out of this is to have r80_inrefStatus return something other than a generic \"AND\" node, instead return something that is a new type that does not contain the InRefPredicate. This way when the r80 level fires and rewrites it can replace with something that won\u0027t match when r85 fires.",
+      "parentUuid": "fdb9e9f9_98c1b52a",
+      "revId": "0c9e2950dac1444eb1b0c21ee55d0713d88ccc3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

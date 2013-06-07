@@ -934,7 +934,9 @@ Include Group
 [verse]
 'PUT /groups/link:#group-id[\{group-id\}]/groups/link:#group-id[\{group-id\}]'
 
-Includes a group into a Gerrit internal group.
+Includes a internal or external group into a Gerrit internal group.
+
+Including external group will only work when \{group-id\} is UUID of the externnal group.
 
 .Request
 ----

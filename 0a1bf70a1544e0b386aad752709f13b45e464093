@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3de5411c_12334cfc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-07T14:09:37Z",
+      "side": 1,
+      "message": "I think your supposed to have a newline here.",
+      "revId": "0a1bf70a1544e0b386aad752709f13b45e464093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

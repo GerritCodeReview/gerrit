@@ -34,8 +34,8 @@ public class LuceneIndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     install(new IndexModule(threads));
-    bind(ChangeIndex.Manager.class).to(LuceneChangeIndexManager.class);
-    listener().to(LuceneChangeIndexManager.class);
+    bind(ChangeIndex.class).to(LuceneChangeIndex.class);
+    listener().to(LuceneChangeIndex.class);
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);
     }

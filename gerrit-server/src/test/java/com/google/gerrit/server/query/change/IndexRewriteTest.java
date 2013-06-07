@@ -79,22 +79,19 @@ public class IndexRewriteTest extends TestCase {
     }
   }
 
-  private DummyIndex openIndex;
-  private DummyIndex closedIndex;
+  private DummyIndex index;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewrite rewrite;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    openIndex = new DummyIndex();
-    closedIndex = new DummyIndex();
+    index = new DummyIndex();
     queryBuilder = new ChangeQueryBuilder(
         new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
             null, null, null, null, null, null),
         null);
-
-    rewrite = new IndexRewriteImpl(openIndex, closedIndex);
+    rewrite = new IndexRewriteImpl(index);
   }
 
   public void testIndexPredicate() throws Exception {
@@ -208,7 +205,7 @@ public class IndexRewriteTest extends TestCase {
 
   private PredicateWrapper wrap(Predicate<ChangeData> p)
       throws QueryParseException {
-    return new PredicateWrapper(p, openIndex);
+    return new PredicateWrapper(index, p);
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {

@@ -15,13 +15,18 @@
 package com.google.gerrit.lucene;
 
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE;
+import static com.google.gerrit.server.query.change.IndexRewriteImpl.CLOSED_STATUSES;
+import static com.google.gerrit.server.query.change.IndexRewriteImpl.OPEN_STATUSES;
 
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
@@ -35,38 +40,33 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.NumericUtils;
 import org.apache.lucene.util.Version;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Secondary index implementation using Apache Lucene.
@@ -76,81 +76,86 @@ import java.util.List;
  * though there may be some lag between a committed write and it showing up to
  * other threads' searchers.
  */
-public class LuceneChangeIndex implements ChangeIndex {
-  private static final Logger log =
-      LoggerFactory.getLogger(LuceneChangeIndex.class);
-
+@Singleton
+public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public static final Version LUCENE_VERSION = Version.LUCENE_43;
+  public static final String CHANGES_OPEN = "changes_open";
+  public static final String CHANGES_CLOSED = "changes_closed";
 
   private final FillArgs fillArgs;
-  private final Directory dir;
-  private final IndexWriter writer;
-  private final SearcherManager searcherManager;
+  private final SubIndex openIndex;
+  private final SubIndex closedIndex;
 
-  LuceneChangeIndex(File file, FillArgs fillArgs) throws IOException {
+  @Inject
+  LuceneChangeIndex(SitePaths sitePaths, FillArgs fillArgs) throws IOException {
     this.fillArgs = fillArgs;
-    dir = FSDirectory.open(file);
-    IndexWriterConfig writerConfig =
-        new IndexWriterConfig(LUCENE_VERSION, new StandardAnalyzer(LUCENE_VERSION));
-    writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
-    writer = new IndexWriter(dir, writerConfig);
-    searcherManager = new SearcherManager(writer, true, null);
+    openIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_OPEN));
+    closedIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_CLOSED));
   }
 
-  void close() {
-    try {
-      searcherManager.close();
-    } catch (IOException e) {
-      log.warn("error closing Lucene searcher", e);
-    }
-    try {
-      writer.close(true);
-    } catch (IOException e) {
-      log.warn("error closing Lucene writer", e);
-    }
-    try {
-      dir.close();
-    } catch (IOException e) {
-      log.warn("error closing Lucene directory", e);
-    }
+  @Override
+  public void start() {
+    // Do nothing.
+  }
+
+  @Override
+  public void stop() {
+    openIndex.close();
+    closedIndex.close();
   }
 
   @Override
   public void insert(ChangeData cd) throws IOException {
-    writer.addDocument(toDocument(cd));
-    commit();
+    Term id = idTerm(cd);
+    Document doc = toDocument(cd);
+    if (cd.getChange().getStatus().isOpen()) {
+      closedIndex.delete(id);
+      openIndex.insert(doc);
+    } else {
+      openIndex.delete(id);
+      closedIndex.insert(doc);
+    }
   }
 
   @Override
   public void replace(ChangeData cd) throws IOException {
-    writer.updateDocument(intTerm(FIELD_CHANGE, cd.getId().get()),
-        toDocument(cd));
-    commit();
+    Term id = idTerm(cd);
+    Document doc = toDocument(cd);
+    if (cd.getChange().getStatus().isOpen()) {
+      closedIndex.delete(id);
+      openIndex.replace(id, doc);
+    } else {
+      openIndex.delete(id);
+      closedIndex.replace(id, doc);
+    }
   }
 
   @Override
   public void delete(ChangeData cd) throws IOException {
-    writer.deleteDocuments(intTerm(FIELD_CHANGE, cd.getId().get()));
-    commit();
+    Term id = idTerm(cd);
+    if (cd.getChange().getStatus().isOpen()) {
+      openIndex.delete(id);
+    } else {
+      closedIndex.delete(id);
+    }
   }
 
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p)
       throws QueryParseException {
-    return new QuerySource(toQuery(p));
+    Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
+    List<SubIndex> indexes = Lists.newArrayListWithCapacity(2);
+    if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
+      indexes.add(openIndex);
+    }
+    if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
+      indexes.add(closedIndex);
+    }
+    return new QuerySource(indexes, toQuery(p));
   }
 
-  public Directory getDirectory() {
-    return dir;
-  }
-
-  public IndexWriter getWriter() {
-    return writer;
-  }
-
-  private void commit() throws IOException {
-    writer.commit();
-    searcherManager.maybeRefresh();
+  private Term idTerm(ChangeData cd) {
+    return intTerm(FIELD_CHANGE, cd.getId().get());
   }
 
   private Query toQuery(Predicate<ChangeData> p) throws QueryParseException {
@@ -214,9 +219,11 @@ public class LuceneChangeIndex implements ChangeIndex {
     // TODO(dborowitz): Push limit down from predicate tree.
     private static final int LIMIT = 1000;
 
+    private final List<SubIndex> indexes;
     private final Query query;
 
-    public QuerySource(Query query) {
+    public QuerySource(List<SubIndex> indexes, Query query) {
+      this.indexes = indexes;
       this.query = query;
     }
 
@@ -233,36 +240,28 @@ public class LuceneChangeIndex implements ChangeIndex {
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
       try {
-        IndexSearcher searcher = searcherManager.acquire();
-        try {
-          ScoreDoc[] docs = searcher.search(query, LIMIT).scoreDocs;
-          List<ChangeData> result = Lists.newArrayListWithCapacity(docs.length);
-          for (ScoreDoc sd : docs) {
-            Document doc = searcher.doc(sd.doc);
-            Number v = doc.getField(FIELD_CHANGE).numericValue();
-            result.add(new ChangeData(new Change.Id(v.intValue())));
-          }
-          final List<ChangeData> r = Collections.unmodifiableList(result);
-
-          return new ResultSet<ChangeData>() {
-            @Override
-            public Iterator<ChangeData> iterator() {
-              return r.iterator();
-            }
-
-            @Override
-            public List<ChangeData> toList() {
-              return r;
-            }
-
-            @Override
-            public void close() {
-              // Do nothing.
-            }
-          };
-        } finally {
-          searcherManager.release(searcher);
+        List<ChangeData> result =
+            Lists.newArrayListWithExpectedSize(2 * getCardinality());
+        for (SubIndex index : indexes) {
+          result.addAll(index.search(query, LIMIT));
         }
+        final List<ChangeData> r = Collections.unmodifiableList(result);
+        return new ResultSet<ChangeData>() {
+          @Override
+          public Iterator<ChangeData> iterator() {
+            return r.iterator();
+          }
+
+          @Override
+          public List<ChangeData> toList() {
+            return r;
+          }
+
+          @Override
+          public void close() {
+            // Do nothing.
+          }
+        };
       } catch (IOException e) {
         throw new OrmException(e);
       }

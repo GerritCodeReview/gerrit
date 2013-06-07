@@ -37,15 +37,13 @@ public class ChangeIndexerImpl implements ChangeIndexer {
       LoggerFactory.getLogger(ChangeIndexerImpl.class);
 
   private final ListeningScheduledExecutorService executor;
-  private final ChangeIndex openIndex;
-  private final ChangeIndex closedIndex;
+  private final ChangeIndex index;
 
   @Inject
   ChangeIndexerImpl(@IndexExecutor ListeningScheduledExecutorService executor,
-      ChangeIndex.Manager indexManager) throws IOException {
+      ChangeIndex index) throws IOException {
     this.executor = executor;
-    this.openIndex = indexManager.get("changes_open");
-    this.closedIndex = indexManager.get("changes_closed");
+    this.index = index;
   }
 
   @Override
@@ -74,13 +72,7 @@ public class ChangeIndexerImpl implements ChangeIndexer {
     public void run() {
       ChangeData cd = new ChangeData(change);
       try {
-        if (change.getStatus().isOpen()) {
-          closedIndex.delete(cd);
-          openIndex.replace(cd);
-        } else {
-          openIndex.delete(cd);
-          closedIndex.replace(cd);
-        }
+        index.replace(cd);
       } catch (IOException e) {
         log.error("Error indexing change", e);
       }

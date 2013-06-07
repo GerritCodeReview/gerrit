@@ -32,10 +32,12 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
@@ -283,7 +285,7 @@ public class ReceiveCommits {
   private final Set<RevCommit> validCommits = new HashSet<RevCommit>();
 
   private ListMultimap<Change.Id, Ref> refsByChange;
-  private Map<ObjectId, Ref> refsById;
+  private SetMultimap<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
 
   private final SubmoduleOp.Factory subOpFactory;
@@ -1888,6 +1890,14 @@ public class ReceiveCommits {
                   }
                   change.setLastSha1MergeTested(null);
                   change.setCurrentPatchSet(info);
+
+                  final List<String> idList = newCommit.getFooterLines(CHANGE_ID);
+                  if (idList.isEmpty()) {
+                    change.setKey(new Change.Key("I" + newCommit.name()));
+                  } else {
+                    change.setKey(new Change.Key(idList.get(idList.size() - 1).trim()));
+                  }
+
                   ChangeUtil.updated(change);
                   return change;
                 }
@@ -2101,20 +2111,22 @@ public class ReceiveCommits {
         rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
       }
 
-      final Map<ObjectId, Ref> byCommit = changeRefsById();
+      final SetMultimap<ObjectId, Ref> byCommit = changeRefsById();
       final Map<Change.Key, Change.Id> byKey = openChangesByKey(
           new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
       final List<ReplaceRequest> toClose = new ArrayList<ReplaceRequest>();
       RevCommit c;
       while ((c = rw.next()) != null) {
-        final Ref ref = byCommit.get(c.copy());
-        if (ref != null) {
-          rw.parseBody(c);
-          Change.Key closedChange =
-              closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
-          closeProgress.update(1);
-          if (closedChange != null) {
-            byKey.remove(closedChange);
+        final Set<Ref> refs = byCommit.get(c.copy());
+        for (Ref ref : refs) {
+          if (ref != null) {
+            rw.parseBody(c);
+            Change.Key closedChange =
+                closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
+            closeProgress.update(1);
+            if (closedChange != null) {
+              byKey.remove(closedChange);
+            }
           }
         }
 
@@ -2193,9 +2205,9 @@ public class ReceiveCommits {
     return change.getKey();
   }
 
-  private Map<ObjectId, Ref> changeRefsById() throws IOException {
+  private SetMultimap<ObjectId, Ref> changeRefsById() throws IOException {
     if (refsById == null) {
-      refsById = new HashMap<ObjectId, Ref>();
+      refsById =  HashMultimap.create();
       for (Ref r : repo.getRefDatabase().getRefs("refs/changes/").values()) {
         if (PatchSet.isRef(r.getName())) {
           refsById.put(r.getObjectId(), r);

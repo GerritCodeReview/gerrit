@@ -39,6 +39,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -46,6 +48,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.HashSet;
@@ -84,8 +87,8 @@ public class ProjectBranchesScreen extends ProjectScreen {
         new ScreenLoadCallback<JsArray<BranchInfo>>(this) {
           @Override
           public void preDisplay(final JsArray<BranchInfo> result) {
-            enableForm(true);
             display(Natives.asList(result));
+            updateForm();
           }
         });
   }
@@ -95,11 +98,11 @@ public class ProjectBranchesScreen extends ProjectScreen {
     delBranch.setVisible(branchTable.hasBranchCanDelete());
   }
 
-  private void enableForm(final boolean on) {
-    delBranch.setEnabled(on);
-    addBranch.setEnabled(on);
-    nameTxtBox.setEnabled(on);
-    irevTxtBox.setEnabled(on);
+  private void updateForm() {
+    branchTable.updateDeleteButton();
+    addBranch.setEnabled(true);
+    nameTxtBox.setEnabled(true);
+    irevTxtBox.setEnabled(true);
   }
 
   @Override
@@ -211,6 +214,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
   }
 
   private class BranchesTable extends FancyFlexTable<BranchInfo> {
+    private ValueChangeHandler<Boolean> updateDeleteHandler;
     boolean canDelete;
 
     BranchesTable() {
@@ -225,6 +229,13 @@ public class ProjectBranchesScreen extends ProjectScreen {
       if (Gerrit.getGitwebLink() != null) {
         fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
       }
+
+      updateDeleteHandler = new ValueChangeHandler<Boolean>() {
+        @Override
+        public void onValueChange(ValueChangeEvent<Boolean> event) {
+          updateDeleteButton();
+        }
+      };
     }
 
     void deleteChecked() {
@@ -248,15 +259,22 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
       b.closeElement("p");
       if (ids.isEmpty()) {
+        updateDeleteButton();
         return;
       }
 
+      delBranch.setEnabled(false);
       ConfirmationDialog confirmationDialog =
           new ConfirmationDialog(Gerrit.C.branchDeletionDialogTitle(),
               b.toSafeHtml(), new ConfirmationCallback() {
         @Override
         public void onOk() {
           deleteBranches(ids);
+        }
+
+        @Override
+        public void onCancel() {
+          branchTable.updateDeleteButton();
         }
       });
       confirmationDialog.center();
@@ -274,6 +292,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
                   row++;
                 }
               }
+              updateDeleteButton();
             }
 
             @Override
@@ -302,7 +321,9 @@ public class ProjectBranchesScreen extends ProjectScreen {
       final GitwebLink c = Gerrit.getGitwebLink();
 
       if (k.canDelete()) {
-        table.setWidget(row, 1, new CheckBox());
+        CheckBox sel = new CheckBox();
+        sel.addValueChangeHandler(updateDeleteHandler);
+        table.setWidget(row, 1, sel);
         canDelete = true;
       } else {
         table.setText(row, 1, "");
@@ -342,6 +363,21 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
     boolean hasBranchCanDelete() {
       return canDelete;
+    }
+
+    void updateDeleteButton() {
+      boolean on = false;
+      for (int row = 1; row < table.getRowCount(); row++) {
+        Widget w = table.getWidget(row, 1);
+        if (w != null && w instanceof CheckBox) {
+          CheckBox sel = (CheckBox) w;
+          if (sel.getValue()) {
+            on = true;
+            break;
+          }
+        }
+      }
+      delBranch.setEnabled(on);
     }
   }
 }

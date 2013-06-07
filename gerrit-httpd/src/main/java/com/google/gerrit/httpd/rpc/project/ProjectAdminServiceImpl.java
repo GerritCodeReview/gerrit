@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
@@ -32,7 +31,6 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ChangeProjectAccess.Factory changeProjectAccessFactory;
   private final ReviewProjectAccess.Factory reviewProjectAccessFactory;
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
-  private final ListBranches.Factory listBranchesFactory;
   private final VisibleProjectDetails.Factory visibleProjectDetailsFactory;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
@@ -41,14 +39,12 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   ProjectAdminServiceImpl(final ChangeProjectAccess.Factory changeProjectAccessFactory,
       final ReviewProjectAccess.Factory reviewProjectAccessFactory,
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
-      final ListBranches.Factory listBranchesFactory,
       final VisibleProjectDetails.Factory visibleProjectDetailsFactory,
       final ProjectAccessFactory.Factory projectAccessFactory,
       final ProjectDetailFactory.Factory projectDetailFactory) {
     this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.reviewProjectAccessFactory = reviewProjectAccessFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
-    this.listBranchesFactory = listBranchesFactory;
     this.visibleProjectDetailsFactory = visibleProjectDetailsFactory;
     this.projectAccessFactory = projectAccessFactory;
     this.projectDetailFactory = projectDetailFactory;
@@ -96,11 +92,5 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       String baseRevision, String msg, List<AccessSection> sections,
       AsyncCallback<Change.Id> cb) {
     reviewProjectAccessFactory.create(projectName, getBase(baseRevision), sections, msg).to(cb);
-  }
-
-  @Override
-  public void listBranches(final Project.NameKey projectName,
-      final AsyncCallback<ListBranchesResult> callback) {
-    listBranchesFactory.create(projectName).to(callback);
   }
 }

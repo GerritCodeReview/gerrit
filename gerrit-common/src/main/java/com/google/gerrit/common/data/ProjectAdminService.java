@@ -50,7 +50,4 @@ public interface ProjectAdminService extends RemoteJsonService {
   void reviewProjectAccess(Project.NameKey projectName, String baseRevision,
       String message, List<AccessSection> sections,
       AsyncCallback<Change.Id> callback);
-
-  void listBranches(Project.NameKey projectName,
-      AsyncCallback<ListBranchesResult> callback);
 }

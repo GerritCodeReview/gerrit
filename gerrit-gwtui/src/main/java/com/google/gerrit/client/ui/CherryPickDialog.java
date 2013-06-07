@@ -15,10 +15,12 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.projects.BranchInfo;
+import com.google.gerrit.client.projects.ProjectApi;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.common.data.ListBranchesResult;
-import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.client.rpc.Natives;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -30,16 +32,16 @@ import java.util.List;
 
 public abstract class CherryPickDialog extends ActionDialog {
   private SuggestBox newBranch;
-  private List<Branch> branches;
+  private List<BranchInfo> branches;
 
   public CherryPickDialog(final FocusWidget enableOnFailure, Project.NameKey project) {
     super(enableOnFailure, true, Util.C.cherryPickTitle(), Util.C
         .cherryPickCommitMessage());
-    com.google.gerrit.client.account.Util.PROJECT_SVC.listBranches(project,
-        new GerritCallback<ListBranchesResult>() {
+    ProjectApi.getBranches(project,
+        new GerritCallback<JsArray<BranchInfo>>() {
           @Override
-          public void onSuccess(ListBranchesResult result) {
-            branches = result.getBranches();
+          public void onSuccess(JsArray<BranchInfo> result) {
+            branches = Natives.asList(result);
           }
         });
 
@@ -48,8 +50,8 @@ public abstract class CherryPickDialog extends ActionDialog {
       protected void onRequestSuggestions(Request request, Callback done) {
         LinkedList<BranchSuggestion> suggestions =
             new LinkedList<BranchSuggestion>();
-        for (final Branch b : branches) {
-          if (b.getName().indexOf(request.getQuery()) >= 0) {
+        for (final BranchInfo b : branches) {
+          if (b.ref().indexOf(request.getQuery()) >= 0) {
             suggestions.add(new BranchSuggestion(b));
           }
         }
@@ -75,15 +77,15 @@ public abstract class CherryPickDialog extends ActionDialog {
   }
 
   class BranchSuggestion implements Suggestion {
-    private Branch branch;
+    private BranchInfo branch;
 
-    public BranchSuggestion(Branch branch) {
+    public BranchSuggestion(BranchInfo branch) {
       this.branch = branch;
     }
 
     @Override
     public String getDisplayString() {
-      return branch.getName();
+      return branch.ref();
     }
 
     @Override

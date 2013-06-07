@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd3f145_f699e064",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T18:37:42Z",
+      "side": 1,
+      "message": "From here to the end of the file is dead code. Delete it and define an empty private constructor:\n\n  private CommentApi() {\n  }",
+      "revId": "2e4f63cb2ab5d5d72eee93bec1180c522fe5d284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

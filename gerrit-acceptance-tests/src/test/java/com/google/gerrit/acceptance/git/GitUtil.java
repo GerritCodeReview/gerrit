@@ -80,8 +80,18 @@ public class GitUtil {
 
   public static void createProject(SshSession s, String name, Project.NameKey parent)
       throws JSchException, IOException {
+    createProject(s, name, parent, true);
+  }
+
+  public static void createProject(SshSession s, String name,
+      Project.NameKey parent, boolean emptyCommit)
+      throws JSchException, IOException {
     StringBuilder b = new StringBuilder();
-    b.append("gerrit create-project --empty-commit --name \"");
+    b.append("gerrit create-project");
+    if (emptyCommit) {
+      b.append(" --empty-commit");
+    }
+    b.append(" --name \"");
     b.append(name);
     b.append("\"");
     if (parent != null) {

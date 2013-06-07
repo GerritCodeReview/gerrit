@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd8516c_eedb3f73",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-07T13:49:44Z",
+      "side": 1,
+      "message": "setChecked() maybe?",
+      "revId": "71858711154dc33278ddabc864ab475be31f32fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

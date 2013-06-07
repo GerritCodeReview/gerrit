@@ -16,26 +16,21 @@ package net.codemirror.lib;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-/**
- * Simple map-like structure to pass configuration to CodeMirror.
- *
- * @link http://codemirror.net/doc/manual.html#config
- * @see CodeMirror#create(com.google.gwt.dom.client.Element, Configuration)
- */
-public class Configuration extends JavaScriptObject {
-  public static Configuration create() {
+/** {left, top, width, height, clientWidth, clientHeight} objects returned by
+ * getScrollInfo(). */
+public class ScrollInfo extends JavaScriptObject {
+  public static ScrollInfo create() {
     return createObject().cast();
   }
 
-  public final native Configuration set(String name, String val)
-  /*-{ this[name] = val; return this; }-*/;
+  public final native int getLeft() /*-{ return this.left; }-*/;
+  public final native int getTop() /*-{ return this.top; }-*/;
+  public final native int getWidth() /*-{ return this.width; }-*/;
+  public final native int getHeight() /*-{ return this.height; }-*/;
+  public final native int getClientWidth() /*-{ return this.clientWidth; }-*/;
+  public final native int getClientHeight() /*-{ return this.clientHeight; }-*/;
 
-  public final native Configuration set(String name, int val)
-  /*-{ this[name] = val; return this; }-*/;
 
-  public final native Configuration set(String name, boolean val)
-  /*-{ this[name] = val; return this; }-*/;
-
-  protected Configuration() {
+  protected ScrollInfo() {
   }
 }

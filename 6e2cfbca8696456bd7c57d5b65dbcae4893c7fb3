@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dfe2dbb_e5e91637",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2535,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T18:59:58Z",
+      "side": 1,
+      "message": "between the end of the previous edit and the start of this edit.",
+      "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dfe2dbb_c5ee1a3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T18:59:58Z",
+      "side": 1,
+      "message": "bad formatting, you have tabs in this file and we use only spaces",
+      "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dfe2dbb_a5f31e27",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T18:59:58Z",
+      "side": 1,
+      "message": "lastA \u003d getEndA().",
+      "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5df835d2_e3e91237",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T18:59:58Z",
+      "side": 1,
+      "message": "lastB \u003d getEndB()",
+      "revId": "6e2cfbca8696456bd7c57d5b65dbcae4893c7fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

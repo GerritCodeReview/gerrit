@@ -88,7 +88,9 @@ public class ProjectBranchesScreen extends ProjectScreen {
         new ScreenLoadCallback<JsArray<BranchInfo>>(this) {
           @Override
           public void preDisplay(final JsArray<BranchInfo> result) {
+            Set<String> checkedRefs = branchTable.getCheckedRefs();
             display(Natives.asList(result));
+            branchTable.setChecked(checkedRefs);
             enableForm();
           }
         });
@@ -239,27 +241,48 @@ public class ProjectBranchesScreen extends ProjectScreen {
       };
     }
 
+    Set<String> getCheckedRefs() {
+      Set<String> refs = new HashSet<String>();
+      for (int row = 1; row < table.getRowCount(); row++) {
+        final BranchInfo k = getRowItem(row);
+        if (k != null && table.getWidget(row, 1) instanceof CheckBox
+            && ((CheckBox) table.getWidget(row, 1)).getValue()) {
+          refs.add(k.ref());
+        }
+      }
+      return refs;
+    }
+
+    void setChecked(Set<String> refs) {
+      for (int row = 1; row < table.getRowCount(); row++) {
+        final BranchInfo k = getRowItem(row);
+        if (k != null && refs.contains(k.ref()) &&
+            table.getWidget(row, 1) instanceof CheckBox) {
+          ((CheckBox) table.getWidget(row, 1)).setValue(true);
+        }
+      }
+    }
+
     void deleteChecked() {
-      final SafeHtmlBuilder b = new SafeHtmlBuilder();
+      final Set<String> refs = getCheckedRefs();
+
+      SafeHtmlBuilder b = new SafeHtmlBuilder();
       b.openElement("b");
       b.append(Gerrit.C.branchDeletionConfirmationMessage());
       b.closeElement("b");
 
       b.openElement("p");
-      final HashSet<String> ids = new HashSet<String>();
-      for (int row = 1; row < table.getRowCount(); row++) {
-        final BranchInfo k = getRowItem(row);
-        if (k != null && table.getWidget(row, 1) instanceof CheckBox
-            && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          if (!ids.isEmpty()) {
-            b.append(",").br();
-          }
-          b.append(k.ref());
-          ids.add(k.ref());
+      boolean first = true;
+      for (String ref : refs) {
+        if (!first) {
+          b.append(",").br();
         }
+        b.append(ref);
+        first = false;
       }
       b.closeElement("p");
-      if (ids.isEmpty()) {
+
+      if (refs.isEmpty()) {
         updateDeleteButton();
         return;
       }
@@ -270,7 +293,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
               b.toSafeHtml(), new ConfirmationCallback() {
         @Override
         public void onOk() {
-          deleteBranches(ids);
+          deleteBranches(refs);
         }
 
         @Override

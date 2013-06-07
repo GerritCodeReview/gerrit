@@ -16,6 +16,24 @@
       "revId": "832014f7043837d09fd8e74c61cf3ff651e985b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5df835d2_83113e64",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T23:20:16Z",
+      "side": 1,
+      "message": "I think the docs suggest \"On\" will continue to work.",
+      "parentUuid": "bdd3f145_b6f928b8",
+      "revId": "832014f7043837d09fd8e74c61cf3ff651e985b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

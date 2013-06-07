@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdd3f145_d68144f3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T16:47:12Z",
+      "side": 1,
+      "message": "I would have this take the callback and return void:\n\n  public static void comments(PatchSet.Id id, AsyncCallback\u003cNativeMap\u003cJsArray\u003cCommentInfo\u003e\u003e\u003e cb) {\n    new CommentApi(ChangeApi.revision(id).view(\"comments\")).get(cb);\n  }\n\n  private CommentApi() {\n  }",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_4ecdb3af",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T16:47:12Z",
+      "side": 1,
+      "message": "We don\u0027t export kind into the GWT code.",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_2eda676b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T16:47:12Z",
+      "side": 1,
+      "message": "This should be handled as a timestamp:\n\n  public final Timestamp updated() {\n    return JavaSqlTimestamp_JsonSerializer.parseTimestamp(updatedRaw());\n  }\n  private final native String updatedRaw() /*-{ return this.updated; }-*/;",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_3692b84c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T16:47:12Z",
+      "side": 1,
+      "message": "AuthorInfo (see below)",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_6ed06f4d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T16:47:12Z",
+      "side": 1,
+      "message": "This is already a type AccountInfo in package com.google.gerrit.client.account.",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_168fbc20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T16:47:12Z",
+      "side": 1,
+      "message": "Please use Eclipse\u0027s Organize Imports feature on this file to correct the ordering of import statements.",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_0ed7ab43",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T16:47:12Z",
+      "side": 1,
+      "message": "Please use Eclipse\u0027s Organize Imports feature on this file to correct the ordering of import statements.",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_f67c4031",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T16:47:12Z",
+      "side": 1,
+      "message": "Please use Eclipse\u0027s Organize Imports feature on this file to correct the ordering of import statements.",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_eec45f8c",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T16:47:12Z",
+      "side": 1,
+      "message": "Please use Eclipse\u0027s Organize Imports feature on this file to correct the ordering of import statements.",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

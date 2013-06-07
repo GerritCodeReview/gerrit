@@ -34,6 +34,24 @@
       "revId": "31100db631d27aec6f529fe5a8e90f5664fb9790",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_6e8bcf5f",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-07T07:34:08Z",
+      "side": 1,
+      "message": "How about\n\n GET /accounts/id/projects/project-name/capabilities\n\nwhich will return something like:\n\n {\n   \"createRef\" : true,\n   ...\n }",
+      "parentUuid": "1dea3def_f14a0836",
+      "revId": "31100db631d27aec6f529fe5a8e90f5664fb9790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

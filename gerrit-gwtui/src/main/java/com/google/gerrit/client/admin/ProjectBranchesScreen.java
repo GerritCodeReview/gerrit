@@ -51,6 +51,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -196,7 +197,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
             addBranch.setEnabled(true);
             nameTxtBox.setText("");
             irevTxtBox.setText("");
-            refreshBranches();
+            branchTable.insert(branch);
           }
 
       @Override
@@ -314,6 +315,21 @@ public class ProjectBranchesScreen extends ProjectScreen {
         table.insertRow(row);
         applyDataRowStyle(row);
         populate(row, k);
+      }
+    }
+
+    void insert(BranchInfo info) {
+      Comparator<BranchInfo> c = new Comparator<BranchInfo>() {
+        @Override
+        public int compare(BranchInfo a, BranchInfo b) {
+          return a.ref().compareTo(b.ref());
+        }
+      };
+      int insertPos = getInsertRow(c, info);
+      if (insertPos >= 0) {
+        table.insertRow(insertPos);
+        applyDataRowStyle(insertPos);
+        populate(insertPos, info);
       }
     }
 

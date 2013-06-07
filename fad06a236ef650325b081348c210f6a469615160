@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5df835d2_23084a37",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T23:06:45Z",
+      "side": 1,
+      "message": "I\u0027m not sure I like this namespace. We are somehow implying the project is a child of the account. That isn\u0027t true.\n\nI think I would have hung this below the project instead of below the account, e.g. one of:\n\n  /projects/MyProject/access?u\u003dself\n  /projects/MyProject/access/self\n\nI think the former makes more sense. The user isn\u0027t really a child of the project either so parsing the access information with a query parameter indicating who the access data should be derived for tells us what we want.",
+      "revId": "fad06a236ef650325b081348c210f6a469615160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5df835d2_43fb46fc",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-07T23:06:45Z",
+      "side": 1,
+      "message": "Is createReference a more descriptive name? I\u0027m really on the fence with this name. In the configuration files we call it \"create\" within the [access \"refs/...\"] section so its somewhat clear there. Here create isn\u0027t sufficient on its own.\n\nIn the web UI don\u0027t we call this Create Reference?",
+      "revId": "fad06a236ef650325b081348c210f6a469615160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

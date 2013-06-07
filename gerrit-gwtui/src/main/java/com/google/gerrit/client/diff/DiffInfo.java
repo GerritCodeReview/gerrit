@@ -118,9 +118,8 @@ public class DiffInfo extends JavaScriptObject {
   }
 
   public static class Span extends JavaScriptObject {
-    public final native int begin() /*-{ return this[0]; }-*/;
-    public final native int length() /*-{ return this[1]; }-*/;
-    public final int end() { return begin() + length(); }
+    public final native int skip() /*-{ return this[0]; }-*/;
+    public final native int mark() /*-{ return this[1]; }-*/;
 
     protected Span() {
     }

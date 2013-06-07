@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bdd3f145_366bd862",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-07T18:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_d68144f3",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd8516c_4ecdb3af",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-07T16:47:12Z",
       "side": 1,
       "message": "We don\u0027t export kind into the GWT code.",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_cec9a3a2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-07T18:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd8516c_4ecdb3af",
       "revId": "531119249fc2154caff32485e3d52933bd680e77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bdd3f145_967bcc35",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-07T18:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd8516c_2eda676b",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd3f145_3692b84c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-07T16:47:12Z",
       "side": 1,
       "message": "AuthorInfo (see below)",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_aebe57ec",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-07T18:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_3692b84c",
       "revId": "531119249fc2154caff32485e3d52933bd680e77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "bdd8516c_8ec39b80",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-07T18:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd8516c_6ed06f4d",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd3f145_168fbc20",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2013-06-07T16:47:12Z",
       "side": 1,
       "message": "Please use Eclipse\u0027s Organize Imports feature on this file to correct the ordering of import statements.",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd8516c_6eb98f03",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-07T18:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_168fbc20",
       "revId": "531119249fc2154caff32485e3d52933bd680e77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "bdd8516c_4eb6d315",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-07T18:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd8516c_0ed7ab43",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd3f145_f67c4031",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
         "patchSetId": 4
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "1dea3def_b1448029",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-07T18:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_f67c4031",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd8516c_eec45f8c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
         "patchSetId": 4
@@ -149,6 +293,24 @@
       "writtenOn": "2013-06-07T16:47:12Z",
       "side": 1,
       "message": "Please use Eclipse\u0027s Organize Imports feature on this file to correct the ordering of import statements.",
+      "revId": "531119249fc2154caff32485e3d52933bd680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_76715054",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/change/CommentsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-07T18:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd8516c_eec45f8c",
       "revId": "531119249fc2154caff32485e3d52933bd680e77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -64,11 +64,11 @@ public class GetSshKeys implements RestReadView<AccountResource> {
       valid = sshKey.isValid();
     }
 
-    int seq;
-    String sshPublicKey;
-    String encodedKey;
-    String algorithm;
-    String comment;
-    boolean valid;
+    public int seq;
+    public String sshPublicKey;
+    public String encodedKey;
+    public String algorithm;
+    public String comment;
+    public boolean valid;
   }
 }

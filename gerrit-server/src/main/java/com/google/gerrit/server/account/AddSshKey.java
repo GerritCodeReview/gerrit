@@ -40,8 +40,8 @@ import java.io.InputStream;
 import java.util.Collections;
 
 public class AddSshKey implements RestModifyView<AccountResource, Input> {
-  static class Input {
-    RawInput raw;
+  public static class Input {
+    public RawInput raw;
   }
 
   private final Provider<CurrentUser> self;

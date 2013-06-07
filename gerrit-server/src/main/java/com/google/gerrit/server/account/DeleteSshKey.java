@@ -27,7 +27,7 @@ import java.util.Collections;
 
 public class DeleteSshKey implements
     RestModifyView<AccountResource.SshKey, Input> {
-  static class Input {
+  public static class Input {
   }
 
   private final Provider<ReviewDb> dbProvider;

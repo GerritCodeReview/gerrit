@@ -33,9 +33,9 @@ import com.google.inject.Provider;
 import java.util.Collections;
 
 public class PutName implements RestModifyView<AccountResource, Input> {
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String name;
+    public String name;
   }
 
   private final Provider<CurrentUser> self;

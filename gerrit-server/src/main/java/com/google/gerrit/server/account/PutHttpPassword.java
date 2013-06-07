@@ -37,9 +37,9 @@ import java.security.SecureRandom;
 import java.util.Collections;
 
 public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
-  static class Input {
-    String httpPassword;
-    boolean generate;
+  public static class Input {
+    public String httpPassword;
+    public boolean generate;
   }
 
   private static final int LEN = 12;

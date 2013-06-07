@@ -30,7 +30,7 @@ import java.util.Collections;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 public class DeleteActive implements RestModifyView<AccountResource, Input> {
-  static class Input {
+  public static class Input {
   }
 
   private final Provider<ReviewDb> dbProvider;

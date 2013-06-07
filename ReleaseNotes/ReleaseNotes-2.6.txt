@@ -23,6 +23,17 @@ Schema Change
 a later 2.1.x version), and then to 2.6.x.  If you are upgrading from 2.2.x.x or
 newer, you may ignore this warning and upgrade directly to 2.6.x.
 
+Reverse Proxy Configuration Changes
+-----------------------------------
+
+If you are running a reverse proxy in front of Gerrit (e.g. Apache or Nginx),
+make sure to check your configuration, especially if you are encountering
+'Page Not Found' errors when opening the change screen.
+See the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-reverseproxy.html[
+Reverse Proxy Configuration] for details.
+
+Gerrit now requires passed URLs to be unchanged by the proxy.
+
 Release Highlights
 ------------------
 * 42x improvement on `git clone` and `git fetch`
@@ -436,13 +447,6 @@ text/plain results that are really just plain text. Existing JSON
 responses are protected from accidential sniffing and treatment as
 HTML thanks to Gson encoding HTML control characters using Unicode
 character escapes within JSON strings.
-
-* Apache reverse proxies must switch to mod_rewrite
-+
-When Apache is used as a reverse proxy the server must be reconfigured
-to use mod_rewrite and AllowEncodedSlashes.  For updated information
-link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.6/config-reverseproxy.html#_apache_2_configuration[
-review the Apache 2 Configuration documentation].
 
 Project Dashboards
 ~~~~~~~~~~~~~~~~~~
@@ -1221,6 +1225,13 @@ confusing.
 
 * Prevent account's full name from being set to empty string.  Set it to
   null instead.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1682[Issue 1682]:
+Correctly handle paths with URL-escaped characters
++
+URL-unescape the path portion of a change history token to correctly
+handle paths with URL-escapable characters, i.e. '+', ' ', etc.
+
 
 REST API
 ~~~~~~~~

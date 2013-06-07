@@ -32,38 +32,29 @@ import java.io.IOException;
  * appropriate.
  */
 public interface ChangeIndex {
-  public static interface Manager {
-    /** Instance indicating secondary index is disabled. */
-    public static final Manager DISABLED = new Manager() {
-      @Override
-      public ChangeIndex get(String name) throws IOException {
-        return new ChangeIndex() {
-          @Override
-          public void insert(ChangeData cd) throws IOException {
-            // Do nothing.
-          }
+  /** Instance indicating secondary index is disabled. */
+  public static final ChangeIndex DISABLED = new ChangeIndex() {
+    @Override
+    public void insert(ChangeData cd) throws IOException {
+      // Do nothing.
+    }
 
-          @Override
-          public void replace(ChangeData cd) throws IOException {
-            // Do nothing.
-          }
+    @Override
+    public void replace(ChangeData cd) throws IOException {
+      // Do nothing.
+    }
 
-          @Override
-          public void delete(ChangeData cd) throws IOException {
-            // Do nothing.
-          }
+    @Override
+    public void delete(ChangeData cd) throws IOException {
+      // Do nothing.
+    }
 
-          @Override
-          public ChangeDataSource getSource(Predicate<ChangeData> p)
-              throws QueryParseException {
-            throw new UnsupportedOperationException();
-          }
-        };
-      }
-    };
-
-    ChangeIndex get(String name) throws IOException;
-  }
+    @Override
+    public ChangeDataSource getSource(Predicate<ChangeData> p)
+        throws QueryParseException {
+      throw new UnsupportedOperationException();
+    }
+  };
 
   /**
    * Insert a change document into the index.

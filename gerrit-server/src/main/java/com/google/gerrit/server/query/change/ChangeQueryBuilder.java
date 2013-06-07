@@ -114,7 +114,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
-    final ChangeIndex.Manager indexManager;
+    final ChangeIndex index;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -128,7 +128,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
-        ChangeIndex.Manager indexManager) {
+        ChangeIndex index) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -140,7 +140,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
       this.projectCache = projectCache;
-      this.indexManager = indexManager;
+      this.index = index;
     }
   }
 
@@ -298,7 +298,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       if (file.startsWith("^")) {
         throw error("regular expression not permitted here: file:" + file);
       }
-      if (args.indexManager == ChangeIndex.Manager.DISABLED) {
+      if (args.index == ChangeIndex.DISABLED) {
         throw error("secondary index must be enabled for file:" + file);
       }
       return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);

@@ -132,6 +132,7 @@ public class ChangeScreen extends Screen
       regAction.removeHandler();
       regAction = null;
     }
+    detailCache.removeValueChangeHandler(this);
     super.onUnload();
   }
 
@@ -263,7 +264,7 @@ public class ChangeScreen extends Screen
 
   @Override
   public void onValueChange(final ValueChangeEvent<ChangeDetail> event) {
-    if (isAttached()) {
+    if (isAttached() && isLastValueChangeHandler()) {
       // Until this screen is fully migrated to the new API, these calls must
       // happen sequentially after the ChangeDetail lookup, because we can't
       // start an async get at the source of every call that might trigger a
@@ -293,6 +294,21 @@ public class ChangeScreen extends Screen
             }
           }));
     }
+  }
+
+  // Find the last attached screen.
+  // When DialogBox is used (i. e. CommentedActionDialog) then the original
+  // ChangeScreen is still in attached state.
+  // Use here the fact, that the handlers (ChangeScreen) are sorted.
+  private boolean isLastValueChangeHandler() {
+    int count = detailCache.getHandlerCount();
+    int last = count - 1;
+    for (int i = 0; i < count; i++) {
+      if (this == detailCache.getHandler(i)) {
+        return i == last;
+      }
+    }
+    return false;
   }
 
   private void display(final ChangeDetail detail) {

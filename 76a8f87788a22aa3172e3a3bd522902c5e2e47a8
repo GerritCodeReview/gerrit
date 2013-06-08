@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fdb9e9f9_185925b5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/PushOneCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-06-08T18:41:40Z",
+      "side": 1,
+      "message": "I like this idea. Done.",
+      "parentUuid": "fdb9e9f9_b80a399b",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdb9e9f9_58d9dd15",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/PushOneCommit.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-06T08:19:39Z",
       "side": 1,
       "message": "s/_to/commit\n\nparameter \u0027ref\u0027 is not used and should be removed",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdd3f145_f6ae808d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/PushOneCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-06-08T18:41:40Z",
+      "side": 1,
+      "message": "The entire method is gone.",
+      "parentUuid": "fdb9e9f9_58d9dd15",
       "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +170,24 @@
       "writtenOn": "2013-06-06T08:19:39Z",
       "side": 1,
       "message": "Inline this method. There is only a single caller and it\u0027s not worth to have this method.",
+      "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdb9e9f9_f8267126",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/SubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-06-08T18:41:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdb9e9f9_d815edc0",
       "revId": "76a8f87788a22aa3172e3a3bd522902c5e2e47a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

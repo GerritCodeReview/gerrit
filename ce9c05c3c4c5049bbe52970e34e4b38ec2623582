@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "fd8ac96a_50fe8ced",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-08T22:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d887de1_81ef5a39",
+      "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdd3f145_562414b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/common/CapabilitiesRestApiServlet.java",
         "patchSetId": 1
@@ -118,6 +136,24 @@
       "writtenOn": "2013-06-01T03:14:13Z",
       "side": 1,
       "message": "I would rather define a top level entity called ConfigServlet to obtain server information through. I think we need to export a lot more things in the near future that aren\u0027t /changes/, /accounts/, or /projects/.\n\nI guess I propose the URL space /config/server/capabilities for this use case, where the \"server\" name is a hard-coded constant in the ConfigCollection parser. Any IdString other than \"server\" would fail at this time. \"capabilities\" would then be able to be a CapabilitiesCollection the way you have defined here.",
+      "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd8ac96a_b0f81802",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/common/CapabilitiesRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-08T22:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdd3f145_562414b9",
       "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -45,4 +45,13 @@ public class ListenableValue<T> implements HasValueChangeHandlers<T> {
       ValueChangeHandler<T> handler) {
     return manager.addHandler(ValueChangeEvent.getType(), handler);
   }
+
+  public int getHandlerCount() {
+    return manager.getHandlerCount(ValueChangeEvent.getType());
+  }
+
+  public ValueChangeHandler<?> getHandler(int index) {
+    return manager.getHandler(ValueChangeEvent.getType(), index);
+  }
+
 }

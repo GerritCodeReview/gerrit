@@ -88,6 +88,7 @@ public class ChangeScreen extends Screen
   private KeyCommandSet keysAction;
   private HandlerRegistration regNavigation;
   private HandlerRegistration regAction;
+  private HandlerRegistration regDetailCache;
 
   private Grid patchesGrid;
   private ListBox patchesList;
@@ -132,6 +133,10 @@ public class ChangeScreen extends Screen
       regAction.removeHandler();
       regAction = null;
     }
+    if (regDetailCache != null) {
+      regDetailCache.removeHandler();
+      regDetailCache = null;
+    }
     super.onUnload();
   }
 
@@ -152,7 +157,7 @@ public class ChangeScreen extends Screen
     ChangeCache cache = ChangeCache.get(changeId);
 
     detailCache = cache.getChangeDetailCache();
-    detailCache.addValueChangeHandler(this);
+    regDetailCache = detailCache.addValueChangeHandler(this);
 
     addStyleName(Gerrit.RESOURCES.css().changeScreen());
     addStyleName(Gerrit.RESOURCES.css().screenNoHeader());
@@ -263,7 +268,7 @@ public class ChangeScreen extends Screen
 
   @Override
   public void onValueChange(final ValueChangeEvent<ChangeDetail> event) {
-    if (isAttached()) {
+    if (isAttached() && isLastValueChangeHandler()) {
       // Until this screen is fully migrated to the new API, these calls must
       // happen sequentially after the ChangeDetail lookup, because we can't
       // start an async get at the source of every call that might trigger a
@@ -293,6 +298,15 @@ public class ChangeScreen extends Screen
             }
           }));
     }
+  }
+
+  // Find the last attached screen.
+  // When DialogBox is used (i. e. CommentedActionDialog) then the original
+  // ChangeScreen is still in attached state.
+  // Use here the fact, that the handlers (ChangeScreen) are sorted.
+  private boolean isLastValueChangeHandler() {
+    int count = detailCache.getHandlerCount();
+    return count > 0 && detailCache.getHandler(count - 1) == this;
   }
 
   private void display(final ChangeDetail detail) {

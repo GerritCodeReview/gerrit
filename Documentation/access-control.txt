@@ -1134,6 +1134,13 @@ of the root project ("`All-Projects`").
 Below you find a list of capabilities available:
 
 
+[[capability_accessDatabase]]
+Access Database
+~~~~~~~~~~~~~~~
+
+Allow users to access the database using the `gsql` command.
+
+
 [[capability_administrateServer]]
 Administrate Server
 ~~~~~~~~~~~~~~~~~~~
@@ -1249,13 +1256,6 @@ any of their groups is used.
 
 This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size.
-
-
-[[capability_accessDatabase]]
-Access Database
-~~~~~~~~~~~~~~~
-
-Allow users to access the database using the `gsql` command.
 
 
 [[capability_runGC]]

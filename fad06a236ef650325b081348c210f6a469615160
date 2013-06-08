@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fd8ac96a_d0e91c37",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-08T08:08:21Z",
+      "side": 1,
+      "message": "I do agree. We anyway need a REST endpoint for retrieving the access rights of a project.\n\n /projects/MyProject/access -\u003e return all access rights\n /projects/MyProject/access?u\u003dself -\u003e return access rights for a user\n /projects/MyProject/access?g\u003dMyGroup -\u003e return access rights for a group",
+      "parentUuid": "5df835d2_23084a37",
+      "revId": "fad06a236ef650325b081348c210f6a469615160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5df835d2_43fb46fc",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-07T23:06:45Z",
       "side": 1,
       "message": "Is createReference a more descriptive name? I\u0027m really on the fence with this name. In the configuration files we call it \"create\" within the [access \"refs/...\"] section so its somewhat clear there. Here create isn\u0027t sufficient on its own.\n\nIn the web UI don\u0027t we call this Create Reference?",
+      "revId": "fad06a236ef650325b081348c210f6a469615160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd8ac96a_f0eea03c",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-08T08:08:21Z",
+      "side": 1,
+      "message": "Probably we should only return the actual access rights that are configured on the project as they are in project.config. The canAddAnyRef information can then be computed on the client side.",
+      "parentUuid": "5df835d2_43fb46fc",
       "revId": "fad06a236ef650325b081348c210f6a469615160",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -58,6 +58,9 @@ public class GlobalCapability {
   /** Can flush any cache except the active web_sessions cache. */
   public static final String FLUSH_CACHES = "flushCaches";
 
+  /** Can generate HTTP passwords for user other than self. */
+  public static final String GENERATE_HTTP_PASSWORD = "generateHttpPassword";
+
   /** Can terminate any task using the kill command. */
   public static final String KILL_TASK = "killTask";
 

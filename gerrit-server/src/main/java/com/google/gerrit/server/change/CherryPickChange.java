@@ -35,6 +35,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -213,11 +214,16 @@ public class CherryPickChange {
 
     CommitValidators commitValidators =
         commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
+
+    String ref = refControl.getRefName();
+    final String cmdRef =
+        MagicBranch.NEW_PUBLISH_CHANGE
+            + ref.substring(ref.lastIndexOf("/") + 1);
     CommitReceivedEvent commitReceivedEvent =
         new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-            cherryPickCommit.getId(), newPatchSet.getRefName()), refControl
-            .getProjectControl().getProject(), refControl.getRefName(),
-            cherryPickCommit, currentUser);
+            cherryPickCommit.getId(), cmdRef), refControl.getProjectControl()
+            .getProject(), refControl.getRefName(), cherryPickCommit,
+            currentUser);
 
     try {
       commitValidators.validateForGerritCommits(commitReceivedEvent);

@@ -22,16 +22,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 class PermissionNameRenderer implements Renderer<String> {
-  static final PermissionNameRenderer INSTANCE = new PermissionNameRenderer();
 
-  private static final Map<String, String> all;
+  private Map<String, String> all;
 
-  static {
+  PermissionNameRenderer(Map<String, String> allFromOutside) {
     all = new HashMap<String, String>();
-    for (Map.Entry<String, String> e : Util.C.capabilityNames().entrySet()) {
-      all.put(e.getKey(), e.getValue());
-      all.put(e.getKey().toLowerCase(), e.getValue());
-    }
+    all.putAll(allFromOutside);
     for (Map.Entry<String, String> e : Util.C.permissionNames().entrySet()) {
       all.put(e.getKey(), e.getValue());
       all.put(e.getKey().toLowerCase(), e.getValue());

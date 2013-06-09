@@ -43,6 +43,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 
@@ -252,11 +253,14 @@ public class ChangeUtil {
           changeInserterFactory.create(refControl, change, revertCommit);
       PatchSet ps = ins.getPatchSet();
 
+      String ref = refControl.getRefName();
+      final String cmdRef =
+          MagicBranch.NEW_PUBLISH_CHANGE
+              + ref.substring(ref.lastIndexOf("/") + 1);
       CommitReceivedEvent commitReceivedEvent =
           new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-              revertCommit.getId(), ps.getRefName()), refControl
-              .getProjectControl().getProject(), refControl.getRefName(),
-              revertCommit, user);
+              revertCommit.getId(), cmdRef), refControl.getProjectControl()
+              .getProject(), refControl.getRefName(), revertCommit, user);
 
       try {
         commitValidators.validateForGerritCommits(commitReceivedEvent);

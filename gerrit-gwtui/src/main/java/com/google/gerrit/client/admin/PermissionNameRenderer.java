@@ -22,20 +22,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 class PermissionNameRenderer implements Renderer<String> {
-  static final PermissionNameRenderer INSTANCE = new PermissionNameRenderer();
-
-  private static final Map<String, String> all;
+  private static final Map<String, String> permissions;
 
   static {
-    all = new HashMap<String, String>();
-    for (Map.Entry<String, String> e : Util.C.capabilityNames().entrySet()) {
-      all.put(e.getKey(), e.getValue());
-      all.put(e.getKey().toLowerCase(), e.getValue());
-    }
+    permissions = new HashMap<String, String>();
     for (Map.Entry<String, String> e : Util.C.permissionNames().entrySet()) {
-      all.put(e.getKey(), e.getValue());
-      all.put(e.getKey().toLowerCase(), e.getValue());
+      permissions.put(e.getKey(), e.getValue());
+      permissions.put(e.getKey().toLowerCase(), e.getValue());
     }
+  }
+
+  private final Map<String, String> fromServer;
+
+  PermissionNameRenderer(Map<String, String> allFromOutside) {
+    fromServer = allFromOutside;
   }
 
   @Override
@@ -44,11 +44,26 @@ class PermissionNameRenderer implements Renderer<String> {
       return Util.M.label(new Permission(varName).getLabel());
     }
 
-    String desc = all.get(varName);
-    if (desc == null) {
-      desc = all.get(varName.toLowerCase());
+    String desc = permissions.get(varName);
+    if (desc != null) {
+      return desc;
     }
-    return desc != null ? desc : varName;
+
+    desc = fromServer.get(varName);
+    if (desc != null) {
+      return desc;
+    }
+
+    desc = permissions.get(varName.toLowerCase());
+    if (desc != null) {
+      return desc;
+    }
+
+    desc = fromServer.get(varName.toLowerCase());
+    if (desc != null) {
+      return desc;
+    }
+    return varName;
   }
 
   @Override

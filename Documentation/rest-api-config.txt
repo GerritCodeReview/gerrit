@@ -1,0 +1,123 @@
+Gerrit Code Review - /config/ REST API
+======================================
+
+This page describes the config related REST endpoints.
+Please also take note of the general information on the
+link:rest-api.html[REST API].
+
+[[config-endpoints]]
+Config Endpoints
+---------------
+
+[[list-capabilities]]
+List Capabilities
+~~~~~~~~~~~~~~~~~
+[verse]
+'GET /config/server/capabilities'
+
+Lists the capabilities that are available in system. There are two kinds of
+capabilities: core and plugin-owned capabilities.
+
+As result a map is returned that maps the capability names to
+capability descriptions. The entries in the map are sorted
+by capability name.
+
+.Request
+----
+  GET /config/server/capabilities/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "accessDatabase": {
+      "kind": "gerritcodereview#capability",
+      "id": "accessDatabase",
+      "name": "Access Database"
+    },
+    "administrateServer": {
+      "kind": "gerritcodereview#capability",
+      "id": "administrateServer",
+      "name": "Administrate Server"
+    },
+    "createAccount": {
+      "kind": "gerritcodereview#capability",
+      "id": "createAccount",
+      "name": "Create Account"
+    },
+    "createGroup": {
+      "kind": "gerritcodereview#capability",
+      "id": "createGroup",
+      "name": "Create Group"
+    },
+    "createProject": {
+      "kind": "gerritcodereview#capability",
+      "id": "createProject",
+      "name": "Create Project"
+    },
+    "emailReviewers": {
+      "kind": "gerritcodereview#capability",
+      "id": "emailReviewers",
+      "name": "Email Reviewers"
+    },
+    "flushCaches": {
+      "kind": "gerritcodereview#capability",
+      "id": "flushCaches",
+      "name": "Flush Caches"
+    },
+    "killTask": {
+      "kind": "gerritcodereview#capability",
+      "id": "killTask",
+      "name": "Kill Task"
+    },
+    "priority": {
+      "kind": "gerritcodereview#capability",
+      "id": "priority",
+      "name": "Priority"
+    },
+    "queryLimit": {
+      "kind": "gerritcodereview#capability",
+      "id": "queryLimit",
+      "name": "Query Limit"
+    },
+    "runGC": {
+      "kind": "gerritcodereview#capability",
+      "id": "runGC",
+      "name": "Run Garbage Collection"
+    },
+    "startReplication": {
+      "kind": "gerritcodereview#capability",
+      "id": "startReplication",
+     "name": "Start Replication"
+    },
+    "streamEvents": {
+      "kind": "gerritcodereview#capability",
+      "id": "streamEvents",
+      "name": "Stream Events"
+    },
+    "viewCaches": {
+      "kind": "gerritcodereview#capability",
+      "id": "viewCaches",
+      "name": "View Caches"
+    },
+    "viewConnections": {
+      "kind": "gerritcodereview#capability",
+      "id": "viewConnections",
+      "name": "View Connections"
+    },
+    "viewQueue": {
+      "kind": "gerritcodereview#capability",
+      "id": "viewQueue",
+      "name": "View Queue"
+    }
+  }
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

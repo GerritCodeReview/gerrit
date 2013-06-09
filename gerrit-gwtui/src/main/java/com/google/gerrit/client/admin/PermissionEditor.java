@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
@@ -107,17 +108,17 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   private PermissionRange.WithDefaults validRange;
   private boolean isDeleted;
 
-  public PermissionEditor(Project.NameKey projectName,
+  public PermissionEditor(ProjectAccess projectAccess,
       boolean readOnly,
       AccessSection section,
       LabelTypes labelTypes) {
     this.readOnly = readOnly;
     this.section = section;
-    this.projectName = projectName;
+    this.projectName = projectAccess.getProjectName();
     this.labelTypes = labelTypes;
 
-    normalName = new ValueLabel<String>(PermissionNameRenderer.INSTANCE);
-    deletedName = new ValueLabel<String>(PermissionNameRenderer.INSTANCE);
+    normalName = new ValueLabel<String>(new PermissionNameRenderer(projectAccess.getCapabilities()));
+    deletedName = new ValueLabel<String>(new PermissionNameRenderer(projectAccess.getCapabilities()));
 
     initWidget(uiBinder.createAndBindUi(this));
     groupToAdd.setProject(projectName);

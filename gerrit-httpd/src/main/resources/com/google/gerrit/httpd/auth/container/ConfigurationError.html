@@ -49,6 +49,15 @@
 &lt;VirtualHost <span class='ServerName'>review.example.com</span><span class='ServerPort'>:80</span>&gt;
     ServerName <span class='ServerName'>review.example.com</span>
 
+    ProxyRequests Off
+    ProxyVia Off
+    ProxyPreserveHost On
+
+    &lt;Proxy *&gt;
+          Order deny,allow
+          Allow from all
+    &lt;/Proxy&gt;
+
 <div class='apache_auth'>    &lt;Location <span class='ContextPath'>/r</span>/login/&gt;
       AuthType Basic
       AuthName "Gerrit Code Review"
@@ -56,9 +65,8 @@
       ...
     &lt;/Location&gt;</div>
 
-    AllowEncodedSlashes NoDecode
-    RewriteEngine On
-    RewriteRule ^<span class='ContextPath'>/r</span>/(.*) http://...<span class='ContextPath'>/r</span>/$1 [NE,P]
+    AllowEncodedSlashes On
+    ProxyPass <span class='ContextPath'>/r</span>/ http://...<span class='ContextPath'>/r</span>/ nodecode
 &lt;/VirtualHost&gt;
     </pre>
   </body>

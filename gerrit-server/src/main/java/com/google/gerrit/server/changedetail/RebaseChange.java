@@ -321,6 +321,9 @@ public class RebaseChange {
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
     Change change = chg;
+    if (!chg.currentPatchSetId().equals(patchSetId)) {
+      throw new InvalidChangeOperationException("patch set is not current");
+    }
     final PatchSet originalPatchSet = db.patchSets().get(patchSetId);
 
     final RevCommit rebasedCommit;

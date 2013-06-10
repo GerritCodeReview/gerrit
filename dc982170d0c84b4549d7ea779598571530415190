@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3d7b8161_c2ee023d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-10T21:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_31fe10ed",
+      "revId": "dc982170d0c84b4549d7ea779598571530415190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dad41fd_d2f86403",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-10T19:41:51Z",
       "side": 1,
       "message": "How is a loop better than:\n\n  int count \u003d detailCache.getHandlerCount();\n  return count \u003e 0 \u0026\u0026 detailCache.getHandler(count - 1) \u003d\u003d this;",
+      "revId": "dc982170d0c84b4549d7ea779598571530415190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d15f9f2_f4f3d825",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-10T21:37:36Z",
+      "side": 1,
+      "message": "Done\n(it was late ;-)",
+      "parentUuid": "3dad41fd_d2f86403",
       "revId": "dc982170d0c84b4549d7ea779598571530415190",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

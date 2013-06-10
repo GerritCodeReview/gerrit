@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc035bf_a3e91a38",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupDescription.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-10T19:56:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t belong in the API. Visibility of a group should be delegated into the GroupBackend implementation and enforced as part of the suggest() method.",
+      "revId": "5fdc0f72a8704ce706a4e8f722fd3e51b0a148fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

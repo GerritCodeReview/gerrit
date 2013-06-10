@@ -28,7 +28,7 @@ public class GroupResource implements RestResource {
 
   private final GroupControl control;
 
-  GroupResource(GroupControl control) {
+  public GroupResource(GroupControl control) {
     this.control = control;
   }
 

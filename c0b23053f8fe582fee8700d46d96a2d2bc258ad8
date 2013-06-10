@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1db23d5c_1124acb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-10T21:35:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dad41fd_72089838",
+      "revId": "c0b23053f8fe582fee8700d46d96a2d2bc258ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db23d5c_b1120068",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
         "patchSetId": 3
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "1db23d5c_7121b8a8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-10T21:35:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_9117fc57",
+      "revId": "c0b23053f8fe582fee8700d46d96a2d2bc258ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db23d5c_d1118463",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
         "patchSetId": 3
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "1db23d5c_511e346e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-10T21:35:52Z",
+      "side": 1,
+      "message": "Haha. Welcome to Guice hell.\n\nThe switch below doesn\u0027t do what you think. It handles binding /login/ to handle the web UI based authentication flow.\n\nThe automated tool process is handled by GitOverHttpModule which binds a filter on /a/*. GitOverHttpModule runs before WebModule. In our environment we have our own version of GitOverHttpModule that binds before WebModule.\n\nIf clients are not using /a/ but instead are relying on cookies from the browser... this is handled in the constructor of the WebSession implementation. Fun right? Colby loves this code.",
+      "parentUuid": "1db23d5c_d1118463",
+      "revId": "c0b23053f8fe582fee8700d46d96a2d2bc258ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dad41fd_b2120068",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3
@@ -98,6 +152,24 @@
       "writtenOn": "2013-06-10T21:23:21Z",
       "side": 1,
       "message": "Unnecessary?",
+      "revId": "c0b23053f8fe582fee8700d46d96a2d2bc258ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_b137a0ec",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-10T21:35:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dad41fd_b2120068",
       "revId": "c0b23053f8fe582fee8700d46d96a2d2bc258ad8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

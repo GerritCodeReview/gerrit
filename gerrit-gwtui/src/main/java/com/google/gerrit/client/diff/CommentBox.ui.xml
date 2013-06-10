@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'
+    xmlns:c='urn:import:com.google.gerrit.client'>
+  <ui:style type='com.google.gerrit.client.diff.CommentBox.CommentBoxStyle'>
+    .commentBox {
+      background-color: #e5ecf9;
+      border: 1px solid black;
+    }
+    .table {
+      width: 100%;
+      cursor: pointer;
+    }
+    .summary {
+      width: 80%;
+      color: #777;
+    }
+    .date {
+      width: 20%;
+      text-align: right;
+    }
+    .message {
+      margin: 5px;
+    }
+  </ui:style>
+  <g:HTMLPanel styleName='{style.commentBox}'>
+    <g:HTMLPanel ui:field='header'>
+    <table class='{style.table}'>
+      <tr>
+        <td><c:AvatarImage ui:field='avatar' /></td>
+        <td ui:field='name'></td>
+        <td class='{style.summary}'><span ui:field='summary'></span></td>
+        <td ui:field='date' class='{style.date}'></td>
+      </tr>
+    </table>
+    </g:HTMLPanel>
+    <div ui:field='contentPanel'>
+        <div><p ui:field='contentPanelMessage' class='{style.message}'></p></div>
+        <div>
+          <button ui:field='reply'><ui:msg>Reply ...</ui:msg></button>
+          <button ui:field='replyDone'><ui:msg>Reply 'Done'</ui:msg></button>
+        </div>
+    </div>
+  </g:HTMLPanel>
+</ui:UiBinder>

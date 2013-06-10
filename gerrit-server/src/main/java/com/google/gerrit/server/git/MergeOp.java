@@ -609,6 +609,11 @@ public class MergeOp {
             + destProject.getProject().getName(), e);
       }
     }
+    try {
+      inserter.flush();
+    } catch (IOException e) {
+      throw new MergeException("Cannot flush merge results", e);
+    }
 
     branchUpdate.setRefLogIdent(refLogIdent);
     branchUpdate.setForceUpdate(false);

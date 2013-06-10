@@ -16,6 +16,24 @@
       "revId": "5fdc0f72a8704ce706a4e8f722fd3e51b0a148fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dc035bf_83ee9e3b",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupDescription.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-06-10T20:27:29Z",
+      "side": 1,
+      "message": "Just to clarify--does this mean that we should assume suggest() is the final source for determining visibility of groups? (i.e. if a group is suggested exactly, it is visible to the user.)  In this case, it\u0027d be perfect for the needs--it wouldn\u0027t make sense for us to suggest something and then prohibit the user from adding--so, I\u0027m okay with this, but I\u0027d like to make sure this is the right direction, too.",
+      "parentUuid": "5dc035bf_a3e91a38",
+      "revId": "5fdc0f72a8704ce706a4e8f722fd3e51b0a148fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

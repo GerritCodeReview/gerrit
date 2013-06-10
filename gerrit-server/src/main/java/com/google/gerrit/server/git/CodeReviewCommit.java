@@ -23,6 +23,7 @@ import com.google.gerrit.server.project.ChangeControl;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -50,12 +51,11 @@ public class CodeReviewCommit extends RevCommit {
       }).nullsFirst();
 
   public static RevWalk newRevWalk(Repository repo) {
-    return new RevWalk(repo) {
-      @Override
-      protected RevCommit createCommit(AnyObjectId id) {
-        return new CodeReviewCommit(id);
-      }
-    };
+    return new CodeReviewRevWalk(repo);
+  }
+
+  public static RevWalk newRevWalk(ObjectReader reader) {
+    return new CodeReviewRevWalk(reader);
   }
 
   static CodeReviewCommit revisionGone(ChangeControl ctl) {
@@ -83,6 +83,21 @@ public class CodeReviewCommit extends RevCommit {
     r.setControl(ctl);
     r.statusCode = s;
     return r;
+  }
+
+  private static class CodeReviewRevWalk extends RevWalk {
+    private CodeReviewRevWalk(Repository repo) {
+      super(repo);
+    }
+
+    private CodeReviewRevWalk(ObjectReader reader) {
+      super(reader);
+    }
+
+    @Override
+    protected RevCommit createCommit(AnyObjectId id) {
+      return new CodeReviewCommit(id);
+    }
   }
 
   /**

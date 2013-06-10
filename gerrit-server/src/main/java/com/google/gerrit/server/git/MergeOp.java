@@ -430,13 +430,11 @@ public class MergeOp {
       String m = "Error opening repository \"" + name.get() + '"';
       throw new MergeException(m, err);
     }
-
-    rw = CodeReviewCommit.newRevWalk(repo);
+    inserter = repo.newObjectInserter();
+    rw = CodeReviewCommit.newRevWalk(inserter.newReader());
     rw.sort(RevSort.TOPO);
     rw.sort(RevSort.COMMIT_TIME_DESC, true);
     canMergeFlag = rw.newFlag("CAN_MERGE");
-
-    inserter = repo.newObjectInserter();
   }
 
   private RefUpdate openBranch()
@@ -673,6 +671,11 @@ public class MergeOp {
             + " project configuration " + currentTip.name() + " for "
             + destProject.getProject().getName(), e);
       }
+    }
+    try {
+      inserter.flush();
+    } catch (IOException e) {
+      throw new MergeException("Cannot flush merge results", e);
     }
 
     branchUpdate.setRefLogIdent(refLogIdent);

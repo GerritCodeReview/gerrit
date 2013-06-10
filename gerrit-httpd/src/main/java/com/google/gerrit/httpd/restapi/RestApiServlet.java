@@ -841,8 +841,8 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  static void replyError(HttpServletResponse res, int statusCode, String msg)
-      throws IOException {
+  public static void replyError(HttpServletResponse res, int statusCode,
+      String msg) throws IOException {
     res.setStatus(statusCode);
     CacheHeaders.setNotCacheable(res);
     replyText(null, res, msg);

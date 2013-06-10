@@ -130,7 +130,6 @@ public class CapabilityControl {
       || canAdministrateServer();
   }
 
-
   /** @return true if the user can access the database (with gsql). */
   public boolean canAccessDatabase() {
     return canPerform(GlobalCapability.ACCESS_DATABASE);
@@ -158,6 +157,11 @@ public class CapabilityControl {
   public boolean canGenerateHttpPassword() {
     return canPerform(GlobalCapability.GENERATE_HTTP_PASSWORD)
         || canAdministrateServer();
+  }
+
+  /** @return true if the user can impersonate another user. */
+  public boolean canRunAs() {
+    return canPerform(GlobalCapability.RUN_AS);
   }
 
   /** @return which priority queue the user's tasks should be submitted to. */

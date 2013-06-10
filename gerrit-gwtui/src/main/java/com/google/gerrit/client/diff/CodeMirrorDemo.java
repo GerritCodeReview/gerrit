@@ -14,12 +14,16 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.changes.CommentApi;
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -30,12 +34,17 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RootPanel;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.ModeInjector;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class CodeMirrorDemo extends Screen {
   private static final int HEADER_FOOTER = 60 + 15 * 2 + 38;
@@ -47,6 +56,8 @@ public class CodeMirrorDemo extends Screen {
   private CodeMirror cmA;
   private CodeMirror cmB;
   private HandlerRegistration resizeHandler;
+  private List<LineNumberDiff> lineMapAtoB;
+  private List<LineNumberDiff> lineMapBtoA;
 
   public CodeMirrorDemo(
       PatchSet.Id base,
@@ -84,10 +95,26 @@ public class CodeMirrorDemo extends Screen {
           new ModeInjector()
             .add(getContentType(diff.meta_a()))
             .add(getContentType(diff.meta_b()))
-            .inject(new ScreenLoadCallback<Void>(CodeMirrorDemo.this){
+            .inject(new ScreenLoadCallback<Void>(CodeMirrorDemo.this) {
               @Override
               protected void preDisplay(Void result) {
                 display(diff);
+                CommentApi.comments(revision,
+                    new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+                  @Override
+                  public void onSuccess(
+                      final NativeMap<JsArray<CommentInfo>> commentMap) {
+                    renderComments(commentMap.get(path), false);
+                  }
+                });
+                CommentApi.drafts(revision,
+                    new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+                  @Override
+                  public void onSuccess(
+                      final NativeMap<JsArray<CommentInfo>> draftMap) {
+                    renderComments(draftMap.get(path), true);
+                  }
+                });
               }
             });
         }
@@ -126,6 +153,7 @@ public class CodeMirrorDemo extends Screen {
     cmA = displaySide(diff.meta_a(), diff.text_a(), diffTable.getCmA());
     cmB = displaySide(diff.meta_b(), diff.text_b(), diffTable.getCmB());
     render(diff);
+    // TODO: Probably need horizontal resize
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
       public void onResize(ResizeEvent event) {
@@ -157,7 +185,6 @@ public class CodeMirrorDemo extends Screen {
       .set("styleSelectedText", true)
       .set("value", contents);
     final CodeMirror cm = CodeMirror.create(ele, cfg);
-    cm.setWidth("100%");
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
     return cm;
   }
@@ -165,20 +192,28 @@ public class CodeMirrorDemo extends Screen {
   private void render(DiffInfo diff) {
     JsArray<Region> regions = diff.content();
     int lineA = 0, lineB = 0;
+    lineMapAtoB = new ArrayList<LineNumberDiff>();
+    lineMapBtoA = new ArrayList<LineNumberDiff>();
     for (int i = 0; i < regions.length(); i++) {
       Region current = regions.get(i);
-      if (current.ab() != null) {
+      if (current.ab() != null) { // Common
         lineA += current.ab().length();
         lineB += current.ab().length();
-      } else if (current.a() == null && current.b() != null) {
+      } else if (current.a() == null && current.b() != null) { // Insertion
         int delta = current.b().length();
         insertEmptyLines(cmA, lineA, delta);
         lineB = colorLines(cmB, lineB, delta);
-      } else if (current.a() != null && current.b() == null) {
+        int bAheadOfA = lineB - lineA;
+        lineMapAtoB.add(new LineNumberDiff(lineA, lineA, bAheadOfA));
+        lineMapBtoA.add(new LineNumberDiff(lineA, lineB, -bAheadOfA));
+      } else if (current.a() != null && current.b() == null) { // Deletion
         int delta = current.a().length();
         insertEmptyLines(cmB, lineB, delta);
         lineA = colorLines(cmA, lineA, delta);
-      } else {
+        int aAheadOfB = lineA - lineB;
+        lineMapAtoB.add(new LineNumberDiff(lineA, lineB, -aAheadOfB));
+        lineMapBtoA.add(new LineNumberDiff(lineA, lineA, aAheadOfB));
+      } else { // Edit
         JsArrayString currentA = current.a();
         JsArrayString currentB = current.b();
         int aLength = currentA.length();
@@ -187,10 +222,18 @@ public class CodeMirrorDemo extends Screen {
         int origLineB = lineB;
         lineA = colorLines(cmA, lineA, aLength);
         lineB = colorLines(cmB, lineB, bLength);
-        if (aLength < bLength) {
-          insertEmptyLines(cmA, lineA, bLength - aLength);
-        } else if (aLength > bLength) {
-          insertEmptyLines(cmB, lineB, aLength - bLength);
+        if (aLength < bLength) { // Edit with insertion
+          int delta = bLength - aLength;
+          insertEmptyLines(cmA, lineA, delta);
+          int bAheadOfA = lineB - lineA;
+          lineMapAtoB.add(new LineNumberDiff(lineA, lineA, bAheadOfA));
+          lineMapBtoA.add(new LineNumberDiff(lineB - delta, lineB, -bAheadOfA));
+        } else if (aLength > bLength) { // Edit with deletion
+          int delta = aLength - bLength;
+          insertEmptyLines(cmB, lineB, delta);
+          int aAheadOfB = lineA - lineB;
+          lineMapAtoB.add(new LineNumberDiff(lineA - delta, lineA, -aAheadOfB));
+          lineMapBtoA.add(new LineNumberDiff(lineA, lineA, aAheadOfB));
         }
         markEdit(cmA, currentA, current.edit_a(), origLineA);
         markEdit(cmB, currentB, current.edit_b(), origLineB);
@@ -199,13 +242,20 @@ public class CodeMirrorDemo extends Screen {
   }
 
   private void insertEmptyLines(CodeMirror cm, int line, int cnt) {
+    addPaddingWidget(cm, diffTable.style.padding(), line, cnt, Unit.EM);
+  }
+
+  private Element addPaddingWidget(CodeMirror cm, String style, int line,
+      int height, Unit unit) {
     Element div = DOM.createDiv();
-    div.setClassName(diffTable.style.padding());
-    div.getStyle().setHeight(cnt, Unit.EM);
+    div.setClassName(style);
+    div.getStyle().setHeight(height, unit);
     Configuration config = Configuration.create()
         .set("coverGutter", true)
         .set("above", line == 0);
-    cm.addLineWidget(line == 0 ? 0 : (line - 1), div, config);
+    // CM is zero-indexed, not one-indexed
+    cm.addLineWidget(line == 0 ? 0 : line - 1, div, config);
+    return div;
   }
 
   private int colorLines(CodeMirror cm, int line, int cnt) {
@@ -244,7 +294,52 @@ public class CodeMirrorDemo extends Screen {
     }
   }
 
-  public Runnable doScroll(final CodeMirror cm) {
+  private void renderComments(JsArray<CommentInfo> comments, boolean isDraft) {
+    for (int i = 0; i < comments.length(); i++) {
+      CommentInfo info = comments.get(i);
+      CodeMirror cm = info.side() == Side.PARENT ? cmA : cmB;
+      CodeMirror other = cm.equals(cmA) ? cmB : cmA;
+      final CommentBox box = new CommentBox(info.author(), info.updated(),
+          info.message(), isDraft);
+      RootPanel.get().add(box);
+      int line = info.line();
+      Configuration config = Configuration.create().set("coverGutter", true);
+      cm.addLineWidget(line == 0 ? 0 : (line - 1), box.getElement(), config);
+      int lineToPad = lineOnOther(other, line);
+      // TODO: +2 to compensate for border width, need more systematic approach
+      final Element paddingOtherside = addPaddingWidget(other,
+          diffTable.style.padding(), lineToPad, box.getOffsetHeight() + 2,
+          Unit.PX);
+      box.addClickHandler(new Runnable() {
+        @Override
+        public void run() {
+          paddingOtherside.getStyle().setHeight(box.getOffsetHeight(),
+              Unit.PX);
+        }
+      });
+    }
+  }
+
+  private int lineOnOther(CodeMirror other, int line) {
+    List<LineNumberDiff> map = other == cmA ? lineMapBtoA : lineMapAtoB;
+    int ret = Collections.binarySearch(map, new LineNumberDiff(line));
+    int insertPoint = -ret - 1;
+    if (insertPoint == 0) {
+      return line;
+    } else {
+      int index = insertPoint - 1;
+      LineNumberDiff lookup = map.get(index);
+      int high = lookup.high;
+      int delta = lookup.delta;
+      if (lookup.low <= line && line <= high) {
+        return high + delta;
+      } else {
+        return line + delta;
+      }
+    }
+  }
+
+  private Runnable doScroll(final CodeMirror cm) {
     final CodeMirror other = cm == cmA ? cmB : cmA;
     return new Runnable() {
       public void run() {
@@ -290,6 +385,36 @@ public class CodeMirrorDemo extends Screen {
     private void advanceLine() {
       currLineIndex++;
       currLineOffset = 0;
+    }
+  }
+
+  private static class LineNumberDiff implements Comparable<LineNumberDiff> {
+
+    private int low;
+    private int high;
+    private int delta;
+    private boolean isDummy;
+
+    private LineNumberDiff(int low, int high, int delta) {
+      this.low = low;
+      this.high = high;
+      this.delta = delta;
+      isDummy = false;
+    }
+
+    private LineNumberDiff(int line) {
+      low = line;
+      isDummy = true;
+    }
+
+    @Override
+    public int compareTo(LineNumberDiff o) {
+      int diff = low - o.low;
+      if (diff == 0) {
+        return isDummy ? 1 : -1;
+      } else {
+        return diff;
+      }
     }
   }
 }

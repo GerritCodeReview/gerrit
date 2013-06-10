@@ -26,6 +26,11 @@ public class CommentApi {
     ChangeApi.revision(id).view("comments").get(cb);
   }
 
+  public static void drafts(PatchSet.Id id,
+      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
+    ChangeApi.revision(id).view("drafts").get(cb);
+  }
+
   private CommentApi() {
   }
 }

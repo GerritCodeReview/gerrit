@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d7b8161_a2e9fe37",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-10T20:01:05Z",
+      "side": 1,
+      "message": "Doesn\u0027t this if else mean, that I\u0027m always getting an AuthException, even if I have the GenerateHttpPassword capability assigned?",
+      "revId": "cbd22ac099da8238152224cb628b9f79dcb10bd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

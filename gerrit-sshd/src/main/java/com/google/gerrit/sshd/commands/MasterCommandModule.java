@@ -39,6 +39,7 @@ public class MasterCommandModule extends CommandModule {
     // deprecated alias to review command
     alias(gerrit, "approve", ReviewCommand.class);
     command(gerrit, SetAccountCommand.class);
+    command(gerrit, SetMembersCommand.class);
     command(gerrit, SetProjectCommand.class);
 
     command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));

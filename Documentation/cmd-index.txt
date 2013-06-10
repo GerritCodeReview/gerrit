@@ -123,6 +123,9 @@ link:cmd-gc.html[gerrit gc]::
 link:cmd-gsql.html[gerrit gsql]::
 	Administrative interface to active database.
 
+link:cmd-set-members.html[gerrit set-members]::
+	Set group members.
+
 link:cmd-set-project-parent.html[gerrit set-project-parent]::
 	Change the project permissions are inherited from.
 

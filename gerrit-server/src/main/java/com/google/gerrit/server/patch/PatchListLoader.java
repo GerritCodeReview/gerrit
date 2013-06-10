@@ -259,24 +259,10 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     try {
       DirCache dc = DirCache.newInCore();
       m.setDirCache(dc);
-      m.setObjectInserter(new ObjectInserter.Filter() {
-        @Override
-        protected ObjectInserter delegate() {
-          return ins;
-        }
-
-        @Override
-        public void flush() {
-        }
-
-        @Override
-        public void release() {
-        }
-      });
-
+      m.setObjectInserter(ins);
       boolean couldMerge = false;
       try {
-        couldMerge = m.merge(b.getParents());
+        couldMerge = m.merge(false, b.getParents());
       } catch (IOException e) {
         // It is not safe to continue further down in this method as throwing
         // an exception most likely means that the merge tree was not created

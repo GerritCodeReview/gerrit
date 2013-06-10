@@ -240,9 +240,12 @@ public class PatchSetInserter {
   private void validate() throws InvalidChangeOperationException {
     CommitValidators cv = commitValidatorsFactory.create(refControl, sshInfo, git);
 
+    String refName = patchSet.getRefName();
     CommitReceivedEvent event = new CommitReceivedEvent(
-        new ReceiveCommand(ObjectId.zeroId(), commit.getId(),
-            patchSet.getRefName()),
+        new ReceiveCommand(
+            ObjectId.zeroId(),
+            commit.getId(),
+            refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
         refControl.getProjectControl().getProject(), refControl.getRefName(),
         commit, user);
 

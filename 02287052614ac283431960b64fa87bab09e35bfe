@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dfe2dbb_05a9d2c6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-10T18:33:51Z",
+      "side": 1,
+      "message": "return LineCharacter.create(...)",
+      "revId": "02287052614ac283431960b64fa87bab09e35bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

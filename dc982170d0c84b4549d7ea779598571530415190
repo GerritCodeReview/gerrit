@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1db23d5c_31fe10ed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-10T19:41:51Z",
+      "side": 1,
+      "message": "You are supposed to retain the RegistrationHandle and call removeHandler to detach.",
+      "revId": "dc982170d0c84b4549d7ea779598571530415190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_d2f86403",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-10T19:41:51Z",
+      "side": 1,
+      "message": "How is a loop better than:\n\n  int count \u003d detailCache.getHandlerCount();\n  return count \u003e 0 \u0026\u0026 detailCache.getHandler(count - 1) \u003d\u003d this;",
+      "revId": "dc982170d0c84b4549d7ea779598571530415190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

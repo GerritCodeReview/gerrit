@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1db23d5c_b1120068",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2013-06-10T21:21:52Z",
+      "side": 1,
+      "message": "Maybe this:\n\nuser \u003d null;\n\n?",
+      "revId": "c0b23053f8fe582fee8700d46d96a2d2bc258ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_12fb0cfd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1012098
+      },
+      "writtenOn": "2013-06-10T21:21:52Z",
+      "side": 1,
+      "message": "Maybe this:\n\nuser \u003d null;\n\n?",
+      "revId": "c0b23053f8fe582fee8700d46d96a2d2bc258ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

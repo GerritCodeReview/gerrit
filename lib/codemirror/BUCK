@@ -1,6 +1,8 @@
-VERSION = '3.13'
-SHA1 = '7a83ae686d75afd30bb152d7683f2dc27e59ea82'
-URL = 'http://codemirror.net/codemirror-%s.zip' % VERSION
+include_defs('//lib/maven.defs')
+
+VERSION = 'bb73aeacb8'
+SHA1 = '3bc9c92b97210135bc83fca7a2bd5f3c4aab496a'
+URL = GERRIT + 'net/codemirror/codemirror-%s.zip' % VERSION
 
 prebuilt_jar(
   name = 'codemirror',

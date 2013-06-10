@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,7 +24,41 @@ public class CommentApi {
 
   public static void comments(PatchSet.Id id,
       AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
-    ChangeApi.revision(id).view("comments").get(cb);
+    getViewApi(id, "comments").get(cb);
+  }
+
+  public static void getComment(PatchSet.Id id, String commentId,
+      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
+    getViewApi(id, "comments").id(commentId).get(cb);
+  }
+
+  public static void drafts(PatchSet.Id id,
+      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
+    getViewApi(id, "drafts").get(cb);
+  }
+
+  public static void getDraft(PatchSet.Id id, String draftId,
+      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
+    getViewApi(id, "drafts").id(draftId).get(cb);
+  }
+
+  public static void createDraft(PatchSet.Id id, CommentInfo content,
+      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
+    getViewApi(id, "drafts").put(content, cb);
+  }
+
+  public static void updateDraft(PatchSet.Id id, CommentInfo content,
+      String draftId, AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
+    getViewApi(id, "drafts").id(draftId).put(content, cb);
+  }
+
+  public static void deleteDraft(PatchSet.Id id, String draftId,
+      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
+    getViewApi(id, "drafts").id(draftId).delete(cb);
+  }
+
+  private static RestApi getViewApi(PatchSet.Id id, String type) {
+    return ChangeApi.revision(id).view(type);
   }
 
   private CommentApi() {

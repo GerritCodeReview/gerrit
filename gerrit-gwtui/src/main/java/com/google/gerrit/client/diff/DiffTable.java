@@ -15,12 +15,13 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A table with one row and two columns to hold the two CodeMirrors displaying
@@ -37,10 +38,10 @@ class DiffTable extends Composite {
   }
 
   @UiField
-  DivElement cmA;
+  TableCellElement cmA;
 
   @UiField
-  DivElement cmB;
+  TableCellElement cmB;
 
   @UiField
   LineStyle style;
@@ -49,12 +50,15 @@ class DiffTable extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  DivElement getCmA() {
+  TableCellElement getCmA() {
     return cmA;
   }
 
-  DivElement getCmB() {
+  TableCellElement getCmB() {
     return cmB;
   }
 
+  void add(Widget widget) {
+    ((HTMLPanel) getWidget()).add(widget);
+  }
 }

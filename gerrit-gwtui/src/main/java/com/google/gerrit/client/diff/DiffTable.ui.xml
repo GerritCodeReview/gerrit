@@ -24,6 +24,12 @@ limitations under the License.
       padding: 0;
       overflow: hidden;
     }
+    .table {
+      width: 100%;
+    }
+    .a, .b {
+      width: 50%;
+    }
     .a .diff,
     .a .diff .CodeMirror-linenumber {
       background-color: #fee;
@@ -52,10 +58,10 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
-    <table>
+    <table class='{style.table}'>
       <tr>
-        <td><div ui:field='cmA' class='{style.a}'></div></td>
-        <td><div ui:field='cmB' class='{style.b}'></div></td>
+        <td ui:field='cmA' class='{style.a}'></td>
+        <td ui:field='cmB' class='{style.b}'></td>
       </tr>
     </table>
   </g:HTMLPanel>

@@ -1203,6 +1203,14 @@ This capability doesn't imply permissions to the show-caches command.  For that
 you need the <<capability_viewCaches,view caches capability>>.
 
 
+[[capability_generateHttpPassword]]
+Generate HTTP Password
+~~~~~~~~~~~~~~~~~~~~~~
+
+Allow the user to generate HTTP passwords for other users.  Typically this would
+be assigned to a non-interactive users group.
+
+
 [[capability_kill]]
 Kill Task
 ~~~~~~~~~

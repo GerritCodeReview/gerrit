@@ -68,12 +68,16 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
   @Override
   public Response<String> apply(AccountResource rsrc, Input input) throws AuthException,
       ResourceNotFoundException, ResourceConflictException, OrmException {
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      throw new AuthException("not allowed to set HTTP password");
-    }
     if (input == null) {
       input = new Input();
+    }
+    if (self.get() != rsrc.getUser()
+        && !self.get().getCapabilities().canAdministrateServer()) {
+      if (input.generate && !self.get().getCapabilities().canGenerateHttpPassword()) {
+        throw new AuthException("not allowed to generate HTTP password");
+      } else {
+        throw new AuthException("not allowed to set HTTP password");
+      }
     }
     if (rsrc.getUser().getUserName() == null) {
       throw new ResourceConflictException("username must be set");

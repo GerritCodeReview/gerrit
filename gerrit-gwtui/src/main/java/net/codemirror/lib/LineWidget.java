@@ -12,25 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package net.codemirror.lib;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.core.client.JavaScriptObject;
 
-public class CommentApi {
-
-  public static void comments(PatchSet.Id id,
-      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
-    ChangeApi.revision(id).view("comments").get(cb);
+/** LineWidget objects used within CodeMirror. */
+public class LineWidget extends JavaScriptObject {
+  public static LineWidget create() {
+    return createObject().cast();
   }
 
-  public static void drafts(PatchSet.Id id,
-      AsyncCallback<NativeMap<JsArray<CommentInfo>>> cb) {
-    ChangeApi.revision(id).view("drafts").get(cb);
-  }
+  public final native void clear() /*-{ this.clear(); }-*/;
+  public final native void changed() /*-{ this.changed(); }-*/;
 
-  private CommentApi() {
+  public final native JavaScriptObject getLine() /*-{ return this.line; }-*/;
+
+  protected LineWidget() {
   }
 }

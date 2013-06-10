@@ -1266,6 +1266,15 @@ This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size.
 
 
+[[capability_runAs]]
+Run As
+~~~~~~
+
+Allow users to impersonate any other user with the X-Gerrit-RunAs
+HTTP header on REST API calls. Site administrators do not inherit
+this capability; it must be granted explicitly.
+
+
 [[capability_runGC]]
 Run Garbage Collection
 ~~~~~~~~~~~~~~~~~~~~~~

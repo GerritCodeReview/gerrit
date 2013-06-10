@@ -153,6 +153,7 @@ public class CherryPickChange {
           cherryPickCommit =
               mergeUtilFactory.create(projectState).createCherryPickFromCommit(git, oi, mergeTip,
                   commitToCherryPick, committerIdent, commitMessage, revWalk);
+          oi.flush();
         } finally {
           oi.release();
         }

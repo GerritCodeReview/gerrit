@@ -42,7 +42,6 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
-import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -65,7 +64,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,6 +76,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+/**
+ * Utilities for various kinds of merges and cherry-picks.
+ * <p>
+ * <b>Note:</b> Unless otherwise noted, the methods in this class do not flush
+ * the {@link ObjectInserter}s passed in after performing a merge.
+ */
 public class MergeUtil {
   public static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
@@ -178,7 +182,7 @@ public class MergeUtil {
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
 
     m.setBase(originalCommit.getParent(0));
-    if (m.merge(mergeTip, originalCommit)) {
+    if (m.merge(false, mergeTip, originalCommit)) {
       ObjectId tree = m.getResultTreeId();
       if (tree.equals(mergeTip.getTree())) {
         return null;
@@ -190,7 +194,7 @@ public class MergeUtil {
       mergeCommit.setAuthor(originalCommit.getAuthorIdent());
       mergeCommit.setCommitter(cherryPickCommitterIdent);
       mergeCommit.setMessage(commitMsg);
-      return rw.parseCommit(commit(inserter, mergeCommit));
+      return rw.parseCommit(inserter.insert(mergeCommit));
     } else {
       return null;
     }
@@ -395,7 +399,7 @@ public class MergeUtil {
 
     final ThreeWayMerger m = newThreeWayMerger(repo, createDryRunInserter());
     try {
-      return m.merge(new AnyObjectId[] {mergeTip, toMerge});
+      return m.merge(false, mergeTip, toMerge);
     } catch (LargeObjectException e) {
       log.warn("Cannot merge due to LargeObjectException: " + toMerge.name());
       return false;
@@ -445,7 +449,7 @@ public class MergeUtil {
         final ThreeWayMerger m =
             newThreeWayMerger(repo, createDryRunInserter());
         m.setBase(toMerge.getParent(0));
-        return m.merge(mergeTip, toMerge);
+        return m.merge(false, mergeTip, toMerge);
       } catch (IOException e) {
         throw new MergeException("Cannot merge " + toMerge.name(), e);
       }
@@ -502,7 +506,7 @@ public class MergeUtil {
       throws MergeException {
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter);
     try {
-      if (m.merge(new AnyObjectId[] {mergeTip, n})) {
+      if (m.merge(false, mergeTip, n)) {
         return writeMergeCommit(myIdent, rw, inserter, canMergeFlag, destBranch,
             mergeTip, m.getResultTreeId(), n);
       } else {
@@ -590,7 +594,7 @@ public class MergeUtil {
     mergeCommit.setMessage(msgbuf.toString());
 
     CodeReviewCommit mergeResult =
-        (CodeReviewCommit) rw.parseCommit(commit(inserter, mergeCommit));
+        (CodeReviewCommit) rw.parseCommit(inserter.insert(mergeCommit));
     mergeResult.setControl(n.getControl());
     return mergeResult;
   }
@@ -659,29 +663,8 @@ public class MergeUtil {
     Merger m = strategy.newMerger(repo, true);
     checkArgument(m instanceof ThreeWayMerger,
         "merge strategy %s does not support three-way merging", strategyName);
-    m.setObjectInserter(new ObjectInserter.Filter() {
-      @Override
-      protected ObjectInserter delegate() {
-        return inserter;
-      }
-
-      @Override
-      public void flush() {
-      }
-
-      @Override
-      public void release() {
-      }
-    });
+    m.setObjectInserter(inserter);
     return (ThreeWayMerger) m;
-  }
-
-  public ObjectId commit(final ObjectInserter inserter,
-      final CommitBuilder mergeCommit) throws IOException,
-      UnsupportedEncodingException {
-    ObjectId id = inserter.insert(mergeCommit);
-    inserter.flush();
-    return id;
   }
 
   public PatchSetApproval markCleanMerges(final RevWalk rw,

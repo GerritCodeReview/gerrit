@@ -152,6 +152,7 @@ public class CherryPickChange {
           cherryPickCommit =
               mergeUtilFactory.create(projectState).createCherryPickFromCommit(git, oi, mergeTip,
                   commitToCherryPick, committerIdent, commitMessage, revWalk);
+          oi.flush();
         } catch (MergeIdenticalTreeException | MergeConflictException e) {
           throw new MergeException("Cherry pick failed: " + e.getMessage());
         } finally {

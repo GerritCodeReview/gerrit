@@ -71,36 +71,41 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
     if (input == null) {
       input = new Input();
     }
-    if (self.get() != rsrc.getUser()
-        && !self.get().getCapabilities().canAdministrateServer()) {
-      if (input.generate && !self.get().getCapabilities().canGenerateHttpPassword()) {
-        throw new AuthException("not allowed to generate HTTP password");
-      } else {
-        throw new AuthException("not allowed to set HTTP password");
-      }
-    }
-    if (rsrc.getUser().getUserName() == null) {
-      throw new ResourceConflictException("username must be set");
-    }
-    AccountExternalId.Key key =
-        new AccountExternalId.Key(SCHEME_USERNAME, rsrc.getUser().getUserName());
-    AccountExternalId id = dbProvider.get().accountExternalIds().get(key);
-    if (id == null) {
-      throw new ResourceNotFoundException();
-    }
+    input.httpPassword = Strings.emptyToNull(input.httpPassword);
 
     String newPassword;
     if (input.generate) {
+      if (self.get() != rsrc.getUser()
+          && !self.get().getCapabilities().canGenerateHttpPassword()) {
+        throw new AuthException("not allowed to generate HTTP password");
+      }
       newPassword = generate();
-    } else {
-      if (!Strings.isNullOrEmpty(input.httpPassword)
+
+    } else if (input.httpPassword == null) {
+      if (self.get() != rsrc.getUser()
           && !self.get().getCapabilities().canAdministrateServer()) {
+        throw new AuthException("not allowed to clear HTTP password");
+      }
+      newPassword = null;
+    } else {
+      if (!self.get().getCapabilities().canAdministrateServer()) {
         throw new AuthException("not allowed to set HTTP password directly, "
             + "need to be Gerrit administrator");
       }
-      newPassword = Strings.emptyToNull(input.httpPassword);
+      newPassword = input.httpPassword;
     }
 
+    if (rsrc.getUser().getUserName() == null) {
+      throw new ResourceConflictException("username must be set");
+    }
+
+    AccountExternalId id = dbProvider.get().accountExternalIds()
+        .get(new AccountExternalId.Key(
+            SCHEME_USERNAME,
+            rsrc.getUser().getUserName()));
+    if (id == null) {
+      throw new ResourceNotFoundException();
+    }
     id.setPassword(newPassword);
     dbProvider.get().accountExternalIds().update(Collections.singleton(id));
     accountCache.evict(rsrc.getUser().getAccountId());
@@ -110,7 +115,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, Input> {
         : Response.ok(newPassword);
   }
 
-  private String generate() {
+  private static String generate() {
     byte[] rand = new byte[LEN];
     rng.nextBytes(rand);
 

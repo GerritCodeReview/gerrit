@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1db23d5c_d19ce4b2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-11T19:54:10Z",
+      "side": 1,
+      "message": "Stupid style nit: line breaks don\u0027t match other replyError usages.\n\nI wonder if at this point it\u0027s worth hoisting the cast out as well.",
+      "revId": "b5187b458f15c27fd667bd60d99b9c074367b64e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

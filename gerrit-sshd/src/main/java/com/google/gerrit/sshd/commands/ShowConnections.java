@@ -27,9 +27,11 @@ import com.google.inject.Inject;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
+import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -47,8 +49,27 @@ final class ShowConnections extends SshCommand {
   @Option(name = "--numeric", aliases = {"-n"}, usage = "don't resolve names")
   private boolean numeric;
 
+  @Option(name = "--wide", aliases = {"-w"}, usage = "display without line width truncation")
+  private boolean wide;
+
   @Inject
   private SshDaemon daemon;
+
+  private int hostNameWidth;
+  private int columns = 80;
+
+  @Override
+  public void start(final Environment env) throws IOException {
+    String s = env.getEnv().get(Environment.ENV_COLUMNS);
+    if (s != null && !s.isEmpty()) {
+      try {
+        columns = Integer.parseInt(s);
+      } catch (NumberFormatException err) {
+        columns = 80;
+      }
+    }
+    super.start(env);
+ }
 
   @Override
   protected void run() throws Failure {
@@ -71,6 +92,8 @@ final class ShowConnections extends SshCommand {
       }
     });
 
+    hostNameWidth = wide ? Integer.MAX_VALUE : columns - 9 - 9 - 10 - 32;
+
     final long now = System.currentTimeMillis();
     stdout.print(String.format("%-8s %8s %8s   %-15s %s\n", //
         "Session", "Start", "Idle", "User", "Remote Host"));
@@ -83,7 +106,7 @@ final class ShowConnections extends SshCommand {
       final long start = io.getCreationTime();
       final long idle = now - io.getLastIoTime();
 
-      stdout.print(String.format("%8s %8s %8s  %-15.15s %.30s\n", //
+      stdout.print(String.format("%8s %8s %8s   %-15.15s %s\n", //
           id(sd), //
           time(now, start), //
           age(idle), //
@@ -160,6 +183,11 @@ final class ShowConnections extends SshCommand {
     if (host == null) {
       host = remoteAddress.toString();
     }
+
+    if (host.length() > hostNameWidth) {
+      return host.substring(0, hostNameWidth);
+    }
+
     return host;
   }
 }

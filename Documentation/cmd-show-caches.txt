@@ -25,6 +25,10 @@ OPTIONS
 	operating system, and other details about the environment
 	that Gerrit Code Review is running in.
 
+--width::
+-w::
+	Width of the output table.
+
 ACCESS
 ------
 Caller must be a member of the privileged 'Administrators' group,

@@ -37,6 +37,13 @@ SCRIPTING
 ---------
 Intended for interactive use only.
 
+OPTIONS
+-------
+--wide::
+-w::
+	Do not format the output to the terminal width (default of
+	80 columns).
+
 DISPLAY
 -------
 

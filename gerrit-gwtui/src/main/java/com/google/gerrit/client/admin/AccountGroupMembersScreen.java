@@ -290,28 +290,12 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
           return str == null ? "" : str;
         }
       };
-      int insertPosition = table.getRowCount();
-      int left = 1;
-      int right = table.getRowCount() - 1;
-      while (left <= right) {
-        int middle = (left + right) >>> 1; // (left+right)/2
-        AccountInfo i = getRowItem(middle);
-        int cmp = c.compare(i, info);
-
-        if (cmp < 0) {
-          left = middle + 1;
-        } else if (cmp > 0) {
-          right = middle - 1;
-        } else {
-          // group is already contained in the table
-          return;
-        }
+      int insertPos = getInsertRow(c, info);
+      if (insertPos >= 0) {
+        table.insertRow(insertPos);
+        applyDataRowStyle(insertPos);
+        populate(insertPos, info);
       }
-      insertPosition = left;
-
-      table.insertRow(insertPosition);
-      applyDataRowStyle(insertPosition);
-      populate(insertPosition, info);
     }
 
     void populate(final int row, final AccountInfo i) {
@@ -405,29 +389,12 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
           return (str == null) ? "" : str;
         }
       };
-
-      int insertPosition = table.getRowCount();
-      int left = 1;
-      int right = table.getRowCount() - 1;
-      while (left <= right) {
-        int middle = (left + right) >>> 1; // (left+right)/2
-        GroupInfo i = getRowItem(middle);
-        int cmp = c.compare(i, info);
-
-        if (cmp < 0) {
-          left = middle + 1;
-        } else if (cmp > 0) {
-          right = middle - 1;
-        } else {
-          // group is already contained in the table
-          return;
-        }
+      int insertPos = getInsertRow(c, info);
+      if (insertPos >= 0) {
+        table.insertRow(insertPos);
+        applyDataRowStyle(insertPos);
+        populate(insertPos, info);
       }
-      insertPosition = left;
-
-      table.insertRow(insertPosition);
-      applyDataRowStyle(insertPosition);
-      populate(insertPosition, info);
     }
 
     void populate(final int row, final GroupInfo i) {

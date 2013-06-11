@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d7b8161_c26522f3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011298
+      },
+      "writtenOn": "2013-06-11T14:38:23Z",
+      "side": 1,
+      "message": "wouldn\u0027t --add-group be more consistent with the other options?",
+      "revId": "b56bd4b5dc95781157bc235eabba16cd230e880b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1db23d5c_1152ec1c",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowConnections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-06-11T15:08:23Z",
+      "side": 1,
+      "message": "Line 43 in ShowQueue.java is even worse, so I\u0027m not sure what the style guideline is here.",
+      "parentUuid": "5dc035bf_6321e2a8",
+      "revId": "6599d77eeb908fb843be34a5bc83c1302aae0562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dad41fd_7221b8a8",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowConnections.java",
         "patchSetId": 2
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "1db23d5c_31557005",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowConnections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-06-11T15:08:23Z",
+      "side": 1,
+      "message": "I think leaving each field split out + the comment would certainly be fine. But now that you\u0027ve enlightened me, I\u0027m not sure others would have had the same confusion I had (I haven\u0027t finished any coffee yet).",
+      "parentUuid": "5dc035bf_a3375aec",
+      "revId": "6599d77eeb908fb843be34a5bc83c1302aae0562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db23d5c_f15ac835",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowConnections.java",
         "patchSetId": 2
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "The columns were misaligned (see the above print string for the headers)",
       "parentUuid": "1db23d5c_f15ac835",
+      "revId": "6599d77eeb908fb843be34a5bc83c1302aae0562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_d15fc423",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowConnections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-06-11T15:08:23Z",
+      "side": 1,
+      "message": "I see it now, thanks.",
+      "parentUuid": "5dc035bf_431e666e",
       "revId": "6599d77eeb908fb843be34a5bc83c1302aae0562",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

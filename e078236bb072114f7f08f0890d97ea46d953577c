@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d12f50e_93171c58",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/FancyFlexTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-11T15:29:20Z",
+      "side": 1,
+      "message": "Since this isn\u0027t c, is there a reason to not actually just do (left+right)/2 ?",
+      "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dc035bf_e3415252",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/FancyFlexTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-11T15:29:20Z",
+      "side": 1,
+      "message": "Maybe this should just return the index of the found item so this function can also be used to efficiently find items?",
+      "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

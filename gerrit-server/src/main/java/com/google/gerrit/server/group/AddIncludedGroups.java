@@ -43,11 +43,17 @@ import java.util.List;
 import java.util.Map;
 
 public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
-  static class Input {
+  public static class Input {
     @DefaultInput
     String _oneGroup;
 
     List<String> groups;
+
+    public static Input fromGroups(List<String> groups) {
+      Input in = new Input();
+      in.groups = groups;
+      return in;
+    }
 
     static Input init(Input in) {
       if (in == null) {

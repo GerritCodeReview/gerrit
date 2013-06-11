@@ -46,12 +46,17 @@ import com.google.inject.Provider;
 import java.util.List;
 import java.util.Map;
 
-class AddMembers implements RestModifyView<GroupResource, Input> {
-  static class Input {
+public class AddMembers implements RestModifyView<GroupResource, Input> {
+  public static class Input {
     @DefaultInput
     String _oneMember;
 
     List<String> members;
+    public static Input fromMembers(List<String> members) {
+      Input in = new Input();
+      in.members = members;
+      return in;
+    }
 
     static Input init(Input in) {
       if (in == null) {

@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +46,7 @@ public final class SuExec extends BaseCommand {
   private final SshScope sshScope;
   private final DispatchCommandProvider dispatcher;
 
+  private boolean enableRunAs;
   private Provider<CurrentUser> caller;
   private Provider<SshSession> session;
   private IdentifiedUser.GenericFactory userFactory;
@@ -66,20 +68,22 @@ public final class SuExec extends BaseCommand {
       @CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
       final Provider<CurrentUser> caller, final Provider<SshSession> session,
       final IdentifiedUser.GenericFactory userFactory,
-      final SshScope.Context callingContext) {
+      final SshScope.Context callingContext,
+      AuthConfig config) {
     this.sshScope = sshScope;
     this.dispatcher = dispatcher;
     this.caller = caller;
     this.session = session;
     this.userFactory = userFactory;
     this.callingContext = callingContext;
+    this.enableRunAs = config.isRunAsEnabled();
     atomicCmd = Atomics.newReference();
   }
 
   @Override
   public void start(Environment env) throws IOException {
     try {
-      if (caller.get() instanceof PeerDaemonUser) {
+      if (canRunAs()) {
         parseCommandLine();
 
         final Context ctx = callingContext.subContext(newSession(), join(args));
@@ -106,6 +110,11 @@ public final class SuExec extends BaseCommand {
       err.flush();
       onExit(1);
     }
+  }
+
+  private boolean canRunAs() {
+    return caller.get() instanceof PeerDaemonUser
+        || (enableRunAs && caller.get().getCapabilities().canRunAs());
   }
 
   private SshSession newSession() {

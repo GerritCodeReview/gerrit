@@ -37,6 +37,7 @@ public class AuthConfig {
   private final AuthType authType;
   private final String httpHeader;
   private final boolean trustContainerAuth;
+  private final boolean enableRunAs;
   private final boolean userNameToLowerCase;
   private final boolean gitBasicAuth;
   private final String logoutUrl;
@@ -64,6 +65,7 @@ public class AuthConfig {
     cookiePath = cfg.getString("auth", null, "cookiepath");
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
     trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
+    enableRunAs = cfg.getBoolean("auth", null, "enableRunAs", true);
     gitBasicAuth = cfg.getBoolean("auth", "gitBasicAuth", false);
     userNameToLowerCase = cfg.getBoolean("auth", "userNameToLowerCase", false);
 
@@ -162,6 +164,11 @@ public class AuthConfig {
   /** Whether git-over-http should trust authentication done by container. */
   public boolean isTrustContainerAuth() {
     return trustContainerAuth;
+  }
+
+  /** @return true if users with Run As capability can impersonate others. */
+  public boolean isRunAsEnabled() {
+    return enableRunAs;
   }
 
   /** Whether user name should be converted to lower-case before validation */

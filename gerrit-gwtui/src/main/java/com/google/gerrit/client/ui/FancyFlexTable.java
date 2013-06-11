@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 public abstract class FancyFlexTable<RowItem> extends Composite {
@@ -56,6 +57,26 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
 
   protected void setRowItem(final int row, final RowItem item) {
     setRowItem(table.getCellFormatter().getElement(row, 0), item);
+  }
+
+  protected int getInsertRow(Comparator<RowItem> comparator, RowItem item) {
+    int left = 1;
+    int right = table.getRowCount() - 1;
+    while (left <= right) {
+      int middle = (left + right) >>> 1; // (left+right)/2
+      RowItem i = getRowItem(middle);
+      int cmp = comparator.compare(i, item);
+
+      if (cmp < 0) {
+        left = middle + 1;
+      } else if (cmp > 0) {
+        right = middle - 1;
+      } else {
+        // group is already contained in the table
+        return -1;
+      }
+    }
+    return left;
   }
 
   protected void resetHtml(final SafeHtml body) {

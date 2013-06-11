@@ -16,6 +16,24 @@
       "revId": "bb027b04d4c021d1526c99b29b2a3af373f5d2fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_514c747a",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-11T17:56:09Z",
+      "side": 1,
+      "message": "Sadly, yes. Only through the REST API, which does not currently support editing access permissions, but will eventually, so yes. :-)\n\nThe intent is for this to be granted only to a role account. The role account would be using reviewed software to make modifications on Gerrit, and thus is reasonably trusted to operate within the bounds of its purpose. If the role account wasn\u0027t designed to attempt to elevate its privileges to administrateServer, it won\u0027t, and this is less of an issue.\n\nIts the same risk as suexec over SSH. There you can suexec to become an administrator. Worse you can do `git push` with suexec if you craft the --receivepack argument correctly. At least here you can\u0027t use Git to impersonate an administrator and push a modified refs/meta/config. But that will be moot when the REST API can modify project access controls. It already can modify parents so it already has some of this risk.",
+      "parentUuid": "3d7b8161_e2414652",
+      "revId": "bb027b04d4c021d1526c99b29b2a3af373f5d2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

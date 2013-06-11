@@ -122,6 +122,24 @@
       "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_91925c9f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/FancyFlexTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-11T19:43:19Z",
+      "side": 1,
+      "message": "I was just thinking if (info.equals(getRowItem(insertPos))) { but I guess you would at least need to to check getRowCount() \u003e 0.  \n\nWhat I do in cases when I don\u0027t like that, is make a wrapper function.  So perhaps rename getInsertRow() to lookupRowItem() and then wrap that with maybe 2 other functions:\n\n  findRowItem(...) { # quick search for exact match\n    int row \u003d lookupRowItem(...);\n    if (row \u003c getRowCount() \u0026\u0026 c.compare(info, getRowItem(row)) \u003d\u003d 0) {\n      return row;\n    }\n    return -1;\n  }\n\n  getInsertRow(...) {  # insert row, rejects exact match\n    int row \u003d lookupRowItem(...);\n    if (row \u003e\u003d getRowCount() || c.compare(info, getRowItem(row)) !\u003d 0) {\n      return row;\n    }\n    return -1;\n  }\n\nIf you don\u0027t like lookupRowItem(), maybe call it binarySearch()?",
+      "parentUuid": "3d7b8161_624ff670",
+      "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,12 +21,14 @@ import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,11 +56,15 @@ class RunAsFilter implements Filter {
     }
   }
 
+  private final boolean enabled;
   private final Provider<WebSession> session;
   private final AccountResolver accountResolver;
 
   @Inject
-  RunAsFilter(Provider<WebSession> session, AccountResolver accountResolver) {
+  RunAsFilter(@GerritServerConfig Config config,
+      Provider<WebSession> session,
+      AccountResolver accountResolver) {
+    this.enabled = config.getBoolean("auth", null, "enableRunAs", true);
     this.session = session;
     this.accountResolver = accountResolver;
   }
@@ -70,6 +76,12 @@ class RunAsFilter implements Filter {
 
     String runas = req.getHeader(RUN_AS);
     if (runas != null) {
+      if (!enabled) {
+        RestApiServlet.replyError((HttpServletResponse) res, SC_FORBIDDEN,
+            RUN_AS + " disabled by auth.enableRunAs = false");
+        return;
+      }
+
       CurrentUser self = session.get().getCurrentUser();
       if (!self.getCapabilities().canRunAs()) {
         RestApiServlet.replyError(

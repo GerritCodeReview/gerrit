@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1db23d5c_91653cf4",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowConnections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-06-11T14:58:49Z",
+      "side": 1,
+      "message": "This is a bit beyond the length of line 47, so it might need wrapping.",
+      "revId": "6599d77eeb908fb843be34a5bc83c1302aae0562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_7221b8a8",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowConnections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-06-11T14:58:49Z",
+      "side": 1,
+      "message": "magical numbers?",
+      "revId": "6599d77eeb908fb843be34a5bc83c1302aae0562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_f15ac835",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowConnections.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-06-11T14:58:49Z",
+      "side": 1,
+      "message": "Why the extra space after age?",
+      "revId": "6599d77eeb908fb843be34a5bc83c1302aae0562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3d7b8161_42291288",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-11T13:25:54Z",
+      "side": 1,
+      "message": "No, the project-id/project-name in the URL is always a concrete project. Not sure if this would be compliant with REST to support wildcards here. If we need this, would it maybe be better to have the project also as URL parameter?\n\n  /access?u\u003dself\u0026p\u003dMyProject -\u003e my access rights for MyProject\n  /access?u\u003dself -\u003e all my access rights\n\nThe p parameter could then support wildcards and regular expressions.\n\nOf course this would mean to introduce another top-level path...",
+      "parentUuid": "bd4691ee_9ef3bd27",
+      "revId": "fad06a236ef650325b081348c210f6a469615160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5df835d2_43fb46fc",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 2

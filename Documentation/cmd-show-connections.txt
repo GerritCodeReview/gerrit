@@ -32,6 +32,11 @@ OPTIONS
 -n::
 	Show client hostnames as IP addresses instead of DNS hostname.
 
+--wide::
+-w::
+	Do not format the output to the terminal width (default of
+	80 columns).
+
 DISPLAY
 -------
 

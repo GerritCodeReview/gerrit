@@ -390,6 +390,18 @@ This parameter only affects git over http and git over SSH traffic.
 +
 By default this is set to false.
 
+[[auth.enableRunAs]]auth.enableRunAs::
++
+If true HTTP REST APIs will accept the `X-Gerrit-RunAs` HTTP request
+header from any users granted the link:access-control.html#capability_runAs[Run As]
+capability. The header and capability permit the authenticated user
+to impersonate another account.
++
+If false the feature is disabled and cannot be re-enabled without
+editing gerrit.config and restarting the server.
++
+Default is true.
+
 [[cache]]Section cache
 ~~~~~~~~~~~~~~~~~~~~~~
 

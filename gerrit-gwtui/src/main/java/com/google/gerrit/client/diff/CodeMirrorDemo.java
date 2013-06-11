@@ -150,7 +150,7 @@ public class CodeMirrorDemo extends Screen {
       contents = "";
     }
     Configuration cfg = Configuration.create()
-      .set("readOnly", "nocursor")
+      .set("readOnly", true)
       .set("lineNumbers", true)
       .set("tabSize", 2)
       .set("mode", getContentType(meta))
@@ -284,10 +284,13 @@ public class CodeMirrorDemo extends Screen {
           }
           return at;
         }
+        if (numOfChar == lengthWithNewline) {
+          return LineCharacter.create(startLine + currLineIndex + 1, 0);
+        }
         numOfChar -= lengthWithNewline;
         advanceLine();
       }
-      throw new IllegalStateException("LineIterator index out of bound");
+      throw new IllegalStateException("EditIterator index out of bound");
     }
 
     private void advanceLine() {

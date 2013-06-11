@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +46,7 @@ public final class SuExec extends BaseCommand {
   private final SshScope sshScope;
   private final DispatchCommandProvider dispatcher;
 
+  private boolean enableRunAs;
   private Provider<CurrentUser> caller;
   private Provider<SshSession> session;
   private IdentifiedUser.GenericFactory userFactory;
@@ -66,36 +68,34 @@ public final class SuExec extends BaseCommand {
       @CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
       final Provider<CurrentUser> caller, final Provider<SshSession> session,
       final IdentifiedUser.GenericFactory userFactory,
-      final SshScope.Context callingContext) {
+      final SshScope.Context callingContext,
+      AuthConfig config) {
     this.sshScope = sshScope;
     this.dispatcher = dispatcher;
     this.caller = caller;
     this.session = session;
     this.userFactory = userFactory;
     this.callingContext = callingContext;
+    this.enableRunAs = config.isRunAsEnabled();
     atomicCmd = Atomics.newReference();
   }
 
   @Override
   public void start(Environment env) throws IOException {
     try {
-      if (caller.get() instanceof PeerDaemonUser) {
-        parseCommandLine();
+      checkCanRunAs();
+      parseCommandLine();
 
-        final Context ctx = callingContext.subContext(newSession(), join(args));
-        final Context old = sshScope.set(ctx);
-        try {
-          final BaseCommand cmd = dispatcher.get();
-          cmd.setArguments(args.toArray(new String[args.size()]));
-          provideStateTo(cmd);
-          atomicCmd.set(cmd);
-          cmd.start(env);
-        } finally {
-          sshScope.set(old);
-        }
-
-      } else {
-        throw new UnloggedFailure(1, "fatal: Not a peer daemon");
+      final Context ctx = callingContext.subContext(newSession(), join(args));
+      final Context old = sshScope.set(ctx);
+      try {
+        final BaseCommand cmd = dispatcher.get();
+        cmd.setArguments(args.toArray(new String[args.size()]));
+        provideStateTo(cmd);
+        atomicCmd.set(cmd);
+        cmd.start(env);
+      } finally {
+        sshScope.set(old);
       }
     } catch (UnloggedFailure e) {
       String msg = e.getMessage();
@@ -105,6 +105,17 @@ public final class SuExec extends BaseCommand {
       err.write(msg.getBytes("UTF-8"));
       err.flush();
       onExit(1);
+    }
+  }
+
+  private void checkCanRunAs() throws UnloggedFailure {
+    if (caller.get() instanceof PeerDaemonUser) {
+      // OK.
+    } else if (!enableRunAs) {
+      throw new UnloggedFailure(1,
+          "fatal: suexec disabled by auth.enableRunAs = false");
+    } else if (!caller.get().getCapabilities().canRunAs()) {
+      throw new UnloggedFailure(1, "fatal: suexec not permitted");
     }
   }
 

@@ -16,6 +16,24 @@
       "revId": "46b833aa9b60b4ab99910468d29224103024ea85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d15f9f2_54056c1e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-11T05:58:32Z",
+      "side": 1,
+      "message": "for one it is explained in comment to function called (lines 282-285), for another how comes that you vote with -1 if you don\u0027t understand the code?",
+      "parentUuid": "5dc035bf_c3f89603",
+      "revId": "46b833aa9b60b4ab99910468d29224103024ea85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

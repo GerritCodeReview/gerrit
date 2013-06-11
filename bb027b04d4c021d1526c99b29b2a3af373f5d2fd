@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d7b8161_e2414652",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-11T11:10:54Z",
+      "side": 1,
+      "message": "Does this mean that as a non administrator, that if I have this capability that I\u0027m able to impersonate a Gerrit administrator?\n\nMeans this capability effectively gives me the ability to administrate the server?",
+      "revId": "bb027b04d4c021d1526c99b29b2a3af373f5d2fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

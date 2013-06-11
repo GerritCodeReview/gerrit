@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "7d15f9f2_946544f4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/FancyFlexTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-11T17:30:48Z",
+      "side": 1,
+      "message": "I have no preference on this, but this has a history. Initially it was \"(left + right) \u003e\u003e\u003e 1\", then for better readability we changed it to \"(left + right)/2\". Then somebody proposed to go back to \"(left + right) \u003e\u003e\u003e 1\" for performance reasons, and as a result we made this compromise to have both performance and readability. Not sure if this deserves so much attention. If you agree I would just leave it as it is.",
+      "parentUuid": "5d12f50e_93171c58",
+      "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d7b8161_0260eade",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/FancyFlexTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-11T17:30:48Z",
+      "side": 1,
+      "message": "s/group/item",
+      "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dc035bf_e3415252",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/FancyFlexTable.java",
         "patchSetId": 1
@@ -30,6 +65,24 @@
       "writtenOn": "2013-06-11T15:29:20Z",
       "side": 1,
       "message": "Maybe this should just return the index of the found item so this function can also be used to efficiently find items?",
+      "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d7b8161_2255ee04",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/FancyFlexTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-11T17:30:48Z",
+      "side": 1,
+      "message": "How would the caller then know whether it needs to create a new row at this position or not?",
+      "parentUuid": "5dc035bf_e3415252",
       "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.errors.InvalidRevisionException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -80,7 +81,8 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
 
   @Override
   public BranchInfo apply(ProjectResource rsrc, Input input)
-      throws BadRequestException, ResourceConflictException, IOException {
+      throws BadRequestException, AuthException, ResourceConflictException,
+      IOException {
     if (input == null) {
       input = new Input();
     }
@@ -124,7 +126,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, Input> {
       }
 
       if (!refControl.canCreate(rw, object)) {
-        throw new IllegalStateException("Cannot create \"" + ref + "\"");
+        throw new AuthException("Cannot create \"" + ref + "\"");
       }
 
       try {

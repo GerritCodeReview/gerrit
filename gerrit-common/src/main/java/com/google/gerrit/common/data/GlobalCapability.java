@@ -70,6 +70,9 @@ public class GlobalCapability {
   /** Maximum result limit per executed query. */
   public static final String QUERY_LIMIT = "queryLimit";
 
+  /** Ability to impersonate another user. */
+  public static final String RUN_AS = "runAs";
+
   /** Can run the Git garbage collection. */
   public static final String RUN_GC = "runGC";
 
@@ -103,6 +106,7 @@ public class GlobalCapability {
     NAMES_ALL.add(KILL_TASK);
     NAMES_ALL.add(PRIORITY);
     NAMES_ALL.add(QUERY_LIMIT);
+    NAMES_ALL.add(RUN_AS);
     NAMES_ALL.add(RUN_GC);
     NAMES_ALL.add(START_REPLICATION);
     NAMES_ALL.add(STREAM_EVENTS);

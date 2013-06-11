@@ -34,6 +34,24 @@
       "revId": "46b833aa9b60b4ab99910468d29224103024ea85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dc035bf_e30cb249",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-11T06:20:56Z",
+      "side": 1,
+      "message": "When I read that comment it seems like this change fixes the symptom, not the problem, I should have just said that.  If am right, it would be better to prevent this from inappropriately being called too many times instead of trying to cover it up.",
+      "parentUuid": "7d15f9f2_54056c1e",
+      "revId": "46b833aa9b60b4ab99910468d29224103024ea85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -104,6 +104,24 @@
       "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d7b8161_624ff670",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/FancyFlexTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-11T19:03:55Z",
+      "side": 1,
+      "message": "Hm, I like the idea to be able to use this method to find items, but I\u0027m afraid this makes it unnecessary complicated for the caller.\n\nRight now the caller can just do\n\n  int insertPos \u003d getInsertRow(c, info);\n  if (insertPos \u003e\u003d 0) {\n      table.insertRow(insertPos);\n      applyDataRowStyle(insertPos);\n      populate(insertPos, info);\n    }\n\nbut when changing this, the following would be needed\n\n  int insertPos \u003d getInsertRow(c, info);\n  if (insertPos \u003e\u003d getRowCount() || c.compare(info, getRowItem(insertPos)) !\u003d 0) {\n    table.insertRow(insertPos);\n    applyDataRowStyle(insertPos);\n    populate(insertPos, info);\n  }\n\nOr am I missing something and there\u0027s actually an easier way for the caller?",
+      "parentUuid": "1db23d5c_714ff870",
+      "revId": "e078236bb072114f7f08f0890d97ea46d953577c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

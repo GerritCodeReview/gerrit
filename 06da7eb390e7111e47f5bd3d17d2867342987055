@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1db23d5c_917b7c87",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SuExec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-11T20:51:53Z",
+      "side": 1,
+      "message": "Fix this error message.",
+      "revId": "06da7eb390e7111e47f5bd3d17d2867342987055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_f17008a5",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SuExec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-11T20:51:53Z",
+      "side": 1,
+      "message": "In the HTTP version, there is a different error message when enableRunAs is false. Did you want to do that here as well?",
+      "revId": "06da7eb390e7111e47f5bd3d17d2867342987055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

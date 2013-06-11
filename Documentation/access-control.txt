@@ -1270,9 +1270,10 @@ command, but also to the web UI results pagination size.
 Run As
 ~~~~~~
 
-Allow users to impersonate any other user with the X-Gerrit-RunAs
-HTTP header on REST API calls. Site administrators do not inherit
-this capability; it must be granted explicitly.
+Allow users to impersonate any other user with the X-Gerrit-RunAs HTTP
+header on REST API calls or the link:cmd-suexec.html[suexec] SSH
+command.  Site administrators do not inherit this capability; it must
+be granted explicitly.
 
 
 [[capability_runGC]]

@@ -19,9 +19,13 @@ SYNOPSIS
 
 DESCRIPTION
 -----------
-The suexec command can only be invoked by the magic user `Gerrit
-Code Review` and permits executing any other command as any other
+The suexec command permits executing any other command as any other
 registered user account.
+
+suexec can only be invoked by the magic user `Gerrit Code Review`,
+or any user granted granted the link:access-control.html#capability_runAs[Run As]
+capability. The run as capability is permitted to be used only if
+link:config-gerrit.html[auth.enableRunAs] is true.
 
 OPTIONS
 -------
@@ -39,7 +43,8 @@ COMMAND::
 ACCESS
 ------
 Caller must be the magic user Gerrit Code Review using the SSH
-daemon's host key or a key on this daemon's peer host key ring.
+daemon's host key, or a key on this daemon's peer host key ring,
+or a user granted the Run As capability.
 
 SCRIPTING
 ---------

@@ -21,14 +21,13 @@ import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 
-import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,10 +60,10 @@ class RunAsFilter implements Filter {
   private final AccountResolver accountResolver;
 
   @Inject
-  RunAsFilter(@GerritServerConfig Config config,
+  RunAsFilter(AuthConfig config,
       Provider<WebSession> session,
       AccountResolver accountResolver) {
-    this.enabled = config.getBoolean("auth", null, "enableRunAs", true);
+    this.enabled = config.isRunAsEnabled();
     this.session = session;
     this.accountResolver = accountResolver;
   }

@@ -34,6 +34,24 @@
       "revId": "b56bd4b5dc95781157bc235eabba16cd230e880b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d15f9f2_b48de07f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011298
+      },
+      "writtenOn": "2013-06-12T06:37:02Z",
+      "side": 1,
+      "message": "but you are mixing adjectives, for members you have add/remove, for groups you have include/remove-group which isn\u0027t consistent. Also most people would naturally expect that -g (group) would be doing the positive action of adding the group not removing it.\n\nHow about you add/remove members (-a, -r), and include-group/exclude-group  groups (-i, -x)",
+      "parentUuid": "3d7b8161_e297868d",
+      "revId": "b56bd4b5dc95781157bc235eabba16cd230e880b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

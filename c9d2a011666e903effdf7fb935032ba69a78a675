@@ -70,6 +70,24 @@
       "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d9595bb_9be9cb38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-12T22:09:35Z",
+      "side": 1,
+      "message": "It sounds like you are only testing allRefsAreVisibleExcept(), I don\u0027t think that is where the concern is.  I think the concern is that this now returns false more often than in the past and that in those cases advertising refs will be much slower.   So I suspect that an git ls-remote is what you should be testing?",
+      "parentUuid": "7d15f9f2_94c9c4a3",
+      "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

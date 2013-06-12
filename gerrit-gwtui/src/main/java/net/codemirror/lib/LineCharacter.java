@@ -20,16 +20,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class LineCharacter extends JavaScriptObject {
   public static LineCharacter create(int line, int ch) {
     LineCharacter lineCh = createObject().cast();
-    return lineCh.setLine(line).setCh(ch);
+    lineCh.setLine(line);
+    lineCh.setCh(ch);
+    return lineCh;
   }
 
-  private final native LineCharacter setLine(int line) /*-{
-    this.line = line; return this;
-  }-*/;
-
-  private final native LineCharacter setCh(int ch) /*-{
-    this.ch = ch; return this;
-  }-*/;
+  public final native void setLine(int line) /*-{ this.line = line; }-*/;
+  public final native void setCh(int ch) /*-{ this.ch = ch; }-*/;
 
   public final native int getLine() /*-{ return this.line; }-*/;
   public final native int getCh() /*-{ return this.ch; }-*/;

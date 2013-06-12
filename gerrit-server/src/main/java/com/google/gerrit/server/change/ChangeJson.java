@@ -45,6 +45,7 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -55,6 +56,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.PatchSetInfo.ParentInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -241,6 +243,7 @@ public class ChangeJson {
     out.topic = in.getTopic();
     out.changeId = in.getKey().get();
     out.mergeable = in.getStatus() != Change.Status.MERGED ? in.isMergeable() : null;
+    out.submitTypeRecord = getSubmitTypeRecord(cd);
     out.subject = in.getSubject();
     out.status = in.getStatus();
     out.owner = accountLoader.get(in.getOwner());
@@ -724,6 +727,19 @@ public class ChangeJson {
     return false;
   }
 
+  private SubmitTypeRecordInfo getSubmitTypeRecord(ChangeData cd)
+      throws OrmException {
+    ChangeControl control = control(cd);
+    if (control == null) {
+      return null;
+    }
+    PatchSet ps = db.get().patchSets().get(cd.change(db).currentPatchSetId());
+    if (ps == null) {
+      return null;
+    }
+    return new SubmitTypeRecordInfo(control.getSubmitTypeRecord(db.get(), ps));
+  }
+
   private Map<String, RevisionInfo> revisions(ChangeData cd) throws OrmException {
     ChangeControl ctl = control(cd);
     if (ctl == null) {
@@ -840,6 +856,7 @@ public class ChangeJson {
     Boolean starred;
     Boolean reviewed;
     Boolean mergeable;
+    SubmitTypeRecordInfo submitTypeRecord;
 
     String _sortkey;
     int _number;
@@ -935,5 +952,17 @@ public class ChangeJson {
     Timestamp date;
     String message;
     Integer _revisionNumber;
+  }
+
+  static class SubmitTypeRecordInfo {
+    SubmitTypeRecord.Status status;
+    Project.SubmitType submitType;
+    String errorMessage;
+
+    SubmitTypeRecordInfo(SubmitTypeRecord r) {
+      status = r.status;
+      submitType = r.type;
+      errorMessage = r.errorMessage;
+    }
   }
 }

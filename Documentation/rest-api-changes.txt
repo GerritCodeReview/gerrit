@@ -50,6 +50,10 @@ Query for open changes of watched projects:
       "updated": "2012-07-17 07:19:27.766000000",
       "reviewed": true,
       "mergeable": true,
+      "submit_type_record": {
+        "status": "OK",
+        "submit_type": "MERGE_IF_NECESSARY"
+      },
       "_sortkey": "001e7057000006dc",
       "_number": 1756,
       "owner": {
@@ -67,6 +71,10 @@ Query for open changes of watched projects:
       "created": "2012-07-17 07:18:30.884000000",
       "updated": "2012-07-17 07:18:30.885000000",
       "mergeable": true,
+      "submit_type_record": {
+        "status": "OK",
+        "submit_type": "MERGE_IF_NECESSARY"
+      },
       "_sortkey": "001e7056000006dd",
       "_number": 1757,
       "owner": {
@@ -122,6 +130,10 @@ Query that retrieves changes for a user's dashboard:
         "updated": "2012-07-17 07:19:27.766000000",
         "reviewed": true,
         "mergeable": true,
+        "submit_type_record": {
+          "status": "OK",
+          "submit_type": "MERGE_IF_NECESSARY"
+        },
         "_sortkey": "001e7057000006dc",
         "_number": 1756,
         "owner": {
@@ -237,6 +249,10 @@ default. Optional fields are:
       "created": "2012-04-25 00:52:25.580000000",
       "updated": "2012-04-25 00:52:25.586000000",
       "mergeable": true,
+      "submit_type_record": {
+        "status": "OK",
+        "submit_type": "MERGE_IF_NECESSARY"
+      },
       "_sortkey": "001c9bf400000061",
       "_number": 97,
       "owner": {
@@ -346,6 +362,10 @@ describes the change.
     "updated": "2013-02-21 11:16:36.775000000",
     "reviewed": true,
     "mergeable": true,
+    "submit_type_record": {
+      "status": "OK",
+      "submit_type": "MERGE_IF_NECESSARY"
+    },
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -391,6 +411,10 @@ describes the change.
     "updated": "2013-02-21 11:16:36.775000000",
     "reviewed": true,
     "mergeable": true,
+    "submit_type_record": {
+      "status": "OK",
+      "submit_type": "MERGE_IF_NECESSARY
+    },
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -630,6 +654,10 @@ describes the abandoned change.
     "updated": "2013-02-21 11:16:36.775000000",
     "reviewed": true,
     "mergeable": true,
+    "submit_type_record": {
+      "status": "OK",
+      "submit_type": "MERGE_IF_NECESSARY"
+    },
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -689,6 +717,10 @@ describes the restored change.
     "updated": "2013-02-21 11:16:36.775000000",
     "reviewed": true,
     "mergeable": true,
+    "submit_type_record": {
+      "status": "OK",
+      "submit_type": "MERGE_IF_NECESSARY"
+    },
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -745,6 +777,10 @@ is included.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": false,
+    "submit_type_record": {
+      "status": "OK",
+      "submit_type": "MERGE_IF_NECESSARY"
+    },
     "_sortkey": "0024cf9a000012bf",
     "_number": 4799,
     "owner": {
@@ -837,6 +873,10 @@ describes the reverting change.
     "updated": "2013-02-21 11:16:36.775000000",
     "reviewed": true,
     "mergeable": true,
+    "submit_type_record": {
+      "status": "OK",
+      "submit_type": "MERGE_IF_NECESSARY"
+    },
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -1161,6 +1201,10 @@ for the current patch set.
     "updated": "2013-02-21 11:16:36.775000000",
     "reviewed": true,
     "mergeable": true,
+    "submit_type_record": {
+      "status": "OK",
+      "submit_type": "MERGE_IF_NECESSARY"
+    },
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -1342,6 +1386,10 @@ is included.
     "created": "2013-02-01 09:59:32.126000000",
     "updated": "2013-02-21 11:16:36.775000000",
     "mergeable": false,
+    "submit_type_record": {
+      "status": "OK",
+      "submit_type": "MERGE_IF_NECESSARY"
+    },
     "_sortkey": "0024cf9a000012bf",
     "_number": 4799,
     "owner": {
@@ -2154,6 +2202,10 @@ describes the resulting cherry picked change.
     "updated": "2013-02-21 11:16:36.775000000",
     "reviewed": true,
     "mergeable": true,
+    "submit_type_record": {
+      "status": "OK",
+      "submit_type": "MERGE_IF_NECESSARY"
+    },
     "_sortkey": "0023412400000f7d",
     "_number": 3965,
     "owner": {
@@ -2309,6 +2361,9 @@ Whether the change was reviewed by the calling user.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
 Not set for merged changes.
+|`submit_type_record` ||
+The submit type record for the current patch set of the change as a
+link:#submit-type-record-info[SubmitTypeRecordInfo] entity.
 |`_sortkey`           ||The sortkey of the change.
 |`_number`            ||The legacy numeric ID of the change.
 |`owner`              ||
@@ -2854,6 +2909,31 @@ is currently an empty object.
 |`error_message`|optional|
 When status is RULE_ERROR this message provides some text describing
 the failure of the rule predicate.
+|===========================
+
+[[submit-type-record-info]]
+SubmitTypeRecordInfo
+~~~~~~~~~~~~~~~~~~~~
+The `SubmitTypeRecordInfo` entity describes the submit type for a
+change/patch set.
+
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`status`        ||
+The status of the submit type record. +
+`OK` if the submit type was successfully computed. +
+In case of an error the status is `RULE_ERROR` and the `error_message`
+is set.
+|`submit_type`   |optional|
+The link:project-setup.html#submit_type[submit type] that is used on
+submit of the change to do the merge. +
+Possible values are `MERGE_IF_NECESSARY`, `REBASE_IF_NECESSARY`,
+`FAST_FORWARD_ONLY`, `MERGE_ALWAYS` and `CHERRY_PICK`. +
+Not set if an error occurred during the computation of the submit type.
+|`error_message` |optional|
+Error message explaining the error that occurred during the computation
+of the submit type.
 |===========================
 
 [[topic-input]]

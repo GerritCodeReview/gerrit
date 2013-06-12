@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dad41fd_f2e5a829",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccessSectionEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "delete dead sections",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_92e09c1b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PermissionEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "Reuse the same PermissionNameRenderer instance as the normalName.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_5282b441",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PermissionNameRenderer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "This field can still be final. We build the map once at creation time.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_b2db2074",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PermissionNameRenderer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "This map is going to get possibly large if we have a lot of rules to display. Instead lets try to avoid copying by keeping two maps, one static of permissions and one unmodified of the ones from the server.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_72853848",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "nit: blank line before method",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_12882c60",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/CapabilityMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "Unnecessary type.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_9126dc8c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/config/ConfigServerApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "This is usually phrased as accepting the callback so the type is correct.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_b1216079",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilitiesCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "don\u0027t return null, throw instead.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dc035bf_633602ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilityConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "unnecessary list, use GlobalCapabilities.getAllNames",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dc035bf_03290e89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CapabilityResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "Missing AOSP header.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d12f50e_d3119463",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "nit: indent continuation line",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_927b7c87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "nit: line wrapping not necessary here",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_f27008a5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "Don\u0027t return null. throw new ResourceNotFoundException() instead",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_d2750493",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "nit: we usually write id.equals(\"server\")",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d15f9f2_34555005",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "We try to throw explicit types just to document what is being pushed up the stack for the caller to handle. So don\u0027t throw Exception, throw the full list of what the method doesn\u0027t handle.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_328bb060",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this duplication. Instead we can drive off GlobalCapability.getAllNames() here. The duplicate entry in the properties file was a hack for GWT.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_51b0f415",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "This sort of should have been checked at compile time but isn\u0027t usage of reflection should be tested by a JUnit test.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_11b66c14",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "This is actually not necessary, the caller can do the translation on its own.",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_71b37824",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ListCapabilities.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-12T04:19:30Z",
+      "side": 1,
+      "message": "nit: constructor after field",
+      "revId": "1a36693bd6892082344d8928aa1bf6d6a44ac120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

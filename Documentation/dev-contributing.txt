@@ -271,6 +271,10 @@ From time to time bug fix releases are made for existing stable branches.
 Developers concerned with stable branches are encouraged to backport or push
 patchsets to these branches, even if no new release is planned.
 
+Fixes that are known to be needed for a particular release should be pushed
+for review on that release's stable branch.  It will then be included in
+the master branch when the stable branch is merged back.
+
 
 GERRIT
 ------

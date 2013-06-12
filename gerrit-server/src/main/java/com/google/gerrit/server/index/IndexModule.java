@@ -36,9 +36,15 @@ import org.eclipse.jgit.lib.Config;
  * implementations (e.g. Lucene).
  */
 public class IndexModule extends AbstractModule {
-  public static boolean isEnabled(Injector injector) {
-    return injector.getInstance(Key.get(Config.class, GerritServerConfig.class))
-        .getBoolean("index", null, "enabled", false);
+  public enum IndexType {
+    SQL, LUCENE, SOLR;
+  }
+
+  /** Type of secondary index. */
+  public static IndexType getIndexType(Injector injector) {
+    Config cfg = injector.getInstance(
+        Key.get(Config.class, GerritServerConfig.class));
+    return cfg.getEnum("index", null, "type", IndexType.SQL);
   }
 
   private final int threads;

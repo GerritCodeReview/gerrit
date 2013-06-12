@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d7b8161_62da966c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/git/PushForReviewIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1012503
+      },
+      "writtenOn": "2013-06-12T14:06:37Z",
+      "side": 1,
+      "message": "If you want to verify this on a remote then you should clone it again by either calling selectProtocol(p) or directly calling cloneProject(). Such test will even fail if you remove line 283: push.setTag(\"v1.0\")",
+      "revId": "52f51cf4d59f5d53ed1bd979b5be2bc4a89d8bfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

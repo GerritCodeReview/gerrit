@@ -15,12 +15,13 @@ List Capabilities
 [verse]
 'GET /config/server/capabilities'
 
-Lists the capabilities that are available in system. There are two kinds of
-capabilities: core and plugin-owned capabilities.
+Lists the capabilities that are available in the system. There are two
+kinds of capabilities: core and plugin-owned capabilities.
 
-As result a map is returned that maps the capability names to
-capability descriptions. The entries in the map are sorted
-by capability name.
+As result a list of link:#capability-info[CapabilityInfo] entities is
+returned.
+
+The entries in the list are sorted by capability name.
 
 .Request
 ----
@@ -116,6 +117,19 @@ by capability name.
     }
   }
 ----
+
+[[capability-info]]
+CapabilityInfo
+~~~~~~~~~~~~~~
+The `CapabilityeInfo` entity contains information about a capability.
+
+[options="header",width="50%",cols="1,5"]
+|=================================
+|Field Name           |Description
+|`kind`               |`gerritcodereview#capability`
+|`id`                 |capability ID
+|`name`               |capability name
+|=================================
 
 
 GERRIT

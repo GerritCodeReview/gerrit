@@ -52,6 +52,24 @@
       "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d15f9f2_94c9c4a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-06-12T21:59:46Z",
+      "side": 1,
+      "message": "Thanks, Martin.\n\nI retested calling allRefsAreVisibleExcept, it seems the cost is negligible\neven for bigger repos.\n\nAs seen below in the first table, increasing the number of refs does\nnot affect runtime too much. While the number of refs increased by\n4 orders of magnitude, mean runtime only about doubled.\n\nThe second table shows, that the number of access sections in the\nproject.config has more impact. However, 1K already seems way beyond\nwhat (at least) we typically use. Including all inherited access\nsections, even our bigger repos are only around 10 access sections.\n\n\n* 100K refs, 10 access sections in project.config.\n\n  +----------------+-----------+------------------+--------------+-----------------+\n  |                |           |                  | mean runtime |                 |\n  | Variant        | # batches | iterations/batch |   of batch   | std. derviation |\n  +----------------+-----------+------------------+--------------+-----------------+\n  | Without change |     5     |      100000      |    137ms     |      25ms       |\n  | With change    |     5     |      100000      |    180ms     |      29ms       |\n  +----------------+-----------+------------------+--------------+-----------------+\n\nAdditional cost per request: \u003c\u003c0.1ms\n\n\n* 100K refs, 1K access sections in project.config.\n\n  +----------------+-----------+------------------+--------------+-----------------+\n  |                |           |                  | mean runtime |                 |\n  | Variant        | # batches | iterations/batch |   of batch   | std. derviation |\n  +----------------+-----------+------------------+--------------+-----------------+\n  | Without change |     5     |      100000      |     78s      |       3s        |\n  | With change    |     5     |      100000      |     86s      |       4s        |\n  +----------------+-----------+------------------+--------------+-----------------+\n\nAdditional cost per request: \u003c0.1ms\n\nSo in all settings, the cost of this change to add a proper check for\npermissions is \u003c0.1ms.",
+      "parentUuid": "7d29791e_94f3a427",
+      "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

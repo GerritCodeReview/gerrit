@@ -21,6 +21,8 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
 import java.io.IOException;
 
 /**
@@ -52,9 +54,19 @@ public interface ChangeIndex {
     }
 
     @Override
+    public void deleteAll() throws IOException {
+      // Do nothing.
+    }
+
+    @Override
     public ChangeDataSource getSource(Predicate<ChangeData> p)
         throws QueryParseException {
       throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void finishIndex() {
+      // Do nothing.
     }
   };
 
@@ -95,6 +107,13 @@ public interface ChangeIndex {
   public ListenableFuture<Void> delete(ChangeData cd) throws IOException;
 
   /**
+   * Delete all change documents from the index.
+   *
+   * @throws IOException
+   */
+  public void deleteAll() throws IOException;
+
+  /**
    * Convert the given operator predicate into a source searching the index and
    * returning only the documents matching that predicate.
    *
@@ -108,4 +127,13 @@ public interface ChangeIndex {
    */
   public ChangeDataSource getSource(Predicate<ChangeData> p)
       throws QueryParseException;
+
+  /**
+   * Mark completion of indexing.
+   *
+   * @throws ConfigInvalidException
+   * @throws IOException
+   */
+  public void finishIndex() throws IOException,
+      ConfigInvalidException;
 }

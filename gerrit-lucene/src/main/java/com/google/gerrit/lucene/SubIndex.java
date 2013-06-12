@@ -114,6 +114,10 @@ class SubIndex {
     return new NrtFuture(writer.deleteDocuments(term));
   }
 
+  void deleteAll() throws IOException {
+    writer.deleteAll();
+  }
+
   IndexSearcher acquire() throws IOException {
     return nrtManager.acquire();
   }

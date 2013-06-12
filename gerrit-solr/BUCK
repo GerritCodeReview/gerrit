@@ -1,10 +1,10 @@
 java_library(
-  name = 'lucene',
+  name = 'solr',
   srcs = glob(['src/main/java/**/*.java']),
   deps = [
     '//gerrit-antlr:query_exception',
     '//gerrit-extension-api:api',
-    '//gerrit-reviewdb:server',
+    '//gerrit-reviewdb:client',
     '//gerrit-server:server',
     '//lib:guava',
     '//lib:gwtorm',
@@ -13,6 +13,8 @@ java_library(
     '//lib/log:api',
     '//lib/lucene:lucene-analyzers-common',
     '//lib/lucene:lucene-core',
+    '//lib/solr:solr-core',
+    '//lib/solr:solr-solrj',
   ],
   visibility = ['PUBLIC'],
 )

@@ -87,6 +87,10 @@ class SubIndex {
     searcherManager.release(searcher);
   }
 
+  void deleteAll() throws IOException {
+    writer.deleteAll();
+  }
+
   void maybeRefresh() {
     try {
       searcherManager.maybeRefresh();

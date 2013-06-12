@@ -22,6 +22,7 @@ import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.query.AndPredicate;
@@ -56,9 +57,19 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
+    public void deleteAll() throws IOException {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
     public ChangeDataSource getSource(Predicate<ChangeData> p)
         throws QueryParseException {
       return new Source();
+    }
+
+    @Override
+    public void indexingFinish(SitePaths sitePaths) {
+      throw new UnsupportedOperationException();
     }
   }
 

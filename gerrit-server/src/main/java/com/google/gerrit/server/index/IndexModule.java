@@ -41,6 +41,23 @@ public class IndexModule extends AbstractModule {
         .getBoolean("index", null, "enabled", false);
   }
 
+  public enum IndexType {
+    LUCENE, SOLR, NONE
+  }
+
+  /**
+   * Returns the secondary index type. Defaults to Lucene if none specified.
+   * Returns {@code IndexType.NONE} if not enabled.
+   */
+  public static IndexType getChangeIndexImpl(Injector injector) {
+    if (isEnabled(injector)) {
+      Config config =
+          injector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+      return config.getEnum("index", null, "type", IndexType.LUCENE);
+    }
+    return IndexType.NONE;
+  }
+
   private final int threads;
 
   public IndexModule(int threads) {

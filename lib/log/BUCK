@@ -22,3 +22,10 @@ maven_jar(
   license = 'Apache2.0',
   exclude = ['META-INF/LICENSE', 'META-INF/NOTICE'],
 )
+
+maven_jar(
+  name = 'jcl-over-slf4j',
+  id = 'org.slf4j:jcl-over-slf4j:1.6.1',
+  sha1 = '99c61095a14dfc9e47a086068033c286bf236475',
+  license = 'slf4j',
+)

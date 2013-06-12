@@ -141,6 +141,13 @@ Get revision as a formatted patch]
 Get diff of a file in a revision]
 
 
+Config
+^^^^^^
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-config.html#get-capabilities[
+Get capabilities]
+
+
 Projects
 ^^^^^^^^
 
@@ -162,6 +169,28 @@ List child projects]
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-projects.html#get-child-project[
 Get child project]
+
+
+Capabilities
+~~~~~~~~~~~~
+
+
+New global capabilities are added.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/access_control.html#capability_generateHttpPassword[
+Generate Http Password] Allows non-administrator users to generate HTTP
+passwords for users other than themself.
++
+This capability would typically be assigned to a non-interactive group
+to be able to generate HTTP passwords for users from a tool or web service
+that uses the Gerrit REST API.
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/access_control.html#capability_runAs[
+Run As] Allows users to impersonate other users by setting the `X-Gerrit-RunAs`
+HTTP header on REST API calls.
++
+Site administrators do not inherit this capability;  it must be granted
+explicitly.
 
 
 Plugins

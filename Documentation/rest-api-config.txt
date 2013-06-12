@@ -121,7 +121,7 @@ The entries in the map are sorted by capability ID.
 [[capability-info]]
 CapabilityInfo
 ~~~~~~~~~~~~~~
-The `CapabilityeInfo` entity contains information about a capability.
+The `CapabilityInfo` entity contains information about a capability.
 
 [options="header",width="50%",cols="1,5"]
 |=================================

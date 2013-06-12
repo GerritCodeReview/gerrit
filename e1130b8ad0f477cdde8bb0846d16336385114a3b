@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d15f9f2_34a270e8",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-12T08:56:55Z",
+      "side": 1,
+      "message": "I think \u0027map\u0027 was actually correct here. Looking at the example response below, capability IDs are mapped to CapabilityInfo entities.\n\nSo to be precise the sorting is actually by capability ID and not by capability name.",
+      "revId": "e1130b8ad0f477cdde8bb0846d16336385114a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

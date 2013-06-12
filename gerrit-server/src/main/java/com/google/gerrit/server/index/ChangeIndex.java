@@ -50,6 +50,11 @@ public interface ChangeIndex {
     }
 
     @Override
+    public void deleteAll() throws IOException {
+      // Do nothing.
+    }
+
+    @Override
     public ChangeDataSource getSource(Predicate<ChangeData> p)
         throws QueryParseException {
       throw new UnsupportedOperationException();
@@ -91,6 +96,13 @@ public interface ChangeIndex {
    * @throws IOException
    */
   public void delete(ChangeData cd) throws IOException;
+
+  /**
+   * Delete all change documents from the index.
+   *
+   * @throws IOException
+   */
+  public void deleteAll() throws IOException;
 
   /**
    * Convert the given operator predicate into a source searching the index and

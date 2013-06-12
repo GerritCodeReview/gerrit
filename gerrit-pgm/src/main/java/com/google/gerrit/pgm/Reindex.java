@@ -14,9 +14,6 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.lucene.IndexVersionCheck.SCHEMA_VERSIONS;
-import static com.google.gerrit.lucene.IndexVersionCheck.gerritIndexConfig;
-import static com.google.gerrit.lucene.LuceneChangeIndex.LUCENE_VERSION;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 
 import com.google.common.base.Stopwatch;
@@ -28,6 +25,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
+import com.google.gerrit.lucene.LuceneIndexVersionCheck;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -37,9 +35,13 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.NoIndexModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.solr.SolrIndexModule;
+import com.google.gerrit.solr.SolrIndexVersionCheck;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
@@ -50,20 +52,14 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -113,7 +109,20 @@ public class Reindex extends SiteProgram {
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
     modules.add(PatchListCacheImpl.module());
-    modules.add(new LuceneIndexModule(false, threads, dryRun));
+    AbstractModule changeIndexModule;
+    switch (IndexModule.getChangeIndexImpl(dbInjector)) {
+      case LUCENE:
+        changeIndexModule = new LuceneIndexModule(false, threads, dryRun);
+        break;
+      case SOLR:
+        changeIndexModule =
+            new SolrIndexModule(IndexModule.getSolrUrl(dbInjector), false,
+                threads);
+        break;
+      default:
+        changeIndexModule = new NoIndexModule();
+    }
+    modules.add(changeIndexModule);
     modules.add(new ReviewDbModule());
     modules.add(new AbstractModule() {
       @SuppressWarnings("rawtypes")
@@ -174,19 +183,8 @@ public class Reindex extends SiteProgram {
     if (dryRun) {
       return;
     }
-    for (String index : SCHEMA_VERSIONS.keySet()) {
-      File file = new File(sitePaths.index_dir, index);
-      if (file.exists()) {
-        Directory dir = FSDirectory.open(file);
-        try {
-          for (String name : dir.listAll()) {
-            dir.deleteFile(name);
-          }
-        } finally {
-          dir.close();
-        }
-      }
-    }
+    ChangeIndex index = sysInjector.getInstance(ChangeIndex.class);
+    index.deleteAll();
   }
 
   private int indexAll() throws Exception {
@@ -268,14 +266,15 @@ public class Reindex extends SiteProgram {
     if (dryRun) {
       return;
     }
-    FileBasedConfig cfg =
-        new FileBasedConfig(gerritIndexConfig(sitePaths), FS.detect());
-    cfg.load();
-
-    for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
-      cfg.setInt("index", e.getKey(), "schemaVersion", e.getValue());
+    switch (IndexModule.getChangeIndexImpl(dbInjector)) {
+      case LUCENE:
+        LuceneIndexVersionCheck.writeVersion(sitePaths);
+        break;
+      case SOLR:
+        SolrIndexVersionCheck.writeVersion(sitePaths);
+        break;
+      default:
+        return;
     }
-    cfg.setEnum("lucene", null, "version", LUCENE_VERSION);
-    cfg.save();
   }
 }

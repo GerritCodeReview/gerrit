@@ -6,7 +6,7 @@ maven_jar(
   sha1 = 'de4f1b33d3b0f0b2ab1d32834ec1190b39db4160',
   license = 'Apache2.0',
   deps = [
-    ':httpclient',
+    '//lib:httpclient',
     ':nekohtml',
     ':xerces',
     '//lib/commons:logging',
@@ -32,32 +32,4 @@ maven_jar(
   license = 'Apache2.0',
   attach_source = False,
   visibility = [],
-)
-
-maven_jar(
-  name = 'httpclient',
-  id = 'org.apache.httpcomponents:httpclient:4.1',
-  sha1 = '93cd011acb220de08b57d96106e5800d7097742b',
-  license = 'Apache2.0',
-  deps = [
-    ':httpcore',
-    '//lib/commons:codec',
-    '//lib/commons:logging',
-  ],
-  exclude = [
-    'META-INF/LICENSE.txt',
-    'META-INF/NOTICE.txt',
-  ],
-  visibility = ['//gerrit-acceptance-tests:'],
-)
-
-maven_jar(
-  name = 'httpcore',
-  id = 'org.apache.httpcomponents:httpcore:4.1',
-  sha1 = '33fc26c02f8043ab0ede19eadc8c9885386b255c',
-  license = 'Apache2.0',
-  exclude = [
-    'META-INF/LICENSE.txt',
-    'META-INF/NOTICE.txt',
-  ],
 )

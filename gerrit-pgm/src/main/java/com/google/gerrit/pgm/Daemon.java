@@ -59,6 +59,7 @@ import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.ssh.NoSshModule;
+import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
@@ -253,11 +254,19 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
-    if (IndexModule.isEnabled(cfgInjector)) {
-      modules.add(new LuceneIndexModule());
-    } else {
-      modules.add(new NoIndexModule());
+    AbstractModule changeIndexModule;
+    switch (IndexModule.getChangeIndexImpl(cfgInjector)) {
+      case LUCENE:
+        changeIndexModule = new LuceneIndexModule();
+        break;
+      case SOLR:
+        changeIndexModule =
+            new SolrIndexModule(IndexModule.getSolrUrl(cfgInjector));
+        break;
+      default:
+        changeIndexModule = new NoIndexModule();
     }
+    modules.add(changeIndexModule);
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

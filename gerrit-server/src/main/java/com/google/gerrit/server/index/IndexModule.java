@@ -41,6 +41,38 @@ public class IndexModule extends AbstractModule {
         .getBoolean("index", null, "enabled", false);
   }
 
+  public enum IndexImplementation {
+    LUCENE, SOLR, NONE
+  }
+
+  /**
+   * Returns the secondary index implementation module. Defaults to the Lucene
+   * implementation if none specified. Returns {@link NoIndexModule} if not
+   * enabled.
+   */
+  public static IndexImplementation getChangeIndexImpl(Injector injector) {
+    if (isEnabled(injector)) {
+      Config config =
+          injector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+      String implementation = config.getString("index", null, "implementation");
+      if ("solr".equals(implementation)) {
+        return IndexImplementation.SOLR;
+      } else {
+        return IndexImplementation.LUCENE;
+      }
+    }
+    return IndexImplementation.NONE;
+  }
+
+  /**
+   * Returns the URL of the Solr server from gerrit.config
+   */
+  public static String getSolrUrl(Injector injector) {
+    Config config =
+        injector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    return config.getString("index", null, "url");
+  }
+
   private final int threads;
 
   public IndexModule(int threads) {

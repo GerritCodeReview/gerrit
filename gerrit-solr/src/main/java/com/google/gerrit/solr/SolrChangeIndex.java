@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.package com.google.gerrit.server.git;
 
-package com.google.gerrit.lucene;
+package com.google.gerrit.solr;
 
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE;
 import static com.google.gerrit.server.query.change.IndexRewriteImpl.CLOSED_STATUSES;
@@ -25,7 +25,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
@@ -42,28 +41,29 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.IntField;
-import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.NumericUtils;
-import org.apache.lucene.util.Version;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.core.SolrCore;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
@@ -78,96 +78,111 @@ import java.util.Set;
  * though there may be some lag between a committed write and it showing up to
  * other threads' searchers.
  */
-public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
-  private static final Logger log =
-      LoggerFactory.getLogger(LuceneChangeIndex.class);
-
-  public static final Version LUCENE_VERSION = Version.LUCENE_43;
+@Singleton
+public class SolrChangeIndex implements ChangeIndex, LifecycleListener {
+  public static final String SOLR_VERSION = SolrCore.version;
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
 
-  private final RefreshThread refreshThread;
   private final FillArgs fillArgs;
-  private final boolean readOnly;
-  private final SubIndex openIndex;
-  private final SubIndex closedIndex;
+  private final CloudSolrServer openIndex;
+  private final CloudSolrServer closedIndex;
 
-  LuceneChangeIndex(SitePaths sitePaths, FillArgs fillArgs, boolean readOnly)
-      throws IOException {
-    this.refreshThread = new RefreshThread();
+  @Inject
+  SolrChangeIndex(@Named("url") String url, FillArgs fillArgs) throws IOException {
     this.fillArgs = fillArgs;
-    this.readOnly = readOnly;
-    openIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_OPEN));
-    closedIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_CLOSED));
+    openIndex = new CloudSolrServer(url);
+    openIndex.setDefaultCollection(CHANGES_OPEN);
+    closedIndex = new CloudSolrServer(url);
+    closedIndex.setDefaultCollection(CHANGES_CLOSED);
   }
 
   @Override
   public void start() {
-    refreshThread.start();
+    // Do nothing.
   }
 
   @Override
   public void stop() {
-    refreshThread.halt();
-    openIndex.close();
-    closedIndex.close();
+    openIndex.shutdown();
+    closedIndex.shutdown();
   }
 
   @Override
   public void insert(ChangeData cd) throws IOException {
-    Term id = idTerm(cd);
-    Document doc = toDocument(cd);
-    if (readOnly) {
-      return;
+    String id = cd.getId().toString();
+    SolrInputDocument doc = toDocument(cd);
+    try {
+      if (cd.getChange().getStatus().isOpen()) {
+        closedIndex.deleteById(id);
+        openIndex.add(doc);
+      } else {
+        openIndex.deleteById(id);
+        closedIndex.add(doc);
+      }
+    } catch (SolrServerException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
-    if (cd.getChange().getStatus().isOpen()) {
-      closedIndex.delete(id);
-      openIndex.insert(doc);
-    } else {
-      openIndex.delete(id);
-      closedIndex.insert(doc);
-    }
+    commit(openIndex);
+    commit(closedIndex);
   }
 
   @Override
   public void replace(ChangeData cd) throws IOException {
-    Term id = idTerm(cd);
-    Document doc = toDocument(cd);
-    if (readOnly) {
-      return;
+    String id = cd.getId().toString();
+    SolrInputDocument doc = toDocument(cd);
+    try {
+      if (cd.getChange().getStatus().isOpen()) {
+        closedIndex.deleteById(id);
+        openIndex.add(doc);
+      } else {
+        openIndex.deleteById(id);
+        closedIndex.add(doc);
+      }
+    } catch (SolrServerException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
-    if (cd.getChange().getStatus().isOpen()) {
-      closedIndex.delete(id);
-      openIndex.replace(id, doc);
-    } else {
-      openIndex.delete(id);
-      closedIndex.replace(id, doc);
-    }
+    commit(openIndex);
+    commit(closedIndex);
   }
 
   @Override
   public void delete(ChangeData cd) throws IOException {
-    Term id = idTerm(cd);
-    if (readOnly) {
-      return;
-    }
-    if (cd.getChange().getStatus().isOpen()) {
-      openIndex.delete(id);
-    } else {
-      closedIndex.delete(id);
+    String id = cd.getId().toString();
+    try {
+      if (cd.getChange().getStatus().isOpen()) {
+        openIndex.deleteById(id);
+        commit(openIndex);
+      } else {
+        closedIndex.deleteById(id);
+        commit(closedIndex);
+      }
+    } catch (SolrServerException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 
   @Override
   public void deleteAll() throws IOException {
-    openIndex.deleteAll();
+    try {
+      openIndex.deleteByQuery("*:*");
+      closedIndex.deleteByQuery("*:*");
+    } catch (SolrServerException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    commit(openIndex);
+    commit(closedIndex);
   }
 
   @Override
   public ChangeDataSource getSource(Predicate<ChangeData> p)
       throws QueryParseException {
     Set<Change.Status> statuses = IndexRewriteImpl.getPossibleStatus(p);
-    List<SubIndex> indexes = Lists.newArrayListWithCapacity(2);
+    List<SolrServer> indexes = Lists.newArrayListWithCapacity(2);
     if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
       indexes.add(openIndex);
     }
@@ -177,8 +192,13 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     return new QuerySource(indexes, toQuery(p));
   }
 
-  private Term idTerm(ChangeData cd) {
-    return intTerm(FIELD_CHANGE, cd.getId().get());
+  private void commit(SolrServer server) throws IOException {
+    try {
+      server.commit();
+    } catch (SolrServerException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   private Query toQuery(Predicate<ChangeData> p) throws QueryParseException {
@@ -239,20 +259,18 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   private class QuerySource implements ChangeDataSource {
-    // TODO(dborowitz): Push limit down from predicate tree.
-    private static final int LIMIT = 1000;
+    private final List<SolrServer> indexes;
+    private final SolrQuery query;
 
-    private final List<SubIndex> indexes;
-    private final Query query;
-
-    public QuerySource(List<SubIndex> indexes, Query query) {
+    public QuerySource(List<SolrServer> indexes, Query query) {
       this.indexes = indexes;
-      this.query = query;
+      this.query = new SolrQuery();
+      this.query.setQuery(query.toString());
     }
 
     @Override
     public int getCardinality() {
-      return 10; // TODO(dborowitz): estimate from Lucene?
+      return 10; // TODO: estimate from solr?
     }
 
     @Override
@@ -262,24 +280,21 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
-      IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       try {
-        TopDocs[] hits = new TopDocs[indexes.size()];
-        for (int i = 0; i < indexes.size(); i++) {
-          searchers[i] = indexes.get(i).acquire();
-          hits[i] = searchers[i].search(query, LIMIT);
+        List<ChangeData> result = null;
+        SolrDocumentList docs = new SolrDocumentList();
+        query.setParam("shards.tolerant", true);
+        for (SolrServer index : indexes) {
+          QueryResponse rsp = index.query(query);
+          docs.addAll(rsp.getResults());
         }
-        TopDocs docs = TopDocs.merge(null, LIMIT, hits);
-
-        List<ChangeData> result =
-            Lists.newArrayListWithCapacity(docs.scoreDocs.length);
-        for (ScoreDoc sd : docs.scoreDocs) {
-          Document doc = searchers[sd.shardIndex].doc(sd.doc);
-          Number v = doc.getField(FIELD_CHANGE).numericValue();
+        result = Lists.newArrayListWithCapacity(docs.size());
+        for (SolrDocument doc : docs) {
+          Integer v = (Integer) doc.getFieldValue(FIELD_CHANGE);
           result.add(new ChangeData(new Change.Id(v.intValue())));
         }
-
         final List<ChangeData> r = Collections.unmodifiableList(result);
+
         return new ResultSet<ChangeData>() {
           @Override
           public Iterator<ChangeData> iterator() {
@@ -296,25 +311,17 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
             // Do nothing.
           }
         };
-      } catch (IOException e) {
+      } catch (SolrServerException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
         throw new OrmException(e);
-      } finally {
-        for (int i = 0; i < indexes.size(); i++) {
-          if (searchers[i] != null) {
-            try {
-              indexes.get(i).release(searchers[i]);
-            } catch (IOException e) {
-              log.warn("cannot release Lucene searcher", e);
-            }
-          }
-        }
       }
     }
   }
 
-  private Document toDocument(ChangeData cd) throws IOException {
+  private SolrInputDocument toDocument(ChangeData cd) throws IOException {
     try {
-      Document result = new Document();
+      SolrInputDocument result = new SolrInputDocument();
       for (FieldDef<ChangeData, ?> f : ChangeField.ALL.values()) {
         if (f.isRepeatable()) {
           add(result, f, (Iterable<?>) f.get(cd, fillArgs));
@@ -328,57 +335,22 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     }
   }
 
-  private void add(Document doc, FieldDef<ChangeData, ?> f,
+  private void add(SolrInputDocument doc, FieldDef<ChangeData, ?> f,
       Iterable<?> values) throws OrmException {
     if (f.getType() == FieldType.INTEGER) {
       for (Object value : values) {
-        doc.add(new IntField(f.getName(), (Integer) value, store(f)));
+        doc.addField(f.getName(), ((Integer)value).intValue());
       }
     } else if (f.getType() == FieldType.EXACT) {
       for (Object value : values) {
-        doc.add(new StringField(f.getName(), (String) value, store(f)));
+        doc.addField(f.getName(), (String) value);
       }
     } else {
       throw badFieldType(f.getType());
     }
   }
 
-  private static Field.Store store(FieldDef<?, ?> f) {
-    return f.isStored() ? Field.Store.YES : Field.Store.NO;
-  }
-
   private static IllegalArgumentException badFieldType(FieldType<?> t) {
     return new IllegalArgumentException("unknown index field type " + t);
-  }
-
-  private class RefreshThread extends Thread {
-    private boolean stop;
-
-    @Override
-    public void run() {
-      while (!stop) {
-        openIndex.maybeRefresh();
-        closedIndex.maybeRefresh();
-        synchronized (this) {
-          try {
-            wait(100);
-          } catch (InterruptedException e) {
-            log.warn("error refreshing index searchers", e);
-          }
-        }
-      }
-    }
-
-    void halt() {
-      synchronized (this) {
-        stop = true;
-        notify();
-      }
-      try {
-        join();
-      } catch (InterruptedException e) {
-        log.warn("error stopping refresh thread", e);
-      }
-    }
   }
 }

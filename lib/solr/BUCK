@@ -1,0 +1,109 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'solr-core',
+  id = 'org.apache.solr:solr-core:4.3.0',
+  bin_sha1 = 'da7256ef2a1387bc63fffdc75eb5b1c353697c31',
+  src_sha1 = '3844cbf669379bbd01ca9ab0fd96dc06efc3d281',
+  license = 'Apache2.0',
+  deps = [
+    ':zookeeper',
+    ':lucene-highlighter',
+    ':lucene-queries',
+    ':lucene-spellchecker',
+    ':spatial4j',
+  ],
+)
+
+maven_jar(
+  name = 'zookeeper',
+  id = 'org.apache.zookeeper:zookeeper:3.4.5',
+  bin_sha1 = 'c0f69fb36526552a8f0bc548a6c33c49cf08e562',
+  src_sha1 = 'ad9efdd95bf63381ecf2898e84f392bbfc4784f3',
+  license = 'Apache2.0',
+  deps = [
+    '//lib/commons:collections',
+    '//lib/commons:fileupload',
+  ],
+)
+
+maven_jar(
+  name = 'lucene-highlighter',
+  id = 'org.apache.lucene:lucene-highlighter:4.3.0',
+  bin_sha1 = '9e6d60921e16a0d6b2e609c6a02a8b08cd7f643c',
+  src_sha1 = '0ff70cae1a8fb7af29bf254d90e9885961deed5e',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-queries',
+  id = 'org.apache.lucene:lucene-queries:4.3.0',
+  bin_sha1 = '68e01022bdf4f869b95362c9af964846e5d3cf2d',
+  src_sha1 = '3e3541c1b9f44c532ce88ab6a12216566c3399df',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'lucene-spellchecker',
+  id = 'org.apache.lucene:lucene-spellchecker:3.6.2',
+  bin_sha1 = '15db0c0cfee44e275f15ad046e46b9a05910ad24',
+  src_sha1 = 'bbecb3fb725ae594101c165a72c102296007c203',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'spatial4j',
+  id = 'com.spatial4j:spatial4j:0.3',
+  bin_sha1 = '2fd58d1de64553db427ae4fbc1a6691adea460e2',
+  src_sha1 = '474d35dd033aa03e386ec00176cc5b98a1af1a73',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'solr-solrj',
+  id = 'org.apache.solr:solr-solrj:4.3.0',
+  bin_sha1 = '8466c17a5efb73e62675caa0034e2c366fcabe81',
+  src_sha1 = 'ade1ea564f45b0de58a075981bdf5a8612df4911',
+  license = 'Apache2.0',
+  deps = [
+    '//lib:httpclient',
+    ':httpmime',
+    '//lib/commons:codec',
+    '//lib/commons:io',
+    ':jcl-over-slf4j',
+    '//lib/log:api',
+    ':solr-noggit',
+  ],
+)
+
+maven_jar(
+  name = 'jcl-over-slf4j',
+  id = 'org.slf4j:jcl-over-slf4j:1.6.1',
+  sha1 = '99c61095a14dfc9e47a086068033c286bf236475',
+  license = 'slf4j',
+)
+
+maven_jar(
+  name = 'httpmime',
+  id = 'org.apache.httpcomponents:httpmime:4.2.5',
+  bin_sha1 = '412b9914d0adec6d5716df1ada8acbc4f6f2dd37',
+  src_sha1 = 'c07ce7f6b153284a9ebaf58532c2442200cf3aa2',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'solr-noggit',
+  id = 'org.apache.solr:solr-noggit:3.5.0',
+  sha1 = 'a732aee4fe2dec0c409bc86e3a83f268080d3a7d',
+  license = 'Apache2.0',
+  deps = [
+    ':noggit',
+  ],
+)
+
+maven_jar(
+  name = 'noggit',
+  id = 'org.noggit:noggit:0.5',
+  sha1 = '8e6e65624d2e09a30190c6434abe23b7d4e5413c',
+  license = 'Apache2.0',
+)

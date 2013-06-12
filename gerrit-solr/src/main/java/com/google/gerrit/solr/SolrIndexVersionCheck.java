@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.package com.google.gerrit.server.git;
 
-package com.google.gerrit.lucene;
+package com.google.gerrit.solr;
 
-import static com.google.gerrit.lucene.LuceneChangeIndex.LUCENE_VERSION;
-
-import static org.apache.lucene.util.Version.LUCENE_CURRENT;
+import static com.google.gerrit.solr.SolrChangeIndex.SOLR_VERSION;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -25,7 +23,6 @@ import com.google.gerrit.server.index.ChangeField;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 
-import org.apache.lucene.util.Version;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -34,19 +31,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class IndexVersionCheck implements LifecycleListener {
+public class SolrIndexVersionCheck implements LifecycleListener {
   public static final Map<String, Integer> SCHEMA_VERSIONS = ImmutableMap.of(
-      LuceneChangeIndex.CHANGES_OPEN, ChangeField.SCHEMA_VERSION,
-      LuceneChangeIndex.CHANGES_CLOSED, ChangeField.SCHEMA_VERSION);
+      SolrChangeIndex.CHANGES_OPEN, ChangeField.SCHEMA_VERSION,
+      SolrChangeIndex.CHANGES_CLOSED, ChangeField.SCHEMA_VERSION);
 
   public static File gerritIndexConfig(SitePaths sitePaths) {
-    return new File(sitePaths.index_dir, "gerrit_index.config");
+    return new File(sitePaths.index_dir, "gerrit_solr_index.config");
   }
 
   private final SitePaths sitePaths;
 
   @Inject
-  IndexVersionCheck(SitePaths sitePaths) {
+  SolrIndexVersionCheck(SitePaths sitePaths) {
     this.sitePaths = sitePaths;
   }
 
@@ -64,13 +61,11 @@ public class IndexVersionCheck implements LifecycleListener {
               e.getKey(), e.getValue(), schemaVersion, upgrade()));
         }
       }
-      @SuppressWarnings("deprecation")
-      Version luceneVersion =
-          cfg.getEnum("lucene", null, "version", LUCENE_CURRENT);
-      if (luceneVersion != LUCENE_VERSION) {
+      String solrVersion = cfg.getString("solr", null, "version");
+      if (!SOLR_VERSION.equals(solrVersion)) {
         throw new ProvisionException(String.format(
-            "wrong Lucene version: expected %d, found %d%s",
-            luceneVersion, LUCENE_VERSION, upgrade()));
+            "wrong Solr version: expected %d, found %d%s", solrVersion,
+            SOLR_VERSION, upgrade()));
 
       }
     } catch (IOException e) {
@@ -87,7 +82,20 @@ public class IndexVersionCheck implements LifecycleListener {
 
   private final String upgrade() {
     return "\nRun reindex to rebuild the index:\n"
-      + "$ java -jar gerrit.war reindex -d "
-      + sitePaths.site_path.getAbsolutePath();
+        + "$ java -jar gerrit.war reindex -d "
+        + sitePaths.site_path.getAbsolutePath();
+  }
+
+  public static void writeVersion(SitePaths sitePaths) throws IOException,
+      ConfigInvalidException {
+    FileBasedConfig cfg =
+        new FileBasedConfig(gerritIndexConfig(sitePaths), FS.detect());
+    cfg.load();
+
+    for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
+      cfg.setInt("index", e.getKey(), "schemaVersion", e.getValue());
+    }
+    cfg.setString("solr", null, "version", SOLR_VERSION);
+    cfg.save();
   }
 }

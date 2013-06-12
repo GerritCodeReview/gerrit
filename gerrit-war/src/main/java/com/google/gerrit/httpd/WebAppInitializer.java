@@ -50,6 +50,7 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
@@ -238,11 +239,19 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
-    if (IndexModule.isEnabled(cfgInjector)) {
-      modules.add(new LuceneIndexModule());
-    } else {
-      modules.add(new NoIndexModule());
+    AbstractModule changeIndexModule;
+    switch (IndexModule.getChangeIndexImpl(cfgInjector)) {
+      case LUCENE:
+        changeIndexModule = new LuceneIndexModule();
+        break;
+      case SOLR:
+        changeIndexModule =
+            new SolrIndexModule(IndexModule.getSolrUrl(cfgInjector));
+        break;
+      default:
+        changeIndexModule = new NoIndexModule();
     }
+    modules.add(changeIndexModule);
     modules.add(new CanonicalWebUrlModule() {
       @Override
       protected Class<? extends Provider<String>> provider() {

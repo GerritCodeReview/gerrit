@@ -15,7 +15,7 @@ maven_jar(
   license = 'Apache2.0',
   exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
   attach_source = False,
-  visibility = ['//lib:velocity'],
+  visibility = ['//lib:velocity', '//lib/solr:zookeeper'],
 )
 
 maven_jar(
@@ -49,7 +49,7 @@ maven_jar(
     'META-INF/NOTICE',
   ],
   attach_source = False,
-  visibility = ['//lib/openid:'],
+  visibility = ['//lib/openid:', '//lib:httpclient'],
 )
 
 maven_jar(
@@ -76,4 +76,18 @@ maven_jar(
   license = 'Apache1.1',
   attach_source = False,
   exclude = ['META-INF/LICENSE'],
+)
+
+maven_jar(
+  name = 'io',
+  id = 'commons-io:commons-io:1.4',
+  sha1 = 'a8762d07e76cfde2395257a5da47ba7c1dbd3dce',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'fileupload',
+  id = 'commons-fileupload:commons-fileupload:1.3',
+  sha1 = 'c89e540e4a12cb034fb973e12135839b5de9a87e',
+  license = 'Apache2.0',
 )

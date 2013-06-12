@@ -12,48 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.package com.google.gerrit.server.git;
 
-package com.google.gerrit.lucene;
+package com.google.gerrit.solr;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 
-import java.io.IOException;
-
-public class LuceneIndexModule extends LifecycleModule {
+public class SolrIndexModule extends LifecycleModule {
   private final boolean checkVersion;
   private final int threads;
-  private final boolean readOnly;
+  private final String url;
 
-  public LuceneIndexModule() {
-    this(true, 0, false);
+  public SolrIndexModule(String url) {
+    this(url, true, 0);
   }
 
-  public LuceneIndexModule(boolean checkVersion, int threads,
-      boolean readOnly) {
+  public SolrIndexModule(String url, boolean checkVersion, int threads) {
     this.checkVersion = checkVersion;
     this.threads = threads;
-    this.readOnly = readOnly;
+    this.url = url;
   }
 
   @Override
   protected void configure() {
     install(new IndexModule(threads));
-    bind(ChangeIndex.class).to(LuceneChangeIndex.class);
-    listener().to(LuceneChangeIndex.class);
+    bind(String.class).annotatedWith(Names.named("url")).toInstance(url);
+    bind(ChangeIndex.class).to(SolrChangeIndex.class);
+    listener().to(SolrChangeIndex.class);
     if (checkVersion) {
-      listener().to(LuceneIndexVersionCheck.class);
+      listener().to(SolrIndexVersionCheck.class);
     }
-  }
-
-  @Provides
-  @Singleton
-  public LuceneChangeIndex getChangeIndex(SitePaths sitePaths,
-      FillArgs fillArgs) throws IOException {
-    return new LuceneChangeIndex(sitePaths, fillArgs, readOnly);
   }
 }

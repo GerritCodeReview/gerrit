@@ -15,7 +15,10 @@ maven_jar(
   license = 'Apache2.0',
   exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
   attach_source = False,
-  visibility = ['//lib:velocity'],
+  visibility = [
+    '//lib:velocity',
+    '//lib/solr:zookeeper',
+  ],
 )
 
 maven_jar(
@@ -37,19 +40,6 @@ maven_jar(
   sha1 = 'b0236b252e86419eef20c31a44579d2aee2f0a69',
   license = 'Apache2.0',
   exclude = ['META-INF/LICENSE.txt', 'META-INF/NOTICE.txt'],
-)
-
-maven_jar(
-  name = 'logging',
-  id = 'commons-logging:commons-logging:1.1.1',
-  sha1 = '5043bfebc3db072ed80fbd362e7caf00e885d8ae',
-  license = 'Apache2.0',
-  exclude = [
-    'META-INF/LICENSE',
-    'META-INF/NOTICE',
-  ],
-  attach_source = False,
-  visibility = ['//lib/openid:'],
 )
 
 maven_jar(
@@ -76,4 +66,40 @@ maven_jar(
   license = 'Apache1.1',
   attach_source = False,
   exclude = ['META-INF/LICENSE'],
+)
+
+maven_jar(
+  name = 'io',
+  id = 'commons-io:commons-io:1.4',
+  sha1 = 'a8762d07e76cfde2395257a5da47ba7c1dbd3dce',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'httpclient',
+  id = 'org.apache.httpcomponents:httpclient:4.2.5',
+  bin_sha1 = '666e26e76f2e87d84e4f16acb546481ae1b8e9a6',
+  src_sha1 = '55d345272944d7e8dace47925336a3764ee0e24b',
+  license = 'Apache2.0',
+  deps = [
+    ':codec',
+    ':httpcore',
+    '//lib/log:jcl-over-slf4j',
+  ],
+)
+
+maven_jar(
+  name = 'httpcore',
+  id = 'org.apache.httpcomponents:httpcore:4.2.4',
+  bin_sha1 = '3b7f38df6de5dd8b500e602ae8c2dd5ee446f883',
+  src_sha1 = 'c3ffe3a73348645042fb0b06303b6a3de194494e',
+  license = 'Apache2.0',
+)
+
+maven_jar(
+  name = 'httpmime',
+  id = 'org.apache.httpcomponents:httpmime:4.2.5',
+  bin_sha1 = '412b9914d0adec6d5716df1ada8acbc4f6f2dd37',
+  src_sha1 = 'c07ce7f6b153284a9ebaf58532c2442200cf3aa2',
+  license = 'Apache2.0',
 )

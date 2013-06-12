@@ -14,11 +14,10 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.gerrit.lucene.IndexVersionCheck.SCHEMA_VERSIONS;
+import static com.google.gerrit.lucene.IndexVersionCheck.gerritIndexConfig;
 import static com.google.gerrit.server.query.change.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.query.change.IndexRewriteImpl.OPEN_STATUSES;
-import static org.apache.lucene.search.BooleanClause.Occur.MUST;
-import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
-import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -33,18 +32,11 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
-import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.RegexPredicate;
-import com.google.gerrit.server.index.TimestampRangePredicate;
-import com.google.gerrit.server.query.AndPredicate;
-import com.google.gerrit.server.query.NotPredicate;
-import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
-import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -59,23 +51,18 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.NumericRangeQuery;
-import org.apache.lucene.search.PrefixQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.util.BytesRef;
-import org.apache.lucene.util.NumericUtils;
 import org.apache.lucene.util.Version;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,6 +72,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -119,6 +107,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   private final RefreshThread refreshThread;
+  private final SitePaths sitePaths;
   private final FillArgs fillArgs;
   private final ExecutorService executor;
   private final boolean readOnly;
@@ -129,6 +118,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       ListeningScheduledExecutorService executor, FillArgs fillArgs,
       boolean readOnly) throws IOException {
     this.refreshThread = new RefreshThread();
+    this.sitePaths = sitePaths;
     this.fillArgs = fillArgs;
     this.executor = executor;
     this.readOnly = readOnly;
@@ -166,7 +156,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   @Override
   public void insert(ChangeData cd) throws IOException {
-    Term id = idTerm(cd);
+    Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
     if (readOnly) {
       return;
@@ -182,7 +172,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   @Override
   public void replace(ChangeData cd) throws IOException {
-    Term id = idTerm(cd);
+    Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
     if (readOnly) {
       return;
@@ -198,7 +188,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   @Override
   public void delete(ChangeData cd) throws IOException {
-    Term id = idTerm(cd);
+    Term id = QueryBuilder.idTerm(cd);
     if (readOnly) {
       return;
     }
@@ -207,6 +197,11 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     } else {
       closedIndex.delete(id);
     }
+  }
+
+  @Override
+  public void deleteAll() throws IOException {
+    openIndex.deleteAll();
   }
 
   @Override
@@ -220,132 +215,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, toQuery(p));
-  }
-
-  private Term idTerm(ChangeData cd) {
-    return intTerm(ID_FIELD, cd.getId().get());
-  }
-
-  private Query toQuery(Predicate<ChangeData> p) throws QueryParseException {
-    if (p.getClass() == AndPredicate.class) {
-      return booleanQuery(p, MUST);
-    } else if (p.getClass() == OrPredicate.class) {
-      return booleanQuery(p, SHOULD);
-    } else if (p.getClass() == NotPredicate.class) {
-      if (p.getChild(0) instanceof TimestampRangePredicate) {
-        return notTimestampQuery(
-            (TimestampRangePredicate<ChangeData>) p.getChild(0));
-      }
-      return booleanQuery(p, MUST_NOT);
-    } else if (p instanceof IndexPredicate) {
-      return fieldQuery((IndexPredicate<ChangeData>) p);
-    } else {
-      throw new QueryParseException("Cannot convert to index predicate: " + p);
-    }
-  }
-
-  private Query booleanQuery(Predicate<ChangeData> p, BooleanClause.Occur o)
-      throws QueryParseException {
-    BooleanQuery q = new BooleanQuery();
-    for (int i = 0; i < p.getChildCount(); i++) {
-      q.add(toQuery(p.getChild(i)), o);
-    }
-    return q;
-  }
-
-  private Query fieldQuery(IndexPredicate<ChangeData> p)
-      throws QueryParseException {
-    if (p.getType() == FieldType.INTEGER) {
-      return intQuery(p);
-    } else if (p.getType() == FieldType.TIMESTAMP) {
-      return timestampQuery(p);
-    } else if (p.getType() == FieldType.EXACT) {
-      return exactQuery(p);
-    } else if (p.getType() == FieldType.PREFIX) {
-      return prefixQuery(p);
-    } else if (p instanceof SortKeyPredicate) {
-      return sortKeyQuery((SortKeyPredicate) p);
-    } else {
-      throw badFieldType(p.getType());
-    }
-  }
-
-  private Term intTerm(String name, int value) {
-    BytesRef bytes = new BytesRef(NumericUtils.BUF_SIZE_INT);
-    NumericUtils.intToPrefixCodedBytes(value, 0, bytes);
-    return new Term(name, bytes);
-  }
-
-  private Query intQuery(IndexPredicate<ChangeData> p)
-      throws QueryParseException {
-    int value;
-    try {
-      // Can't use IntPredicate because it and IndexPredicate are different
-      // subclasses of OperatorPredicate.
-      value = Integer.valueOf(p.getValue());
-    } catch (IllegalArgumentException e) {
-      throw new QueryParseException("not an integer: " + p.getValue());
-    }
-    return new TermQuery(intTerm(p.getField().getName(), value));
-  }
-
-  private static Query sortKeyQuery(SortKeyPredicate p) {
-    return NumericRangeQuery.newLongRange(
-        p.getField().getName(),
-        p.getMinValue(),
-        p.getMaxValue(),
-        true, true);
-  }
-
-  private static Query timestampQuery(IndexPredicate<ChangeData> p)
-      throws QueryParseException {
-    if (p instanceof TimestampRangePredicate) {
-      TimestampRangePredicate<ChangeData> r =
-          (TimestampRangePredicate<ChangeData>) p;
-      return NumericRangeQuery.newIntRange(
-          r.getField().getName(),
-          toIndexTime(r.getMinTimestamp()),
-          toIndexTime(r.getMaxTimestamp()),
-          true, true);
-    }
-    throw new QueryParseException("not a timestamp: " + p);
-  }
-
-  private static Query notTimestampQuery(TimestampRangePredicate<ChangeData> r)
-      throws QueryParseException {
-    if (r.getMinTimestamp().getTime() == 0) {
-      return NumericRangeQuery.newIntRange(
-          r.getField().getName(),
-          toIndexTime(r.getMaxTimestamp()),
-          Integer.MAX_VALUE,
-          true, true);
-    }
-    throw new QueryParseException("cannot negate: " + r);
-  }
-
-  private Query exactQuery(IndexPredicate<ChangeData> p) {
-    if (p instanceof RegexPredicate<?>) {
-      return regexQuery(p);
-    } else {
-      return new TermQuery(new Term(p.getField().getName(), p.getValue()));
-    }
-  }
-
-  private Query regexQuery(IndexPredicate<ChangeData> p) {
-    String re = p.getValue();
-    if (re.startsWith("^")) {
-      re = re.substring(1);
-    }
-    if (re.endsWith("$") && !re.endsWith("\\$")) {
-      re = re.substring(0, re.length() - 1);
-    }
-
-    return new RegexpQuery(new Term(p.getField().getName(), re));
-  }
-
-  private Query prefixQuery(IndexPredicate<ChangeData> p) {
-    return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
+    return new QuerySource(indexes, QueryBuilder.toQuery(p));
   }
 
   private static class QuerySource implements ChangeDataSource {
@@ -462,7 +332,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       }
     } else if (f.getType() == FieldType.TIMESTAMP) {
       for (Object v : values) {
-        doc.add(new IntField(name, toIndexTime((Timestamp) v), store));
+        int t = QueryBuilder.toIndexTime((Timestamp) v);
+        doc.add(new IntField(name, t, store));
       }
     } else if (f.getType() == FieldType.EXACT
         || f.getType() == FieldType.PREFIX) {
@@ -470,20 +341,12 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
         doc.add(new StringField(name, (String) value, store));
       }
     } else {
-      throw badFieldType(f.getType());
+      throw QueryBuilder.badFieldType(f.getType());
     }
-  }
-
-  private static int toIndexTime(Timestamp ts) {
-    return (int) (ts.getTime() / 60000);
   }
 
   private static Field.Store store(FieldDef<?, ?> f) {
     return f.isStored() ? Field.Store.YES : Field.Store.NO;
-  }
-
-  private static IllegalArgumentException badFieldType(FieldType<?> t) {
-    return new IllegalArgumentException("unknown index field type " + t);
   }
 
   private class RefreshThread extends Thread {
@@ -515,5 +378,18 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
         log.warn("error stopping refresh thread", e);
       }
     }
+  }
+
+  @Override
+  public void finishIndex() throws IOException,
+      ConfigInvalidException {
+    FileBasedConfig cfg =
+        new FileBasedConfig(gerritIndexConfig(sitePaths), FS.detect());
+
+    for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
+      cfg.setInt("index", e.getKey(), "schemaVersion", e.getValue());
+    }
+    cfg.setEnum("lucene", null, "version", LUCENE_VERSION);
+    cfg.save();
   }
 }

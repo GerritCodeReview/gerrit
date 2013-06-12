@@ -97,13 +97,20 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupBackend, null, db, id);
+          groupBackend, null, db, id, null);
     }
 
     public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupBackend, Providers.of(remotePeer), null, id);
+          groupBackend, Providers.of(remotePeer), null, id,  null);
+    }
+
+    public CurrentUser runAs(SocketAddress remotePeer, Account.Id id,
+        @Nullable CurrentUser caller) {
+      return new IdentifiedUser(capabilityControlFactory,
+          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          groupBackend, Providers.of(remotePeer), null, id, caller);
     }
   }
 
@@ -152,7 +159,13 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupBackend, remotePeerProvider, dbProvider, id);
+          groupBackend, remotePeerProvider, dbProvider, id, null);
+    }
+
+    public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
+      return new IdentifiedUser(capabilityControlFactory,
+          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          groupBackend, remotePeerProvider, dbProvider, id, caller);
     }
   }
 
@@ -183,6 +196,7 @@ public class IdentifiedUser extends CurrentUser {
   private GroupMembership effectiveGroups;
   private Set<Change.Id> starredChanges;
   private Collection<AccountProjectWatch> notificationFilters;
+  private CurrentUser realUser;
 
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
@@ -192,7 +206,9 @@ public class IdentifiedUser extends CurrentUser {
       final Realm realm, final AccountCache accountCache,
       final GroupBackend groupBackend,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
-      @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
+      @Nullable final Provider<ReviewDb> dbProvider,
+      final Account.Id id,
+      @Nullable CurrentUser realUser) {
     super(capabilityControlFactory);
     this.canonicalUrl = canonicalUrl;
     this.accountCache = accountCache;
@@ -202,6 +218,12 @@ public class IdentifiedUser extends CurrentUser {
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;
+    this.realUser = realUser != null ? realUser : this;
+  }
+
+  @Override
+  public CurrentUser getRealUser() {
+    return realUser;
   }
 
   // TODO(cranger): maybe get the state through the accountCache instead.

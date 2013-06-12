@@ -126,8 +126,12 @@ public final class SuExec extends BaseCommand {
     } else {
       peer = peerAddress;
     }
+    CurrentUser self = caller.get();
+    if (self instanceof PeerDaemonUser) {
+      self = null;
+    }
     return new SshSession(session.get(), peer,
-        userFactory.create(peer, accountId));
+        userFactory.runAs(peer, accountId, self));
   }
 
   private static String join(List<String> args) {

@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -39,6 +40,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.change.PostReview.Input;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
@@ -81,6 +83,18 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
     /** Who to send email notifications to after review is stored. */
     public NotifyHandling notify = NotifyHandling.ALL;
+
+    /**
+     * Account ID, name, email address or username of another user. The review
+     * will be posted/updated on behalf of this named user instead of the
+     * caller. Caller must have the labelAs-$NAME permission granted for each
+     * label that appears in {@link #labels}. This is in addition to the named
+     * user also needing to have permission to use the labels.
+     * <p>
+     * {@link #strictLabels} impacts how labels is processed for the named user,
+     * not the caller.
+     */
+    public String onBehalfOf;
   }
 
   public static enum DraftHandling {
@@ -104,6 +118,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   }
 
   private final ReviewDb db;
+  private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
   @Deprecated private final ChangeHooks hooks;
 
@@ -116,16 +131,22 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   @Inject
   PostReview(ReviewDb db,
+      AccountsCollection accounts,
       EmailReviewComments.Factory email,
       ChangeHooks hooks) {
     this.db = db;
+    this.accounts = accounts;
     this.email = email;
     this.hooks = hooks;
   }
 
   @Override
   public Object apply(RevisionResource revision, Input input)
-      throws AuthException, BadRequestException, OrmException {
+      throws AuthException, BadRequestException, OrmException,
+      UnprocessableEntityException {
+    if (input.onBehalfOf != null) {
+      revision = onBehalfOf(revision, input);
+    }
     if (input.labels != null) {
       checkLabels(revision, input.strictLabels, input.labels);
     }
@@ -169,6 +190,45 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     Output output = new Output();
     output.labels = input.labels;
     return output;
+  }
+
+  private RevisionResource onBehalfOf(RevisionResource rev, Input in)
+      throws BadRequestException, AuthException, UnprocessableEntityException,
+      OrmException {
+    if (in.labels == null || in.labels.isEmpty()) {
+      throw new AuthException(String.format(
+          "label required to post review on behalf of \"%s\"",
+          in.onBehalfOf));
+    }
+
+    ChangeControl caller = rev.getControl();
+    Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
+    while (itr.hasNext()) {
+      Map.Entry<String, Short> ent = itr.next();
+      LabelType type = caller.getLabelTypes().byLabel(ent.getKey());
+      if (type == null && in.strictLabels) {
+        throw new BadRequestException(String.format(
+            "label \"%s\" is not a configured label", ent.getKey()));
+      } else if (type == null) {
+        itr.remove();
+        continue;
+      }
+
+      PermissionRange r = caller.getRange(Permission.forLabelAs(type.getName()));
+      if (r == null || r.isEmpty() || !r.contains(ent.getValue())) {
+        throw new AuthException(String.format(
+            "not permitted to modify label \"%s\" on behalf of \"%s\"",
+            ent.getKey(), in.onBehalfOf));
+      }
+    }
+    if (in.labels.isEmpty()) {
+      throw new AuthException(String.format(
+          "label required to post review on behalf of \"%s\"",
+          in.onBehalfOf));
+    }
+
+    ChangeControl target = caller.forUser(accounts.parse(in.onBehalfOf));
+    return new RevisionResource(new ChangeResource(target), rev.getPatchSet());
   }
 
   private void checkLabels(RevisionResource revision, boolean strict,

@@ -78,7 +78,7 @@ public class AccountsCollection implements
    *        "Full Name <email@example.com>", just the email address, a full name
    *        if it is unique, an account ID, a user name or 'self' for the
    *        calling user
-   * @return the project
+   * @return the user, never null.
    * @throws UnprocessableEntityException thrown if the account ID cannot be
    *         resolved or if the account is not visible to the calling user
    */

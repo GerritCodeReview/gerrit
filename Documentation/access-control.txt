@@ -747,7 +747,8 @@ Review Labels
 
 For every configured label `My-Name` in the project, there is a
 corresponding permission `label-My-Name` with a range corresponding to
-the defined values.
+the defined values. There is also a corresponding `labelAs-My-Name`
+permission that enables editing another user's label.
 
 Gerrit comes pre-configured with a default 'Code-Review' label that can
 be granted to groups within projects, enabling functionality for that

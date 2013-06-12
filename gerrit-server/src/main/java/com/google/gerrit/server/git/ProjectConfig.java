@@ -512,7 +512,7 @@ public class ProjectConfig extends VersionedMetaData {
           if (isPermission(varName)) {
             Permission perm = as.getPermission(varName, true);
             loadPermissionRules(rc, ACCESS, refName, varName, groupsByName,
-                perm, perm.isLabel());
+                perm, Permission.hasRange(varName));
           }
         }
       }
@@ -869,7 +869,7 @@ public class ProjectConfig extends VersionedMetaData {
       for (Permission permission : sort(as.getPermissions())) {
         have.add(permission.getName().toLowerCase());
 
-        boolean needRange = permission.isLabel();
+        boolean needRange = Permission.hasRange(permission.getName());
         List<String> rules = new ArrayList<String>();
         for (PermissionRule rule : sort(permission.getRules())) {
           GroupReference group = rule.getGroup();

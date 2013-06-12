@@ -29,6 +29,7 @@ public class Permission implements Comparable<Permission> {
   public static final String FORGE_COMMITTER = "forgeCommitter";
   public static final String FORGE_SERVER = "forgeServerAsCommitter";
   public static final String LABEL = "label-";
+  public static final String LABEL_AS = "labelAs-";
   public static final String OWNER = "owner";
   public static final String PUBLISH_DRAFTS = "publishDrafts";
   public static final String PUSH = "push";
@@ -43,6 +44,7 @@ public class Permission implements Comparable<Permission> {
 
   private static final List<String> NAMES_LC;
   private static final int labelIndex;
+  private static final int labelAsIndex;
 
   static {
     NAMES_LC = new ArrayList<String>();
@@ -58,6 +60,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(PUSH_TAG.toLowerCase());
     NAMES_LC.add(PUSH_SIGNED_TAG.toLowerCase());
     NAMES_LC.add(LABEL.toLowerCase());
+    NAMES_LC.add(LABEL_AS.toLowerCase());
     NAMES_LC.add(REBASE.toLowerCase());
     NAMES_LC.add(REMOVE_REVIEWER.toLowerCase());
     NAMES_LC.add(SUBMIT.toLowerCase());
@@ -67,15 +70,18 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(PUBLISH_DRAFTS.toLowerCase());
 
     labelIndex = NAMES_LC.indexOf(Permission.LABEL);
+    labelAsIndex = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
   }
 
   /** @return true if the name is recognized as a permission name. */
   public static boolean isPermission(String varName) {
-    String lc = varName.toLowerCase();
-    if (lc.startsWith(LABEL)) {
-      return LABEL.length() < lc.length();
-    }
-    return NAMES_LC.contains(lc);
+    return isLabel(varName)
+        || isLabelAs(varName)
+        || NAMES_LC.contains(varName.toLowerCase());
+  }
+
+  public static boolean hasRange(String varName) {
+    return isLabel(varName) || isLabelAs(varName);
   }
 
   /** @return true if the permission name is actually for a review label. */
@@ -83,9 +89,28 @@ public class Permission implements Comparable<Permission> {
     return varName.startsWith(LABEL) && LABEL.length() < varName.length();
   }
 
+  /** @return true if the permission is for impersonated review labels. */
+  public static boolean isLabelAs(String var) {
+    return var.startsWith(LABEL_AS) && LABEL_AS.length() < var.length();
+  }
+
   /** @return permission name for the given review label. */
   public static String forLabel(String labelName) {
     return LABEL + labelName;
+  }
+
+  /** @return permission name to apply a label for another user. */
+  public static String forLabelAs(String labelName) {
+    return LABEL_AS + labelName;
+  }
+
+  public static String extractLabel(String varName) {
+    if (isLabel(varName)) {
+      return varName.substring(LABEL.length());
+    } else if (isLabelAs(varName)) {
+      return varName.substring(LABEL_AS.length());
+    }
+    return null;
   }
 
   public static boolean canBeOnAllProjects(String ref, String permissionName) {
@@ -110,15 +135,8 @@ public class Permission implements Comparable<Permission> {
     return name;
   }
 
-  public boolean isLabel() {
-    return isLabel(getName());
-  }
-
   public String getLabel() {
-    if (isLabel()) {
-      return getName().substring(LABEL.length());
-    }
-    return null;
+    return extractLabel(getName());
   }
 
   public Boolean getExclusiveGroup() {
@@ -223,8 +241,10 @@ public class Permission implements Comparable<Permission> {
   }
 
   private static int index(Permission a) {
-    if (a.isLabel()) {
+    if (isLabel(a.getName())) {
       return labelIndex;
+    } else if (isLabelAs(a.getName())) {
+      return labelAsIndex;
     }
 
     int index = NAMES_LC.indexOf(a.getName().toLowerCase());

@@ -86,7 +86,7 @@ public class PermissionRange implements Comparable<PermissionRange> {
   }
 
   public String getLabel() {
-    return isLabel() ? getName().substring(Permission.LABEL.length()) : null;
+    return Permission.extractLabel(getName());
   }
 
   public int getMin() {

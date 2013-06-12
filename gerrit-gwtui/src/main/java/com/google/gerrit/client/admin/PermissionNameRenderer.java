@@ -40,8 +40,10 @@ class PermissionNameRenderer implements Renderer<String> {
 
   @Override
   public String render(String varName) {
-    if (Permission.isLabel(varName)) {
-      return Util.M.label(new Permission(varName).getLabel());
+    if (Permission.isLabelAs(varName)) {
+      return Util.M.labelAs(Permission.extractLabel(varName));
+    } else if (Permission.isLabel(varName)) {
+      return Util.M.label(Permission.extractLabel(varName));
     }
 
     String desc = permissions.get(varName);

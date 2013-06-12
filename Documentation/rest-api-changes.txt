@@ -2705,6 +2705,10 @@ Notify handling that defines to whom email notifications should be sent
 after the review is stored. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
+|`on_behalf_of`|optional|
+link:rest-api-accounts.html#account-id[\{account-id\}] the review
+should be posted on behalf of. To use this option the caller must
+have been granted `labelAs-NAME` permission for all keys of labels.
 |============================
 
 [[reviewer-info]]

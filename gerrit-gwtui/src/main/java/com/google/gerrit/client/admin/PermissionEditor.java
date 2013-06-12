@@ -265,7 +265,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   public void setValue(Permission value) {
     this.value = value;
 
-    if (value.isLabel()) {
+    if (Permission.hasRange(value.getName())) {
       LabelType lt = labelTypes.byLabel(value.getLabel());
       if (lt != null) {
         validRange = new PermissionRange.WithDefaults(

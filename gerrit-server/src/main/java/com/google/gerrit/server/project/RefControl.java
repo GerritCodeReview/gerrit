@@ -395,7 +395,7 @@ public class RefControl {
 
   /** The range of permitted values associated with a label permission. */
   public PermissionRange getRange(String permission) {
-    if (Permission.isLabel(permission)) {
+    if (Permission.hasRange(permission)) {
       return toRange(permission, access(permission));
     }
     return null;

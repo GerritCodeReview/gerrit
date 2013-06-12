@@ -51,6 +51,20 @@ public abstract class CurrentUser {
   }
 
   /**
+   * Identity of the authenticated user.
+   * <p>
+   * In the normal case where a user authenticates as themselves
+   * {@code getRealUser() == this}.
+   * <p>
+   * If {@code X-Gerrit-RunAs} or {@code suexec} was used this method returns
+   * the identity of the account that has permission to act on behalf of this.
+   * user.
+   */
+  public CurrentUser getRealUser() {
+    return this;
+  }
+
+  /**
    * Get the set of groups the user is currently a member of.
    * <p>
    * The returned set may be a subset of the user's actual groups; if the user's
@@ -76,11 +90,9 @@ public abstract class CurrentUser {
 
   /** Capabilities available to this user account. */
   public CapabilityControl getCapabilities() {
-    CapabilityControl ctl = capabilities;
-    if (ctl == null) {
-      ctl = capabilityControlFactory.create(this);
-      capabilities = ctl;
+    if (capabilities == null) {
+      capabilities = capabilityControlFactory.create(this);
     }
-    return ctl;
+    return capabilities;
   }
 }

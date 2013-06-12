@@ -65,8 +65,12 @@ public class CapabilityControl {
   /** @return true if the user can administer this server. */
   public boolean canAdministrateServer() {
     if (canAdministrateServer == null) {
-      canAdministrateServer = user instanceof PeerDaemonUser
-          || matchAny(capabilities.administrateServer, ALLOWED_RULE);
+      if (user.getRealUser() != user) {
+        canAdministrateServer = false;
+      } else {
+        canAdministrateServer = user instanceof PeerDaemonUser
+            || matchAny(capabilities.administrateServer, ALLOWED_RULE);
+      }
     }
     return canAdministrateServer;
   }

@@ -14,9 +14,6 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.lucene.IndexVersionCheck.SCHEMA_VERSIONS;
-import static com.google.gerrit.lucene.IndexVersionCheck.gerritIndexConfig;
-import static com.google.gerrit.lucene.LuceneChangeIndex.LUCENE_VERSION;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 
 import com.google.common.base.Stopwatch;
@@ -33,13 +30,17 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.AuthConfigModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.NoIndexModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
@@ -50,20 +51,16 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -79,8 +76,8 @@ public class Reindex extends SiteProgram {
   private boolean dryRun;
 
   private Injector dbInjector;
+  private Injector cfgInjector;
   private Injector sysInjector;
-  private SitePaths sitePaths;
 
   @Override
   public int run() throws Exception {
@@ -92,12 +89,13 @@ public class Reindex extends SiteProgram {
     LifecycleManager dbManager = new LifecycleManager();
     dbManager.add(dbInjector);
     dbManager.start();
-    sitePaths = dbInjector.getInstance(SitePaths.class);
+
+    cfgInjector = createCfgInjector();
+    sysInjector = createSysInjector();
 
     // Delete before any LuceneChangeIndex may be created.
     deleteAll();
 
-    sysInjector = createSysInjector();
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
@@ -110,10 +108,30 @@ public class Reindex extends SiteProgram {
     return result;
   }
 
+  private Injector createCfgInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new AuthConfigModule());
+    return dbInjector.createChildInjector(modules);
+  }
+
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
     modules.add(PatchListCacheImpl.module());
-    modules.add(new LuceneIndexModule(false, threads, dryRun));
+    AbstractModule changeIndexModule;
+    switch (IndexModule.getChangeIndexImpl(dbInjector)) {
+      case LUCENE:
+        changeIndexModule = new LuceneIndexModule(false, threads, dryRun);
+        break;
+      case SOLR:
+        Config config =
+            cfgInjector.getInstance(Key.get(Config.class,
+                GerritServerConfig.class));
+        changeIndexModule = new SolrIndexModule(config, false, threads);
+        break;
+      default:
+        changeIndexModule = new NoIndexModule();
+    }
+    modules.add(changeIndexModule);
     modules.add(new ReviewDbModule());
     modules.add(new AbstractModule() {
       @SuppressWarnings("rawtypes")
@@ -174,19 +192,8 @@ public class Reindex extends SiteProgram {
     if (dryRun) {
       return;
     }
-    for (String index : SCHEMA_VERSIONS.keySet()) {
-      File file = new File(sitePaths.index_dir, index);
-      if (file.exists()) {
-        Directory dir = FSDirectory.open(file);
-        try {
-          for (String name : dir.listAll()) {
-            dir.deleteFile(name);
-          }
-        } finally {
-          dir.close();
-        }
-      }
-    }
+    ChangeIndex index = sysInjector.getInstance(ChangeIndex.class);
+    index.deleteAll();
   }
 
   private int indexAll() throws Exception {
@@ -268,14 +275,7 @@ public class Reindex extends SiteProgram {
     if (dryRun) {
       return;
     }
-    FileBasedConfig cfg =
-        new FileBasedConfig(gerritIndexConfig(sitePaths), FS.detect());
-    cfg.load();
-
-    for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
-      cfg.setInt("index", e.getKey(), "schemaVersion", e.getValue());
-    }
-    cfg.setEnum("lucene", null, "version", LUCENE_VERSION);
-    cfg.save();
+    ChangeIndex index = sysInjector.getInstance(ChangeIndex.class);
+    index.finishIndex();
   }
 }

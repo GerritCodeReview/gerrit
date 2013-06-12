@@ -10,6 +10,7 @@ java_library2(
     '//gerrit-reviewdb:server',
     '//gerrit-server:common_rules',
     '//gerrit-server:server',
+    '//gerrit-solr:solr',
     '//gerrit-sshd:sshd',
     '//lib:gwtorm',
     '//lib/guice:guice',

@@ -1,0 +1,56 @@
+include_defs('//lib/maven.defs')
+
+maven_jar(
+  name = 'solr-core',
+  id = 'org.apache.solr:solr-core:4.3.0',
+  bin_sha1 = 'da7256ef2a1387bc63fffdc75eb5b1c353697c31',
+  src_sha1 = '3844cbf669379bbd01ca9ab0fd96dc06efc3d281',
+  license = 'Apache2.0',
+  deps = [
+    ':zookeeper',
+    '//lib/lucene:lucene-highlighter',
+    '//lib/lucene:lucene-queries',
+    '//lib/lucene:lucene-spellchecker',
+  ],
+)
+
+maven_jar(
+  name = 'zookeeper',
+  id = 'org.apache.zookeeper:zookeeper:3.4.5',
+  bin_sha1 = 'c0f69fb36526552a8f0bc548a6c33c49cf08e562',
+  src_sha1 = 'ad9efdd95bf63381ecf2898e84f392bbfc4784f3',
+  license = 'Apache2.0',
+  deps = ['//lib/commons:collections'],
+)
+
+maven_jar(
+  name = 'solr-solrj',
+  id = 'org.apache.solr:solr-solrj:4.3.0',
+  bin_sha1 = '8466c17a5efb73e62675caa0034e2c366fcabe81',
+  src_sha1 = 'ade1ea564f45b0de58a075981bdf5a8612df4911',
+  license = 'Apache2.0',
+  deps = [
+    ':solr-noggit',
+    '//lib/commons:codec',
+    '//lib/commons:httpclient',
+    '//lib/commons:httpmime',
+    '//lib/commons:io',
+    '//lib/log:api',
+    '//lib/log:jcl-over-slf4j',
+  ],
+)
+
+maven_jar(
+  name = 'solr-noggit',
+  id = 'org.apache.solr:solr-noggit:3.5.0',
+  sha1 = 'a732aee4fe2dec0c409bc86e3a83f268080d3a7d',
+  license = 'Apache2.0',
+  deps = [':noggit'],
+)
+
+maven_jar(
+  name = 'noggit',
+  id = 'org.noggit:noggit:0.5',
+  sha1 = '8e6e65624d2e09a30190c6434abe23b7d4e5413c',
+  license = 'Apache2.0',
+)

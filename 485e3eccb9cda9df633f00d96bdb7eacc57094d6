@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3dad41fd_924ffc44",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_71409819",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dad41fd_72da586c",
         "filename": "gerrit-gwtui/BUCK",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-12T05:18:28Z",
       "side": 1,
       "message": "nit: please place resources after srcs, before deps.",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_911d3c29",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dad41fd_72da586c",
       "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1db23d5c_b1184039",
+        "filename": "gerrit-gwtui/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_f12be852",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3dad41fd_b2c4c08b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-12T05:18:28Z",
       "side": 1,
       "message": "This change is a bit more than just adding a unit test. Can you expand the commit message to also explain this delta?",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_f22be852",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dad41fd_b2c4c08b",
       "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1db23d5c_51ebd4d7",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineCharacter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_f144882a",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db23d5c_513d9493",
         "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-06-12T05:18:28Z",
       "side": 1,
       "message": "Missing AOSP copyright header.",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_71eed8e9",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_513d9493",
       "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "1db23d5c_11e14cfa",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_b14a0035",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db23d5c_914ffc44",
         "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2013-06-12T05:18:28Z",
       "side": 1,
       "message": "nit: you can fit this all on one line:\n\n  /** Unit tests for EditorIterator. */",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_31e4500a",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_914ffc44",
       "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "1db23d5c_110aecd9",
+        "filename": "gerrit-gwtui/src/test/resources/META-INF/log4j.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_11330cce",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db23d5c_d13064c4",
         "filename": "lib/gwt/BUCK",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2013-06-12T05:18:28Z",
       "side": 1,
       "message": "We can\u0027t add a JAR to the repository. This should be checked into our custom Maven repository and pulled by maven_jar(repository \u003d GERRIT). I can help you with this tomorrow.",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dad41fd_b24a0035",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_d13064c4",
       "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "3dad41fd_d23064c4",
+        "filename": "lib/gwt/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dad41fd_52d75442",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1db23d5c_313610be",
         "filename": "lib/log/BUCK",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2013-06-12T05:18:28Z",
       "side": 1,
       "message": "This should not link against the implementation directly. Please fix the target that needs log4j to link to impl_log4j.",
+      "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1db23d5c_f1cf687a",
+        "filename": "lib/log/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-12T18:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1db23d5c_313610be",
       "revId": "485e3eccb9cda9df633f00d96bdb7eacc57094d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

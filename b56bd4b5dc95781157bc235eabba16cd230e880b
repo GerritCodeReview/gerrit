@@ -16,6 +16,24 @@
       "revId": "b56bd4b5dc95781157bc235eabba16cd230e880b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d7b8161_e297868d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-12T06:23:24Z",
+      "side": 1,
+      "message": "the alias is almoust always the first letter of the option name, so the command would be:\n\n ssh gerrit set-member -a foo -i bar baz",
+      "parentUuid": "3d7b8161_c26522f3",
+      "revId": "b56bd4b5dc95781157bc235eabba16cd230e880b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

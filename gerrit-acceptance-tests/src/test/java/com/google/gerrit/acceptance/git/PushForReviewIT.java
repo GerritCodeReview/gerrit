@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static org.junit.Assert.assertEquals;
 import static com.google.gerrit.acceptance.git.GitUtil.cloneProject;
 import static com.google.gerrit.acceptance.git.GitUtil.createProject;
 import static com.google.gerrit.acceptance.git.GitUtil.initSsh;
@@ -33,6 +34,7 @@ import com.jcraft.jsch.JSchException;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -258,6 +260,33 @@ public class PushForReviewIT extends AbstractDaemonTest {
     String branchName = "non-existing";
     PushOneCommit.Result r = pushTo("refs/for/" + branchName);
     r.assertErrorStatus("branch " + branchName + " not found");
+  }
+
+  @Test
+  public void testPushForMasterWithTag_HTTP() throws GitAPIException,
+      OrmException, IOException, JSchException {
+    testPushForMasterWithTag_HTTP(Protocol.HTTP);
+  }
+
+  @Test
+  public void testPushForMasterWithTag_SSH() throws GitAPIException,
+      OrmException, IOException, JSchException {
+    testPushForMasterWithTag_HTTP(Protocol.SSH);
+  }
+
+  private void testPushForMasterWithTag_HTTP(Protocol p)
+      throws GitAPIException, IOException, OrmException {
+    selectProtocol(p);
+    ObjectId head =
+        git.getRepository().getRef("refs/heads/master").getObjectId();
+    PushOneCommit push = new PushOneCommit(db, admin.getIdent());
+    push.setTag("v1.0");
+    PushOneCommit.Result r = push.to(git, "refs/for/master");
+    r.assertChange(Change.Status.NEW, null);
+
+    // verify that refs/heads/master has not changed by pushing a change for review
+    assertEquals(head, git.getRepository().getRef("refs/heads/master")
+        .getObjectId());
   }
 
   private PushOneCommit.Result pushTo(String ref) throws GitAPIException,

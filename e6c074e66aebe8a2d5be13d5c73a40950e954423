@@ -16,6 +16,23 @@
       "revId": "e6c074e66aebe8a2d5be13d5c73a40950e954423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d7b8161_a2dbbe73",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-12T10:01:17Z",
+      "side": 1,
+      "message": "How can it be extended dynamically with UICommands from plugins/core? Define these actions as UICommand, and place it here dynamically?\n\nUiCommand uses placement enum, with unique name that identifies their location. Currently only PATCHSET_ACTION_PANEL is merged, but there are number of pending changes for further places, like: CURRENT_PATCHSET_ACTION_PANEL, etc. This need to be adressed.",
+      "revId": "e6c074e66aebe8a2d5be13d5c73a40950e954423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

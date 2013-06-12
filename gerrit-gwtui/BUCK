@@ -76,6 +76,7 @@ gwt_module(
     '//lib:jsr305',
     '//lib/codemirror:codemirror',
     '//lib/gwt:user',
+    '//lib/gwt:gwt-test-utils',
     '//lib/jgit:jgit',
   ],
   visibility = [
@@ -91,7 +92,16 @@ java_test(
     ':ui_module',
     '//lib:junit',
     '//lib/gwt:dev',
+    '//lib/gwt:user',
+    '//lib/gwt:gwt-test-utils',
     '//lib/jgit:jgit',
   ],
   source_under_test = [':ui_module'],
+  vm_args = [
+    '-Dlog4j.configuration=META-INF/log4j.properties',
+  ],
+  resources = [
+    glob(['src/test/resources/**/*']),
+    'src/main/java/com/google/gerrit/GerritGwtUI.gwt.xml',
+  ],
 )

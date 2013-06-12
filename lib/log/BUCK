@@ -5,6 +5,7 @@ maven_jar(
   id = 'org.slf4j:slf4j-api:1.6.1',
   sha1 = '6f3b8a24bf970f17289b234284c94f43eb42f0e4',
   license = 'slf4j',
+  deps = [':impl_log4j'],
 )
 
 maven_jar(

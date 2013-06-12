@@ -259,33 +259,27 @@ public class CodeMirrorDemo extends Screen {
         : null;
   }
 
-  private static class EditIterator {
+  static class EditIterator {
     private final JsArrayString lines;
     private final int startLine;
     private int currLineIndex;
     private int currLineOffset;
 
-    private EditIterator(JsArrayString lineArray, int start) {
+    EditIterator(JsArrayString lineArray, int start) {
       lines = lineArray;
       startLine = start;
     }
 
-    private LineCharacter advance(int numOfChar) {
+    LineCharacter advance(int numOfChar) {
       while (currLineIndex < lines.length()) {
-        String line = lines.get(currLineIndex).substring(currLineOffset);
-        int lengthWithNewline = line.length() + 1;
+        int lengthWithNewline =
+            lines.get(currLineIndex).length() - currLineOffset + 1;
         if (numOfChar < lengthWithNewline) {
           LineCharacter at = LineCharacter.create(
               startLine + currLineIndex,
               numOfChar + currLineOffset);
           currLineOffset += numOfChar;
-          if (currLineOffset == line.length()) {
-            advanceLine();
-          }
           return at;
-        }
-        if (numOfChar == lengthWithNewline) {
-          return LineCharacter.create(startLine + currLineIndex + 1, 0);
         }
         numOfChar -= lengthWithNewline;
         advanceLine();

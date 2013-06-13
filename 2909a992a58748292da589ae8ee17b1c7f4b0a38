@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4ae78994_a24cbe7e",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UtA4g66I",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ux7vq5yk",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-05-16T15:52:01Z",
       "side": 1,
       "message": "Should the last part be \"... and any projects that inherit from it\" or \"... and any projects that inherit its permissions\"?\n\nStyle nit: For some reason I prefer \"The project.config file contains ...\" over \"This file contains ...\"",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aec1579_0156ca0e",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ux7vq5yk",
       "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2aec1579_e152c618",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "I think I meant just config file of git.\n\nBut, if I correct this I suddenly might get pushback on all other occurrences too, thus getting two changes into one. As long as I don\u0027t get that pushback, I agree to capitalize this occurrence. :)",
+      "parentUuid": "Ux5vvKzo",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UshAgBKM",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2013-05-15T22:08:54Z",
       "side": 1,
       "message": "TBD: git config command template.",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae78994_828d3a83",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UshAgBKM",
       "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "2aec1579_c14fc272",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "I wanted a real example, so read is my choice here, thanks for spotting it.\n\nAdded bonus; I don\u0027t have to open up for mistakes with rgds too meta-format-tags-that-people-don\u0027t-know-whether-to-keep-or-throw-away. :)",
+      "parentUuid": "Ux-v0bw8",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UsjAdCHI",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2013-05-15T22:08:54Z",
       "side": 1,
       "message": "Needs `-escaping instead of +-escaping, since the contain *\u0027s.",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aec1579_a14cbe7e",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "Implemented in other change.",
+      "parentUuid": "UsjAdCHI",
       "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "2aec1579_818d3a83",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UveXvtjg",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UvYX0wg4",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2013-05-16T15:52:01Z",
       "side": 1,
       "message": "Assuming you\u0027ll list the actual strings to put into project.config as well (and link to the corresponding description in the access control document)?",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aec1579_6192369f",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "Yes, coming down the line. Too much in the initial change though. I figured I\u0027d do like I did with the access doc, one or two examples per change for individual reviewability.\n\nAgreed that takes away the overview-ability somewhat, but I think the wording and linking to each little example takes preceendence due to the technical nature of this document.",
+      "parentUuid": "UvYX0wg4",
       "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "Uxrw4Id4",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "Have/has, is/are... they get me every time.\n\nPursehouse, pleease hlep? :-)\n\nDone.",
+      "parentUuid": "Ux9v5swc",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Uxzv-9.o",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "4ae78994_6292369f",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "Great addition, thanks! Added a link to the ls-groups page too.\n\nDone.",
+      "parentUuid": "Uxzv-9.o",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UvaX5vgc",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4
@@ -183,6 +363,24 @@
       "writtenOn": "2013-05-16T15:52:01Z",
       "side": 1,
       "message": "I don\u0027t quite like the first sentence. Suggestion:\n\nThe +rules.pl+ files allows you to replace or amend the default Prolog rules that control e.g. what conditions need to be fulfilled for a change to be submittable.",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae78994_229c2eaf",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-06-13T21:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "UvaX5vgc",
       "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aec1579_61eeb642",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-13T06:29:36Z",
+      "side": 1,
+      "message": "Should this also be mentioned in the documentation of the runAs capability?",
+      "revId": "0246d371572ddcb68054c01f5bee711a1f80dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ae78994_e2f9a602",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-13T06:29:36Z",
+      "side": 1,
+      "message": "s/this./this",
+      "revId": "0246d371572ddcb68054c01f5bee711a1f80dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

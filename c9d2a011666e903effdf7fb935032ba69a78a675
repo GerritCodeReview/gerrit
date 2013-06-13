@@ -88,6 +88,24 @@
       "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aec1579_410a9230",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-06-13T14:55:44Z",
+      "side": 1,
+      "message": "\u003e It sounds like you are only testing allRefsAreVisibleExcept(), [...]\n\nYes.\nAs that\u0027s where actual, direct cost comes from.\n\n\u003e I think the concern is\n\u003e that this now returns false more often [...]\n\nYes, there is also an indirect cost attached to this change.\n\nHowever, this indirect cost does not come in unconditionally and\nallRefsAreVisibleExcept /can/ return the same values as before.\nIf site admins think that the old behaviour is good and correct, they\ncan grant \"View Drafts\", and allRefsAreVisibleExcept returns just what\nit would return without the change. (That\u0027s what I did the timing for)\n\nThe benefit of the change is that site admins can now choose to not\ngrant \"View Drafts\" and that this refusal is respected. If they\nrefuse, that of course comes with extra cost.\n\nBut comparing the runtime of performance optimized code paths that\nexpose hidden information (current behaviour) to code paths that do\nnot expose confidential information (new behaviour without granting\n\"View Drafts\") is somewhat comparing apples to oranges.\n\nIf this indirect cost is as low as it is now, keeping hidden\ninformation hidden is more important to me.\n\n\u003e So I suspect that an git ls-remote is what you should\n\u003e be testing?\n\nThe following timing is on the 100K refs repo with 1K access sections.\n\n* Without the change\n\n  time git ls-remote \u0026\u003e/dev/null\n  \n  real    0m0.445s\n  user    0m0.040s\n  sys     0m0.021s\n\n* With the change\n\n  time git ls-remote \u0026\u003e/dev/null\n  \n  real    0m0.720s\n  user    0m0.029s\n  sys     0m0.019s\n\nThat would be perfectly fine with me. But since 1K access sections\nseems unrealistically high to me, here are timings for 50 access\nsections (still way more than I\u0027ve ever seen on a project). Again\nfor 100K refs:\n\n* Without the change\n\n  time git ls-remote \u0026\u003e/dev/null\n  \n  real    0m0.238s\n  user    0m0.020s\n  sys     0m0.008s\n\n* With the change\n\n  time git ls-remote \u0026\u003e/dev/null\n  \n  real    0m0.331s\n  user    0m0.021s\n  sys     0m0.005s",
+      "parentUuid": "5d9595bb_9be9cb38",
+      "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

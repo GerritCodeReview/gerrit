@@ -1192,7 +1192,7 @@ but was coming up black on initial page load due to a style setup
 ordering issue between the SearchPanel and the HintTextBox.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1661[Issue 1661]:
-  Update links to Change-Id and Signed-off-by docu on project info
+  Update links to Change-Id and Signed-off-by documentation on project info
   screen
 
 * Use href="javascript;" for All {Side-by-Side,Unified} links
@@ -1231,6 +1231,9 @@ Correctly handle paths with URL-escaped characters
 +
 URL-unescape the path portion of a change history token to correctly
 handle paths with URL-escapable characters, i.e. '+', ' ', etc.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1915[Issue 1915]:
+Don't show non-visible drafts in the diff screens.
 
 
 REST API

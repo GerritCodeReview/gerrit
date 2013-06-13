@@ -106,6 +106,24 @@
       "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d9899f5_5c21fda7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-13T17:32:32Z",
+      "side": 1,
+      "message": "These numbers are very suspect to me, how are you testing this exactly?  I cannot get an ls-remote to a high-end machine with SSDs to return in under 3s on a project with 275K refs.  Granted I am running Gerrit 2.5.1, but I doubt that master has improved that much since then.  How are you creating your refs?  Are you including a large percentage of changes in those refs, I have 236K changes in that one repo.  \n\nAnd for other numbers, I believe that some Gerrit users are running  on the order of 9K ALCs (2 years ago).  I understand that these are not numbers that everybody is expcted to see, but they are numbers that Gerrit is expected to handle (and we are focusing on making it handle way more even, at least 2 orders of magnitude more).  Gerrit is one of the most (if not the most) scalable git servers out there and it is important to many businesses that it stay that way and continue to improve, not degrade.\n\nThat being said, I think I agree with your argument about being able to just turn this off for those who care about performance over privacy.",
+      "parentUuid": "2aec1579_410a9230",
+      "revId": "c9d2a011666e903effdf7fb935032ba69a78a675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

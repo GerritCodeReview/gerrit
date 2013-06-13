@@ -16,6 +16,24 @@
       "revId": "911213c91a0c1c75e776f8115aff64eee25d4434",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aec1579_e12086a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/FromAddressGeneratorProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2013-06-13T12:03:45Z",
+      "side": 1,
+      "message": "Address is composed of full name and email address.\n\nCurrent implementation uses server *name* and address for users without email address, even if the user name *is* configured.",
+      "parentUuid": "4ae78994_02248aba",
+      "revId": "911213c91a0c1c75e776f8115aff64eee25d4434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2aec1579_81109a5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-06-13T09:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ae78994_420a9230",
+      "revId": "30c77d8bc612c49761e8f9363c2003355d383bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2aec1579_c106a22e",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-13T09:30:55Z",
       "side": 1,
       "message": "Is the behaviour any different from how it was before?",
+      "revId": "30c77d8bc612c49761e8f9363c2003355d383bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aec1579_a1039e1c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-06-13T09:42:29Z",
+      "side": 1,
+      "message": "Behavior for internal groups is same as it was before. Only for external one it will return true when current user is member of this group or it\u0027s owner otherwise it will return false.",
+      "parentUuid": "2aec1579_c106a22e",
       "revId": "30c77d8bc612c49761e8f9363c2003355d383bff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

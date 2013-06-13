@@ -23,6 +23,7 @@ import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.FilteredUserInterface;
 import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
 import com.google.gerrit.common.PageLinks;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.http.client.URL;
@@ -55,10 +56,10 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
   protected void onLoad() {
     super.onLoad();
     display();
-    refresh();
+    refresh(false);
   }
 
-  private void refresh() {
+  private void refresh(final boolean open) {
     setToken(subname == null || "".equals(subname) ? ADMIN_GROUPS
         : ADMIN_GROUPS + "?filter=" + URL.encodeQueryString(subname));
     GroupMap.match(subname,
@@ -66,8 +67,13 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
             new GerritCallback<GroupMap>() {
               @Override
               public void onSuccess(GroupMap result) {
-                groups.display(result, subname);
-                groups.finishDisplay();
+                if (open && result.values().length() > 0) {
+                  Gerrit.display(PageLinks.toGroup(
+                      result.values().get(0).getGroupUUID()));
+                } else {
+                  groups.display(result, subname);
+                  groups.finishDisplay();
+                }
               }
             }));
   }
@@ -99,7 +105,7 @@ public class GroupListScreen extends AccountScreen implements FilteredUserInterf
       @Override
       public void onKeyUp(KeyUpEvent event) {
         subname = filterTxt.getValue();
-        refresh();
+        refresh(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER);
       }
     });
     hp.add(filterTxt);

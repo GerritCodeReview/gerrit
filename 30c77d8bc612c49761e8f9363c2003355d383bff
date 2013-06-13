@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ae78994_420a9230",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-13T09:30:55Z",
+      "side": 1,
+      "message": "s/where we were it was only allow/where it was only allowed",
+      "revId": "30c77d8bc612c49761e8f9363c2003355d383bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2aec1579_c106a22e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-13T09:30:55Z",
+      "side": 1,
+      "message": "Is the behaviour any different from how it was before?",
+      "revId": "30c77d8bc612c49761e8f9363c2003355d383bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

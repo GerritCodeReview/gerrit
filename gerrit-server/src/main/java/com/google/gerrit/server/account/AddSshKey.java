@@ -15,8 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
-import com.google.common.io.InputSupplier;
+import com.google.common.io.ByteSource;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -77,15 +76,14 @@ public class AddSshKey implements RestModifyView<AccountResource, Input> {
       max = Math.max(max, k.getKey().get());
     }
 
-    final InputStream in = input.raw.getInputStream();
-    String sshPublicKey =
-        CharStreams.toString(CharStreams.newReaderSupplier(
-            new InputSupplier<InputStream>() {
-              @Override
-              public InputStream getInput() {
-                return in;
-              }
-            }, Charsets.UTF_8));
+    final RawInput rawKey = input.raw;
+    String sshPublicKey = new ByteSource() {
+      @Override
+      public InputStream openStream() throws IOException {
+        return rawKey.getInputStream();
+      }
+    }.asCharSource(Charsets.UTF_8).read();
+
     try {
       AccountSshKey sshKey =
           sshKeyCache.create(new AccountSshKey.Id(

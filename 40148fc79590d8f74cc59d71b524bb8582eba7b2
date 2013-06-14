@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a8d91f2_e0fc22f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "We already know the revision. Make both of these CommentApi calls higher up in parallel with CodeMirror.initLibrary() and DiffApi.diff(). Register them as part of the CallbackGroup.\n\nIn their onSuccess() save the NativeMap\u003c\u003e you get into a local field. In display() use the two maps and null them out. Slightly ugly but it allows the browser to issue all 4 of these requests in parallel, reducing latency.\n\nIn the case of an already viewed file, it only has to load the two CommentApi calls in parallel and the others will come from cache.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_3ff8e7fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "We don\u0027t currently set the width on the CM objects, but I think you may be right about this.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_5f104b5d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "These can be presized as regions.length().",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_c0031e1c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "Wow uhm. I don\u0027t like this idea. We\u0027ll have to think of something. I don\u0027t know what right now, but there must be something we can do that isn\u0027t this ugly.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_ff203fa8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "when you line wrap like this try to keep the item and the unit together:\n\n  ... lineToPad,\n  box.getOffsetHeight() + 2, Unit.PX);",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_7f150f4c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "I think this logic is sufficiently complex you should pull it into a new class, LineMap.\n\nMaybe you have the two LineMap instances know about each other after construction so:\n\n  aLineMap \u003d new LineMap();\n  bLineMap \u003d new LineMap();\n  LineMap.pair(aLineMap, bLineMap);\n\n  static void pair(LineMap a, LineMap b) {\n    a.other \u003d b;\n    b.other \u003d a;\n  }\n\nand then lookups are something like:\n\n  a.neighbor(aLine);\n  b.neighbor(bLine);\n\nwhere neighbor is basically this method\u0027s logic.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_df23fbb2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "If you make the change I suggested to compareTo below then ret can be \u003e\u003d 0.\n\nThen your logic becomes:\n\n  LineNumberDiff d \u003d map.get(0 \u003c\u003d ret ? ret : -ret - 1);\n  return d.otherStart + (line - d.myStart);",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_9f06d32d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_bf03971c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "declare these fields final",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_1f0ac32f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "I think low/high are confusing names. I think you also only need myStart and otherStart.\n\nThe address in the other side is computable as:\n\n  otherStart + (line - myStart)\n\nand I think this just becomes a pair of ints.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_a0061a2d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "this(line, 0);",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_3f0f8740",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "If both objects start at the same line, why do you order the search one after? If they start on the same line then you have the object you are looking for and the binarySearch should be done.\n\nI think this method should be just:\n\n  return low - o.low;",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_fff91f02",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "Will be AvatarImage (see other comments).",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_5fe92b37",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "nit: try to line wrap, maybe break before the last parameter",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_1ff3a325",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "Hmm. I think you need to be careful about this to prevent memory leaks in the browser.\n\nCleaning this handler up is required to ensure the DOM nodes and the JavaScript objects are released by the GC. To do that you need to override the onUnload() method, call super.onUnload() and then remove this handler if it was installed.\n\nI think this method returns a HandlerRegistration you can call .remove() on to back out this registration in your onUnload().",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_80ee763f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "This won\u0027t work. You need to attach the AvatarImage as a proper widget. If you allow UI binder to manage it for you, it should just work.\n\nThe widget stuff is needed for GWT to setup event handlers needed by AvatarImage to manage loading the inner \u003cimg\u003e element and react to it getting a 200 or a 404.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_7fee6f42",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "Maybe do this in a future commit, but this should be a setInnerHtml after running the message through SafeHtmlBuilder.append() and passing that to CommentLinkProcessor.\n\nLeave yourself a TODO to come back and do that in a future commit.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_00fa66f6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "also add:\n\n  xmlns:c\u003d\u0027urn:import:com.google.gerrit.client\u0027",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_dffc5bf5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "We can\u0027t shove the panel into a bare TD cell (see my comments in the Java code for more).\n\nRewrite this as:\n\n  \u003ctd\u003e\u003cc:AvatarImage ui:field\u003d\u0027avatar\u0027 /\u003e\u003c/td\u003e",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_60e9f237",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T03:33:18Z",
+      "side": 1,
+      "message": "wrap literal text in \u003cui:msg\u003e for example:\n\n  \u003cbutton ui:field\u003d\u0027reply\u0027\u003e\u003cui:msg\u003eReply ...\u003c/ui:msg\u003e\u003c/button\u003e",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

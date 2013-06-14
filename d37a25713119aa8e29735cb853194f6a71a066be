@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a8895e1_215c4e30",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "Use Guava to instantiate the List:\n  Lists.newArrayList()\n\nHere and also for the other options below.",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8895e1_416152e3",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "[optional] Maybe it would be better to use AccountGroup.UUID instead of AccountGroup.ID?\n\nHere and also for the other group list below.",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8309c5_a24ffe72",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "[optional] better use a Provider here:\n\n  private Provider\u003cAddMembers\u003e addMembers;\n\nThis avoids instantiation of the class if the --add option is not used.\n\nSame for the injection of the other REST implementations below.",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8309c5_e2550603",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "Why is this not private?",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8895e1_c13562dc",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "Why is this not private?",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8895e1_a14ffe72",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "Maybe this is unexpected to the user that added members/included groups are printed out, but that there is no output for deletion of members / exclusion of groups?",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8895e1_01534a1e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "username may not be set",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8309c5_02534a1e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "[optional] Instead of implementing this on your own you could get GroupsCollection injected and use its parse method to create the GroupResource.\n\n  groupsCollection.parse(TopLevelResource.INSTANCE, groupId)",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_5f8dab7f",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "You can get the GroupControl directly by groupId / groupUUID\n\n  GroupControl ctl \u003d groupControlFactory.controlFor(groupId);\n\nThen you don\u0027t need to get the GroupCache injected.",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8895e1_e1550603",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-14T09:11:28Z",
+      "side": 1,
+      "message": "[optional] Maybe better throw NoSuchGroupException? ResourceNotFoundException is a REST API exception and should only be thrown from the REST API.",
+      "revId": "d37a25713119aa8e29735cb853194f6a71a066be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1271,10 +1271,21 @@ command, but also to the web UI results pagination size.
 Run As
 ~~~~~~
 
-Allow users to impersonate any other user with the X-Gerrit-RunAs HTTP
-header on REST API calls or the link:cmd-suexec.html[suexec] SSH
-command.  Site administrators do not inherit this capability; it must
-be granted explicitly.
+Allow users to impersonate any other user with the `X-Gerrit-RunAs`
+HTTP header on REST API calls, or the link:cmd-suexec.html[suexec]
+SSH command.
+
+When impersonating an administrator the Administrate Server capability
+is not honored.  This security feature tries to prevent a role with
+Run As capability from modifying the access controls in All-Projects,
+however modification may still be possible if the impersonated user
+has permission to push or submit changes on `refs/meta/config`.  Run
+As also blocks using most capabilities including Create User, Run
+Garbage Collection, etc., unless the capability is also explicitly
+granted to a group the administrator is a member of.
+
+Administrators do not automatically inherit this capability; it must
+be explicitly granted.
 
 
 [[capability_runGC]]

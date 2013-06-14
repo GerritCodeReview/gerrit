@@ -98,10 +98,11 @@ public class FromAddressGeneratorProvider implements
     @Override
     public Address from(final Account.Id fromId) {
       if (fromId != null) {
-        final Account a = accountCache.get(fromId).getAccount();
-        if (a.getPreferredEmail() != null) {
-          return new Address(a.getFullName(), a.getPreferredEmail());
-        }
+        Account a = accountCache.get(fromId).getAccount();
+        String userEmail = a.getPreferredEmail();
+        return new Address(
+            a.getFullName(),
+            userEmail != null ? userEmail : srvAddr.getEmail());
       }
       return srvAddr;
     }

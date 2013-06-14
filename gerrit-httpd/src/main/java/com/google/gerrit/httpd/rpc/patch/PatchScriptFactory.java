@@ -138,6 +138,11 @@ class PatchScriptFactory extends Handler<PatchScript> {
     aId = psa != null ? toObjectId(db, psa) : null;
     bId = toObjectId(db, psb);
 
+    if ((psa != null && !control.isPatchVisible(db.patchSets().get(psa), db)) ||
+        (psb != null && !control.isPatchVisible(db.patchSets().get(psb), db))) {
+      throw new NoSuchChangeException(changeId);
+    }
+
     final Repository git;
     try {
       git = repoManager.openRepository(projectKey);
@@ -232,6 +237,9 @@ class PatchScriptFactory extends Handler<PatchScript> {
     // proper rename detection between the patch sets.
     //
     for (final PatchSet ps : db.patchSets().byChange(changeId)) {
+      if (!control.isPatchVisible(ps, db)) {
+        continue;
+      }
       String name = patchKey.get();
       if (psa != null) {
         switch (changeType) {

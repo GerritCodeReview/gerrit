@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a8d91f2_60c6d296",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1012363
+      },
+      "writtenOn": "2013-06-14T22:37:31Z",
+      "side": 1,
+      "message": "The config code decides to use this based on authConfig.isTrustContainerAuth(). This change does not affect that.\n\nRather, we just change how this filter works based on authConfig.authType. This filter will behave as before when authType is not HTTP.\n\nSo I\u0027m not sure your proposal is valid, or I\u0027ve missed something else.",
+      "parentUuid": "1dea3def_91117c64",
+      "revId": "e0197f7e1527babfc397769384271f5ddd4e9b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dea3def_712738c0",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0a8d91f2_80cbd69b",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1012363
+      },
+      "writtenOn": "2013-06-14T22:37:31Z",
+      "side": 1,
+      "message": "But we don\u0027t want to use the AUTH header as far as I can tell.\n\nRather, we want loginHttpHeader to be null if the intent is to use the request.getRemoteUser for the userId.\n\nSo I\u0027m not sure this proposal is valid.",
+      "parentUuid": "1dea3def_712738c0",
+      "revId": "e0197f7e1527babfc397769384271f5ddd4e9b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dea3def_512434b9",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2013-06-04T09:17:50Z",
       "side": 1,
       "message": "Using:\n\n  new AccountExternalId.Key(SCHEME_GERRIT, externalUsername).get()\n\nis more consistent than concatenating the two strings here.",
+      "revId": "e0197f7e1527babfc397769384271f5ddd4e9b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_3feea70f",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1012363
+      },
+      "writtenOn": "2013-06-14T22:37:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dea3def_512434b9",
       "revId": "e0197f7e1527babfc397769384271f5ddd4e9b01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

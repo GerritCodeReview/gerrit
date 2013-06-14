@@ -261,6 +261,9 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   public void finishDisplay() {
+    if (currentRow >= table.getRowCount()) {
+      currentRow = -1;
+    }
     if (saveId != null) {
       movePointerTo(savedPositions.get(saveId));
     }

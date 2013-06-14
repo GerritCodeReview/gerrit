@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea911d0e_7f92ef9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T15:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aec1579_61eeb642",
+      "revId": "0246d371572ddcb68054c01f5bee711a1f80dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ae78994_e2f9a602",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
         "patchSetId": 2

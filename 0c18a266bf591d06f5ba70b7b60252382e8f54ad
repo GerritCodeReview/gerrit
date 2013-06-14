@@ -16,6 +16,24 @@
       "revId": "0c18a266bf591d06f5ba70b7b60252382e8f54ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8895e1_a1aa9ebd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-06-14T20:02:35Z",
+      "side": 1,
+      "message": "In old implementation GroupDescriptions.toAccountGroup will return null for all non-internal groups. Therefore we\u0027ll get \"group not found\" error in the WebUI and because of that external group cannot be included. Without this delta this whole patch do not make sense, there is no value in seeing external groups in suggester but don\u0027t have ability to really add it.",
+      "parentUuid": "0a8d91f2_20e9aa06",
+      "revId": "0c18a266bf591d06f5ba70b7b60252382e8f54ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

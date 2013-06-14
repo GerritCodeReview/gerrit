@@ -95,11 +95,6 @@ has scrolled down the page.
 
 Search
 ^^^^^^
-* Animate search bar by expanding & unexpanding
-+
-When the search bar is used, expand it to allow for more text to be
-visible. When it is blurred, shrink it back to the original size.
-
 * Suggest projects, groups and users in search panel
 +
 Suggest projects, groups and users in the search panel as parameter for

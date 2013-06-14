@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a8d91f2_c01a3e78",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_e0fc22f5",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea911d0e_3ff8e7fe",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "We don\u0027t currently set the width on the CM objects, but I think you may be right about this.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_7f674ffc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Acknowledged.",
+      "parentUuid": "ea911d0e_3ff8e7fe",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ea911d0e_df2e9b95",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_5f104b5d",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8d91f2_c0031e1c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "Wow uhm. I don\u0027t like this idea. We\u0027ll have to think of something. I don\u0027t know what right now, but there must be something we can do that isn\u0027t this ugly.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_3f4a276f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Acknowledged.",
+      "parentUuid": "0a8d91f2_c0031e1c",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ea911d0e_1f45e35d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_ff203fa8",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea911d0e_7f150f4c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "I think this logic is sufficiently complex you should pull it into a new class, LineMap.\n\nMaybe you have the two LineMap instances know about each other after construction so:\n\n  aLineMap \u003d new LineMap();\n  bLineMap \u003d new LineMap();\n  LineMap.pair(aLineMap, bLineMap);\n\n  static void pair(LineMap a, LineMap b) {\n    a.other \u003d b;\n    b.other \u003d a;\n  }\n\nand then lookups are something like:\n\n  a.neighbor(aLine);\n  b.neighbor(bLine);\n\nwhere neighbor is basically this method\u0027s logic.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_009ee6a6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Will refactor.",
+      "parentUuid": "ea911d0e_7f150f4c",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "ea911d0e_bfa717f5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Will refactor.",
+      "parentUuid": "ea911d0e_df23fbb2",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea911d0e_9f06d32d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 3
@@ -132,6 +258,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "unnecessary blank line",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_e023c2b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_9f06d32d",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "ea911d0e_1f5c0330",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_bf03971c",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea911d0e_1f0ac32f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 3
@@ -166,6 +328,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "I think low/high are confusing names. I think you also only need myStart and otherStart.\n\nThe address in the other side is computable as:\n\n  otherStart + (line - myStart)\n\nand I think this just becomes a pair of ints.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_9faa53be",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Will refactor.",
+      "parentUuid": "ea911d0e_1f0ac32f",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "ea911d0e_ff9d9faa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_a0061a2d",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea911d0e_3f0f8740",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 3
@@ -200,6 +398,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "If both objects start at the same line, why do you order the search one after? If they start on the same line then you have the object you are looking for and the binarySearch should be done.\n\nI think this method should be just:\n\n  return low - o.low;",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_bf1ab776",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_3f0f8740",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "0a8d91f2_200a0a30",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_fff91f02",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea911d0e_5fe92b37",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
         "patchSetId": 3
@@ -234,6 +468,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "nit: try to line wrap, maybe break before the last parameter",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_7f40af4e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_5fe92b37",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "ea911d0e_3f61c7e4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_1ff3a325",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8d91f2_80ee763f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
         "patchSetId": 3
@@ -268,6 +538,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "This won\u0027t work. You need to attach the AvatarImage as a proper widget. If you allow UI binder to manage it for you, it should just work.\n\nThe widget stuff is needed for GWT to setup event handlers needed by AvatarImage to manage loading the inner \u003cimg\u003e element and react to it getting a 200 or a 404.",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_603b32d8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_80ee763f",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "0a8d91f2_400f0e3f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Acknowledged.",
+      "parentUuid": "ea911d0e_7fee6f42",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8d91f2_00fa66f6",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
         "patchSetId": 3
@@ -302,6 +608,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "also add:\n\n  xmlns:c\u003d\u0027urn:import:com.google.gerrit.client\u0027",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_8015164f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_00fa66f6",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "0a8d91f2_6010125e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_dffc5bf5",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8d91f2_60e9f237",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
         "patchSetId": 3
@@ -336,6 +678,24 @@
       "writtenOn": "2013-06-14T03:33:18Z",
       "side": 1,
       "message": "wrap literal text in \u003cui:msg\u003e for example:\n\n  \u003cbutton ui:field\u003d\u0027reply\u0027\u003e\u003cui:msg\u003eReply ...\u003c/ui:msg\u003e\u003c/button\u003e",
+      "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_5f3b6bd7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-14T17:19:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_60e9f237",
       "revId": "40148fc79590d8f74cc59d71b524bb8582eba7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -300,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "ca961906_defc65f5",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-06-14T17:57:49Z",
+      "side": 1,
+      "message": "I\u0027m not sure I\u0027m following. You want this bullet list to stand as is in this change and add detail later? In that case I\u0027d vote to skip it completely, because the current list just doesn\u0027t make any sense to me. Plus, aren\u0027t inheritFrom and exclusiveGroupPermissions more like modifiers?",
+      "parentUuid": "2aec1579_6192369f",
+      "revId": "2909a992a58748292da589ae8ee17b1c7f4b0a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ux9v5swc",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 4

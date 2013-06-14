@@ -95,11 +95,6 @@ has scrolled down the page.
 
 Search
 ^^^^^^
-* Animate search bar by expanding & unexpanding
-+
-When the search bar is used, expand it to allow for more text to be
-visible. When it is blurred, shrink it back to the original size.
-
 * Suggest projects, groups and users in search panel
 +
 Suggest projects, groups and users in the search panel as parameter for
@@ -1235,6 +1230,9 @@ handle paths with URL-escapable characters, i.e. '+', ' ', etc.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1915[Issue 1915]:
 Don't show non-visible drafts in the diff screens.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=1801[Issue 1801]:
+Correctly keep patch set ordering after a new patch set is added via
+the Web UI.
 
 REST API
 ~~~~~~~~

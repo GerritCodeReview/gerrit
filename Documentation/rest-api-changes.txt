@@ -2601,7 +2601,7 @@ The `LabelInfo` entity contains information about a label on a change, always
 corresponding to the current patch set.
 
 There are two options that control the contents of `LabelInfo`:
-`link:#labels[LABELS]` and `link:#detailed-labels[DETAILED_LABELS]`.
+link:#labels[`LABELS`] and link:#detailed-labels[`DETAILED_LABELS`].
 
 * For a quick summary of the state of labels, use `LABELS`.
 * For detailed information about labels, including exact numeric votes for all

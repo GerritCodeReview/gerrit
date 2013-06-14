@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8309c5_626256ee",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-14T07:52:54Z",
+      "side": 1,
+      "message": "Add a blank line above this?",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8309c5_82675afb",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-14T07:52:54Z",
+      "side": 1,
+      "message": "Add a blank line above this?",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

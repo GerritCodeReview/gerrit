@@ -30,6 +30,7 @@ java_library(
     '//gerrit-acceptance-tests:acceptance_tests',
     '//gerrit-gwtdebug:gwtdebug',
     '//gerrit-gwtui:ui_module',
+    '//gerrit-gwtui:ui_tests',
     '//gerrit-httpd:httpd_tests',
     '//gerrit-main:main_lib',
     '//gerrit-server:server__compile',

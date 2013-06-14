@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea911d0e_5f74cb95",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T18:26:47Z",
+      "side": 1,
+      "message": "remove the final and try to get this all on one line. it would be OK to use \"m\" for the parameter name if that helps.",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_206e8ac8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T18:26:47Z",
+      "side": 1,
+      "message": "i would put a blank line after here",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_40738eab",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T18:26:47Z",
+      "side": 1,
+      "message": "comments can be null if there is no entry in the map for the file, because it has no comments. In this case you want to return early from the method instead of crashing with an exception.\n\nThe shortest way to write that might be to check in the loop:\n\n  for (int i \u003d0; comments !\u003d null \u0026\u0026 i \u003c comments.length(); i++) {",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_1f6e43c8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T18:26:47Z",
+      "side": 1,
+      "message": "Don\u0027t add to the RootPanel. Didn\u0027t we discuss using a hidden FlowPanel?",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_7f798f8c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T18:26:47Z",
+      "side": 1,
+      "message": "Some short documentation would go a long way to explaining what low, high and delta represent.",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_8079968f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T18:26:47Z",
+      "side": 1,
+      "message": "remove this blank line",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8895e1_618d7680",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T18:26:47Z",
+      "side": 1,
+      "message": "declare this below the CommentBoxStyle interface",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_60749296",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T18:26:47Z",
+      "side": 1,
+      "message": "nit: indent 2 spaces not 4",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_c0a79ef4",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T18:26:47Z",
+      "side": 1,
+      "message": "Use our Maven base instead of the URL itself:\n\n  include_defs(\u0027//lib/maven.defs\u0027)\n\n  VERSION \u003d...\n  SHA1 \u003d ...\n  URL \u003d GERRIT + \u0027net/codemirror/codemirror-%s.zip\u0027 % VERSION",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

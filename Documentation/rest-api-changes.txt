@@ -2597,39 +2597,61 @@ constructed.
 [[label-info]]
 LabelInfo
 ~~~~~~~~~
-The `LabelInfo` entity contains information about a label on a change.
+The `LabelInfo` entity contains information about a label on a change, always
+corresponding to the current patch set.
 
+There are two options that control the contents of `LabelInfo`:
+`link:#labels[LABELS]` and `link:#detailed-labels[DETAILED_LABELS]`.
+
+* For a quick summary of the state of labels, use `LABELS`.
+* For detailed information about labels, including exact numeric votes for all
+  users and the allowed range of votes for the current user, use `DETAILED_LABELS`.
+
+Common fields
+^^^^^^^^^^^^^
 [options="header",width="50%",cols="1,^1,5"]
 |===========================
 |Field Name    ||Description
-|`approved`    |optional|The user who approved this label on the change
-as a link:rest-api-accounts.html#account-info[AccountInfo] entity. +
-Only set if link:#labels[labels] are requested.
-|`rejected`    |optional|The user who rejected this label on the change
-as a link:rest-api-accounts.html#account-info[AccountInfo] entity. +
-Only set if link:#labels[labels] are requested.
-|`recommended` |optional|The user who recommended this label on the
-change as a link:rest-api-accounts.html#account-info[AccountInfo] entity. +
-Only set if link:#labels[labels] are requested.
-|`disliked`    |optional|The user who disliked this label on the change
-as a link:rest-api-accounts.html#account-info[AccountInfo] entity. +
-Only set if link:#labels[labels] are requested.
-|`value`       |optional|The voting value of the user who
-recommended/disliked this label on the change if it is not
-"`+1`"/"`-1`". +
-Only set if link:#labels[labels] are requested.
 |`optional`    |not set if `false`|
 Whether the label is optional. Optional means the label may be set, but
 it's neither necessary for submission nor does it block submission if
 set.
+|===========================
+
+Fields set by `LABELS`
+^^^^^^^^^^^^^^^^^^^^^^
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`approved`    |optional|One user who approved this label on the change
+(voted the maximum value) as an
+link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`rejected`    |optional|One user who rejected this label on the change
+(voted the minimum value) as an
+link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`recommended` |optional|One user who recommended this label on the
+change (voted positively, but not the maximum value) as an
+link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`disliked`    |optional|One user who disliked this label on the change
+(voted negatively, but not the minimum value) as an
+link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`value`       |optional|The voting value of the user who
+recommended/disliked this label on the change if it is not
+"`+1`"/"`-1`".
+|===========================
+
+Fields set by `DETAILED_LABELS`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[options="header",width="50%",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
 |`all`         |optional|List of all approvals for this label as a list
-of link:#approval-info[ApprovalInfo] entities. +
-Only set if link:#detailed-labels[detailed labels] are requested.
+of link:#approval-info[ApprovalInfo] entities.
 |`values`      |optional|A map of all values that are allowed for this
 label. The map maps the values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`")
-to the value descriptions. +
-Only set if link:#detailed-labels[detailed labels] are requested.
+to the value descriptions.
 |===========================
+
 
 [[restore-input]]
 RestoreInput

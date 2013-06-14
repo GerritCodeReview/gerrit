@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a8d91f2_20e9aa06",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T19:51:03Z",
+      "side": 1,
+      "message": "Not enough coffee in the world to convince me this delta is necessary.",
+      "revId": "0c18a266bf591d06f5ba70b7b60252382e8f54ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1235,6 +1235,9 @@ handle paths with URL-escapable characters, i.e. '+', ' ', etc.
 * link:https://code.google.com/p/gerrit/issues/detail?id=1915[Issue 1915]:
 Don't show non-visible drafts in the diff screens.
 
+* link:https://code.google.com/p/gerrit/issues/detail?id=1801[Issue 1801]:
+Correctly keep patch set ordering after a new patch set is added via
+the Web UI.
 
 REST API
 ~~~~~~~~

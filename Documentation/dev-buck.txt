@@ -53,8 +53,7 @@ Create the Eclipse project by building the `eclipse` target:
 ----
 
 In Eclipse, choose 'Import existing project' and select the `gerrit` project
-from the current working directory.  Do not import any of the other Maven
-based projects.
+from the current working directory.
 
 Expand the `gerrit` project, right-click on the `buck-out` folder, select
 'Properties', and then under 'Attributes' check 'Derived'.

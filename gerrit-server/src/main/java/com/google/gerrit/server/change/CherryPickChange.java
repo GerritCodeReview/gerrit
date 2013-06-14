@@ -69,6 +69,8 @@ public class CherryPickChange {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   final MergeUtil.Factory mergeUtilFactory;
 
+  private Change srcChange;
+
   @Inject
   CherryPickChange(final ReviewDb db, @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager, final IdentifiedUser currentUser,
@@ -103,6 +105,7 @@ public class CherryPickChange {
           "Cherry Pick: Destination branch cannot be null or empty");
     }
 
+    srcChange = db.changes().get(changeId);
     Project.NameKey project = db.changes().get(changeId).getProject();
     final Repository git;
     try {
@@ -235,6 +238,7 @@ public class CherryPickChange {
           change.getDest().getParentKey().get(), ru.getResult()));
     }
 
+    ins.setSource(srcChange);
     ins.setMessage(buildChangeMessage(patchSetId, change)).insert();
 
     return change.getId();

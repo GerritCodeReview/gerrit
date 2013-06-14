@@ -23,12 +23,17 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.ChangeNoteCreationException;
+import com.google.gerrit.server.git.CreateChangeNotes;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.RefControl;
@@ -37,13 +42,22 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Set;
 
 public class ChangeInserter {
+  private static final Logger log = LoggerFactory.getLogger(ChangeInserter.class);
   public static interface Factory {
     ChangeInserter create(RefControl ctl, Change c, RevCommit rc);
   }
@@ -60,9 +74,16 @@ public class ChangeInserter {
   private final PatchSet patchSet;
   private final RevCommit commit;
   private final PatchSetInfo patchSetInfo;
+  private final CreateChangeNotes.Factory changeNotesFactory;
+  private Repository repo;
+  private final PersonIdent myIdent;
+  private final GitReferenceUpdated replication;
+  private final GitRepositoryManager repoManager;
 
   private ChangeMessage changeMessage;
   private Set<Account.Id> reviewers;
+  private RevWalk revWalk;
+  private Change srcChange;
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
@@ -74,7 +95,11 @@ public class ChangeInserter {
       ChangeIndexer indexer,
       @Assisted RefControl refControl,
       @Assisted Change change,
-      @Assisted RevCommit commit) {
+      @Assisted RevCommit commit,
+      final CreateChangeNotes.Factory changeNotesFactory,
+      @GerritPersonIdent final PersonIdent myIdent,
+      final GitReferenceUpdated replication,
+      final GitRepositoryManager repoManager) {
     this.dbProvider = dbProvider;
     this.gitRefUpdated = gitRefUpdated;
     this.hooks = hooks;
@@ -84,6 +109,11 @@ public class ChangeInserter {
     this.refControl = refControl;
     this.change = change;
     this.commit = commit;
+    this.changeNotesFactory = changeNotesFactory;
+    this.myIdent = myIdent;
+    this.replication = replication;
+    this.repoManager = repoManager;
+
 
     this.reviewers = Collections.emptySet();
 
@@ -113,6 +143,11 @@ public class ChangeInserter {
     return this;
   }
 
+  public ChangeInserter setSource(Change srcChange) {
+    this.srcChange = srcChange;
+    return this;
+  }
+
   public PatchSet getPatchSet() {
     return patchSet;
   }
@@ -121,7 +156,7 @@ public class ChangeInserter {
     return patchSetInfo;
   }
 
-  public void insert() throws OrmException {
+  public void insert() throws OrmException, IOException {
     ReviewDb db = dbProvider.get();
     db.changes().beginTransaction(change.getId());
     try {
@@ -133,6 +168,7 @@ public class ChangeInserter {
       approvalsUtil.addReviewers(db, labelTypes, change, patchSet, patchSetInfo,
           reviewers, Collections.<Account.Id> emptySet());
       db.commit();
+      createNote(commit, srcChange, srcChange.getProject());
     } finally {
       db.rollback();
     }
@@ -144,5 +180,46 @@ public class ChangeInserter {
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
     hooks.doPatchsetCreatedHook(change, patchSet, db);
+  }
+
+  private void createNote(ObjectId commitId, Change change,
+      Project.NameKey project) throws OrmException, IOException {
+    openRepository(project);
+
+    CreateChangeNotes changeNotes =
+        changeNotesFactory.create(repo);
+    String notesRef = "";
+    try {
+      notesRef = changeNotes.create(commitId, change, myIdent);
+    } catch (ChangeNoteCreationException e) {
+      log.error("createNote: error!!!", e.getMessage());
+    }
+    //TODO: NOT SURE commit.getId() is the source Commit id!!!!!!!!!!!!!!!!!!!!!
+    replication.fire(project, notesRef, commit.getId() , commitId);
+
+    if (revWalk != null) {
+      revWalk.release();
+    }
+    if (repo != null) {
+      repo.close();
+    }
+  }
+
+  private void openRepository(Project.NameKey project) throws IOException {
+    try {
+      repo = repoManager.openRepository(project);
+    } catch (RepositoryNotFoundException notGit) {
+      final String m = "Repository \"" + project.get() + "\" unknown.";
+      throw new RepositoryNotFoundException(m, notGit);
+    } catch (IOException err) {
+      final String m = "Error opening repository \"" + project.get() + '"';
+      throw new IOException(m, err);
+    }
+
+    revWalk = new RevWalk(repo);
+    revWalk.sort(RevSort.TOPO);
+    revWalk.sort(RevSort.COMMIT_TIME_DESC, true);
+
+    //inserter = repo.newObjectInserter();
   }
 }

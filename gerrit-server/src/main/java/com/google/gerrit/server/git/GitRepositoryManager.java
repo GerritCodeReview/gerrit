@@ -31,6 +31,9 @@ import java.util.SortedSet;
  * environment.
  */
 public interface GitRepositoryManager {
+  /** Notes branch successful copy to's are written to after copy to events. */
+  public static final String REFS_NOTES_CHANGES = "refs/notes/changes";
+
   /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
   public static final String REF_REJECT_COMMITS = "refs/meta/reject-commits";
 

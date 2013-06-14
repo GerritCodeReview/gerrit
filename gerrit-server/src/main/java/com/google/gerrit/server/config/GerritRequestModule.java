@@ -21,7 +21,9 @@ import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.CreateChangeNotes;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
@@ -44,6 +46,8 @@ public class GerritRequestModule extends FactoryModule {
 
     factory(SubmoduleOp.Factory.class);
     factory(MergeOp.Factory.class);
+    factory(CreateChangeNotes.Factory.class);
+    factory(NotesBranchUtil.Factory.class);
 
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.

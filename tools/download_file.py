@@ -122,11 +122,16 @@ src_url = resolve_url(args.u, redirects)
 if not path.exists(cache_ent):
   try:
     safe_mkdirs(path.dirname(cache_ent))
-    print('Download %s' % src_url, file=stderr)
-    check_call(['curl', '--proxy-anyauth', '-sfo', cache_ent, src_url])
   except OSError as err:
     print('error creating directory %s: %s' %
           (path.dirname(cache_ent), err), file=stderr)
+    exit(1)
+
+  print('Download %s' % src_url, file=stderr)
+  try:
+    check_call(['curl', '--proxy-anyauth', '-sfo', cache_ent, src_url])
+  except OSError as err:
+    print('could not invoke curl: %s\nis curl installed?' % err, file=stderr)
     exit(1)
   except CalledProcessError as err:
     print('error using curl: %s' % err, file=stderr)

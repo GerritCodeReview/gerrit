@@ -76,7 +76,6 @@ gwt_module(
     '//lib:jsr305',
     '//lib/codemirror:codemirror',
     '//lib/gwt:user',
-    '//lib/gwt:gwt-test-utils',
     '//lib/jgit:jgit',
   ],
   visibility = [

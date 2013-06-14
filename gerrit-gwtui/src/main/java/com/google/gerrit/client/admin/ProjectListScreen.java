@@ -29,6 +29,7 @@ import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.http.client.URL;
@@ -64,10 +65,10 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
   protected void onLoad() {
     super.onLoad();
     display();
-    refresh();
+    refresh(false);
   }
 
-  private void refresh() {
+  private void refresh(final boolean open) {
     setToken(subname == null || "".equals(subname) ? ADMIN_PROJECTS
         : ADMIN_PROJECTS + "?filter=" + URL.encodeQueryString(subname));
     ProjectMap.match(subname,
@@ -75,7 +76,12 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
             new GerritCallback<ProjectMap>() {
               @Override
               public void onSuccess(ProjectMap result) {
-                projects.display(result);
+                if (open && result.values().length() > 0) {
+                  Gerrit.display(PageLinks.toProject(
+                      result.values().get(0).name_key()));
+                } else {
+                  projects.display(result);
+                }
               }
             }));
   }
@@ -153,7 +159,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
       @Override
       public void onKeyUp(KeyUpEvent event) {
         subname = filterTxt.getValue();
-        refresh();
+        refresh(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER);
       }
     });
     hp.add(filterTxt);

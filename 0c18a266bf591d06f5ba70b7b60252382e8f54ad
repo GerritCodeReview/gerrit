@@ -52,6 +52,24 @@
       "revId": "0c18a266bf591d06f5ba70b7b60252382e8f54ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8895e1_c1a7a2f4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-06-14T21:00:21Z",
+      "side": 1,
+      "message": "True, my mistake.",
+      "parentUuid": "0a8d91f2_00d02647",
+      "revId": "0c18a266bf591d06f5ba70b7b60252382e8f54ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

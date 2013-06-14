@@ -1491,7 +1491,7 @@ public class ReceiveCommits {
       ListenableFuture<Void> future = changeUpdateExector.submit(
           requestScopePropagator.wrap(new Callable<Void>() {
         @Override
-        public Void call() throws OrmException {
+        public Void call() throws OrmException, IOException {
           if (caller == Thread.currentThread()) {
             insertChange(db);
           } else {
@@ -1511,7 +1511,7 @@ public class ReceiveCommits {
       return Futures.makeChecked(future, ORM_EXCEPTION);
     }
 
-    private void insertChange(ReviewDb db) throws OrmException {
+    private void insertChange(ReviewDb db) throws OrmException, IOException {
       final PatchSet ps = ins.getPatchSet();
       final Account.Id me = currentUser.getAccountId();
       final List<FooterLine> footerLines = commit.getFooterLines();

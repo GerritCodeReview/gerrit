@@ -34,6 +34,24 @@
       "revId": "0c18a266bf591d06f5ba70b7b60252382e8f54ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_00d02647",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-14T20:52:48Z",
+      "side": 1,
+      "message": "I still don\u0027t see what you think you fixed here.\n\n  AccountGroup accountGroup \u003d GroupDescriptions.toAccountGroup(group);\n  // accountGroup \u003d\u003d null for an external group\n\n  return (accountGroup !\u003d null \u0026\u0026 accountGroup.isVisibleToAll())\n\nthis evaluates as:\n\n  return (null !\u003d null \u0026\u0026 null.isVisibleToAll())\n\nwhich is:\n\n  return (false \u0026\u0026 null.isVisibleToAll())\n\nwhich is:\n\n    return false\n      || user instanceof InternalUser;\n\nso now we are left with:\n\n  return user instanceof InternalUser ...\n\nAll you did is replace an || with an if. Either way it produces the same outcome.",
+      "parentUuid": "2a8895e1_a1aa9ebd",
+      "revId": "0c18a266bf591d06f5ba70b7b60252382e8f54ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -102,12 +102,13 @@ public class FromAddressGeneratorProviderTest extends TestCase {
   public void testUSER_NoPreferredEmailUser() {
     setFrom("USER");
 
-    final Account.Id user = user("A U. Thor", null);
+    final String name = "A U. Thor";
+    final Account.Id user = user(name, null);
 
     replay(accountCache);
     final Address r = create().from(user);
     assertNotNull(r);
-    assertEquals(ident.getName(), r.name);
+    assertEquals(name, r.name);
     assertEquals(ident.getEmailAddress(), r.email);
     verify(accountCache);
   }

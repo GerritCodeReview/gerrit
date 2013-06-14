@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2a8895e1_c11a4278",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-14T07:15:45Z",
+      "side": 1,
+      "message": "Oh, thx, have to set up the right time on my local machine ;-)",
+      "parentUuid": "2a8895e1_81151a4f",
+      "revId": "53b4ba49296d59bf4e8c6263fba2279891ab53d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a8895e1_e123c6b2",
         "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-14T07:00:56Z",
       "side": 1,
       "message": "As David P. said online editing of commit messages is only added with 2.6, but this error also occurs on other actions such as rebase from WebUI, so it is relevant to be mentioned in this release notes. Maybe just rephrase the sentence and say that the reverse sort order of patch sets is lost on web actions that add a new patch set to the change?",
+      "revId": "53b4ba49296d59bf4e8c6263fba2279891ab53d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a8895e1_613b36d8",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-14T07:15:45Z",
+      "side": 1,
+      "message": "Agreed, can you please upload a new ps?",
+      "parentUuid": "2a8895e1_e123c6b2",
       "revId": "53b4ba49296d59bf4e8c6263fba2279891ab53d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

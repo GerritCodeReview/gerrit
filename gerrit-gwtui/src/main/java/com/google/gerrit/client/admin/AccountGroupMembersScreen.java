@@ -58,6 +58,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   private Button delInclude;
 
   private FlowPanel noMembersInfo;
+  private AccountGroupSuggestOracle accountGroupSuggestOracle;
 
   public AccountGroupMembersScreen(final GroupInfo toShow, final String token) {
     super(toShow, token);
@@ -109,9 +110,10 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   }
 
   private void initIncludeList() {
+    accountGroupSuggestOracle = new AccountGroupSuggestOracle();
     addIncludeBox =
         new AddMemberBox(Util.C.buttonAddIncludedGroup(),
-            Util.C.defaultAccountGroupName(), new AccountGroupSuggestOracle());
+            Util.C.defaultAccountGroupName(), accountGroupSuggestOracle);
 
     addIncludeBox.addClickHandler(new ClickHandler() {
       @Override
@@ -187,13 +189,18 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
   }
 
   void doAddNewInclude() {
-    final String groupName = addIncludeBox.getText();
+    String groupName = addIncludeBox.getText();
     if (groupName.length() == 0) {
       return;
     }
 
+    AccountGroup.UUID uuid = accountGroupSuggestOracle.getUUID(groupName);
+    if (uuid == null) {
+      return;
+    }
+
     addIncludeBox.setEnabled(false);
-    GroupApi.addIncludedGroup(getGroupUUID(), groupName,
+    GroupApi.addIncludedGroup(getGroupUUID(), uuid.get(),
         new GerritCallback<GroupInfo>() {
           public void onSuccess(final GroupInfo result) {
             addIncludeBox.setEnabled(true);

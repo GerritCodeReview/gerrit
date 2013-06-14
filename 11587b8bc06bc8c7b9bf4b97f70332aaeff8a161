@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ca961906_7eee7142",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-06-14T17:57:41Z",
+      "side": 1,
+      "message": "I feel the first sentence is misrepresenting the contents of the page. To me, \"inner workings of the access control model\" means explaining ACL inheritance and BLOCK/DENY/ALLOW and we\u0027re doing nothing of the kind here. Something involving \"storage model\", \"storage format\" or similar would be more apt.",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aa0a15b_5ce93d37",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-06-14T17:57:41Z",
+      "side": 1,
+      "message": "To be fair, reviewing of ACL updates is available from the GUI too.",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8309c5_626256ee",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 6
@@ -19,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "ca961906_1ef3ad25",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-06-14T17:57:41Z",
+      "side": 1,
+      "message": "According to the section below there are more keys than \u0027description\u0027.",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a8309c5_82675afb",
         "filename": "Documentation/config-project-config.txt",
         "patchSetId": 6
@@ -30,6 +81,40 @@
       "writtenOn": "2013-06-14T07:52:54Z",
       "side": 1,
       "message": "Add a blank line above this?",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aa0a15b_7cee7942",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-06-14T17:57:41Z",
+      "side": 1,
+      "message": "The section for approval categories that Dave Borowitz added a few months ago should also be documented.",
+      "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca961906_3ef8e9fe",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2013-06-14T17:57:41Z",
+      "side": 1,
+      "message": "If the section is named \u0027capability\u0027 I think that\u0027s what the headline should say too.",
       "revId": "11587b8bc06bc8c7b9bf4b97f70332aaeff8a161",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

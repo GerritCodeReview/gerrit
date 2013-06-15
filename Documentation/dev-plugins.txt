@@ -310,6 +310,87 @@ by PrintHello class will be available to users as:
 $ ssh -p 29418 review.example.com helloworld print
 ----
 
+[[capabilities]]
+Plugin Owned Capabilities
+-------------------------
+
+Plugins may provide their own capabilities and restrict usage of SSH
+commands to the users who are granted those capabilities.
+
+Plugins define the capabilities by overriding the `CapabilityDefinition`
+abstract class:
+
+====
+  public class PrintHelloCapability extends CapabilityDefinition {
+    @Override
+    public String getDescription() {
+      return "Print Hello";
+    }
+  }
+====
+
+If no Guice modules are declared in the manifest, UI commands may
+use auto-registration by providing an `@Export` annotation:
+
+====
+  @Export("printHello")
+  public class PrintHelloCapability extends CapabilityDefinition {
+  ...
+====
+
+Otherwise the capability must be bound in a plugin module:
+
+====
+  public class HelloWorldModule extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(CapabilityDefinition.class)
+        .annotatedWith(Exports.named("printHello"))
+        .to(PrintHelloCapability.class);
+    }
+  }
+====
+
+With a plugin-owned capability defined in this way, it is possible to restrict
+usage of an SSH command or UiAction to members of the group that were granted
+this capability in the usual way, using the `RequiresCapability` annotation:
+
+====
+  @RequiresCapability("printHello")
+  @CommandMetaData(name="print", descr="Print greeting in different languages")
+  public final class PrintHelloWorldCommand extends SshCommand {
+  ...
+====
+
+Or with UiAction:
+
+====
+  @RequiresCapability("printHello")
+  public class SayHelloAction extends UiAction<RevisionResource>
+    implements RestModifyView<RevisionResource, SayHelloAction.Input> {
+  ...
+====
+
+Capability scope was introduced to differentiate between plugin-owned
+capabilities and core capabilities. Per default the scope of
+@RequiresCapability annotation is `CapabilityScope.CONTEXT`, that means:
++
+* when `@RequiresCapability` is used within a plugin the scope of the
+capability is assumed to be that plugin.
++
+* If `@RequiresCapability` is used within the core Gerrit Code Review server
+(and thus is outside of a plugin) the scope is the core server and will use
+the `GlobalCapability` known to Gerrit Code Review server.
+
+If a plugin needs to use a core capability name (e.g. "administrateServer")
+this can be specified by setting `scope = CapabilityScope.CORE`:
+
+====
+  @RequiresCapability(value = "administrateServer", scope =
+      CapabilityScope.CORE)
+  ...
+====
+
 [[http]]
 HTTP Servlets
 -------------

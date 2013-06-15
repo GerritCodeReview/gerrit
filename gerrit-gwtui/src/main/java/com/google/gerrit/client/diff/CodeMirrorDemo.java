@@ -103,6 +103,7 @@ public class CodeMirrorDemo extends Screen {
     if (cmB != null) {
       cmB.refresh();
     }
+    Window.enableScrolling(false);
   }
 
   @Override
@@ -120,6 +121,7 @@ public class CodeMirrorDemo extends Screen {
       cmB.getWrapperElement().removeFromParent();
       cmB = null;
     }
+    Window.enableScrolling(true);
   }
 
   private void display(DiffInfo diff) {
@@ -141,7 +143,6 @@ public class CodeMirrorDemo extends Screen {
     });
     cmA.on("scroll", doScroll(cmB));
     cmB.on("scroll", doScroll(cmA));
-    Window.enableScrolling(false);
   }
 
   private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents,

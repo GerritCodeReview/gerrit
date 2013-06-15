@@ -113,15 +113,25 @@ final class DispatchCommand extends BaseCommand {
     }
   }
 
-  private void checkRequiresCapability(Command cmd) throws UnloggedFailure {
+  private void checkRequiresCapability(Command cmd)
+      throws UnloggedFailure {
     RequiresCapability rc = cmd.getClass().getAnnotation(RequiresCapability.class);
     if (rc != null) {
       CurrentUser user = currentUser.get();
       CapabilityControl ctl = user.getCapabilities();
-      if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
+
+      String capability = rc.value();
+      if (!rc.core() && cmd instanceof BaseCommand) {
+        String pluginName = ((BaseCommand) cmd).getPluginName();
+        if (pluginName != null) {
+          capability = String.format("%s-%s", pluginName, rc.value());
+        }
+      }
+
+      if (!ctl.canPerform(capability) && !ctl.canAdministrateServer()) {
         String msg = String.format(
             "fatal: %s does not have \"%s\" capability.",
-            user.getUserName(), rc.value());
+            user.getUserName(), capability);
         throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
       }
     }

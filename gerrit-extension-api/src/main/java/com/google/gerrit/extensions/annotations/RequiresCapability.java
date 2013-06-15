@@ -27,5 +27,13 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)
 public @interface RequiresCapability {
+  /**  Name of the capability required to invoke this action. */
   String value();
+
+  /**
+   * True if the capability is a core server capability declared by
+   * {@link com.google.gerrit.common.data.GlobalCapability}. The default
+   * of false scopes the named capability to declaring plugin.
+   */
+  boolean core() default false;
 }

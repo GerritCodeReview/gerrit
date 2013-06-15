@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -85,7 +86,7 @@ final class DispatchCommand extends BaseCommand {
       }
 
       final Command cmd = p.getProvider().get();
-      checkRequiresCapability(cmd);
+      checkRequiresCapability(getName(), cmd);
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
         if (getName().isEmpty())
@@ -113,12 +114,20 @@ final class DispatchCommand extends BaseCommand {
     }
   }
 
-  private void checkRequiresCapability(Command cmd) throws UnloggedFailure {
+  private void checkRequiresCapability(String baseName, Command cmd)
+      throws UnloggedFailure {
     RequiresCapability rc = cmd.getClass().getAnnotation(RequiresCapability.class);
     if (rc != null) {
       CurrentUser user = currentUser.get();
       CapabilityControl ctl = user.getCapabilities();
       if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
+        // if it is not a global (known in core) capability,
+        // then it must be a plugin-owned capability
+        if (!GlobalCapability.isCapability(rc.value())) {
+          if (ctl.canPerform(String.format("%s-%s", baseName, rc.value()))) {
+            return;
+          }
+        }
         String msg = String.format(
             "fatal: %s does not have \"%s\" capability.",
             user.getUserName(), rc.value());

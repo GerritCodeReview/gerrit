@@ -310,6 +310,56 @@ by PrintHello class will be available to users as:
 $ ssh -p 29418 review.example.com helloworld print
 ----
 
+[[capabilities]]
+Plugin owned capabilities
+-------------------------
+
+Plugins may provide their own capabilities and restrict the SSH commands
+to be only called by the users who were granted these capabilities.
+
+Plugins define the capabilities by implementing `CapabilityDefinition` interface:
+
+===
+public class PrintHelloCapability implements CapabilityDefinition {
+  @Override
+  public String getDescription() {
+    return "Print Hello";
+  }
+}
+====
+
+If auto registration is used (no modules defined in MANIFEST.MF), then
+it is sufficient to just export that capability instance with:
+
+===
+Export("printHello")
+public class PrintHelloCapability implements CapabilityDefinition {
+...
+===
+
+Otherwise the capability must be bind in a plugin module:
+
+===
+public class HelloWorldModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(CapabilityDefinition.class).annotatedWith(
+        Exports.named("printHello")).to(PrintHelloCapability.class);
+  }
+}
+===
+
+With a plugin-owned capability defined in this way, it can be used to restrict
+a SSH command for a member of group that was granted this capability in usual
+way, using `RequiresCapability` annotation:
+
+===
+@RequiresCapability(PrintHelloCapability.PRINT_HELLO_CAPABILITY)
+@CommandMetaData(name="print", descr="Print greeting in different languages")
+public final class PrintHelloWorldCommand extends SshCommand {
+...
+===
+
 [[http]]
 HTTP Servlets
 -------------

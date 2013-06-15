@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.extensions.annotations.CapabilityScope;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -28,6 +29,8 @@ import com.google.inject.assistedinject.Assisted;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -40,6 +43,9 @@ import java.util.concurrent.atomic.AtomicReference;
  * Command that dispatches to a subcommand from its command table.
  */
 final class DispatchCommand extends BaseCommand {
+  private static final Logger log = LoggerFactory
+      .getLogger(DispatchCommand.class);
+
   interface Factory {
     DispatchCommand create(Map<String, CommandProvider> map);
   }
@@ -113,15 +119,36 @@ final class DispatchCommand extends BaseCommand {
     }
   }
 
-  private void checkRequiresCapability(Command cmd) throws UnloggedFailure {
+  private void checkRequiresCapability(Command cmd)
+      throws UnloggedFailure {
     RequiresCapability rc = cmd.getClass().getAnnotation(RequiresCapability.class);
     if (rc != null) {
       CurrentUser user = currentUser.get();
       CapabilityControl ctl = user.getCapabilities();
-      if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
+      String capability = rc.value();
+
+      if (cmd instanceof BaseCommand) {
+        String pluginName = ((BaseCommand) cmd).getPluginName();
+        if (pluginName != null && !"gerrit".equals(pluginName)
+            && (rc.scope() == CapabilityScope.PLUGIN
+             || rc.scope() == CapabilityScope.CONTEXT)) {
+          capability = String.format("%s-%s", pluginName, rc.value());
+        } else if (rc.scope() == CapabilityScope.PLUGIN) {
+          log.error(String.format(
+              "Class %s uses @%s(scope=%s), but is not within a plugin",
+              cmd.getClass().getName(),
+              RequiresCapability.class.getSimpleName(),
+              CapabilityScope.PLUGIN.name()));
+          throw new UnloggedFailure(
+              BaseCommand.STATUS_NOT_ADMIN,
+              "fatal: cannot check capability");
+        }
+      }
+
+      if (!ctl.canPerform(capability) && !ctl.canAdministrateServer()) {
         String msg = String.format(
             "fatal: %s does not have \"%s\" capability.",
-            user.getUserName(), rc.value());
+            user.getUserName(), capability);
         throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
       }
     }

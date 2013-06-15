@@ -310,6 +310,44 @@ by PrintHello class will be available to users as:
 $ ssh -p 29418 review.example.com helloworld print
 ----
 
+[[capabilities]]
+Plugin owned capabilities
+-------------------------
+
+Plugins may provide their own capabilities and restrict the SSH commands
+to be only called by the users who were granted these capabilities.
+
+Plugins define the capabilities by implementing `CapabilityDefinition` interface:
+
+===
+public class PrintHelloCapability implements CapabilityDefinition {
+
+  @Override
+  public String getName() {
+    return "printHello";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Print Hello";
+  }
+}
+====
+
+Additionally these capabilities must be instaled in a Plugin module:
+
+===
+import static com.google.gerrit.plugins.PrintHelloCapability.PRINT_HELLO_CAPABILITY;
+public class HelloWorldModule extends AbstractModule {
+
+  @Override
+  protected void configure() {
+    bind(EXTERNAL_CAPABILITY_KIND).annotatedWith(
+        Exports.named("printHello")).to(PrintHelloCapability.class);
+  }
+}
+===
+
 [[http]]
 HTTP Servlets
 -------------

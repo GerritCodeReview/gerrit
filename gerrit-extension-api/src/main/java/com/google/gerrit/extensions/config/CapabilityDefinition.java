@@ -12,19 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.extensions.config;
 
-import static com.google.gerrit.server.config.CapabilityResource.CAPABILITY_KIND;
-import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.RestApiModule;
-
-public class Module extends RestApiModule {
-  @Override
-  protected void configure() {
-    DynamicMap.mapOf(binder(), CONFIG_KIND);
-    DynamicMap.mapOf(binder(), CAPABILITY_KIND);
-    child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
-  }
+/** Specifies plugin-owned capability */
+@ExtensionPoint
+public abstract class CapabilityDefinition {
+  /** @return description of the capability. */
+  public abstract String getDescription();
 }

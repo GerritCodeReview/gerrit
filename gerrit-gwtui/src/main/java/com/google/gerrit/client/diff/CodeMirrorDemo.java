@@ -60,6 +60,7 @@ public class CodeMirrorDemo extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
+    setHeaderVisible(false);
     add(diffTable = new DiffTable());
   }
 

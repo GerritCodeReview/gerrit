@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea911d0e_3f7307ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-15T00:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_5f74cb95",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8d91f2_206e8ac8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-14T18:26:47Z",
       "side": 1,
       "message": "i would put a blank line after here",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea911d0e_df877b53",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-15T00:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_206e8ac8",
       "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0a8d91f2_0085864a",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-15T00:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_40738eab",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea911d0e_1f6e43c8",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-14T18:26:47Z",
       "side": 1,
       "message": "Don\u0027t add to the RootPanel. Didn\u0027t we discuss using a hidden FlowPanel?",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a8309c5_029eeaa6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-15T00:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_1f6e43c8",
       "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "6a9d2d25_1bf3bb25",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-15T00:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea911d0e_7f798f8c",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8d91f2_8079968f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2013-06-14T18:26:47Z",
       "side": 1,
       "message": "remove this blank line",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_a0813a3f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-15T00:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_8079968f",
       "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "0a8d91f2_c07ebe70",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-15T00:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a8895e1_618d7680",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8d91f2_60749296",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
         "patchSetId": 4
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "ea911d0e_ff84bf50",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-15T00:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_60749296",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8d91f2_c0a79ef4",
         "filename": "lib/codemirror/BUCK",
         "patchSetId": 4
@@ -149,6 +293,24 @@
       "writtenOn": "2013-06-14T18:26:47Z",
       "side": 1,
       "message": "Use our Maven base instead of the URL itself:\n\n  include_defs(\u0027//lib/maven.defs\u0027)\n\n  VERSION \u003d...\n  SHA1 \u003d ...\n  URL \u003d GERRIT + \u0027net/codemirror/codemirror-%s.zip\u0027 % VERSION",
+      "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a8d91f2_60dfb260",
+        "filename": "lib/codemirror/BUCK",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-15T00:04:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8d91f2_c0a79ef4",
       "revId": "b041b709928b23bdd3444a171086fe6872a040e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

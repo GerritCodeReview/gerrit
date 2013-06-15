@@ -16,21 +16,52 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.util.Map;
 
 /** List capabilities visible to the calling user. */
 public class ListCapabilities implements RestReadView<ConfigResource> {
+
+  private final DynamicMap<CapabilityDefinition> pluginCapabilities;
+
+  @Inject
+  public ListCapabilities(
+      final DynamicMap<CapabilityDefinition> pluginCapabilities) {
+    this.pluginCapabilities = pluginCapabilities;
+  }
+
   @Override
   public Map<String, CapabilityInfo> apply(ConfigResource resource)
       throws AuthException, BadRequestException, ResourceConflictException,
       IllegalArgumentException, SecurityException, IllegalAccessException,
       NoSuchFieldException {
     Map<String, CapabilityInfo> output = Maps.newTreeMap();
+    collectCoreCapabilities(output);
+    collectPluginCapabilities(output);
+    return output;
+  }
+
+  private void collectPluginCapabilities(Map<String, CapabilityInfo> output) {
+    for (String pluginName : pluginCapabilities.plugins()) {
+      for (Provider<CapabilityDefinition> capability : pluginCapabilities
+          .byPlugin(pluginName).values()) {
+        CapabilityDefinition d = capability.get();
+        String id = String.format("%s-%s", pluginName, d.getName());
+        output.put(id, new CapabilityInfo(id, d.getDescription()));
+      }
+    }
+  }
+
+  private void collectCoreCapabilities(Map<String, CapabilityInfo> output)
+      throws IllegalAccessException, NoSuchFieldException {
     Class<? extends CapabilityConstants> bundleClass =
         CapabilityConstants.get().getClass();
     CapabilityConstants c = CapabilityConstants.get();
@@ -38,7 +69,6 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
       String name = (String) bundleClass.getField(id).get(c);
       output.put(id, new CapabilityInfo(id, name));
     }
-    return output;
   }
 
   public static class CapabilityInfo {

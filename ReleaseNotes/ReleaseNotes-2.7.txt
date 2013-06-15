@@ -95,8 +95,6 @@ Web UI
 Global
 ^^^^^^
 
-* The search box no longer automatically resizes.  Its width is fixed at 70 pixels.
-
 * User avatars are displayed in several places in the Web UI.  "Diffy" is used as
 avatar for the Gerrit server itself.
 

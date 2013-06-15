@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
@@ -96,6 +97,8 @@ public abstract class BaseCommand implements Command {
   /** Text of the command line which lead up to invoking this instance. */
   private String commandName = "";
 
+  private String pluginName;
+
   /** Unparsed command line options. */
   private String[] argv;
 
@@ -141,6 +144,15 @@ public abstract class BaseCommand implements Command {
     if (future != null && !future.isDone()) {
       future.cancel(true);
     }
+  }
+
+  @Inject(optional = true)
+  void setPluginName(@PluginName String name) {
+    this.pluginName = name;
+  }
+
+  String getPluginName() {
+    return pluginName;
   }
 
   /**

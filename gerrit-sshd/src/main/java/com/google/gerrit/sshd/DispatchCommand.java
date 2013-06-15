@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -113,12 +114,28 @@ final class DispatchCommand extends BaseCommand {
     }
   }
 
-  private void checkRequiresCapability(Command cmd) throws UnloggedFailure {
+  /*
+   * The current implementation disallows plugins to protect their SSH
+   * commands with core capabilities. Only plugin owned capabilities are
+   * supported with RequiresCapability annotation.
+   * Note: plugins can reuse the core capabilities by implementing the check
+   * that the caller has the corresonding (core) ACL manually without using
+   * RequiresCapability annotation.
+   */
+  private void checkRequiresCapability(Command cmd)
+      throws UnloggedFailure {
     RequiresCapability rc = cmd.getClass().getAnnotation(RequiresCapability.class);
     if (rc != null) {
       CurrentUser user = currentUser.get();
       CapabilityControl ctl = user.getCapabilities();
-      if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
+      String capability = rc.value();
+      if (cmd instanceof BaseCommand) {
+        String pluginName = ((BaseCommand)cmd).getPluginName();
+        if (pluginName != null) {
+          capability = String.format("%s-%s", pluginName, rc.value());
+        }
+      }
+      if (!ctl.canPerform(capability) && !ctl.canAdministrateServer()) {
         String msg = String.format(
             "fatal: %s does not have \"%s\" capability.",
             user.getUserName(), rc.value());

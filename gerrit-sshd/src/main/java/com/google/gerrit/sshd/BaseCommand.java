@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
@@ -53,6 +54,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.annotation.Nullable;
+
 public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
   public static final String ENC = "UTF-8";
@@ -90,6 +93,11 @@ public abstract class BaseCommand implements Command {
   @Inject
   private Provider<SshScope.Context> contextProvider;
 
+  /** Commands declared by a plugin can be scoped by the plugin name. */
+  @Inject(optional = true)
+  @PluginName
+  private String pluginName;
+
   /** The task, as scheduled on a worker thread. */
   private final AtomicReference<Future<?>> task;
 
@@ -117,6 +125,11 @@ public abstract class BaseCommand implements Command {
 
   public void setExitCallback(final ExitCallback callback) {
     this.exit = callback;
+  }
+
+  @Nullable
+  String getPluginName() {
+    return pluginName;
   }
 
   String getName() {

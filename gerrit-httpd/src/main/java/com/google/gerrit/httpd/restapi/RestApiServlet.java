@@ -23,8 +23,8 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
@@ -199,17 +199,17 @@ public class RestApiServlet extends HttpServlet {
 
       List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
-      checkAccessAnnotations(rc.getClass());
+      checkAccessAnnotations(null, rc.getClass());
 
       RestResource rsrc = TopLevelResource.INSTANCE;
-      RestView<RestResource> view = null;
+      ViewData viewData = new ViewData(null, null);
       if (path.isEmpty()) {
         if ("GET".equals(req.getMethod())) {
-          view = rc.list();
+          viewData = new ViewData(null, rc.list());
         } else if (rc instanceof AcceptsPost && "POST".equals(req.getMethod())) {
           @SuppressWarnings("unchecked")
           AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) rc;
-          view = ac.post(rsrc);
+          viewData = new ViewData(null, ac.post(rsrc));
         } else {
           throw new MethodNotAllowedException();
         }
@@ -227,30 +227,30 @@ public class RestApiServlet extends HttpServlet {
                   || "PUT".equals(req.getMethod()))) {
             @SuppressWarnings("unchecked")
             AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) rc;
-            view = ac.create(rsrc, id);
+            viewData = new ViewData(null, ac.create(rsrc, id));
             status = SC_CREATED;
           } else {
             throw e;
           }
         }
-        if (view == null) {
-          view = view(rc, req.getMethod(), path);
+        if (viewData.view == null) {
+          viewData = view(rc, req.getMethod(), path);
         }
       }
-      checkAccessAnnotations(view.getClass());
+      checkAccessAnnotations(viewData);
 
-      while (view instanceof RestCollection<?,?>) {
+      while (viewData.view instanceof RestCollection<?,?>) {
         @SuppressWarnings("unchecked")
         RestCollection<RestResource, RestResource> c =
-            (RestCollection<RestResource, RestResource>) view;
+            (RestCollection<RestResource, RestResource>) viewData.view;
 
         if (path.isEmpty()) {
           if ("GET".equals(req.getMethod())) {
-            view = c.list();
+            viewData = new ViewData(null, c.list());
           } else if (c instanceof AcceptsPost && "POST".equals(req.getMethod())) {
             @SuppressWarnings("unchecked")
             AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
-            view = ac.post(rsrc);
+            viewData = new ViewData(null, ac.post(rsrc));
           } else {
             throw new MethodNotAllowedException();
           }
@@ -260,7 +260,7 @@ public class RestApiServlet extends HttpServlet {
           try {
             rsrc = c.parse(rsrc, id);
             checkPreconditions(req, rsrc);
-            view = null;
+            viewData = new ViewData(null, null);
           } catch (ResourceNotFoundException e) {
             if (c instanceof AcceptsCreate
                 && path.isEmpty()
@@ -268,17 +268,17 @@ public class RestApiServlet extends HttpServlet {
                     || "PUT".equals(req.getMethod()))) {
               @SuppressWarnings("unchecked")
               AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
-              view = ac.create(rsrc, id);
+              viewData = new ViewData(null, ac.create(rsrc, id));
               status = SC_CREATED;
             } else {
               throw e;
             }
           }
-          if (view == null) {
-            view = view(c, req.getMethod(), path);
+          if (viewData.view == null) {
+            viewData = view(c, req.getMethod(), path);
           }
         }
-        checkAccessAnnotations(view.getClass());
+        checkAccessAnnotations(viewData);
       }
 
       if (notModified(req, rsrc)) {
@@ -288,19 +288,19 @@ public class RestApiServlet extends HttpServlet {
 
       Multimap<String, String> config = LinkedHashMultimap.create();
       ParameterParser.splitQueryString(req.getQueryString(), config, params);
-      if (!globals.paramParser.get().parse(view, params, req, res)) {
+      if (!globals.paramParser.get().parse(viewData.view, params, req, res)) {
         return;
       }
 
-      if (view instanceof RestModifyView<?, ?>) {
+      if (viewData.view instanceof RestModifyView<?, ?>) {
         @SuppressWarnings("unchecked")
         RestModifyView<RestResource, Object> m =
-            (RestModifyView<RestResource, Object>) view;
+            (RestModifyView<RestResource, Object>) viewData.view;
 
         inputRequestBody = parseRequest(req, inputType(m));
         result = m.apply(rsrc, inputRequestBody);
-      } else if (view instanceof RestReadView<?>) {
-        result = ((RestReadView<RestResource>) view).apply(rsrc);
+      } else if (viewData.view instanceof RestReadView<?>) {
+        result = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
       } else {
         throw new ResourceNotFoundException();
       }
@@ -766,7 +766,7 @@ public class RestApiServlet extends HttpServlet {
     return gz.setContentType(src.getContentType());
   }
 
-  private RestView<RestResource> view(
+  private ViewData view(
       RestCollection<RestResource, RestResource> rc,
       String method, List<IdString> path) throws ResourceNotFoundException,
       MethodNotAllowedException, AmbiguousViewException {
@@ -786,7 +786,7 @@ public class RestApiServlet extends HttpServlet {
       RestView<RestResource> view =
           views.get(p.get(0), method + "." + p.get(1));
       if (view != null) {
-        return view;
+        return new ViewData(p.get(0), view);
       }
       throw new ResourceNotFoundException(projection);
     }
@@ -794,7 +794,7 @@ public class RestApiServlet extends HttpServlet {
     String name = method + "." + p.get(0);
     RestView<RestResource> core = views.get("gerrit", name);
     if (core != null) {
-      return core;
+      return new ViewData(null, core);
     }
 
     Map<String, RestView<RestResource>> r = Maps.newTreeMap();
@@ -806,7 +806,9 @@ public class RestApiServlet extends HttpServlet {
     }
 
     if (r.size() == 1) {
-      return Iterables.getFirst(r.values(), null);
+      Map.Entry<String, RestView<RestResource>> entry =
+          Iterables.getOnlyElement(r.entrySet());
+      return new ViewData(entry.getKey(), entry.getValue());
     } else if (r.isEmpty()) {
       throw new ResourceNotFoundException(projection);
     } else {
@@ -862,16 +864,26 @@ public class RestApiServlet extends HttpServlet {
     return !("GET".equals(method) || "HEAD".equals(method));
   }
 
-  private void checkAccessAnnotations(Class<? extends Object> clazz)
+  private void checkAccessAnnotations(ViewData viewData) throws AuthException {
+    checkAccessAnnotations(viewData.pluginName, viewData.view.getClass());
+  }
+
+  private void checkAccessAnnotations(String pluginName, Class<?> clazz)
       throws AuthException {
     RequiresCapability rc = clazz.getAnnotation(RequiresCapability.class);
     if (rc != null) {
       CurrentUser user = globals.currentUser.get();
       CapabilityControl ctl = user.getCapabilities();
-      if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
+      String capability = rc.value();
+
+     if (!rc.core() && pluginName != null) {
+        capability = String.format("%s-%s", pluginName, rc.value());
+      }
+
+      if (!ctl.canPerform(capability) && !ctl.canAdministrateServer()) {
         throw new AuthException(String.format(
             "Capability %s is required to access this resource",
-            rc.value()));
+            capability));
       }
     }
   }
@@ -986,6 +998,16 @@ public class RestApiServlet extends HttpServlet {
   private static class AmbiguousViewException extends Exception {
     AmbiguousViewException(String message) {
       super(message);
+    }
+  }
+
+  private static class ViewData {
+    String pluginName;
+    RestView<RestResource> view;
+
+    ViewData(String pluginName, RestView<RestResource> view) {
+      this.pluginName = pluginName;
+      this.view = view;
     }
   }
 }

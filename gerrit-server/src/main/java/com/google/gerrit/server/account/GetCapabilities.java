@@ -34,6 +34,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -68,10 +70,13 @@ class GetCapabilities implements RestReadView<AccountResource> {
   private Set<String> query;
 
   private final Provider<CurrentUser> self;
+  private final DynamicMap<CapabilityDefinition> pluginCapabilities;
 
   @Inject
-  GetCapabilities(Provider<CurrentUser> self) {
+  GetCapabilities(Provider<CurrentUser> self,
+      DynamicMap<CapabilityDefinition> pluginCapabilities) {
     this.self = self;
+    this.pluginCapabilities = pluginCapabilities;
   }
 
   @Override
@@ -89,6 +94,17 @@ class GetCapabilities implements RestReadView<AccountResource> {
         if (GlobalCapability.hasRange(name)) {
           have.put(name, new Range(cc.getRange(name)));
         } else {
+          have.put(name, true);
+        }
+      }
+    }
+    // plugin-owned capabilities
+    for (String pluginName : pluginCapabilities.plugins()) {
+      for (Provider<CapabilityDefinition> capability : pluginCapabilities
+          .byPlugin(pluginName).values()) {
+        CapabilityDefinition d = capability.get();
+        String name = String.format("%s-%s", pluginName, d.getName());
+        if (want(name) && cc.canPerform(name)) {
           have.put(name, true);
         }
       }

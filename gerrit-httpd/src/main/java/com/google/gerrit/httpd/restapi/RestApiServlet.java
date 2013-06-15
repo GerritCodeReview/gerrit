@@ -23,8 +23,8 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
@@ -69,6 +69,7 @@ import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
@@ -199,7 +200,7 @@ public class RestApiServlet extends HttpServlet {
 
       List<IdString> path = splitPath(req);
       RestCollection<RestResource, RestResource> rc = members.get();
-      checkAccessAnnotations(rc.getClass());
+      checkAccessAnnotations(rc);
 
       RestResource rsrc = TopLevelResource.INSTANCE;
       RestView<RestResource> view = null;
@@ -278,7 +279,7 @@ public class RestApiServlet extends HttpServlet {
             view = view(c, req.getMethod(), path);
           }
         }
-        checkAccessAnnotations(view.getClass());
+        checkAccessAnnotations(view);
       }
 
       if (notModified(req, rsrc)) {
@@ -862,13 +863,21 @@ public class RestApiServlet extends HttpServlet {
     return !("GET".equals(method) || "HEAD".equals(method));
   }
 
-  private void checkAccessAnnotations(Class<? extends Object> clazz)
+  private void checkAccessAnnotations(Object r)
       throws AuthException {
-    RequiresCapability rc = clazz.getAnnotation(RequiresCapability.class);
+    RequiresCapability rc =
+        r.getClass().getAnnotation(RequiresCapability.class);
     if (rc != null) {
       CurrentUser user = globals.currentUser.get();
       CapabilityControl ctl = user.getCapabilities();
-      if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
+      String capability = rc.value();
+      if (r instanceof UiAction) {
+        String pluginName = ((UiAction<?>)r).getPluginName();
+        if (pluginName != null) {
+          capability = String.format("%s-%s", pluginName, rc.value());
+        }
+      }
+      if (!ctl.canPerform(capability) && !ctl.canAdministrateServer()) {
         throw new AuthException(String.format(
             "Capability %s is required to access this resource",
             rc.value()));

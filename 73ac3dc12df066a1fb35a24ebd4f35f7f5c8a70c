@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a9d2d25_3bf8f7fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-06-15T05:39:24Z",
+      "side": 1,
+      "message": "Yeah I noticed bug and was gonna fix it... Thanks!",
+      "revId": "73ac3dc12df066a1fb35a24ebd4f35f7f5c8a70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

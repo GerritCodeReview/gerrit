@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "2abfb58d_49e98137",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/common/StartReplicationCapability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-16T20:41:50Z",
+      "side": 1,
+      "message": "Done:\n\n https://gerrit-review.googlesource.com/#/q/status:open+topic:capabilities,n,z\n\nThanks for the hints! It worked exactly as you described with one exception:  auto registration with\n\n @Export(\"foo\")\n public Bar ...\n\nworks then and only then if no modules are defined in the manifest file. Because all our plugins have their own modules, it must be bind in module on its own.\n\nAnyway, i documented that nuance in dev-plugins.txt.\n\nWhat would be the best way to migrate the existing sites? Would it be enough to describe the process in release notes:\n\nScenario I:\n\n* drop \"Start Replication\" from the \"Global Capability\" section\n* upgrade to 2.8 final\n* restart\n* add the groups to \"Start Replication\" plugin owned capability in the \"Global Capability\" access section\n\nScenario II:\n\n* checkout config/meta\n* change project.config: rename \"startReplication\" to \"replication-startReplication\"\n* push project.config\n* upgrade\n* restart",
+      "parentUuid": "9dd0ed3c_55240cb9",
+      "revId": "ce9c05c3c4c5049bbe52970e34e4b38ec2623582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d887de1_81ef5a39",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 1

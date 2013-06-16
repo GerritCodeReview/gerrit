@@ -112,11 +112,6 @@ The entries in the map are sorted by capability ID.
       "id": "runGC",
       "name": "Run Garbage Collection"
     },
-    "startReplication": {
-      "kind": "gerritcodereview#capability",
-      "id": "startReplication",
-     "name": "Start Replication"
-    },
     "streamEvents": {
       "kind": "gerritcodereview#capability",
       "id": "streamEvents",

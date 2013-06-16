@@ -92,8 +92,8 @@ The entries in the map are sorted by capability ID.
     },
     "startReplication": {
       "kind": "gerritcodereview#capability",
-      "id": "startReplication",
-     "name": "Start Replication"
+      "id": "replication-startReplication",
+      "name": "Start Replication"
     },
     "streamEvents": {
       "kind": "gerritcodereview#capability",

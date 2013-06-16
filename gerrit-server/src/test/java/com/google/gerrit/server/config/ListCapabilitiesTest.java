@@ -44,15 +44,15 @@ public class ListCapabilitiesTest {
       protected void configure() {
         DynamicMap.mapOf(binder(), EXTERNAL_CAPABILITY_KIND);
         bind(EXTERNAL_CAPABILITY_KIND).annotatedWith(
-            Exports.named("startreplication")).toInstance(
+            Exports.named("printHello")).toInstance(
             new CapabilityDefinition() {
               @Override
               public String getName() {
-                return "startReplication";
+                return "printHello";
               }
               @Override
               public String getDescription() {
-                return "Start Replication";
+                return "Print Hello";
               }
             });
       }
@@ -69,7 +69,7 @@ public class ListCapabilitiesTest {
       assertEquals(id, m.get(id).id);
       assertNotNull(id + " has name", m.get(id).name);
     }
-    String pluginCapability = "gerrit-startReplication";
+    String pluginCapability = "gerrit-printHello";
     assertTrue("contains " + pluginCapability, m.containsKey(pluginCapability));
   }
 }

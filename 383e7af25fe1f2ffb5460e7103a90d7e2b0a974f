@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a9d2d25_7b151f4c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-17T07:07:34Z",
+      "side": 1,
+      "message": "Capitalisation.  \"Plugin Owned Capabilities\"",
+      "revId": "383e7af25fe1f2ffb5460e7103a90d7e2b0a974f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad149e1_9206bc2d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-17T07:07:34Z",
+      "side": 1,
+      "message": "s/these/those",
+      "revId": "383e7af25fe1f2ffb5460e7103a90d7e2b0a974f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2abfb58d_c9fc91f5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-17T07:07:34Z",
+      "side": 1,
+      "message": "s/bind/bound",
+      "revId": "383e7af25fe1f2ffb5460e7103a90d7e2b0a974f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a6ce9f0_3deebb0f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-17T07:07:34Z",
+      "side": 1,
+      "message": "\"it is possible to restrict usage of an SSH command to members of the group that was granted this capability in the usual way, using the `RequiresCapability` annotation\"",
+      "revId": "383e7af25fe1f2ffb5460e7103a90d7e2b0a974f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

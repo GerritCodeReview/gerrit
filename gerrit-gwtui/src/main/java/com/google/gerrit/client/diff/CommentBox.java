@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,8 +27,11 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.sql.Timestamp;
 
@@ -41,6 +45,7 @@ class CommentBox extends Composite {
     String close();
   }
 
+  private CommentLinkProcessor commentLinkProcessor;
   private HandlerRegistration headerClick;
   private Runnable clickCallback;
 
@@ -63,16 +68,17 @@ class CommentBox extends Composite {
   Element contentPanel;
 
   @UiField
-  Element contentPanelMessage;
+  HTML contentPanelMessage;
 
   @UiField
   CommentBoxStyle style;
 
   CommentBox(AccountInfo author, Timestamp when, String message,
-      boolean isDraft) {
+      CommentLinkProcessor linkProcessor, boolean isDraft) {
     initWidget(uiBinder.createAndBindUi(this));
     // TODO: Format the comment box differently based on whether isDraft
     // is true.
+    commentLinkProcessor = linkProcessor;
     setAuthorNameText(author);
     date.setInnerText(FormatUtil.shortFormatDayTime(when));
     setMessageText(message);
@@ -121,8 +127,9 @@ class CommentBox extends Composite {
       message = message.trim();
     }
     summary.setInnerText(message);
-    // TODO: Change to use setInnerHtml
-    contentPanelMessage.setInnerText(message);
+    SafeHtml buf = new SafeHtmlBuilder().append(message).wikify();
+    buf = commentLinkProcessor.apply(buf);
+    SafeHtml.set(contentPanelMessage, buf);
   }
 
   private void setOpen(boolean open) {

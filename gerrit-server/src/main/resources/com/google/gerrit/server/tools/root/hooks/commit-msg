@@ -38,6 +38,11 @@ add_ChangeId() {
 		return
 	fi
 
+	if test "false" = "`git config --bool --get gerrit.createChangeId`"
+	then
+		return
+	fi
+
 	# Does Change-Id: already exist? if so, exit (no change).
 	if grep -i '^Change-Id:' "$MSG" >/dev/null
 	then

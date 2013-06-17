@@ -110,6 +110,7 @@ public class EventFactory {
     a.subject = change.getSubject();
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
+    a.status = change.getStatus();
     return a;
   }
 
@@ -141,7 +142,6 @@ public class EventFactory {
     a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
     a.sortKey = change.getSortKey();
     a.open = change.getStatus().isOpen();
-    a.status = change.getStatus();
   }
 
   /**

@@ -34,6 +34,7 @@ cmd-query.txt          \
 cmd-rename-group.txt   \
 cmd-review.txt         \
 cmd-set-account.txt    \
+cmd-set-members.txt    \
 cmd-set-project-parent.txt \
 cmd-set-project.txt    \
 cmd-set-reviewers.txt  \

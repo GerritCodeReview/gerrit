@@ -120,8 +120,9 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
     ownerTxtBox = new NpTextBox();
     ownerTxtBox.setVisibleLength(60);
+    final AccountGroupSuggestOracle accountGroupOracle = new AccountGroupSuggestOracle();
     ownerTxt = new SuggestBox(new RPCSuggestOracle(
-        new AccountGroupSuggestOracle()), ownerTxtBox);
+        accountGroupOracle), ownerTxtBox);
     ownerTxt.setStyleName(Gerrit.RESOURCES.css().groupOwnerTextBox());
     ownerPanel.add(ownerTxt);
 
@@ -132,7 +133,8 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       public void onClick(final ClickEvent event) {
         final String newOwner = ownerTxt.getText().trim();
         if (newOwner.length() > 0) {
-          GroupApi.setGroupOwner(getGroupUUID(), newOwner,
+          AccountGroup.UUID ownerUuid = accountGroupOracle.getUUID(newOwner);
+          GroupApi.setGroupOwner(getGroupUUID(), ownerUuid.get(),
               new GerritCallback<GroupInfo>() {
                 public void onSuccess(final GroupInfo result) {
                   updateOwnerGroup(result);

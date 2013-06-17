@@ -361,6 +361,7 @@ public class EventFactory {
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
+    p.isDraft = patchSet.isDraft();
     final PatchSet.Id pId = patchSet.getId();
     try {
       final ReviewDb db = schema.open();

@@ -14,17 +14,22 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
+import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -37,6 +42,7 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
@@ -62,7 +68,9 @@ public class CodeMirrorDemo extends Screen {
   private JsArray<CommentInfo> published;
   private JsArray<CommentInfo> drafts;
   private List<Runnable> resizeCallbacks;
+  private DiffInfo diff;
   private LineMapper mapper;
+  private CommentLinkProcessor commentLinkProcessor;
 
   public CodeMirrorDemo(
       PatchSet.Id base,
@@ -85,39 +93,61 @@ public class CodeMirrorDemo extends Screen {
     super.onLoad();
 
     CallbackGroup group = new CallbackGroup();
-    CodeMirror.initLibrary(group.add(new GerritCallback<Void>() {
+    CallbackGroup group2 = new CallbackGroup();
+    CodeMirror.initLibrary(group2.add(new GerritCallback<Void>() {
       @Override
       public void onSuccess(Void result) {
       }
     }));
+    final AsyncCallback<ConfigInfoCache.Entry> configCallback =
+        group.add(new GerritCallback<ConfigInfoCache.Entry>() {
+      @Override
+      public void onSuccess(ConfigInfoCache.Entry result) {
+        commentLinkProcessor = result.getCommentLinkProcessor();
+        setTheme(result.getTheme());
+      }
+    });
+    final AsyncCallback<Void> loadCallback =
+        group.add(new ScreenLoadCallback<Void>(CodeMirrorDemo.this) {
+      @Override
+      protected void preDisplay(Void result) {
+        DiffInfo diffInfo = diff;
+        diff = null;
+        display(diffInfo);
+      }
+    });
     DiffApi.diff(revision, path)
-      .base(base)
-      .wholeFile()
-      .intraline()
-      .ignoreWhitespace(DiffApi.IgnoreWhitespace.NONE)
-      .get(group.add(new GerritCallback<DiffInfo>() {
-        @Override
-        public void onSuccess(final DiffInfo diff) {
-          new ModeInjector()
-            .add(getContentType(diff.meta_a()))
-            .add(getContentType(diff.meta_b()))
-            .inject(new ScreenLoadCallback<Void>(CodeMirrorDemo.this) {
-              @Override
-              protected void preDisplay(Void result) {
-                display(diff);
-              }
-            });
-        }
-      }));
+    .base(base)
+    .wholeFile()
+    .intraline()
+    .ignoreWhitespace(DiffApi.IgnoreWhitespace.NONE)
+    .get(group2.add(new GerritCallback<DiffInfo>() {
+      @Override
+      public void onSuccess(final DiffInfo diffInfo) {
+        diff = diffInfo;
+        new ModeInjector()
+          .add(getContentType(diff.meta_a()))
+          .add(getContentType(diff.meta_b()))
+          .inject(loadCallback);
+      }
+    }));
     CommentApi.comments(revision,
-        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+        group2.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { published = m.get(path); }
     }));
     CommentApi.drafts(revision,
-        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+        group2.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { drafts = m.get(path); }
+    }));
+    ChangeApi.detail(revision.getParentKey().get(),
+        group2.add(new GerritCallback<ChangeInfo>(){
+      @Override
+      public void onSuccess(ChangeInfo result) {
+        Project.NameKey project = result.project_name_key();
+        ConfigInfoCache.get(project, configCallback);
+      }
     }));
   }
 
@@ -247,7 +277,7 @@ public class CodeMirrorDemo extends Screen {
       CodeMirror cm = mySide == Side.PARENT ? cmA : cmB;
       CodeMirror other = otherCM(cm);
       final CommentBox box = new CommentBox(info.author(), info.updated(),
-          info.message(), isDraft);
+          info.message(), commentLinkProcessor, isDraft);
       int line = info.line() - 1; // CommentInfo is 1-based, but CM is 0-based
       diffTable.add(box);
       cm.addLineWidget(line, box.getElement(), config);

@@ -1,7 +1,10 @@
+SRCS = glob(['src/main/java/**/*.java'])
+RESOURCES = glob(['src/main/resources/**/*'])
+
 java_library2(
   name = 'pgm',
-  srcs = glob(['src/main/java/**/*.java']),
-  resources = glob(['src/main/resources/**/*']),
+  srcs = SRCS,
+  resources = RESOURCES,
   deps = [
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
@@ -42,6 +45,12 @@ java_library2(
     '//tools/eclipse:classpath',
     '//Documentation:licenses.txt',
   ],
+)
+
+java_sources(
+  name = 'pgm-src',
+  srcs = SRCS + RESOURCES,
+  visibility = ['PUBLIC'],
 )
 
 java_test(

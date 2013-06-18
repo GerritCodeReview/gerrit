@@ -253,6 +253,10 @@ maven_jar(
   bin_sha1 = 'd4e40fe5661b8de5d8c66db3d63a47b6b3ecf7f3',
   src_sha1 = '86c29288b1930e33ba7ffea1b866af9a52d3d24a',
   license = 'Apache2.0',
+  exclude = [
+    'META-INF/LICENSE.txt',
+    'META-INF/NOTICE.txt',
+  ],
 )
 
 maven_jar(
@@ -261,4 +265,8 @@ maven_jar(
   bin_sha1 = 'e7c3976156d292f696016e138b67ab5e6bfc1a56',
   src_sha1 = '3606622b3c1f09b4b7cf34070cbf60d414af9b6b',
   license = 'Apache2.0',
+  exclude = [
+    'META-INF/LICENSE.txt',
+    'META-INF/NOTICE.txt',
+  ],
 )

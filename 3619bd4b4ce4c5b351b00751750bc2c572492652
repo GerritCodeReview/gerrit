@@ -70,6 +70,24 @@
       "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aadba537_5df33b24",
+        "filename": "gerrit-lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-18T21:17:25Z",
+      "side": 1,
+      "message": "The problem here is, that the client-foo and server-foo are not actually the client-foo and the server-foo, but client-foo and all-foo, as of gerrit-reviewdb/BUCK:\n\n gwt_module(\n  name \u003d \u0027client\u0027,\n  srcs \u003d glob([SRC + \u0027client/**/*.java\u0027]),\n  [...]\n\n java_library(\n  name \u003d \u0027server\u0027,\n  srcs \u003d glob([SRC + \u0027**/*.java\u0027]),\n\nAs the matter of fact, the problem didn\u0027t show up until #47063 because nobody tried to put reviewdb-client.jar and reviewdb-server.jar in one java binary. As of #47063:\n\n* gerrit-pgm depends on reviewdb:server (i. e. reviewdb-all)\n* gerrit-pgm depends on gerrit-lucene depends on reviewdb:client\n\nNow if you try to put //gerrit-pgm in a java binary (with transitive dependency) then buck tries in the end to put\n\n* reviewdb-client.jar (\u0027client/**/*.java\u0027 from above)\n* reviewdb-server.jar (\u0027**/*.java\u0027 from above)\n\nand fails with multiple entries (CurrentSchemaVersion$Key.class is the  first one it reports).",
+      "parentUuid": "8afa6180_2ce91339",
+      "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

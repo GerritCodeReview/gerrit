@@ -46,6 +46,7 @@ genrule(
 
 PLUGIN_API = [
   '//gerrit-server:server',
+  '//gerrit-pgm:pgm',
   '//gerrit-sshd:sshd',
   '//gerrit-httpd:httpd',
 ]

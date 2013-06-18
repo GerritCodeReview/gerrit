@@ -124,7 +124,7 @@ public class AccessSection extends RefConfigSection implements
     if (!super.equals(obj) || !(obj instanceof AccessSection)) {
       return false;
     }
-    return new HashSet<Permission>(permissions).equals(new HashSet<Permission>(
-        ((AccessSection) obj).permissions));
+    return new HashSet<Permission>(getPermissions()).equals(new HashSet<Permission>(
+        ((AccessSection) obj).getPermissions()));
   }
 }

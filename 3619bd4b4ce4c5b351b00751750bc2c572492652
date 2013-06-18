@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8afa6180_2ce91339",
+        "filename": "gerrit-lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-18T16:58:43Z",
+      "side": 1,
+      "message": "What is the issue here? It builds fine for me from master, and the following produces no output:\n$ for c in $(find gerrit-reviewdb/ -name \\*.java | grep /server/ | sed -e \u0027s|.*/\\(\\w\\+\\)\\.java$|\\1|\u0027); do find gerrit-lucene -name \\*.java | xargs grep $c; done",
+      "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

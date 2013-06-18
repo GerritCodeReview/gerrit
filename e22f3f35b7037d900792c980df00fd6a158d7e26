@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a5df55f_79f3c724",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-18T09:24:32Z",
+      "side": 1,
+      "message": "optional:\n\ns/permissions in AccessSection/AccessSection.permissions\n\ns/rules in Permission/Permission.rules",
+      "revId": "e22f3f35b7037d900792c980df00fd6a158d7e26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

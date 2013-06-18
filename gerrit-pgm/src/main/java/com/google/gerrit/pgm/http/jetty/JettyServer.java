@@ -76,6 +76,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
 
 @Singleton
 public class JettyServer {
@@ -305,7 +306,7 @@ public class JettyServer {
 
     final List<ContextHandler> all = new ArrayList<ContextHandler>();
     for (String path : paths) {
-      all.add(makeContext(path, env));
+      all.add(makeContext(path, env, cfg));
     }
 
     if (all.size() == 1) {
@@ -325,7 +326,7 @@ public class JettyServer {
   }
 
   private ContextHandler makeContext(final String contextPath,
-      final JettyEnv env) throws MalformedURLException, IOException {
+      final JettyEnv env, final Config cfg) throws MalformedURLException, IOException {
     final ServletContextHandler app = new ServletContextHandler();
 
     // This enables the use of sessions in Jetty, feature available
@@ -343,6 +344,27 @@ public class JettyServer {
     // serving to clients.
     //
     app.setBaseResource(getBaseResource());
+
+    // HTTP front-end filter to be used as surrogate of Apache HTTP
+    // reverse-proxy filtering.
+    // It is meant to be used as simpler tiny deployment of custom-made
+    // security enforcement (Security tokens, IP-based security filtering, others)
+    String filterClassName = cfg.getString("httpd", null, "filterClass");
+    if (filterClassName != null) {
+      try {
+        @SuppressWarnings("unchecked")
+        Class<? extends Filter> filterClass =
+            (Class<? extends Filter>) Class.forName(filterClassName);
+        Filter filter = env.webInjector.getInstance(filterClass);
+        app.addFilter(new FilterHolder(filter), "/*",
+            EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
+      } catch (Throwable e) {
+        String errorMessage =
+            "Unable to instantiate front-end HTTP Filter " + filterClassName;
+        log.error(errorMessage, e);
+        throw new IllegalArgumentException(errorMessage, e);
+      }
+    }
 
     // Perform the same binding as our web.xml would do, but instead
     // of using the listener to create the injector pass the one we

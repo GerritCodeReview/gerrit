@@ -627,5 +627,14 @@ class HttpPluginServlet extends HttpServlet
       return ((HttpServletRequest) getRequest()).getRequestURI().substring(
           contextPath.length());
     }
+
+    @Override
+    public String getRequestURI() {
+      String uri = super.getRequestURI();
+      if (uri.startsWith("/a/")) {
+        uri = uri.substring(2);
+      }
+      return uri;
+    }
   }
 }

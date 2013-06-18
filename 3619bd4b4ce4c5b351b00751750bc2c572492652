@@ -16,6 +16,24 @@
       "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf0d9a0_0eeecb40",
+        "filename": "gerrit-lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-06-18T17:18:08Z",
+      "side": 1,
+      "message": "The problem seems to be that when other projects depend on both\ngerrit-lucene and some other project gerrit-X that depends on\ngerrit-reviewdb:server. Then files from gerrit-reviewdb:client (e.g.: com/google/gerrit/reviewdb/client/CurrentSchemaVersion$Key) get\npulled in twice.\n\n* One time from gerrit-client (through gerrit-lucene).\n* One time from gerrit-server (through gerrit-X ).\n\nThis problem hit me when trying to add gerrit-pgm (which depends on\ngerrit-lucene) again to gerrit-plugin-api in change 47063:\nhttps://gerrit-review.googlesource.com/#/c/47063",
+      "parentUuid": "8afa6180_2ce91339",
+      "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -44,6 +44,35 @@ java_library2(
   ],
 )
 
+SRC = 'src/main/java/com/google/gerrit/pgm/'
+INIT_SRCS = [
+  SRC + 'init/InitFlags.java',
+  SRC + 'init/InitStep.java',
+  SRC + 'init/Section.java',
+  SRC + 'util/ConsoleUI.java',
+  SRC + 'util/Die.java',
+]
+
+java_library(
+  name = 'init',
+  srcs = INIT_SRCS,
+  deps = [
+    '//gerrit-server:server',
+    '//lib:jsr305',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/jgit:jgit',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+
+java_sources(
+  name = 'init-src',
+  srcs = INIT_SRCS,
+  visibility = ['PUBLIC'],
+)
+
 java_test(
   name = 'pgm_tests',
   srcs = glob(['src/test/java/**/*.java']),

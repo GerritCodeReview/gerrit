@@ -52,6 +52,24 @@
       "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf0d9a0_4ef8d3ff",
+        "filename": "gerrit-lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-06-18T17:54:26Z",
+      "side": 1,
+      "message": "\u003e This may be a buck bug [...]\n\nMaybe it is. But this change helps right now :-) ... even if the\npotential Buck bug does not get fixed.\n\n\u003e If that\u0027s the case, why don\u0027t we have this issue with every single\n\u003e gerrit-* library that can be reached by multiple paths in the\n\u003e dependency DAG?\n\nAs you know, I am a total Buck noob, so I might be completely off the\ntrack here. But to me it seems that change 47063 patch set 1 would be\nthe only place where a java_binary (not library!) would get the same\nfiles from two different dependencies.\n\nFor change 47063 patch set 1, building the plugin /library/\n(//:plugin-lib) is not the issue. It\u0027s when putting that library into\na java_binary.\n\nYMMV, but there, the error message is \"duplicate entry\", and the\nproblematic file is\n\"com/google/gerrit/reviewdb/client/CurrentSchemaVersion$Key.class\"",
+      "parentUuid": "6af7ed99_0beebd40",
+      "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

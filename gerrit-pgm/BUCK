@@ -1,8 +1,38 @@
+INIT_SRCS = ['src/main/java/com/google/gerrit/pgm/' + n for n in [
+  'init/InitFlags.java',
+  'init/InitStep.java',
+  'init/InitStep.java',
+  'init/InstallPlugins.java',
+  'init/Section.java',
+  'util/ConsoleUI.java',
+  'util/Die.java',
+]]
+
+java_library(
+  name = 'init-api',
+  srcs = INIT_SRCS,
+  deps = [
+    '//gerrit-server:server',
+    '//lib:jsr305',
+    '//lib/guice:guice',
+    '//lib/guice:guice-assistedinject',
+    '//lib/jgit:jgit',
+  ],
+  visibility = ['PUBLIC'],
+)
+
+java_sources(
+  name = 'init-api-src',
+  srcs = INIT_SRCS,
+  visibility = ['PUBLIC'],
+)
+
 java_library2(
   name = 'pgm',
-  srcs = glob(['src/main/java/**/*.java']),
+  srcs = glob(['src/main/java/**/*.java'], excludes = INIT_SRCS),
   resources = glob(['src/main/resources/**/*']),
   deps = [
+    ':init-api',
     '//gerrit-cache-h2:cache-h2',
     '//gerrit-common:server',
     '//gerrit-extension-api:api',

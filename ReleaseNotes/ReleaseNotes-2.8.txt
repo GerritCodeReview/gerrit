@@ -50,6 +50,13 @@ Change Screens
 If the user has more than one email address, the preferred email address will
 be used.
 
+SSH Commands
+~~~~~~~~~~~~
+
+* gerrit set-members
++
+New command to manipulate group membership. Members can be added or removed
+and groups can be included or excluded in one specific group or number of groups.
 
 REST API
 ~~~~~~~~

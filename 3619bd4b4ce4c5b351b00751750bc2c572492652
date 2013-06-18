@@ -34,6 +34,24 @@
       "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6af7ed99_0beebd40",
+        "filename": "gerrit-lucene/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-18T17:20:38Z",
+      "side": 1,
+      "message": "This may be a buck bug but if anything it raises more questions than it answers. If that\u0027s the case, why don\u0027t we have this issue with every single gerrit-* library that can be reached by multiple paths in the dependency DAG? Surely there are many of those.",
+      "parentUuid": "caf0d9a0_0eeecb40",
+      "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

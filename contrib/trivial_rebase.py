@@ -149,14 +149,14 @@ class TrivialRebase:
       newval = value
     self.acct_approvals[account_id] = newval
 
-  def GetEmailFromAcctId(self, account_id):
-    """Return the preferred email address associated with the account_id."""
-    sql_query = ("\"SELECT preferred_email FROM accounts WHERE account_id = %s\""
-                 % account_id)
-    email_addr = self.GsqlQuery(sql_query)
+  def GetUsernameFromAcctId(self, account_id):
+    """Return the ssh user name associated with the account_id."""
+    sql_query = ("\"SELECT external_id FROM account_external_ids WHERE account_id = {0} "
+                 "AND external_id LIKE 'username:%'\"").format(account_id)
+    external_id = self.GsqlQuery(sql_query)
 
-    json_dict = json.loads(email_addr[0], strict=False)
-    return json_dict["columns"]["preferred_email"]
+    json_dict = json.loads(external_id[0], strict=False)
+    return json_dict["columns"]["external_id"][9:]
 
   def GetPatchId(self, revision):
     git_show_cmd = ['git', 'show', revision]
@@ -240,8 +240,8 @@ class TrivialRebase:
     for acct, flags in self.acct_approvals.items():
       gerrit_review_cmd = ['gerrit', 'review', '--project', self.project,
                             '--message', gerrit_review_msg, flags, self.commit]
-      email_addr = self.GetEmailFromAcctId(acct)
-      self.SuExec(email_addr, ' '.join(gerrit_review_cmd))
+      username = self.GetUsernameFromAcctId(acct)
+      self.SuExec(username, ' '.join(gerrit_review_cmd))
 
 if __name__ == "__main__":
   try:

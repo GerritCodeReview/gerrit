@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cade1927_de4f4572",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1655,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-06-19T17:08:33Z",
+      "side": 1,
+      "message": "True :o) but here wanted to implicitly explain which class loader is used ... will make the \"implicit\" an \"explicit\" explanation :-)",
+      "parentUuid": "6ae52df2_1b745b95",
+      "revId": "48b5a0cda5dc6211ee9469cc12857496919e2769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ae52df2_3b79178e",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "cade1927_fe4c0180",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-06-19T17:08:33Z",
+      "side": 1,
+      "message": "Done.\n\nMy explanation was a bit \"white-box\" :o) ... I\u0027ve reused part of your sentence that makes a lot of sense.",
+      "parentUuid": "6ae52df2_3b79178e",
+      "revId": "48b5a0cda5dc6211ee9469cc12857496919e2769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab4e9dd_3a79218e",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2013-06-19T17:00:16Z",
       "side": 1,
       "message": "\"as it is resolved\"",
+      "revId": "48b5a0cda5dc6211ee9469cc12857496919e2769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aadba537_fd35e7db",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1658,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-06-19T17:08:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab4e9dd_3a79218e",
       "revId": "48b5a0cda5dc6211ee9469cc12857496919e2769",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

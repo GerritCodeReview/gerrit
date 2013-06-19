@@ -17,7 +17,9 @@ package com.google.gerrit.testutil;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.errors.ProjectRenamingFailedException;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 
@@ -107,5 +109,12 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
     } else {
       throw new RepositoryNotFoundException(name.get());
     }
+  }
+
+  @Override
+  public void renameRepository(NameKey source, NameKey destination,
+      boolean force) throws RepositoryNotFoundException,
+      ProjectRenamingFailedException {
+    throw new ProjectRenamingFailedException("Not yet implemented.");
   }
 }

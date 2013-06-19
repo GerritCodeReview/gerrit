@@ -1648,6 +1648,38 @@ abort until the client disconnects.
 +
 By default, 5 minutes.
 
+[[httpd.filterClass]]httpd.filterClass::
++
+Class that implements the javax.servlet.Filter interface
+for filtering any HTTP related traffic going through the Gerrit
+HTTP protocol.
+Class is loaded and configured in the Gerrit Jetty container
+and run in front of all Gerrit URL handlers, allowing the filter
+to inspect, modify, allow or reject each request.
+It needs to be provided as JAR library
+under $GERRIT_SITE/lib as it is resolved using the default Gerrit class
+loader and cannot be dynamically loaded by a plugin.
++
+Failing to load the Filter class would result in a Gerrit start-up
+failure, as this class is supposed to provide mandatory filtering
+in front of Gerrit HTTP protocol.
++
+Typical usage is in conjunction with the auth.type=HTTP as replacement
+of an Apache HTTP proxy layer as security enforcement on top of Gerrit
+by returning a trusted username as HTTP Header.
++
+Example of using a security library secure.jar under $GERRIT_SITE/lib
+that provides a org.anyorg.MySecureFilter Servlet Filter that enforces
+a trusted username in the `TRUSTED_USER` HTTP Header:
+
+----
+[auth]
+	type = HTTP
+	httpHeader = TRUSTED_USER
+
+[http]
+	filterClass = org.anyorg.MySecureFilter
+----
 
 [[ldap]]Section ldap
 ~~~~~~~~~~~~~~~~~~~~

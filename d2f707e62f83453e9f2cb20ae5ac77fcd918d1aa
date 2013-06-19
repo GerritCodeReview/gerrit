@@ -16,6 +16,24 @@
       "revId": "d2f707e62f83453e9f2cb20ae5ac77fcd918d1aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cade1927_5e97b58c",
+        "filename": "BUCK",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-06-19T19:22:24Z",
+      "side": 1,
+      "message": "\u003e Instead of including all of pgm, can we include only the InitStep\n\u003e API?\n\nDone in patch set 6.\n\nInitStep did not suffice, as hooks-its also relied on Section, which\nrequired other classes and so on. Using patch set 6, hooks-its again\ncompiles against the plugin api.",
+      "parentUuid": "6ae52df2_fb4c0f80",
+      "revId": "d2f707e62f83453e9f2cb20ae5ac77fcd918d1aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

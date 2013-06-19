@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cade1927_1e3b6dd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-19T04:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ae52df2_7b4abf6f",
+      "revId": "3619bd4b4ce4c5b351b00751750bc2c572492652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8afa6180_2ce91339",
         "filename": "gerrit-lucene/BUCK",
         "patchSetId": 1

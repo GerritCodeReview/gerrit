@@ -12,6 +12,7 @@ java_library(
     '//gerrit-patch-jgit:jgit_patch_tests',
     '//gerrit-plugin-gwtui:gwtui-api',
     '//gerrit-server:server__compile',
+    '//gerrit-server:server_tests',
     '//lib/asciidoctor:asciidoc_lib',
     '//lib/asciidoctor:doc_indexer_lib',
     '//lib/jetty:webapp',

@@ -135,6 +135,10 @@ public final class AccountProjectWatch {
     return key.projectName;
   }
 
+  public void setProjectNameKey(Project.NameKey projectNameKey) {
+    key.projectName = projectNameKey;
+  }
+
   public String getFilter() {
     return FILTER_ALL.equals(key.filter.get()) ? null : key.filter.get();
   }

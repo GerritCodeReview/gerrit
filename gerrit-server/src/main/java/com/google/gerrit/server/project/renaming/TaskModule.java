@@ -46,5 +46,6 @@ public class TaskModule extends FactoryModule {
     DynamicSet.setOf(binder(), Task.Factory.class);
     taskFactory(ReparentChildProjectsTask.Factory.class);
     taskFactory(RenameChangesTask.Factory.class);
+    taskFactory(RenameWatchesTask.Factory.class);
   }
 }

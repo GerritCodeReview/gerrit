@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ae52df2_5b5c2331",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-19T07:38:23Z",
+      "side": 1,
+      "message": "We have to pass repo in here.  If it\u0027s only passed into the constructor gerrit fails with:\n\n No implementation for org.eclipse.jgit.lib.Repository was bound.\n  while locating org.eclipse.jgit.lib.Repository",
+      "revId": "31734c1c4462ffd346661488120642e6fb5f4c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

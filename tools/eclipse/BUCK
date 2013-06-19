@@ -34,6 +34,7 @@ java_library(
     '//gerrit-httpd:httpd_tests',
     '//gerrit-main:main_lib',
     '//gerrit-server:server__compile',
+    '//gerrit-server:server_tests',
     '//lib/prolog:compiler_lib',
   ] + scan_plugins(),
 )

@@ -270,3 +270,79 @@ maven_jar(
     'META-INF/NOTICE.txt',
   ],
 )
+
+maven_jar(
+  name = 'powermock-module-junit4',
+  id = 'org.powermock:powermock-module-junit4:1.5',
+  sha1 = '9f6f8d0485249171f9d870e2b269048fa8cad43b',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':junit',
+    ':powermock-module-junit4-common',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-module-junit4-common',
+  id = 'org.powermock:powermock-module-junit4-common:1.5',
+  sha1 = '43db4720ff57af42a1bd5c73fb5cdfebeebd564c',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':junit',
+    ':powermock-reflect',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-reflect',
+  id = 'org.powermock:powermock-reflect:1.5',
+  sha1 = '8df1548eeabb8492ba97d4f3eb84ae4d5f69215e',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':junit',
+    ':objenesis',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-api-easymock',
+  id = 'org.powermock:powermock-api-easymock:1.5',
+  sha1 = 'a485b570b9debb46b53459a8e866a40343b2cfe2',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':easymock',
+    ':powermock-api-support',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-api-support',
+  id = 'org.powermock:powermock-api-support:1.5',
+  sha1 = '7c1b2e4555cfa333aec201c4612345c092820a38',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':junit',
+    ':powermock-core',
+    ':powermock-reflect',
+  ],
+)
+
+maven_jar(
+  name = 'powermock-core',
+  id = 'org.powermock:powermock-core:1.5',
+  sha1 = '4415337ff3fdb7ceb484f11fd08e39711e408976',
+  license = 'DO_NOT_DISTRIBUTE',
+  deps = [
+    ':junit',
+    ':powermock-reflect',
+    ':javassist-3.17.1-GA',
+  ],
+)
+
+maven_jar(
+  name = 'javassist-3.17.1-GA',
+  # The GWT version is still at 3.16.1-GA, so those do not match
+  id = 'org.javassist:javassist:3.17.1-GA',
+  sha1 = '30c30512115866b6e0123f1913bc7735b9f76d08',
+  license = 'DO_NOT_DISTRIBUTE',
+)

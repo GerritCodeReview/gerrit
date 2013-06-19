@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ab4e9dd_1a745d95",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-19T16:22:53Z",
+      "side": 1,
+      "message": "Implementation seems fine, but this should be documented in config-gerrit.txt.",
+      "revId": "33bb642300aca368d79737e687d42167788f65c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ae52df2_1b745b95",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1655,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-19T17:00:16Z",
+      "side": 1,
+      "message": "This sentence is somewhat overkill. Obviously the class is loaded by name.",
+      "revId": "48b5a0cda5dc6211ee9469cc12857496919e2769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ae52df2_3b79178e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-19T17:00:16Z",
+      "side": 1,
+      "message": "This part about the Guice Servlet and Filter bindings only makes sense to a Gerrit developer that knows this part of the code.\n\nI would instead say something about the filter being run in front of all Gerrit URL handlers, allowing the filter developer to inspect (and allow/reject) each request.",
+      "revId": "48b5a0cda5dc6211ee9469cc12857496919e2769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4e9dd_3a79218e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1658,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-19T17:00:16Z",
+      "side": 1,
+      "message": "\"as it is resolved\"",
+      "revId": "48b5a0cda5dc6211ee9469cc12857496919e2769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

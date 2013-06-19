@@ -44,5 +44,6 @@ public class TaskModule extends FactoryModule {
   @Override
   protected void configure() {
     DynamicSet.setOf(binder(), Task.Factory.class);
+    taskFactory(ReparentChildProjectsTask.Factory.class);
   }
 }

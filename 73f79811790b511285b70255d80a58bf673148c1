@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aadba537_7d4ab76f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-19T16:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cade1927_7e4ab16f",
+      "revId": "73f79811790b511285b70255d80a58bf673148c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aadba537_3d158f4d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-19T07:25:19Z",
       "side": 1,
       "message": "s/class/classes/",
+      "revId": "73f79811790b511285b70255d80a58bf673148c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cade1927_9e55bd04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-19T16:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aadba537_3d158f4d",
       "revId": "73f79811790b511285b70255d80a58bf673148c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

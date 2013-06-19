@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aadba537_3d402f4e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-19T12:29:41Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this check unnecessarily limit the scenarios where this filter could be used?\n\nCan we imagine using trustContainerAuth for git-over-http operations but using a different auth.type for Gerrit UI (in which case we would honor the auth.httpHeader for git-over-http operations but ignore for the normal Gerrit authentication)?",
+      "parentUuid": "0a8d91f2_60c6d296",
+      "revId": "e0197f7e1527babfc397769384271f5ddd4e9b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dea3def_712738c0",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
         "patchSetId": 6

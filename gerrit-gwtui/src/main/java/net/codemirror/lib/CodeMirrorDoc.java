@@ -12,21 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package net.codemirror.addon;
+package net.codemirror.lib;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.DataResource;
-import com.google.gwt.resources.client.DataResource.DoNotEmbed;
+import com.google.gwt.core.client.JavaScriptObject;
 
-public interface Addons extends ClientBundle {
-  public static final Addons I = GWT.create(Addons.class);
+/** The Doc object representing the content in a CodeMirror */
+public class CodeMirrorDoc extends JavaScriptObject {
 
-  @Source("selection/mark-selection.js")
-  @DoNotEmbed
-  DataResource mark_selection();
+  public final native void replaceRange(String replacement,
+      LineCharacter from, LineCharacter to) /*-{
+    this.replaceRange(replacement, from, to);
+  }-*/;
 
-  @Source("fold/foldcode.js")
-  @DoNotEmbed
-  DataResource foldcode();
+  public final native void insertText(String insertion, LineCharacter at) /*-{
+    this.replaceRange(insertion, at);
+  }-*/;
+
+  protected CodeMirrorDoc() {
+  }
 }

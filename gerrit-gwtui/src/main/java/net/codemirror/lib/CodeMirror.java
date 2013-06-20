@@ -71,6 +71,10 @@ public class CodeMirror extends JavaScriptObject {
     this.addLineWidget(line, node, options);
   }-*/;
 
+  public final native CodeMirrorDoc getDoc() /*-{
+    return this.getDoc();
+  }-*/;
+
   public final native void scrollTo(int x, int y) /*-{
     this.scrollTo(x, y);
   }-*/;

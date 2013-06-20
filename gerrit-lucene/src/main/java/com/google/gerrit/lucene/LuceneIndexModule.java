@@ -15,20 +15,29 @@
 package com.google.gerrit.lucene;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
+
+import java.io.IOException;
 
 public class LuceneIndexModule extends LifecycleModule {
   private final boolean checkVersion;
   private final int threads;
+  private final boolean readOnly;
 
   public LuceneIndexModule() {
-    this(true, 0);
+    this(true, 0, false);
   }
 
-  public LuceneIndexModule(boolean checkVersion, int threads) {
+  public LuceneIndexModule(boolean checkVersion, int threads,
+      boolean readOnly) {
     this.checkVersion = checkVersion;
     this.threads = threads;
+    this.readOnly = readOnly;
   }
 
   @Override
@@ -39,5 +48,12 @@ public class LuceneIndexModule extends LifecycleModule {
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);
     }
+  }
+
+  @Provides
+  @Singleton
+  public LuceneChangeIndex getChangeIndex(SitePaths sitePaths,
+      FillArgs fillArgs) throws IOException {
+    return new LuceneChangeIndex(sitePaths, fillArgs, readOnly);
   }
 }

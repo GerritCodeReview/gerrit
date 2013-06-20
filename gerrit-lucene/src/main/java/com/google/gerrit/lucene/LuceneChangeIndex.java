@@ -43,8 +43,6 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -76,19 +74,20 @@ import java.util.Set;
  * though there may be some lag between a committed write and it showing up to
  * other threads' searchers.
  */
-@Singleton
 public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public static final Version LUCENE_VERSION = Version.LUCENE_43;
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
 
   private final FillArgs fillArgs;
+  private final boolean readOnly;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
 
-  @Inject
-  LuceneChangeIndex(SitePaths sitePaths, FillArgs fillArgs) throws IOException {
+  LuceneChangeIndex(SitePaths sitePaths, FillArgs fillArgs, boolean readOnly)
+      throws IOException {
     this.fillArgs = fillArgs;
+    this.readOnly = readOnly;
     openIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_OPEN));
     closedIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_CLOSED));
   }
@@ -108,6 +107,9 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public void insert(ChangeData cd) throws IOException {
     Term id = idTerm(cd);
     Document doc = toDocument(cd);
+    if (readOnly) {
+      return;
+    }
     if (cd.getChange().getStatus().isOpen()) {
       closedIndex.delete(id);
       openIndex.insert(doc);
@@ -121,6 +123,9 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public void replace(ChangeData cd) throws IOException {
     Term id = idTerm(cd);
     Document doc = toDocument(cd);
+    if (readOnly) {
+      return;
+    }
     if (cd.getChange().getStatus().isOpen()) {
       closedIndex.delete(id);
       openIndex.replace(id, doc);
@@ -133,6 +138,9 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   @Override
   public void delete(ChangeData cd) throws IOException {
     Term id = idTerm(cd);
+    if (readOnly) {
+      return;
+    }
     if (cd.getChange().getStatus().isOpen()) {
       openIndex.delete(id);
     } else {

@@ -47,6 +47,7 @@ class Loader {
             public void onSuccess(Void result) {}
           }));
       injectScript(Addons.I.mark_selection().getSafeUri(), group.add(cb));
+      injectScript(Addons.I.foldcode().getSafeUri(), group.add(cb));
     }
   }
 

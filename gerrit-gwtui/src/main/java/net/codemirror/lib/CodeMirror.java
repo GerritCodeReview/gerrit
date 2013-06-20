@@ -76,6 +76,10 @@ public class CodeMirror extends JavaScriptObject {
     return this.addLineWidget(line, node, options);
   }-*/;
 
+  public final native CodeMirrorDoc getDoc() /*-{
+    return this.getDoc();
+  }-*/;
+
   public final native int lineAtHeight(int height) /*-{
     return this.lineAtHeight(height);
   }-*/;

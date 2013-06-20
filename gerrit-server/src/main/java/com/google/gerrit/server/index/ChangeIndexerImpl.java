@@ -21,10 +21,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 /**
  * Helper for (re)indexing a change document.
@@ -33,9 +31,6 @@ import java.io.IOException;
  * compute some of the fields and/or update the index.
  */
 public class ChangeIndexerImpl implements ChangeIndexer {
-  private static final Logger log =
-      LoggerFactory.getLogger(ChangeIndexerImpl.class);
-
   private final ListeningScheduledExecutorService executor;
   private final ChangeIndex index;
 
@@ -54,14 +49,14 @@ public class ChangeIndexerImpl implements ChangeIndexer {
   @Override
   public ListenableFuture<?> index(Change change,
       RequestScopePropagator prop) {
-    Runnable task = new Task(change);
+    Callable<?> task = new Task(change);
     if (prop != null) {
       task = prop.wrap(task);
     }
     return executor.submit(task);
   }
 
-  private class Task implements Runnable {
+  private class Task implements Callable<Void> {
     private final Change change;
 
     private Task(Change change) {
@@ -69,13 +64,9 @@ public class ChangeIndexerImpl implements ChangeIndexer {
     }
 
     @Override
-    public void run() {
-      ChangeData cd = new ChangeData(change);
-      try {
-        index.replace(cd);
-      } catch (IOException e) {
-        log.error("Error indexing change", e);
-      }
+    public Void call() throws IOException {
+      index.replace(new ChangeData(change));
+      return null;
     }
 
     @Override

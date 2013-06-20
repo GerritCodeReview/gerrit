@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6ae52df2_bb528717",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-20T07:34:39Z",
+      "side": 1,
+      "message": "Can this be named just ChangeScreen?  I.e. does it really need the \"2\" suffix?",
+      "revId": "e6c074e66aebe8a2d5be13d5c73a40950e954423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d7b8161_a2765e9f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.java",
         "patchSetId": 1
@@ -13,6 +30,23 @@
       "writtenOn": "2013-06-12T08:35:37Z",
       "side": 1,
       "message": "I\u0027ve uploaded  a change that includes the submit type into the change JSON:\n\n https://gerrit-review.googlesource.com/46782",
+      "revId": "e6c074e66aebe8a2d5be13d5c73a40950e954423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ab4e9dd_3a92019e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen2.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-20T07:34:39Z",
+      "side": 1,
+      "message": "tws",
       "revId": "e6c074e66aebe8a2d5be13d5c73a40950e954423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

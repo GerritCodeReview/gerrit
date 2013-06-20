@@ -16,6 +16,8 @@ package com.google.gerrit.server.git;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.base.Strings;
+
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
@@ -319,7 +321,10 @@ public class MultiProgressMonitor {
           first = false;
         }
 
-        s.append(' ').append(t.name).append(": ");
+        s.append(' ');
+        if (!Strings.isNullOrEmpty(t.name)) {
+          s.append(t.name).append(": ");
+        }
         if (t.total == UNKNOWN) {
           s.append(count);
         } else {

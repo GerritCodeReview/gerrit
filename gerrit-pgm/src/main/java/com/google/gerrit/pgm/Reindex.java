@@ -34,6 +34,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.MultiProgressMonitor;
+import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
@@ -188,9 +191,15 @@ public class Reindex extends SiteProgram {
     ReviewDb db = sysInjector.getInstance(ReviewDb.class);
     ChangeIndexer indexer = sysInjector.getInstance(ChangeIndexer.class);
     Stopwatch sw = new Stopwatch().start();
-    int queueLen = 2 * threads;
+    final int queueLen = 2 * threads;
     final Semaphore sem = new Semaphore(queueLen);
     final AtomicBoolean ok = new AtomicBoolean(true);
+
+    final MultiProgressMonitor pm =
+        new MultiProgressMonitor(System.out, "Reindexing changes");
+    final Task done = pm.beginSubTask(null, MultiProgressMonitor.UNKNOWN);
+    final Task failed = pm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
+
     int i = 0;
     for (final Change change : db.changes().all()) {
       sem.acquire();
@@ -200,22 +209,54 @@ public class Reindex extends SiteProgram {
         public void run() {
           try {
             future.get();
+            done.update(1);
           } catch (InterruptedException e) {
-            log.error("Failed to index change " + change.getId(), e);
-            ok.set(false);
+            fail(change, e);
           } catch (ExecutionException e) {
-            log.error("Failed to index change " + change.getId(), e);
-            ok.set(false);
+            fail(change, e);
+          } catch (RuntimeException e) {
+            failAndThrow(change, e);
+          } catch (Error e) {
+            failAndThrow(change, e);
           } finally {
             sem.release();
           }
         }
+
+        private void fail(Change change, Throwable t) {
+          log.error("Failed to index change " + change.getId(), t);
+          ok.set(false);
+          failed.update(1);
+        }
+
+        private void failAndThrow(Change change, RuntimeException e) {
+          fail(change, e);
+          throw e;
+        }
+
+        private void failAndThrow(Change change, Error e) {
+          fail(change, e);
+          throw e;
+        }
       }, MoreExecutors.sameThreadExecutor());
       i++;
     }
-    sem.acquire(queueLen);
+
+    pm.waitFor(sysInjector.getInstance(WorkQueue.class).getDefaultQueue()
+        .submit(new Runnable() {
+          @Override
+          public void run() {
+            try {
+              sem.acquire(queueLen);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+            pm.end();
+          }
+        }));
     double elapsed = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-    System.out.format("Reindexed %d changes in %.02fms\n", i, elapsed);
+    System.out.format("Reindexed %d changes in %.02fs (%.01f/s)\n",
+        i, elapsed, i/elapsed);
 
     return ok.get() ? 0 : 1;
   }

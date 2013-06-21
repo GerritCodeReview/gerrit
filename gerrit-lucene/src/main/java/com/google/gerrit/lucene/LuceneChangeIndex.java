@@ -24,6 +24,8 @@ import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.SitePaths;
@@ -71,6 +73,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 /**
  * Secondary index implementation using Apache Lucene.
@@ -102,14 +106,17 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private final RefreshThread refreshThread;
   private final FillArgs fillArgs;
+  private final ExecutorService executor;
   private final boolean readOnly;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
 
-  LuceneChangeIndex(Config cfg, SitePaths sitePaths, FillArgs fillArgs,
+  LuceneChangeIndex(Config cfg, SitePaths sitePaths,
+      ListeningScheduledExecutorService executor, FillArgs fillArgs,
       boolean readOnly) throws IOException {
     this.refreshThread = new RefreshThread();
     this.fillArgs = fillArgs;
+    this.executor = executor;
     this.readOnly = readOnly;
     openIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_OPEN),
         getIndexWriterConfig(cfg, "changes_open"));
@@ -125,8 +132,22 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   @Override
   public void stop() {
     refreshThread.halt();
-    openIndex.close();
-    closedIndex.close();
+    List<Future<?>> closeFutures = Lists.newArrayListWithCapacity(2);
+    closeFutures.add(executor.submit(new Runnable() {
+      @Override
+      public void run() {
+        openIndex.close();
+      }
+    }));
+    closeFutures.add(executor.submit(new Runnable() {
+      @Override
+      public void run() {
+        closedIndex.close();
+      }
+    }));
+    for (Future<?> future : closeFutures) {
+      Futures.getUnchecked(future);
+    }
   }
 
   @Override

@@ -276,8 +276,11 @@ public class CodeMirrorDemo extends Screen {
       Side mySide = info.side();
       CodeMirror cm = mySide == Side.PARENT ? cmA : cmB;
       CodeMirror other = otherCM(cm);
-      final CommentBox box = new CommentBox(info.author(), info.updated(),
-          info.message(), commentLinkProcessor, isDraft);
+      final CommentBox box = isDraft ?
+          new DraftBox(info.author(), info.updated(), info.message(),
+              commentLinkProcessor) :
+          new PublishedBox(info.author(), info.updated(), info.message(),
+              commentLinkProcessor);
       int line = info.line() - 1; // CommentInfo is 1-based, but CM is 0-based
       diffTable.add(box);
       cm.addLineWidget(line, box.getElement(), config);

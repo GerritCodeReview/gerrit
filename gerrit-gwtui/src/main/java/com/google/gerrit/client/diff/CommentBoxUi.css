@@ -1,0 +1,41 @@
+.commentBox {
+  background-color: #e5ecf9;
+  border: 1px solid black;
+}
+
+.table {
+  width: 100%;
+  cursor: pointer;
+  table-layout: fixed;
+}
+
+.summary {
+  width: 60%;
+}
+
+.summaryText {
+  color: #777;
+  height: 1em;
+  max-width: 80%;
+  overflow: hidden;
+  padding-bottom: 1px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.open .summaryText {
+  display: none;
+}
+
+.date {
+  width: 25%;
+  text-align: right;
+}
+
+.close .contentPanel {
+  display: none;
+}
+
+.message {
+  margin: 5px;
+}

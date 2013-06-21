@@ -157,7 +157,7 @@ Publish the Extension and Plugin API Jars
 link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
 configuration needed for deployment]
 
-* Push the Jars to `commondatastorage.googleapis.com`:
+* Push the Jars to `storage.googleapis.com`:
 +
 ----
   ./tools/deploy_api.sh

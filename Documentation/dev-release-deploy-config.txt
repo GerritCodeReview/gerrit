@@ -73,7 +73,7 @@ deployable to the `gerrit-maven` storage bucket:
     <repository>
       <id>gerrit-maven-repository</id>
       <name>Gerrit Maven Repository</name>
-      <url>s3://gerrit-maven@commondatastorage.googleapis.com</url>
+      <url>gs://gerrit-maven</url>
       <uniqueVersion>true</uniqueVersion>
     </repository>
   </distributionManagement>
@@ -86,9 +86,9 @@ deployable to the `gerrit-maven` storage bucket:
   <build>
     <extensions>
       <extension>
-        <groupId>net.anzix.aws</groupId>
-        <artifactId>s3-maven-wagon</artifactId>
-        <version>3.2</version>
+        <groupId>com.googlesource.gerrit</groupId>
+        <artifactId>gs-maven-wagon</artifactId>
+        <version>3.3</version>
       </extension>
     </extensions>
   </build>
@@ -107,7 +107,7 @@ deployable to the `gerrit-plugins` storage bucket:
     <repository>
       <id>gerrit-plugins-repository</id>
       <name>Gerrit Plugins Repository</name>
-      <url>s3://gerrit-plugins@commondatastorage.googleapis.com</url>
+      <url>gs://gerrit-plugins</url>
       <uniqueVersion>true</uniqueVersion>
     </repository>
   </distributionManagement>
@@ -120,9 +120,9 @@ deployable to the `gerrit-plugins` storage bucket:
   <build>
     <extensions>
       <extension>
-        <groupId>net.anzix.aws</groupId>
-        <artifactId>s3-maven-wagon</artifactId>
-        <version>3.2</version>
+        <groupId>com.googlesource.gerrit</groupId>
+        <artifactId>gs-maven-wagon</artifactId>
+        <version>3.3</version>
       </extension>
     </extensions>
   </build>

@@ -1,0 +1,124 @@
+<html>
+<head>
+  <title>Gerrit Code Review - Releases</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+  <style>
+  #diffy_logo {
+    float: left;
+    width: 75px;
+    height: 70px;
+    margin-right: 20px;
+  }
+  #download_container table {
+    border-spacing: 0;
+  }
+  .latest-release {
+    background-color: lightgreen;
+  }
+  .rc {
+    padding-left: 1em;
+    font-style: italic;
+  }
+  .size {
+    text-align: right;
+  }
+  </style>
+</head>
+<body>
+
+<h1>Gerrit Code Review - Releases</h1>
+<a href="http://code.google.com/p/gerrit">
+<img id="diffy_logo" src="https://gerrit-review.googlesource.com/static/logo.png">
+</a>
+
+<div id='download_container'>
+</div>
+
+<script>
+$.getJSON(
+'https://www.googleapis.com/storage/v1beta2/b/gerrit-releases/o?projection=noAcl&fields=items(name%2Csize)',
+function(data) {
+  var doc = document;
+  var frg = doc.createDocumentFragment();
+  var rx = /^gerrit(?:-full)?-([0-9.]+(?:-rc[0-9]+)?)[.]war/;
+
+  data.items.sort(function(a,b) {
+    var av = rx.exec(a.name);
+    var bv = rx.exec(b.name);
+    if (!av || !bv) {
+      return a.name > b.name ? 1 : -1;
+    }
+
+    var an = av[1].replace('-rc', '.rc').split('.')
+    var bn = bv[1].replace('-rc', '.rc').split('.')
+    while (an.length < bn.length) an.push('0');
+    while (an.length > bn.length) bn.push('0');
+    for (var i = 0; i < an.length; i++) {
+      var ai = an[i].indexOf('rc') == 0
+        ? parseInt(an[i].substring(2))
+        : 1000 + parseInt(an[i]);
+
+      var bi = bn[i].indexOf('rc') == 0
+        ? parseInt(bn[i].substring(2))
+        : 1000 + parseInt(bn[i]);
+
+      if (ai != bi) {
+        return ai > bi ? -1 : 1;
+      }
+    }
+    return 0;
+  });
+
+  var latest = false;
+  for (var i = 0; i < data.items.length; i++) {
+    var f = data.items[i];
+    var v = rx.exec(f.name);
+
+    if ('index.html' == f.name) {
+      continue;
+    }
+
+    var tr = doc.createElement('tr');
+    var td = doc.createElement('td');
+    var a = doc.createElement('a');
+    a.href = f.name;
+    if (v) {
+      a.innerText = 'Gerrit ' + v[1];
+    } else {
+      a.innerText = f.name;
+    }
+    if (f.name.indexOf('-rc') > 0) {
+      td.className = 'rc';
+    } else if (!latest) {
+      latest = true;
+      tr.className='latest-release';
+    }
+    td.appendChild(a);
+    tr.appendChild(td);
+
+    td = doc.createElement('td');
+    td.className = 'size';
+    td.innerText = (Math.round(f.size/(1024*1024)*10)/10) + ' MiB';
+    tr.appendChild(td);
+
+    frg.appendChild(tr);
+  }
+
+  var tr = doc.createElement('tr');
+  var th = doc.createElement('th');
+  th.innerText = 'File';
+  tr.appendChild(th);
+
+  th = doc.createElement('th');
+  th.innerText = 'Size';
+  tr.appendChild(th);
+
+  var table = doc.createElement('table');
+  table.appendChild(tr);
+  table.appendChild(frg);
+  doc.getElementById('download_container').appendChild(table);
+});
+</script>
+
+</body>
+</html>

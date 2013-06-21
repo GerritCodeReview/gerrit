@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caaa9999_9ef75d0f",
+        "filename": "website/releases/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-21T20:58:42Z",
+      "side": 1,
+      "message": "Right, the generated CSS uses dynamic names, and the project doesn\u0027t have an archived version of all of those.",
+      "parentUuid": "eaa59dc7_9ff7530f",
+      "revId": "ad2af04c0f49a7b99ecc175cb54fd176b24757df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0abaf1ed_f8e8b136",
         "filename": "website/releases/index.html",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "caaa9999_7efdb1ed",
+        "filename": "website/releases/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-21T20:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0abaf1ed_f8e8b136",
+      "revId": "ad2af04c0f49a7b99ecc175cb54fd176b24757df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaa59dc7_7ffdafed",
         "filename": "website/releases/index.html",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-06-21T19:26:24Z",
       "side": 1,
       "message": "It would be great if we could order these by date. But maybe that would be too much of a pain in terms of setting the metadata correctly.\n\nOr something else sensible to put newer ones at the top? Parse $version out of gerrit-$version.war and sort version numbers correctly?\n\nAnd maybe a \"latest\" link? That could be server-side though.\n\nJust throwing ideas out here.",
+      "revId": "ad2af04c0f49a7b99ecc175cb54fd176b24757df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caaa9999_3e07292c",
+        "filename": "website/releases/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-21T20:58:42Z",
+      "side": 1,
+      "message": "I considered parsing the string and storing, but that was more complex so I punted and said \"good enough for now\".  It now parses.",
+      "parentUuid": "eaa59dc7_7ffdafed",
       "revId": "ad2af04c0f49a7b99ecc175cb54fd176b24757df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -81,6 +135,24 @@
       "writtenOn": "2013-06-21T19:26:24Z",
       "side": 1,
       "message": "Trailing whitespace.",
+      "revId": "ad2af04c0f49a7b99ecc175cb54fd176b24757df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caaa9999_5efaf5f7",
+        "filename": "website/releases/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-21T20:58:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caaa9999_deede544",
       "revId": "ad2af04c0f49a7b99ecc175cb54fd176b24757df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

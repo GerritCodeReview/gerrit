@@ -465,9 +465,9 @@ limitations under the License.
 
     <extensions>
       <extension>
-        <groupId>net.anzix.aws</groupId>
-        <artifactId>s3-maven-wagon</artifactId>
-        <version>3.2</version>
+        <groupId>com.googlesource.gerrit</groupId>
+        <artifactId>gs-maven-wagon</artifactId>
+        <version>3.3</version>
       </extension>
     </extensions>
   </build>

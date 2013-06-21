@@ -43,8 +43,7 @@ import java.util.List;
 
 /** Piece of the change index that is implemented as a separate Lucene index. */
 class SubIndex {
-  private static final Logger log =
-      LoggerFactory.getLogger(LuceneChangeIndex.class);
+  private static final Logger log = LoggerFactory.getLogger(SubIndex.class);
 
   private final Directory dir;
   private final IndexWriter writer;
@@ -66,7 +65,7 @@ class SubIndex {
       log.warn("error closing Lucene searcher", e);
     }
     try {
-      writer.close(true);
+      writer.close();
     } catch (IOException e) {
       log.warn("error closing Lucene writer", e);
     }
@@ -79,17 +78,14 @@ class SubIndex {
 
   void insert(Document doc) throws IOException {
     writer.addDocument(doc);
-    commit();
   }
 
   void replace(Term term, Document doc) throws IOException {
     writer.updateDocument(term, doc);
-    commit();
   }
 
   void delete(Term term) throws IOException {
     writer.deleteDocuments(term);
-    commit();
   }
 
   List<ChangeData> search(Query query, int limit) throws IOException {
@@ -108,8 +104,11 @@ class SubIndex {
     }
   }
 
-  private void commit() throws IOException {
-    writer.commit();
-    searcherManager.maybeRefresh();
+  void maybeRefresh() {
+    try {
+      searcherManager.maybeRefresh();
+    } catch (IOException e) {
+      log.warn("error refreshing indexer", e);
+    }
   }
 }

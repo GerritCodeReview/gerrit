@@ -94,12 +94,14 @@ public class Reindex extends SiteProgram {
     dbManager.start();
     sitePaths = dbInjector.getInstance(SitePaths.class);
 
+    // Delete before any LuceneChangeIndex may be created.
+    deleteAll();
+
     sysInjector = createSysInjector();
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
 
-    deleteAll();
     int result = indexAll();
     writeVersion();
 

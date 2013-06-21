@@ -43,11 +43,14 @@ import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
@@ -60,6 +63,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.NumericUtils;
 import org.apache.lucene.util.Version;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,19 +90,33 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
 
+  private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
+    IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
+        new StandardAnalyzer(LUCENE_VERSION));
+    writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
+    double m = 1 << 20;
+    writerConfig.setRAMBufferSizeMB(cfg.getLong("index", name, "ramBufferSize",
+          (long) (IndexWriterConfig.DEFAULT_RAM_BUFFER_SIZE_MB * m)) / m);
+    writerConfig.setMaxBufferedDocs(cfg.getInt("index", name, "maxBufferedDocs",
+          IndexWriterConfig.DEFAULT_MAX_BUFFERED_DOCS));
+    return writerConfig;
+  }
+
   private final RefreshThread refreshThread;
   private final FillArgs fillArgs;
   private final boolean readOnly;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
 
-  LuceneChangeIndex(SitePaths sitePaths, FillArgs fillArgs, boolean readOnly)
-      throws IOException {
+  LuceneChangeIndex(Config cfg, SitePaths sitePaths, FillArgs fillArgs,
+      boolean readOnly) throws IOException {
     this.refreshThread = new RefreshThread();
     this.fillArgs = fillArgs;
     this.readOnly = readOnly;
-    openIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_OPEN));
-    closedIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_CLOSED));
+    openIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_OPEN),
+        getIndexWriterConfig(cfg, "changes_open"));
+    closedIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_CLOSED),
+          getIndexWriterConfig(cfg, "changes_closed"));
   }
 
   @Override

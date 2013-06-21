@@ -14,13 +14,9 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.gerrit.lucene.LuceneChangeIndex.LUCENE_VERSION;
-
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.SearcherManager;
@@ -40,11 +36,8 @@ class SubIndex {
   private final IndexWriter writer;
   private final SearcherManager searcherManager;
 
-  SubIndex(File file) throws IOException {
+  SubIndex(File file, IndexWriterConfig writerConfig) throws IOException {
     dir = FSDirectory.open(file);
-    IndexWriterConfig writerConfig =
-        new IndexWriterConfig(LUCENE_VERSION, new StandardAnalyzer(LUCENE_VERSION));
-    writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
     writer = new IndexWriter(dir, writerConfig);
     searcherManager = new SearcherManager(writer, true, null);
   }

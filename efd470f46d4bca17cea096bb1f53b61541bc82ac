@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caaa9999_7e2491bb",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-21T21:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaa59dc7_5ffaebf7",
+      "revId": "efd470f46d4bca17cea096bb1f53b61541bc82ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caaa9999_be09f93c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-21T21:41:35Z",
       "side": 1,
       "message": "You can drop volatile if you test if(stop) inside of the synchronized(this) block.",
+      "revId": "efd470f46d4bca17cea096bb1f53b61541bc82ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eaa59dc7_1f046323",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-21T21:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caaa9999_be09f93c",
       "revId": "efd470f46d4bca17cea096bb1f53b61541bc82ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0aef5100_f0e8c036",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-21T21:48:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0abaf1ed_98f7750f",
+      "revId": "efd470f46d4bca17cea096bb1f53b61541bc82ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaa59dc7_3f07272c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-21T21:41:35Z",
       "side": 1,
       "message": "Instead say:\n\n  synchronized (this) {\n   wait(100);\n  }\n\nThis way you don\u0027t have to wait 100ms during shutdown.",
+      "revId": "efd470f46d4bca17cea096bb1f53b61541bc82ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caaa9999_5e21d5a9",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-21T21:48:02Z",
+      "side": 1,
+      "message": "Yeah, because the 100ms matters a lot when you also have to commit all the indexes :)\n\nDone.",
+      "parentUuid": "eaa59dc7_3f07272c",
       "revId": "efd470f46d4bca17cea096bb1f53b61541bc82ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

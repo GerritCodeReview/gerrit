@@ -86,6 +86,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
 
+  private final RefreshThread refreshThread;
   private final FillArgs fillArgs;
   private final boolean readOnly;
   private final SubIndex openIndex;
@@ -93,6 +94,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   LuceneChangeIndex(SitePaths sitePaths, FillArgs fillArgs, boolean readOnly)
       throws IOException {
+    this.refreshThread = new RefreshThread();
     this.fillArgs = fillArgs;
     this.readOnly = readOnly;
     openIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_OPEN));
@@ -101,11 +103,12 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   @Override
   public void start() {
-    // Do nothing.
+    refreshThread.start();
   }
 
   @Override
   public void stop() {
+    refreshThread.halt();
     openIndex.close();
     closedIndex.close();
   }
@@ -341,5 +344,36 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private static IllegalArgumentException badFieldType(FieldType<?> t) {
     return new IllegalArgumentException("unknown index field type " + t);
+  }
+
+  private class RefreshThread extends Thread {
+    private boolean stop;
+
+    @Override
+    public void run() {
+      while (!stop) {
+        openIndex.maybeRefresh();
+        closedIndex.maybeRefresh();
+        synchronized (this) {
+          try {
+            wait(100);
+          } catch (InterruptedException e) {
+            log.warn("error refreshing index searchers", e);
+          }
+        }
+      }
+    }
+
+    void halt() {
+      synchronized (this) {
+        stop = true;
+        notify();
+      }
+      try {
+        join();
+      } catch (InterruptedException e) {
+        log.warn("error stopping refresh thread", e);
+      }
+    }
   }
 }

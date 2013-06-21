@@ -58,6 +58,8 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.NumericUtils;
 import org.apache.lucene.util.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,10 +77,14 @@ import java.util.Set;
  * other threads' searchers.
  */
 public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
+  private static final Logger log =
+      LoggerFactory.getLogger(LuceneChangeIndex.class);
+
   public static final Version LUCENE_VERSION = Version.LUCENE_43;
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
 
+  private final RefreshThread refreshThread;
   private final FillArgs fillArgs;
   private final boolean readOnly;
   private final SubIndex openIndex;
@@ -86,6 +92,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   LuceneChangeIndex(SitePaths sitePaths, FillArgs fillArgs, boolean readOnly)
       throws IOException {
+    this.refreshThread = new RefreshThread();
     this.fillArgs = fillArgs;
     this.readOnly = readOnly;
     openIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_OPEN));
@@ -94,11 +101,17 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   @Override
   public void start() {
-    // Do nothing.
+    refreshThread.start();
   }
 
   @Override
   public void stop() {
+    refreshThread.stop = true;
+    try {
+      refreshThread.join();
+    } catch (InterruptedException e) {
+      log.warn("error stopping refresh thread", e);
+    }
     openIndex.close();
     closedIndex.close();
   }
@@ -313,5 +326,25 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private static IllegalArgumentException badFieldType(FieldType<?> t) {
     return new IllegalArgumentException("unknown index field type " + t);
+  }
+
+  private class RefreshThread extends Thread {
+    private volatile boolean stop;
+
+    @Override
+    public void run() {
+      while (true) {
+        if (stop) {
+          break;
+        }
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException e) {
+          log.warn("error refreshing index searchers", e);
+        }
+        openIndex.maybeRefresh();
+        closedIndex.maybeRefresh();
+      }
+    }
   }
 }

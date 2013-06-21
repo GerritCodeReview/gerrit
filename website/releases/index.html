@@ -1,0 +1,73 @@
+<html>
+<head>
+  <title>Gerrit Code Review - Releases</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+  <style>
+  #diffy_logo {
+    float: left;
+    width: 200px;
+    height: 186px;
+    margin-right: 20px;
+  }
+  .size {
+    text-align: right;
+  }
+  </style>
+</head>
+<body>
+
+<h1>Gerrit Code Review - Releases</h1>
+<a href="http://code.google.com/p/gerrit">
+<img id="diffy_logo" src="https://gerrit-static.storage.googleapis.com/diffy-w200.png">
+</a>
+
+<div id='download_container'>
+</div>
+
+<script>
+$.getJSON(
+'https://www.googleapis.com/storage/v1beta2/b/gerrit-releases/o?projection=noAcl&fields=items(name%2Csize)',
+function(data) {
+  var doc = document;
+  var frg = doc.createDocumentFragment();
+
+  for (var i = 0; i < data.items.length; i++) {
+    var f = data.items[i];
+    if ('index.html' == f.name) {
+      continue;
+    }
+
+    var tr = doc.createElement('tr');
+    var td = doc.createElement('td');
+    var a = doc.createElement('a');
+    a.href = f.name;
+    a.innerText = f.name;
+    td.appendChild(a);
+    tr.appendChild(td);
+
+    td = doc.createElement('td');
+    td.className = 'size';
+    td.innerText = (Math.round(f.size/(1024*1024)*10)/10) + ' MiB';
+    tr.appendChild(td);
+
+    frg.appendChild(tr);
+  }
+ 
+  var tr = doc.createElement('tr');
+  var th = doc.createElement('th');
+  th.innerText = 'File';
+  tr.appendChild(th);
+
+  th = doc.createElement('th');
+  th.innerText = 'Size';
+  tr.appendChild(th);
+
+  var table = doc.createElement('table');
+  table.appendChild(tr);
+  table.appendChild(frg);
+  doc.getElementById('download_container').appendChild(table);
+});
+</script>
+
+</body>
+</html>

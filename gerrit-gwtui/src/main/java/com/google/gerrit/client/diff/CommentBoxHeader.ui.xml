@@ -17,44 +17,9 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:c='urn:import:com.google.gerrit.client'>
-  <ui:style type='com.google.gerrit.client.diff.CommentBox.CommentBoxStyle'>
-    .commentBox {
-      background-color: #e5ecf9;
-      border: 1px solid black;
-    }
-    .table {
-      width: 100%;
-      cursor: pointer;
-      table-layout: fixed;
-    }
-    .summary {
-      width: 60%;
-    }
-    .summaryText {
-      color: #777;
-      height: 1em;
-      max-width: 80%;
-      overflow: hidden;
-      padding-bottom: 1px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .open .summaryText {
-      display: none;
-    }
-    .date {
-      width: 25%;
-      text-align: right;
-    }
-    .close .contentPanel {
-      display: none;
-    }
-    .message {
-      margin: 5px;
-    }
-  </ui:style>
-  <g:HTMLPanel styleName='{style.commentBox}'>
-    <g:HTMLPanel ui:field='header'>
+  <ui:style src="CommentBoxUi.css"
+      type='com.google.gerrit.client.diff.CommentBox.CommentBoxStyle' />
+    <g:HTMLPanel>
     <table class='{style.table}'>
       <tr>
         <td><c:AvatarImage ui:field='avatar' /></td>
@@ -66,12 +31,4 @@ limitations under the License.
       </tr>
     </table>
     </g:HTMLPanel>
-    <div ui:field='contentPanel' class='{style.contentPanel}'>
-      <g:HTML ui:field='contentPanelMessage' styleName='{style.message}'></g:HTML>
-      <div>
-        <button ui:field='reply'><ui:msg>Reply ...</ui:msg></button>
-        <button ui:field='replyDone'><ui:msg>Reply 'Done'</ui:msg></button>
-      </div>
-    </div>
-  </g:HTMLPanel>
 </ui:UiBinder>

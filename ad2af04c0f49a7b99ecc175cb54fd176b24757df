@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "0abaf1ed_d8eded44",
+        "filename": "website/releases/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-21T20:31:59Z",
+      "side": 1,
+      "message": "that doesn\u0027t work on Firefox, but that does\n\n a.textContent \u003d f.name;\n\nI would be probably better to do it with jQuery and not manually?",
+      "revId": "ad2af04c0f49a7b99ecc175cb54fd176b24757df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caaa9999_deede544",
         "filename": "website/releases/index.html",
         "patchSetId": 1

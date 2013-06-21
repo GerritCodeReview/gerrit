@@ -27,5 +27,5 @@ import java.lang.annotation.Retention;
  */
 @Retention(RUNTIME)
 @BindingAnnotation
-@interface IndexExecutor {
+public @interface IndexExecutor {
 }

@@ -14,11 +14,13 @@
 
 package com.google.gerrit.lucene;
 
+import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -56,7 +58,9 @@ public class LuceneIndexModule extends LifecycleModule {
   @Provides
   @Singleton
   public LuceneChangeIndex getChangeIndex(@GerritServerConfig Config cfg,
-      SitePaths sitePaths, FillArgs fillArgs) throws IOException {
-    return new LuceneChangeIndex(cfg, sitePaths, fillArgs, readOnly);
+      SitePaths sitePaths,
+      @IndexExecutor ListeningScheduledExecutorService executor,
+      FillArgs fillArgs) throws IOException {
+    return new LuceneChangeIndex(cfg, sitePaths, executor, fillArgs, readOnly);
   }
 }

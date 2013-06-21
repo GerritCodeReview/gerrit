@@ -14,12 +14,8 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.AvatarImage;
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -28,18 +24,14 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.sql.Timestamp;
 
-/** An HtmlPanel holding the DialogBox to display a comment */
-class CommentBox extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, CommentBox> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
-
+/** An HtmlPanel for displaying a comment */
+abstract class CommentBox extends Composite {
   interface CommentBoxStyle extends CssResource {
     String open();
     String close();
@@ -49,38 +41,21 @@ class CommentBox extends Composite {
   private HandlerRegistration headerClick;
   private Runnable clickCallback;
 
-  @UiField
-  Widget header;
-
-  @UiField
-  AvatarImage avatar;
-
-  @UiField
-  Element name;
-
-  @UiField
-  Element summary;
-
-  @UiField
-  Element date;
-
-  @UiField
-  Element contentPanel;
+  @UiField(provided=true)
+  CommentBoxHeader header;
 
   @UiField
   HTML contentPanelMessage;
 
   @UiField
-  CommentBoxStyle style;
+  CommentBoxResources res;
 
-  CommentBox(AccountInfo author, Timestamp when, String message,
+  protected CommentBox(UiBinder<? extends Widget, CommentBox> binder,
+      AccountInfo author, Timestamp when, String message,
       CommentLinkProcessor linkProcessor, boolean isDraft) {
-    initWidget(uiBinder.createAndBindUi(this));
-    // TODO: Format the comment box differently based on whether isDraft
-    // is true.
     commentLinkProcessor = linkProcessor;
-    setAuthorNameText(author);
-    date.setInnerText(FormatUtil.shortFormatDayTime(when));
+    header = new CommentBoxHeader(author, when, isDraft);
+    initWidget(binder.createAndBindUi(this));
     setMessageText(message);
     setOpen(false);
   }
@@ -98,10 +73,17 @@ class CommentBox extends Composite {
         }
       }
     }, ClickEvent.getType());
+    res.style().ensureInjected();
   }
 
   void setOpenCloseHandler(final Runnable callback) {
     clickCallback = callback;
+  }
+
+  protected void runClickCallback() {
+    if (clickCallback != null) {
+      clickCallback.run();
+    }
   }
 
   @Override
@@ -114,19 +96,13 @@ class CommentBox extends Composite {
     }
   }
 
-  private void setAuthorNameText(AccountInfo author) {
-    // TODO: Set avatar's display to none if we get a 404.
-    avatar = new AvatarImage(author, 26);
-    name.setInnerText(FormatUtil.name(author));
-  }
-
   private void setMessageText(String message) {
     if (message == null) {
       message = "";
     } else {
       message = message.trim();
     }
-    summary.setInnerText(message);
+    header.setSummaryText(message);
     SafeHtml buf = new SafeHtmlBuilder().append(message).wikify();
     buf = commentLinkProcessor.apply(buf);
     SafeHtml.set(contentPanelMessage, buf);
@@ -134,15 +110,15 @@ class CommentBox extends Composite {
 
   private void setOpen(boolean open) {
     if (open) {
-      removeStyleName(style.close());
-      addStyleName(style.open());
+      removeStyleName(res.style().close());
+      addStyleName(res.style().open());
     } else {
-      removeStyleName(style.open());
-      addStyleName(style.close());
+      removeStyleName(res.style().open());
+      addStyleName(res.style().close());
     }
   }
 
   private boolean isOpen() {
-    return getStyleName().contains(style.open());
+    return getStyleName().contains(res.style().open());
   }
 }

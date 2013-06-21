@@ -1,0 +1,7 @@
+.edit .messagePanel {
+  display: none;
+}
+
+.view .editArea {
+  display: none;
+}

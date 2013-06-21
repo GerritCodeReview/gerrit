@@ -14,31 +14,22 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.AvatarImage;
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.sql.Timestamp;
 
-/** An HtmlPanel holding the DialogBox to display a comment */
-class CommentBox extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, CommentBox> {}
-  private static Binder uiBinder = GWT.create(Binder.class);
+/** An HtmlPanel for displaying a comment */
+abstract class CommentBox extends Composite {
 
   interface CommentBoxStyle extends CssResource {
     String open();
@@ -50,22 +41,7 @@ class CommentBox extends Composite {
   private Runnable clickCallback;
 
   @UiField
-  Widget header;
-
-  @UiField
-  AvatarImage avatar;
-
-  @UiField
-  Element name;
-
-  @UiField
-  Element summary;
-
-  @UiField
-  Element date;
-
-  @UiField
-  Element contentPanel;
+  CommentBoxHeader header;
 
   @UiField
   HTML contentPanelMessage;
@@ -73,14 +49,10 @@ class CommentBox extends Composite {
   @UiField
   CommentBoxStyle style;
 
-  CommentBox(AccountInfo author, Timestamp when, String message,
+  protected void init(AccountInfo author, Timestamp when, String message,
       CommentLinkProcessor linkProcessor, boolean isDraft) {
-    initWidget(uiBinder.createAndBindUi(this));
-    // TODO: Format the comment box differently based on whether isDraft
-    // is true.
     commentLinkProcessor = linkProcessor;
-    setAuthorNameText(author);
-    date.setInnerText(FormatUtil.shortFormatDayTime(when));
+    header.setNameAndDate(author, when, isDraft);
     setMessageText(message);
     setOpen(false);
     setClickHandler();
@@ -92,9 +64,7 @@ class CommentBox extends Composite {
         @Override
         public void onClick(ClickEvent event) {
           setOpen(!isOpen());
-          if (clickCallback != null) {
-            clickCallback.run();
-          }
+          runClickCallback();
         }
       }, ClickEvent.getType());
     };
@@ -102,6 +72,12 @@ class CommentBox extends Composite {
 
   void setOpenCloseHandler(final Runnable callback) {
     clickCallback = callback;
+  }
+
+  protected void runClickCallback() {
+    if (clickCallback != null) {
+      clickCallback.run();
+    }
   }
 
   @Override
@@ -114,19 +90,13 @@ class CommentBox extends Composite {
     }
   }
 
-  private void setAuthorNameText(AccountInfo author) {
-    // TODO: Set avatar's display to none if we get a 404.
-    avatar = new AvatarImage(author, 26);
-    name.setInnerText(FormatUtil.name(author));
-  }
-
   private void setMessageText(String message) {
     if (message == null) {
       message = "";
     } else {
       message = message.trim();
     }
-    summary.setInnerText(message);
+    header.setSummaryText(message);
     SafeHtml buf = new SafeHtmlBuilder().append(message).wikify();
     buf = commentLinkProcessor.apply(buf);
     SafeHtml.set(contentPanelMessage, buf);

@@ -46,7 +46,7 @@ limitations under the License.
   </issueManagement>
 
   <properties>
-    <jgitVersion>0.12.1.53-g5ec4977</jgitVersion>
+    <jgitVersion>0.12.1.54-gc125448</jgitVersion>
     <gwtormVersion>1.1.5</gwtormVersion>
     <gwtjsonrpcVersion>1.2.3</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.2.2</gwtexpuiVersion>
@@ -756,18 +756,8 @@ limitations under the License.
 
   <repositories>
     <repository>
-      <id>jgit-repository</id>
-      <url>http://download.eclipse.org/jgit/maven</url>
-    </repository>
-
-    <repository>
       <id>gerrit-maven-repository</id>
-      <url>http://gerrit.googlecode.com/svn/mavenrepo/</url>
-    </repository>
-
-    <repository>
-      <id>gerrit-snapshot-repository</id>
-      <url>http://gerrit.googlecode.com/svn/mavenrepo/snapshots/</url>
+      <url>https://gerrit-maven.storage.googleapis.com</url>
     </repository>
 
     <repository>

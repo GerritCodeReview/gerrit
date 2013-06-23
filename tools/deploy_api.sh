@@ -15,7 +15,7 @@ case $VER in
   ;;
 *-[0-9]*-g*) type=snapshot ;;
 esac
-URL=s3://gerrit-api@commondatastorage.googleapis.com/$type
+URL=gs://gerrit-api/$type
 
 
 echo "Deploying $type gerrit-extension-api $VER"

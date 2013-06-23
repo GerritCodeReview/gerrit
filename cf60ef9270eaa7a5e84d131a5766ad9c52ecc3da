@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "ca2ff91f_d6e84437",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-06-23T16:00:56Z",
+      "side": 1,
+      "message": "Done in Patch Set 8.",
+      "parentUuid": "S6riNuX0",
+      "revId": "cf60ef9270eaa7a5e84d131a5766ad9c52ecc3da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Rv.OO0nQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RenameProject.java",
         "patchSetId": 6

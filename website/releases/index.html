@@ -12,6 +12,9 @@
   #download_container table {
     border-spacing: 0;
   }
+  #download_container td {
+    padding-right: 5px;
+  }
   .latest-release {
     background-color: lightgreen;
   }
@@ -41,6 +44,7 @@ function(data) {
   var doc = document;
   var frg = doc.createDocumentFragment();
   var rx = /^gerrit(?:-full)?-([0-9.]+(?:-rc[0-9]+)?)[.]war/;
+  var rel = 'http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/';
 
   data.items.sort(function(a,b) {
     var av = rx.exec(a.name);
@@ -97,6 +101,15 @@ function(data) {
     tr.appendChild(td);
 
     td = doc.createElement('td');
+    if (v && f.name.indexOf('-rc') < 0) {
+      a = doc.createElement('a');
+      a.href = rel + 'ReleaseNotes-' + v[1] + '.html';
+      a.appendChild(doc.createTextNode('Release Notes'));
+      td.appendChild(a);
+    }
+    tr.appendChild(td);
+
+    td = doc.createElement('td');
     td.className = 'size';
     td.appendChild(doc.createTextNode(
       Math.round(f.size/(1024*1024)*10)/10 + ' MiB'));
@@ -107,11 +120,14 @@ function(data) {
 
   var tr = doc.createElement('tr');
   var th = doc.createElement('th');
-  th.innerText = 'File';
+  th.appendChild(doc.createTextNode('File'));
   tr.appendChild(th);
 
   th = doc.createElement('th');
-  th.innerText = 'Size';
+  tr.appendChild(th);
+
+  th = doc.createElement('th');
+  th.appendChild(doc.createTextNode('Size'));
   tr.appendChild(th);
 
   var table = doc.createElement('table');

@@ -106,7 +106,7 @@ Change Screens
 * link:https://code.google.com/p/gerrit/issues/detail?id=667[Issue 667]:
 Highlight patch sets that have drafts.
 +
-Patch sets having unpublished draft comments are higlighted with an icon.
+Patch sets having unpublished draft comments are highlighted with an icon.
 
 * Option to show relative times in change tables.
 +

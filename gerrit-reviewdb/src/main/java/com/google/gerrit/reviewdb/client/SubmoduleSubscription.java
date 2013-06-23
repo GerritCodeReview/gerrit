@@ -97,6 +97,10 @@ public final class SubmoduleSubscription {
     return submodule;
   }
 
+  public void setSuperProjectProject(Project.NameKey projectNameKey) {
+    this.key.superProject.setParentKey(projectNameKey);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof SubmoduleSubscription) {

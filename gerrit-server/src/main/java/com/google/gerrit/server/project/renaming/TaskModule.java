@@ -49,5 +49,6 @@ public class TaskModule extends FactoryModule {
     taskFactory(RenameChangesTask.Factory.class);
     taskFactory(RenameWatchesTask.Factory.class);
     taskFactory(RenameRepositoryTask.Factory.class);
+    taskFactory(RenameSubscriptionSuperProjectsTask.Factory.class);
   }
 }

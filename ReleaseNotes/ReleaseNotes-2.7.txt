@@ -4,8 +4,7 @@ Release notes for Gerrit 2.7
 
 Gerrit 2.7 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.7.war[
-http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.7.war]
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.7-rc2.war[https://gerrit-releases.storage.googleapis.com/gerrit-2.7-rc2.war]
 
 
 Schema Change

@@ -14,22 +14,30 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.changes.CommentApi;
+import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.changes.CommentInput;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
-import java.sql.Timestamp;
-
 /** An HtmlPanel for displaying and editing a draft */
-//TODO: Make the buttons functional.
 class DraftBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, DraftBox> {}
   private static UiBinder<HTMLPanel, CommentBox> uiBinder =
@@ -38,6 +46,7 @@ class DraftBox extends CommentBox {
   interface DraftBoxStyle extends CssResource {
     String edit();
     String view();
+    String newDraft();
   }
 
   @UiField
@@ -46,51 +55,149 @@ class DraftBox extends CommentBox {
   @UiField
   DraftBoxStyle draftStyle;
 
+  @UiField
+  Button edit;
+
+  @UiField
+  Button save;
+
+  @UiField
+  Button cancel;
+
+  @UiField
+  Button discard;
+
   private HandlerRegistration messageClick;
+  private boolean isNew;
+  private PublishedBox replyToBox;
 
-  DraftBox(AccountInfo author, Timestamp when, String message,
-      CommentLinkProcessor linkProcessor) {
-    super(uiBinder, author, when, message, linkProcessor, true);
+  DraftBox(
+      CodeMirrorDemo host,
+      PatchSet.Id id,
+      CommentInfo info,
+      CommentLinkProcessor linkProcessor,
+      boolean isNew,
+      boolean saveOnInit) {
+    super(host, uiBinder, id, info, linkProcessor, true);
 
-    setEdit(false);
-    // TODO: Need a resize handler on editArea.
+    this.isNew = isNew;
+    editArea.setText(contentPanelMessage.getText());
+    setEdit(isNew && !saveOnInit);
+    setOpen(isNew && !saveOnInit);
+    if (saveOnInit) {
+      onSave(null);
+    }
+    if (isNew) {
+      addStyleName(draftStyle.newDraft());
+    }
   }
 
   @Override
   protected void onLoad() {
     super.onLoad();
 
-    messageClick = contentPanelMessage.addDomHandler(new DoubleClickHandler() {
+    messageClick = contentPanelMessage.addDoubleClickHandler(
+        new DoubleClickHandler() {
       @Override
       public void onDoubleClick(DoubleClickEvent arg0) {
-        editArea.setText(contentPanelMessage.getText());
-        setEdit(!isEdit());
-        runClickCallback();
+        setEdit(true);
       }
-    }, DoubleClickEvent.getType());
-  }
-
-  private void setEdit(boolean edit) {
-    if (edit) {
-      removeStyleName(draftStyle.view());
-      addStyleName(draftStyle.edit());
-    } else {
-      removeStyleName(draftStyle.edit());
-      addStyleName(draftStyle.view());
-    }
-  }
-
-  private boolean isEdit() {
-    return getStyleName().contains(draftStyle.edit());
+    });
+    addDomHandler(new MouseMoveHandler() {
+      @Override
+      public void onMouseMove(MouseMoveEvent arg0) {
+        resizePaddingWidget();
+      }
+    }, MouseMoveEvent.getType());
   }
 
   @Override
   protected void onUnload() {
     super.onUnload();
 
-    if (messageClick != null) {
-      messageClick.removeHandler();
-      messageClick = null;
+    messageClick.removeHandler();
+    messageClick = null;
+  }
+
+  void setEdit(boolean edit) {
+    if (edit) {
+      removeStyleName(draftStyle.view());
+      addStyleName(draftStyle.edit());
+      editArea.setText(contentPanelMessage.getText());
+      editArea.setFocus(true);
+    } else {
+      removeStyleName(draftStyle.edit());
+      addStyleName(draftStyle.view());
+    }
+    resizePaddingWidget();
+  }
+
+  void registerReplyToBox(PublishedBox box) {
+    replyToBox = box;
+  }
+
+  private void removeUI() {
+    if (replyToBox != null) {
+      replyToBox.unregisterReplyBox();
+    }
+    getPaddingWidget().clear();
+    removeFromParent();
+    getSelfWidget().clear();
+  }
+
+  @UiHandler("edit")
+  void onEdit(ClickEvent e) {
+    setEdit(true);
+  }
+
+  @UiHandler("save")
+  void onSave(ClickEvent e) {
+    final String message = editArea.getText();
+    if (message.equals("")) {
+      return;
+    }
+    CommentInfo original = getOriginal();
+    CommentInput input = CommentInput.create(original);
+    input.setMessage(message);
+    GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
+      @Override
+      public void onSuccess(CommentInfo result) {
+        updateOriginal(result);
+        setEdit(false);
+        setMessageText(message);
+        setDateText(FormatUtil.shortFormatDayTime(result.updated()));
+        resizePaddingWidget();
+        if (isNew) {
+          removeStyleName(draftStyle.newDraft());
+          isNew = false;
+        }
+      }
+    };
+    if (isNew) {
+      CommentApi.createDraft(getPatchSetId(), input, cb);
+    } else {
+      CommentApi.updateDraft(getPatchSetId(), original.id(), input, cb);
+    }
+  }
+
+  @UiHandler("cancel")
+  void onCancel(ClickEvent e) {
+    setEdit(false);
+    resizePaddingWidget();
+  }
+
+  @UiHandler("discard")
+  void onDiscard(ClickEvent e) {
+    if (isNew) {
+      removeUI();
+    } else {
+      CommentApi.deleteDraft(getPatchSetId(), getOriginal().id(),
+          new GerritCallback<JavaScriptObject>() {
+        @Override
+        public void onSuccess(JavaScriptObject result) {
+          removeUI();
+        }
+      });
     }
   }
 }

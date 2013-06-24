@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a544db1_c3e87637",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-24T14:55:22Z",
+      "side": 1,
+      "message": "should be:\n  if (!name.startsWith(Branch.R_HEADS))",
+      "revId": "fa0d01164f9c0a82a6280fff6496303a81a8f560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

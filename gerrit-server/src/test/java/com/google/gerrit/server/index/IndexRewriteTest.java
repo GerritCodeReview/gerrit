@@ -69,6 +69,11 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
+    public Schema<ChangeData> getSchema() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void finishIndex() {
       throw new UnsupportedOperationException();
     }
@@ -102,13 +107,13 @@ public class IndexRewriteTest extends TestCase {
     }
   }
 
-  public static class QueryBuilder extends ChangeQueryBuilder {
+  public class QueryBuilder extends ChangeQueryBuilder {
     QueryBuilder() {
       super(
           new QueryBuilder.Definition<ChangeData, QueryBuilder>(
             QueryBuilder.class),
           new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
-            null, null, null, null, null, null),
+            null, null, null, null, null, indexes),
           null);
     }
 
@@ -122,7 +127,7 @@ public class IndexRewriteTest extends TestCase {
       return predicate("bar", value);
     }
 
-    private static Predicate<ChangeData> predicate(String name, String value) {
+    private Predicate<ChangeData> predicate(String name, String value) {
       return new OperatorPredicate<ChangeData>(name, value) {
         @Override
         public boolean match(ChangeData object) throws OrmException {
@@ -138,6 +143,7 @@ public class IndexRewriteTest extends TestCase {
   }
 
   private DummyIndex index;
+  private IndexCollection indexes;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewriteImpl rewrite;
 
@@ -145,9 +151,11 @@ public class IndexRewriteTest extends TestCase {
   public void setUp() throws Exception {
     super.setUp();
     index = new DummyIndex();
+    indexes = new IndexCollection();
+    indexes.setSearchIndex(index);
     queryBuilder = new QueryBuilder();
     rewrite = new IndexRewriteImpl(
-        index,
+        indexes,
         null,
         new IndexRewriteImpl.BasicRewritesImpl(null));
   }

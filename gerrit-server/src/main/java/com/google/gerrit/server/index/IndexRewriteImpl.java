@@ -118,15 +118,15 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     return null;
   }
 
-  private final ChangeIndex index;
+  private final IndexCollection indexes;
   private final Provider<ReviewDb> db;
   private final BasicRewritesImpl basicRewrites;
 
   @Inject
-  IndexRewriteImpl(ChangeIndex index,
+  IndexRewriteImpl(IndexCollection indexes,
       Provider<ReviewDb> db,
       BasicRewritesImpl basicRewrites) {
-    this.index = index;
+    this.indexes = indexes;
     this.db = db;
     this.basicRewrites = basicRewrites;
   }
@@ -235,7 +235,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
 
   private IndexedChangeQuery query(Predicate<ChangeData> p) {
     try {
-      return new IndexedChangeQuery(index, p);
+      return new IndexedChangeQuery(indexes.getSearchIndex(), p);
     } catch (QueryParseException e) {
       throw new IllegalStateException(
           "Failed to convert " + p + " to index predicate", e);

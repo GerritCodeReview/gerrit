@@ -38,7 +38,7 @@ import java.util.Map;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 1;
+  public static final int SCHEMA_VERSION = 2;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
@@ -59,6 +59,39 @@ public class ChangeField {
             throws OrmException {
           return ChangeStatusPredicate.VALUES.get(
               input.change(args.db).getStatus());
+        }
+      };
+
+  /** Project containing the change. */
+  public static final FieldDef<ChangeData, String> PROJECT =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_PROJECT, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change(args.db).getProject().get();
+        }
+      };
+
+  /** Reference (aka branch) the change will submit onto. */
+  public static final FieldDef<ChangeData, String> REF =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_REF, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change(args.db).getDest().get();
+        }
+      };
+
+  /** Topic, a short annotation on the branch. */
+  public static final FieldDef<ChangeData, String> TOPIC =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_TOPIC, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change(args.db).getTopic();
         }
       };
 

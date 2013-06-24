@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca5d39d4_263636e8",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirrorDoc.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-24T19:11:04Z",
+      "side": 1,
+      "message": "i don\u0027t think you need this method. please remove.",
+      "revId": "c97f38231feb906be1247bea3bc35820f6ac95bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

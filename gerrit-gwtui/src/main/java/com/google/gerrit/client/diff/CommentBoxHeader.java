@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.AvatarImage;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -35,6 +36,8 @@ class CommentBoxHeader extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommentBoxHeader> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
+  private boolean isDraft;
+
   @UiField(provided=true)
   AvatarImage avatar;
 
@@ -51,13 +54,22 @@ class CommentBoxHeader extends Composite {
     // TODO: Set avatar's display to none if we get a 404.
     avatar = new AvatarImage(author, 26);
     initWidget(uiBinder.createAndBindUi(this));
-    String dateText = FormatUtil.shortFormatDayTime(when);
+    this.isDraft = isDraft;
+    if (when != null) {
+      setDate(when);
+    }
     if (isDraft) {
       name.setInnerText("(Draft)");
-      date.setInnerText("Draft saved at " + dateText);
     } else {
       name.setInnerText(FormatUtil.name(author));
-      date.setInnerText(dateText);
+    }
+  }
+
+  void setDate(Timestamp when) {
+    if (isDraft) {
+      date.setInnerText(PatchUtil.M.draftSaved(when));
+    } else {
+      date.setInnerText(FormatUtil.shortFormatDayTime(when));
     }
   }
 

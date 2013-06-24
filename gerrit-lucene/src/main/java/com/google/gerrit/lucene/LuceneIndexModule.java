@@ -18,6 +18,7 @@ import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.ChangeSchema_0001;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexExecutor;
@@ -61,6 +62,7 @@ public class LuceneIndexModule extends LifecycleModule {
       SitePaths sitePaths,
       @IndexExecutor ListeningScheduledExecutorService executor,
       FillArgs fillArgs) throws IOException {
-    return new LuceneChangeIndex(cfg, sitePaths, executor, fillArgs, readOnly);
+    return new LuceneChangeIndex(cfg, sitePaths, executor, fillArgs,
+        new ChangeSchema_0001(), readOnly);
   }
 }

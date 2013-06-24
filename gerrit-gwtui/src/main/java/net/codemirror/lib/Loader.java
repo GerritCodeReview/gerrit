@@ -41,13 +41,12 @@ class Loader {
     } else {
       CallbackGroup group = new CallbackGroup();
       injectCss(Lib.I.css());
-      injectScript(
-          Lib.I.js().getSafeUri(), group.add(new AsyncCallback<Void>() {
-            public void onFailure(Throwable caught) {}
-            public void onSuccess(Void result) {}
-          }));
-      injectScript(Addons.I.mark_selection().getSafeUri(), group.add(cb));
-      injectScript(Addons.I.foldcode().getSafeUri(), group.add(cb));
+      injectScript(Lib.I.js().getSafeUri(),
+          group.add(CallbackGroup.<Void>emptyCallback()));
+      injectScript(Addons.I.mark_selection().getSafeUri(),
+          group.add(CallbackGroup.<Void>emptyCallback()));
+      injectScript(Addons.I.foldcode().getSafeUri(),
+          group.addFinal(cb));
     }
   }
 

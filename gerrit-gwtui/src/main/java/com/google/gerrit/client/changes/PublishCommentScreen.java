@@ -163,7 +163,7 @@ public class PublishCommentScreen extends AccountScreen implements
             // Handled by ScreenLoadCallback.onFailure().
           }
         }));
-    Util.DETAIL_SVC.patchSetPublishDetail(patchSetId, cbs.addGwtjsonrpc(
+    Util.DETAIL_SVC.patchSetPublishDetail(patchSetId, cbs.addFinal(
         new ScreenLoadCallback<PatchSetPublishDetail>(this) {
           @Override
           protected void preDisplay(final PatchSetPublishDetail result) {

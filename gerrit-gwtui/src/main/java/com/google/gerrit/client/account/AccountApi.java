@@ -76,6 +76,7 @@ public class AccountApi {
           .delete(group.add(cb));
       cb = CallbackGroup.emptyCallback();
     }
+    group.done();
   }
 
   /** Retrieve the HTTP password */

@@ -15,11 +15,6 @@
 package com.google.gerrit.lucene;
 
 import static com.google.gerrit.lucene.LuceneChangeIndex.LUCENE_VERSION;
-import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE;
-
-import com.google.common.collect.Lists;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.query.change.ChangeData;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -28,8 +23,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -38,8 +31,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 /** Piece of the change index that is implemented as a separate Lucene index. */
 class SubIndex {
@@ -92,20 +83,12 @@ class SubIndex {
     commit();
   }
 
-  List<ChangeData> search(Query query, int limit) throws IOException {
-    IndexSearcher searcher = searcherManager.acquire();
-    try {
-      ScoreDoc[] docs = searcher.search(query, limit).scoreDocs;
-      List<ChangeData> result = Lists.newArrayListWithCapacity(docs.length);
-      for (ScoreDoc sd : docs) {
-        Document doc = searcher.doc(sd.doc);
-        Number v = doc.getField(FIELD_CHANGE).numericValue();
-        result.add(new ChangeData(new Change.Id(v.intValue())));
-      }
-      return Collections.unmodifiableList(result);
-    } finally {
-      searcherManager.release(searcher);
-    }
+  IndexSearcher acquire() throws IOException {
+    return searcherManager.acquire();
+  }
+
+  void release(IndexSearcher searcher) throws IOException {
+    searcherManager.release(searcher);
   }
 
   private void commit() throws IOException {

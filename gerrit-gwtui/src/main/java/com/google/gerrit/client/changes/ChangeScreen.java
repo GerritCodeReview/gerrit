@@ -288,7 +288,7 @@ public class ChangeScreen extends Screen
               // Handled by last callback's onFailure.
             }
           }));
-      ChangeApi.detail(event.getValue().getChange().getId().get(), cbs.add(
+      ChangeApi.detail(event.getValue().getChange().getId().get(), cbs.addFinal(
           new GerritCallback<com.google.gerrit.client.changes.ChangeInfo>() {
             @Override
             public void onSuccess(

@@ -63,6 +63,8 @@ import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
@@ -319,13 +321,18 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
+      Sort sort = new Sort(
+          new SortField(
+              ChangeField.UPDATED.getName(),
+              SortField.Type.INT,
+              true /* descending */));
       try {
         TopDocs[] hits = new TopDocs[indexes.size()];
         for (int i = 0; i < indexes.size(); i++) {
           searchers[i] = indexes.get(i).acquire();
-          hits[i] = searchers[i].search(query, LIMIT);
+          hits[i] = searchers[i].search(query, LIMIT, sort);
         }
-        TopDocs docs = TopDocs.merge(null, LIMIT, hits);
+        TopDocs docs = TopDocs.merge(sort, LIMIT, hits);
 
         List<ChangeData> result =
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);

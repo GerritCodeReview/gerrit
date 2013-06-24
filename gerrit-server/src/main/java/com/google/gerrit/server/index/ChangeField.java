@@ -85,6 +85,17 @@ public class ChangeField {
         }
       };
 
+  /** Topic, a short annotation on the branch. */
+  public static final FieldDef<ChangeData, String> TOPIC =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_TOPIC, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change(args.db).getTopic();
+        }
+      };
+
   /** Last update time in minutes since January 1, 1970. */
   public static final FieldDef<ChangeData, Integer> UPDATED =
       new FieldDef.Single<ChangeData, Integer>(
@@ -93,8 +104,6 @@ public class ChangeField {
         public Integer get(ChangeData input, FillArgs args)
             throws OrmException {
           return toIndexTime(input.change(args.db).getLastUpdatedOn());
-        }
-      };
 
   /** List of filenames modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE =

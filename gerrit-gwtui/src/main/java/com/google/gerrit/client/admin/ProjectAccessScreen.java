@@ -131,7 +131,7 @@ public class ProjectAccessScreen extends ProjectScreen {
           }
         }));
     Util.PROJECT_SVC.projectAccess(getProjectKey(),
-        cbs.addGwtjsonrpc(new ScreenLoadCallback<ProjectAccess>(this) {
+        cbs.addFinal(new ScreenLoadCallback<ProjectAccess>(this) {
           @Override
           public void preDisplay(ProjectAccess access) {
             displayReadOnly(access);

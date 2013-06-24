@@ -28,13 +28,14 @@ import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.TimestampRangePredicate;
+import com.google.gerrit.server.index.UpdatedField;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
@@ -97,8 +98,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       LoggerFactory.getLogger(LuceneChangeIndex.class);
 
   public static final Version LUCENE_VERSION = Version.LUCENE_43;
-  public static final String CHANGES_OPEN = "changes_open";
-  public static final String CHANGES_CLOSED = "changes_closed";
+  public static final String CHANGES_OPEN = "open";
+  public static final String CHANGES_CLOSED = "closed";
 
   private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
@@ -116,19 +117,23 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   private final FillArgs fillArgs;
   private final ExecutorService executor;
   private final boolean readOnly;
+  private final Schema<ChangeData> fields;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
 
   LuceneChangeIndex(Config cfg, SitePaths sitePaths,
       ListeningScheduledExecutorService executor, FillArgs fillArgs,
-      boolean readOnly) throws IOException {
+      Schema<ChangeData> fields, boolean readOnly) throws IOException {
     this.refreshThread = new RefreshThread();
     this.fillArgs = fillArgs;
     this.executor = executor;
     this.readOnly = readOnly;
-    openIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_OPEN),
+    this.fields = fields;
+
+    File dir = new File(sitePaths.index_dir, "changes_" + fields.getVersion());
+    openIndex = new SubIndex(new File(dir, CHANGES_OPEN),
         getIndexWriterConfig(cfg, "changes_open"));
-    closedIndex = new SubIndex(new File(sitePaths.index_dir, CHANGES_CLOSED),
+    closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED),
           getIndexWriterConfig(cfg, "changes_closed"));
   }
 
@@ -337,7 +342,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       Sort sort = new Sort(
           new SortField(
-              ChangeField.UPDATED.getName(),
+              UpdatedField.INSTANCE.getName(),
               SortField.Type.INT,
               true /* descending */));
       try {
@@ -392,7 +397,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   private Document toDocument(ChangeData cd) throws IOException {
     try {
       Document result = new Document();
-      for (FieldDef<ChangeData, ?> f : ChangeField.ALL.values()) {
+      for (FieldDef<ChangeData, ?> f : fields.getFields().values()) {
         if (f.isRepeatable()) {
           add(result, f, (Iterable<?>) f.get(cd, fillArgs));
         } else {

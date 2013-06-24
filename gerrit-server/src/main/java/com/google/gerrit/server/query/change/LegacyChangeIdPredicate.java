@@ -16,7 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.ChangeIdField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
@@ -31,7 +31,7 @@ class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> implements
   private final Change.Id id;
 
   LegacyChangeIdPredicate(Provider<ReviewDb> db, Change.Id id) {
-    super(ChangeField.CHANGE_ID, id.toString());
+    super(ChangeIdField.INSTANCE, id.toString());
     this.db = db;
     this.id = id;
   }

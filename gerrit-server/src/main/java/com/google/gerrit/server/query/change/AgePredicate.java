@@ -20,8 +20,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.TimestampRangePredicate;
+import com.google.gerrit.server.index.UpdatedField;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
@@ -32,7 +32,7 @@ public class AgePredicate extends TimestampRangePredicate<ChangeData> {
   private final long cut;
 
   AgePredicate(Provider<ReviewDb> dbProvider, String value) {
-    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_AGE, value);
+    super(UpdatedField.INSTANCE, ChangeQueryBuilder.FIELD_AGE, value);
     this.dbProvider = dbProvider;
 
     long s = ConfigUtil.getTimeUnit(getValue(), 0, SECONDS);

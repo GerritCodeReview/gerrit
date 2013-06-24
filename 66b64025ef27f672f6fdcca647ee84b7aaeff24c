@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_9e143d52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-24T22:43:12Z",
+      "side": 1,
+      "message": "This is currently failing since the reindexing requires a requestScopePropagator.",
+      "revId": "66b64025ef27f672f6fdcca647ee84b7aaeff24c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,21 +20,28 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class AgePredicate extends OperatorPredicate<ChangeData> {
+import java.sql.Timestamp;
+
+public class AgePredicate extends IndexPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
   private final long cut;
 
   AgePredicate(Provider<ReviewDb> dbProvider, String value) {
-    super(ChangeQueryBuilder.FIELD_AGE, value);
+    super(ChangeField.UPDATED, ChangeQueryBuilder.FIELD_AGE, value);
     this.dbProvider = dbProvider;
 
     long s = ConfigUtil.getTimeUnit(getValue(), 0, SECONDS);
     long ms = MILLISECONDS.convert(s, SECONDS);
     this.cut = (System.currentTimeMillis() - ms) + 1;
+  }
+
+  public Timestamp getCutTimestamp() {
+    return new Timestamp(cut);
   }
 
   long getCut() {

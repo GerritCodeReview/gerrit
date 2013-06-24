@@ -16,16 +16,24 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
+import java.sql.Timestamp;
+
+public abstract class SortKeyPredicate extends IndexPredicate<ChangeData> {
   protected final Provider<ReviewDb> dbProvider;
 
   SortKeyPredicate(Provider<ReviewDb> dbProvider, String name, String value) {
-    super(name, value);
+    super(ChangeField.UPDATED, name, value);
     this.dbProvider = dbProvider;
+  }
+
+  public Timestamp getCutTimestamp() {
+    return ChangeUtil.timeFromSortKey(getValue());
   }
 
   @Override
@@ -33,7 +41,7 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
     return 1;
   }
 
-  static class Before extends SortKeyPredicate {
+  public static class Before extends SortKeyPredicate {
     Before(Provider<ReviewDb> dbProvider, String value) {
       super(dbProvider, "sortkey_before", value);
     }
@@ -45,7 +53,7 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
     }
   }
 
-  static class After extends SortKeyPredicate {
+  public static class After extends SortKeyPredicate {
     After(Provider<ReviewDb> dbProvider, String value) {
       super(dbProvider, "sortkey_after", value);
     }

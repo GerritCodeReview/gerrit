@@ -75,6 +75,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 public class ChangeUtil {
+  private static final long SORT_KEY_EPOCH = 1222819200L; // Oct 1 2008 00:00
   private static final Object uuidLock = new Object();
   private static final int SEED = 0x2418e6f9;
   private static int uuidPrefix;
@@ -441,12 +442,24 @@ public class ChangeUtil {
     // The encoding uses minutes since Wed Oct 1 00:00:00 2008 UTC.
     // We overrun approximately 4,085 years later, so ~6093.
     //
-    final long lastUpdatedOn = (lastUpdated / 1000L) - 1222819200L;
+    final long lastUpdatedOn = (lastUpdated / 1000L) - SORT_KEY_EPOCH;
     final StringBuilder r = new StringBuilder(16);
     r.setLength(16);
     formatHexInt(r, 0, (int) (lastUpdatedOn / 60));
     formatHexInt(r, 8, id);
     return r.toString();
+  }
+
+  public static Timestamp timeFromSortKey(String sortKey) {
+    if ("z".equals(sortKey)) {
+      return new Timestamp(Long.MAX_VALUE);
+    }
+    String ts = sortKey.substring(0, 8);
+    int i = 0;
+    while (i < 8 && ts.charAt(i) == '0')
+      i++;
+    long v = Long.parseLong(ts.substring(i), 16) * 60;
+    return new Timestamp((v + SORT_KEY_EPOCH) * 1000);
   }
 
   public static void computeSortKey(final Change c) {

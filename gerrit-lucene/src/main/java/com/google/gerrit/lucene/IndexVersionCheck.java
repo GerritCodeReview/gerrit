@@ -15,13 +15,12 @@
 package com.google.gerrit.lucene;
 
 import static com.google.gerrit.lucene.LuceneChangeIndex.LUCENE_VERSION;
-
 import static org.apache.lucene.util.Version.LUCENE_CURRENT;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 
@@ -36,8 +35,8 @@ import java.util.Map;
 
 public class IndexVersionCheck implements LifecycleListener {
   public static final Map<String, Integer> SCHEMA_VERSIONS = ImmutableMap.of(
-      LuceneChangeIndex.CHANGES_OPEN, ChangeField.SCHEMA_VERSION,
-      LuceneChangeIndex.CHANGES_CLOSED, ChangeField.SCHEMA_VERSION);
+      LuceneChangeIndex.CHANGES_OPEN, ChangeSchemas.getLatestRelease().getVersion(),
+      LuceneChangeIndex.CHANGES_CLOSED, ChangeSchemas.getLatestRelease().getVersion());
 
   public static File gerritIndexConfig(SitePaths sitePaths) {
     return new File(sitePaths.index_dir, "gerrit_index.config");

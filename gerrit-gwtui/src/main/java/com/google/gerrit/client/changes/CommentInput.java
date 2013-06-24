@@ -14,41 +14,39 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.common.changes.Side;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 
 import java.sql.Timestamp;
 
-public class CommentInfo extends JavaScriptObject {
-  public static CommentInfo create(String path, Side side, int line,
-      String in_reply_to, String message) {
-    CommentInfo info = createObject().cast();
-    info.setPath(path);
-    info.setSide(side);
-    info.setLine(line);
-    info.setInReplyTo(in_reply_to);
-    info.setMessage(message);
-    return info;
+public class CommentInput extends JavaScriptObject {
+  public static CommentInput create(CommentInfo original) {
+    CommentInput input = createObject().cast();
+    input.setId(original.id());
+    input.setPath(original.path());
+    input.setSide(original.side());
+    input.setLine(original.line());
+    input.setInReplyTo(original.in_reply_to());
+    input.setMessage(original.message());
+    return input;
   }
 
-  private final native void setId(String id) /*-{ this.id = id; }-*/;
-  private final native void setPath(String path) /*-{ this.path = path; }-*/;
+  public final native void setId(String id) /*-{ this.id = id; }-*/;
+  public final native void setPath(String path) /*-{ this.path = path; }-*/;
 
-  private final void setSide(Side side) {
+  public final void setSide(Side side) {
     setSideRaw(side.toString());
   }
   private final native void setSideRaw(String side) /*-{ this.side = side; }-*/;
 
-  private final native void setLine(int line) /*-{ this.line = line; }-*/;
+  public final native void setLine(int line) /*-{ this.line = line; }-*/;
 
-  private final native void setInReplyTo(String in_reply_to) /*-{
+  public final native void setInReplyTo(String in_reply_to) /*-{
     this.in_reply_to = in_reply_to;
   }-*/;
 
-  private final native void setMessage(String message) /*-{ this.message = message; }-*/;
-
+  public final native void setMessage(String message) /*-{ this.message = message; }-*/;
   public final native String id() /*-{ return this.id; }-*/;
   public final native String path() /*-{ return this.path; }-*/;
 
@@ -65,16 +63,12 @@ public class CommentInfo extends JavaScriptObject {
   public final native String message() /*-{ return this.message; }-*/;
 
   public final Timestamp updated() {
-    String updatedRaw = updatedRaw();
-    return updatedRaw == null ?
-        null : JavaSqlTimestamp_JsonSerializer.parseTimestamp(updatedRaw());
+    return JavaSqlTimestamp_JsonSerializer.parseTimestamp(updatedRaw());
   }
   private final native String updatedRaw() /*-{ return this.updated; }-*/;
 
-  public final native AccountInfo author() /*-{ return this.author; }-*/;
-
   public final native boolean has_line() /*-{ return this.hasOwnProperty('line'); }-*/;
 
-  protected CommentInfo() {
+  protected CommentInput() {
   }
 }

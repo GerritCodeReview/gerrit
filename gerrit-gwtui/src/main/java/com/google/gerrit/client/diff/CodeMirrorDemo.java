@@ -48,15 +48,21 @@ import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineCharacter;
+import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.ModeInjector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CodeMirrorDemo extends Screen {
   private static final int HEADER_FOOTER = 60 + 15 * 2 + 38;
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
+  private static final Configuration COMMENT_BOX_CONFIG =
+      Configuration.create().set("coverGutter", true);
+
   private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
@@ -67,15 +73,13 @@ public class CodeMirrorDemo extends Screen {
   private HandlerRegistration resizeHandler;
   private JsArray<CommentInfo> published;
   private JsArray<CommentInfo> drafts;
-  private List<Runnable> resizeCallbacks;
+  private List<CommentBox> initialBoxes;
   private DiffInfo diff;
   private LineMapper mapper;
   private CommentLinkProcessor commentLinkProcessor;
+  private Map<String, PublishedBox> publishedMap;
 
-  public CodeMirrorDemo(
-      PatchSet.Id base,
-      PatchSet.Id revision,
-      String path) {
+  public CodeMirrorDemo(PatchSet.Id base, PatchSet.Id revision, String path) {
     this.base = base;
     this.revision = revision;
     this.path = path;
@@ -93,54 +97,57 @@ public class CodeMirrorDemo extends Screen {
     super.onLoad();
 
     CallbackGroup cmGroup = new CallbackGroup();
-    CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void>emptyCallback()));
+    CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void> emptyCallback()));
     final CallbackGroup group = new CallbackGroup();
     final AsyncCallback<Void> modeInjectorCb =
-        group.add(CallbackGroup.<Void>emptyCallback());
+        group.add(CallbackGroup.<Void> emptyCallback());
 
     DiffApi.diff(revision, path)
-      .base(base)
-      .wholeFile()
-      .intraline()
-      .ignoreWhitespace(DiffApi.IgnoreWhitespace.NONE)
-      .get(cmGroup.addFinal(new GerritCallback<DiffInfo>() {
-        @Override
-        public void onSuccess(DiffInfo diffInfo) {
-          diff = diffInfo;
-          new ModeInjector()
-            .add(getContentType(diff.meta_a()))
-            .add(getContentType(diff.meta_b()))
-            .inject(modeInjectorCb);
-        }
-      }));
-    CommentApi.comments(revision,
-        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
-      @Override
-      public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { published = m.get(path); }
-    }));
-    CommentApi.drafts(revision,
-        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
-      @Override
-      public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { drafts = m.get(path); }
-    }));
-    ChangeApi.detail(revision.getParentKey().get(), new GerritCallback<ChangeInfo>(){
-      @Override
-      public void onSuccess(ChangeInfo result) {
-        Project.NameKey project = result.project_name_key();
-        ConfigInfoCache.get(project, group.addFinal(
-            new ScreenLoadCallback<ConfigInfoCache.Entry>(CodeMirrorDemo.this) {
+        .base(base)
+        .wholeFile()
+        .intraline()
+        .ignoreWhitespace(DiffApi.IgnoreWhitespace.NONE)
+        .get(cmGroup.addFinal(new GerritCallback<DiffInfo>() {
           @Override
-          protected void preDisplay(ConfigInfoCache.Entry result) {
-            commentLinkProcessor = result.getCommentLinkProcessor();
-            setTheme(result.getTheme());
-
-            DiffInfo diffInfo = diff;
-            diff = null;
-            display(diffInfo);
+          public void onSuccess(DiffInfo diffInfo) {
+            diff = diffInfo;
+            new ModeInjector().add(getContentType(diff.meta_a()))
+                .add(getContentType(diff.meta_b())).inject(modeInjectorCb);
           }
         }));
-      }
-    });
+    CommentApi.comments(revision,
+        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+          @Override
+          public void onSuccess(NativeMap<JsArray<CommentInfo>> m) {
+            published = m.get(path);
+          }
+        }));
+    CommentApi.drafts(revision,
+        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+          @Override
+          public void onSuccess(NativeMap<JsArray<CommentInfo>> m) {
+            drafts = m.get(path);
+          }
+        }));
+    ChangeApi.detail(
+        revision.getParentKey().get(), new GerritCallback<ChangeInfo>() {
+          @Override
+          public void onSuccess(ChangeInfo result) {
+            Project.NameKey project = result.project_name_key();
+            ConfigInfoCache.get(project, group.addFinal(new ScreenLoadCallback<
+                ConfigInfoCache.Entry>(CodeMirrorDemo.this) {
+              @Override
+              protected void preDisplay(ConfigInfoCache.Entry result) {
+                commentLinkProcessor = result.getCommentLinkProcessor();
+                setTheme(result.getTheme());
+
+                DiffInfo diffInfo = diff;
+                diff = null;
+                display(diffInfo);
+              }
+            }));
+          }
+        });
   }
 
   @Override
@@ -156,10 +163,9 @@ public class CodeMirrorDemo extends Screen {
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
-        for (Runnable r : resizeCallbacks) {
-          r.run();
+        for (CommentBox box : initialBoxes) {
+          box.resizePaddingWidget();
         }
-        resizeCallbacks = null;
       }
     });
   }
@@ -167,6 +173,7 @@ public class CodeMirrorDemo extends Screen {
   @Override
   protected void onUnload() {
     super.onUnload();
+
     if (resizeHandler != null) {
       resizeHandler.removeHandler();
       resizeHandler = null;
@@ -180,18 +187,21 @@ public class CodeMirrorDemo extends Screen {
       cmB = null;
     }
     Window.enableScrolling(true);
+    mapper = null;
+    initialBoxes = null;
+    publishedMap = null;
   }
 
   private void display(DiffInfo diffInfo) {
     cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.getCmA());
     cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.getCmB());
     render(diffInfo);
-    resizeCallbacks = new ArrayList<Runnable>();
-    renderComments(published, false);
-    renderComments(drafts, true);
+    initialBoxes = new ArrayList<CommentBox>();
+    publishedMap = new HashMap<String, PublishedBox>(published.length());
+    renderPublished();
+    renderDrafts();
     published = null;
     drafts = null;
-    mapper = null;
 
     // TODO: Probably need horizontal resize
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
@@ -211,18 +221,18 @@ public class CodeMirrorDemo extends Screen {
     cmB.on("scroll", doScroll(cmA));
   }
 
-  private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents,
-      Element ele) {
+  private CodeMirror displaySide(
+      DiffInfo.FileMeta meta, String contents, Element ele) {
     if (meta == null) {
       contents = "";
     }
     Configuration cfg = Configuration.create()
-      .set("readOnly", true)
-      .set("lineNumbers", true)
-      .set("tabSize", 2)
-      .set("mode", getContentType(meta))
-      .set("styleSelectedText", true)
-      .set("value", contents);
+        .set("readOnly", true)
+        .set("lineNumbers", true)
+        .set("tabSize", 2)
+        .set("mode", getContentType(meta))
+        .set("styleSelectedText", true)
+        .set("value", contents);
     final CodeMirror cm = CodeMirror.create(ele, cfg);
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
     return cm;
@@ -261,35 +271,59 @@ public class CodeMirrorDemo extends Screen {
     }
   }
 
-  private void renderComments(JsArray<CommentInfo> comments, boolean isDraft) {
-    Configuration config = Configuration.create().set("coverGutter", true);
-    for (int i = 0; comments != null && i < comments.length(); i++) {
-      CommentInfo info = comments.get(i);
-      Side mySide = info.side();
-      CodeMirror cm = mySide == Side.PARENT ? cmA : cmB;
-      CodeMirror other = otherCM(cm);
-      final CommentBox box = isDraft ?
-          new DraftBox(info.author(), info.updated(), info.message(),
-              commentLinkProcessor) :
-          new PublishedBox(info.author(), info.updated(), info.message(),
-              commentLinkProcessor);
-      int line = info.line() - 1; // CommentInfo is 1-based, but CM is 0-based
-      diffTable.add(box);
-      cm.addLineWidget(line, box.getElement(), config);
-      int lineToPad = mapper.lineOnOther(mySide, line);
-      // Estimated height at 21px, fixed by deferring after display
-      final Element paddingOtherside = addPaddingWidget(other,
-          diffTable.style.padding(), lineToPad,
-          21, Unit.PX);
-      Runnable callback = new Runnable() {
-        @Override
-        public void run() {
-          paddingOtherside.getStyle().setHeight(
-              box.getOffsetHeight(), Unit.PX);
-        }
-      };
-      resizeCallbacks.add(callback);
-      box.setOpenCloseHandler(callback);
+  DraftBox addReplyBox(CommentInfo replyTo, String initMessage, boolean doSave) {
+    CommentInfo info = CommentInfo.create(
+        path,
+        replyTo.side(),
+        replyTo.line(),
+        replyTo.id(),
+        initMessage);
+    DraftBox box = new DraftBox(this, revision, info, commentLinkProcessor,
+        true, !doSave);
+    addCommentBox(info, box);
+    return box;
+  }
+
+  CommentBox addCommentBox(CommentInfo info, final CommentBox box) {
+    diffTable.add(box);
+    Side mySide = info.side();
+    CodeMirror cm = mySide == Side.PARENT ? cmA : cmB;
+    CodeMirror other = otherCM(cm);
+    int line = info.line() - 1; // CommentInfo is 1-based, but CM is 0-based
+    LineWidget boxWidget =
+        cm.addLineWidget(line, box.getElement(), COMMENT_BOX_CONFIG);
+    int lineToPad = mapper.lineOnOther(mySide, line);
+    // Estimated height at 21px, fixed by deferring after display
+    LineWidgetElementPair padding = addPaddingWidget(
+        other, diffTable.style.padding(), lineToPad, 21, Unit.PX);
+    box.setSelfWidget(boxWidget);
+    box.setPadding(padding.widget, padding.element);
+    return box;
+  }
+
+  private void renderPublished() {
+    for (int i = 0; published != null && i < published.length(); i++) {
+      CommentInfo info = published.get(i);
+      final PublishedBox box =
+          new PublishedBox(this, revision, info, commentLinkProcessor);
+      addCommentBox(info, box);
+      initialBoxes.add(box);
+      publishedMap.put(info.id(), box);
+    }
+  }
+
+  private void renderDrafts() {
+    for (int i = 0; drafts != null && i < drafts.length(); i++) {
+      CommentInfo info = drafts.get(i);
+      final DraftBox box =
+          new DraftBox(this, revision, info, commentLinkProcessor, false, false);
+      addCommentBox(info, box);
+      initialBoxes.add(box);
+      PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
+      if (replyToBox != null) {
+        replyToBox.registerReplyBox(box);
+        box.registerReplyToBox(replyToBox);
+      }
     }
   }
 
@@ -297,18 +331,16 @@ public class CodeMirrorDemo extends Screen {
     return me == cmA ? cmB : cmA;
   }
 
-  private void markEdit(CodeMirror cm, JsArrayString lines,
-      JsArray<Span> edits, int startLine) {
+  private void markEdit(
+      CodeMirror cm, JsArrayString lines, JsArray<Span> edits, int startLine) {
     if (edits == null) {
       return;
     }
     EditIterator iter = new EditIterator(lines, startLine);
     Configuration diffOpt = Configuration.create()
-        .set("className", diffTable.style.diff())
-        .set("readOnly", true);
+        .set("className", diffTable.style.diff()).set("readOnly", true);
     Configuration editOpt = Configuration.create()
-        .set("className", diffTable.style.intraline())
-        .set("readOnly", true);
+        .set("className", diffTable.style.intraline()).set("readOnly", true);
     LineCharacter last = LineCharacter.create(0, 0);
     for (int i = 0; i < edits.length(); i++) {
       Span span = edits.get(i);
@@ -323,8 +355,8 @@ public class CodeMirrorDemo extends Screen {
       cm.markText(from, to, editOpt);
       last = to;
       for (int line = fromLine; line < to.getLine(); line++) {
-        cm.addLineClass(line, LineClassWhere.BACKGROUND,
-            diffTable.style.intraline());
+        cm.addLineClass(
+            line, LineClassWhere.BACKGROUND, diffTable.style.intraline());
       }
     }
   }
@@ -337,20 +369,18 @@ public class CodeMirrorDemo extends Screen {
 
   private void insertEmptyLines(CodeMirror cm, int nextLine, int cnt) {
     // -1 to compensate for the line we went past when this method is called.
-    addPaddingWidget(cm, diffTable.style.padding(), nextLine - 1,
-        cnt, Unit.EM);
+    addPaddingWidget(cm, diffTable.style.padding(), nextLine - 1, cnt, Unit.EM);
   }
 
-  private Element addPaddingWidget(CodeMirror cm, String style, int line,
-      int height, Unit unit) {
+  private LineWidgetElementPair addPaddingWidget(
+      CodeMirror cm, String style, int line, int height, Unit unit) {
     Element div = DOM.createDiv();
     div.setClassName(style);
     div.getStyle().setHeight(height, unit);
     Configuration config = Configuration.create()
-        .set("coverGutter", true)
-        .set("above", line == -1);
-    cm.addLineWidget(line == -1 ? 0 : line, div, config);
-    return div;
+        .set("coverGutter", true).set("above", line == -1);
+    LineWidget widget = cm.addLineWidget(line == -1 ? 0 : line, div, config);
+    return new LineWidgetElementPair(widget, div);
   }
 
   private Runnable doScroll(final CodeMirror cm) {
@@ -364,8 +394,17 @@ public class CodeMirrorDemo extends Screen {
 
   private static String getContentType(DiffInfo.FileMeta meta) {
     return meta != null && meta.content_type() != null
-        ? ModeInjector.getContentType(meta.content_type())
-        : null;
+        ? ModeInjector.getContentType(meta.content_type()) : null;
+  }
+
+  private static class LineWidgetElementPair {
+    private LineWidget widget;
+    private Element element;
+
+    private LineWidgetElementPair(LineWidget w, Element e) {
+      widget = w;
+      element = e;
+    }
   }
 
   static class EditIterator {
@@ -385,8 +424,7 @@ public class CodeMirrorDemo extends Screen {
             lines.get(currLineIndex).length() - currLineOffset + 1;
         if (numOfChar < lengthWithNewline) {
           LineCharacter at = LineCharacter.create(
-              startLine + currLineIndex,
-              numOfChar + currLineOffset);
+              startLine + currLineIndex, numOfChar + currLineOffset);
           currLineOffset += numOfChar;
           return at;
         }

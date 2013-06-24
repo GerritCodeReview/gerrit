@@ -15,14 +15,18 @@
 package com.google.gerrit.lucene;
 
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeSchema_0001;
 import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.ChangeSchema_0001;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.ReadIndex;
+import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
@@ -49,7 +53,9 @@ public class LuceneIndexModule extends LifecycleModule {
   @Override
   protected void configure() {
     install(new IndexModule(threads));
-    bind(ChangeIndex.class).to(LuceneChangeIndex.class);
+    DynamicSet.bind(binder(), LuceneChangeIndex.class);
+    DynamicItem.bind(binder(), Key.get(ChangeIndex.class, ReadIndex.class))
+        .to(LuceneChangeIndex.class);
     listener().to(LuceneChangeIndex.class);
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);

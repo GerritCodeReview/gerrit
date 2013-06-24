@@ -82,6 +82,18 @@ public class DynamicItem<T> {
       .in(Scopes.SINGLETON);
   }
 
+  public static <T> void itemOf(Binder binder, Key<T> key) {
+    TypeLiteral<T> type = key.getTypeLiteral();
+    @SuppressWarnings("unchecked")
+    Key<DynamicItem<T>> dkey = (Key<DynamicItem<T>>) Key.get(
+        Types.newParameterizedType(
+          DynamicItem.class, type.getType()),
+        key.getAnnotationType());
+    binder.bind(dkey)
+      .toProvider(new DynamicItemProvider<T>(type, dkey))
+      .in(Scopes.SINGLETON);
+  }
+
   /**
    * Bind one implementation as the item using a unique annotation.
    *
@@ -103,6 +115,17 @@ public class DynamicItem<T> {
   public static <T> LinkedBindingBuilder<T> bind(Binder binder,
       TypeLiteral<T> type) {
     return binder.bind(type);
+  }
+
+  public static <T> LinkedBindingBuilder<T> bind(Binder binder,
+      Key<T> key) {
+    return binder.bind(key);
+  }
+
+  public static <T> DynamicItem<T> of(Class<T> clazz, T obj) {
+    return new DynamicItem<T>(
+        (Key<DynamicItem<T>>) Key.get(Types.newParameterizedType(DynamicItem.class, clazz)),
+        Providers.of(obj), null);
   }
 
   private final Key<DynamicItem<T>> key;

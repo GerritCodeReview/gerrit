@@ -16,6 +16,8 @@ package com.google.gerrit.server.index;
 
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Executor;
@@ -51,6 +53,8 @@ public class IndexModule extends AbstractModule {
   protected void configure() {
     bind(ChangeIndexer.class).to(ChangeIndexerImpl.class);
     bind(IndexRewrite.class).to(IndexRewriteImpl.class);
+    DynamicSet.setOf(binder(), ChangeIndex.class);
+    DynamicItem.itemOf(binder(), Key.get(ChangeIndex.class, ReadIndex.class));
   }
 
   @Provides

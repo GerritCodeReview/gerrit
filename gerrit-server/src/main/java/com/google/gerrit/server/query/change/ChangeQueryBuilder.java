@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -268,8 +269,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> branch(String name) {
     if (name.startsWith("^"))
-      return new RegexBranchPredicate(args.dbProvider, name);
-    return new BranchPredicate(args.dbProvider, name);
+      return ref("^" + branchToRef(name.substring(1)));
+    return ref(branchToRef(name));
+  }
+
+  private static String branchToRef(String name) {
+    if (name.startsWith(Branch.R_HEADS))
+      return Branch.R_HEADS + name;
+    return name;
   }
 
   @Operator

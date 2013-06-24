@@ -15,8 +15,19 @@
 package com.google.gerrit.solr;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.ChangeSchemas;
+import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
+
+import java.io.IOException;
 
 public class SolrIndexModule extends LifecycleModule {
   private final boolean checkVersion;
@@ -39,5 +50,15 @@ public class SolrIndexModule extends LifecycleModule {
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);
     }
+  }
+
+  @Provides
+  @Singleton
+  public SolrChangeIndex getChangeIndex(@GerritServerConfig Config cfg,
+      SitePaths sitePaths,
+      IndexCollection indexes,
+      FillArgs fillArgs) throws IOException {
+    return new SolrChangeIndex(cfg, fillArgs, sitePaths, indexes,
+        ChangeSchemas.getLatestRelease());
   }
 }

@@ -34,6 +34,7 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -74,6 +75,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
 
   private final FillArgs fillArgs;
   private final SitePaths sitePaths;
+  private final IndexCollection indexes;
   private final CloudSolrServer openIndex;
   private final CloudSolrServer closedIndex;
   private final Schema<ChangeData> schema;
@@ -82,9 +84,11 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
       @GerritServerConfig Config cfg,
       FillArgs fillArgs,
       SitePaths sitePaths,
+      IndexCollection indexes,
       Schema<ChangeData> schema) throws IOException {
     this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
+    this.indexes = indexes;
     this.schema = schema;
 
     String url = cfg.getString("index", "solr", "url");
@@ -101,13 +105,19 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
 
   @Override
   public void start() {
-    // Do nothing.
+    indexes.setSearchIndex(this);
+    indexes.addWriteIndex(this);
   }
 
   @Override
   public void stop() {
     openIndex.shutdown();
     closedIndex.shutdown();
+  }
+
+  @Override
+  public Schema<ChangeData> getSchema() {
+    return schema;
   }
 
   @Override

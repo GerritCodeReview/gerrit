@@ -32,6 +32,7 @@ import com.google.gerrit.server.change.PostReviewers;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
@@ -63,17 +64,19 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<PostReviewers> reviewersProvider;
   private final ChangeControl.GenericFactory changeFactory;
+  private final ChangeIndexer indexer;
 
   @Inject
   ReviewProjectAccess(final ProjectControl.Factory projectControlFactory,
-      final GroupBackend groupBackend,
-      final MetaDataUpdate.User metaDataUpdateFactory, final ReviewDb db,
-      final IdentifiedUser user, final PatchSetInfoFactory patchSetInfoFactory,
-      final Provider<PostReviewers> reviewersProvider,
-      final ChangeControl.GenericFactory changeFactory,
+      GroupBackend groupBackend,
+      MetaDataUpdate.User metaDataUpdateFactory, ReviewDb db,
+      IdentifiedUser user, PatchSetInfoFactory patchSetInfoFactory,
+      Provider<PostReviewers> reviewersProvider,
+      ChangeControl.GenericFactory changeFactory,
+      ChangeIndexer indexer,
 
-      @Assisted final Project.NameKey projectName,
-      @Nullable @Assisted final ObjectId base,
+      @Assisted Project.NameKey projectName,
+      @Nullable @Assisted ObjectId base,
       @Assisted List<AccessSection> sectionList,
       @Nullable @Assisted String message) {
     super(projectControlFactory, groupBackend, metaDataUpdateFactory,
@@ -83,6 +86,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.reviewersProvider = reviewersProvider;
     this.changeFactory = changeFactory;
+    this.indexer = indexer;
   }
 
   @Override
@@ -122,6 +126,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     } finally {
       db.rollback();
     }
+    indexer.index(change);
     return changeId;
   }
 

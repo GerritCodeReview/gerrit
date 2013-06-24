@@ -15,14 +15,18 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
@@ -45,6 +49,18 @@ class DraftBox extends CommentBox {
   @UiField
   DraftBoxStyle draftStyle;
 
+  @UiField
+  Button edit;
+
+  @UiField
+  Button save;
+
+  @UiField
+  Button cancel;
+
+  @UiField
+  Button discard;
+
   private HandlerRegistration messageClick;
 
   DraftBox(AccountInfo author, Timestamp when, String message,
@@ -52,21 +68,21 @@ class DraftBox extends CommentBox {
     initWidget(uiBinder.createAndBindUi(this));
     init(author, when, message, linkProcessor, true);
     setEdit(false);
-    setDoubleClickHandler();
     // TODO: Need a resize handler on editArea.
   }
 
-  private void setDoubleClickHandler() {
-    if (messageClick == null) {
-      messageClick = contentPanelMessage.addDomHandler(new DoubleClickHandler() {
-        @Override
-        public void onDoubleClick(DoubleClickEvent arg0) {
-          editArea.setText(contentPanelMessage.getText());
-          setEdit(!isEdit());
-          runClickCallback();
-        }
-      }, DoubleClickEvent.getType());
-    }
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+
+    messageClick = contentPanelMessage.addDomHandler(new DoubleClickHandler() {
+      @Override
+      public void onDoubleClick(DoubleClickEvent arg0) {
+        editArea.setText(contentPanelMessage.getText());
+        setEdit(!isEdit());
+        runClickCallback();
+      }
+    }, DoubleClickEvent.getType());
   }
 
   private void setEdit(boolean edit) {
@@ -83,14 +99,31 @@ class DraftBox extends CommentBox {
     return getStyleName().contains(draftStyle.edit());
   }
 
+  @UiHandler("edit")
+  void onEdit(ClickEvent e) {
+    if (!isEdit()) {
+      setEdit(true);
+    }
+    editArea.setText(contentPanelMessage.getText());
+    runClickCallback();
+    editArea.setFocus(true);
+  }
+
+  @UiHandler("cancel")
+  void on
+
+  private void render() {
+    final Timestamp on = comment.getWrittenOn();
+    setDateText(PatchUtil.M.draftSaved(new java.util.Date(on.getTime())));
+    setMessageText(comment.getMessage());
+    stateEdit(false);
+  }
+
   @Override
   public void onUnload() {
     super.onUnload();
 
-    if (messageClick != null) {
-      messageClick.removeHandler();
-      messageClick = null;
-    }
+    messageClick.removeHandler();
+    messageClick = null;
   }
-
 }

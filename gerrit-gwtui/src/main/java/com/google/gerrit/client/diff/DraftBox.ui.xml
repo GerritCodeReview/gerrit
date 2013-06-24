@@ -35,18 +35,18 @@ limitations under the License.
           styleName='{style.message} {draftStyle.messagePanel}'></g:HTML>
       <c:NpTextArea ui:field='editArea' styleName='{draftStyle.editArea}'/>
       <div>
-        <button ui:field='edit' class='{draftStyle.messagePanel}'>
+        <g:Button ui:field='edit' styleName='{draftStyle.messagePanel}'>
           <ui:msg>Edit</ui:msg>
-        </button>
-        <button ui:field='save' class='{draftStyle.editArea}'>
+        </g:Button>
+        <g:Button ui:field='save' styleName='{draftStyle.editArea}'>
           <ui:msg>Save</ui:msg>
-        </button>
-        <button ui:field='cancel' class='{draftStyle.editArea}'>
+        </g:Button>
+        <g:Button ui:field='cancel' styleName='{draftStyle.editArea}'>
           <ui:msg>Cancel</ui:msg>
-        </button>
-        <button ui:field='discard' class='{draftStyle.editArea}'>
+        </g:Button>
+        <g:Button ui:field='discard' styleName='{draftStyle.editArea}'>
           <ui:msg>Discard</ui:msg>
-        </button>
+        </g:Button>
       </div>
     </g:HTMLPanel>
   </g:HTMLPanel>

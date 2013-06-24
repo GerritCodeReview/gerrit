@@ -24,6 +24,7 @@ import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.changes.Side;
@@ -91,57 +92,63 @@ public class CodeMirrorDemo extends Screen {
   protected void onLoad() {
     super.onLoad();
 
-    CallbackGroup cmGroup = new CallbackGroup();
-    CodeMirror.initLibrary(cmGroup.add(CallbackGroup.<Void>emptyCallback()));
-    final CallbackGroup group = new CallbackGroup();
-    final AsyncCallback<Void> modeInjectorCb = group.add(new GerritCallback<Void>() {
+    CallbackGroup group = new CallbackGroup();
+    CallbackGroup group2 = new CallbackGroup();
+    CodeMirror.initLibrary(group2.add(new GerritCallback<Void>() {
       @Override
       public void onSuccess(Void result) {
       }
+    }));
+    final AsyncCallback<ConfigInfoCache.Entry> configCallback =
+        group.add(new GerritCallback<ConfigInfoCache.Entry>() {
+      @Override
+      public void onSuccess(ConfigInfoCache.Entry result) {
+        commentLinkProcessor = result.getCommentLinkProcessor();
+        setTheme(result.getTheme());
+      }
     });
-
+    final AsyncCallback<Void> loadCallback =
+        group.add(new ScreenLoadCallback<Void>(CodeMirrorDemo.this) {
+      @Override
+      protected void preDisplay(Void result) {
+        DiffInfo diffInfo = diff;
+        diff = null;
+        display(diffInfo);
+      }
+    });
     DiffApi.diff(revision, path)
     .base(base)
     .wholeFile()
     .intraline()
     .ignoreWhitespace(DiffApi.IgnoreWhitespace.NONE)
-    .get(cmGroup.add(new GerritCallback<DiffInfo>() {
+    .get(group2.add(new GerritCallback<DiffInfo>() {
       @Override
       public void onSuccess(final DiffInfo diffInfo) {
         diff = diffInfo;
         new ModeInjector()
           .add(getContentType(diff.meta_a()))
           .add(getContentType(diff.meta_b()))
-          .inject(modeInjectorCb);
+          .inject(loadCallback);
       }
     }));
     CommentApi.comments(revision,
-        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+        group2.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { published = m.get(path); }
     }));
     CommentApi.drafts(revision,
-        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+        group2.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { drafts = m.get(path); }
     }));
-    ChangeApi.detail(revision.getParentKey().get(), new GerritCallback<ChangeInfo>(){
+    ChangeApi.detail(revision.getParentKey().get(),
+        group2.add(new GerritCallback<ChangeInfo>(){
       @Override
       public void onSuccess(ChangeInfo result) {
         Project.NameKey project = result.project_name_key();
-        ConfigInfoCache.get(project, group.add(new GerritCallback<ConfigInfoCache.Entry>() {
-          @Override
-          public void onSuccess(ConfigInfoCache.Entry result) {
-            commentLinkProcessor = result.getCommentLinkProcessor();
-            setTheme(result.getTheme());
-
-            DiffInfo diffInfo = diff;
-            diff = null;
-            display(diffInfo);
-          }
-        }));
+        ConfigInfoCache.get(project, configCallback);
       }
-    });
+    }));
   }
 
   @Override

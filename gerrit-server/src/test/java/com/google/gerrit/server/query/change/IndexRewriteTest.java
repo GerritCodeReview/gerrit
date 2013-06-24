@@ -22,9 +22,10 @@ import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.PredicateWrapper;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.OrPredicate;
@@ -61,6 +62,11 @@ public class IndexRewriteTest extends TestCase {
     public ChangeDataSource getSource(Predicate<ChangeData> p)
         throws QueryParseException {
       return new Source();
+    }
+
+    @Override
+    public Schema<ChangeData> getSchema() {
+      throw new UnsupportedOperationException();
     }
   }
 
@@ -125,7 +131,9 @@ public class IndexRewriteTest extends TestCase {
     super.setUp();
     index = new DummyIndex();
     queryBuilder = new QueryBuilder();
-    rewrite = new IndexRewriteImpl(index);
+    IndexCollection indexes = new IndexCollection();
+    indexes.setSearchIndex(index);
+    rewrite = new IndexRewriteImpl(indexes);
   }
 
   public void testIndexPredicate() throws Exception {

@@ -14,55 +14,28 @@
 
 package com.google.gerrit.lucene;
 
-import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.ChangeSchemas;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
-import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
-import java.io.IOException;
 
 public class LuceneIndexModule extends LifecycleModule {
   private final boolean checkVersion;
   private final int threads;
-  private final boolean readOnly;
 
   public LuceneIndexModule() {
-    this(true, 0, false);
+    this(true, 0);
   }
 
-  public LuceneIndexModule(boolean checkVersion, int threads,
-      boolean readOnly) {
+  public LuceneIndexModule(boolean checkVersion, int threads) {
     this.checkVersion = checkVersion;
     this.threads = threads;
-    this.readOnly = readOnly;
   }
 
   @Override
   protected void configure() {
     install(new IndexModule(threads));
-    bind(ChangeIndex.class).to(LuceneChangeIndex.class);
     listener().to(LuceneChangeIndex.class);
     if (checkVersion) {
       listener().to(IndexVersionCheck.class);
     }
-  }
-
-  @Provides
-  @Singleton
-  public LuceneChangeIndex getChangeIndex(@GerritServerConfig Config cfg,
-      SitePaths sitePaths,
-      @IndexExecutor ListeningScheduledExecutorService executor,
-      FillArgs fillArgs) throws IOException {
-    return new LuceneChangeIndex(cfg, sitePaths, executor, fillArgs,
-        ChangeSchemas.getLatestRelease(), readOnly);
   }
 }

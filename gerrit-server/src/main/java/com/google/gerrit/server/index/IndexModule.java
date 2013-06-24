@@ -16,9 +16,12 @@ package com.google.gerrit.server.index;
 
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Executor;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.IndexRewrite;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.inject.AbstractModule;
@@ -26,6 +29,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -51,6 +55,13 @@ public class IndexModule extends AbstractModule {
   protected void configure() {
     bind(ChangeIndexer.class).to(ChangeIndexerImpl.class);
     bind(IndexRewrite.class).to(IndexRewriteImpl.class);
+    bind(new TypeLiteral<Schema<ChangeData>>() {})
+        .toInstance(ChangeSchemas.getLatestRelease());
+    // All index versions that must be written to.
+    DynamicSet.setOf(binder(), ChangeIndex.class);
+
+    // The single index version that may be read from.
+    DynamicItem.itemOf(binder(), ChangeIndex.class);
   }
 
   @Provides

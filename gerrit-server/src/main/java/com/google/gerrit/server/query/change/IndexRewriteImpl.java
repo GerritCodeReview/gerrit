@@ -17,7 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.query.AndPredicate;
@@ -87,11 +87,11 @@ public class IndexRewriteImpl implements IndexRewrite {
     }
   }
 
-  private final ChangeIndex index;
+  private final IndexCollection indexes;
 
   @Inject
-  IndexRewriteImpl(ChangeIndex index) {
-    this.index = index;
+  IndexRewriteImpl(IndexCollection indexes) {
+    this.indexes = indexes;
   }
 
   @Override
@@ -156,7 +156,6 @@ public class IndexRewriteImpl implements IndexRewrite {
     return partitionChildren(in, newChildren, toWrap);
   }
 
-
   private Predicate<ChangeData> partitionChildren(Predicate<ChangeData> in,
       List<Predicate<ChangeData>> newChildren, BitSet toWrap) {
     if (toWrap.cardinality() == 1) {
@@ -210,7 +209,7 @@ public class IndexRewriteImpl implements IndexRewrite {
 
   private PredicateWrapper wrap(Predicate<ChangeData> p) {
     try {
-      return new PredicateWrapper(index, p);
+      return new PredicateWrapper(indexes.getSearchIndex(), p);
     } catch (QueryParseException e) {
       throw new IllegalStateException(
           "Failed to convert " + p + " to index predicate", e);

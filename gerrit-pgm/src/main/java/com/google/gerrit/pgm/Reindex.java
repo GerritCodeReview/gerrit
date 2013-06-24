@@ -103,9 +103,6 @@ public class Reindex extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
-  @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
-  private boolean dryRun;
-
   private Injector dbInjector;
   private Injector sysInjector;
   private SitePaths sitePaths;
@@ -141,7 +138,7 @@ public class Reindex extends SiteProgram {
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
     modules.add(PatchListCacheImpl.module());
-    modules.add(new LuceneIndexModule(false, threads, dryRun));
+    modules.add(new LuceneIndexModule(false, threads));
     modules.add(new ReviewDbModule());
     modules.add(new AbstractModule() {
       @SuppressWarnings("rawtypes")
@@ -199,9 +196,6 @@ public class Reindex extends SiteProgram {
   }
 
   private void deleteAll() throws IOException {
-    if (dryRun) {
-      return;
-    }
     for (String index : SCHEMA_VERSIONS.keySet()) {
       File file = new File(sitePaths.index_dir, index);
       if (file.exists()) {
@@ -440,9 +434,6 @@ public class Reindex extends SiteProgram {
 
   private void writeVersion() throws IOException,
       ConfigInvalidException {
-    if (dryRun) {
-      return;
-    }
     FileBasedConfig cfg =
         new FileBasedConfig(gerritIndexConfig(sitePaths), FS.detect());
     cfg.load();

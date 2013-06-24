@@ -35,6 +35,11 @@ public interface ChangeIndex {
   /** Instance indicating secondary index is disabled. */
   public static final ChangeIndex DISABLED = new ChangeIndex() {
     @Override
+    public Schema<ChangeData> getSchema() {
+      return null;
+    }
+
+    @Override
     public void insert(ChangeData cd) throws IOException {
       // Do nothing.
     }
@@ -55,6 +60,9 @@ public interface ChangeIndex {
       throw new UnsupportedOperationException();
     }
   };
+
+  /** @return the schema version used by this index. */
+  public Schema<ChangeData> getSchema();
 
   /**
    * Insert a change document into the index.

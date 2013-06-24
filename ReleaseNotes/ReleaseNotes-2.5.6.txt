@@ -1,0 +1,13 @@
+Release notes for Gerrit 2.5.6
+==============================
+
+There are no schema changes from link:ReleaseNotes-2.5.6.html[2.5.6].
+
+link:https://gerrit-releases.storage.googleapis.com/gerrit-2.5.6.war[https://gerrit-releases.storage.googleapis.com/gerrit-2.5.6.war]
+
+Bug Fixes
+---------
+* Fix clone for modern Git clients
++
+The security fix in 2.5.4 broke clone for recent Git clients,
+throwing an ArrayIndexOutOfBoundsException. Fixed.

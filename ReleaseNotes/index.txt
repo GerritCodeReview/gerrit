@@ -20,6 +20,7 @@ Version 2.6.x
 [[2_5]]
 Version 2.5.x
 -------------
+* link:ReleaseNotes-2.5.6.html[2.5.6]
 * link:ReleaseNotes-2.5.5.html[2.5.5]
 * link:ReleaseNotes-2.5.4.html[2.5.4]
 * link:ReleaseNotes-2.5.3.html[2.5.3]
@@ -30,6 +31,7 @@ Version 2.5.x
 [[2_4]]
 Version 2.4.x
 -------------
+* link:ReleaseNotes-2.4.4.html[2.4.4]
 * link:ReleaseNotes-2.4.3.html[2.4.3]
 * link:ReleaseNotes-2.4.2.html[2.4.2]
 * link:ReleaseNotes-2.4.1.html[2.4.1]
@@ -53,6 +55,7 @@ Version 2.2.x
 [[2_1]]
 Version 2.1.x
 -------------
+* link:ReleaseNotes-2.1.10.html[2.1.10]
 * link:ReleaseNotes-2.1.9.html[2.1.9]
 * link:ReleaseNotes-2.1.8.html[2.1.8]
 * link:ReleaseNotes-2.1.7.2.html[2.1.7.2]

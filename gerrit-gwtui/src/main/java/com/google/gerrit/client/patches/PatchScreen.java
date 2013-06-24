@@ -386,7 +386,7 @@ public abstract class PatchScreen extends Screen implements
           }
         }));
     PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB,
-        settingsPanel.getValue(), cb.addGwtjsonrpc(
+        settingsPanel.getValue(), cb.addFinal(
             new ScreenLoadCallback<PatchScript>(this) {
               @Override
               protected void preDisplay(final PatchScript result) {

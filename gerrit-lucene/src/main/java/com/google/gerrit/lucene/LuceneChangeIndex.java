@@ -37,9 +37,11 @@ import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.AgePredicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
+import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -54,6 +56,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
@@ -190,7 +193,26 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private Query fieldQuery(IndexPredicate<ChangeData> p)
       throws QueryParseException {
-    if (p.getType() == FieldType.INTEGER) {
+    if (p instanceof AgePredicate) {
+      int t = ChangeField.toIndexTime(((AgePredicate) p).getCutTimestamp());
+      return NumericRangeQuery.newIntRange(
+          p.getField().getName(),
+          0, t,
+          true, true);
+    } else if (p instanceof SortKeyPredicate) {
+      int t = ChangeField.toIndexTime(((SortKeyPredicate) p).getCutTimestamp());
+      if (p instanceof SortKeyPredicate.Before) {
+        return NumericRangeQuery.newIntRange(
+            p.getField().getName(),
+            0, t,
+            true, true);
+      } else {
+        return NumericRangeQuery.newIntRange(
+            p.getField().getName(),
+            t, Integer.MAX_VALUE,
+            true, true);
+      }
+    } else if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);
     } else if (p.getType() == FieldType.EXACT) {
       return exactQuery(p);

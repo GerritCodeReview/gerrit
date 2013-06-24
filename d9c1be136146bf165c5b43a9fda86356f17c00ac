@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ae9112b_40fdaeed",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-24T18:29:30Z",
+      "side": 1,
+      "message": "perhaps you should just override onLoad here, then you don\u0027t need to call it in the constructor.",
+      "revId": "d9c1be136146bf165c5b43a9fda86356f17c00ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ae9112b_e0f7a20d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-24T18:29:30Z",
+      "side": 1,
+      "message": "shouldn\u0027t need this now that the method is private",
+      "revId": "d9c1be136146bf165c5b43a9fda86356f17c00ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca5d39d4_e6149e52",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/LineMapper.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-24T18:29:30Z",
+      "side": 1,
+      "message": "this should handle all the mutable state i.e. append*.\n\notherwise, just delete this and call new on the LineMapper directly.",
+      "revId": "d9c1be136146bf165c5b43a9fda86356f17c00ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

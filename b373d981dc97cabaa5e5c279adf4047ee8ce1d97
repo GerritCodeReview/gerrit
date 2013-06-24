@@ -16,6 +16,24 @@
       "revId": "b373d981dc97cabaa5e5c279adf4047ee8ce1d97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ae41550_a1ed9e45",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-24T17:23:15Z",
+      "side": 1,
+      "message": "We don\u0027t have a query operator named \"updated\", so we have no constant.",
+      "parentUuid": "ca5d39d4_a6f7860e",
+      "revId": "b373d981dc97cabaa5e5c279adf4047ee8ce1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

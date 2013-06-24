@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a57c1b3_84f2861f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-24T15:08:22Z",
+      "side": 1,
+      "message": "Actually it is only for file with sizes below 0.1 MiB that the size will be shown as 0 MiB as the first decimal (after dividing by 1024*1024) will be included in the result :-)",
+      "revId": "8a068833189fbe633f67cef29d4b88445f279f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a57c1b3_e4ed7a44",
+        "filename": "website/releases/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-24T15:08:22Z",
+      "side": 1,
+      "message": "For KiB sizes you don\u0027t want to display one decimal place like with the MiB sizes below?",
+      "revId": "8a068833189fbe633f67cef29d4b88445f279f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

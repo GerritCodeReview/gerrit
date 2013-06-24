@@ -127,10 +127,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return a.getValue().compareTo(b.getValue()) >= 0 ? a : b;
   }
 
-  @Rewrite("status:open P=(project:*) B=(branch:*)")
+  @Rewrite("status:open P=(project:*) B=(ref:*)")
   public Predicate<ChangeData> r05_byBranchOpen(
       @Named("P") final ProjectPredicate p,
-      @Named("B") final BranchPredicate b) {
+      @Named("B") final RefPredicate b) {
     return new ChangeSource(500) {
       @Override
       ResultSet<Change> scan(ChangeAccess a)
@@ -148,10 +148,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
-  @Rewrite("status:merged P=(project:*) B=(branch:*) S=(sortkey_after:*) L=(limit:*)")
+  @Rewrite("status:merged P=(project:*) B=(ref:*) S=(sortkey_after:*) L=(limit:*)")
   public Predicate<ChangeData> r05_byBranchMergedPrev(
       @Named("P") final ProjectPredicate p,
-      @Named("B") final BranchPredicate b,
+      @Named("B") final RefPredicate b,
       @Named("S") final SortKeyPredicate.After s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
@@ -172,10 +172,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
-  @Rewrite("status:merged P=(project:*) B=(branch:*) S=(sortkey_before:*) L=(limit:*)")
+  @Rewrite("status:merged P=(project:*) B=(ref:*) S=(sortkey_before:*) L=(limit:*)")
   public Predicate<ChangeData> r05_byBranchMergedNext(
       @Named("P") final ProjectPredicate p,
-      @Named("B") final BranchPredicate b,
+      @Named("B") final RefPredicate b,
       @Named("S") final SortKeyPredicate.Before s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {

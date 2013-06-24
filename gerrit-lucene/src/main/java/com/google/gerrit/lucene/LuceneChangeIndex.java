@@ -55,13 +55,18 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.NumericUtils;
 import org.apache.lucene.util.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,6 +85,9 @@ import java.util.Set;
  */
 @Singleton
 public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
+  private static final Logger log =
+      LoggerFactory.getLogger(LuceneChangeIndex.class);
+
   public static final Version LUCENE_VERSION = Version.LUCENE_43;
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
@@ -260,12 +268,23 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
     @Override
     public ResultSet<ChangeData> read() throws OrmException {
+      IndexSearcher[] searchers = new IndexSearcher[indexes.size()];
       try {
-        List<ChangeData> result =
-            Lists.newArrayListWithExpectedSize(2 * getCardinality());
-        for (SubIndex index : indexes) {
-          result.addAll(index.search(query, LIMIT));
+        TopDocs[] hits = new TopDocs[indexes.size()];
+        for (int i = 0; i < indexes.size(); i++) {
+          searchers[i] = indexes.get(i).acquire();
+          hits[i] = searchers[i].search(query, LIMIT);
         }
+        TopDocs docs = TopDocs.merge(null, LIMIT, hits);
+
+        List<ChangeData> result =
+            Lists.newArrayListWithCapacity(docs.scoreDocs.length);
+        for (ScoreDoc sd : docs.scoreDocs) {
+          Document doc = searchers[sd.shardIndex].doc(sd.doc);
+          Number v = doc.getField(FIELD_CHANGE).numericValue();
+          result.add(new ChangeData(new Change.Id(v.intValue())));
+        }
+
         final List<ChangeData> r = Collections.unmodifiableList(result);
         return new ResultSet<ChangeData>() {
           @Override
@@ -285,6 +304,16 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
         };
       } catch (IOException e) {
         throw new OrmException(e);
+      } finally {
+        for (int i = 0; i < indexes.size(); i++) {
+          if (searchers[i] != null) {
+            try {
+              indexes.get(i).release(searchers[i]);
+            } catch (IOException e) {
+              log.warn("cannot release Lucene searcher", e);
+            }
+          }
+        }
       }
     }
   }

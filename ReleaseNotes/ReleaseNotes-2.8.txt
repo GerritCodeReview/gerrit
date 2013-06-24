@@ -179,7 +179,7 @@ New global capabilities are added.
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/access_control.html#capability_generateHttpPassword[
 Generate Http Password] Allows non-administrator users to generate HTTP
-passwords for users other than themself.
+passwords for users other than themselves.
 +
 This capability would typically be assigned to a non-interactive group
 to be able to generate HTTP passwords for users from a tool or web service

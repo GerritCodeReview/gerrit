@@ -17,15 +17,18 @@ package com.google.gerrit.client.rpc;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Class for grouping together callbacks and calling them in order.
  * <p>
  * Callbacks are added to the group with {@link #add(AsyncCallback)}, which
  * returns a wrapped callback suitable for passing to an asynchronous RPC call.
+ * The last callback must be added using {@link #addFinal(AsyncCallback)} or
+ * {@link #done()} must be invoked.
+ *
  * The enclosing group buffers returned results and ensures that
  * {@code onSuccess} is called exactly once for each callback in the group, in
  * the same order that callbacks were added. This allows callers to, for
@@ -39,12 +42,15 @@ import java.util.Map;
  * processing it.
  */
 public class CallbackGroup {
-  private final List<Object> callbacks;
-  private final Map<Object, Object> results;
-  private boolean failed;
+  private final List<CallbackImpl<?>> callbacks;
+  private final Set<CallbackImpl<?>> remaining;
+  private boolean finalAdded;
 
-  public static <T> AsyncCallback<T> emptyCallback() {
-    return new AsyncCallback<T>() {
+  private boolean failed;
+  private Throwable failedThrowable;
+
+  public static <T> Callback<T> emptyCallback() {
+    return new Callback<T>() {
       @Override
       public void onSuccess(T result) {
       }
@@ -56,77 +62,95 @@ public class CallbackGroup {
   }
 
   public CallbackGroup() {
-    callbacks = new ArrayList<Object>();
-    results = new HashMap<Object, Object>();
+    callbacks = new ArrayList<CallbackImpl<?>>();
+    remaining = new HashSet<CallbackImpl<?>>();
   }
 
-  public <T> AsyncCallback<T> add(final AsyncCallback<T> cb) {
-    callbacks.add(cb);
-    return new AsyncCallback<T>() {
-      @Override
-      public void onSuccess(T result) {
-        results.put(cb, result);
-        CallbackGroup.this.onSuccess();
-      }
-
-      @Override
-      public void onFailure(Throwable caught) {
-        CallbackGroup.this.onFailure(caught);
-      }
-    };
+  public <T> Callback<T> add(final AsyncCallback<T> cb) {
+    checkFinalAdded();
+    return handleAdd(cb);
   }
 
-  public <T> com.google.gwtjsonrpc.common.AsyncCallback<T> addGwtjsonrpc(
-      final com.google.gwtjsonrpc.common.AsyncCallback<T> cb) {
-    callbacks.add(cb);
-    return new com.google.gwtjsonrpc.common.AsyncCallback<T>() {
-      @Override
-      public void onSuccess(T result) {
-        results.put(cb, result);
-        CallbackGroup.this.onSuccess();
-      }
+  public <T> Callback<T> addFinal(final AsyncCallback<T> cb) {
+    checkFinalAdded();
+    done();
+    return handleAdd(cb);
+  }
 
-      @Override
-      public void onFailure(Throwable caught) {
-        CallbackGroup.this.onFailure(caught);
-      }
-    };
+  public void done() {
+    finalAdded = true;
+  }
+
+  private <T> Callback<T> handleAdd(AsyncCallback<T> cb) {
+    if (failed) {
+      cb.onFailure(failedThrowable);
+      return emptyCallback();
+    }
+
+    CallbackImpl<T> wrapper = new CallbackImpl<T>(cb);
+    callbacks.add(wrapper);
+    remaining.add(wrapper);
+    return wrapper;
+  }
+
+  private void checkFinalAdded() {
+    if (finalAdded) {
+      throw new IllegalStateException("final callback already added");
+    }
   }
 
   private void onSuccess() {
-    if (results.size() < callbacks.size()) {
-      return;
-    }
-    for (Object o : callbacks) {
-      Object result = results.get(o);
-      if (o instanceof AsyncCallback) {
-        @SuppressWarnings("unchecked")
-        AsyncCallback<Object> cb = (AsyncCallback<Object>) o;
-        cb.onSuccess(result);
-      } else {
-        @SuppressWarnings("unchecked")
-        com.google.gwtjsonrpc.common.AsyncCallback<Object> cb =
-            (com.google.gwtjsonrpc.common.AsyncCallback<Object>) o;
-        cb.onSuccess(result);
+    for (CallbackImpl<?> o : callbacks) {
+      @SuppressWarnings("unchecked")
+      CallbackImpl<Object> cb = (CallbackImpl<Object>) o.delegate;
+      if (cb != null) {
+        o.delegate = null;
+        cb.onSuccess(cb.result);
+        o.result = null;
       }
     }
+    callbacks.clear();
   }
 
   private void onFailure(Throwable caught) {
-    if (failed) {
-      return;
-    }
     failed = true;
-    for (Object o : callbacks) {
-      if (o instanceof AsyncCallback) {
-        @SuppressWarnings("unchecked")
-        AsyncCallback<Object> cb = (AsyncCallback<Object>) o;
-        cb.onFailure(caught);
-      } else {
-        @SuppressWarnings("unchecked")
-        com.google.gwtjsonrpc.common.AsyncCallback<Object> cb =
-            (com.google.gwtjsonrpc.common.AsyncCallback<Object>) o;
-        cb.onFailure(caught);
+    failedThrowable = caught;
+    for (CallbackImpl<?> cb : callbacks) {
+      cb.delegate.onFailure(caught);
+      cb.delegate = null;
+      cb.result = null;
+    }
+    callbacks.clear();
+    remaining.clear();
+  }
+
+  public interface Callback<T>
+      extends AsyncCallback<T>, com.google.gwtjsonrpc.common.AsyncCallback<T> {
+  }
+
+  private class CallbackImpl<T> implements Callback<T> {
+    AsyncCallback<T> delegate;
+    T result;
+
+    CallbackImpl(AsyncCallback<T> delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    public void onSuccess(T value) {
+      if (!failed) {
+        this.result = value;
+        remaining.remove(this);
+        if (finalAdded && remaining.isEmpty()) {
+          CallbackGroup.this.onSuccess();
+        }
+      }
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+      if (!failed) {
+        CallbackGroup.this.onFailure(caught);
       }
     }
   }

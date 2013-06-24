@@ -88,6 +88,24 @@
       "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_96ed4c46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-24T22:16:16Z",
+      "side": 1,
+      "message": "After talking about this today at the hackathon I think Craig\u0027s proposal is reasonable, and I retract my other approaches.\n\nWe now use a similar sort of style on reference parameters during push, so it is perhaps reasonable to do the same thing here.",
+      "parentUuid": "UDjQMcEg",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -30,11 +28,7 @@ import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.server.OrmException;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
 import java.sql.Timestamp;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -44,13 +38,8 @@ import java.util.Set;
  * {@link ChangeQueryBuilder} for querying that field, and a method on
  * {@link ChangeData} used for populating the corresponding document fields in
  * the secondary index.
- * <p>
- * Used to generate a schema for index implementations that require one.
  */
 public class ChangeField {
-  /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 15;
-
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
       new FieldDef.Single<ChangeData, Integer>("_id",
@@ -284,36 +273,4 @@ public class ChangeField {
           return r;
         }
       };
-
-  public static final ImmutableMap<String, FieldDef<ChangeData, ?>> ALL;
-
-  static {
-    Map<String, FieldDef<ChangeData, ?>> fields = Maps.newHashMap();
-    for (Field f : ChangeField.class.getFields()) {
-      if (Modifier.isPublic(f.getModifiers())
-          && Modifier.isStatic(f.getModifiers())
-          && Modifier.isFinal(f.getModifiers())
-          && FieldDef.class.isAssignableFrom(f.getType())) {
-        ParameterizedType t = (ParameterizedType) f.getGenericType();
-        if (t.getActualTypeArguments()[0] == ChangeData.class) {
-          try {
-            @SuppressWarnings("unchecked")
-            FieldDef<ChangeData, ?> fd = (FieldDef<ChangeData, ?>) f.get(null);
-            fields.put(fd.getName(), fd);
-          } catch (IllegalArgumentException e) {
-            throw new ExceptionInInitializerError(e);
-          } catch (IllegalAccessException e) {
-            throw new ExceptionInInitializerError(e);
-          }
-        } else {
-          throw new ExceptionInInitializerError(
-              "non-ChangeData ChangeField: " + f);
-        }
-      }
-    }
-    if (fields.isEmpty()) {
-      throw new ExceptionInInitializerError("no ChangeFields found");
-    }
-    ALL = ImmutableMap.copyOf(fields);
-  }
 }

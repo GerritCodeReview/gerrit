@@ -34,6 +34,7 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -41,7 +42,6 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.lucene.search.Query;
@@ -76,14 +76,16 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   private final SitePaths sitePaths;
   private final CloudSolrServer openIndex;
   private final CloudSolrServer closedIndex;
+  private final Schema<ChangeData> schema;
 
-  @Inject
   SolrChangeIndex(
       @GerritServerConfig Config cfg,
       FillArgs fillArgs,
-      SitePaths sitePaths) throws IOException {
+      SitePaths sitePaths,
+      Schema<ChangeData> schema) throws IOException {
     this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
+    this.schema = schema;
 
     String url = cfg.getString("index", "solr", "url");
     if (Strings.isNullOrEmpty(url)) {
@@ -265,7 +267,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   private SolrInputDocument toDocument(ChangeData cd) throws IOException {
     try {
       SolrInputDocument result = new SolrInputDocument();
-      for (FieldDef<ChangeData, ?> f : ChangeField.ALL.values()) {
+      for (FieldDef<ChangeData, ?> f : schema.getFields().values()) {
         if (f.isRepeatable()) {
           add(result, f, (Iterable<?>) f.get(cd, fillArgs));
         } else {

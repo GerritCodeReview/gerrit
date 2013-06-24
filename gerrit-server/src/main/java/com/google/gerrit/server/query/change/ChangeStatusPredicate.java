@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.StatusField;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
@@ -71,14 +71,14 @@ public final class ChangeStatusPredicate extends IndexPredicate<ChangeData> {
   private final Change.Status status;
 
   ChangeStatusPredicate(Provider<ReviewDb> dbProvider, String value) {
-    super(ChangeField.STATUS, value);
+    super(StatusField.INSTANCE, value);
     this.dbProvider = dbProvider;
     status = VALUES.inverse().get(value);
     checkArgument(status != null, "invalid change status: %s", value);
   }
 
   ChangeStatusPredicate(Provider<ReviewDb> dbProvider, Change.Status status) {
-    super(ChangeField.STATUS, VALUES.get(status));
+    super(StatusField.INSTANCE, VALUES.get(status));
     this.dbProvider = dbProvider;
     this.status = status;
   }

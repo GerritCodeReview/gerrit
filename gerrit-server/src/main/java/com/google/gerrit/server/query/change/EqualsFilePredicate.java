@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.FileField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
@@ -30,7 +30,7 @@ class EqualsFilePredicate extends IndexPredicate<ChangeData> {
   private final String value;
 
   EqualsFilePredicate(Provider<ReviewDb> db, PatchListCache plc, String value) {
-    super(ChangeField.FILE, value);
+    super(FileField.INSTANCE, value);
     this.db = db;
     this.cache = plc;
     this.value = value;

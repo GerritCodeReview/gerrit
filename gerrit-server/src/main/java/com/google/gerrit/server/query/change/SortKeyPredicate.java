@@ -17,8 +17,8 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.TimestampRangePredicate;
+import com.google.gerrit.server.index.UpdatedField;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
@@ -29,7 +29,7 @@ public abstract class SortKeyPredicate extends
   protected final Provider<ReviewDb> dbProvider;
 
   SortKeyPredicate(Provider<ReviewDb> dbProvider, String name, String value) {
-    super(ChangeField.UPDATED, name, value);
+    super(UpdatedField.INSTANCE, name, value);
     this.dbProvider = dbProvider;
   }
 

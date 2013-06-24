@@ -105,6 +105,21 @@ public class DynamicItem<T> {
     return binder.bind(type);
   }
 
+  /**
+   * Create an item bound to a single instance, for testing.
+   *
+   * @param type type of entry to store.
+   * @param obj entry instance.
+   * @return a new item.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> DynamicItem<T> of(Class<T> type, T obj) {
+    return new DynamicItem<T>(
+        (Key<DynamicItem<T>>) Key.get(
+          Types.newParameterizedType(DynamicItem.class, type)),
+        Providers.of(obj), null);
+  }
+
   private final Key<DynamicItem<T>> key;
   private final AtomicReference<NamedProvider<T>> ref;
 

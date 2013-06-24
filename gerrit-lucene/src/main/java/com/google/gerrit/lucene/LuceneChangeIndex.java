@@ -382,7 +382,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
         if (f.isRepeatable()) {
           add(result, f, (Iterable<?>) f.get(cd, fillArgs));
         } else {
-          add(result, f, Collections.singleton(f.get(cd, fillArgs)));
+          Object val = f.get(cd, fillArgs);
+          if (val != null) {
+            add(result, f, Collections.singleton(val));
+          }
         }
       }
       return result;

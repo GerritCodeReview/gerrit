@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PutTopic.Input;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.inject.Inject;
@@ -36,6 +37,7 @@ import java.util.Collections;
 
 class PutTopic implements RestModifyView<ChangeResource, Input> {
   private final Provider<ReviewDb> dbProvider;
+  private final ChangeIndexer indexer;
 
   static class Input {
     @DefaultInput
@@ -44,8 +46,9 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
   }
 
   @Inject
-  PutTopic(Provider<ReviewDb> dbProvider) {
+  PutTopic(Provider<ReviewDb> dbProvider, ChangeIndexer indexer) {
     this.dbProvider = dbProvider;
+    this.indexer = indexer;
   }
 
   @Override
@@ -88,7 +91,7 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
       }
       cmsg.setMessage(msgBuf.toString());
 
-      db.changes().atomicUpdate(change.getId(),
+      change = db.changes().atomicUpdate(change.getId(),
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
@@ -97,6 +100,7 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
           }
         });
       db.changeMessages().insert(Collections.singleton(cmsg));
+      indexer.index(change);
     }
     return Strings.isNullOrEmpty(newTopicName)
         ? Response.none()

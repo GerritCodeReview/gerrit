@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -122,7 +123,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
-    final ChangeIndex index;
+    final IndexCollection indexes;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -136,7 +137,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
-        ChangeIndex index) {
+        IndexCollection indexes) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -148,7 +149,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
       this.projectCache = projectCache;
-      this.index = index;
+      this.indexes = indexes;
     }
   }
 
@@ -203,10 +204,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> comment(String value) throws QueryParseException {
-    if (args.index == ChangeIndex.DISABLED) {
+    ChangeIndex index = args.indexes.getSearchIndex();
+    if (index == null) {
       throw error("secondary index must be enabled for comment:" + value);
     }
-    return new CommentPredicate(args.dbProvider, args.index, value);
+    return new CommentPredicate(args.dbProvider, index, value);
   }
 
   @Operator
@@ -320,13 +322,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {
-      if (allowFileRegex || args.index != ChangeIndex.DISABLED) {
+      if (allowFileRegex || args.indexes.getSearchIndex() != null) {
         return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
       } else {
         throw error("secondary index must be enabled for file:" + file);
       }
     } else {
-      if (args.index == ChangeIndex.DISABLED) {
+      if (args.indexes.getSearchIndex() == null) {
         throw error("secondary index must be enabled for file:" + file);
       }
       return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
@@ -389,11 +391,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> message(String text) throws QueryParseException {
-    if (args.index == ChangeIndex.DISABLED) {
+    ChangeIndex index = args.indexes.getSearchIndex();
+    if (index == null) {
       throw error("secondary index must be enabled for message:" + text);
     }
 
-    return new MessagePredicate(args.dbProvider, args.index, text);
+    return new MessagePredicate(args.dbProvider, index, text);
   }
 
   @Operator

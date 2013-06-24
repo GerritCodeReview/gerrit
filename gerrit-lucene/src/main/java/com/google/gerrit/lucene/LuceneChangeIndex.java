@@ -28,12 +28,15 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -42,6 +45,7 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
+import com.google.inject.Singleton;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -89,6 +93,7 @@ import java.util.concurrent.Future;
  * though there may be some lag between a committed write and it showing up to
  * other threads' searchers.
  */
+@Singleton
 public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   private static final Logger log =
       LoggerFactory.getLogger(LuceneChangeIndex.class);
@@ -112,30 +117,38 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private final SitePaths sitePaths;
   private final FillArgs fillArgs;
+  private final IndexCollection indexes;
   private final ExecutorService executor;
-  private final boolean readOnly;
-  private final Schema<ChangeData> fields;
+  private final Schema<ChangeData> schema;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
+  private final boolean readOnly;
 
-  LuceneChangeIndex(Config cfg, SitePaths sitePaths,
-      ListeningScheduledExecutorService executor, FillArgs fillArgs,
-      Schema<ChangeData> fields, boolean readOnly) throws IOException {
+  LuceneChangeIndex(@GerritServerConfig Config cfg,
+      SitePaths sitePaths,
+      IndexCollection indexes,
+      @IndexExecutor ListeningScheduledExecutorService executor,
+      FillArgs fillArgs,
+      Schema<ChangeData> schema,
+      boolean readOnly) throws IOException {
+    this.indexes = indexes;
     this.sitePaths = sitePaths;
     this.fillArgs = fillArgs;
     this.executor = executor;
+    this.schema = schema;
     this.readOnly = readOnly;
-    this.fields = fields;
 
-    File dir = new File(sitePaths.index_dir, "changes_" + fields.getVersion());
+    File dir = new File(sitePaths.index_dir, "changes_" + schema.getVersion());
     openIndex = new SubIndex(new File(dir, CHANGES_OPEN),
         getIndexWriterConfig(cfg, "changes_open"));
     closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED),
-          getIndexWriterConfig(cfg, "changes_closed"));
+        getIndexWriterConfig(cfg, "changes_closed"));
   }
 
   @Override
   public void start() {
+    indexes.setSearchIndex(this);
+    indexes.addWriteIndex(this);
   }
 
   @Override
@@ -156,6 +169,11 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     for (Future<?> future : closeFutures) {
       Futures.getUnchecked(future);
     }
+  }
+
+  @Override
+  public Schema<ChangeData> getSchema() {
+    return schema;
   }
 
   @SuppressWarnings("unchecked")
@@ -323,7 +341,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   private Document toDocument(ChangeData cd) throws IOException {
     try {
       Document result = new Document();
-      for (FieldDef<ChangeData, ?> f : fields.getFields().values()) {
+      for (FieldDef<ChangeData, ?> f : schema.getFields().values()) {
         if (f.isRepeatable()) {
           add(result, f, (Iterable<?>) f.get(cd, fillArgs));
         } else {

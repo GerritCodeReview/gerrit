@@ -39,6 +39,11 @@ public interface ChangeIndex {
   /** Instance indicating secondary index is disabled. */
   public static final ChangeIndex DISABLED = new ChangeIndex() {
     @Override
+    public Schema<ChangeData> getSchema() {
+      return null;
+    }
+
+    @Override
     public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
       return Futures.immediateFuture(null);
     }
@@ -69,6 +74,9 @@ public interface ChangeIndex {
       // Do nothing.
     }
   };
+
+  /** @return the schema version used by this index. */
+  public Schema<ChangeData> getSchema();
 
   /**
    * Insert a change document into the index.

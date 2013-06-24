@@ -111,6 +111,11 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
+  public Schema<ChangeData> getSchema() {
+    return schema;
+  }
+
+  @Override
   public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     SolrInputDocument doc = toDocument(cd);

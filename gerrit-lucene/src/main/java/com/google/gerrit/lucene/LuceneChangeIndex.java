@@ -17,6 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE;
 import static com.google.gerrit.server.query.change.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.query.change.IndexRewriteImpl.OPEN_STATUSES;
+
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;

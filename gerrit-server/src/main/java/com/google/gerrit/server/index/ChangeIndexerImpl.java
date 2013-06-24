@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -41,17 +42,17 @@ public class ChangeIndexerImpl extends ChangeIndexer {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeIndexerImpl.class);
 
-  private final ChangeIndex index;
+  private final DynamicSet<ChangeIndex> indexes;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext context;
 
   @Inject
   ChangeIndexerImpl(@IndexExecutor ListeningScheduledExecutorService executor,
-      ChangeIndex index,
+      DynamicSet<ChangeIndex> indexes,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext context) {
     super(executor);
-    this.index = index;
+    this.indexes = indexes;
     this.schemaFactory = schemaFactory;
     this.context = context;
   }
@@ -84,7 +85,9 @@ public class ChangeIndexerImpl extends ChangeIndexer {
               throw new OutOfScopeException("No user during ChangeIndexer");
             }
           });
-          index.replace(cd);
+          for (ChangeIndex index : indexes) {
+            index.replace(cd); // TODO(dborowitz): Parallelize these
+          }
           return null;
         } finally  {
           context.setContext(null);

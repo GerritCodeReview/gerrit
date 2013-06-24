@@ -21,8 +21,8 @@ import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
 import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.query.AndPredicate;
@@ -125,7 +125,7 @@ public class IndexRewriteTest extends TestCase {
     super.setUp();
     index = new DummyIndex();
     queryBuilder = new QueryBuilder();
-    rewrite = new IndexRewriteImpl(index);
+    rewrite = new IndexRewriteImpl(DynamicItem.of(ChangeIndex.class, index));
   }
 
   public void testIndexPredicate() throws Exception {

@@ -42,6 +42,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountsCollection;
 import com.google.gerrit.server.change.PostReview.Input;
+import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -118,6 +119,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   }
 
   private final ReviewDb db;
+  private final ChangeIndexer indexer;
   private final AccountsCollection accounts;
   private final EmailReviewComments.Factory email;
   @Deprecated private final ChangeHooks hooks;
@@ -131,10 +133,12 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   @Inject
   PostReview(ReviewDb db,
+      ChangeIndexer indexer,
       AccountsCollection accounts,
       EmailReviewComments.Factory email,
       ChangeHooks hooks) {
     this.db = db;
+    this.indexer = indexer;
     this.accounts = accounts;
     this.email = email;
     this.hooks = hooks;
@@ -171,6 +175,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       if (dirty) {
         db.changes().update(Collections.singleton(change));
         db.commit();
+        indexer.index(change);
       }
     } finally {
       db.rollback();

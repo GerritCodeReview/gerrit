@@ -24,6 +24,7 @@ import com.google.gwtorm.server.OrmException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.sql.Timestamp;
 import java.util.Map;
 
 /**
@@ -38,7 +39,7 @@ import java.util.Map;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 2;
+  public static final int SCHEMA_VERSION = 3;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
@@ -84,6 +85,17 @@ public class ChangeField {
         }
       };
 
+  /** Last update time in minutes since January 1, 1970. */
+  public static final FieldDef<ChangeData, Integer> UPDATED =
+      new FieldDef.Single<ChangeData, Integer>(
+          "updated", FieldType.INTEGER, true) {
+        @Override
+        public Integer get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return toIndexTime(input.change(args.db).getLastUpdatedOn());
+        }
+      };
+
   /** List of filenames modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE =
       new FieldDef.Repeatable<ChangeData, String>(
@@ -125,5 +137,9 @@ public class ChangeField {
       throw new ExceptionInInitializerError("no ChangeFields found");
     }
     ALL = ImmutableMap.copyOf(fields);
+  }
+
+  public static int toIndexTime(Timestamp ts) {
+    return (int) (ts.getTime() / 60000);
   }
 }

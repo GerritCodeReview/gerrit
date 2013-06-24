@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca5d39d4_86092a3d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-24T18:37:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ae9112b_40fdaeed",
+      "revId": "d9c1be136146bf165c5b43a9fda86356f17c00ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ae9112b_e0f7a20d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
         "patchSetId": 15
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ca5d39d4_a60ea640",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-24T18:37:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ae9112b_e0f7a20d",
+      "revId": "d9c1be136146bf165c5b43a9fda86356f17c00ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca5d39d4_e6149e52",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/LineMapper.java",
         "patchSetId": 15
@@ -47,6 +83,41 @@
       "writtenOn": "2013-06-24T18:29:30Z",
       "side": 1,
       "message": "this should handle all the mutable state i.e. append*.\n\notherwise, just delete this and call new on the LineMapper directly.",
+      "revId": "d9c1be136146bf165c5b43a9fda86356f17c00ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca5d39d4_66218eaa",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/LineMapper.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-24T18:37:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca5d39d4_e6149e52",
+      "revId": "d9c1be136146bf165c5b43a9fda86356f17c00ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ae9112b_8007b629",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/LineMapperTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-24T18:37:49Z",
+      "side": 1,
+      "message": "These tests don\u0027t have to use gwt-test-utils. They can just be plain JUnit tests.",
       "revId": "d9c1be136146bf165c5b43a9fda86356f17c00ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -84,6 +84,17 @@ public class ChangeField {
         }
       };
 
+  /** Topic, a short annotation on the branch. */
+  public static final FieldDef<ChangeData, String> TOPIC =
+      new FieldDef.Single<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_TOPIC, FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change(args.db).getTopic();
+        }
+      };
+
   /** List of filenames modified in the current patch set. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE =
       new FieldDef.Repeatable<ChangeData, String>(

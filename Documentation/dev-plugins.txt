@@ -217,26 +217,26 @@ Plugins InitStep cannot refer to Gerrit DB Schema or any other Gerrit runtime
 objects injected at startup.
 
 ====
-public class MyInitStep implements InitStep {
-  private final ConsoleUI ui;
-  private final Section.Factory sections;
-  private final String pluginName;
+  public class MyInitStep implements InitStep {
+    private final ConsoleUI ui;
+    private final Section.Factory sections;
+    private final String pluginName;
 
-  @Inject
-  public GitBlitInitStep(final ConsoleUI ui, Section.Factory sections, @PluginName String pluginName) {
-    this.ui = ui;
-    this.sections = sections;
-    this.pluginName = pluginName;
+    @Inject
+    public GitBlitInitStep(final ConsoleUI ui, Section.Factory sections, @PluginName String pluginName) {
+      this.ui = ui;
+      this.sections = sections;
+      this.pluginName = pluginName;
+    }
+
+    @Override
+    public void run() throws Exception {
+      ui.header("\nMy plugin");
+
+      Section mySection = getSection("myplugin", null);
+      mySection.string("Link name", "linkname", "MyLink");
+    }
   }
-
-  @Override
-  public void run() throws Exception {
-    ui.header("\nMy plugin");
-
-    Section mySection = getSection("myplugin", null);
-    mySection.string("Link name", "linkname", "MyLink");
-  }
-}
 ====
 
 [[classpath]]

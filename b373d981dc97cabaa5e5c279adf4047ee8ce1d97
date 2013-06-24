@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca5d39d4_a6f7860e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-24T16:41:21Z",
+      "side": 1,
+      "message": "Why is there no constant for the \u0027updated\u0027 field in ChangeQueryBuilder:   \n  ChangeQueryBuilder.FIELD_UPDATED\n?",
+      "revId": "b373d981dc97cabaa5e5c279adf4047ee8ce1d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

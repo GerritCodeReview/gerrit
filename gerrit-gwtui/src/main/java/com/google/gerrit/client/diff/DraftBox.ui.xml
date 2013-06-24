@@ -26,29 +26,33 @@ limitations under the License.
     .view .editArea {
       display: none;
     }
+    .newDraft .cancel {
+      display: none;
+    }
   </ui:style>
   <g:HTMLPanel styleName='{res.style.commentBox}'>
     <d:CommentBoxHeader ui:field='header' />
     <div class='{res.style.contentPanel}'>
       <c:NpTextArea ui:field='editArea' styleName='{draftStyle.editArea}'/>
       <div>
-        <button ui:field='save' class='{draftStyle.editArea}'>
+        <g:Button ui:field='save' styleName='{draftStyle.editArea}'>
           <ui:msg>Save</ui:msg>
-        </button>
-        <button ui:field='cancel' class='{draftStyle.editArea}'>
+        </g:Button>
+        <g:Button ui:field='cancel'
+            styleName='{draftStyle.editArea} {draftStyle.cancel}'>
           <ui:msg>Cancel</ui:msg>
-        </button>
-        <button ui:field='discard' class='{draftStyle.editArea}'>
+        </g:Button>
+        <g:Button ui:field='discard' styleName='{draftStyle.editArea}'>
           <ui:msg>Discard</ui:msg>
-        </button>
+        </g:Button>
       </div>
     </div>
     <div class='{res.style.contentPanel}'>
       <g:HTML ui:field='contentPanelMessage'
           styleName='{res.style.message} {draftStyle.messagePanel}'></g:HTML>
-      <button ui:field='edit' class='{draftStyle.messagePanel}'>
+      <g:Button ui:field='edit' styleName='{draftStyle.messagePanel}'>
         <ui:msg>Edit</ui:msg>
-      </button>
+      </g:Button>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

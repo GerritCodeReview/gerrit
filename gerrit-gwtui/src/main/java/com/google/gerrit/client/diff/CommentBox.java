@@ -14,8 +14,11 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -28,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
-import java.sql.Timestamp;
+import net.codemirror.lib.LineWidget;
 
 /** An HtmlPanel for displaying a comment */
 abstract class CommentBox extends Composite {
@@ -39,7 +42,12 @@ abstract class CommentBox extends Composite {
 
   private CommentLinkProcessor commentLinkProcessor;
   private HandlerRegistration headerClick;
-  private Runnable clickCallback;
+  private CommentInfo original;
+  private PatchSet.Id patchSetId;
+  private LineWidget selfWidget;
+  private LineWidget paddingWidget;
+  private Element paddingWidgetEle;
+  private CodeMirrorDemo diffView;
 
   @UiField(provided=true)
   CommentBoxHeader header;
@@ -50,13 +58,18 @@ abstract class CommentBox extends Composite {
   @UiField
   CommentBoxResources res;
 
-  protected CommentBox(UiBinder<? extends Widget, CommentBox> binder,
-      AccountInfo author, Timestamp when, String message,
-      CommentLinkProcessor linkProcessor, boolean isDraft) {
+  protected CommentBox(
+      CodeMirrorDemo host,
+      UiBinder<? extends Widget, CommentBox> binder,
+      PatchSet.Id id, CommentInfo info, CommentLinkProcessor linkProcessor,
+      boolean isDraft) {
+    diffView = host;
     commentLinkProcessor = linkProcessor;
-    header = new CommentBoxHeader(author, when, isDraft);
+    original = info;
+    patchSetId = id;
+    header = new CommentBoxHeader(info.author(), info.updated(), isDraft);
     initWidget(binder.createAndBindUi(this));
-    setMessageText(message);
+    setMessageText(info.message());
     setOpen(false);
   }
 
@@ -68,22 +81,10 @@ abstract class CommentBox extends Composite {
       @Override
       public void onClick(ClickEvent event) {
         setOpen(!isOpen());
-        if (clickCallback != null) {
-          clickCallback.run();
-        }
+        resizePaddingWidget();
       }
     }, ClickEvent.getType());
     res.style().ensureInjected();
-  }
-
-  void setOpenCloseHandler(final Runnable callback) {
-    clickCallback = callback;
-  }
-
-  protected void runClickCallback() {
-    if (clickCallback != null) {
-      clickCallback.run();
-    }
   }
 
   @Override
@@ -96,7 +97,20 @@ abstract class CommentBox extends Composite {
     }
   }
 
-  private void setMessageText(String message) {
+  void setSelfWidget(LineWidget widget) {
+    selfWidget = widget;
+  }
+
+  void setPadding(LineWidget widget, Element element) {
+    paddingWidget = widget;
+    paddingWidgetEle = element;
+  }
+
+  void resizePaddingWidget() {
+    paddingWidgetEle.getStyle().setHeight(getOffsetHeight(), Unit.PX);
+  }
+
+  protected void setMessageText(String message) {
     if (message == null) {
       message = "";
     } else {
@@ -108,7 +122,11 @@ abstract class CommentBox extends Composite {
     SafeHtml.set(contentPanelMessage, buf);
   }
 
-  private void setOpen(boolean open) {
+  protected void setDateText(String dateText) {
+    header.setDateText(dateText);
+  }
+
+  protected void setOpen(boolean open) {
     if (open) {
       removeStyleName(res.style().close());
       addStyleName(res.style().open());
@@ -120,5 +138,29 @@ abstract class CommentBox extends Composite {
 
   private boolean isOpen() {
     return getStyleName().contains(res.style().open());
+  }
+
+  protected CodeMirrorDemo getDiffView() {
+    return diffView;
+  }
+
+  protected PatchSet.Id getPatchSetId() {
+    return patchSetId;
+  }
+
+  protected CommentInfo getOriginal() {
+    return original;
+  }
+
+  protected LineWidget getSelfWidget() {
+    return selfWidget;
+  }
+
+  protected LineWidget getPaddingWidget() {
+    return paddingWidget;
+  }
+
+  protected void updateOriginal(CommentInfo newInfo) {
+    original = newInfo;
   }
 }

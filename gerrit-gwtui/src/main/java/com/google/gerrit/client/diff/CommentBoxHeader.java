@@ -35,6 +35,8 @@ class CommentBoxHeader extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommentBoxHeader> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
+  private boolean isDraft;
+
   @UiField(provided=true)
   AvatarImage avatar;
 
@@ -51,12 +53,21 @@ class CommentBoxHeader extends Composite {
     // TODO: Set avatar's display to none if we get a 404.
     avatar = new AvatarImage(author, 26);
     initWidget(uiBinder.createAndBindUi(this));
-    String dateText = FormatUtil.shortFormatDayTime(when);
+    this.isDraft = isDraft;
+    if (when != null) {
+      setDateText(FormatUtil.shortFormatDayTime(when));
+    }
     if (isDraft) {
       name.setInnerText("(Draft)");
-      date.setInnerText("Draft saved at " + dateText);
     } else {
       name.setInnerText(FormatUtil.name(author));
+    }
+  }
+
+  void setDateText(String dateText) {
+    if (isDraft) {
+      date.setInnerText("Draft saved at " + dateText);
+    } else {
       date.setInnerText(dateText);
     }
   }

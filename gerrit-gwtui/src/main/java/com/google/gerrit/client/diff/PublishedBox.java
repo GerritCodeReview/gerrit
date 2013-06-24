@@ -14,23 +14,59 @@
 
 package com.google.gerrit.client.diff;
 
-import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
-import java.sql.Timestamp;
-
 /** An HtmlPanel for displaying a published comment */
-// TODO: Make the buttons functional.
 class PublishedBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, PublishedBox> {}
   private static UiBinder<HTMLPanel, CommentBox> uiBinder =
       GWT.create(Binder.class);
 
-  PublishedBox(AccountInfo author, Timestamp when, String message,
+  private DraftBox replyBox;
+
+  PublishedBox(CodeMirrorDemo host, PatchSet.Id id, CommentInfo info,
       CommentLinkProcessor linkProcessor) {
-    super(uiBinder, author, when, message, linkProcessor, false);
+    super(host, uiBinder, id, info, linkProcessor, false);
+  }
+
+  void registerReplyBox(DraftBox box) {
+    replyBox = box;
+    box.registerReplyToBox(this);
+  }
+
+  void unregisterReplyBox() {
+    replyBox = null;
+  }
+
+  private void openReplyBox() {
+    replyBox.setOpen(true);
+    replyBox.setEdit(true);
+  }
+
+  @UiHandler("reply")
+  void onReply(ClickEvent e) {
+    if (replyBox == null) {
+      DraftBox box = getDiffView().addReplyBox(getOriginal(), "", true);
+      registerReplyBox(box);
+    } else {
+      openReplyBox();
+    }
+  }
+
+  @UiHandler("replyDone")
+  void onReplyDone(ClickEvent e) {
+    if (replyBox == null) {
+      DraftBox box = getDiffView().addReplyBox(getOriginal(), "Done", false);
+      registerReplyBox(box);
+    } else {
+      openReplyBox();
+    }
   }
 }

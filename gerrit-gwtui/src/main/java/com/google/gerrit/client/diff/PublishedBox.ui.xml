@@ -23,8 +23,8 @@ limitations under the License.
     <g:HTMLPanel styleName='{res.style.contentPanel}'>
       <g:HTML ui:field='contentPanelMessage' styleName='{res.style.message}'></g:HTML>
       <div>
-        <button ui:field='reply'><ui:msg>Reply ...</ui:msg></button>
-        <button ui:field='replyDone'><ui:msg>Reply 'Done'</ui:msg></button>
+        <g:Button ui:field='reply'><ui:msg>Reply ...</ui:msg></g:Button>
+        <g:Button ui:field='replyDone'><ui:msg>Reply 'Done'</ui:msg></g:Button>
       </div>
     </g:HTMLPanel>
   </g:HTMLPanel>

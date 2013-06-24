@@ -73,7 +73,7 @@ public class ChangeIndexerImpl implements ChangeIndexer {
       ChangeData cd = new ChangeData(change);
       try {
         index.replace(cd);
-      } catch (IOException e) {
+      } catch (Exception e) {
         log.error("Error indexing change", e);
       }
     }

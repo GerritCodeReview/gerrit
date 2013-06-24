@@ -25,6 +25,15 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> {
     this.def = def;
   }
 
+  protected IndexPredicate(FieldDef<I, ?> def, String name, String value) {
+    super(name, value);
+    this.def = def;
+  }
+
+  public FieldDef<I, ?> getField() {
+    return def;
+  }
+
   public FieldType<?> getType() {
     return def.getType();
   }

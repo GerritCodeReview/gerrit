@@ -111,8 +111,12 @@ function(data) {
 
     td = doc.createElement('td');
     td.className = 'size';
-    td.appendChild(doc.createTextNode(
-      Math.round(f.size/(1024*1024)*10)/10 + ' MiB'));
+    if (f.size/(1024*1024) < 1) {
+      sizeText = Math.round(f.size/1024*10)/10 + ' KiB';
+    } else {
+      sizeText = Math.round(f.size/(1024*1024)*10)/10 + ' MiB';
+    }
+    td.appendChild(doc.createTextNode(sizeText));
     tr.appendChild(td);
 
     frg.appendChild(tr);

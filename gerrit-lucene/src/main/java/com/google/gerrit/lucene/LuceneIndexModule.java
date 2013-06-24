@@ -21,6 +21,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.inject.Provides;
@@ -60,9 +61,10 @@ public class LuceneIndexModule extends LifecycleModule {
   @Singleton
   public LuceneChangeIndex getChangeIndex(@GerritServerConfig Config cfg,
       SitePaths sitePaths,
+      IndexCollection indexes,
       @IndexExecutor ListeningScheduledExecutorService executor,
       FillArgs fillArgs) throws IOException {
-    return new LuceneChangeIndex(cfg, sitePaths, executor, fillArgs,
+    return new LuceneChangeIndex(cfg, sitePaths, indexes, executor, fillArgs,
         ChangeSchemas.getLatestRelease(), readOnly);
   }
 }

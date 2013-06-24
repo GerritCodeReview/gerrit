@@ -17,7 +17,7 @@ package com.google.gerrit.solr;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.ChangeSchemas;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 
@@ -31,8 +31,8 @@ import java.util.Map;
 
 class IndexVersionCheck implements LifecycleListener {
   public static final Map<String, Integer> SCHEMA_VERSIONS = ImmutableMap.of(
-      SolrChangeIndex.CHANGES_OPEN, ChangeField.SCHEMA_VERSION,
-      SolrChangeIndex.CHANGES_CLOSED, ChangeField.SCHEMA_VERSION);
+      SolrChangeIndex.CHANGES_OPEN, ChangeSchemas.getLatestRelease().getVersion(),
+      SolrChangeIndex.CHANGES_CLOSED, ChangeSchemas.getLatestRelease().getVersion());
 
   public static File solrIndexConfig(SitePaths sitePaths) {
     return new File(sitePaths.index_dir, "gerrit_index.config");

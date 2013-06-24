@@ -20,7 +20,7 @@ OPTIONS
 -s::
 	Dynamically load the Prolog source code at startup,
 	as though the user had entered `['FILE.pl'].` into
-	the interepter once it was running. This option may
+	the interpreter once it was running. This option may
 	be supplied more than once to load multiple files.
 
 EXAMPLES

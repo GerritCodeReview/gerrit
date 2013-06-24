@@ -127,7 +127,7 @@ Highlighted/additional styling notes:
     in the formatting guidelines.  This is especially true within the
     same file.
   * Review your change in Gerrit to see if it highlights
-    mistakingly deleted/added spaces on lines, trailing spaces.
+    mistakenly deleted/added spaces on lines, trailing spaces.
   * Line length should be 80 or less, unless the code reads
     better with something slightly longer.  Shorter lines not only
     help reviewers who may use a tablet to review the code, but future

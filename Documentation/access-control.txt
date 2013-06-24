@@ -348,7 +348,7 @@ refs/meta/config
 
 This is where the Gerrit configuration of each project is residing.  This
 branch contains several files of importance: +project.config+, +groups+ and
-+rules.pl+.  Torgether they control access and behaviour during the change
++rules.pl+.  Torgether they control access and behavior during the change
 review process.
 
 

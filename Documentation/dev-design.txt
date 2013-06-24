@@ -445,7 +445,7 @@ Latency
 -------
 
 Gerrit targets for sub-250 ms per page request, mostly by using
-very compact JSON payloads bewteen client and server.  However, as
+very compact JSON payloads between client and server.  However, as
 most of the serving stack (network, hardware, metadata
 database) is out of control of the Gerrit developers, no real
 guarantees can be made about latency.
@@ -474,7 +474,7 @@ parameters such as the following:
 Out of the box, Gerrit will handle the "Default Maximum". Site
 administrators may reconfigure their servers by editing gerrit.config
 to run closer to the estimated maximum if sufficient memory is made
-avaliable to the JVM and the relevant cache.*.memoryLimit variables
+available to the JVM and the relevant cache.*.memoryLimit variables
 are increased from their defaults.
 
 Discussion
@@ -671,7 +671,7 @@ Backups
 
 PostgreSQL and MySQL can be configured to replicate their data to
 other systems, where they are applied to a warm-standby backup in
-real time.  Gerrit instances which care about reduduncy will setup
+real time.  Gerrit instances which care about redundancy will setup
 this feature of PostgreSQL or MySQL to ensure the warm-standby is
 reasonably current should the master go offline.
 
@@ -699,7 +699,7 @@ occurred, and the Gerrit account identity of who did the upload.
 Changes submitted and merged into a branch also update the
 Git reflog.  These logs are available only to the Gerrit site
 administrator, and they are not replicated through the automatic
-replication noted earlier.  These logs are primarly recorded for an
+replication noted earlier.  These logs are primarily recorded for an
 "oh s**t" moment where the administrator has to rewind data.  In most
 installations they are a waste of disk space.  Future versions of
 JGit may allow disabling these logs, and Gerrit may take advantage

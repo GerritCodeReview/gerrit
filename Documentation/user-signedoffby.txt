@@ -104,10 +104,10 @@ has at least reviewed the patch and has indicated acceptance.  Hence patch
 mergers will sometimes manually convert an acker's "yep, looks good to me"
 into an Acked-by:.
 
-Acked-by: does not necessarily indicate acknowledgement of the entire patch.
+Acked-by: does not necessarily indicate acknowledgment of the entire patch.
 For example, if a patch affects multiple subsystems and has an Acked-by: from
-one subsystem maintainer then this usually indicates acknowledgement of just
-the part which affects that maintainer's code.  Judgement should be used here.
+one subsystem maintainer then this usually indicates acknowledgment of just
+the part which affects that maintainer's code.  Judgment should be used here.
 When in doubt people should refer to the original discussion in the mailing
 list archives.
 

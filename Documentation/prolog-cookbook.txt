@@ -182,7 +182,7 @@ Here some examples of possible return values from the `submit_rule` predicate:
 <2> label `'Verified'` is rejected. Change is not submittable.
 <3> label `'Author-is-John-Doe'` is needed for the change to become submittable.
     Note that this tells nothing about how this criteria will be met. It is up
-    to the implementor of the `submit_rule` to return `label('Author-is-John-Doe',
+    to the implementer of the `submit_rule` to return `label('Author-is-John-Doe',
     ok(_))` when this criteria is met.  Most likely, it will have to match
     against `gerrit:commit_author` in order to check if this criteria is met.
     This will become clear through the examples below.
@@ -645,7 +645,7 @@ understand.
 
 Reusing the default submit policy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To get results of Gerrits default submit policy we use the
+To get results of Gerrit's default submit policy we use the
 `gerrit:default_submit` predicate.  The `gerrit:default_submit(X)` includes all
 categories from the database.  This means that if we write a submit rule like:
 
@@ -743,7 +743,7 @@ Let's implement the same submit rule the other way, without reusing the
 The latter implementation is probably easier to understand and the code looks
 cleaner. Note, however, that the latter implementation will always return the
 two standard categories only (`Code-Review` and `Verified`) even if a new
-category has beeen inserted into the database. To include the new category
+category has been inserted into the database. To include the new category
 the `rules.pl` would need to be modified or a `submit_filter` in a parent
 project would have to care about including the new category in the result
 of this `submit_rule`.

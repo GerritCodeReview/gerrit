@@ -193,7 +193,7 @@ credentials and possibly verify connectivity to validate them.
 ====
 
 MyInitStep needs to follow the standard Gerrit InitStep syntax
-and behaviour: writing to the console using the injected ConsoleUI
+and behavior: writing to the console using the injected ConsoleUI
 and accessing / changing configuration settings using Section.Factory.
 
 In addition to the standard Gerrit init injections, plugins receive

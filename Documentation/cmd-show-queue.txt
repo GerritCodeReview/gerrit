@@ -18,7 +18,7 @@ is currently performing, or will perform in the near future.
 Gerrit contains an internal scheduler, similar to cron, that it
 uses to queue and dispatch both short and long term activity.
 
-Tasks that are completed or cancelled exit the queue very quickly
+Tasks that are completed or canceled exit the queue very quickly
 once they enter this state, but it can be possible to observe tasks
 in these states.
 

@@ -44,7 +44,7 @@ characters, as some users may find one more readable than another:
 `&` or `;` or `,`
 
 The special `foreach=...` parameter is designed to facilitate
-more easily writting similar queries in a dashboard.  The value of the
+more easily writing similar queries in a dashboard.  The value of the
 foreach parameter will be used in every query in the dashboard by
 appending it to their ends with a space (ANDing it with the queries).
 

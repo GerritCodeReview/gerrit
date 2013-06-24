@@ -509,7 +509,7 @@ made to this table, this cache should be flushed.
 cache `"adv_bases"`::
 +
 Used only for push over smart HTTP when branch level access controls
-are enabled.  The cache entry contains all commits that are avaliable
+are enabled.  The cache entry contains all commits that are available
 for the client to use as potential delta bases.  Push over smart HTTP
 requires two HTTP requests, and this cache tries to carry state from
 the first request into the second to ensure it can complete.
@@ -683,7 +683,7 @@ cache.diff_intraline.enabled::
 Boolean to enable or disable the computation of intraline differences
 when populating a diff cache entry.  This flag is provided primarily
 as a backdoor to disable the intraline difference feature if
-necessary.  To maintain backwards compatability with prior versions,
+necessary.  To maintain backwards compatibility with prior versions,
 this setting will fallback to `cache.diff.intraline` if not set in the
 configuration.
 +
@@ -935,7 +935,7 @@ Default on JGit is 128 file descriptors on all platforms.
 Largest object size, in bytes, that JGit will allocate as a
 contiguous byte array.  Any file revision larger than this threshold
 will have to be streamed, typically requiring the use of temporary
-files under '$GIT_DIR/objects' to implement psuedo-random access
+files under '$GIT_DIR/objects' to implement pseudo-random access
 during delta decompression.
 +
 Servers with very high traffic should set this to be larger than
@@ -960,7 +960,7 @@ mapped segment is no longer in use before a call to `munmap()`
 can be made by the JVM native code.
 +
 In server applications (such as Gerrit) that need to access many
-pack files, setting this to true risks artifically running out
+pack files, setting this to true risks artificially running out
 of virtual address space, as the garbage collector cannot reclaim
 unused mapped spaces fast enough.
 +
@@ -1607,7 +1607,7 @@ By default, 2, which should be suitable for most high-traffic sites.
 +
 Minimum number of spare threads to keep in the worker thread pool.
 This number must be at least 1 larger than httpd.acceptorThreads
-multipled by the number of httpd.listenUrls configured.
+multiplied by the number of httpd.listenUrls configured.
 +
 By default, 5, suitable for most lower-volume traffic sites.
 
@@ -1962,7 +1962,7 @@ See Java documentation on how to create the krb5.ini file.
 Note the `renewTGT` property to make sure the TGT does not expire,
 and `useTicketCache` to use the TGT supplied by the operating system. As
 the whole point of using GSSAPI is to have passwordless authentication
-to the LDAP service, this option does not aquire a new TGT on its own.
+to the LDAP service, this option does not acquire a new TGT on its own.
 
 On Windows servers the registry key `HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\Kerberos\Parameters`
 must have the DWORD value `allowtgtsessionkey` set to 1 and the account must not
@@ -2119,7 +2119,7 @@ main receive thread will also perform a change creation or patch
 set update.
 +
 Defaults to 1, using only the main receive thread. This feature is for
-databases with very high latency that can benfit from concurrent
+databases with very high latency that can benefit from concurrent
 operations when multiple changes are impacted at once.
 
 [[receive.timeout]]receive.timeout::
@@ -2130,7 +2130,7 @@ and updating references, not the time to index the pack. Values can
 be specified using standard time unit abbreviations ('ms', 'sec',
 'min', etc.).
 +
-Default is 2 minutes. If no unit is specified, millisconds
+Default is 2 minutes. If no unit is specified, milliseconds
 is assumed.
 
 
@@ -2185,7 +2185,7 @@ field of any generated email messages.  The supported values are:
 * `USER`
 +
 Gerrit will set the From header to use the current user's
-Full Name and Preferred Email.  This may cause messsages to be
+Full Name and Preferred Email.  This may cause messages to be
 classified as spam if the user's domain has SPF or DKIM enabled
 and <<sendemail.smtpServer,sendemail.smtpServer>> is not a trusted
 relay for that domain.
@@ -2410,7 +2410,7 @@ non-interactive users.
 +
 If the number of threads requested for non-interactive users is larger
 than the total number of threads allocated in sshd.threads, then the
-value of sshd.threads is increased to accomodate the requested value.
+value of sshd.threads is increased to accommodate the requested value.
 +
 By default, 0.
 

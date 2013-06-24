@@ -21,7 +21,7 @@ Installation
   link:install.html#init[site initialization] tasks described
   in the standard installation documentation.
 
-* Stop the embedded deamon that was automatically started by 'init':
+* Stop the embedded daemon that was automatically started by 'init':
 +
 ----
   review_site/bin/gerrit.sh stop

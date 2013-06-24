@@ -275,7 +275,7 @@ Argument Quoting
 ----------------
 
 Operator values that are not bare words (roughly A-Z, a-z, 0-9, @,
-hypen, dot and underscore) must be quoted for the query parser.
+hyphen, dot and underscore) must be quoted for the query parser.
 
 Quoting is accepted as either double quotes
 (e.g.  `message:"the value"`) or as matched
@@ -288,8 +288,8 @@ Boolean Operators
 Unless otherwise specified, operators are joined using the `AND`
 boolean operator, thereby restricting the search results.
 
-Parentheses can be used to force a particular precendence on complex
-operator expressions, otherwise OR has higher precendence than AND.
+Parentheses can be used to force a particular precedence on complex
+operator expressions, otherwise OR has higher precedence than AND.
 
 Negation
 ~~~~~~~~
@@ -308,7 +308,7 @@ results, returning only changes that match both operators.
 OR
 ~~
 The boolean operator `OR` (in all caps) can be used to find changes
-that match either operator.  This increases the nubmer of results
+that match either operator.  This increases the number of results
 that are returned, as more changes are considered.
 
 

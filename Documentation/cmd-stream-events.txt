@@ -14,7 +14,7 @@ DESCRIPTION
 -----------
 
 Provides a portal into the major events occurring on the server,
-outputing activity data in real-time to the client.  Events are
+outputting activity data in real-time to the client.  Events are
 filtered by the caller's access permissions, ensuring the caller
 only receives events for changes they can view on the web, or in
 the project repository.

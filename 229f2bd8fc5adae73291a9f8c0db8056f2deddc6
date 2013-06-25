@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_9e827df6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-25T23:46:37Z",
+      "side": 1,
+      "message": "why isn\u0027t this the constructor? you may need to pass through the binder and create/initWidget here for it to work, but it should work.",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_3e8b691b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxHeader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-25T23:46:37Z",
+      "side": 1,
+      "message": "nit: extra space at the start of the line.",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_1e882d1b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxHeader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-25T23:46:37Z",
+      "side": 1,
+      "message": "I don\u0027t think this does anything, you are just swapping out the reference. If you want to set it like this, you need to do it in the constructor before binding and mark the field as provided.",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_7e95f12e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-25T23:46:37Z",
+      "side": 1,
+      "message": "why not just make this the onLoad handler?",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_5e92b548",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-25T23:46:37Z",
+      "side": 1,
+      "message": "protected",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_791ce384",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-25T23:46:37Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_be7db92c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-25T23:46:37Z",
+      "side": 1,
+      "message": "this seems silly. just have two divs here: one for the edit widgets and the other for the view widgets.",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

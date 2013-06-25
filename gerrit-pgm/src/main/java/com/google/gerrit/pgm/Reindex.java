@@ -56,8 +56,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,8 +68,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Reindex extends SiteProgram {
-  private static final Logger log = LoggerFactory.getLogger(Reindex.class);
-
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
@@ -226,7 +222,6 @@ public class Reindex extends SiteProgram {
         }
 
         private void fail(Change change, Throwable t) {
-          log.error("Failed to index change " + change.getId(), t);
           ok.set(false);
           failed.update(1);
         }

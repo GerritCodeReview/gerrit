@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_be201975",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T17:02:54Z",
+      "side": 1,
+      "message": "space before :",
+      "revId": "22060bf681a34146f2eea5deb5ea2f4d0be83a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

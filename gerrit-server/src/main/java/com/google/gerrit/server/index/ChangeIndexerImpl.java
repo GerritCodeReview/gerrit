@@ -64,7 +64,7 @@ public class ChangeIndexerImpl implements ChangeIndexer {
     }
 
     @Override
-    public Void call() throws Exception {
+    public Void call() throws IOException {
       index.replace(new ChangeData(change));
       return null;
     }

@@ -21,6 +21,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
@@ -31,6 +34,9 @@ import java.util.concurrent.Callable;
  * compute some of the fields and/or update the index.
  */
 public class ChangeIndexerImpl implements ChangeIndexer {
+  private static final Logger log =
+      LoggerFactory.getLogger(ChangeIndexerImpl.class);
+
   private final ListeningScheduledExecutorService executor;
   private final ChangeIndex index;
 
@@ -64,9 +70,16 @@ public class ChangeIndexerImpl implements ChangeIndexer {
     }
 
     @Override
-    public Void call() throws IOException {
-      index.replace(new ChangeData(change));
-      return null;
+    public Void call() throws Exception {
+      try {
+        index.replace(new ChangeData(change));
+        return null;
+      } catch (Exception e) {
+        log.error(String.format(
+            "Failed to index change %d in %s",
+            change.getChangeId(), change.getProject().get()), e);
+        throw e;
+      }
     }
 
     @Override

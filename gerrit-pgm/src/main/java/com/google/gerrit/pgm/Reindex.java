@@ -70,8 +70,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Reindex extends SiteProgram {
-  private static final Logger log = LoggerFactory.getLogger(Reindex.class);
-
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
@@ -226,7 +224,6 @@ public class Reindex extends SiteProgram {
         }
 
         private void fail(Change change, Throwable t) {
-          log.error("Failed to index change " + change.getId(), t);
           ok.set(false);
           failed.update(1);
         }

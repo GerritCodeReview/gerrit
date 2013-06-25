@@ -5,7 +5,7 @@ Gerrit 2.1.5 is now available:
 
 link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.5.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.5.war]
 
-This is primarly a bug fix release to 2.1.4, but some additional
+This is primarily a bug fix release to 2.1.4, but some additional
 new features were included so its named 2.1.5 rather than 2.1.4.1.
 
 Upgrade Instructions
@@ -156,7 +156,7 @@ the topic name.  The topic is now left as-is during replacement
 if no new topic was supplied.  If a new topic is supplied, it is
 changed to match the new topic given.
 
-* Allow ; and & to seperate parameters in gitweb
+* Allow ; and & to separate parameters in gitweb
 +
 gitweb.cgi accepts either ';' or '&' between parameters, but
 Gerrit Code Review was only accepting the ';' syntax.  Fixed

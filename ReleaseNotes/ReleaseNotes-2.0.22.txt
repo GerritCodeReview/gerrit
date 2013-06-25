@@ -60,7 +60,7 @@ especially for multiline `/** ... */` style comments.
 The following properties may now be configured from LDAP using
 more complex expressions: accountFullName, accountEmailAddress,
 accountSshUserName.  Property expressions permit forcing
-to a lowercase string, or performing string concentation.
+to a lowercase string, or performing string concatenation.
 These features may help some environments to better integrate
 with their local LDAP server.
 

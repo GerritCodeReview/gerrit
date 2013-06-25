@@ -172,7 +172,7 @@ zoom on double click) on a patch by simply clicking on the line number.
 
 * Add a "Save" button to the PatchScriptSettingsPanel
 +
-The "Update" button now only updates the display.  Addittionally,
+The "Update" button now only updates the display.  Additionally,
 for logged in users, a "Save" button now behaves the way that
 "Update" used to behave for logged in users.
 
@@ -427,9 +427,9 @@ cheaper.
 * Refactor how permissions are matched by ProjectControl, RefControl
 +
 More aggressively cache many of the auth objects at a cost of memory,
-but this should be an improvement in response timse.
+but this should be an improvement in response times.
 
-* Substantialy speed up pushing changes for review
+* Substantially speed up pushing changes for review
 +
 Pushing a new change for review checks if the change is related to
 the branch it's destined for. It used to do this in a way that

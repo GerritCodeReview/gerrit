@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_5619f492",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T21:12:14Z",
+      "side": 1,
+      "message": "int c \u003d getCount(); but you can inline that in the next line too.",
+      "revId": "ffa7ea74df89f35e493d39548d5dcece7e31b48d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

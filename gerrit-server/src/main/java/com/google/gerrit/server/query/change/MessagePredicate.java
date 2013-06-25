@@ -16,16 +16,10 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.revwalk.filter.MessageRevFilter;
-import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -33,36 +27,35 @@ import java.io.IOException;
  * Predicate to match changes that contains specified text in commit messages
  * body.
  */
-public class MessagePredicate extends RevWalkPredicate {
-
-  private static final Logger log =
-      LoggerFactory.getLogger(MessagePredicate.class);
-
-  private final RevFilter rFilter;
+public class MessagePredicate extends IndexPredicate<ChangeData> {
+  private final Provider<ReviewDb> db;
+  private final GitRepositoryManager repoManager;
+  private final String value;
 
   public MessagePredicate(Provider<ReviewDb> db,
-      GitRepositoryManager repoManager, String text) {
-    super(db, repoManager, ChangeQueryBuilder.FIELD_MESSAGE, text);
-    this.rFilter = MessageRevFilter.create(text);
+      GitRepositoryManager repoManager, String value) {
+    super(ChangeField.COMMIT_MSG, value);
+    this.db = db;
+    this.repoManager = repoManager;
+    this.value = value;
   }
 
   @Override
-  public boolean match(Repository repo, RevWalk rw, Arguments args) {
+  public boolean match(ChangeData object) throws OrmException {
     try {
-      return rFilter.include(rw, rw.parseCommit(args.objectId));
-    } catch (MissingObjectException e) {
-      log.error(args.projectName.get() + "\" commit does not exist.", e);
-    } catch (IncorrectObjectTypeException e) {
-      log.error(args.projectName.get() + "\" revision is not a commit.", e);
+      return object.commitMessage(repoManager, db).contains(value);
     } catch (IOException e) {
-      log.error("Could not search for commit message in \"" +
-          args.projectName.get() + "\" repository.", e);
+      return false;
     }
-    return false;
   }
 
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public boolean isIndexOnly() {
+    return true;
   }
 }

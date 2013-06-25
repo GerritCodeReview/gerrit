@@ -21,6 +21,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.server.OrmException;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -70,6 +71,20 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.currentFilePaths(args.db, args.patchListCache);
+        }
+      };
+
+  /** Commit message of the current patch set. */
+  public static final FieldDef<ChangeData, String> COMMIT_MSG =
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_MESSAGE,
+          FieldType.FULL_TEXT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          try {
+            return input.commitMessage(args.repoManager.get(), args.db);
+          } catch (IOException e) {
+            return "";
+          }
         }
       };
 

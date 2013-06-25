@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -39,11 +37,10 @@ import java.util.concurrent.Callable;
  * Indexing is run in the background, as it may require substantial work to
  * compute some of the fields and/or update the index.
  */
-public class ChangeIndexerImpl implements ChangeIndexer {
+public class ChangeIndexerImpl extends ChangeIndexer {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeIndexerImpl.class);
 
-  private final ListeningScheduledExecutorService executor;
   private final ChangeIndex index;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext context;
@@ -53,22 +50,22 @@ public class ChangeIndexerImpl implements ChangeIndexer {
       ChangeIndex index,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext context) {
-    this.executor = executor;
+    super(executor);
     this.index = index;
     this.schemaFactory = schemaFactory;
     this.context = context;
   }
 
   @Override
-  public ListenableFuture<?> index(Change change) {
-    return executor.submit(new Task(change));
+  public Callable<Void> indexTask(ChangeData cd) {
+    return new Task(cd);
   }
 
   private class Task implements Callable<Void> {
-    private final Change change;
+    private final ChangeData cd;
 
-    private Task(Change change) {
-      this.change = change;
+    private Task(ChangeData cd) {
+      this.cd = cd;
     }
 
     @Override
@@ -87,7 +84,7 @@ public class ChangeIndexerImpl implements ChangeIndexer {
               throw new OutOfScopeException("No user during ChangeIndexer");
             }
           });
-          index.replace(new ChangeData(change));
+          index.replace(cd);
           return null;
         } finally  {
           context.setContext(null);
@@ -96,14 +93,14 @@ public class ChangeIndexerImpl implements ChangeIndexer {
       } catch (Exception e) {
         log.error(String.format(
             "Failed to index change %d in %s",
-            change.getChangeId(), change.getProject().get()), e);
+            cd.getId().get(), cd.getChange().getProject().get()), e);
         throw e;
       }
     }
 
     @Override
     public String toString() {
-      return "index-change-" + change.getId().get();
+      return "index-change-" + cd.getId().get();
     }
   }
 }

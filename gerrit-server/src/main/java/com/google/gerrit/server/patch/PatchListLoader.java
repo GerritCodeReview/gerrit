@@ -64,7 +64,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
+public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
 
   private final GitRepositoryManager repoManager;
@@ -241,7 +241,7 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
   }
 
-  private static RevObject automerge(Repository repo, RevWalk rw, RevCommit b)
+  public static RevTree automerge(Repository repo, RevWalk rw, RevCommit b)
       throws IOException {
     String hash = b.name();
     String refName = GitRepositoryManager.REFS_CACHE_AUTOMERGE

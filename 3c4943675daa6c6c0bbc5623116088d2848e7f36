@@ -34,6 +34,24 @@
       "revId": "3c4943675daa6c6c0bbc5623116088d2848e7f36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_1e530d1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T14:42:22Z",
+      "side": 1,
+      "message": "This change could have been dropped. ps1 was based on a version of code that needed this change. ps2 was based on a version that does not need a change, because the logging is handled at a higher level automatically.\n\nI wasn\u0027t awake enough yesterday when I reviewed this change to realize it was unnecessary. So I rebased it and submitted it. Make sense? Yea no. We can revert this.",
+      "parentUuid": "ca1b7926_963f0cc2",
+      "revId": "3c4943675daa6c6c0bbc5623116088d2848e7f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

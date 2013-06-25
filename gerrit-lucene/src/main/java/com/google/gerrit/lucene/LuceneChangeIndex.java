@@ -42,6 +42,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
+import com.google.gerrit.server.query.change.RegexFilePredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -58,6 +59,7 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.TermQuery;
@@ -240,7 +242,9 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private Query fieldQuery(IndexPredicate<ChangeData> p)
       throws QueryParseException {
-    if (p.getType() == FieldType.INTEGER) {
+    if (p instanceof RegexFilePredicate) {
+      return regexQuery(p);
+    } else if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);
     } else if (p.getType() == FieldType.EXACT) {
       return exactQuery(p);
@@ -270,6 +274,18 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private Query exactQuery(IndexPredicate<ChangeData> p) {
     return new TermQuery(new Term(p.getOperator(), p.getValue()));
+  }
+
+  private Query regexQuery(IndexPredicate<ChangeData> p) {
+    String re = p.getValue();
+    if (re.startsWith("^")) {
+      re = re.substring(1);
+    }
+    if (re.endsWith("$") && !re.endsWith("\\$")) {
+      re = re.substring(0, re.length() - 1);
+    }
+
+    return new RegexpQuery(new Term(p.getOperator(), re));
   }
 
   private class QuerySource implements ChangeDataSource {

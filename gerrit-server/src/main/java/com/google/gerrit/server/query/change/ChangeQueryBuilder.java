@@ -151,7 +151,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private final Arguments args;
   private final CurrentUser currentUser;
-  private boolean allowFileRegex;
+  private boolean allowFileRegexWithoutLucene;
 
   @Inject
   ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
@@ -160,8 +160,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     this.currentUser = currentUser;
   }
 
-  public void setAllowFileRegex(boolean on) {
-    allowFileRegex = on;
+  public void setAllowFileRegexWithoutLucene(boolean on) {
+    allowFileRegexWithoutLucene = on;
   }
 
   @Operator
@@ -295,18 +295,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
-    if (allowFileRegex) {
+    if (allowFileRegexWithoutLucene) {
       if (file.startsWith("^")) {
         return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
       } else {
         throw new IllegalArgumentException();
       }
     } else {
-      if (file.startsWith("^")) {
-        throw error("regular expression not permitted here: file:" + file);
-      }
       if (args.index == ChangeIndex.DISABLED) {
         throw error("secondary index must be enabled for file:" + file);
+      }
+      if (file.startsWith("^")) {
+        return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
       }
       return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
     }

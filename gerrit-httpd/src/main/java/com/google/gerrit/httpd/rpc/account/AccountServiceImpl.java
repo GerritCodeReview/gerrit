@@ -154,7 +154,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         if (filter != null) {
           try {
             ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
-            builder.setAllowFileRegex(true);
+            builder.setAllowFileRegexWithoutLucene(true);
             builder.parse(filter);
           } catch (QueryParseException badFilter) {
             throw new InvalidQueryException(badFilter.getMessage(), filter);

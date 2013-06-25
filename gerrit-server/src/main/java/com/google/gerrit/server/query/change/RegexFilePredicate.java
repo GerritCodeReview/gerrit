@@ -15,8 +15,9 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
@@ -27,7 +28,7 @@ import dk.brics.automaton.RunAutomaton;
 import java.util.Collections;
 import java.util.List;
 
-class RegexFilePredicate extends OperatorPredicate<ChangeData> {
+public class RegexFilePredicate extends IndexPredicate<ChangeData> {
   private final Provider<ReviewDb> db;
   private final PatchListCache cache;
   private final RunAutomaton pattern;
@@ -38,7 +39,7 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData> {
   private final boolean prefixOnly;
 
   RegexFilePredicate(Provider<ReviewDb> db, PatchListCache plc, String re) {
-    super(ChangeQueryBuilder.FIELD_FILE, re);
+    super(ChangeField.FILE, re);
     this.db = db;
     this.cache = plc;
 

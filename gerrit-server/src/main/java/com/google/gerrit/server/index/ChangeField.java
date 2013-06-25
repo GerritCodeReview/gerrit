@@ -42,7 +42,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 4;
+  public static final int SCHEMA_VERSION = 5;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
@@ -135,6 +135,27 @@ public class ChangeField {
           return r;
         }
       };
+
+  /** List of labels on the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> LABEL =
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_LABEL, FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Set<String> distinctApprovals = Sets.newHashSet();
+          for (PatchSetApproval a : input.currentApprovals(args.db)) {
+            if (a.getValue() != 0) {
+              distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
+            }
+          }
+          return distinctApprovals;
+        }
+      };
+
+  public static String formatLabel(String label, int value) {
+    return label + (value >= 0 ? "+" : "") + value;
+  }
 
   public static final ImmutableMap<String, FieldDef<ChangeData, ?>> ALL;
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_19804fb2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-25T23:06:55Z",
+      "side": 1,
+      "message": "Since this isn\u0027t really enabling the form anymore, maybe it should just be updateForm() now?",
+      "revId": "12c901e641b59c7689ab1196d887d8cbb29884b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

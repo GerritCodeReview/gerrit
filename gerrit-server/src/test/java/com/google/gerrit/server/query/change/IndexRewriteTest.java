@@ -22,9 +22,11 @@ import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.query.AndPredicate;
+import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -79,6 +81,41 @@ public class IndexRewriteTest extends TestCase {
     }
   }
 
+  public static class QueryBuilder extends ChangeQueryBuilder {
+    QueryBuilder() {
+      super(
+          new QueryBuilder.Definition<ChangeData, QueryBuilder>(
+            QueryBuilder.class),
+          new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
+            null, null, null, null, null, null),
+          null);
+    }
+
+    @Operator
+    public Predicate<ChangeData> foo(String value) {
+      return predicate("foo", value);
+    }
+
+    @Operator
+    public Predicate<ChangeData> bar(String value) {
+      return predicate("bar", value);
+    }
+
+    private static Predicate<ChangeData> predicate(String name, String value) {
+      return new OperatorPredicate<ChangeData>(name, value) {
+        @Override
+        public boolean match(ChangeData object) throws OrmException {
+          return false;
+        }
+
+        @Override
+        public int getCost() {
+          return 0;
+        }
+      };
+    }
+  }
+
   private DummyIndex index;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewrite rewrite;
@@ -87,10 +124,7 @@ public class IndexRewriteTest extends TestCase {
   public void setUp() throws Exception {
     super.setUp();
     index = new DummyIndex();
-    queryBuilder = new ChangeQueryBuilder(
-        new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
-            null, null, null, null, null, null),
-        null);
+    queryBuilder = new QueryBuilder();
     rewrite = new IndexRewriteImpl(index);
   }
 
@@ -100,7 +134,7 @@ public class IndexRewriteTest extends TestCase {
   }
 
   public void testNonIndexPredicate() throws Exception {
-    Predicate<ChangeData> in = parse("branch:a");
+    Predicate<ChangeData> in = parse("foo:a");
     assertSame(in, rewrite(in));
   }
 
@@ -110,12 +144,12 @@ public class IndexRewriteTest extends TestCase {
   }
 
   public void testNonIndexPredicates() throws Exception {
-    Predicate<ChangeData> in = parse("branch:a OR branch:b");
+    Predicate<ChangeData> in = parse("foo:a OR foo:b");
     assertSame(in, rewrite(in));
   }
 
   public void testOneIndexPredicate() throws Exception {
-    Predicate<ChangeData> in = parse("branch:a file:b");
+    Predicate<ChangeData> in = parse("foo:a file:b");
     Predicate<ChangeData> out = rewrite(in);
     assertSame(AndPredicate.class, out.getClass());
     assertEquals(ImmutableList.of(in.getChild(0), wrap(in.getChild(1))),
@@ -129,7 +163,7 @@ public class IndexRewriteTest extends TestCase {
   }
 
   public void testThreeLevelTreeWithSomeIndexPredicates() throws Exception {
-    Predicate<ChangeData> in = parse("-branch:a (file:b OR file:c)");
+    Predicate<ChangeData> in = parse("-foo:a (file:b OR file:c)");
     Predicate<ChangeData> out = rewrite(in);
     assertEquals(AndPredicate.class, out.getClass());
     assertEquals(ImmutableList.of(in.getChild(0), wrap(in.getChild(1))),
@@ -138,7 +172,7 @@ public class IndexRewriteTest extends TestCase {
 
   public void testMultipleIndexPredicates() throws Exception {
     Predicate<ChangeData> in =
-        parse("file:a OR branch:b OR file:c OR branch:d");
+        parse("file:a OR foo:b OR file:c OR foo:d");
     Predicate<ChangeData> out = rewrite(in);
     assertSame(OrPredicate.class, out.getClass());
     assertEquals(ImmutableList.of(
@@ -148,7 +182,7 @@ public class IndexRewriteTest extends TestCase {
   }
 
   public void testDuplicateSimpleNonIndexOnlyPredicates() throws Exception {
-    Predicate<ChangeData> in = parse("status:new project:p file:a");
+    Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
     assertSame(AndPredicate.class, out.getClass());
     assertEquals(ImmutableList.of(
@@ -159,7 +193,7 @@ public class IndexRewriteTest extends TestCase {
 
   public void testDuplicateCompoundNonIndexOnlyPredicates() throws Exception {
     Predicate<ChangeData> in =
-        parse("(status:new OR status:draft) project:p file:a");
+        parse("(status:new OR status:draft) bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);
     assertSame(AndPredicate.class, out.getClass());
     assertEquals(ImmutableList.of(
@@ -170,7 +204,7 @@ public class IndexRewriteTest extends TestCase {
 
   public void testDuplicateCompoundIndexOnlyPredicates() throws Exception {
     Predicate<ChangeData> in =
-        parse("(status:new OR file:a) project:p file:b");
+        parse("(status:new OR file:a) bar:p file:b");
     Predicate<ChangeData> out = rewrite(in);
     assertSame(AndPredicate.class, out.getClass());
     assertEquals(ImmutableList.of(

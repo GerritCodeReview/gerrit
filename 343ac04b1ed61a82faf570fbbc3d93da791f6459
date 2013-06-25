@@ -1,0 +1,531 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad6a983_caf7030e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneIndexVersionCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "I don\u0027t think it is necessary to rename this class.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_f65be037",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneIndexVersionCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "I would prefer to leave the file name alone.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_3656f80e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneIndexVersionCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Where is this used?",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_7eab31c4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "changeIndexModule \u003d cfgInjector.getInstance(SolrIndexModule.class);",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_1653fc1e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "changeIndexModule \u003d cfgInjector.getInstance(SolrIndexModule.class);",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_564d7478",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Delegate this to the implementation somehow using a virtual method on an interface like ChangeIndexer.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_76507010",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "IndexType",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_d66064e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "config.getEnum(\"index\", null, \"type\", IndexImplementation.LUCENE);",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_1e9e6da6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "This should be in the Solr code and not part of IndexModule.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_b68cc885",
+        "filename": "gerrit-solr/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "sort deps",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_d69b44b7",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "line wrap before throws so the line isn\u0027t over 80 columns",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_5ea8f5c5",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Wrap as an IOException and rethrow.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_be73f9ad",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Wrap as an IOException and rethrow.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_9e78bd8b",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Wrap as an IOException and rethrow.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_36a1d8e4",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Wrap as an IOException and rethrow.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_fe6d81cb",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Wrap as an IOException and rethrow.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_de7245a7",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "remove printStackTrace, the caller will log the trace when they catch the wrapped exception",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_9691cc9b",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "You can get the URL:\n\n  @Inject\n  SolrIndexModule(@GerritServerConfig Config cfg) {\n    url \u003d cfg.getString(\"index\", \"solr\", \"url\");\n    if (Strings.isNullOrEmpty(url)) {\n      throw new IllegalStateException(\"index.solr.url must be supplied\");\n    }\n  }",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_f696408f",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "url is too generic of a name to bind globally on a string. Use a type annotation within your package space instead. See GerritServerConfig for an example of how to make an annotation. Put your own annotation in as @SolrIndexUrl in this package.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad6a983_eaf2c71f",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "changeIndexModule \u003d cfgInjector.getInstance(SolrIndexModule.class);",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_3ea1a9e4",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Lets move these to //lib/lucene",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_362f1893",
+        "filename": "lib/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "This file is very large. I am inclined to put httpclient/httpcore in lib/common/BUCK. They aren\u0027t quite part of the commons project but its \"close enough\" to cluster them there.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_162c9c9a",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "break these into multiple lines",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_763990d8",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "break these into multiple lines",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_be8c9985",
+        "filename": "lib/openid/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "move this down with the other //lib entries in this block and sort alphabetically, so this should be at the end.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_9e91dd9b",
+        "filename": "lib/solr/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "sort alphabetically in a deps list",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_563614e8",
+        "filename": "lib/solr/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "These libraries should be in //lib/lucene and referenced here.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_9666ecfd",
+        "filename": "lib/solr/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Odd, is this a hard requirement for the Solr client to work?",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_fe96218f",
+        "filename": "lib/solr/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Deps should be sorted using local names (\":\" prefix) first, and then the non-local, with each section sorted alphabetically.",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_de9b65b7",
+        "filename": "lib/solr/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "Put this in //lib/log",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_b66168ea",
+        "filename": "lib/solr/BUCK",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T15:56:23Z",
+      "side": 1,
+      "message": "//lib/commons along with httpclient",
+      "revId": "343ac04b1ed61a82faf570fbbc3d93da791f6459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -92,6 +92,7 @@ java_test(
   ],
   deps = [
     ':ui_module',
+    '//gerrit-common:client',
     '//lib:junit',
     '//lib/gwt:dev',
     '//lib/gwt:user',

@@ -26,6 +26,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.server.OrmException;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -45,7 +46,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 9;
+  public static final int SCHEMA_VERSION = 10;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -200,6 +201,20 @@ public class ChangeField {
             r.add(id.getTrackingId());
           }
           return r;
+        }
+      };
+
+  /** Commit message of the current patch set. */
+  public static final FieldDef<ChangeData, String> COMMIT_MESSAGE =
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_MESSAGE,
+          FieldType.FULL_TEXT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          try {
+            return input.commitMessage(args.repoManager, args.db);
+          } catch (IOException e) {
+            throw new OrmException(e);
+          }
         }
       };
 

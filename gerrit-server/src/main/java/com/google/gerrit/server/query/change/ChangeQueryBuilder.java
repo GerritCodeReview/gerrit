@@ -327,8 +327,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> message(String text) {
-    return new MessagePredicate(args.dbProvider, args.repoManager, text);
+  public Predicate<ChangeData> message(String text) throws QueryParseException {
+    if (args.index == ChangeIndex.DISABLED) {
+      throw error("secondary index must be enabled for message:" + text);
+    }
+
+    return new MessagePredicate(args.dbProvider, args.index, text);
   }
 
   @Operator

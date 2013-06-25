@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_79ab43c4",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T21:43:13Z",
+      "side": 1,
+      "message": "projects \u003d Sets.newTreeSet();",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_7e0851e3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T21:43:13Z",
+      "side": 1,
+      "message": "This kind of sucks that we scan the changes table twice. Another version is to use GitRepositoryManager.list().",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_1e0b0de2",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T21:43:13Z",
+      "side": 1,
+      "message": "if (projects.add(change.getProject())) {\n  pm.update(d);\n}",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_b9731bae",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T21:43:13Z",
+      "side": 1,
+      "message": "Why bother with a latch here? You have one future per project. Just wait for the futures to finish?",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_5e0595c7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T21:43:13Z",
+      "side": 1,
+      "message": "Why did you load every change? Filter per project? Or load this list just *once* per Reindex process and reuse that in every thread?",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_99e3bf27",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T21:43:13Z",
+      "side": 1,
+      "message": "if (o instanceof RevCommit) {\n  walk.markStart((RevCommit) o);\n}",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_bec49964",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T21:43:13Z",
+      "side": 1,
+      "message": "while ((bCommit \u003d walk.next()) !\u003d null \u0026\u0026 !byId.isEmpty()) {",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2adb35ae_8914f951",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T21:43:13Z",
+      "side": 1,
+      "message": "if (byId.containsKey(bCommit)) {\n  getPathsAndIndex(bCommit, true);\n}",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

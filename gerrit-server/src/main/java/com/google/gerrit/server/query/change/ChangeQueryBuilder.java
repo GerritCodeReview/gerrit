@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
@@ -156,6 +157,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Inject
   ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
     super(mydef);
+    this.args = args;
+    this.currentUser = currentUser;
+  }
+
+  @VisibleForTesting
+  protected ChangeQueryBuilder(
+      QueryBuilder.Definition<ChangeData, ? extends ChangeQueryBuilder> def,
+      Arguments args, CurrentUser currentUser) {
+    super(def);
     this.args = args;
     this.currentUser = currentUser;
   }

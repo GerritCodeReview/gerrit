@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_fe41011b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1480,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-25T20:00:26Z",
+      "side": 0,
+      "message": "Is this method used somewhere else? If not, delete it?",
+      "revId": "24f3a986d12431831dc8c6aab6c797a9a27b5ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

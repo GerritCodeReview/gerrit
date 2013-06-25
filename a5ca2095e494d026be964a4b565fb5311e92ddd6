@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_166f7c71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-25T20:00:26Z",
+      "side": 1,
+      "message": "This is fine, but it seems like this chunk could potentially get repeated in the future, so watch out for that I guess?",
+      "revId": "a5ca2095e494d026be964a4b565fb5311e92ddd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -50,6 +50,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
@@ -57,6 +58,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.FuzzyQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
@@ -244,6 +246,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       return intQuery(p);
     } else if (p.getType() == FieldType.EXACT) {
       return exactQuery(p);
+    } else if (p.getType() == FieldType.FULL_TEXT) {
+      return fullTextQuery(p);
     } else {
       throw badFieldType(p.getType());
     }
@@ -270,6 +274,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private Query exactQuery(IndexPredicate<ChangeData> p) {
     return new TermQuery(new Term(p.getOperator(), p.getValue()));
+  }
+
+  private Query fullTextQuery(IndexPredicate<ChangeData> p) {
+    return new FuzzyQuery(new Term(p.getOperator(), p.getValue()));
   }
 
   private class QuerySource implements ChangeDataSource {
@@ -374,6 +382,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     } else if (f.getType() == FieldType.EXACT) {
       for (Object value : values) {
         doc.add(new StringField(f.getName(), (String) value, store(f)));
+      }
+    } else if (f.getType() == FieldType.FULL_TEXT) {
+      for (Object value : values) {
+        doc.add(new TextField(f.getName(), (String) value, store(f)));
       }
     } else {
       throw badFieldType(f.getType());

@@ -17,14 +17,20 @@ package com.google.gerrit.server.index;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.OutOfScopeException;
+import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.concurrent.Callable;
 
 /**
@@ -39,27 +45,23 @@ public class ChangeIndexerImpl implements ChangeIndexer {
 
   private final ListeningScheduledExecutorService executor;
   private final ChangeIndex index;
+  private final SchemaFactory<ReviewDb> schemaFactory;
+  private final ThreadLocalRequestContext context;
 
   @Inject
   ChangeIndexerImpl(@IndexExecutor ListeningScheduledExecutorService executor,
-      ChangeIndex index) throws IOException {
+      ChangeIndex index,
+      SchemaFactory<ReviewDb> schemaFactory,
+      ThreadLocalRequestContext context) {
     this.executor = executor;
     this.index = index;
+    this.schemaFactory = schemaFactory;
+    this.context = context;
   }
 
   @Override
   public ListenableFuture<?> index(Change change) {
-    return index(change, null);
-  }
-
-  @Override
-  public ListenableFuture<?> index(Change change,
-      RequestScopePropagator prop) {
-    Callable<?> task = new Task(change);
-    if (prop != null) {
-      task = prop.wrap(task);
-    }
-    return executor.submit(task);
+    return executor.submit(new Task(change));
   }
 
   private class Task implements Callable<Void> {
@@ -72,8 +74,25 @@ public class ChangeIndexerImpl implements ChangeIndexer {
     @Override
     public Void call() throws Exception {
       try {
-        index.replace(new ChangeData(change));
-        return null;
+        final ReviewDb db = schemaFactory.open();
+        try {
+          context.setContext(new RequestContext() {
+            @Override
+            public Provider<ReviewDb> getReviewDbProvider() {
+              return Providers.of(db);
+            }
+
+            @Override
+            public CurrentUser getCurrentUser() {
+              throw new OutOfScopeException("No user during ChangeIndexer");
+            }
+          });
+          index.replace(new ChangeData(change));
+          return null;
+        } finally  {
+          context.setContext(null);
+          db.close();
+        }
       } catch (Exception e) {
         log.error(String.format(
             "Failed to index change %d in %s",

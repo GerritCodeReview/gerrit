@@ -31,6 +31,10 @@ public class FieldType<T> {
   public static final FieldType<String> EXACT =
       new FieldType<String>("EXACT");
 
+  /** A string field representing an approval */
+  public static final FieldType<String> APPROVAL =
+      new FieldType<String>("APPROVAL");
+
   private final String name;
 
   private FieldType(String name) {

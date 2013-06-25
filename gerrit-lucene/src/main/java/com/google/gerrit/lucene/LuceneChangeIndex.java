@@ -43,6 +43,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
+import com.google.gerrit.server.query.change.LabelPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -97,6 +98,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public static final Version LUCENE_VERSION = Version.LUCENE_43;
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
+
+  private static final int MAX_LABEL_VALUE = 4;
 
   private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
@@ -254,6 +257,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       return timestampQuery(p);
     } else if (p.getType() == FieldType.EXACT) {
       return exactQuery(p);
+    } else if (p.getType() == FieldType.APPROVAL) {
+      return approvalQuery(p);
     } else {
       throw badFieldType(p.getType());
     }
@@ -305,7 +310,59 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   private Query exactQuery(IndexPredicate<ChangeData> p) {
-    return new TermQuery(new Term(p.getOperator(), p.getValue()));
+    return exactQuery(p.getOperator(), p.getValue());
+  }
+
+  private Query exactQuery(String field, String value) {
+    return new TermQuery(new Term(field, value));
+  }
+
+  private Query approvalQuery(IndexPredicate<ChangeData> p)
+      throws QueryParseException {
+    if (p instanceof LabelPredicate) {
+      LabelPredicate r = (LabelPredicate) p;
+      String label = r.getLabel();
+      int value = r.getExpVal();
+      if (LabelPredicate.Test.EQ.equals(r.getTest())) {
+        if (value != 0) {
+          return exactQuery(p.getOperator(),
+              ChangeField.formatLabel(label, value));
+        } else {
+          return zeroApprovalQuery(label);
+        }
+      } else {
+        BooleanQuery q = new BooleanQuery();
+        for (int i = gtEq(r) ? value : neg(value); i <= MAX_LABEL_VALUE; i++) {
+          if (i != 0) {
+            q.add(new TermQuery(new Term(p.getOperator(), ChangeField
+                .formatLabel(label, gtEq(r) ? neg(i) : i))), SHOULD);
+          } else {
+            q.add(zeroApprovalQuery(label), SHOULD);
+          }
+        }
+        return q;
+      }
+    }
+    throw new QueryParseException("not a label: " + p);
+  }
+
+  private static boolean gtEq(LabelPredicate p) {
+    return LabelPredicate.Test.GT_EQ.equals(p);
+  }
+
+  private static int neg(int value) {
+    return -1 * value;
+  }
+
+  private Query zeroApprovalQuery(String label) {
+    BooleanQuery q = new BooleanQuery();
+    for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
+      q.add(new TermQuery(new Term("label",
+          ChangeField.formatLabel(label, i))), MUST_NOT);
+      q.add(new TermQuery(new Term("label",
+          ChangeField.formatLabel(label, neg(i)))), MUST_NOT);
+    }
+    return q;
   }
 
   private class QuerySource implements ChangeDataSource {
@@ -415,6 +472,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
         doc.add(new IntField(name, toIndexTime((Timestamp) v), store));
       }
     } else if (f.getType() == FieldType.EXACT) {
+      for (Object value : values) {
+        doc.add(new StringField(name, (String) value, store));
+      }
+    } else if (f.getType() == FieldType.APPROVAL) {
       for (Object value : values) {
         doc.add(new StringField(name, (String) value, store));
       }

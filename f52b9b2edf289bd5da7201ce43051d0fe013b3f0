@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_7e5691dd",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-25T20:18:33Z",
+      "side": 1,
+      "message": "I was trying to avoid type switching here in favor of FieldType switching. Is it not possible to define e.g. a TIMESTAMP class, then do the value-\u003etimestamp conversion here? Though it might be hard to get the before/after piece from that. So maybe this is the only way.",
+      "revId": "f52b9b2edf289bd5da7201ce43051d0fe013b3f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_de46c530",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-25T20:18:33Z",
+      "side": 1,
+      "message": "Should these intervals be half-open instead? E.g. do we expect \"before\" and \"after\" to mean \u003c and \u003e rather than \u003c\u003d and \u003e\u003d?",
+      "revId": "f52b9b2edf289bd5da7201ce43051d0fe013b3f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_56e614d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-25T20:18:33Z",
+      "side": 1,
+      "message": "This is seconds, right? So perhaps 00:00:00",
+      "revId": "f52b9b2edf289bd5da7201ce43051d0fe013b3f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

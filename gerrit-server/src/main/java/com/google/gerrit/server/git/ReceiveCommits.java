@@ -1476,8 +1476,7 @@ public class ReceiveCommits {
           currentUser.getAccountId(),
           magicBranch.dest);
       change.setTopic(magicBranch.topic);
-      ins = changeInserterFactory.create(ctl, change, c)
-          .setRequestScopePropagator(requestScopePropagator);
+      ins = changeInserterFactory.create(ctl, change, c);
       if (magicBranch.isDraft()) {
         ins.setDraft();
       }
@@ -1922,7 +1921,7 @@ public class ReceiveCommits {
       if (cmd.getResult() == NOT_ATTEMPTED) {
         cmd.execute(rp);
       }
-      indexer.index(change, requestScopePropagator);
+      indexer.index(change);
       gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
@@ -2268,7 +2267,7 @@ public class ReceiveCommits {
             return change;
           }
         });
-    indexer.index(change, requestScopePropagator);
+    indexer.index(change);
   }
 
   private void sendMergedEmail(final ReplaceRequest result) {

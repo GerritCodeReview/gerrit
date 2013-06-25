@@ -32,7 +32,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.RefControl;
-import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -62,7 +61,6 @@ public class ChangeInserter {
   private final RevCommit commit;
   private final PatchSetInfo patchSetInfo;
 
-  private RequestScopePropagator requestScopePropagator;
   private ChangeMessage changeMessage;
   private Set<Account.Id> reviewers;
 
@@ -97,11 +95,6 @@ public class ChangeInserter {
     patchSetInfo = patchSetInfoFactory.get(commit, patchSet.getId());
     change.setCurrentPatchSet(patchSetInfo);
     ChangeUtil.computeSortKey(change);
-  }
-
-  public ChangeInserter setRequestScopePropagator(RequestScopePropagator rsp) {
-    requestScopePropagator = rsp;
-    return this;
   }
 
   public ChangeInserter setMessage(ChangeMessage changeMessage) {
@@ -147,7 +140,7 @@ public class ChangeInserter {
       db.changeMessages().insert(Collections.singleton(changeMessage));
     }
 
-    indexer.index(change, requestScopePropagator);
+    indexer.index(change);
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
     hooks.doPatchsetCreatedHook(change, patchSet, db);

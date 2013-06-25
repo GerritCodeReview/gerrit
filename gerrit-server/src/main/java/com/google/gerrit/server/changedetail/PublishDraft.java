@@ -41,7 +41,6 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -78,7 +77,6 @@ public class PublishDraft implements Callable<ReviewResult> {
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ChangeIndexer indexer;
-  private final RequestScopePropagator requestScopePropagator;
 
   private final PatchSet.Id patchSetId;
 
@@ -92,7 +90,6 @@ public class PublishDraft implements Callable<ReviewResult> {
       final CreateChangeSender.Factory createChangeSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final ChangeIndexer indexer,
-      final RequestScopePropagator requestScopePropagator,
       @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
@@ -104,7 +101,6 @@ public class PublishDraft implements Callable<ReviewResult> {
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.indexer = indexer;
-    this.requestScopePropagator = requestScopePropagator;
 
     this.patchSetId = patchSetId;
   }
@@ -154,7 +150,7 @@ public class PublishDraft implements Callable<ReviewResult> {
       });
 
       if (!updatedPatchSet.isDraft() || updatedChange.getStatus() == Change.Status.NEW) {
-        indexer.index(updatedChange, requestScopePropagator);
+        indexer.index(updatedChange);
         hooks.doDraftPublishedHook(updatedChange, updatedPatchSet, db);
 
         sendNotifications(control.getChange().getStatus() == Change.Status.DRAFT,

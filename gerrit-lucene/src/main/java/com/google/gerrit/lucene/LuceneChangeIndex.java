@@ -34,6 +34,7 @@ import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
@@ -48,6 +49,7 @@ import com.google.gwtorm.server.ResultSet;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
@@ -57,6 +59,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
@@ -71,6 +74,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -221,6 +225,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     } else if (p.getClass() == OrPredicate.class) {
       return booleanQuery(p, SHOULD);
     } else if (p.getClass() == NotPredicate.class) {
+      if (p.getChild(0) instanceof TimestampRangePredicate) {
+        return notTimestampQuery(
+            (TimestampRangePredicate<ChangeData>) p.getChild(0));
+      }
       return booleanQuery(p, MUST_NOT);
     } else if (p instanceof IndexPredicate) {
       return fieldQuery((IndexPredicate<ChangeData>) p);
@@ -242,6 +250,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       throws QueryParseException {
     if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);
+    } else if (p.getType() == FieldType.TIMESTAMP) {
+      return timestampQuery(p);
     } else if (p.getType() == FieldType.EXACT) {
       return exactQuery(p);
     } else {
@@ -266,6 +276,32 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       throw new QueryParseException("not an integer: " + p.getValue());
     }
     return new TermQuery(intTerm(p.getOperator(), value));
+  }
+
+  private static Query timestampQuery(IndexPredicate<ChangeData> p)
+      throws QueryParseException {
+    if (p instanceof TimestampRangePredicate) {
+      TimestampRangePredicate<ChangeData> r =
+          (TimestampRangePredicate<ChangeData>) p;
+      return NumericRangeQuery.newIntRange(
+          r.getField().getName(),
+          toIndexTime(r.getMinTimestamp()),
+          toIndexTime(r.getMaxTimestamp()),
+          true, true);
+    }
+    throw new QueryParseException("not a timestamp: " + p);
+  }
+
+  private static Query notTimestampQuery(TimestampRangePredicate<ChangeData> r)
+      throws QueryParseException {
+    if (r.getMinTimestamp().getTime() == 0) {
+      return NumericRangeQuery.newIntRange(
+          r.getField().getName(),
+          toIndexTime(r.getMaxTimestamp()),
+          Integer.MAX_VALUE,
+          true, true);
+    }
+    throw new QueryParseException("cannot negate: " + r);
   }
 
   private Query exactQuery(IndexPredicate<ChangeData> p) {
@@ -367,17 +403,28 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private void add(Document doc, FieldDef<ChangeData, ?> f,
       Iterable<?> values) throws OrmException {
+    String name = f.getName();
+    Store store = store(f);
+
     if (f.getType() == FieldType.INTEGER) {
       for (Object value : values) {
-        doc.add(new IntField(f.getName(), (Integer) value, store(f)));
+        doc.add(new IntField(name, (Integer) value, store));
+      }
+    } else if (f.getType() == FieldType.TIMESTAMP) {
+      for (Object v : values) {
+        doc.add(new IntField(name, toIndexTime((Timestamp) v), store));
       }
     } else if (f.getType() == FieldType.EXACT) {
       for (Object value : values) {
-        doc.add(new StringField(f.getName(), (String) value, store(f)));
+        doc.add(new StringField(name, (String) value, store));
       }
     } else {
       throw badFieldType(f.getType());
     }
+  }
+
+  private static int toIndexTime(Timestamp ts) {
+    return (int) (ts.getTime() / 60000);
   }
 
   private static Field.Store store(FieldDef<?, ?> f) {

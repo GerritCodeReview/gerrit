@@ -24,6 +24,7 @@ import com.google.gwtorm.server.OrmException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.sql.Timestamp;
 import java.util.Map;
 
 /**
@@ -38,7 +39,7 @@ import java.util.Map;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 2;
+  public static final int SCHEMA_VERSION = 3;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
@@ -92,6 +93,17 @@ public class ChangeField {
         public String get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.change(args.db).getTopic();
+        }
+      };
+
+  /** Last update time since January 1, 1970. */
+  public static final FieldDef<ChangeData, Timestamp> UPDATED =
+      new FieldDef.Single<ChangeData, Timestamp>(
+          "updated", FieldType.TIMESTAMP, true) {
+        @Override
+        public Timestamp get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change(args.db).getLastUpdatedOn();
         }
       };
 

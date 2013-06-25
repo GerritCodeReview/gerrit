@@ -14,14 +14,10 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 
-import java.io.IOException;
 import java.util.concurrent.Callable;
 
 /**
@@ -30,48 +26,37 @@ import java.util.concurrent.Callable;
  * Indexing is run in the background, as it may require substantial work to
  * compute some of the fields and/or update the index.
  */
-public class ChangeIndexerImpl implements ChangeIndexer {
-  private final ListeningScheduledExecutorService executor;
+public class ChangeIndexerImpl extends ChangeIndexer {
   private final ChangeIndex index;
 
   @Inject
   ChangeIndexerImpl(@IndexExecutor ListeningScheduledExecutorService executor,
-      ChangeIndex index) throws IOException {
-    this.executor = executor;
+      ChangeIndex index) {
+    super(executor);
     this.index = index;
   }
 
   @Override
-  public ListenableFuture<?> index(Change change) {
-    return index(change, null);
-  }
-
-  @Override
-  public ListenableFuture<?> index(Change change,
-      RequestScopePropagator prop) {
-    Callable<?> task = new Task(change);
-    if (prop != null) {
-      task = prop.wrap(task);
-    }
-    return executor.submit(task);
+  public Callable<Void> indexTask(ChangeData cd) {
+    return new Task(cd);
   }
 
   private class Task implements Callable<Void> {
-    private final Change change;
+    private final ChangeData cd;
 
-    private Task(Change change) {
-      this.change = change;
+    private Task(ChangeData cd) {
+      this.cd = cd;
     }
 
     @Override
     public Void call() throws Exception {
-      index.replace(new ChangeData(change));
+      index.replace(cd);
       return null;
     }
 
     @Override
     public String toString() {
-      return "index-change-" + change.getId().get();
+      return "index-change-" + cd.getId().get();
     }
   }
 }

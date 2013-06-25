@@ -16,8 +16,12 @@ package com.google.gerrit.server.index;
 
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestScopePropagator;
+
+import java.util.concurrent.Callable;
 
 /**
  * Helper for (re)indexing a change document.
@@ -25,9 +29,9 @@ import com.google.gerrit.server.util.RequestScopePropagator;
  * Indexing is run in the background, as it may require substantial work to
  * compute some of the fields and/or update the index.
  */
-public interface ChangeIndexer {
+public abstract class ChangeIndexer {
   /** Instance indicating secondary index is disabled. */
-  public static final ChangeIndexer DISABLED = new ChangeIndexer() {
+  public static final ChangeIndexer DISABLED = new ChangeIndexer(null) {
     @Override
     public ListenableFuture<?> index(Change change) {
       return Futures.immediateFuture(null);
@@ -38,7 +42,27 @@ public interface ChangeIndexer {
         RequestScopePropagator prop) {
       return Futures.immediateFuture(null);
     }
+
+    @Override
+    public ListenableFuture<?> index(ChangeData cd, RequestScopePropagator prop) {
+      return Futures.immediateFuture(null);
+    }
+
+    public Callable<Void> indexTask(ChangeData cd) {
+      return new Callable<Void>() {
+        @Override
+        public Void call() {
+          return null;
+        }
+      };
+    }
   };
+
+  private final ListeningScheduledExecutorService executor;
+
+  protected ChangeIndexer(ListeningScheduledExecutorService executor) {
+    this.executor = executor;
+  }
 
   /**
    * Start indexing a change.
@@ -46,7 +70,9 @@ public interface ChangeIndexer {
    * @param change change to index.
    * @return future for the indexing task.
    */
-  public ListenableFuture<?> index(Change change);
+  public ListenableFuture<?> index(Change change) {
+    return index(new ChangeData(change), null);
+  }
 
   /**
    * Start indexing a change.
@@ -55,5 +81,17 @@ public interface ChangeIndexer {
    * @param prop propagator to wrap any created runnables in.
    * @return future for the indexing task.
    */
-  public ListenableFuture<?> index(Change change, RequestScopePropagator prop);
+  public ListenableFuture<?> index(Change change, RequestScopePropagator prop) {
+    return index(new ChangeData(change), prop);
+  }
+
+  public ListenableFuture<?> index(ChangeData cd, RequestScopePropagator prop) {
+    Callable<?> task = indexTask(cd);
+    if (prop != null) {
+      task = prop.wrap(task);
+    }
+    return executor.submit(task);
+  }
+
+  public abstract Callable<Void> indexTask(ChangeData cd);
 }

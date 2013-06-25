@@ -17,7 +17,8 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.ObjectIdPredicate;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -25,13 +26,15 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-class CommitPredicate extends ObjectIdPredicate<ChangeData> implements
+class CommitPredicate extends IndexPredicate<ChangeData> implements
     ChangeDataSource {
   private final Provider<ReviewDb> dbProvider;
+  private final AbbreviatedObjectId abbrevId;
 
   CommitPredicate(Provider<ReviewDb> dbProvider, AbbreviatedObjectId id) {
-    super(ChangeQueryBuilder.FIELD_COMMIT, id);
+    super(ChangeField.COMMIT, id.name());
     this.dbProvider = dbProvider;
+    this.abbrevId = id;
   }
 
   @Override
@@ -39,7 +42,7 @@ class CommitPredicate extends ObjectIdPredicate<ChangeData> implements
     for (PatchSet p : object.patches(dbProvider)) {
       if (p.getRevision() != null && p.getRevision().get() != null) {
         final ObjectId id = ObjectId.fromString(p.getRevision().get());
-        if (abbreviated().prefixCompare(id) == 0) {
+        if (abbrevId.prefixCompare(id) == 0) {
           return true;
         }
       }
@@ -49,7 +52,7 @@ class CommitPredicate extends ObjectIdPredicate<ChangeData> implements
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    final RevId id = new RevId(abbreviated().name());
+    final RevId id = new RevId(abbrevId.name());
     if (id.isComplete()) {
       return ChangeDataResultSet.patchSet(//
           dbProvider.get().patchSets().byRevision(id));

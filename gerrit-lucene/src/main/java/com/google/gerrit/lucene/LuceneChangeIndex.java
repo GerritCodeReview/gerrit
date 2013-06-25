@@ -61,6 +61,7 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeQuery;
+import org.apache.lucene.search.PrefixQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.ScoreDoc;
@@ -258,6 +259,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       return timestampQuery(p);
     } else if (p.getType() == FieldType.EXACT) {
       return exactQuery(p);
+    } else if (p.getType() == FieldType.PREFIX) {
+      return prefixQuery(p);
     } else {
       throw badFieldType(p.getType());
     }
@@ -326,6 +329,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     }
 
     return new RegexpQuery(new Term(p.getOperator(), re));
+  }
+
+  private Query prefixQuery(IndexPredicate<ChangeData> p) {
+    return new PrefixQuery(new Term(p.getOperator(), p.getValue()));
   }
 
   private class QuerySource implements ChangeDataSource {
@@ -439,7 +446,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       for (Object v : values) {
         doc.add(new IntField(name, toIndexTime((Timestamp) v), store));
       }
-    } else if (f.getType() == FieldType.EXACT) {
+    } else if (f.getType() == FieldType.EXACT
+        || f.getType() == FieldType.PREFIX) {
       for (Object value : values) {
         doc.add(new StringField(name, (String) value, store));
       }

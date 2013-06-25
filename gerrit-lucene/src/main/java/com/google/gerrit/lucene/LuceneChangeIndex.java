@@ -57,6 +57,7 @@ import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
@@ -66,6 +67,7 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.PrefixQuery;
+import org.apache.lucene.search.FuzzyQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.ScoreDoc;
@@ -279,6 +281,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       return exactQuery(p);
     } else if (p.getType() == FieldType.PREFIX) {
       return prefixQuery(p);
+    } else if (p.getType() == FieldType.FULL_TEXT) {
+      return fullTextQuery(p);
     } else if (p instanceof SortKeyPredicate) {
       return sortKeyQuery((SortKeyPredicate) p);
     } else {
@@ -361,6 +365,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private Query prefixQuery(IndexPredicate<ChangeData> p) {
     return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
+  }
+
+  private Query fullTextQuery(IndexPredicate<ChangeData> p) {
+    return new FuzzyQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
   private static class QuerySource implements ChangeDataSource {
@@ -483,6 +491,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
         || f.getType() == FieldType.PREFIX) {
       for (Object value : values) {
         doc.add(new StringField(name, (String) value, store));
+      }
+    } else if (f.getType() == FieldType.FULL_TEXT) {
+      for (Object value : values) {
+        doc.add(new TextField(name, (String) value, store));
       }
     } else {
       throw badFieldType(f.getType());

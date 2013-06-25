@@ -64,7 +64,7 @@ public class MultiProgressMonitor {
   public class Task implements ProgressMonitor {
     private final String name;
     private final int total;
-    private volatile int count;
+    private int count;
     private int lastPercent;
 
     Task(final String subTaskName, final int totalWork) {
@@ -75,29 +75,39 @@ public class MultiProgressMonitor {
     /**
      * Indicate that work has been completed on this sub-task.
      * <p>
-     * Must be called from the worker thread.
+     * Must be called from a worker thread.
      *
      * @param completed number of work units completed.
      */
     @Override
     public void update(final int completed) {
-      count += completed;
-      if (total != UNKNOWN) {
-        int percent = count * 100 / total;
-        if (percent > lastPercent) {
-          lastPercent = percent;
-          wakeUp();
+      boolean w = false;
+      synchronized (this) {
+        count += completed;
+        if (total != UNKNOWN) {
+          int percent = count * 100 / total;
+          if (percent > lastPercent) {
+            lastPercent = percent;
+            w = true;
+          }
         }
+      }
+      if (w) {
+        wakeUp();
       }
     }
 
     /**
      * Indicate that this sub-task is finished.
      * <p>
-     * Must be called from the worker thread.
+     * Must be called from a worker thread.
      */
     public void end() {
-      if (total == UNKNOWN && count > 0) {
+      int c;
+      synchronized (this) {
+        c = count;
+      }
+      if (total == UNKNOWN && c > 0) {
         wakeUp();
       }
     }
@@ -167,19 +177,19 @@ public class MultiProgressMonitor {
   /**
    * Wait for a task managed by a {@link Future}.
    * <p>
-   * Must be called from the main thread, <em>not</em> the worker thread. Once
-   * the worker thread calls {@link #end()}, the future has an additional
+   * Must be called from the main thread, <em>not</em> a worker thread. Once a
+   * worker thread calls {@link #end()}, the future has an additional
    * <code>maxInterval</code> to finish before it is forcefully cancelled and
    * {@link ExecutionException} is thrown.
    *
-   * @param workerFuture a future that returns when the worker thread is
-   *     finished.
+   * @param workerFuture a future that returns when worker threads are finished.
    * @param timeoutTime overall timeout for the task; the future is forcefully
    *     cancelled if the task exceeds the timeout. Non-positive values indicate
    *     no timeout.
    * @param timeoutUnit unit for overall task timeout.
-   * @throws ExecutionException if this thread or the worker thread was
-   *     interrupted, the worker was cancelled, or the worker timed out.
+   * @throws ExecutionException if this thread or a worker thread was
+   *     interrupted, the worker was cancelled, or timed out waiting for a
+   *     worker to call {@link #end()}.
    */
   public void waitFor(final Future<?> workerFuture, final long timeoutTime,
       final TimeUnit timeoutUnit) throws ExecutionException {
@@ -270,7 +280,7 @@ public class MultiProgressMonitor {
   /**
    * End the overall task.
    * <p>
-   * Must be called from the worker thread.
+   * Must be called from a worker thread.
    */
   public synchronized void end() {
     done = true;

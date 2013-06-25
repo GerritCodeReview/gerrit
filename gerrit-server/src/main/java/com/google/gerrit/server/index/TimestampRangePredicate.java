@@ -16,33 +16,12 @@ package com.google.gerrit.server.index;
 
 import java.sql.Timestamp;
 
-
-/** Document field types supported by the secondary index system. */
-public class FieldType<T> {
-  /** A single integer-valued field. */
-  public static final FieldType<Integer> INTEGER =
-      new FieldType<Integer>("INTEGER");
-
-  /** A single date/time-valued field. */
-  public static final FieldType<Timestamp> TIMESTAMP =
-      new FieldType<Timestamp>("TIMESTAMP");
-
-  /** A string field searched using exact-match semantics. */
-  public static final FieldType<String> EXACT =
-      new FieldType<String>("EXACT");
-
-  private final String name;
-
-  private FieldType(String name) {
-    this.name = name;
+public abstract class TimestampRangePredicate<I> extends IndexPredicate<I> {
+  protected TimestampRangePredicate(FieldDef<I, Timestamp> def,
+      String name, String value) {
+    super(def, name, value);
   }
 
-  public String getName() {
-    return name;
-  }
-
-  @Override
-  public String toString() {
-    return name;
-  }
+  public abstract Timestamp getMinTimestamp();
+  public abstract Timestamp getMaxTimestamp();
 }

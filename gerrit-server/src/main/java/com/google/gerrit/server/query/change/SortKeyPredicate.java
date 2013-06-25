@@ -16,15 +16,20 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
+import java.sql.Timestamp;
+
+public abstract class SortKeyPredicate extends
+    TimestampRangePredicate<ChangeData> {
   protected final Provider<ReviewDb> dbProvider;
 
   SortKeyPredicate(Provider<ReviewDb> dbProvider, String name, String value) {
-    super(name, value);
+    super(ChangeField.UPDATED, name, value);
     this.dbProvider = dbProvider;
   }
 
@@ -33,9 +38,19 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
     return 1;
   }
 
-  static class Before extends SortKeyPredicate {
+  public static class Before extends SortKeyPredicate {
     Before(Provider<ReviewDb> dbProvider, String value) {
       super(dbProvider, "sortkey_before", value);
+    }
+
+    @Override
+    public Timestamp getMinTimestamp() {
+      return new Timestamp(0);
+    }
+
+    @Override
+    public Timestamp getMaxTimestamp() {
+      return ChangeUtil.timeFromSortKey(getValue());
     }
 
     @Override
@@ -45,9 +60,19 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
     }
   }
 
-  static class After extends SortKeyPredicate {
+  public static class After extends SortKeyPredicate {
     After(Provider<ReviewDb> dbProvider, String value) {
       super(dbProvider, "sortkey_after", value);
+    }
+
+    @Override
+    public Timestamp getMinTimestamp() {
+      return ChangeUtil.timeFromSortKey(getValue());
+    }
+
+    @Override
+    public Timestamp getMaxTimestamp() {
+      return new Timestamp(Long.MAX_VALUE);
     }
 
     @Override

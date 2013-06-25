@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 3;
+  public static final int SCHEMA_VERSION = 4;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
@@ -115,6 +115,16 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.currentFilePaths(args.db, args.patchListCache);
+        }
+      };
+
+  /** Commit id of the change */
+  public static final FieldDef<ChangeData, String> COMMIT =
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_COMMIT,
+          FieldType.PREFIX, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          return input.currentPatchSet(args.db).getRevision().get();
         }
       };
 

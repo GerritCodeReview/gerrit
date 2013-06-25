@@ -31,6 +31,10 @@ public class FieldType<T> {
   public static final FieldType<String> EXACT =
       new FieldType<String>("EXACT");
 
+  /** A string field searched using prefix. */
+  public static final FieldType<String> PREFIX =
+      new FieldType<String>("PREFIX");
+
   private final String name;
 
   private FieldType(String name) {

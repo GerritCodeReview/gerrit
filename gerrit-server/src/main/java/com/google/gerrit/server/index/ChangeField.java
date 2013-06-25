@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -42,7 +43,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 4;
+  public static final int SCHEMA_VERSION = 5;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
@@ -133,6 +134,21 @@ public class ChangeField {
             r.add(a.getAccountId().get());
           }
           return r;
+        }
+  };
+
+  /** Commit id of any PatchSet on the change */
+  public static final FieldDef<ChangeData, Iterable<String>> COMMIT =
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_COMMIT, FieldType.PREFIX, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Set<String> revisions = Sets.newHashSet();
+          for (PatchSet ps : input.patches(args.db)) {
+            revisions.add(ps.getRevision().get());
+          }
+          return revisions;
         }
       };
 

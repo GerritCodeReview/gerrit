@@ -102,8 +102,8 @@ other AJAX applications like Gmail.
 
 * Use a glass pane behind our dialogs, make most modal
 +
-Error dialogs are now more noticable, and less easily dismissed
-by an accidential click.  This is especially useful when there
+Error dialogs are now more noticeable, and less easily dismissed
+by an accidental click.  This is especially useful when there
 is a merge error during submit.
 
 Bug Fixes

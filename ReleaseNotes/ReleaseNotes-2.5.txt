@@ -80,7 +80,7 @@ The `cache.diff.memoryLimit` and `cache.diff_intraline.memoryLimit`
 configuration variables are now expressed in bytes of memory used,
 rather than number of entries in the cache. This is a change from
 previous versions of Gerrit and gives administrators more control over
-how memory is partioned within a server. Admins that set this variable
+how memory is partitioned within a server. Admins that set this variable
 must update their configurations, as the old values are too small.
 For example a setting of `memoryLimit = 1024` now means only 1 KiB of
 data (which may not even hold 1 patch set), not 1024 patch sets.  It
@@ -1014,7 +1014,7 @@ startup ordering problem in the GroupCache and the ProjectCache, where
 code wants to use one of these caches during startup to resolve a
 group or project by name.
 +
-Tracking the Gauva backend caches with a DynamicMap makes it possible
+Tracking the Guava backend caches with a DynamicMap makes it possible
 for plugins to define their own in-memory caches using CacheModule's
 cache() function to declare the cache. It allows the core server to
 make the cache available to administrators over SSH with the gerrit
@@ -1129,7 +1129,7 @@ section is never suggested.
 * Add change topic in hook arguments
 +
 It was not possible for hook scripts to include topic-specific
-behaviour because the topic name was not included in the arguments.
+behavior because the topic name was not included in the arguments.
 
 * Add `--is-draft` argument on `patchset-created` hook
 +
@@ -1202,7 +1202,7 @@ So far tracking ID's had a maximum length of only 20 characters.
 
 * Set `GERRIT_SITE` in Gerrit hooks as environment variable
 +
-Allows development of hooks parametrised on Gerrit location. This can
+Allows development of hooks parameterized on Gerrit location. This can
 be useful to allow hooks to load the Gerrit configuration when needed
 (from `$GERRIT_SITE`) or even store their additional config files under
 `$GERRIT_SITE/etc` and retrieve them at startup.
@@ -1210,7 +1210,7 @@ be useful to allow hooks to load the Gerrit configuration when needed
 * Add an exponentially rolling garbage collection script
 +
 `git-exproll.sh` is a git garbage collection script aimed specifically
-at reducing exccessive garbage collection and particularly large
+at reducing excessive garbage collection and particularly large
 packfile churn for Gerrit installations.
 +
 Excessive garbage collection on "dormant" repos is wasteful of both CPU
@@ -1275,7 +1275,7 @@ group membership database was downloaded to the browser when showing
 just the list of groups.
 +
 Now the amount of data that needs to be downloaded to the browser is
-reduced by using the more leightweight `AccountGroup` type instead of
+reduced by using the more lightweight `AccountGroup` type instead of
 the `GroupDetail` type when showing the groups in a list format. As a
 consequence the `Owners` column that showed the name of the owner group
 had been dropped.
@@ -1305,9 +1305,9 @@ instead use only the `refs/heads` namespace and the name of the branch
 used in the `refs/for/` push line.
 +
 Catch existing changes by looking for their exact commit SHA-1, rather
-than complete ancestory. This should have roughly the same outcome for
+than complete ancestry. This should have roughly the same outcome for
 anyone pushing a new commit on top of an existing open change, but
-with lower computional cost at the server.
+with lower computational cost at the server.
 
 * Lookup changes in parallel during `ReceiveCommits`
 +
@@ -1408,7 +1408,7 @@ Upgrades
 * Use gwtexpui 1.2.6
 +
 ** Hide superfluous status text from clippy flash widget
-** Fix diappearance of text in CopyableLabel when clicking on it
+** Fix disappearance of text in CopyableLabel when clicking on it
 
 * Update Guava to 12.0.1
 +
@@ -1436,7 +1436,7 @@ Project owners (members of groups to which the `owner` access right
 is assigned) are able to edit the access control list of the projects
 they own. Hence being owner of the `All-Projects` project would allow
 to edit the global capabilities and assign the `administrateServer`
-capabilitiy without being Gerrit administrator.
+capability without being Gerrit administrator.
 +
 In earlier Gerrit versions (2.1.x) it was already implemented like
 this but the corresponding checks got lost.
@@ -1503,7 +1503,7 @@ side viewer.
 
 * Dependencies were lost in the ChangeScreen's "Needed By" table
 +
-Older patchsets are now iterated for decendents, so that the dependency
+Older patchsets are now iterated for descendants, so that the dependency
 chain does not break on new upstream patchsets.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=1442[issue 1442]:
@@ -1712,7 +1712,7 @@ returned as author.
 
 * Fix the `export-review-notes` command's Guice bindings
 +
-The `export-review-notes` command was broken becasue of the CachePool
+The `export-review-notes` command was broken because of the CachePool
 class being bound twice. The startup of the command failed because of
 that.
 
@@ -1751,7 +1751,7 @@ still broken) rely on the context path of the application instead.
 Replication
 ~~~~~~~~~~~
 
-* Fix inconsistent behaviour when replicating `refs/meta/config`
+* Fix inconsistent behavior when replicating `refs/meta/config`
 +
 In `replication.config`, if `authGroup` is set to be used together with
 `mirror = true`, refs blocked through the `authGroup` are deleted from

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_deed2513",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-25T16:52:45Z",
+      "side": 1,
+      "message": "Good catch. I move this inside the CallbackImpl so it wouldn\u0027t need the SuppressWarning.",
+      "parentUuid": "caf29916_3e888964",
+      "revId": "563cf0d3ca11f8175bfeb5c0bc053c7749165761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_1e85cd4a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-25T16:05:58Z",
       "side": 1,
       "message": "If you are clearing the collections i\u0027m not sure its necessary to clear the delegate and result here.",
+      "revId": "563cf0d3ca11f8175bfeb5c0bc053c7749165761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_b67328ae",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/CallbackGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-06-25T16:52:45Z",
+      "side": 1,
+      "message": "the callback may be held by the caller, so just to be safe that we don\u0027t leak memory, i clear it here.",
+      "parentUuid": "caf29916_1e85cd4a",
       "revId": "563cf0d3ca11f8175bfeb5c0bc053c7749165761",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

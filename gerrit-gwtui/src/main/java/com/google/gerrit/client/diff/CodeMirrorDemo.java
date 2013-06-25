@@ -95,7 +95,7 @@ public class CodeMirrorDemo extends Screen {
       .wholeFile()
       .intraline()
       .ignoreWhitespace(DiffApi.IgnoreWhitespace.NONE)
-      .get(group.add(new GerritCallback<DiffInfo>() {
+      .get(group.addFinal(new GerritCallback<DiffInfo>() {
         @Override
         public void onSuccess(final DiffInfo diff) {
           new ModeInjector()

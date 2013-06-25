@@ -335,6 +335,10 @@ public class WorkQueue {
       if (running.compareAndSet(false, true)) {
         try {
           task.run();
+        } catch (Exception e) {
+          log.error(String.format(
+              "Task %s on %s failed",
+              runnable, Thread.currentThread().getName()), e);
         } finally {
           if (isPeriodic()) {
             running.set(false);

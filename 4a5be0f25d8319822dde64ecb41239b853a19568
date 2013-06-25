@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_f9f2b31f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-25T21:31:41Z",
+      "side": 1,
+      "message": "Why this instead of wrapping the exception? cf. currentFilePaths() which can fail in a whole host of ways.\n\nI\u0027m thinking we may want to trap these and still index the documents without certain fields, but ISTM that should happen in the index implementation that\u0027s creating the documents. I might be convinced otherwise, however.",
+      "revId": "4a5be0f25d8319822dde64ecb41239b853a19568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_9e1efd20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-25T21:31:41Z",
+      "side": 1,
+      "message": "Just inject the GitRepositoryManager. ReviewDb is pretty much the only thing that needs to be injected as a provider.",
+      "revId": "4a5be0f25d8319822dde64ecb41239b853a19568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_3956eb0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-25T21:31:41Z",
+      "side": 1,
+      "message": "Talked in person about how to implement this:\n-Record a unique tag in all predicates in a wrapped subtree.\n-When creating ChangeDatas produced from a query from some predicate, record the tag in a set in the ChangeData.\n-When merging together ChangeDatas (not sure where this happens...), make sure to merge the sets.\n-Have IndexPredicate check that the tag on this predicate object matches one of the tags in the change data.\n\nAnd maybe:\n-Fall back to doing a query for (change:id message:foo) against the index (which will be slow for multiple changes).",
+      "revId": "4a5be0f25d8319822dde64ecb41239b853a19568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

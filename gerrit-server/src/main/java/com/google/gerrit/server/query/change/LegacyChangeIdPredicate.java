@@ -16,7 +16,8 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -24,13 +25,13 @@ import com.google.inject.Provider;
 
 import java.util.Collections;
 
-class LegacyChangeIdPredicate extends OperatorPredicate<ChangeData> implements
+class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> implements
     ChangeDataSource {
   private final Provider<ReviewDb> db;
   private final Change.Id id;
 
   LegacyChangeIdPredicate(Provider<ReviewDb> db, Change.Id id) {
-    super(ChangeQueryBuilder.FIELD_CHANGE, id.toString());
+    super(ChangeField.CHANGE_ID, id.toString());
     this.db = db;
     this.id = id;
   }

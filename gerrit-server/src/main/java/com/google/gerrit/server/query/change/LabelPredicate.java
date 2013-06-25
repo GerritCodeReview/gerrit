@@ -22,21 +22,20 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class LabelPredicate extends OperatorPredicate<ChangeData> {
-  private static enum Test {
+public class LabelPredicate extends IndexPredicate<ChangeData> {
+  public static enum Test {
     EQ {
       @Override
       public boolean match(int psValue, int expValue) {
@@ -114,7 +113,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
       IdentifiedUser.GenericFactory userFactory,
       Provider<ReviewDb> dbProvider,
       String value) {
-    super(ChangeQueryBuilder.FIELD_LABEL, value);
+    super(ChangeField.LABEL, value);
     this.ccFactory = ccFactory;
     this.projectCache = projectCache;
     this.userFactory = userFactory;
@@ -139,6 +138,18 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     }
   }
 
+  public String getLabel() {
+    return type;
+  }
+
+  public Test getTest() {
+    return test;
+  }
+
+  public int getExpVal() {
+    return expVal;
+  }
+
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     final Change c = object.change(dbProvider);
@@ -154,24 +165,18 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
       return false;
     }
     final LabelType labelType = type(project.getLabelTypes(), type);
-    final Set<Account.Id> allApprovers = new HashSet<Account.Id>();
-    final Set<Account.Id> approversThatVotedInCategory = new HashSet<Account.Id>();
+    boolean hasVote = false;
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
-      allApprovers.add(p.getAccountId());
       if (labelType.matches(p)) {
-        approversThatVotedInCategory.add(p.getAccountId());
+        hasVote = true;
         if (match(c, p.getValue(), p.getAccountId(), labelType)) {
           return true;
         }
       }
     }
 
-    final Set<Account.Id> approversThatDidNotVoteInCategory = new HashSet<Account.Id>(allApprovers);
-    approversThatDidNotVoteInCategory.removeAll(approversThatVotedInCategory);
-    for (Account.Id a : approversThatDidNotVoteInCategory) {
-      if (match(c, 0, a, labelType)) {
-        return true;
-      }
+    if (!hasVote && test.match(0, expVal)) {
+      return true;
     }
 
     return false;

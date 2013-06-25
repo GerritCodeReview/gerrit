@@ -43,6 +43,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
+import com.google.gerrit.server.query.change.LabelPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -97,6 +98,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public static final Version LUCENE_VERSION = Version.LUCENE_43;
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
+
+  private static final int MAX_LABEL_VALUE = 4;
 
   private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
@@ -305,7 +308,58 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   private Query exactQuery(IndexPredicate<ChangeData> p) {
-    return new TermQuery(new Term(p.getOperator(), p.getValue()));
+    if (p instanceof LabelPredicate) {
+      return approvalQuery((LabelPredicate) p);
+    } else {
+      return exactQuery(p.getOperator(), p.getValue());
+    }
+  }
+
+  private Query exactQuery(String field, String value) {
+    return new TermQuery(new Term(field, value));
+  }
+
+  private Query approvalQuery(LabelPredicate p) {
+    String label = p.getLabel();
+    int value = p.getExpVal();
+    if (LabelPredicate.Test.EQ.equals(p.getTest())) {
+      if (value != 0) {
+        return exactQuery(p.getOperator(),
+            ChangeField.formatLabel(label, value));
+      } else {
+        return zeroApprovalQuery(label);
+      }
+    } else {
+      BooleanQuery q = new BooleanQuery();
+      for (int i = isGtEq(p) ? value : neg(value); i <= MAX_LABEL_VALUE; i++) {
+        if (i != 0) {
+          q.add(new TermQuery(new Term(p.getOperator(),
+              ChangeField.formatLabel(label, isGtEq(p) ? neg(i) : i))), SHOULD);
+        } else {
+          q.add(zeroApprovalQuery(label), SHOULD);
+        }
+      }
+      return q;
+    }
+  }
+
+  private static boolean isGtEq(LabelPredicate p) {
+    return LabelPredicate.Test.GT_EQ.equals(p);
+  }
+
+  private static int neg(int value) {
+    return -1 * value;
+  }
+
+  private Query zeroApprovalQuery(String label) {
+    BooleanQuery q = new BooleanQuery();
+    for (int i = 1; i <= MAX_LABEL_VALUE; i++) {
+      q.add(new TermQuery(new Term("label",
+          ChangeField.formatLabel(label, i))), MUST_NOT);
+      q.add(new TermQuery(new Term(ChangeField.LABEL.getName(),
+          ChangeField.formatLabel(label, neg(i)))), MUST_NOT);
+    }
+    return q;
   }
 
   private class QuerySource implements ChangeDataSource {

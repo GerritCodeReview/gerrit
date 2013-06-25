@@ -16,6 +16,8 @@ package com.google.gerrit.server.index;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -26,6 +28,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Fields indexed on change documents.
@@ -39,7 +42,7 @@ import java.util.Map;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 3;
+  public static final int SCHEMA_VERSION = 4;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
@@ -117,6 +120,27 @@ public class ChangeField {
           return input.currentFilePaths(args.db, args.patchListCache);
         }
       };
+
+  /** List of labels on the current patch set. */
+  public static final FieldDef<ChangeData, Iterable<String>> LABEL =
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_LABEL, FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Set<String> distinctApprovals = Sets.newHashSet();
+          for (PatchSetApproval a : input.currentApprovals(args.db)) {
+            if (a.getValue() != 0) {
+              distinctApprovals.add(formatLabel(a.getLabel(), a.getValue()));
+            }
+          }
+          return distinctApprovals;
+        }
+      };
+
+  public static String formatLabel(String label, int value) {
+    return label + (value >= 0 ? "+" : "") + value;
+  }
 
   public static final ImmutableMap<String, FieldDef<ChangeData, ?>> ALL;
 

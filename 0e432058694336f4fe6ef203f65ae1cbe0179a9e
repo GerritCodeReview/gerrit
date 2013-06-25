@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_fee8e104",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentApi.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T16:42:22Z",
+      "side": 1,
+      "message": "comment",
+      "revId": "0e432058694336f4fe6ef203f65ae1cbe0179a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_9ee39d27",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentApi.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T16:42:22Z",
+      "side": 1,
+      "message": "draft",
+      "revId": "0e432058694336f4fe6ef203f65ae1cbe0179a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_bede5961",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentApi.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T16:42:22Z",
+      "side": 1,
+      "message": "draftId should come before CommentInfo",
+      "revId": "0e432058694336f4fe6ef203f65ae1cbe0179a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_56a8d4c5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentApi.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T16:42:22Z",
+      "side": 1,
+      "message": "revision() is shorter than getViewApi() and looks cleaner above.",
+      "revId": "0e432058694336f4fe6ef203f65ae1cbe0179a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_5e7f556c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T16:42:22Z",
+      "side": 1,
+      "message": "createArray().cast()",
+      "revId": "0e432058694336f4fe6ef203f65ae1cbe0179a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2adb35ae_29fd0def",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T16:42:22Z",
+      "side": 1,
+      "message": "headerClick \u003d ...",
+      "revId": "0e432058694336f4fe6ef203f65ae1cbe0179a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_d67224a7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T16:42:22Z",
+      "side": 1,
+      "message": "if (headerClick !\u003d null) {\n  headerClick.removeHandler();\n  headerClick \u003d null;\n}",
+      "revId": "0e432058694336f4fe6ef203f65ae1cbe0179a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2adb35ae_09fac9f6",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/LineWidget.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T16:42:22Z",
+      "side": 1,
+      "message": "nit: blank line is not necessary here.",
+      "revId": "0e432058694336f4fe6ef203f65ae1cbe0179a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

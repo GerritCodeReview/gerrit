@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad6a983_0afabbf6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:38:15Z",
+      "side": 1,
+      "message": "rebase this onto current master, f.getName() and store(f) are now local variables at the top of the method.",
+      "revId": "230c279441e882501e122285485763d4e07ccf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_fea581aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:38:15Z",
+      "side": 1,
+      "message": "COMMIT_MESSAGE",
+      "revId": "230c279441e882501e122285485763d4e07ccf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_59e647d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:38:15Z",
+      "side": 1,
+      "message": "Log this so the admin knows the message for this change is not indexed.",
+      "revId": "230c279441e882501e122285485763d4e07ccf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_79e983a2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:38:15Z",
+      "side": 1,
+      "message": "break to a new line before the new arg, so each is on one.",
+      "revId": "230c279441e882501e122285485763d4e07ccf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_deaa457a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:38:15Z",
+      "side": 1,
+      "message": "This should use a different match strategy.",
+      "revId": "230c279441e882501e122285485763d4e07ccf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

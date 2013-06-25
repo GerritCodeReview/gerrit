@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_b63a08d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-25T14:28:32Z",
+      "side": 1,
+      "message": "I don\u0027t understand how changing the checked exception type from this method results in propagating RuntimeExceptions that were previously swallowed, which is what the commit message is talking about. How would RuntimeExceptions (which are unchecked) have been swallowed previously?",
+      "revId": "3c4943675daa6c6c0bbc5623116088d2848e7f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

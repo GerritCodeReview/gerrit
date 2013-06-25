@@ -26,6 +26,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.server.OrmException;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -190,8 +191,7 @@ public class ChangeField {
 
   /** Tracking id extracted from a footer. */
   public static final FieldDef<ChangeData, Iterable<String>> TR =
-      new FieldDef.Repeatable<ChangeData, String>(
-          ChangeQueryBuilder.FIELD_TR, FieldType.EXACT, false) {
+      new FieldDef.Repeatable<ChangeData, String>(ChangeQueryBuilder.FIELD_TR, FieldType.EXACT, false) {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
@@ -200,6 +200,20 @@ public class ChangeField {
             r.add(id.getTrackingId());
           }
           return r;
+        }
+      };
+
+  /** Commit message of the current patch set. */
+  public static final FieldDef<ChangeData, String> COMMIT_MESSAGE =
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_MESSAGE,
+          FieldType.FULL_TEXT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          try {
+            return input.commitMessage(args.repoManager, args.db);
+          } catch (IOException e) {
+            throw new OrmException(e);
+          }
         }
       };
 

@@ -328,7 +328,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> message(String text) {
-    return new MessagePredicate(args.dbProvider, args.repoManager, text);
+    return new MessagePredicate(args.dbProvider, args.repoManager, args.index, text);
   }
 
   @Operator

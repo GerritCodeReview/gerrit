@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_f91d93d5",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:50:12Z",
+      "side": 1,
+      "message": "SitePaths is passed in the constructor so it should not need to be passed in the argument.",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2adb35ae_e909353c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:50:12Z",
+      "side": 1,
+      "message": "finishIndex",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_d9225711",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/IndexVersionCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:50:12Z",
+      "side": 1,
+      "message": "Why can\u0027t we do this as gerrit_index.config and have the contents tell us who it was for? solr.version is not lucene.version (for example).",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_39838bc2",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:50:12Z",
+      "side": 1,
+      "message": "A large amount of this toQuery() and friends is apparently common with Lucene and uses the same types. Its growing and getting more complex. We should abstract this into a common class in the gerrit-lucene package and have Solr depend on that package, and that class rather than copy and paste.",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_1ebdcdbd",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:50:12Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_9928dff5",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:50:12Z",
+      "side": 1,
+      "message": "We need to drop this if we are using jcl-over-slf4j",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_7eba11c7",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:50:12Z",
+      "side": 1,
+      "message": "unnecessary edit of the visibility rule",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_b93cbb3f",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-25T22:50:12Z",
+      "side": 1,
+      "message": "Really? The Solr client needs fileupload support for Java servlets? I thought this was only needed on the server.",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

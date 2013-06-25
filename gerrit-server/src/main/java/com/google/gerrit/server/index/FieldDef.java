@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -57,12 +58,15 @@ public abstract class FieldDef<I, T> {
   /** Arguments needed to fill in missing data in the input object. */
   public static class FillArgs {
     final Provider<ReviewDb> db;
+    final GitRepositoryManager repoManager;
     final PatchListCache patchListCache;
 
     @Inject
     FillArgs(Provider<ReviewDb> db,
+        GitRepositoryManager repoManager,
         PatchListCache patchListCache) {
       this.db = db;
+      this.repoManager = repoManager;
       this.patchListCache = patchListCache;
     }
   }

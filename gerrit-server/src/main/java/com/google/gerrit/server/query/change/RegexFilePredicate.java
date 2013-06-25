@@ -15,7 +15,9 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
@@ -24,12 +26,15 @@ import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 class RegexFilePredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> db;
+  private final PatchListLoader loader;
   private final PatchListCache cache;
+  private final GitRepositoryManager mgr;
   private final RunAutomaton pattern;
 
   private final String prefixBegin;
@@ -37,10 +42,13 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData> {
   private final int prefixLen;
   private final boolean prefixOnly;
 
-  RegexFilePredicate(Provider<ReviewDb> db, PatchListCache plc, String re) {
+  RegexFilePredicate(Provider<ReviewDb> db, PatchListLoader pll,
+      PatchListCache plc, GitRepositoryManager mgr, String re) {
     super(ChangeQueryBuilder.FIELD_FILE, re);
     this.db = db;
+    this.loader = pll;
     this.cache = plc;
+    this.mgr = mgr;
 
     if (re.startsWith("^")) {
       re = re.substring(1);
@@ -68,7 +76,7 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    List<String> files = object.currentFilePaths(db, cache);
+    List<String> files = getFiles(object);
     if (files != null) {
       int begin, end;
 
@@ -109,5 +117,13 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData> {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  private List<String> getFiles(ChangeData cd) throws OrmException {
+    try {
+      return cd.currentFilePaths(db, cache, loader, mgr);
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
   }
 }

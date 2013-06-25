@@ -70,7 +70,7 @@ public class RegexFilePredicateTest extends TestCase {
   }
 
   private static RegexFilePredicate predicate(String pattern) {
-    return new RegexFilePredicate(null, null, pattern);
+    return new RegexFilePredicate(null, null, null, null, pattern);
   }
 
   private static ChangeData change(String... files) {

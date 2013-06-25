@@ -16,10 +16,8 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.cache.LoadingCache;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -28,7 +26,6 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.concurrent.ExecutionException;
 
@@ -88,11 +85,12 @@ public class PatchListCacheImpl implements PatchListCache {
   @Override
   public PatchList get(final Change change, final PatchSet patchSet)
       throws PatchListNotAvailableException {
-    final Project.NameKey projectKey = change.getProject();
-    final ObjectId a = null;
-    final ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
-    final Whitespace ws = Whitespace.IGNORE_NONE;
-    return get(new PatchListKey(projectKey, a, b, ws));
+    return get(PatchListLoader.toKey(change, patchSet));
+  }
+
+  @Override
+  public PatchList getIfPresent(PatchListKey key) {
+    return fileCache.getIfPresent(key);
   }
 
   @Override

@@ -37,7 +37,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -184,7 +185,8 @@ public class ChangeData {
   }
 
   public List<String> currentFilePaths(Provider<ReviewDb> db,
-      PatchListCache cache) throws OrmException {
+      PatchListCache cache, PatchListLoader loader, GitRepositoryManager mgr)
+      throws OrmException, IOException {
     if (currentFiles == null) {
       Change c = change(db);
       if (c == null) {
@@ -195,40 +197,47 @@ public class ChangeData {
         return null;
       }
 
-      PatchList p;
-      try {
-        p = cache.get(c, ps);
-      } catch (PatchListNotAvailableException e) {
-        currentFiles = Collections.emptyList();
-        return currentFiles;
-      }
-
-      List<String> r = new ArrayList<String>(p.getPatches().size());
-      for (PatchListEntry e : p.getPatches()) {
-        if (Patch.COMMIT_MSG.equals(e.getNewName())) {
-          continue;
-        }
-        switch (e.getChangeType()) {
-          case ADDED:
-          case MODIFIED:
-          case DELETED:
-          case COPIED:
-            r.add(e.getNewName());
-            break;
-
-          case RENAMED:
-            r.add(e.getOldName());
-            r.add(e.getNewName());
-            break;
-
-          case REWRITE:
-            break;
+      PatchListKey key = PatchListLoader.toKey(c, ps);
+      PatchList p = cache.getIfPresent(key);
+      if (p != null) {
+        currentFiles = toFilePaths(p);
+      } else {
+        Repository repo = mgr.openRepository(change.getProject());
+        try {
+          currentFiles = loader.loadFilenames(key, repo);
+        } finally {
+          repo.close();
         }
       }
-      Collections.sort(r);
-      currentFiles = Collections.unmodifiableList(r);
     }
     return currentFiles;
+  }
+
+  private static List<String> toFilePaths(PatchList p) {
+    List<String> r = new ArrayList<String>(p.getPatches().size());
+    for (PatchListEntry e : p.getPatches()) {
+      if (Patch.COMMIT_MSG.equals(e.getNewName())) {
+        continue;
+      }
+      switch (e.getChangeType()) {
+        case ADDED:
+        case MODIFIED:
+        case DELETED:
+        case COPIED:
+          r.add(e.getNewName());
+          break;
+
+        case RENAMED:
+          r.add(e.getOldName());
+          r.add(e.getNewName());
+          break;
+
+        case REWRITE:
+          break;
+      }
+    }
+    Collections.sort(r);
+    return Collections.unmodifiableList(r);
   }
 
   public Change.Id getId() {

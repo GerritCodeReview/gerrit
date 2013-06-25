@@ -89,7 +89,7 @@ public class IndexRewriteTest extends TestCase {
     index = new DummyIndex();
     queryBuilder = new ChangeQueryBuilder(
         new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
-            null, null, null, null, null, null),
+            null, null, null, null, null, null, null),
         null);
     rewrite = new IndexRewriteImpl(index);
   }

@@ -16,8 +16,13 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.cache.CacheLoader;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
@@ -50,8 +55,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
@@ -63,9 +66,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
+public class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
+
+  public static PatchListKey toKey(Change change, PatchSet patchSet) {
+    Project.NameKey projectKey = change.getProject();
+    ObjectId a = null;
+    ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
+    Whitespace ws = Whitespace.IGNORE_NONE;
+    return new PatchListKey(projectKey, a, b, ws);
+  }
 
   private final GitRepositoryManager repoManager;
 
@@ -98,6 +110,52 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       case IGNORE_NONE:
       default:
         return RawTextComparator.DEFAULT;
+    }
+  }
+
+  public List<String> loadFilenames(PatchListKey key, Repository repo)
+      throws IOException {
+    final ObjectReader reader = repo.newObjectReader();
+    try {
+      final RevWalk rw = new RevWalk(reader);
+      final RevCommit b = rw.parseCommit(key.getNewId());
+      final RevObject a = aFor(key, repo, rw, b);
+
+      if (a == null) {
+        // TODO(sop) Remove this case.
+        // This is a merge commit, compared to its ancestor.
+        //
+        return Collections.emptyList();
+      }
+
+      RevCommit aCommit;
+      RevTree aTree;
+      if (a instanceof RevCommit) {
+        aCommit = (RevCommit) a;
+        aTree = aCommit.getTree();
+      } else if (a instanceof RevTree) {
+        aCommit = null;
+        aTree = (RevTree) a;
+      } else {
+        throw new IOException("Unexpected type: " + a.getClass());
+      }
+
+      RevTree bTree = b.getTree();
+      DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
+      df.setRepository(repo);
+      List<DiffEntry> entries = df.scan(aTree, bTree);
+      Set<String> filenames = Sets.newTreeSet();
+      for (DiffEntry e : entries) {
+        if (e.getOldPath() != null) {
+          filenames.add(e.getOldPath());
+        }
+        if (e.getNewPath() != null) {
+          filenames.add(e.getNewPath());
+        }
+      }
+      return ImmutableList.copyOf(filenames);
+    } finally {
+      reader.release();
     }
   }
 
@@ -135,13 +193,6 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       }
 
       RevTree bTree = b.getTree();
-
-      final TreeWalk walk = new TreeWalk(reader);
-      walk.reset();
-      walk.setRecursive(true);
-      walk.addTree(aTree);
-      walk.addTree(bTree);
-      walk.setFilter(TreeFilter.ANY_DIFF);
 
       DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
       df.setRepository(repo);

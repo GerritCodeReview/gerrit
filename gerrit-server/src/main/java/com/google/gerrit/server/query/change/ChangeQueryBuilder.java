@@ -33,6 +33,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.IntPredicate;
@@ -113,6 +114,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final GroupBackend groupBackend;
     final AllProjectsName allProjectsName;
     final PatchListCache patchListCache;
+    final PatchListLoader patchListLoader;
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
     final ChangeIndex index;
@@ -127,6 +129,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
         PatchListCache patchListCache,
+        PatchListLoader patchListLoader,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
         ChangeIndex index) {
@@ -139,6 +142,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.groupBackend = groupBackend;
       this.allProjectsName = allProjectsName;
       this.patchListCache = patchListCache;
+      this.patchListLoader = patchListLoader;
       this.repoManager = repoManager;
       this.projectCache = projectCache;
       this.index = index;
@@ -297,7 +301,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (allowFileRegex) {
       if (file.startsWith("^")) {
-        return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
+        return new RegexFilePredicate(args.dbProvider, args.patchListLoader,
+            args.patchListCache, args.repoManager, file);
       } else {
         throw new IllegalArgumentException();
       }
@@ -308,7 +313,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       if (args.index == ChangeIndex.DISABLED) {
         throw error("secondary index must be enabled for file:" + file);
       }
-      return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
+      return new EqualsFilePredicate(args.dbProvider, args.patchListLoader,
+          args.patchListCache, args.repoManager, file);
     }
   }
 

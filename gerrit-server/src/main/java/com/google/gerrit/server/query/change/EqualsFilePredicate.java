@@ -15,30 +15,38 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 class EqualsFilePredicate extends IndexPredicate<ChangeData> {
   private final Provider<ReviewDb> db;
+  private final PatchListLoader loader;
   private final PatchListCache cache;
+  private final GitRepositoryManager mgr;
   private final String value;
 
-  EqualsFilePredicate(Provider<ReviewDb> db, PatchListCache plc, String value) {
+  EqualsFilePredicate(Provider<ReviewDb> db, PatchListLoader pll,
+      PatchListCache plc, GitRepositoryManager mgr, String value) {
     super(ChangeField.FILE, value);
     this.db = db;
+    this.loader = pll;
     this.cache = plc;
+    this.mgr = mgr;
     this.value = value;
   }
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    List<String> files = object.currentFilePaths(db, cache);
+    List<String> files = getFiles(object);
     if (files != null) {
       return Collections.binarySearch(files, value) >= 0;
     } else {
@@ -58,5 +66,13 @@ class EqualsFilePredicate extends IndexPredicate<ChangeData> {
   @Override
   public boolean isIndexOnly() {
     return true;
+  }
+
+  private List<String> getFiles(ChangeData cd) throws OrmException {
+    try {
+      return cd.currentFilePaths(db, cache, loader, mgr);
+    } catch (IOException e) {
+      throw new OrmException(e);
+    }
   }
 }

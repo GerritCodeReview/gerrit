@@ -21,6 +21,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.server.OrmException;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -55,31 +56,28 @@ public class ChangeField {
       new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_STATUS,
           FieldType.EXACT, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
-          return ChangeStatusPredicate.VALUES.get(
-              input.change(args.db).getStatus());
+        public String get(ChangeData input, FillArgs args) throws OrmException {
+          return ChangeStatusPredicate.VALUES.get(input.change(args.db)
+              .getStatus());
         }
       };
 
   /** Project containing the change. */
   public static final FieldDef<ChangeData, String> PROJECT =
-      new FieldDef.Single<ChangeData, String>(
-          ChangeQueryBuilder.FIELD_PROJECT, FieldType.EXACT, false) {
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_PROJECT,
+          FieldType.EXACT, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           return input.change(args.db).getProject().get();
         }
       };
 
   /** Reference (aka branch) the change will submit onto. */
   public static final FieldDef<ChangeData, String> REF =
-      new FieldDef.Single<ChangeData, String>(
-          ChangeQueryBuilder.FIELD_REF, FieldType.EXACT, false) {
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_REF,
+          FieldType.EXACT, false) {
         @Override
-        public String get(ChangeData input, FillArgs args)
-            throws OrmException {
+        public String get(ChangeData input, FillArgs args) throws OrmException {
           return input.change(args.db).getDest().get();
         }
       };
@@ -91,7 +89,12 @@ public class ChangeField {
         @Override
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
-          return input.currentFilePaths(args.db, args.patchListCache);
+          try {
+            return input.currentFilePaths(args.db, args.patchListCache,
+                args.patchListLoader, args.repoManager);
+          } catch (IOException e) {
+            throw new OrmException(e);
+          }
         }
       };
 

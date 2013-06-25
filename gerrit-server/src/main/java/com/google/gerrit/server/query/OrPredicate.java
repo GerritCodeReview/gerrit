@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query;
 
+import com.google.common.collect.Lists;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.ArrayList;
@@ -24,15 +25,29 @@ import java.util.List;
 
 /** Requires one predicate to be true. */
 public class OrPredicate<T> extends Predicate<T> {
-  private final List<Predicate<T>> children;
-  private final int cost;
+  private List<Predicate<T>> children;
+  private int cost;
+
+  protected OrPredicate() {
+    children = Lists.newArrayList();
+    cost = 0;
+  }
 
   protected OrPredicate(final Predicate<T>... that) {
     this(Arrays.asList(that));
   }
 
   protected OrPredicate(final Collection<? extends Predicate<T>> that) {
-    final ArrayList<Predicate<T>> t = new ArrayList<Predicate<T>>(that.size());
+    setChildren(that);
+  }
+
+  @Override
+  public final List<Predicate<T>> getChildren() {
+    return Collections.unmodifiableList(children);
+  }
+
+  protected void setChildren(Collection<? extends Predicate<T>> that) {
+    ArrayList<Predicate<T>> t = Lists.newArrayListWithCapacity(that.size());
     int c = 0;
     for (Predicate<T> p : that) {
       if (getClass() == p.getClass()) {
@@ -45,16 +60,8 @@ public class OrPredicate<T> extends Predicate<T> {
         c += p.getCost();
       }
     }
-    if (t.size() < 2) {
-      throw new IllegalArgumentException("Need at least two predicates");
-    }
     children = t;
     cost = c;
-  }
-
-  @Override
-  public final List<Predicate<T>> getChildren() {
-    return Collections.unmodifiableList(children);
   }
 
   @Override
@@ -101,7 +108,7 @@ public class OrPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     final StringBuilder r = new StringBuilder();
     r.append("(");
     for (int i = 0; i < getChildCount(); i++) {

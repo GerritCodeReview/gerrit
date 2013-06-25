@@ -226,7 +226,6 @@ public class Reindex extends SiteProgram {
         }
 
         private void fail(Change change, Throwable t) {
-          log.error("Failed to index change " + change.getId(), t);
           ok.set(false);
           failed.update(1);
         }

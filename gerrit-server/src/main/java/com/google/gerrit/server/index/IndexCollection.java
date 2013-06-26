@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -28,7 +29,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /** Dynamic pointer to the index version used for searching. */
 @Singleton
-public class IndexCollection {
+public class IndexCollection implements LifecycleListener {
   private final ConcurrentMap<Integer, ChangeIndex> writeIndexes;
   private final AtomicReference<ChangeIndex> ref;
 
@@ -55,5 +56,22 @@ public class IndexCollection {
     int version = index.getSchema().getVersion();
     checkState(writeIndexes.putIfAbsent(version, index) == null,
         "Write index version %s already in map", version);
+  }
+
+  @Override
+  public void start() {
+  }
+
+  @Override
+  public void stop() {
+    ChangeIndex read = ref.get();
+    if (read != null) {
+      read.close();
+    }
+    for (ChangeIndex write : writeIndexes.values()) {
+      if (write != read) {
+        read.close();
+      }
+    }
   }
 }

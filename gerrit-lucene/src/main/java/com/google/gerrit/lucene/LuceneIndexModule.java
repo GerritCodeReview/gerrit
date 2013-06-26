@@ -14,57 +14,88 @@
 
 package com.google.gerrit.lucene;
 
-import com.google.common.util.concurrent.ListeningScheduledExecutorService;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeSchemas;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.IndexCollection;
-import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexModule;
+import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.Config;
-
-import java.io.IOException;
-
 public class LuceneIndexModule extends LifecycleModule {
-  private final boolean checkVersion;
+  private final Integer singleVersion;
   private final int threads;
   private final String base;
 
   public LuceneIndexModule() {
-    this(true, 0, null);
+    this(null, 0, null);
   }
 
-  public LuceneIndexModule(boolean checkVersion, int threads,
+  public LuceneIndexModule(Integer singleVersion, int threads,
       String base) {
-    this.checkVersion = checkVersion;
+    this.singleVersion = singleVersion;
     this.threads = threads;
     this.base = base;
   }
 
   @Override
   protected void configure() {
+    install(new FactoryModule() {
+      @Override
+      public void configure() {
+        factory(LuceneChangeIndex.Factory.class);
+      }
+    });
     install(new IndexModule(threads));
-    bind(ChangeIndex.class).to(LuceneChangeIndex.class);
-    listener().to(LuceneChangeIndex.class);
-    if (checkVersion) {
-      listener().to(IndexVersionCheck.class);
+    if (singleVersion == null && base == null) {
+      listener().to(LuceneVersionManager.class);
+    } else {
+      install(new SingleVersionModule());
     }
   }
 
-  @Provides
+  private class SingleVersionModule extends LifecycleModule {
+    @Override
+    public void configure() {
+      listener().to(SingleVersionListener.class);
+    }
+
+    @Provides
+    @Singleton
+    LuceneChangeIndex getIndex(LuceneChangeIndex.Factory factory,
+        SitePaths sitePaths) {
+      Schema<ChangeData> schema = singleVersion != null
+          ? ChangeSchemas.get(singleVersion) : ChangeSchemas.getLatest();
+      return factory.create(schema, base);
+    }
+  }
+
   @Singleton
-  public LuceneChangeIndex getChangeIndex(@GerritServerConfig Config cfg,
-      SitePaths sitePaths,
-      IndexCollection indexes,
-      @IndexExecutor ListeningScheduledExecutorService executor,
-      FillArgs fillArgs) throws IOException {
-    return new LuceneChangeIndex(cfg, sitePaths, indexes, executor, fillArgs,
-        ChangeSchemas.getLatestRelease(), base);
+  static class SingleVersionListener implements LifecycleListener {
+    private final IndexCollection indexes;
+    private final LuceneChangeIndex index;
+
+    @Inject
+    SingleVersionListener(IndexCollection indexes,
+        LuceneChangeIndex index) {
+      this.indexes = indexes;
+      this.index = index;
+    }
+
+    @Override
+    public void start() {
+      indexes.setSearchIndex(index);
+      indexes.addWriteIndex(index);
+    }
+
+    @Override
+    public void stop() {
+      index.close();
+    }
   }
 }

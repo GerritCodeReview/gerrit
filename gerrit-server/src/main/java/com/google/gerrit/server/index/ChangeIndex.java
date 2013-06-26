@@ -68,6 +68,11 @@ public interface ChangeIndex {
     public void close() {
       // Do nothing.
     }
+
+    @Override
+    public void markReady() {
+      throw new UnsupportedOperationException();
+    }
   };
 
   /** @return the schema version used by this index. */
@@ -137,4 +142,15 @@ public interface ChangeIndex {
    * @throws IOException
    */
   public void deleteIndex() throws IOException;
+
+  /**
+   * Mark this index as up-to-date and ready to serve reads.
+   * <p>
+   * Should only be called immediately after a reindex, either during an online
+   * schema upgrade while actively writing to this index, or during an offline
+   * reindex.
+   *
+   * @throws IOException
+   */
+  public void markReady() throws IOException;
 }

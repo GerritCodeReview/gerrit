@@ -16,6 +16,7 @@ package com.google.gerrit.lucene;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
@@ -25,21 +26,60 @@ import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Map;
+import java.io.IOException;
+import java.util.Set;
+import java.util.TreeSet;
 
 class LuceneVersionManager implements LifecycleListener {
-  private static final Logger log =
-      LoggerFactory.getLogger(LuceneVersionManager.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(LuceneVersionManager.class);
 
   private static final String CHANGES_PREFIX = "changes_";
 
+  private static class VersionSet {
+    private Integer read;
+    private TreeSet<Integer> write = Sets.newTreeSet();
+
+    private void setReadVersion(String str) {
+      read = parse(str, "read version");
+    }
+
+    private void addWriteVersion(String str) {
+      int v = parse(str, "write version");
+      if (write.contains(v)) {
+        throw new IllegalStateException("duplicate write version: " + str);
+      }
+      write.add(v);
+    }
+
+    private static int parse(String str, String name) {
+      Integer n = Ints.tryParse(str);
+      if (n == null) {
+        throw new IllegalStateException(
+            String.format("invalid %s %s", name, str));
+      }
+      return n;
+    }
+  }
+
   static File getDir(SitePaths sitePaths, Schema<ChangeData> schema) {
-    return new File(sitePaths.index_dir,
-        String.format("%s%04d", CHANGES_PREFIX, schema.getVersion()));
+    return new File(sitePaths.index_dir, String.format("%s%04d",
+        CHANGES_PREFIX, schema.getVersion()));
+  }
+
+  static FileBasedConfig loadGerritIndexConfig(SitePaths sitePaths)
+      throws ConfigInvalidException, IOException {
+    FileBasedConfig cfg = new FileBasedConfig(
+        new File(sitePaths.index_dir, "gerrit_index.config"), FS.detect());
+    cfg.load();
+    return cfg;
   }
 
   private final SitePaths sitePaths;
@@ -58,39 +98,101 @@ class LuceneVersionManager implements LifecycleListener {
 
   @Override
   public void start() {
-    Map<Integer, Schema<ChangeData>> schemas = ChangeSchemas.ALL;
-    LuceneChangeIndex latest = null;
+    try {
+      FileBasedConfig cfg = loadGerritIndexConfig(sitePaths);
+      if (!loadFromConfig(cfg)) {
+        loadFromDirectory();
+      }
+    } catch (ConfigInvalidException e) {
+      throw new IllegalStateException(e);
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  private boolean loadFromConfig(FileBasedConfig cfg) throws IOException {
+    String readStr = cfg.getString("index", null, "readVersion");
+    String[] writeStrs = cfg.getStringList("index", null, "writeVersion");
+    if ((readStr == null && writeStrs.length > 0)
+        || (readStr != null && writeStrs.length == 0)) {
+      throw new IllegalStateException(
+          "must specify either both readVersion and writeVersion, or neither");
+    } else if (readStr == null) {
+      return false;
+    }
+    VersionSet versions = new VersionSet();
+    versions.setReadVersion(readStr);
+    for (String writeStr : writeStrs) {
+      versions.addWriteVersion(writeStr);
+    }
+    loadVersions(versions);
+    markNotReady(cfg, versions.write);
+    return true;
+  }
+
+  private void markNotReady(FileBasedConfig cfg, Set<Integer> ready)
+      throws IOException {
+    // We are about to start writing to some versions but not others. Mark the
+    // others as not ready.
+    VersionSet versions = scanDirectory(false);
+    for (int version : versions.write) {
+      cfg.setBoolean("index", Integer.toString(version), "ready", false);
+    }
+    if (!versions.write.isEmpty()) {
+      cfg.save();
+    }
+  }
+
+  private VersionSet scanDirectory(boolean warn) {
+    VersionSet versions = new VersionSet();
     for (File f : sitePaths.index_dir.listFiles()) {
       String p = f.getAbsolutePath();
-      if (!f.getName().startsWith(CHANGES_PREFIX)) {
-        log.warn("Unrecognized file in index directory: %s", p);
-        continue;
-      }
       if (!f.isDirectory()) {
         log.warn("Not a directory: %s", p);
         continue;
       }
+      if (!f.getName().startsWith(CHANGES_PREFIX)) {
+        log.warn("Unrecognized version in index directory: %s", p);
+        continue;
+      }
       String versionStr = f.getName().substring(CHANGES_PREFIX.length());
-      Integer version = Ints.tryParse(versionStr);
-      if (version == null) {
-        log.warn("Invalid version in index directory: %s", p);
+      if (versionStr.length() != 4) {
+        log.warn("Unrecognized version in index directory: %s", p);
         continue;
       }
-      Schema<ChangeData> schema = schemas.get(version);
-      if (schema == null) {
-        log.warn("Unsupported version in index directory: %s", p);
-        continue;
-      }
-      LuceneChangeIndex index = indexFactory.create(schema);
-      indexes.addWriteIndex(index);
-      if (latest == null
-          || schema.getVersion() < latest.getSchema().getVersion()) {
-        latest = index;
+      versions.addWriteVersion(versionStr);
+    }
+    return versions;
+  }
+
+  private void loadFromDirectory() {
+    loadVersions(scanDirectory(true));
+  }
+
+  private void loadVersions(VersionSet versions) {
+    checkState(!versions.write.isEmpty(), "no index versions specified/found");
+    if (versions.read == null) {
+      versions.read = versions.write.descendingIterator().next();
+    } else {
+      checkState(versions.write.contains(versions.read),
+          "must write to search schema version %s", versions.read);
+    }
+    Schema<ChangeData> readSchema = getSchema(versions.read);
+    LuceneChangeIndex readIndex = indexFactory.create(readSchema);
+    indexes.setSearchIndex(readIndex);
+    for (int version : versions.write) {
+      if (version == versions.read) {
+        indexes.addWriteIndex(readIndex);
+      } else {
+        indexes.addWriteIndex(indexFactory.create(getSchema(version)));
       }
     }
-    checkState(latest != null, "No supported index versions found in %s",
-        sitePaths.index_dir.getAbsolutePath());
-    indexes.setSearchIndex(latest);
+  }
+
+  private static Schema<ChangeData> getSchema(int version) {
+    Schema<ChangeData> schema = ChangeSchemas.get(version);
+    checkState(schema != null, "unrecognized schema version %s", version);
+    return schema;
   }
 
   @Override

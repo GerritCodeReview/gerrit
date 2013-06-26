@@ -76,6 +76,11 @@ public class IndexRewriteTest extends TestCase {
     @Override
     public void close() {
     }
+
+    @Override
+    public void markReady() {
+      throw new UnsupportedOperationException();
+    }
   }
 
   private static class Source implements ChangeDataSource {

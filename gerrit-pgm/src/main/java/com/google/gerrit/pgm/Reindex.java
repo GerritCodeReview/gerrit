@@ -126,6 +126,7 @@ public class Reindex extends SiteProgram {
     sysManager.start();
 
     int result = indexAll();
+    getIndex(sysInjector).markReady();
 
     sysManager.stop();
     dbManager.stop();
@@ -192,6 +193,11 @@ public class Reindex extends SiteProgram {
     }
   }
 
+  private ChangeIndex getIndex(Injector injector) {
+    return Iterables.getOnlyElement(
+        injector.getInstance(IndexCollection.class).getWriteIndexes());
+  }
+
   private void deleteIndex() throws IOException {
     // Use a fresh injector to get new singletons, since the index will be
     // invalid after we delete it.
@@ -201,10 +207,7 @@ public class Reindex extends SiteProgram {
     sysManager.start();
 
     try {
-      ChangeIndex index = Iterables.getOnlyElement(deleteSysInjector
-          .getInstance(IndexCollection.class)
-          .getWriteIndexes());
-      index.deleteIndex();
+      getIndex(deleteSysInjector).deleteIndex();
     } finally {
       sysManager.stop();
     }

@@ -44,7 +44,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 7;
+  public static final int SCHEMA_VERSION = 8;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -143,6 +143,17 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.currentFilePaths(args.db, args.patchListCache);
+        }
+      };
+
+  /** Owner/creator of the change. */
+  public static final FieldDef<ChangeData, Integer> OWNER =
+      new FieldDef.Single<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_OWNER, FieldType.INTEGER, false) {
+        @Override
+        public Integer get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change(args.db).getOwner().get();
         }
       };
 

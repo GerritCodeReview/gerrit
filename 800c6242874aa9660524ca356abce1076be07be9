@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_7c1cd184",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T17:21:39Z",
+      "side": 1,
+      "message": "Yes. r is empty if the user has no notification filters. The status_open() default happens only if the user has a watch on All-Projects with no filter. That covers every change.",
+      "parentUuid": "ead4bd7e_471b0e7d",
+      "revId": "800c6242874aa9660524ca356abce1076be07be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_5e03d555",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-26T15:58:25Z",
       "side": 1,
       "message": "Does or(r) have any effect? Isn\u0027t it just returning r?",
+      "revId": "800c6242874aa9660524ca356abce1076be07be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aadc9fb_122cac9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T17:21:39Z",
+      "side": 1,
+      "message": "or(r) wraps the items in r into an OrPredicate. Since this class is an AndPredicate we wind up with a graph like:\n\n  (project:gerrit OR project:git-repo) AND visibleto:Shawn\n\ne.g. I have a watch on these two projects, with no filter strings.",
+      "parentUuid": "caf29916_5e03d555",
       "revId": "800c6242874aa9660524ca356abce1076be07be9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

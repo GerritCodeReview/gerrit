@@ -132,6 +132,7 @@ public class ChangeData {
   }
 
   private final Change.Id legacyId;
+  private Set<ChangeDataSource> sources;
   private Change change;
   private String commitMessage;
   private PatchSet currentPatchSet;
@@ -162,6 +163,17 @@ public class ChangeData {
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
+  }
+
+  public boolean isFromSource(ChangeDataSource s) {
+    return sources.contains(s);
+  }
+
+  public void cacheFromSource(ChangeDataSource s) {
+    if (sources == null) {
+      sources = Sets.newHashSetWithExpectedSize(2);
+    }
+    sources.add(s);
   }
 
   public void limitToPatchSets(Collection<PatchSet.Id> ids) {

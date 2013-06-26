@@ -74,7 +74,9 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 import org.apache.lucene.util.NumericUtils;
 import org.apache.lucene.util.Version;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,6 +122,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     return writerConfig;
   }
 
+  private final SitePaths sitePaths;
   private final FillArgs fillArgs;
   private final ExecutorService executor;
   private final File dir;
@@ -134,6 +137,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       @IndexExecutor ListeningScheduledExecutorService executor,
       FillArgs fillArgs,
       @Assisted Schema<ChangeData> schema) throws IOException {
+    this.sitePaths = sitePaths;
     this.fillArgs = fillArgs;
     this.executor = executor;
     this.schema = schema;
@@ -226,6 +230,18 @@ public class LuceneChangeIndex implements ChangeIndex {
       for (File f : dir.listFiles()) {
         f.delete();
       }
+    }
+  }
+
+  @Override
+  public void markReady() throws IOException {
+    try {
+      FileBasedConfig cfg = LuceneVersionManager.loadGerritIndexConfig(sitePaths);
+      cfg.setBoolean("index", Integer.toString(schema.getVersion()), "ready",
+          true);
+      cfg.save();
+    } catch (ConfigInvalidException e) {
+      throw new IOException(e);
     }
   }
 

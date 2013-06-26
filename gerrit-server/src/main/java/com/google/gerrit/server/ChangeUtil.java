@@ -450,16 +450,15 @@ public class ChangeUtil {
     return r.toString();
   }
 
-  public static Timestamp timeFromSortKey(String sortKey) {
+  public static long parseSortKey(String sortKey) {
     if ("z".equals(sortKey)) {
-      return new Timestamp(Long.MAX_VALUE);
+      return Long.MAX_VALUE;
     }
     String ts = sortKey.substring(0, 8);
     int i = 0;
     while (i < 8 && ts.charAt(i) == '0')
       i++;
-    long v = Long.parseLong(ts.substring(i), 16) * 60;
-    return new Timestamp((v + SORT_KEY_EPOCH) * 1000);
+    return Long.parseLong(ts.substring(i), 16);
   }
 
   public static void computeSortKey(final Change c) {

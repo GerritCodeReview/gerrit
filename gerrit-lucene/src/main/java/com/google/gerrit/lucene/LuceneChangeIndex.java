@@ -14,7 +14,6 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE;
 import static com.google.gerrit.server.query.change.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.query.change.IndexRewriteImpl.OPEN_STATUSES;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST;
@@ -104,6 +103,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public static final Version LUCENE_VERSION = Version.LUCENE_43;
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
+  private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
 
   private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
@@ -223,7 +223,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   private Term idTerm(ChangeData cd) {
-    return intTerm(FIELD_CHANGE, cd.getId().get());
+    return intTerm(ID_FIELD, cd.getId().get());
   }
 
   private Query toQuery(Predicate<ChangeData> p) throws QueryParseException {
@@ -389,7 +389,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);
         for (ScoreDoc sd : docs.scoreDocs) {
           Document doc = searchers[sd.shardIndex].doc(sd.doc);
-          Number v = doc.getField(FIELD_CHANGE).numericValue();
+          Number v = doc.getField(ID_FIELD).numericValue();
           result.add(new ChangeData(new Change.Id(v.intValue())));
         }
 

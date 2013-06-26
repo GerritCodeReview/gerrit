@@ -31,7 +31,7 @@ class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> implements
   private final Change.Id id;
 
   LegacyChangeIdPredicate(Provider<ReviewDb> db, Change.Id id) {
-    super(ChangeField.CHANGE_ID, id.toString());
+    super(ChangeField.LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
     this.db = db;
     this.id = id;
   }

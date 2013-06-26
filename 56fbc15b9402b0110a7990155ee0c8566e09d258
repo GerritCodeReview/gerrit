@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_fef4617d",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T01:13:21Z",
+      "side": 1,
+      "message": "Sigh, the fact that we have to do this means that the FieldType thing isn\u0027t quite working...it would be nice if FieldType.LONG implied the predicate was of a subclass that supported getMinValue()/getMaxValue(). But that\u0027s beyond the scope of this change, I\u0027m fine with this now.",
+      "revId": "56fbc15b9402b0110a7990155ee0c8566e09d258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

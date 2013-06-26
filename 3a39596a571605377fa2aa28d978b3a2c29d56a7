@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ca1b7926_1c095d78",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T01:34:36Z",
+      "side": 1,
+      "message": "Dave is not going to like this. But he\u0027s going to sigh and move on for now.",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad6a983_ea09273c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2
@@ -13,6 +30,57 @@
       "writtenOn": "2013-06-26T01:31:56Z",
       "side": 1,
       "message": "I\u0027ll confess to not having read this method thoroughly, but this is a lot of logic to be pinning in the Lucene implementation. Would it make more sense to have a static factory in LabelPredicate that returns something compound rather than a bare IndexPredicate? We already do this for e.g. ChangeStatusPredicate. And that way this logic can be more effectively reused by other index implementations.",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_9e28bdf5",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T01:34:36Z",
+      "side": 1,
+      "message": "labelQuery",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_3c0c1988",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T01:34:36Z",
+      "side": 1,
+      "message": "noLabelQuery",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_5e58f5af",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T01:34:36Z",
+      "side": 1,
+      "message": "ChangeField.LABEL.getName()",
       "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

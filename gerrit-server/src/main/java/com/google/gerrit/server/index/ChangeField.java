@@ -16,6 +16,8 @@ package com.google.gerrit.server.index;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -26,6 +28,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Fields indexed on change documents.
@@ -39,7 +42,7 @@ import java.util.Map;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 3;
+  public static final int SCHEMA_VERSION = 4;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
@@ -115,6 +118,21 @@ public class ChangeField {
         public Iterable<String> get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.currentFilePaths(args.db, args.patchListCache);
+        }
+      };
+
+  /** Reviewer(s) associated with the change. */
+  public static final FieldDef<ChangeData, Iterable<Integer>> REVIEWER =
+      new FieldDef.Repeatable<ChangeData, Integer>(
+          ChangeQueryBuilder.FIELD_REVIEWER, FieldType.INTEGER, false) {
+        @Override
+        public Iterable<Integer> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Set<Integer> r = Sets.newHashSet();
+          for (PatchSetApproval a : input.allApprovals(args.db)) {
+            r.add(a.getAccountId().get());
+          }
+          return r;
         }
       };
 

@@ -17,16 +17,17 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class ReviewerPredicate extends OperatorPredicate<ChangeData> {
+class ReviewerPredicate extends IndexPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
   private final Account.Id id;
 
   ReviewerPredicate(Provider<ReviewDb> dbProvider, Account.Id id) {
-    super(ChangeQueryBuilder.FIELD_REVIEWER, id.toString());
+    super(ChangeField.REVIEWER, id.toString());
     this.dbProvider = dbProvider;
     this.id = id;
   }

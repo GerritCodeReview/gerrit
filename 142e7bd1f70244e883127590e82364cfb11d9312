@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_1cd15df5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2013-06-26T00:52:37Z",
+      "side": 1,
+      "message": "Looking at https://gerrit-review.googlesource.com/#/c/47313/1/gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java I\u0027m going to assume you\u0027ll want this as a set. I\u0027ll go make that happen now.",
+      "revId": "142e7bd1f70244e883127590e82364cfb11d9312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

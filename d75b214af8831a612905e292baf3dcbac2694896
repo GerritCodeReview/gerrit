@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa8ba5a1_bd667ffd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T23:56:24Z",
+      "side": 1,
+      "message": "SCHEMA_VERSION needs to be increased. This change also needs to be rebased since the schema version has already progressed in master.",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_7c36b9e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T23:56:24Z",
+      "side": 1,
+      "message": "Since the message operator is now only supported if the secondary index is enabled, we should check for this before creating the predicate (the same way as it is done for the file operator):\n\n  if (args.index \u003d\u003d ChangeIndex.DISABLED) {\n      throw error(\"secondary index must be enabled for message:\" + text);\n  }",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

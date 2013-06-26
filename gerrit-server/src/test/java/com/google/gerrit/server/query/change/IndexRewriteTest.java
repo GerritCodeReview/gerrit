@@ -81,8 +81,7 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
-    public ChangeDataSource getSource(Predicate<ChangeData> p)
-        throws QueryParseException {
+    public ChangeDataSource getSource(Predicate<ChangeData> p) {
       return new Source();
     }
 
@@ -92,7 +91,11 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
-    public void finishIndex() {
+    public void close() {
+    }
+
+    @Override
+    public void markReady() {
       throw new UnsupportedOperationException();
     }
   }

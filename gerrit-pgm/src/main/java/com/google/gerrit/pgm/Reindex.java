@@ -43,6 +43,8 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.index.ChangeSchemas;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
@@ -63,7 +65,6 @@ import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -98,14 +99,22 @@ public class Reindex extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
+  @Option(name = "--schema-version",
+      usage = "Schema version to reindex; default is most recent version")
+  private Integer version;
+
   @Option(name = "--output-base", usage = "Base prefix for output; path for local disk index, or prefix for remote index")
   private String outputBase;
 
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
 
+  @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
+  private boolean dryRun;
+
   private Injector dbInjector;
   private Injector sysInjector;
+  private ChangeIndex index;
 
   @Override
   public int run() throws Exception {
@@ -114,22 +123,22 @@ public class Reindex extends SiteProgram {
     if (IndexModule.getIndexType(dbInjector) == IndexType.SQL) {
       throw die("index.type must be configured (or not SQL)");
     }
-
+    if (version == null) {
+      version = ChangeSchemas.getLatest().getVersion();
+    }
     LifecycleManager dbManager = new LifecycleManager();
     dbManager.add(dbInjector);
     dbManager.start();
 
     sysInjector = createSysInjector();
-
-    // Delete before any index may be created depending on this data.
-    deleteAll();
-
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
 
+    index = sysInjector.getInstance(IndexCollection.class).getSearchIndex();
+    index.deleteAll();
     int result = indexAll();
-    writeVersion();
+    index.markReady();
 
     sysManager.stop();
     dbManager.stop();
@@ -142,7 +151,7 @@ public class Reindex extends SiteProgram {
     AbstractModule changeIndexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        changeIndexModule = new LuceneIndexModule(false, threads, outputBase);
+        changeIndexModule = new LuceneIndexModule(version, threads, outputBase);
         break;
       case SOLR:
         changeIndexModule = new SolrIndexModule(false, threads, outputBase);
@@ -205,11 +214,6 @@ public class Reindex extends SiteProgram {
         }
       });
     }
-  }
-
-  private void deleteAll() throws IOException {
-    ChangeIndex index = sysInjector.getInstance(ChangeIndex.class);
-    index.deleteAll();
   }
 
   private int indexAll() throws Exception {
@@ -463,11 +467,5 @@ public class Reindex extends SiteProgram {
         System.out.println(error);
       }
     }
-  }
-
-  private void writeVersion() throws IOException,
-      ConfigInvalidException {
-    ChangeIndex index = sysInjector.getInstance(ChangeIndex.class);
-    index.finishIndex();
   }
 }

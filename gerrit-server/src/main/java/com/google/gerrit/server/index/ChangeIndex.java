@@ -21,8 +21,6 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 
 /**
@@ -64,19 +62,26 @@ public interface ChangeIndex {
     }
 
     @Override
-    public ChangeDataSource getSource(Predicate<ChangeData> p)
-        throws QueryParseException {
+    public ChangeDataSource getSource(Predicate<ChangeData> p) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void finishIndex() {
+    public void close() {
       // Do nothing.
+    }
+
+    @Override
+    public void markReady() {
+      throw new UnsupportedOperationException();
     }
   };
 
   /** @return the schema version used by this index. */
   public Schema<ChangeData> getSchema();
+
+  /** Close this index. */
+  public void close();
 
   /**
    * Insert a change document into the index.
@@ -137,11 +142,13 @@ public interface ChangeIndex {
       throws QueryParseException;
 
   /**
-   * Mark completion of indexing.
+   * Mark this index as up-to-date and ready to serve reads.
+   * <p>
+   * Should only be called immediately after a reindex, either during an online
+   * schema upgrade while actively writing to this index, or during an offline
+   * reindex.
    *
-   * @throws ConfigInvalidException
    * @throws IOException
    */
-  public void finishIndex() throws IOException,
-      ConfigInvalidException;
+  public void markReady() throws IOException;
 }

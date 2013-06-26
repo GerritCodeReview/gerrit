@@ -15,10 +15,10 @@
 package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.server.query.change.ChangeData;
 
@@ -51,23 +51,16 @@ public class ChangeSchemas {
         ChangeField.COMMENT));
 
 
-  private static final ImmutableMap<Integer, Schema<ChangeData>> ALL;
+  public static final ImmutableMap<Integer, Schema<ChangeData>> ALL;
 
-  public Schema<ChangeData> get(int version) {
+  public static Schema<ChangeData> get(int version) {
     Schema<ChangeData> schema = ALL.get(version);
     checkArgument(schema != null, "Unrecognized schema version: %s", version);
     return schema;
   }
 
-  public static Schema<ChangeData> getLatestRelease() {
-    Schema<ChangeData> latest = null;
-    for (Schema<ChangeData> schema : ALL.values()) {
-      if (schema.isRelease()) {
-        latest = schema;
-      }
-    }
-    checkState(latest != null, "No released schema versions found");
-    return latest;
+  public static Schema<ChangeData> getLatest() {
+    return Iterables.getLast(ALL.values());
   }
 
   static {

@@ -14,15 +14,21 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.Lists;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.OrPredicate;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 
-class IsStarredByPredicate extends OperatorPredicate<ChangeData> implements
+import java.util.List;
+import java.util.Set;
+
+class IsStarredByPredicate extends OrPredicate<ChangeData> implements
     ChangeDataSource {
   private static String describe(CurrentUser user) {
     if (user instanceof IdentifiedUser) {
@@ -31,11 +37,21 @@ class IsStarredByPredicate extends OperatorPredicate<ChangeData> implements
     return user.toString();
   }
 
+  private static List<Predicate<ChangeData>> predicates(
+      Provider<ReviewDb> db,
+      Set<Change.Id> ids) {
+    List<Predicate<ChangeData>> r = Lists.newArrayListWithCapacity(ids.size());
+    for (Change.Id id : ids) {
+      r.add(new LegacyChangeIdPredicate(db, id));
+    }
+    return r;
+  }
+
   private final Provider<ReviewDb> db;
   private final CurrentUser user;
 
   IsStarredByPredicate(Provider<ReviewDb> db, CurrentUser user) {
-    super(ChangeQueryBuilder.FIELD_STARREDBY, describe(user));
+    super(predicates(db, user.getStarredChanges()));
     this.db = db;
     this.user = user;
   }
@@ -64,5 +80,15 @@ class IsStarredByPredicate extends OperatorPredicate<ChangeData> implements
   @Override
   public int getCost() {
     return ChangeCosts.cost(ChangeCosts.IDS_MEMORY, getCardinality());
+  }
+
+  @Override
+  public String toString() {
+    String val = describe(user);
+    if (val.indexOf(' ') < 0) {
+      return ChangeQueryBuilder.FIELD_STARREDBY + ":" + val;
+    } else {
+      return ChangeQueryBuilder.FIELD_STARREDBY + ":\"" + val + "\"";
+    }
   }
 }

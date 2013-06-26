@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_7e32115e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T01:35:34Z",
+      "side": 1,
+      "message": "This feels weird; out of curiosity, why not a new FieldType.REGEX?",
+      "revId": "83ec5d48a2e7c9d4c48138f2cc2503f5981c742a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

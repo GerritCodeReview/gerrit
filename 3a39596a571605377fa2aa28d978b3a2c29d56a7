@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_5e2f55f6",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T01:36:37Z",
+      "side": 1,
+      "message": "This has actually crossed my sigh and move on threshold and is into my -1 threshold.",
+      "parentUuid": "ca1b7926_1c095d78",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad6a983_ea09273c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2

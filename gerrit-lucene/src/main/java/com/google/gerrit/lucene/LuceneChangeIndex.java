@@ -57,6 +57,7 @@ import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.FieldInfo.IndexOptions;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
@@ -105,6 +106,18 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+
+  private static final org.apache.lucene.document.FieldType NOT_STORED_BOOLEAN =
+      new org.apache.lucene.document.FieldType();
+  static {
+    NOT_STORED_BOOLEAN.setIndexed(true);
+    NOT_STORED_BOOLEAN.setTokenized(true);
+    NOT_STORED_BOOLEAN.setOmitNorms(true);
+    NOT_STORED_BOOLEAN.setIndexOptions(IndexOptions.DOCS_ONLY);
+    NOT_STORED_BOOLEAN.setNumericType(org.apache.lucene.document.FieldType.NumericType.INT);
+    NOT_STORED_BOOLEAN.setNumericPrecisionStep(Integer.MAX_VALUE);
+    NOT_STORED_BOOLEAN.freeze();
+  }
 
   private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
@@ -236,6 +249,9 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       if (p.getChild(0) instanceof TimestampRangePredicate) {
         return notTimestampQuery(
             (TimestampRangePredicate<ChangeData>) p.getChild(0));
+      } else if (p.getChild(0) instanceof IndexPredicate
+          && ((IndexPredicate<ChangeData>) p.getChild(0)).getField().getType() == FieldType.BOOLEAN) {
+        return booleanQuery((IndexPredicate<ChangeData>) p.getChild(0), true);
       }
       return booleanQuery(p, MUST_NOT);
     } else if (p instanceof IndexPredicate) {
@@ -256,7 +272,9 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private Query fieldQuery(IndexPredicate<ChangeData> p)
       throws QueryParseException {
-    if (p.getType() == FieldType.INTEGER) {
+    if (p.getType() == FieldType.BOOLEAN) {
+      return booleanQuery(p, false);
+    } else if (p.getType() == FieldType.INTEGER) {
       return intQuery(p);
     } else if (p.getType() == FieldType.TIMESTAMP) {
       return timestampQuery(p);
@@ -275,6 +293,20 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     BytesRef bytes = new BytesRef(NumericUtils.BUF_SIZE_INT);
     NumericUtils.intToPrefixCodedBytes(value, 0, bytes);
     return new Term(name, bytes);
+  }
+
+  private Query booleanQuery(IndexPredicate<ChangeData> p, boolean negate)
+      throws QueryParseException {
+    boolean value;
+    try {
+      value = Boolean.parseBoolean(p.getValue());
+    } catch (IllegalArgumentException e) {
+      throw new QueryParseException("not an boolean: " + p.getValue());
+    }
+    if (negate) {
+      value = !value;
+    }
+    return new TermQuery(intTerm(p.getField().getName(), value ? 1 : 0));
   }
 
   private Query intQuery(IndexPredicate<ChangeData> p)
@@ -452,7 +484,19 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     String name = f.getName();
     Store store = store(f);
 
-    if (f.getType() == FieldType.INTEGER) {
+    if (f.getType() == FieldType.BOOLEAN) {
+      if (f.isStored()) {
+        throw new OrmException(String.format(
+            "field %s of type %s cannot be stored",
+            name, f.getType().getName()));
+      }
+      for (Object value : values) {
+        doc.add(new IntField(
+            name,
+            ((Boolean) value) ? 1 : 0,
+            NOT_STORED_BOOLEAN));
+      }
+    } else if (f.getType() == FieldType.INTEGER) {
       for (Object value : values) {
         doc.add(new IntField(name, (Integer) value, store));
       }

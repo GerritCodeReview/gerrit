@@ -19,6 +19,10 @@ import java.sql.Timestamp;
 
 /** Document field types supported by the secondary index system. */
 public class FieldType<T> {
+  /** A single boolean-valued field. */
+  public static final FieldType<Boolean> BOOLEAN =
+      new FieldType<Boolean>("BOOLEAN");
+
   /** A single integer-valued field. */
   public static final FieldType<Integer> INTEGER =
       new FieldType<Integer>("INTEGER");

@@ -220,6 +220,22 @@ public class ChangeField {
         }
       };
 
+  /** Set true if the change has a non-zero label score. */
+  public static final FieldDef<ChangeData, Boolean> REVIEWED =
+      new FieldDef.Single<ChangeData, Boolean>(
+          "reviewed", FieldType.BOOLEAN, false) {
+        @Override
+        public Boolean get(ChangeData input, FillArgs args)
+            throws OrmException {
+          for (PatchSetApproval a : input.currentApprovals(args.db)) {
+            if (a.getValue() != 0) {
+              return true;
+            }
+          }
+          return false;
+        }
+      };
+
   public static String formatLabel(String label, int value) {
     return label.toLowerCase() + (value >= 0 ? "+" : "") + value;
   }

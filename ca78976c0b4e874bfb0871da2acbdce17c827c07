@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_3c8379c2",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-26T01:14:22Z",
+      "side": 1,
+      "message": "\"Access Rights Endpoints\"?",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_fc98e12e",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-26T01:14:22Z",
+      "side": 1,
+      "message": "\"about a permission rule\"?",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_def9a575",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-26T01:14:22Z",
+      "side": 1,
+      "message": "Replace the first comma with a period.",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_dc9d251d",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-26T01:14:22Z",
+      "side": 1,
+      "message": "s/of/for",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_3edfe9fc",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-26T01:14:22Z",
+      "side": 1,
+      "message": "s/can-upload/can_upload",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_1edcad04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-26T01:14:22Z",
+      "side": 1,
+      "message": "s/its/it\u0027s",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_5ee635d2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-26T01:14:22Z",
+      "side": 1,
+      "message": "Nit: extra blank line",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

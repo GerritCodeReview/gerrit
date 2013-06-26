@@ -319,6 +319,24 @@
     },
     {
       "key": {
+        "uuid": "2adb35ae_691ee56e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T22:33:43Z",
+      "side": 1,
+      "message": "I didn\u0027t meant to move the catch, but just to surround the \n  group \u003d parseGroup(value).getUUID();\nby another try catch.",
+      "parentUuid": "8a98a1f6_7c04f924",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_7f07a32a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
         "patchSetId": 5

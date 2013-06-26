@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_3c8b791b",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T00:37:11Z",
+      "side": 1,
+      "message": "Pass it a SitePaths if you want to use a SitePath based item.",
+      "parentUuid": "ca1b7926_bc3ae9d1",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2adb35ae_e909353c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "So then have \n[lucene \"changes open\"] schemaVersion\nand\n[solr \"changes open\"] schemaVersion?",
       "parentUuid": "ca1b7926_d9225711",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad6a983_4a04b324",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/IndexVersionCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T00:37:11Z",
+      "side": 1,
+      "message": "No. You can have:\n\n  [index \"changes_open\"]\n    version \u003d 2\n  [index \"changes_closed\"]\n    version \u003d 2\n  [lucene]\n    version \u003d 42\n  [solr]\n    version \u003d ...\n\nYou can test if the file was for solr or for lucene by looking for the key. If its there, its for solr or lucene. If its not present then we should assume we can\u0027t use this index.",
+      "parentUuid": "ca1b7926_fc446163",
       "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

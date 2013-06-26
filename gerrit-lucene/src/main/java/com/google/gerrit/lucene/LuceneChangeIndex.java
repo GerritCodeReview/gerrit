@@ -20,10 +20,12 @@ import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
@@ -118,7 +120,6 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     return writerConfig;
   }
 
-  private final RefreshThread refreshThread;
   private final FillArgs fillArgs;
   private final ExecutorService executor;
   private final boolean readOnly;
@@ -128,7 +129,6 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   LuceneChangeIndex(Config cfg, SitePaths sitePaths,
       ListeningScheduledExecutorService executor, FillArgs fillArgs,
       boolean readOnly) throws IOException {
-    this.refreshThread = new RefreshThread();
     this.fillArgs = fillArgs;
     this.executor = executor;
     this.readOnly = readOnly;
@@ -140,12 +140,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   @Override
   public void start() {
-    refreshThread.start();
   }
 
   @Override
   public void stop() {
-    refreshThread.halt();
     List<Future<?>> closeFutures = Lists.newArrayListWithCapacity(2);
     closeFutures.add(executor.submit(new Runnable() {
       @Override
@@ -164,49 +162,66 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public void insert(ChangeData cd) throws IOException {
+  public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
     Term id = idTerm(cd);
     Document doc = toDocument(cd);
     if (readOnly) {
-      return;
+      return Futures.immediateFuture(null);
     }
+
     if (cd.getChange().getStatus().isOpen()) {
-      closedIndex.delete(id);
-      openIndex.insert(doc);
+      return allOf(
+          closedIndex.delete(id),
+          openIndex.insert(doc));
     } else {
-      openIndex.delete(id);
-      closedIndex.insert(doc);
+      return allOf(
+          openIndex.delete(id),
+          closedIndex.insert(doc));
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public void replace(ChangeData cd) throws IOException {
+  public ListenableFuture<Void> replace(ChangeData cd) throws IOException {
     Term id = idTerm(cd);
     Document doc = toDocument(cd);
     if (readOnly) {
-      return;
+      return Futures.immediateFuture(null);
     }
     if (cd.getChange().getStatus().isOpen()) {
-      closedIndex.delete(id);
-      openIndex.replace(id, doc);
+      return allOf(
+          closedIndex.delete(id),
+          openIndex.replace(id, doc));
     } else {
-      openIndex.delete(id);
-      closedIndex.replace(id, doc);
+      return allOf(
+          openIndex.delete(id),
+          closedIndex.replace(id, doc));
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public void delete(ChangeData cd) throws IOException {
+  public ListenableFuture<Void> delete(ChangeData cd) throws IOException {
     Term id = idTerm(cd);
     if (readOnly) {
-      return;
+      return Futures.immediateFuture(null);
     }
-    if (cd.getChange().getStatus().isOpen()) {
-      openIndex.delete(id);
-    } else {
-      closedIndex.delete(id);
-    }
+    return allOf(
+        openIndex.delete(id),
+        closedIndex.delete(id));
+  }
+
+  private static <V> ListenableFuture<Void> allOf(ListenableFuture<V>... f) {
+    return Futures.transform(
+        Futures.allAsList(f),
+        new Function<List<V>, Void>() {
+          @Override
+          public Void apply(List<V> input) {
+            return null;
+          }
+        });
   }
 
   @Override
@@ -484,36 +499,5 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private static IllegalArgumentException badFieldType(FieldType<?> t) {
     return new IllegalArgumentException("unknown index field type " + t);
-  }
-
-  private class RefreshThread extends Thread {
-    private boolean stop;
-
-    @Override
-    public void run() {
-      while (!stop) {
-        openIndex.maybeRefresh();
-        closedIndex.maybeRefresh();
-        synchronized (this) {
-          try {
-            wait(100);
-          } catch (InterruptedException e) {
-            log.warn("error refreshing index searchers", e);
-          }
-        }
-      }
-    }
-
-    void halt() {
-      synchronized (this) {
-        stop = true;
-        notify();
-      }
-      try {
-        join();
-      } catch (InterruptedException e) {
-        log.warn("error stopping refresh thread", e);
-      }
-    }
   }
 }

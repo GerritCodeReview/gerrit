@@ -235,7 +235,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("watched".equalsIgnoreCase(value)) {
-      return new IsWatchedByPredicate(args, currentUser);
+      return new IsWatchedByPredicate(args, currentUser, false);
     }
 
     if ("visible".equalsIgnoreCase(value)) {
@@ -354,10 +354,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     for (Account.Id id : m) {
       if (currentUser instanceof IdentifiedUser
           && id.equals(((IdentifiedUser) currentUser).getAccountId())) {
-        p.add(new IsWatchedByPredicate(args, currentUser));
+        p.add(new IsWatchedByPredicate(args, currentUser, false));
       } else {
         p.add(new IsWatchedByPredicate(args,
-            args.userFactory.create(args.dbProvider, id)));
+            args.userFactory.create(args.dbProvider, id), true));
       }
     }
     return Predicate.or(p);

@@ -16,19 +16,20 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.RegexPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
-class RegexTopicPredicate extends OperatorPredicate<ChangeData> {
+class RegexTopicPredicate extends RegexPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
   private final RunAutomaton pattern;
 
   RegexTopicPredicate(Provider<ReviewDb> dbProvider, String re) {
-    super(ChangeQueryBuilder.FIELD_TOPIC, re);
+    super(ChangeField.TOPIC, re);
 
     if (re.startsWith("^")) {
       re = re.substring(1);

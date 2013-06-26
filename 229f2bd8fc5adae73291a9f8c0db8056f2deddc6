@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4ad6a983_8a14eb51",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-26T01:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_9e827df6",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_3e8b691b",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxHeader.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-25T23:46:37Z",
       "side": 1,
       "message": "nit: extra space at the start of the line.",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_de7c052e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxHeader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-26T01:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_3e8b691b",
       "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_7cefb177",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxHeader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-26T01:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_1e882d1b",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_7e95f12e",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-25T23:46:37Z",
       "side": 1,
       "message": "why not just make this the onLoad handler?",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_bcf78949",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-26T01:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_7e95f12e",
       "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_de4b65e1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-26T01:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_5e92b548",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_791ce384",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.ui.xml",
         "patchSetId": 5
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_5cec7581",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-26T01:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_791ce384",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_be7db92c",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.ui.xml",
         "patchSetId": 5
@@ -115,6 +223,24 @@
       "writtenOn": "2013-06-25T23:46:37Z",
       "side": 1,
       "message": "this seems silly. just have two divs here: one for the edit widgets and the other for the view widgets.",
+      "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ead4bd7e_27fd3aef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-06-26T01:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_be7db92c",
       "revId": "229f2bd8fc5adae73291a9f8c0db8056f2deddc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

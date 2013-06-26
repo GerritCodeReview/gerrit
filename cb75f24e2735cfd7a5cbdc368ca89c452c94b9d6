@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_bc3ae9d1",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1012867
+      },
+      "writtenOn": "2013-06-26T00:00:44Z",
+      "side": 1,
+      "message": "SolrChangeIndex\u0027s constructor doesn\u0027t take a SitePaths though, how should that be handled?",
+      "parentUuid": "ca1b7926_f91d93d5",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2adb35ae_e909353c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndex.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2013-06-25T22:50:12Z",
       "side": 1,
       "message": "Why can\u0027t we do this as gerrit_index.config and have the contents tell us who it was for? solr.version is not lucene.version (for example).",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_fc446163",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/IndexVersionCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012867
+      },
+      "writtenOn": "2013-06-26T00:00:44Z",
+      "side": 1,
+      "message": "So then have \n[lucene \"changes open\"] schemaVersion\nand\n[solr \"changes open\"] schemaVersion?",
+      "parentUuid": "ca1b7926_d9225711",
       "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -132,6 +168,24 @@
       "writtenOn": "2013-06-25T22:50:12Z",
       "side": 1,
       "message": "Really? The Solr client needs fileupload support for Java servlets? I thought this was only needed on the server.",
+      "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_1c85dd4a",
+        "filename": "lib/commons/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1012867
+      },
+      "writtenOn": "2013-06-26T00:00:44Z",
+      "side": 1,
+      "message": "I added this for zookeeper but it looks like it\u0027s not needed.",
+      "parentUuid": "ca1b7926_b93cbb3f",
       "revId": "cb75f24e2735cfd7a5cbdc368ca89c452c94b9d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

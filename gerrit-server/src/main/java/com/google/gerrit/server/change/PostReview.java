@@ -20,6 +20,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.common.data.LabelType;
@@ -55,6 +56,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class PostReview implements RestModifyView<RevisionResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
@@ -96,6 +98,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
      * not the caller.
      */
     public String onBehalfOf;
+
+    public boolean waitForCommit;
   }
 
   public static enum DraftHandling {
@@ -147,7 +151,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   @Override
   public Object apply(RevisionResource revision, Input input)
       throws AuthException, BadRequestException, OrmException,
-      UnprocessableEntityException {
+      UnprocessableEntityException, InterruptedException, ExecutionException {
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, input);
     }
@@ -175,7 +179,11 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       if (dirty) {
         db.changes().update(Collections.singleton(change));
         db.commit();
-        indexer.index(change);
+
+        ListenableFuture<?> indexWrite = indexer.index(change);
+        if (input.waitForCommit) {
+          indexWrite.get();
+        }
       }
     } finally {
       db.rollback();

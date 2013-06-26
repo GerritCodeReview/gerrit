@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa8ba5a1_9d61c3ea",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T23:46:57Z",
+      "side": 1,
+      "message": "SCHEMA_VERSION needs to be increased",
+      "revId": "7d1363f35fa59990652c8526d8e5ca62e0252436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

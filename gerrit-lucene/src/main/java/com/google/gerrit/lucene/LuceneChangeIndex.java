@@ -20,6 +20,7 @@ import static org.apache.lucene.search.BooleanClause.Occur.MUST;
 import static org.apache.lucene.search.BooleanClause.Occur.MUST_NOT;
 import static org.apache.lucene.search.BooleanClause.Occur.SHOULD;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
@@ -347,9 +348,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
-  private class QuerySource implements ChangeDataSource {
+  private static class QuerySource implements ChangeDataSource {
     // TODO(dborowitz): Push limit down from predicate tree.
     private static final int LIMIT = 1000;
+    private static final ImmutableSet<String> FIELDS = ImmutableSet.of(ID_FIELD);
 
     private final List<SubIndex> indexes;
     private final Query query;
@@ -388,7 +390,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
         List<ChangeData> result =
             Lists.newArrayListWithCapacity(docs.scoreDocs.length);
         for (ScoreDoc sd : docs.scoreDocs) {
-          Document doc = searchers[sd.shardIndex].doc(sd.doc);
+          Document doc = searchers[sd.shardIndex].doc(sd.doc, FIELDS);
           Number v = doc.getField(ID_FIELD).numericValue();
           result.add(new ChangeData(new Change.Id(v.intValue())));
         }

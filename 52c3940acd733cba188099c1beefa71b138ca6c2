@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_dcf6c54a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2013-06-26T01:32:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_9cd56daf",
+      "revId": "52c3940acd733cba188099c1beefa71b138ca6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_5efd9552",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/CommitPredicate.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-26T01:23:22Z",
       "side": 1,
       "message": "id.name()",
+      "revId": "52c3940acd733cba188099c1beefa71b138ca6c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_be23f917",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/CommitPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2013-06-26T01:32:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_5efd9552",
       "revId": "52c3940acd733cba188099c1beefa71b138ca6c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

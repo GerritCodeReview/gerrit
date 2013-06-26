@@ -19,6 +19,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -43,7 +44,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 5;
+  public static final int SCHEMA_VERSION = 6;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> CHANGE_ID =
@@ -108,6 +109,18 @@ public class ChangeField {
         public Timestamp get(ChangeData input, FillArgs args)
             throws OrmException {
           return input.change(args.db).getLastUpdatedOn();
+        }
+      };
+
+  /** Sort key field, duplicates {@link #UPDATED}. */
+  @Deprecated
+  public static final FieldDef<ChangeData, Long> SORTKEY =
+      new FieldDef.Single<ChangeData, Long>(
+          "sortkey", FieldType.LONG, true) {
+        @Override
+        public Long get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return ChangeUtil.parseSortKey(input.change(args.db).getSortKey());
         }
       };
 

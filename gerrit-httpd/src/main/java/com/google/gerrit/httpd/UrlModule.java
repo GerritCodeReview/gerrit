@@ -24,6 +24,7 @@ import com.google.gerrit.httpd.raw.LegacyGerritServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
+import com.google.gerrit.httpd.rpc.access.AccessRestApiServlet;
 import com.google.gerrit.httpd.rpc.account.AccountsRestApiServlet;
 import com.google.gerrit.httpd.rpc.change.ChangesRestApiServlet;
 import com.google.gerrit.httpd.rpc.change.DeprecatedChangeQueryServlet;
@@ -101,6 +102,7 @@ class UrlModule extends ServletModule {
 
     filter("/a/*").through(RequireIdentifiedUserFilter.class);
     serveRegex("^/(?:a/)?tools/(.*)$").with(ToolServlet.class);
+    serveRegex("^/(?:a/)?access/(.*)$").with(AccessRestApiServlet.class);
     serveRegex("^/(?:a/)?accounts/(.*)$").with(AccountsRestApiServlet.class);
     serveRegex("^/(?:a/)?changes/(.*)$").with(ChangesRestApiServlet.class);
     serveRegex("^/(?:a/)?config/(.*)$").with(ConfigRestApiServlet.class);

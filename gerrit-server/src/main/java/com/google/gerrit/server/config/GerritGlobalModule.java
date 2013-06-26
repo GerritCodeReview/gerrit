@@ -238,6 +238,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountControl.Factory.class);
 
     install(new AuditModule());
+    install(new com.google.gerrit.server.access.Module());
     install(new com.google.gerrit.server.account.Module());
     install(new com.google.gerrit.server.change.Module());
     install(new com.google.gerrit.server.config.Module());

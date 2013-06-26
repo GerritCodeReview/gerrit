@@ -70,6 +70,18 @@ public class ProjectControl {
       }
       return p.controlFor(user);
     }
+
+    public ProjectControl validateFor(Project.NameKey nameKey, int need,
+        CurrentUser user) throws NoSuchProjectException, IOException {
+      final ProjectControl c = controlFor(nameKey, user);
+      if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
+        return c;
+      }
+      if ((need & OWNER) == OWNER && c.isOwner()) {
+        return c;
+      }
+      throw new NoSuchProjectException(nameKey);
+    }
   }
 
   public static class Factory {

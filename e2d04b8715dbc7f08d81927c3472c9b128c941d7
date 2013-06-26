@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_1eaaed60",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T00:46:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_5ee0f5e4",
+      "revId": "e2d04b8715dbc7f08d81927c3472c9b128c941d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_398b8b1b",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-25T22:15:43Z",
       "side": 1,
       "message": "I think it would have been OK to leave the name of this as it was, and set it true if the index is enabled.",
+      "revId": "e2d04b8715dbc7f08d81927c3472c9b128c941d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_5eb475be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T00:46:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_398b8b1b",
       "revId": "e2d04b8715dbc7f08d81927c3472c9b128c941d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

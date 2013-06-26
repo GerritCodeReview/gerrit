@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_de1085cd",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_3c8379c2",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_fc98e12e",
         "filename": "Documentation/rest-api-access.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-26T01:14:22Z",
       "side": 1,
       "message": "\"about a permission rule\"?",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ead4bd7e_c7f7fe0d",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_fc98e12e",
       "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_1e030d89",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_def9a575",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_dc9d251d",
         "filename": "Documentation/rest-api-access.txt",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-26T01:14:22Z",
       "side": 1,
       "message": "s/of/for",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_7e00517a",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_dc9d251d",
       "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_bcd029bf",
+        "filename": "Documentation/rest-api-access.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_3edfe9fc",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_1edcad04",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_fe0bc1a1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/ListAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_1edcad04",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_5ee635d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/Module.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2013-06-26T01:14:22Z",
       "side": 1,
       "message": "Nit: extra blank line",
+      "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad6a983_aa0f2f40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/access/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_5ee635d2",
       "revId": "ca78976c0b4e874bfb0871da2acbdce17c827c07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

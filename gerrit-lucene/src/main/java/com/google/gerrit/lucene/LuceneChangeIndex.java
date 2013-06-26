@@ -43,6 +43,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
+import com.google.gerrit.server.query.change.SortKeyPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -51,6 +52,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.IntField;
+import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -256,6 +258,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       return timestampQuery(p);
     } else if (p.getType() == FieldType.EXACT) {
       return exactQuery(p);
+    } else if (p instanceof SortKeyPredicate) {
+      return sortKeyQuery((SortKeyPredicate) p);
     } else {
       throw badFieldType(p.getType());
     }
@@ -278,6 +282,14 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       throw new QueryParseException("not an integer: " + p.getValue());
     }
     return new TermQuery(intTerm(p.getOperator(), value));
+  }
+
+  private static Query sortKeyQuery(SortKeyPredicate p) {
+    return NumericRangeQuery.newLongRange(
+        p.getField().getName(),
+        p.getMinValue(),
+        p.getMaxValue(),
+        true, true);
   }
 
   private static Query timestampQuery(IndexPredicate<ChangeData> p)
@@ -416,6 +428,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     if (f.getType() == FieldType.INTEGER) {
       for (Object value : values) {
         doc.add(new IntField(name, (Integer) value, store));
+      }
+    } else if (f.getType() == FieldType.LONG) {
+      for (Object value : values) {
+        doc.add(new LongField(name, (Long) value, store));
       }
     } else if (f.getType() == FieldType.TIMESTAMP) {
       for (Object v : values) {

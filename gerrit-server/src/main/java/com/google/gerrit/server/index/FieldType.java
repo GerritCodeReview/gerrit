@@ -23,6 +23,10 @@ public class FieldType<T> {
   public static final FieldType<Integer> INTEGER =
       new FieldType<Integer>("INTEGER");
 
+  /** A single integer-valued field. */
+  public static final FieldType<Long> LONG =
+      new FieldType<Long>("LONG");
+
   /** A single date/time-valued field. */
   public static final FieldType<Timestamp> TIMESTAMP =
       new FieldType<Timestamp>("TIMESTAMP");

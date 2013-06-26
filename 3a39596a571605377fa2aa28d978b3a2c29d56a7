@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4a7b0960_a2e81e36",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T18:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_5e2f55f6",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ad6a983_ea09273c",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2
@@ -71,6 +89,42 @@
     },
     {
       "key": {
+        "uuid": "4a7b0960_c2ed2245",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T18:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ad6a983_ea09273c",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_9e939d11",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T18:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_9e28bdf5",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_3c0c1988",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_fcac6130",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T18:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_3c0c1988",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_5e58f5af",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2
@@ -99,6 +171,24 @@
       "writtenOn": "2013-06-26T01:34:36Z",
       "side": 1,
       "message": "ChangeField.LABEL.getName()",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_dcb1a584",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T18:39:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_5e58f5af",
       "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

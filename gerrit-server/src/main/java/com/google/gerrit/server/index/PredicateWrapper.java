@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -22,6 +24,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Wrapper combining an {@link IndexPredicate} together with a
@@ -54,7 +58,36 @@ public class PredicateWrapper extends Predicate<ChangeData> implements
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    return source.read();
+    final ResultSet<ChangeData> rs = source.read();
+    return new ResultSet<ChangeData>() {
+      @Override
+      public Iterator<ChangeData> iterator() {
+        return Iterables.transform(
+            rs,
+            new Function<ChangeData, ChangeData>() {
+              @Override
+              public
+              ChangeData apply(ChangeData input) {
+                input.cacheFromSource(source);
+                return input;
+              }
+            }).iterator();
+      }
+
+      @Override
+      public List<ChangeData> toList() {
+        List<ChangeData> r = rs.toList();
+        for (ChangeData cd : r) {
+          cd.cacheFromSource(source);
+        }
+        return r;
+      }
+
+      @Override
+      public void close() {
+        rs.close();
+      }
+    };
   }
 
   @Override
@@ -65,7 +98,7 @@ public class PredicateWrapper extends Predicate<ChangeData> implements
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    return pred.match(cd);
+    return cd.isFromSource(source) || pred.match(cd);
   }
 
   @Override

@@ -16,6 +16,7 @@ package com.google.gerrit.server.index;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -28,7 +29,7 @@ import javax.annotation.Nullable;
 
 /** Dynamic pointers to the index versions used for searching and writing. */
 @Singleton
-public class IndexCollection {
+public class IndexCollection implements LifecycleListener {
   private final CopyOnWriteArrayList<ChangeIndex> writeIndexes;
   private final AtomicReference<ChangeIndex> searchIndex;
 
@@ -65,5 +66,22 @@ public class IndexCollection {
       }
     }
     writeIndexes.add(index);
+  }
+
+  @Override
+  public void start() {
+  }
+
+  @Override
+  public void stop() {
+    ChangeIndex read = searchIndex.get();
+    if (read != null) {
+      read.close();
+    }
+    for (ChangeIndex write : writeIndexes) {
+      if (write != read) {
+        write.close();
+      }
+    }
   }
 }

@@ -34,6 +34,7 @@ import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.IndexPredicate;
+import com.google.gerrit.server.index.RegexPredicate;
 import com.google.gerrit.server.index.TimestampRangePredicate;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
@@ -61,6 +62,7 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.search.Sort;
@@ -307,7 +309,23 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   private Query exactQuery(IndexPredicate<ChangeData> p) {
-    return new TermQuery(new Term(p.getOperator(), p.getValue()));
+    if (p instanceof RegexPredicate<?>) {
+      return regexQuery(p);
+    } else {
+      return new TermQuery(new Term(p.getOperator(), p.getValue()));
+    }
+  }
+
+  private Query regexQuery(IndexPredicate<ChangeData> p) {
+    String re = p.getValue();
+    if (re.startsWith("^")) {
+      re = re.substring(1);
+    }
+    if (re.endsWith("$") && !re.endsWith("\\$")) {
+      re = re.substring(0, re.length() - 1);
+    }
+
+    return new RegexpQuery(new Term(p.getOperator(), re));
   }
 
   private class QuerySource implements ChangeDataSource {

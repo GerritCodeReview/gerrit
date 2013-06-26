@@ -337,6 +337,24 @@
     },
     {
       "key": {
+        "uuid": "8a98a1f6_bc3f61c1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T23:29:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2adb35ae_691ee56e",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_7f07a32a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
         "patchSetId": 5

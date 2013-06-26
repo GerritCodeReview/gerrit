@@ -44,15 +44,26 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 6;
+  public static final int SCHEMA_VERSION = 7;
 
   /** Legacy change ID. */
-  public static final FieldDef<ChangeData, Integer> CHANGE_ID =
-      new FieldDef.Single<ChangeData, Integer>(ChangeQueryBuilder.FIELD_CHANGE,
+  public static final FieldDef<ChangeData, Integer> LEGACY_ID =
+      new FieldDef.Single<ChangeData, Integer>("_id",
           FieldType.INTEGER, true) {
         @Override
         public Integer get(ChangeData input, FillArgs args) {
           return input.getId().get();
+        }
+      };
+
+  /** Newer style Change-Id key. */
+  public static final FieldDef<ChangeData, String> ID =
+      new FieldDef.Single<ChangeData, String>("change_id",
+          FieldType.PREFIX, true) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          return input.change(args.db).getKey().get();
         }
       };
 

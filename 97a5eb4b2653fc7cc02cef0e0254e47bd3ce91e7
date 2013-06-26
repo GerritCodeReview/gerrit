@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8a98a1f6_9c0f0541",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_1ffaeff6",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "UDdX7-Po",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -143,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_fd0e4741",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a7b0960_a20f3e40",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a7b0960_e209463c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 5
@@ -154,6 +190,24 @@
       "writtenOn": "2013-06-26T21:27:14Z",
       "side": 1,
       "message": "nit: in Gerrit we normally declare arrays like this\n  String[] splitReviewer \u003d ...\n\nFor consistency I would change it here.",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_5d073b2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a7b0960_e209463c",
       "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -177,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_7d04f724",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_ff09f33b",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a7b0960_020f0a3f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 5
@@ -188,6 +260,24 @@
       "writtenOn": "2013-06-26T21:27:14Z",
       "side": 1,
       "message": "Do not log this as error.",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_3cfa71f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a7b0960_020f0a3f",
       "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -211,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "8a98a1f6_7c04f924",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "If I don\u0027t catch it for accounts then I don\u0027t know to try it as a group, so I can\u0027t move the catch.",
+      "parentUuid": "4a7b0960_22240ebb",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_7f07a32a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
         "patchSetId": 5
@@ -222,6 +330,24 @@
       "writtenOn": "2013-06-26T21:27:14Z",
       "side": 1,
       "message": "s/ChangeQueryBuild/ChangeQueryBuilder",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_dcf26d20",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_7f07a32a",
       "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -245,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "8a98a1f6_fcf7290d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_bf0f7b40",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a7b0960_c2144253",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
         "patchSetId": 5
@@ -256,6 +400,24 @@
       "writtenOn": "2013-06-26T21:27:14Z",
       "side": 1,
       "message": "Use Guava to initialize the List:\n  positional \u003d Lists.newArrayList();",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_1dfdb3ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a7b0960_c2144253",
       "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -279,6 +441,24 @@
     },
     {
       "key": {
+        "uuid": "8a98a1f6_1cfdb5ee",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_5f046724",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_9f143f52",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
         "patchSetId": 5
@@ -290,6 +470,24 @@
       "writtenOn": "2013-06-26T21:27:14Z",
       "side": 1,
       "message": "s/String splitArgs[]/String[] splitArgs\n\nsame for arrays below",
+      "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_3dfa6ff7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PredicateArgs.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012872
+      },
+      "writtenOn": "2013-06-26T22:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_9f143f52",
       "revId": "97a5eb4b2653fc7cc02cef0e0254e47bd3ce91e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

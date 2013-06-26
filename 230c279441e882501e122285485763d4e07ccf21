@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_9c60cd14",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-26T21:59:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ad6a983_0afabbf6",
+      "revId": "230c279441e882501e122285485763d4e07ccf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_fea581aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-25T22:38:15Z",
       "side": 1,
       "message": "COMMIT_MESSAGE",
+      "revId": "230c279441e882501e122285485763d4e07ccf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_dc5a4564",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-26T21:59:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_fea581aa",
       "revId": "230c279441e882501e122285485763d4e07ccf21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_a16638fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-26T21:59:33Z",
+      "side": 1,
+      "message": "Decided to wrap the exception instead.",
+      "parentUuid": "ca1b7926_59e647d2",
+      "revId": "230c279441e882501e122285485763d4e07ccf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_79e983a2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-25T22:38:15Z",
       "side": 1,
       "message": "break to a new line before the new arg, so each is on one.",
+      "revId": "230c279441e882501e122285485763d4e07ccf21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_1c6ddd07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldDef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-26T21:59:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_79e983a2",
       "revId": "230c279441e882501e122285485763d4e07ccf21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

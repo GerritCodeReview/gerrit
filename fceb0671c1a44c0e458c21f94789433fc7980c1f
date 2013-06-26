@@ -50,6 +50,24 @@
       "revId": "fceb0671c1a44c0e458c21f94789433fc7980c1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_bd3f5fc1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T22:15:26Z",
+      "side": 1,
+      "message": "Oops, Predicate.and, duh.",
+      "parentUuid": "aa8ba5a1_5d1e5b6e",
+      "revId": "fceb0671c1a44c0e458c21f94789433fc7980c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

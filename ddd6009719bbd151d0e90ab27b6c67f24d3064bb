@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_5e691569",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T00:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_79ab43c4",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_7e0851e3",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-25T21:43:13Z",
       "side": 1,
       "message": "This kind of sucks that we scan the changes table twice. Another version is to use GitRepositoryManager.list().",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_bc47892f",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T00:30:30Z",
+      "side": 1,
+      "message": "Yeah, but only sucks by a few seconds even for Martin\u0027s 300k changes.\n\nThe reason I didn\u0027t use GitRepositoryManager was basically laziness: we would need to set up basically all the same injectors as we do in Daemon, rather than squeaking by with what we have.",
+      "parentUuid": "caf29916_7e0851e3",
       "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_9c4c4d55",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T00:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_1e0b0de2",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_b9731bae",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-25T21:43:13Z",
       "side": 1,
       "message": "Why bother with a latch here? You have one future per project. Just wait for the futures to finish?",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_bcc4a964",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T00:30:30Z",
+      "side": 1,
+      "message": "It seemed like I needed it to ensure mpm.done() gets called, but I didn\u0027t. The future chaining is a bit ugly; I want to fix this part of MultiProgressMonitor, but that\u0027s low on my list.\n\nDone.",
+      "parentUuid": "ca1b7926_b9731bae",
       "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_fc41011b",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T00:30:30Z",
+      "side": 1,
+      "message": "Stupid. Done.",
+      "parentUuid": "caf29916_5e0595c7",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_99e3bf27",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2013-06-25T21:43:13Z",
       "side": 1,
       "message": "if (o instanceof RevCommit) {\n  walk.markStart((RevCommit) o);\n}",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ad6a983_6a07f72a",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T00:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_99e3bf27",
       "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_dc01a5ca",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T00:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_bec49964",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2adb35ae_8914f951",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2013-06-25T21:43:13Z",
       "side": 1,
       "message": "if (byId.containsKey(bCommit)) {\n  getPathsAndIndex(bCommit, true);\n}",
+      "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_3ce7f911",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T00:30:30Z",
+      "side": 1,
+      "message": "Done. Also got rid of the remove arg at the cost of one more lookup.",
+      "parentUuid": "2adb35ae_8914f951",
       "revId": "ddd6009719bbd151d0e90ab27b6c67f24d3064bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

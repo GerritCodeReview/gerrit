@@ -14,9 +14,9 @@
 
 package com.google.gerrit.lucene;
 
+import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gwt.thirdparty.guava.common.collect.Maps;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;

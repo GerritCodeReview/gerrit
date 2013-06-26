@@ -26,15 +26,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
-import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.Schema;
@@ -51,7 +48,7 @@ import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -99,14 +96,17 @@ import java.util.concurrent.Future;
  * though there may be some lag between a committed write and it showing up to
  * other threads' searchers.
  */
-@Singleton
-public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
+public class LuceneChangeIndex implements ChangeIndex {
   private static final Logger log =
       LoggerFactory.getLogger(LuceneChangeIndex.class);
 
   public static final Version LUCENE_VERSION = Version.LUCENE_43;
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
+
+  static interface Factory {
+    LuceneChangeIndex create(Schema<ChangeData> schema);
+  }
 
   private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
@@ -120,28 +120,25 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     return writerConfig;
   }
 
-  private final RefreshThread refreshThread;
   private final FillArgs fillArgs;
-  private final IndexCollection indexes;
   private final ExecutorService executor;
+  private final File dir;
   private final Schema<ChangeData> schema;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
 
   @Inject
-  LuceneChangeIndex(@GerritServerConfig Config cfg,
+  LuceneChangeIndex(
+      Config cfg,
       SitePaths sitePaths,
-      IndexCollection indexes,
       @IndexExecutor ListeningScheduledExecutorService executor,
       FillArgs fillArgs,
-      Schema<ChangeData> schema) throws IOException {
-    this.refreshThread = new RefreshThread();
-    this.indexes = indexes;
+      @Assisted Schema<ChangeData> schema) throws IOException {
     this.fillArgs = fillArgs;
     this.executor = executor;
     this.schema = schema;
+    this.dir = LuceneVersionManager.getDir(sitePaths, schema);
 
-    File dir = new File(sitePaths.index_dir, "changes_" + schema.getVersion());
     openIndex = new SubIndex(new File(dir, CHANGES_OPEN),
         getIndexWriterConfig(cfg, "changes_open"));
     closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED),
@@ -149,15 +146,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public void start() {
-    indexes.setSearchIndex(this);
-    indexes.addWriteIndex(this);
-    refreshThread.start();
-  }
-
-  @Override
-  public void stop() {
-    refreshThread.halt();
+  public void close() {
     List<Future<?>> closeFutures = Lists.newArrayListWithCapacity(2);
     closeFutures.add(executor.submit(new Runnable() {
       @Override
@@ -229,6 +218,15 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       indexes.add(closedIndex);
     }
     return new QuerySource(indexes, toQuery(p));
+  }
+
+  @Override
+  public void deleteIndex() throws IOException {
+    if (dir.exists()) {
+      for (File f : dir.listFiles()) {
+        f.delete();
+      }
+    }
   }
 
   private Term idTerm(ChangeData cd) {
@@ -454,36 +452,5 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private static IllegalArgumentException badFieldType(FieldType<?> t) {
     return new IllegalArgumentException("unknown index field type " + t);
-  }
-
-  private class RefreshThread extends Thread {
-    private boolean stop;
-
-    @Override
-    public void run() {
-      while (!stop) {
-        openIndex.maybeRefresh();
-        closedIndex.maybeRefresh();
-        synchronized (this) {
-          try {
-            wait(100);
-          } catch (InterruptedException e) {
-            log.warn("error refreshing index searchers", e);
-          }
-        }
-      }
-    }
-
-    void halt() {
-      synchronized (this) {
-        stop = true;
-        notify();
-      }
-      try {
-        join();
-      } catch (InterruptedException e) {
-        log.warn("error stopping refresh thread", e);
-      }
-    }
   }
 }

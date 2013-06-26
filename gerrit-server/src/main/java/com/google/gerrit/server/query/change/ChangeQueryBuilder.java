@@ -305,16 +305,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
-    if (allowFileRegex) {
-      if (file.startsWith("^")) {
+    if (file.startsWith("^")) {
+      if (allowFileRegex || args.index != ChangeIndex.DISABLED) {
         return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
       } else {
-        throw new IllegalArgumentException();
+        throw error("secondary index must be enabled for file:" + file);
       }
     } else {
-      if (file.startsWith("^")) {
-        throw error("regular expression not permitted here: file:" + file);
-      }
       if (args.index == ChangeIndex.DISABLED) {
         throw error("secondary index must be enabled for file:" + file);
       }

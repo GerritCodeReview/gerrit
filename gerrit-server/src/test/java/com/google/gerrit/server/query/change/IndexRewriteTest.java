@@ -23,13 +23,12 @@ import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
-import com.google.gerrit.server.index.FileField;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.StatusField;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.OrPredicate;
@@ -47,12 +46,12 @@ import java.util.Set;
 public class IndexRewriteTest extends TestCase {
   private static Schema<ChangeData> V1 = new Schema<ChangeData>(
       1, false, ImmutableList.<FieldDef<ChangeData, ?>> of(
-          StatusField.INSTANCE));
+          ChangeField.STATUS));
 
   private static Schema<ChangeData> V2 = new Schema<ChangeData>(
       2, false, ImmutableList.of(
-          StatusField.INSTANCE,
-          FileField.INSTANCE));
+          ChangeField.STATUS,
+          ChangeField.FILE));
 
   private static class DummyIndex implements ChangeIndex {
     private final Schema<ChangeData> schema;
@@ -82,8 +81,7 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
-    public ChangeDataSource getSource(Predicate<ChangeData> p)
-        throws QueryParseException {
+    public ChangeDataSource getSource(Predicate<ChangeData> p) {
       return new Source();
     }
 
@@ -93,7 +91,11 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
-    public void finishIndex() {
+    public void close() {
+    }
+
+    @Override
+    public void markReady() {
       throw new UnsupportedOperationException();
     }
   }

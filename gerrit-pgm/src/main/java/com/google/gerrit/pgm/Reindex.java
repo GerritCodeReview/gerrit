@@ -19,6 +19,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -43,6 +44,8 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.index.ChangeSchemas;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
@@ -63,7 +66,6 @@ import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -98,11 +100,15 @@ public class Reindex extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
-  @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
-  private boolean dryRun;
+  @Option(name = "--schema-version",
+      usage = "Schema version to reindex; default is most recent version")
+  private Integer version;
 
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
+
+  @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
+  private boolean dryRun;
 
   private Injector dbInjector;
   private Injector sysInjector;
@@ -114,22 +120,21 @@ public class Reindex extends SiteProgram {
     if (IndexModule.getIndexType(dbInjector) == IndexType.SQL) {
       throw die("index.type must be configured (or not SQL)");
     }
-
+    if (version == null) {
+      version = ChangeSchemas.getLatest().getVersion();
+    }
     LifecycleManager dbManager = new LifecycleManager();
     dbManager.add(dbInjector);
     dbManager.start();
 
-    sysInjector = createSysInjector();
-
-    // Delete before any index may be created depending on this data.
-    deleteAll();
+    deleteIndex();
 
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
 
     int result = indexAll();
-    writeVersion();
+    getIndex(sysInjector).markReady();
 
     sysManager.stop();
     dbManager.stop();
@@ -142,7 +147,7 @@ public class Reindex extends SiteProgram {
     AbstractModule changeIndexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        changeIndexModule = new LuceneIndexModule(false, threads, dryRun);
+        changeIndexModule = new LuceneIndexModule(version, threads, dryRun);
         break;
       case SOLR:
         changeIndexModule = new SolrIndexModule(false, threads);
@@ -207,9 +212,23 @@ public class Reindex extends SiteProgram {
     }
   }
 
-  private void deleteAll() throws IOException {
-    if (dryRun) {
-      return;
+  private ChangeIndex getIndex(Injector injector) {
+    return Iterables.getOnlyElement(
+        injector.getInstance(IndexCollection.class).getWriteIndexes());
+  }
+
+  private void deleteIndex() throws IOException {
+    // Use a fresh injector to get new singletons, since the index will be
+    // invalid after we delete it.
+    Injector deleteSysInjector = createSysInjector();
+    LifecycleManager sysManager = new LifecycleManager();
+    sysManager.add(deleteSysInjector);
+    sysManager.start();
+
+    try {
+      getIndex(deleteSysInjector).deleteAll();
+    } finally {
+      sysManager.stop();
     }
     ChangeIndex index = sysInjector.getInstance(ChangeIndex.class);
     index.deleteAll();
@@ -466,14 +485,5 @@ public class Reindex extends SiteProgram {
         System.out.println(error);
       }
     }
-  }
-
-  private void writeVersion() throws IOException,
-      ConfigInvalidException {
-    if (dryRun) {
-      return;
-    }
-    ChangeIndex index = sysInjector.getInstance(ChangeIndex.class);
-    index.finishIndex();
   }
 }

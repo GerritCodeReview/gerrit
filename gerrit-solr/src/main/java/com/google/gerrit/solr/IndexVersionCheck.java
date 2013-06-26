@@ -31,8 +31,8 @@ import java.util.Map;
 
 class IndexVersionCheck implements LifecycleListener {
   public static final Map<String, Integer> SCHEMA_VERSIONS = ImmutableMap.of(
-      SolrChangeIndex.CHANGES_OPEN, ChangeSchemas.getLatestRelease().getVersion(),
-      SolrChangeIndex.CHANGES_CLOSED, ChangeSchemas.getLatestRelease().getVersion());
+      SolrChangeIndex.CHANGES_OPEN, ChangeSchemas.getLatest().getVersion(),
+      SolrChangeIndex.CHANGES_CLOSED, ChangeSchemas.getLatest().getVersion());
 
   public static File solrIndexConfig(SitePaths sitePaths) {
     return new File(sitePaths.index_dir, "gerrit_index.config");

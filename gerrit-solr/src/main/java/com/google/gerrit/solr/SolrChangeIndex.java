@@ -52,7 +52,6 @@ import org.apache.solr.client.solrj.impl.CloudSolrServer;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -113,6 +112,11 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   @Override
   public Schema<ChangeData> getSchema() {
     return schema;
+  }
+
+  @Override
+  public void close() {
+    stop();
   }
 
   @Override
@@ -311,8 +315,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public void finishIndex() throws IOException,
-      ConfigInvalidException {
+  public void markReady() throws IOException {
     // TODO Move the schema version information to a special meta-document
     FileBasedConfig cfg = new FileBasedConfig(
         solrIndexConfig(sitePaths),

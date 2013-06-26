@@ -14,8 +14,6 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.gerrit.lucene.IndexVersionCheck.SCHEMA_VERSIONS;
-import static com.google.gerrit.lucene.IndexVersionCheck.gerritIndexConfig;
 import static com.google.gerrit.server.query.change.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.query.change.IndexRewriteImpl.OPEN_STATUSES;
 
@@ -26,7 +24,6 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
-import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -35,7 +32,6 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
-import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.Schema;
 import com.google.gerrit.server.query.Predicate;
@@ -45,7 +41,8 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -70,7 +67,6 @@ import org.apache.lucene.util.Version;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,7 +76,6 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -93,8 +88,7 @@ import java.util.concurrent.Future;
  * though there may be some lag between a committed write and it showing up to
  * other threads' searchers.
  */
-@Singleton
-public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
+public class LuceneChangeIndex implements ChangeIndex {
   private static final Logger log =
       LoggerFactory.getLogger(LuceneChangeIndex.class);
 
@@ -102,6 +96,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public static final String CHANGES_OPEN = "open";
   public static final String CHANGES_CLOSED = "closed";
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+
+  static interface Factory {
+    LuceneChangeIndex create(Schema<ChangeData> schema, boolean readOnly);
+  }
 
   private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
@@ -117,28 +115,28 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private final SitePaths sitePaths;
   private final FillArgs fillArgs;
-  private final IndexCollection indexes;
   private final ExecutorService executor;
+  private final File dir;
   private final Schema<ChangeData> schema;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
   private final boolean readOnly;
 
-  LuceneChangeIndex(@GerritServerConfig Config cfg,
+  @Inject
+  LuceneChangeIndex(
+      @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      IndexCollection indexes,
       @IndexExecutor ListeningScheduledExecutorService executor,
       FillArgs fillArgs,
-      Schema<ChangeData> schema,
-      boolean readOnly) throws IOException {
-    this.indexes = indexes;
+      @Assisted Schema<ChangeData> schema,
+      @Assisted boolean readOnly) throws IOException {
     this.sitePaths = sitePaths;
     this.fillArgs = fillArgs;
     this.executor = executor;
     this.schema = schema;
     this.readOnly = readOnly;
+    this.dir = LuceneVersionManager.getDir(sitePaths, schema);
 
-    File dir = new File(sitePaths.index_dir, "changes_" + schema.getVersion());
     openIndex = new SubIndex(new File(dir, CHANGES_OPEN),
         getIndexWriterConfig(cfg, "changes_open"));
     closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED),
@@ -146,13 +144,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public void start() {
-    indexes.setSearchIndex(this);
-    indexes.addWriteIndex(this);
-  }
-
-  @Override
-  public void stop() {
+  public void close() {
     List<Future<?>> closeFutures = Lists.newArrayListWithCapacity(2);
     closeFutures.add(executor.submit(new Runnable() {
       @Override
@@ -256,6 +248,21 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       indexes.add(closedIndex);
     }
     return new QuerySource(indexes, QueryBuilder.toQuery(p));
+  }
+
+  @Override
+  public void markReady() throws IOException {
+    if (readOnly) {
+      return;
+    }
+    try {
+      FileBasedConfig cfg = LuceneVersionManager.loadGerritIndexConfig(sitePaths);
+      cfg.setBoolean("index", Integer.toString(schema.getVersion()), "ready",
+          true);
+      cfg.save();
+    } catch (ConfigInvalidException e) {
+      throw new IOException(e);
+    }
   }
 
   private static class QuerySource implements ChangeDataSource {
@@ -391,18 +398,5 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private static Field.Store store(FieldDef<?, ?> f) {
     return f.isStored() ? Field.Store.YES : Field.Store.NO;
-  }
-
-  @Override
-  public void finishIndex() throws IOException,
-      ConfigInvalidException {
-    FileBasedConfig cfg =
-        new FileBasedConfig(gerritIndexConfig(sitePaths), FS.detect());
-
-    for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
-      cfg.setInt("index", e.getKey(), "schemaVersion", e.getValue());
-    }
-    cfg.setEnum("lucene", null, "version", LUCENE_VERSION);
-    cfg.save();
   }
 }

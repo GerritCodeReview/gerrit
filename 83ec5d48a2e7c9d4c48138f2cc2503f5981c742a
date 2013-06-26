@@ -16,6 +16,24 @@
       "revId": "83ec5d48a2e7c9d4c48138f2cc2503f5981c742a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_be75b903",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:52:01Z",
+      "side": 1,
+      "message": "Because we use the file field from two predicates:\n  1. EqualsFilePredicate\n  2. RegexFilePredicate\nand the file field can have only one type either EXACT or REGEX.",
+      "parentUuid": "caf29916_7e32115e",
+      "revId": "83ec5d48a2e7c9d4c48138f2cc2503f5981c742a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

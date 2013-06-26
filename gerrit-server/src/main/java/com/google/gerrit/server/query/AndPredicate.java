@@ -45,9 +45,6 @@ public class AndPredicate<T> extends Predicate<T> {
         c += p.getCost();
       }
     }
-    if (t.size() < 2) {
-      throw new IllegalArgumentException("Need at least two predicates");
-    }
     children = t;
     cost = c;
   }
@@ -101,7 +98,7 @@ public class AndPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     final StringBuilder r = new StringBuilder();
     r.append("(");
     for (int i = 0; i < getChildCount(); i++) {

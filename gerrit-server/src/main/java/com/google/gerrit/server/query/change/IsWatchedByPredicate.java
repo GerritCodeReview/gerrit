@@ -14,22 +14,18 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
-import com.google.gwtorm.server.OrmException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
+class IsWatchedByPredicate extends AndPredicate<ChangeData> {
   private static String describe(CurrentUser user) {
     if (user instanceof IdentifiedUser) {
       return ((IdentifiedUser) user).getAccountId().toString();
@@ -37,85 +33,81 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
     return user.toString();
   }
 
-  private final ChangeQueryBuilder.Arguments args;
   private final CurrentUser user;
 
-  private Map<Project.NameKey, List<Predicate<ChangeData>>> rules;
-
-  IsWatchedByPredicate(ChangeQueryBuilder.Arguments args, CurrentUser user) {
-    super(ChangeQueryBuilder.FIELD_WATCHEDBY, describe(user));
-    this.args = args;
+  IsWatchedByPredicate(ChangeQueryBuilder.Arguments args,
+      CurrentUser user,
+      boolean checkIsVisible) {
+    super(filters(args, user, checkIsVisible));
     this.user = user;
   }
 
-  @Override
-  public boolean match(final ChangeData cd) throws OrmException {
-    if (rules == null) {
-      ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
-      rules = new HashMap<Project.NameKey, List<Predicate<ChangeData>>>();
-      for (AccountProjectWatch w : user.getNotificationFilters()) {
-        List<Predicate<ChangeData>> list = rules.get(w.getProjectNameKey());
-        if (list == null) {
-          list = new ArrayList<Predicate<ChangeData>>(4);
-          rules.put(w.getProjectNameKey(), list);
-        }
-
-        Predicate<ChangeData> p = compile(builder, w);
-        if (p != null) {
-          list.add(p);
-        }
-      }
-    }
-
-    if (rules.isEmpty()) {
-      return false;
-    }
-
-    Change change = cd.change(args.dbProvider);
-    if (change == null) {
-      return false;
-    }
-
-    Project.NameKey project = change.getDest().getParentKey();
-    List<Predicate<ChangeData>> list = rules.get(project);
-    if (list == null) {
-      list = rules.get(args.allProjectsName);
-    }
-    if (list != null) {
-      for (Predicate<ChangeData> p : list) {
-        if (p.match(cd)) {
-          return true;
+  private static List<Predicate<ChangeData>> filters(
+      ChangeQueryBuilder.Arguments args,
+      CurrentUser user,
+      boolean checkIsVisible) {
+    List<Predicate<ChangeData>> r = Lists.newArrayList();
+    ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
+    for (AccountProjectWatch w : user.getNotificationFilters()) {
+      Predicate<ChangeData> f = null;
+      if (w.getFilter() != null) {
+        try {
+          f = builder.parse(w.getFilter());
+          if (builder.find(f, IsWatchedByPredicate.class) != null) {
+            // If the query is going to infinite loop, assume it
+            // will never match and return null. Yes this test
+            // prevents you from having a filter that matches what
+            // another user is filtering on. :-)
+           continue;
+          }
+        } catch (QueryParseException e) {
+          continue;
         }
       }
+
+      Predicate<ChangeData> p;
+      if (w.getProjectNameKey().equals(args.allProjectsName)) {
+        p = null;
+      } else {
+        p = builder.project(w.getProjectNameKey().get());
+      }
+
+      if (p != null && f != null) {
+        r.add(and(p, f));
+      } else if (p != null) {
+        r.add(p);
+      } else if (f != null) {
+        r.add(f);
+      } else {
+        r.add(builder.status_open());
+      }
     }
-    return false;
+    if (r.isEmpty()) {
+      return none();
+    } else if (checkIsVisible) {
+      return ImmutableList.of(or(r), builder.is_visible());
+    } else {
+      return r;
+    }
   }
 
-  @SuppressWarnings("unchecked")
-  private Predicate<ChangeData> compile(ChangeQueryBuilder builder,
-      AccountProjectWatch w) {
-    Predicate<ChangeData> p = builder.is_visible();
-    if (w.getFilter() != null) {
-      try {
-        p = Predicate.and(builder.parse(w.getFilter()), p);
-        if (builder.find(p, IsWatchedByPredicate.class) != null) {
-          // If the query is going to infinite loop, assume it
-          // will never match and return null. Yes this test
-          // prevents you from having a filter that matches what
-          // another user is filtering on. :-)
-          //
-          return null;
-        }
-        p = args.rewriter.get().rewrite(p);
-      } catch (QueryParseException e) {
-        return null;
-      }
-    }
-    return p;
+  private static List<Predicate<ChangeData>> none() {
+    Predicate<ChangeData> any = any();
+    return ImmutableList.of(not(any));
   }
 
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public String toString() {
+    String val = describe(user);
+    if (val.indexOf(' ') < 0) {
+      return ChangeQueryBuilder.FIELD_WATCHEDBY + ":" + val;
+    } else {
+      return ChangeQueryBuilder.FIELD_WATCHEDBY + ":\"" + val + "\"";
+    }
   }
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "aa8ba5a1_dd098b3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T22:12:43Z",
+      "side": 1,
+      "message": "Unnecessary whitespace change?",
+      "revId": "fceb0671c1a44c0e458c21f94789433fc7980c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_1d24d3ba",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
         "patchSetId": 3
@@ -13,6 +30,23 @@
       "writtenOn": "2013-06-26T22:09:47Z",
       "side": 1,
       "message": ".getSource(this)?",
+      "revId": "fceb0671c1a44c0e458c21f94789433fc7980c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_5d1e5b6e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T22:12:43Z",
+      "side": 1,
+      "message": "Predicate.or(new LegacyChangeIdPredicate(db, object.getId()), this);",
       "revId": "fceb0671c1a44c0e458c21f94789433fc7980c1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

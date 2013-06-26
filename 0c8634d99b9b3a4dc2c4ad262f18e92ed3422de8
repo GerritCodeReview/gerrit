@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_1ed14df5",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1b7926_fca581aa",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1b7926_5c0595c7",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-26T00:33:31Z",
       "side": 1,
       "message": "Instead make a helper class to extend MultiTermQuery.",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_1c803db2",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:16:07Z",
+      "side": 1,
+      "message": "As discussed, for now we stay with BooleanQuery as it is not obvious how to make use of MultiTermQuery.",
+      "parentUuid": "ca1b7926_5c0595c7",
       "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "ca1b7926_bc1149d4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_dea7e597",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_fea2a189",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 1
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "caf29916_7ece9158",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_fea2a189",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf29916_9e9d5d50",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldType.java",
         "patchSetId": 1
@@ -98,6 +170,24 @@
       "writtenOn": "2013-06-26T00:33:31Z",
       "side": 1,
       "message": "Do we really need a new field type? This should be EXACT.",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_5ccbd546",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T01:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf29916_9e9d5d50",
       "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

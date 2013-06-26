@@ -286,7 +286,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     } catch (IllegalArgumentException e) {
       throw new QueryParseException("not an integer: " + p.getValue());
     }
-    return new TermQuery(intTerm(p.getOperator(), value));
+    return new TermQuery(intTerm(p.getField().getName(), value));
   }
 
   private static Query sortKeyQuery(SortKeyPredicate p) {
@@ -327,7 +327,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     if (p instanceof RegexPredicate<?>) {
       return regexQuery(p);
     } else {
-      return new TermQuery(new Term(p.getOperator(), p.getValue()));
+      return new TermQuery(new Term(p.getField().getName(), p.getValue()));
     }
   }
 
@@ -340,11 +340,11 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       re = re.substring(0, re.length() - 1);
     }
 
-    return new RegexpQuery(new Term(p.getOperator(), re));
+    return new RegexpQuery(new Term(p.getField().getName(), re));
   }
 
   private Query prefixQuery(IndexPredicate<ChangeData> p) {
-    return new PrefixQuery(new Term(p.getOperator(), p.getValue()));
+    return new PrefixQuery(new Term(p.getField().getName(), p.getValue()));
   }
 
   private class QuerySource implements ChangeDataSource {

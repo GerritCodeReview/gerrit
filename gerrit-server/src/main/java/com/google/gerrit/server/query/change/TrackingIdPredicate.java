@@ -17,7 +17,8 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -26,12 +27,12 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-class TrackingIdPredicate extends OperatorPredicate<ChangeData> implements
+class TrackingIdPredicate extends IndexPredicate<ChangeData> implements
     ChangeDataSource {
   private final Provider<ReviewDb> db;
 
   TrackingIdPredicate(Provider<ReviewDb> db, String trackingId) {
-    super(ChangeQueryBuilder.FIELD_TR, trackingId);
+    super(ChangeField.TR, trackingId);
     this.db = db;
   }
 

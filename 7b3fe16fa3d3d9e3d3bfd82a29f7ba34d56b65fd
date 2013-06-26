@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_fef10155",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T15:05:19Z",
+      "side": 1,
+      "message": "missing aosp header",
+      "revId": "7b3fe16fa3d3d9e3d3bfd82a29f7ba34d56b65fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_1c867d9f",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T15:05:19Z",
+      "side": 1,
+      "message": "add a private QueryBuilder(){} constructor to prevent anyone from making instances.",
+      "revId": "7b3fe16fa3d3d9e3d3bfd82a29f7ba34d56b65fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_3c89b9b1",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T15:05:19Z",
+      "side": 1,
+      "message": "break line before throws",
+      "revId": "7b3fe16fa3d3d9e3d3bfd82a29f7ba34d56b65fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_def6c54a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T15:05:19Z",
+      "side": 1,
+      "message": "line too long",
+      "revId": "7b3fe16fa3d3d9e3d3bfd82a29f7ba34d56b65fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

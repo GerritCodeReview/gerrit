@@ -582,9 +582,10 @@ public class ProjectConfig extends VersionedMetaData {
     if (parts.isEmpty()) {
       throw new IllegalArgumentException("empty value");
     }
+    String valueText = parts.size() > 1 ? parts.get(1) : "";
     return new LabelValue(
         Shorts.checkedCast(PermissionRule.parseInt(parts.get(0))),
-        parts.get(1));
+        valueText);
   }
 
   private void loadLabelSections(Config rc) throws IOException {

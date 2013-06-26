@@ -101,7 +101,7 @@ public class OrPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     final StringBuilder r = new StringBuilder();
     r.append("(");
     for (int i = 0; i < getChildCount(); i++) {

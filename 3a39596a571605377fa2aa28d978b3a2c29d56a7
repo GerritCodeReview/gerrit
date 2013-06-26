@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad6a983_ea09273c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T01:31:56Z",
+      "side": 1,
+      "message": "I\u0027ll confess to not having read this method thoroughly, but this is a lot of logic to be pinning in the Lucene implementation. Would it make more sense to have a static factory in LabelPredicate that returns something compound rather than a bare IndexPredicate? We already do this for e.g. ChangeStatusPredicate. And that way this logic can be more effectively reused by other index implementations.",
+      "revId": "3a39596a571605377fa2aa28d978b3a2c29d56a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

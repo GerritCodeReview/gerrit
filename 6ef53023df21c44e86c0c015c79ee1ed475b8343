@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_3c97f9db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T01:43:10Z",
+      "side": 1,
+      "message": "This is going to slow down indexing since we\u0027re incurring another db lookup per change. Let\u0027s get Martin to test it maybe?\n\nIf it\u0027s an issue we can probably do this in a batch during reindexing. It might even make sense to factor out a getBatch(Iterable\u003cChangeData\u003e, FillArgs) for this kind of thing more generally, but I\u0027ll take care of that if/when it happens.",
+      "revId": "6ef53023df21c44e86c0c015c79ee1ed475b8343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_dff7d70d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T18:59:43Z",
+      "side": 1,
+      "message": "Does it makes sense to write it as following to avoid a warning in eclipse?\n\n  @SuppressWarnings(\"unchecked\")\n  Predicate\u003cChangeData\u003e a \u003d and(p, f);\n  r.add(a);",
+      "revId": "add86b27cbb236330fc6403b4addde6ba33a177a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

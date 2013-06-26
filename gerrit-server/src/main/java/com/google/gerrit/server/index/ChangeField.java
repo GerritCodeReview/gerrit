@@ -19,6 +19,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -44,7 +45,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 8;
+  public static final int SCHEMA_VERSION = 9;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -184,6 +185,21 @@ public class ChangeField {
             revisions.add(ps.getRevision().get());
           }
           return revisions;
+        }
+      };
+
+  /** Tracking id extracted from a footer. */
+  public static final FieldDef<ChangeData, Iterable<String>> TR =
+      new FieldDef.Repeatable<ChangeData, String>(
+          ChangeQueryBuilder.FIELD_TR, FieldType.EXACT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Set<String> r = Sets.newHashSet();
+          for (TrackingId id : input.trackingIds(args.db)) {
+            r.add(id.getTrackingId());
+          }
+          return r;
         }
       };
 

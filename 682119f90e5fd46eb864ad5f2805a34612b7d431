@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caf29916_6136f0e8",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T16:40:43Z",
+      "side": 1,
+      "message": "To check my understanding: this blocks until the reopenThread reopens with a sufficiently new generation. The thread polls faster when it knows a future is waiting.",
+      "revId": "682119f90e5fd46eb864ad5f2805a34612b7d431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

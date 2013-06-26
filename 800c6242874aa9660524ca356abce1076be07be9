@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ead4bd7e_471b0e7d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T15:58:25Z",
+      "side": 1,
+      "message": "Can this ever be empty if above we default to builder.status_open()?",
+      "revId": "800c6242874aa9660524ca356abce1076be07be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_5e03d555",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-26T15:58:25Z",
+      "side": 1,
+      "message": "Does or(r) have any effect? Isn\u0027t it just returning r?",
+      "revId": "800c6242874aa9660524ca356abce1076be07be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

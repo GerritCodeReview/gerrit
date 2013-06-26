@@ -55,14 +55,31 @@ public interface ChangeIndex {
     }
 
     @Override
-    public ChangeDataSource getSource(Predicate<ChangeData> p)
-        throws QueryParseException {
+    public ChangeDataSource getSource(Predicate<ChangeData> p) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteIndex() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void close() {
+      // Do nothing.
+    }
+
+    @Override
+    public void markReady() {
       throw new UnsupportedOperationException();
     }
   };
 
   /** @return the schema version used by this index. */
   public Schema<ChangeData> getSchema();
+
+  /** Close this index. */
+  public void close();
 
   /**
    * Insert a change document into the index.
@@ -114,4 +131,26 @@ public interface ChangeIndex {
    */
   public ChangeDataSource getSource(Predicate<ChangeData> p)
       throws QueryParseException;
+
+  /**
+   * Completely delete this index.
+   * <p>
+   * Deletes all documents from the index and the index itself from the
+   * underlying storage (if supported). The index will be unusable after this
+   * method is called.
+   *
+   * @throws IOException
+   */
+  public void deleteIndex() throws IOException;
+
+  /**
+   * Mark this index as up-to-date and ready to serve reads.
+   * <p>
+   * Should only be called immediately after a reindex, either during an online
+   * schema upgrade while actively writing to this index, or during an offline
+   * reindex.
+   *
+   * @throws IOException
+   */
+  public void markReady() throws IOException;
 }

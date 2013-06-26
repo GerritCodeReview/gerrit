@@ -14,14 +14,12 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.lucene.IndexVersionCheck.SCHEMA_VERSIONS;
-import static com.google.gerrit.lucene.IndexVersionCheck.gerritIndexConfig;
-import static com.google.gerrit.lucene.LuceneChangeIndex.LUCENE_VERSION;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -41,11 +39,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.index.ChangeSchemas;
+import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
@@ -61,11 +61,8 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -78,14 +75,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
@@ -103,9 +97,15 @@ public class Reindex extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
+  @Option(name = "--schema-version",
+      usage = "Schema version to reindex; default is most recent version")
+  private Integer version;
+
+  @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
+  private boolean dryRun;
+
   private Injector dbInjector;
   private Injector sysInjector;
-  private SitePaths sitePaths;
 
   @Override
   public int run() throws Exception {
@@ -114,13 +114,14 @@ public class Reindex extends SiteProgram {
     if (!IndexModule.isEnabled(dbInjector)) {
       throw die("Secondary index not enabled");
     }
+    if (version == null) {
+      version = ChangeSchemas.getLatest().getVersion();
+    }
     LifecycleManager dbManager = new LifecycleManager();
     dbManager.add(dbInjector);
     dbManager.start();
-    sitePaths = dbInjector.getInstance(SitePaths.class);
 
-    // Delete before any index may be created depending on this data.
-    deleteAll();
+    deleteIndex();
 
     sysInjector = createSysInjector();
     LifecycleManager sysManager = new LifecycleManager();
@@ -128,7 +129,7 @@ public class Reindex extends SiteProgram {
     sysManager.start();
 
     int result = indexAll();
-    writeVersion();
+    getIndex(sysInjector).markReady();
 
     sysManager.stop();
     dbManager.stop();
@@ -138,7 +139,7 @@ public class Reindex extends SiteProgram {
   private Injector createSysInjector() {
     List<Module> modules = Lists.newArrayList();
     modules.add(PatchListCacheImpl.module());
-    modules.add(new LuceneIndexModule(false, threads));
+    modules.add(new LuceneIndexModule(version, threads, dryRun));
     modules.add(new ReviewDbModule());
     modules.add(new AbstractModule() {
       @SuppressWarnings("rawtypes")
@@ -195,19 +196,23 @@ public class Reindex extends SiteProgram {
     }
   }
 
-  private void deleteAll() throws IOException {
-    for (String index : SCHEMA_VERSIONS.keySet()) {
-      File file = new File(sitePaths.index_dir, index);
-      if (file.exists()) {
-        Directory dir = FSDirectory.open(file);
-        try {
-          for (String name : dir.listAll()) {
-            dir.deleteFile(name);
-          }
-        } finally {
-          dir.close();
-        }
-      }
+  private ChangeIndex getIndex(Injector injector) {
+    return Iterables.getOnlyElement(
+        injector.getInstance(IndexCollection.class).getWriteIndexes());
+  }
+
+  private void deleteIndex() throws IOException {
+    // Use a fresh injector to get new singletons, since the index will be
+    // invalid after we delete it.
+    Injector deleteSysInjector = createSysInjector();
+    LifecycleManager sysManager = new LifecycleManager();
+    sysManager.add(deleteSysInjector);
+    sysManager.start();
+
+    try {
+      getIndex(deleteSysInjector).deleteIndex();
+    } finally {
+      sysManager.stop();
     }
   }
 
@@ -430,18 +435,5 @@ public class Reindex extends SiteProgram {
         oi.release();
       }
     }
-  }
-
-  private void writeVersion() throws IOException,
-      ConfigInvalidException {
-    FileBasedConfig cfg =
-        new FileBasedConfig(gerritIndexConfig(sitePaths), FS.detect());
-    cfg.load();
-
-    for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
-      cfg.setInt("index", e.getKey(), "schemaVersion", e.getValue());
-    }
-    cfg.setEnum("lucene", null, "version", LUCENE_VERSION);
-    cfg.save();
   }
 }

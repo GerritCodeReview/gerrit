@@ -118,7 +118,6 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     return writerConfig;
   }
 
-  private final RefreshThread refreshThread;
   private final FillArgs fillArgs;
   private final ExecutorService executor;
   private final boolean readOnly;
@@ -128,7 +127,6 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   LuceneChangeIndex(Config cfg, SitePaths sitePaths,
       ListeningScheduledExecutorService executor, FillArgs fillArgs,
       boolean readOnly) throws IOException {
-    this.refreshThread = new RefreshThread();
     this.fillArgs = fillArgs;
     this.executor = executor;
     this.readOnly = readOnly;
@@ -140,12 +138,10 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   @Override
   public void start() {
-    refreshThread.start();
   }
 
   @Override
   public void stop() {
-    refreshThread.halt();
     List<Future<?>> closeFutures = Lists.newArrayListWithCapacity(2);
     closeFutures.add(executor.submit(new Runnable() {
       @Override
@@ -484,36 +480,5 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
   private static IllegalArgumentException badFieldType(FieldType<?> t) {
     return new IllegalArgumentException("unknown index field type " + t);
-  }
-
-  private class RefreshThread extends Thread {
-    private boolean stop;
-
-    @Override
-    public void run() {
-      while (!stop) {
-        openIndex.maybeRefresh();
-        closedIndex.maybeRefresh();
-        synchronized (this) {
-          try {
-            wait(100);
-          } catch (InterruptedException e) {
-            log.warn("error refreshing index searchers", e);
-          }
-        }
-      }
-    }
-
-    void halt() {
-      synchronized (this) {
-        stop = true;
-        notify();
-      }
-      try {
-        join();
-      } catch (InterruptedException e) {
-        log.warn("error stopping refresh thread", e);
-      }
-    }
   }
 }

@@ -19,7 +19,10 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.SearcherManager;
+import org.apache.lucene.search.NRTManager;
+import org.apache.lucene.search.NRTManager.TrackingIndexWriter;
+import org.apache.lucene.search.NRTManagerReopenThread;
+import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
@@ -27,29 +30,44 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /** Piece of the change index that is implemented as a separate Lucene index. */
 class SubIndex {
   private static final Logger log = LoggerFactory.getLogger(SubIndex.class);
 
   private final Directory dir;
-  private final IndexWriter writer;
-  private final SearcherManager searcherManager;
+  private final TrackingIndexWriter writer;
+  private final NRTManager nrtManager;
+  private final NRTManagerReopenThread reopenThread;
 
   SubIndex(File file, IndexWriterConfig writerConfig) throws IOException {
     dir = FSDirectory.open(file);
-    writer = new IndexWriter(dir, writerConfig);
-    searcherManager = new SearcherManager(writer, true, null);
+    writer = new NRTManager.TrackingIndexWriter(new IndexWriter(dir, writerConfig));
+    nrtManager = new NRTManager(writer, new SearcherFactory());
+
+    reopenThread = new NRTManagerReopenThread(
+        nrtManager,
+        0.500 /* maximum stale age (seconds) */,
+        0.010 /* minimum stale age (seconds) */);
+    reopenThread.setName("NRT " + file.getName());
+    reopenThread.setPriority(Math.min(
+        Thread.currentThread().getPriority() + 2,
+        Thread.MAX_PRIORITY));
+    reopenThread.setDaemon(true);
+    reopenThread.start();
   }
 
   void close() {
+    reopenThread.close();
     try {
-      searcherManager.close();
+      nrtManager.close();
     } catch (IOException e) {
       log.warn("error closing Lucene searcher", e);
     }
     try {
-      writer.close();
+      writer.getIndexWriter().close();
     } catch (IOException e) {
       log.warn("error closing Lucene writer", e);
     }
@@ -60,31 +78,58 @@ class SubIndex {
     }
   }
 
-  void insert(Document doc) throws IOException {
-    writer.addDocument(doc);
+  Future<Void> insert(Document doc) throws IOException {
+    return new NrtFuture(writer.addDocument(doc));
   }
 
-  void replace(Term term, Document doc) throws IOException {
-    writer.updateDocument(term, doc);
+  Future<Void> replace(Term term, Document doc) throws IOException {
+    return new NrtFuture(writer.updateDocument(term, doc));
   }
 
-  void delete(Term term) throws IOException {
-    writer.deleteDocuments(term);
+  Future<Void> delete(Term term) throws IOException {
+    return new NrtFuture(writer.deleteDocuments(term));
   }
 
   IndexSearcher acquire() throws IOException {
-    return searcherManager.acquire();
+    return nrtManager.acquire();
   }
 
   void release(IndexSearcher searcher) throws IOException {
-    searcherManager.release(searcher);
+    nrtManager.release(searcher);
   }
 
-  void maybeRefresh() {
-    try {
-      searcherManager.maybeRefresh();
-    } catch (IOException e) {
-      log.warn("error refreshing indexer", e);
+  private final class NrtFuture implements Future<Void> {
+    private final long gen;
+
+    NrtFuture(long gen) {
+      this.gen = gen;
+    }
+
+    @Override
+    public Void get() {
+      nrtManager.waitForGeneration(gen);
+      return null;
+    }
+
+    @Override
+    public Void get(long timeout, TimeUnit unit) {
+      nrtManager.waitForGeneration(gen, timeout, unit);
+      return null;
+    }
+
+    @Override
+    public boolean isDone() {
+      return gen <= nrtManager.getCurrentSearchingGen();
+    }
+
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+      return true;
+    }
+
+    @Override
+    public boolean isCancelled() {
+      return false;
     }
   }
 }

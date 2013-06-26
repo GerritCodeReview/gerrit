@@ -16,6 +16,24 @@
       "revId": "682119f90e5fd46eb864ad5f2805a34612b7d431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_410e54f2",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/SubIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T17:11:55Z",
+      "side": 1,
+      "message": "That is how I understood the Lucene implementation.",
+      "parentUuid": "caf29916_6136f0e8",
+      "revId": "682119f90e5fd46eb864ad5f2805a34612b7d431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

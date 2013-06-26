@@ -61,6 +61,6 @@ public class SolrIndexModule extends LifecycleModule {
       IndexCollection indexes,
       FillArgs fillArgs) throws IOException {
     return new SolrChangeIndex(cfg, fillArgs, sitePaths, indexes,
-        ChangeSchemas.getLatestRelease(), base);
+        ChangeSchemas.getLatest(), base);
   }
 }

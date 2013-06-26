@@ -16,11 +16,11 @@ package com.google.gerrit.server.index;
 
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
-import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -34,7 +34,7 @@ import org.eclipse.jgit.lib.Config;
  * This module should not be used directly except by specific secondary indexer
  * implementations (e.g. Lucene).
  */
-public class IndexModule extends AbstractModule {
+public class IndexModule extends LifecycleModule {
   public enum IndexType {
     SQL, LUCENE, SOLR;
   }
@@ -57,6 +57,8 @@ public class IndexModule extends AbstractModule {
     bind(ChangeIndexer.class).to(ChangeIndexerImpl.class);
     bind(ChangeQueryRewriter.class).to(IndexRewriteImpl.class);
     bind(IndexRewriteImpl.BasicRewritesImpl.class);
+    bind(IndexCollection.class);
+    listener().to(IndexCollection.class);
   }
 
   @Provides

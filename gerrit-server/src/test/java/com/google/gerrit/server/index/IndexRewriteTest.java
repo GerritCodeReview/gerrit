@@ -90,7 +90,11 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
-    public void finishIndex() {
+    public void close() {
+    }
+
+    @Override
+    public void markReady() {
       throw new UnsupportedOperationException();
     }
   }

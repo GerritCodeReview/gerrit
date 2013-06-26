@@ -21,6 +21,7 @@ import static com.google.gerrit.reviewdb.client.Change.Status.NEW;
 import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.PredicateWrapper;
@@ -34,7 +35,6 @@ import com.google.gwtorm.server.ResultSet;
 
 import junit.framework.TestCase;
 
-import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -42,17 +42,17 @@ import java.util.Set;
 public class IndexRewriteTest extends TestCase {
   private static class DummyIndex implements ChangeIndex {
     @Override
-    public void insert(ChangeData cd) throws IOException {
+    public ListenableFuture<Void> insert(ChangeData cd) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void replace(ChangeData cd) throws IOException {
+    public ListenableFuture<Void> replace(ChangeData cd) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void delete(ChangeData cd) throws IOException {
+    public ListenableFuture<Void> delete(ChangeData cd) {
       throw new UnsupportedOperationException();
     }
 

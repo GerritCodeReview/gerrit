@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca1b7926_fca581aa",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T00:33:31Z",
+      "side": 1,
+      "message": "if (!(p instanceof LabelPredicate)) throw ...\n\nDoing the early throw removes a level of indentation from the rest of the block.",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_5c0595c7",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T00:33:31Z",
+      "side": 1,
+      "message": "Instead make a helper class to extend MultiTermQuery.",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1b7926_dcaa457a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T00:33:31Z",
+      "side": 1,
+      "message": "I think this can also be a MultiTermQuery. BooleanQuery with SHOULD on all members is the same as a MultiTermQuery.",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_dea7e597",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T00:33:31Z",
+      "side": 1,
+      "message": "isGtEq",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_fea2a189",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T00:33:31Z",
+      "side": 1,
+      "message": "ChangeField.LABEL.getName()",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caf29916_9e9d5d50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/FieldType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-26T00:33:31Z",
+      "side": 1,
+      "message": "Do we really need a new field type? This should be EXACT.",
+      "revId": "0c8634d99b9b3a4dc2c4ad262f18e92ed3422de8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

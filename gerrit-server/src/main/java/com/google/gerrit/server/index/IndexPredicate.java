@@ -15,10 +15,21 @@
 package com.google.gerrit.server.index;
 
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.Predicate;
 
 /** Index-aware predicate that includes a field type annotation. */
 public abstract class IndexPredicate<I> extends OperatorPredicate<I> {
+  public static <I> void setQueryRoot(Predicate<I> p, Predicate<I> root) {
+    for (Predicate<I> c : p.getChildren()) {
+      if (c instanceof IndexPredicate) {
+        ((IndexPredicate<I>) c).queryRoot = root;
+      }
+      setQueryRoot(c, root);
+    }
+  }
+
   private final FieldDef<I, ?> def;
+  private Predicate<I> queryRoot;
 
   public IndexPredicate(FieldDef<I, ?> def, String value) {
     super(def.getName(), value);
@@ -36,6 +47,10 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> {
 
   public FieldType<?> getType() {
     return def.getType();
+  }
+
+  public Predicate<I> getQueryRoot() {
+    return queryRoot;
   }
 
   /**

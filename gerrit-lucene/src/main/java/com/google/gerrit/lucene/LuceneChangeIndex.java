@@ -214,7 +214,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
     if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
       indexes.add(closedIndex);
     }
-    return new QuerySource(indexes, toQuery(p));
+    IndexPredicate.setQueryRoot(p, p);
+    return new QuerySource(indexes, toQuery(p), p);
   }
 
   private Term idTerm(ChangeData cd) {
@@ -316,10 +317,12 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
 
     private final List<SubIndex> indexes;
     private final Query query;
+    private final Predicate<ChangeData> root;
 
-    public QuerySource(List<SubIndex> indexes, Query query) {
+    QuerySource(List<SubIndex> indexes, Query query, Predicate<ChangeData> root) {
       this.indexes = indexes;
       this.query = query;
+      this.root = root;
     }
 
     @Override
@@ -353,7 +356,9 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
         for (ScoreDoc sd : docs.scoreDocs) {
           Document doc = searchers[sd.shardIndex].doc(sd.doc);
           Number v = doc.getField(FIELD_CHANGE).numericValue();
-          result.add(new ChangeData(new Change.Id(v.intValue())));
+          ChangeData cd = new ChangeData(new Change.Id(v.intValue()));
+          cd.cacheFromQuery(root);
+          result.add(cd);
         }
 
         final List<ChangeData> r = Collections.unmodifiableList(result);

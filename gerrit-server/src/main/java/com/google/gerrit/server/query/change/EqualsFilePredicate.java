@@ -38,6 +38,10 @@ class EqualsFilePredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
+    if (object.isFromQuery(getQueryRoot())) {
+      return true;
+    }
+
     List<String> files = object.currentFilePaths(db, cache);
     if (files != null) {
       return Collections.binarySearch(files, value) >= 0;

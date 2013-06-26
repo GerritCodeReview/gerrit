@@ -17,13 +17,14 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gwt.thirdparty.guava.common.collect.Maps;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Map;
 
 class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
   private int cardinality = -1;
@@ -37,12 +38,16 @@ class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
     // TODO(spearce) This probably should be more lazy.
     //
     ArrayList<ChangeData> r = new ArrayList<ChangeData>();
-    HashSet<Change.Id> have = new HashSet<Change.Id>();
+    Map<Change.Id, ChangeData> have = Maps.newHashMap();
     for (Predicate<ChangeData> p : getChildren()) {
       if (p instanceof ChangeDataSource) {
         for (ChangeData cd : ((ChangeDataSource) p).read()) {
-          if (have.add(cd.getId())) {
+          ChangeData o = have.get(cd.getId());
+          if (o == null) {
             r.add(cd);
+            have.put(cd.getId(), o);
+          } else {
+            o.cacheFromQuery(cd);
           }
         }
       } else {

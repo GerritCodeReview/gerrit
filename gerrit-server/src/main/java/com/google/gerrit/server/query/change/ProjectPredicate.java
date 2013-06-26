@@ -36,6 +36,10 @@ class ProjectPredicate extends IndexPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
+    if (object.isFromQuery(getQueryRoot())) {
+      return true;
+    }
+
     Change change = object.change(dbProvider);
     if (change == null) {
       return false;

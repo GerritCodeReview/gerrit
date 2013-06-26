@@ -38,7 +38,7 @@ class LegacyChangeIdPredicate extends IndexPredicate<ChangeData> implements
 
   @Override
   public boolean match(final ChangeData object) {
-    return id.equals(object.getId());
+    return object.isFromQuery(getQueryRoot()) || id.equals(object.getId());
   }
 
   @Override

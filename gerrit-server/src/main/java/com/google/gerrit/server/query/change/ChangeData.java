@@ -39,6 +39,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
@@ -132,6 +133,7 @@ public class ChangeData {
   }
 
   private final Change.Id legacyId;
+  private Set<Predicate<ChangeData>> queries;
   private Change change;
   private String commitMessage;
   private PatchSet currentPatchSet;
@@ -162,6 +164,27 @@ public class ChangeData {
     legacyId = c.getChange().getId();
     change = c.getChange();
     changeControl = c;
+  }
+
+  public boolean isFromQuery(Predicate<ChangeData> p) {
+    return queries != null && queries.contains(p);
+  }
+
+  public void cacheFromQuery(Predicate<ChangeData> p) {
+    if (queries == null) {
+      queries = Sets.newHashSetWithExpectedSize(2);
+    }
+    queries.add(p);
+  }
+
+  public void cacheFromQuery(ChangeData copyOfSelf) {
+    if (copyOfSelf.queries == null) {
+      return;
+    } else if (queries == null) {
+      queries = Sets.newHashSet(copyOfSelf.queries);
+    } else {
+      queries.addAll(copyOfSelf.queries);
+    }
   }
 
   public void limitToPatchSets(Collection<PatchSet.Id> ids) {

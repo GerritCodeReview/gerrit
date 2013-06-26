@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a7b0960_02f8eafe",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneIndexModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T18:43:20Z",
+      "side": 1,
+      "message": "Oops. This is a typo, this should have been binding ChangeIndex to LuceneChangeIndex. But...apparently we can\u0027t have a DynamicItem\u003cFoo\u003e and a DynamicSet\u003cFoo\u003e for the same Foo:\n\n 1) Multiple providers bound for DynamicItem\u003ccom.google.gerrit.server.index.ChangeIndex\u003e\n This is not allowed; check the server configuration.\n   at com.google.gerrit.extensions.registration.DynamicItem.itemOf(DynamicItem.java:80)\n   at com.google.gerrit.extensions.registration.DynamicItem.itemOf(DynamicItem.java:80)\n   while locating com.google.gerrit.extensions.registration.DynamicItem\u003ccom.google.gerrit.server.index.ChangeIndex\u003e",
+      "revId": "1c6d8ee3ad11efdc121d5e4decab278345fbad01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

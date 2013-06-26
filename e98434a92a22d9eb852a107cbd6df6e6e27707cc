@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aadc9fb_b20fa040",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchema_0001.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-26T05:43:44Z",
+      "side": 1,
+      "message": "I don\u0027t think I like having these in separate classes. It\u0027s making it hard in a downstream change to iterate all of them (to find what is the recognized set of schema versions when scanning the index directory).\n\nI think instead something like:\n\n  public class ChangeSchemas {\n    public VersionedIndex\u003cChangeData\u003e V001 \u003d new VersionedIndex\u003cChangeData\u003e(1, ImmutableList.of(\n        Field1.INSTANCE,\n        Field2.INSTANCE));\n\n    public VersionedIndex\u003cChangeData\u003e V002 \u003d new VersionedIndex\u003cChangeData\u003e(2, ImmutableList.of(\n        Field1.INSTANCE,\n        Field2.INSTANCE,\n        Field3.INSTANCE));\n\n    public VersionedIndex\u003cChangeData\u003e V003 \u003d new VersionedIndex\u003cChangeData\u003e(3, ImmutableList.of(\n        Field2.INSTANCE,\n        Field3.INSTANCE));\n\n    public Map\u003cInteger, VersionedIndex\u003cChangeData\u003e\u003e all() {...}\n  }\n\nMight want to do s/VersionedIndex/Schema/ too just to keep it short.",
+      "revId": "e98434a92a22d9eb852a107cbd6df6e6e27707cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

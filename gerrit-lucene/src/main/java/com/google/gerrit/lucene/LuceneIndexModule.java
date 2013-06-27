@@ -53,9 +53,22 @@ public class LuceneIndexModule extends LifecycleModule {
     });
     install(new IndexModule(threads));
     if (singleVersion == null && base == null) {
-      listener().to(LuceneVersionManager.class);
+      install(new MultiVersionModule());
     } else {
       install(new SingleVersionModule());
+    }
+  }
+
+  private class MultiVersionModule extends LifecycleModule {
+    @Override
+    public void configure() {
+      install(new FactoryModule() {
+        @Override
+        public void configure() {
+          factory(OnlineReindexer.Factory.class);
+        }
+      });
+      listener().to(LuceneVersionManager.class);
     }
   }
 

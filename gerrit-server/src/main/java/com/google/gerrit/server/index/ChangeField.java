@@ -49,7 +49,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 13;
+  public static final int SCHEMA_VERSION = 14;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -64,7 +64,7 @@ public class ChangeField {
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =
       new FieldDef.Single<ChangeData, String>("change_id",
-          FieldType.PREFIX, true) {
+          FieldType.PREFIX, false) {
         @Override
         public String get(ChangeData input, FillArgs args)
             throws OrmException {

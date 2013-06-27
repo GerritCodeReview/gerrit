@@ -135,9 +135,10 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
     in = basicRewrites.rewrite(in);
 
-    Predicate<ChangeData> out = rewriteImpl(in);
+    ChangeIndex index = indexes.getSearchIndex();
+    Predicate<ChangeData> out = rewriteImpl(in, index);
     if (in == out || out instanceof IndexPredicate) {
-      return query(out);
+      return query(out, index);
     } else if (out == null /* cannot rewrite */) {
       return in;
     } else {
@@ -149,14 +150,16 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
    * Rewrite a single predicate subtree.
    *
    * @param in predicate to rewrite.
+   * @param index index whose schema determines which fields are indexed.
    * @return {@code null} if no part of this subtree can be queried in the
    *     index directly. {@code in} if this subtree and all its children can be
    *     queried directly in the index. Otherwise, a predicate that is
    *     semantically equivalent, with some of its subtrees wrapped to query the
    *     index directly.
    */
-  private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in) {
-    if (in instanceof IndexPredicate) {
+  private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
+      ChangeIndex index) {
+    if (isIndexPredicate(in, index)) {
       return in;
     } else if (!isRewritePossible(in)) {
       return null; // magic to indicate "in" cannot be rewritten
@@ -169,7 +172,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     List<Predicate<ChangeData>> newChildren = Lists.newArrayListWithCapacity(n);
     for (int i = 0; i < n; i++) {
       Predicate<ChangeData> c = in.getChild(i);
-      Predicate<ChangeData> nc = rewriteImpl(c);
+      Predicate<ChangeData> nc = rewriteImpl(c, index);
       if (nc == c) {
         isIndexed.set(i);
         newChildren.add(c);
@@ -189,16 +192,25 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     } else if (rewritten.cardinality() == n) {
       return in.copy(newChildren); // All children were rewritten.
     }
-    return partitionChildren(in, newChildren, isIndexed);
+    return partitionChildren(in, newChildren, isIndexed, index);
+  }
+
+  private boolean isIndexPredicate(Predicate<ChangeData> in, ChangeIndex index) {
+    if (!(in instanceof IndexPredicate)) {
+      return false;
+    }
+    IndexPredicate<ChangeData> p = (IndexPredicate<ChangeData>) in;
+    return index.getSchema().getFields().containsKey(p.getField().getName());
   }
 
   private Predicate<ChangeData> partitionChildren(
       Predicate<ChangeData> in,
       List<Predicate<ChangeData>> newChildren,
-      BitSet isIndexed) {
+      BitSet isIndexed,
+      ChangeIndex index) {
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
-      newChildren.add(0, query(newChildren.remove(i)));
+      newChildren.add(0, query(newChildren.remove(i), index));
       return copy(in, newChildren);
     }
 
@@ -218,7 +230,7 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
         all.add(c);
       }
     }
-    all.add(0, query(in.copy(indexed)));
+    all.add(0, query(in.copy(indexed), index));
     return copy(in, all);
   }
 
@@ -233,9 +245,9 @@ public class IndexRewriteImpl implements ChangeQueryRewriter {
     return in.copy(all);
   }
 
-  private IndexedChangeQuery query(Predicate<ChangeData> p) {
+  private IndexedChangeQuery query(Predicate<ChangeData> p, ChangeIndex index) {
     try {
-      return new IndexedChangeQuery(indexes.getSearchIndex(), p);
+      return new IndexedChangeQuery(index, p);
     } catch (QueryParseException e) {
       throw new IllegalStateException(
           "Failed to convert " + p + " to index predicate", e);

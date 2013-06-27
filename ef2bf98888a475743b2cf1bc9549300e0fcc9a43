@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa8ba5a1_5d081be3",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T18:26:18Z",
+      "side": 1,
+      "message": "Nit: I\u0027d use String.format here",
+      "revId": "ef2bf98888a475743b2cf1bc9549300e0fcc9a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

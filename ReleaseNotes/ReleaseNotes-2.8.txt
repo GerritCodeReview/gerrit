@@ -57,6 +57,13 @@ REST API
 Several new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api.html[
 REST API endpoints] are added.
 
+Access Rights
+^^^^^^^^^^^^^
+
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-access.html#list-access[
+List access rights for project(s)]
+
 Accounts
 ^^^^^^^^
 
@@ -239,19 +246,51 @@ Web UI
 ~~~~~~
 
 
+Global
+^^^^^^
+
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1574[Issue 1574]:
+Correctly highlight matches of text in escaped HTML entities in suggestion results.
+
+
+Change Screens
+^^^^^^^^^^^^^^
+
+
 * Default review comment visibility is changed to expand all recent.
 +
 By default all comments within the last week are expanded, rather than
 only the most recent.
 
-* The preferred email address field is shown as empty if the user has no
-preferred email address.
-
-* link:https://code.google.com/p/gerrit/issues/detail?id=1574[Issue 1574]:
-Correctly highlight matches of text in escaped HTML entities in suggestion results.
-
 * link:https://code.google.com/p/gerrit/issues/detail?id=1814[Issue 1814]:
 Sort labels alphabetically by name in the approval table.
+
+Project Screens
+^^^^^^^^^^^^^^^
+
+
+* Keep selection of branches when branch deletion fails.
++
+If the deletion of one or more branches fails, keep those branches selected
+to make it easier for the user to retry the deletion.
+
+* Only enable the delete branch button when branches are selected.
+
+* Disable the delete branch button while branch deletion requests are
+still being processed.
+
+* Don't reload all branches after adding a new branch.
++
+Instead of reloading all branches, just insert the newly added branch
+into the existing list.
+
+User Profile Screens
+^^^^^^^^^^^^^^^^^^^^
+
+
+* The preferred email address field is shown as empty if the user has no
+preferred email address.
 
 
 REST API
@@ -279,11 +318,6 @@ Tools
 
 * git-exproll.sh: return non-zero on errors
 
-Upgrades
---------
-
-
-* TODO
 
 Documentation
 -------------
@@ -291,4 +325,7 @@ Documentation
 
 * The link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/index.html[
 documentation index page] is rewritten in a hierarchical structure.
+
+* Various spelling mistakes are corrected in the documentation and previous
+release notes.
 

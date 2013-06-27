@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ea303dcf_a714aa51",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T22:01:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_bc25a184",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_3dd6ef15",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2013-06-27T19:05:10Z",
       "side": 1,
       "message": "I _strongly_ suggest working the diff generation into this code path so we can reuse the RevWalk.",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa22c587_e5f7760d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T22:01:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_3dd6ef15",
       "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "ea303dcf_072496ba",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T22:01:28Z",
+      "side": 1,
+      "message": "The \u0027grep\u0027 query operator is now renamed to \u0027patch\u0027, and the LINE field is now called DIFF.\n\nI haven\u0027t addressed your comment about the analyzer yet. Gohulan is currently checking if there is anything better than FuzzyQuery for FULL_TEXT search (commit message, comments). Maybe what he finds will be good for searching code as well.",
+      "parentUuid": "8a98a1f6_dc2a6d53",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_5de3bbf2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "aa22c587_25fa6ef7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T22:01:28Z",
+      "side": 1,
+      "message": "As discussed, the PatchList is already retrieved from the PatchListCache. I\u0027ve now moved most of this code into the ChangeData class.",
+      "parentUuid": "aa8ba5a1_5de3bbf2",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_9dc46365",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1
@@ -99,6 +171,24 @@
       "writtenOn": "2013-06-27T18:51:14Z",
       "side": 1,
       "message": "s/doessn\u0027t/doesn\u0027t",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa22c587_45076a2a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T22:01:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_9dc46365",
       "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

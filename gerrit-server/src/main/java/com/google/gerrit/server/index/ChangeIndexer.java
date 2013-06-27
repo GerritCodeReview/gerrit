@@ -29,6 +29,11 @@ import java.util.concurrent.Callable;
  * compute some of the fields and/or update the index.
  */
 public abstract class ChangeIndexer {
+  public interface Factory {
+    ChangeIndexer create(ChangeIndex index);
+    ChangeIndexer create(IndexCollection indexes);
+  }
+
   /** Instance indicating secondary index is disabled. */
   public static final ChangeIndexer DISABLED = new ChangeIndexer(null) {
     @Override

@@ -94,7 +94,7 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
-    public void markReady() {
+    public void markReady(boolean ready) {
       throw new UnsupportedOperationException();
     }
   }

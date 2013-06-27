@@ -17,7 +17,6 @@ package com.google.gerrit.solr;
 import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
 import static com.google.gerrit.solr.IndexVersionCheck.SCHEMA_VERSIONS;
-import static com.google.gerrit.solr.IndexVersionCheck.solrIndexConfig;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -28,7 +27,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lucene.QueryBuilder;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
@@ -49,13 +47,15 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.apache.solr.client.solrj.request.CoreAdminRequest;
+import org.apache.solr.client.solrj.request.CoreAdminRequest.Create;
+import org.apache.solr.client.solrj.request.CoreAdminRequest.WaitForState;
+import org.apache.solr.client.solrj.response.CoreAdminResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
-import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.apache.solr.common.params.CoreAdminParams.CoreAdminAction;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -71,30 +71,56 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
+  private static final int METADATA_ID = -1;
 
   private final FillArgs fillArgs;
-  private final SitePaths sitePaths;
   private final CloudSolrServer openIndex;
   private final CloudSolrServer closedIndex;
 
   @Inject
   SolrChangeIndex(
       @GerritServerConfig Config cfg,
-      FillArgs fillArgs,
-      SitePaths sitePaths) throws IOException {
+      FillArgs fillArgs) throws IOException {
     this.fillArgs = fillArgs;
-    this.sitePaths = sitePaths;
 
     String url = cfg.getString("index", "solr", "url");
     if (Strings.isNullOrEmpty(url)) {
       throw new IllegalStateException("index.solr.url must be supplied");
     }
 
+    try {
+      CloudSolrServer server = new CloudSolrServer(url);
+      CoreAdminRequest request = new CoreAdminRequest();
+      request.setAction(CoreAdminAction.STATUS);
+      CoreAdminResponse response = request.process(server);
+
+      for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
+        String coreName = String.format("%s_%s", e.getKey(), e.getValue());
+        if (response.getCoreStatus().get(coreName) == null) {
+          Create createRequest = new Create();
+          createRequest.setCoreName(coreName);
+          createRequest.setCoreNodeName(coreName);
+          createRequest.setInstanceDir(coreName);
+          createRequest.process(server);
+
+          WaitForState waitRequest = new WaitForState();
+          waitRequest.setCoreName(coreName);
+          waitRequest.setCoreNodeName(coreName);
+          waitRequest.setState("active");
+          waitRequest.process(server);
+        }
+      }
+    } catch (SolrServerException e) {
+      throw new IOException(e);
+    }
+
     openIndex = new CloudSolrServer(url);
-    openIndex.setDefaultCollection(CHANGES_OPEN);
+    openIndex.setDefaultCollection(String.format("%s_%s", CHANGES_OPEN,
+        SCHEMA_VERSIONS.get(CHANGES_OPEN)));
 
     closedIndex = new CloudSolrServer(url);
-    closedIndex.setDefaultCollection(CHANGES_CLOSED);
+    closedIndex.setDefaultCollection(String.format("%s_%s", CHANGES_CLOSED,
+        SCHEMA_VERSIONS.get(CHANGES_CLOSED)));
   }
 
   @Override
@@ -309,15 +335,25 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public void finishIndex() throws IOException,
-      ConfigInvalidException {
-    // TODO Move the schema version information to a special meta-document
-    FileBasedConfig cfg = new FileBasedConfig(
-        solrIndexConfig(sitePaths),
-        FS.detect());
-    for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
-      cfg.setInt("index", e.getKey(), "schemaVersion", e.getValue());
+  public void finishIndex() throws IOException {
+    SolrInputDocument doc = new SolrInputDocument();
+    doc.addField(ID_FIELD, METADATA_ID);
+    try {
+      openIndex.add(doc);
+      openIndex.commit();
+    } catch (SolrServerException e) {
+      throw new IOException(e);
     }
-    cfg.save();
+  }
+
+  public boolean isIndexed() throws IOException {
+    SolrQuery query =
+        new SolrQuery(String.format("%s:\\%d", ID_FIELD,
+            METADATA_ID));
+    try {
+      return openIndex.query(query).getResults().size() > 0;
+    } catch (SolrServerException e) {
+      throw new IOException(e);
+    }
   }
 }

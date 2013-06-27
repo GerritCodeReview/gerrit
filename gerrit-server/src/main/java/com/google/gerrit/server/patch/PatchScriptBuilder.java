@@ -50,7 +50,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class PatchScriptBuilder {
+public class PatchScriptBuilder {
   static final int MAX_CONTEXT = 5000000;
   static final int BIG_FILE = 9000;
 
@@ -86,16 +86,16 @@ class PatchScriptBuilder {
     patchListCache = plc;
   }
 
-  void setRepository(Repository r, Project.NameKey projectKey) {
+  public void setRepository(Repository r, Project.NameKey projectKey) {
     this.db = r;
     this.projectKey = projectKey;
   }
 
-  void setChange(final Change c) {
+  public void setChange(final Change c) {
     this.change = c;
   }
 
-  void setDiffPrefs(final AccountDiffPreference dp) {
+  public void setDiffPrefs(final AccountDiffPreference dp) {
     diffPrefs = dp;
 
     context = diffPrefs.getContext();
@@ -106,13 +106,13 @@ class PatchScriptBuilder {
     }
   }
 
-  void setTrees(final boolean ap, final ObjectId a, final ObjectId b) {
+  public void setTrees(final boolean ap, final ObjectId a, final ObjectId b) {
     againstParent = ap;
     aId = a;
     bId = b;
   }
 
-  PatchScript toPatchScript(final PatchListEntry content,
+  public PatchScript toPatchScript(final PatchListEntry content,
       final CommentDetail comments, final List<Patch> history)
       throws IOException {
     reader = db.newObjectReader();

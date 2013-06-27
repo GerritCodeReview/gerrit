@@ -106,6 +106,9 @@ public class Reindex extends SiteProgram {
   @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
   private boolean dryRun;
 
+  @Option(name = "--verbose", usage = "Output debug information for each change")
+  private boolean verbose;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private SitePaths sitePaths;
@@ -390,8 +393,14 @@ public class Reindex extends SiteProgram {
                 cd.setCurrentFilePaths(paths);
                 indexer.indexTask(cd).call();
                 done.update(1);
+                if (verbose) {
+                  System.out.println("Reindexed change " + cd.getId());
+                }
               } catch (Exception e) {
                 log.warn("Failed to index change " + cd.getId(), e);
+                if (verbose) {
+                  System.out.println("Failed to index change " + cd.getId());
+                }
                 failed.update(1);
               }
             }
@@ -401,6 +410,9 @@ public class Reindex extends SiteProgram {
         }
       } catch (Exception e) {
         log.warn("Failed to index changes for commit " + bCommit.name(), e);
+        if (verbose) {
+          System.out.println("Failed to index changes for commit " + bCommit.name());
+        }
         failed.update(1);
       }
     }

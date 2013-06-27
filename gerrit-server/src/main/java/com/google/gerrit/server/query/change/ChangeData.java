@@ -22,7 +22,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.CommentDetail;
+import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -33,11 +37,13 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.change.DiffContent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.PatchScriptBuilder;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -142,6 +148,7 @@ public class ChangeData {
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
   private List<PatchSetApproval> currentApprovals;
   private List<String> currentFiles;
+  private Map<String, DiffContent> currentDiffContent;
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
@@ -238,6 +245,47 @@ public class ChangeData {
       currentFiles = Collections.unmodifiableList(r);
     }
     return currentFiles;
+  }
+
+  public void setCurrentDiffContent(Repository git, Project.NameKey projectKey,
+      List<String> files, PatchList list, PatchListCache cache,
+      PatchScriptBuilder b) throws IOException {
+    currentDiffContent = Maps.newHashMap();
+    b.setRepository(git, projectKey);
+    b.setChange(change);
+    b.setDiffPrefs(AccountDiffPreference.createDefault(new Account.Id(0)));
+    b.setTrees(list.isAgainstParent(), list.getOldId(), list.getNewId());
+
+    for (String file : files) {
+      PatchScript patchScript =
+          b.toPatchScript(list.get(file), new CommentDetail(null, null),
+              new ArrayList<Patch>());
+      currentDiffContent.put(file, new DiffContent(patchScript));
+    }
+  }
+
+  public Map<String, DiffContent> currentDiffContent(
+      GitRepositoryManager repoManager, Provider<ReviewDb> db,
+      PatchListCache cache, Provider<PatchScriptBuilder> patchScriptBuilder)
+      throws OrmException, IOException {
+    if (currentDiffContent == null) {
+      Change change = change(db);
+      PatchSet currentPatchSet = currentPatchSet(db);
+      Project.NameKey projectKey = change.getProject();
+
+      Repository git = repoManager.openRepository(projectKey);
+      try {
+        PatchList list = cache.get(change, currentPatchSet);
+        List<String> files = currentFilePaths(db, cache);
+        setCurrentDiffContent(git, projectKey, files, list, cache,
+            patchScriptBuilder.get());
+      } catch (PatchListNotAvailableException e) {
+        // change doesn't exist -> ignore
+      } finally {
+        git.close();
+      }
+    }
+    return currentDiffContent;
   }
 
   public Change.Id getId() {

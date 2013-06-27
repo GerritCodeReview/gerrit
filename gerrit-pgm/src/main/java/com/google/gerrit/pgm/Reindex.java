@@ -35,7 +35,10 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -47,8 +50,12 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.NoIndexModule;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
+import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListLoader;
+import com.google.gerrit.server.patch.PatchScriptBuilder;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.solr.SolrIndexModule;
 import com.google.gwtorm.server.OrmException;
@@ -161,6 +168,7 @@ public class Reindex extends SiteProgram {
         // once, so don't worry about cache removal.
         bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
             .toInstance(DynamicSet.<CacheRemovalListener> emptySet());
+        bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
         install(new DefaultCacheFactory.Module());
       }
     });
@@ -306,6 +314,8 @@ public class Reindex extends SiteProgram {
 
   private class ReindexProject implements Callable<Void> {
     private final ChangeIndexer indexer;
+    private final PatchListCache patchListCache;
+    private final PatchScriptBuilder patchScriptBuilder;
     private final Project.NameKey project;
     private final ListMultimap<ObjectId, ChangeData> byId;
     private final Task done;
@@ -315,6 +325,8 @@ public class Reindex extends SiteProgram {
 
     private ReindexProject(Project.NameKey project, Task done, Task failed) {
       this.indexer = sysInjector.getInstance(ChangeIndexer.class);
+      this.patchListCache = sysInjector.getInstance(PatchListCache.class);
+      this.patchScriptBuilder = sysInjector.getInstance(PatchScriptBuilder.class);
       this.project = project;
       this.byId = ArrayListMultimap.create();
       this.done = done;
@@ -393,6 +405,10 @@ public class Reindex extends SiteProgram {
               cd = cdit.next();
               try {
                 cd.setCurrentFilePaths(paths);
+                PatchList list = patchListCache.get(
+                    new PatchListKey(project, null, bCommit, Whitespace.IGNORE_NONE));
+                cd.setCurrentDiffContent(repo, project, paths, list,
+                    patchListCache, patchScriptBuilder);
                 indexer.indexTask(cd).call();
                 done.update(1);
                 if (verbose) {

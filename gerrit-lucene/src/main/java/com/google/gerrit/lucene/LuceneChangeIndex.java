@@ -353,7 +353,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
         doc.add(new IntField(name, t, store));
       }
     } else if (f.getType() == FieldType.EXACT
-        || f.getType() == FieldType.PREFIX) {
+        || f.getType() == FieldType.PREFIX
+        || f.getType() == FieldType.EXACT_TEXT) {
       for (Object value : values) {
         doc.add(new StringField(name, (String) value, store));
       }

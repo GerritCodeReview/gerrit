@@ -39,9 +39,13 @@ public class FieldType<T> {
   public static final FieldType<String> PREFIX =
       new FieldType<String>("PREFIX");
 
-  /** A string field searched using fuzzy-match semantics. */
+  /** A text field searched using fuzzy-match semantics. */
   public static final FieldType<String> FULL_TEXT =
       new FieldType<String>("FULL_TEXT");
+
+  /** A string field (not parsed by the analyzer) searched using fuzzy-match semantics. */
+  public static final FieldType<String> EXACT_TEXT =
+      new FieldType<String>("EXACT_TEXT");
 
   private final String name;
 

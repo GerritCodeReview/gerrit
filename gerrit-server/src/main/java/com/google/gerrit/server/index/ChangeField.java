@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.change.DiffContent;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -49,7 +50,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 15;
+  public static final int SCHEMA_VERSION = 16;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -280,6 +281,33 @@ public class ChangeField {
           }
           for (ChangeMessage m : input.messages(args.db)) {
             r.add(m.getMessage());
+          }
+          return r;
+        }
+      };
+
+  /** Lines inserted/deleted/replaced by the current patch set of the change. */
+  public static final FieldDef<ChangeData, Iterable<String>> DIFF =
+      new FieldDef.Repeatable<ChangeData, String>("diff", FieldType.EXACT_TEXT,
+          false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException, IOException {
+          Set<String> r = Sets.newHashSet();
+          for (DiffContent diff : input.currentDiffContent(args.repoManager,
+              args.db, args.patchListCache, args.patchScriptBuilder).values()) {
+            for (DiffContent.Entry e : diff.getLines()) {
+              if (e.a != null) {
+                for (String aLine : e.a) {
+                  r.add("- " + aLine);
+                }
+              }
+              if (e.b != null) {
+                for (String bLine : e.b) {
+                  r.add("+ " + bLine);
+                }
+              }
+            }
           }
           return r;
         }

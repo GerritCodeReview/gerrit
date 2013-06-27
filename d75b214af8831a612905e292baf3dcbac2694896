@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "aa8ba5a1_1d56930e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T01:59:35Z",
+      "side": 1,
+      "message": "s/p.getOperator()/p.getField().getName()\n\nShawn recently changed this in the other places, see [1].\n\n[1] https://gerrit-review.googlesource.com/47271",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_bd667ffd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 5

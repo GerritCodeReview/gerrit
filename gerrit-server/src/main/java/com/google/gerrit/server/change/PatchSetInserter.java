@@ -205,7 +205,7 @@ public class PatchSetInserter {
 
       if (copyLabels) {
         ApprovalsUtil.copyLabels(db, refControl.getProjectControl()
-            .getLabelTypes(), currentPatchSetId, change.currentPatchSetId());
+            .getLabelTypes(), currentPatchSetId, updatedChange.currentPatchSetId());
       }
 
       final List<FooterLine> footerLines = commit.getFooterLines();

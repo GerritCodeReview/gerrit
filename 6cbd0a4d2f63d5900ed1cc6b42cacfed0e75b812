@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_9d962341",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T21:04:00Z",
+      "side": 1,
+      "message": "Ack, thanks.",
+      "parentUuid": "aa8ba5a1_3dbd0fbe",
+      "revId": "6cbd0a4d2f63d5900ed1cc6b42cacfed0e75b812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a53d1fd_900fd440",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2

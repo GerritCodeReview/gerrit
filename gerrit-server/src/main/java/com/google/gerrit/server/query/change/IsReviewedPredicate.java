@@ -18,15 +18,16 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.index.ChangeField;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class IsReviewedPredicate extends OperatorPredicate<ChangeData> {
+class IsReviewedPredicate extends IndexPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
 
   IsReviewedPredicate(Provider<ReviewDb> dbProvider) {
-    super(ChangeQueryBuilder.FIELD_IS, "reviewed");
+    super(ChangeField.REVIEWED, "1");
     this.dbProvider = dbProvider;
   }
 
@@ -50,5 +51,10 @@ class IsReviewedPredicate extends OperatorPredicate<ChangeData> {
   @Override
   public int getCost() {
     return 2;
+  }
+
+  @Override
+  public String toString() {
+    return "is:reviewed";
   }
 }

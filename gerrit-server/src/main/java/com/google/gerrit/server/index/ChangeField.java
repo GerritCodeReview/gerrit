@@ -49,7 +49,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 14;
+  public static final int SCHEMA_VERSION = 15;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -225,6 +225,22 @@ public class ChangeField {
           }
           allApprovals.addAll(distinctApprovals);
           return allApprovals;
+        }
+      };
+
+  /** Set true if the change has a non-zero label score. */
+  public static final FieldDef<ChangeData, String> REVIEWED =
+      new FieldDef.Single<ChangeData, String>(
+          "reviewed", FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args)
+            throws OrmException {
+          for (PatchSetApproval a : input.currentApprovals(args.db)) {
+            if (a.getValue() != 0) {
+              return "1";
+            }
+          }
+          return null;
         }
       };
 

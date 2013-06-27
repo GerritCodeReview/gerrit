@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa39e5b5_ad663dfd",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_dc6d0dcc",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_7dda376a",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-27T07:25:35Z",
       "side": 1,
       "message": "Code samples should be indented 2 columns.",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_cd5b8938",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:28:29Z",
+      "side": 1,
+      "message": "I don\u0027t understand that. The existing code above is indented exactly the same way.",
+      "parentUuid": "aa8ba5a1_7dda376a",
       "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6a6e0db2_13568c0e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_1dd3f357",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a98a1f6_fc72c9a6",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-27T07:25:35Z",
       "side": 1,
       "message": "s/\u003d\u003d\u003d/\u003d\u003d\u003d\u003d",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_ed6045e3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_fc72c9a6",
       "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "6a6e0db2_3353881f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_3dd0af48",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a98a1f6_1c885564",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2013-06-27T07:25:35Z",
       "side": 1,
       "message": "s/\u003d\u003d\u003d/\u003d\u003d\u003d\u003d",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_0d56710e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_1c885564",
       "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "6a6e0db2_53500410",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_bc78418b",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_5ddd7b5f",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "aa39e5b5_2d532d1f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_5ddd7b5f",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a98a1f6_3c85114b",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7
@@ -149,6 +293,24 @@
       "writtenOn": "2013-06-27T07:25:35Z",
       "side": 1,
       "message": "s/\u003d\u003d\u003d/\u003d\u003d\u003d\u003d",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_734d0079",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_3c85114b",
       "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

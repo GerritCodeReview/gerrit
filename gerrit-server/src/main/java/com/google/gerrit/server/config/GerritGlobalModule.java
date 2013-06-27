@@ -106,7 +106,6 @@ import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
@@ -172,7 +171,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(ThreadLocalRequestContext.module());
 
     bind(AccountResolver.class);
-    bind(ChangeQueryRewriter.class);
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(AddReviewerSender.Factory.class);

@@ -121,8 +121,8 @@ public class QueryBuilder {
   private static Query sortKeyQuery(SortKeyPredicate p) {
     return NumericRangeQuery.newLongRange(
         p.getField().getName(),
-        p.getMinValue(),
-        p.getMaxValue(),
+        p.getMinValue() != Long.MIN_VALUE ? p.getMinValue() : null,
+        p.getMaxValue() != Long.MAX_VALUE ? p.getMaxValue() : null,
         true, true);
   }
 

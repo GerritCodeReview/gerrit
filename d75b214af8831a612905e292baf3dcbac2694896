@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_9d8c6386",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T02:30:09Z",
+      "side": 1,
+      "message": "You don\u0027t need to store value in this class, but you can just get it from the parent class by invoking the getValue() method.",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a98a1f6_7c4dd978",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
         "patchSetId": 5

@@ -16,6 +16,58 @@
       "revId": "dec4d2773badb5ade565d7386d8d118ac3d6a357",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea575de7_eff7610d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T05:02:02Z",
+      "side": 1,
+      "message": "\"to stdout\" or \"to standard out\" even? The progress monitor also goes to the console, just to stderr. This intentionally doesn\u0027t do that so it can be piped to a different place.",
+      "parentUuid": "0a53d1fd_b0edb845",
+      "revId": "dec4d2773badb5ade565d7386d8d118ac3d6a357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a53d1fd_10fda4ee",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T05:02:02Z",
+      "side": 1,
+      "message": "Nit: factor out:\n\n  void fail(String msg, Exception e) {\n    log.warn(msg, e);\n    System.out.println(e);\n  }",
+      "revId": "dec4d2773badb5ade565d7386d8d118ac3d6a357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea575de7_0ffd85ee",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T05:02:02Z",
+      "side": 1,
+      "message": "Off-topic but you can probably squeeze it in this series: this number is inaccurate. It should really be byId.get(bCommit).size(), or actually, that size minus the number of successes.",
+      "revId": "dec4d2773badb5ade565d7386d8d118ac3d6a357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

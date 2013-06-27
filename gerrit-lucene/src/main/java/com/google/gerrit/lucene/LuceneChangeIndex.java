@@ -218,6 +218,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   @Override
   public void deleteAll() throws IOException {
     openIndex.deleteAll();
+    closedIndex.deleteAll();
   }
 
   @Override

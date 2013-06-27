@@ -222,12 +222,14 @@ public class Reindex extends SiteProgram {
     ListeningScheduledExecutorService executor = sysInjector.getInstance(
         Key.get(ListeningScheduledExecutorService.class, IndexExecutor.class));
 
-    ProgressMonitor pm = new TextProgressMonitor(new PrintWriter(System.out));
+    ProgressMonitor pm = new TextProgressMonitor();
     pm.start(1);
     pm.beginTask("Collecting projects", ProgressMonitor.UNKNOWN);
     Set<Project.NameKey> projects = Sets.newTreeSet();
+    int changeCount = 0;
     try {
       for (Change change : db.changes().all()) {
+        changeCount++;
         if (projects.add(change.getProject())) {
           pm.update(1);
         }
@@ -238,10 +240,10 @@ public class Reindex extends SiteProgram {
     pm.endTask();
 
     final MultiProgressMonitor mpm =
-        new MultiProgressMonitor(System.out, "Reindexing changes");
+        new MultiProgressMonitor(System.err, "Reindexing changes");
     final Task projTask = mpm.beginSubTask("projects", projects.size());
-    final Task doneTask = mpm.beginSubTask(null, MultiProgressMonitor.UNKNOWN);
-    final Task failedTask = mpm.beginSubTask("failed", MultiProgressMonitor.UNKNOWN);
+    final Task doneTask = mpm.beginSubTask(null, changeCount);
+    final Task failedTask = mpm.beginSubTask("failed", changeCount);
 
     Stopwatch sw = new Stopwatch().start();
     final List<ListenableFuture<?>> futures =

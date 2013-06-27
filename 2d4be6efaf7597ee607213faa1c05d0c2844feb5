@@ -1,0 +1,361 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a6e0db2_f3f7500d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "I would rather write:\n\nPerformance measurement on larger Git repositories, like Linux Kernel, indicate ...\n\nAnd I wouldn\u0027t mention SAP HANA repository as no one in the Gerrit community knows how big it is.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_2dfa4df7",
+        "filename": "gerrit-httpd/BUCK",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "We have already been using the easymock. It would help if, in the commit message, you explain why the mockito is necessary.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_3321c8ab",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "We don\u0027t change the year in the license header for existing files.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_930ffc40",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "This code reformatting has nothing to do with this change. Please revert.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_f30e7041",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "The two above lines will unnecessarily box the returned int into an Integer object.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_cd09c93c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "It is more efficient to do:\n\n  int d1 \u003d c1.getCommitTime();\n  int d2 \u003d c2.getCommitTime();\n  return d1 - d2;\n\nor, shorter:\n\n  return c1.getCommitTime() - c2.getCommitTime();",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_ed0e8541",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "If this set represents a set of commits from which the target commit is reachable then a better name for this variable may be \"reachableFrom\" or \"targetReachableFrom\"",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_1324ccba",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "If we are inside this if statement then hits.contains(commit) is true.\nWhy adding the commit to the hits set when we know that it is already there?\n\nI guess you wanted to add the \"tip\" to the hits set?",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_0d24b1ba",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "The List.contains is much less efficient than Set.contains. At least the allRefs should be given as a Set.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_d309743c",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "Remove this empty line.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_0dfd91ee",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/git/util/TestGitRepoFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "It would be easier to understand the test if the test repository is created from code. By looking at the code we would know what is inside the repository.\n\nIf you use a git bundle then, every time we look at this test, we need to clone the bundle locally and inspect its content in order to understand the test. It is also hard to review potential future changes in the bundle.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_33faa8f7",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/git/util/TestGitRepoFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "optional: This javadoc is not really necessary for this private method.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_4d07992a",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/git/util/TestGitRepoFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "Why is this name important? Why not just create a temporary folder with any name?",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_13fdacee",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/git/util/TestGitRepoFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "Will this be removed when the test is done? I don\u0027t see any code that removes this folder.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_73042025",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "remove this import, see below why",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_8d0fc140",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "why is this called \"cut\"?",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_5307242a",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "Hmm.. what is in this repository?",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_6d045525",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "There are too many Id classes in Gerrit. We agreed to never import them directly but only import the outer class:\n\n  Change.Id changeId \u003d new Change.Id(1);",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_ad147d51",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "I guess this SHA-1 something you have in the git bundle? This is hard to follow as we don\u0027t see the relations between the commits/branches/tags form the bundle.\n\nCreate the test repository from code so that we can follow the relations between the objects and references inside it.",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_b314f851",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "This should test equality between two Lists. The definition of equality between two lists tells that the lists are equal if they are of the same size and all corresponding pairs of elements are equal [1]. It may help if, here, you document that the expTags list has to be sorted by the tag name to make sure assertEquals works as expected. The details.getTags() will return a sorted list.\n\nOr just do Collections.sort(expTags) before calling assertEquals.\n\nSame for expBranches bellow.\n\n[1] http://docs.oracle.com/javase/6/docs/api/java/util/AbstractList.html#equals(java.lang.Object)",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_edf7650d",
+        "filename": "gerrit-httpd/src/test/resources/simple_git_repo.bundle",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-06-27T13:57:38Z",
+      "side": 1,
+      "message": "This is hard to review as we don\u0027t know what is in the bundle and the test depends on the content of the bundle.\n\nInstead of using a git bundle why not create and populate the test repository from the (unit) test?",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

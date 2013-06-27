@@ -386,6 +386,10 @@ public class Reindex extends SiteProgram {
       try {
         RevTree aTree = aFor(bCommit, walk);
         if (aTree == null) {
+          fail("Failed to index octopus merge commit " + bCommit.name(), false, null);
+          for (ChangeData cd : cds) {
+            fail("Failed to index octopus merge change " + cd.getId(), true, null);
+          }
           return;
         }
         DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);

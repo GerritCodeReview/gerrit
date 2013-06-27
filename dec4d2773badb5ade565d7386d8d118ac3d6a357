@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a53d1fd_b0edb845",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T03:43:22Z",
+      "side": 1,
+      "message": "Add \"to the console\" at the end of the usage text?",
+      "revId": "dec4d2773badb5ade565d7386d8d118ac3d6a357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -57,9 +57,19 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
+    public void deleteAll() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
     public ChangeDataSource getSource(Predicate<ChangeData> p)
         throws QueryParseException {
       return new Source();
+    }
+
+    @Override
+    public void finishIndex() {
+      throw new UnsupportedOperationException();
     }
   }
 

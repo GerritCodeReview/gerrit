@@ -37,6 +37,57 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_3dd6ef15",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T19:05:10Z",
+      "side": 1,
+      "message": "I _strongly_ suggest working the diff generation into this code path so we can reuse the RevWalk.",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_dc2a6d53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T19:05:10Z",
+      "side": 1,
+      "message": "I\u0027m not sure I like the name \"grep\" for what\u0027s really a fulltext query. Users might expect grep or perl-style regexes to work. Perhaps \"diff\"?\n\nAlso, I\u0027m not sure that Lucene\u0027s standard analyzer (tokenizing, stemming, etc) is going to be particularly useful on code. Have you looked into how to configure the analyzer?",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_5de3bbf2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T19:05:10Z",
+      "side": 1,
+      "message": "I haven\u0027t looked in detail about how the PatchScript is generated, but why can\u0027t this reuse what\u0027s already in the PatchListCache?\n\nCalling input.currentFilePaths (other than from the Reindex code path) loads the data into the PatchListCache anyway.",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_9dc46365",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1

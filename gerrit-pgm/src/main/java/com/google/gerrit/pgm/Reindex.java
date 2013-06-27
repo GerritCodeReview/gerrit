@@ -89,6 +89,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -377,6 +378,7 @@ public class Reindex extends SiteProgram {
 
     private void getPathsAndIndex(RevCommit bCommit) throws Exception {
       RevTree bTree = bCommit.getTree();
+      List<ChangeData> cds = byId.get(bCommit);
       try {
         RevTree aTree = aFor(bCommit, walk);
         if (aTree == null) {
@@ -385,15 +387,20 @@ public class Reindex extends SiteProgram {
         DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
         try {
           df.setRepository(repo);
-          List<ChangeData> cds = byId.get(bCommit);
           if (!cds.isEmpty()) {
             List<String> paths = getPaths(df.scan(aTree, bTree));
-            for (ChangeData cd : cds) {
-              cd.setCurrentFilePaths(paths);
-              indexer.indexTask(cd).call();
-              done.update(1);
-              if (verbose) {
-                System.out.println("Reindexed change " + cd.getId());
+            Iterator<ChangeData> cdit = cds.iterator();
+            for (ChangeData cd ; cdit.hasNext(); cdit.remove()) {
+              cd = cdit.next();
+              try {
+                cd.setCurrentFilePaths(paths);
+                indexer.indexTask(cd).call();
+                done.update(1);
+                if (verbose) {
+                  System.out.println("Reindexed change " + cd.getId());
+                }
+              } catch (Exception e) {
+                fail("Failed to index change " + cd.getId(), true, e);
               }
             }
           }
@@ -401,7 +408,10 @@ public class Reindex extends SiteProgram {
           df.release();
         }
       } catch (Exception e) {
-        fail("Failed to index commit " + bCommit.name(), e);
+        fail("Failed to index commit " + bCommit.name(), false, e);
+        for (ChangeData cd : cds) {
+          fail("Failed to index change " + cd.getId(), true, null);
+        }
       }
     }
 
@@ -444,8 +454,16 @@ public class Reindex extends SiteProgram {
       }
     }
 
-    private void fail(String error, Exception e) {
-      log.warn(error, e);
+    private void fail(String error, boolean failed, Exception e) {
+      if (failed) {
+        this.failed.update(1);
+      }
+
+      if (e != null) {
+        log.warn(error, e);
+      } else {
+        log.warn(error);
+      }
 
       if (verbose) {
         System.out.println(error);

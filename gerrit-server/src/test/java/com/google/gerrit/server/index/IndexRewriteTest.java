@@ -23,6 +23,7 @@ import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -41,7 +42,22 @@ import java.util.Set;
 
 @SuppressWarnings("unchecked")
 public class IndexRewriteTest extends TestCase {
+  private static Schema<ChangeData> V1 = new Schema<ChangeData>(
+      1, false, ImmutableList.<FieldDef<ChangeData, ?>> of(
+          ChangeField.STATUS));
+
+  private static Schema<ChangeData> V2 = new Schema<ChangeData>(
+      2, false, ImmutableList.of(
+          ChangeField.STATUS,
+          ChangeField.FILE));
+
   private static class DummyIndex implements ChangeIndex {
+    private final Schema<ChangeData> schema;
+
+    private DummyIndex(Schema<ChangeData> schema) {
+      this.schema = schema;
+    }
+
     @Override
     public ListenableFuture<Void> insert(ChangeData cd) {
       throw new UnsupportedOperationException();
@@ -70,7 +86,7 @@ public class IndexRewriteTest extends TestCase {
 
     @Override
     public Schema<ChangeData> getSchema() {
-      throw new UnsupportedOperationException();
+      return schema;
     }
 
     @Override
@@ -150,7 +166,7 @@ public class IndexRewriteTest extends TestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    index = new DummyIndex();
+    index = new DummyIndex(V2);
     indexes = new IndexCollection();
     indexes.setSearchIndex(index);
     queryBuilder = new QueryBuilder();
@@ -263,6 +279,19 @@ public class IndexRewriteTest extends TestCase {
 
     assertEquals(EnumSet.of(MERGED, SUBMITTED),
         status("(is:new is:draft) OR (is:merged OR is:submitted)"));
+  }
+
+  public void testUnsupportedIndexOperator() throws Exception {
+    Predicate<ChangeData> in = parse("status:merged file:a");
+    assertEquals(query(in), rewrite(in));
+
+    indexes.setSearchIndex(new DummyIndex(V1));
+    Predicate<ChangeData> out = rewrite(in);
+    assertTrue(out instanceof AndPredicate);
+    assertEquals(ImmutableList.of(
+          query(in.getChild(0)),
+          in.getChild(1)),
+        out.getChildren());
   }
 
   private Predicate<ChangeData> parse(String query) throws QueryParseException {

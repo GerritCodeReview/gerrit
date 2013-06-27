@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8a98a1f6_bc25a184",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T19:03:08Z",
+      "side": 1,
+      "message": "I\u0027m welcoming suggestions for a better name. I was already thinking that \u0027grep\u0027 might be confusing as this operator doesn\u0027t match \u0027git log --grep\u0027. \u0027patch:\u0027 sounds ok to me.",
+      "parentUuid": "aa8ba5a1_bdc91f7e",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_9dc46365",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1

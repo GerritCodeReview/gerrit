@@ -16,6 +16,24 @@
       "revId": "22b08bad95754eca41806737b8cfbf6222c9cc80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea303dcf_e749427b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T23:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa22c587_65046625",
+      "revId": "22b08bad95754eca41806737b8cfbf6222c9cc80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

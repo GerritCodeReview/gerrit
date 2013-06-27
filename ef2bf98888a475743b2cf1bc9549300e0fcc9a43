@@ -16,6 +16,24 @@
       "revId": "ef2bf98888a475743b2cf1bc9549300e0fcc9a43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea575de7_cf09bd3c",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-27T20:00:00Z",
+      "side": 1,
+      "message": "I kinda like it this way. :)",
+      "parentUuid": "aa8ba5a1_5d081be3",
+      "revId": "ef2bf98888a475743b2cf1bc9549300e0fcc9a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

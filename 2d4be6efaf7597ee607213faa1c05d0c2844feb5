@@ -356,6 +356,24 @@
       "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_b33f98c1",
+        "filename": "gerrit-httpd/src/test/resources/simple_git_repo.bundle",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T14:13:24Z",
+      "side": 1,
+      "message": "I agree with Sasa, the test should create and populate the repository.",
+      "parentUuid": "aa39e5b5_edf7650d",
+      "revId": "2d4be6efaf7597ee607213faa1c05d0c2844feb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

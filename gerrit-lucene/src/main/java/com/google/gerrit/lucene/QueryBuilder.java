@@ -90,7 +90,8 @@ public class QueryBuilder {
       return exactQuery(p);
     } else if (p.getType() == FieldType.PREFIX) {
       return prefixQuery(p);
-    } else if (p.getType() == FieldType.FULL_TEXT) {
+    } else if (p.getType() == FieldType.FULL_TEXT
+        || p.getType() == FieldType.EXACT_TEXT) {
       return fullTextQuery(p);
     } else if (p instanceof SortKeyPredicate) {
       return sortKeyQuery((SortKeyPredicate) p);

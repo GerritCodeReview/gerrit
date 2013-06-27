@@ -91,6 +91,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
+  public static final String FIELD_PATCH = "patch";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWER = "reviewer";
@@ -331,6 +332,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
       return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
     }
+  }
+
+  @Operator
+  public Predicate<ChangeData> patch(String value) throws QueryParseException {
+    if (args.index == ChangeIndex.DISABLED) {
+      throw error("secondary index must be enabled for " + FIELD_PATCH + ":"
+          + value);
+    }
+    return new PatchPredicate(args.dbProvider, args.index, value);
   }
 
   @Operator

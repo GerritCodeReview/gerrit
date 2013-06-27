@@ -22,6 +22,7 @@ import static com.google.gerrit.server.query.change.IndexRewriteImpl.OPEN_STATUS
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -42,6 +43,9 @@ import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.SimpleAnalyzer;
+import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -98,8 +102,14 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   private static final String ID_FIELD = ChangeField.LEGACY_ID.getName();
 
   private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
+    Map<String, Analyzer> analyzerPerField = Maps.newHashMap();
+    for (FieldDef<ChangeData, ?> f : ChangeField.ALL.values()) {
+      if (f.getType() == FieldType.EXACT_TEXT) {
+        analyzerPerField.put(f.getName(), new SimpleAnalyzer(LUCENE_VERSION));
+      }
+    }
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
-        new StandardAnalyzer(LUCENE_VERSION));
+        new PerFieldAnalyzerWrapper(new StandardAnalyzer(LUCENE_VERSION), analyzerPerField));
     writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
     double m = 1 << 20;
     writerConfig.setRAMBufferSizeMB(cfg.getLong("index", name, "ramBufferSize",
@@ -357,7 +367,8 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       for (Object value : values) {
         doc.add(new StringField(name, (String) value, store));
       }
-    } else if (f.getType() == FieldType.FULL_TEXT) {
+    } else if (f.getType() == FieldType.FULL_TEXT
+        || f.getType() == FieldType.EXACT_TEXT) {
       for (Object value : values) {
         doc.add(new TextField(name, (String) value, store));
       }

@@ -251,14 +251,13 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   @Override
-  public void markReady() throws IOException {
+  public void markReady(boolean ready) throws IOException {
     if (readOnly) {
       return;
     }
     try {
       FileBasedConfig cfg = LuceneVersionManager.loadGerritIndexConfig(sitePaths);
-      cfg.setBoolean("index", Integer.toString(schema.getVersion()), "ready",
-          true);
+      LuceneVersionManager.setReady(cfg, schema.getVersion(), ready);
       cfg.save();
     } catch (ConfigInvalidException e) {
       throw new IOException(e);

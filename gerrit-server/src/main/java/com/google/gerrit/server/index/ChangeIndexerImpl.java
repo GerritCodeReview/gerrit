@@ -21,9 +21,10 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import com.google.inject.util.Providers;
 
 import org.slf4j.Logger;
@@ -42,18 +43,32 @@ public class ChangeIndexerImpl extends ChangeIndexer {
       LoggerFactory.getLogger(ChangeIndexerImpl.class);
 
   private final IndexCollection indexes;
+  private final ChangeIndex index;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext context;
 
-  @Inject
+  @AssistedInject
   ChangeIndexerImpl(@IndexExecutor ListeningScheduledExecutorService executor,
-      IndexCollection indexes,
       SchemaFactory<ReviewDb> schemaFactory,
-      ThreadLocalRequestContext context) {
+      ThreadLocalRequestContext context,
+      @Assisted ChangeIndex index) {
     super(executor);
-    this.indexes = indexes;
     this.schemaFactory = schemaFactory;
     this.context = context;
+    this.index = index;
+    this.indexes = null;
+  }
+
+  @AssistedInject
+  ChangeIndexerImpl(@IndexExecutor ListeningScheduledExecutorService executor,
+      SchemaFactory<ReviewDb> schemaFactory,
+      ThreadLocalRequestContext context,
+      @Assisted IndexCollection indexes) {
+    super(executor);
+    this.schemaFactory = schemaFactory;
+    this.context = context;
+    this.index = null;
+    this.indexes = indexes;
   }
 
   @Override
@@ -84,8 +99,12 @@ public class ChangeIndexerImpl extends ChangeIndexer {
               throw new OutOfScopeException("No user during ChangeIndexer");
             }
           });
-          for (ChangeIndex index : indexes.getWriteIndexes()) {
-            index.replace(cd); // TODO(dborowitz): Parallelize these
+          if (indexes != null) {
+            for (ChangeIndex i : indexes.getWriteIndexes()) {
+              i.replace(cd); // TODO(dborowitz): Parallelize these
+            }
+          } else {
+            index.replace(cd);
           }
           return null;
         } finally  {

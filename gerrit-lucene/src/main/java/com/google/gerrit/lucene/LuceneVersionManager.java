@@ -75,12 +75,12 @@ class LuceneVersionManager implements LifecycleListener {
     return cfg;
   }
 
-  private static boolean getReady(Config cfg, int version) {
-    return cfg.getBoolean("index", Integer.toString(version), "ready", false);
+  static void setReady(Config cfg, int version, boolean ready) {
+    cfg.setBoolean("index", Integer.toString(version), "ready", ready);
   }
 
-  private static void setReady(Config cfg, int version, boolean ready) {
-    cfg.setBoolean("index", Integer.toString(version), "ready", ready);
+  private static boolean getReady(Config cfg, int version) {
+    return cfg.getBoolean("index", Integer.toString(version), "ready", false);
   }
 
   private final SitePaths sitePaths;

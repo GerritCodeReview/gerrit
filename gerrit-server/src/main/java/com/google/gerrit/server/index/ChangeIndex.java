@@ -72,7 +72,7 @@ public interface ChangeIndex {
     }
 
     @Override
-    public void markReady() {
+    public void markReady(boolean ready) {
       throw new UnsupportedOperationException();
     }
   };
@@ -142,13 +142,10 @@ public interface ChangeIndex {
       throws QueryParseException;
 
   /**
-   * Mark this index as up-to-date and ready to serve reads.
-   * <p>
-   * Should only be called immediately after a reindex, either during an online
-   * schema upgrade while actively writing to this index, or during an offline
-   * reindex.
+   * Mark whether this index is up-to-date and ready to serve reads.
    *
+   * @param ready whether the index is ready
    * @throws IOException
    */
-  public void markReady() throws IOException;
+  public void markReady(boolean ready) throws IOException;
 }

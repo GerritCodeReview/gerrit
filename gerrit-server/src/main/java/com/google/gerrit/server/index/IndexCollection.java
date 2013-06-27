@@ -58,6 +58,14 @@ public class IndexCollection implements LifecycleListener {
         "Write index version %s already in map", version);
   }
 
+  public void removeWriteIndex(int version) {
+    writeIndexes.remove(version);
+  }
+
+  public ChangeIndex getWriteIndex(int version) {
+    return writeIndexes.get(version);
+  }
+
   @Override
   public void start() {
   }

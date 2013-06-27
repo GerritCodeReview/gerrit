@@ -12,20 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.index;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.IndexPredicate;
-import com.google.gerrit.server.index.PredicateWrapper;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.NotPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryRewriter;
+import com.google.gerrit.server.query.change.BasicChangeRewrites;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryRewriter;
+import com.google.gerrit.server.query.change.ChangeStatusPredicate;
+import com.google.gerrit.server.query.change.SqlRewriterImpl;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.util.BitSet;
 import java.util.EnumSet;
@@ -33,7 +38,7 @@ import java.util.List;
 import java.util.Set;
 
 /** Rewriter that pushes boolean logic into the secondary index. */
-public class IndexRewriteImpl implements IndexRewrite {
+public class IndexRewriteImpl implements ChangeQueryRewriter {
   /** Set of all open change statuses. */
   public static final Set<Change.Status> OPEN_STATUSES;
 
@@ -88,14 +93,17 @@ public class IndexRewriteImpl implements IndexRewrite {
   }
 
   private final ChangeIndex index;
+  private final BasicRewritesImpl basicRewrites;
 
   @Inject
-  IndexRewriteImpl(ChangeIndex index) {
+  IndexRewriteImpl(ChangeIndex index, BasicRewritesImpl basicRewrites) {
     this.index = index;
+    this.basicRewrites = basicRewrites;
   }
 
   @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
+    in = basicRewrites.rewrite(in);
     Predicate<ChangeData> out = rewriteImpl(in);
     if (out == null) {
       return in;
@@ -177,11 +185,6 @@ public class IndexRewriteImpl implements IndexRewrite {
       Predicate<ChangeData> child = newChildren.get(i);
       if (toWrap.get(i)) {
         wrapped.add(child);
-        if (allNonIndexOnly(child)) {
-          // Duplicate non-index-only predicate subtrees alongside the wrapped
-          // subtrees so they can provide index hints to the DB-based rewriter.
-          all.add(child);
-        }
       } else {
         all.add(child);
       }
@@ -190,27 +193,9 @@ public class IndexRewriteImpl implements IndexRewrite {
     return in.copy(all);
   }
 
-  private static boolean allNonIndexOnly(Predicate<ChangeData> p) {
-    if (p instanceof IndexPredicate) {
-      return !((IndexPredicate<ChangeData>) p).isIndexOnly();
-    }
-    if (p instanceof AndPredicate
-        || p instanceof OrPredicate
-        || p instanceof NotPredicate) {
-      for (int i = 0; i < p.getChildCount(); i++) {
-        if (!allNonIndexOnly(p.getChild(i))) {
-          return false;
-        }
-      }
-      return true;
-    } else {
-      return true;
-    }
-  }
-
-  private PredicateWrapper wrap(Predicate<ChangeData> p) {
+  private IndexedChangeQuery wrap(Predicate<ChangeData> p) {
     try {
-      return new PredicateWrapper(index, p);
+      return new IndexedChangeQuery(index, p);
     } catch (QueryParseException e) {
       throw new IllegalStateException(
           "Failed to convert " + p + " to index predicate", e);
@@ -224,5 +209,15 @@ public class IndexRewriteImpl implements IndexRewrite {
       return false;
     }
     return p.getChildCount() > 0;
+  }
+
+  static class BasicRewritesImpl extends BasicChangeRewrites {
+    private static final QueryRewriter.Definition<ChangeData, BasicRewritesImpl> mydef =
+        new QueryRewriter.Definition<ChangeData, BasicRewritesImpl>(
+            BasicRewritesImpl.class, SqlRewriterImpl.BUILDER);
+    @Inject
+    BasicRewritesImpl(Provider<ReviewDb> db) {
+      super(mydef, db);
+    }
   }
 }

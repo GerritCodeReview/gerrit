@@ -35,12 +35,12 @@ import java.util.List;
  * the secondary index; such predicates must also implement
  * {@link ChangeDataSource} to be chosen by the query processor.
  */
-public class PredicateWrapper extends Predicate<ChangeData> implements
-    ChangeDataSource {
+public class IndexedChangeQuery extends Predicate<ChangeData>
+    implements ChangeDataSource {
   private final Predicate<ChangeData> pred;
   private final ChangeDataSource source;
 
-  public PredicateWrapper(ChangeIndex index, Predicate<ChangeData> pred)
+  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred)
       throws QueryParseException {
     this.pred = pred;
     this.source = index.getSource(pred);
@@ -115,7 +115,7 @@ public class PredicateWrapper extends Predicate<ChangeData> implements
   public boolean equals(Object other) {
     return other != null
         && getClass() == other.getClass()
-        && pred.equals(((PredicateWrapper) other).pred);
+        && pred.equals(((IndexedChangeQuery) other).pred);
   }
 
   @Override

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.index;
 
 import static com.google.gerrit.reviewdb.client.Change.Status.ABANDONED;
 import static com.google.gerrit.reviewdb.client.Change.Status.DRAFT;
@@ -23,13 +23,14 @@ import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.ChangeIndex;
-import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 
@@ -127,14 +128,16 @@ public class IndexRewriteTest extends TestCase {
 
   private DummyIndex index;
   private ChangeQueryBuilder queryBuilder;
-  private IndexRewrite rewrite;
+  private IndexRewriteImpl rewrite;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
     index = new DummyIndex();
     queryBuilder = new QueryBuilder();
-    rewrite = new IndexRewriteImpl(index);
+    rewrite = new IndexRewriteImpl(
+        index,
+        new IndexRewriteImpl.BasicRewritesImpl(null));
   }
 
   public void testIndexPredicate() throws Exception {
@@ -246,9 +249,9 @@ public class IndexRewriteTest extends TestCase {
     return rewrite.rewrite(in);
   }
 
-  private PredicateWrapper wrap(Predicate<ChangeData> p)
+  private IndexedChangeQuery wrap(Predicate<ChangeData> p)
       throws QueryParseException {
-    return new PredicateWrapper(index, p);
+    return new IndexedChangeQuery(index, p);
   }
 
   private Set<Change.Status> status(String query) throws QueryParseException {

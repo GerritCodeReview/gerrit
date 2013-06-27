@@ -19,8 +19,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Executor;
-import com.google.gerrit.server.query.change.IndexRewrite;
-import com.google.gerrit.server.query.change.IndexRewriteImpl;
+import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -56,7 +55,8 @@ public class IndexModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(ChangeIndexer.class).to(ChangeIndexerImpl.class);
-    bind(IndexRewrite.class).to(IndexRewriteImpl.class);
+    bind(ChangeQueryRewriter.class).to(IndexRewriteImpl.class);
+    bind(IndexRewriteImpl.BasicRewritesImpl.class);
   }
 
   @Provides

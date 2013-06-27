@@ -16,8 +16,8 @@ package com.google.gerrit.lucene;
 
 import static com.google.gerrit.lucene.IndexVersionCheck.SCHEMA_VERSIONS;
 import static com.google.gerrit.lucene.IndexVersionCheck.gerritIndexConfig;
-import static com.google.gerrit.server.query.change.IndexRewriteImpl.CLOSED_STATUSES;
-import static com.google.gerrit.server.query.change.IndexRewriteImpl.OPEN_STATUSES;
+import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
+import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
@@ -34,11 +34,11 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.FieldType;
+import com.google.gerrit.server.index.IndexRewriteImpl;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
-import com.google.gerrit.server.query.change.IndexRewriteImpl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 

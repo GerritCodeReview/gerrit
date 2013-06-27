@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query;
 
+import com.google.common.collect.Lists;
 import com.google.inject.name.Named;
 
 import java.lang.annotation.Annotation;
@@ -27,7 +28,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -65,19 +66,13 @@ public abstract class QueryRewriter<T> {
     private final List<RewriteRule<T>> rewriteRules;
 
     public Definition(Class<R> clazz, QueryBuilder<T> qb) {
-      rewriteRules = new ArrayList<RewriteRule<T>>();
+      rewriteRules = Lists.newArrayList();
 
       Class<?> c = clazz;
       while (c != QueryRewriter.class) {
-        final Method[] declared = c.getDeclaredMethods();
-        Arrays.sort(declared, new Comparator<Method>() {
-          @Override
-          public int compare(Method o1, Method o2) {
-            return o1.getName().compareTo(o2.getName());
-          }
-        });
+        Method[] declared = c.getDeclaredMethods();
         for (Method m : declared) {
-          final Rewrite rp = m.getAnnotation(Rewrite.class);
+          Rewrite rp = m.getAnnotation(Rewrite.class);
           if ((m.getModifiers() & Modifier.ABSTRACT) != Modifier.ABSTRACT
               && (m.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC
               && rp != null) {
@@ -86,6 +81,7 @@ public abstract class QueryRewriter<T> {
         }
         c = c.getSuperclass();
       }
+      Collections.sort(rewriteRules);
     }
   }
 
@@ -331,7 +327,7 @@ public abstract class QueryRewriter<T> {
   }
 
   /** Applies a rewrite rule to a Predicate. */
-  protected interface RewriteRule<T> {
+  protected interface RewriteRule<T> extends Comparable<RewriteRule<T>> {
     /**
      * Apply a rewrite rule to the Predicate.
      *
@@ -453,6 +449,15 @@ public abstract class QueryRewriter<T> {
     private IllegalArgumentException error(Throwable e) {
       final String msg = "Cannot apply " + method.getName();
       return new IllegalArgumentException(msg, e);
+    }
+
+    @Override
+    public int compareTo(RewriteRule<T> in) {
+      if (in instanceof MethodRewrite) {
+        return method.getName().compareTo(
+            ((MethodRewrite<T>) in).method.getName());
+      }
+      return 1;
     }
   }
 

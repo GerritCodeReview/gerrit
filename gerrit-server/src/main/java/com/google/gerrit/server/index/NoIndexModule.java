@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.gerrit.server.query.change.IndexRewrite;
+import com.google.gerrit.server.query.change.ChangeQueryRewriter;
+import com.google.gerrit.server.query.change.SqlRewriterImpl;
 import com.google.inject.AbstractModule;
 
 public class NoIndexModule extends AbstractModule {
@@ -26,6 +27,6 @@ public class NoIndexModule extends AbstractModule {
   protected void configure() {
     bind(ChangeIndex.class).toInstance(ChangeIndex.DISABLED);
     bind(ChangeIndexer.class).toInstance(ChangeIndexer.DISABLED);
-    bind(IndexRewrite.class).toInstance(IndexRewrite.DISABLED);
+    bind(ChangeQueryRewriter.class).to(SqlRewriterImpl.class);
   }
 }

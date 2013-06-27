@@ -110,7 +110,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       new QueryBuilder.Definition<ChangeData, ChangeQueryBuilder>(
           ChangeQueryBuilder.class);
 
-  static class Arguments {
+  @VisibleForTesting
+  public static class Arguments {
     final Provider<ReviewDb> dbProvider;
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
@@ -125,7 +126,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ChangeIndex index;
 
     @Inject
-    Arguments(Provider<ReviewDb> dbProvider,
+    @VisibleForTesting
+    public Arguments(Provider<ReviewDb> dbProvider,
         Provider<ChangeQueryRewriter> rewriter,
         IdentifiedUser.GenericFactory userFactory,
         CapabilityControl.Factory capabilityControlFactory,
@@ -161,7 +163,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private boolean allowFileRegex;
 
   @Inject
-  ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
+  public ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
     super(mydef);
     this.args = args;
     this.currentUser = currentUser;

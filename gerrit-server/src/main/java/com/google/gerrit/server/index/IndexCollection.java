@@ -68,12 +68,26 @@ public class IndexCollection implements LifecycleListener {
     writeIndexes.add(index);
   }
 
-  public void removeWriteIndex(int version) {
-    writeIndexes.remove(version);
+  public synchronized void removeWriteIndex(int version) {
+    int removeIndex = -1;
+    for (int i = 0; i < writeIndexes.size(); i++) {
+      if (writeIndexes.get(i).getSchema().getVersion() == version) {
+        removeIndex = i;
+        break;
+      }
+    }
+    if (removeIndex >= 0) {
+      writeIndexes.remove(removeIndex);
+    }
   }
 
   public ChangeIndex getWriteIndex(int version) {
-    return writeIndexes.get(version);
+    for (ChangeIndex i : writeIndexes) {
+      if (i.getSchema().getVersion() == version) {
+        return i;
+      }
+    }
+    return null;
   }
 
   @Override

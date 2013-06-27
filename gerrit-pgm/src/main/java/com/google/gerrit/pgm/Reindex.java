@@ -335,9 +335,13 @@ public class Reindex extends SiteProgram {
       try {
         Map<String, Ref> refs = repo.getAllRefs();
         for (Change c : db.changes().byProject(project)) {
-          Ref r = refs.get(c.currentPatchSetId().toRefName());
+          String refName = c.currentPatchSetId().toRefName();
+          Ref r = refs.get(refName);
           if (r != null) {
             byId.put(r.getObjectId(), new ChangeData(c));
+          } else {
+            fail("Failed to index change " + c.getId()
+                + " (" + refName + " not found)", true, null);
           }
         }
         walk();

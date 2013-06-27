@@ -32,7 +32,6 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;

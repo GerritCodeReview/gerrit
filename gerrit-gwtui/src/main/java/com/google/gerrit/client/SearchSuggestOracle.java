@@ -79,6 +79,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("reviewerin:");
 
     suggestions.add("commit:");
+    suggestions.add("comment:");
     suggestions.add("project:");
     suggestions.add("branch:");
     suggestions.add("topic:");

@@ -337,7 +337,7 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       return NumericRangeQuery.newIntRange(
           r.getField().getName(),
           toIndexTime(r.getMaxTimestamp()),
-          Integer.MAX_VALUE,
+          null,
           true, true);
     }
     throw new QueryParseException("cannot negate: " + r);

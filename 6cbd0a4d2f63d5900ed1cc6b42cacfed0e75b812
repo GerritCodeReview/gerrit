@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_3dbd0fbe",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-27T20:47:41Z",
+      "side": 1,
+      "message": "ints are normally stored with a step of 4. This means values [0,16) are stored in the same term bucket, so you get no benefit from the index for 0/1.\n\nChanging the step to 32 fixes this. But I think you are right about using a string field so this is not relevant.",
+      "parentUuid": "0a53d1fd_b014d851",
+      "revId": "6cbd0a4d2f63d5900ed1cc6b42cacfed0e75b812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a53d1fd_900fd440",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-27T05:13:31Z",
       "side": 1,
       "message": "Is the idea that negation of an integer is too expensive? Have you observed this?\n\nMaybe this is messy but ISTM the code would be cleaner if we just indexed this as a single string. (We\u0027re already doing that with status...)",
+      "revId": "6cbd0a4d2f63d5900ed1cc6b42cacfed0e75b812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_5c3f3d8d",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-27T20:47:41Z",
+      "side": 1,
+      "message": "You are right, a string would be better. Will fix.",
+      "parentUuid": "0a53d1fd_900fd440",
       "revId": "6cbd0a4d2f63d5900ed1cc6b42cacfed0e75b812",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -49,6 +49,27 @@ public class ChangeSchemas {
         ChangeField.COMMIT_MESSAGE,
         ChangeField.COMMENT);
 
+  @SuppressWarnings("unchecked")
+  static final Schema<ChangeData> V2 = release(
+        ChangeField.LEGACY_ID,
+        ChangeField.ID,
+        ChangeField.STATUS,
+        ChangeField.PROJECT,
+        ChangeField.REF,
+        ChangeField.TOPIC,
+        ChangeField.UPDATED,
+        ChangeField.SORTKEY,
+        ChangeField.FILE,
+        ChangeField.OWNER,
+        ChangeField.REVIEWER,
+        ChangeField.COMMIT,
+        ChangeField.TR,
+        ChangeField.LABEL,
+        ChangeField.REVIEWED,
+        ChangeField.COMMIT_MESSAGE,
+        ChangeField.COMMENT,
+        ChangeField.DIFF);
+
   private static Schema<ChangeData> release(FieldDef<ChangeData, ?>... fields) {
     return new Schema<ChangeData>(true, Arrays.asList(fields));
   }

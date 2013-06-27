@@ -18,8 +18,10 @@ import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -44,6 +46,9 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.SimpleAnalyzer;
+import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -76,6 +81,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -103,9 +109,16 @@ public class LuceneChangeIndex implements ChangeIndex {
     LuceneChangeIndex create(Schema<ChangeData> schema, String base);
   }
 
-  private static IndexWriterConfig getIndexWriterConfig(Config cfg, String name) {
+  private static IndexWriterConfig getIndexWriterConfig(Config cfg,
+      String name, ImmutableMap<String, FieldDef<ChangeData, ?>> fields) {
+    Map<String, Analyzer> analyzerPerField = Maps.newHashMap();
+    for (FieldDef<ChangeData, ?> f : fields.values()) {
+      if (f.getType() == FieldType.EXACT_TEXT) {
+        analyzerPerField.put(f.getName(), new SimpleAnalyzer(LUCENE_VERSION));
+      }
+    }
     IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION,
-        new StandardAnalyzer(LUCENE_VERSION));
+        new PerFieldAnalyzerWrapper(new StandardAnalyzer(LUCENE_VERSION), analyzerPerField));
     writerConfig.setOpenMode(OpenMode.CREATE_OR_APPEND);
     double m = 1 << 20;
     writerConfig.setRAMBufferSizeMB(cfg.getLong("index", name, "ramBufferSize",
@@ -142,9 +155,9 @@ public class LuceneChangeIndex implements ChangeIndex {
       dir = new File(base);
     }
     openIndex = new SubIndex(new File(dir, CHANGES_OPEN),
-        getIndexWriterConfig(cfg, "changes_open"));
+        getIndexWriterConfig(cfg, "changes_open", schema.getFields()));
     closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED),
-        getIndexWriterConfig(cfg, "changes_closed"));
+        getIndexWriterConfig(cfg, "changes_closed", schema.getFields()));
   }
 
   @Override
@@ -382,7 +395,8 @@ public class LuceneChangeIndex implements ChangeIndex {
       for (Object value : values) {
         doc.add(new StringField(name, (String) value, store));
       }
-    } else if (f.getType() == FieldType.FULL_TEXT) {
+    } else if (f.getType() == FieldType.FULL_TEXT
+        || f.getType() == FieldType.EXACT_TEXT) {
       for (Object value : values) {
         doc.add(new TextField(name, (String) value, store));
       }

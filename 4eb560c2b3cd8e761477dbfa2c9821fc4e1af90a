@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6a6e0db2_b366b8fd",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_7db15716",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a98a1f6_fced6912",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-27T07:35:11Z",
       "side": 1,
       "message": "s/Gerit/Gerrit",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa39e5b5_ed49257b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_fced6912",
       "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8a98a1f6_7c3cf997",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_bdcaff96",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_1dba13f8",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2013-06-27T07:35:11Z",
       "side": 1,
       "message": "\"a plugin to integrate Jira with Gerrit\"",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_332c689b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_1dba13f8",
       "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "aa39e5b5_0d2f5192",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_9cde2562",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_3db7cf0e",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 8
@@ -98,6 +188,24 @@
       "writtenOn": "2013-06-27T07:35:11Z",
       "side": 1,
       "message": "a \"Schedule\" button",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a53d1fd_3021c8ab",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_3db7cf0e",
       "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "aa39e5b5_8d6181ea",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_bce3e126",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_fdc4878a",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 8
@@ -132,6 +258,24 @@
       "writtenOn": "2013-06-27T07:35:11Z",
       "side": 1,
       "message": "I don\u0027t think it\u0027s necessary to say \"At the time of this writing\".\n\nIf new ones are added later, the documentation should be updated at the same time.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_5339e4d7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_fdc4878a",
       "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "aa39e5b5_2d2c0d9b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_7c7f996c",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a98a1f6_dce8ad05",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 8
@@ -166,6 +328,24 @@
       "writtenOn": "2013-06-27T07:35:11Z",
       "side": 1,
       "message": "\"add support\"\n\nAlthough, I\u0027m not sure if this sentence is necessary.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_7336e0e8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_dce8ad05",
       "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "aa39e5b5_4d3959d8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_5db49b07",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_ddbfcbe7",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 8
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "aa39e5b5_6d3615e9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "i don\u0027t understand that comment. I took the code from formatted Java source.",
+      "parentUuid": "aa8ba5a1_ddbfcbe7",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a98a1f6_5c82dd43",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 8
@@ -217,6 +433,24 @@
       "writtenOn": "2013-06-27T07:35:11Z",
       "side": 1,
       "message": "The `apply` method.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a6e0db2_9361bcea",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-06-27T21:00:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_5c82dd43",
       "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

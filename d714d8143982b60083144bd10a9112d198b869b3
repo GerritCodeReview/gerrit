@@ -16,6 +16,24 @@
       "revId": "d714d8143982b60083144bd10a9112d198b869b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_1c35b5ad",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-27T19:08:35Z",
+      "side": 1,
+      "message": "Good point.  I am mostly concerned in catching errors directly form the indexing itself, so I think that is ok.",
+      "parentUuid": "ea575de7_cff29d20",
+      "revId": "d714d8143982b60083144bd10a9112d198b869b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

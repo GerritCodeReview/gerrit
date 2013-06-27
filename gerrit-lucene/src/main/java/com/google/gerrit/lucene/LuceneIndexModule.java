@@ -14,8 +14,6 @@
 
 package com.google.gerrit.lucene;
 
-import static com.google.inject.Scopes.SINGLETON;
-
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.FactoryModule;
@@ -25,7 +23,6 @@ import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 public class LuceneIndexModule extends LifecycleModule {
@@ -54,20 +51,32 @@ public class LuceneIndexModule extends LifecycleModule {
     });
     install(new IndexModule(threads));
     if (singleVersion == null) {
-      listener().to(LuceneVersionManager.class).in(SINGLETON);
+      install(new MultiVersionModule());
     } else {
       install(new SingleVersionModule());
     }
   }
 
-  @Provides
-  LuceneVersionManager getVersionManager(SitePaths sitePaths,
-      LuceneChangeIndex.Factory indexFactory, IndexCollection indexes) {
-    if (singleVersion != null) {
-      throw new ProvisionException(
-          "can't to create LuceneVersionManager with a single index version");
+  private class MultiVersionModule extends LifecycleModule {
+    @Override
+    public void configure() {
+      install(new FactoryModule() {
+        @Override
+        public void configure() {
+          factory(OnlineReindexer.Factory.class);
+        }
+      });
+      listener().to(LuceneVersionManager.class);
     }
-    return new LuceneVersionManager(sitePaths, indexFactory, indexes, readOnly);
+
+    @Provides
+    @Singleton
+    LuceneVersionManager getVersionManager(SitePaths sitePaths,
+        LuceneChangeIndex.Factory indexFactory, IndexCollection indexes,
+        OnlineReindexer.Factory reindexerFactory) {
+      return new LuceneVersionManager(sitePaths, indexFactory, indexes,
+          reindexerFactory, readOnly);
+    }
   }
 
   private class SingleVersionModule extends LifecycleModule {

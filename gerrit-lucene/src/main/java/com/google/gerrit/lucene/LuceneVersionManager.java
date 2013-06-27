@@ -86,16 +86,19 @@ class LuceneVersionManager implements LifecycleListener {
   private final SitePaths sitePaths;
   private final LuceneChangeIndex.Factory indexFactory;
   private final IndexCollection indexes;
+  private final OnlineReindexer.Factory reindexerFactory;
   private final boolean readOnly;
 
   LuceneVersionManager(
       SitePaths sitePaths,
       LuceneChangeIndex.Factory indexFactory,
       IndexCollection indexes,
+      OnlineReindexer.Factory reindexerFactory,
       boolean readOnly) {
     this.sitePaths = sitePaths;
     this.indexFactory = indexFactory;
     this.indexes = indexes;
+    this.reindexerFactory = reindexerFactory;
     this.readOnly = readOnly;
   }
 
@@ -145,6 +148,11 @@ class LuceneVersionManager implements LifecycleListener {
           indexes.addWriteIndex(searchIndex);
         }
       }
+    }
+
+    int latest = write.get(0).version;
+    if (latest != search.version) {
+      reindexerFactory.create(latest).start();
     }
   }
 

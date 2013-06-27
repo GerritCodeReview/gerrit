@@ -33,8 +33,8 @@ import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.patch.PatchListLoader;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -95,17 +95,17 @@ public class ChangeBatchIndexer {
     }
   }
 
-  private final Provider<ReviewDb> dbProvider;
+  private final SchemaFactory<ReviewDb> schemaFactory;
   private final GitRepositoryManager repoManager;
   private final ListeningScheduledExecutorService executor;
   private final ChangeIndexer.Factory indexerFactory;
 
   @Inject
-  ChangeBatchIndexer(Provider<ReviewDb> dbProvider,
+  ChangeBatchIndexer(SchemaFactory<ReviewDb> schemaFactory,
       GitRepositoryManager repoManager,
       @IndexExecutor ListeningScheduledExecutorService executor,
       ChangeIndexer.Factory indexerFactory) {
-    this.dbProvider = dbProvider;
+    this.schemaFactory = schemaFactory;
     this.repoManager = repoManager;
     this.executor = executor;
     this.indexerFactory = indexerFactory;
@@ -137,7 +137,7 @@ public class ChangeBatchIndexer {
           } catch (InterruptedException e) {
             fail(project, e);
           } catch (ExecutionException e) {
-            ok.set(false); // Logged by indexer.
+            fail(project, e);
           } catch (RuntimeException e) {
             failAndThrow(project, e);
           } catch (Error e) {
@@ -200,23 +200,26 @@ public class ChangeBatchIndexer {
 
     @Override
     public Void call() throws Exception {
-      ReviewDb db = dbProvider.get();
-      repo = repoManager.openRepository(project);
-
+      ReviewDb db = schemaFactory.open();
       try {
-        Map<String, Ref> refs = repo.getAllRefs();
-        for (Change c : db.changes().byProject(project)) {
-          Ref r = refs.get(c.currentPatchSetId().toRefName());
-          if (r != null) {
-            byId.put(r.getObjectId(), new ChangeData(c));
+        repo = repoManager.openRepository(project);
+        try {
+          Map<String, Ref> refs = repo.getAllRefs();
+          for (Change c : db.changes().byProject(project)) {
+            Ref r = refs.get(c.currentPatchSetId().toRefName());
+            if (r != null) {
+              byId.put(r.getObjectId(), new ChangeData(c));
+            }
           }
+          walk();
+        } finally {
+          repo.close();
+          // TODO(dborowitz): Opening all repositories in a live server may be
+          // wasteful; see if we can determine which ones it is safe to cose with
+          // RepositoryCache.close(repo).
         }
-        walk();
       } finally {
-        repo.close();
-        // TODO(dborowitz): Opening all repositories in a live server may be
-        // wasteful; see if we can determine which ones it is safe to cose with
-        // RepositoryCache.close(repo).
+        db.close();
       }
       return null;
     }

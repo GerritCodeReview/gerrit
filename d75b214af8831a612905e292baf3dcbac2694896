@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_9d20e375",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-27T08:15:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_1d56930e",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_bd667ffd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 5
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_bd259f84",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-27T08:15:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_7c36b9e8",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_7d4dd778",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
         "patchSetId": 5
@@ -64,6 +100,24 @@
       "writtenOn": "2013-06-27T02:27:57Z",
       "side": 1,
       "message": "This class doesn\u0027t need to be public.",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_dd2a6b53",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-27T08:15:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_7d4dd778",
       "revId": "d75b214af8831a612905e292baf3dcbac2694896",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_1d35b3ad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-27T08:15:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa8ba5a1_9d8c6386",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a98a1f6_7c4dd978",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
         "patchSetId": 5
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_3d326fc6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-27T08:15:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a98a1f6_7c4dd978",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_3d534f1f",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
         "patchSetId": 5
@@ -115,6 +205,24 @@
       "writtenOn": "2013-06-27T02:21:48Z",
       "side": 1,
       "message": "Do you actually need db and repoManager? Can both parameters be removed?",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_5d3f3b8d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011819
+      },
+      "writtenOn": "2013-06-27T08:15:17Z",
+      "side": 1,
+      "message": "db is required, but repoManager isn\u0027t.",
+      "parentUuid": "aa8ba5a1_3d534f1f",
       "revId": "d75b214af8831a612905e292baf3dcbac2694896",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

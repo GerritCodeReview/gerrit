@@ -68,6 +68,14 @@ public class IndexCollection implements LifecycleListener {
     writeIndexes.add(index);
   }
 
+  public void removeWriteIndex(int version) {
+    writeIndexes.remove(version);
+  }
+
+  public ChangeIndex getWriteIndex(int version) {
+    return writeIndexes.get(version);
+  }
+
   @Override
   public void start() {
   }

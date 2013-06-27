@@ -84,6 +84,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_DRAFTBY = "draftby";
   public static final String FIELD_FILE = "file";
+  public static final String FIELD_GREP = "grep";
   public static final String FIELD_IS = "is";
   public static final String FIELD_HAS = "has";
   public static final String FIELD_LABEL = "label";
@@ -331,6 +332,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
       return new EqualsFilePredicate(args.dbProvider, args.patchListCache, file);
     }
+  }
+
+  @Operator
+  public Predicate<ChangeData> grep(String value) throws QueryParseException {
+    if (args.index == ChangeIndex.DISABLED) {
+      throw error("secondary index must be enabled for grep:" + value);
+    }
+    return new GrepPredicate(args.dbProvider, args.index, value);
   }
 
   @Operator

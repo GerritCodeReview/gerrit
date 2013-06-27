@@ -17,23 +17,38 @@ package com.google.gerrit.server.index;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.CommentDetail;
+import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.change.DiffContent;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.PatchScriptBuilder;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gwtorm.server.OrmException;
+
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -49,7 +64,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 13;
+  public static final int SCHEMA_VERSION = 14;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -264,6 +279,62 @@ public class ChangeField {
           }
           for (ChangeMessage m : input.messages(args.db)) {
             r.add(m.getMessage());
+          }
+          return r;
+        }
+      };
+
+  /** Lines inserted/deleted/replaced by the current patch set of the change. */
+  public static final FieldDef<ChangeData, Iterable<String>> LINE =
+      new FieldDef.Repeatable<ChangeData, String>(
+          "line", FieldType.FULL_TEXT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException, IOException {
+          Set<String> r = Sets.newHashSet();
+
+          Change change = input.change(args.db);
+          PatchSet currentPatchSet = input.currentPatchSet(args.db);
+          Project.NameKey projectKey = change.getProject();
+
+          Repository git = args.repoManager.openRepository(projectKey);
+          try {
+            AccountDiffPreference dp =
+                AccountDiffPreference.createDefault(new Account.Id(0));
+            PatchList list =
+                args.patchListCache.get(new PatchListKey(projectKey, null,
+                    ObjectId.fromString(currentPatchSet.getRevision().get()),
+                    dp.getIgnoreWhitespace()));
+            PatchScriptBuilder b = args.patchScriptBuilder.get();
+            b.setRepository(git, projectKey);
+            b.setChange(change);
+            b.setDiffPrefs(dp);
+            b.setTrees(list.isAgainstParent(), list.getOldId(), list.getNewId());
+
+            for (String file : input.currentFilePaths(args.db,
+                args.patchListCache)) {
+              PatchScript patchScript = b.toPatchScript(list.get(file),
+                  new CommentDetail(null, currentPatchSet.getId()),
+                  new ArrayList<Patch>());
+
+              DiffContent c = new DiffContent(patchScript);
+              for (DiffContent.Entry e : c.getLines()) {
+                if (e.a != null) {
+                  for (String aLine : e.a) {
+                    r.add(aLine);
+                  }
+                }
+                if (e.b != null) {
+                  for (String bLine : e.b) {
+                    r.add(bLine);
+                  }
+                }
+              }
+            }
+          } catch (PatchListNotAvailableException e) {
+            // change doessn't exist -> ignore
+          } finally {
+            git.close();
           }
           return r;
         }

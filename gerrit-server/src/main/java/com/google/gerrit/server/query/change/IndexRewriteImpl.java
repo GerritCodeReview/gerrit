@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.index.PredicateWrapper;
@@ -96,11 +97,12 @@ public class IndexRewriteImpl implements IndexRewrite {
 
   @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
-    Predicate<ChangeData> out = rewriteImpl(in);
+    ChangeIndex index = indexes.getSearchIndex();
+    Predicate<ChangeData> out = rewriteImpl(in, index);
     if (out == null) {
       return in;
     } else if (out == in) {
-      return wrap(out);
+      return wrap(out, index);
     } else {
       return out;
     }
@@ -110,14 +112,16 @@ public class IndexRewriteImpl implements IndexRewrite {
    * Rewrite a single predicate subtree.
    *
    * @param in predicate to rewrite.
+   * @param schema index whose schema determines which fields are indexed.
    * @return {@code null} if no part of this subtree can be queried in the
    *     index directly. {@code in} if this subtree and all its children can be
    *     queried directly in the index. Otherwise, a predicate that is
    *     semantically equivalent, with some of its subtrees wrapped to query the
    *     index directly.
    */
-  private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in) {
-    if (in instanceof IndexPredicate) {
+  private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in,
+      ChangeIndex index) {
+    if (isIndexPredicate(in, index)) {
       return in;
     }
     if (!isRewritePossible(in)) {
@@ -130,7 +134,7 @@ public class IndexRewriteImpl implements IndexRewrite {
     List<Predicate<ChangeData>> newChildren = Lists.newArrayListWithCapacity(n);
     for (int i = 0; i < n; i++) {
       Predicate<ChangeData> c = in.getChild(i);
-      Predicate<ChangeData> nc = rewriteImpl(c);
+      Predicate<ChangeData> nc = rewriteImpl(c, index);
       if (nc == null) {
         toKeep.set(i);
         newChildren.add(c);
@@ -153,14 +157,23 @@ public class IndexRewriteImpl implements IndexRewrite {
       // All children can be fully rewritten, push work to parent.
       return in;
     }
-    return partitionChildren(in, newChildren, toWrap);
+    return partitionChildren(in, newChildren, toWrap, index);
+  }
+
+  private boolean isIndexPredicate(Predicate<ChangeData> in, ChangeIndex index) {
+    if (!(in instanceof IndexPredicate)) {
+      return false;
+    }
+    IndexPredicate<ChangeData> p = (IndexPredicate<ChangeData>) in;
+    return index.getSchema().getFields().containsKey(p.getField().getName());
   }
 
   private Predicate<ChangeData> partitionChildren(Predicate<ChangeData> in,
-      List<Predicate<ChangeData>> newChildren, BitSet toWrap) {
+      List<Predicate<ChangeData>> newChildren, BitSet toWrap,
+      ChangeIndex index) {
     if (toWrap.cardinality() == 1) {
       int i = toWrap.nextSetBit(0);
-      newChildren.set(i, wrap(newChildren.get(i)));
+      newChildren.set(i, wrap(newChildren.get(i), index));
       return in.copy(newChildren);
     }
 
@@ -185,7 +198,7 @@ public class IndexRewriteImpl implements IndexRewrite {
         all.add(child);
       }
     }
-    all.add(wrap(in.copy(wrapped)));
+    all.add(wrap(in.copy(wrapped), index));
     return in.copy(all);
   }
 
@@ -207,9 +220,9 @@ public class IndexRewriteImpl implements IndexRewrite {
     }
   }
 
-  private PredicateWrapper wrap(Predicate<ChangeData> p) {
+  private PredicateWrapper wrap(Predicate<ChangeData> p, ChangeIndex index) {
     try {
-      return new PredicateWrapper(indexes.getSearchIndex(), p);
+      return new PredicateWrapper(index, p);
     } catch (QueryParseException e) {
       throw new IllegalStateException(
           "Failed to convert " + p + " to index predicate", e);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea575de7_cff29d20",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T04:57:34Z",
+      "side": 1,
+      "message": "This is fine, but note that this may still skip large swaths of changes if an exception occurs somewhere else in the walk.\n\nI\u0027m not too worried about _detecting_ such cases, because you\u0027ll get at least one exception propagating up out of this Callable, which will result in the total change count being off (thanks for that). But if you were hoping to continue in the RevWalk if there is an error in calling df.scan on a single commit, this doesn\u0027t do that.",
+      "revId": "d714d8143982b60083144bd10a9112d198b869b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

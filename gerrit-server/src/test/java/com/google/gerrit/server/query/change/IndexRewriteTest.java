@@ -23,7 +23,9 @@ import static com.google.gerrit.reviewdb.client.Change.Status.SUBMITTED;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
+import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.PredicateWrapper;
 import com.google.gerrit.server.index.Schema;
@@ -42,7 +44,22 @@ import java.util.Set;
 
 @SuppressWarnings("unchecked")
 public class IndexRewriteTest extends TestCase {
+  private static Schema<ChangeData> V1 = new Schema<ChangeData>(
+      1, false, ImmutableList.<FieldDef<ChangeData, ?>> of(
+          ChangeField.STATUS));
+
+  private static Schema<ChangeData> V2 = new Schema<ChangeData>(
+      2, false, ImmutableList.of(
+          ChangeField.STATUS,
+          ChangeField.FILE));
+
   private static class DummyIndex implements ChangeIndex {
+    private final Schema<ChangeData> schema;
+
+    private DummyIndex(Schema<ChangeData> schema) {
+      this.schema = schema;
+    }
+
     @Override
     public ListenableFuture<Void> insert(ChangeData cd) {
       throw new UnsupportedOperationException();
@@ -71,7 +88,7 @@ public class IndexRewriteTest extends TestCase {
 
     @Override
     public Schema<ChangeData> getSchema() {
-      throw new UnsupportedOperationException();
+      return schema;
     }
 
     @Override
@@ -97,13 +114,13 @@ public class IndexRewriteTest extends TestCase {
     }
   }
 
-  public static class QueryBuilder extends ChangeQueryBuilder {
+  public class QueryBuilder extends ChangeQueryBuilder {
     QueryBuilder() {
       super(
           new QueryBuilder.Definition<ChangeData, QueryBuilder>(
             QueryBuilder.class),
           new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
-            null, null, null, null, null, null),
+            null, null, null, null, null, indexes),
           null);
     }
 
@@ -117,7 +134,7 @@ public class IndexRewriteTest extends TestCase {
       return predicate("bar", value);
     }
 
-    private static Predicate<ChangeData> predicate(String name, String value) {
+    private Predicate<ChangeData> predicate(String name, String value) {
       return new OperatorPredicate<ChangeData>(name, value) {
         @Override
         public boolean match(ChangeData object) throws OrmException {
@@ -132,6 +149,7 @@ public class IndexRewriteTest extends TestCase {
     }
   }
 
+  private IndexCollection indexes;
   private DummyIndex index;
   private ChangeQueryBuilder queryBuilder;
   private IndexRewrite rewrite;
@@ -139,10 +157,10 @@ public class IndexRewriteTest extends TestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    index = new DummyIndex();
-    queryBuilder = new QueryBuilder();
-    IndexCollection indexes = new IndexCollection();
+    index = new DummyIndex(V2);
+    indexes = new IndexCollection();
     indexes.setSearchIndex(index);
+    queryBuilder = new QueryBuilder();
     rewrite = new IndexRewriteImpl(indexes);
   }
 
@@ -245,6 +263,19 @@ public class IndexRewriteTest extends TestCase {
 
     assertEquals(EnumSet.of(MERGED, SUBMITTED),
         status("(is:new is:draft) OR (is:merged OR is:submitted)"));
+  }
+
+  public void testUnsupportedIndexOperator() throws Exception {
+    Predicate<ChangeData> in = parse("status:merged file:a");
+    assertEquals(wrap(in), rewrite(in));
+
+    indexes.setSearchIndex(new DummyIndex(V1));
+    Predicate<ChangeData> out = rewrite(in);
+    assertSame(AndPredicate.class, out.getClass());
+    assertEquals(ImmutableList.of(
+          wrap(in.getChild(0)),
+          in.getChild(1)),
+        out.getChildren());
   }
 
   private Predicate<ChangeData> parse(String query) throws QueryParseException {

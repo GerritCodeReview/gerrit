@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 
 /** Specific version of a secondary index schema. */
@@ -22,7 +23,8 @@ public class Schema<T> {
   private final boolean release;
   private final ImmutableMap<String, FieldDef<T, ?>> fields;
 
-  protected Schema(int version, boolean release,
+  @VisibleForTesting
+  public Schema(int version, boolean release,
       Iterable<FieldDef<T, ?>> fields) {
     this.version = version;
     this.release = release;

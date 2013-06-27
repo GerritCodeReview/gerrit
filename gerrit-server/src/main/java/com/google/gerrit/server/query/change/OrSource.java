@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
-class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
+public class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
   private int cardinality = -1;
 
-  OrSource(final Collection<? extends Predicate<ChangeData>> that) {
+  public OrSource(Collection<? extends Predicate<ChangeData>> that) {
     super(that);
   }
 

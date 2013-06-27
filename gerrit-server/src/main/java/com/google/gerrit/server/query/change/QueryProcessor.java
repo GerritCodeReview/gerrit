@@ -402,6 +402,8 @@ public class QueryProcessor {
       throw new QueryParseException("invalid query: " + s);
     }
 
+    log.info("Query "+queryString);
+    log.info("      "+s);
     return s;
   }
 

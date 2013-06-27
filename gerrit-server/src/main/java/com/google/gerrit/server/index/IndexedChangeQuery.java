@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -35,15 +36,33 @@ import java.util.List;
  * the secondary index; such predicates must also implement
  * {@link ChangeDataSource} to be chosen by the query processor.
  */
-public class PredicateWrapper extends Predicate<ChangeData> implements
-    ChangeDataSource {
+public class IndexedChangeQuery extends Predicate<ChangeData>
+    implements ChangeDataSource {
   private final Predicate<ChangeData> pred;
   private final ChangeDataSource source;
 
-  public PredicateWrapper(ChangeIndex index, Predicate<ChangeData> pred)
+  public IndexedChangeQuery(ChangeIndex index, Predicate<ChangeData> pred)
       throws QueryParseException {
     this.pred = pred;
     this.source = index.getSource(pred);
+  }
+
+  @Override
+  public int getChildCount() {
+    return 1;
+  }
+
+  @Override
+  public Predicate<ChangeData> getChild(int i) {
+    if (i == 0) {
+      return pred;
+    }
+    throw new ArrayIndexOutOfBoundsException(i);
+  }
+
+  @Override
+  public List<Predicate<ChangeData>> getChildren() {
+    return ImmutableList.of(pred);
   }
 
   @Override
@@ -115,11 +134,11 @@ public class PredicateWrapper extends Predicate<ChangeData> implements
   public boolean equals(Object other) {
     return other != null
         && getClass() == other.getClass()
-        && pred.equals(((PredicateWrapper) other).pred);
+        && pred.equals(((IndexedChangeQuery) other).pred);
   }
 
   @Override
   public String toString() {
-    return "index(" + pred + ")";
+    return "index(" + source + ")";
   }
 }

@@ -34,7 +34,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
+public class AndSource extends AndPredicate<ChangeData>
+    implements ChangeDataSource {
   private static final Comparator<Predicate<ChangeData>> CMP =
       new Comparator<Predicate<ChangeData>>() {
         @Override
@@ -75,7 +76,8 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
   private final Provider<ReviewDb> db;
   private int cardinality = -1;
 
-  AndSource(Provider<ReviewDb> db, Collection<? extends Predicate<ChangeData>> that) {
+  public AndSource(Provider<ReviewDb> db,
+      Collection<? extends Predicate<ChangeData>> that) {
     super(sort(that));
     this.db = db;
   }

@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa8ba5a1_7db15716",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "General comment.  Outside of the code example blocks, put variable and method names inside `backticks`.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_fced6912",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "s/Gerit/Gerrit",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_bdcaff96",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "\"the UI\"\n\n\"the REST API\"",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_1dba13f8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "\"a plugin to integrate Jira with Gerrit\"",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_9cde2562",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "- s/their/its\n\n- \"from the change page\"",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_3db7cf0e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "a \"Schedule\" button",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_bce3e126",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "\"from the patch set panel\"",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_fdc4878a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary to say \"At the time of this writing\".\n\nIf new ones are added later, the documentation should be updated at the same time.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_7c7f996c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "Capitalise the first word of the sentences here.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_dce8ad05",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "\"add support\"\n\nAlthough, I\u0027m not sure if this sentence is necessary.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_5db49b07",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "\"the `UICommand` interface.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_ddbfcbe7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "Indent code by 2 columns.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_5c82dd43",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-27T07:35:11Z",
+      "side": 1,
+      "message": "The `apply` method.",
+      "revId": "4eb560c2b3cd8e761477dbfa2c9821fc4e1af90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

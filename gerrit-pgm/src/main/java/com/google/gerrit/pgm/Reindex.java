@@ -386,9 +386,14 @@ public class Reindex extends SiteProgram {
           if (!cds.isEmpty()) {
             List<String> paths = getPaths(df.scan(aTree, bTree));
             for (ChangeData cd : cds) {
-              cd.setCurrentFilePaths(paths);
-              indexer.indexTask(cd).call();
-              done.update(1);
+              try {
+                cd.setCurrentFilePaths(paths);
+                indexer.indexTask(cd).call();
+                done.update(1);
+              } catch (Exception e) {
+                log.warn("Failed to index change " + cd.getId(), e);
+                failed.update(1);
+              }
             }
           }
         } finally {

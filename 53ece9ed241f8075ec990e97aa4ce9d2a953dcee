@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea575de7_2ffa49f7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/CommentPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T05:05:32Z",
+      "side": 1,
+      "message": "Predicate.and(new LegacyChangeIdPredicate(db, object.getId()), this)",
+      "revId": "53ece9ed241f8075ec990e97aa4ce9d2a953dcee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

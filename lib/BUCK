@@ -219,6 +219,13 @@ maven_jar(
 )
 
 maven_jar(
+  name = 'mockito',
+  id = 'org.mockito:mockito-core:1.9.5',
+  sha1 = 'c3264abeea62c4d2f367e21484fbb40c7e256393',
+  license = 'DO_NOT_DISTRIBUTE',
+)
+
+maven_jar(
   name = 'easymock',
   id = 'org.easymock:easymock:3.1',
   sha1 = '3e127311a86fc2e8f550ef8ee4abe094bbcf7e7e',

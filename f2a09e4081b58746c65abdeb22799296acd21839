@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa22c587_a5ed7e45",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T21:18:59Z",
+      "side": 1,
+      "message": "Check the implementation of automerge. There is at least one other case where this might return null.",
+      "revId": "f2a09e4081b58746c65abdeb22799296acd21839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

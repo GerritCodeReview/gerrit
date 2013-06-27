@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a53d1fd_b014d851",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T05:13:31Z",
+      "side": 1,
+      "message": "How is this different from how ints are normally stored?",
+      "revId": "6cbd0a4d2f63d5900ed1cc6b42cacfed0e75b812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a53d1fd_900fd440",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T05:13:31Z",
+      "side": 1,
+      "message": "Is the idea that negation of an integer is too expensive? Have you observed this?\n\nMaybe this is messy but ISTM the code would be cleaner if we just indexed this as a single string. (We\u0027re already doing that with status...)",
+      "revId": "6cbd0a4d2f63d5900ed1cc6b42cacfed0e75b812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a53d1fd_70043025",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-27T05:13:31Z",
+      "side": 1,
+      "message": "s/an/a/",
+      "revId": "6cbd0a4d2f63d5900ed1cc6b42cacfed0e75b812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

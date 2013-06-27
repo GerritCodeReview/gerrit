@@ -52,6 +52,7 @@ java_test(
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//lib:easymock',
+    '//lib:mockito',
     '//lib:junit',
     '//lib:gson',
     '//lib:gwtorm',

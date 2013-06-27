@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,18 +34,25 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /** Creates a {@link IncludedInDetail} of a {@link Change}. */
 class IncludedInDetailFactory extends Handler<IncludedInDetail> {
-  private static final Logger log =
-      LoggerFactory.getLogger(IncludedInDetailFactory.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(IncludedInDetailFactory.class);
 
   interface Factory {
     IncludedInDetailFactory create(Change.Id id);
@@ -92,9 +99,21 @@ class IncludedInDetailFactory extends Handler<IncludedInDetail> {
           throw new InvalidRevisionException();
         }
 
+        List<Ref> tags =
+            new ArrayList<Ref>(repo.getRefDatabase().getRefs(Constants.R_TAGS)
+                .values());
+        List<Ref> branches =
+            new ArrayList<Ref>(repo.getRefDatabase().getRefs(Constants.R_HEADS)
+                .values());
+        Set<Ref> allRefs = new HashSet<Ref>();
+        allRefs.addAll(tags);
+        allRefs.addAll(branches);
+        List<Ref> allMatchingRefs = includedIn(repo, rw, rev, allRefs);
+
+
         detail = new IncludedInDetail();
-        detail.setBranches(includedIn(repo, rw, rev, Constants.R_HEADS));
-        detail.setTags(includedIn(repo, rw, rev, Constants.R_TAGS));
+        detail.setBranches(getMatchingRefNames(allMatchingRefs, branches));
+        detail.setTags(getMatchingRefNames(allMatchingRefs, tags));
 
         return detail;
       } finally {
@@ -105,14 +124,75 @@ class IncludedInDetailFactory extends Handler<IncludedInDetail> {
     }
   }
 
-  private List<String> includedIn(final Repository repo, final RevWalk rw,
-      final RevCommit rev, final String namespace) throws IOException,
+  /**
+   * Resolves which tip ref's include the target commit.
+   */
+  private List<Ref> includedIn(final Repository repo, final RevWalk rw,
+      final RevCommit target, final Set<Ref> tipRefs) throws IOException,
       MissingObjectException, IncorrectObjectTypeException {
-    final List<String> result = new ArrayList<String>();
-    for (final Ref ref : repo.getRefDatabase().getRefs(namespace).values()) {
-      final RevCommit tip;
+
+    List<Ref> result = new ArrayList<Ref>();
+
+    Map<RevCommit, Set<Ref>> tipsAndCommits = parseCommits(repo, rw, tipRefs);
+
+    List<RevCommit> tips = new ArrayList<RevCommit>(tipsAndCommits.keySet());
+    Collections.sort(tips, new Comparator<RevCommit>() {
+      @Override
+      public int compare(RevCommit c1, RevCommit c2) {
+        Integer date1 = c1.getCommitTime();
+        Integer date2 = c2.getCommitTime();
+        return date1.compareTo(date2);
+      }
+    });
+
+    Set<RevCommit> hits = new HashSet<RevCommit>();
+    hits.add(target);
+
+    for (RevCommit tip : tips) {
+      boolean commitFound = false;
+      rw.resetRetain(RevFlag.UNINTERESTING);
+      rw.markStart(tip);
+      for (RevCommit commit : rw) {
+        if (hits.contains(commit)) {
+          commitFound = true;
+          hits.add(commit);
+          result.addAll(tipsAndCommits.get(tip));
+          break;
+        }
+      }
+      if (!commitFound) {
+        rw.markUninteresting(tip);
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Returns the short names of refs which are as well in the matchingRefs list
+   * as well as in the allRef list.
+   */
+  private List<String> getMatchingRefNames(List<Ref> matchingRefs,
+      List<Ref> allRefs) {
+    List<String> refNames = new ArrayList<String>();
+    for (Ref matchingRef : matchingRefs) {
+      if (allRefs.contains(matchingRef)) {
+        refNames.add(Repository.shortenRefName(matchingRef.getName()));
+      }
+    }
+    return refNames;
+  }
+
+  /**
+   * Parse commit of ref and store the relation between ref and commit.
+   */
+  private Map<RevCommit, Set<Ref>> parseCommits(final Repository repo,
+      final RevWalk rw, final Set<Ref> refs) throws IOException {
+    Map<RevCommit, Set<Ref>> result = new HashMap<RevCommit, Set<Ref>>();
+    for (Ref ref : refs) {
+      final RevCommit commit;
       try {
-        tip = rw.parseCommit(ref.getObjectId());
+        commit = rw.parseCommit(ref.getObjectId());
       } catch (IncorrectObjectTypeException notCommit) {
         // Its OK for a tag reference to point to a blob or a tree, this
         // is common in the Linux kernel or git.git repository.
@@ -125,11 +205,14 @@ class IncludedInDetailFactory extends Handler<IncludedInDetail> {
             + " points to dangling object " + ref.getObjectId());
         continue;
       }
-
-      if (rw.isMergedInto(rev, tip)) {
-        result.add(ref.getName().substring(namespace.length()));
+      Set<Ref> relatedTags = result.get(commit);
+      if (relatedTags == null) {
+        relatedTags = new HashSet<Ref>();
+        result.put(commit, relatedTags);
       }
+      relatedTags.add(ref);
     }
     return result;
   }
+
 }

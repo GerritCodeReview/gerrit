@@ -209,15 +209,15 @@ public class PatchSetInserter {
       }
 
       final List<FooterLine> footerLines = commit.getFooterLines();
-      ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
+      ChangeUtil.updateTrackingIds(db, updatedChange, trackingFooters, footerLines);
       db.commit();
 
       if (changeMessage != null) {
         db.changeMessages().insert(Collections.singleton(changeMessage));
       }
 
-      indexer.index(change);
-      hooks.doPatchsetCreatedHook(change, patchSet, db);
+      indexer.index(updatedChange);
+      hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
     } finally {
       db.rollback();
     }

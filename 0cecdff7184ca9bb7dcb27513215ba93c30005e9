@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa8ba5a1_3de42f0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T15:03:33Z",
+      "side": 1,
+      "message": "You need to rebase this change. In current master the schema version is already at 11, so this should become 12 here.",
+      "revId": "0cecdff7184ca9bb7dcb27513215ba93c30005e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "aa8ba5a1_bdc91f7e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2013-06-27T18:54:29Z",
+      "side": 1,
+      "message": "At first glance I thought this would mimic \"git log --grep\", but that\u0027s what \"message:\" does. How about \"patch:\", or something else following the theme of \"search the formatted message + patch\"?",
+      "revId": "e2a708c246b51aea31661ae095a08303faa66ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_9dc46365",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeField.java",
         "patchSetId": 1

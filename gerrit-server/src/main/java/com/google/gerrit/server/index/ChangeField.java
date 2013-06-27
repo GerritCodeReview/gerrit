@@ -17,6 +17,8 @@ package com.google.gerrit.server.index;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.TrackingId;
@@ -46,7 +48,7 @@ import java.util.Set;
  */
 public class ChangeField {
   /** Increment whenever making schema changes. */
-  public static final int SCHEMA_VERSION = 9;
+  public static final int SCHEMA_VERSION = 10;
 
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
@@ -215,6 +217,24 @@ public class ChangeField {
           } catch (IOException e) {
             throw new OrmException(e);
           }
+        }
+      };
+
+  /** Summary or inline comment. */
+  public static final FieldDef<ChangeData, Iterable<String>> COMMENT =
+      new FieldDef.Repeatable<ChangeData, String>(ChangeQueryBuilder.FIELD_COMMENT,
+          FieldType.FULL_TEXT, false) {
+        @Override
+        public Iterable<String> get(ChangeData input, FillArgs args)
+            throws OrmException {
+          Set<String> r = Sets.newHashSet();
+          for (PatchLineComment c : input.comments(args.db)) {
+            r.add(c.getMessage());
+          }
+          for (ChangeMessage m : input.messages(args.db)) {
+            r.add(m.getMessage());
+          }
+          return r;
         }
       };
 

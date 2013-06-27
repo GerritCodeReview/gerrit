@@ -79,6 +79,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_AGE = "age";
   public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";
+  public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_DRAFTBY = "draftby";
   public static final String FIELD_FILE = "file";
@@ -193,6 +194,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     throw new IllegalArgumentException();
+  }
+
+  @Operator
+  public Predicate<ChangeData> comment(String value) throws QueryParseException {
+    if (args.index == ChangeIndex.DISABLED) {
+      throw error("secondary index must be enabled for comment:" + value);
+    }
+    return new CommentPredicate(args.index, value);
   }
 
   @Operator

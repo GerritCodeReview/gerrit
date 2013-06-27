@@ -50,6 +50,23 @@
       "revId": "d75b214af8831a612905e292baf3dcbac2694896",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa8ba5a1_3d534f1f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-27T02:21:48Z",
+      "side": 1,
+      "message": "Do you actually need db and repoManager? Can both parameters be removed?",
+      "revId": "d75b214af8831a612905e292baf3dcbac2694896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -325,13 +325,14 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public void markReady() throws IOException {
+  public void markReady(boolean ready) throws IOException {
     // TODO Move the schema version information to a special meta-document
     FileBasedConfig cfg = new FileBasedConfig(
         solrIndexConfig(sitePaths),
         FS.detect());
     for (Map.Entry<String, Integer> e : SCHEMA_VERSIONS.entrySet()) {
-      cfg.setInt("index", e.getKey(), "schemaVersion", e.getValue());
+      cfg.setInt("index", e.getKey(), "schemaVersion",
+          ready ? e.getValue() : -1);
     }
     cfg.save();
   }

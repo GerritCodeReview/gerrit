@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_dda50bab",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-27T19:06:40Z",
+      "side": 1,
+      "message": "I am leaving as is because I don\u0027t think that helps a user at all.  \"Output\" implies to stdout; if this were not being shoved to stdout, then I agree it would make sense to clarify where.  I don\u0027t want to just add noise to a simple help message.",
+      "parentUuid": "ea575de7_eff7610d",
+      "revId": "dec4d2773badb5ade565d7386d8d118ac3d6a357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a53d1fd_10fda4ee",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "aa8ba5a1_fdaac779",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-27T19:06:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a53d1fd_10fda4ee",
+      "revId": "dec4d2773badb5ade565d7386d8d118ac3d6a357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea575de7_0ffd85ee",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2013-06-27T05:02:02Z",
       "side": 1,
       "message": "Off-topic but you can probably squeeze it in this series: this number is inaccurate. It should really be byId.get(bCommit).size(), or actually, that size minus the number of successes.",
+      "revId": "dec4d2773badb5ade565d7386d8d118ac3d6a357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a98a1f6_fc2f2960",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-06-27T19:06:40Z",
+      "side": 1,
+      "message": "Done (in next change since that is where I fix the issue related to this).",
+      "parentUuid": "ea575de7_0ffd85ee",
       "revId": "dec4d2773badb5ade565d7386d8d118ac3d6a357",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

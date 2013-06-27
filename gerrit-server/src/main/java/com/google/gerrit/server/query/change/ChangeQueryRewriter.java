@@ -64,8 +64,8 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Override
-  public Predicate<ChangeData> rewrite(Predicate<ChangeData> in) {
-    return super.rewrite(indexRewrite.rewrite(in));
+  public Predicate<ChangeData> preRewrite(Predicate<ChangeData> in) {
+    return indexRewrite.rewrite(in);
   }
 
   @Rewrite("-status:open")

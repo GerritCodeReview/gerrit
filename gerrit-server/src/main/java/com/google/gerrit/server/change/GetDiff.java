@@ -14,11 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
@@ -27,19 +23,17 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.diff.ReplaceEdit;
+
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.NamedOptionDef;
@@ -97,33 +91,6 @@ public class GetDiff implements RestReadView<FileResource> {
         prefs)
           .call();
 
-    Content content = new Content(ps);
-    for (Edit edit : ps.getEdits()) {
-      if (edit.getType() == Edit.Type.EMPTY) {
-        continue;
-      }
-      content.addCommon(edit.getBeginA());
-
-      checkState(content.nextA == edit.getBeginA(),
-          "nextA = %d; want %d", content.nextA, edit.getBeginA());
-      checkState(content.nextB == edit.getBeginB(),
-          "nextB = %d; want %d", content.nextB, edit.getBeginB());
-      switch (edit.getType()) {
-        case DELETE:
-        case INSERT:
-        case REPLACE:
-          List<Edit> internalEdit = edit instanceof ReplaceEdit
-            ? ((ReplaceEdit) edit).getInternalEdits()
-            : null;
-          content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit);
-          break;
-        case EMPTY:
-        default:
-          throw new IllegalStateException();
-      }
-    }
-    content.addCommon(ps.getA().size());
-
     Result result = new Result();
     if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
       result.metaA = new FileMeta();
@@ -151,7 +118,10 @@ public class GetDiff implements RestReadView<FileResource> {
     if (ps.getPatchHeader().size() > 0) {
       result.diffHeader = ps.getPatchHeader();
     }
-    result.content = content.lines;
+
+    DiffContent content = new DiffContent(ps);
+    result.content = content.getLines();
+
     Response<Result> r = Response.ok(result);
     if (resource.isCacheable()) {
       r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
@@ -165,7 +135,7 @@ public class GetDiff implements RestReadView<FileResource> {
     IntraLineStatus intralineStatus;
     ChangeType changeType;
     List<String> diffHeader;
-    List<ContentEntry> content;
+    List<DiffContent.Entry> content;
   }
 
   static class FileMeta {
@@ -196,87 +166,6 @@ public class GetDiff implements RestReadView<FileResource> {
     FAILURE;
   }
 
-  private static class Content {
-    final List<ContentEntry> lines;
-    final SparseFileContent fileA;
-    final SparseFileContent fileB;
-
-    int nextA;
-    int nextB;
-
-    Content(PatchScript ps) {
-      lines = Lists.newArrayListWithExpectedSize(ps.getEdits().size() + 2);
-      fileA = ps.getA();
-      fileB = ps.getB();
-    }
-
-    void addCommon(int end) {
-      end = Math.min(end, fileA.size());
-      if (nextA >= end) {
-        return;
-      }
-      nextB += end - nextA;
-
-      while (nextA < end) {
-        if (fileA.contains(nextA)) {
-          ContentEntry e = entry();
-          e.ab = Lists.newArrayListWithCapacity(end - nextA);
-          for (int i = nextA; i == nextA && i < end; i = fileA.next(i), nextA++) {
-            e.ab.add(fileA.get(i));
-          }
-        } else {
-          int endRegion = Math.min(end,
-              (nextA == 0) ? fileA.first() : fileA.next(nextA - 1));
-          ContentEntry e = entry();
-          e.skip = endRegion - nextA;
-          nextA = endRegion;
-        }
-      }
-    }
-
-    void addDiff(int endA, int endB, List<Edit> internalEdit) {
-      int lenA = endA - nextA;
-      int lenB = endB - nextB;
-      checkState(lenA > 0 || lenB > 0);
-
-      ContentEntry e = entry();
-      if (lenA > 0) {
-        e.a = Lists.newArrayListWithCapacity(lenA);
-        for (; nextA < endA; nextA++) {
-          e.a.add(fileA.get(nextA));
-        }
-      }
-      if (lenB > 0) {
-        e.b = Lists.newArrayListWithCapacity(lenB);
-        for (; nextB < endB; nextB++) {
-          e.b.add(fileB.get(nextB));
-        }
-      }
-      if (internalEdit != null && !internalEdit.isEmpty()) {
-        e.editA = Lists.newArrayListWithCapacity(internalEdit.size() * 2);
-        e.editB = Lists.newArrayListWithCapacity(internalEdit.size() * 2);
-        int lastA = 0;
-        int lastB = 0;
-        for (Edit edit : internalEdit) {
-          if (edit.getBeginA() != edit.getEndA()) {
-            e.editA.add(ImmutableList.of(edit.getBeginA() - lastA, edit.getEndA() - edit.getBeginA()));
-            lastA = edit.getEndA();
-          }
-          if (edit.getBeginB() != edit.getEndB()) {
-            e.editB.add(ImmutableList.of(edit.getBeginB() - lastB, edit.getEndB() - edit.getBeginB()));
-            lastB = edit.getEndB();
-          }
-        }
-      }
-    }
-
-    private ContentEntry entry() {
-      ContentEntry e = new ContentEntry();
-      lines.add(e);
-      return e;
-    }
-  }
-
   enum IgnoreWhitespace {
     NONE(AccountDiffPreference.Whitespace.IGNORE_NONE),
     TRAILING(AccountDiffPreference.Whitespace.IGNORE_SPACE_AT_EOL),
@@ -288,25 +177,6 @@ public class GetDiff implements RestReadView<FileResource> {
     private IgnoreWhitespace(AccountDiffPreference.Whitespace whitespace) {
       this.whitespace = whitespace;
     }
-  }
-
-  static final class ContentEntry {
-    // Common lines to both sides.
-    List<String> ab;
-    // Lines of a.
-    List<String> a;
-    // Lines of b.
-    List<String> b;
-
-    // A list of changed sections of the of the corresponding line list.
-    // Each entry is a character <offset, length> pair. The offset is from the
-    // beginning of the first line in the list. Also, the offset includes an
-    // implied trailing newline character for each line.
-    List<List<Integer>> editA;
-    List<List<Integer>> editB;
-
-    // Number of lines to skip on both sides.
-    Integer skip;
   }
 
   public static class ContextOptionHandler extends OptionHandler<Short> {

@@ -380,14 +380,13 @@ public class Reindex extends SiteProgram {
       List<ChangeData> cds = Lists.newArrayList(byId.get(bCommit));
       try {
         RevTree aTree = aFor(bCommit, walk);
-        if (aTree == null) {
-          return;
-        }
         DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
         try {
           df.setRepository(repo);
           if (!cds.isEmpty()) {
-            List<String> paths = getPaths(df.scan(aTree, bTree));
+            List<String> paths = (aTree != null)
+                ? getPaths(df.scan(aTree, bTree))
+                : Collections.<String>emptyList();
             Iterator<ChangeData> cdit = cds.iterator();
             for (ChangeData cd ; cdit.hasNext(); cdit.remove()) {
               cd = cdit.next();

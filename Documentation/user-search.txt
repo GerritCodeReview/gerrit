@@ -110,6 +110,12 @@ matches project names by regular expression.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
 
+[[parentproject]]
+parentproject:'PROJECT'::
++
+Changes occurring in 'PROJECT' or in one of the child projects of
+'PROJECT'.
+
 [[branch]]
 branch:'BRANCH'::
 +

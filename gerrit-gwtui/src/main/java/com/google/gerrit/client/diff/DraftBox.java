@@ -82,8 +82,6 @@ class DraftBox extends CommentBox {
 
     this.isNew = isNew;
     editArea.setText(contentPanelMessage.getText());
-    setEdit(isNew && !saveOnInit);
-    setOpen(isNew && !saveOnInit);
     if (saveOnInit) {
       onSave(null);
     }
@@ -121,6 +119,7 @@ class DraftBox extends CommentBox {
 
   void setEdit(boolean edit) {
     if (edit) {
+      setOpen(true);
       removeStyleName(draftStyle.view());
       addStyleName(draftStyle.edit());
       editArea.setText(contentPanelMessage.getText());
@@ -140,9 +139,11 @@ class DraftBox extends CommentBox {
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
-    getPaddingWidget().clear();
+    CommentInfo info = getOriginal();
+    getDiffView().removeCommentBox(info.side(), info.line() - 1);
     removeFromParent();
     getSelfWidget().clear();
+    getPaddingWidget().clear();
   }
 
   @UiHandler("edit")
@@ -163,10 +164,9 @@ class DraftBox extends CommentBox {
       @Override
       public void onSuccess(CommentInfo result) {
         updateOriginal(result);
-        setEdit(false);
         setMessageText(message);
         setDateText(FormatUtil.shortFormatDayTime(result.updated()));
-        resizePaddingWidget();
+        setEdit(false);
         if (isNew) {
           removeStyleName(draftStyle.newDraft());
           isNew = false;
@@ -183,7 +183,6 @@ class DraftBox extends CommentBox {
   @UiHandler("cancel")
   void onCancel(ClickEvent e) {
     setEdit(false);
-    resizePaddingWidget();
   }
 
   @UiHandler("discard")

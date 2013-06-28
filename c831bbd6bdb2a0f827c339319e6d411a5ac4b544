@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea303dcf_a7782a8b",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-28T02:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea303dcf_c796fe8f",
+      "revId": "c831bbd6bdb2a0f827c339319e6d411a5ac4b544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa22c587_e549367b",
         "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-06-28T01:30:16Z",
       "side": 1,
       "message": "This doesn\u0027t need to be mentioned in the release notes. This was only a temporary issue while the screen was migrated to the REST API.",
+      "revId": "c831bbd6bdb2a0f827c339319e6d411a5ac4b544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871dfc5e_74e8a833",
+        "filename": "ReleaseNotes/ReleaseNotes-2.8.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-28T02:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa22c587_e549367b",
       "revId": "c831bbd6bdb2a0f827c339319e6d411a5ac4b544",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

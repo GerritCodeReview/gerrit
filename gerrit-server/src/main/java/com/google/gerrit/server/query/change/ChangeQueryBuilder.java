@@ -32,8 +32,10 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.ChangeField;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
+import com.google.gerrit.server.index.IndexPredicate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
@@ -89,6 +91,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_HAS = "has";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_MAGIC = "magic";
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
@@ -565,6 +568,26 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> resume_sortkey(String sortKey) {
     return sortkey_before(sortKey);
+  }
+
+  @Operator
+  public Predicate<ChangeData> magic(String value) {
+    return new IndexPredicate<ChangeData>(ChangeField.MAGIC, value) {
+      @Override
+      public boolean match(ChangeData object) throws OrmException {
+        return false;
+      }
+
+      @Override
+      public int getCost() {
+        return 0;
+      }
+
+      @Override
+      public boolean isIndexOnly() {
+        return true;
+      }
+    };
   }
 
   @SuppressWarnings("unchecked")

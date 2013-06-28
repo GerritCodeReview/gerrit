@@ -3,6 +3,7 @@
 usage() {
     cat <<EOF
   query_suite run -h <host> -i <suite_dir> -o <output_dir> [-s <suite>]
+                  --reindex <reindex_stdout>
 
   Run query test suites
 
@@ -19,20 +20,33 @@ usage() {
   append_all    Append this text to all queries in the test suite
   prepend_all   Prepend this text to all queries in the test suite
 
+
+  --reindex  specify a file containing the stdout from reindex.  Use
+             this file to filter out changes which were not indexed.
+
 EOF
     exit
 }
 
 e() { [ -n "$VERBOSE" ] && echo "$@" >&2 ; "$@" ; }
 
-query()  { # host query
+filter() { # unindexed_file
+    if [ -f "$1" ] ; then
+        grep -f "$1" -v
+    else
+        cat -
+    fi
+}
+
+query()  { # host query unindexed
     local host=$1 query="$2"
-    e ssh -p 29418 "$host" gerrit query --format json "$query"
+    e ssh -p 29418 "$host" gerrit query --format json "$query" | filter "$3"
 }
 
 run_suite() { # host idir odir suite operator
     local host=$1 idir=$2 odir=$3 suite=$4 operator=$5
     local qfile files pre='' post='' fdir=$idir
+    local unindexed=$odir/unindexed
 
     mkdir -p "$odir/$suite"
 
@@ -55,10 +69,11 @@ run_suite() { # host idir odir suite operator
             run_suite "$host" "$idir" "$odir" "$qfile" "$operator"
         else
             if [ -n "$operator" ] ; then
-                query "$host" "$pre $operator:{$(< "$idir/$qfile")} $post" > "$odir/$qfile"
+                query="$pre $operator:{$(< "$idir/$qfile")} $post"
             else
-                query "$host" "$pre $(< "$idir/$qfile") $post" > "$odir/$qfile"
+                query="$pre $(< "$idir/$qfile") $post"
             fi
+            query "$host" "$query" "$unindexed" > "$odir/$qfile"
         fi
     done
 }
@@ -72,6 +87,9 @@ while [ $# -gt 0 ] ; do
         -s) shift ; SUITE=$1 ;;
         -i) shift ; IDIR=$1 ;;
         -o) shift ; ODIR=$1 ;;
+        --reindex) shift ;
+             UNINDEXED=$(awk '/Failed to index change/{print $5}' "$1")
+        ;;
 
         run) cmd=$1 ;;
 
@@ -81,6 +99,11 @@ while [ $# -gt 0 ] ; do
     esac
     shift
 done
+
+if [ -n "$UNINDEXED" ] && [ -n "$ODIR" ] ; then
+    mkdir -p "$ODIR"
+    echo "$UNINDEXED" | awk '{print "\"number\":\"" $1 "\""}' > "$ODIR"/unindexed
+fi
 
 case "$cmd" in
     run)

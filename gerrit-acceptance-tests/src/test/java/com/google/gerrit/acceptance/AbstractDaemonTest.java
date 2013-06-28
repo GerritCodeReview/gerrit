@@ -54,8 +54,12 @@ public abstract class AbstractDaemonTest {
   }
 
   private void beforeTest(Config cfg) throws Exception {
-    server = GerritServer.start(cfg);
+    server = startServer(cfg);
     server.getTestInjector().injectMembers(this);
+  }
+
+  protected GerritServer startServer(Config cfg) throws Exception {
+    return GerritServer.start(cfg);
   }
 
   private void afterTest() throws Exception {

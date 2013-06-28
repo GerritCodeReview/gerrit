@@ -45,9 +45,24 @@ import java.util.concurrent.TimeUnit;
 
 public class GerritServer {
 
-  /** Returns fully started Gerrit server */
+  /**
+   * Initializes a new site and starts Gerrit from it.
+   *
+   * @param base configuration for the new site
+   * @return fully started Gerrit server
+   */
   static GerritServer start(Config base) throws Exception {
-    final File site = initSite(base);
+    File site = initSite(base);
+    return start(site);
+  }
+
+  /**
+   * Starts Gerrit from an existing site.
+   *
+   * @param site an existing review site
+   * @return fully started Gerrit server
+   */
+  static GerritServer start(final File site) throws Exception {
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -81,7 +96,7 @@ public class GerritServer {
     return new GerritServer(site, i, daemon, daemonService);
   }
 
-  private static File initSite(Config base) throws Exception {
+  static File initSite(Config base) throws Exception {
     File tmp = TempFileUtil.createTempDirectory();
     Init init = new Init();
     int rc = init.main(new String[] {

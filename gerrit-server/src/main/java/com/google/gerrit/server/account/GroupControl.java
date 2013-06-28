@@ -127,10 +127,15 @@ public class GroupControl {
   /** Can this user see this group exists? */
   public boolean isVisible() {
     AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
+    /* Check for canAdministrateServer may seem redundant, but allows
+     * for visibility of all groups that are not an internal group to
+     * server administrators.
+     */
     return (accountGroup != null && accountGroup.isVisibleToAll())
       || user instanceof InternalUser
       || user.getEffectiveGroups().contains(group.getGroupUUID())
-      || isOwner();
+      || isOwner()
+      || user.getCapabilities().canAdministrateServer();
   }
 
   public boolean isOwner() {

@@ -320,13 +320,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> file(String file) throws QueryParseException {
+  public Predicate<ChangeData> file(String file) throws QueryParseException, OrmException {
     if (file.startsWith("^")) {
       if (allowFileRegex || args.index != ChangeIndex.DISABLED) {
         return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
       } else {
         throw error("secondary index must be enabled for file:" + file);
       }
+    } else if (file.startsWith("any=")) {
+      Change change = parseChange(file.substring(4));
+      return new AnyFilePredicate(args.dbProvider, args.patchListCache, change);
     } else {
       if (args.index == ChangeIndex.DISABLED) {
         throw error("secondary index must be enabled for file:" + file);
@@ -650,6 +653,27 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw error("Group " + group + " not found");
     }
     return g;
+  }
+
+  private Change parseChange(String value) throws OrmException,
+      QueryParseException {
+    if (PAT_LEGACY_ID.matcher(value).matches()) {
+      return args.dbProvider.get().changes().get(Change.Id.parse(value));
+    } else if (PAT_CHANGE_ID.matcher(value).matches()) {
+      if (value.charAt(0) == 'i') {
+        value = "I" + value.substring(1);
+      }
+      List<Change> changes = args.dbProvider.get().changes().byKey(new Change.Key(value)).toList();
+      if (changes.isEmpty()) {
+        throw error("Change " + value + " not found");
+      } else if (changes.size() == 1) {
+        return changes.get(0);
+      } else {
+        throw error(value + " matches more than one change");
+      }
+    }
+
+    throw error("Change " + value + " not found");
   }
 
   private Account.Id self() {

@@ -89,6 +89,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("label:");
     suggestions.add("message:");
     suggestions.add("file:");
+    suggestions.add("file:any=");
 
     suggestions.add("has:");
     suggestions.add("has:draft");

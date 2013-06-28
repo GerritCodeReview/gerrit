@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -271,6 +272,16 @@ public class ChangeField {
             r.add(m.getMessage());
           }
           return r;
+        }
+      };
+
+  public static final FieldDef<ChangeData, String> MAGIC =
+      new FieldDef.Single<ChangeData, String>(ChangeQueryBuilder.FIELD_MAGIC,
+          FieldType.EXACT, false) {
+        @Override
+        public String get(ChangeData input, FillArgs args) {
+          return ImmutableList.of("foo", "bar", "baz", "quux")
+              .get(input.getId().get() % 4);
         }
       };
 }

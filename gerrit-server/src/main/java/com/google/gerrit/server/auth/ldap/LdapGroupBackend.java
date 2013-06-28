@@ -24,11 +24,13 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
@@ -70,6 +72,7 @@ public class LdapGroupBackend implements GroupBackend {
   private final LoadingCache<String, Boolean> existsCache;
   private final ProjectCache projectCache;
   private final Provider<CurrentUser> userProvider;
+  private final GroupControl.Factory groupControlFactory;
 
   @Inject
   LdapGroupBackend(
@@ -77,12 +80,14 @@ public class LdapGroupBackend implements GroupBackend {
       @Named(GROUP_CACHE) LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(GROUP_EXIST_CACHE) LoadingCache<String, Boolean> existsCache,
       ProjectCache projectCache,
-      Provider<CurrentUser> userProvider) {
+      Provider<CurrentUser> userProvider,
+      GroupControl.Factory groupControlFactory) {
     this.helper = helper;
     this.membershipCache = membershipCache;
     this.projectCache = projectCache;
     this.existsCache = existsCache;
     this.userProvider = userProvider;
+    this.groupControlFactory = groupControlFactory;
   }
 
   private boolean isLdapUUID(AccountGroup.UUID uuid) {
@@ -233,7 +238,15 @@ public class LdapGroupBackend implements GroupBackend {
           LdapQuery query = new LdapQuery(
               groupBase, schema.groupScope, filter, returnAttrs);
           for (LdapQuery.Result res : query.query(ctx, params)) {
-            out.add(groupReference(schema.groupName, res));
+            GroupReference gr = groupReference(schema.groupName, res);
+            try {
+              GroupControl gc = groupControlFactory.controlFor(gr.getUUID());
+              if(gc.isVisible()) {
+                out.add(groupReference(schema.groupName, res));
+              }
+            } catch (NoSuchGroupException e) {
+              log.warn("Could not find LDAP group", e);
+            }
           }
         }
       } finally {

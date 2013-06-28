@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa22c587_45504a10",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2013-06-28T16:06:39Z",
+      "side": 1,
+      "message": "s/ref\u0027s/refs/",
+      "revId": "b025f21fc65bf8951ecd12bc5ba339d4a2395a83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

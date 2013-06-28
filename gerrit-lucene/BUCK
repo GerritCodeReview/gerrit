@@ -10,6 +10,7 @@ java_library(
     '//gerrit-reviewdb:server',
     '//gerrit-server:server',
     '//lib:gwtorm',
+    '//lib:guava',
     '//lib/lucene:core',
   ],
   visibility = ['PUBLIC'],

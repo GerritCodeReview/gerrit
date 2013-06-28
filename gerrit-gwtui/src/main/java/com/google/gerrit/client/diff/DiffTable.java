@@ -35,6 +35,8 @@ class DiffTable extends Composite {
     String diff();
     String intraline();
     String padding();
+    String activeLine();
+    String activeLineBg();
   }
 
   @UiField

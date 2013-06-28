@@ -36,6 +36,7 @@ import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ListChildProjects;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -92,6 +93,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_OWNERIN = "ownerin";
+  public static final String FIELD_PARENT = "parent";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWER = "reviewer";
@@ -116,6 +118,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ReviewDb> dbProvider;
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
+    final Provider<CurrentUser> self;
     final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final AccountResolver accountResolver;
@@ -124,6 +127,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
+    final Provider<ListChildProjects> listChildProjects;
     final IndexCollection indexes;
 
     @Inject
@@ -131,6 +135,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     public Arguments(Provider<ReviewDb> dbProvider,
         Provider<ChangeQueryRewriter> rewriter,
         IdentifiedUser.GenericFactory userFactory,
+        Provider<CurrentUser> self,
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         AccountResolver accountResolver,
@@ -139,10 +144,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
+        Provider<ListChildProjects> listChildProjects,
         IndexCollection indexes) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
+      this.self = self;
       this.capabilityControlFactory = capabilityControlFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.accountResolver = accountResolver;
@@ -151,6 +158,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
       this.projectCache = projectCache;
+      this.listChildProjects = listChildProjects;
       this.indexes = indexes;
     }
   }
@@ -292,6 +300,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (name.startsWith("^"))
       return new RegexProjectPredicate(args.dbProvider, name);
     return new ProjectPredicate(args.dbProvider, name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> parent(String name) {
+    return new ParentProjectPredicate(args.dbProvider, args.projectCache,
+        args.listChildProjects, args.self, name);
   }
 
   @Operator

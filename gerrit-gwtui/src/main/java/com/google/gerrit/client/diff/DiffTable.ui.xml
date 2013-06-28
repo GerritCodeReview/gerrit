@@ -20,7 +20,7 @@ limitations under the License.
     @external .CodeMirror, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber, .CodeMirror-vscrollbar;
     @external .CodeMirror-hscrollbar;
-    .difftable .CodeMirror pre {
+    .diffTable .CodeMirror pre {
       padding: 0;
       overflow: hidden;
     }
@@ -57,8 +57,14 @@ limitations under the License.
     .a .CodeMirror-vscrollbar {
       display: none !important;
     }
+    .activeLine .CodeMirror-linenumber {
+      background-color: #D8EDF9;
+    }
+    .activeLineBg {
+      background-color: #D8EDF9;
+    }
   </ui:style>
-  <g:HTMLPanel styleName='{style.difftable}'>
+  <g:HTMLPanel styleName='{style.diffTable}'>
     <table class='{style.table}'>
       <tr>
         <td ui:field='cmA' class='{style.a}'></td>

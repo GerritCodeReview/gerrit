@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
+import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -47,6 +48,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
+import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.ModeInjector;
@@ -78,6 +80,8 @@ public class CodeMirrorDemo extends Screen {
   private LineMapper mapper;
   private CommentLinkProcessor commentLinkProcessor;
   private Map<String, PublishedBox> publishedMap;
+  private Map<Integer, CommentBox> lineBoxMapA;
+  private Map<Integer, CommentBox> lineBoxMapB;
 
   public CodeMirrorDemo(PatchSet.Id base, PatchSet.Id revision, String path) {
     this.base = base;
@@ -190,18 +194,27 @@ public class CodeMirrorDemo extends Screen {
     mapper = null;
     initialBoxes = null;
     publishedMap = null;
+    lineBoxMapA = null;
+    lineBoxMapB = null;
   }
 
   private void display(DiffInfo diffInfo) {
     cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.getCmA());
     cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.getCmB());
     render(diffInfo);
+    cmA.on("cursorActivity", updateActiveLine(cmA));
+    cmB.on("cursorActivity", updateActiveLine(cmB));
     initialBoxes = new ArrayList<CommentBox>();
     publishedMap = new HashMap<String, PublishedBox>(published.length());
+    lineBoxMapA = new HashMap<Integer, CommentBox>();
+    lineBoxMapB = new HashMap<Integer, CommentBox>();
     renderPublished();
     renderDrafts();
     published = null;
     drafts = null;
+
+    cmA.addKeyMap(KeyMap.create("'c'", insertNewDraft(cmA)));
+    cmB.addKeyMap(KeyMap.create("'c'", insertNewDraft(cmB)));
 
     // TODO: Probably need horizontal resize
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
@@ -271,16 +284,34 @@ public class CodeMirrorDemo extends Screen {
     }
   }
 
-  DraftBox addReplyBox(CommentInfo replyTo, String initMessage, boolean doSave) {
+  private DraftBox addNewDraft(CodeMirror cm, int line) {
+    Side side = cm == cmA ? Side.PARENT : Side.REVISION;
+    CommentInfo info = CommentInfo.create(
+        path,
+        side,
+        line + 1,
+        null,
+        null);
+    return addDraftBox(info, false);
+  }
+
+  DraftBox addReply(CommentInfo replyTo, String initMessage, boolean doSave) {
     CommentInfo info = CommentInfo.create(
         path,
         replyTo.side(),
         replyTo.line(),
         replyTo.id(),
         initMessage);
+    return addDraftBox(info, doSave);
+  }
+
+  private DraftBox addDraftBox(CommentInfo info, boolean doSave) {
     DraftBox box = new DraftBox(this, revision, info, commentLinkProcessor,
-        true, !doSave);
+        true, doSave);
     addCommentBox(info, box);
+    if (!doSave) {
+      box.setEdit(true);
+    }
     return box;
   }
 
@@ -292,13 +323,17 @@ public class CodeMirrorDemo extends Screen {
     int line = info.line() - 1; // CommentInfo is 1-based, but CM is 0-based
     LineWidget boxWidget =
         cm.addLineWidget(line, box.getElement(), COMMENT_BOX_CONFIG);
-    int lineToPad = mapper.lineOnOther(mySide, line);
+    int lineToPad = mapper.lineOnOther(mySide, line).getLine();
     // Estimated height at 21px, fixed by deferring after display
     LineWidgetElementPair padding = addPaddingWidget(
         other, diffTable.style.padding(), lineToPad, 21, Unit.PX);
     box.setSelfWidget(boxWidget);
     box.setPadding(padding.widget, padding.element);
     return box;
+  }
+
+  void removeCommentBox(Side side, int line) {
+    getLineBoxMapFromSide(side).remove(line);
   }
 
   private void renderPublished() {
@@ -309,6 +344,7 @@ public class CodeMirrorDemo extends Screen {
       addCommentBox(info, box);
       initialBoxes.add(box);
       publishedMap.put(info.id(), box);
+      getLineBoxMapFromSide(info.side()).put(info.line(), box);
     }
   }
 
@@ -322,13 +358,17 @@ public class CodeMirrorDemo extends Screen {
       PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
       if (replyToBox != null) {
         replyToBox.registerReplyBox(box);
-        box.registerReplyToBox(replyToBox);
       }
+      getLineBoxMapFromSide(info.side()).put(info.line(), box);
     }
   }
 
   private CodeMirror otherCM(CodeMirror me) {
     return me == cmA ? cmB : cmA;
+  }
+
+  private Map<Integer, CommentBox> getLineBoxMapFromSide(Side side) {
+    return side == Side.PARENT ? lineBoxMapA : lineBoxMapB;
   }
 
   private void markEdit(
@@ -388,6 +428,58 @@ public class CodeMirrorDemo extends Screen {
     return new Runnable() {
       public void run() {
         cm.scrollToY(other.getScrollInfo().getTop());
+      }
+    };
+  }
+
+  private Runnable updateActiveLine(final CodeMirror cm) {
+    final CodeMirror other = otherCM(cm);
+    return new Runnable() {
+      public void run() {
+        if (cm.hasActiveLine()) {
+          cm.removeLineClass(cm.getActiveLine(),
+              LineClassWhere.WRAP, diffTable.style.activeLine());
+          cm.removeLineClass(cm.getActiveLine(),
+              LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+        }
+        if (other.hasActiveLine()) {
+          other.removeLineClass(other.getActiveLine(),
+              LineClassWhere.WRAP, diffTable.style.activeLine());
+          other.removeLineClass(other.getActiveLine(),
+              LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+        }
+        int line = cm.getCursor("head").getLine();
+        LineOnOtherInfo info =
+            mapper.lineOnOther(cm == cmA ? Side.PARENT : Side.REVISION, line);
+        int oLine = info.getLine();
+        cm.setActiveLine(line);
+        cm.addLineClass(line, LineClassWhere.WRAP, diffTable.style.activeLine());
+        cm.addLineClass(line, LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+        if (info.isAligned()) {
+          other.setActiveLine(oLine);
+          other.addLineClass(oLine, LineClassWhere.WRAP,
+              diffTable.style.activeLine());
+          other.addLineClass(oLine, LineClassWhere.BACKGROUND,
+              diffTable.style.activeLineBg());
+        }
+      }
+    };
+  }
+
+  private Runnable insertNewDraft(final CodeMirror cm) {
+    return new Runnable() {
+      public void run() {
+        Map<Integer, CommentBox> lineBoxMap = cm == cmA ?
+            lineBoxMapA : lineBoxMapB;
+        int line = cm.getActiveLine(); // CommentInfo is 1-based
+        CommentBox box = lineBoxMap.get(line);
+        if (box == null) {
+          lineBoxMap.put(line, addNewDraft(cm, line));
+        } else if (box.isDraft()) {
+          ((DraftBox) lineBoxMap.get(line)).setEdit(true);
+        } else {
+          ((PublishedBox)box).onReply(null);
+        }
       }
     };
   }

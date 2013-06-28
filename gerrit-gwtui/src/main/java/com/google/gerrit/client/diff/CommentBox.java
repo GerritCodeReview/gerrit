@@ -17,6 +17,8 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,6 +50,7 @@ abstract class CommentBox extends Composite {
   private LineWidget paddingWidget;
   private Element paddingWidgetEle;
   private CodeMirrorDemo diffView;
+  private boolean draft;
 
   @UiField(provided=true)
   CommentBoxHeader header;
@@ -67,10 +70,10 @@ abstract class CommentBox extends Composite {
     commentLinkProcessor = linkProcessor;
     original = info;
     patchSetId = id;
+    draft = isDraft;
     header = new CommentBoxHeader(info.author(), info.updated(), isDraft);
     initWidget(binder.createAndBindUi(this));
     setMessageText(info.message());
-    setOpen(false);
   }
 
   @Override
@@ -81,7 +84,6 @@ abstract class CommentBox extends Composite {
       @Override
       public void onClick(ClickEvent event) {
         setOpen(!isOpen());
-        resizePaddingWidget();
       }
     }, ClickEvent.getType());
     res.style().ensureInjected();
@@ -107,7 +109,12 @@ abstract class CommentBox extends Composite {
   }
 
   void resizePaddingWidget() {
-    paddingWidgetEle.getStyle().setHeight(getOffsetHeight(), Unit.PX);
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
+      public void execute() {
+        paddingWidgetEle.getStyle().setHeight(getOffsetHeight(), Unit.PX);
+      }
+    });
   }
 
   protected void setMessageText(String message) {
@@ -134,6 +141,7 @@ abstract class CommentBox extends Composite {
       removeStyleName(res.style().open());
       addStyleName(res.style().close());
     }
+    resizePaddingWidget();
   }
 
   private boolean isOpen() {
@@ -162,5 +170,9 @@ abstract class CommentBox extends Composite {
 
   protected void updateOriginal(CommentInfo newInfo) {
     original = newInfo;
+  }
+
+  boolean isDraft() {
+    return draft;
   }
 }

@@ -2099,6 +2099,10 @@ limit.
 Gerrit administrators can use this setting to prevent developers
 from pushing objects which are too large to Gerrit.
 +
+This setting can also be set in the `project.config` in order to further
+reduce the global setting. The project specific setting is only honored
+when it further reduces the global limit.
++
 Default is zero.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.

@@ -94,7 +94,7 @@ final class Receive extends AbstractGitCommand {
     final ReceivePack rp = receive.getReceivePack();
     rp.setRefLogIdent(currentUser.newRefLogIdent());
     rp.setTimeout(config.getTimeout());
-    rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
+    rp.setMaxObjectSizeLimit(getMaxObjectSizeLimit());
     try {
       receive.advertiseHistory();
       rp.receive(in, out, err);
@@ -168,6 +168,17 @@ final class Receive extends AbstractGitCommand {
         throw new UnloggedFailure(1, type + " "
             + user.getAccount().getFullName() + " cannot access the project");
       }
+    }
+  }
+
+  private long getMaxObjectSizeLimit() {
+    long global = config.getMaxObjectSizeLimit();
+    long local = projectControl.getProjectState().getMaxObjectSizeLimit();
+    if (global > 0 && local > 0) {
+      return Math.min(global, local);
+    } else {
+      // zero means "no limit", in this case the max is more limiting
+      return Math.max(global, local);
     }
   }
 }

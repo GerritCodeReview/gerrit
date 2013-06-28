@@ -107,6 +107,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String RECEIVE = "receive";
   private static final String KEY_REQUIRE_SIGNED_OFF_BY = "requireSignedOffBy";
   private static final String KEY_REQUIRE_CHANGE_ID = "requireChangeId";
+  private static final String KEY_MAX_OBJECT_SIZE_LIMIT = "maxObjectSizeLimit";
   private static final String KEY_REQUIRE_CONTRIBUTOR_AGREEMENT =
       "requireContributorAgreement";
 
@@ -145,6 +146,7 @@ public class ProjectConfig extends VersionedMetaData {
   private List<CommentLinkInfo> commentLinkSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
+  private long maxObjectSizeLimit;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -319,6 +321,14 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   /**
+   * @return the maxObjectSizeLimit for this project, if set. Zero if this
+   *         project doesn't define own maxObjectSizeLimit.
+   */
+  public long getMaxObjectSizeLimit() {
+    return maxObjectSizeLimit;
+  }
+
+  /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *
    * @param groupBackend cache to use when looking up group information by UUID.
@@ -386,6 +396,8 @@ public class ProjectConfig extends VersionedMetaData {
     loadNotifySections(rc, groupsByName);
     loadLabelSections(rc);
     loadCommentLinkSections(rc);
+
+    maxObjectSizeLimit = rc.getLong(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, 0);
   }
 
   private void loadAccountsSection(

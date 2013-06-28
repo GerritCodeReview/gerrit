@@ -120,13 +120,22 @@ public abstract class QueryRewriter<T> {
     return Predicate.not(that);
   }
 
+  protected Predicate<T> preRewrite(Predicate<T> in) {
+    return in;
+  }
+
   /**
    * Apply rewrites to a graph until it stops changing.
    *
    * @param in the graph to rewrite.
    * @return the rewritten graph.
    */
-  public Predicate<T> rewrite(Predicate<T> in) {
+  public final Predicate<T> rewrite(Predicate<T> in) {
+    in = preRewrite(in);
+    return rewriteImpl(in);
+  }
+
+  private Predicate<T> rewriteImpl(Predicate<T> in) {
     Predicate<T> old;
     do {
       old = in;
@@ -135,7 +144,7 @@ public abstract class QueryRewriter<T> {
       if (old.equals(in) && in.getChildCount() > 0) {
         List<Predicate<T>> n = new ArrayList<Predicate<T>>(in.getChildCount());
         for (Predicate<T> p : in.getChildren()) {
-          n.add(rewrite(p));
+          n.add(rewriteImpl(p));
         }
         n = removeDuplicates(n);
         if (n.size() == 1 && (isAND(in) || isOR(in))) {

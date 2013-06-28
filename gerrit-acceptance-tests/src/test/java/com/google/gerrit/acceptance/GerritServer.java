@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
+import com.google.gerrit.pgm.Reindex;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.SocketUtil;
@@ -46,8 +47,20 @@ import java.util.concurrent.TimeUnit;
 
 public class GerritServer {
 
+  static GerritServer startWithIndex(Config base) throws Exception {
+    return start(base, false, true);
+  }
+
   /** Returns fully started Gerrit server */
   static GerritServer start(Config base, boolean memory) throws Exception {
+    return start(base, memory, false);
+  }
+
+  private static GerritServer start(Config base, boolean memory, boolean index)
+      throws Exception {
+    if (memory && index) {
+      throw new IllegalStateException("cannot create index in memory");
+    }
     final CyclicBarrier serverStarted = new CyclicBarrier(2);
     final Daemon daemon = new Daemon(new Runnable() {
       public void run() {
@@ -73,7 +86,14 @@ public class GerritServer {
           new InMemoryTestingDatabaseModule(cfg)));
       daemon.start();
     } else {
-      site = initSite(base);
+      Config cfg = base != null ? base : new Config();
+      if (index) {
+        cfg.setString("index", null, "type", "lucene");
+      }
+      site = initSite(cfg);
+      if (index) {
+        reindex(site);
+      }
       daemonService = Executors.newSingleThreadExecutor();
       daemonService.submit(new Callable<Void>() {
         public Void call() throws Exception {
@@ -112,6 +132,15 @@ public class GerritServer {
     mergeTestConfig(cfg);
     cfg.save();
     return tmp;
+  }
+
+  /** Runs the reindex command. Works only if the site is not currently running. */
+  private static void reindex(File site) throws Exception {
+    Reindex reindex = new Reindex();
+    int rc = reindex.main(new String[] {"-d", site.getPath()});
+    if (rc != 0) {
+      throw new RuntimeException("Reindex failed");
+    }
   }
 
   private static void mergeTestConfig(Config cfg)

@@ -43,7 +43,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.inject.Singleton;
 
 import org.apache.lucene.search.Query;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -67,7 +66,6 @@ import java.util.Map;
 import java.util.Set;
 
 /** Secondary index implementation using a remote Solr instance. */
-@Singleton
 class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   public static final String CHANGES_OPEN = "changes_open";
   public static final String CHANGES_CLOSED = "changes_closed";
@@ -85,7 +83,8 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
       FillArgs fillArgs,
       SitePaths sitePaths,
       IndexCollection indexes,
-      Schema<ChangeData> schema) throws IOException {
+      Schema<ChangeData> schema,
+      String base) throws IOException {
     this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
     this.indexes = indexes;
@@ -96,11 +95,12 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
       throw new IllegalStateException("index.solr.url must be supplied");
     }
 
+    base = Strings.nullToEmpty(base);
     openIndex = new CloudSolrServer(url);
-    openIndex.setDefaultCollection(CHANGES_OPEN);
+    openIndex.setDefaultCollection(base + CHANGES_OPEN);
 
     closedIndex = new CloudSolrServer(url);
-    closedIndex.setDefaultCollection(CHANGES_CLOSED);
+    closedIndex.setDefaultCollection(base + CHANGES_CLOSED);
   }
 
   @Override

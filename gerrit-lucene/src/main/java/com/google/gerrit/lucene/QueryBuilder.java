@@ -32,9 +32,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SortKeyPredicate;
 
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.FuzzyQuery;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.PrefixQuery;
 import org.apache.lucene.search.Query;
@@ -55,28 +55,62 @@ public class QueryBuilder {
   public static Query toQuery(Predicate<ChangeData> p)
       throws QueryParseException {
     if (p instanceof AndPredicate) {
-      return booleanQuery(p, MUST);
+      return and(p);
     } else if (p instanceof OrPredicate) {
-      return booleanQuery(p, SHOULD);
+      return or(p);
     } else if (p instanceof NotPredicate) {
-      if (p.getChild(0) instanceof TimestampRangePredicate) {
-        return notTimestampQuery(
-            (TimestampRangePredicate<ChangeData>) p.getChild(0));
-      }
-      return booleanQuery(p, MUST_NOT);
+      return not(p);
     } else if (p instanceof IndexPredicate) {
       return fieldQuery((IndexPredicate<ChangeData>) p);
     } else {
-      throw new QueryParseException("Cannot convert to index predicate: " + p);
+      throw new QueryParseException("cannot create query for index: " + p);
     }
   }
 
-  private static Query booleanQuery(Predicate<ChangeData> p, BooleanClause.Occur o)
-      throws QueryParseException {
-    BooleanQuery q = new BooleanQuery();
-    for (int i = 0; i < p.getChildCount(); i++) {
-      q.add(toQuery(p.getChild(i)), o);
+  private static Query or(Predicate<ChangeData> p) throws QueryParseException {
+    try {
+      BooleanQuery q = new BooleanQuery();
+      for (int i = 0; i < p.getChildCount(); i++) {
+        q.add(toQuery(p.getChild(i)), SHOULD);
+      }
+      return q;
+    } catch (BooleanQuery.TooManyClauses e) {
+      throw new QueryParseException("cannot create query for index: " + p, e);
     }
+  }
+
+  private static Query and(Predicate<ChangeData> p) throws QueryParseException {
+    try {
+      BooleanQuery b = new BooleanQuery();
+      for (int i = 0; i < p.getChildCount(); i++) {
+        Predicate<ChangeData> c = p.getChild(i);
+        if (c instanceof NotPredicate) {
+          Predicate<ChangeData> n = c.getChild(0);
+          if (n instanceof TimestampRangePredicate) {
+            b.add(notTimestamp((TimestampRangePredicate<ChangeData>) n), MUST);
+          } else {
+            b.add(toQuery(c), MUST_NOT);
+          }
+        } else {
+          b.add(toQuery(c), MUST);
+        }
+      }
+      return b;
+    } catch (BooleanQuery.TooManyClauses e) {
+      throw new QueryParseException("cannot create query for index: " + p, e);
+    }
+  }
+
+  private static Query not(Predicate<ChangeData> p) throws QueryParseException {
+    Predicate<ChangeData> n = p.getChild(0);
+    if (n instanceof TimestampRangePredicate) {
+      return notTimestamp((TimestampRangePredicate<ChangeData>) n);
+    }
+
+    // Lucene does not support negation, start with all and subtract.
+    BooleanQuery q = new BooleanQuery();
+    q.add(new MatchAllDocsQuery(), MUST);
+    q.add(toQuery(n), MUST_NOT);
     return q;
   }
 
@@ -140,7 +174,7 @@ public class QueryBuilder {
     throw new QueryParseException("not a timestamp: " + p);
   }
 
-  private static Query notTimestampQuery(TimestampRangePredicate<ChangeData> r)
+  private static Query notTimestamp(TimestampRangePredicate<ChangeData> r)
       throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       return NumericRangeQuery.newIntRange(

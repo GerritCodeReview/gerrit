@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ea303dcf_677f126d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-28T16:10:09Z",
+      "side": 1,
+      "message": "Yes, I think this makes sense.",
+      "parentUuid": "87041c03_7c11b961",
+      "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea303dcf_07881664",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupInfo.java",
         "patchSetId": 1
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "Well, the alternative to this is having each group backend provide its own version of isVisibleToAll() ... but Shawn nixed that earlier. :(\n\nYou\u0027re right that we do hit an infinite loop if we send a group name on the internal backend (though thanks for pointing out the control flow; makes much more sense now).  Maybe the way to break the cycle is by placing the findExactSuggestion as the *very last* case (and if accountGroup is null), but this seems error-prone still... we\u0027d still have to assume that the backend\u0027s suggest never calls isVisible().\n\nYou\u0027re correct, the LDAP backend assumes everyone has visibility to the groups (currently).  I\u0027m not sure if this is a bug or an intended feature.  From my perspective, I don\u0027t have any complaints with all LDAP groups being visible (and it makes sense to me--users can see the entire LDAP tree, and see what groups others are a member of--so it seems to follow that users should be able to see the groups in Gerrit).  I could see an argument for the alternative, though, but again, without something like isVisibleToAll(), the current \"groups visible to all\" is not able to be supported.",
       "parentUuid": "aa22c587_e56056e3",
+      "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa22c587_654d4679",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-28T16:10:09Z",
+      "side": 1,
+      "message": "I see that this is difficult and I appreciate your efforts to get this fixed. Unfortunately I\u0027m not really knowing what\u0027s the right thing to do, just wanted to help getting this forward by expressing my concerns.",
+      "parentUuid": "6701e8f2_bb050725",
       "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -53,7 +53,7 @@ class PublishedBox extends CommentBox {
   @UiHandler("reply")
   void onReply(ClickEvent e) {
     if (replyBox == null) {
-      DraftBox box = getDiffView().addReplyBox(getOriginal(), "", true);
+      DraftBox box = getDiffView().addReply(getOriginal(), "", false);
       registerReplyBox(box);
     } else {
       openReplyBox();
@@ -63,7 +63,7 @@ class PublishedBox extends CommentBox {
   @UiHandler("replyDone")
   void onReplyDone(ClickEvent e) {
     if (replyBox == null) {
-      DraftBox box = getDiffView().addReplyBox(getOriginal(), "Done", false);
+      DraftBox box = getDiffView().addReply(getOriginal(), "Done", true);
       registerReplyBox(box);
     } else {
       openReplyBox();

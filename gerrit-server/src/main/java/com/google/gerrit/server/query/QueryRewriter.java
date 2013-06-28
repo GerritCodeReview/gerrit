@@ -159,17 +159,17 @@ public abstract class QueryRewriter<T> {
   }
 
   protected Predicate<T> replaceGenericNodes(final Predicate<T> in) {
-    if (in.getClass() == NotPredicate.class) {
+    if (in instanceof NotPredicate) {
       return not(replaceGenericNodes(in.getChild(0)));
 
-    } else if (in.getClass() == AndPredicate.class) {
+    } else if (in instanceof AndPredicate) {
       List<Predicate<T>> n = new ArrayList<Predicate<T>>(in.getChildCount());
       for (Predicate<T> c : in.getChildren()) {
         n.add(replaceGenericNodes(c));
       }
       return and(n);
 
-    } else if (in.getClass() == OrPredicate.class) {
+    } else if (in instanceof OrPredicate) {
       List<Predicate<T>> n = new ArrayList<Predicate<T>>(in.getChildCount());
       for (Predicate<T> c : in.getChildren()) {
         n.add(replaceGenericNodes(c));

@@ -54,11 +54,11 @@ public class QueryBuilder {
 
   public static Query toQuery(Predicate<ChangeData> p)
       throws QueryParseException {
-    if (p.getClass() == AndPredicate.class) {
+    if (p instanceof AndPredicate) {
       return booleanQuery(p, MUST);
-    } else if (p.getClass() == OrPredicate.class) {
+    } else if (p instanceof OrPredicate) {
       return booleanQuery(p, SHOULD);
-    } else if (p.getClass() == NotPredicate.class) {
+    } else if (p instanceof NotPredicate) {
       if (p.getChild(0) instanceof TimestampRangePredicate) {
         return notTimestampQuery(
             (TimestampRangePredicate<ChangeData>) p.getChild(0));

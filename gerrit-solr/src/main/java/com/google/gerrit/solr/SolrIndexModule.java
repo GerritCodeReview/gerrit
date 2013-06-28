@@ -32,14 +32,16 @@ import java.io.IOException;
 public class SolrIndexModule extends LifecycleModule {
   private final boolean checkVersion;
   private final int threads;
+  private final String base;
 
   public SolrIndexModule() {
-    this(true, 0);
+    this(true, 0, null);
   }
 
-  public SolrIndexModule(boolean checkVersion, int threads) {
+  public SolrIndexModule(boolean checkVersion, int threads, String base) {
     this.checkVersion = checkVersion;
     this.threads = threads;
+    this.base = base;
   }
 
   @Override
@@ -59,6 +61,6 @@ public class SolrIndexModule extends LifecycleModule {
       IndexCollection indexes,
       FillArgs fillArgs) throws IOException {
     return new SolrChangeIndex(cfg, fillArgs, sitePaths, indexes,
-        ChangeSchemas.getLatestRelease());
+        ChangeSchemas.getLatestRelease(), base);
   }
 }

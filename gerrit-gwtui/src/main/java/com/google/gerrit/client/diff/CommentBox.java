@@ -48,6 +48,7 @@ abstract class CommentBox extends Composite {
   private LineWidget paddingWidget;
   private Element paddingWidgetEle;
   private CodeMirrorDemo diffView;
+  private boolean draft;
 
   @UiField(provided=true)
   CommentBoxHeader header;
@@ -67,6 +68,7 @@ abstract class CommentBox extends Composite {
     commentLinkProcessor = linkProcessor;
     original = info;
     patchSetId = id;
+    draft = isDraft;
     header = new CommentBoxHeader(info.author(), info.updated(), isDraft);
     initWidget(binder.createAndBindUi(this));
     setMessageText(info.message());
@@ -162,5 +164,9 @@ abstract class CommentBox extends Composite {
 
   protected void updateOriginal(CommentInfo newInfo) {
     original = newInfo;
+  }
+
+  boolean isDraft() {
+    return draft;
   }
 }

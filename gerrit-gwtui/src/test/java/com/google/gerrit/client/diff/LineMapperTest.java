@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gerrit.common.changes.Side;
 
 import org.junit.Test;
@@ -51,41 +52,55 @@ public class LineMapperTest {
   public void testFindInCommon() {
     LineMapper mapper = new LineMapper();
     mapper.appendCommon(10);
-    assertEquals(9, mapper.lineOnOther(Side.PARENT, 9));
+    assertEquals(new LineOnOtherInfo(9, true),
+        mapper.lineOnOther(Side.PARENT, 9));
+    assertEquals(new LineOnOtherInfo(9, true),
+        mapper.lineOnOther(Side.REVISION, 9));
   }
 
   @Test
   public void testFindAfterCommon() {
     LineMapper mapper = new LineMapper();
     mapper.appendCommon(10);
-    assertEquals(10, mapper.lineOnOther(Side.PARENT, 10));
+    assertEquals(new LineOnOtherInfo(10, true),
+        mapper.lineOnOther(Side.PARENT, 10));
+    assertEquals(new LineOnOtherInfo(10, true),
+        mapper.lineOnOther(Side.REVISION, 10));
   }
 
   @Test
   public void testFindInInsertGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendInsert(10);
-    assertEquals(-1, mapper.lineOnOther(Side.REVISION, 9));
+    assertEquals(new LineOnOtherInfo(-1, false),
+        mapper.lineOnOther(Side.REVISION, 9));
   }
 
   @Test
   public void testFindAfterInsertGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendInsert(10);
-    assertEquals(0, mapper.lineOnOther(Side.REVISION, 10));
+    assertEquals(new LineOnOtherInfo(0, true),
+        mapper.lineOnOther(Side.REVISION, 10));
+    assertEquals(new LineOnOtherInfo(10, true),
+        mapper.lineOnOther(Side.PARENT, 0));
   }
 
   @Test
   public void testFindInDeleteGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendDelete(10);
-    assertEquals(-1, mapper.lineOnOther(Side.PARENT, 9));
+    assertEquals(new LineOnOtherInfo(-1, false),
+        mapper.lineOnOther(Side.PARENT, 9));
   }
 
   @Test
   public void testFindAfterDeleteGap() {
     LineMapper mapper = new LineMapper();
     mapper.appendDelete(10);
-    assertEquals(0, mapper.lineOnOther(Side.PARENT, 10));
+    assertEquals(new LineOnOtherInfo(0, true),
+        mapper.lineOnOther(Side.PARENT, 10));
+    assertEquals(new LineOnOtherInfo(10, true),
+        mapper.lineOnOther(Side.REVISION, 0));
   }
 }

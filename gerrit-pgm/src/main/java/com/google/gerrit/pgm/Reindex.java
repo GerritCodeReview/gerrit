@@ -98,8 +98,8 @@ public class Reindex extends SiteProgram {
   @Option(name = "--threads", usage = "Number of threads to use for indexing")
   private int threads = Runtime.getRuntime().availableProcessors();
 
-  @Option(name = "--dry-run", usage = "Dry run: don't write anything to index")
-  private boolean dryRun;
+  @Option(name = "--output", usage = "Prefix for output; path for local disk index, or prefix for remote index")
+  private String outputBase;
 
   @Option(name = "--verbose", usage = "Output debug information for each change")
   private boolean verbose;
@@ -142,10 +142,10 @@ public class Reindex extends SiteProgram {
     AbstractModule changeIndexModule;
     switch (IndexModule.getIndexType(dbInjector)) {
       case LUCENE:
-        changeIndexModule = new LuceneIndexModule(false, threads, dryRun);
+        changeIndexModule = new LuceneIndexModule(false, threads, outputBase);
         break;
       case SOLR:
-        changeIndexModule = new SolrIndexModule(false, threads);
+        changeIndexModule = new SolrIndexModule(false, threads, outputBase);
         break;
       default:
         changeIndexModule = new NoIndexModule();
@@ -208,9 +208,6 @@ public class Reindex extends SiteProgram {
   }
 
   private void deleteAll() throws IOException {
-    if (dryRun) {
-      return;
-    }
     ChangeIndex index = sysInjector.getInstance(ChangeIndex.class);
     index.deleteAll();
   }
@@ -470,9 +467,6 @@ public class Reindex extends SiteProgram {
 
   private void writeVersion() throws IOException,
       ConfigInvalidException {
-    if (dryRun) {
-      return;
-    }
     ChangeIndex index = sysInjector.getInstance(ChangeIndex.class);
     index.finishIndex();
   }

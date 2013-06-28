@@ -120,6 +120,7 @@ class DraftBox extends CommentBox {
   }
 
   void setEdit(boolean edit) {
+    setOpen(true);
     if (edit) {
       removeStyleName(draftStyle.view());
       addStyleName(draftStyle.edit());
@@ -129,7 +130,9 @@ class DraftBox extends CommentBox {
       removeStyleName(draftStyle.edit());
       addStyleName(draftStyle.view());
     }
-    resizePaddingWidget();
+    if (getPaddingWidget() != null) {
+      resizePaddingWidget();
+    }
   }
 
   void registerReplyToBox(PublishedBox box) {
@@ -140,6 +143,8 @@ class DraftBox extends CommentBox {
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
+    CommentInfo info = getOriginal();
+    getDiffView().removeCommentBox(info.side(), info.line() - 1);
     getPaddingWidget().clear();
     removeFromParent();
     getSelfWidget().clear();

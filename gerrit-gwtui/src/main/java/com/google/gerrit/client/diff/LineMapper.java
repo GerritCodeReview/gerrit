@@ -49,7 +49,7 @@ class LineMapper {
     int origLineB = lineB;
     lineB += numLines;
     int bAheadOfA = lineB - lineA;
-    lineMapAtoB.add(new LineGap(lineA, lineA, bAheadOfA));
+    lineMapAtoB.add(new LineGap(lineA, -1, bAheadOfA));
     lineMapBtoA.add(new LineGap(origLineB, lineB - 1, -bAheadOfA));
   }
 
@@ -58,7 +58,7 @@ class LineMapper {
     lineA += numLines;
     int aAheadOfB = lineA - lineB;
     lineMapAtoB.add(new LineGap(origLineA, lineA - 1, -aAheadOfB));
-    lineMapBtoA.add(new LineGap(lineB, lineB, aAheadOfB));
+    lineMapBtoA.add(new LineGap(lineB, -1, aAheadOfB));
   }
 
   /**
@@ -69,8 +69,9 @@ class LineMapper {
    *
    * A LineGap records gap information from the start of an actual gap up to
    * the start of the next gap. In the following example,
-   * lineMapAtoB will have LineGap: {start: 1, end: 1, delta: 3}
-   * (end doesn't really matter here, as the binary search only looks at start)
+   * lineMapAtoB will have LineGap: {start: 1, end: -1, delta: 3}
+   * (end set to -1 to represent a dummy gap of length zero. The binary search
+   * only looks at start so setting it to -1 has no effect here.)
    * lineMapBtoA will have LineGap: {start: 1, end: 3, delta: -3}
    * These LineGaps control lines between 1 and 5.
    *
@@ -97,21 +98,61 @@ class LineMapper {
    *   -   |   6
    *      ...
    */
-  int lineOnOther(Side mySide, int line) {
+  LineOnOtherInfo lineOnOther(Side mySide, int line) {
     List<LineGap> lineGaps = mySide == Side.PARENT ? lineMapAtoB : lineMapBtoA;
     // Create a dummy LineGap for the search.
     int ret = Collections.binarySearch(lineGaps, new LineGap(line));
     if (ret == -1) {
-      return line;
+      return new LineOnOtherInfo(line, true);
     } else {
       LineGap lookup = lineGaps.get(0 <= ret ? ret : -ret - 2);
+      int start = lookup.start;
       int end = lookup.end;
       int delta = lookup.delta;
-      if (lookup.start <= line && line <= end) { // Line falls within gap
-        return end + delta;
+      if (start <= line && line <= end && end != -1) { // Line falls within gap
+        return new LineOnOtherInfo(end + delta, false);
       } else { // Line after gap
-        return line + delta;
+        return new LineOnOtherInfo(line + delta, true);
       }
+    }
+  }
+
+  /**
+   * @field line The line number on the other side.
+   * @field aligned Whether the two lines are at the same height when displayed.
+   */
+  static class LineOnOtherInfo {
+    private int line;
+    private boolean aligned;
+
+    LineOnOtherInfo(int line, boolean aligned) {
+      this.line = line;
+      this.aligned = aligned;
+    }
+
+    int getLine() {
+      return line;
+    }
+
+    boolean isAligned() {
+      return aligned;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if (obj == null || !(obj instanceof LineOnOtherInfo)) {
+        return false;
+      }
+      LineOnOtherInfo other = (LineOnOtherInfo) obj;
+      return (aligned == other.aligned && line == other.line);
+    }
+
+    @Override
+    public String toString() {
+      return line + " " + aligned;
     }
   }
 

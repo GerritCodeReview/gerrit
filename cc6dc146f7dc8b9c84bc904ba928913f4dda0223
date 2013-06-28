@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea303dcf_07881664",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-06-28T15:02:59Z",
+      "side": 1,
+      "message": "Why is a double decode step necessary? The server encodes the UUID only once. A second decode step seems to be incorrect.",
+      "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

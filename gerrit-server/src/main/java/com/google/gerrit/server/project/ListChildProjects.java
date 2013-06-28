@@ -47,6 +47,10 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     this.projectNodeFactory = projectNodeFactory;
   }
 
+  public void setRecursive(boolean recursive) {
+    this.recursive = recursive;
+  }
+
   @Override
   public List<ProjectInfo> apply(ProjectResource rsrc) {
     if (recursive) {

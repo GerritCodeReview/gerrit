@@ -120,7 +120,6 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   private final Schema<ChangeData> schema;
   private final SubIndex openIndex;
   private final SubIndex closedIndex;
-  private final boolean readOnly;
 
   LuceneChangeIndex(@GerritServerConfig Config cfg,
       SitePaths sitePaths,
@@ -128,15 +127,19 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
       @IndexExecutor ListeningScheduledExecutorService executor,
       FillArgs fillArgs,
       Schema<ChangeData> schema,
-      boolean readOnly) throws IOException {
+      String base) throws IOException {
     this.indexes = indexes;
     this.sitePaths = sitePaths;
     this.fillArgs = fillArgs;
     this.executor = executor;
     this.schema = schema;
-    this.readOnly = readOnly;
 
-    File dir = new File(sitePaths.index_dir, "changes_" + schema.getVersion());
+    File dir;
+    if (base == null) {
+      dir = new File(sitePaths.index_dir, "changes_" + schema.getVersion());
+    } else {
+      dir = new File(base);
+    }
     openIndex = new SubIndex(new File(dir, CHANGES_OPEN),
         getIndexWriterConfig(cfg, "changes_open"));
     closedIndex = new SubIndex(new File(dir, CHANGES_CLOSED),
@@ -179,10 +182,6 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
-    if (readOnly) {
-      return Futures.immediateFuture(null);
-    }
-
     if (cd.getChange().getStatus().isOpen()) {
       return allOf(
           closedIndex.delete(id),
@@ -199,9 +198,6 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   public ListenableFuture<Void> replace(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
-    if (readOnly) {
-      return Futures.immediateFuture(null);
-    }
     if (cd.getChange().getStatus().isOpen()) {
       return allOf(
           closedIndex.delete(id),
@@ -217,9 +213,6 @@ public class LuceneChangeIndex implements ChangeIndex, LifecycleListener {
   @Override
   public ListenableFuture<Void> delete(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
-    if (readOnly) {
-      return Futures.immediateFuture(null);
-    }
     return allOf(
         openIndex.delete(id),
         closedIndex.delete(id));

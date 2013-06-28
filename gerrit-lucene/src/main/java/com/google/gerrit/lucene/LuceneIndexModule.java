@@ -34,17 +34,17 @@ import java.io.IOException;
 public class LuceneIndexModule extends LifecycleModule {
   private final boolean checkVersion;
   private final int threads;
-  private final boolean readOnly;
+  private final String base;
 
   public LuceneIndexModule() {
-    this(true, 0, false);
+    this(true, 0, null);
   }
 
   public LuceneIndexModule(boolean checkVersion, int threads,
-      boolean readOnly) {
+      String base) {
     this.checkVersion = checkVersion;
     this.threads = threads;
-    this.readOnly = readOnly;
+    this.base = base;
   }
 
   @Override
@@ -65,6 +65,6 @@ public class LuceneIndexModule extends LifecycleModule {
       @IndexExecutor ListeningScheduledExecutorService executor,
       FillArgs fillArgs) throws IOException {
     return new LuceneChangeIndex(cfg, sitePaths, indexes, executor, fillArgs,
-        ChangeSchemas.getLatestRelease(), readOnly);
+        ChangeSchemas.getLatestRelease(), base);
   }
 }

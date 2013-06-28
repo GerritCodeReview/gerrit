@@ -78,7 +78,7 @@ public final class SitePaths {
     hooks_dir = new File(site_path, "hooks");
     static_dir = new File(site_path, "static");
     themes_dir = new File(site_path, "themes");
-    index_dir = new File(site_path, "index");
+    index_dir = new File(site_path, "reindex");
 
     gerrit_sh = new File(bin_dir, "gerrit.sh");
     gerrit_war = new File(bin_dir, "gerrit.war");

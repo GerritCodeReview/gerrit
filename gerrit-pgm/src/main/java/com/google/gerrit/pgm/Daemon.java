@@ -138,6 +138,7 @@ public class Daemon extends SiteProgram {
   private Injector httpdInjector;
   private File runFile;
   private boolean test;
+  private AbstractModule luceneModule;
 
   private Runnable serverStarted;
 
@@ -250,6 +251,12 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
+  public void setLuceneModule(LuceneIndexModule m) {
+    luceneModule = m;
+    test = true;
+  }
+
+  @VisibleForTesting
   public void start() {
     if (dbInjector == null) {
       dbInjector = createDbInjector(MULTI_USER);
@@ -303,7 +310,7 @@ public class Daemon extends SiteProgram {
     AbstractModule changeIndexModule;
     switch (IndexModule.getIndexType(cfgInjector)) {
       case LUCENE:
-        changeIndexModule = new LuceneIndexModule();
+        changeIndexModule = luceneModule != null ? luceneModule : new LuceneIndexModule();
         break;
       case SOLR:
         changeIndexModule = new SolrIndexModule();

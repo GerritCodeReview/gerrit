@@ -84,6 +84,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_COMMENT = "comment";
   public static final String FIELD_COMMIT = "commit";
+  public static final String FIELD_CONFLICTS = "conflicts";
   public static final String FIELD_DRAFTBY = "draftby";
   public static final String FIELD_FILE = "file";
   public static final String FIELD_IS = "is";
@@ -218,10 +219,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           .parse(query));
 
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
-      if (query.charAt(0) == 'i') {
-        query = "I" + query.substring(1);
-      }
-      return new ChangeIdPredicate(args.dbProvider, query);
+      return new ChangeIdPredicate(args.dbProvider, parseChangeId(query));
     }
 
     throw new IllegalArgumentException();
@@ -308,6 +306,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> commit(String id) {
     return new CommitPredicate(args.dbProvider, AbbreviatedObjectId
         .fromString(id));
+  }
+
+  @Operator
+  public Predicate<ChangeData> conflicts(String value) throws OrmException,
+      QueryParseException {
+    if (args.indexes.getSearchIndex() == null) {
+      throw error("secondary index must be enabled for " + FIELD_CONFLICTS + ":"
+          + value);
+    }
+    return new ConflictsPredicate(args.dbProvider, args.patchListCache, value,
+        parseChange(value));
   }
 
   @Operator
@@ -663,6 +672,31 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw error("Group " + group + " not found");
     }
     return g;
+  }
+
+  private List<Change> parseChange(String value) throws OrmException,
+      QueryParseException {
+    if (PAT_LEGACY_ID.matcher(value).matches()) {
+      return Collections.singletonList(args.dbProvider.get().changes()
+          .get(Change.Id.parse(value)));
+    } else if (PAT_CHANGE_ID.matcher(value).matches()) {
+      Change.Key a = new Change.Key(parseChangeId(value));
+      List<Change> changes =
+          args.dbProvider.get().changes().byKeyRange(a, a.max()).toList();
+      if (changes.isEmpty()) {
+        throw error("Change " + value + " not found");
+      }
+      return changes;
+    }
+
+    throw error("Change " + value + " not found");
+  }
+
+  private static String parseChangeId(String value) {
+    if (value.charAt(0) == 'i') {
+      value = "I" + value.substring(1);
+    }
+    return value;
   }
 
   private Account.Id self() {

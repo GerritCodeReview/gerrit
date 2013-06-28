@@ -22,13 +22,13 @@ import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.TreeSet;
 
 public class SearchSuggestOracle extends HighlightSuggestOracle {
   private static final List<ParamSuggester> paramSuggester = Arrays.asList(
-      new ParamSuggester("project:", new ProjectNameSuggestOracle()),
+      new ParamSuggester(Arrays.asList("project:", "parentproject:"),
+          new ProjectNameSuggestOracle()),
       new ParamSuggester(Arrays.asList("owner:", "reviewer:"),
           new AccountSuggestOracle() {
             @Override
@@ -81,6 +81,7 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     suggestions.add("commit:");
     suggestions.add("comment:");
     suggestions.add("project:");
+    suggestions.add("parentproject:");
     suggestions.add("branch:");
     suggestions.add("topic:");
     suggestions.add("ref:");
@@ -206,11 +207,6 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
   private static class ParamSuggester {
     private final List<String> operators;
     private final SuggestOracle parameterSuggestionOracle;
-
-    ParamSuggester(final String operator,
-        final SuggestOracle parameterSuggestionOracle) {
-      this(Collections.singletonList(operator), parameterSuggestionOracle);
-    }
 
     ParamSuggester(final List<String> operators,
         final SuggestOracle parameterSuggestionOracle) {

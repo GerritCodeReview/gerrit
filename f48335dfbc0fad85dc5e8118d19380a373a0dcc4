@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea303dcf_47504e10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-06-28T01:13:39Z",
+      "side": 1,
+      "message": "Well, this is if automerge returns null _or_ it\u0027s an octopus merge. Perhaps \"if no base could be found\"?",
+      "revId": "f48335dfbc0fad85dc5e8118d19380a373a0dcc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

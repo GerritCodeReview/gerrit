@@ -66,6 +66,16 @@ public class CodeMirror extends JavaScriptObject {
     this.addLineClass(line, where, lineClass);
   }-*/;
 
+  public final void removeLineClass(int line, LineClassWhere where,
+      String className) {
+    removeLineClassNative(line, where.name().toLowerCase(), className);
+  }
+
+  private final native void removeLineClassNative(int line, String where,
+      String lineClass) /*-{
+    this.removeLineClass(line, where, lineClass);
+  }-*/;
+
   public final native void addWidget(LineCharacter pos, Element node,
       boolean scrollIntoView) /*-{
     this.addWidget(pos, node, scrollIntoView);
@@ -100,6 +110,22 @@ public class CodeMirror extends JavaScriptObject {
     this.on(event, function() {
       $entry(thunk.@java.lang.Runnable::run()());
     });
+  }-*/;
+
+  public final native LineCharacter getCursor(String start) /*-{
+    return this.getCursor(start);
+  }-*/;
+
+  public final native boolean hasActiveLine() /*-{
+    return this.state.hasOwnProperty('activeLine');
+  }-*/;
+
+  public final native int getActiveLine() /*-{
+    return this.state.activeLine;
+  }-*/;
+
+  public final native void setActiveLine(int line) /*-{
+    this.state.activeLine = line;
   }-*/;
 
   protected CodeMirror() {

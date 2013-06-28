@@ -196,6 +196,8 @@ public class CodeMirrorDemo extends Screen {
     cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.getCmA());
     cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.getCmB());
     render(diffInfo);
+    cmA.on("cursorActivity", updateActiveLine(cmA));
+    cmB.on("cursorActivity", updateActiveLine(cmB));
     initialBoxes = new ArrayList<CommentBox>();
     publishedMap = new HashMap<String, PublishedBox>(published.length());
     renderPublished();
@@ -388,6 +390,35 @@ public class CodeMirrorDemo extends Screen {
     return new Runnable() {
       public void run() {
         cm.scrollToY(other.getScrollInfo().getTop());
+      }
+    };
+  }
+
+  private Runnable updateActiveLine(final CodeMirror cm) {
+    final CodeMirror other = otherCM(cm);
+    return new Runnable() {
+      public void run() {
+        if (cm.hasActiveLine()) {
+          cm.removeLineClass(cm.getActiveLine(),
+              LineClassWhere.WRAP, diffTable.style.activeLine());
+          cm.removeLineClass(cm.getActiveLine(),
+              LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+        }
+        if (other.hasActiveLine()) {
+          other.removeLineClass(other.getActiveLine(),
+              LineClassWhere.WRAP, diffTable.style.activeLine());
+          other.removeLineClass(other.getActiveLine(),
+              LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+        }
+        int line = cm.getCursor("head").getLine();
+        int oLine =
+            mapper.lineOnOther(cm == cmA ? Side.PARENT : Side.REVISION, line);
+        cm.setActiveLine(line);
+        other.setActiveLine(oLine);
+        cm.addLineClass(line, LineClassWhere.WRAP, diffTable.style.activeLine());
+        cm.addLineClass(line, LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+        other.addLineClass(oLine, LineClassWhere.WRAP, diffTable.style.activeLine());
+        other.addLineClass(oLine, LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
       }
     };
   }

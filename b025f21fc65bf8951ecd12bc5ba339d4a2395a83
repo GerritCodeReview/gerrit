@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea303dcf_27b7da0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2013-06-28T18:26:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea303dcf_a7e3ca26",
+      "revId": "b025f21fc65bf8951ecd12bc5ba339d4a2395a83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea303dcf_c7e8be05",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
         "patchSetId": 3

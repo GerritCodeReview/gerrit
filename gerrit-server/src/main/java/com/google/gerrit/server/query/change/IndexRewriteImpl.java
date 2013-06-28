@@ -65,15 +65,15 @@ public class IndexRewriteImpl implements IndexRewrite {
   public static EnumSet<Change.Status> getPossibleStatus(Predicate<ChangeData> in) {
     if (in instanceof ChangeStatusPredicate) {
       return EnumSet.of(((ChangeStatusPredicate) in).getStatus());
-    } else if (in.getClass() == NotPredicate.class) {
+    } else if (in instanceof NotPredicate) {
       return EnumSet.complementOf(getPossibleStatus(in.getChild(0)));
-    } else if (in.getClass() == OrPredicate.class) {
+    } else if (in instanceof OrPredicate) {
       EnumSet<Change.Status> s = EnumSet.noneOf(Change.Status.class);
       for (int i = 0; i < in.getChildCount(); i++) {
         s.addAll(getPossibleStatus(in.getChild(i)));
       }
       return s;
-    } else if (in.getClass() == AndPredicate.class) {
+    } else if (in instanceof AndPredicate) {
       EnumSet<Change.Status> s = EnumSet.allOf(Change.Status.class);
       for (int i = 0; i < in.getChildCount(); i++) {
         s.retainAll(getPossibleStatus(in.getChild(i)));
@@ -120,7 +120,7 @@ public class IndexRewriteImpl implements IndexRewrite {
     if (in instanceof IndexPredicate) {
       return in;
     }
-    if (!isRewritePossible(in)) {
+    if (!isBoolean(in)) {
       return null;
     }
     int n = in.getChildCount();
@@ -194,9 +194,7 @@ public class IndexRewriteImpl implements IndexRewrite {
     if (p instanceof IndexPredicate) {
       return !((IndexPredicate<ChangeData>) p).isIndexOnly();
     }
-    if (p instanceof AndPredicate
-        || p instanceof OrPredicate
-        || p instanceof NotPredicate) {
+    if (isBoolean(p)) {
       for (int i = 0; i < p.getChildCount(); i++) {
         if (!allNonIndexOnly(p.getChild(i))) {
           return false;
@@ -217,12 +215,8 @@ public class IndexRewriteImpl implements IndexRewrite {
     }
   }
 
-  private static boolean isRewritePossible(Predicate<ChangeData> p) {
-    if (p.getClass() != AndPredicate.class
-        && p.getClass() != OrPredicate.class
-        && p.getClass() != NotPredicate.class) {
-      return false;
-    }
-    return p.getChildCount() > 0;
+  private static boolean isBoolean(Predicate<ChangeData> p) {
+    return p instanceof AndPredicate || p instanceof OrPredicate
+        || p instanceof NotPredicate;
   }
 }

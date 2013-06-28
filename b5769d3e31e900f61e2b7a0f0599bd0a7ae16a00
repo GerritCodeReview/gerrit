@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "ea303dcf_c75b5e38",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-06-28T00:40:10Z",
+      "side": 1,
+      "message": "I didn\u0027t spot that the other code is also wrong; I didn\u0027t realise this is not rebased to the latest head.\n\nCode should be indented at 2 columns to make the formatting work properly.  This is fixed with [1] which was merged in master within the past few days.\n\n[1] 69f99fb6deb68390b5837c5dfc824886b9bbc9c5",
+      "parentUuid": "aa39e5b5_cd5b8938",
+      "revId": "b5769d3e31e900f61e2b7a0f0599bd0a7ae16a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8ba5a1_1dd3f357",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 7

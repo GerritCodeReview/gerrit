@@ -378,7 +378,7 @@ public class Reindex extends SiteProgram {
 
     private void getPathsAndIndex(RevCommit bCommit) throws Exception {
       RevTree bTree = bCommit.getTree();
-      List<ChangeData> cds = byId.get(bCommit);
+      List<ChangeData> cds = Lists.newArrayList(byId.get(bCommit));
       try {
         RevTree aTree = aFor(bCommit, walk);
         if (aTree == null) {

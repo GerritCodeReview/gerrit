@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "ea303dcf_c7e8be05",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2013-06-28T16:41:09Z",
+      "side": 1,
+      "message": "allRefs might not be the best name choice here. This is only refs/heads/* and refs/tags/*, which at least excludes refs/changes/* and potentially any other ref namespaces a project is using.\n\ntagsAndHeads could work, or likely a number of other options.",
+      "revId": "b025f21fc65bf8951ecd12bc5ba339d4a2395a83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa22c587_45504a10",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/IncludedInDetailFactory.java",
         "patchSetId": 3

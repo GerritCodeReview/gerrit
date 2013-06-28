@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87041c03_7c11b961",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-06-28T15:49:47Z",
+      "side": 1,
+      "message": "I could go for that.  One to fix the parsing/double encoding issue, one for the visibility of LDAP groups?",
+      "parentUuid": "ea303dcf_27851a4b",
+      "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea303dcf_07881664",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupInfo.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6701e8f2_dbf8d3fe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-06-28T15:49:47Z",
+      "side": 1,
+      "message": "According to the spec, the Group UUID (and owner UUID) are URL encoded (i.e. spaces replaced with \"+\").  Additionally, there\u0027s a layer of URI encoding tacked on deep in the hierarchy of the parameters (it\u0027s been well over a month since I did this; please excuse me for forgetting).  So, the double-encode and decode is both necessary and according to the design in the REST API.",
+      "parentUuid": "ea303dcf_07881664",
+      "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa22c587_e56056e3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-06-28T15:22:38Z",
       "side": 1,
       "message": "The findExactSuggestion method expects as second parameter a group name and not the group UUID. Providing the UUID will not work with all group backends.\n\nYou are assuming here that a group is visible to the user if it is suggested. Are we actually sure that this is true? I agree that it should be like this but looking at the implementations of the suggest methods in the GroupBackends I have my doubts.\n\nFor the InternalGroupBackend we explicitly check the group visibility before returning a group. This is done in the suggest method by calling the isVisible() method on the group control. This is indeed this method here, which means that for the InternalGroupBackend we have an infinite loop here: GroupControl.isVisible() -\u003e GroupBackends.findExactSuggestion(...) -\u003e ... -\u003e InternalGroupBackend.suggest(...) -\u003e GroupControl.isVisible(). The only reason that this loop is currently interrupted is that you wrongly provide the group UUID instead of the group name to the findExactSuggestion method and the InternalGroupBackend can\u0027t do suggestions for UUIDs.\n\nFor the LdapGroupBackend I can\u0027t find any visibility check for the calling user in the suggestLdap method. This seems to be a bug? It simply queries the LDAP groups with the user configured in the LDAP configuration and makes them all visibile to any user. Is this correct? So for me the main question here is when is an LDAP group visible to the user. Should we check for membership? Is there a way to ask the LDAP server if a group is visible to a specific user?",
+      "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6701e8f2_bb050725",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-06-28T15:49:47Z",
+      "side": 1,
+      "message": "Well, the alternative to this is having each group backend provide its own version of isVisibleToAll() ... but Shawn nixed that earlier. :(\n\nYou\u0027re right that we do hit an infinite loop if we send a group name on the internal backend (though thanks for pointing out the control flow; makes much more sense now).  Maybe the way to break the cycle is by placing the findExactSuggestion as the *very last* case (and if accountGroup is null), but this seems error-prone still... we\u0027d still have to assume that the backend\u0027s suggest never calls isVisible().\n\nYou\u0027re correct, the LDAP backend assumes everyone has visibility to the groups (currently).  I\u0027m not sure if this is a bug or an intended feature.  From my perspective, I don\u0027t have any complaints with all LDAP groups being visible (and it makes sense to me--users can see the entire LDAP tree, and see what groups others are a member of--so it seems to follow that users should be able to see the groups in Gerrit).  I could see an argument for the alternative, though, but again, without something like isVisibleToAll(), the current \"groups visible to all\" is not able to be supported.",
+      "parentUuid": "aa22c587_e56056e3",
       "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

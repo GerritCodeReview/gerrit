@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ea303dcf_27851a4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-28T15:22:38Z",
+      "side": 1,
+      "message": "This part seems to be unrelated to fixing the parsing of LDAP groups. I both aspects should be seperated in own changes.",
+      "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea303dcf_07881664",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/groups/GroupInfo.java",
         "patchSetId": 1
@@ -13,6 +30,23 @@
       "writtenOn": "2013-06-28T15:02:59Z",
       "side": 1,
       "message": "Why is a double decode step necessary? The server encodes the UUID only once. A second decode step seems to be incorrect.",
+      "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa22c587_e56056e3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-06-28T15:22:38Z",
+      "side": 1,
+      "message": "The findExactSuggestion method expects as second parameter a group name and not the group UUID. Providing the UUID will not work with all group backends.\n\nYou are assuming here that a group is visible to the user if it is suggested. Are we actually sure that this is true? I agree that it should be like this but looking at the implementations of the suggest methods in the GroupBackends I have my doubts.\n\nFor the InternalGroupBackend we explicitly check the group visibility before returning a group. This is done in the suggest method by calling the isVisible() method on the group control. This is indeed this method here, which means that for the InternalGroupBackend we have an infinite loop here: GroupControl.isVisible() -\u003e GroupBackends.findExactSuggestion(...) -\u003e ... -\u003e InternalGroupBackend.suggest(...) -\u003e GroupControl.isVisible(). The only reason that this loop is currently interrupted is that you wrongly provide the group UUID instead of the group name to the findExactSuggestion method and the InternalGroupBackend can\u0027t do suggestions for UUIDs.\n\nFor the LdapGroupBackend I can\u0027t find any visibility check for the calling user in the suggestLdap method. This seems to be a bug? It simply queries the LDAP groups with the user configured in the LDAP configuration and makes them all visibile to any user. Is this correct? So for me the main question here is when is an LDAP group visible to the user. Should we check for membership? Is there a way to ask the LDAP server if a group is visible to a specific user?",
       "revId": "cc6dc146f7dc8b9c84bc904ba928913f4dda0223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

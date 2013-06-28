@@ -133,7 +133,7 @@ public class IndexRewriteTest extends TestCase {
           new QueryBuilder.Definition<ChangeData, QueryBuilder>(
             QueryBuilder.class),
           new ChangeQueryBuilder.Arguments(null, null, null, null, null, null,
-            null, null, null, null, null, indexes),
+            null, null, null, null, null, null, null, indexes),
           null);
     }
 

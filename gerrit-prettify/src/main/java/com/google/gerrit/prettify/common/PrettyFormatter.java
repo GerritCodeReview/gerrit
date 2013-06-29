@@ -128,6 +128,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
 
     String html = toHTML(src);
 
+    html = expandTabs(html);
     if (diffPrefs.isSyntaxHighlighting() && getFileType() != null
         && src.isWholeFile()) {
       // The prettify parsers don't like &#39; as an entity for the
@@ -148,8 +149,6 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       html = html.replaceAll("(\r)?\n", " $1\n");
       html = prettify(html, getFileType());
       html = html.replaceAll(" (\r)?\n", "$1\n");
-    } else {
-      html = expandTabs(html);
     }
 
     int pos = 0;

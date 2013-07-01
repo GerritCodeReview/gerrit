@@ -16,6 +16,24 @@
       "revId": "bd75a13b3e15019da51c129f1635a26b0886f043",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "672f288d_ebfbb1f8",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T18:57:09Z",
+      "side": 1,
+      "message": "Done. Kept Base in the var name.",
+      "parentUuid": "ea303dcf_47f12ec7",
+      "revId": "bd75a13b3e15019da51c129f1635a26b0886f043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

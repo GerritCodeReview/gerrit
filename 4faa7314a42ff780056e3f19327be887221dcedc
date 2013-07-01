@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea303dcf_8747a62f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-01T00:04:14Z",
+      "side": 1,
+      "message": "If this is a fix for Issue 1904, please add it here in the commit message:\n\n Bug: Issue 1904",
+      "revId": "4faa7314a42ff780056e3f19327be887221dcedc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

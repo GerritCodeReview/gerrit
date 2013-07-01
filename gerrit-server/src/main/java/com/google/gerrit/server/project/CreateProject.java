@@ -29,11 +29,14 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.GroupsCollection;
 import com.google.gerrit.server.project.CreateProject.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,6 +56,7 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
     InheritableBoolean useSignedOffBy;
     InheritableBoolean useContentMerge;
     InheritableBoolean requireChangeId;
+    String maxObjectSizeLimit;
   }
 
   static interface Factory {
@@ -118,6 +122,11 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
                 input.useContentMerge, InheritableBoolean.INHERIT);
     args.changeIdRequired =
         Objects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
+    try {
+      args.maxObjectSizeLimit = ProjectConfig.validLong(input.maxObjectSizeLimit);
+    } catch (ConfigInvalidException e) {
+      throw new BadRequestException(e.getMessage());
+    }
 
     Project p = createProjectFactory.create(args).createProject();
     return Response.created(json.format(p));

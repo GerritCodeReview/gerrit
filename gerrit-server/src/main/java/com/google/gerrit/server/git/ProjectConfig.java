@@ -746,7 +746,7 @@ public class ProjectConfig extends VersionedMetaData {
     saveGroupList();
   }
 
-  private static final String validLong(String value) throws ConfigInvalidException {
+  public static final String validLong(String value) throws ConfigInvalidException {
     Config cfg = new Config();
     cfg.fromText("[s]\nn=" + value);
     try {

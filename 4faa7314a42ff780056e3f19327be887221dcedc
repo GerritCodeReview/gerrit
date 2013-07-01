@@ -16,6 +16,24 @@
       "revId": "4faa7314a42ff780056e3f19327be887221dcedc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871dfc5e_f42dd898",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010550
+      },
+      "writtenOn": "2013-07-01T18:30:08Z",
+      "side": 1,
+      "message": "I didn\u0027t look at the issue tracker and went straight fixing the bug, but issue 1904 does match was I saw after the upgrade.\n\nSorry for the delay, I come after the battle :(",
+      "parentUuid": "ea303dcf_8747a62f",
+      "revId": "4faa7314a42ff780056e3f19327be887221dcedc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

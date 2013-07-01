@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "672f288d_0b103d5a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T19:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa22c587_65b1c616",
+      "revId": "8cf8122be8e07983d5f369e2a119fd9bb20a7bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6701e8f2_1b107b5a",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2013-07-01T02:55:09Z",
       "side": 1,
       "message": "Where do we register index as a write index?\n\nWhat about ordering issues with the background index and a live write? Is it possible the background index uses stale data from the database when it writes to the reindex? Consider:\n\n- T1 (reindex): Read change from DB.\n- T2 (app): Update change in DB.\n- T2 (app): schedule update of index\n- T3 (live index): Read change and commit updated document.\n- T1 (reindex): Commit stale document.\n\nActually I think we already have this race possible in the live indexing if you use more than one thread. :-(",
+      "revId": "8cf8122be8e07983d5f369e2a119fd9bb20a7bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "672f288d_2b0bf933",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T19:23:16Z",
+      "side": 1,
+      "message": "index is registered as a writeIndex by LuceneVersionManager, which is also responsible for constructing the OnlineReindex.\n\nWe noticed this race condition on Thursday. I have some ideas about how to solve it but I didn\u0027t address them in this change because as you say it also exists in the live indexer.",
+      "parentUuid": "ea303dcf_e7186236",
       "revId": "8cf8122be8e07983d5f369e2a119fd9bb20a7bde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

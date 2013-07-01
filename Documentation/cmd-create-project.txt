@@ -21,6 +21,7 @@ SYNOPSIS
   [--require-change-id | --id]
   [[--branch <REF> | -b <REF>] ...]
   [--empty-commit]
+  [--max-object-size-limit <N>]
   { <NAME> | --name <NAME> }
 
 DESCRIPTION
@@ -143,6 +144,15 @@ link:project-setup.html#submit_type[Change Submit Actions].
 --empty-commit::
 	Creates an initial empty commit for the Git repository of the
 	project that is newly created.
+
+--max-object-size-limit::
+	Define maximum Git object size for this project. Pushes containing an
+	object larger than this limit will be rejected. This can be used to
+	further limit the global
+  link:config-gerrit.html#receive.maxObjectSizeLimit[receive.maxObjectSizeLimit]
+	and cannot be used to increase that globally set limit.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
 
 
 EXAMPLES

@@ -382,6 +382,7 @@ public class ProjectConfig extends VersionedMetaData {
     p.setUseContributorAgreements(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, Project.InheritableBoolean.INHERIT));
     p.setUseSignedOffBy(getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, Project.InheritableBoolean.INHERIT));
     p.setRequireChangeID(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, Project.InheritableBoolean.INHERIT));
+    p.setMaxObjectSizeLimit(rc.getString(RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, Project.InheritableBoolean.INHERIT));
@@ -723,6 +724,7 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.getUseContributorAgreements(), Project.InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.getUseSignedOffBy(), Project.InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.getRequireChangeID(), Project.InheritableBoolean.INHERIT);
+    set(rc, RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, validLong(p.getMaxObjectSizeLimit()));
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), Project.InheritableBoolean.INHERIT);
@@ -742,6 +744,18 @@ public class ProjectConfig extends VersionedMetaData {
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();
+  }
+
+  private static final String validLong(String value) throws ConfigInvalidException {
+    Config cfg = new Config();
+    cfg.fromText("[s]\nn=" + value);
+    try {
+      cfg.getLong("s", "n", 0);
+      return value;
+    } catch (IllegalArgumentException e) {
+      throw new ConfigInvalidException(
+          String.format("Value '%s' not parseable as a Long", value), e);
+    }
   }
 
   private void saveAccountsSection(Config rc, Set<AccountGroup.UUID> keepGroups) {

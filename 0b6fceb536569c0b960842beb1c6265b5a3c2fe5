@@ -33,6 +33,58 @@
       "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea303dcf_07e73611",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:20:17Z",
+      "side": 1,
+      "message": "I agree with Martin, please rename this searchIndex or readIndex",
+      "parentUuid": "871dfc5e_34447062",
+      "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea303dcf_27e43a0a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:20:17Z",
+      "side": 1,
+      "message": "Use:\n\n  writeIndexes \u003d new MapMaker()\n    .concurrencyLevel(1)\n    .initialCapacity(2)\n    .makeMap();\n\nAt most one thread will be writing the map and we won\u0027t have many entries. So try to make the map more compact in internal representation to improve enumeration performance.\n\nThe alternative would be to use a CopyOnWriteArrayList. Mutations are infrequent and the collection is small, but iteration is still good performance.",
+      "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa22c587_65daa66a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:20:17Z",
+      "side": 1,
+      "message": "Add @Nullable for now since callers need to check for null?",
+      "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

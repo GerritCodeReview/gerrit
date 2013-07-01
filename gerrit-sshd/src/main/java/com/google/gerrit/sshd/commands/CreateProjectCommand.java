@@ -106,6 +106,9 @@ final class CreateProjectCommand extends SshCommand {
   @Option(name = "--empty-commit", usage = "to create initial empty commit")
   private boolean createEmptyCommit;
 
+  @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
+  private String maxObjectSizeLimit;
+
   private String projectName;
 
   @Argument(index = 0, metaVar = "NAME", usage = "name of project to be created")
@@ -143,6 +146,7 @@ final class CreateProjectCommand extends SshCommand {
         args.changeIdRequired = requireChangeID;
         args.branch = branch;
         args.createEmptyCommit = createEmptyCommit;
+        args.maxObjectSizeLimit = maxObjectSizeLimit;
 
         final PerformCreateProject createProject = factory.create(args);
         createProject.createProject();

@@ -723,6 +723,7 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.getUseContributorAgreements(), Project.InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.getUseSignedOffBy(), Project.InheritableBoolean.INHERIT);
     set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.getRequireChangeID(), Project.InheritableBoolean.INHERIT);
+    set(rc, RECEIVE, null, KEY_MAX_OBJECT_SIZE_LIMIT, p.getMaxObjectSizeLimit());
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), Project.InheritableBoolean.INHERIT);

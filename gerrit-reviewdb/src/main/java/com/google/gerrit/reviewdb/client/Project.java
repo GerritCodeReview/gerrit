@@ -107,6 +107,8 @@ public final class Project {
 
   protected InheritableBoolean requireChangeID;
 
+  protected String maxObjectSizeLimit;
+
   protected InheritableBoolean useContentMerge;
 
   protected String defaultDashboardId;
@@ -160,6 +162,10 @@ public final class Project {
     return requireChangeID;
   }
 
+  public String getMaxObjectSizeLimit() {
+    return maxObjectSizeLimit;
+  }
+
   public void setUseContributorAgreements(final InheritableBoolean u) {
     useContributorAgreements = u;
   }
@@ -174,6 +180,10 @@ public final class Project {
 
   public void setRequireChangeID(final InheritableBoolean cid) {
     requireChangeID = cid;
+  }
+
+  public void setMaxObjectSizeLimit(final String limit) {
+    maxObjectSizeLimit = limit;
   }
 
   public SubmitType getSubmitType() {

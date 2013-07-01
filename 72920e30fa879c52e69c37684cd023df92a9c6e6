@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa22c587_45ddaa5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeBatchIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-07-01T01:35:35Z",
+      "side": 1,
+      "message": "s/cose/close/",
+      "revId": "72920e30fa879c52e69c37684cd023df92a9c6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6701e8f2_fb24afbe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-07-01T01:35:35Z",
+      "side": 1,
+      "message": "Why not just put this in the indexes collection?",
+      "revId": "72920e30fa879c52e69c37684cd023df92a9c6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

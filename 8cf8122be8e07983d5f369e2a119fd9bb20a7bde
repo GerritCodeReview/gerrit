@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6701e8f2_1b107b5a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T00:24:41Z",
+      "side": 1,
+      "message": "I think we should also pass in an Executor here. Using all threads for the online reindex will back up new writes from user activity.",
+      "revId": "8cf8122be8e07983d5f369e2a119fd9bb20a7bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

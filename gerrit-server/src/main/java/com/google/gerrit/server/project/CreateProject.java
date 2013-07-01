@@ -123,7 +123,7 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
     args.changeIdRequired =
         Objects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
     try {
-      args.maxObjectSizeLimit = ProjectConfig.validLong(input.maxObjectSizeLimit);
+      args.maxObjectSizeLimit = ProjectConfig.validMaxObjectSizeLimit(input.maxObjectSizeLimit);
     } catch (ConfigInvalidException e) {
       throw new BadRequestException(e.getMessage());
     }

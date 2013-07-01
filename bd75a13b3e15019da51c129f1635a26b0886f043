@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea303dcf_47f12ec7",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Reindex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:23:11Z",
+      "side": 1,
+      "message": "--output would be fine, i don\u0027t think we need the -base suffix here.",
+      "revId": "bd75a13b3e15019da51c129f1635a26b0886f043",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

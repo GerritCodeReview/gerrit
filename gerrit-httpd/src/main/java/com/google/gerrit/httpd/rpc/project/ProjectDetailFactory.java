@@ -69,6 +69,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setCanModifyDescription(userIsOwner);
     detail.setCanModifyMergeType(userIsOwner);
     detail.setCanModifyState(userIsOwner);
+    detail.setCanModifyMaxObjectSizeLimit(userIsOwner);
 
     final InheritedBoolean useContributorAgreements = new InheritedBoolean();
     final InheritedBoolean useSignedOffBy = new InheritedBoolean();

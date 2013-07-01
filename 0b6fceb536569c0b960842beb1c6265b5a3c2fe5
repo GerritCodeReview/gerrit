@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "87325cef_ecfbcbf8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T18:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea303dcf_675392ec",
+      "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "871dfc5e_34447062",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
         "patchSetId": 7
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "672f288d_4bed2542",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T18:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea303dcf_07e73611",
+      "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea303dcf_27e43a0a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
         "patchSetId": 7
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "672f288d_2bf2d921",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T18:56:01Z",
+      "side": 1,
+      "message": "Just used COWAL. I wanted the putIfAbsent behavior on addWriteIndex, but that\u0027s easy enough to just synchronize.\n\nI think later we have to implement get(int) but still we\u0027re talking 2 elements max in most cases.",
+      "parentUuid": "ea303dcf_27e43a0a",
+      "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa22c587_65daa66a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
         "patchSetId": 7
@@ -82,6 +136,24 @@
       "writtenOn": "2013-07-01T02:20:17Z",
       "side": 1,
       "message": "Add @Nullable for now since callers need to check for null?",
+      "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87325cef_ccf80fff",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T18:56:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa22c587_65daa66a",
       "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

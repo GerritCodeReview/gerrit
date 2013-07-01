@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea303dcf_c7fc3ea7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeSchemas.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:07:43Z",
+      "side": 1,
+      "message": "Since you are already based heavily on reflection here lets make this slightly easier to build:\n\n  static final Schema\u003cChangeData\u003e V1 \u003d release(\n    ChangeFIeld.LEGACY_ID, ...);\n\nand make two private static helper functions release and developer that take a vararg array of ChangeField and build the Schema object with the proper release flag and the list of fields.\n\nGet the version number out of the field name in the reflection that builds ALL and assign it into a non-final field in Schema. The write will be visible to any thread that accesses the final field ALL so its still thread-safe. This requires a package visible setter between ChangeSchemas and Schema to set the version, but I think it makes the code easier to write.",
+      "revId": "72522e9d6776edf7de77780e06762a084aa52045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

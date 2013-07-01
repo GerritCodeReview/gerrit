@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa22c587_e5edb612",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-01T00:05:33Z",
+      "side": 1,
+      "message": "Please add:\n\n Bug: Issue 1872",
+      "revId": "69055bd7d7bf9cbdea221a5f5ca7d6bbf2361271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

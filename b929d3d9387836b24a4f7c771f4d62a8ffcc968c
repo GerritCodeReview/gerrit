@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea303dcf_075c96fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T00:15:55Z",
+      "side": 1,
+      "message": "Don\u0027t line wrap like this in the first paragraph. Try to get a shorter summary:\n\n  Refactor CommentBox for drafts and published comments",
+      "revId": "b929d3d9387836b24a4f7c771f4d62a8ffcc968c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

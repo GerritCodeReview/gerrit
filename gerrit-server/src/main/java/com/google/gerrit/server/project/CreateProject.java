@@ -53,6 +53,7 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
     InheritableBoolean useSignedOffBy;
     InheritableBoolean useContentMerge;
     InheritableBoolean requireChangeId;
+    String maxObjectSizeLimit;
   }
 
   static interface Factory {
@@ -118,6 +119,7 @@ class CreateProject implements RestModifyView<TopLevelResource, Input> {
                 input.useContentMerge, InheritableBoolean.INHERIT);
     args.changeIdRequired =
         Objects.firstNonNull(input.requireChangeId, InheritableBoolean.INHERIT);
+    args.maxObjectSizeLimit = input.maxObjectSizeLimit;
 
     Project p = createProjectFactory.create(args).createProject();
     return Response.created(json.format(p));

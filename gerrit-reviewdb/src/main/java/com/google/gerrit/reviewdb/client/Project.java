@@ -234,6 +234,7 @@ public final class Project {
     requireChangeID = update.requireChangeID;
     submitType = update.submitType;
     state = update.state;
+    maxObjectSizeLimit = update.maxObjectSizeLimit;
   }
 
   /**

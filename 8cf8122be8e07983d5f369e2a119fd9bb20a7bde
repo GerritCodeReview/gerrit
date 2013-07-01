@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "aa22c587_65b1c616",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:55:09Z",
+      "side": 1,
+      "message": "Please set the name of this thread so we can tell what it is in jstack output.",
+      "revId": "8cf8122be8e07983d5f369e2a119fd9bb20a7bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6701e8f2_1b107b5a",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
         "patchSetId": 3
@@ -13,6 +30,23 @@
       "writtenOn": "2013-07-01T00:24:41Z",
       "side": 1,
       "message": "I think we should also pass in an Executor here. Using all threads for the online reindex will back up new writes from user activity.",
+      "revId": "8cf8122be8e07983d5f369e2a119fd9bb20a7bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea303dcf_e7186236",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/OnlineReindexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:55:09Z",
+      "side": 1,
+      "message": "Where do we register index as a write index?\n\nWhat about ordering issues with the background index and a live write? Is it possible the background index uses stale data from the database when it writes to the reindex? Consider:\n\n- T1 (reindex): Read change from DB.\n- T2 (app): Update change in DB.\n- T2 (app): schedule update of index\n- T3 (live index): Read change and commit updated document.\n- T1 (reindex): Commit stale document.\n\nActually I think we already have this race possible in the live indexing if you use more than one thread. :-(",
       "revId": "8cf8122be8e07983d5f369e2a119fd9bb20a7bde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

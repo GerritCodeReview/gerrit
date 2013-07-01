@@ -33,6 +33,24 @@
       "revId": "72920e30fa879c52e69c37684cd023df92a9c6e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa22c587_45b4ca07",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:48:08Z",
+      "side": 1,
+      "message": "In this calling context we are giving the task a single index to write. This happens in the online reindex in the background; the reindex task knows what version its trying to write and that version is probably not listed in the IndexCollection.\n\nI think Dave found it easier to pass the single version than to wrap it into an IndexCollection.",
+      "parentUuid": "6701e8f2_fb24afbe",
+      "revId": "72920e30fa879c52e69c37684cd023df92a9c6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

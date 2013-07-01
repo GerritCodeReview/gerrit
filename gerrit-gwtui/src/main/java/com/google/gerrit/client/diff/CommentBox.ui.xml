@@ -67,7 +67,7 @@ limitations under the License.
     </table>
     </g:HTMLPanel>
     <div ui:field='contentPanel' class='{style.contentPanel}'>
-      <div><p ui:field='contentPanelMessage' class='{style.message}'></p></div>
+      <g:HTML ui:field='contentPanelMessage' styleName='{style.message}'></g:HTML>
       <div>
         <button ui:field='reply'><ui:msg>Reply ...</ui:msg></button>
         <button ui:field='replyDone'><ui:msg>Reply 'Done'</ui:msg></button>

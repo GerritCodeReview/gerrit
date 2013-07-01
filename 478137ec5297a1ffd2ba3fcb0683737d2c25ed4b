@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea303dcf_070e56f1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T16:06:47Z",
+      "side": 1,
+      "message": "You need to set this into the Project object so onSave does not drop the property.",
+      "revId": "478137ec5297a1ffd2ba3fcb0683737d2c25ed4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea303dcf_270b5ae2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T16:06:47Z",
+      "side": 1,
+      "message": "You should verify the string parses as an integer value. Otherwise the getLong call during onLoad may give back bad values.",
+      "revId": "478137ec5297a1ffd2ba3fcb0683737d2c25ed4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

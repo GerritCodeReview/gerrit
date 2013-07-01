@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa22c587_e5c4d68a",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:43:18Z",
+      "side": 1,
+      "message": "Instead of doing this I think I would prefer to store a single special document in the index to mark ready. If it flushes we know we had a clean write to Lucene of all preceeding documents. If its not present we know the index isn\u0027t valid.\n\nHowever this makes it harder to unmark a specific index as ready. You would need to open the index, delete the document, and close the index. This may have fail e.g. if reindex was running in parallel, although it wouldn\u0027t be ready in such cases.",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea303dcf_8719663d",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:43:18Z",
+      "side": 1,
+      "message": "add break here. Once we have chosen a ready version we should not consider older versions.",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea303dcf_a71e6a20",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:43:18Z",
+      "side": 1,
+      "message": "Loop through write and not versions.values()?",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa22c587_05bad2f7",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:43:18Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea303dcf_67ee32ec",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-01T02:43:18Z",
+      "side": 1,
+      "message": "This is going to run twice now. Is the Solr client ok with that? Or do we need a guard to only call shutdown once?",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

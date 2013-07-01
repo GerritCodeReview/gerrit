@@ -32,6 +32,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -48,6 +49,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox submitType;
   private ListBox state;
   private ListBox contentMerge;
+  private Label maxObjectSizeLimit;
 
   // Section: Contributor Agreements
   private ListBox contributorAgreements;
@@ -160,6 +162,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     requireChangeID = newInheritedBooleanBox();
     saveEnabler.listenTo(requireChangeID);
     grid.addHtml(Util.C.requireChangeID(), requireChangeID);
+
+    maxObjectSizeLimit = new Label();
+    grid.addHtml(Util.C.headingMaxObjectSizeLimit(), maxObjectSizeLimit);
   }
 
   private static ListBox newInheritedBooleanBox() {
@@ -277,6 +282,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     setBool(requireChangeID, result.requireChangeID);
     setSubmitType(project.getSubmitType());
     setState(project.getState());
+    maxObjectSizeLimit.setText(project.getMaxObjectSizeLimit());
 
     saveProject.setEnabled(false);
   }

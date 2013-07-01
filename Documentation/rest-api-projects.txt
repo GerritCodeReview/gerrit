@@ -1210,6 +1210,9 @@ Whether content merge should be enabled for the project (`TRUE`,
 |`require_change_id`         |`INHERIT` if not set|
 Whether the usage of Change-Ids is required for the project (`TRUE`,
 `FALSE`, `INHERIT`).
+|`max_object_size_limit`     |optional|
+Max allowed Git object size for this project.
+Common unit suffixes of 'k', 'm', or 'g' are supported.
 |=========================================
 
 [[project-parent-input]]

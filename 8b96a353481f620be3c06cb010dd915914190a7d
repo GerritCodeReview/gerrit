@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "672f288d_cbf8f5fe",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T19:11:04Z",
+      "side": 1,
+      "message": "I would be ok with this, even the open/delete/close (or more realistically open/read/maybe delete/close). The only time we mark indexes not ready is for previously-ready lower versions from scanning the directory at startup, of which there shouldn\u0027t be too many.\n\nI might prefer to stick it in a new change on the end of this series though...",
+      "parentUuid": "aa22c587_e5c4d68a",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea303dcf_8719663d",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-01T02:43:18Z",
       "side": 1,
       "message": "add break here. Once we have chosen a ready version we should not consider older versions.",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87325cef_4c165f5c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T19:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea303dcf_8719663d",
       "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "672f288d_ab05a924",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T19:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea303dcf_a71e6a20",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa22c587_05bad2f7",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
         "patchSetId": 5
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "475ea42c_6ae8d733",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneVersionManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T19:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa22c587_05bad2f7",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea303dcf_67ee32ec",
         "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
         "patchSetId": 5
@@ -81,6 +153,24 @@
       "writtenOn": "2013-07-01T02:43:18Z",
       "side": 1,
       "message": "This is going to run twice now. Is the Solr client ok with that? Or do we need a guard to only call shutdown once?",
+      "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87325cef_6c111b62",
+        "filename": "gerrit-solr/src/main/java/com/google/gerrit/solr/SolrChangeIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-01T19:11:04Z",
+      "side": 1,
+      "message": "Checked the implementation, it looks ok.",
+      "parentUuid": "ea303dcf_67ee32ec",
       "revId": "8b96a353481f620be3c06cb010dd915914190a7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

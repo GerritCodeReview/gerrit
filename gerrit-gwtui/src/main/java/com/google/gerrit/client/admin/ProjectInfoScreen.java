@@ -32,11 +32,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private String projectName;
@@ -49,7 +49,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox submitType;
   private ListBox state;
   private ListBox contentMerge;
-  private Label maxObjectSizeLimit;
+  private NpTextBox maxObjectSizeLimit;
 
   // Section: Contributor Agreements
   private ListBox contributorAgreements;
@@ -94,7 +94,8 @@ public class ProjectInfoScreen extends ProjectScreen {
         new ScreenLoadCallback<ProjectDetail>(this) {
           public void preDisplay(final ProjectDetail result) {
             enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType, result.canModifyState);
+                result.canModifyDescription, result.canModifyMergeType, result.canModifyState,
+                result.canModifyMaxObjectSizeLimit);
             saveProject.setVisible(
                 result.canModifyAgreements ||
                 result.canModifyDescription ||
@@ -108,7 +109,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private void enableForm(final boolean canModifyAgreements,
       final boolean canModifyDescription, final boolean canModifyMergeType,
-      final boolean canModifyState) {
+      final boolean canModifyState, final boolean canModifyMaxObjectSizeLimit) {
     submitType.setEnabled(canModifyMergeType);
     state.setEnabled(canModifyState);
     contentMerge.setEnabled(canModifyMergeType);
@@ -116,6 +117,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     contributorAgreements.setEnabled(canModifyAgreements);
     signedOffBy.setEnabled(canModifyAgreements);
     requireChangeID.setEnabled(canModifyMergeType);
+    maxObjectSizeLimit.setEnabled(canModifyMaxObjectSizeLimit);
   }
 
   private void initDescription() {
@@ -163,7 +165,8 @@ public class ProjectInfoScreen extends ProjectScreen {
     saveEnabler.listenTo(requireChangeID);
     grid.addHtml(Util.C.requireChangeID(), requireChangeID);
 
-    maxObjectSizeLimit = new Label();
+    maxObjectSizeLimit = new NpTextBox();
+    saveEnabler.listenTo(maxObjectSizeLimit);
     grid.addHtml(Util.C.headingMaxObjectSizeLimit(), maxObjectSizeLimit);
   }
 
@@ -293,6 +296,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     project.setUseSignedOffBy(getBool(signedOffBy));
     project.setUseContentMerge(getBool(contentMerge));
     project.setRequireChangeID(getBool(requireChangeID));
+    project.setMaxObjectSizeLimit(maxObjectSizeLimit.getText().trim());
     if (submitType.getSelectedIndex() >= 0) {
       project.setSubmitType(Project.SubmitType.valueOf(submitType
           .getValue(submitType.getSelectedIndex())));
@@ -302,13 +306,14 @@ public class ProjectInfoScreen extends ProjectScreen {
           .getValue(state.getSelectedIndex())));
     }
 
-    enableForm(false, false, false, false);
+    enableForm(false, false, false, false, false);
 
     Util.PROJECT_SVC.changeProjectSettings(project,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType, result.canModifyState);
+                result.canModifyDescription, result.canModifyMergeType, result.canModifyState,
+                result.canModifyMaxObjectSizeLimit);
             display(result);
           }
         });

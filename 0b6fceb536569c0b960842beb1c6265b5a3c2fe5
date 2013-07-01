@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea303dcf_675392ec",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-07-01T01:33:21Z",
+      "side": 1,
+      "message": "s/searching/searching and writting/?",
+      "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "871dfc5e_34447062",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2013-07-01T01:33:21Z",
+      "side": 1,
+      "message": "How about calling this readIndex or searchIndex instead of ref?",
+      "revId": "0b6fceb536569c0b960842beb1c6265b5a3c2fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

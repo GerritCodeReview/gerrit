@@ -29,6 +29,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -77,7 +78,12 @@ public class GroupTable extends NavigationTable<GroupInfo> {
 
   @Override
   protected void onOpenRow(final int row) {
-    History.newItem(Dispatcher.toGroup(getRowItem(row).getGroupId()));
+    GroupInfo groupInfo = getRowItem(row);
+    if (isInteralGroup(groupInfo)) {
+      History.newItem(Dispatcher.toGroup(groupInfo.getGroupId()));
+    } else {
+      Window.open(groupInfo.url(), "_self", null);
+    }
   }
 
   public void display(GroupMap groups, String toHighlight) {
@@ -108,7 +114,7 @@ public class GroupTable extends NavigationTable<GroupInfo> {
 
   void populate(final int row, final GroupInfo k, final String toHighlight) {
     if (k.url() != null) {
-      if (k.url().startsWith("#" + PageLinks.ADMIN_GROUPS)) {
+      if (isInteralGroup(k)) {
         table.setWidget(row, 1, new HighlightingInlineHyperlink(k.name(),
             Dispatcher.toGroup(k.getGroupId()), toHighlight));
       } else {
@@ -132,5 +138,9 @@ public class GroupTable extends NavigationTable<GroupInfo> {
     }
 
     setRowItem(row, k);
+  }
+
+  private boolean isInteralGroup(final GroupInfo groupInfo) {
+    return groupInfo.url().startsWith("#" + PageLinks.ADMIN_GROUPS);
   }
 }

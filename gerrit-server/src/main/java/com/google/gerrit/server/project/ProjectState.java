@@ -216,6 +216,10 @@ public class ProjectState {
     return config;
   }
 
+  public long getMaxObjectSizeLimit() {
+    return config.getMaxObjectSizeLimit();
+  }
+
   /** Get the sections that pertain only to this project. */
   List<SectionMatcher> getLocalAccessSections() {
     List<SectionMatcher> sm = localAccessSections;

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "276370f3_49ed2142",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-02T13:05:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea303dcf_070e56f1",
+      "revId": "478137ec5297a1ffd2ba3fcb0683737d2c25ed4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea303dcf_270b5ae2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-01T16:06:47Z",
       "side": 1,
       "message": "You should verify the string parses as an integer value. Otherwise the getLong call during onLoad may give back bad values.",
+      "revId": "478137ec5297a1ffd2ba3fcb0683737d2c25ed4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "276370f3_29f2ed21",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-02T13:05:05Z",
+      "side": 1,
+      "message": "It has to parse as a valid long value from a Git config format. This includes values as \"500k, 2m, ...\". Unfortunately, JGit doesn\u0027t expose a utility method which only parses a value. Instead I had to create an in memory Config instance and use getLong on it in order to trigger parsing of that value.",
+      "parentUuid": "ea303dcf_270b5ae2",
       "revId": "478137ec5297a1ffd2ba3fcb0683737d2c25ed4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

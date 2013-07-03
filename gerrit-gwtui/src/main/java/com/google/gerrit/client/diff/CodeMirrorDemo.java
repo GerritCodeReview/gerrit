@@ -23,6 +23,7 @@ import com.google.gerrit.client.diff.PaddingManager.LineWidgetElementPair;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
+import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -31,6 +32,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -53,6 +55,7 @@ import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.ModeInjector;
+import net.codemirror.lib.TextMarker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,6 +87,8 @@ public class CodeMirrorDemo extends Screen {
   private Map<LineHandle, CommentBox> lineActiveBoxMap;
   private Map<LineHandle, PublishedBox> lineLastPublishedBoxMap;
   private Map<LineHandle, PaddingManager> linePaddingManagerMap;
+  private List<SkippedLine> skips;
+  private int context;
 
   public CodeMirrorDemo(
       PatchSet.Id base,
@@ -197,6 +202,7 @@ public class CodeMirrorDemo extends Screen {
   private void display(DiffInfo diffInfo) {
     cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.getCmA());
     cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.getCmB());
+    skips = new ArrayList<SkippedLine>();
     render(diffInfo);
     initialBoxes = new ArrayList<CommentBox>();
     lineActiveBoxMap = new HashMap<LineHandle, CommentBox>();
@@ -209,8 +215,10 @@ public class CodeMirrorDemo extends Screen {
     if (drafts != null) {
       renderDrafts();
     }
+    renderSkips();
     published = null;
     drafts = null;
+    skips = null;
     cmA.on("cursorActivity", updateActiveLine(cmA));
     cmB.on("cursorActivity", updateActiveLine(cmB));
     if (Gerrit.isSignedIn()) {
@@ -253,6 +261,10 @@ public class CodeMirrorDemo extends Screen {
   }
 
   private void render(DiffInfo diff) {
+    AccountDiffPreference pref = Gerrit.getAccountDiffPreference();
+    context = pref != null
+        ? pref.getContext()
+        : AccountDiffPreference.DEFAULT_CONTEXT;
     JsArray<Region> regions = diff.content();
     mapper = new LineMapper();
     for (int i = 0; i < regions.length(); i++) {
@@ -260,8 +272,17 @@ public class CodeMirrorDemo extends Screen {
       int origLineA = mapper.getLineA();
       int origLineB = mapper.getLineB();
       if (current.ab() != null) { // Common
-        // TODO: Handle skips.
-        mapper.appendCommon(current.ab().length());
+        int length = current.ab().length();
+        mapper.appendCommon(length);
+        if (i == 0 && length > context) {
+          skips.add(new SkippedLine(0, 0, length - context));
+        } else if (i == regions.length() - 1 && length > context) {
+          skips.add(new SkippedLine(origLineA + context, origLineB + context,
+              length - context));
+        } else if (length > 2 * context) {
+          skips.add(new SkippedLine(origLineA + context, origLineB + context,
+              length - 2 * context));
+        }
       } else { // Insert, Delete or Edit
         JsArrayString currentA = current.a() == null ? EMPTY : current.a();
         JsArrayString currentB = current.b() == null ? EMPTY : current.b();
@@ -418,6 +439,72 @@ public class CodeMirrorDemo extends Screen {
     }
   }
 
+  private void renderSkips() {
+    for (CommentBox box : initialBoxes) {
+      List<SkippedLine> temp = new ArrayList<SkippedLine>();
+      for (SkippedLine skip : skips) {
+        CommentInfo info = box.getOriginal();
+        int startLine = info.side() == Side.PARENT
+            ? skip.getStartA()
+            : skip.getStartB();
+        int boxLine = info.line();
+        System.out.println("boxLine: " + boxLine);
+        int deltaBefore = boxLine - startLine;
+        int deltaAfter = startLine + skip.getSize() - boxLine;
+        if (deltaBefore < 0 || deltaAfter < 0) {
+          temp.add(skip);
+        } else if (deltaBefore > context && deltaAfter > context) {
+          SkippedLine before = new SkippedLine(
+              skip.getStartA(), skip.getStartB(),
+              skip.getSize() - deltaAfter - context);
+          skip.incrementStart(deltaBefore + context);
+          temp.add(before);
+          temp.add(skip);
+        } else if (deltaAfter > context) {
+          skip.incrementStart(deltaBefore + context);
+          temp.add(skip);
+        } else if (deltaBefore > context) {
+          skip.reduceSize(deltaAfter + context);
+          temp.add(skip);
+        }
+      }
+      skips = temp;
+    }
+    for (SkippedLine skip : skips) {
+      SkipBar barA = renderSkipHelper(cmA, skip);
+      SkipBar barB = renderSkipHelper(cmB, skip);
+      SkipBar.link(barA, barB);
+    }
+  }
+
+  private SkipBar renderSkipHelper(CodeMirror cm, SkippedLine skip) {
+    int size = skip.getSize();
+    int markStart = cm == cmA ? skip.getStartA() - 1 : skip.getStartB() - 1;
+    int markEnd = markStart + size;
+    SkipBar bar = new SkipBar(cm);
+    diffTable.add(bar);
+    TextMarker marker = cm.markText(
+        CodeMirror.pos(markStart),
+        CodeMirror.pos(markEnd),
+        Configuration.create().set("collapsed", true));
+    /**
+     * TODO: Due to CodeMirror limitation, there's no way to make the first
+     * line disappear completely. The current approach leaves an empty line
+     * with line number "1" still showing, and CodeMirror doesn't like manually
+     * setting the display of a line to "none". A workaround may be to use
+     * inline widget for the first line and regular line widgets for others.
+     */
+    boolean isZero = markStart == -1;
+    Configuration config = Configuration.create()
+      .set("coverGutter", true)
+      .set("above", isZero);
+    LineWidget widget = cm.addLineWidget(
+        isZero ? markEnd + 1 : markStart, bar.getElement(), config);
+    bar.setWidget(widget);
+    bar.setMarker(marker, size);
+    return bar;
+  }
+
   private CodeMirror otherCM(CodeMirror me) {
     return me == cmA ? cmB : cmA;
   }
@@ -438,7 +525,7 @@ public class CodeMirrorDemo extends Screen {
     Configuration diffOpt = Configuration.create()
         .set("className", diffTable.style.diff())
         .set("readOnly", true);
-    LineCharacter last = LineCharacter.create(0, 0);
+    LineCharacter last = CodeMirror.pos(0, 0);
     for (int i = 0; i < edits.length(); i++) {
       Span span = edits.get(i);
       LineCharacter from = iter.advance(span.skip());
@@ -447,7 +534,7 @@ public class CodeMirrorDemo extends Screen {
       if (last.getLine() == fromLine) {
         cm.markText(last, from, intralineBgOpt);
       } else {
-        cm.markText(LineCharacter.create(fromLine, 0), from, intralineBgOpt);
+        cm.markText(CodeMirror.pos(fromLine, 0), from, intralineBgOpt);
       }
       cm.markText(from, to, diffOpt);
       last = to;
@@ -511,6 +598,7 @@ public class CodeMirrorDemo extends Screen {
               LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
         }
         int line = cm.getCursor("head").getLine();
+        System.out.println(line);
         LineOnOtherInfo info =
             mapper.lineOnOther(cm == cmA ? Side.PARENT : Side.REVISION, line);
         int oLine = info.getLine();

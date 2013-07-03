@@ -47,9 +47,9 @@ public class CodeMirror extends JavaScriptObject {
   public final native void refresh() /*-{ this.refresh(); }-*/;
   public final native Element getWrapperElement() /*-{ return this.getWrapperElement(); }-*/;
 
-  public final native void markText(LineCharacter from, LineCharacter to,
+  public final native TextMarker markText(LineCharacter from, LineCharacter to,
       Configuration options) /*-{
-    this.markText(from, to, options);
+    return this.markText(from, to, options);
   }-*/;
 
   public enum LineClassWhere {
@@ -66,6 +66,16 @@ public class CodeMirror extends JavaScriptObject {
     this.addLineClass(line, where, lineClass);
   }-*/;
 
+  public final void addLineClass(LineHandle line, LineClassWhere where,
+      String className) {
+    addLineClassNative(line, where.name().toLowerCase(), className);
+  }
+
+  private final native void addLineClassNative(LineHandle line, String where,
+      String lineClass) /*-{
+    this.addLineClass(line, where, lineClass);
+  }-*/;
+
   public final void removeLineClass(int line, LineClassWhere where,
       String className) {
     removeLineClassNative(line, where.name().toLowerCase(), className);
@@ -75,6 +85,17 @@ public class CodeMirror extends JavaScriptObject {
       String lineClass) /*-{
     this.removeLineClass(line, where, lineClass);
   }-*/;
+
+  public final void removeLineClass(LineHandle line, LineClassWhere where,
+      String className) {
+    removeLineClassNative(line, where.name().toLowerCase(), className);
+  }
+
+  private final native void removeLineClassNative(LineHandle line, String where,
+      String lineClass) /*-{
+    this.removeLineClass(line, where, lineClass);
+  }-*/;
+
 
   public final native void addWidget(LineCharacter pos, Element node,
       boolean scrollIntoView) /*-{
@@ -120,18 +141,30 @@ public class CodeMirror extends JavaScriptObject {
     return this.state.hasOwnProperty('activeLine');
   }-*/;
 
-  public final native int getActiveLine() /*-{
+  public final native LineHandle getActiveLine() /*-{
     return this.state.activeLine;
   }-*/;
 
-  public final native void setActiveLine(int line) /*-{
+  public final native void setActiveLine(LineHandle line) /*-{
     this.state.activeLine = line;
   }-*/;
 
   public final native void addKeyMap(KeyMap map) /*-{ this.addKeyMap(map); }-*/;
 
+  public static final native LineCharacter pos(int line, int ch) /*-{
+    return $wnd.CodeMirror.Pos(line, ch);
+  }-*/;
+
+  public static final native LineCharacter pos(int line) /*-{
+    return $wnd.CodeMirror.Pos(line);
+  }-*/;
+
   public final native LineHandle getLineHandle(int line) /*-{
     return this.getLineHandle(line);
+  }-*/;
+
+  public final native int getLineNumber(LineHandle handle) /*-{
+    return this.getLineNumber(handle);
   }-*/;
 
   protected CodeMirror() {

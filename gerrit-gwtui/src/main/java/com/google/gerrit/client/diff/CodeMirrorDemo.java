@@ -14,12 +14,14 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
+import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -28,6 +30,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.changes.Side;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -49,12 +52,14 @@ import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.ModeInjector;
+import net.codemirror.lib.TextMarker;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CodeMirrorDemo extends Screen {
   private static final int HEADER_FOOTER = 60 + 15 * 2 + 38;
+  private static final int DFLT_CONTEXT = 10;
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
   private final PatchSet.Id base;
@@ -71,6 +76,7 @@ public class CodeMirrorDemo extends Screen {
   private DiffInfo diff;
   private LineMapper mapper;
   private CommentLinkProcessor commentLinkProcessor;
+  private List<SkippedLine> skips;
 
   public CodeMirrorDemo(
       PatchSet.Id base,
@@ -185,8 +191,12 @@ public class CodeMirrorDemo extends Screen {
   private void display(DiffInfo diffInfo) {
     cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.getCmA());
     cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.getCmB());
+    skips = new ArrayList<SkippedLine>();
     render(diffInfo);
+    renderSkips();
+    skips = null;
     resizeCallbacks = new ArrayList<Runnable>();
+
     renderComments(published, false);
     renderComments(drafts, true);
     published = null;
@@ -231,13 +241,24 @@ public class CodeMirrorDemo extends Screen {
   private void render(DiffInfo diff) {
     JsArray<Region> regions = diff.content();
     mapper = new LineMapper();
+    AccountDiffPreference pref = Gerrit.getAccountDiffPreference();
+    int context = pref == null ? DFLT_CONTEXT : pref.getContext();
     for (int i = 0; i < regions.length(); i++) {
       Region current = regions.get(i);
       int origLineA = mapper.getLineA();
       int origLineB = mapper.getLineB();
       if (current.ab() != null) { // Common
-        // TODO: Handle skips.
-        mapper.appendCommon(current.ab().length());
+        int length = current.ab().length();
+        mapper.appendCommon(length);
+        if (i == 0 && length > context) {
+          skips.add(new SkippedLine(0, 0,length - context));
+        } else if (i == regions.length() - 1 && length > context) {
+          skips.add(new SkippedLine(origLineA + context, origLineB + context,
+              length - context));
+        } else if (length > 2 * context) {
+          skips.add(new SkippedLine(origLineA + context, origLineB + context,
+              length - 2 * context));
+        }
       } else { // Insert, Delete or Edit
         JsArrayString currentA = current.a() == null ? EMPTY : current.a();
         JsArrayString currentB = current.b() == null ? EMPTY : current.b();
@@ -259,6 +280,26 @@ public class CodeMirrorDemo extends Screen {
         markEdit(cmB, currentB, current.edit_b(), origLineB);
       }
     }
+  }
+
+  private void renderSkips() {
+    for (SkippedLine skip : skips) {
+      SkipBar barA = renderSkipHelper(cmA, skip);
+      SkipBar barB = renderSkipHelper(cmB, skip);
+      SkipBar.link(barA, barB);
+    }
+  }
+
+  private SkipBar renderSkipHelper(CodeMirror cm, SkippedLine skip) {
+    int size = skip.getSize();
+    int start = cm == cmA ? skip.getStartA() : skip.getStartB();
+    SkipBar bar = new SkipBar(cm);
+    diffTable.add(bar);
+    TextMarker marker = cm.markText(CodeMirror.pos(start),
+        CodeMirror.pos(start + size),
+        Configuration.getReplaceConfig(bar.getElement()));
+    bar.setMarker(marker, size);
+    return bar;
   }
 
   private void renderComments(JsArray<CommentInfo> comments, boolean isDraft) {
@@ -306,7 +347,7 @@ public class CodeMirrorDemo extends Screen {
     Configuration editOpt = Configuration.create()
         .set("className", diffTable.style.intraline())
         .set("readOnly", true);
-    LineCharacter last = LineCharacter.create(0, 0);
+    LineCharacter last = CodeMirror.pos(0);
     for (int i = 0; i < edits.length(); i++) {
       Span span = edits.get(i);
       LineCharacter from = iter.advance(span.skip());
@@ -315,7 +356,7 @@ public class CodeMirrorDemo extends Screen {
       if (last.getLine() == fromLine) {
         cm.markText(last, from, diffOpt);
       } else {
-        cm.markText(LineCharacter.create(fromLine, 0), from, diffOpt);
+        cm.markText(CodeMirror.pos(fromLine), from, diffOpt);
       }
       cm.markText(from, to, editOpt);
       last = to;
@@ -381,7 +422,7 @@ public class CodeMirrorDemo extends Screen {
         int lengthWithNewline =
             lines.get(currLineIndex).length() - currLineOffset + 1;
         if (numOfChar < lengthWithNewline) {
-          LineCharacter at = LineCharacter.create(
+          LineCharacter at = CodeMirror.pos(
               startLine + currLineIndex,
               numOfChar + currLineOffset);
           currLineOffset += numOfChar;

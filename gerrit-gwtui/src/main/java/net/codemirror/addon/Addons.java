@@ -25,8 +25,4 @@ public interface Addons extends ClientBundle {
   @Source("selection/mark-selection.js")
   @DoNotEmbed
   DataResource mark_selection();
-
-  @Source("fold/foldcode.js")
-  @DoNotEmbed
-  DataResource foldcode();
 }

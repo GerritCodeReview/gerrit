@@ -48,25 +48,25 @@ public class EditIteratorTest extends GwtTest {
   @Test
   public void testNoAdvance() {
     EditIterator iter = new EditIterator(lines, 0);
-    assertLineChsEqual(LineCharacter.create(0, 0), iter.advance(0));
+    assertLineChsEqual(LineCharacter.create(0), iter.advance(0));
   }
 
   @Test
   public void testSimpleAdvance() {
     EditIterator iter = new EditIterator(lines, 0);
-    assertLineChsEqual(LineCharacter.create(0, 1), iter.advance(1));
+    assertLineChsEqual(LineCharacter.create(0), iter.advance(1));
   }
 
   @Test
   public void testEndsBeforeNewline() {
     EditIterator iter = new EditIterator(lines, 0);
-    assertLineChsEqual(LineCharacter.create(0, 3), iter.advance(3));
+    assertLineChsEqual(LineCharacter.create(0), iter.advance(3));
   }
 
   @Test
   public void testEndsOnNewline() {
     EditIterator iter = new EditIterator(lines, 0);
-    assertLineChsEqual(LineCharacter.create(1, 0), iter.advance(4));
+    assertLineChsEqual(LineCharacter.create(1), iter.advance(4));
   }
 
   @Test

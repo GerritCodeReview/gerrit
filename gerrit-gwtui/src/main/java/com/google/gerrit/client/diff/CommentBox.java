@@ -79,7 +79,9 @@ class CommentBox extends Composite {
     // TODO: Format the comment box differently based on whether isDraft
     // is true.
     commentLinkProcessor = linkProcessor;
-    setAuthorNameText(author);
+    if (author != null) {
+      setAuthorNameText(author);
+    }
     date.setInnerText(FormatUtil.shortFormatDayTime(when));
     setMessageText(message);
     setOpen(false);

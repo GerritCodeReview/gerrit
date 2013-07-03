@@ -16,6 +16,24 @@
       "revId": "41d927825396a3d3c7ec6999b1454cfe0801bbaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874b3c73_a405e224",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-03T00:24:38Z",
+      "side": 1,
+      "message": "Since you replace this in your next commit I\u0027ll let this slide.",
+      "parentUuid": "a77cc0a4_95056425",
+      "revId": "41d927825396a3d3c7ec6999b1454cfe0801bbaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

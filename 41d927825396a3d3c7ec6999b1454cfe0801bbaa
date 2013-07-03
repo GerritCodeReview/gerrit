@@ -34,6 +34,24 @@
       "revId": "41d927825396a3d3c7ec6999b1454cfe0801bbaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47ba249d_4ae89333",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-03T00:29:27Z",
+      "side": 1,
+      "message": "Acknowledged.",
+      "parentUuid": "874b3c73_a405e224",
+      "revId": "41d927825396a3d3c7ec6999b1454cfe0801bbaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -44,8 +44,6 @@ class Loader {
       injectScript(Lib.I.js().getSafeUri(),
           group.add(CallbackGroup.<Void>emptyCallback()));
       injectScript(Addons.I.mark_selection().getSafeUri(),
-          group.add(CallbackGroup.<Void>emptyCallback()));
-      injectScript(Addons.I.foldcode().getSafeUri(),
           group.addFinal(cb));
     }
   }

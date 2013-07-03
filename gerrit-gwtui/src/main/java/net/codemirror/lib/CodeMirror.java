@@ -47,9 +47,9 @@ public class CodeMirror extends JavaScriptObject {
   public final native void refresh() /*-{ this.refresh(); }-*/;
   public final native Element getWrapperElement() /*-{ return this.getWrapperElement(); }-*/;
 
-  public final native void markText(LineCharacter from, LineCharacter to,
+  public final native TextMarker markText(LineCharacter from, LineCharacter to,
       Configuration options) /*-{
-    this.markText(from, to, options);
+    return this.markText(from, to, options);
   }-*/;
 
   public enum LineClassWhere {
@@ -130,6 +130,23 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void addKeyMap(KeyMap map) /*-{ this.addKeyMap(map); }-*/;
 
+  public static final native LineCharacter pos(int line, int ch) /*-{
+    return $wnd.CodeMirror.Pos(line, ch);
+  }-*/;
+
+  public static final native LineCharacter pos(int line) /*-{
+    return $wnd.CodeMirror.Pos(line);
+  }-*/;
+
+  public final native LineHandle getLineHandle(int line) /*-{
+    return this.getLineHandle(line);
+  }-*/;
+
   protected CodeMirror() {
+  }
+
+  public static class LineHandle extends JavaScriptObject {
+    protected LineHandle() {
+    }
   }
 }

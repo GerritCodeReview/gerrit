@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a77cc0a4_95056425",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-03T00:16:00Z",
+      "side": 1,
+      "message": "We break ?: operator at the start of each line:\n\n  CommentBox box \u003d isDraft\n    ? new DraftBox(\n    : new PublishedBox(",
+      "revId": "41d927825396a3d3c7ec6999b1454cfe0801bbaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package net.codemirror.lib;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 
 /**
  * Simple map-like structure to pass configuration to CodeMirror.
@@ -34,6 +35,9 @@ public class Configuration extends JavaScriptObject {
   /*-{ this[name] = val; return this; }-*/;
 
   public final native Configuration set(String name, boolean val)
+  /*-{ this[name] = val; return this; }-*/;
+
+  public final native Configuration set(String name, JavaScriptObject val)
   /*-{ this[name] = val; return this; }-*/;
 
   protected Configuration() {

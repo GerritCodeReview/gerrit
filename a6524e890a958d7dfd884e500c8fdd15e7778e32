@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "874b3c73_e4fbdaf8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-03T00:28:55Z",
+      "side": 1,
+      "message": "nit: we break ?: on new lines",
+      "revId": "a6524e890a958d7dfd884e500c8fdd15e7778e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a77cc0a4_b502e018",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommentInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-03T00:28:55Z",
+      "side": 1,
+      "message": "if original does not have a line, do we want to still set our line?",
+      "revId": "a6524e890a958d7dfd884e500c8fdd15e7778e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874b3c73_c4f8defe",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-03T00:28:55Z",
+      "side": 1,
+      "message": "why did you undo the line breaking we had on this?",
+      "revId": "a6524e890a958d7dfd884e500c8fdd15e7778e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a77cc0a4_7516885c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-03T00:28:55Z",
+      "side": 1,
+      "message": "This file has a ton of formatting changes that are unrelated to what you are doing in this commit. Please undo them.",
+      "revId": "a6524e890a958d7dfd884e500c8fdd15e7778e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a77cc0a4_d5243cbf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxHeader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-03T00:28:55Z",
+      "side": 1,
+      "message": "This text should exist as a translated message. Use PatchMessages.draftSaved to format.",
+      "revId": "a6524e890a958d7dfd884e500c8fdd15e7778e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

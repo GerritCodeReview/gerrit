@@ -919,4 +919,12 @@ limitations under the License.
       <url>http://scala-tools.org/repo-releases</url>
     </repository>
   </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>gerrit-maven</id>
+      <url>https://gerrit-maven.commondatastorage.googleapis.com</url>
+    </pluginRepository>
+  </pluginRepositories>
+
 </project>

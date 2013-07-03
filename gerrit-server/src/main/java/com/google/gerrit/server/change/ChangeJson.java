@@ -27,10 +27,12 @@ import static com.google.gerrit.common.changes.ListChangesOption.MESSAGES;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -87,10 +89,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
@@ -357,6 +362,9 @@ public class ChangeJson {
         continue;
       }
       if (standard) {
+        if (e.getValue().optional != null && e.getValue().optional) {
+          setApprovedAndRejectedForOptionalLabel(cd, type, e.getValue());
+        }
         setRecommendedAndDisliked(cd, type, e.getValue());
       }
       if (detailed) {
@@ -399,6 +407,57 @@ public class ChangeJson {
       }
     }
     return labels;
+  }
+
+  private void setApprovedAndRejectedForOptionalLabel(ChangeData cd,
+      final LabelType type, LabelInfo label) throws OrmException {
+    if (type.getMin() == null || type.getMax() == null) {
+      // Unknown or misconfigured type can't have intermediate scores.
+      return;
+    }
+
+    final short min = type.getMin().getValue();
+    final short max = type.getMax().getValue();
+
+    Iterable<PatchSetApproval> minAndMax =
+        Iterables.filter(cd.currentApprovals(db),
+            new Predicate<PatchSetApproval>() {
+              @Override
+              public boolean apply(PatchSetApproval psa) {
+                short val = psa.getValue();
+                return type.matches(psa) && (val == min || val == max);
+              }
+            });
+    if (Iterables.isEmpty(minAndMax)) {
+      return;
+    }
+
+    SortedSet<PatchSetApproval> sortedMinAndMax =
+        new TreeSet<PatchSetApproval>(new Comparator<PatchSetApproval>() {
+          @Override
+          public int compare(PatchSetApproval psa1, PatchSetApproval psa2) {
+            if (psa1.getValue() - psa2.getValue() != 0) {
+              return psa1.getValue() - psa2.getValue();
+            }
+            return psa1.getGranted().compareTo(psa2.getGranted());
+          }
+        });
+
+    Iterator<PatchSetApproval> it = minAndMax.iterator();
+    while (it.hasNext()) {
+      sortedMinAndMax.add(it.next());
+    }
+
+    PatchSetApproval rejectedOrApproved =
+        Iterables.getFirst(sortedMinAndMax, null);
+    if (rejectedOrApproved.getValue() == min) {
+      label.rejected = accountLoader.get(rejectedOrApproved.getAccountId());
+    } else {
+      label.approved = accountLoader.get(rejectedOrApproved.getAccountId());
+    }
+    label.value = rejectedOrApproved.getValue();
+
+    return;
   }
 
   private void setRecommendedAndDisliked(ChangeData cd, LabelType type,

@@ -19,14 +19,22 @@ import com.google.gwt.core.client.JavaScriptObject;
 /** {line, ch} objects used within CodeMirror. */
 public class LineCharacter extends JavaScriptObject {
   public static LineCharacter create(int line, int ch) {
+    return createImpl(line, ch);
+  }
+
+  public static LineCharacter create(int line) {
+    return createImpl(line, 0);
+  }
+
+  private static LineCharacter createImpl(int line, int ch) {
     LineCharacter lineCh = createObject().cast();
     lineCh.setLine(line);
     lineCh.setCh(ch);
     return lineCh;
   }
 
-  public final native void setLine(int line) /*-{ this.line = line; }-*/;
-  public final native void setCh(int ch) /*-{ this.ch = ch; }-*/;
+  private final native void setLine(int line) /*-{ this.line = line; }-*/;
+  private final native void setCh(int ch) /*-{ this.ch = ch; }-*/;
 
   public final native int getLine() /*-{ return this.line; }-*/;
   public final native int getCh() /*-{ return this.ch; }-*/;

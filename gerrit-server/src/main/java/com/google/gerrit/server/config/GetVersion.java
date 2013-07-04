@@ -14,18 +14,17 @@
 
 package com.google.gerrit.server.config;
 
-import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
-import static com.google.gerrit.server.config.CapabilityResource.CAPABILITY_KIND;
+import com.google.gerrit.common.Version;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestReadView;
 
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.RestApiModule;
-
-public class Module extends RestApiModule {
+public class GetVersion implements RestReadView<ConfigResource> {
   @Override
-  protected void configure() {
-    DynamicMap.mapOf(binder(), CONFIG_KIND);
-    DynamicMap.mapOf(binder(), CAPABILITY_KIND);
-    child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
-    get(CONFIG_KIND, "version").to(GetVersion.class);
+  public String apply(ConfigResource resource) throws ResourceNotFoundException {
+    String version = Version.getVersion();
+    if (version == null) {
+      throw new ResourceNotFoundException();
+    }
+    return version;
   }
 }

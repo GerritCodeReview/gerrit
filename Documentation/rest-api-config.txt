@@ -9,6 +9,28 @@ link:rest-api.html[REST API].
 Config Endpoints
 ---------------
 
+[[get-version]]
+Get Version
+~~~~~~~~~~~
+[verse]
+'GET /config/server/version'
+
+Returns the version of the Gerrit server.
+
+.Request
+----
+  GET /config/server/version HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  "2.7"
+----
+
 [[list-capabilities]]
 List Capabilities
 ~~~~~~~~~~~~~~~~~

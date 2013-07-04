@@ -32,6 +32,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -125,6 +126,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
     final ChangeIndex index;
+    final SubmitStrategyFactory submitStrategyFactory;
 
     @Inject
     @VisibleForTesting
@@ -139,7 +141,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
-        ChangeIndex index) {
+        ChangeIndex index,
+        SubmitStrategyFactory submitStrategyFactory) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -152,6 +155,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.repoManager = repoManager;
       this.projectCache = projectCache;
       this.index = index;
+      this.submitStrategyFactory = submitStrategyFactory;
     }
   }
 
@@ -290,7 +294,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       throw error("secondary index must be enabled for " + FIELD_CONFLICTS + ":"
           + value);
     }
-    return new ConflictsPredicate(args.dbProvider, args.patchListCache, value,
+    return new ConflictsPredicate(args.dbProvider, args.patchListCache,
+        args.submitStrategyFactory, args.changeControlGenericFactory,
+        args.userFactory, args.repoManager, value,
         parseChange(value));
   }
 

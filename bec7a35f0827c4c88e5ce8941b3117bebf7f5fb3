@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27345006_6110365c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:52:10Z",
+      "side": 1,
+      "message": "Spell out DEFAULT.",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_a2219ead",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:52:10Z",
+      "side": 1,
+      "message": "You can\u0027t use context(num) here if we want syntax highlighting. So drop the TODO.",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_c224a2bf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:52:10Z",
+      "side": 1,
+      "message": "Squash into parent or something earlier? Seems unrelated to the skip bars.",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_810bba31",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:52:10Z",
+      "side": 1,
+      "message": "This seems backwards. Invert the logic and return true when the arrows need to update and false when they are unnecessary?",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_6210365c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:52:10Z",
+      "side": 1,
+      "message": "Wrap the members of this div in a \u003cui:msg\u003e element.",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_4111b261",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:52:10Z",
+      "side": 1,
+      "message": "method names should start lowercase.",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e73dd8ee_3fe80733",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:52:10Z",
+      "side": 1,
+      "message": "method names should start lowercase.",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

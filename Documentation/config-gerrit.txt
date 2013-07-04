@@ -119,6 +119,8 @@ registration (name and email) from LDAP, and some group memberships.
 Therefore, the "_LDAP" suffix in the name of this authentication type.
 This authentication type can only be used under hosted daemon mode, and
 the httpd.listenUrl must use https:// as the protocol.
+Optionally, certificate revocation list file can be used
+at <review-site>/etc/crl.pem. For details, see httpd.sslCrl.
 +
 * `LDAP`
 +
@@ -1559,6 +1561,23 @@ errors caused by very long Referer URLs or large cookie values.
 +
 By default, 16384 (16 K), which is sufficient for most OpenID and
 other web-based single-sign-on integrations.
+
+[[httpd.sslCrl]]httpd.sslCrl::
++
+Path of the certificate revocation list file in PEM format. This
+crl file is optional, and available for CLIENT_SSL_CERT_LDAP
+authentication.
++
+To create and view a crl using openssl:
++
+----
+openssl ca -gencrl -out crl.pem
+openssl crl -in crl.pem -text
+----
++
+If not absolute, the path is resolved relative to `$site_path`.
++
+By default, `$site_path/etc/crl.pem`.
 
 [[httpd.sslKeyStore]]httpd.sslKeyStore::
 +

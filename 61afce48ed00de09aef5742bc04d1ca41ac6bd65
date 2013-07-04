@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07390c01_c0fbfef8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-04T06:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27345006_21ed8e43",
+      "revId": "61afce48ed00de09aef5742bc04d1ca41ac6bd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472f84b5_82f29a1f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupTable.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-03T23:05:32Z",
       "side": 1,
       "message": "groupInfo.url() !\u003d null \u0026\u0026 ...",
+      "revId": "61afce48ed00de09aef5742bc04d1ca41ac6bd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67a48887_c3fb16f9",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-04T06:14:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472f84b5_82f29a1f",
       "revId": "61afce48ed00de09aef5742bc04d1ca41ac6bd65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

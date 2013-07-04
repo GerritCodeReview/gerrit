@@ -111,6 +111,7 @@ import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
@@ -150,6 +151,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(SectionSortCache.module());
     install(TagCache.module());
     install(ChangeCache.module());
+    install(ConflictsCacheImpl.module());
 
     install(new AccessControlModule());
     install(new CmdLineParserModule());

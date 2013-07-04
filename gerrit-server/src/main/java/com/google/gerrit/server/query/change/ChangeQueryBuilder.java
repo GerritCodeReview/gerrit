@@ -32,6 +32,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.SubmitStrategyFactory;
 import com.google.gerrit.server.index.ChangeIndex;
 import com.google.gerrit.server.index.IndexCollection;
 import com.google.gerrit.server.index.Schema;
@@ -149,6 +150,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
     final IndexCollection indexes;
+    final SubmitStrategyFactory submitStrategyFactory;
+    final ConflictsCache conflictsCache;
 
     @Inject
     @VisibleForTesting
@@ -163,7 +166,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache,
-        IndexCollection indexes) {
+        IndexCollection indexes,
+        SubmitStrategyFactory submitStrategyFactory,
+        ConflictsCache conflictsCache) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -176,6 +181,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.repoManager = repoManager;
       this.projectCache = projectCache;
       this.indexes = indexes;
+      this.submitStrategyFactory = submitStrategyFactory;
+      this.conflictsCache = conflictsCache;
     }
   }
 
@@ -309,8 +316,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> conflicts(String value) throws OrmException,
       QueryParseException {
     requireIndex(FIELD_CONFLICTS, value);
-    return new ConflictsPredicate(args.dbProvider, args.patchListCache, value,
-        parseChange(value));
+    return new ConflictsPredicate(args.dbProvider, args.patchListCache,
+        args.submitStrategyFactory, args.changeControlGenericFactory,
+        args.userFactory, args.repoManager, args.projectCache,
+        args.conflictsCache, value, parseChange(value));
   }
 
   @Operator

@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07390c01_20ed8a43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:46:11Z",
+      "side": 1,
+      "message": "highlight",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_02068a2f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:46:11Z",
+      "side": 1,
+      "message": "Perhaps add only one widget to each line that is a container for all of the comments on that line?",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_e2028619",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:46:11Z",
+      "side": 1,
+      "message": "Clearing instance fields during onUnload() should not be necessary. We do it for handler registrations to prevent a duplicate onUnload() from trying to remove an already removed registration, but otherwise this should not be necessary.",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_01068a2f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:46:11Z",
+      "side": 1,
+      "message": "Can we register these handlers at the same time as the keyMap by moving them down next to addKeyMap?",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_a1f87efd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:46:11Z",
+      "side": 1,
+      "message": "So CodeMirror needs a property on the KeyMap object named \u0027c\u0027 with the single quotes included as part of the property name? This seems... odd. Why isn\u0027t this just \"c\"?",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_e1028619",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/LineMapper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:46:11Z",
+      "side": 1,
+      "message": "instanceof also tests for !\u003d null. And often this \u003d\u003d obj is false so its not worth writing that specific test. So you can simplify your logic:\n\n  if (obj instanceof LineOnOtherInfo) {\n    LineOnOtherInfo other \u003d (LineOnOtherInfo) obj;\n    return aligned \u003d\u003d other.aligned \u0026\u0026 line \u003d\u003d other.line;\n  }\n  return false;",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_4211b261",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/KeyMap.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-04T00:46:11Z",
+      "side": 1,
+      "message": "Maybe instead:\n\n  public static KeyMap create() {\n    return createObject().cast();\n  }\n\n  public KeyMap on(String key, Runnable thunk) /*-{\n    this[key] \u003d function() { $entry(thunk.@java.lang.Runnable::run()()); };\n    return this;\n  }-*/;",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -77,10 +77,9 @@ Change-Id that was scraped out of the commit message.
 [[conflicts]]
 conflicts:'ID'::
 +
-Changes that potentially conflict with change 'ID' because they touch
-at least one file that was also touched by change 'ID'. Change 'ID' can
-be specified as a legacy numerical 'ID' such as 15183, or a newer style
-Change-Id that was scraped out of the commit message.
+Changes that conflict with change 'ID'. Change 'ID' can be specified
+as a legacy numerical 'ID' such as 15183, or a newer style Change-Id
+that was scraped out of the commit message.
 
 [[owner]]
 owner:'USER'::

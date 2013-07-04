@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "472f84b5_2268eec9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T05:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07390c01_20ed8a43",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472f84b5_02068a2f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-04T00:46:11Z",
       "side": 1,
       "message": "Perhaps add only one widget to each line that is a container for all of the comments on that line?",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_61495678",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T05:06:39Z",
+      "side": 1,
+      "message": "Hmm.. Haven\u0027t tried but I think it will work. I will add a LineWidgetWrapper that handles insertion / deletion / ordering myself in the next commit.",
+      "parentUuid": "472f84b5_02068a2f",
       "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "472f84b5_825d7a2e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T05:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472f84b5_e2028619",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27345006_01068a2f",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-04T00:46:11Z",
       "side": 1,
       "message": "Can we register these handlers at the same time as the keyMap by moving them down next to addKeyMap?",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_c12dc299",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T05:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27345006_01068a2f",
       "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "27345006_a12a3e7d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T05:06:39Z",
+      "side": 1,
+      "message": "I was looking at http://codemirror.net/doc/manual.html#keymaps. I first tried \"c\" but CM didn\u0027t catch it. Then I saw \"Alternatively, a character can be specified directly by surrounding it in single quotes\" and that worked. My guess is that the first way needs an upper case \"C\", and will fire the handler when Caps Lock is on, which is different from what Gerrit is currently doing.",
+      "parentUuid": "27345006_a1f87efd",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27345006_e1028619",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/LineMapper.java",
         "patchSetId": 7
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "27345006_01384ad2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/LineMapper.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T05:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27345006_e1028619",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472f84b5_4211b261",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/KeyMap.java",
         "patchSetId": 7
@@ -115,6 +223,24 @@
       "writtenOn": "2013-07-04T00:46:11Z",
       "side": 1,
       "message": "Maybe instead:\n\n  public static KeyMap create() {\n    return createObject().cast();\n  }\n\n  public KeyMap on(String key, Runnable thunk) /*-{\n    this[key] \u003d function() { $entry(thunk.@java.lang.Runnable::run()()); };\n    return this;\n  }-*/;",
+      "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_6262f6eb",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/KeyMap.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T05:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472f84b5_4211b261",
       "revId": "c1beed9e66fac1672b3befb76ce882444d19f346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

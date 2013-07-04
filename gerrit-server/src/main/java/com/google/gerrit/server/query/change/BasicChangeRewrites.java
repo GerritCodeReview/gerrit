@@ -30,7 +30,7 @@ public abstract class BasicChangeRewrites extends QueryRewriter<ChangeData> {
           new InvalidProvider<ReviewDb>(), //
           new InvalidProvider<ChangeQueryRewriter>(), //
           null, null, null, null, null, //
-          null, null, null, null, null), null);
+          null, null, null, null, null, null), null);
 
   protected final Provider<ReviewDb> dbProvider;
 

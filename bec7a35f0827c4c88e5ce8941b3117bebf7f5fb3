@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27345006_413a52d3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T04:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27345006_6110365c",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472f84b5_a2219ead",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-04T00:52:10Z",
       "side": 1,
       "message": "You can\u0027t use context(num) here if we want syntax highlighting. So drop the TODO.",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_c22dc299",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T04:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472f84b5_a2219ead",
       "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "472f84b5_a22a3e7d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T04:48:27Z",
+      "side": 1,
+      "message": "Will fix in another branch.",
+      "parentUuid": "472f84b5_c224a2bf",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27345006_810bba31",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-04T00:52:10Z",
       "side": 1,
       "message": "This seems backwards. Invert the logic and return true when the arrows need to update and false when they are unnecessary?",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_213f4ec3",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T04:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27345006_810bba31",
       "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "472f84b5_e23446e2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T04:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472f84b5_6210365c",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27345006_4111b261",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "27345006_81445a64",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T04:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27345006_4111b261",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e73dd8ee_3fe80733",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
         "patchSetId": 2
@@ -115,6 +223,24 @@
       "writtenOn": "2013-07-04T00:52:10Z",
       "side": 1,
       "message": "method names should start lowercase.",
+      "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_02384ad2",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-04T04:48:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e73dd8ee_3fe80733",
       "revId": "bec7a35f0827c4c88e5ce8941b3117bebf7f5fb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

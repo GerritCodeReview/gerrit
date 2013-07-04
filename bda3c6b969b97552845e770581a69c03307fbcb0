@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67a48887_43116661",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-04T09:10:42Z",
+      "side": 1,
+      "message": "The parsing is now identical and I did some mini-refactoring, but I find it difficult to refactor further. The problem is that parseChange needs to load the change from the database, but we don\u0027t want to do this for the change operator, as here it is enough to have the ChangeId or the legacy change ID to instanciate the predicate.",
+      "parentUuid": "ea303dcf_673c7298",
+      "revId": "bda3c6b969b97552845e770581a69c03307fbcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "871dfc5e_743ae8d3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-01T00:04:35Z",
       "side": 1,
       "message": "Line wrap before OrmException here",
+      "revId": "bda3c6b969b97552845e770581a69c03307fbcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07390c01_0006862f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-04T09:10:42Z",
+      "side": 1,
+      "message": "Not applicable anymore. After introducing a new \"conflicts\" operator this change here is reverted.",
+      "parentUuid": "871dfc5e_743ae8d3",
       "revId": "bda3c6b969b97552845e770581a69c03307fbcb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "67a48887_6316e25c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-04T09:10:42Z",
+      "side": 1,
+      "message": "Agreed, having an own operator for this makes probably more sense. I have now named it \u0027conflicts\u0027. I\u0027m not sure that I like \u0027conflicts_with\u0027 due to the underline and because this would be inconsistent with the names of other operators, e.g. we have \"visibleto\" and \"reviewerin\" instead of \"visible_to\" and \"reviewer_in\". On the other side \u0027conflictswith\u0027 is quite unreadable. So would \u0027conflicts\u0027 be ok?",
+      "parentUuid": "aa22c587_85dec261",
+      "revId": "bda3c6b969b97552845e770581a69c03307fbcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa22c587_a5e3be26",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-01T00:04:35Z",
       "side": 1,
       "message": "Why make this an error? We could construct an OR graph to list all of these changes.",
+      "revId": "bda3c6b969b97552845e770581a69c03307fbcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07390c01_a0f87afd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-04T09:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa22c587_a5e3be26",
       "revId": "bda3c6b969b97552845e770581a69c03307fbcb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

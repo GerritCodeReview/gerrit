@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67a48887_030b6e33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-04T09:12:01Z",
+      "side": 1,
+      "message": "Should this operator always match only against open changes? I think especially if later we test the actually mergability this would make sense.",
+      "revId": "338f49af94c748f4913f43aaedda1896711899e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07390c01_805d762e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T13:53:14Z",
+      "side": 1,
+      "message": "s/gorup/groups.",
+      "revId": "68cb54784d3a9ea0c90104f2d90107780a2139cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_82961a90",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupInfoScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T13:53:14Z",
+      "side": 1,
+      "message": "If the user provides an invalid group name accountGroupOracle.getUUID(newOwner) will return null, which results here in an NPE. This NPE prevents the displaying of the proper \u0027Group Not Found\u0027 error message.\n\ns/ownerUuid.get()/ownerUuid !\u003d null ? ownerUuid.get() : newOwner",
+      "revId": "68cb54784d3a9ea0c90104f2d90107780a2139cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

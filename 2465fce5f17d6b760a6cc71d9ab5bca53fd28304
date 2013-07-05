@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "472f84b5_a2535e1d",
+        "filename": "Documentation/error-missing-changeid.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-05T01:56:50Z",
+      "side": 1,
+      "message": "I think it would be better like this:\n\n  If the Change-Id is the only line in the commit message you must update\n  the commit message and insert a subject as the first line in the commit\n  message. The Change-Id must be in the last paragraph of the commit\n  message, i.e. separated from the subject by a blank line. How to update\n  the commit message is explained\n  link:error-push-fails-due-to-commit-message.html[here].",
+      "revId": "2465fce5f17d6b760a6cc71d9ab5bca53fd28304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

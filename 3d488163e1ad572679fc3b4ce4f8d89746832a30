@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "07390c01_c02dbe99",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T12:31:01Z",
+      "side": 1,
+      "message": "In case of a failure due to an invalid max object size limit the form should be reenabled so that the user can correct the value.",
+      "revId": "3d488163e1ad572679fc3b4ce4f8d89746832a30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67a48887_c356b60f",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
         "patchSetId": 2

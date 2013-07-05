@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07390c01_a0219aad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T11:35:33Z",
+      "side": 1,
+      "message": "You might want to check that the limit is not set to a negative value. If the check is done here, this method should probably be renamed.",
+      "revId": "41c66a7637aa7e6bae3ce11d781f2aa13b8f3fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

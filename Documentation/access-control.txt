@@ -419,8 +419,9 @@ This category controls whether users are allowed to abandon changes
 to projects in Gerrit. It can give permission to abandon a specific
 change to a given ref.
 
-This also grants the permission to restore a change if the change
-can be uploaded.
+This also grants the permission to restore a change if the user also
+has link:#category_push[push permission] on the change's destination
+ref.
 
 
 [[category_create]]

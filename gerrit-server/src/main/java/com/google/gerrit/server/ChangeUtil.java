@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
+import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -371,6 +372,11 @@ public class ChangeUtil {
           .setCopyLabels(true)
           .setValidateForReceiveCommits(true)
           .insert();
+
+      final ReplacePatchSetSender cm =
+          commitMessageEditedSenderFactory.create(change);
+      cm.setup(db, newPatchSet, user.getAccountId());
+      cm.send();
 
       return change.getId();
     } finally {

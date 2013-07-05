@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.changedetail;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -24,7 +23,6 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -63,7 +61,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 public class RebaseChange {
   private final ChangeControl.GenericFactory changeControlFactory;
@@ -148,9 +145,6 @@ public class RebaseChange {
       rw = new RevWalk(git);
       inserter = git.newObjectInserter();
 
-      final List<PatchSetApproval> oldPatchSetApprovals =
-          db.patchSetApprovals().byChange(change.getId()).toList();
-
       final String baseRev = findBaseRevision(patchSetId, db,
           change.getDest(), git, null, null, null);
       final RevCommit baseCommit =
@@ -165,21 +159,9 @@ public class RebaseChange {
               changeControl.getProjectControl().getProjectState(), true),
           committerIdent, indexer);
 
-      final Set<Account.Id> oldReviewers = Sets.newHashSet();
-      final Set<Account.Id> oldCC = Sets.newHashSet();
-      for (PatchSetApproval a : oldPatchSetApprovals) {
-        if (a.getValue() != 0) {
-          oldReviewers.add(a.getAccountId());
-        } else {
-          oldCC.add(a.getAccountId());
-        }
-      }
       final ReplacePatchSetSender cm =
           rebasedPatchSetSenderFactory.create(change);
-      cm.setFrom(uploader.getAccountId());
-      cm.setPatchSet(newPatchSet);
-      cm.addReviewers(oldReviewers);
-      cm.addExtraCC(oldCC);
+      cm.setup(db, newPatchSet, uploader.getAccountId());
       cm.send();
 
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);

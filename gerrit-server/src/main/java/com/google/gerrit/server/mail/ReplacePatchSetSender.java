@@ -14,10 +14,15 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -47,6 +52,26 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
 
   public void addExtraCC(final Collection<Account.Id> cc) {
     extraCC.addAll(cc);
+  }
+
+  public void setup(ReviewDb db, PatchSet newPatchSet, Account.Id uploader)
+      throws OrmException {
+    final List<PatchSetApproval> oldPatchSetApprovals =
+        db.patchSetApprovals().byChange(change.getId()).toList();
+    final Set<Account.Id> oldReviewers = Sets.newHashSet();
+    final Set<Account.Id> oldCC = Sets.newHashSet();
+
+    for (PatchSetApproval a : oldPatchSetApprovals) {
+      if (a.getValue() != 0) {
+        oldReviewers.add(a.getAccountId());
+      } else {
+        oldCC.add(a.getAccountId());
+      }
+    }
+    this.setFrom(uploader);
+    this.setPatchSet(newPatchSet);
+    this.addReviewers(oldReviewers);
+    this.addExtraCC(oldCC);
   }
 
   @Override

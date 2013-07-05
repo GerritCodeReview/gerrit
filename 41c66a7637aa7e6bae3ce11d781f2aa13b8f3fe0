@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "07390c01_e01ba279",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T11:40:06Z",
+      "side": 1,
+      "message": "Provide 0 as default value here, so that in case of 0 this setting is not persisted in the project.config file.",
+      "revId": "41c66a7637aa7e6bae3ce11d781f2aa13b8f3fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07390c01_a0219aad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 2

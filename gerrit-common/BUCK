@@ -42,7 +42,7 @@ java_library(
 # TODO(sop): Move git describe into an uncacheable genrule()
 def git_describe():
   import subprocess
-  cmd = ['git', 'describe', 'HEAD']
+  cmd = ['git', 'describe', '--match', 'v[0-9].*', 'HEAD']
   p = subprocess.Popen(cmd, stdout = subprocess.PIPE)
   v = p.communicate()[0].strip()
   r = p.returncode

@@ -16,6 +16,24 @@
       "revId": "2baa118c9e6d8ff1b8f319f6dd2fee837fc6e60c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67a48887_035dae2b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T12:16:26Z",
+      "side": 1,
+      "message": "Could you in addition to the project specific limit display the effective limit? Otherwise if a global limit of 10m is configured and the project owner sets the limit for his project to 20m, looking at this screen he might be confused that pushing 15m still fails.",
+      "parentUuid": "07390c01_203f4ac3",
+      "revId": "2baa118c9e6d8ff1b8f319f6dd2fee837fc6e60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

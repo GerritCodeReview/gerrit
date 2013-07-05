@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07390c01_a02a3a7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T13:18:29Z",
+      "side": 1,
+      "message": "Sending notification emails is also not working for other operations, e.g. when cherry-picking a change in the UI to another branch, no notifications to the watchers of that branch are sent. This makes me think that this should be fixed in a more generic place. Both PatchSetInserter and ChangeInserter should take care to send the notifications. The ChangeUtil.editCommitMessage(...) method is already using the PatchSetInserter to create the patch set so it would be covered by such a fix.",
+      "revId": "88a5559f3bdaae3520508e0c4ffb872ae503f5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67a48887_438c0684",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T13:18:29Z",
+      "side": 1,
+      "message": "I think it\u0027s important that also the watchers are notified. The init method in ReplacePatchSetSender actually takes care to include the watchers. Why is init of ReplacePatchSetSender not invoked?",
+      "revId": "88a5559f3bdaae3520508e0c4ffb872ae503f5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

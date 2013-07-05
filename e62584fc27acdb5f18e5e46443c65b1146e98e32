@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07390c01_e03442e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T13:33:40Z",
+      "side": 1,
+      "message": "I really wonder how the injection of the patch set should work. How can Guice know which patch set it needs to inject here?",
+      "revId": "e62584fc27acdb5f18e5e46443c65b1146e98e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -29,6 +29,13 @@ New Features
 ------------
 
 
+Configuration
+~~~~~~~~~~~~~
+
+* Project owners can define `receive.maxObjectSizeLimit` in the
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#receive.maxObjectSizeLimit[
+project configuration] to further reduce the global setting.
+
 Web UI
 ~~~~~~
 
@@ -153,6 +160,9 @@ Config
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-config.html#get-capabilities[
 Get capabilities]
+
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-config.html#get-version[
+Get version] (of the Gerrit server)
 
 
 Projects
@@ -301,6 +311,8 @@ ssh
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1908[Issue 1908]:
 Provide more informative error messages when rejecting updates.
+
+* Remove the limit in the query of patch sets by revision.
 
 Tools
 ~~~~~

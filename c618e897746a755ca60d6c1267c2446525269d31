@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67a48887_239b0ab9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/data/PatchSetAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-05T13:57:06Z",
+      "side": 1,
+      "message": "Can you please document this new field in json.txt in the description of patchSet?",
+      "revId": "c618e897746a755ca60d6c1267c2446525269d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

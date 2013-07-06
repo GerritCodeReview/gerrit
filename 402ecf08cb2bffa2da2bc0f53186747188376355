@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27345006_c19f82a1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-06T02:31:00Z",
+      "side": 1,
+      "message": "missing indentation here",
+      "revId": "402ecf08cb2bffa2da2bc0f53186747188376355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

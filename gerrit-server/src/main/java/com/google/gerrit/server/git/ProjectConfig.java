@@ -727,7 +727,7 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), Project.InheritableBoolean.INHERIT);
 
-    set(rc, PROJECT, null, KEY_STATE, p.getState(), null);
+    set(rc, PROJECT, null, KEY_STATE, p.getState(), defaultStateValue);
 
     set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
     set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());

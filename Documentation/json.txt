@@ -115,6 +115,8 @@ author:: Author of this patchset in <<account,account attribute>>.
 createdOn:: Time in seconds since the UNIX epoch when this patchset
 was created.
 
+isDraft:: Whether or not the patch set is a draft patch set.
+
 approvals:: The <<approval,approval attribute>> granted.
 
 comments:: All comments for this patchset in <<patchsetcomment,patchsetComment attributes>>.

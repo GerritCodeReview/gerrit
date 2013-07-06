@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07390c01_a09cfaad",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-06T07:23:06Z",
+      "side": 1,
+      "message": "Are we having issues with the group REST endpoints then? I believe at the moment they are using GroupControl to check the visibility of external groups too. Ideally every group that is suggested should also be visible to the user and vice versa.",
+      "parentUuid": "27345006_418c1284",
+      "revId": "029f2351fb9c39e38a4021a8919337a7e701b889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27345006_e14d667a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
         "patchSetId": 3

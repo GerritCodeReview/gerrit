@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07390c01_e0a602fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-06T18:31:31Z",
+      "side": 1,
+      "message": "That\u0027s wrong. If plugin uses auto registration, then it is enough to mark the implementation with @Listen annotation.\n\nOtherwise it has to be bound with:\n \n DynamicSet.bind(binder(), TopMenuExtension.class).to(PluginFooTopMenu.class);",
+      "revId": "53b93dc4f8a1baf9d57efe4733e3cf61eaf9f847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07390c01_40752e92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-06T18:31:31Z",
+      "side": 1,
+      "message": "why not to point to:\n\n https://gerrit-review.googlesource.com/#/c/45525",
+      "revId": "53b93dc4f8a1baf9d57efe4733e3cf61eaf9f847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67a48887_637a6283",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/TopMenuExtension.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-06T18:31:31Z",
+      "side": 1,
+      "message": "s/getEntrys/Entries/",
+      "revId": "53b93dc4f8a1baf9d57efe4733e3cf61eaf9f847",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

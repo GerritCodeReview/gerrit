@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27345006_418c1284",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-06T01:53:47Z",
+      "side": 1,
+      "message": "Unfortunately I disagree with using GroupControl for this. GroupControl is (mostly) for internal groups. For directory services the directory policy should determine visibility. E.g. at Google we have 3 external backends linked into our server and they use different visibility rules in each case for completion, none of them driven by GroupControl.\n\nIf the policy is just \"any LDAP user can see any LDAP group\" than there is no need to do any filtering here.\n\nIf the policy is \"users can see groups they are in, admins can see any group\" then you need a different control here.\n\nWhich policy makes sense depends on the org\u0027s directory policy. I don\u0027t see how GroupControl can implement that.",
+      "revId": "029f2351fb9c39e38a4021a8919337a7e701b889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_e14d667a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-06T01:53:47Z",
+      "side": 1,
+      "message": "nit: space after if before (",
+      "revId": "029f2351fb9c39e38a4021a8919337a7e701b889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

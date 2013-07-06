@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e73dd8ee_5ff7cb10",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1012612
+      },
+      "writtenOn": "2013-07-06T14:50:13Z",
+      "side": 1,
+      "message": "Edwin is correct.  If my memory is correct, GroupsCollection.parse() is used by the AddIncludedGroups.apply() and DeleteIncludedGroups.apply() REST endpoints.  GroupsCollection.parse() checks GroupControl.isVisible().\n\nRegarding using the directory policy, I have no problem with that.  In LDAP\u0027s case, since we bind as a single user, all groups are visible to Gerrit, of course.  I would be a fan of allowing the site to select the behavior of the LDAP backend\u0027s group visibility, but due to the current behavior of the REST endpoints, that\u0027s not (currently) possible.  It does make more sense to have the backend determine group visibility; I just don\u0027t see how it\u0027s possible with the current configuration of the REST endpoints.",
+      "parentUuid": "07390c01_a09cfaad",
+      "revId": "029f2351fb9c39e38a4021a8919337a7e701b889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27345006_e14d667a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
         "patchSetId": 3

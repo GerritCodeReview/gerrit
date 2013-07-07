@@ -63,6 +63,7 @@ public interface ChangeConstants extends Constants {
   String patchTableDiffUnified();
   String patchTableDownloadPreImage();
   String patchTableDownloadPostImage();
+  String patchTableBinary();
   String commitMessage();
   String fileCommentHeader();
 

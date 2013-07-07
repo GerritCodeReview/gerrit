@@ -19,8 +19,20 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.kohsuke.args4j.Option;
+
 public class GetDetail implements RestReadView<ChangeResource> {
   private final ChangeJson json;
+
+  @Option(name = "-o", multiValued = true, usage = "Output options")
+  void addOption(ListChangesOption o) {
+    json.addOption(o);
+  }
+
+  @Option(name = "-O", usage = "Output option flags, in hex")
+  void setOptionFlagsHex(String hex) {
+    json.addOptions(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
+  }
 
   @Inject
   GetDetail(ChangeJson json) {

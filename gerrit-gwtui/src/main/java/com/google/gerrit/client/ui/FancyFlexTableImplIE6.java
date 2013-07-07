@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.ui.FancyFlexTable.MyFlexTable;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTMLTable;
@@ -23,7 +22,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class FancyFlexTableImplIE6 extends FancyFlexTableImpl {
   @Override
-  public void resetHtml(final MyFlexTable myTable, final SafeHtml bodyHtml) {
+  public void resetHtml(HTMLTable myTable, SafeHtml bodyHtml) {
     final Element oldBody = getBodyElement(myTable);
     final Element newBody = parseBody(bodyHtml);
     assert newBody != null;

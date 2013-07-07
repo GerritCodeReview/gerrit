@@ -52,6 +52,7 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
   public boolean match(final ChangeData cd) throws OrmException {
     if (rules == null) {
       ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
+      builder.setAllowFile(true);
       rules = new HashMap<Project.NameKey, List<Predicate<ChangeData>>>();
       for (AccountProjectWatch w : user.getNotificationFilters()) {
         List<Predicate<ChangeData>> list = rules.get(w.getProjectNameKey());

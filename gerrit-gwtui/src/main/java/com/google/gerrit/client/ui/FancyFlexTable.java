@@ -15,7 +15,6 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -29,9 +28,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 public abstract class FancyFlexTable<RowItem> extends Composite {
-  private static final FancyFlexTableImpl impl =
-      GWT.create(FancyFlexTableImpl.class);
-
   protected static final int C_ARROW = 0;
 
   protected final MyFlexTable table;
@@ -129,7 +125,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
       i.next();
       i.remove();
     }
-    impl.resetHtml(table, body);
+    FancyFlexTableImpl.get().resetHtml(table, body);
   }
 
   protected void scrollIntoView(final int topRow, final int endRow) {

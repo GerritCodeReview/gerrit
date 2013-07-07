@@ -34,6 +34,7 @@ public interface ChangeMessages extends Messages {
   String patchTableComments(@PluralCount int count);
   String patchTableDrafts(@PluralCount int count);
   String patchTableSize_Modify(int insertions, int deletions);
+  String patchTableSize_LongModify(int insertinos, int deletions);
   String patchTableSize_Lines(@PluralCount int insertions);
 
   String removeReviewer(String fullName);

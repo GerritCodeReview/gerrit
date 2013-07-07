@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.diff;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.CommentApi;
@@ -132,11 +133,15 @@ public class CodeMirrorDemo extends Screen {
       @Override
       public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { published = m.get(path); }
     }));
-    CommentApi.drafts(revision,
-        group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
-      @Override
-      public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { drafts = m.get(path); }
-    }));
+    if (Gerrit.isSignedIn()) {
+      CommentApi.drafts(revision,
+          group.add(new GerritCallback<NativeMap<JsArray<CommentInfo>>>() {
+        @Override
+        public void onSuccess(NativeMap<JsArray<CommentInfo>> m) { drafts = m.get(path); }
+      }));
+    } else {
+      drafts = JsArray.createArray().cast();
+    }
     ChangeApi.detail(revision.getParentKey().get(), new GerritCallback<ChangeInfo>() {
       @Override
       public void onSuccess(ChangeInfo result) {
@@ -205,8 +210,10 @@ public class CodeMirrorDemo extends Screen {
     drafts = null;
     cmA.on("cursorActivity", updateActiveLine(cmA));
     cmB.on("cursorActivity", updateActiveLine(cmB));
-    cmA.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cmA)));
-    cmB.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cmB)));
+    if (Gerrit.isSignedIn()) {
+      cmA.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cmA)));
+      cmB.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cmB)));
+    }
     // TODO: Probably need horizontal resize
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override

@@ -60,6 +60,7 @@ import com.google.gerrit.client.admin.ProjectDashboardsScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
@@ -189,6 +190,14 @@ public class Dispatcher {
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
+
+    } else if (matchPrefix("/c2/", token)) {
+      String s = skip(token);
+      if (s.endsWith("/")) {
+        s = s.substring(0, s.length() - 1);
+      }
+      Change.Id id = Change.Id.parse(s);
+      Gerrit.display(token, new ChangeScreen2(id));
 
     } else if (matchExact(MINE, token)) {
       Gerrit.display(token, mine(token));

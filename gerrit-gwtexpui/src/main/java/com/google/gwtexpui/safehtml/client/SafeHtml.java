@@ -29,7 +29,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /** Immutable string safely placed as HTML without further escaping. */
-public abstract class SafeHtml {
+@SuppressWarnings("serial")
+public abstract class SafeHtml
+    implements com.google.gwt.safehtml.shared.SafeHtml {
   public static final SafeHtmlResources RESOURCES;
 
   static {

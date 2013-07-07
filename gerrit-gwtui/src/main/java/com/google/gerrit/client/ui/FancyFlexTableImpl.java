@@ -14,13 +14,20 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.ui.FancyFlexTable.MyFlexTable;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 public class FancyFlexTableImpl {
-  public void resetHtml(final MyFlexTable myTable, final SafeHtml body) {
+  private static final FancyFlexTableImpl impl =
+      GWT.create(FancyFlexTableImpl.class);
+
+  public static FancyFlexTableImpl get() {
+    return impl;
+  }
+
+  public void resetHtml(final HTMLTable myTable, final SafeHtml body) {
     SafeHtml.set(getBodyElement(myTable), body);
   }
 

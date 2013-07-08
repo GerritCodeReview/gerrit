@@ -36,6 +36,11 @@ Configuration
 link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-gerrit.html#receive.maxObjectSizeLimit[
 project configuration] to further reduce the global setting.
 
+* Site administrators can define a
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-mail.html#_footer_vm[
+footer template] that will be appended to the end of all outgoing emails after
+the 'ChangeFooter' and 'CommentFooter'.
+
 Web UI
 ~~~~~~
 
@@ -195,7 +200,7 @@ Capabilities
 New global capabilities are added.
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/access_control.html#capability_generateHttpPassword[
-Generate Http Password] Allows non-administrator users to generate HTTP
+Generate Http Password] allows non-administrator users to generate HTTP
 passwords for users other than themselves.
 +
 This capability would typically be assigned to a non-interactive group
@@ -203,7 +208,7 @@ to be able to generate HTTP passwords for users from a tool or web service
 that uses the Gerrit REST API.
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/access_control.html#capability_runAs[
-Run As] Allows users to impersonate other users by setting the `X-Gerrit-RunAs`
+Run As] allows users to impersonate other users by setting the `X-Gerrit-RunAs`
 HTTP header on REST API calls.
 +
 Site administrators do not inherit this capability;  it must be granted
@@ -214,11 +219,25 @@ Plugins
 ~~~~~~~
 
 
-* The commit message length checker plugin can be configured to reject
-commits whose subject or body length exceeds the limit.
+Global
+^^^^^^
+
 
 * Plugins may now contribute buttons to various parts of the UI.
 
+Commit Message Length Checker
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+* Commits whose subject or body length exceeds the limit can be rejected.
+
+Replication
+^^^^^^^^^^^
+
+* The `{$name}` placeholder is optional when replicating a single project,
+allowing a single project to be replicated under a different name.
+
+* Projects can be matched with wildcard or regex patterns in replication.config.
 
 ssh
 ~~~
@@ -232,7 +251,7 @@ configurable].
 New `ls-members` command].
 
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/cmd-set-members.html[
-New `set-members` command]
+New `set-members` command].
 +
 New command to manipulate group membership. Members can be added or removed
 and groups can be included or excluded in one specific group or number of groups.
@@ -262,6 +281,9 @@ Global
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=1574[Issue 1574]:
 Correctly highlight matches of text in escaped HTML entities in suggestion results.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=1996[Issue 1996]:
+The "Keyboard Shortcuts" help popup can be closed by pressing the Escape key.
 
 
 Change Screens
@@ -313,6 +335,12 @@ ssh
 Provide more informative error messages when rejecting updates.
 
 * Remove the limit in the query of patch sets by revision.
+
+* Add `isDraft` in the `patchSet` attribute of stream-events data.
++
+This allows consumers of the event stream to determine whether or not
+the event is related to a draft patch set.
+
 
 Tools
 ~~~~~

@@ -1,0 +1,5 @@
+Release notes for Gerrit 2.5.5
+==============================
+
+Gerrit release 2.5.5 is broken.  Please use link:ReleaseNotes-2.5.6.html[2.5.6] instead.
+

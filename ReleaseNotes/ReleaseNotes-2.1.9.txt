@@ -1,0 +1,5 @@
+Release notes for Gerrit 2.1.9
+==============================
+
+Gerrit release 2.1.9 is broken.  Please use link:ReleaseNotes-2.1.10.html[2.1.10] instead.
+

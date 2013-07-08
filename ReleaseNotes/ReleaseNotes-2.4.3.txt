@@ -1,0 +1,5 @@
+Release notes for Gerrit 2.4.3
+==============================
+
+Gerrit release 2.4.3 is broken.  Please use link:ReleaseNotes-2.4.4.html[2.4.4] instead.
+

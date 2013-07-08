@@ -1,0 +1,18 @@
+Release notes for Gerrit 2.1.10
+===============================
+
+Gerrit 2.1.10 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.10.war[
+http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.10.war]
+
+
+Bug Fixes
+---------
+
+
+* Update JGit to patch security hole during clone.
+
+
+No other changes since 2.1.8.
+

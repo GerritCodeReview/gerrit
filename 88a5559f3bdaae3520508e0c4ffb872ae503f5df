@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "27345006_61edd610",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-08T07:22:07Z",
+      "side": 1,
+      "message": "I\u0027ll try to fix this in a separate change.",
+      "parentUuid": "07390c01_a02a3a7d",
+      "revId": "88a5559f3bdaae3520508e0c4ffb872ae503f5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67a48887_438c0684",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-05T13:18:29Z",
       "side": 1,
       "message": "I think it\u0027s important that also the watchers are notified. The init method in ReplacePatchSetSender actually takes care to include the watchers. Why is init of ReplacePatchSetSender not invoked?",
+      "revId": "88a5559f3bdaae3520508e0c4ffb872ae503f5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_21e3ce29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-08T07:22:07Z",
+      "side": 1,
+      "message": "The init is being invoked.  The problem seems to be that when it gets to this check in OutgoingEmail.java\n\n if (smtpRcptTo.isEmpty()) {\n   return;\n }\n\nthe `smtpRcptTo` is empty.",
+      "parentUuid": "67a48887_438c0684",
       "revId": "88a5559f3bdaae3520508e0c4ffb872ae503f5df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

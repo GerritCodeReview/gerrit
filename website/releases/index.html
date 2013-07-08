@@ -45,6 +45,7 @@ function(data) {
   var frg = doc.createDocumentFragment();
   var rx = /^gerrit(?:-full)?-([0-9.]+(?:-rc[0-9]+)?)[.]war/;
   var rel = 'http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/';
+  var src = 'https://gerrit.googlesource.com/gerrit/+/'
 
   data.items.sort(function(a,b) {
     var av = rx.exec(a.name);
@@ -101,6 +102,16 @@ function(data) {
     tr.appendChild(td);
 
     td = doc.createElement('td');
+    td.className = 'size';
+    if (f.size/(1024*1024) < 1) {
+      sizeText = Math.round(f.size/1024*10)/10 + ' KiB';
+    } else {
+      sizeText = Math.round(f.size/(1024*1024)*10)/10 + ' MiB';
+    }
+    td.appendChild(doc.createTextNode(sizeText));
+    tr.appendChild(td);
+
+    td = doc.createElement('td');
     if (v && f.name.indexOf('-rc') < 0) {
       a = doc.createElement('a');
       a.href = rel + 'ReleaseNotes-' + v[1] + '.html';
@@ -110,13 +121,12 @@ function(data) {
     tr.appendChild(td);
 
     td = doc.createElement('td');
-    td.className = 'size';
-    if (f.size/(1024*1024) < 1) {
-      sizeText = Math.round(f.size/1024*10)/10 + ' KiB';
-    } else {
-      sizeText = Math.round(f.size/(1024*1024)*10)/10 + ' MiB';
+    if (v) {
+      a = doc.createElement('a');
+      a.href = src + 'v' + v[1];
+      a.appendChild(doc.createTextNode('src'));
+      td.appendChild(a);
     }
-    td.appendChild(doc.createTextNode(sizeText));
     tr.appendChild(td);
 
     frg.appendChild(tr);
@@ -128,11 +138,11 @@ function(data) {
   tr.appendChild(th);
 
   th = doc.createElement('th');
-  tr.appendChild(th);
-
-  th = doc.createElement('th');
   th.appendChild(doc.createTextNode('Size'));
   tr.appendChild(th);
+
+  tr.appendChild(doc.createElement('th'));
+  tr.appendChild(doc.createElement('th'));
 
   var table = doc.createElement('table');
   table.appendChild(tr);

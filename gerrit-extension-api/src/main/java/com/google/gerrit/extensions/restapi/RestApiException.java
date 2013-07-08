@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.restapi;
 /** Root exception type for JSON API failures. */
 public abstract class RestApiException extends Exception {
   private static final long serialVersionUID = 1L;
+  private CacheControl caching = CacheControl.NONE;
 
   public RestApiException() {
   }
@@ -27,5 +28,15 @@ public abstract class RestApiException extends Exception {
 
   public RestApiException(String msg, Throwable cause) {
     super(msg, cause);
+  }
+
+  public CacheControl caching() {
+    return caching;
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T extends RestApiException> T caching(CacheControl c) {
+    caching = c;
+    return (T) this;
   }
 }

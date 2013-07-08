@@ -19,10 +19,6 @@ public abstract class Response<T> {
   @SuppressWarnings({"rawtypes"})
   private static final Response NONE = new None();
 
-  public enum CacheControl {
-    NONE, PUBLIC, PRIVATE;
-  }
-
   /** HTTP 200 OK: pointless wrapper for type safety. */
   public static <T> Response<T> ok(T value) {
     return new Impl<T>(200, value);

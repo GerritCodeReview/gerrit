@@ -54,6 +54,14 @@ public class PageLinks {
     return "/c/" + c + "/";
   }
 
+  public static String toChange2(final Change.Id c) {
+    return "/c2/" + c + "/";
+  }
+
+  public static String toChange2(Change.Id c, String p) {
+    return "/c2/" + c + "/" + p;
+  }
+
   public static String toChange(final PatchSet.Id ps) {
     return "/c/" + ps.getParentKey() + "/" + ps.get();
   }

@@ -22,6 +22,8 @@ public interface ChangeConstants extends Constants {
   String statusLongMerged();
   String statusLongAbandoned();
   String statusLongDraft();
+  String readyToSubmit();
+  String mergeConflict();
 
   String myDashboardTitle();
   String unknownDashboardTitle();
@@ -63,6 +65,7 @@ public interface ChangeConstants extends Constants {
   String patchTableDiffUnified();
   String patchTableDownloadPreImage();
   String patchTableDownloadPostImage();
+  String patchTableBinary();
   String commitMessage();
   String fileCommentHeader();
 

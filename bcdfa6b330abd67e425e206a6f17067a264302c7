@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "874c1cb4_bcfb81f9",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2013-07-08T15:11:58Z",
+      "side": 1,
+      "message": "I think this will require a server restart when an avatar provider plugin is installed?  This isn\u0027t ideal...",
+      "revId": "bcdfa6b330abd67e425e206a6f17067a264302c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "472f84b5_c23302ca",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/AvatarImage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-08T18:00:43Z",
+      "side": 1,
+      "message": "I would prefer delaying this until the timer fires and its actually going to show. We will do a lot of mouse over events as the mouse drags through rows, but most of the time the mouse will never stay stationary long enough for the timer to actually run and display the popup.",
+      "revId": "06777e600007f95e2edc50021f7b73cc2994b3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

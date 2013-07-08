@@ -1,0 +1,23 @@
+Release notes for Gerrit 2.6.1
+==============================
+
+Gerrit 2.6.1 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.6.1.war[
+http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.6.1.war]
+
+There are no schema changes 2.6.
+
+However, if upgrading from a version older than 2.6, follow the upgrade
+procedure in the 2.6 link:ReleaseNotes-2.6.html[Release Notes].
+
+
+Security Fixes
+--------------
+
+
+* Update JGit to patch security hole during clone.
+
+
+No other changes since 2.6.
+

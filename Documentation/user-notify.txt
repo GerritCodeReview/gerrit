@@ -22,6 +22,14 @@ link:user-search.html[Change search expressions] can be used to filter
 change notifications to specific subsets, for example `branch:master`
 to only see changes proposed for the master branch.
 
+Notification mails for new changes and new patch sets are not sent to
+the change owner.
+
+Notification mails for comments added on changes are not sent to the user
+who added the comment unless the user has enabled the 'CC Me On Comments I
+Write' option in the user preferences.
+
+
 Project Level Settings
 ----------------------
 

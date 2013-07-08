@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
@@ -88,6 +89,10 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String _sortkey() /*-{ return this._sortkey; }-*/;
   private final native NativeMap<LabelInfo> labels0() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
+  public final native String current_revision() /*-{ return this.current_revision; }-*/;
+  public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
+  public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
+  public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
 
   public final native boolean has_permitted_labels()
   /*-{ return this.hasOwnProperty('permitted_labels') }-*/;
@@ -153,9 +158,60 @@ public class ChangeInfo extends JavaScriptObject {
 
   public static class ApprovalInfo extends AccountInfo {
     public final native boolean has_value() /*-{ return this.hasOwnProperty('value'); }-*/;
-    public final native short value() /*-{ return this.value; }-*/;
+    public final native short value() /*-{ return this.value || 0; }-*/;
 
     protected ApprovalInfo() {
+    }
+  }
+
+  public static class RevisionInfo extends JavaScriptObject {
+    public final native int _number() /*-{ return this._number; }-*/;
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native boolean draft() /*-{ return this.draft || false; }-*/;
+    public final native CommitInfo commit() /*-{ return this.commit; }-*/;
+    public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
+
+    public final native boolean has_files() /*-{ return this.hasOwnProperty('files') }-*/;
+    public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
+
+    protected RevisionInfo () {
+    }
+  }
+
+  public static class CommitInfo extends JavaScriptObject {
+    public final native String commit() /*-{ return this.commit; }-*/;
+    public final native GitPerson author() /*-{ return this.author; }-*/;
+    public final native GitPerson committer() /*-{ return this.committer; }-*/;
+    public final native String subject() /*-{ return this.subject; }-*/;
+    public final native String message() /*-{ return this.message; }-*/;
+
+    protected CommitInfo() {
+    }
+  }
+
+  public static class GitPerson extends JavaScriptObject {
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native String email() /*-{ return this.email; }-*/;
+    private final native String dateRaw() /*-{ return this.date; }-*/;
+
+    public final Timestamp date() {
+      return JavaSqlTimestamp_JsonSerializer.parseTimestamp(dateRaw());
+    }
+
+    protected GitPerson() {
+    }
+  }
+
+  public static class MessageInfo extends JavaScriptObject {
+    public final native AccountInfo author() /*-{ return this.author; }-*/;
+    public final native String message() /*-{ return this.message; }-*/;
+    private final native String dateRaw() /*-{ return this.date; }-*/;
+
+    public final Timestamp date() {
+      return JavaSqlTimestamp_JsonSerializer.parseTimestamp(dateRaw());
+    }
+
+    protected MessageInfo() {
     }
   }
 }

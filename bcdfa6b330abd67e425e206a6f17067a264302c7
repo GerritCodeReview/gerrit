@@ -34,6 +34,24 @@
       "revId": "bcdfa6b330abd67e425e206a6f17067a264302c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67a48887_43208674",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-08T17:49:03Z",
+      "side": 1,
+      "message": "Yes, you are right. Maybe it\u0027s just enough to allow caching of the Not Found responses [1].\n\n[1] https://gerrit-review.googlesource.com/47563",
+      "parentUuid": "472f84b5_22258e84",
+      "revId": "bcdfa6b330abd67e425e206a6f17067a264302c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

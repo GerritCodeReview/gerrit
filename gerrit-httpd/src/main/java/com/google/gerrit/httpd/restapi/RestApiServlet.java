@@ -321,27 +321,27 @@ public class RestApiServlet extends HttpServlet {
         }
       }
     } catch (AuthException e) {
-      replyError(res, status = SC_FORBIDDEN, e.getMessage());
+      replyError(req, res, status = SC_FORBIDDEN, e.getMessage(), e.caching());
     } catch (BadRequestException e) {
-      replyError(res, status = SC_BAD_REQUEST, e.getMessage());
+      replyError(req, res, status = SC_BAD_REQUEST, e.getMessage(), e.caching());
     } catch (MethodNotAllowedException e) {
-      replyError(res, status = SC_METHOD_NOT_ALLOWED, "Method not allowed");
+      replyError(req, res, status = SC_METHOD_NOT_ALLOWED, "Method not allowed", e.caching());
     } catch (ResourceConflictException e) {
-      replyError(res, status = SC_CONFLICT, e.getMessage());
+      replyError(req, res, status = SC_CONFLICT, e.getMessage(), e.caching());
     } catch (PreconditionFailedException e) {
-      replyError(res, status = SC_PRECONDITION_FAILED,
-          Objects.firstNonNull(e.getMessage(), "Precondition failed"));
+      replyError(req, res, status = SC_PRECONDITION_FAILED,
+          Objects.firstNonNull(e.getMessage(), "Precondition failed"), e.caching());
     } catch (ResourceNotFoundException e) {
-      replyError(res, status = SC_NOT_FOUND, "Not found");
+      replyError(req, res, status = SC_NOT_FOUND, "Not found", e.caching());
     } catch (UnprocessableEntityException e) {
-      replyError(res, status = 422,
-          Objects.firstNonNull(e.getMessage(), "Unprocessable Entity"));
+      replyError(req, res, status = 422,
+          Objects.firstNonNull(e.getMessage(), "Unprocessable Entity"), e.caching());
     } catch (AmbiguousViewException e) {
-      replyError(res, status = SC_NOT_FOUND, e.getMessage());
+      replyError(req, res, status = SC_NOT_FOUND, e.getMessage());
     } catch (MalformedJsonException e) {
-      replyError(res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
+      replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
     } catch (JsonParseException e) {
-      replyError(res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
+      replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
     } catch (Exception e) {
       status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);
@@ -837,14 +837,20 @@ public class RestApiServlet extends HttpServlet {
 
     if (!res.isCommitted()) {
       res.reset();
-      replyError(res, SC_INTERNAL_SERVER_ERROR, "Internal server error");
+      replyError(req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error");
     }
   }
 
-  public static void replyError(HttpServletResponse res, int statusCode,
-      String msg) throws IOException {
+  public static void replyError(HttpServletRequest req,
+      HttpServletResponse res, int statusCode, String msg) throws IOException {
+    replyError(req, res, statusCode, msg, CacheControl.NONE);
+  }
+
+  public static void replyError(HttpServletRequest req,
+      HttpServletResponse res, int statusCode, String msg,
+      CacheControl c) throws IOException {
     res.setStatus(statusCode);
-    CacheHeaders.setNotCacheable(res);
+    configureCaching(req, res, c);
     replyText(null, res, msg);
   }
 

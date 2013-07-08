@@ -77,7 +77,7 @@ class RunAsFilter implements Filter {
     String runas = req.getHeader(RUN_AS);
     if (runas != null) {
       if (!enabled) {
-        RestApiServlet.replyError(res,
+        RestApiServlet.replyError(req, res,
             SC_FORBIDDEN,
             RUN_AS + " disabled by auth.enableRunAs = false");
         return;
@@ -85,7 +85,7 @@ class RunAsFilter implements Filter {
 
       CurrentUser self = session.get().getCurrentUser();
       if (!self.getCapabilities().canRunAs()) {
-        RestApiServlet.replyError(res,
+        RestApiServlet.replyError(req, res,
             SC_FORBIDDEN,
             "not permitted to use " + RUN_AS);
         return;
@@ -96,13 +96,13 @@ class RunAsFilter implements Filter {
         target = accountResolver.find(runas);
       } catch (OrmException e) {
         log.warn("cannot resolve account for " + RUN_AS, e);
-        RestApiServlet.replyError(res,
+        RestApiServlet.replyError(req, res,
             SC_INTERNAL_SERVER_ERROR,
             "cannot resolve " + RUN_AS);
         return;
       }
       if (target == null) {
-        RestApiServlet.replyError(res,
+        RestApiServlet.replyError(req, res,
             SC_FORBIDDEN,
             "no account matches " + RUN_AS);
         return;

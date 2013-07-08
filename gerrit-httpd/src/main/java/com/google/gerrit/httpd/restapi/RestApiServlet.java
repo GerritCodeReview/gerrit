@@ -300,7 +300,7 @@ public class RestApiServlet extends HttpServlet {
 
       if (result instanceof Response) {
         @SuppressWarnings("rawtypes")
-        Response r = (Response) result;
+        Response<?> r = (Response) result;
         status = r.statusCode();
         configureCaching(req, res, r);
       } else if (result instanceof Response.Redirect) {

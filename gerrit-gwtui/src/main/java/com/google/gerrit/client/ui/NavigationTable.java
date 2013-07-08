@@ -189,6 +189,10 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   protected void movePointerTo(final int newRow, final boolean scroll) {
+    if (getRowItem(newRow) == null) {
+      return;
+    }
+
     final CellFormatter fmt = table.getCellFormatter();
     final boolean clear = 0 <= currentRow && currentRow < table.getRowCount();
     if (clear) {
@@ -255,7 +259,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   @Override
-  protected void resetHtml(SafeHtml body) {
+  public void resetHtml(SafeHtml body) {
     currentRow = -1;
     super.resetHtml(body);
   }

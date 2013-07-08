@@ -532,6 +532,9 @@ public class CodeMirrorDemo extends Screen {
         }
         numOfChar -= lengthWithNewline;
         advanceLine();
+        if (numOfChar == 0) {
+          return LineCharacter.create(startLine + currLineIndex, 0);
+        }
       }
       throw new IllegalStateException("EditIterator index out of bound");
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27345006_41ded263",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/SafeHtml.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-08T04:58:29Z",
+      "side": 1,
+      "message": "In other files the warning is suppressed by adding a dummy declaration:\n\n private static final long serialVersionUID \u003d 1L;\n\nWhich is the preferred way to do it?",
+      "revId": "9023701849a3a46c464d5d93d89da8aad9f6c04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

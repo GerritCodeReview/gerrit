@@ -16,6 +16,24 @@
       "revId": "bcdfa6b330abd67e425e206a6f17067a264302c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_22258e84",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-08T15:57:00Z",
+      "side": 1,
+      "message": "Brad is correct, storing the value into GerritConfig means a server restart is necessary to pick up avatar support after installing the plugin. That isn\u0027t really a desired behavior.",
+      "parentUuid": "874c1cb4_bcfb81f9",
+      "revId": "bcdfa6b330abd67e425e206a6f17067a264302c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

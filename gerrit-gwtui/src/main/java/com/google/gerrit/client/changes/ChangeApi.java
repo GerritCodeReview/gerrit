@@ -65,6 +65,10 @@ public class ChangeApi {
     call(id, "detail").get(cb);
   }
 
+  public static RestApi revision(int id, String revision) {
+    return change(id).view("revisions").id(revision);
+  }
+
   public static RestApi revision(PatchSet.Id id) {
     return change(id.getParentKey().get()).view("revisions").id(id.get());
   }

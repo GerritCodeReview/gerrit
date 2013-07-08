@@ -16,10 +16,14 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -31,6 +35,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.RefControl;
@@ -48,13 +53,19 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class PatchSetInserter {
+  private static final Logger log =
+      LoggerFactory.getLogger(PatchSetInserter.class);
+
   public static interface Factory {
     PatchSetInserter create(Repository git, RevWalk revWalk, RefControl refControl,
         Change change, RevCommit commit);
@@ -69,6 +80,7 @@ public class PatchSetInserter {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeIndexer indexer;
   private boolean validateForReceiveCommits;
+  private final ReplacePatchSetSender.Factory replacePatchSetFactory;
 
   private final Repository git;
   private final RevWalk revWalk;
@@ -90,6 +102,7 @@ public class PatchSetInserter {
       GitReferenceUpdated gitRefUpdated,
       CommitValidators.Factory commitValidatorsFactory,
       ChangeIndexer indexer,
+      ReplacePatchSetSender.Factory replacePatchSetFactory,
       @Assisted Repository git,
       @Assisted RevWalk revWalk,
       @Assisted RefControl refControl,
@@ -103,6 +116,7 @@ public class PatchSetInserter {
     this.gitRefUpdated = gitRefUpdated;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.indexer = indexer;
+    this.replacePatchSetFactory = replacePatchSetFactory;
 
     this.git = git;
     this.revWalk = revWalk;
@@ -178,6 +192,18 @@ public class PatchSetInserter {
       ChangeUtil.insertAncestors(db, patchSet.getId(), commit);
       db.patchSets().insert(Collections.singleton(patchSet));
 
+      final List<PatchSetApproval> oldPatchSetApprovals =
+          db.patchSetApprovals().byChange(change.getId()).toList();
+      final Set<Account.Id> oldReviewers = Sets.newHashSet();
+      final Set<Account.Id> oldCC = Sets.newHashSet();
+      for (PatchSetApproval a : oldPatchSetApprovals) {
+        if (a.getValue() != 0) {
+          oldReviewers.add(a.getAccountId());
+        } else {
+          oldCC.add(a.getAccountId());
+        }
+      }
+
       updatedChange =
           db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
             @Override
@@ -214,6 +240,21 @@ public class PatchSetInserter {
 
       if (changeMessage != null) {
         db.changeMessages().insert(Collections.singleton(changeMessage));
+      }
+
+      try {
+        PatchSetInfo info = patchSetInfoFactory.get(commit, patchSet.getId());
+        ReplacePatchSetSender cm =
+            replacePatchSetFactory.create(updatedChange);
+        cm.setFrom(user.getAccountId());
+        cm.setPatchSet(patchSet, info);
+        cm.setChangeMessage(changeMessage);
+        cm.addReviewers(oldReviewers);
+        cm.addExtraCC(oldCC);
+        cm.send();
+      } catch (Exception err) {
+        log.error("Cannot send email for new patch set on change " + updatedChange.getId(),
+            err);
       }
 
       indexer.index(updatedChange);

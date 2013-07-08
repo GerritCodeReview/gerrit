@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -23,6 +24,8 @@ import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
+
+import java.util.concurrent.TimeUnit;
 
 class GetAvatar implements RestReadView<AccountResource> {
   private final DynamicItem<AvatarProvider> avatarProvider;
@@ -41,12 +44,14 @@ class GetAvatar implements RestReadView<AccountResource> {
       throws ResourceNotFoundException {
     AvatarProvider impl = avatarProvider.get();
     if (impl == null) {
-      throw new ResourceNotFoundException();
+      throw (new ResourceNotFoundException())
+          .caching(CacheControl.PUBLIC(1, TimeUnit.DAYS));
     }
 
     String url = impl.getUrl(rsrc.getUser(), size);
     if (Strings.isNullOrEmpty(url)) {
-      throw new ResourceNotFoundException();
+      throw (new ResourceNotFoundException())
+          .caching(CacheControl.PUBLIC(1, TimeUnit.HOURS));
     } else {
       return Response.redirect(url);
     }

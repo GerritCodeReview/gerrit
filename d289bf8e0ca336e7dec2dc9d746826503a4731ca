@@ -33,6 +33,24 @@
       "revId": "d289bf8e0ca336e7dec2dc9d746826503a4731ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "874c1cb4_fc050924",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/FileInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-08T20:00:40Z",
+      "side": 1,
+      "message": "Heh. || false should also work. We probably can fix the ?: code to use || false.",
+      "parentUuid": "67a48887_a37ffa6a",
+      "revId": "d289bf8e0ca336e7dec2dc9d746826503a4731ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

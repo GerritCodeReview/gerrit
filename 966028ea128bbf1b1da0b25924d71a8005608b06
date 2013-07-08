@@ -16,6 +16,24 @@
       "revId": "966028ea128bbf1b1da0b25924d71a8005608b06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07390c01_a0599a0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-08T21:42:52Z",
+      "side": 1,
+      "message": "Yes, it was also my understanding, but then i saw that the file:regex is actually get fixed on master (with enabled secondary index support), and found ... that nothing actually changed, except that\n\n allowFileRegex || args.index !\u003d ChangeIndex.DISABLED\n\nevaluates to true now and still no secondary index is involved in predicate evaluation (ChangeQueryBuilder.java on master):\n\n  @Operator\n  public Predicate\u003cChangeData\u003e file(String file) throws QueryParseException {\n    if (file.startsWith(\"^\")) {\n      if (allowFileRegex || args.index !\u003d ChangeIndex.DISABLED) {\n        return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);\n      } else {\n        throw error(\"secondary index must be enabled for file:\" + file);\n      }\n    } else {\n     [...]\n\nSo if it is good for master, why not to fix that really annoying bug on 2.6.x branch? (This change is only is:watched specific, not generally enabling of file:regex)",
+      "parentUuid": "472f84b5_a2307ebe",
+      "revId": "966028ea128bbf1b1da0b25924d71a8005608b06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -259,7 +259,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   @Override
-  protected void resetHtml(SafeHtml body) {
+  public void resetHtml(SafeHtml body) {
     currentRow = -1;
     super.resetHtml(body);
   }

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.changedetail;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -25,25 +24,18 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.ChangeIndexer;
-import com.google.gerrit.server.mail.RebasedPatchSetSender;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -53,53 +45,42 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 public class RebaseChange {
   private final ChangeControl.GenericFactory changeControlFactory;
-  private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
-  private final GitReferenceUpdated gitRefUpdated;
-  private final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory;
-  private final ChangeHookRunner hooks;
   private final MergeUtil.Factory mergeUtilFactory;
-  private final ProjectCache projectCache;
   private final ChangeIndexer indexer;
+  private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final IdentifiedUser identifiedUser;
 
   @Inject
   RebaseChange(final ChangeControl.GenericFactory changeControlFactory,
-      final PatchSetInfoFactory patchSetInfoFactory, final ReviewDb db,
+      final ReviewDb db,
       @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager,
-      final GitReferenceUpdated gitRefUpdated,
-      final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
-      final ChangeHookRunner hooks,
       final MergeUtil.Factory mergeUtilFactory,
-      final ProjectCache projectCache,
-      final ChangeIndexer changeIndexer) {
+      final ChangeIndexer changeIndexer,
+      final PatchSetInserter.Factory patchSetInserterFactory,
+      final IdentifiedUser identifiedUser) {
     this.changeControlFactory = changeControlFactory;
-    this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
     this.gitManager = gitManager;
     this.myIdent = myIdent;
-    this.gitRefUpdated = gitRefUpdated;
-    this.rebasedPatchSetSenderFactory = rebasedPatchSetSenderFactory;
-    this.hooks = hooks;
     this.mergeUtilFactory = mergeUtilFactory;
-    this.projectCache = projectCache;
     this.indexer = changeIndexer;
+    this.patchSetInserterFactory = patchSetInserterFactory;
+    this.identifiedUser = identifiedUser;
   }
 
   /**
@@ -160,7 +141,7 @@ public class RebaseChange {
           uploader.newCommitterIdent(myIdent.getWhen(),
               myIdent.getTimeZone());
 
-      final PatchSet newPatchSet = rebase(git, rw, inserter, patchSetId, change,
+      rebase(git, rw, inserter, patchSetId, change,
           uploader.getAccountId(), baseCommit, mergeUtilFactory.create(
               changeControl.getProjectControl().getProjectState(), true),
           committerIdent, indexer);
@@ -174,15 +155,6 @@ public class RebaseChange {
           oldCC.add(a.getAccountId());
         }
       }
-      final ReplacePatchSetSender cm =
-          rebasedPatchSetSenderFactory.create(change);
-      cm.setFrom(uploader.getAccountId());
-      cm.setPatchSet(newPatchSet);
-      cm.addReviewers(oldReviewers);
-      cm.addExtraCC(oldCC);
-      cm.send();
-
-      hooks.doPatchsetCreatedHook(change, newPatchSet, db);
     } catch (PathConflictException e) {
       throw new IOException(e.getMessage());
     } finally {
@@ -301,7 +273,7 @@ public class RebaseChange {
    * @param revWalk the RevWalk
    * @param inserter the object inserter
    * @param patchSetId the id of the patch set
-   * @param chg the change that should be rebased
+   * @param change the change that should be rebased
    * @param uploader the user that creates the rebased patch set
    * @param baseCommit the commit that should be the new base
    * @param mergeUtil merge utilities for the destination project
@@ -315,13 +287,12 @@ public class RebaseChange {
    */
   public PatchSet rebase(final Repository git, final RevWalk revWalk,
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
-      final Change chg, final Account.Id uploader, final RevCommit baseCommit,
+      final Change change, final Account.Id uploader, final RevCommit baseCommit,
       final MergeUtil mergeUtil, PersonIdent committerIdent,
       final ChangeIndexer indexer) throws NoSuchChangeException,
       OrmException, IOException, InvalidChangeOperationException,
       PathConflictException {
-    Change change = chg;
-    if (!chg.currentPatchSetId().equals(patchSetId)) {
+    if (!change.currentPatchSetId().equals(patchSetId)) {
       throw new InvalidChangeOperationException("patch set is not current");
     }
     final PatchSet originalPatchSet = db.patchSets().get(patchSetId);
@@ -333,81 +304,20 @@ public class RebaseChange {
 
     rebasedCommit = revWalk.parseCommit(newId);
 
-    PatchSet.Id id = ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
-    final PatchSet newPatchSet = new PatchSet(id);
-    newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-    newPatchSet.setUploader(uploader);
-    newPatchSet.setRevision(new RevId(rebasedCommit.name()));
-    newPatchSet.setDraft(originalPatchSet.isDraft());
+    final ChangeMessage cmsg =
+        new ChangeMessage(new ChangeMessage.Key(change.getId(),
+            ChangeUtil.messageUUID(db)), uploader, patchSetId);
+    cmsg.setMessage("Patch Set " + patchSetId.get() + " was rebased");
 
-    final PatchSetInfo info =
-        patchSetInfoFactory.get(rebasedCommit, newPatchSet.getId());
+    final ChangeControl changeControl =
+        changeControlFactory.validateFor(change.getId(), identifiedUser);
 
-    final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(rebasedCommit);
-    ru.disableRefLog();
-    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-      throw new IOException(String.format("Failed to create ref %s in %s: %s",
-          newPatchSet.getRefName(), change.getDest().getParentKey().get(),
-          ru.getResult()));
-    }
-    gitRefUpdated.fire(change.getProject(), ru);
+    Change newChange = patchSetInserterFactory
+      .create(git, revWalk, changeControl.getRefControl(), change, rebasedCommit)
+      .setMessage(cmsg)
+      .insert();
 
-    db.changes().beginTransaction(change.getId());
-    try {
-      Change updatedChange = db.changes().get(change.getId());
-      if (updatedChange != null && change.getStatus().isOpen()) {
-        change = updatedChange;
-      } else {
-        throw new InvalidChangeOperationException(String.format(
-            "Change %s is closed", change.getId()));
-      }
-
-      ChangeUtil.insertAncestors(db, newPatchSet.getId(), rebasedCommit);
-      db.patchSets().insert(Collections.singleton(newPatchSet));
-      updatedChange =
-          db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-            @Override
-            public Change update(Change change) {
-              if (change.getStatus().isClosed()) {
-                return null;
-              }
-              if (!change.currentPatchSetId().equals(patchSetId)) {
-                return null;
-              }
-              if (change.getStatus() != Change.Status.DRAFT) {
-                change.setStatus(Change.Status.NEW);
-              }
-              change.setLastSha1MergeTested(null);
-              change.setCurrentPatchSet(info);
-              ChangeUtil.updated(change);
-              return change;
-            }
-          });
-      if (updatedChange != null) {
-        change = updatedChange;
-      } else {
-        throw new InvalidChangeOperationException(String.format(
-            "Change %s was modified", change.getId()));
-      }
-
-      indexer.index(change);
-      ApprovalsUtil.copyLabels(db, projectCache.get(change.getProject())
-          .getLabelTypes(), patchSetId, change.currentPatchSetId());
-
-      final ChangeMessage cmsg =
-          new ChangeMessage(new ChangeMessage.Key(change.getId(),
-              ChangeUtil.messageUUID(db)), uploader, patchSetId);
-      cmsg.setMessage("Patch Set " + change.currentPatchSetId().get()
-          + ": Patch Set " + patchSetId.get() + " was rebased");
-      db.changeMessages().insert(Collections.singleton(cmsg));
-      db.commit();
-    } finally {
-      db.rollback();
-    }
-
-    return newPatchSet;
+    return db.patchSets().get(newChange.currentPatchSetId());
   }
 
   /**

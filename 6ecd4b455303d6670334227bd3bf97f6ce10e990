@@ -16,6 +16,24 @@
       "revId": "6ecd4b455303d6670334227bd3bf97f6ce10e990",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7684003_952ae47d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-08T23:24:19Z",
+      "side": 1,
+      "message": "I think doing this rework on the existing screen is going to be too painful. So I\u0027m simply not going to do it.\n\nIf you feel strongly that it should be done as incremental changes to the existing screen then you need to do that work, or have someone else do it, but I won\u0027t.\n\nIf you don\u0027t want this in tree until we know where its going, then I\u0027ll just keep rebasing this commit until we have it done.",
+      "parentUuid": "a7684003_d51bbc79",
+      "revId": "6ecd4b455303d6670334227bd3bf97f6ce10e990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

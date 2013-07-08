@@ -34,7 +34,7 @@ public class ChangeList extends JsArray<ChangeInfo> {
     for (String q : queries) {
       call.addParameterRaw("q", KeyUtil.encode(q));
     }
-    addOptions(call, ListChangesOption.LABELS);
+    addOptions(call, EnumSet.of(ListChangesOption.LABELS));
     call.get(callback);
   }
 
@@ -45,7 +45,7 @@ public class ChangeList extends JsArray<ChangeInfo> {
     if (limit > 0) {
       call.addParameter("n", limit);
     }
-    addOptions(call, ListChangesOption.LABELS);
+    addOptions(call, EnumSet.of(ListChangesOption.LABELS));
     if (!PagedSingleListScreen.MIN_SORTKEY.equals(sortkey)) {
       call.addParameter("P", sortkey);
     }
@@ -59,16 +59,14 @@ public class ChangeList extends JsArray<ChangeInfo> {
     if (limit > 0) {
       call.addParameter("n", limit);
     }
-    addOptions(call, ListChangesOption.LABELS);
+    addOptions(call, EnumSet.of(ListChangesOption.LABELS));
     if (!PagedSingleListScreen.MAX_SORTKEY.equals(sortkey)) {
       call.addParameter("N", sortkey);
     }
     call.get(callback);
   }
 
-  private static void addOptions(
-      RestApi call, ListChangesOption option1, ListChangesOption... options) {
-    EnumSet<ListChangesOption> s = EnumSet.of(option1, options);
+  static void addOptions(RestApi call, EnumSet<ListChangesOption> s) {
     call.addParameterRaw("O", Integer.toHexString(ListChangesOption.toBits(s)));
   }
 

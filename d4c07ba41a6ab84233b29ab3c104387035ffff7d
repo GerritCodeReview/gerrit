@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7684003_153ff4c2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeApi.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-08T23:15:30Z",
+      "side": 1,
+      "message": "ISTM this would feel more natural as detail(int id, ListChangesOption... options), but this is fine.",
+      "revId": "d4c07ba41a6ab84233b29ab3c104387035ffff7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7684003_75446863",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-08T23:15:30Z",
+      "side": 1,
+      "message": "insertions",
+      "revId": "d4c07ba41a6ab84233b29ab3c104387035ffff7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

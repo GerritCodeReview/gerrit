@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07390c01_a0b7da0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-08T08:08:07Z",
+      "side": 1,
+      "message": "This now needs to pass the patch set ID.",
+      "revId": "4cab9142820c40cc19f24660a940386885d66d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

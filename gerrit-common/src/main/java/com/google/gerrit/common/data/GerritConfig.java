@@ -34,6 +34,7 @@ public class GerritConfig implements Cloneable {
   protected boolean useContactInfo;
   protected boolean allowRegisterNewEmail;
   protected AuthType authType;
+  protected boolean avatarsEnabled;
   protected Set<DownloadScheme> downloadSchemes;
   protected Set<DownloadCommand> downloadCommands;
   protected String gitDaemonUrl;
@@ -93,6 +94,14 @@ public class GerritConfig implements Cloneable {
 
   public void setAuthType(final AuthType t) {
     authType = t;
+  }
+
+  public boolean getAvatarsEnabled() {
+    return avatarsEnabled;
+  }
+
+  public void setAvatarsEnabled(final boolean ae) {
+    avatarsEnabled = ae;
   }
 
   public Set<DownloadScheme> getDownloadSchemes() {

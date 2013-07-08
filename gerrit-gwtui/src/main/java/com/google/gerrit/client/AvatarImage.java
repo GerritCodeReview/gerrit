@@ -98,7 +98,7 @@ public class AvatarImage extends Image {
   }
 
   private static String url(String email, int size) {
-    if (email == null) {
+    if (!Gerrit.getConfig().getAvatarsEnabled() || email == null) {
       return "";
     }
     String u;

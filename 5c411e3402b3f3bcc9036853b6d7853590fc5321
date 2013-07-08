@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67a48887_63e34229",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetDetail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-08T07:12:54Z",
+      "side": 1,
+      "message": "The documentation of the Get Change Detail rest endpoint in rest-api-changes.txt should be updated and say that it supports the outout options that are described in the Query Changes section.",
+      "revId": "5c411e3402b3f3bcc9036853b6d7853590fc5321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

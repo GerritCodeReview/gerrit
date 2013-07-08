@@ -52,6 +52,7 @@ import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -112,7 +113,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
@@ -302,7 +302,7 @@ public class RestApiServlet extends HttpServlet {
         @SuppressWarnings("rawtypes")
         Response r = (Response) result;
         status = r.statusCode();
-        configureCaching(req, res, r);
+        configureCaching(req, res, r.caching());
       } else if (result instanceof Response.Redirect) {
         CacheHeaders.setNotCacheable(res);
         res.sendRedirect(((Response.Redirect) result).location());
@@ -354,18 +354,18 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static <T> void configureCaching(HttpServletRequest req,
-      HttpServletResponse res, Response<T> r) {
+      HttpServletResponse res, CacheControl c) {
     if ("GET".equals(req.getMethod())) {
-      switch (r.caching()) {
+      switch (c.getType()) {
         case NONE:
         default:
           CacheHeaders.setNotCacheable(res);
           break;
         case PRIVATE:
-          CacheHeaders.setCacheablePrivate(res, 7, TimeUnit.DAYS);
+          CacheHeaders.setCacheablePrivate(res, c.getAge(), c.getUnit());
           break;
         case PUBLIC:
-          CacheHeaders.setCacheable(req, res, 7, TimeUnit.DAYS);
+          CacheHeaders.setCacheable(req, res, c.getAge(), c.getUnit());
           break;
       }
     } else {

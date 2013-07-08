@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -49,6 +50,7 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class GetDiff implements RestReadView<FileResource> {
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
@@ -150,7 +152,7 @@ public class GetDiff implements RestReadView<FileResource> {
       result.diffHeader = ps.getPatchHeader();
     }
     result.content = content.lines;
-    return Response.ok(result).caching(Response.CacheControl.PRIVATE);
+    return Response.ok(result).caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
   }
 
   static class Result {

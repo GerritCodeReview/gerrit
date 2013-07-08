@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "472f84b5_82e8da02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-08T04:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07390c01_40636ef1",
+      "revId": "22f796d0e13338d673d87d0f88ec812c6bee4124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "472f84b5_22910e9a",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "472f84b5_22e3ce29",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-08T04:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "472f84b5_22910e9a",
+      "revId": "22f796d0e13338d673d87d0f88ec812c6bee4124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07390c01_003846d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2013-07-05T13:33:44Z",
       "side": 1,
       "message": "s/commitValidationListeners/mergeValidationListeners",
+      "revId": "22f796d0e13338d673d87d0f88ec812c6bee4124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_e17f266a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-08T04:38:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07390c01_003846d2",
       "revId": "22f796d0e13338d673d87d0f88ec812c6bee4124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -37,7 +37,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.mail.RebasedPatchSetSender;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -174,7 +173,7 @@ public class RebaseChange {
           oldCC.add(a.getAccountId());
         }
       }
-      final ReplacePatchSetSender cm =
+      final RebasedPatchSetSender cm =
           rebasedPatchSetSenderFactory.create(change);
       cm.setFrom(uploader.getAccountId());
       cm.setPatchSet(newPatchSet);

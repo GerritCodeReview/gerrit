@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "472f84b5_a2307ebe",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-08T18:21:11Z",
+      "side": 1,
+      "message": "This isn\u0027t efficient enough to support on 2.6. It was off for a reason.",
+      "revId": "966028ea128bbf1b1da0b25924d71a8005608b06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

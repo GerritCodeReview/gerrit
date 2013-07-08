@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67a48887_e385f24c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DiffApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-08T07:05:39Z",
+      "side": 1,
+      "message": "ChangeApi.revision(int, String) doesn\u0027t exist. Why not to expect PatchSet.Id as input and use ChangeApi.revision(PatchSet.Id) as in the diff method below?",
+      "revId": "d289bf8e0ca336e7dec2dc9d746826503a4731ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

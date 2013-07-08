@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67a48887_c3d1d64f",
+        "filename": "ReleaseNotes/ReleaseNotes-2.1.10.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-08T07:30:52Z",
+      "side": 1,
+      "message": "It looks like the download links for all Gerrit war files have changed :-(\nThe download page now looks different [1] and the correct download URL for this release is: http://gerrit-releases.storage.googleapis.com/gerrit-2.1.10.war\n\nLooks like the links in all release notes need to be adapted :-(\n\n[1] http://gerrit-releases.storage.googleapis.com/index.html",
+      "revId": "c2ff39a870d05b040a5642cd21d08b820667ebea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67a48887_e3ce52af",
+        "filename": "ReleaseNotes/ReleaseNotes-2.1.10.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-08T07:30:52Z",
+      "side": 1,
+      "message": "Maybe we could add some more details about the fixed security hole? Shawn described it in [1] like this:\n\n\"The identified security hole may permit a modified Git client to gain access to hidden or deleted branches if the user has read permission on at least one branch in the repository. Access requires knowing a SHA-1 to request, which may be discovered out-of-band from an issue tracker or gitweb instance.\"\n\n[1] https://groups.google.com/d/msg/repo-discuss/DaR64jwRhpI/VNaTGukpvsQJ",
+      "revId": "c2ff39a870d05b040a5642cd21d08b820667ebea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "9023701849a3a46c464d5d93d89da8aad9f6c04a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_013e8a90",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/safehtml/client/SafeHtml.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-08T18:55:21Z",
+      "side": 1,
+      "message": "The old way to do this was serialVersionUID \u003d 1L, Java 5 made it easier to ignore the warning when annotations were added but we didn\u0027t really start to use the Java 5 annotation style until more recently.\n\nI think we are favoring @SuppressWarnings(\"serial\") in newer code but the old form is still more popular:\n\n  $ git grep \u0027@SuppressWarnings(\"serial\")\u0027 | wc -l\n  18\n\n  $ git grep \u0027serialVersionUID\u0027 | wc -l\n  123",
+      "parentUuid": "27345006_41ded263",
+      "revId": "9023701849a3a46c464d5d93d89da8aad9f6c04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

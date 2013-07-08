@@ -81,8 +81,7 @@ public class AvatarImage extends Image {
     });
 
     if (addPopup) {
-      UserPopupPanel userPopup = new UserPopupPanel(account, false, false);
-      PopupHandler popupHandler = new PopupHandler(userPopup, this);
+      PopupHandler popupHandler = new PopupHandler(account, this);
       addMouseOverHandler(popupHandler);
       addMouseOutHandler(popupHandler);
     }
@@ -115,16 +114,20 @@ public class AvatarImage extends Image {
   }
 
   private class PopupHandler implements MouseOverHandler, MouseOutHandler {
-    private final UserPopupPanel popup;
+    private final AccountInfo account;
     private final UIObject target;
 
+    private UserPopupPanel popup;
     private Timer showTimer;
     private Timer hideTimer;
 
-    public PopupHandler(UserPopupPanel popup, UIObject target) {
-      this.popup = popup;
+    public PopupHandler(AccountInfo account, UIObject target) {
+      this.account = account;
       this.target = target;
+    }
 
+    private UserPopupPanel createPopupPanel(AccountInfo account) {
+      UserPopupPanel popup = new UserPopupPanel(account, false, false);
       popup.addDomHandler(new MouseOverHandler() {
         @Override
         public void onMouseOver(MouseOverEvent event) {
@@ -137,6 +140,7 @@ public class AvatarImage extends Image {
           scheduleHide();
         }
       }, MouseOutEvent.getType());
+      return popup;
     }
 
     @Override
@@ -154,12 +158,16 @@ public class AvatarImage extends Image {
         hideTimer.cancel();
         hideTimer = null;
       }
-      if ((popup.isShowing() && popup.isVisible()) || showTimer != null) {
+      if ((popup != null && popup.isShowing() && popup.isVisible())
+          || showTimer != null) {
         return;
       }
       showTimer = new Timer() {
         @Override
         public void run() {
+          if (popup == null) {
+            popup = createPopupPanel(account);
+          }
           if (!popup.isShowing() || !popup.isVisible()) {
             popup.showRelativeTo(target);
           }
@@ -174,7 +182,8 @@ public class AvatarImage extends Image {
         showTimer.cancel();
         showTimer = null;
       }
-      if (!popup.isShowing() || !popup.isVisible() || hideTimer != null) {
+      if (popup == null || !popup.isShowing() || !popup.isVisible()
+              || hideTimer != null) {
         return;
       }
       hideTimer = new Timer() {
@@ -186,6 +195,4 @@ public class AvatarImage extends Image {
       hideTimer.schedule(50);
     }
   }
-
-
 }

@@ -54,6 +54,9 @@ public class AvatarImage extends Image {
   }
 
   private static String url(Account.Id id, int size) {
+    if (!Gerrit.getConfig().isAvatarSupportEnabled()) {
+      return "";
+    }
     String u;
     if (Gerrit.isSignedIn() && id.equals(Gerrit.getUserAccount().getId())) {
       u = "self";

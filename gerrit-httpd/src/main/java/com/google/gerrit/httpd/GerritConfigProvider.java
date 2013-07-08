@@ -16,8 +16,10 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
@@ -56,13 +58,15 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final ContactStore contactStore;
   private final ServletContext servletContext;
   private final String anonymousCowardName;
+  private final boolean avatarSupportEnabled;
 
   @Inject
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
       final AuthConfig ac, final GitWebConfig gwc, final AllProjectsName wp,
       final SshInfo si, final ContactStore cs,
       final ServletContext sc, final DownloadConfig dc,
-      final @AnonymousCowardName String acn) {
+      final @AnonymousCowardName String acn,
+      final DynamicItem<AvatarProvider> avatarProvider) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
@@ -73,6 +77,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     contactStore = cs;
     servletContext = sc;
     anonymousCowardName = acn;
+    avatarSupportEnabled = avatarProvider.get() != null;
   }
 
   @Inject(optional = true)
@@ -113,6 +118,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setDownloadSchemes(downloadConfig.getDownloadSchemes());
     config.setDownloadCommands(downloadConfig.getDownloadCommands());
     config.setAuthType(authConfig.getAuthType());
+    config.setAvatarSupportEnabled(avatarSupportEnabled);
     config.setWildProject(wildProject);
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);

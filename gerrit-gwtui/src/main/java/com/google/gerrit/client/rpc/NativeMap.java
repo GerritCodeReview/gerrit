@@ -80,6 +80,7 @@ public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
   }
 
   public final native T get(String n) /*-{ return this[n]; }-*/;
+  public final native void put(String n, T v) /*-{ this[n] = v; }-*/;
 
   public final native void copyKeysIntoChildren(String p)
   /*-{

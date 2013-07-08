@@ -16,6 +16,24 @@
       "revId": "e62584fc27acdb5f18e5e46443c65b1146e98e32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "472f84b5_c2d14250",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-08T04:39:02Z",
+      "side": 1,
+      "message": "Checked this in the debugger, and you\u0027re right.  It does not work as I expected.\n\nDone.",
+      "parentUuid": "07390c01_e03442e2",
+      "revId": "e62584fc27acdb5f18e5e46443c65b1146e98e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

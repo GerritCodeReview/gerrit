@@ -318,6 +318,16 @@ public class SafeHtmlBuilder extends SafeHtml {
     return closeElement("td");
   }
 
+  /** Append "&lt;th&gt;"; attributes may be set if needed */
+  public SafeHtmlBuilder openTh() {
+    return openElement("th");
+  }
+
+  /** Append "&lt;/th&gt;" */
+  public SafeHtmlBuilder closeTh() {
+    return closeElement("th");
+  }
+
   /** Append "&lt;div&gt;"; attributes may be set if needed */
   public SafeHtmlBuilder openDiv() {
     return openElement("div");

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "472f84b5_22f74ec4",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneIndexModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-08T19:31:01Z",
+      "side": 1,
+      "message": "When line breaking ?: put ? and : each on their own line.",
+      "revId": "bd13e7e502d7a9f3d333d7bf83e31fd83f5a14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27345006_4149b242",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-08T19:31:01Z",
+      "side": 1,
+      "message": "write.close();",
+      "revId": "bd13e7e502d7a9f3d333d7bf83e31fd83f5a14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

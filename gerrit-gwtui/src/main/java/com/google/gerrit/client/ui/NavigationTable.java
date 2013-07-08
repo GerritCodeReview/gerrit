@@ -144,7 +144,9 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
   /** Invoked when the user clicks on a table cell. */
   protected void onCellSingleClick(int row, int column) {
-    movePointerTo(row);
+    if (getRowItem(row) != null) {
+      movePointerTo(row);
+    }
   }
 
   protected int getCurrentRow() {

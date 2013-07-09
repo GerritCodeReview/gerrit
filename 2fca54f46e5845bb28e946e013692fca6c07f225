@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07ae6c93_58f25d22",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T07:14:54Z",
+      "side": 1,
+      "message": "Ok, I see for parent commits we are explicitly setting only \u0027commit\u0027 and \u0027subject\u0027. This should probably be mentioned in the description of the \u0027parent\u0027 field of \u0027CommitInfo\u0027. Also the fields \u0027parent\u0027, \u0027message\u0027, \u0027author\u0027 and \u0027committer\u0027 should then be marked as optional. Though I\u0027m not sure if this belongs into this commit, as it was like this already before.",
+      "parentUuid": "07ae6c93_38eda943",
+      "revId": "2fca54f46e5845bb28e946e013692fca6c07f225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e70b185f_af2df999",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4

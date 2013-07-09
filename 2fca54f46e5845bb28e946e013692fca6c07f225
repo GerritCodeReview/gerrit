@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "07ae6c93_38eda943",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T07:05:11Z",
+      "side": 1,
+      "message": "Is this example complete? Isn\u0027t each parent a complete commit-info with \u0027message\u0027, \u0027author\u0027 and \u0027committer\u0027?",
+      "revId": "2fca54f46e5845bb28e946e013692fca6c07f225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e70b185f_af2df999",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4

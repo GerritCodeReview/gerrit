@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e7b238f5_77f73011",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-09T15:07:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67a48887_8350be11",
+      "revId": "41c66a7637aa7e6bae3ce11d781f2aa13b8f3fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07390c01_e01ba279",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-05T11:40:06Z",
       "side": 1,
       "message": "Provide 0 as default value here, so that in case of 0 this setting is not persisted in the project.config file.",
+      "revId": "41c66a7637aa7e6bae3ce11d781f2aa13b8f3fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ae6c93_7810015c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-09T15:07:48Z",
+      "side": 1,
+      "message": "I don\u0027t see where is this logic for String values?\n\nActually VersionedMetaData.set(Config, String, String, String, String) method will unset the value from the Config if the value is null.\n\nThis means that we have to convert the default value into null when calling this method in order to ensure that the default value is not persisted. The correct place to implement this logic would IMO be the validLong method below (the method itself might be renamed as you suggested).",
+      "parentUuid": "07390c01_e01ba279",
       "revId": "41c66a7637aa7e6bae3ce11d781f2aa13b8f3fe0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e7b238f5_97fbe4f9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-09T15:07:48Z",
+      "side": 1,
+      "message": "As commented above this method will return null if the value is the default value (zero) or null. This solves both of the issues you found:\n\n* NPE when the value for maxObjectSizeLimit is not set i.e. null\n* avoid persisting of the default value",
+      "parentUuid": "67a48887_a334dae0",
+      "revId": "41c66a7637aa7e6bae3ce11d781f2aa13b8f3fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07390c01_a0219aad",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-05T11:35:33Z",
       "side": 1,
       "message": "You might want to check that the limit is not set to a negative value. If the check is done here, this method should probably be renamed.",
+      "revId": "41c66a7637aa7e6bae3ce11d781f2aa13b8f3fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ae6c93_9824f5be",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-09T15:07:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07390c01_a0219aad",
       "revId": "41c66a7637aa7e6bae3ce11d781f2aa13b8f3fe0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

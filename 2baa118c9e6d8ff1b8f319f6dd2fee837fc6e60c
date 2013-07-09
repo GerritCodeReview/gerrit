@@ -34,6 +34,24 @@
       "revId": "2baa118c9e6d8ff1b8f319f6dd2fee837fc6e60c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7b238f5_b7f8e8fd",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-09T15:08:07Z",
+      "side": 1,
+      "message": "If the effective limit is shown then, I think, leaving the label empty when project.getMaxObjectSizeLimit() \u003d\u003d null is OK.\n\nPassing the effective limit to the client requires another new field in the Project class and making sure it is set from all relevant code paths. This seems to be more work than I expected as the ProjectConfig.onLoad doesn\u0027t have an access to the @GerritServerConfig Config.\n\nI propose to implement showing of the effective limit as a new change at the top of this series?",
+      "parentUuid": "07390c01_203f4ac3",
+      "revId": "2baa118c9e6d8ff1b8f319f6dd2fee837fc6e60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

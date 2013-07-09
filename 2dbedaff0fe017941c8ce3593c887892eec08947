@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07ae6c93_d8502d13",
+        "filename": "ReleaseNotes/ReleaseNotes-2.7.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T16:14:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be mentioned here.\n\nActually the behaviour for the user didn\u0027t change. Also before the fix the popup was shown only on mouse over. What was fixed is that the panel to show the popup is created only at the very moment when the popup is shown and not already on creation of the avatar image (because the panel would be unused if the user never moves the mouse over the avatar image).\n\nBut actually the fact that we are having popups on the avatar images is something new in 2.7 which could be mentioned.",
+      "revId": "2dbedaff0fe017941c8ce3593c887892eec08947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -33,6 +33,7 @@ public class SshSession {
     this.account = account;
   }
 
+  @SuppressWarnings("resource")
   public String exec(String command) throws JSchException, IOException {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     try {
@@ -42,7 +43,7 @@ public class SshSession {
       channel.connect();
 
       Scanner s = new Scanner(channel.getErrStream()).useDelimiter("\\A");
-      error =  s.hasNext() ? s.next() : null;
+      error = s.hasNext() ? s.next() : null;
 
       s = new Scanner(in).useDelimiter("\\A");
       return s.hasNext() ? s.next() : "";

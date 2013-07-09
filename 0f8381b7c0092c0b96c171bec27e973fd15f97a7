@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7b238f5_5744ec62",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T16:06:32Z",
+      "side": 1,
+      "message": "Is this for both cases correct? For the Commands case the original code made \n  rsrc.substring(4, ...",
+      "revId": "0f8381b7c0092c0b96c171bec27e973fd15f97a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7b238f5_7749f077",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T16:06:32Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "0f8381b7c0092c0b96c171bec27e973fd15f97a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ae6c93_9856b50e",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T16:06:32Z",
+      "side": 1,
+      "message": "For the Commands case it was:\n\n  rsrc.substring(4).replace(\u0027-\u0027, \u0027 \u0027)",
+      "revId": "0f8381b7c0092c0b96c171bec27e973fd15f97a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

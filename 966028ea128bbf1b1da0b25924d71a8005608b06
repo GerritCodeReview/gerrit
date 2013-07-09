@@ -34,6 +34,24 @@
       "revId": "966028ea128bbf1b1da0b25924d71a8005608b06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7b238f5_b72aa87d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T16:18:27Z",
+      "side": 1,
+      "message": "The important difference in master is that the changes there are loaded from the lucene index if the file operator is used and not from the database as it would be here in 2.6.\n\nMaking the file operator in 2.6 indirectly available over the is:watched operator would result in very bad query performance, which is why I think this fix should only be done in master.",
+      "parentUuid": "07390c01_a0599a0e",
+      "revId": "966028ea128bbf1b1da0b25924d71a8005608b06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

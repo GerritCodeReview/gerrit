@@ -42,6 +42,7 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
     this.user = user;
   }
 
+  @SuppressWarnings("unchecked")
   private static List<Predicate<ChangeData>> filters(
       ChangeQueryBuilder.Arguments args,
       CurrentUser user,

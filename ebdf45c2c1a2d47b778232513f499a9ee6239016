@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07ae6c93_789ba1b7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LegacyMessagePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T18:46:56Z",
+      "side": 1,
+      "message": "s/MessagePredicate/LegacyMessagePredicate",
+      "revId": "ebdf45c2c1a2d47b778232513f499a9ee6239016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -746,7 +746,7 @@ public class ProjectConfig extends VersionedMetaData {
     saveGroupList();
   }
 
-  private static final String validMaxObjectSizeLimit(String value)
+  public static final String validMaxObjectSizeLimit(String value)
       throws ConfigInvalidException {
     if (value == null) {
       return null;

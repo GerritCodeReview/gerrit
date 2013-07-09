@@ -19,8 +19,6 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -48,11 +46,10 @@ abstract class CommentBox extends Composite {
   private HandlerRegistration headerClick;
   private CommentInfo original;
   private PatchSet.Id patchSetId;
-  private LineWidget selfWidget;
-  private LineWidget paddingWidget;
-  private Element paddingWidgetEle;
+  private PaddingManager widgetManager;
   private CodeMirrorDemo diffView;
   private boolean draft;
+  private LineWidget selfWidget;
 
   @UiField(provided=true)
   CommentBoxHeader header;
@@ -63,7 +60,7 @@ abstract class CommentBox extends Composite {
   @UiField
   CommentBoxResources res;
 
-  protected CommentBox(
+  CommentBox(
       CodeMirrorDemo host,
       UiBinder<? extends Widget, CommentBox> binder,
       PatchSet.Id id, CommentInfo info, CommentLinkProcessor linkProcessor,
@@ -101,27 +98,20 @@ abstract class CommentBox extends Composite {
     }
   }
 
-  void setSelfWidget(LineWidget widget) {
-    selfWidget = widget;
-  }
-
-  void setPadding(LineWidget widget, Element element) {
-    paddingWidget = widget;
-    paddingWidgetEle = element;
-  }
-
   void resizePaddingWidget() {
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
+    Scheduler.get().scheduleDeferred(new ScheduledCommand(){
       public void execute() {
-        paddingWidgetEle.getStyle().setHeight(getOffsetHeight(), Unit.PX);
-        paddingWidget.changed();
+        if (selfWidget == null || widgetManager == null) {
+          throw new IllegalStateException(
+              "resizePaddingWidget() called before setting up widgets");
+        }
         selfWidget.changed();
+        widgetManager.resizePaddingWidget();
       }
     });
   }
 
-  protected void setMessageText(String message) {
+  void setMessageText(String message) {
     if (message == null) {
       message = "";
     } else {
@@ -133,11 +123,11 @@ abstract class CommentBox extends Composite {
     SafeHtml.set(contentPanelMessage, buf);
   }
 
-  protected void setDate(Timestamp when) {
+  void setDate(Timestamp when) {
     header.setDate(when);
   }
 
-  protected void setOpen(boolean open) {
+  void setOpen(boolean open) {
     if (open) {
       removeStyleName(res.style().close());
       addStyleName(res.style().open());
@@ -152,31 +142,39 @@ abstract class CommentBox extends Composite {
     return getStyleName().contains(res.style().open());
   }
 
-  protected CodeMirrorDemo getDiffView() {
+  CodeMirrorDemo getDiffView() {
     return diffView;
   }
 
-  protected PatchSet.Id getPatchSetId() {
+  PatchSet.Id getPatchSetId() {
     return patchSetId;
   }
 
-  protected CommentInfo getOriginal() {
+  CommentInfo getOriginal() {
     return original;
   }
 
-  protected LineWidget getSelfWidget() {
-    return selfWidget;
-  }
-
-  protected LineWidget getPaddingWidget() {
-    return paddingWidget;
-  }
-
-  protected void updateOriginal(CommentInfo newInfo) {
+  void updateOriginal(CommentInfo newInfo) {
     original = newInfo;
+  }
+
+  PaddingManager getPaddingManager() {
+    return widgetManager;
   }
 
   boolean isDraft() {
     return draft;
+  }
+
+  void setPaddingManager(PaddingManager manager) {
+    widgetManager = manager;
+  }
+
+  void setSelfWidget(LineWidget widget) {
+    selfWidget = widget;
+  }
+
+  LineWidget getSelfWidget() {
+    return selfWidget;
   }
 }

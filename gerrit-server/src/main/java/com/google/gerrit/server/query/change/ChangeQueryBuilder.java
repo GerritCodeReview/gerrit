@@ -395,7 +395,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> message(String text) throws QueryParseException {
     ChangeIndex index = args.indexes.getSearchIndex();
     if (index == null) {
-      throw error("secondary index must be enabled for message:" + text);
+      return new LegacyMessagePredicate(args.dbProvider, args.repoManager, text);
     }
 
     return new MessagePredicate(args.dbProvider, index, text);

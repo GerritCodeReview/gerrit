@@ -230,9 +230,18 @@ public class CapabilityControl {
       List<PermissionRule> ruleList) {
     int min = 0;
     int max = 0;
-    for (PermissionRule rule : ruleList) {
-      min = Math.min(min, rule.getMin());
-      max = Math.max(max, rule.getMax());
+    if (ruleList.isEmpty()) {
+      PermissionRange.WithDefaults defaultRange =
+          GlobalCapability.getRange(permissionName);
+      if (defaultRange != null) {
+        min = defaultRange.getDefaultMin();
+        max = defaultRange.getDefaultMax();
+      }
+    } else {
+      for (PermissionRule rule : ruleList) {
+        min = Math.min(min, rule.getMin());
+        max = Math.max(max, rule.getMax());
+      }
     }
     return new PermissionRange(permissionName, min, max);
   }

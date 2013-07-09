@@ -139,10 +139,12 @@ class DraftBox extends CommentBox {
       replyToBox.unregisterReplyBox();
     }
     CommentInfo info = getOriginal();
-    getDiffView().removeCommentBox(info.side(), info.line() - 1);
+    getDiffView().removeDraft(info.side(), info.line() - 1);
     removeFromParent();
     getSelfWidget().clear();
-    getPaddingWidget().clear();
+    PaddingManager manager = getPaddingManager();
+    manager.remove(this);
+    manager.resizePaddingWidget();
   }
 
   @UiHandler("edit")

@@ -33,6 +33,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.index.NoIndexModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.IntraLineWorkerPool;
+import com.google.gerrit.server.plugins.DataSourceTypesLoader;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.schema.DataSourceModule;
@@ -151,6 +153,19 @@ public class WebAppInitializer extends GuiceServletContextListener {
     }
   }
 
+  private DataSourceTypesLoader createDataSourceTypesLoader() {
+    Module m = new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(SitePaths.class);
+        bind(DataSourceTypesLoader.class);
+      }
+    };
+
+    return Guice.createInjector(m).getInstance(DataSourceTypesLoader.class);
+  }
+
   private Injector createDbInjector() {
     final List<Module> modules = new ArrayList<Module>();
     if (sitePath != null) {
@@ -170,8 +185,10 @@ public class WebAppInitializer extends GuiceServletContextListener {
           GerritServerConfig.class));
       String dbType = cfg.getString("database", null, "type");
 
+      DataSourceTypesLoader dstLoader = createDataSourceTypesLoader();
+      dstLoader.registerSqlDialects();
       final DataSourceType dst = Guice.createInjector(new DataSourceModule(),
-          configModule, sitePathModule).getInstance(
+          configModule, sitePathModule, dstLoader.bindDataSourceTypes()).getInstance(
             Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
       modules.add(new AbstractModule() {
         @Override

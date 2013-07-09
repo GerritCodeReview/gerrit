@@ -48,11 +48,10 @@ abstract class CommentBox extends Composite {
   private HandlerRegistration headerClick;
   private CommentInfo original;
   private PatchSet.Id patchSetId;
-  private LineWidget selfWidget;
-  private LineWidget paddingWidget;
-  private Element paddingWidgetEle;
+  private CommentBoxManager widgetManager;
   private CodeMirrorDemo diffView;
   private boolean draft;
+  private LineWidget selfWidget;
 
   @UiField(provided=true)
   CommentBoxHeader header;
@@ -101,24 +100,13 @@ abstract class CommentBox extends Composite {
     }
   }
 
-  void setSelfWidget(LineWidget widget) {
-    selfWidget = widget;
-  }
-
-  void setPadding(LineWidget widget, Element element) {
-    paddingWidget = widget;
-    paddingWidgetEle = element;
+  void setLineWidgetManager(CommentBoxManager manager) {
+    widgetManager = manager;
   }
 
   void resizePaddingWidget() {
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        paddingWidgetEle.getStyle().setHeight(getOffsetHeight(), Unit.PX);
-        paddingWidget.changed();
-        selfWidget.changed();
-      }
-    });
+    selfWidget.changed();
+    widgetManager.resizePaddingWidget();
   }
 
   protected void setMessageText(String message) {
@@ -145,7 +133,12 @@ abstract class CommentBox extends Composite {
       removeStyleName(res.style().open());
       addStyleName(res.style().close());
     }
-    resizePaddingWidget();
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
+      public void execute() {
+        resizePaddingWidget();
+      }
+    });
   }
 
   private boolean isOpen() {
@@ -164,19 +157,23 @@ abstract class CommentBox extends Composite {
     return original;
   }
 
-  protected LineWidget getSelfWidget() {
-    return selfWidget;
-  }
-
-  protected LineWidget getPaddingWidget() {
-    return paddingWidget;
-  }
-
   protected void updateOriginal(CommentInfo newInfo) {
     original = newInfo;
   }
 
+  protected CommentBoxManager getWidgetManager() {
+    return widgetManager;
+  }
+
   boolean isDraft() {
     return draft;
+  }
+
+  void setSelfWidget(LineWidget widget) {
+    selfWidget = widget;
+  }
+
+  LineWidget getSelfWidget() {
+    return selfWidget;
   }
 }

@@ -22,6 +22,8 @@ import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
@@ -127,7 +129,12 @@ class DraftBox extends CommentBox {
       removeStyleName(draftStyle.edit());
       addStyleName(draftStyle.view());
     }
-    resizePaddingWidget();
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
+      public void execute() {
+        resizePaddingWidget();
+      }
+    });
   }
 
   void registerReplyToBox(PublishedBox box) {
@@ -139,10 +146,10 @@ class DraftBox extends CommentBox {
       replyToBox.unregisterReplyBox();
     }
     CommentInfo info = getOriginal();
-    getDiffView().removeCommentBox(info.side(), info.line() - 1);
+    getDiffView().removeDraft(info.side(), info.line() - 1);
     removeFromParent();
     getSelfWidget().clear();
-    getPaddingWidget().clear();
+    getWidgetManager().remove(this);
   }
 
   @UiHandler("edit")

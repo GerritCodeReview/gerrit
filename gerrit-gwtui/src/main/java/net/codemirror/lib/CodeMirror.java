@@ -130,6 +130,15 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void addKeyMap(KeyMap map) /*-{ this.addKeyMap(map); }-*/;
 
+  public final native LineHandle getLineHandle(int line) /*-{
+    return this.getLineHandle(line);
+  }-*/;
+
   protected CodeMirror() {
+  }
+
+  public static class LineHandle extends JavaScriptObject {
+    protected LineHandle(){
+    }
   }
 }

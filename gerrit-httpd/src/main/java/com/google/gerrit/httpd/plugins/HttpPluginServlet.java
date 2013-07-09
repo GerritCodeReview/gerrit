@@ -300,6 +300,30 @@ class HttpPluginServlet extends HttpServlet
     }
   }
 
+  private void appendEntriesSection(JarFile jar, List<JarEntry> entries,
+      String title, StringBuilder md, String prefix) throws IOException {
+    if (!entries.isEmpty()) {
+      md.append("## " + title +  " ##\n");
+      for(JarEntry entry : entries) {
+        String rsrc = entry.getName().substring(prefix.length());
+        String entryTitle;
+        if (rsrc.endsWith(".html")) {
+          entryTitle = rsrc.substring(0, rsrc.length() - 5).replace('-', ' ');
+        } else if (rsrc.endsWith(".md")) {
+          entryTitle = extractTitleFromMarkdown(jar, entry);
+          if (Strings.isNullOrEmpty(entryTitle)) {
+            entryTitle = rsrc.substring(0, rsrc.length() - 3).replace('-', ' ');
+          }
+          rsrc = rsrc.substring(0, rsrc.length() - 3) + ".html";
+        } else {
+          entryTitle = rsrc.replace('-', ' ');
+        }
+        md.append(String.format("* [%s](%s)\n", entryTitle, rsrc));
+      }
+      md.append("\n");
+    }
+  }
+
   private void sendAutoIndex(JarFile jar,
       String prefix, String pluginName,
       ResourceKey cacheKey, HttpServletResponse res) throws IOException {
@@ -339,47 +363,8 @@ class HttpPluginServlet extends HttpServlet
     md.append("\n");
     appendPluginInfoTable(md, jar.getManifest().getMainAttributes());
 
-    if (!docs.isEmpty()) {
-      md.append("## Documentation ##\n");
-      for(JarEntry entry : docs) {
-        String rsrc = entry.getName().substring(prefix.length());
-        String title;
-        if (rsrc.endsWith(".html")) {
-          title = rsrc.substring(0, rsrc.length() - 5).replace('-', ' ');
-        } else if (rsrc.endsWith(".md")) {
-          title = extractTitleFromMarkdown(jar, entry);
-          if (Strings.isNullOrEmpty(title)) {
-            title = rsrc.substring(0, rsrc.length() - 3).replace('-', ' ');
-          }
-          rsrc = rsrc.substring(0, rsrc.length() - 3) + ".html";
-        } else {
-          title = rsrc.replace('-', ' ');
-        }
-        md.append(String.format("* [%s](%s)\n", title, rsrc));
-      }
-      md.append("\n");
-    }
-
-    if (!cmds.isEmpty()) {
-      md.append("## Commands ##\n");
-      for(JarEntry entry : cmds) {
-        String rsrc = entry.getName().substring(prefix.length());
-        String title;
-        if (rsrc.endsWith(".html")) {
-          title = rsrc.substring(4, rsrc.length() - 5).replace('-', ' ');
-        } else if (rsrc.endsWith(".md")) {
-          title = extractTitleFromMarkdown(jar, entry);
-          if (Strings.isNullOrEmpty(title)) {
-            title = rsrc.substring(4, rsrc.length() - 3).replace('-', ' ');
-          }
-          rsrc = rsrc.substring(0, rsrc.length() - 3) + ".html";
-        } else {
-          title = rsrc.substring(4).replace('-', ' ');
-        }
-        md.append(String.format("* [%s](%s)\n", title, rsrc));
-      }
-      md.append("\n");
-    }
+    appendEntriesSection(jar, docs, "Documentation", md, prefix);
+    appendEntriesSection(jar, cmds, "Commands", md, prefix);
 
     sendMarkdownAsHtml(md.toString(), pluginName, cacheKey, res);
   }

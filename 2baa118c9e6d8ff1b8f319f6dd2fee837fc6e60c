@@ -52,6 +52,24 @@
       "revId": "2baa118c9e6d8ff1b8f319f6dd2fee837fc6e60c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7b238f5_b721c8ad",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T15:20:02Z",
+      "side": 1,
+      "message": "Can\u0027t you access the Gerrit server configuration by \n  Gerrit.getConfig()\n?\n\nYou only need to make the field available in GerritConfig and set it from GerritConfigProvider, see [1] for an example.\n\n[1] https://gerrit-review.googlesource.com/47508",
+      "parentUuid": "e7b238f5_b7f8e8fd",
+      "revId": "2baa118c9e6d8ff1b8f319f6dd2fee837fc6e60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

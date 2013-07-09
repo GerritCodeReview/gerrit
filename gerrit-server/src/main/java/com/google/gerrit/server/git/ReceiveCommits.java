@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromApprovals;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
@@ -62,6 +61,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
@@ -262,6 +262,7 @@ public class ReceiveCommits {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
+  private final AccountCache accountCache;
   private final ChangeInserter.Factory changeInserterFactory;
   private final WorkQueue workQueue;
   private final ListeningExecutorService changeUpdateExector;
@@ -318,6 +319,7 @@ public class ReceiveCommits {
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
+      final AccountCache accountCache,
       final ChangeCache changeCache,
       final ChangeInserter.Factory changeInserterFactory,
       final CommitValidators.Factory commitValidatorsFactory,
@@ -353,6 +355,7 @@ public class ReceiveCommits {
     this.canonicalWebUrl = canonicalWebUrl;
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
+    this.accountCache = accountCache;
     this.changeInserterFactory = changeInserterFactory;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.workQueue = workQueue;
@@ -2055,6 +2058,7 @@ public class ReceiveCommits {
       return;
     }
 
+    boolean defaultName = Strings.isNullOrEmpty(currentUser.getAccount().getFullName());
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
@@ -2069,6 +2073,23 @@ public class ReceiveCommits {
           continue;
         } else if (!validCommit(ctl, cmd, c)) {
           break;
+        }
+
+        if (defaultName && currentUser.getEmailAddresses().contains(
+              c.getCommitterIdent().getEmailAddress())) {
+          try {
+            Account a = db.accounts().get(currentUser.getAccountId());
+            if (a != null && Strings.isNullOrEmpty(a.getFullName())) {
+              a.setFullName(c.getCommitterIdent().getName());
+              db.accounts().update(Collections.singleton(a));
+              currentUser.getAccount().setFullName(a.getFullName());
+              accountCache.evict(a.getId());
+            }
+          } catch (OrmException e) {
+            log.warn("Cannot default full_name", e);
+          } finally {
+            defaultName = false;
+          }
         }
       }
     } catch (IOException err) {

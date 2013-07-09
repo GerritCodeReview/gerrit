@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e70b185f_ef3701e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-09T12:57:55Z",
+      "side": 1,
+      "message": "Please add a reference to the issue tracker, as in the other commit.",
+      "revId": "04616aa04a1a71ef347f39922146e962b17e872a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

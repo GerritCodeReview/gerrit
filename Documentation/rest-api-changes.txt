@@ -1125,6 +1125,55 @@ Deletes a reviewer from a change.
 Revision Endpoints
 ------------------
 
+[[get-commit]]
+Get Commit
+~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/commit'
+
+Retrieves a parsed commit of a revision.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/commit HTTP/1.0
+----
+
+As response a link:#commit-info[CommitInfo] entity is returned that
+describes the revision.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#commit",
+    "parents": [
+      {
+        "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
+        "subject": "Migrate contributor agreements to All-Projects."
+      }
+    ],
+    "author": {
+      "name": "Shawn O. Pearce",
+      "email": "sop@google.com",
+      "date": "2012-04-24 18:08:08.000000000",
+      "tz": -420
+    },
+    "committer": {
+      "name": "Shawn O. Pearce",
+      "email": "sop@google.com",
+      "date": "2012-04-24 18:08:08.000000000",
+      "tz": -420
+    },
+    "subject": "Use an EventBus to manage star icons",
+    "message": "Use an EventBus to manage star icons\n\nImage widgets that need to ..."
+  }
+----
+
+
 [[get-review]]
 Get Review
 ~~~~~~~~~~

@@ -73,7 +73,9 @@ class IsWatchedByPredicate extends AndPredicate<ChangeData> {
       }
 
       if (p != null && f != null) {
-        r.add(and(p, f));
+        @SuppressWarnings("unchecked")
+        Predicate<ChangeData> andPredicate = and(p, f);
+        r.add(andPredicate);
       } else if (p != null) {
         r.add(p);
       } else if (f != null) {

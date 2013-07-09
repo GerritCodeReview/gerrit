@@ -16,9 +16,11 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -28,6 +30,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
+
+import java.util.concurrent.TimeUnit;
 
 class Files implements ChildCollection<RevisionResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
@@ -73,8 +77,11 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
             resource.getChangeResource(), IdString.fromDecoded(base));
         basePatchSet = baseResource.getPatchSet();
       }
-      return fileInfoJson.toFileInfoMap(
-          resource.getChange(), resource.getPatchSet(), basePatchSet);
+      return Response.ok(fileInfoJson.toFileInfoMap(
+          resource.getChange(),
+          resource.getPatchSet(),
+          basePatchSet))
+        .caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
     }
   }
 }

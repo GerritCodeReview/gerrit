@@ -19,8 +19,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -41,7 +41,7 @@ import java.util.List;
 
 
 public class KeyHelpPopup extends PluginSafePopupPanel implements
-    KeyPressHandler, KeyUpHandler {
+    KeyPressHandler, KeyDownHandler {
   private final FocusPanel focus;
 
   public KeyHelpPopup() {
@@ -80,7 +80,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
     DOM.setStyleAttribute(focus.getElement(), "outline", "0px");
     DOM.setElementAttribute(focus.getElement(), "hideFocus", "true");
     focus.addKeyPressHandler(this);
-    focus.addKeyUpHandler(this);
+    focus.addKeyDownHandler(this);
     add(focus);
   }
 
@@ -105,7 +105,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
   }
 
   @Override
-  public void onKeyUp(final KeyUpEvent event) {
+  public void onKeyDown(final KeyDownEvent event) {
     if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
       hide();
     }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7b238f5_f71b4079",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T15:43:55Z",
+      "side": 0,
+      "message": "The new code isn\u0027t setting the draft status on the patch set if a draft patch set is rebased. Rebasing a draft patch set shouldn\u0027t publish it (to reproduce this you need to have a non draft change with a draft patch set).",
+      "revId": "1d070cf2d1fe83638b7da30e814b0b61fed4c81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ae6c93_186385f2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T15:43:55Z",
+      "side": 0,
+      "message": "The new code isn\u0027t copying the labels. This means veto -2 votings are now removed by rebase.",
+      "revId": "1d070cf2d1fe83638b7da30e814b0b61fed4c81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

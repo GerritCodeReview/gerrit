@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07ae6c93_f83411e2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T15:43:55Z",
+      "side": 1,
+      "message": "We can\u0027t get IdentifiedUser injected here. RebaseChange needs to be injected into SubmitStrategyFactory to do the rebase when the \u0027Rebase If Necessary\u0027 strategy is selected. The whole merge algorithm is done in a background job in a context where no current user is available and hence the injection of the user fails´here. As result merging the change fails and it gets stuck in \u0027Submitted, Merge Pending\u0027 state.",
+      "revId": "2068857a644572fd46f89a16032ad9d0e878bb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

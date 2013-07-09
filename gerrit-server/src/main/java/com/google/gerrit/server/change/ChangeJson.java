@@ -755,20 +755,7 @@ public class ChangeJson {
 
     if (has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT))) {
       try {
-        PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId());
-        out.commit = new CommitInfo();
-        out.commit.parents = Lists.newArrayListWithCapacity(info.getParents().size());
-        out.commit.author = toGitPerson(info.getAuthor());
-        out.commit.committer = toGitPerson(info.getCommitter());
-        out.commit.subject = info.getSubject();
-        out.commit.message = info.getMessage();
-
-        for (ParentInfo parent : info.getParents()) {
-          CommitInfo i = new CommitInfo();
-          i.commit = parent.id.get();
-          i.subject = parent.shortMessage;
-          out.commit.parents.add(i);
-        }
+        out.commit = toCommit(in);
       } catch (PatchSetInfoNotAvailableException e) {
         log.warn("Cannot load PatchSetInfo " + in.getId(), e);
       }
@@ -783,6 +770,25 @@ public class ChangeJson {
       }
     }
     return out;
+  }
+
+  CommitInfo toCommit(PatchSet in)
+      throws PatchSetInfoNotAvailableException {
+    PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId());
+    CommitInfo commit = new CommitInfo();
+    commit.parents = Lists.newArrayListWithCapacity(info.getParents().size());
+    commit.author = toGitPerson(info.getAuthor());
+    commit.committer = toGitPerson(info.getCommitter());
+    commit.subject = info.getSubject();
+    commit.message = info.getMessage();
+
+    for (ParentInfo parent : info.getParents()) {
+      CommitInfo i = new CommitInfo();
+      i.commit = parent.id.get();
+      i.subject = parent.shortMessage;
+      commit.parents.add(i);
+    }
+    return commit;
   }
 
   private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
@@ -890,6 +896,8 @@ public class ChangeJson {
   }
 
   static class CommitInfo {
+    static final String KIND = "gerritcodereview#commit";
+    String kind;
     String commit;
     List<CommitInfo> parents;
     GitPerson author;

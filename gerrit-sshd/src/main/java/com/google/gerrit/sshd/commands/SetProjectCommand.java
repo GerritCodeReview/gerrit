@@ -108,6 +108,9 @@ final class SetProjectCommand extends SshCommand {
   @Option(name = "--project-state", aliases = {"--ps"}, usage = "project's visibility state")
   private State state;
 
+  @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
+  private String maxObjectSizeLimit;
+
   @Inject
   private MetaDataUpdate.User metaDataUpdateFactory;
 
@@ -147,6 +150,9 @@ final class SetProjectCommand extends SshCommand {
         }
         if (state != null) {
           project.setState(state);
+        }
+        if (maxObjectSizeLimit != null) {
+          project.setMaxObjectSizeLimit(maxObjectSizeLimit);
         }
         md.setMessage("Project settings updated");
         config.commit(md);

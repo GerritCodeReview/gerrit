@@ -16,6 +16,7 @@ SYNOPSIS
   [--content-merge <true|false|inherit>]
   [--change-id <true|false|inherit>]
   [--project-state <STATE> | --ps <STATE>]
+  [--max-object-size-limit <N>]
   <NAME>
 
 DESCRIPTION
@@ -92,6 +93,15 @@ link:project-setup.html#submit_type[Change Submit Actions].
 * READ_ONLY: users can see the project if read permission
 is granted, but all modification operations are disabled.
 * HIDDEN: the project is not visible for those who are not owners
+
+--max-object-size-limit::
+	Define maximum Git object size for this project. Pushes containing an
+	object larger than this limit will be rejected. This can be used to
+	further limit the global
+  link:config-gerrit.html#receive.maxObjectSizeLimit[receive.maxObjectSizeLimit]
+	and cannot be used to increase that globally set limit.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
 
 EXAMPLES
 --------

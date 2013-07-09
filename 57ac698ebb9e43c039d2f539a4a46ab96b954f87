@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7b238f5_f73420e2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T16:22:26Z",
+      "side": 1,
+      "message": "Why \n  name.startsWith(\"about.\")\nand not\n  name.equals(\"about\")\n?\n\nFrom the commit message I got the impression that it looks for a file named \u0027about\u0027.",
+      "revId": "57ac698ebb9e43c039d2f539a4a46ab96b954f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

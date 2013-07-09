@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e70b185f_af2df999",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-09T06:51:09Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be:\n\n  final String kind \u003d \"gerritcodereview#commit\";\n\n?",
+      "revId": "2fca54f46e5845bb28e946e013692fca6c07f225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67f7289a_8bf8edfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-09T06:51:09Z",
+      "side": 1,
+      "message": "Not necessary if `kind` is declared as suggested in ChangeJson.java?",
+      "revId": "2fca54f46e5845bb28e946e013692fca6c07f225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

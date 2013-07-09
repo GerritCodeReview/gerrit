@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e568f2_7bf71f11",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyHelpPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012928
+      },
+      "writtenOn": "2013-07-09T13:03:36Z",
+      "side": 1,
+      "message": "I would like to add, I\u0027ve never used GWT before and I\u0027m not completely sure that the interaction with the embeded FocusPanel is correct.",
+      "revId": "e8135a10ad281228cb1559aa165d38866e41a24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -201,7 +201,9 @@ public class CodeMirrorDemo extends Screen {
     cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.getCmB());
     render(diffInfo);
     initialBoxes = new ArrayList<CommentBox>();
-    publishedMap = new HashMap<String, PublishedBox>(published.length());
+    if (published != null) {
+      publishedMap = new HashMap<String, PublishedBox>(published.length());
+    }
     lineBoxMapA = new HashMap<Integer, CommentBox>();
     lineBoxMapB = new HashMap<Integer, CommentBox>();
     renderPublished();
@@ -359,9 +361,11 @@ public class CodeMirrorDemo extends Screen {
       box.setEdit(false);
       addCommentBox(info, box);
       initialBoxes.add(box);
-      PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
-      if (replyToBox != null) {
-        replyToBox.registerReplyBox(box);
+      if (published != null) {
+        PublishedBox replyToBox = publishedMap.get(info.in_reply_to());
+        if (replyToBox != null) {
+          replyToBox.registerReplyBox(box);
+        }
       }
       getLineBoxMapFromSide(info.side()).put(info.line() - 1, box);
     }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67f7289a_cb02f519",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-07-09T13:17:41Z",
+      "side": 1,
+      "message": "s/allows to copy/allows copying/",
+      "revId": "5b70cad35b8af9492cc3021579c60ae26be08173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e70b185f_cf34bde2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-07-09T13:17:41Z",
+      "side": 1,
+      "message": "space after \u0027urls\u0027\n\nReferring to them as \"Permalink urls\" might be clearer.\n\nI would also use https://review.example.com/#### in the example",
+      "revId": "5b70cad35b8af9492cc3021579c60ae26be08173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e70b185f_2f63c9f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2013-07-09T13:17:41Z",
+      "side": 1,
+      "message": "s/links/results/",
+      "revId": "5b70cad35b8af9492cc3021579c60ae26be08173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

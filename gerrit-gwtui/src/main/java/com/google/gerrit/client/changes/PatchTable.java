@@ -85,6 +85,7 @@ public class PatchTable extends Composite {
 
   private final FlowPanel myBody;
   private PatchSetDetail detail;
+  private ChangeDetail changeDetail;
   private Command onLoadCommand;
   private MyTable myTable;
   private String savePointerId;
@@ -128,7 +129,10 @@ public class PatchTable extends Composite {
     this.patchList = detail.getPatches();
     this.patchMap = null;
     myTable = null;
-
+    ChangeDetailCache detailCache =
+        ChangeCache.get(detail.getPatchSet().getId().getParentKey())
+            .getChangeDetailCache();
+    changeDetail = detailCache.get();
     final DisplayCommand cmd = new DisplayCommand(patchList, base);
     if (cmd.execute()) {
       cmd.initMeter();
@@ -407,17 +411,19 @@ public class PatchTable extends Composite {
       setRowItem(row, patch);
 
       final FlowPanel nameCol = new FlowPanel();
-      if (!Patch.COMMIT_MSG.equals(patch.getFileName())) {
-        final Image edit = new Image(Gerrit.RESOURCES.edit());
-        nameCol.add(edit);
-        edit.addStyleName(Gerrit.RESOURCES.css().link());
-        edit.setTitle("Edit Draft File");
-        edit.addClickHandler(new  ClickHandler() {
-          @Override
-          public void onClick(final ClickEvent event) {
-            new EditFileDialog(patch).center();
-          }
-        });
+      if (Gerrit.isSignedIn() && changeDetail.canEditCommitMessage()) {
+        if (!Patch.COMMIT_MSG.equals(patch.getFileName())) {
+          final Image edit = new Image(Gerrit.RESOURCES.edit());
+          nameCol.add(edit);
+          edit.addStyleName(Gerrit.RESOURCES.css().link());
+          edit.setTitle("Edit Draft File");
+          edit.addClickHandler(new  ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+              new EditFileDialog(patch).center();
+            }
+          });
+        }
       }
 
       nameCol.add(new PatchLink.SideBySide(getDisplayFileName(patch), base,

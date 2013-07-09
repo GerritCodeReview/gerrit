@@ -19,8 +19,36 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.kohsuke.args4j.Option;
+
+import java.util.EnumSet;
+
 public class GetReview implements RestReadView<RevisionResource> {
   private final ChangeJson json;
+
+  @Option(name = "-o", multiValued = true, usage = "Output options")
+  void addOption(ListChangesOption o) {
+    switch (o) {
+      case ALL_COMMITS:
+      case ALL_FILES:
+      case ALL_REVISIONS:
+      case MESSAGES:
+        throw new IllegalArgumentException();
+
+      default:
+        json.addOption(o);
+        break;
+    }
+  }
+
+  @Option(name = "-O", usage = "Output option flags, in hex")
+  void setOptionFlagsHex(String hex) {
+    EnumSet<ListChangesOption> opt =
+        ListChangesOption.fromBits(Integer.parseInt(hex, 16));
+    for (ListChangesOption o : opt) {
+      addOption(o);
+    }
+  }
 
   @Inject
   GetReview(ChangeJson json) {

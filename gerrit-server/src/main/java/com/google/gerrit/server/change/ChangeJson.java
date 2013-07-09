@@ -753,7 +753,10 @@ public class ChangeJson {
     out.draft = in.isDraft() ? true : null;
     out.fetch = makeFetchMap(cd, in);
 
-    if (has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT))) {
+    if (has(ALL_COMMITS)
+        || (out.isCurrent && has(CURRENT_COMMIT))
+        || (has(CURRENT_COMMIT) && cd.getLimitedPatchSets() != null
+            && cd.getLimitedPatchSets().contains(in.getId()))) {
       try {
         PatchSetInfo info = patchSetInfoFactory.get(db.get(), in.getId());
         out.commit = new CommitInfo();
@@ -774,7 +777,10 @@ public class ChangeJson {
       }
     }
 
-    if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
+    if (has(ALL_FILES)
+        || (out.isCurrent && has(CURRENT_FILES))
+        || (has(CURRENT_FILES) && cd.getLimitedPatchSets() != null
+            && cd.getLimitedPatchSets().contains(in.getId()))) {
       try {
         out.files = fileInfoJson.toFileInfoMap(cd.change(db), in);
         out.files.remove(Patch.COMMIT_MSG);

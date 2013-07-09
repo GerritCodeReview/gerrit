@@ -52,6 +52,24 @@
       "revId": "966028ea128bbf1b1da0b25924d71a8005608b06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ae6c93_5896dd92",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-09T18:03:47Z",
+      "side": 1,
+      "message": "Thank you for the clarification, missed it.",
+      "parentUuid": "e7b238f5_b72aa87d",
+      "revId": "966028ea128bbf1b1da0b25924d71a8005608b06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

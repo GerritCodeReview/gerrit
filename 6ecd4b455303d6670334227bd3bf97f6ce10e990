@@ -34,6 +34,24 @@
       "revId": "6ecd4b455303d6670334227bd3bf97f6ce10e990",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67e568f2_3bed9743",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-09T07:14:08Z",
+      "side": 1,
+      "message": "I do agree with Shawn here (and other guys around the table in Boulder, who got that consensus ;-) We should push it ASAP.\n\nAs it was/is the case with buck and codemirror, having it in the tree makes it much easier for others to contribute to it.\n\nAnd we should make it as easy as possible to contribute to Gerrit, shouldn\u0027t we?",
+      "parentUuid": "a7684003_952ae47d",
+      "revId": "6ecd4b455303d6670334227bd3bf97f6ce10e990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

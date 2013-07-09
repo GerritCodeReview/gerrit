@@ -21,7 +21,9 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.plugins.DataSourceTypesLoader;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -104,8 +106,10 @@ public abstract class SiteProgram extends AbstractProgram {
     Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     String dbType = cfg.getString("database", null, "type");
 
+    DataSourceTypesLoader dstLoader = createDataSourceTypesLoader();
+    dstLoader.registerSqlDialects();
     final DataSourceType dst = Guice.createInjector(new DataSourceModule(), configModule,
-            sitePathModule).getInstance(
+            sitePathModule, dstLoader.bindDatsSourceTypes()).getInstance(
             Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
 
     modules.add(new AbstractModule() {
@@ -157,5 +161,18 @@ public abstract class SiteProgram extends AbstractProgram {
         && why.getCause() != null
         && why.getMessage().startsWith(
             "Cannot create PoolableConnectionFactory");
+  }
+
+  private DataSourceTypesLoader createDataSourceTypesLoader() {
+    Module m = new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(SitePaths.class);
+        bind(DataSourceTypesLoader.class);
+      }
+    };
+
+    return Guice.createInjector(m).getInstance(DataSourceTypesLoader.class);
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07ae6c93_7862c1eb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-09T16:00:09Z",
+      "side": 1,
+      "message": "[optional] Would it be better to fix the warning like this:\n\n  @SuppressWarnings(\"unchecked\")\n   Predicate\u003cChangeData\u003e andPredicate \u003d and(p, f);\n   r.add(andPredicate);\n\nThen we would not need to suppress the warnings for the complete method, but only here where it is needed.",
+      "revId": "5fd9255bfdcc45a91b79bc4824c6dc885e044c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

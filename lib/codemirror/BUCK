@@ -1,7 +1,7 @@
 include_defs('//lib/maven.defs')
 
-VERSION = '1121be6ce8'
-SHA1 = '0f07c14d6a9de7082985e8b3a644b0713e669b17'
+VERSION = 'c921c10de6'
+SHA1 = '01e57345c77d7f3b401a9a744c325560802b73b3'
 URL = GERRIT + 'net/codemirror/codemirror-%s.zip' % VERSION
 
 prebuilt_jar(

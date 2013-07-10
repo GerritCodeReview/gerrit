@@ -16,6 +16,23 @@
       "revId": "e8135a10ad281228cb1559aa165d38866e41a24d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67df2857_abf1a91e",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyHelpPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T00:45:45Z",
+      "side": 1,
+      "message": "Is there any reason not to do this in `onKeyPress`?\n\n(My previous implementation was in `onKeyUp` simply because I searched the code to find other examples of closing a dialog, and that was what I found).",
+      "revId": "e8135a10ad281228cb1559aa165d38866e41a24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

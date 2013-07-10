@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "07082caa_c83e2fc5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T09:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07166cdc_58577d0b",
+      "revId": "a5cd3bf8d57821f1e4c775ea8df6e5d70f4a2db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e71a3802_1738f4d2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-10T09:01:19Z",
       "side": 1,
       "message": "not used in this method",
+      "revId": "a5cd3bf8d57821f1e4c775ea8df6e5d70f4a2db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e70cf8c1_876146e8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T09:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e71a3802_1738f4d2",
       "revId": "a5cd3bf8d57821f1e4c775ea8df6e5d70f4a2db3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e70cf8c1_6757720c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T09:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07166cdc_7854c105",
+      "revId": "a5cd3bf8d57821f1e4c775ea8df6e5d70f4a2db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07166cdc_f890d197",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-10T09:01:19Z",
       "side": 1,
       "message": "`indexer` get injected into patchSetInserter and not need to be passed here.",
+      "revId": "a5cd3bf8d57821f1e4c775ea8df6e5d70f4a2db3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07082caa_a843fb5a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T09:18:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07166cdc_f890d197",
       "revId": "a5cd3bf8d57821f1e4c775ea8df6e5d70f4a2db3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

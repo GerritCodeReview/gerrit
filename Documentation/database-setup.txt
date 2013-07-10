@@ -63,3 +63,39 @@ rights on it:
 
 Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
 information regarding using MySQL.
+
+[[createdb_oracle]]
+Oracle
+~~~~~~
+
+You shoudn't use Oracle. It hasn't any advantages against PostgreSQL. Only if
+you really have to use it for some reasons consider this option.
+
+Create a user for the web application within sqlplus, assign it a
+password, and grant the user full rights on the newly created database:
+
+----
+  $ create user gerrit2 identified by secret_password default tablespace users;
+  $ grant connect, resources to gerrit2;
+----
+
+Obtain ojdbc.jar from your local Oracle installation site and put it in
+$site_path/lib directory.
+Database name is the Oracle instance name (SID). Sample database section in
+$site_path/etc/gerrit.config:
+
+----
+[database]
+        type = oracle
+        database = xe
+        hostname = localhost
+        username = gerrit2
+        port = 1521
+----
+
+Sample database section in $site_path/etc/secure.config:
+
+----
+[database]
+        password = secret_pasword
+----

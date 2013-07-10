@@ -189,7 +189,12 @@ files named like 'name1.xml', 'name2.xml', and 'name3.xml' use
 `file:"^name[1-3].xml"`.
 +
 Currently this operator is only available on a watched project
-and may not be used in the search bar.
+and may not be used in the search bar. The same holds true for web UI
+"My > Watched Changes", i. e. file:regex is used over the is:watched
+expression. It produces always no results, because the error message:
+"operator not permitted here: file:regex" is suppressed. In this context
+this operator "file:regex" is going to be fully available in the future
+Gerrit versions, when secondary index is supported and activated.
 
 [[has]]
 has:draft::

@@ -103,8 +103,10 @@ ReplacePatchSet.vm
 ~~~~~~~~~~~~~~~~~~
 
 The `ReplacePatchSet.vm` template will determine the contents of the email
-related to a user submitting a new patchset for a change.  It is a
-`ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
+related to a user submitting a new patchset for a change.  This includes
+patchsets created by actions in the Web UI such as editing the commit message,
+cherry picking a change, or rebasing a change.  It is a `ChangeEmail`: see
+`ChangeSubject.vm` and `ChangeFooter.vm`.
 
 Restored.vm
 ~~~~~~~~~~~

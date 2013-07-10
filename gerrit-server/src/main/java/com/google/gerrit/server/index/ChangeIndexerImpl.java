@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -30,6 +33,8 @@ import com.google.inject.util.Providers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
@@ -100,11 +105,15 @@ public class ChangeIndexerImpl extends ChangeIndexer {
             }
           });
           if (indexes != null) {
-            for (ChangeIndex i : indexes.getWriteIndexes()) {
-              i.replace(cd); // TODO(dborowitz): Parallelize these
+            Collection<ChangeIndex> writeIndexes = indexes.getWriteIndexes();
+            List<ListenableFuture<?>> futures =
+                Lists.newArrayListWithCapacity(writeIndexes.size());
+            for (ChangeIndex i : writeIndexes) {
+              futures.add(i.replace(cd));
             }
+            Futures.allAsList(futures).get();
           } else {
-            index.replace(cd);
+            index.replace(cd).get();
           }
           return null;
         } finally  {

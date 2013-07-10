@@ -16,6 +16,24 @@
       "revId": "72e949f48bfbf73c3d88842c862590a31f77fc5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71a3802_3735f8db",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-10T08:53:22Z",
+      "side": 0,
+      "message": "In new code we are not using final\u0027s anymore if it is not needed. Since I\u0027m anyway touching this line I\u0027m cleaning up the finals.",
+      "parentUuid": "07166cdc_f86771fa",
+      "revId": "72e949f48bfbf73c3d88842c862590a31f77fc5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

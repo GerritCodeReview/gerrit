@@ -104,6 +104,24 @@
       "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07082caa_482b5f84",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T13:11:51Z",
+      "side": 1,
+      "message": "Done as suggested by Jonathan.",
+      "parentUuid": "1d2b1dc4_e93535e0",
+      "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

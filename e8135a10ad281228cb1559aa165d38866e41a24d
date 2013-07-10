@@ -50,6 +50,24 @@
       "revId": "e8135a10ad281228cb1559aa165d38866e41a24d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "470ea4b6_eae7a763",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/globalkey/client/KeyHelpPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1012928
+      },
+      "writtenOn": "2013-07-10T00:54:35Z",
+      "side": 1,
+      "message": "I tried onKeyPress which doesn\u0027t appear to catch escape on chrome based browser (works fine in firefox though).\n\nI based my code upon http://stackoverflow.com/questions/4301859 which recommended using using the native event preview approach, I guess I could try out keydown and see if that works.",
+      "parentUuid": "67df2857_abf1a91e",
+      "revId": "e8135a10ad281228cb1559aa165d38866e41a24d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

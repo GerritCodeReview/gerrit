@@ -34,6 +34,24 @@
       "revId": "2068857a644572fd46f89a16032ad9d0e878bb25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71a3802_3703b820",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-10T06:25:05Z",
+      "side": 1,
+      "message": "I commented on the current patch set.",
+      "parentUuid": "07082caa_c8ecef48",
+      "revId": "2068857a644572fd46f89a16032ad9d0e878bb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

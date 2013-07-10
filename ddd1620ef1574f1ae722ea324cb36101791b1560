@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "e71a3802_57574c0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-10T09:12:45Z",
+      "side": 1,
+      "message": "How is the implementation is different from \"it finds the change if a modified line or the commit messages matches\"?\n\n class PatchPredicate extends OrPredicate\u003cChangeData\u003e {\n PatchPredicate(Provider\u003cReviewDb\u003e db, ChangeIndex index, String value) {\t\n    super(or(new MessagePredicate(db, index, value), new DiffPredicate(db,\n        index, value)));\n\nWhat am i missing?",
+      "parentUuid": "e71a3802_772b7084",
+      "revId": "ddd1620ef1574f1ae722ea324cb36101791b1560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07166cdc_985c3531",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 5

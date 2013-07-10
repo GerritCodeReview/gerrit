@@ -93,6 +93,8 @@ public class PatchSetInserter {
   private boolean copyLabels;
   private SshInfo sshInfo;
   private boolean draft;
+  private boolean runHooks;
+  private boolean sendMail;
 
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
@@ -124,6 +126,8 @@ public class PatchSetInserter {
     this.refControl = refControl;
     this.change = change;
     this.commit = commit;
+    this.runHooks = true;
+    this.sendMail = true;
   }
 
   public PatchSetInserter setPatchSet(PatchSet patchSet) {
@@ -166,6 +170,16 @@ public class PatchSetInserter {
 
   public PatchSetInserter setDraft(boolean draft) {
     this.draft = draft;
+    return this;
+  }
+
+  public PatchSetInserter setRunHooks(boolean runHooks) {
+    this.runHooks = runHooks;
+    return this;
+  }
+
+  public PatchSetInserter setSendMail(boolean sendMail) {
+    this.sendMail = sendMail;
     return this;
   }
 
@@ -248,23 +262,27 @@ public class PatchSetInserter {
         db.changeMessages().insert(Collections.singleton(changeMessage));
       }
 
-      try {
-        PatchSetInfo info = patchSetInfoFactory.get(commit, patchSet.getId());
-        ReplacePatchSetSender cm =
-            replacePatchSetFactory.create(updatedChange);
-        cm.setFrom(user.getAccountId());
-        cm.setPatchSet(patchSet, info);
-        cm.setChangeMessage(changeMessage);
-        cm.addReviewers(oldReviewers);
-        cm.addExtraCC(oldCC);
-        cm.send();
-      } catch (Exception err) {
-        log.error("Cannot send email for new patch set on change " + updatedChange.getId(),
-            err);
+      if (sendMail) {
+        try {
+          PatchSetInfo info = patchSetInfoFactory.get(commit, patchSet.getId());
+          ReplacePatchSetSender cm =
+              replacePatchSetFactory.create(updatedChange);
+          cm.setFrom(user.getAccountId());
+          cm.setPatchSet(patchSet, info);
+          cm.setChangeMessage(changeMessage);
+          cm.addReviewers(oldReviewers);
+          cm.addExtraCC(oldCC);
+          cm.send();
+        } catch (Exception err) {
+          log.error("Cannot send email for new patch set on change " + updatedChange.getId(),
+              err);
+        }
       }
 
       indexer.index(updatedChange);
-      hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
+      if (runHooks) {
+        hooks.doPatchsetCreatedHook(updatedChange, patchSet, db);
+      }
     } finally {
       db.rollback();
     }

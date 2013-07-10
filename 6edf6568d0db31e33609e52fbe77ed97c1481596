@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e70cf8c1_a7432a5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T07:21:25Z",
+      "side": 1,
+      "message": "This might be more useful it if would also include the project, branch, etc",
+      "revId": "6edf6568d0db31e33609e52fbe77ed97c1481596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -63,3 +63,35 @@ rights on it:
 
 Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
 information regarding using MySQL.
+
+[[createdb_oracle]]
+Oracle
+~~~~~~
+
+Create a user for the web application within sqlplus, assign it a
+password, and grant the user full rights on the newly created database:
+
+----
+  $ create user gerrit2 identified by gerrit2 default tablespace users;
+  $ grant connect, resources to gerrit2;
+----
+
+Download ojdbc.jar and put it n <site_path>/lib/ diectory.
+Database name is the Oralce instance name (SID). Sample databse section,
+gerrit.config:
+
+----
+[database]
+        type = oracle
+        database = xe
+        hostname = localhost
+        username = gerrit2
+        port = 1521
+----
+
+secure.config:
+
+----
+[database]
+        password = gerit2
+----

@@ -16,6 +16,23 @@
       "revId": "e8f6f9a53cc367ff75e2c563e96389db7a5936d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07166cdc_f815314e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-10T06:24:58Z",
+      "side": 1,
+      "message": "I think you could change the type of uploader from Account.Id to IdentifiedUser and then use uploader to instantiate the change control below. The RebaseIfNecessary strategy which calls this method here has access to IdentifiedUser.GenericFactory via the SubmitStrategy.Arguments. It also has the Account.Id of the submitter which is currently passed as uploader. So RebaseIfNecessary is able to instantiate an IdentifiedUser for the uploader/submitter by using the IdentifiedUser.GenericFactory.\n\nThe other caller of this method, the rebase(PatchSet.Id, IdentifiedUser) in this class already has the uploader as IdentifiedUser which should be the current user.",
+      "revId": "e8f6f9a53cc367ff75e2c563e96389db7a5936d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

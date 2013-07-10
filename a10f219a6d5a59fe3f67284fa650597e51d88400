@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "07166cdc_38a729f8",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-10T11:26:33Z",
+      "side": 1,
+      "message": "if we fail to achieve a consensus how to copy a file, how about to suggest multiple alternatives? ;-)",
+      "revId": "a10f219a6d5a59fe3f67284fa650597e51d88400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d2f558c_2bf4190e",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1

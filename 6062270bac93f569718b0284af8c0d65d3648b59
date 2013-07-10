@@ -16,6 +16,40 @@
       "revId": "6062270bac93f569718b0284af8c0d65d3648b59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07166cdc_b8481976",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-10T07:53:09Z",
+      "side": 1,
+      "message": "@param committerIdent commiter identity ...",
+      "revId": "6062270bac93f569718b0284af8c0d65d3648b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71a3802_d7391cdf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RebaseIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-10T07:53:09Z",
+      "side": 1,
+      "message": "s/IdentifiedUser/final IdentifiedUser",
+      "revId": "6062270bac93f569718b0284af8c0d65d3648b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

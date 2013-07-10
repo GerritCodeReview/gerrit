@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07166cdc_582e9d95",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-10T07:53:09Z",
+      "side": 0,
+      "message": "Should we mention how the rebase notification is controlled now?",
+      "revId": "6853b5a996ecd93f2b30a10741f9ccd9fe6ba9a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71a3802_371c1872",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-10T07:53:09Z",
+      "side": 0,
+      "message": "this call was missed in refactored method",
+      "revId": "6853b5a996ecd93f2b30a10741f9ccd9fe6ba9a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e71a3802_1706b42f",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-10T06:11:08Z",
+      "side": 1,
+      "message": "I would probably remove the last sentence. The documentation should only describe the current state and not will or might come in future.",
+      "revId": "f2bc716b558ad164f42161f4c27ca0e77eeda557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

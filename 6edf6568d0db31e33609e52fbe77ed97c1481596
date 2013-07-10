@@ -16,6 +16,23 @@
       "revId": "6edf6568d0db31e33609e52fbe77ed97c1481596",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71a3802_171f9469",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-10T07:41:34Z",
+      "side": 1,
+      "message": "firefox browser let us copy the change urls by \u0027Ctrl\u0027 + select by mouse.\n\nit is expensive to add a button to only copy the query result\u0027s current page\u0027s change urls,   instead,    group keys is better , e.g.  \u0027P\u0027+\u0027C\u0027 .\n\nanyway this is a good start point, I expect to much here, I hope the button (image) can download  all columns of the query result in a file whose format can be configurable to be cvs,  txt;  zip or not.",
+      "revId": "6edf6568d0db31e33609e52fbe77ed97c1481596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

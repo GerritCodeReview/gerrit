@@ -42,6 +42,7 @@ public interface AdminConstants extends Constants {
   String useContributorAgreements();
   String useSignedOffBy();
   String requireChangeID();
+  String headingMaxObjectSizeLimit();
   String headingGroupOptions();
   String isVisibleToAll();
   String buttonSaveGroupOptions();

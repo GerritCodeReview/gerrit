@@ -1479,10 +1479,8 @@ public class ReceiveCommits {
           currentUser.getAccountId(),
           magicBranch.dest);
       change.setTopic(magicBranch.topic);
-      ins = changeInserterFactory.create(ctl, change, c);
-      if (magicBranch.isDraft()) {
-        ins.setDraft();
-      }
+      ins = changeInserterFactory.create(ctl, change, c)
+          .setDraft(magicBranch.isDraft());
       cmd = new ReceiveCommand(ObjectId.zeroId(), c,
           ins.getPatchSet().getRefName());
     }

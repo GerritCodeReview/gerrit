@@ -44,8 +44,10 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -330,6 +332,7 @@ class HttpPluginServlet extends HttpServlet
       ResourceKey cacheKey, HttpServletResponse res) throws IOException {
     List<JarEntry> cmds = Lists.newArrayList();
     List<JarEntry> docs = Lists.newArrayList();
+    JarEntry about = null;
     Enumeration<JarEntry> entries = jar.entries();
     while (entries.hasMoreElements()) {
       JarEntry entry = entries.nextElement();
@@ -339,8 +342,11 @@ class HttpPluginServlet extends HttpServlet
           && (name.endsWith(".md")
               || name.endsWith(".html"))
           && 0 < size && size <= SMALL_RESOURCE) {
-        if (name.substring(prefix.length()).startsWith("cmd-")) {
+        name = name.substring(prefix.length());
+        if (name.startsWith("cmd-")) {
           cmds.add(entry);
+        } else if (name.startsWith("about.") && (about == null)) {
+          about = entry;
         } else {
           docs.add(entry);
         }
@@ -363,6 +369,28 @@ class HttpPluginServlet extends HttpServlet
     md.append(String.format("# Plugin %s #\n", pluginName));
     md.append("\n");
     appendPluginInfoTable(md, jar.getManifest().getMainAttributes());
+
+    if (about != null) {
+      InputStreamReader isr = new InputStreamReader(jar.getInputStream(about));
+      BufferedReader reader = new BufferedReader(isr);
+      StringBuilder aboutContent = new StringBuilder();
+      String line;
+      while ((line = reader.readLine()) != null) {
+        line = line.trim();
+        if (line.isEmpty()) {
+          aboutContent.append("\n");
+        } else {
+          aboutContent.append(line).append("\n");
+        }
+      }
+      reader.close();
+
+      // Only append the About section if there was anything in it
+      if (aboutContent.toString().trim().length() > 0) {
+        md.append("## About ##\n");
+        md.append("\n").append(aboutContent);
+      }
+    }
 
     appendEntriesSection(jar, docs, "Documentation", md, prefix, 0);
     appendEntriesSection(jar, cmds, "Commands", md, prefix, "cmd-".length());

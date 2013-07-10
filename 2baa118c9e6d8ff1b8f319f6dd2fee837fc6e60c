@@ -70,6 +70,24 @@
       "revId": "2baa118c9e6d8ff1b8f319f6dd2fee837fc6e60c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07166cdc_98951587",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-10T09:09:19Z",
+      "side": 1,
+      "message": "Yes, this would work. However, this means that the client also knows how to compute the effective limit which is a server\u0027s responsibility.\n\nTherefore, I am back to my first proposal to implement showing of the effective limit as a new change.",
+      "parentUuid": "e7b238f5_b721c8ad",
+      "revId": "2baa118c9e6d8ff1b8f319f6dd2fee837fc6e60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

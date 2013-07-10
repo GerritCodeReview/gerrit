@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7fe80ba_a5f1de1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T10:01:42Z",
+      "side": 0,
+      "message": "The message is different in the refactored version.  I will upload a new patch set to fix this.",
+      "revId": "01d0fdae04fb0d5f545b5a52a6542f2d54f8281c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

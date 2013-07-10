@@ -63,6 +63,7 @@ public class ChangeInserter {
 
   private ChangeMessage changeMessage;
   private Set<Account.Id> reviewers;
+  private boolean runHooks;
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
@@ -84,8 +85,8 @@ public class ChangeInserter {
     this.refControl = refControl;
     this.change = change;
     this.commit = commit;
-
     this.reviewers = Collections.emptySet();
+    this.runHooks = true;
 
     patchSet =
         new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
@@ -110,6 +111,11 @@ public class ChangeInserter {
   public ChangeInserter setDraft(boolean draft) {
     change.setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
     patchSet.setDraft(draft);
+    return this;
+  }
+
+  public ChangeInserter setRunHooks(boolean runHooks) {
+    this.runHooks = runHooks;
     return this;
   }
 
@@ -143,6 +149,8 @@ public class ChangeInserter {
     indexer.index(change);
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
-    hooks.doPatchsetCreatedHook(change, patchSet, db);
+    if (runHooks) {
+      hooks.doPatchsetCreatedHook(change, patchSet, db);
+    }
   }
 }

@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -90,6 +89,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Secondary index implementation using Apache Lucene.
@@ -203,54 +203,61 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @SuppressWarnings("unchecked")
   @Override
-  public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
+  public void insert(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
-    if (cd.getChange().getStatus().isOpen()) {
-      return allOf(
-          closedIndex.delete(id),
-          openIndex.insert(doc));
-    } else {
-      return allOf(
-          openIndex.delete(id),
-          closedIndex.insert(doc));
+    try {
+      if (cd.getChange().getStatus().isOpen()) {
+        Futures.allAsList(
+            closedIndex.delete(id),
+            openIndex.insert(doc)).get();
+      } else {
+        Futures.allAsList(
+            openIndex.delete(id),
+            closedIndex.insert(doc)).get();
+      }
+    } catch (ExecutionException e) {
+      throw new IOException(e);
+    } catch (InterruptedException e) {
+      throw new IOException(e);
     }
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public ListenableFuture<Void> replace(ChangeData cd) throws IOException {
+  public void replace(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
-    if (cd.getChange().getStatus().isOpen()) {
-      return allOf(
-          closedIndex.delete(id),
-          openIndex.replace(id, doc));
-    } else {
-      return allOf(
-          openIndex.delete(id),
-          closedIndex.replace(id, doc));
+    try {
+      if (cd.getChange().getStatus().isOpen()) {
+        Futures.allAsList(
+            closedIndex.delete(id),
+            openIndex.replace(id, doc)).get();
+      } else {
+        Futures.allAsList(
+            openIndex.delete(id),
+            closedIndex.replace(id, doc)).get();
+      }
+    } catch (ExecutionException e) {
+      throw new IOException(e);
+    } catch (InterruptedException e) {
+      throw new IOException(e);
     }
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public ListenableFuture<Void> delete(ChangeData cd) throws IOException {
+  public void delete(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
-    return allOf(
-        openIndex.delete(id),
-        closedIndex.delete(id));
-  }
-
-  private static <V> ListenableFuture<Void> allOf(ListenableFuture<V>... f) {
-    return Futures.transform(
-        Futures.allAsList(f),
-        new Function<List<V>, Void>() {
-          @Override
-          public Void apply(List<V> input) {
-            return null;
-          }
-        });
+    try {
+      Futures.allAsList(
+          openIndex.delete(id),
+          closedIndex.delete(id)).get();
+    } catch (ExecutionException e) {
+      throw new IOException(e);
+    } catch (InterruptedException e) {
+      throw new IOException(e);
+    }
   }
 
   @Override

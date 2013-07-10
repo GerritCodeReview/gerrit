@@ -109,7 +109,7 @@ public class ChangeIndexerImpl extends ChangeIndexer {
           });
           if (indexes != null) {
             for (ChangeIndex i : indexes.getWriteIndexes()) {
-              apply(i, cd); // TODO(dborowitz): Parallelize these
+              apply(i, cd);
             }
           } else {
             apply(index, cd);

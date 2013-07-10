@@ -99,15 +99,15 @@ class SubIndex {
     }
   }
 
-  ListenableFuture<Void> insert(Document doc) throws IOException {
+  ListenableFuture<?> insert(Document doc) throws IOException {
     return new NrtFuture(writer.addDocument(doc));
   }
 
-  ListenableFuture<Void> replace(Term term, Document doc) throws IOException {
+  ListenableFuture<?> replace(Term term, Document doc) throws IOException {
     return new NrtFuture(writer.updateDocument(term, doc));
   }
 
-  ListenableFuture<Void> delete(Term term) throws IOException {
+  ListenableFuture<?> delete(Term term) throws IOException {
     return new NrtFuture(writer.deleteDocuments(term));
   }
 

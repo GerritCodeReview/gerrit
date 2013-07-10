@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -69,17 +68,17 @@ class FakeIndex implements ChangeIndex {
   }
 
   @Override
-  public ListenableFuture<Void> insert(ChangeData cd) {
+  public void insert(ChangeData cd) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ListenableFuture<Void> replace(ChangeData cd) {
+  public void replace(ChangeData cd) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public ListenableFuture<Void> delete(ChangeData cd) {
+  public void delete(ChangeData cd) {
     throw new UnsupportedOperationException();
   }
 

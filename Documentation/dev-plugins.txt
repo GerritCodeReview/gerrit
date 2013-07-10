@@ -384,11 +384,11 @@ If a plugin does not register a filter or servlet to handle URLs
 `/Documentation/*` or `/static/*`, the core Gerrit server will
 automatically export these resources over HTTP from the plugin JAR.
 
-Static resources under `static/` directory in the JAR will be
+Static resources under the `static/` directory in the JAR will be
 available as `/plugins/helloworld/static/resource`. This prefix is
 configurable by setting the `Gerrit-HttpStaticPrefix` attribute.
 
-Documentation files under `Documentation/` directory in the JAR
+Documentation files under the `Documentation/` directory in the JAR
 will be available as `/plugins/helloworld/Documentation/resource`. This
 prefix is configurable by setting the `Gerrit-HttpDocumentationPrefix`
 attribute.
@@ -444,9 +444,15 @@ For any discovered HTML (`*.html`) file, Gerrit will use the name
 of the file, minus the `*.html` extension, as the link text. Any
 hyphens in the file name will be replaced with spaces.
 
+If a discovered file is named `about.md` or `about.html`, its
+content will be inserted in an 'About' section at the top of the
+auto-generated index page.  If both `about.md` and `about.html`
+exist, only the first discovered file will be used.
+
 If a discovered file name beings with `cmd-` it will be clustered
-into a 'Commands' section of the generated index page. All other
-files are clustered under a 'Documentation' section.
+into a 'Commands' section of the generated index page.
+
+All other files are clustered under a 'Documentation' section.
 
 Some optional information from the manifest is extracted and
 displayed as part of the index page, if present in the manifest:

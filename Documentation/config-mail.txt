@@ -90,8 +90,10 @@ NewChange.vm
 ~~~~~~~~~~~~
 
 The `NewChange.vm` template will determine the contents of the email related
-to a user submitting a new change for review. It is a `ChangeEmail`: see
-`ChangeSubject.vm` and `ChangeFooter.vm`.
+to a user submitting a new change for review. This includes changes created
+by actions made by the user in the Web UI such as cherry picking a commit or
+reverting a change.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
+`ChangeFooter.vm`.
 
 RegisterNewEmail.vm
 ~~~~~~~~~~~~~~~~~~~
@@ -103,7 +105,9 @@ ReplacePatchSet.vm
 ~~~~~~~~~~~~~~~~~~
 
 The `ReplacePatchSet.vm` template will determine the contents of the email
-related to a user submitting a new patchset for a change.  It is a
+related to a user submitting a new patchset for a change.  This includes
+patchsets created by actions made by the user in the Web UI such as editing
+the commit message, cherry picking a commit, or rebasing a change.  It is a
 `ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
 
 Restored.vm

@@ -31,21 +31,23 @@ limitations under the License.
     .a, .b {
       width: 50%;
     }
+    .a .intralineBg,
+    .a .intralineBg .CodeMirror-linenumber {
+      background-color: #fee;
+    }
+    .b .intralineBg,
+    .b .intralineBg .CodeMirror-linenumber {
+      background-color: #dfd;
+    }
     .a .diff,
     .a .diff .CodeMirror-linenumber {
-      background-color: #fee;
+      background-color: #faa;
     }
     .b .diff,
     .b .diff .CodeMirror-linenumber {
-      background-color: #dfd;
-    }
-    .a .intraline {
-      background-color: #faa;
-    }
-    .b .intraline {
       background-color: #9f9;
     }
-    .CodeMirror-selectedtext.diff, .CodeMirror-selectedtext.intraline {
+    .CodeMirror-selectedtext.diff, .CodeMirror-selectedtext.intralineBg {
       background-color: inherit;
     }
     .padding {
@@ -57,11 +59,12 @@ limitations under the License.
     .a .CodeMirror-vscrollbar {
       display: none !important;
     }
-    .activeLine .CodeMirror-linenumber {
-      background-color: #D8EDF9;
+    .activeLine .CodeMirror-linenumber,
+    .activeLine .diff, .activeLine .intralineBg {
+      background-color: #D8EDF9 !important;
     }
     .activeLineBg {
-      background-color: #D8EDF9;
+      background-color: #D8EDF9 !important;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>

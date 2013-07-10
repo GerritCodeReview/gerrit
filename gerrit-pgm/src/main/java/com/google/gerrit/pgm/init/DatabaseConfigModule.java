@@ -36,6 +36,8 @@ public class DatabaseConfigModule extends AbstractModule {
     bind(DatabaseConfigInitializer.class).annotatedWith(
         Names.named("mysql")).to(MySqlInitializer.class);
     bind(DatabaseConfigInitializer.class).annotatedWith(
+        Names.named("oracle")).to(OracleInitializer.class);
+    bind(DatabaseConfigInitializer.class).annotatedWith(
         Names.named("postgresql")).to(PostgreSQLInitializer.class);
   }
 }

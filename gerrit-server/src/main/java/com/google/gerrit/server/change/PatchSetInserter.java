@@ -92,6 +92,7 @@ public class PatchSetInserter {
   private ChangeMessage changeMessage;
   private boolean copyLabels;
   private SshInfo sshInfo;
+  private boolean draft;
 
   @Inject
   public PatchSetInserter(ChangeHooks hooks,
@@ -160,6 +161,11 @@ public class PatchSetInserter {
 
   public PatchSetInserter setValidateForReceiveCommits(boolean validate) {
     this.validateForReceiveCommits = validate;
+    return this;
+  }
+
+  public PatchSetInserter setDraft(boolean draft) {
+    this.draft = draft;
     return this;
   }
 
@@ -276,6 +282,7 @@ public class PatchSetInserter {
       patchSet.setUploader(change.getOwner());
       patchSet.setRevision(new RevId(commit.name()));
     }
+    patchSet.setDraft(draft);
   }
 
   private void validate() throws InvalidChangeOperationException {

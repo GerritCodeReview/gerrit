@@ -16,6 +16,24 @@
       "revId": "2068857a644572fd46f89a16032ad9d0e878bb25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07082caa_c8ecef48",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T01:32:48Z",
+      "side": 1,
+      "message": "IdentifiedUser is needed to create the ChangeControl, which we need in order to create the RefControl that gets passed into PatchSetInserter.\n\nAny suggestions how to solve this?",
+      "parentUuid": "07ae6c93_f83411e2",
+      "revId": "2068857a644572fd46f89a16032ad9d0e878bb25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

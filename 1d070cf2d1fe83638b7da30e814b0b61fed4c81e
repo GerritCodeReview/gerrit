@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7fe80ba_e5e7d663",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T01:32:48Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e7b238f5_f71b4079",
+      "revId": "1d070cf2d1fe83638b7da30e814b0b61fed4c81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07ae6c93_186385f2",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-09T15:43:55Z",
       "side": 0,
       "message": "The new code isn\u0027t copying the labels. This means veto -2 votings are now removed by rebase.",
+      "revId": "1d070cf2d1fe83638b7da30e814b0b61fed4c81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e70cf8c1_87f6e612",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T01:32:48Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "07ae6c93_186385f2",
       "revId": "1d070cf2d1fe83638b7da30e814b0b61fed4c81e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

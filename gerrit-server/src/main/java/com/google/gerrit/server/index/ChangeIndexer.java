@@ -42,7 +42,7 @@ public abstract class ChangeIndexer {
     }
 
     @Override
-    public Callable<Void> indexTask(ChangeData cd) {
+    public Callable<?> indexTask(ChangeData cd) {
       return new Callable<Void>() {
         @Override
         public Void call() {
@@ -52,7 +52,7 @@ public abstract class ChangeIndexer {
     }
 
     @Override
-    public Callable<Void> deleteTask(ChangeData cd) {
+    public Callable<?> deleteTask(ChangeData cd) {
       return new Callable<Void>() {
         @Override
         public Void call() {
@@ -81,7 +81,7 @@ public abstract class ChangeIndexer {
   /**
    * Start indexing a change.
    *
-   * @param change change to index.
+   * @param cd change to index.
    * @return future for the indexing task.
    */
   public ListenableFuture<?> index(ChangeData cd) {
@@ -96,7 +96,7 @@ public abstract class ChangeIndexer {
    * @param cd change to index.
    * @return unstarted runnable to index the change.
    */
-  public abstract Callable<Void> indexTask(ChangeData cd);
+  public abstract Callable<?> indexTask(ChangeData cd);
 
   /**
    * Start deleting a change.
@@ -111,7 +111,7 @@ public abstract class ChangeIndexer {
   /**
    * Start deleting a change.
    *
-   * @param change change to delete.
+   * @param cd change to delete.
    * @return future for the deleting task.
    */
   public ListenableFuture<?> delete(ChangeData cd) {
@@ -126,5 +126,5 @@ public abstract class ChangeIndexer {
    * @param cd change to delete.
    * @return unstarted runnable to delete the change.
    */
-  public abstract Callable<Void> deleteTask(ChangeData cd);
+  public abstract Callable<?> deleteTask(ChangeData cd);
 }

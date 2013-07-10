@@ -22,8 +22,6 @@ import static com.google.gerrit.solr.IndexVersionCheck.solrIndexConfig;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lucene.QueryBuilder;
 import com.google.gerrit.reviewdb.client.Change;
@@ -126,7 +124,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
+  public void insert(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     SolrInputDocument doc = toDocument(cd);
     try {
@@ -142,11 +140,10 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     }
     commit(openIndex);
     commit(closedIndex);
-    return Futures.immediateFuture(null);
   }
 
   @Override
-  public ListenableFuture<Void> replace(ChangeData cd) throws IOException {
+  public void replace(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     SolrInputDocument doc = toDocument(cd);
     try {
@@ -162,11 +159,10 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
     }
     commit(openIndex);
     commit(closedIndex);
-    return Futures.immediateFuture(null);
   }
 
   @Override
-  public ListenableFuture<Void> delete(ChangeData cd) throws IOException {
+  public void delete(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     try {
       if (cd.getChange().getStatus().isOpen()) {
@@ -176,7 +172,6 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
         closedIndex.deleteById(id);
         commit(closedIndex);
       }
-      return Futures.immediateFuture(null);
     } catch (SolrServerException e) {
       throw new IOException(e);
     }

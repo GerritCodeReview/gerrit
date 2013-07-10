@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.index;
 
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -42,18 +40,18 @@ public interface ChangeIndex {
     }
 
     @Override
-    public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
-      return Futures.immediateFuture(null);
+    public void insert(ChangeData cd) throws IOException {
+      // Do nothing.
     }
 
     @Override
-    public ListenableFuture<Void> replace(ChangeData cd) throws IOException {
-      return Futures.immediateFuture(null);
+    public void replace(ChangeData cd) throws IOException {
+      // Do nothing.
     }
 
     @Override
-    public ListenableFuture<Void> delete(ChangeData cd) throws IOException {
-      return Futures.immediateFuture(null);
+    public void delete(ChangeData cd) throws IOException {
+      // Do nothing.
     }
 
     @Override
@@ -93,7 +91,7 @@ public interface ChangeIndex {
    *
    * @throws IOException if the change could not be inserted.
    */
-  public ListenableFuture<Void> insert(ChangeData cd) throws IOException;
+  public void insert(ChangeData cd) throws IOException;
 
   /**
    * Update a change document in the index.
@@ -106,7 +104,7 @@ public interface ChangeIndex {
    *
    * @throws IOException
    */
-  public ListenableFuture<Void> replace(ChangeData cd) throws IOException;
+  public void replace(ChangeData cd) throws IOException;
 
   /**
    * Delete a change document from the index.
@@ -115,7 +113,7 @@ public interface ChangeIndex {
    *
    * @throws IOException
    */
-  public ListenableFuture<Void> delete(ChangeData cd) throws IOException;
+  public void delete(ChangeData cd) throws IOException;
 
   /**
    * Delete all change documents from the index.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07166cdc_d8394ddf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-10T07:44:50Z",
+      "side": 1,
+      "message": "This comment is not true anymore, but maybe it should stay true?\n\nIf the rebase is triggered by the RebaseIfNecessary strategy during merge of a change, MergeOp takes care to send the email notifications about the merge result. There is no need to inform reviewers about this new patch set as they have no chance to review it (the change will be automatically merged if the rebase is successful).\n\nHooks should probably also not be executed in this case. At least this shouldn\u0027t be changed in a refactoring change.",
+      "revId": "6062270bac93f569718b0284af8c0d65d3648b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

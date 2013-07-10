@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07082caa_48f91f00",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T03:23:25Z",
+      "side": 1,
+      "message": "Why are we using `canEditCommitMessage`?\n\nIf permission is required to do inline editing, then a new permission should be defined.",
+      "revId": "c387f635e6c622c18804e63585d0eec3ce18813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

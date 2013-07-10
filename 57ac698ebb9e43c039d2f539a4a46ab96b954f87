@@ -16,6 +16,24 @@
       "revId": "57ac698ebb9e43c039d2f539a4a46ab96b954f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87e25c19_ece7cb63",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-10T00:38:05Z",
+      "side": 1,
+      "message": "`name` is the full filename including the extension.  `startsWith` is used so it will work with both files named \"about.md\" or \"about.html\".\n\nI\u0027ll update the commit message to be a bit clearer.  Or do you think it\u0027s better that the file is just named \"about\" without any extension?",
+      "parentUuid": "e7b238f5_f73420e2",
+      "revId": "57ac698ebb9e43c039d2f539a4a46ab96b954f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

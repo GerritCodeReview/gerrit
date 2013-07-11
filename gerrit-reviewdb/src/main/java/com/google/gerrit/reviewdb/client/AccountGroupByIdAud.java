@@ -20,7 +20,7 @@ import com.google.gwtorm.client.CompoundKey;
 import java.sql.Timestamp;
 
 /** Inclusion of an {@link AccountGroup} in another {@link AccountGroup}. */
-public final class AccountGroupIncludeByUuidAudit {
+public final class AccountGroupByIdAud {
   public static class Key extends CompoundKey<AccountGroup.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -75,23 +75,23 @@ public final class AccountGroupIncludeByUuidAudit {
   @Column(id = 4, notNull = false)
   protected Timestamp removedOn;
 
-  protected AccountGroupIncludeByUuidAudit() {
+  protected AccountGroupByIdAud() {
   }
 
-  public AccountGroupIncludeByUuidAudit(final AccountGroupIncludeByUuid m,
+  public AccountGroupByIdAud(final AccountGroupById m,
       final Account.Id adder, final Timestamp when) {
     final AccountGroup.Id group = m.getGroupId();
     final AccountGroup.UUID include = m.getIncludeUUID();
-    key = new AccountGroupIncludeByUuidAudit.Key(group, include, when);
+    key = new AccountGroupByIdAud.Key(group, include, when);
     addedBy = adder;
   }
 
-  public AccountGroupIncludeByUuidAudit(final AccountGroupIncludeByUuid m,
+  public AccountGroupByIdAud(final AccountGroupById m,
       final Account.Id adder) {
     this(m, adder, now());
   }
 
-  public AccountGroupIncludeByUuidAudit.Key getKey() {
+  public AccountGroupByIdAud.Key getKey() {
     return key;
   }
 

@@ -82,11 +82,10 @@ ON account_group_members (group_id);
 
 
 -- *********************************************************************
--- AccountGroupIncludeByUuidAccess
+-- AccountGroupByIdAccess
 --    @PrimaryKey covers: byGroup
-CREATE INDEX account_group_includes_by_uuid_byInclude
-ON account_group_includes_by_uuid (include_uuid);
-
+CREATE INDEX account_group_id_byInclude
+ON account_group_by_id (include_uuid);
 
 -- *********************************************************************
 -- AccountProjectWatchAccess

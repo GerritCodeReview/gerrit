@@ -245,6 +245,7 @@ public class CodeMirrorDemo extends Screen {
       .set("tabSize", 2)
       .set("mode", getContentType(meta))
       .set("styleSelectedText", true)
+      .set("showTrailingSpace", true)
       .set("value", contents);
     final CodeMirror cm = CodeMirror.create(ele, cfg);
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
@@ -464,13 +465,16 @@ public class CodeMirrorDemo extends Screen {
               LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
         }
         int line = cm.getCursor("head").getLine();
-        LineOnOtherInfo info =
-            mapper.lineOnOther(cm == cmA ? Side.PARENT : Side.REVISION, line);
-        int oLine = info.getLine();
         cm.setActiveLine(line);
+        if (cm.somethingSelected()) {
+          return;
+        }
         cm.addLineClass(line, LineClassWhere.WRAP, diffTable.style.activeLine());
         cm.addLineClass(line, LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+        LineOnOtherInfo info =
+            mapper.lineOnOther(cm == cmA ? Side.PARENT : Side.REVISION, line);
         if (info.isAligned()) {
+          int oLine = info.getLine();
           other.setActiveLine(oLine);
           other.addLineClass(oLine, LineClassWhere.WRAP,
               diffTable.style.activeLine());

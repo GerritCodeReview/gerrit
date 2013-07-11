@@ -42,17 +42,17 @@ public interface ChangeIndex {
     }
 
     @Override
-    public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
+    public ListenableFuture<?> insert(ChangeData cd) throws IOException {
       return Futures.immediateFuture(null);
     }
 
     @Override
-    public ListenableFuture<Void> replace(ChangeData cd) throws IOException {
+    public ListenableFuture<?> replace(ChangeData cd) throws IOException {
       return Futures.immediateFuture(null);
     }
 
     @Override
-    public ListenableFuture<Void> delete(ChangeData cd) throws IOException {
+    public ListenableFuture<?> delete(ChangeData cd) throws IOException {
       return Futures.immediateFuture(null);
     }
 
@@ -94,7 +94,7 @@ public interface ChangeIndex {
    *
    * @throws IOException if the change could not be inserted.
    */
-  public ListenableFuture<Void> insert(ChangeData cd) throws IOException;
+  public ListenableFuture<?> insert(ChangeData cd) throws IOException;
 
   /**
    * Update a change document in the index.
@@ -108,7 +108,7 @@ public interface ChangeIndex {
    *
    * @throws IOException
    */
-  public ListenableFuture<Void> replace(ChangeData cd) throws IOException;
+  public ListenableFuture<?> replace(ChangeData cd) throws IOException;
 
   /**
    * Delete a change document from the index.
@@ -117,7 +117,7 @@ public interface ChangeIndex {
    *
    * @throws IOException
    */
-  public ListenableFuture<Void> delete(ChangeData cd) throws IOException;
+  public ListenableFuture<?> delete(ChangeData cd) throws IOException;
 
   /**
    * Delete all change documents from the index.

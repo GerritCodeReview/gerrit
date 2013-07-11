@@ -125,7 +125,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
+  public ListenableFuture<?> insert(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     SolrInputDocument doc = toDocument(cd);
     try {
@@ -145,7 +145,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public ListenableFuture<Void> replace(ChangeData cd) throws IOException {
+  public ListenableFuture<?> replace(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     SolrInputDocument doc = toDocument(cd);
     try {
@@ -165,7 +165,7 @@ class SolrChangeIndex implements ChangeIndex, LifecycleListener {
   }
 
   @Override
-  public ListenableFuture<Void> delete(ChangeData cd) throws IOException {
+  public ListenableFuture<?> delete(ChangeData cd) throws IOException {
     String id = cd.getId().toString();
     try {
       if (cd.getChange().getStatus().isOpen()) {

@@ -17,7 +17,6 @@ package com.google.gerrit.lucene;
 import static com.google.gerrit.server.index.IndexRewriteImpl.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.IndexRewriteImpl.OPEN_STATUSES;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -174,15 +173,15 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @SuppressWarnings("unchecked")
   @Override
-  public ListenableFuture<Void> insert(ChangeData cd) throws IOException {
+  public ListenableFuture<?> insert(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
     if (cd.getChange().getStatus().isOpen()) {
-      return allOf(
+      return Futures.allAsList(
           closedIndex.delete(id),
           openIndex.insert(doc));
     } else {
-      return allOf(
+      return Futures.allAsList(
           openIndex.delete(id),
           closedIndex.insert(doc));
     }
@@ -190,15 +189,15 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @SuppressWarnings("unchecked")
   @Override
-  public ListenableFuture<Void> replace(ChangeData cd) throws IOException {
+  public ListenableFuture<?> replace(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
     Document doc = toDocument(cd);
     if (cd.getChange().getStatus().isOpen()) {
-      return allOf(
+      return Futures.allAsList(
           closedIndex.delete(id),
           openIndex.replace(id, doc));
     } else {
-      return allOf(
+      return Futures.allAsList(
           openIndex.delete(id),
           closedIndex.replace(id, doc));
     }
@@ -206,22 +205,11 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   @SuppressWarnings("unchecked")
   @Override
-  public ListenableFuture<Void> delete(ChangeData cd) throws IOException {
+  public ListenableFuture<?> delete(ChangeData cd) throws IOException {
     Term id = QueryBuilder.idTerm(cd);
-    return allOf(
+    return Futures.allAsList(
         openIndex.delete(id),
         closedIndex.delete(id));
-  }
-
-  private static <V> ListenableFuture<Void> allOf(ListenableFuture<V>... f) {
-    return Futures.transform(
-        Futures.allAsList(f),
-        new Function<List<V>, Void>() {
-          @Override
-          public Void apply(List<V> input) {
-            return null;
-          }
-        });
   }
 
   @Override

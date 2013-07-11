@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "675488b1_432ec695",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-11T12:33:08Z",
+      "side": 0,
+      "message": "This is what is confusing. The ChangeInserter is for inserting the new change, but we add a message that is created for the change that is reverted. The ChangeInserter actually doesn\u0027t check or care if this message is for the change it inserts or if it\u0027s for another change. It simply inserts the message into the database. So this is the place where the message is added for the change that is reverted.",
+      "revId": "ac0468877ef2e8137b6e15fea1a63a25d1ad079a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "675488b1_83435e5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-11T12:33:08Z",
+      "side": 1,
+      "message": "I think this is not true, the message was only added on the change that is reverted and now after this change, the message is not anymore added on the change that is reverted, but this is where we want to keep it. First I was also fooled by the implementation (see inline comments).",
+      "revId": "958d49ce7860ca344c22f8b8d259fb06d4b629e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "675488b1_a348da75",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-11T12:33:08Z",
+      "side": 1,
+      "message": "Here we are providing the changeId of the change that is reverted. This means when this message is inserted into the database, it will apply to this change. This is the change on which we want to have the comment.",
+      "revId": "958d49ce7860ca344c22f8b8d259fb06d4b629e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

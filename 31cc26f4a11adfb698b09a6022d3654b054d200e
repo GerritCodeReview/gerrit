@@ -16,6 +16,24 @@
       "revId": "31cc26f4a11adfb698b09a6022d3654b054d200e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "677ba837_2b1cb971",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-11T00:48:19Z",
+      "side": 1,
+      "message": "I\u0027m considering how to avoid this in the reindex case by changing the interface. Right now it is simply broken though.\n\nI\u0027m probably going to hold off on submitting this, though, until I track down why refreshing is so slow.",
+      "parentUuid": "877edc23_4c259fb7",
+      "revId": "31cc26f4a11adfb698b09a6022d3654b054d200e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "677ba837_6b9de1a7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-11T17:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "677ba837_cb8bb56b",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "677ba837_2b4ef975",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-11T15:35:19Z",
       "side": 1,
       "message": "nit: i generally prefer String.valueOf() since it handles everythihng",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "677ba837_0baa1dbf",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-11T17:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "677ba837_2b4ef975",
       "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "677ba837_2ba7d9f7",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-11T17:26:03Z",
+      "side": 1,
+      "message": "Actually we need a LineWidget..",
+      "parentUuid": "877edc23_727f10e6",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "877edc23_92971cfd",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Configuration.java",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-11T15:35:19Z",
       "side": 1,
       "message": "This seems like it is not need.  We don\u0027t explicitly name other parameters, why this one?",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "677ba837_8b95ad86",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Configuration.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-11T17:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "877edc23_92971cfd",
       "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "677ba837_eb90f197",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-11T17:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "877edc23_b29c981f",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "877edc23_528214bf",
         "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
         "patchSetId": 8
@@ -98,6 +188,24 @@
       "writtenOn": "2013-07-11T15:35:19Z",
       "side": 1,
       "message": "same",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877edc23_328988dd",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-11T17:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "877edc23_528214bf",
       "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

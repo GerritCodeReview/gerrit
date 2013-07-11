@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "677ba837_cb8bb56b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-11T15:35:19Z",
+      "side": 1,
+      "message": "nit: space after comma needed",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "677ba837_2b4ef975",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-11T15:35:19Z",
+      "side": 1,
+      "message": "nit: i generally prefer String.valueOf() since it handles everythihng",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877edc23_727f10e6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/SkipBar.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-11T15:35:19Z",
+      "side": 1,
+      "message": "you should just make createReplace a private method in this class.",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877edc23_92971cfd",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Configuration.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-11T15:35:19Z",
+      "side": 1,
+      "message": "This seems like it is not need.  We don\u0027t explicitly name other parameters, why this one?",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877edc23_b29c981f",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-11T15:35:19Z",
+      "side": 1,
+      "message": "Does this pass? You have changed the behavior here, previously the second argument was 1.",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877edc23_528214bf",
+        "filename": "gerrit-gwtui/src/test/java/com/google/gerrit/client/diff/EditIteratorTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2013-07-11T15:35:19Z",
+      "side": 1,
+      "message": "same",
+      "revId": "fc5c73673525b908c4638a9d32282826312d9a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

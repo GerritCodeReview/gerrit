@@ -33,8 +33,8 @@ public class LineCharacter extends JavaScriptObject {
     return lineCh;
   }
 
-  private final native void setLine(int line) /*-{ this.line = line; }-*/;
-  private final native void setCh(int ch) /*-{ this.ch = ch; }-*/;
+  public final native void setLine(int line) /*-{ this.line = line; }-*/;
+  public final native void setCh(int ch) /*-{ this.ch = ch; }-*/;
 
   public final native int getLine() /*-{ return this.line; }-*/;
   public final native int getCh() /*-{ return this.ch; }-*/;

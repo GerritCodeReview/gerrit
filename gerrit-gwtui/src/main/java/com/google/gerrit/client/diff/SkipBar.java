@@ -27,13 +27,10 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
-import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.TextMarker;
 import net.codemirror.lib.TextMarker.FromTo;
-
-import java.util.Map;
 
 /** The Widget that handles expanding of skipped lines */
 class SkipBar extends Composite {
@@ -67,11 +64,9 @@ class SkipBar extends Composite {
   private SkipBar otherBar;
   private CodeMirror cm;
   private int numSkipLines;
-  private Map<LineHandle, Integer> hiddenSkipMap;
 
-  SkipBar(CodeMirror cm, Map<LineHandle, Integer> hiddenSkipMap) {
+  SkipBar(CodeMirror cm) {
     this.cm = cm;
-    this.hiddenSkipMap = hiddenSkipMap;
     skipNum = new Anchor(true);
     upArrow = new Anchor(true);
     downArrow = new Anchor(true);
@@ -123,8 +118,6 @@ class SkipBar extends Composite {
   }
 
   private void expandAll() {
-    hiddenSkipMap.remove(
-        cm.getLineHandle(marker.find().getTo().getLine()));
     clearMarkerAndWidget();
     removeFromParent();
   }
@@ -140,7 +133,6 @@ class SkipBar extends Composite {
     LineWidget newWidget = cm.addLineWidget(newStart, getElement(), config);
     setWidget(newWidget);
     updateSkipNum();
-    hiddenSkipMap.put(cm.getLineHandle(end), numSkipLines);
   }
 
   private void expandAfter() {
@@ -152,8 +144,6 @@ class SkipBar extends Composite {
         CodeMirror.pos(newEnd),
         COLLAPSED);
     updateSkipNum();
-    hiddenSkipMap.remove(cm.getLineHandle(oldEnd));
-    hiddenSkipMap.put(cm.getLineHandle(newEnd), numSkipLines);
   }
 
   @UiHandler("skipNum")

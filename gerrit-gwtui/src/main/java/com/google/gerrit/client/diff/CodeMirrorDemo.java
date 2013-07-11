@@ -17,12 +17,14 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
+import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
 import com.google.gerrit.client.diff.DiffInfo.Span;
 import com.google.gerrit.client.diff.LineMapper.LineOnOtherInfo;
 import com.google.gerrit.client.diff.PaddingManager.LineWidgetElementPair;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.patches.SkippedLine;
 import com.google.gerrit.client.projects.ConfigInfoCache;
 import com.google.gerrit.client.rpc.CallbackGroup;
@@ -31,6 +33,7 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -39,13 +42,19 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
+import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
 import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.CodeMirror.LineClassWhere;
@@ -87,8 +96,13 @@ public class CodeMirrorDemo extends Screen {
   private Map<LineHandle, PublishedBox> lineLastPublishedBoxMap;
   private Map<LineHandle, PaddingManager> linePaddingManagerMap;
   private List<SkippedLine> skips;
-  private Map<LineHandle, Integer> hiddenSkipMap;
   private int context;
+
+  private KeyCommandSet keysNavigation;
+  private KeyCommandSet keysAction;
+  private KeyCommandSet keysComment;
+  private KeyCommandSet keysOpenByEnter;
+  private List<HandlerRegistration> keyHandlers;
 
   public CodeMirrorDemo(
       PatchSet.Id base,
@@ -97,6 +111,9 @@ public class CodeMirrorDemo extends Screen {
     this.base = base;
     this.revision = revision;
     this.path = path;
+    this.keyHandlers = new ArrayList<HandlerRegistration>(4);
+    // TODO: Re-implement necessary GlobalKey bindings.
+    addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
 
   @Override
@@ -184,6 +201,7 @@ public class CodeMirrorDemo extends Screen {
   protected void onUnload() {
     super.onUnload();
 
+    removeKeyHandlerRegs();
     if (resizeHandler != null) {
       resizeHandler.removeHandler();
       resizeHandler = null;
@@ -197,6 +215,69 @@ public class CodeMirrorDemo extends Screen {
       cmB = null;
     }
     Window.enableScrolling(true);
+  }
+
+  private void removeKeyHandlerRegs() {
+    for (HandlerRegistration h : keyHandlers) {
+      h.removeHandler();
+    }
+    keyHandlers.clear();
+  }
+
+  private void registerCmEvents(CodeMirror cm) {
+    cm.on("cursorActivity", updateActiveLine(cm));
+    cm.on("scroll", doScroll(otherCM(cm)));
+    /**
+     * TODO: Trying to prevent right click from updating the cursor.
+     * Doesn't seem to work for now.
+     */
+    cm.on("mousedown", ignoreRightClick());
+    cm.addKeyMap(KeyMap.create().on("'u'", upToChange()));
+    cm.addKeyMap(KeyMap.create().on("'o'", toggleOpenBox(cm)));
+    cm.addKeyMap(KeyMap.create().on("Enter", toggleOpenBox(cm)));
+    if (Gerrit.isSignedIn()) {
+      cm.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cm)));
+    }
+    // TODO: Examine if a better way exists.
+    for (String c : new String[]{"A", "C", "D", "I", "O", "P", "R", "S", "U",
+        "X", "Y", "~"}) {
+      CodeMirror.disableUnwantedKey("vim", c);
+    }
+  }
+
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+
+    keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
+    keysNavigation.add(new NoOpKeyCommand(0, 'u', PatchUtil.C.upToChange()));
+    keysNavigation.add(new NoOpKeyCommand(0, 'j', PatchUtil.C.lineNext()));
+    keysNavigation.add(new NoOpKeyCommand(0, 'k', PatchUtil.C.linePrev()));
+
+    keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
+    keysAction.add(new NoOpKeyCommand(0, 'o', PatchUtil.C.expandComment()));
+
+    keysOpenByEnter = new KeyCommandSet(Gerrit.C.sectionNavigation());
+    keysOpenByEnter.add(new NoOpKeyCommand(0, KeyCodes.KEY_ENTER,
+        PatchUtil.C.expandComment()));
+
+    if (Gerrit.isSignedIn()) {
+      keysAction.add(new NoOpKeyCommand(0, 'c', PatchUtil.C.commentInsert()));
+      keysComment = new KeyCommandSet(PatchUtil.C.commentEditorSet());
+      keysComment.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 's',
+          PatchUtil.C.commentSaveDraft()));
+      keysComment.add(new NoOpKeyCommand(0, KeyCodes.KEY_ESCAPE,
+          PatchUtil.C.commentCancelEdit()));
+    } else {
+      keysComment = null;
+    }
+    removeKeyHandlerRegs();
+    keyHandlers.add(GlobalKey.add(this, keysNavigation));
+    keyHandlers.add(GlobalKey.add(this, keysAction));
+    keyHandlers.add(GlobalKey.add(this, keysOpenByEnter));
+    if (keysComment != null) {
+      keyHandlers.add(GlobalKey.add(this, keysComment));
+    }
   }
 
   private void display(DiffInfo diffInfo) {
@@ -219,12 +300,8 @@ public class CodeMirrorDemo extends Screen {
     published = null;
     drafts = null;
     skips = null;
-    cmA.on("cursorActivity", updateActiveLine(cmA));
-    cmB.on("cursorActivity", updateActiveLine(cmB));
-    if (Gerrit.isSignedIn()) {
-      cmA.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cmA)));
-      cmB.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cmB)));
-    }
+    registerCmEvents(cmA);
+    registerCmEvents(cmB);
     // TODO: Probably need horizontal resize
     resizeHandler = Window.addResizeHandler(new ResizeHandler() {
       @Override
@@ -239,8 +316,6 @@ public class CodeMirrorDemo extends Screen {
         }
       }
     });
-    cmA.on("scroll", doScroll(cmB));
-    cmB.on("scroll", doScroll(cmA));
   }
 
   private CodeMirror displaySide(DiffInfo.FileMeta meta, String contents,
@@ -255,6 +330,7 @@ public class CodeMirrorDemo extends Screen {
       .set("mode", getContentType(meta))
       .set("styleSelectedText", true)
       .set("showTrailingSpace", true)
+      .set("keyMap", "vim")
       .set("value", contents);
     final CodeMirror cm = CodeMirror.create(ele, cfg);
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
@@ -334,13 +410,14 @@ public class CodeMirrorDemo extends Screen {
   }
 
   private DraftBox addDraftBox(CommentInfo info, boolean doSave) {
-    DraftBox box = new DraftBox(this, revision, info, commentLinkProcessor,
+    CodeMirror cm = getCmFromSide(info.side());
+    DraftBox box = new DraftBox(this, cm, revision, info, commentLinkProcessor,
         true, doSave);
     addCommentBox(info, box);
     if (!doSave) {
       box.setEdit(true);
     }
-    LineHandle handle = getCmFromSide(info.side()).getLineHandle(info.line() - 1);
+    LineHandle handle = cm.getLineHandle(info.line() - 1);
     lineActiveBoxMap.put(handle, box);
     return box;
   }
@@ -424,7 +501,8 @@ public class CodeMirrorDemo extends Screen {
     List<CommentInfo> sorted = sortComment(drafts);
     for (CommentInfo info : sorted) {
       final DraftBox box =
-          new DraftBox(this, revision, info, commentLinkProcessor, false, false);
+          new DraftBox(this, getCmFromSide(info.side()), revision, info,
+              commentLinkProcessor, false, false);
       box.setOpen(false);
       box.setEdit(false);
       initialBoxes.add(box);
@@ -441,7 +519,6 @@ public class CodeMirrorDemo extends Screen {
   }
 
   private void renderSkips() {
-    hiddenSkipMap = new HashMap<LineHandle, Integer>();
     for (CommentBox box : initialBoxes) {
       List<SkippedLine> temp = new ArrayList<SkippedLine>();
       for (SkippedLine skip : skips) {
@@ -482,8 +559,7 @@ public class CodeMirrorDemo extends Screen {
     int size = skip.getSize();
     int markStart = cm == cmA ? skip.getStartA() - 1 : skip.getStartB() - 1;
     int markEnd = markStart + size;
-    hiddenSkipMap.put(cm.getLineHandle(markEnd), size);
-    SkipBar bar = new SkipBar(cm, hiddenSkipMap);
+    SkipBar bar = new SkipBar(cm);
     diffTable.add(bar);
     /**
      * Due to CodeMirror limitation, there's no way to make the first
@@ -600,17 +676,8 @@ public class CodeMirrorDemo extends Screen {
           other.removeLineClass(other.getActiveLine(),
               LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
         }
-        int line = cm.getCursor("head").getLine();
-        LineHandle handle = cm.getLineHandle(line);
-        /**
-         * Ugly workaround because CodeMirror never hides lines completely.
-         * TODO: Change to use CodeMirror's official workaround after
-         * updating the library to latest HEAD.
-         */
-        if (hiddenSkipMap.containsKey(handle)) {
-          line -= hiddenSkipMap.get(handle);
-          handle = cm.getLineHandle(line);
-        }
+        LineHandle handle = cm.getLineHandleVisualStart(cm.getCursor().getLine());
+        int line = cm.getLineNumber(handle);
         cm.setActiveLine(handle);
         if (cm.somethingSelected()) {
           return;
@@ -643,6 +710,35 @@ public class CodeMirrorDemo extends Screen {
           ((DraftBox) lineActiveBoxMap.get(handle)).setEdit(true);
         } else {
           ((PublishedBox) box).onReply(null);
+        }
+      }
+    };
+  }
+
+  private Runnable toggleOpenBox(final CodeMirror cm) {
+    return new Runnable() {
+      public void run() {
+        CommentBox box = lineActiveBoxMap.get(cm.getActiveLine());
+        if (box != null) {
+          box.setOpen(!box.isOpen());
+        }
+      }
+    };
+  }
+
+  private Runnable upToChange() {
+    return new Runnable() {
+      public void run() {
+        Gerrit.display(PageLinks.toChange(revision), new ChangeScreen(revision));
+      }
+    };
+  }
+
+  private CodeMirror.EventHandler ignoreRightClick() {
+    return new CodeMirror.EventHandler() {
+      public void handle(CodeMirror instance, NativeEvent event) {
+        if (event.getButton() == NativeEvent.BUTTON_RIGHT) {
+          event.preventDefault();
         }
       }
     };
@@ -688,6 +784,16 @@ public class CodeMirrorDemo extends Screen {
     private void advanceLine() {
       currLineIndex++;
       currLineOffset = 0;
+    }
+  }
+
+  private static class NoOpKeyCommand extends KeyCommand {
+    private NoOpKeyCommand(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
     }
   }
 }

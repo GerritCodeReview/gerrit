@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "677ba837_8b5ccd30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-11T13:00:19Z",
+      "side": 1,
+      "message": "Hmm, I thought I saw the message still appearing on the change after I ran gerrit with this patch.\n\nI\u0027ll check it again tomorrow.  Having looked at the code again with your comments I can see it should not work.",
+      "parentUuid": "675488b1_83435e5b",
+      "revId": "958d49ce7860ca344c22f8b8d259fb06d4b629e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "675488b1_a348da75",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1

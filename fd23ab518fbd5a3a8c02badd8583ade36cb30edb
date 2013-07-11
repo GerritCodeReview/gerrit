@@ -16,6 +16,24 @@
       "revId": "fd23ab518fbd5a3a8c02badd8583ade36cb30edb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "675488b1_03aa0ebf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-11T14:20:09Z",
+      "side": 1,
+      "message": "It\u0027s not needed and was just forgotten to be removed. Fixed here:\n  https://gerrit-review.googlesource.com/47733",
+      "parentUuid": "675488b1_a39a1ab2",
+      "revId": "fd23ab518fbd5a3a8c02badd8583ade36cb30edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -266,8 +266,11 @@ public class CodeMirrorDemo extends Screen {
         JsArrayString currentB = current.b() == null ? EMPTY : current.b();
         int aLength = currentA.length();
         int bLength = currentB.length();
-        colorLines(cmA, origLineA, aLength);
-        colorLines(cmB, origLineB, bLength);
+        String color = currentA == EMPTY || currentB == EMPTY
+            ? diffTable.style.diff()
+            : diffTable.style.intralineBg();
+        colorLines(cmA, color, origLineA, aLength);
+        colorLines(cmB, color, origLineB, bLength);
         mapper.appendCommon(Math.min(aLength, bLength));
         if (aLength < bLength) { // Edit with insertion
           int insertCnt = bLength - aLength;
@@ -385,11 +388,11 @@ public class CodeMirrorDemo extends Screen {
       return;
     }
     EditIterator iter = new EditIterator(lines, startLine);
+    Configuration intralineBgOpt = Configuration.create()
+        .set("className", diffTable.style.intralineBg())
+        .set("readOnly", true);
     Configuration diffOpt = Configuration.create()
         .set("className", diffTable.style.diff())
-        .set("readOnly", true);
-    Configuration editOpt = Configuration.create()
-        .set("className", diffTable.style.intraline())
         .set("readOnly", true);
     LineCharacter last = LineCharacter.create(0, 0);
     for (int i = 0; i < edits.length(); i++) {
@@ -398,22 +401,22 @@ public class CodeMirrorDemo extends Screen {
       LineCharacter to = iter.advance(span.mark());
       int fromLine = from.getLine();
       if (last.getLine() == fromLine) {
-        cm.markText(last, from, diffOpt);
+        cm.markText(last, from, intralineBgOpt);
       } else {
-        cm.markText(LineCharacter.create(fromLine, 0), from, diffOpt);
+        cm.markText(LineCharacter.create(fromLine, 0), from, intralineBgOpt);
       }
-      cm.markText(from, to, editOpt);
+      cm.markText(from, to, diffOpt);
       last = to;
       for (int line = fromLine; line < to.getLine(); line++) {
         cm.addLineClass(line, LineClassWhere.BACKGROUND,
-            diffTable.style.intraline());
+            diffTable.style.diff());
       }
     }
   }
 
-  private void colorLines(CodeMirror cm, int line, int cnt) {
+  private void colorLines(CodeMirror cm, String color, int line, int cnt) {
     for (int i = 0; i < cnt; i++) {
-      cm.addLineClass(line + i, LineClassWhere.WRAP, diffTable.style.diff());
+      cm.addLineClass(line + i, LineClassWhere.WRAP, color);
     }
   }
 

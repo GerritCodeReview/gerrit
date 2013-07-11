@@ -94,12 +94,21 @@ A sample good Gerrit commit message:
 ====
 
 The Change-Id is, as usual, created by a local git hook.  To install it, simply
-copy one from the checkout and make it executable:
+copy it from the checkout and make it executable:
 
 ====
   cp ./gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg .git/hooks/
   chmod +x .git/hooks/commit-msg
 ====
+
+If you are working on core plugins, you will also need to install the
+same hook in the submodules:
+
+====
+  export hook=$(pwd)/.git/hooks/commit-msg
+  git submodule foreach 'cp -p "$hook" "$(git rev-parse --git-dir)/hooks/"'
+====
+
 
 To set up git's remote for easy pushing, run the following:
 

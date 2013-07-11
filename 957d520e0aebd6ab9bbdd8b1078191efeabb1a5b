@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "877edc23_4c2eff95",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-11T03:29:25Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this (and the tab size) be set according to the user\u0027s preferences?\n\nOr are the diff preferences not applicable here?",
+      "revId": "957d520e0aebd6ab9bbdd8b1078191efeabb1a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

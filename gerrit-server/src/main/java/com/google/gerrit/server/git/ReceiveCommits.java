@@ -1523,7 +1523,10 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
 
-      ins.setReviewers(recipients.getReviewers()).insert();
+      ins
+        .setReviewers(recipients.getReviewers())
+        .setSendMail(false)
+        .insert();
       created = true;
 
       workQueue.getDefaultQueue()

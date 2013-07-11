@@ -16,6 +16,24 @@
       "revId": "e3f594e7ac530b7205343e80350df556caea3c52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "877edc23_3230a853",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-11T13:28:57Z",
+      "side": 1,
+      "message": "That can be added then....",
+      "parentUuid": "a75a00db_e53ed6c4",
+      "revId": "e3f594e7ac530b7205343e80350df556caea3c52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

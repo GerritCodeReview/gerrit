@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "677ba837_4b2585b7",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-11T00:46:53Z",
+      "side": 1,
+      "message": "This is a bit out of control but I can see how that happened. Not going to ask you to fix it now but, wow.",
+      "revId": "8a3745ee5181074844a6905e1aa2cd785b3334ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

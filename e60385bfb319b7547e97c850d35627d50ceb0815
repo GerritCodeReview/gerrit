@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a75a00db_2535cedb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-11T12:57:25Z",
+      "side": 1,
+      "message": "You still need to remove the identifiedUser here, otherwise it still requires it to be injected which fails in the merge case and the submitted changes get stuck in \u0027Submitted, Merge Pending\u0027 state.",
+      "revId": "e60385bfb319b7547e97c850d35627d50ceb0815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

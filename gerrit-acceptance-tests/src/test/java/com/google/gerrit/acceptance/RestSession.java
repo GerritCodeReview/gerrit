@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 
 import org.apache.http.auth.AuthScope;
@@ -25,7 +26,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
 
 import java.io.IOException;
 
@@ -51,7 +51,9 @@ public class RestSession {
     HttpPut put = new HttpPut("http://localhost:8080/a" + endPoint);
     if (content != null) {
       put.addHeader(new BasicHeader("Content-Type", "application/json"));
-      put.setEntity(new StringEntity((new Gson()).toJson(content), HTTP.UTF_8));
+      put.setEntity(new StringEntity(
+          new Gson().toJson(content),
+          Charsets.UTF_8.name()));
     }
     return new RestResponse(getClient().execute(put));
   }
@@ -64,7 +66,9 @@ public class RestSession {
     HttpPost post = new HttpPost("http://localhost:8080/a" + endPoint);
     if (content != null) {
       post.addHeader(new BasicHeader("Content-Type", "application/json"));
-      post.setEntity(new StringEntity((new Gson()).toJson(content), HTTP.UTF_8));
+      post.setEntity(new StringEntity(
+          new Gson().toJson(content),
+          Charsets.UTF_8.name()));
     }
     return new RestResponse(getClient().execute(post));
   }

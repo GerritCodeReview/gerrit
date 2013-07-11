@@ -15,24 +15,20 @@
 package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.PrimaryKey;
 import com.google.gwtorm.server.Query;
 import com.google.gwtorm.server.ResultSet;
 
-public interface AccountGroupIncludeByUuidAccess extends
-    Access<AccountGroupIncludeByUuid, AccountGroupIncludeByUuid.Key> {
+public interface AccountGroupByIdAudAccess extends
+    Access<AccountGroupByIdAud, AccountGroupByIdAud.Key> {
   @PrimaryKey("key")
-  AccountGroupIncludeByUuid get(AccountGroupIncludeByUuid.Key key) throws OrmException;
+  AccountGroupByIdAud get(AccountGroupByIdAud.Key key)
+      throws OrmException;
 
-  @Query("WHERE key.includeUUID = ?")
-  ResultSet<AccountGroupIncludeByUuid> byIncludeUUID(AccountGroup.UUID uuid) throws OrmException;
-
-  @Query("WHERE key.groupId = ?")
-  ResultSet<AccountGroupIncludeByUuid> byGroup(AccountGroup.Id id) throws OrmException;
-
-  @Query("")
-  ResultSet<AccountGroupIncludeByUuid> all() throws OrmException;
+  @Query("WHERE key.groupId = ? AND key.includeUUID = ?")
+  ResultSet<AccountGroupByIdAud> byGroupInclude(AccountGroup.Id groupId,
+      AccountGroup.UUID incGroupUUID) throws OrmException;
 }

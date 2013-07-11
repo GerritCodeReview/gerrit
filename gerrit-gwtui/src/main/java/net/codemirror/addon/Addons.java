@@ -29,4 +29,8 @@ public interface Addons extends ClientBundle {
   @Source("fold/foldcode.js")
   @DoNotEmbed
   DataResource foldcode();
+
+  @Source("edit/trailingspace.js")
+  @DoNotEmbed
+  DataResource trailingspace();
 }

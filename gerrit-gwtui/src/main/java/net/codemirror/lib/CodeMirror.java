@@ -116,6 +116,10 @@ public class CodeMirror extends JavaScriptObject {
     return this.getCursor(start);
   }-*/;
 
+  public final native boolean somethingSelected() /*-{
+    return this.somethingSelected();
+  }-*/;
+
   public final native boolean hasActiveLine() /*-{
     return this.state.hasOwnProperty('activeLine');
   }-*/;

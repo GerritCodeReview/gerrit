@@ -32,7 +32,7 @@ import java.util.List;
 /** A version of the database schema. */
 public abstract class SchemaVersion {
   /** The current schema version. */
-  public static final Class<Schema_81> C = Schema_81.class;
+  public static final Class<Schema_82> C = Schema_82.class;
 
   public static class Module extends AbstractModule {
     @Override
@@ -133,6 +133,18 @@ public abstract class SchemaVersion {
       throws OrmException {
     curr.versionNbr = versionNbr;
     db.schemaVersion().update(Collections.singleton(curr));
+  }
+
+  /** Rename an existing table. */
+  protected void renameTable(ReviewDb db, String from, String to)
+      throws OrmException {
+    final JdbcSchema s = (JdbcSchema) db;
+    final JdbcExecutor e = new JdbcExecutor(s);
+    try {
+      s.renameTable(e, from, to);
+    } finally {
+      e.close();
+    }
   }
 
   /** Rename an existing column. */

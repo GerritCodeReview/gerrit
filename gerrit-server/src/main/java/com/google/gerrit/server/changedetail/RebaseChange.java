@@ -29,7 +29,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.index.ChangeIndexer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -64,7 +63,6 @@ public class RebaseChange {
       @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager,
       final MergeUtil.Factory mergeUtilFactory,
-      final ChangeIndexer changeIndexer,
       final PatchSetInserter.Factory patchSetInserterFactory) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;

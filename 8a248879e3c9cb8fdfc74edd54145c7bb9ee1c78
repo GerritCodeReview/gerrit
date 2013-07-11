@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a75a00db_85f1221f",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/OnEditEnabler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-11T06:16:17Z",
+      "side": 1,
+      "message": "I don\u0027t understand this fix. Why are we disabling the widget when the text box gets empty? This prevents us from deleting a value and saving the deletion. E.g. if you go to \u0027Settings\u0027 \u003e \u0027Contact Information\u0027 and delete an existing \u0027Full Name\u0027 the \u0027Save Changes\u0027 button will get disabled. On the other side the button stays active if the name is changed and then changed back to the original value. From the commit message I understood that this change is supposed to disable the widget in this case, isn\u0027t it?",
+      "revId": "8a248879e3c9cb8fdfc74edd54145c7bb9ee1c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -61,6 +61,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -80,6 +82,9 @@ public class ChangeUtil {
   private static final int SEED = 0x2418e6f9;
   private static int uuidPrefix;
   private static int uuidSeq;
+
+  private static final Logger log =
+      LoggerFactory.getLogger(ChangeUtil.class);
 
   /**
    * Generate a new unique identifier for change message entities.
@@ -290,10 +295,15 @@ public class ChangeUtil {
 
       ins.setMessage(cmsg).insert();
 
-      final RevertedSender cm = revertedSenderFactory.create(change);
-      cm.setFrom(user.getAccountId());
-      cm.setChangeMessage(cmsg);
-      cm.send();
+      try {
+        final RevertedSender cm = revertedSenderFactory.create(change);
+        cm.setFrom(user.getAccountId());
+        cm.setChangeMessage(cmsg);
+        cm.send();
+      } catch (Exception err) {
+        log.error("Cannot send email for revert change " + change.getId(),
+            err);
+      }
 
       return change.getId();
     } finally {

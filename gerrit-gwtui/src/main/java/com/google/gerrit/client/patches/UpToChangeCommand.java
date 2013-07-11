@@ -21,10 +21,10 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
-class UpToChangeCommand extends KeyCommand {
+public class UpToChangeCommand extends KeyCommand {
   private final PatchSet.Id patchSetId;
 
-  UpToChangeCommand(PatchSet.Id patchSetId, int mask, int key) {
+  public UpToChangeCommand(PatchSet.Id patchSetId, int mask, int key) {
     super(mask, key, PatchUtil.C.upToChange());
     this.patchSetId = patchSetId;
   }

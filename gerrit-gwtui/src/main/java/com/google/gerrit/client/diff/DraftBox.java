@@ -25,6 +25,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -35,6 +37,8 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+
+import net.codemirror.lib.CodeMirror;
 
 /** An HtmlPanel for displaying and editing a draft */
 class DraftBox extends CommentBox {
@@ -69,9 +73,11 @@ class DraftBox extends CommentBox {
   private HandlerRegistration messageClick;
   private boolean isNew;
   private PublishedBox replyToBox;
+  private CodeMirror cm;
 
   DraftBox(
       CodeMirrorDemo host,
+      CodeMirror cm,
       PatchSet.Id id,
       CommentInfo info,
       CommentLinkProcessor linkProcessor,
@@ -79,6 +85,7 @@ class DraftBox extends CommentBox {
       boolean saveOnInit) {
     super(host, uiBinder, id, info, linkProcessor, true);
 
+    this.cm = cm;
     this.isNew = isNew;
     editArea.setText(contentPanelMessage.getText());
     if (saveOnInit) {
@@ -145,6 +152,7 @@ class DraftBox extends CommentBox {
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
     manager.resizePaddingWidget();
+    cm.focus();
   }
 
   @UiHandler("edit")
@@ -179,11 +187,13 @@ class DraftBox extends CommentBox {
     } else {
       CommentApi.updateDraft(getPatchSetId(), original.id(), input, cb);
     }
+    cm.focus();
   }
 
   @UiHandler("cancel")
   void onCancel(ClickEvent e) {
     setEdit(false);
+    cm.focus();
   }
 
   @UiHandler("discard")
@@ -198,6 +208,26 @@ class DraftBox extends CommentBox {
           removeUI();
         }
       });
+    }
+  }
+
+  @UiHandler("editArea")
+  void onCtrlS(KeyDownEvent e) {
+    if (e.isControlKeyDown() && e.getNativeKeyCode() == 83) {
+      onSave(null);
+      e.preventDefault();
+    }
+  }
+
+  @UiHandler("editArea")
+  void onEsc(KeyDownEvent e) {
+    if (e.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
+      if (isNew) {
+        removeUI();
+      } else {
+        onCancel(null);
+      }
+      e.preventDefault();
     }
   }
 }

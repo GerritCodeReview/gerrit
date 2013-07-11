@@ -133,8 +133,16 @@ public class CodeMirror extends JavaScriptObject {
     });
   }-*/;
 
+  public final native LineCharacter getCursor() /*-{
+    return this.getCursor();
+  }-*/;
+
   public final native LineCharacter getCursor(String start) /*-{
     return this.getCursor(start);
+  }-*/;
+
+  public final native void setCursor(LineCharacter lineCh) /*-{
+    this.setCursor(lineCh);
   }-*/;
 
   public final native boolean somethingSelected() /*-{
@@ -169,6 +177,15 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native int getLineNumber(LineHandle handle) /*-{
     return this.getLineNumber(handle);
+  }-*/;
+
+  /** This is CodeMirror internal, but works better than setCursor(). */
+  public final native void moveCursorDown(int numLines) /*-{
+    this.moveV(numLines, "line");
+  }-*/;
+
+  public final native void focus() /*-{
+    this.focus();
   }-*/;
 
   protected CodeMirror() {

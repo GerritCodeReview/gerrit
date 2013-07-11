@@ -52,6 +52,24 @@
       "revId": "8a248879e3c9cb8fdfc74edd54145c7bb9ee1c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "675488b1_e315724e",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/OnEditEnabler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-11T07:03:55Z",
+      "side": 1,
+      "message": "Thanks for looking into this. But it should rather be something like this:\n\n  if (box.getValue().equals(orignalValue)) {\n\nor\n\n  if (box.getValue().trim().equals(orignalValue.trim())) {",
+      "parentUuid": "675488b1_c3107661",
+      "revId": "8a248879e3c9cb8fdfc74edd54145c7bb9ee1c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

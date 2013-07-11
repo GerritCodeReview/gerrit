@@ -105,10 +105,10 @@ public interface ReviewDb extends Schema {
   SubmoduleSubscriptionAccess submoduleSubscriptions();
 
   @Relation(id = 29)
-  AccountGroupIncludeByUuidAccess accountGroupIncludesByUuid();
+  AccountGroupByIdAccess accountGroupById();
 
   @Relation(id = 30)
-  AccountGroupIncludeByUuidAuditAccess accountGroupIncludesByUuidAudit();
+  AccountGroupByIdAudAccess accountGroupByIdAud();
 
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)

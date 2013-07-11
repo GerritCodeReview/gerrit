@@ -109,8 +109,6 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     });
     groupNamePanel.add(saveName);
     add(groupNamePanel);
-
-    new OnEditEnabler(saveName, groupNameTxt);
   }
 
   private void initOwner() {
@@ -147,8 +145,6 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     });
     ownerPanel.add(saveOwner);
     add(ownerPanel);
-
-    new OnEditEnabler(saveOwner, ownerTxtBox);
   }
 
   private void initDescription() {
@@ -177,8 +173,6 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     });
     vp.add(saveDesc);
     add(vp);
-
-    new OnEditEnabler(saveDesc, descTxt);
   }
 
   private void initGroupOptions() {
@@ -228,5 +222,8 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     saveOwner.setVisible(canModify);
     saveDesc.setVisible(canModify);
     saveGroupOptions.setVisible(canModify);
+    new OnEditEnabler(saveDesc, descTxt);
+    new OnEditEnabler(saveName, groupNameTxt);
+    new OnEditEnabler(saveOwner, ownerTxtBox);
   }
 }

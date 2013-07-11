@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "675488b1_e379f28d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-07-11T19:52:17Z",
+      "side": 1,
+      "message": "nit: database",
+      "revId": "f2205713f69784b0b043b9726e037987e81ac778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "675488b1_836efec4",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-07-11T19:52:17Z",
+      "side": 1,
+      "message": "Could you add something about when it\u0027s typically a good idea to use the oracle option compared to the other options? (for instance, that Oracle is mandated or large scale reasons)",
+      "revId": "f2205713f69784b0b043b9726e037987e81ac778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "677ba837_4b890567",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-07-11T19:52:17Z",
+      "side": 1,
+      "message": "[...]identified by /gerrit2/secret_password/ default[...]\n\nI don\u0027t think the string \"gerrit2\" really let\u0027s you know that it\u0027s a password that is set. So I\u0027d prefer it to be a bit clearer.",
+      "revId": "f2205713f69784b0b043b9726e037987e81ac778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75a00db_25a70ef8",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-07-11T19:52:17Z",
+      "side": 1,
+      "message": "Download ojdbc.jar [...]\nOk, from where? Could we provide a link to the ojdbc page?\n\nlink:http://example[Download ojdbc.jar]",
+      "revId": "f2205713f69784b0b043b9726e037987e81ac778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75a00db_c574fa98",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2013-07-11T19:52:17Z",
+      "side": 1,
+      "message": "Again, secret_password or other string that makes it perfectly clear in the above example that it\u0027s a pwd.",
+      "revId": "f2205713f69784b0b043b9726e037987e81ac778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

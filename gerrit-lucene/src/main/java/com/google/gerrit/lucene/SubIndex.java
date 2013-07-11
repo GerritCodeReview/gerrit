@@ -14,7 +14,6 @@
 
 package com.google.gerrit.lucene;
 
-import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -35,12 +34,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Piece of the change index that is implemented as a separate Lucene index. */
 class SubIndex {
@@ -50,26 +46,11 @@ class SubIndex {
   private final TrackingIndexWriter writer;
   private final NRTManager nrtManager;
   private final NRTManagerReopenThread reopenThread;
-  private final ConcurrentMap<RefreshListener, Boolean> refreshListeners;
 
   SubIndex(File file, IndexWriterConfig writerConfig) throws IOException {
     dir = FSDirectory.open(file);
     writer = new NRTManager.TrackingIndexWriter(new IndexWriter(dir, writerConfig));
     nrtManager = new NRTManager(writer, new SearcherFactory());
-
-    refreshListeners = Maps.newConcurrentMap();
-    nrtManager.addListener(new RefreshListener() {
-      @Override
-      public void beforeRefresh() throws IOException {
-      }
-
-      @Override
-      public void afterRefresh(boolean didRefresh) throws IOException {
-        for (RefreshListener l : refreshListeners.keySet()) {
-          l.afterRefresh(didRefresh);
-        }
-      }
-    });
 
     reopenThread = new NRTManagerReopenThread(
         nrtManager,
@@ -129,10 +110,10 @@ class SubIndex {
   private final class NrtFuture extends AbstractFuture<Void>
       implements RefreshListener {
     private final long gen;
-    private final AtomicBoolean hasListeners = new AtomicBoolean();
 
     NrtFuture(long gen) {
       this.gen = gen;
+      nrtManager.addListener(this);
     }
 
     @Override
@@ -155,6 +136,12 @@ class SubIndex {
     }
 
     @Override
+    public boolean set(Void value) {
+      nrtManager.removeListener(this);
+      return super.set(value);
+    }
+
+    @Override
     public boolean isDone() {
       if (super.isDone()) {
         return true;
@@ -166,18 +153,8 @@ class SubIndex {
     }
 
     @Override
-    public void addListener(Runnable listener, Executor executor) {
-      if (hasListeners.compareAndSet(false, true) && !isDone()) {
-        nrtManager.addListener(this);
-      }
-      super.addListener(listener, executor);
-    }
-
-    @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
-      if (hasListeners.get()) {
-        refreshListeners.put(this, true);
-      }
+      nrtManager.removeListener(this);
       return super.cancel(mayInterruptIfRunning);
     }
 
@@ -187,8 +164,10 @@ class SubIndex {
 
     @Override
     public void afterRefresh(boolean didRefresh) throws IOException {
-      if (gen <= nrtManager.getCurrentSearchingGen()) {
-        refreshListeners.remove(this);
+      // NRTManager notifies listeners after refreshing the searcher and
+      // incrementing its last-refreshed generation, but before swapping that
+      // value into the searching generation.
+      if (gen <= nrtManager.getCurrentSearchingGen() - 1) {
         set(null);
       }
     }

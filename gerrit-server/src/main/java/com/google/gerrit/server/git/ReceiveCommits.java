@@ -249,6 +249,7 @@ public class ReceiveCommits {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
   private final CmdLineParser.Factory optionParserFactory;
+  private final CreateChangeSender.Factory createChangeSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final GitReferenceUpdated gitRefUpdated;
@@ -342,6 +343,7 @@ public class ReceiveCommits {
     this.schemaFactory = schemaFactory;
     this.accountResolver = accountResolver;
     this.optionParserFactory = optionParserFactory;
+    this.createChangeSenderFactory = createChangeSenderFactory;
     this.mergedSenderFactory = mergedSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.gitRefUpdated = gitRefUpdated;
@@ -1521,11 +1523,31 @@ public class ReceiveCommits {
       recipients.add(getRecipientsFromFooters(accountResolver, ps, footerLines));
       recipients.remove(me);
 
-      ins
-        .setReviewers(recipients.getReviewers())
-        .setExtraCC(recipients.getCcOnly())
-        .insert();
+      ins.setReviewers(recipients.getReviewers()).insert();
       created = true;
+
+      workQueue.getDefaultQueue()
+          .submit(requestScopePropagator.wrap(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            CreateChangeSender cm =
+                createChangeSenderFactory.create(change);
+            cm.setFrom(me);
+            cm.setPatchSet(ps, ins.getPatchSetInfo());
+            cm.addReviewers(recipients.getReviewers());
+            cm.addExtraCC(recipients.getCcOnly());
+            cm.send();
+          } catch (Exception e) {
+            log.error("Cannot send email for new change " + change.getId(), e);
+          }
+        }
+
+        @Override
+        public String toString() {
+          return "send-email newchange";
+        }
+      }));
 
       if (magicBranch != null && magicBranch.isSubmit()) {
         submit(projectControl.controlFor(change), ps);

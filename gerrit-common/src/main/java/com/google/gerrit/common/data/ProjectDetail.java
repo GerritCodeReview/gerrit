@@ -24,6 +24,7 @@ public class ProjectDetail {
   public boolean canModifyAgreements;
   public boolean canModifyAccess;
   public boolean canModifyState;
+  public boolean canModifyMaxObjectSizeLimit;
   public boolean isPermissionOnly;
   public InheritedBoolean useContributorAgreements;
   public InheritedBoolean useSignedOffBy;
@@ -47,6 +48,10 @@ public class ProjectDetail {
 
   public void setCanModifyState(final boolean cms) {
     canModifyState = cms;
+  }
+
+  public void setCanModifyMaxObjectSizeLimit(final boolean cmmosl) {
+    canModifyMaxObjectSizeLimit = cmmosl;
   }
 
   public void setCanModifyAgreements(final boolean cma) {

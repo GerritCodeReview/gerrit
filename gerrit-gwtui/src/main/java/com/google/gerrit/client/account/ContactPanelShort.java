@@ -145,7 +145,6 @@ class ContactPanelShort extends Composite {
         doSave(null);
       }
     });
-    new OnEditEnabler(save, nameTxt);
 
     emailPick.addChangeHandler(new ChangeHandler() {
       @Override
@@ -241,6 +240,7 @@ class ContactPanelShort extends Composite {
     currentEmail = userAccount.getPreferredEmail();
     nameTxt.setText(userAccount.getFullName());
     save.setEnabled(false);
+    new OnEditEnabler(save, nameTxt);
   }
 
   private void doRegisterNewEmail() {

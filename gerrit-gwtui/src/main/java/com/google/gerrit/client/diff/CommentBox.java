@@ -20,11 +20,10 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
@@ -43,7 +42,6 @@ abstract class CommentBox extends Composite {
   }
 
   private CommentLinkProcessor commentLinkProcessor;
-  private HandlerRegistration headerClick;
   private CommentInfo original;
   private PatchSet.Id patchSetId;
   private PaddingManager widgetManager;
@@ -79,23 +77,7 @@ abstract class CommentBox extends Composite {
   protected void onLoad() {
     super.onLoad();
 
-    headerClick = header.addDomHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        setOpen(!isOpen());
-      }
-    }, ClickEvent.getType());
     res.style().ensureInjected();
-  }
-
-  @Override
-  protected void onUnload() {
-    super.onUnload();
-
-    if (headerClick != null) {
-      headerClick.removeHandler();
-      headerClick = null;
-    }
   }
 
   void resizePaddingWidget() {
@@ -138,7 +120,7 @@ abstract class CommentBox extends Composite {
     resizePaddingWidget();
   }
 
-  private boolean isOpen() {
+  boolean isOpen() {
     return getStyleName().contains(res.style().open());
   }
 
@@ -176,5 +158,10 @@ abstract class CommentBox extends Composite {
 
   LineWidget getSelfWidget() {
     return selfWidget;
+  }
+
+  @UiHandler("header")
+  void onHeaderClick(ClickEvent e) {
+    setOpen(!isOpen());
   }
 }

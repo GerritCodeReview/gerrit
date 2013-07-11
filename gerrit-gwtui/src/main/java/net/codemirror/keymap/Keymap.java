@@ -12,37 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package net.codemirror.addon;
+package net.codemirror.keymap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.client.DataResource.DoNotEmbed;
-import com.google.gwt.resources.client.ExternalTextResource;
 
-public interface Addons extends ClientBundle {
-  public static final Addons I = GWT.create(Addons.class);
+public interface Keymap extends ClientBundle {
+  static final Keymap I = GWT.create(Keymap.class);
 
-  @Source("selection/mark-selection.js")
+  @Source("vim.js")
   @DoNotEmbed
-  DataResource mark_selection();
-
-  @Source("edit/trailingspace.js")
-  @DoNotEmbed
-  DataResource trailingspace();
-
-  @Source("dialog/dialog.css")
-  ExternalTextResource dialogCss();
-
-  @Source("dialog/dialog.js")
-  @DoNotEmbed
-  DataResource dialog();
-
-  @Source("search/searchcursor.js")
-  @DoNotEmbed
-  DataResource searchcursor();
-
-  @Source("search/search.js")
-  @DoNotEmbed
-  DataResource search();
+  DataResource vim();
 }

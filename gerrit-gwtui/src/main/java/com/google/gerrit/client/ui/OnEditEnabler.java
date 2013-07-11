@@ -47,6 +47,7 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
 
   private final FocusWidget widget;
   private Map<TextBoxBase, String> strings = new HashMap<TextBoxBase, String>();
+  private String originalValue;
 
 
   // The first parameter to the contructors must be the FocusWidget to enable,
@@ -54,6 +55,7 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
 
   public OnEditEnabler(final FocusWidget w, final TextBoxBase tb) {
     this(w);
+    originalValue = tb.getValue().trim();
     listenTo(tb);
   }
 
@@ -75,7 +77,7 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
   // Register input widgets to be listened to
 
   public void listenTo(final TextBoxBase tb) {
-    strings.put(tb, tb.getText());
+    strings.put(tb, tb.getText().trim());
     tb.addKeyPressHandler(this);
 
     // Is there another way to capture middle button X11 pastes in browsers
@@ -89,7 +91,7 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
     tb.addFocusHandler(new FocusHandler() {
         @Override
         public void onFocus(FocusEvent event) {
-          strings.put(tb, tb.getText());
+          strings.put(tb, tb.getText().trim());
         }
       });
 
@@ -145,7 +147,7 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
         Scheduler.get().scheduleDeferred(new ScheduledCommand() {
           @Override
           public void execute() {
-            if (box.getValue().trim().length() == 0) {
+            if (box.getValue().trim().equals(originalValue)) {
               widget.setEnabled(false);
             }
           }
@@ -173,7 +175,7 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
         if (orig == null) {
           orig = "";
         }
-        if (! orig.equals(tb.getText())) {
+        if (! orig.equals(tb.getText().trim())) {
           widget.setEnabled(true);
         }
       }

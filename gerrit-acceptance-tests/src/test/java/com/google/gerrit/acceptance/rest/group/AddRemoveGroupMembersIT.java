@@ -32,7 +32,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.rest.account.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
@@ -223,9 +223,9 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
       throws OrmException {
     AccountGroup g = groupCache.get(new AccountGroup.NameKey(group));
     Set<AccountGroup.UUID> ids = Sets.newHashSet();
-    ResultSet<AccountGroupIncludeByUuid> all =
-        db.accountGroupIncludesByUuid().byGroup(g.getId());
-    for (AccountGroupIncludeByUuid m : all) {
+    ResultSet<AccountGroupById> all =
+        db.accountGroupById().byGroup(g.getId());
+    for (AccountGroupById m : all) {
       ids.add(m.getIncludeUUID());
     }
     assertTrue(ids.size() == includes.length);
@@ -252,8 +252,8 @@ public class AddRemoveGroupMembersIT extends AbstractDaemonTest {
 
   private void assertNoIncludes(String group) throws OrmException {
     AccountGroup g = groupCache.get(new AccountGroup.NameKey(group));
-    Iterator<AccountGroupIncludeByUuid> it =
-        db.accountGroupIncludesByUuid().byGroup(g.getId()).iterator();
+    Iterator<AccountGroupById> it =
+        db.accountGroupById().byGroup(g.getId()).iterator();
     assertFalse(it.hasNext());
   }
 }

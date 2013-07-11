@@ -27,8 +27,8 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;
@@ -95,8 +95,8 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
     input = Input.init(input);
 
     GroupControl control = resource.getControl();
-    Map<AccountGroup.UUID, AccountGroupIncludeByUuid> newIncludedGroups = Maps.newHashMap();
-    List<AccountGroupIncludeByUuidAudit> newIncludedGroupsAudits = Lists.newLinkedList();
+    Map<AccountGroup.UUID, AccountGroupById> newIncludedGroups = Maps.newHashMap();
+    List<AccountGroupByIdAud> newIncludedGroupsAudits = Lists.newLinkedList();
     List<GroupInfo> result = Lists.newLinkedList();
     Account.Id me = ((IdentifiedUser) control.getCurrentUser()).getAccountId();
 
@@ -108,23 +108,23 @@ public class AddIncludedGroups implements RestModifyView<GroupResource, Input> {
       }
 
       if (!newIncludedGroups.containsKey(d.getGroupUUID())) {
-        AccountGroupIncludeByUuid.Key agiKey =
-            new AccountGroupIncludeByUuid.Key(group.getId(),
+        AccountGroupById.Key agiKey =
+            new AccountGroupById.Key(group.getId(),
                 d.getGroupUUID());
-        AccountGroupIncludeByUuid agi = db.accountGroupIncludesByUuid().get(agiKey);
+        AccountGroupById agi = db.accountGroupById().get(agiKey);
         if (agi == null) {
-          agi = new AccountGroupIncludeByUuid(agiKey);
+          agi = new AccountGroupById(agiKey);
           newIncludedGroups.put(d.getGroupUUID(), agi);
-          newIncludedGroupsAudits.add(new AccountGroupIncludeByUuidAudit(agi, me));
+          newIncludedGroupsAudits.add(new AccountGroupByIdAud(agi, me));
         }
       }
       result.add(json.format(d));
     }
 
     if (!newIncludedGroups.isEmpty()) {
-      db.accountGroupIncludesByUuidAudit().insert(newIncludedGroupsAudits);
-      db.accountGroupIncludesByUuid().insert(newIncludedGroups.values());
-      for (AccountGroupIncludeByUuid agi : newIncludedGroups.values()) {
+      db.accountGroupByIdAud().insert(newIncludedGroupsAudits);
+      db.accountGroupById().insert(newIncludedGroups.values());
+      for (AccountGroupById agi : newIncludedGroups.values()) {
         groupIncludeCache.evictMemberIn(agi.getIncludeUUID());
       }
       groupIncludeCache.evictMembersOf(group.getGroupUUID());

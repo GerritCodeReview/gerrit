@@ -70,6 +70,24 @@
       "revId": "8a248879e3c9cb8fdfc74edd54145c7bb9ee1c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75a00db_6522e6b2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/OnEditEnabler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-11T09:25:37Z",
+      "side": 1,
+      "message": "Thanks! Exactly !  please review  https://gerrit-review.googlesource.com/47740",
+      "parentUuid": "675488b1_e315724e",
+      "revId": "8a248879e3c9cb8fdfc74edd54145c7bb9ee1c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

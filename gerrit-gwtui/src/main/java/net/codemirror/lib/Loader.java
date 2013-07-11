@@ -27,6 +27,7 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import net.codemirror.addon.Addons;
+import net.codemirror.keymap.Keymap;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +42,16 @@ class Loader {
     } else {
       CallbackGroup group = new CallbackGroup();
       injectCss(Lib.I.css());
+      injectCss(Addons.I.dialogCss());
       injectScript(Lib.I.js().getSafeUri(),
+          group.add(CallbackGroup.<Void>emptyCallback()));
+      injectScript(Keymap.I.vim().getSafeUri(),
+          group.add(CallbackGroup.<Void>emptyCallback()));
+      injectScript(Addons.I.dialog().getSafeUri(),
+          group.add(CallbackGroup.<Void>emptyCallback()));
+      injectScript(Addons.I.searchcursor().getSafeUri(),
+          group.add(CallbackGroup.<Void>emptyCallback()));
+      injectScript(Addons.I.search().getSafeUri(),
           group.add(CallbackGroup.<Void>emptyCallback()));
       injectScript(Addons.I.mark_selection().getSafeUri(),
           group.add(CallbackGroup.<Void>emptyCallback()));

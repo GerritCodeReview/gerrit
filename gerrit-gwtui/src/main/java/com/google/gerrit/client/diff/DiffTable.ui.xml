@@ -20,7 +20,8 @@ limitations under the License.
     @external .CodeMirror, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber, .CodeMirror-vscrollbar;
     @external .CodeMirror-hscrollbar;
-    @external .cm-trailingspace;
+    @external .cm-keymap-fat-cursor, CodeMirror-cursor;
+    @external .cm-searching, .cm-trailingspace;
     .difftable .CodeMirror pre {
       padding: 0;
       overflow: hidden;
@@ -48,9 +49,6 @@ limitations under the License.
     .b .diff .CodeMirror-linenumber {
       background-color: #9f9;
     }
-    .CodeMirror-selectedtext.diff, .CodeMirror-selectedtext.intralineBg {
-      background-color: inherit !important;
-    }
     .padding {
       background-color: #eee;
     }
@@ -62,19 +60,29 @@ limitations under the License.
     }
     .activeLine .CodeMirror-linenumber,
     .activeLine .diff, .activeLine .intralineBg {
-      background-color: #FFFF99 !important;
+      background-color: #E0FFFF !important;
     }
     .activeLineBg {
-      background-color: #FFFF99 !important;
+      background-color: #E0FFFF !important;
+    }
+    .cm-searching {
+      background-color: #ffa !important;
     }
     .cm-trailingspace {
       background-color: red !important;
+    }
+    .CodeMirror-selectedtext {
+      background-color: inherit !important;
     }
     .hideNumber .CodeMirror-linenumber {
       color: transparent;
       background-color: #def;
       width: 23px !important;
       height: 16px;
+    }
+    .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
+      opacity: 0.8;
+      z-index: 2;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>

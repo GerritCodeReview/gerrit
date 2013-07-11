@@ -20,6 +20,7 @@ limitations under the License.
     @external .CodeMirror, .CodeMirror-selectedtext;
     @external .CodeMirror-linenumber, .CodeMirror-vscrollbar;
     @external .CodeMirror-hscrollbar;
+    @external .cm-keymap-fat-cursor, CodeMirror-cursor;
     @external .cm-trailingspace;
     .difftable .CodeMirror pre {
       padding: 0;
@@ -75,6 +76,9 @@ limitations under the License.
       background-color: #def;
       width: 23px !important;
       height: 16px;
+    }
+    .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
+      z-index: 2;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>

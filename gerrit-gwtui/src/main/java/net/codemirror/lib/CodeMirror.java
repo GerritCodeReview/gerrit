@@ -133,8 +133,16 @@ public class CodeMirror extends JavaScriptObject {
     });
   }-*/;
 
+  public final native LineCharacter getCursor() /*-{
+    return this.getCursor();
+  }-*/;
+
   public final native LineCharacter getCursor(String start) /*-{
     return this.getCursor(start);
+  }-*/;
+
+  public final native void setCursor(LineCharacter lineCh) /*-{
+    this.setCursor(lineCh);
   }-*/;
 
   public final native boolean somethingSelected() /*-{
@@ -155,6 +163,10 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void addKeyMap(KeyMap map) /*-{ this.addKeyMap(map); }-*/;
 
+  public final native void removeKeyMap(KeyMap map) /*-{ this.removeKeyMap(map); }-*/;
+
+  public final native void removeKeyMap(String name) /*-{ this.removeKeyMap(name); }-*/;
+
   public static final native LineCharacter pos(int line, int ch) /*-{
     return $wnd.CodeMirror.Pos(line, ch);
   }-*/;
@@ -169,6 +181,10 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native int getLineNumber(LineHandle handle) /*-{
     return this.getLineNumber(handle);
+  }-*/;
+
+  public final native void focus() /*-{
+    this.focus();
   }-*/;
 
   protected CodeMirror() {

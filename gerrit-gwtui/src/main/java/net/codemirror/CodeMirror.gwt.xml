@@ -18,5 +18,6 @@
   <inherits name='com.google.gwt.resources.Resources'/>
   <source path='addon'/>
   <source path='lib'/>
+  <source path='keymap'/>
   <source path='mode'/>
 </module>

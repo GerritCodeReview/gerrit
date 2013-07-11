@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "877edc23_4c259fb7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-11T00:44:18Z",
+      "side": 1,
+      "message": "This sort of sucks because it means we always force the NRT to pick up the write as though we really need the write. But its the only way to make caller futures work correctly so OK. :-)",
+      "revId": "31cc26f4a11adfb698b09a6022d3654b054d200e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

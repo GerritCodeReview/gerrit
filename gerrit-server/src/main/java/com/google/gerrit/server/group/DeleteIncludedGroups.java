@@ -26,8 +26,8 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -68,8 +68,8 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     input = Input.init(input);
 
     final GroupControl control = resource.getControl();
-    final Map<AccountGroup.UUID, AccountGroupIncludeByUuid> includedGroups = getIncludedGroups(internalGroup.getId());
-    final List<AccountGroupIncludeByUuid> toRemove = Lists.newLinkedList();
+    final Map<AccountGroup.UUID, AccountGroupById> includedGroups = getIncludedGroups(internalGroup.getId());
+    final List<AccountGroupById> toRemove = Lists.newLinkedList();
 
     for (final String includedGroup : input.groups) {
       GroupDescription.Basic d = groupsCollection.get().parse(includedGroup);
@@ -78,7 +78,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
             d.getName()));
       }
 
-      AccountGroupIncludeByUuid g = includedGroups.remove(d.getGroupUUID());
+      AccountGroupById g = includedGroups.remove(d.getGroupUUID());
       if (g != null) {
         toRemove.add(g);
       }
@@ -86,8 +86,8 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
 
     if (!toRemove.isEmpty()) {
       writeAudits(toRemove);
-      db.accountGroupIncludesByUuid().delete(toRemove);
-      for (final AccountGroupIncludeByUuid g : toRemove) {
+      db.accountGroupById().delete(toRemove);
+      for (final AccountGroupById g : toRemove) {
         groupIncludeCache.evictMemberIn(g.getIncludeUUID());
       }
       groupIncludeCache.evictMembersOf(internalGroup.getGroupUUID());
@@ -96,24 +96,24 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
     return Response.none();
   }
 
-  private Map<AccountGroup.UUID, AccountGroupIncludeByUuid> getIncludedGroups(
+  private Map<AccountGroup.UUID, AccountGroupById> getIncludedGroups(
       final AccountGroup.Id groupId) throws OrmException {
-    final Map<AccountGroup.UUID, AccountGroupIncludeByUuid> groups =
+    final Map<AccountGroup.UUID, AccountGroupById> groups =
         Maps.newHashMap();
-    for (final AccountGroupIncludeByUuid g : db.accountGroupIncludesByUuid().byGroup(groupId)) {
+    for (final AccountGroupById g : db.accountGroupById().byGroup(groupId)) {
       groups.put(g.getIncludeUUID(), g);
     }
     return groups;
   }
 
-  private void writeAudits(final List<AccountGroupIncludeByUuid> toBeRemoved)
+  private void writeAudits(final List<AccountGroupById> toBeRemoved)
       throws OrmException {
     final Account.Id me = ((IdentifiedUser) self.get()).getAccountId();
-    final List<AccountGroupIncludeByUuidAudit> auditUpdates = Lists.newLinkedList();
-    for (final AccountGroupIncludeByUuid g : toBeRemoved) {
-      AccountGroupIncludeByUuidAudit audit = null;
-      for (AccountGroupIncludeByUuidAudit a : db
-          .accountGroupIncludesByUuidAudit().byGroupInclude(g.getGroupId(),
+    final List<AccountGroupByIdAud> auditUpdates = Lists.newLinkedList();
+    for (final AccountGroupById g : toBeRemoved) {
+      AccountGroupByIdAud audit = null;
+      for (AccountGroupByIdAud a : db
+          .accountGroupByIdAud().byGroupInclude(g.getGroupId(),
               g.getIncludeUUID())) {
         if (a.isActive()) {
           audit = a;
@@ -126,7 +126,7 @@ public class DeleteIncludedGroups implements RestModifyView<GroupResource, Input
         auditUpdates.add(audit);
       }
     }
-    db.accountGroupIncludesByUuidAudit().update(auditUpdates);
+    db.accountGroupByIdAud().update(auditUpdates);
   }
 
   static class DeleteIncludedGroup implements

@@ -128,7 +128,7 @@ public final class AccountGeneralPreferences {
   protected boolean reversePatchSetOrder;
 
   @Column(id = 11)
-  protected boolean showUsernameInReviewCategory;
+  protected boolean showUserInReview;
 
   @Column(id = 12)
   protected boolean relativeDateInChangeTable;
@@ -210,11 +210,11 @@ public final class AccountGeneralPreferences {
   }
 
   public boolean isShowUsernameInReviewCategory() {
-    return showUsernameInReviewCategory;
+    return showUserInReview;
   }
 
   public void setShowUsernameInReviewCategory(final boolean showUsernameInReviewCategory) {
-    this.showUsernameInReviewCategory = showUsernameInReviewCategory;
+    this.showUserInReview = showUsernameInReviewCategory;
   }
 
   public DateFormat getDateFormat() {
@@ -265,7 +265,7 @@ public final class AccountGeneralPreferences {
     useFlashClipboard = true;
     copySelfOnEmail = false;
     reversePatchSetOrder = false;
-    showUsernameInReviewCategory = false;
+    showUserInReview = false;
     downloadUrl = null;
     downloadCommand = null;
     dateFormat = null;

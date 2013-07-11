@@ -14,33 +14,13 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.jdbc.JdbcSchema;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Schema_66 extends SchemaVersion {
 
   @Inject
   Schema_66(Provider<Schema_65> prior) {
     super(prior);
-  }
-
-  @Override
-  protected void migrateData(ReviewDb db, UpdateUI ui)
-      throws OrmException, SQLException {
-    final Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-    try {
-      stmt.executeUpdate("UPDATE accounts SET reverse_patch_set_order = 'Y' "+
-                         "WHERE display_patch_sets_in_reverse_order = 'Y'");
-      stmt.executeUpdate("UPDATE accounts SET show_username_in_review_category = 'Y' " +
-                         "WHERE display_person_name_in_review_category = 'Y'");
-    } finally {
-      stmt.close();
-    }
   }
 }

@@ -82,17 +82,16 @@ ON account_group_members (group_id);
 
 
 -- *********************************************************************
--- AccountGroupIncludeByUuidAccess
+-- AccountGroupByIdAccess
 --    @PrimaryKey covers: byGroup
-CREATE INDEX account_group_includes_by_uuid_byInclude
-ON account_group_includes_by_uuid (include_uuid);
-
+CREATE INDEX account_group_id_byInclude
+ON account_group_by_id (include_uuid);
 
 -- *********************************************************************
 -- AccountProjectWatchAccess
 --    @PrimaryKey covers: byAccount
 --    covers:             byProject
-CREATE INDEX account_project_watches_byProject
+CREATE INDEX account_project_watches_byP
 ON account_project_watches (project_name);
 
 
@@ -170,7 +169,7 @@ ON patch_set_approvals (account_id)
 WHERE change_open = 'Y';
 
 --    covers:             closedByUser
-CREATE INDEX patch_set_approvals_closedByUser
+CREATE INDEX patch_set_approvals_closedByU
 ON patch_set_approvals (account_id, change_sort_key)
 WHERE change_open = 'N';
 
@@ -222,5 +221,5 @@ ON starred_changes (change_id);
 -- *********************************************************************
 -- SubmoduleSubscriptionAccess
 
-CREATE INDEX submodule_subscription_access_bySubscription
+CREATE INDEX submodule_subscr_acc_byS
 ON submodule_subscriptions (submodule_project_name, submodule_branch_name);

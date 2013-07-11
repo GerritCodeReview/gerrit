@@ -18,8 +18,8 @@ import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
@@ -161,21 +161,21 @@ public class PerformCreateGroup {
 
   private void addGroups(final AccountGroup.Id groupId,
       final Collection<? extends AccountGroup.UUID> groups) throws OrmException {
-    final List<AccountGroupIncludeByUuid> includeList =
-      new ArrayList<AccountGroupIncludeByUuid>();
-    final List<AccountGroupIncludeByUuidAudit> includesAudit =
-      new ArrayList<AccountGroupIncludeByUuidAudit>();
+    final List<AccountGroupById> includeList =
+      new ArrayList<AccountGroupById>();
+    final List<AccountGroupByIdAud> includesAudit =
+      new ArrayList<AccountGroupByIdAud>();
     for (AccountGroup.UUID includeUUID : groups) {
-      final AccountGroupIncludeByUuid groupInclude =
-        new AccountGroupIncludeByUuid(new AccountGroupIncludeByUuid.Key(groupId, includeUUID));
+      final AccountGroupById groupInclude =
+        new AccountGroupById(new AccountGroupById.Key(groupId, includeUUID));
       includeList.add(groupInclude);
 
-      final AccountGroupIncludeByUuidAudit audit =
-        new AccountGroupIncludeByUuidAudit(groupInclude, currentUser.getAccountId());
+      final AccountGroupByIdAud audit =
+        new AccountGroupByIdAud(groupInclude, currentUser.getAccountId());
       includesAudit.add(audit);
     }
-    db.accountGroupIncludesByUuid().insert(includeList);
-    db.accountGroupIncludesByUuidAudit().insert(includesAudit);
+    db.accountGroupById().insert(includeList);
+    db.accountGroupByIdAud().insert(includesAudit);
 
     for (AccountGroup.UUID uuid : groups) {
       groupIncludeCache.evictMemberIn(uuid);

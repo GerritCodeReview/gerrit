@@ -50,6 +50,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     HasFocusHandlers, FocusHandler, HasBlurHandlers, BlurHandler {
   private static final int SUMMARY_LENGTH = 75;
   private final HandlerManager handlerManager = new HandlerManager(this);
+  private final FlowPanel body;
   private final FlexTable header;
   private final InlineLabel messageSummary;
   private final FlowPanel content;
@@ -73,7 +74,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
 
   protected CommentPanel(CommentLinkProcessor commentLinkProcessor) {
     this.commentLinkProcessor = commentLinkProcessor;
-    final FlowPanel body = new FlowPanel();
+    body = new FlowPanel();
     initWidget(body);
     setStyleName(Gerrit.RESOURCES.css().commentPanel());
 
@@ -129,6 +130,8 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
   public void setAuthorNameText(final AccountInfo author, final String nameText) {
     header.setWidget(0, 0, new AvatarImage(author, 26));
     header.setText(0, 1, nameText);
+    body.getElement().setAttribute("email", author.email());
+    body.getElement().setAttribute("name", author.name());
   }
 
   protected void setDateText(final String dateText) {

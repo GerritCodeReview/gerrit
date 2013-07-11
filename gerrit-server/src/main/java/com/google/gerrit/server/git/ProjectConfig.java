@@ -751,6 +751,10 @@ public class ProjectConfig extends VersionedMetaData {
     if (value == null) {
       return null;
     }
+    value = value.trim();
+    if (value.isEmpty()) {
+      return null;
+    }
     Config cfg = new Config();
     cfg.fromText("[s]\nn=" + value);
     try {

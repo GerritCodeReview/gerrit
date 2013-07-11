@@ -16,6 +16,24 @@
       "revId": "8a248879e3c9cb8fdfc74edd54145c7bb9ee1c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a75a00db_45fc8af1",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/OnEditEnabler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2013-07-11T06:54:04Z",
+      "side": 1,
+      "message": "IIRC, this patch comes from \u0027create project\u0027 and \u0027create Group\u0027 UI . e.g. \nby default  the input text box is empty and the \u0027Create Project\u0027 button  or \u0027Create Group\u0027 button should be inactive.",
+      "parentUuid": "a75a00db_85f1221f",
+      "revId": "8a248879e3c9cb8fdfc74edd54145c7bb9ee1c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

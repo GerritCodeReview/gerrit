@@ -41,7 +41,7 @@ public abstract class ChangeIndexer {
       return Futures.immediateFuture(null);
     }
 
-    public Callable<Void> indexTask(ChangeData cd) {
+    public Callable<?> indexTask(ChangeData cd) {
       return new Callable<Void>() {
         @Override
         public Void call() {
@@ -78,5 +78,5 @@ public abstract class ChangeIndexer {
     return executor.submit(indexTask(cd));
   }
 
-  public abstract Callable<Void> indexTask(ChangeData cd);
+  public abstract Callable<?> indexTask(ChangeData cd);
 }

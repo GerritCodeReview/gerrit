@@ -59,17 +59,17 @@ public class IndexRewriteTest extends TestCase {
     }
 
     @Override
-    public ListenableFuture<Void> insert(ChangeData cd) {
+    public ListenableFuture<?> insert(ChangeData cd) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ListenableFuture<Void> replace(ChangeData cd) {
+    public ListenableFuture<?> replace(ChangeData cd) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ListenableFuture<Void> delete(ChangeData cd) {
+    public ListenableFuture<?> delete(ChangeData cd) {
       throw new UnsupportedOperationException();
     }
 

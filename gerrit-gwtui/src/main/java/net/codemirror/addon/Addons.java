@@ -25,4 +25,8 @@ public interface Addons extends ClientBundle {
   @Source("selection/mark-selection.js")
   @DoNotEmbed
   DataResource mark_selection();
+
+  @Source("edit/trailingspace.js")
+  @DoNotEmbed
+  DataResource trailingspace();
 }

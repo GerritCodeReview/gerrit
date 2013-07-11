@@ -16,8 +16,8 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
+import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -51,10 +51,10 @@ public class Schema_74 extends SchemaVersion {
 
     // Initialize some variables
     Connection conn = ((JdbcSchema) db).getConnection();
-    ArrayList<AccountGroupIncludeByUuid> newIncludes =
-        new ArrayList<AccountGroupIncludeByUuid>();
-    ArrayList<AccountGroupIncludeByUuidAudit> newIncludeAudits =
-        new ArrayList<AccountGroupIncludeByUuidAudit>();
+    ArrayList<AccountGroupById> newIncludes =
+        new ArrayList<AccountGroupById>();
+    ArrayList<AccountGroupByIdAud> newIncludeAudits =
+        new ArrayList<AccountGroupByIdAud>();
 
     // Iterate over all entries in account_group_includes
     Statement oldGroupIncludesStmt = conn.createStatement();
@@ -75,8 +75,8 @@ public class Schema_74 extends SchemaVersion {
       }
 
       // Create the new include entry
-      AccountGroupIncludeByUuid destIncludeEntry = new AccountGroupIncludeByUuid(
-          new AccountGroupIncludeByUuid.Key(oldGroupId, uuidFromIncludeId));
+      AccountGroupById destIncludeEntry = new AccountGroupById(
+          new AccountGroupById.Key(oldGroupId, uuidFromIncludeId));
 
       // Iterate over all the audits (for this group)
       PreparedStatement oldAuditsQuery = conn.prepareStatement(
@@ -89,8 +89,8 @@ public class Schema_74 extends SchemaVersion {
         int removedBy = oldGroupIncludeAudits.getInt("removed_by");
 
         // Create the new audit entry
-        AccountGroupIncludeByUuidAudit destAuditEntry =
-            new AccountGroupIncludeByUuidAudit(destIncludeEntry, addedBy,
+        AccountGroupByIdAud destAuditEntry =
+            new AccountGroupByIdAud(destIncludeEntry, addedBy,
                 oldGroupIncludeAudits.getTimestamp("added_on"));
 
         // If this was a "removed on" entry, note that
@@ -108,7 +108,7 @@ public class Schema_74 extends SchemaVersion {
     oldGroupIncludesStmt.close();
 
     // Now insert all of the new entries to the database
-    db.accountGroupIncludesByUuid().insert(newIncludes);
-    db.accountGroupIncludesByUuidAudit().insert(newIncludeAudits);
+    db.accountGroupById().insert(newIncludes);
+    db.accountGroupByIdAud().insert(newIncludeAudits);
   }
 }

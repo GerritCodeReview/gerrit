@@ -279,6 +279,8 @@ public class ChangeUtil {
             change.getDest().getParentKey().get(), ru.getResult()));
       }
 
+      ins.insert();
+
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(changeId,
               ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
@@ -287,8 +289,6 @@ public class ChangeUtil {
       msgBuf.append("\n\n");
       msgBuf.append("This patchset was reverted in change: " + change.getKey().get());
       cmsg.setMessage(msgBuf.toString());
-
-      ins.setMessage(cmsg).insert();
 
       final RevertedSender cm = revertedSenderFactory.create(change);
       cm.setFrom(user.getAccountId());

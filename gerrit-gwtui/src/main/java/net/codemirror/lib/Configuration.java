@@ -15,7 +15,6 @@
 package net.codemirror.lib;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 
 /**
  * Simple map-like structure to pass configuration to CodeMirror.

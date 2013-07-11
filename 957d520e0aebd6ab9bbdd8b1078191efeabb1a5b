@@ -16,6 +16,24 @@
       "revId": "957d520e0aebd6ab9bbdd8b1078191efeabb1a5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "677ba837_8b436d5b",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-11T03:39:41Z",
+      "side": 1,
+      "message": "Yeah, this is just a proof of concept. I will take care of user preferences later.",
+      "parentUuid": "877edc23_4c2eff95",
+      "revId": "957d520e0aebd6ab9bbdd8b1078191efeabb1a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

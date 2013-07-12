@@ -91,6 +91,11 @@ public final class DisabledChangeHooks implements ChangeHooks {
   }
 
   @Override
+  public void doTopicChangedHook(Change change, Account account, String oldTopic,
+      ReviewDb db) {
+  }
+
+  @Override
   public void removeChangeListener(ChangeListener listener) {
   }
 

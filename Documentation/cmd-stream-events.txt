@@ -152,6 +152,15 @@ patchset:: link:json.html#patchSet[patchset attribute]
 
 reviewer:: link:json.html#account[account attribute]
 
+Topic Changed
+^^^^^^^^^^^^^
+type:: "topic-changed"
+
+change:: link:json.html#change[change attribute]
+
+changer:: link:json.html#account[account attribute]
+
+oldTopic:: Topic name before it was changed.
 
 SEE ALSO
 --------

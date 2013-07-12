@@ -44,6 +44,7 @@ import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
+import com.google.gerrit.server.events.TopicChangedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
@@ -186,6 +187,9 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
     /** Filename of the reviewer added hook. */
     private final File reviewerAddedHook;
 
+    /** Filename of the topic changed hook. */
+    private final File topicChangedHook;
+
     /** Filename of the cla signed hook. */
     private final File claSignedHook;
 
@@ -254,6 +258,7 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
         changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
         refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
         reviewerAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "reviewerAddedHook", "reviewer-added")).getPath());
+        topicChangedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "topicChangedHook", "topic-changed")).getPath());
         claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
         refUpdateHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdateHook", "ref-update")).getPath());
         syncHookTimeout = config.getInt("hooks", "syncHookTimeout", 30);
@@ -558,6 +563,25 @@ public class ChangeHookRunner implements ChangeHooks, LifecycleListener {
       addArg(args, "--reviewer", getDisplayName(account));
 
       runHook(change.getProject(), reviewerAddedHook, args);
+    }
+
+    public void doTopicChangedHook(final Change change, final Account account,
+        final String oldTopic, final ReviewDb db)
+            throws OrmException {
+      final TopicChangedEvent event = new TopicChangedEvent();
+
+      event.change = eventFactory.asChangeAttribute(change);
+      event.changer = eventFactory.asAccountAttribute(account);
+      event.oldTopic = oldTopic;
+      fireEvent(change, event, db);
+
+      final List<String> args = new ArrayList<String>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--changer", getDisplayName(account));
+      addArg(args, "--old-topic", oldTopic);
+      addArg(args, "--new-topic", event.change.topic);
+
+      runHook(change.getProject(), topicChangedHook, args);
     }
 
     public void doClaSignupHook(Account account, ContributorAgreement cla) {

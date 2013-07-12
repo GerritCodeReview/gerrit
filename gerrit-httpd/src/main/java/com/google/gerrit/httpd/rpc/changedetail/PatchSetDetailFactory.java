@@ -173,10 +173,10 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       }
     }
 
-    detail.setCommands(UiCommands.sorted(UiCommands.from(
+    detail.setCommands(UiCommands.sorted(UiCommands.plugins(UiCommands.from(
       revisions,
       new RevisionResource(new ChangeResource(control), patchSet),
-      EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL))));
+      EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL)))));
     return detail;
   }
 

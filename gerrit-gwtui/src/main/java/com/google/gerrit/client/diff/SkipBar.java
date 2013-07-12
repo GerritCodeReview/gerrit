@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 import net.codemirror.lib.CodeMirror;
+import net.codemirror.lib.CodeMirror.LineClassWhere;
 import net.codemirror.lib.CodeMirror.LineHandle;
 import net.codemirror.lib.Configuration;
 import net.codemirror.lib.LineWidget;
@@ -46,6 +47,7 @@ class SkipBar extends Composite {
   private LineWidget widget;
 
   interface SkipBarStyle extends CssResource {
+    String isLineWidget();
     String noExpand();
   }
 
@@ -78,6 +80,7 @@ class SkipBar extends Composite {
 
   void setWidget(LineWidget widget) {
     this.widget = widget;
+    addStyleName(style.isLineWidget());
   }
 
   void setMarker(TextMarker marker, int length) {
@@ -110,24 +113,31 @@ class SkipBar extends Composite {
     return true;
   }
 
+  private void clearMarkerAndWidget() {
+    marker.clear();
+    if (widget != null) {
+      widget.clear();
+    } else {
+      cm.removeLineClass(0, LineClassWhere.WRAP, DiffTable.style.hideNumber());
+    }
+  }
+
   private void expandAll() {
     hiddenSkipMap.remove(
         cm.getLineHandle(marker.find().getTo().getLine()));
-    marker.clear();
-    widget.clear();
+    clearMarkerAndWidget();
     removeFromParent();
   }
 
   private void expandBefore() {
     FromTo fromTo = marker.find();
-    marker.clear();
     int oldStart = fromTo.getFrom().getLine();
     int newStart = oldStart + NUM_ROWS_TO_EXPAND;
     int end = fromTo.getTo().getLine();
+    clearMarkerAndWidget();
     marker = cm.markText(CodeMirror.pos(newStart), CodeMirror.pos(end), COLLAPSED);
     Configuration config = Configuration.create().set("coverGutter", true);
     LineWidget newWidget = cm.addLineWidget(newStart, getElement(), config);
-    widget.clear();
     setWidget(newWidget);
     updateSkipNum();
     hiddenSkipMap.put(cm.getLineHandle(end), numSkipLines);
@@ -135,9 +145,9 @@ class SkipBar extends Composite {
 
   private void expandAfter() {
     FromTo fromTo = marker.find();
-    marker.clear();
     int oldEnd = fromTo.getTo().getLine();
     int newEnd = oldEnd - NUM_ROWS_TO_EXPAND;
+    marker.clear();
     marker = cm.markText(CodeMirror.pos(fromTo.getFrom().getLine()),
         CodeMirror.pos(newEnd),
         COLLAPSED);

@@ -37,6 +37,7 @@ class DiffTable extends Composite {
     String padding();
     String activeLine();
     String activeLineBg();
+    String hideNumber();
   }
 
   @UiField
@@ -46,7 +47,7 @@ class DiffTable extends Composite {
   Element cmB;
 
   @UiField
-  LineStyle style;
+  static LineStyle style;
 
   DiffTable() {
     initWidget(uiBinder.createAndBindUi(this));

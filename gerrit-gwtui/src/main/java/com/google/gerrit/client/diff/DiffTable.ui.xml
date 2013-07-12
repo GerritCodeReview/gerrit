@@ -62,13 +62,19 @@ limitations under the License.
     }
     .activeLine .CodeMirror-linenumber,
     .activeLine .diff, .activeLine .intralineBg {
-      background-color: #D8EDF9 !important;
+      background-color: #FFFF99 !important;
     }
     .activeLineBg {
-      background-color: #D8EDF9 !important;
+      background-color: #FFFF99 !important;
     }
     .cm-trailingspace {
       background-color: red !important;
+    }
+    .hideNumber .CodeMirror-linenumber {
+      color: transparent;
+      background-color: #def;
+      width: 23px !important;
+      height: 16px;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>

@@ -34,6 +34,24 @@
       "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_85906297",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-12T21:12:31Z",
+      "side": 1,
+      "message": "i\u0027ve heard so many time: \"this is just a proof of concept...\", and then it is 30 years in production ;-)",
+      "parentUuid": "6712c80f_53a744f6",
+      "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

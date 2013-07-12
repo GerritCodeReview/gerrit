@@ -16,6 +16,24 @@
       "revId": "40a94faa4b040dd16992de33b9092b3fe05ee393",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_e595d685",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-12T23:00:52Z",
+      "side": 1,
+      "message": "Have you a suggestion which document?\n\nI think once migrated, we can restrict programatically in gwtorm the max length of SQL identifier to be 30 char and throw an runtime Exception when this size is exceeded.",
+      "parentUuid": "6712c80f_132b0c85",
+      "revId": "40a94faa4b040dd16992de33b9092b3fe05ee393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

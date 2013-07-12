@@ -146,6 +146,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
     public String revision;
     public ProjectInfo inheritsFrom;
     public Map<String, AccessSectionInfo> local;
+    public Boolean isOwner;
     public Set<String> ownerOf;
     public Boolean canUpload;
     public Boolean canAdd;
@@ -245,6 +246,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
         }
       }
 
+      isOwner = toBoolean(pc.isOwner());
       canUpload = toBoolean(pc.isOwner()
           || (metaConfigControl.isVisible() && metaConfigControl.canUpload()));
       canAdd = toBoolean(pc.canAddRefs());

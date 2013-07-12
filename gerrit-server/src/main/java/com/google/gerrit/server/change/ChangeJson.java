@@ -45,7 +45,6 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -275,15 +274,6 @@ public class ChangeJson {
             out.current_revision = commit;
             break;
           }
-        }
-      }
-      if (in.getStatus().isOpen()
-          && has(ListChangesOption.DETAILED_LABELS)
-          && out.current_revision != null) {
-        SubmitTypeRecord r = cd.changeControl().getSubmitTypeRecord(
-            db.get(), cd.currentPatchSet(db), cd);
-        if (r.status == SubmitTypeRecord.Status.OK) {
-          out.submit_action = r.type.name();
         }
       }
     }
@@ -851,7 +841,6 @@ public class ChangeJson {
     public String changeId;
     public String subject;
     Change.Status status;
-    String submit_action;
     Timestamp created;
     Timestamp updated;
     Boolean starred;

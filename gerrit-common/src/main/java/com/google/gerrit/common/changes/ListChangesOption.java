@@ -37,7 +37,10 @@ public enum ListChangesOption {
   DETAILED_ACCOUNTS(7),
 
   /** Include messages associated with the change. */
-  MESSAGES(9);
+  MESSAGES(9),
+
+  /** Include allowed actions client could perform. */
+  CURRENT_ACTIONS(10);
 
   private final int value;
 

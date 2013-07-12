@@ -24,6 +24,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_ACCOUN
 import static com.google.gerrit.common.changes.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 import static com.google.gerrit.common.changes.ListChangesOption.MESSAGES;
+import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_ACTIONS;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -46,7 +47,9 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -64,6 +67,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.webui.UiCommands;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -126,6 +130,8 @@ public class ChangeJson {
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<String> urlProvider;
   private final Urls urls;
+  private final Revisions revisions;
+
   private ChangeControl.Factory changeControlUserFactory;
   private SshInfo sshInfo;
   private EnumSet<ListChangesOption> options;
@@ -144,7 +150,8 @@ public class ChangeJson {
       FileInfoJson fileInfoJson,
       AccountInfo.Loader.Factory ailf,
       @CanonicalWebUrl Provider<String> curl,
-      Urls urls) {
+      Urls urls,
+      Revisions revisions) {
     this.db = db;
     this.labelNormalizer = ln;
     this.user = u;
@@ -156,6 +163,7 @@ public class ChangeJson {
     this.accountLoaderFactory = ailf;
     this.urlProvider = curl;
     this.urls = urls;
+    this.revisions = revisions;
 
     options = EnumSet.noneOf(ListChangesOption.class);
   }
@@ -779,6 +787,16 @@ public class ChangeJson {
         log.warn("Cannot load PatchList " + in.getId(), e);
       }
     }
+
+    if (out.isCurrent && has(CURRENT_ACTIONS) && user instanceof IdentifiedUser) {
+      out.actions = Maps.newTreeMap();
+      for (UiCommandDetail c : UiCommands.from(
+          revisions,
+          new RevisionResource(new ChangeResource(control(cd)), in),
+          EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL))) {
+        out.actions.put(c.id, new ActionInfo(c));
+      }
+    }
     return out;
   }
 
@@ -887,6 +905,7 @@ public class ChangeJson {
     Map<String, FetchInfo> fetch;
     CommitInfo commit;
     Map<String, FileInfoJson.FileInfo> files;
+    Map<String, ActionInfo> actions;
   }
 
   static class FetchInfo {
@@ -953,5 +972,21 @@ public class ChangeJson {
     Timestamp date;
     String message;
     Integer _revisionNumber;
+  }
+
+  static class ActionInfo {
+    String method;
+    String label;
+    String title;
+    Boolean enabled;
+    String confirmationMessage;
+
+    ActionInfo(UiCommandDetail c) {
+      method = c.method;
+      label = c.label;
+      title = c.title;
+      enabled = c.enabled ? true : null;
+      confirmationMessage = c.confirmationMessage;
+    }
   }
 }

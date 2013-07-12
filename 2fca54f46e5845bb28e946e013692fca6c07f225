@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "07082caa_2806eb2f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T00:02:40Z",
+      "side": 1,
+      "message": "I\u0027ll try to fix this in CommitInfo\u0027s documentation as another commit.",
+      "parentUuid": "07ae6c93_58f25d22",
+      "revId": "2fca54f46e5845bb28e946e013692fca6c07f225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e70b185f_af2df999",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "0702ecba_18f96501",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T00:02:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e70b185f_af2df999",
+      "revId": "2fca54f46e5845bb28e946e013692fca6c07f225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67f7289a_8bf8edfd",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
         "patchSetId": 4
@@ -65,6 +101,24 @@
       "writtenOn": "2013-07-09T06:51:09Z",
       "side": 1,
       "message": "Not necessary if `kind` is declared as suggested in ChangeJson.java?",
+      "revId": "2fca54f46e5845bb28e946e013692fca6c07f225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c71b7426_16f93c01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/GetCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T00:02:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67f7289a_8bf8edfd",
       "revId": "2fca54f46e5845bb28e946e013692fca6c07f225",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

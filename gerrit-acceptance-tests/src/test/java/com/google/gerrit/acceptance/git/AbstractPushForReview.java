@@ -77,7 +77,6 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
-import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -1965,12 +1964,25 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   private static class TestValidator implements CommitValidationListener {
     private final AtomicInteger count = new AtomicInteger();
+    private final boolean validateAll;
+
+    TestValidator(boolean validateAll) {
+      this.validateAll = validateAll;
+    }
+
+    TestValidator() {
+      this(false);
+    }
 
     @Override
-    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
-        throws CommitValidationException {
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent) {
       count.incrementAndGet();
       return Collections.emptyList();
+    }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return validateAll;
     }
 
     public int count() {
@@ -1983,6 +1995,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String master = "refs/heads/master";
     TestValidator validator = new TestValidator();
     RegistrationHandle handle = commitValidators.add(validator);
+    RegistrationHandle handle2 = null;
 
     try {
       // Validation listener is called on normal push
@@ -2009,8 +2022,25 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       r = push3.to(master);
       r.assertOkStatus();
       assertThat(validator.count()).isEqualTo(1);
+
+      // Validation listener that needs to validate all commits gets called even
+      // when the skip option is used.
+      TestValidator validator2 = new TestValidator(true);
+      handle2 = commitValidators.add(validator2);
+      PushOneCommit push4 =
+          pushFactory.create(db, admin.getIdent(), testRepo, "change2", "b.txt", "content");
+      push4.setPushOptions(ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
+      r = push4.to(master);
+      r.assertOkStatus();
+      // First listener was not called; its count remains the same.
+      assertThat(validator.count()).isEqualTo(1);
+      // Second listener was called.
+      assertThat(validator2.count()).isEqualTo(1);
     } finally {
       handle.remove();
+      if (handle2 != null) {
+        handle2.remove();
+      }
     }
   }
 

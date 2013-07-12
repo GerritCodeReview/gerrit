@@ -2462,7 +2462,8 @@ The `CommitInfo` entity contains information about a commit.
 |`commit`      |The commit ID.
 |`parent`      |
 The parent commits of this commit as a list of
-link:#commit-info[CommitInfo] entities.
+link:#commit-info[CommitInfo] entities. In parent
+only `commit` and `subject` fields are populated.
 |`author`      |The author of the commit as a
 link:#git-person-info[GitPersonInfo] entity.
 |`committer`   |The committer of the commit as a

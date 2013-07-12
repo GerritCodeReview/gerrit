@@ -119,6 +119,18 @@ public class CommitValidators {
         Repository repo,
         RevWalk rw)
         throws IOException {
+      return forReceiveCommits(perm, branch, user, sshInfo, repo, rw, false);
+    }
+
+    public CommitValidators forReceiveCommits(
+        PermissionBackend.ForRef perm,
+        Branch.NameKey branch,
+        IdentifiedUser user,
+        SshInfo sshInfo,
+        Repository repo,
+        RevWalk rw,
+        boolean skipValidation)
+        throws IOException {
       NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
       ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
       return new CommitValidators(
@@ -132,7 +144,7 @@ public class CommitValidators {
                   projectState, user, canonicalWebUrl, installCommitMsgHookCommand, sshInfo),
               new ConfigValidator(branch, user, rw, allUsers),
               new BannedCommitsValidator(rejectCommits),
-              new PluginCommitValidationListener(pluginValidators),
+              new PluginCommitValidationListener(pluginValidators, skipValidation),
               new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
               new AccountCommitValidator(allUsers, accountValidator)));
     }
@@ -204,6 +216,10 @@ public class CommitValidators {
       throw new CommitValidationException(e.getMessage(), messages);
     }
     return messages;
+  }
+
+  public boolean hasAllCommitsValidators() {
+    return validators.stream().anyMatch(v -> v.shouldValidateAllCommits());
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {
@@ -444,10 +460,18 @@ public class CommitValidators {
 
   /** Execute commit validation plug-ins */
   public static class PluginCommitValidationListener implements CommitValidationListener {
+    private boolean skipValidation;
     private final DynamicSet<CommitValidationListener> commitValidationListeners;
 
     public PluginCommitValidationListener(
         final DynamicSet<CommitValidationListener> commitValidationListeners) {
+      this(commitValidationListeners, false);
+    }
+
+    public PluginCommitValidationListener(
+        final DynamicSet<CommitValidationListener> commitValidationListeners,
+        boolean skipValidation) {
+      this.skipValidation = skipValidation;
       this.commitValidationListeners = commitValidationListeners;
     }
 
@@ -457,6 +481,9 @@ public class CommitValidators {
       List<CommitValidationMessage> messages = new ArrayList<>();
 
       for (CommitValidationListener validator : commitValidationListeners) {
+        if (skipValidation && !validator.shouldValidateAllCommits()) {
+          continue;
+        }
         try {
           messages.addAll(validator.onCommitReceived(receiveEvent));
         } catch (CommitValidationException e) {
@@ -465,6 +492,11 @@ public class CommitValidators {
         }
       }
       return messages;
+    }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return commitValidationListeners.stream().anyMatch(v -> v.shouldValidateAllCommits());
     }
   }
 

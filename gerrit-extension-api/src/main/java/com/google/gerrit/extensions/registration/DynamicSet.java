@@ -30,6 +30,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * A set of members that can be modified as plugins reload.
@@ -240,6 +242,10 @@ public class DynamicSet<T> implements Iterable<T> {
     AtomicReference<Provider<T>> ref = new AtomicReference<>(item);
     items.add(ref);
     return new ReloadableHandle(ref, key, item);
+  }
+
+  public Stream<T> stream() {
+    return StreamSupport.stream(spliterator(), false);
   }
 
   private class ReloadableHandle implements ReloadableRegistrationHandle<T> {

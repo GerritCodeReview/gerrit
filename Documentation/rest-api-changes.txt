@@ -213,6 +213,13 @@ default. Optional fields are:
 * `MESSAGES`: include messages associated with the change.
 --
 
+[[actions]]
+--
+* `CURRENT_ACTIONS`: include information on available actions
+  for the change and its current revision. The caller must be
+  authenticated to obtain the available actions.
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES HTTP/1.0
@@ -2285,6 +2292,37 @@ Message to be added as review comment to the change when abandoning the
 change.
 |===========================
 
+[[action-info]]
+ActionInfo
+~~~~~~~~~~
+The `ActionInfo` entity describes a REST API call the client can
+make to manipulate a resource. These are frequently implemented by
+plugins and may be discovered at runtime.
+
+[options="header",width="50%",cols="1,^1,5"]
+|====================================
+|Field Name             ||Description
+|`method`               |optional|
+HTTP method to use with the action. Most actions use `POST`, `PUT`
+or `DELETE` to cause state changes.
+|`label`                |optional|
+Short title to display to a user describing the action. In the
+Gerrit web interface the label is used as the text on the button
+presented in the UI.
+|`title`                |optional|
+Longer text to display describing the action. In a web UI this
+should be the title attribute of the element, displaying when
+the user hovers the mouse.
+|`enabled`              |optional|
+If true the action is permitted at this time and the caller is
+likely allowed to execute it. This may change if state is updated
+at the server or permissions are modified. Not present if false.
+|`confirmation_message` |optional|
+Warning message to display to the user at the client side after
+the user has selected to use this action, but before the action
+request is sent to the server.
+|====================================
+
 [[add-reviewer-result]]
 AddReviewerResult
 ~~~~~~~~~~~~~~~~~
@@ -2853,6 +2891,10 @@ link:#commit-info[CommitInfo] entity.
 |`files`       ||
 The files of the patch set as a map that maps the file names to
 link:#file-info[FileInfo] entities.
+|`actions`     ||
+Actions the caller might be able to perform on this revision. The
+information is a map of view name to link:#action-info[ActionInfo]
+entities.
 |===========================
 
 [[rule-input]]

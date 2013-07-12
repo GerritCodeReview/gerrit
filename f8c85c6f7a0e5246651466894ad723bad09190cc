@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c680d7_8567c2fb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-12T19:28:31Z",
+      "side": 1,
+      "message": "it is really sad, that CURRENT_PATCHSET_ACTION_PANEL is not addressed here. Because this is the common use case for plugin action, like \"Schedule a build\" and core action, like \"Abandon\" buton.\n\nSupport for CURRENT_PATCHSET_ACTION_PANEL is still pending for review:\n\n https://gerrit-review.googlesource.com/45732/",
+      "revId": "f8c85c6f7a0e5246651466894ad723bad09190cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

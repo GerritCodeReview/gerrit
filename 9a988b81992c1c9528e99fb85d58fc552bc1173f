@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7bb1839_1254aa04",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiCommand.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T19:30:46Z",
+      "side": 1,
+      "message": "We don\u0027t need this. UiCommands are given the RevisionResource. They can inspect to see if it is current in their isVisible() method and return false if they are a current-only sort of action.",
+      "revId": "9a988b81992c1c9528e99fb85d58fc552bc1173f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

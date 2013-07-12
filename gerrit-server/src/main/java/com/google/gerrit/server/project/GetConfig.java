@@ -14,47 +14,81 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.server.git.GitRepositoryManager;
 
 import java.util.Map;
 
 public class GetConfig implements RestReadView<ProjectResource> {
-  public static class ConfigInfo {
-    public final String kind = "gerritcodereview#project_config";
-
-    public Boolean useContributorAgreements;
-    public Boolean useContentMerge;
-    public Boolean useSignedOffBy;
-    public Boolean requireChangeId;
-
-    public Map<String, CommentLinkInfo> commentlinks;
-    public ThemeInfo theme;
-  }
 
   @Override
   public ConfigInfo apply(ProjectResource resource) {
     ConfigInfo result = new ConfigInfo();
     RefControl refConfig = resource.getControl()
         .controlForRef(GitRepositoryManager.REF_CONFIG);
-    ProjectState project = resource.getControl().getProjectState();
+    ProjectState state = resource.getControl().getProjectState();
     if (refConfig.isVisible()) {
-      result.useContributorAgreements = project.isUseContributorAgreements();
-      result.useContentMerge = project.isUseContentMerge();
-      result.useSignedOffBy = project.isUseSignedOffBy();
-      result.requireChangeId = project.isRequireChangeID();
+      InheritedBooleanInfo useContributorAgreements = new InheritedBooleanInfo();
+      InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
+      InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
+      InheritedBooleanInfo requireChangeId = new InheritedBooleanInfo();
+
+      useContributorAgreements.value = state.isUseContributorAgreements();
+      useSignedOffBy.value = state.isUseSignedOffBy();
+      useContentMerge.value = state.isUseContentMerge();
+      requireChangeId.value = state.isRequireChangeID();
+
+      Project p = state.getProject();
+      useContributorAgreements.configuredValue = p.getUseContributorAgreements();
+      useSignedOffBy.configuredValue = p.getUseContentMerge();
+      useContentMerge.configuredValue = p.getUseContentMerge();
+      requireChangeId.configuredValue = p.getRequireChangeID();
+
+      ProjectState parentState = Iterables.getFirst(state.parents(), null);
+      if (parentState != null) {
+        useContributorAgreements.inheritedValue = parentState.isUseContributorAgreements();
+        useSignedOffBy.inheritedValue = parentState.isUseSignedOffBy();
+        useContentMerge.inheritedValue = parentState.isUseContentMerge();
+        requireChangeId.inheritedValue = parentState.isRequireChangeID();
+      }
+
+      result.useContributorAgreements = useContributorAgreements;
+      result.useSignedOffBy = useSignedOffBy;
+      result.useContentMerge = useContentMerge;
+      result.requireChangeId = requireChangeId;
     }
 
     // commentlinks are visible to anyone, as they are used for linkification
     // on the client side.
     result.commentlinks = Maps.newLinkedHashMap();
-    for (CommentLinkInfo cl : project.getCommentLinks()) {
+    for (CommentLinkInfo cl : state.getCommentLinks()) {
       result.commentlinks.put(cl.name, cl);
     }
 
     // Themes are visible to anyone, as they are rendered client-side.
-    result.theme = project.getTheme();
+    result.theme = state.getTheme();
     return result;
+  }
+
+  public static class ConfigInfo {
+    public final String kind = "gerritcodereview#project_config";
+
+    public InheritedBooleanInfo useContributorAgreements;
+    public InheritedBooleanInfo useContentMerge;
+    public InheritedBooleanInfo useSignedOffBy;
+    public InheritedBooleanInfo requireChangeId;
+
+    public Map<String, CommentLinkInfo> commentlinks;
+    public ThemeInfo theme;
+  }
+
+  public static class InheritedBooleanInfo {
+    public Boolean value;
+    public InheritableBoolean configuredValue;
+    public Boolean inheritedValue;
   }
 }

@@ -2389,6 +2389,12 @@ Only set if link:#messages[messages] are requested.
 The commit ID of the current patch set of this change. +
 Only set if link:#current-revision[the current revision] is requested
 or if link:#all-revisions[all revisions] are requested.
+|`submit_action`      |optional|
+Submit action/algorithm the server will employ to merge the change. +
+Set only if the change status is open, link:#detailed-labels[detailed
+labels] is requested, and if link:#current-revision[the current
+revision] is requested or if link:#all-revisions[all revisions] are
+requested.
 |`revisions`          |optional|
 All patch sets of this change as a map that maps the commit ID of the
 patch set to a link:#revision-info[RevisionInfo] entity. +

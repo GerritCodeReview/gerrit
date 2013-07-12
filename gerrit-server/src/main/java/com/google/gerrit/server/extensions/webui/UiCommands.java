@@ -106,7 +106,9 @@ public class UiCommands {
             }
 
             UiCommandDetail dsc = new UiCommandDetail();
-            dsc.id = e.getPluginName() + '~' + name;
+            dsc.id = "gerrit".equals(e.getPluginName())
+                ? name
+                : e.getPluginName() + '~' + name;
             dsc.method = method;
             dsc.label = cmd.getLabel(resource);
             dsc.title = cmd.getTitle(resource);

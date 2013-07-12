@@ -36,4 +36,18 @@ public interface CommitValidationListener {
    */
   public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
       throws CommitValidationException;
+
+  /**
+   * By default Gerrit will not validate commits pushed by user that have forge
+   * author, committer and server identity and push merge permissions and
+   * project doesn't require 'Signed-Off-By' flag in commit message. This is an
+   * intended 'fast path' for improving performance of initial repository push.
+   *
+   * If this method returns {@code true} then this validator will be executed for
+   * all incoming commits. Otherwise default Gerrit behavior will be preserved.
+   *
+   * @return {@code false} when this listener can be skipped during initial push,
+   *         {@code true} otherwise
+   */
+  public boolean shouldValidateAllCommits();
 }

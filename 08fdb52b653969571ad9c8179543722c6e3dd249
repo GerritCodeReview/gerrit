@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "6712c80f_3389e868",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T22:00:05Z",
+      "side": 1,
+      "message": "Do this in your constructor because you only need it once.",
+      "revId": "08fdb52b653969571ad9c8179543722c6e3dd249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6712c80f_13866c58",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T22:00:05Z",
+      "side": 1,
+      "message": "Maybe this is shorter:\n\n  for (String c : new String[]{\"A\", ...}) {\n    CodeMirror.disableUnwantedKey(\"vim\", c);\n  }",
+      "revId": "08fdb52b653969571ad9c8179543722c6e3dd249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "477b0460_c23e02c5",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 3
@@ -13,6 +47,23 @@
       "writtenOn": "2013-07-12T21:53:38Z",
       "side": 1,
       "message": "that\u0027s cool",
+      "revId": "08fdb52b653969571ad9c8179543722c6e3dd249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6712c80f_73836048",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/DraftBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T22:00:05Z",
+      "side": 1,
+      "message": "Don\u0027t do escape until we have auto-save.",
       "revId": "08fdb52b653969571ad9c8179543722c6e3dd249",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

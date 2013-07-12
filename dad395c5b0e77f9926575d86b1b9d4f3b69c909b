@@ -16,6 +16,24 @@
       "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6712c80f_53a744f6",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-12T20:41:36Z",
+      "side": 1,
+      "message": "I didn\u0027t include this in fear of infuriating Emacs users :)\n\nThis is just a proof of concept. It fights with Gerrit bindings and I haven\u0027t figured out a way to disable unwanted INSERT mode. Eventually we would like to set it up in AccountDiffPreference, although I\u0027m not sure how hard that migration would be.",
+      "parentUuid": "a7c680d7_454e6a76",
+      "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

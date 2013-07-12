@@ -34,6 +34,24 @@
       "revId": "9a988b81992c1c9528e99fb85d58fc552bc1173f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_2557ee0c",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/webui/UiCommand.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-12T19:50:05Z",
+      "side": 1,
+      "message": "Done\n\ngoing to abandon it then, what about that guy (project info panel):\n\n https://gerrit-review.googlesource.com/45640/",
+      "parentUuid": "e7bb1839_1254aa04",
+      "revId": "9a988b81992c1c9528e99fb85d58fc552bc1173f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

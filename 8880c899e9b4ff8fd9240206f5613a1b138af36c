@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e78958a9_e5c07279",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-12T19:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7bb1839_b262feeb",
+      "revId": "8880c899e9b4ff8fd9240206f5613a1b138af36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7bb1839_f25c8631",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "87989cf6_9ce70565",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-12T19:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7bb1839_f25c8631",
+      "revId": "8880c899e9b4ff8fd9240206f5613a1b138af36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7bb1839_d26182e7",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-07-12T17:11:32Z",
       "side": 1,
       "message": "Instead of this hack, did you try installing keymap/vim.js? The up/down j/k navigation thing is actually taken from VI. It would make sense to just install their vim keybinding mode maybe and then we can use h/l for left/right character navigation as we start to worry about range selections.",
+      "revId": "8880c899e9b4ff8fd9240206f5613a1b138af36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7bb1839_32572e0d",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-12T19:59:36Z",
+      "side": 1,
+      "message": "Yeah... I thought about that but then I started to worry about VIM bindings and Gerrit ones fighting each other. Will try that.",
+      "parentUuid": "e7bb1839_d26182e7",
       "revId": "8880c899e9b4ff8fd9240206f5613a1b138af36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

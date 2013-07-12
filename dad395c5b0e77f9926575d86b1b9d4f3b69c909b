@@ -52,6 +52,24 @@
       "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7bb1839_524e3276",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-12T21:35:16Z",
+      "side": 1,
+      "message": "Found a hack to stop CodeMirror from entering INSERT mode. Please see latest patch.",
+      "parentUuid": "a7c680d7_85906297",
+      "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

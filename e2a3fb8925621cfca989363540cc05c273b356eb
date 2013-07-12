@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7bb1839_721ff668",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T16:50:35Z",
+      "side": 1,
+      "message": "This should be p.getUseSignedOffBy()",
+      "revId": "e2a3fb8925621cfca989363540cc05c273b356eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

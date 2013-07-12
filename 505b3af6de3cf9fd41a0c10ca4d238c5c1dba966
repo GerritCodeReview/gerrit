@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c680d7_252ece94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-12T17:45:06Z",
+      "side": 1,
+      "message": "Isn\u0027t it just a bug that the validators are not executed in the fast path? I\u0027m not sure we need this flexibility to decide from the plugin whether or not the check should be done in the fast path. I would just always do it.",
+      "revId": "505b3af6de3cf9fd41a0c10ca4d238c5c1dba966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

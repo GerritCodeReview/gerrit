@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c680d7_454e6a76",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-12T20:29:23Z",
+      "side": 1,
+      "message": "\"Why are we hiding from the police dad? They use vi son, we use emacs ...\"\n\nIt\u0027s the old joke, but /me use emacs ;-) And because codemirror supports emacs \n\n http://codemirror.net/demo/emacs.html\n\nbinding i am asking how can we make keymap user specific? So that Dave can use vim and /me can use emacs?\n\nIdeally we could set it up in the user preferences,  but it sucks, because we need a database field and migration for it. So i don\u0027t know ow to achieve it. Ideas?",
+      "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

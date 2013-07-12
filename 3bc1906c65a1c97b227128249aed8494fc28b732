@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7c680d7_0522b2b0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DataSourceTypesLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-12T11:44:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c680d7_25252eb9",
+      "revId": "3bc1906c65a1c97b227128249aed8494fc28b732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "477b0460_42f91200",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DataSourceTypesLoader.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-12T11:36:09Z",
       "side": 1,
       "message": "s/||/\u0026\u0026",
+      "revId": "3bc1906c65a1c97b227128249aed8494fc28b732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "477b0460_82031a1e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DataSourceTypesLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-12T11:44:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "477b0460_42f91200",
       "revId": "3bc1906c65a1c97b227128249aed8494fc28b732",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

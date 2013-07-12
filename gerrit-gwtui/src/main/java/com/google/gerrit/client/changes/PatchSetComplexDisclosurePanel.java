@@ -552,7 +552,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
 
   private void populateCommands(final PatchSetDetail detail) {
     for (final UiCommandDetail cmd : detail.getCommands()) {
-      final Button b = new Button(cmd.label);
+      final Button b = new Button();
+      b.setText(cmd.label);
       b.setEnabled(cmd.enabled);
       b.setTitle(cmd.title);
       b.addClickHandler(new ClickHandler() {

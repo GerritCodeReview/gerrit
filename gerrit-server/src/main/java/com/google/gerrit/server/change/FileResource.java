@@ -36,6 +36,10 @@ public class FileResource implements RestResource {
     return key;
   }
 
+  public boolean isCacheable() {
+    return rev.isCacheable();
+  }
+
   Account.Id getAccountId() {
     return rev.getAccountId();
   }

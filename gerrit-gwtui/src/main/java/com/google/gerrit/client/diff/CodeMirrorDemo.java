@@ -55,7 +55,6 @@ import net.codemirror.lib.KeyMap;
 import net.codemirror.lib.LineCharacter;
 import net.codemirror.lib.LineWidget;
 import net.codemirror.lib.ModeInjector;
-import net.codemirror.lib.TextMarker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -291,8 +290,8 @@ public class CodeMirrorDemo extends Screen {
         int aLength = currentA.length();
         int bLength = currentB.length();
         String color = currentA == EMPTY || currentB == EMPTY
-            ? diffTable.style.diff()
-            : diffTable.style.intralineBg();
+            ? DiffTable.style.diff()
+            : DiffTable.style.intralineBg();
         colorLines(cmA, color, origLineA, aLength);
         colorLines(cmB, color, origLineB, bLength);
         mapper.appendCommon(Math.min(aLength, bLength));
@@ -359,7 +358,7 @@ public class CodeMirrorDemo extends Screen {
     } else {
       // Estimated height at 21px, fixed by deferring after display
       manager = new PaddingManager(
-          addPaddingWidget(cm, diffTable.style.padding(), line, 21, Unit.PX, 0));
+          addPaddingWidget(cm, DiffTable.style.padding(), line, 21, Unit.PX, 0));
       linePaddingManagerMap.put(handle, manager);
     }
     int lineToPad = mapper.lineOnOther(mySide, line).getLine();
@@ -368,7 +367,7 @@ public class CodeMirrorDemo extends Screen {
       PaddingManager.link(manager, linePaddingManagerMap.get(otherHandle));
     } else {
       PaddingManager otherManager = new PaddingManager(
-          addPaddingWidget(other, diffTable.style.padding(), lineToPad, 21, Unit.PX, 0));
+          addPaddingWidget(other, DiffTable.style.padding(), lineToPad, 21, Unit.PX, 0));
       linePaddingManagerMap.put(otherHandle, otherManager);
       PaddingManager.link(manager, otherManager);
     }
@@ -486,25 +485,26 @@ public class CodeMirrorDemo extends Screen {
     hiddenSkipMap.put(cm.getLineHandle(markEnd), size);
     SkipBar bar = new SkipBar(cm, hiddenSkipMap);
     diffTable.add(bar);
-    TextMarker marker = cm.markText(
-        CodeMirror.pos(markStart),
-        CodeMirror.pos(markEnd),
-        Configuration.create().set("collapsed", true));
     /**
      * TODO: Due to CodeMirror limitation, there's no way to make the first
-     * line disappear completely. The current approach leaves an empty line
-     * with line number "1" still showing, and CodeMirror doesn't like manually
-     * setting the display of a line to "none". A workaround may be to use
+     * line disappear completely, and CodeMirror doesn't like manually
+     * setting the display of a line to "none". The workaround here uses
      * inline widget for the first line and regular line widgets for others.
      */
-    boolean isZero = markStart == -1;
-    Configuration config = Configuration.create()
-      .set("coverGutter", true)
-      .set("above", isZero);
-    LineWidget widget = cm.addLineWidget(
-        isZero ? markEnd + 1 : markStart, bar.getElement(), config);
-    bar.setWidget(widget);
-    bar.setMarker(marker, size);
+    Configuration markerConfig;
+    if (markStart == -1) {
+      markerConfig = Configuration.create()
+        .set("inclusiveLeft", true)
+        .set("inclusiveRight", true)
+        .set("replacedWith", bar.getElement());
+      cm.addLineClass(0, LineClassWhere.WRAP, DiffTable.style.hideNumber());
+    } else {
+      markerConfig = Configuration.create().set("collapsed", true);
+      Configuration config = Configuration.create().set("coverGutter", true);
+      bar.setWidget(cm.addLineWidget(markStart, bar.getElement(), config));
+    }
+    bar.setMarker(cm.markText(CodeMirror.pos(markStart),
+        CodeMirror.pos(markEnd), markerConfig), size);
     return bar;
   }
 
@@ -523,10 +523,10 @@ public class CodeMirrorDemo extends Screen {
     }
     EditIterator iter = new EditIterator(lines, startLine);
     Configuration intralineBgOpt = Configuration.create()
-        .set("className", diffTable.style.intralineBg())
+        .set("className", DiffTable.style.intralineBg())
         .set("readOnly", true);
     Configuration diffOpt = Configuration.create()
-        .set("className", diffTable.style.diff())
+        .set("className", DiffTable.style.diff())
         .set("readOnly", true);
     LineCharacter last = CodeMirror.pos(0, 0);
     for (int i = 0; i < edits.length(); i++) {
@@ -543,7 +543,7 @@ public class CodeMirrorDemo extends Screen {
       last = to;
       for (int line = fromLine; line < to.getLine(); line++) {
         cm.addLineClass(line, LineClassWhere.BACKGROUND,
-            diffTable.style.diff());
+            DiffTable.style.diff());
       }
     }
   }
@@ -556,7 +556,7 @@ public class CodeMirrorDemo extends Screen {
 
   private void insertEmptyLines(CodeMirror cm, int nextLine, int cnt) {
     // -1 to compensate for the line we went past when this method is called.
-    addPaddingWidget(cm, diffTable.style.padding(), nextLine - 1,
+    addPaddingWidget(cm, DiffTable.style.padding(), nextLine - 1,
         cnt, Unit.EM, null);
   }
 
@@ -590,19 +590,23 @@ public class CodeMirrorDemo extends Screen {
       public void run() {
         if (cm.hasActiveLine()) {
           cm.removeLineClass(cm.getActiveLine(),
-              LineClassWhere.WRAP, diffTable.style.activeLine());
+              LineClassWhere.WRAP, DiffTable.style.activeLine());
           cm.removeLineClass(cm.getActiveLine(),
-              LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+              LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
         }
         if (other.hasActiveLine()) {
           other.removeLineClass(other.getActiveLine(),
-              LineClassWhere.WRAP, diffTable.style.activeLine());
+              LineClassWhere.WRAP, DiffTable.style.activeLine());
           other.removeLineClass(other.getActiveLine(),
-              LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+              LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
         }
         int line = cm.getCursor("head").getLine();
         LineHandle handle = cm.getLineHandle(line);
-        // Ugly workaround because CodeMirror never hides lines completely.
+        /**
+         * Ugly workaround because CodeMirror never hides lines completely.
+         * TODO: Change to use CodeMirror's official workaround after
+         * updating the library to latest HEAD.
+         */
         if (hiddenSkipMap.containsKey(handle)) {
           line -= hiddenSkipMap.get(handle);
           handle = cm.getLineHandle(line);
@@ -611,17 +615,17 @@ public class CodeMirrorDemo extends Screen {
         if (cm.somethingSelected()) {
           return;
         }
-        cm.addLineClass(line, LineClassWhere.WRAP, diffTable.style.activeLine());
-        cm.addLineClass(line, LineClassWhere.BACKGROUND, diffTable.style.activeLineBg());
+        cm.addLineClass(line, LineClassWhere.WRAP, DiffTable.style.activeLine());
+        cm.addLineClass(line, LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
         LineOnOtherInfo info =
             mapper.lineOnOther(cm == cmA ? Side.PARENT : Side.REVISION, line);
         int oLine = info.getLine();
         if (info.isAligned()) {
           other.setActiveLine(other.getLineHandle(oLine));
           other.addLineClass(oLine, LineClassWhere.WRAP,
-              diffTable.style.activeLine());
+              DiffTable.style.activeLine());
           other.addLineClass(oLine, LineClassWhere.BACKGROUND,
-              diffTable.style.activeLineBg());
+              DiffTable.style.activeLineBg());
         }
       }
     };

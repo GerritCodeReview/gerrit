@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7bb1839_b262feeb",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T17:11:32Z",
+      "side": 1,
+      "message": "Since they all register together lets instead do:\n\n  private List\u003cHandlerRegistration\u003e keyHandlers \u003d new ArrayList\u003cHandlerRegistration\u003e(4);\n\nthen your remove is:\n\n  for (HandlerRegistration h : keyHandlers) {\n    h.remove();\n  }\n  keyHandlers.clear();\n\nand your register is:\n\n  keyHandlers.add(GlobalKey.add(this, keysAction));\n  ...",
+      "revId": "8880c899e9b4ff8fd9240206f5613a1b138af36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7bb1839_f25c8631",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T17:11:32Z",
+      "side": 1,
+      "message": "Line wrap before PatchUtil not in the middle of the . expression",
+      "revId": "8880c899e9b4ff8fd9240206f5613a1b138af36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7bb1839_d26182e7",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-12T17:11:32Z",
+      "side": 1,
+      "message": "Instead of this hack, did you try installing keymap/vim.js? The up/down j/k navigation thing is actually taken from VI. It would make sense to just install their vim keybinding mode maybe and then we can use h/l for left/right character navigation as we start to worry about range selections.",
+      "revId": "8880c899e9b4ff8fd9240206f5613a1b138af36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

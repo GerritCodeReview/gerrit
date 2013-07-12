@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -34,8 +35,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.io.IOException;
+import java.util.EnumSet;
+import java.util.Set;
 
-public class Rebase implements RestModifyView<RevisionResource, Input> {
+public class Rebase implements RestModifyView<RevisionResource, Input>,
+    UiCommand<RevisionResource> {
   public static class Input {
   }
 
@@ -74,6 +78,38 @@ public class Rebase implements RestModifyView<RevisionResource, Input> {
     json.addOption(ListChangesOption.CURRENT_REVISION)
         .addOption(ListChangesOption.CURRENT_COMMIT);
     return json.format(change.getId());
+  }
+
+  @Override
+  public Set<Place> getPlaces() {
+    return EnumSet.of(Place.PATCHSET_ACTION_PANEL);
+  }
+
+  @Override
+  public String getLabel(RevisionResource resource) {
+    return "Rebase";
+  }
+
+  @Override
+  public String getTitle(RevisionResource resource) {
+    return "Rebase onto tip of branch or parent change";
+  }
+
+  @Override
+  public boolean isVisible(RevisionResource resource) {
+    return isEnabled(resource);
+  }
+
+  @Override
+  public boolean isEnabled(RevisionResource resource) {
+    return resource.getChange().getStatus().isOpen()
+        && resource.getControl().canRebase()
+        && rebaseChange.get().canRebase(resource);
+  }
+
+  @Override
+  public String getConfirmationMessage(RevisionResource resource) {
+    return null;
   }
 
   public static class CurrentRevision implements

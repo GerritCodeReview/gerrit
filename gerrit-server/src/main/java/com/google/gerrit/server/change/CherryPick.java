@@ -18,11 +18,11 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.CherryPick.Input;
-import com.google.gerrit.server.change.CherryPickChange;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -30,7 +30,11 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-class CherryPick implements RestModifyView<RevisionResource, Input> {
+import java.util.EnumSet;
+import java.util.Set;
+
+class CherryPick implements RestModifyView<RevisionResource, Input>,
+    UiCommand<RevisionResource> {
   private final Provider<ReviewDb> dbProvider;
   private final Provider<CherryPickChange> cherryPickChange;
   private final ChangeJson json;
@@ -89,5 +93,35 @@ class CherryPick implements RestModifyView<RevisionResource, Input> {
     } catch (MergeException  e) {
       throw new ResourceConflictException(e.getMessage());
     }
+  }
+
+  @Override
+  public Set<Place> getPlaces() {
+    return EnumSet.of(Place.PATCHSET_ACTION_PANEL);
+  }
+
+  @Override
+  public String getLabel(RevisionResource resource) {
+    return "Cherry Pick To";
+  }
+
+  @Override
+  public String getTitle(RevisionResource resource) {
+    return "Cherry pick change to a different branch";
+  }
+
+  @Override
+  public boolean isVisible(RevisionResource resource) {
+    return isEnabled(resource);
+  }
+
+  @Override
+  public boolean isEnabled(RevisionResource resource) {
+    return resource.getControl().getProjectControl().canUpload();
+  }
+
+  @Override
+  public String getConfirmationMessage(RevisionResource resource) {
+    return null;
   }
 }

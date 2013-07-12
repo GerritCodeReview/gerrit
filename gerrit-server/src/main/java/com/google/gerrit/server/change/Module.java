@@ -61,17 +61,16 @@ public class Module extends RestApiModule {
     delete(REVIEWER_KIND).to(DeleteReviewer.class);
 
     child(CHANGE_KIND, "revisions").to(Revisions.class);
+    post(REVISION_KIND, "cherrypick").to(CherryPick.class);
     get(REVISION_KIND, "commit").to(GetCommit.class);
     get(REVISION_KIND, "review").to(GetReview.class);
     post(REVISION_KIND, "review").to(PostReview.class);
     post(REVISION_KIND, "submit").to(Submit.class);
     post(REVISION_KIND, "rebase").to(Rebase.class);
-    get(REVISION_KIND, "submit_type").to(TestSubmitType.Get.class);
     get(REVISION_KIND, "patch").to(GetPatch.class);
+    get(REVISION_KIND, "submit_type").to(TestSubmitType.Get.class);
     post(REVISION_KIND, "test.submit_rule").to(TestSubmitRule.class);
     post(REVISION_KIND, "test.submit_type").to(TestSubmitType.class);
-
-    post(REVISION_KIND, "cherrypick").to(CherryPick.class);
 
     child(REVISION_KIND, "drafts").to(Drafts.class);
     put(REVISION_KIND, "drafts").to(CreateDraft.class);

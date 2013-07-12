@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -38,6 +39,7 @@ import java.util.Collections;
 class PutTopic implements RestModifyView<ChangeResource, Input> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
+  private final ChangeHooks hooks;
 
   static class Input {
     @DefaultInput
@@ -46,9 +48,11 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
   }
 
   @Inject
-  PutTopic(Provider<ReviewDb> dbProvider, ChangeIndexer indexer) {
+  PutTopic(Provider<ReviewDb> dbProvider, ChangeIndexer indexer,
+      ChangeHooks hooks) {
     this.dbProvider = dbProvider;
     this.indexer = indexer;
+    this.hooks = hooks;
   }
 
   @Override
@@ -80,9 +84,10 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
             oldTopicName, newTopicName);
       }
 
+      IdentifiedUser currentUser = ((IdentifiedUser) control.getCurrentUser());
       ChangeMessage cmsg = new ChangeMessage(
           new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
-          ((IdentifiedUser) control.getCurrentUser()).getAccountId(),
+          currentUser.getAccountId(),
           change.currentPatchSetId());
       StringBuilder msgBuf = new StringBuilder(summary);
       if (!Strings.isNullOrEmpty(input.message)) {
@@ -101,6 +106,8 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
         });
       db.changeMessages().insert(Collections.singleton(cmsg));
       indexer.index(change);
+      hooks.doTopicChangedHook(change, currentUser.getAccount(),
+          oldTopicName, db);
     }
     return Strings.isNullOrEmpty(newTopicName)
         ? Response.none()

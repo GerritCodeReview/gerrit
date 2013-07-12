@@ -120,6 +120,15 @@ Called whenever a reviewer is added to a change.
   reviewer-added --change <change id> --change-url <change url> --project <project name> --branch <branch> --reviewer <reviewer>
 ====
 
+topic-changed
+~~~~~~~~~~~~~
+
+Called whenever a change's topic is changed from the Web UI or via the REST API.
+
+====
+  topic-changed --change <change id> --changer <changer> --old-topic <old topic> --new-topic <new topic>
+====
+
 cla-signed
 ~~~~~~~~~~
 

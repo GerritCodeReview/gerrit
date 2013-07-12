@@ -147,6 +147,16 @@ public interface ChangeHooks {
   public void doReviewerAddedHook(Change change, Account account,
       PatchSet patchSet, ReviewDb db) throws OrmException;
 
+  /**
+   * Fire the Topic Changed Hook
+   *
+   * @param change The change itself.
+   * @param account The gerrit user who changed the topic.
+   * @param oldTopic The old topic name.
+   */
+  public void doTopicChangedHook(Change change, Account account,
+      String oldTopic, ReviewDb db) throws OrmException;
+
   public void doClaSignupHook(Account account, ContributorAgreement cla);
 
   /**

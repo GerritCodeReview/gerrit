@@ -2102,7 +2102,7 @@ public class ReceiveCommits {
   }
 
   private void validateNewCommits(RefControl ctl, ReceiveCommand cmd) {
-    if (ctl.canForgeAuthor()
+    boolean fastPath = ctl.canForgeAuthor()
         && ctl.canForgeCommitter()
         && ctl.canForgeGerritServerIdentity()
         && ctl.canUploadMerges()
@@ -2110,7 +2110,10 @@ public class ReceiveCommits {
         && Iterables.isEmpty(rejectCommits)
         && !RefNames.REFS_CONFIG.equals(ctl.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
-            || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
+            || NEW_PATCHSET.matcher(cmd.getRefName()).matches());
+    CommitValidators commitValidators =
+        commitValidatorsFactory.create(ctl, sshInfo, repo);
+    if (fastPath && !commitValidators.hasAllCommitsValidators()) {
       return;
     }
 
@@ -2127,7 +2130,7 @@ public class ReceiveCommits {
       while ((c = walk.next()) != null) {
         if (existing.contains(c)) {
           continue;
-        } else if (!validCommit(ctl, cmd, c)) {
+        } else if (!validCommit(ctl, cmd, c, commitValidators, fastPath)) {
           break;
         }
 
@@ -2156,6 +2159,14 @@ public class ReceiveCommits {
 
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
       final RevCommit c) throws MissingObjectException, IOException {
+    CommitValidators commitValidators =
+        commitValidatorsFactory.create(ctl, sshInfo, repo);
+    return validCommit(ctl, cmd, c, commitValidators, /* fastPath */ false);
+  }
+
+  private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
+        final RevCommit c, CommitValidators commitValidators, boolean fastPath)
+            throws MissingObjectException, IOException {
 
     if (validCommits.contains(c)) {
       return true;
@@ -2163,11 +2174,9 @@ public class ReceiveCommits {
 
     CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, currentUser);
-    CommitValidators commitValidators =
-        commitValidatorsFactory.create(ctl, sshInfo, repo);
 
     try {
-      messages.addAll(commitValidators.validateForReceiveCommits(receiveEvent));
+      messages.addAll(commitValidators.validateForReceiveCommits(receiveEvent, fastPath));
     } catch (CommitValidationException e) {
       messages.addAll(e.getMessages());
       reject(cmd, e.getMessage());

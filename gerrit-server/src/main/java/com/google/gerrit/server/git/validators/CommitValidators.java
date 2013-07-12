@@ -16,6 +16,8 @@ package com.google.gerrit.server.git.validators;
 
 import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.Nullable;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -57,6 +59,14 @@ public class CommitValidators {
   private static final Logger log = LoggerFactory
       .getLogger(CommitValidators.class);
 
+  private static final Predicate<CommitValidationListener> IS_ALL_COMMIT_VALIDATOR =
+      new Predicate<CommitValidationListener>() {
+        @Override
+        public boolean apply(CommitValidationListener validator) {
+          return validator.shouldValidateAllCommits();
+        }
+      };
+
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   public interface Factory {
@@ -91,6 +101,11 @@ public class CommitValidators {
 
   public List<CommitValidationMessage> validateForReceiveCommits(
       CommitReceivedEvent receiveEvent) throws CommitValidationException {
+    return validateForReceiveCommits(receiveEvent, false);
+  }
+
+  public List<CommitValidationMessage> validateForReceiveCommits(
+      CommitReceivedEvent receiveEvent, boolean fastPath) throws CommitValidationException {
 
     List<CommitValidationListener> validators =
         new LinkedList<CommitValidationListener>();
@@ -108,14 +123,15 @@ public class CommitValidators {
           installCommitMsgHookCommand, sshInfo));
     }
     validators.add(new ConfigValidator(refControl, repo));
-    validators.add(new PluginCommitValidationListener(commitValidationListeners));
+    validators.add(new PluginCommitValidationListener(
+        commitValidationListeners, fastPath, hasAllCommitsValidators()));
 
     List<CommitValidationMessage> messages =
         new LinkedList<CommitValidationMessage>();
 
     try {
       for (CommitValidationListener commitValidator : validators) {
-        messages.addAll(commitValidator.onCommitReceived(receiveEvent));
+        validateCommit(fastPath, receiveEvent, messages, commitValidator);
       }
     } catch (CommitValidationException e) {
       // Keep the old messages (and their order) in case of an exception
@@ -158,6 +174,20 @@ public class CommitValidators {
       throw new CommitValidationException(e.getMessage(), messages);
     }
     return messages;
+  }
+
+  public boolean hasAllCommitsValidators() {
+    return Iterables
+        .tryFind(commitValidationListeners, IS_ALL_COMMIT_VALIDATOR)
+        .isPresent();
+  }
+
+  private static void validateCommit(boolean fastPath,
+      CommitReceivedEvent receiveEvent, List<CommitValidationMessage> messages,
+      CommitValidationListener validator) throws CommitValidationException {
+    if (!fastPath || validator.shouldValidateAllCommits()) {
+      messages.addAll(validator.onCommitReceived(receiveEvent));
+    }
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {
@@ -205,6 +235,11 @@ public class CommitValidators {
         }
       }
       return Collections.emptyList();
+    }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return false;
     }
 
     /**
@@ -337,6 +372,11 @@ public class CommitValidators {
       }
       return Collections.emptyList();
     }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return false;
+    }
   }
 
   /** Require permission to upload merges. */
@@ -357,15 +397,31 @@ public class CommitValidators {
       }
       return Collections.emptyList();
     }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return false;
+    }
   }
 
   /** Execute commit validation plug-ins */
   public static class PluginCommitValidationListener implements
       CommitValidationListener {
+    private boolean fastPath;
+    private boolean hasAllCommitsValidator;
     private final DynamicSet<CommitValidationListener> commitValidationListeners;
 
     public PluginCommitValidationListener(
         final DynamicSet<CommitValidationListener> commitValidationListeners) {
+      this(commitValidationListeners, /* fastPath */false,
+          /* hasAllCommitsValidator */ false);
+    }
+
+    public PluginCommitValidationListener(
+        final DynamicSet<CommitValidationListener> commitValidationListeners,
+        boolean fastPath, boolean hasAllCommitsValidator) {
+      this.fastPath = fastPath;
+      this.hasAllCommitsValidator = hasAllCommitsValidator;
       this.commitValidationListeners = commitValidationListeners;
     }
 
@@ -377,13 +433,18 @@ public class CommitValidators {
 
       for (CommitValidationListener validator : commitValidationListeners) {
         try {
-          messages.addAll(validator.onCommitReceived(receiveEvent));
+          validateCommit(fastPath, receiveEvent, messages, validator);
         } catch (CommitValidationException e) {
           messages.addAll(e.getMessages());
           throw new CommitValidationException(e.getMessage(), messages);
         }
       }
       return messages;
+    }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return hasAllCommitsValidator;
     }
   }
 
@@ -422,6 +483,11 @@ public class CommitValidators {
       }
       return Collections.emptyList();
     }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return false;
+    }
   }
 
   /** Require that author matches the uploader. */
@@ -451,6 +517,11 @@ public class CommitValidators {
         throw new CommitValidationException("invalid author", messages);
       }
       return Collections.emptyList();
+    }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return false;
     }
   }
 
@@ -482,6 +553,11 @@ public class CommitValidators {
       }
       return Collections.emptyList();
     }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return false;
+    }
   }
 
   /**
@@ -512,6 +588,11 @@ public class CommitValidators {
         throw new CommitValidationException("do not amend merges not made by you");
       }
       return Collections.emptyList();
+    }
+
+    @Override
+    public boolean shouldValidateAllCommits() {
+      return false;
     }
   }
 

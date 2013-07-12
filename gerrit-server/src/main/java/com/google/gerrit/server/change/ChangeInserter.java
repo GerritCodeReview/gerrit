@@ -30,6 +30,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.ChangeIndexer;
+import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.OrmException;
@@ -39,6 +40,8 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Set;
@@ -48,12 +51,16 @@ public class ChangeInserter {
     ChangeInserter create(RefControl ctl, Change c, RevCommit rc);
   }
 
+  private static final Logger log =
+      LoggerFactory.getLogger(ChangeInserter.class);
+
   private final Provider<ReviewDb> dbProvider;
   private final GitReferenceUpdated gitRefUpdated;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
   private final TrackingFooters trackingFooters;
   private final ChangeIndexer indexer;
+  private final CreateChangeSender.Factory createChangeSenderFactory;
 
   private final RefControl refControl;
   private final Change change;
@@ -63,7 +70,9 @@ public class ChangeInserter {
 
   private ChangeMessage changeMessage;
   private Set<Account.Id> reviewers;
+  private Set<Account.Id> extraCC;
   private boolean runHooks;
+  private boolean sendMail;
 
   @Inject
   ChangeInserter(Provider<ReviewDb> dbProvider,
@@ -73,6 +82,7 @@ public class ChangeInserter {
       ApprovalsUtil approvalsUtil,
       TrackingFooters trackingFooters,
       ChangeIndexer indexer,
+      CreateChangeSender.Factory createChangeSenderFactory,
       @Assisted RefControl refControl,
       @Assisted Change change,
       @Assisted RevCommit commit) {
@@ -82,11 +92,14 @@ public class ChangeInserter {
     this.approvalsUtil = approvalsUtil;
     this.trackingFooters = trackingFooters;
     this.indexer = indexer;
+    this.createChangeSenderFactory = createChangeSenderFactory;
     this.refControl = refControl;
     this.change = change;
     this.commit = commit;
     this.reviewers = Collections.emptySet();
+    this.extraCC = Collections.emptySet();
     this.runHooks = true;
+    this.sendMail = true;
 
     patchSet =
         new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
@@ -108,6 +121,11 @@ public class ChangeInserter {
     return this;
   }
 
+  public ChangeInserter setExtraCC(Set<Account.Id> extraCC) {
+    this.extraCC = extraCC;
+    return this;
+  }
+
   public ChangeInserter setDraft(boolean draft) {
     change.setStatus(draft ? Change.Status.DRAFT : Change.Status.NEW);
     patchSet.setDraft(draft);
@@ -116,6 +134,11 @@ public class ChangeInserter {
 
   public ChangeInserter setRunHooks(boolean runHooks) {
     this.runHooks = runHooks;
+    return this;
+  }
+
+  public ChangeInserter setSendMail(boolean sendMail) {
+    this.sendMail = sendMail;
     return this;
   }
 
@@ -149,8 +172,23 @@ public class ChangeInserter {
     indexer.index(change);
     gitRefUpdated.fire(change.getProject(), patchSet.getRefName(),
         ObjectId.zeroId(), commit);
+
     if (runHooks) {
       hooks.doPatchsetCreatedHook(change, patchSet, db);
+    }
+
+    if (sendMail) {
+      try {
+        CreateChangeSender cm =
+            createChangeSenderFactory.create(change);
+        cm.setFrom(change.getOwner());
+        cm.setPatchSet(patchSet, patchSetInfo);
+        cm.addReviewers(reviewers);
+        cm.addExtraCC(extraCC);
+        cm.send();
+      } catch (Exception err) {
+        log.error("Cannot send email for new change " + change.getId(), err);
+      }
     }
   }
 }

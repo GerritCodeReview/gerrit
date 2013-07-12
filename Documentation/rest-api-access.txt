@@ -254,6 +254,7 @@ The entries in the map are sorted by project name.
           }
         }
       },
+      "is_owner": true,
       "owner_of": [
         "GLOBAL_CAPABILITIES",
         "refs/meta/config",
@@ -275,6 +276,7 @@ The entries in the map are sorted by project name.
         "description": "Access inherited by all other projects."
       },
       "local": {},
+      "is_owner": true,
       "owner_of": [
         "refs/*"
       ],
@@ -360,6 +362,8 @@ link:rest-api-projects.html#project-info[ProjectInfo] entity.
 |`local`              ||
 The local access rights of the project as a map that maps the refs to
 link:#access-section-info[AccessSectionInfo] entities.
+|`is_owner`           |not set if `false`|
+Whether the calling user owns this project.
 |`owner_of`           ||The list of refs owned by the calling user.
 |`can_upload`         |not set if `false`|
 Whether the calling user can upload to any ref.

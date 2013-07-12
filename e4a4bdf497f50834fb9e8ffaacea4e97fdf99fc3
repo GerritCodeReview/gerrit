@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c680d7_853ea2c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-12T14:14:34Z",
+      "side": 1,
+      "message": "Could we avoid introducing another mocking library?\n\nLooking at the test code it looks like mocking is needed because the \"included in\" algorithm can only be tested in the context of the IncludedInDetailFactory class. The algorithm itself doesn\u0027t need all of the dependencies from the IncludedInDetailFactory.\n\nHow about extracting the \"included in\" algorithm into own class which would only depend on JGit API and which would be possible to test without mocking?",
+      "revId": "e4a4bdf497f50834fb9e8ffaacea4e97fdf99fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_a5391ee0",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/git/util/SimpleDataRepositoryTestCase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-12T14:14:34Z",
+      "side": 1,
+      "message": "The test repository created by this class is specific for the IncludedInDetailTest. No other test will extend this class.\nThe code from this class belongs to the IncludeInDetailTest. I would remove this class.",
+      "revId": "e4a4bdf497f50834fb9e8ffaacea4e97fdf99fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

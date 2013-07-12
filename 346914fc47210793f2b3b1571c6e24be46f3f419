@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c680d7_a510fe5f",
+        "filename": "website/releases/index.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-12T07:55:38Z",
+      "side": 1,
+      "message": "adding the suffix to the url fix the problem on Safari:\n\n \u0026callback\u003d?",
+      "revId": "346914fc47210793f2b3b1571c6e24be46f3f419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

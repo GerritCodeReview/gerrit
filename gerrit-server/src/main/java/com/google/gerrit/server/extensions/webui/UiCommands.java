@@ -60,6 +60,16 @@ public class UiCommands {
     return s;
   }
 
+  public static Iterable<UiCommandDetail> plugins(Iterable<UiCommandDetail> in) {
+    return Iterables.filter(in,
+      new Predicate<UiCommandDetail>() {
+        @Override
+        public boolean apply(UiCommandDetail input) {
+          return input.id.indexOf('~') > 0;
+        }
+      });
+  }
+
   public static <R extends RestResource> Iterable<UiCommandDetail> from(
       ChildCollection<?, R> collection,
       R resource,

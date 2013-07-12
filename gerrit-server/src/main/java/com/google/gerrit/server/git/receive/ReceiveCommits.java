@@ -1029,7 +1029,7 @@ class ReceiveCommits {
     actualCommands.add(cmd);
   }
 
-  private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {
+  private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException, IOException {
     logDebug("Updating {}", cmd);
     boolean ok;
     try {
@@ -1101,7 +1101,7 @@ class ReceiveCommits {
     }
   }
 
-  private void parseRewind(ReceiveCommand cmd) throws PermissionBackendException {
+  private void parseRewind(ReceiveCommand cmd) throws PermissionBackendException, IOException {
     RevCommit newObject;
     try {
       newObject = rp.getRevWalk().parseCommit(cmd.getNewId());
@@ -1817,7 +1817,8 @@ class ReceiveCommits {
           logDebug("Creating new change for {} even though it is already tracked", name);
         }
 
-        if (!validCommit(rp.getRevWalk(), magicBranch.perm, magicBranch.dest, magicBranch.cmd, c)) {
+        if (!validCommit(
+            rp.getRevWalk(), magicBranch.perm, magicBranch.dest, magicBranch.cmd, c, false)) {
           // Not a change the user can propose? Abort as early as possible.
           newChanges = Collections.emptyList();
           logDebug("Aborting early due to invalid commit");
@@ -2403,7 +2404,7 @@ class ReceiveCommits {
       }
 
       PermissionBackend.ForRef perm = permissions.ref(change.getDest().get());
-      if (!validCommit(rp.getRevWalk(), perm, change.getDest(), inputCommand, newCommit)) {
+      if (!validCommit(rp.getRevWalk(), perm, change.getDest(), inputCommand, newCommit, false)) {
         return false;
       }
       rp.getRevWalk().parseBody(priorCommit);
@@ -2710,26 +2711,33 @@ class ReceiveCommits {
   }
 
   private void validateNewCommits(Branch.NameKey branch, ReceiveCommand cmd)
-      throws PermissionBackendException {
+      throws PermissionBackendException, IOException {
     PermissionBackend.ForRef perm = permissions.ref(branch.get());
-    if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
-        && !(MagicBranch.isMagicBranch(cmd.getRefName())
-            || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
-        && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION)) {
+    RevWalk walk = rp.getRevWalk();
+    boolean skipValidation =
+        !RefNames.REFS_CONFIG.equals(cmd.getRefName())
+            && !(MagicBranch.isMagicBranch(cmd.getRefName())
+                || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
+            && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION);
+    CommitValidators commitValidators =
+        commitValidatorsFactory.forReceiveCommits(
+            perm, branch, user, sshInfo, repo, walk, skipValidation);
+    if (skipValidation) {
       try {
         perm.check(RefPermission.SKIP_VALIDATION);
         if (!Iterables.isEmpty(rejectCommits)) {
           throw new AuthException("reject-commits prevents " + PUSH_OPTION_SKIP_VALIDATION);
         }
-        logDebug("Short-circuiting new commit validation");
       } catch (AuthException denied) {
         reject(cmd, denied.getMessage());
       }
-      return;
+      if (!commitValidators.hasAllCommitsValidators()) {
+        logDebug("Short-circuiting new commit validation");
+        return;
+      }
     }
 
     boolean missingFullName = Strings.isNullOrEmpty(user.getAccount().getFullName());
-    RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
@@ -2758,7 +2766,7 @@ class ReceiveCommits {
         }
         if (existing.keySet().contains(c)) {
           continue;
-        } else if (!validCommit(walk, perm, branch, cmd, c)) {
+        } else if (!validCommit(commitValidators, walk, branch, cmd, c)) {
           break;
         }
 
@@ -2784,9 +2792,28 @@ class ReceiveCommits {
       PermissionBackend.ForRef perm,
       Branch.NameKey branch,
       ReceiveCommand cmd,
+      ObjectId id,
+      boolean skipValidation)
+      throws IOException {
+    boolean isMerged =
+        magicBranch != null
+            && cmd.getRefName().equals(magicBranch.cmd.getRefName())
+            && magicBranch.merged;
+    CommitValidators validators =
+        isMerged
+            ? commitValidatorsFactory.forMergedCommits(perm, user.asIdentifiedUser())
+            : commitValidatorsFactory.forReceiveCommits(
+                perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw, skipValidation);
+    return validCommit(validators, rw, branch, cmd, id);
+  }
+
+  private boolean validCommit(
+      CommitValidators validators,
+      RevWalk rw,
+      Branch.NameKey branch,
+      ReceiveCommand cmd,
       ObjectId id)
       throws IOException {
-
     if (validCommits.contains(id)) {
       return true;
     }
@@ -2796,15 +2823,6 @@ class ReceiveCommits {
 
     try (CommitReceivedEvent receiveEvent =
         new CommitReceivedEvent(cmd, project, branch.get(), rw.getObjectReader(), c, user)) {
-      boolean isMerged =
-          magicBranch != null
-              && cmd.getRefName().equals(magicBranch.cmd.getRefName())
-              && magicBranch.merged;
-      CommitValidators validators =
-          isMerged
-              ? commitValidatorsFactory.forMergedCommits(perm, user.asIdentifiedUser())
-              : commitValidatorsFactory.forReceiveCommits(
-                  perm, branch, user.asIdentifiedUser(), sshInfo, repo, rw);
       for (CommitValidationMessage m : validators.validate(receiveEvent)) {
         messages.add(new CommitValidationMessage(messageForCommit(c, m.getMessage()), m.isError()));
       }

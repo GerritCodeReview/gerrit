@@ -217,6 +217,20 @@ public class ProjectControl {
         || isOwnerAnyRef());
   }
 
+  public boolean canUpload() {
+    for (SectionMatcher matcher : access()) {
+      AccessSection section = matcher.section;
+      if (section.getName().startsWith("refs/for/")) {
+        Permission permission = section.getPermission(Permission.PUSH);
+        if (permission != null
+            && controlForRef(section.getName()).canPerform(Permission.PUSH)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   /** Can this user see all the refs in this projects? */
   public boolean allRefsAreVisible() {
     return allRefsAreVisibleExcept(Collections.<String> emptySet());

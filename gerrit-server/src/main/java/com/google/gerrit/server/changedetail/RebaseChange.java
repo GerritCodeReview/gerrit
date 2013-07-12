@@ -27,6 +27,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.ChangeControl;
@@ -349,6 +350,34 @@ public class RebaseChange {
     final ObjectId objectId = inserter.insert(cb);
     inserter.flush();
     return objectId;
+  }
+
+  public boolean canRebase(RevisionResource r) {
+    Repository git;
+    try {
+      git = gitManager.openRepository(r.getChange().getProject());
+    } catch (RepositoryNotFoundException err) {
+      return false;
+    } catch (IOException err) {
+      return false;
+    }
+    try {
+      findBaseRevision(
+          r.getPatchSet().getId(),
+          db,
+          r.getChange().getDest(),
+          git,
+          null,
+          null,
+          null);
+      return true;
+    } catch (IOException e) {
+      return false;
+    } catch (OrmException e) {
+      return false;
+    } finally {
+      git.close();
+    }
   }
 
   public static boolean canDoRebase(final ReviewDb db,

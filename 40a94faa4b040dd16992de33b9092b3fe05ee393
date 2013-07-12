@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6712c80f_132b0c85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-12T03:37:41Z",
+      "side": 1,
+      "message": "It should be mentioned in the documentation that developers need to take care not to use variable/class names that will result in column names longer than 30 characters.",
+      "revId": "40a94faa4b040dd16992de33b9092b3fe05ee393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -21,7 +21,11 @@ limitations under the License.
     @external .CodeMirror-linenumber, .CodeMirror-vscrollbar;
     @external .CodeMirror-hscrollbar;
     @external .cm-keymap-fat-cursor, CodeMirror-cursor;
+    @external .CodeMirror-linebackground;
     @external .cm-searching, .cm-trailingspace;
+    .difftable .CodeMirror {
+      line-height: 1.1;
+    }
     .difftable .CodeMirror pre {
       padding: 0;
       overflow: hidden;
@@ -60,7 +64,7 @@ limitations under the License.
     }
     .activeLine .CodeMirror-linenumber,
     .activeLine .diff, .activeLine .intralineBg {
-      background-color: #E0FFFF;
+      background-color: #E0FFFF !important;
     }
     .activeLineBg {
       background-color: #E0FFFF !important;
@@ -83,6 +87,9 @@ limitations under the License.
     .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
       opacity: 0.8;
       z-index: 2;
+    }
+    .CodeMirror-linebackground {
+      height: 1em;
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>

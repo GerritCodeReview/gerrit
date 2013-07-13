@@ -63,9 +63,11 @@ class CommentBoxHeader extends Composite implements HasClickHandlers {
       setDate(when);
     }
     if (isDraft) {
-      name.setInnerText("(Draft)");
+      name.setInnerText(PatchUtil.C.draft());
     } else {
       name.setInnerText(FormatUtil.name(author));
+      name.setTitle(FormatUtil.nameEmail(author));
+      date.setTitle(FormatUtil.mediumFormat(when));
     }
   }
 

@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.base.CharMatcher;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
 
 import java.io.BufferedReader;
@@ -49,11 +51,16 @@ class ScriptRunner {
 
   void run(final ReviewDb db) throws OrmException {
     try {
-      final Connection c = ((JdbcSchema) db).getConnection();
+      final JdbcSchema schema = (JdbcSchema)db;
+      final Connection c = schema.getConnection();
+      final SqlDialect dialect = schema.getDialect();
       final Statement stmt = c.createStatement();
       try {
         for (String sql : commands) {
           try {
+            if (!dialect.canHandleStatementDelimiterInScript()) {
+              sql = CharMatcher.anyOf(";").trimTrailingFrom(sql);
+            }
             stmt.execute(sql);
           } catch (SQLException e) {
             throw new OrmException("Error in " + name + ":\n" + sql, e);

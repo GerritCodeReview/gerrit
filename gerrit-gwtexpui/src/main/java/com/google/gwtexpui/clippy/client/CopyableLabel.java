@@ -71,6 +71,10 @@ public class CopyableLabel extends Composite implements HasText {
   private TextBox textBox;
   private Element swf;
 
+  public CopyableLabel() {
+    this("");
+  }
+
   /**
    * Create a new label
    *

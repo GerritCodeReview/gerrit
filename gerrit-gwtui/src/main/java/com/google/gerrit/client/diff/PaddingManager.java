@@ -58,7 +58,7 @@ class PaddingManager {
   private int getMyTotalHeight() {
     int total = 0;
     for (CommentBox box : comments) {
-      total += box.getOffsetHeight();
+      total += box.getOffsetHeight() + 5; // 5px for shadow margin
     }
     return total;
   }

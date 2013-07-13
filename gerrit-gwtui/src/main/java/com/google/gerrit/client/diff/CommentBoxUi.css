@@ -1,12 +1,25 @@
 .commentBox {
   background-color: #e5ecf9;
   border: 1px solid black;
+  -webkit-box-shadow: 3px 3px 3px #888888;
+  -moz-box-shadow: 3px 3px 3px #888888;
+  box-shadow: 3px 3px 3px #888888;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  overflow: visible;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .table {
   width: 100%;
   cursor: pointer;
   table-layout: fixed;
+}
+
+.name {
+  width: 20%;
+  font-weight: bold;
 }
 
 .summary {
@@ -18,7 +31,7 @@
   height: 1em;
   max-width: 80%;
   overflow: hidden;
-  padding-bottom: 1px;
+  padding-bottom: 2px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -37,5 +50,11 @@
 }
 
 .message {
-  margin: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.button {
+  margin-left: 5px;
+  margin-bottom: 5px;
 }

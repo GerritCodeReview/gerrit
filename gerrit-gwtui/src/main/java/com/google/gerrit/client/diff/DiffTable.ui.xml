@@ -24,6 +24,7 @@ limitations under the License.
     @external .cm-searching, .cm-trailingspace;
     .difftable .CodeMirror pre {
       padding: 0;
+      padding-bottom: 0.1em;
       overflow: hidden;
     }
     .table {
@@ -60,7 +61,7 @@ limitations under the License.
     }
     .activeLine .CodeMirror-linenumber,
     .activeLine .diff, .activeLine .intralineBg {
-      background-color: #E0FFFF;
+      background-color: #E0FFFF !important;
     }
     .activeLineBg {
       background-color: #E0FFFF !important;
@@ -74,11 +75,14 @@ limitations under the License.
     .CodeMirror-selectedtext {
       background-color: inherit !important;
     }
+    .difftable .CodeMirror-linenumber {
+      height: 1.1em;
+    }
     .hideNumber .CodeMirror-linenumber {
       color: transparent;
       background-color: #def;
       width: 23px !important;
-      height: 16px;
+      height: 1.3em;
     }
     .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {
       opacity: 0.8;

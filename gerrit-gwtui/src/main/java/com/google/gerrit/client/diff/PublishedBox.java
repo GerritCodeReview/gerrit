@@ -23,6 +23,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
+import net.codemirror.lib.CodeMirror;
+
 /** An HtmlPanel for displaying a published comment */
 class PublishedBox extends CommentBox {
   interface Binder extends UiBinder<HTMLPanel, PublishedBox> {}
@@ -31,9 +33,13 @@ class PublishedBox extends CommentBox {
 
   private DraftBox replyBox;
 
-  PublishedBox(CodeMirrorDemo host, PatchSet.Id id, CommentInfo info,
+  PublishedBox(
+      CodeMirrorDemo host,
+      CodeMirror cm,
+      PatchSet.Id id,
+      CommentInfo info,
       CommentLinkProcessor linkProcessor) {
-    super(host, uiBinder, id, info, linkProcessor, false);
+    super(host, cm, uiBinder, id, info, linkProcessor, false);
   }
 
   void registerReplyBox(DraftBox box) {

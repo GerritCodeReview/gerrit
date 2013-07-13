@@ -15,6 +15,7 @@
 package net.codemirror.lib;
 
 import com.google.gerrit.client.rpc.CallbackGroup;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.ScriptElement;
@@ -36,27 +37,30 @@ class Loader {
   private static native boolean isLibLoaded()
   /*-{ return $wnd.hasOwnProperty('CodeMirror'); }-*/;
 
-  static void initLibrary(AsyncCallback<Void> cb) {
+  static void initLibrary(final AsyncCallback<Void> cb) {
     if (isLibLoaded()) {
       cb.onSuccess(null);
     } else {
-      CallbackGroup group = new CallbackGroup();
       injectCss(Lib.I.css());
       injectCss(Addons.I.dialogCss());
-      injectScript(Lib.I.js().getSafeUri(),
-          group.add(CallbackGroup.<Void>emptyCallback()));
-      injectScript(Keymap.I.vim().getSafeUri(),
-          group.add(CallbackGroup.<Void>emptyCallback()));
-      injectScript(Addons.I.dialog().getSafeUri(),
-          group.add(CallbackGroup.<Void>emptyCallback()));
-      injectScript(Addons.I.searchcursor().getSafeUri(),
-          group.add(CallbackGroup.<Void>emptyCallback()));
-      injectScript(Addons.I.search().getSafeUri(),
-          group.add(CallbackGroup.<Void>emptyCallback()));
-      injectScript(Addons.I.mark_selection().getSafeUri(),
-          group.add(CallbackGroup.<Void>emptyCallback()));
-      injectScript(Addons.I.trailingspace().getSafeUri(),
-          group.addFinal(cb));
+      injectScript(Lib.I.js().getSafeUri(), new GerritCallback<Void>(){
+        @Override
+        public void onSuccess(Void result) {
+          CallbackGroup group = new CallbackGroup();
+          injectScript(Keymap.I.vim().getSafeUri(),
+              group.add(CallbackGroup.<Void>emptyCallback()));
+          injectScript(Addons.I.dialog().getSafeUri(),
+              group.add(CallbackGroup.<Void>emptyCallback()));
+          injectScript(Addons.I.searchcursor().getSafeUri(),
+              group.add(CallbackGroup.<Void>emptyCallback()));
+          injectScript(Addons.I.search().getSafeUri(),
+              group.add(CallbackGroup.<Void>emptyCallback()));
+          injectScript(Addons.I.mark_selection().getSafeUri(),
+              group.add(CallbackGroup.<Void>emptyCallback()));
+          injectScript(Addons.I.trailingspace().getSafeUri(),
+              group.addFinal(cb));
+        }
+      });
     }
   }
 

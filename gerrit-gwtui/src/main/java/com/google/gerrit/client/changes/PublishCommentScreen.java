@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -402,7 +401,6 @@ public class PublishCommentScreen extends AccountScreen implements
   private void onSend2(final boolean submit) {
     ReviewInput data = ReviewInput.create();
     data.message(ChangeApi.emptyToNull(message.getText().trim()));
-    data.init();
     for (final ValueRadioButton b : approvalButtons) {
       if (b.getValue()) {
         data.label(b.label.name(), b.parseValue());
@@ -430,23 +428,6 @@ public class PublishCommentScreen extends AccountScreen implements
             enableForm(true);
           }
         });
-  }
-
-  private static class ReviewInput extends JavaScriptObject {
-    static ReviewInput create() {
-      return (ReviewInput) createObject();
-    }
-
-    final native void message(String m) /*-{ if(m)this.message=m; }-*/;
-    final native void label(String n, short v) /*-{ this.labels[n]=v; }-*/;
-    final native void init() /*-{
-      this.labels = {};
-      this.strict_labels = true;
-      this.drafts = 'PUBLISH';
-    }-*/;
-
-    protected ReviewInput() {
-    }
   }
 
   private void submit() {

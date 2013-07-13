@@ -60,7 +60,7 @@ limitations under the License.
     }
     .activeLine .CodeMirror-linenumber,
     .activeLine .diff, .activeLine .intralineBg {
-      background-color: #E0FFFF !important;
+      background-color: #E0FFFF;
     }
     .activeLineBg {
       background-color: #E0FFFF !important;

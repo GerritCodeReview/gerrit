@@ -15,9 +15,11 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.account.AccountInfo;
+import com.google.gerrit.client.diff.FileInfo;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -28,11 +30,13 @@ import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 
 import java.sql.Timestamp;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class ChangeInfo extends JavaScriptObject {
   public final void init() {
-    if (labels0() != null) {
-      labels0().copyKeysIntoChildren("_name");
+    if (all_labels() != null) {
+      all_labels().copyKeysIntoChildren("_name");
     }
   }
 
@@ -69,7 +73,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public final Set<String> labels() {
-    return labels0().keySet();
+    return all_labels().keySet();
   }
 
   public final native String id() /*-{ return this.id; }-*/;
@@ -86,16 +90,17 @@ public class ChangeInfo extends JavaScriptObject {
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
   public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
   public final native String _sortkey() /*-{ return this._sortkey; }-*/;
-  private final native NativeMap<LabelInfo> labels0() /*-{ return this.labels; }-*/;
+  public final native NativeMap<LabelInfo> all_labels() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
+  public final native String current_revision() /*-{ return this.current_revision; }-*/;
+  public final native NativeMap<RevisionInfo> revisions() /*-{ return this.revisions; }-*/;
+  public final native RevisionInfo revision(String n) /*-{ return this.revisions[n]; }-*/;
+  public final native JsArray<MessageInfo> messages() /*-{ return this.messages; }-*/;
 
   public final native boolean has_permitted_labels()
   /*-{ return this.hasOwnProperty('permitted_labels') }-*/;
-  private final native NativeMap<JavaScriptObject> _permitted_labels()
+  public final native NativeMap<JsArrayString> permitted_labels()
   /*-{ return this.permitted_labels; }-*/;
-  public final Set<String> permitted_labels() {
-    return Natives.keys(_permitted_labels());
-  }
   public final native JsArrayString permitted_values(String n)
   /*-{ return this.permitted_labels[n]; }-*/;
 
@@ -130,9 +135,17 @@ public class ChangeInfo extends JavaScriptObject {
     public final native AccountInfo disliked() /*-{ return this.disliked; }-*/;
 
     public final native JsArray<ApprovalInfo> all() /*-{ return this.all; }-*/;
+    public final ApprovalInfo for_user(int user) {
+      JsArray<ApprovalInfo> all = all();
+      for (int i = 0; all != null && i < all.length(); i++) {
+        if (all.get(i)._account_id() == user) {
+          return all.get(i);
+        }
+      }
+      return null;
+    }
 
     private final native NativeMap<NativeString> _values() /*-{ return this.values; }-*/;
-
     public final Set<String> values() {
       return Natives.keys(_values());
     }
@@ -147,15 +160,102 @@ public class ChangeInfo extends JavaScriptObject {
       return 0;
     }-*/;
 
+    public final String max_value() {
+      return LabelValue.formatValue(value_set().last());
+    }
+
+    public final SortedSet<Short> value_set() {
+      SortedSet<Short> values = new TreeSet<Short>();
+      for (String v : values()) {
+        values.add(parseValue(v));
+      }
+      return values;
+    }
+
+    public static final short parseValue(String formatted) {
+      if (formatted.startsWith("+")) {
+        formatted = formatted.substring(1);
+      } else if (formatted.startsWith(" ")) {
+        formatted = formatted.trim();
+      }
+      return Short.parseShort(formatted);
+    }
+
     protected LabelInfo() {
     }
   }
 
   public static class ApprovalInfo extends AccountInfo {
     public final native boolean has_value() /*-{ return this.hasOwnProperty('value'); }-*/;
-    public final native short value() /*-{ return this.value; }-*/;
+    public final native short value() /*-{ return this.value || 0; }-*/;
 
     protected ApprovalInfo() {
+    }
+  }
+
+  public static class RevisionInfo extends JavaScriptObject {
+    public final native int _number() /*-{ return this._number; }-*/;
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native boolean draft() /*-{ return this.draft || false; }-*/;
+    public final native CommitInfo commit() /*-{ return this.commit; }-*/;
+    public final native void set_commit(CommitInfo c) /*-{ this.commit = c; }-*/;
+
+    public final native boolean has_files() /*-{ return this.hasOwnProperty('files') }-*/;
+    public final native NativeMap<FileInfo> files() /*-{ return this.files; }-*/;
+
+    public final native boolean has_actions() /*-{ return this.hasOwnProperty('actions') }-*/;
+    public final native NativeMap<ActionInfo> actions() /*-{ return this.actions; }-*/;
+
+    protected RevisionInfo () {
+    }
+  }
+
+  public static class CommitInfo extends JavaScriptObject {
+    public final native String commit() /*-{ return this.commit; }-*/;
+    public final native GitPerson author() /*-{ return this.author; }-*/;
+    public final native GitPerson committer() /*-{ return this.committer; }-*/;
+    public final native String subject() /*-{ return this.subject; }-*/;
+    public final native String message() /*-{ return this.message; }-*/;
+
+    protected CommitInfo() {
+    }
+  }
+
+  public static class GitPerson extends JavaScriptObject {
+    public final native String name() /*-{ return this.name; }-*/;
+    public final native String email() /*-{ return this.email; }-*/;
+    private final native String dateRaw() /*-{ return this.date; }-*/;
+
+    public final Timestamp date() {
+      return JavaSqlTimestamp_JsonSerializer.parseTimestamp(dateRaw());
+    }
+
+    protected GitPerson() {
+    }
+  }
+
+  public static class ActionInfo extends JavaScriptObject {
+    public final native String id() /*-{ return this.id; }-*/;
+    public final native String method() /*-{ return this.method; }-*/;
+    public final native String label() /*-{ return this.label; }-*/;
+    public final native String title() /*-{ return this.title; }-*/;
+    public final native boolean enabled() /*-{ return this.enabled || false; }-*/;
+    public final native String confirmation_message() /*-{ return this.confirmation_message; }-*/;
+
+    protected ActionInfo() {
+    }
+  }
+
+  public static class MessageInfo extends JavaScriptObject {
+    public final native AccountInfo author() /*-{ return this.author; }-*/;
+    public final native String message() /*-{ return this.message; }-*/;
+    private final native String dateRaw() /*-{ return this.date; }-*/;
+
+    public final Timestamp date() {
+      return JavaSqlTimestamp_JsonSerializer.parseTimestamp(dateRaw());
+    }
+
+    protected MessageInfo() {
     }
   }
 }

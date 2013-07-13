@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.base.Strings;
+import com.google.common.io.Files;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.Die;
 import com.google.gerrit.pgm.util.IoUtil;
@@ -35,6 +36,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.ProxySelector;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -50,6 +52,7 @@ class LibraryDownloader {
   private String sha1;
   private String remove;
   private File dst;
+  private boolean download; // download or copy
 
   @Inject
   LibraryDownloader(ConsoleUI ui, SitePaths site) {
@@ -63,6 +66,7 @@ class LibraryDownloader {
 
   void setJarUrl(final String url) {
     this.jarUrl = url;
+    download = jarUrl.startsWith("http");
   }
 
   void setSHA1(final String sha1) {
@@ -117,7 +121,8 @@ class LibraryDownloader {
         msg.append("  If available, Gerrit can take advantage of features\n");
         msg.append("  in the library, but will also function without it.\n");
       }
-      msg.append("Download and install it now");
+      msg.append(String.format(
+          "%s and install it now", download ? "Download" : "Copy"));
       return ui.yesno(true, msg.toString(), name);
     }
   }
@@ -129,7 +134,11 @@ class LibraryDownloader {
 
     try {
       removeStaleVersions();
-      doGetByHttp();
+      if (download) {
+        doGetByHttp();
+      } else {
+        doGetByLocalCopy();
+      }
       verifyFileChecksum();
     } catch (IOException err) {
       dst.delete();
@@ -183,6 +192,28 @@ class LibraryDownloader {
           }
         }
       }
+    }
+  }
+
+  private void doGetByLocalCopy() throws IOException {
+    System.err.print("Copying " + jarUrl + " ...");
+    File f = url2file(jarUrl);
+    if (!f.exists()) {
+      StringBuilder msg = new StringBuilder();
+      msg.append("\n");
+      msg.append("Can not find the %s at this location: %s\n");
+      msg.append("Please provide alternative URL");
+      f = url2file(ui.readString(null, msg.toString(), name, jarUrl));
+    }
+    Files.copy(f, dst);
+  }
+
+  private static File url2file(final String urlString) throws IOException {
+    final URL url = new URL(urlString);
+    try {
+      return new File(url.toURI());
+    } catch (URISyntaxException e) {
+      return new File(url.getPath());
     }
   }
 

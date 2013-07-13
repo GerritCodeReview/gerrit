@@ -16,6 +16,24 @@
       "revId": "ed64d7606b45de60608d0bb9d837e5889bd5f969",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7bb1839_12866a58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-13T06:06:50Z",
+      "side": 1,
+      "message": "Because its now implemented.",
+      "parentUuid": "a7c680d7_25a08ee0",
+      "revId": "ed64d7606b45de60608d0bb9d837e5889bd5f969",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -77,6 +77,12 @@ import java.util.zip.ZipFile;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 @Singleton
 public class JettyServer {
@@ -343,7 +349,7 @@ public class JettyServer {
     // need to unpack them into yet another temporary directory prior to
     // serving to clients.
     //
-    app.setBaseResource(getBaseResource());
+    app.setBaseResource(getBaseResource(app));
 
     // HTTP front-end filter to be used as surrogate of Apache HTTP
     // reverse-proxy filtering.
@@ -397,13 +403,14 @@ public class JettyServer {
     return app;
   }
 
-  private Resource getBaseResource() throws IOException {
+  private Resource getBaseResource(ServletContextHandler app)
+      throws IOException {
     if (baseResource == null) {
       try {
         baseResource = unpackWar(GerritLauncher.getDistributionArchive());
       } catch (FileNotFoundException err) {
         if (err.getMessage() == GerritLauncher.NOT_ARCHIVED) {
-          baseResource = useDeveloperBuild();
+          baseResource = useDeveloperBuild(app);
         } else {
           throw err;
         }
@@ -412,7 +419,13 @@ public class JettyServer {
     return baseResource;
   }
 
-  private Resource unpackWar(File srcwar) throws IOException {
+  private static Resource unpackWar(File srcwar) throws IOException {
+    File dstwar = makeWarTempDir();
+    unpack(srcwar, dstwar);
+    return Resource.newResource(dstwar.toURI());
+  }
+
+  private static File makeWarTempDir() throws IOException {
     // Obtain our local temporary directory, but it comes back as a file
     // so we have to switch it to be a directory post creation.
     //
@@ -425,11 +438,13 @@ public class JettyServer {
     // a security feature. Try to resolve out any symlinks in the path.
     //
     try {
-      dstwar = dstwar.getCanonicalFile();
+      return dstwar.getCanonicalFile();
     } catch (IOException e) {
-      dstwar = dstwar.getAbsoluteFile();
+      return dstwar.getAbsoluteFile();
     }
+  }
 
+  private static void unpack(File srcwar, File dstwar) throws IOException {
     final ZipFile zf = new ZipFile(srcwar);
     try {
       final Enumeration<? extends ZipEntry> e = zf.entries();
@@ -466,11 +481,9 @@ public class JettyServer {
     } finally {
       zf.close();
     }
-
-    return Resource.newResource(dstwar.toURI());
   }
 
-  private void mkdir(final File dir) throws IOException {
+  private static void mkdir(File dir) throws IOException {
     if (!dir.isDirectory()) {
       mkdir(dir.getParentFile());
       if (!dir.mkdir())
@@ -479,7 +492,8 @@ public class JettyServer {
     }
   }
 
-  private Resource useDeveloperBuild() throws IOException {
+  private Resource useDeveloperBuild(ServletContextHandler app)
+      throws IOException {
     // Find ourselves in the CLASSPATH. We should be a loose class file.
     //
     URL u = getClass().getResource(getClass().getSimpleName() + ".class");
@@ -510,12 +524,39 @@ public class JettyServer {
     dir = dir.getParentFile(); // pop classes
 
     if ("buck-out".equals(dir.getName())) {
+      final File dstwar = makeWarTempDir();
       String pkg = "gerrit-gwtui";
       String target = targetForBrowser(System.getProperty("gerrit.browser"));
-      File gen = new File(dir, "gen");
+      final File gen = new File(dir, "gen");
       String out = new File(new File(gen, pkg), target).getAbsolutePath();
-      build(dir.getParentFile(), gen, "//" + pkg + ":" + target);
-      return unpackWar(new File(out + ".zip"));
+      final File zip = new File(out + ".zip");
+      final File root = dir.getParentFile();
+      final String name = "//" + pkg + ":" + target;
+      build(root, gen, name);
+      unpack(zip, dstwar);
+      app.addFilter(new FilterHolder(new Filter() {
+        private long last = zip.lastModified();
+
+        @Override
+        public void doFilter(ServletRequest request, ServletResponse res,
+            FilterChain chain) throws IOException, ServletException {
+          HttpServletRequest req = (HttpServletRequest) request;
+          build(root, gen, name);
+          if (last != zip.lastModified()) {
+            last = zip.lastModified();
+            unpack(zip, dstwar);
+          }
+          chain.doFilter(req, res);
+        }
+
+        @Override
+        public void init(FilterConfig config) {
+        }
+        @Override
+        public void destroy() {
+        }
+      }), "/", EnumSet.of(DispatcherType.REQUEST));
+      return Resource.newResource(dstwar.toURI());
     } else if ("target".equals(dir.getName())) {
       return useMavenDeveloperBuild(dir);
     } else {

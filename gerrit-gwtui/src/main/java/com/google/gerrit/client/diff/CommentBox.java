@@ -20,6 +20,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -30,12 +33,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.LineWidget;
 
 import java.sql.Timestamp;
 
 /** An HtmlPanel for displaying a comment */
-abstract class CommentBox extends Composite {
+abstract class CommentBox extends Composite implements HasClickHandlers {
   interface CommentBoxStyle extends CssResource {
     String open();
     String close();
@@ -48,6 +52,8 @@ abstract class CommentBox extends Composite {
   private CodeMirrorDemo diffView;
   private boolean draft;
   private LineWidget selfWidget;
+  private CodeMirror cm;
+  private HandlerRegistration regClick;
 
   @UiField(provided=true)
   CommentBoxHeader header;
@@ -60,10 +66,12 @@ abstract class CommentBox extends Composite {
 
   CommentBox(
       CodeMirrorDemo host,
+      CodeMirror cmInstance,
       UiBinder<? extends Widget, CommentBox> binder,
       PatchSet.Id id, CommentInfo info, CommentLinkProcessor linkProcessor,
       boolean isDraft) {
     diffView = host;
+    cm = cmInstance;
     commentLinkProcessor = linkProcessor;
     original = info;
     patchSetId = id;
@@ -77,7 +85,20 @@ abstract class CommentBox extends Composite {
   protected void onLoad() {
     super.onLoad();
 
+    regClick = addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        cm.focus();
+      }
+    });
     res.style().ensureInjected();
+  }
+
+  @Override
+  protected void onUnload() {
+    super.onUnload();
+
+    regClick.removeHandler();
   }
 
   void resizePaddingWidget() {
@@ -160,8 +181,18 @@ abstract class CommentBox extends Composite {
     return selfWidget;
   }
 
+  CodeMirror getCm() {
+    return cm;
+  }
+
+  @Override
+  public HandlerRegistration addClickHandler(ClickHandler handler) {
+    return addDomHandler(handler, ClickEvent.getType());
+  }
+
   @UiHandler("header")
   void onHeaderClick(ClickEvent e) {
     setOpen(!isOpen());
+    cm.focus();
   }
 }

@@ -17,6 +17,9 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -33,7 +36,7 @@ import net.codemirror.lib.TextMarker;
 import net.codemirror.lib.TextMarker.FromTo;
 
 /** The Widget that handles expanding of skipped lines */
-class SkipBar extends Composite {
+class SkipBar extends Composite implements HasClickHandlers {
   interface Binder extends UiBinder<HTMLPanel, SkipBar> {}
   private static Binder uiBinder = GWT.create(Binder.class);
   private static final int NUM_ROWS_TO_EXPAND = 10;
@@ -42,6 +45,7 @@ class SkipBar extends Composite {
       Configuration.create().set("collapsed", true);
 
   private LineWidget widget;
+  private HandlerRegistration regClick;
 
   interface SkipBarStyle extends CssResource {
     String isLineWidget();
@@ -71,6 +75,25 @@ class SkipBar extends Composite {
     upArrow = new Anchor(true);
     downArrow = new Anchor(true);
     initWidget(uiBinder.createAndBindUi(this));
+  }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+
+    regClick = addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        cm.focus();
+      }
+    });
+  }
+
+  @Override
+  protected void onUnload() {
+    super.onUnload();
+
+    regClick.removeHandler();
   }
 
   void setWidget(LineWidget widget) {
@@ -165,5 +188,10 @@ class SkipBar extends Composite {
   void onExpandAfter(ClickEvent e) {
     otherBar.expandAfter();
     expandAfter();
+  }
+
+  @Override
+  public HandlerRegistration addClickHandler(ClickHandler handler) {
+    return addDomHandler(handler, ClickEvent.getType());
   }
 }

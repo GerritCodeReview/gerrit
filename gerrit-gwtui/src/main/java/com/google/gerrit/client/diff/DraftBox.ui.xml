@@ -23,6 +23,10 @@ limitations under the License.
     .edit .messagePanel {
       display: none;
     }
+    textarea.editArea {
+      margin-left: 5px;
+      margin-bottom: 2px;
+    }
     .view .editArea {
       display: none;
     }
@@ -30,27 +34,27 @@ limitations under the License.
       display: none;
     }
   </ui:style>
-  <g:HTMLPanel styleName='{res.style.commentBox}'>
+  <g:HTMLPanel addStyleNames='{res.style.commentBox}'>
     <d:CommentBoxHeader ui:field='header' />
     <div class='{res.style.contentPanel}'>
-      <c:NpTextArea ui:field='editArea' styleName='{draftStyle.editArea}'/>
-      <div>
-        <g:Button ui:field='save' styleName='{draftStyle.editArea}'>
+      <c:NpTextArea ui:field='editArea' addStyleNames='{draftStyle.editArea}'/>
+      <div class='{res.style.button}'>
+        <g:Button ui:field='save' addStyleNames='{draftStyle.editArea}'>
           <ui:msg>Save</ui:msg>
         </g:Button>
         <g:Button ui:field='cancel'
-            styleName='{draftStyle.editArea} {draftStyle.cancel}'>
+            addStyleNames='{draftStyle.editArea} {draftStyle.cancel}'>
           <ui:msg>Cancel</ui:msg>
         </g:Button>
-        <g:Button ui:field='discard' styleName='{draftStyle.editArea}'>
+        <g:Button ui:field='discard' addStyleNames='{draftStyle.editArea}'>
           <ui:msg>Discard</ui:msg>
         </g:Button>
       </div>
     </div>
     <div class='{res.style.contentPanel}'>
       <g:HTML ui:field='contentPanelMessage'
-          styleName='{res.style.message} {draftStyle.messagePanel}'></g:HTML>
-      <g:Button ui:field='edit' styleName='{draftStyle.messagePanel}'>
+          addStyleNames='{res.style.message} {draftStyle.messagePanel}'></g:HTML>
+      <g:Button ui:field='edit' addStyleNames='{draftStyle.messagePanel} {res.style.button}'>
         <ui:msg>Edit</ui:msg>
       </g:Button>
     </div>

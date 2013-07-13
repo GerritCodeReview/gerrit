@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -30,6 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import net.codemirror.lib.CodeMirror;
 import net.codemirror.lib.LineWidget;
 
 import java.sql.Timestamp;
@@ -48,6 +50,7 @@ abstract class CommentBox extends Composite {
   private CodeMirrorDemo diffView;
   private boolean draft;
   private LineWidget selfWidget;
+  private CodeMirror cm;
 
   @UiField(provided=true)
   CommentBoxHeader header;
@@ -60,24 +63,26 @@ abstract class CommentBox extends Composite {
 
   CommentBox(
       CodeMirrorDemo host,
+      CodeMirror cmInstance,
       UiBinder<? extends Widget, CommentBox> binder,
       PatchSet.Id id, CommentInfo info, CommentLinkProcessor linkProcessor,
       boolean isDraft) {
     diffView = host;
+    cm = cmInstance;
     commentLinkProcessor = linkProcessor;
     original = info;
     patchSetId = id;
     draft = isDraft;
     header = new CommentBoxHeader(info.author(), info.updated(), isDraft);
     initWidget(binder.createAndBindUi(this));
-    setMessageText(info.message());
-  }
-
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-
+    addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        cm.focus();
+      }
+    }, ClickEvent.getType());
     res.style().ensureInjected();
+    setMessageText(info.message());
   }
 
   void resizePaddingWidget() {
@@ -160,8 +165,13 @@ abstract class CommentBox extends Composite {
     return selfWidget;
   }
 
+  CodeMirror getCm() {
+    return cm;
+  }
+
   @UiHandler("header")
   void onHeaderClick(ClickEvent e) {
     setOpen(!isOpen());
+    cm.focus();
   }
 }

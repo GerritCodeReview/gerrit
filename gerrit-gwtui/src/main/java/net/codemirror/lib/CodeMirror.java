@@ -134,6 +134,7 @@ public class CodeMirror extends JavaScriptObject {
     }));
   }-*/;
 
+  /** TODO: Break this line after updating GWT */
   public final native void on(String event, EventHandler handler) /*-{
     this.on(event, $entry(function(cm, e) {
       handler.@net.codemirror.lib.CodeMirror.EventHandler::handle(Lnet/codemirror/lib/CodeMirror;Lcom/google/gwt/dom/client/NativeEvent;)(cm, e);

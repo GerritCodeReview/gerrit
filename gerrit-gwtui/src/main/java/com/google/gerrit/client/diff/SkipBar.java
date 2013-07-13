@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -65,12 +66,18 @@ class SkipBar extends Composite {
   private CodeMirror cm;
   private int numSkipLines;
 
-  SkipBar(CodeMirror cm) {
-    this.cm = cm;
+  SkipBar(CodeMirror cmInstance) {
+    cm = cmInstance;
     skipNum = new Anchor(true);
     upArrow = new Anchor(true);
     downArrow = new Anchor(true);
     initWidget(uiBinder.createAndBindUi(this));
+    addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        cm.focus();
+      }
+    }, ClickEvent.getType());
   }
 
   void setWidget(LineWidget widget) {

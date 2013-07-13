@@ -226,10 +226,12 @@ public class CodeMirrorDemo extends Screen {
 
   private void registerCmEvents(CodeMirror cm) {
     cm.on("cursorActivity", updateActiveLine(cm));
-    cm.on("scroll", doScroll(otherCM(cm)));
+    cm.on("scroll", doScroll(cm));
     /**
-     * TODO: Trying to prevent right click from updating the cursor.
-     * Doesn't seem to work for now.
+     * Trying to prevent right click from updating the cursor.
+     *
+     * TODO: Change to listen on "contextmenu" instead. Latest CM has
+     * provided a patch that will hopefully make this work.
      */
     cm.on("mousedown", ignoreRightClick());
     cm.addKeyMap(KeyMap.create().on("'u'", upToChange()));
@@ -238,7 +240,10 @@ public class CodeMirrorDemo extends Screen {
     if (Gerrit.isSignedIn()) {
       cm.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cm)));
     }
-    // TODO: Examine if a better way exists.
+    /**
+     * TODO: Maybe remove this after updating CM to HEAD. The latest VIM mode
+     * doesn't enter INSERT mode when document is read only.
+     */
     for (String c : new String[]{"A", "C", "D", "I", "O", "P", "R", "S", "U",
         "X", "Y", "~"}) {
       CodeMirror.disableUnwantedKey("vim", c);
@@ -422,20 +427,20 @@ public class CodeMirrorDemo extends Screen {
     return box;
   }
 
-  CommentBox addCommentBox(CommentInfo info, final CommentBox box) {
+  CommentBox addCommentBox(CommentInfo info, CommentBox box) {
     diffTable.add(box);
     Side mySide = info.side();
     CodeMirror cm = mySide == Side.PARENT ? cmA : cmB;
-    CodeMirror other = otherCM(cm);
+    CodeMirror other = otherCm(cm);
     int line = info.line() - 1; // CommentInfo is 1-based, but CM is 0-based
     LineHandle handle = cm.getLineHandle(line);
     PaddingManager manager;
     if (linePaddingManagerMap.containsKey(handle)) {
       manager = linePaddingManagerMap.get(handle);
     } else {
-      // Estimated height at 21px, fixed by deferring after display
+      // Estimated height at 28px, fixed by deferring after display
       manager = new PaddingManager(
-          addPaddingWidget(cm, DiffTable.style.padding(), line, 21, Unit.PX, 0));
+          addPaddingWidget(cm, DiffTable.style.padding(), line, 28, Unit.PX, 0));
       linePaddingManagerMap.put(handle, manager);
     }
     int lineToPad = mapper.lineOnOther(mySide, line).getLine();
@@ -444,7 +449,7 @@ public class CodeMirrorDemo extends Screen {
       PaddingManager.link(manager, linePaddingManagerMap.get(otherHandle));
     } else {
       PaddingManager otherManager = new PaddingManager(
-          addPaddingWidget(other, DiffTable.style.padding(), lineToPad, 21, Unit.PX, 0));
+          addPaddingWidget(other, DiffTable.style.padding(), lineToPad, 28, Unit.PX, 0));
       linePaddingManagerMap.put(otherHandle, otherManager);
       PaddingManager.link(manager, otherManager);
     }
@@ -484,13 +489,14 @@ public class CodeMirrorDemo extends Screen {
   private void renderPublished() {
     List<CommentInfo> sorted = sortComment(published);
     for (CommentInfo info : sorted) {
-      final PublishedBox box =
-          new PublishedBox(this, revision, info, commentLinkProcessor);
+      CodeMirror cm = getCmFromSide(info.side());
+      PublishedBox box =
+          new PublishedBox(this, cm, revision, info, commentLinkProcessor);
       box.setOpen(false);
       initialBoxes.add(box);
       publishedMap.put(info.id(), box);
       int line = info.line() - 1;
-      LineHandle handle = getCmFromSide(info.side()).getLineHandle(line);
+      LineHandle handle = cm.getLineHandle(line);
       lineLastPublishedBoxMap.put(handle, box);
       lineActiveBoxMap.put(handle, box);
       addCommentBox(info, box);
@@ -500,7 +506,7 @@ public class CodeMirrorDemo extends Screen {
   private void renderDrafts() {
     List<CommentInfo> sorted = sortComment(drafts);
     for (CommentInfo info : sorted) {
-      final DraftBox box =
+      DraftBox box =
           new DraftBox(this, getCmFromSide(info.side()), revision, info,
               commentLinkProcessor, false, false);
       box.setOpen(false);
@@ -529,7 +535,7 @@ public class CodeMirrorDemo extends Screen {
         int boxLine = info.line();
         int deltaBefore = boxLine - startLine;
         int deltaAfter = startLine + skip.getSize() - boxLine;
-        if (deltaBefore < 0 || deltaAfter < 0) {
+        if (deltaBefore < -context || deltaAfter < -context) {
           temp.add(skip);
         } else if (deltaBefore > context && deltaAfter > context) {
           SkippedLine before = new SkippedLine(
@@ -584,7 +590,7 @@ public class CodeMirrorDemo extends Screen {
     return bar;
   }
 
-  private CodeMirror otherCM(CodeMirror me) {
+  private CodeMirror otherCm(CodeMirror me) {
     return me == cmA ? cmB : cmA;
   }
 
@@ -633,11 +639,11 @@ public class CodeMirrorDemo extends Screen {
   private void insertEmptyLines(CodeMirror cm, int nextLine, int cnt) {
     // -1 to compensate for the line we went past when this method is called.
     addPaddingWidget(cm, DiffTable.style.padding(), nextLine - 1,
-        cnt, Unit.EM, null);
+        1.1 * cnt, Unit.EM, null);
   }
 
   private LineWidgetElementPair addPaddingWidget(CodeMirror cm, String style,
-      int line, int height, Unit unit, Integer index) {
+      int line, double height, Unit unit, Integer index) {
     Element div = DOM.createDiv();
     div.setClassName(style);
     div.getStyle().setHeight(height, unit);
@@ -652,16 +658,15 @@ public class CodeMirrorDemo extends Screen {
   }
 
   private Runnable doScroll(final CodeMirror cm) {
-    final CodeMirror other = otherCM(cm);
     return new Runnable() {
       public void run() {
-        cm.scrollToY(other.getScrollInfo().getTop());
+        otherCm(cm).scrollToY(cm.getScrollInfo().getTop());
       }
     };
   }
 
   private Runnable updateActiveLine(final CodeMirror cm) {
-    final CodeMirror other = otherCM(cm);
+    final CodeMirror other = otherCm(cm);
     return new Runnable() {
       public void run() {
         if (cm.hasActiveLine()) {
@@ -793,7 +798,7 @@ public class CodeMirrorDemo extends Screen {
     }
 
     @Override
-    public void onKeyPress(final KeyPressEvent event) {
+    public void onKeyPress(KeyPressEvent event) {
     }
   }
 }

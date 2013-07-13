@@ -103,6 +103,7 @@ public class CodeMirrorDemo extends Screen {
   private KeyCommandSet keysComment;
   private KeyCommandSet keysOpenByEnter;
   private List<HandlerRegistration> keyHandlers;
+  private HandlerRegistration npHandler;
 
   public CodeMirrorDemo(
       PatchSet.Id base,
@@ -111,9 +112,9 @@ public class CodeMirrorDemo extends Screen {
     this.base = base;
     this.revision = revision;
     this.path = path;
-    this.keyHandlers = new ArrayList<HandlerRegistration>(4);
+    this.keyHandlers = new ArrayList<HandlerRegistration>(5);
     // TODO: Re-implement necessary GlobalKey bindings.
-    addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
+    npHandler = addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
   }
 
   @Override
@@ -202,6 +203,7 @@ public class CodeMirrorDemo extends Screen {
     super.onUnload();
 
     removeKeyHandlerRegs();
+    npHandler.removeHandler();
     if (resizeHandler != null) {
       resizeHandler.removeHandler();
       resizeHandler = null;
@@ -228,8 +230,10 @@ public class CodeMirrorDemo extends Screen {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("scroll", doScroll(otherCM(cm)));
     /**
-     * TODO: Trying to prevent right click from updating the cursor.
-     * Doesn't seem to work for now.
+     * Trying to prevent right click from updating the cursor.
+     *
+     * TODO: Change to listen on "contextmenu" instead. Latest CM has
+     * provided a patch that will hopefully make this work.
      */
     cm.on("mousedown", ignoreRightClick());
     cm.addKeyMap(KeyMap.create().on("'u'", upToChange()));
@@ -238,7 +242,10 @@ public class CodeMirrorDemo extends Screen {
     if (Gerrit.isSignedIn()) {
       cm.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cm)));
     }
-    // TODO: Examine if a better way exists.
+    /**
+     * TODO: Maybe remove this after updating CM to HEAD. The latest VIM mode
+     * doesn't enter INSERT mode when document is read only.
+     */
     for (String c : new String[]{"A", "C", "D", "I", "O", "P", "R", "S", "U",
         "X", "Y", "~"}) {
       CodeMirror.disableUnwantedKey("vim", c);
@@ -484,13 +491,14 @@ public class CodeMirrorDemo extends Screen {
   private void renderPublished() {
     List<CommentInfo> sorted = sortComment(published);
     for (CommentInfo info : sorted) {
+      CodeMirror cm = getCmFromSide(info.side());
       final PublishedBox box =
-          new PublishedBox(this, revision, info, commentLinkProcessor);
+          new PublishedBox(this, cm, revision, info, commentLinkProcessor);
       box.setOpen(false);
       initialBoxes.add(box);
       publishedMap.put(info.id(), box);
       int line = info.line() - 1;
-      LineHandle handle = getCmFromSide(info.side()).getLineHandle(line);
+      LineHandle handle = cm.getLineHandle(line);
       lineLastPublishedBoxMap.put(handle, box);
       lineActiveBoxMap.put(handle, box);
       addCommentBox(info, box);
@@ -529,7 +537,7 @@ public class CodeMirrorDemo extends Screen {
         int boxLine = info.line();
         int deltaBefore = boxLine - startLine;
         int deltaAfter = startLine + skip.getSize() - boxLine;
-        if (deltaBefore < 0 || deltaAfter < 0) {
+        if (deltaBefore < -context || deltaAfter < -context) {
           temp.add(skip);
         } else if (deltaBefore > context && deltaAfter > context) {
           SkippedLine before = new SkippedLine(

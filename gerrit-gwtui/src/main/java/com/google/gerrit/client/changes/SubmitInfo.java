@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 
-class SubmitInfo extends JavaScriptObject {
+public class SubmitInfo extends JavaScriptObject {
   final Change.Status status() {
     return Change.Status.valueOf(statusRaw());
   }

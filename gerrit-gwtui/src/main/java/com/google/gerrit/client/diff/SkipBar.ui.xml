@@ -19,6 +19,8 @@ limitations under the License.
   <ui:style type='com.google.gerrit.client.diff.SkipBar.SkipBarStyle'>
     .skipBar {
       background-color: #def;
+      height: 1.3em;
+      overflow: hidden;
     }
     .text {
       display: table;
@@ -38,16 +40,16 @@ limitations under the License.
       display: none;
     }
   </ui:style>
-  <g:HTMLPanel styleName='{style.skipBar}'>
+  <g:HTMLPanel addStyleNames='{style.skipBar}'>
   <div class='{style.text}'>
     <ui:msg>
-      <g:Anchor ui:field='upArrow' styleName='{style.anchor}'>
+      <g:Anchor ui:field='upArrow' addStyleNames='{style.anchor}'>
       </g:Anchor>
-      <span>... skipped </span>
-      <g:Anchor ui:field='skipNum' styleName='{style.anchor}'>
+      <span><ui:msg>... skipped </ui:msg></span>
+      <g:Anchor ui:field='skipNum' addStyleNames='{style.anchor}'>
       </g:Anchor>
-      <span> common lines ...</span>
-      <g:Anchor ui:field='downArrow' styleName='{style.anchor}'>
+      <span><ui:msg> common lines ...</ui:msg></span>
+      <g:Anchor ui:field='downArrow' addStyleNames='{style.anchor}'>
       </g:Anchor>
     </ui:msg>
   </div>

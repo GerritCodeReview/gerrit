@@ -100,6 +100,12 @@ public class ChangeApi {
     call(id, commit, "submit").post(in, cb);
   }
 
+  /** Rebase a revision onto the branch tip. */
+  public static void rebase(int id, String commit, AsyncCallback<ChangeInfo> cb) {
+    JavaScriptObject in = JavaScriptObject.createObject();
+    call(id, commit, "rebase").post(in, cb);
+  }
+
   private static class Input extends JavaScriptObject {
     final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
     final native void message(String m) /*-{ if(m)this.message=m; }-*/;

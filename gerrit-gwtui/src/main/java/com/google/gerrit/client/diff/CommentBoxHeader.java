@@ -55,17 +55,23 @@ class CommentBoxHeader extends Composite implements HasClickHandlers {
   Element date;
 
   CommentBoxHeader(AccountInfo author, Timestamp when, boolean isDraft) {
-    // TODO: Set avatar's display to none if we get a 404.
-    avatar = author == null ? new AvatarImage() : new AvatarImage(author, 26);
+    if (author != null) {
+      avatar = new AvatarImage(author, 26);
+      avatar.setSize("", "");
+    } else {
+      avatar = new AvatarImage();
+    }
     initWidget(uiBinder.createAndBindUi(this));
-    this.draft = isDraft;
+    draft = isDraft;
     if (when != null) {
       setDate(when);
     }
     if (isDraft) {
-      name.setInnerText("(Draft)");
+      name.setInnerText(PatchUtil.C.draft());
     } else {
       name.setInnerText(FormatUtil.name(author));
+      name.setTitle(FormatUtil.nameEmail(author));
+      date.setTitle(FormatUtil.mediumFormat(when));
     }
   }
 

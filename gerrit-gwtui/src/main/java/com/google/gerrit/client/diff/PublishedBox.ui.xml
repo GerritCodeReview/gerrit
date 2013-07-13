@@ -18,11 +18,11 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:d='urn:import:com.google.gerrit.client.diff'>
   <ui:with field='res' type='com.google.gerrit.client.diff.CommentBoxResources' />
-  <g:HTMLPanel styleName='{res.style.commentBox}'>
+  <g:HTMLPanel addStyleNames='{res.style.commentBox}'>
     <d:CommentBoxHeader ui:field='header' />
-    <g:HTMLPanel styleName='{res.style.contentPanel}'>
-      <g:HTML ui:field='contentPanelMessage' styleName='{res.style.message}'></g:HTML>
-      <div>
+    <g:HTMLPanel addStyleNames='{res.style.contentPanel}'>
+      <g:HTML ui:field='contentPanelMessage' addStyleNames='{res.style.message}'></g:HTML>
+      <div class='{res.style.button}'>
         <g:Button ui:field='reply'><ui:msg>Reply ...</ui:msg></g:Button>
         <g:Button ui:field='replyDone'><ui:msg>Reply 'Done'</ui:msg></g:Button>
       </div>

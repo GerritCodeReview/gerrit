@@ -70,6 +70,24 @@
       "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "477b0460_6238d6d4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-14T08:06:05Z",
+      "side": 1,
+      "message": "\"Eventually we would like to set it up in AccountDiffPreference ...\"\n\nactually it is a bad idea, because we are going to use Codemirrow not only in diff context. But also for inline editing, and there to have the right editor binding is even more important. And note, there is no mixing with ChangeScreen events in inline editing case, because I stopped event propagation there with extra panel. \n\nAnyhow, the right place for the option:\n\n* use Emacs keys binding\n* use VIM keys binding\n\nwould be User Preferences screen.\n\nBut it sucks, as it requires schema upgrade. We should think about another persistence options? Like All-Users (like All-Projects) on git ref or something like that?",
+      "parentUuid": "6712c80f_53a744f6",
+      "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

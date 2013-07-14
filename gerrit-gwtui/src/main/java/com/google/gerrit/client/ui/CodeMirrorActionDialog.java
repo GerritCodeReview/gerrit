@@ -92,7 +92,9 @@ public abstract class CodeMirrorActionDialog<T> extends AutoCenterDialogBox
     Configuration cfg = Configuration.create()
         .set("readOnly", false)
         .set("lineNumbers", true)
-        .set("tabSize", 2);
+        .set("tabSize", 2)
+        .set("styleSelectedText", true)
+        .set("keyMap", "emacs");
       final CodeMirror cm = CodeMirror.create(mwrap.getElement(), cfg);
       cm.setWidth(Window.getClientWidth() - SIDE_MARGIN);
       cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);

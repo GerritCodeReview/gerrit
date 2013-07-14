@@ -106,6 +106,24 @@
       "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "477b0460_e25ce631",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-14T09:42:29Z",
+      "side": 1,
+      "message": "... yeah, and not only Chrome ;-(\n\n http://codemirror.net/demo/emacs.html\n\nquoting:\n\n\"Also note that a lot of browsers disallow certain keys from being captured. For example, Chrome blocks both Ctrl-W and Ctrl-N, with the result that idiomatic use of Emacs keys will constantly close your tab or open a new window.\"",
+      "parentUuid": "e7bb1839_d2ece216",
+      "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

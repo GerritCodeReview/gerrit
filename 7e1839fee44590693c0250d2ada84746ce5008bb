@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7bb1839_12cf8aac",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CodeMirrorActionDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-14T11:55:11Z",
+      "side": 1,
+      "message": "This needs the \"edit/trailingspace.js\" addon.\nhttps://gerrit-review.googlesource.com/#/c/47712/",
+      "revId": "7e1839fee44590693c0250d2ada84746ce5008bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

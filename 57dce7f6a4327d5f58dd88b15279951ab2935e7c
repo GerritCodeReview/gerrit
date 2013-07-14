@@ -16,6 +16,24 @@
       "revId": "57dce7f6a4327d5f58dd88b15279951ab2935e7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7bb1839_b2ddde67",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.ui.xml",
+        "patchSetId": 24
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-14T04:23:18Z",
+      "side": 1,
+      "message": "Good catch, thanks. I had thought I removed this but apparently not.",
+      "parentUuid": "6712c80f_b31fb835",
+      "revId": "57dce7f6a4327d5f58dd88b15279951ab2935e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

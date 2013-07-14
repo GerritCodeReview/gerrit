@@ -88,6 +88,24 @@
       "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7bb1839_d2ece216",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-07-14T09:12:55Z",
+      "side": 1,
+      "message": "Yeah we really need to think about where editor preference should be stored... But here\u0027s the bad news: Chrome will keep opening up new tabs if you navigate the Emacs way... :)",
+      "parentUuid": "477b0460_6238d6d4",
+      "revId": "dad395c5b0e77f9926575d86b1b9d4f3b69c909b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

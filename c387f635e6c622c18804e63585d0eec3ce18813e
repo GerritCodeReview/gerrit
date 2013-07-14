@@ -16,6 +16,24 @@
       "revId": "c387f635e6c622c18804e63585d0eec3ce18813e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_65aa86c0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-14T08:08:37Z",
+      "side": 1,
+      "message": "You are right. The question is to do it now or later, when some from (current) 16 changes in this series get merged?",
+      "parentUuid": "07082caa_48f91f00",
+      "revId": "c387f635e6c622c18804e63585d0eec3ce18813e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

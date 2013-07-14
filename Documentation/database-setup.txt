@@ -63,3 +63,48 @@ rights on it:
 
 Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further
 information regarding using MySQL.
+
+[[createdb_oracle]]
+Oracle
+~~~~~~
+
+PostgreSQL or H2 is the recommended database for Gerrit Code Review.
+Oracle is supported for environments where running on an existing Oracle
+installation simplifies administrative overheads, such as database backups.
+
+Create a user for the web application within sqlplus, assign it a
+password, and grant the user full rights on the newly created database:
+
+----
+  SQL> create user gerrit2 identified by secret_password default tablespace users;
+  SQL> grant connect, resources to gerrit2;
+----
+
+JDBC driver ojdbc6.jar must be obtained from your Oracle distribution. Gerrit
+initialization process tries to copy it from a known location:
+
+----
+/u01/app/oracle/product/11.2.0/xe/jdbc/lib/ojdbc6.jar
+----
+
+If this file can not be located at this place, then the alternative location
+can be provided.
+
+Instance name is the Oracle SID. Sample database section in
+$site_path/etc/gerrit.config:
+
+----
+[database]
+        type = oracle
+        instance = xe
+        hostname = localhost
+        username = gerrit2
+        port = 1521
+----
+
+Sample database section in $site_path/etc/secure.config:
+
+----
+[database]
+        password = secret_pasword
+----

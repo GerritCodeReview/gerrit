@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "477b0460_6251b614",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ActionButton.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-14T12:24:49Z",
+      "side": 1,
+      "message": "extend UiCommand with style attribute, so that plugins can use core owned styles, or later even propagate somehow its own styles into Gerrit core.",
+      "revId": "7fbc7f9c239835697e48d370da510b3370225eb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_6583a648",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ActionButton.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-14T12:24:49Z",
+      "side": 1,
+      "message": "Sadly enough, support for reload/redirect on outcome of UiCommand is still pending for review[1] and can not be considered here. With this in place, instead of NativeString, UiCommandResult is passed as the result of the action: \n\n            @Override\n            public void onSuccess(UiCommandResult r) {\n              b.setEnabled(true);\n              if (r.message() !\u003d null \u0026\u0026 !r.message().isEmpty()) {\n                Window.alert(r.message());\n              }\n               if (UiCommandResult.Action.REDIRECT.name().equals(\n                   r.action())) {\n                 Gerrit.display(r.location());\n               } else if (UiCommandResult.Action.RELOAD.name().equals(\n                   r.action())) {\n                 reload();\n               }\n             }\n           };\n\n[1] https://gerrit-review.googlesource.com/46422/",
+      "revId": "7fbc7f9c239835697e48d370da510b3370225eb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "477b0460_4254b205",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/Actions.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-14T12:24:49Z",
+      "side": 1,
+      "message": "Why not to include topic when this really implemented?",
+      "revId": "7fbc7f9c239835697e48d370da510b3370225eb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -81,6 +81,10 @@ class InitDatabase implements InitStep {
         libraries.mysqlDriver.downloadRequired();
     }
 
+    if (dci instanceof OracleInitializer) {
+      libraries.oracleDriver.downloadRequired();
+    }
+
     dci.initConfig(database);
   }
 }

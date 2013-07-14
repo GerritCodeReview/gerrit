@@ -78,7 +78,9 @@ class InitDatabase implements InitStep {
             Names.named(dbType.toLowerCase())));
 
     if (dci instanceof MySqlInitializer) {
-        libraries.mysqlDriver.downloadRequired();
+      libraries.mysqlDriver.downloadRequired();
+    } else if (dci instanceof OracleInitializer) {
+      libraries.oracleDriver.downloadRequired();
     }
 
     dci.initConfig(database);

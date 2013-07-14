@@ -47,6 +47,8 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.UiCommandDetail;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.reviewdb.client.Account;
@@ -129,6 +131,7 @@ public class ChangeJson {
   private final AccountInfo.Loader.Factory accountLoaderFactory;
   private final Provider<String> urlProvider;
   private final Urls urls;
+  private final DynamicMap<RestView<ChangeResource>> changes;
   private final Revisions revisions;
 
   private ChangeControl.Factory changeControlUserFactory;
@@ -150,6 +153,7 @@ public class ChangeJson {
       AccountInfo.Loader.Factory ailf,
       @CanonicalWebUrl Provider<String> curl,
       Urls urls,
+      DynamicMap<RestView<ChangeResource>> changes,
       Revisions revisions) {
     this.db = db;
     this.labelNormalizer = ln;
@@ -162,6 +166,7 @@ public class ChangeJson {
     this.accountLoaderFactory = ailf;
     this.urlProvider = curl;
     this.urls = urls;
+    this.changes = changes;
     this.revisions = revisions;
 
     options = EnumSet.noneOf(ListChangesOption.class);
@@ -286,6 +291,15 @@ public class ChangeJson {
       }
     }
 
+    if (has(CURRENT_ACTIONS) && user instanceof IdentifiedUser) {
+      out.actions = Maps.newTreeMap();
+      for (UiCommandDetail c : UiCommands.from(
+          changes,
+          new ChangeResource(control(cd)),
+          EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL))) {
+        out.actions.put(c.id, new ActionInfo(c));
+      }
+    }
     lastControl = null;
     return out;
   }
@@ -870,6 +884,7 @@ public class ChangeJson {
 
     AccountInfo owner;
 
+    Map<String, ActionInfo> actions;
     Map<String, LabelInfo> labels;
     Map<String, Collection<String>> permitted_labels;
     Collection<AccountInfo> removable_reviewers;

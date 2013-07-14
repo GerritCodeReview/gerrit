@@ -2406,6 +2406,10 @@ Not set for merged changes.
 |`owner`              ||
 The owner of the change as an link:rest-api-accounts.html#account-info[
 AccountInfo] entity.
+|`actions`            |optional|
+Actions the caller might be able to perform on this revision. The
+information is a map of view name to link:#action-info[ActionInfo]
+entities.
 |`labels`             |optional|
 The labels of the change as a map that maps the label names to
 link:#label-info[LabelInfo] entries. +
@@ -2886,12 +2890,12 @@ The `RevisionInfo` entity contains information about a patch set.
 Information about how to fetch this patch set. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",
 "`ssh`") to link:#fetch-info[FetchInfo] entities.
-|`commit`      ||The commit of the patch set as
+|`commit`      |optional|The commit of the patch set as
 link:#commit-info[CommitInfo] entity.
-|`files`       ||
+|`files`       |optional|
 The files of the patch set as a map that maps the file names to
 link:#file-info[FileInfo] entities.
-|`actions`     ||
+|`actions`     |optional|
 Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.

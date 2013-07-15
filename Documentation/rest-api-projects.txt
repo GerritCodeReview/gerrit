@@ -1095,6 +1095,9 @@ the comment link configuration is mapped to the comment link
 configuration, which has the same format as the
 link:config-gerrit.html#_a_id_commentlink_a_section_commentlink[
 commentlink section] of `gerrit.config`.
+|`theme`                      |optional|
+The theme that is configured for the project as a link:#theme-info[
+ThemeInfo] entity.
 |==========================================
 
 [[dashboard-info]]
@@ -1319,6 +1322,22 @@ statistics of a Git repository.
 |`size_of_loose_objects`   |Size of loose objects in bytes.
 |`size_of_packed_objects`  |Size of packed objects in bytes.
 |======================================
+
+[[theme-info]]
+ThemeInfo
+~~~~~~~~~
+The `ThemeInfo` entity describes a theme.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`css`           |optional|
+The path to the `GerritSite.css` file.
+|`header`        |optional|
+The path to the `GerritSiteHeader.html` file.
+|`footer`        |optional|
+The path to the `GerritSiteFooter.html` file.
+|=============================
 
 
 GERRIT

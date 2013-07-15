@@ -18,15 +18,37 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'
     xmlns:c='urn:import:com.google.gerrit.client'>
   <ui:with field='res' type='com.google.gerrit.client.diff.CommentBoxResources' />
+  <ui:style field='headerStyle'
+    type='com.google.gerrit.client.diff.CommentBoxHeader.CommentBoxHeaderStyle'>
+    .avatarCell {
+      width: 26px;
+      padding-right: 5px;
+    }
+    .name {
+      width: 15%;
+      font-weight: bold;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .summary {
+      width: 60%;
+    }
+    .date {
+      width: 15%;
+      text-align: right;
+    }
+  </ui:style>
     <g:HTMLPanel>
     <table class='{res.style.table}'>
       <tr>
-        <td><c:AvatarImage ui:field='avatar' /></td>
-        <td ui:field='name' class='{res.style.name}'></td>
-        <td class='{res.style.summary}'>
+        <td ui:field='avatarCell' class='{headerStyle.avatarCell}'>
+          <c:AvatarImage ui:field='avatar' />
+        </td>
+        <td ui:field='name' class='{headerStyle.name}'></td>
+        <td class='{headerStyle.summary}'>
           <div ui:field='summary' class='{res.style.summaryText}'></div>
         </td>
-        <td ui:field='date' class='{res.style.date}'></td>
+        <td ui:field='date' class='{headerStyle.date}'></td>
       </tr>
     </table>
     </g:HTMLPanel>

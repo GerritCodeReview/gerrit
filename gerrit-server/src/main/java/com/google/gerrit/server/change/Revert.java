@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.webui.UiCommand;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -41,11 +41,8 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
-import java.util.EnumSet;
-import java.util.Set;
-
 public class Revert implements RestModifyView<ChangeResource, Input>,
-    UiCommand<ChangeResource> {
+    UiAction<ChangeResource> {
   private final ChangeHooks hooks;
   private final RevertedSender.Factory revertedSenderFactory;
   private final CommitValidators.Factory commitValidatorsFactory;
@@ -113,34 +110,11 @@ public class Revert implements RestModifyView<ChangeResource, Input>,
   }
 
   @Override
-  public Set<Place> getPlaces() {
-    return EnumSet.of(Place.PATCHSET_ACTION_PANEL);
-  }
-
-  @Override
-  public String getLabel(ChangeResource resource) {
-    return "Revert";
-  }
-
-  @Override
-  public String getTitle(ChangeResource resource) {
-    return null;
-  }
-
-  @Override
-  public boolean isVisible(ChangeResource resource) {
-    return isEnabled(resource);
-  }
-
-  @Override
-  public boolean isEnabled(ChangeResource resource) {
-    return resource.getChange().getStatus() == Change.Status.MERGED
-        && resource.getControl().getRefControl().canUpload();
-  }
-
-  @Override
-  public String getConfirmationMessage(ChangeResource resource) {
-    return null;
+  public UiAction.Description getDescription(ChangeResource resource) {
+    return new UiAction.Description()
+      .setLabel("Revert")
+      .setVisible(resource.getChange().getStatus() == Status.MERGED
+          && resource.getControl().getRefControl().canUpload());
   }
 
   private static String status(Change change) {

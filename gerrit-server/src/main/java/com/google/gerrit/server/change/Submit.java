@@ -24,7 +24,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.webui.UiCommand;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -50,12 +50,10 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 
 public class Submit implements RestModifyView<RevisionResource, Input>,
-    UiCommand<RevisionResource> {
+    UiAction<RevisionResource> {
   public static class Input {
     public boolean waitForMerge;
   }
@@ -145,41 +143,15 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
   }
 
   @Override
-  public Set<Place> getPlaces() {
-    return EnumSet.of(Place.PATCHSET_ACTION_PANEL);
-  }
-
-  @Override
-  public String getLabel(RevisionResource resource) {
-    return String.format(
-        "Submit Patch Set %d",
-        resource.getPatchSet().getPatchSetId());
-  }
-
-  @Override
-  public String getTitle(RevisionResource resource) {
-    return null;
-  }
-
-  @Override
-  public boolean isVisible(RevisionResource resource) {
+  public UiAction.Description getDescription(RevisionResource resource) {
     PatchSet.Id current = resource.getChange().currentPatchSetId();
-    return resource.getChange().getStatus().isOpen()
-        && resource.getPatchSet().getId().equals(current)
-        && isEnabled(resource);
-  }
-
-  @Override
-  public boolean isEnabled(RevisionResource resource) {
-    // Enable based on approximation. If the user has permission enable,
-    // even if the change has not reached as submittable state according
-    // to the project rules.
-    return resource.getControl().canSubmit();
-  }
-
-  @Override
-  public String getConfirmationMessage(RevisionResource resource) {
-    return null;
+    return new UiAction.Description()
+      .setLabel(String.format(
+          "Submit Revision %d",
+          resource.getPatchSet().getPatchSetId()))
+      .setVisible(resource.getChange().getStatus().isOpen()
+          && resource.getPatchSet().getId().equals(current)
+          && resource.getControl().canSubmit());
   }
 
   /**

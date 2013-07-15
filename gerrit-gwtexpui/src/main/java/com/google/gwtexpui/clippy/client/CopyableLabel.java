@@ -178,6 +178,7 @@ public class CopyableLabel extends Composite implements HasText {
       textBox = new TextBox();
       textBox.setText(getText());
       textBox.setVisibleLength(visibleLen);
+      textBox.setReadOnly(true);
       textBox.addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(final KeyPressEvent event) {

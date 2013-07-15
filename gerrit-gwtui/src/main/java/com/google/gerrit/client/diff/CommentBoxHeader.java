@@ -24,6 +24,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
@@ -40,7 +41,17 @@ class CommentBoxHeader extends Composite implements HasClickHandlers {
   interface Binder extends UiBinder<HTMLPanel, CommentBoxHeader> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
+  interface CommentBoxHeaderStyle extends CssResource {
+    String noAvatar();
+    String name();
+    String summary();
+    String date();
+  }
+
   private boolean draft;
+
+  @UiField
+  Element avatarCell;
 
   @UiField(provided=true)
   AvatarImage avatar;
@@ -54,6 +65,9 @@ class CommentBoxHeader extends Composite implements HasClickHandlers {
   @UiField
   Element date;
 
+  @UiField
+  CommentBoxHeaderStyle headerStyle;
+
   CommentBoxHeader(AccountInfo author, Timestamp when, boolean isDraft) {
     if (author != null) {
       avatar = new AvatarImage(author, 26);
@@ -62,6 +76,9 @@ class CommentBoxHeader extends Composite implements HasClickHandlers {
       avatar = new AvatarImage();
     }
     initWidget(uiBinder.createAndBindUi(this));
+    if (author == null) {
+      avatarCell.addClassName(headerStyle.noAvatar());
+    }
     draft = isDraft;
     if (when != null) {
       setDate(when);

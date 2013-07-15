@@ -27,6 +27,9 @@ limitations under the License.
       padding-bottom: 0.1em;
       overflow: hidden;
     }
+    .difftable .CodeMirror pre span {
+      padding-bottom: 0.1em;
+    }
     .table {
       width: 100%;
       table-layout: fixed;
@@ -81,7 +84,7 @@ limitations under the License.
     .hideNumber .CodeMirror-linenumber {
       color: transparent;
       background-color: #def;
-      width: 23px !important;
+      padding-right: 20px;
       height: 1.3em;
     }
     .difftable .CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {

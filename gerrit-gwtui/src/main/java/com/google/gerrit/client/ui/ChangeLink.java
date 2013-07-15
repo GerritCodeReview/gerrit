@@ -15,7 +15,6 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Change;
@@ -57,14 +56,6 @@ public class ChangeLink extends InlineHyperlink {
 
   @Override
   public void go() {
-    Gerrit.display(getTargetHistoryToken(), createScreen());
-  }
-
-  private Screen createScreen() {
-    if (psid != null) {
-      return new ChangeScreen(psid);
-    } else {
-      return new ChangeScreen(cid);
-    }
+    Gerrit.display(getTargetHistoryToken());
   }
 }

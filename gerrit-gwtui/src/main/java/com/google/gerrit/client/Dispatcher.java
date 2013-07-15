@@ -92,6 +92,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
+  private static boolean useChangeScreen2;
+
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
   }
@@ -467,8 +469,8 @@ public class Dispatcher {
     }
 
     if (rest.isEmpty()) {
-      Gerrit.display(token, panel== null //
-          ? new ChangeScreen(id) //
+      Gerrit.display(token, panel== null
+          ? (useChangeScreen2 ? new ChangeScreen2(id, null) : new ChangeScreen(id))
           : new NotFoundScreen());
       return;
     }
@@ -499,7 +501,9 @@ public class Dispatcher {
       patch(token, base, p, 0, null, null, panel);
     } else {
       if (panel == null) {
-        Gerrit.display(token, new ChangeScreen(ps));
+        Gerrit.display(token, useChangeScreen2
+            ? new ChangeScreen2(id, String.valueOf(ps.get()))
+            : new ChangeScreen(id));
       } else if ("publish".equals(panel)) {
         publish(ps);
       } else {
@@ -519,6 +523,7 @@ public class Dispatcher {
       id = Change.Id.parse(rest);
       rest = "";
     }
+    useChangeScreen2 = true;
     Gerrit.display(token, new ChangeScreen2(id, rest));
   }
 

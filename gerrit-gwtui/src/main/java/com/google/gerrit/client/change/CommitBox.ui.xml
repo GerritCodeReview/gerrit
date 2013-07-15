@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style>
+    .commitHeader {
+      border-spacing: 0;
+      padding: 0;
+      width: 564px;
+    }
+
+    .commitHeader th { width: 70px; }
+    .commitHeader td { white-space: pre; }
+
+    .commitMessageBox { margin: 2px; }
+    .commitMessage {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid white;
+      background-color: white;
+      font-family: monospace;
+      white-space: pre;
+      width: 47em;
+    }
+  </ui:style>
+  <g:HTMLPanel>
+    <table class='{style.commitHeader}'>
+      <tr>
+        <th><ui:msg>Commit</ui:msg></th>
+        <td ui:field='commitName'/>
+        <td><a ui:field='browserLink' href=""/></td>
+      </tr>
+      <tr>
+        <th><ui:msg>Author</ui:msg></th>
+        <td ui:field='authorNameEmail'/>
+        <td ui:field='authorDate'/>
+      </tr>
+      <tr>
+        <th><ui:msg>Committer</ui:msg></th>
+        <td ui:field='committerNameEmail'/>
+        <td ui:field='committerDate'/>
+      </tr>
+    </table>
+
+    <div class='{style.commitMessageBox}'>
+      <div class='{style.commitMessage}' ui:field='commitMessageText'/>
+    </div>
+  </g:HTMLPanel>
+</ui:UiBinder>

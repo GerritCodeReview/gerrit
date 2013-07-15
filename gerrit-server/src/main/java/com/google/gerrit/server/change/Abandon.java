@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.webui.UiCommand;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -41,8 +42,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
 
-public class Abandon implements RestModifyView<ChangeResource, Input> {
+public class Abandon implements RestModifyView<ChangeResource, Input>,
+    UiCommand<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Abandon.class);
 
   private final ChangeHooks hooks;
@@ -126,6 +130,37 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
         Strings.emptyToNull(input.message),
         db);
     return json.format(change);
+  }
+
+  @Override
+  public Set<Place> getPlaces() {
+    return EnumSet.of(Place.PATCHSET_ACTION_PANEL);
+  }
+
+  @Override
+  public String getLabel(ChangeResource resource) {
+    return "Abandon";
+  }
+
+  @Override
+  public String getTitle(ChangeResource resource) {
+    return null;
+  }
+
+  @Override
+  public boolean isVisible(ChangeResource resource) {
+    return isEnabled(resource);
+  }
+
+  @Override
+  public boolean isEnabled(ChangeResource resource) {
+    return resource.getChange().getStatus().isOpen()
+        && resource.getControl().canAbandon();
+  }
+
+  @Override
+  public String getConfirmationMessage(ChangeResource resource) {
+    return null;
   }
 
   private ChangeMessage newMessage(Input input, IdentifiedUser caller,

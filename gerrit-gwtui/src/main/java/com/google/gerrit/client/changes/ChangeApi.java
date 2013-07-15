@@ -16,9 +16,12 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.EnumSet;
 
 /**
  * A collection of static methods which work on the Gerrit REST API for specific
@@ -62,7 +65,20 @@ public class ChangeApi {
   }
 
   public static void detail(int id, AsyncCallback<ChangeInfo> cb) {
-    call(id, "detail").get(cb);
+    detail(id).get(cb);
+  }
+
+  public static void detail(int id, EnumSet<ListChangesOption> options,
+      AsyncCallback<ChangeInfo> cb) {
+    RestApi call = detail(id);
+    if (!options.isEmpty()) {
+      ChangeList.addOptions(call, options);
+    }
+    call.get(cb);
+  }
+
+  private static RestApi detail(int id) {
+    return call(id, "detail");
   }
 
   public static RestApi revision(int id, String revision) {
@@ -98,6 +114,12 @@ public class ChangeApi {
     SubmitInput in = SubmitInput.create();
     in.wait_for_merge(true);
     call(id, commit, "submit").post(in, cb);
+  }
+
+  /** Rebase a revision onto the branch tip. */
+  public static void rebase(int id, String commit, AsyncCallback<ChangeInfo> cb) {
+    JavaScriptObject in = JavaScriptObject.createObject();
+    call(id, commit, "rebase").post(in, cb);
   }
 
   private static class Input extends JavaScriptObject {

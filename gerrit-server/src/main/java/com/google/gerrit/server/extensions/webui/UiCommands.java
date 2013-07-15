@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiCommand;
@@ -71,7 +71,7 @@ public class UiCommands {
   }
 
   public static <R extends RestResource> Iterable<UiCommandDetail> from(
-      ChildCollection<?, R> collection,
+      RestCollection<?, R> collection,
       R resource,
       EnumSet<UiCommand.Place> places) {
     return from(collection.views(), resource, places);

@@ -22,6 +22,10 @@ import java.util.Set;
 
 /** A map of native JSON objects, keyed by a string. */
 public class NativeMap<T extends JavaScriptObject> extends JavaScriptObject {
+  public static <T extends JavaScriptObject> NativeMap<T> create() {
+    return createObject().cast();
+  }
+
   /**
    * Loop through the result map's entries and copy the key strings into the
    * "name" property of the corresponding child object. This only runs on the

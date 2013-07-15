@@ -66,7 +66,7 @@ public class ChangeList extends JsArray<ChangeInfo> {
     call.get(callback);
   }
 
-  static void addOptions(RestApi call, EnumSet<ListChangesOption> s) {
+  public static void addOptions(RestApi call, EnumSet<ListChangesOption> s) {
     call.addParameterRaw("O", Integer.toHexString(ListChangesOption.toBits(s)));
   }
 

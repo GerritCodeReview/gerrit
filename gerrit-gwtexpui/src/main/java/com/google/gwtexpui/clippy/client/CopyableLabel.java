@@ -71,6 +71,10 @@ public class CopyableLabel extends Composite implements HasText {
   private TextBox textBox;
   private Element swf;
 
+  public CopyableLabel() {
+    this("");
+  }
+
   /**
    * Create a new label
    *
@@ -117,7 +121,6 @@ public class CopyableLabel extends Composite implements HasText {
   public void setPreviewText(final String text) {
     if (textLabel != null) {
       textLabel.setText(text);
-      visibleLen = text.length();
     }
   }
 

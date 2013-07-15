@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,24 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class SubmitInfo extends JavaScriptObject {
-  final Change.Status status() {
-    return Change.Status.valueOf(statusRaw());
+public class ReviewInput extends JavaScriptObject {
+  public static ReviewInput create() {
+    ReviewInput r = createObject().cast();
+    r.init();
+    return r;
   }
 
-  private final native String statusRaw() /*-{ return this.status; }-*/;
+  public final native void message(String m) /*-{ if(m)this.message=m; }-*/;
+  public final native void label(String n, short v) /*-{ this.labels[n]=v; }-*/;
 
-  protected SubmitInfo() {
+  private final native void init() /*-{
+    this.labels = {};
+    this.strict_labels = true;
+    this.drafts = 'PUBLISH';
+  }-*/;
+
+  protected ReviewInput() {
   }
 }

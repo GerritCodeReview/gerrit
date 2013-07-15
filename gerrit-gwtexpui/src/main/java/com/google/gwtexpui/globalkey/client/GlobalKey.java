@@ -15,6 +15,8 @@
 package com.google.gwtexpui.globalkey.client;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -92,6 +94,14 @@ public class GlobalKey {
     active = new State(panel);
     active.add(new HidePopupPanelCommand(0, KeyCodes.KEY_ESCAPE, panel));
     panel.addCloseHandler(restoreGlobal);
+    panel.addDomHandler(new KeyDownHandler() {
+      @Override
+      public void onKeyDown(KeyDownEvent event) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
+          panel.hide();
+        }
+      }
+    }, KeyDownEvent.getType());
   }
 
   public static HandlerRegistration addApplication(final Widget widget,

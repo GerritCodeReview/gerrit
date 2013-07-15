@@ -128,12 +128,29 @@ public class CodeMirror extends JavaScriptObject {
     return this.getScrollInfo();
   }-*/;
 
+  public final native CodeMirror getScrollSetBy() /*-{
+    return this.state.scrollSetBy;
+  }-*/;
+
+  public final native void setScrollSetBy(CodeMirror cm) /*-{
+    this.state.scrollSetBy = cm;
+  }-*/;
+
+  public final native double getScrollSetAt() /*-{
+    return this.state.scrollSetAt;
+  }-*/;
+
+  public final native void setScrollSetAt(double when) /*-{
+    this.state.scrollSetAt = when;
+  }-*/;
+
   public final native void on(String event, Runnable thunk) /*-{
     this.on(event, $entry(function() {
       thunk.@java.lang.Runnable::run()();
     }));
   }-*/;
 
+  /** TODO: Break this line after updating GWT */
   public final native void on(String event, EventHandler handler) /*-{
     this.on(event, $entry(function(cm, e) {
       handler.@net.codemirror.lib.CodeMirror.EventHandler::handle(Lnet/codemirror/lib/CodeMirror;Lcom/google/gwt/dom/client/NativeEvent;)(cm, e);

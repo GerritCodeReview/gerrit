@@ -24,16 +24,15 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
@@ -70,10 +69,13 @@ class DraftBox extends CommentBox {
   @UiField
   Button discard;
 
-  private HandlerRegistration messageClick;
+  private static final int INITIAL_COLS = 60;
+  private static final int INITIAL_LINES = 5;
+  private static final int MAX_LINES = 30;
+
   private boolean isNew;
   private PublishedBox replyToBox;
-  private CodeMirror cm;
+  private Timer expandTimer;
 
   DraftBox(
       CodeMirrorDemo host,
@@ -81,46 +83,46 @@ class DraftBox extends CommentBox {
       PatchSet.Id id,
       CommentInfo info,
       CommentLinkProcessor linkProcessor,
-      boolean isNew,
+      boolean isNewDraft,
       boolean saveOnInit) {
-    super(host, uiBinder, id, info, linkProcessor, true);
+    super(host, cm, uiBinder, id, info, linkProcessor, true);
 
-    this.cm = cm;
-    this.isNew = isNew;
-    editArea.setText(contentPanelMessage.getText());
+    isNew = isNewDraft;
+    editArea.setText(info.message());
+    editArea.setCharacterWidth(INITIAL_COLS);
+    editArea.setVisibleLines(INITIAL_LINES);
+    editArea.setSpellCheck(true);
     if (saveOnInit) {
       onSave(null);
     }
     if (isNew) {
       addStyleName(draftStyle.newDraft());
     }
-  }
-
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-
-    messageClick = contentPanelMessage.addDoubleClickHandler(
-        new DoubleClickHandler() {
+    expandTimer = new Timer() {
       @Override
-      public void onDoubleClick(DoubleClickEvent arg0) {
-        setEdit(true);
+      public void run() {
+        expandText();
       }
-    });
+    };
     addDomHandler(new MouseMoveHandler() {
       @Override
-      public void onMouseMove(MouseMoveEvent arg0) {
+      public void onMouseMove(MouseMoveEvent event) {
         resizePaddingWidget();
       }
     }, MouseMoveEvent.getType());
   }
 
-  @Override
-  protected void onUnload() {
-    super.onUnload();
-
-    messageClick.removeHandler();
-    messageClick = null;
+  private void expandText() {
+    double cols = editArea.getCharacterWidth();
+    int rows = 2;
+    for (String line : editArea.getText().split("\n")) {
+      rows += Math.ceil((1.0 + line.length()) / cols);
+    }
+    rows = Math.max(INITIAL_LINES, Math.min(rows, MAX_LINES));
+    if (editArea.getVisibleLines() != rows) {
+      editArea.setVisibleLines(rows);
+    }
+    resizePaddingWidget();
   }
 
   void setEdit(boolean edit) {
@@ -128,11 +130,15 @@ class DraftBox extends CommentBox {
       setOpen(true);
       removeStyleName(draftStyle.view());
       addStyleName(draftStyle.edit());
-      editArea.setText(contentPanelMessage.getText());
+      editArea.setText(getOriginal().message());
+      expandText();
       editArea.setFocus(true);
+      disableClickFocusHandler();
     } else {
+      expandTimer.cancel();
       removeStyleName(draftStyle.edit());
       addStyleName(draftStyle.view());
+      enableClickFocusHandler();
     }
     resizePaddingWidget();
   }
@@ -142,6 +148,7 @@ class DraftBox extends CommentBox {
   }
 
   private void removeUI() {
+    expandTimer.cancel();
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
     }
@@ -152,7 +159,12 @@ class DraftBox extends CommentBox {
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
     manager.resizePaddingWidget();
-    cm.focus();
+    getCm().focus();
+  }
+
+  @UiHandler("contentPanelMessage")
+  void onDoubleClick(DoubleClickEvent e) {
+    setEdit(true);
   }
 
   @UiHandler("edit")
@@ -187,13 +199,13 @@ class DraftBox extends CommentBox {
     } else {
       CommentApi.updateDraft(getPatchSetId(), original.id(), input, cb);
     }
-    cm.focus();
+    getCm().focus();
   }
 
   @UiHandler("cancel")
   void onCancel(ClickEvent e) {
     setEdit(false);
-    cm.focus();
+    getCm().focus();
   }
 
   @UiHandler("discard")
@@ -213,10 +225,17 @@ class DraftBox extends CommentBox {
 
   @UiHandler("editArea")
   void onCtrlS(KeyDownEvent e) {
-    if (e.isControlKeyDown() && e.getNativeKeyCode() == 83) {
-      onSave(null);
-      e.preventDefault();
+    if ((e.isControlKeyDown() || e.isMetaKeyDown())
+        && !e.isAltKeyDown() && !e.isShiftKeyDown()) {
+      switch (e.getNativeKeyCode()) {
+        case 's':
+        case 'S':
+          e.preventDefault();
+          onSave(null);
+          return;
+      }
     }
+    expandTimer.schedule(250);
   }
 
   /** TODO: Unused now. Re-enable this after implementing auto-save */

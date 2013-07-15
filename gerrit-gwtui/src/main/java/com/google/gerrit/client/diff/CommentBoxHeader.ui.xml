@@ -22,7 +22,7 @@ limitations under the License.
     <table class='{res.style.table}'>
       <tr>
         <td><c:AvatarImage ui:field='avatar' /></td>
-        <td ui:field='name'></td>
+        <td ui:field='name' class='{res.style.name}'></td>
         <td class='{res.style.summary}'>
           <div ui:field='summary' class='{res.style.summaryText}'></div>
         </td>

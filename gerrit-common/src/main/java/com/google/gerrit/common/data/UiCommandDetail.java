@@ -21,5 +21,4 @@ public class UiCommandDetail {
   public String label;
   public String title;
   public boolean enabled;
-  public String confirmationMessage;
 }

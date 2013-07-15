@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.webui.UiCommand;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -36,11 +36,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Set;
 
 class PutTopic implements RestModifyView<ChangeResource, Input>,
-    UiCommand<ChangeResource> {
+    UiAction<ChangeResource> {
   private final Provider<ReviewDb> dbProvider;
   private final ChangeIndexer indexer;
   private final ChangeHooks hooks;
@@ -119,32 +117,9 @@ class PutTopic implements RestModifyView<ChangeResource, Input>,
   }
 
   @Override
-  public Set<Place> getPlaces() {
-    return EnumSet.of(Place.PATCHSET_ACTION_PANEL);
-  }
-
-  @Override
-  public String getLabel(ChangeResource resource) {
-    return "Edit Topic";
-  }
-
-  @Override
-  public String getTitle(ChangeResource resource) {
-    return null;
-  }
-
-  @Override
-  public boolean isVisible(ChangeResource resource) {
-    return isEnabled(resource);
-  }
-
-  @Override
-  public boolean isEnabled(ChangeResource resource) {
-    return resource.getControl().canEditTopicName();
-  }
-
-  @Override
-  public String getConfirmationMessage(ChangeResource resource) {
-    return null;
+  public UiAction.Description getDescription(ChangeResource resource) {
+    return new UiAction.Description()
+      .setLabel("Edit Topic")
+      .setVisible(resource.getControl().canEditTopicName());
   }
 }

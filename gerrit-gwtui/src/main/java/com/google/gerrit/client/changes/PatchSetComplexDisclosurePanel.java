@@ -13,8 +13,6 @@
 // limitations under the License.
 
 package com.google.gerrit.client.changes;
-import com.google.gerrit.client.ConfirmationCallback;
-import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
@@ -53,11 +51,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
@@ -559,24 +556,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {
-          if (cmd.confirmationMessage != null &&
-              !cmd.confirmationMessage.isEmpty()) {
-            ConfirmationDialog confirmationDialog = new ConfirmationDialog(
-                cmd.title, new SafeHtmlBuilder().append(cmd.confirmationMessage),
-                new ConfirmationCallback() {
-                  @Override
-                  public void onOk() {
-                    postProcessCommand(cmd, b);
-                  }
-                });
-            confirmationDialog.center();
-          } else {
-            postProcessCommand(cmd, b);
-          }
-        }
-
-        private void postProcessCommand(final UiCommandDetail cmd,
-            final Button b) {
           b.setEnabled(false);
           AsyncCallback<NativeString> cb =
               new AsyncCallback<NativeString>() {
@@ -592,6 +571,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
                   if (msg != null && !msg.asString().isEmpty()) {
                     Window.alert(msg.asString());
                   }
+                  Gerrit.display(PageLinks.toChange(patchSet.getId()));
                 }
               };
           RestApi api = ChangeApi.revision(patchSet.getId()).view(cmd.id);

@@ -55,9 +55,6 @@ class DraftBox extends CommentBox {
   NpTextArea editArea;
 
   @UiField
-  DraftBoxStyle draftStyle;
-
-  @UiField
   Button edit;
 
   @UiField
@@ -68,6 +65,9 @@ class DraftBox extends CommentBox {
 
   @UiField
   Button discard;
+
+  @UiField
+  DraftBoxStyle draftStyle;
 
   private static final int INITIAL_COLS = 60;
   private static final int INITIAL_LINES = 5;

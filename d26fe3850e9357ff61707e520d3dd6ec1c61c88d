@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c680d7_a548fe40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-15T17:16:06Z",
+      "side": 1,
+      "message": "Still the question id how we can achieve \"reload\" and \"redirect to location foo\" logic from plugins with only JS?  I think each core Gerrit screen has to do it on its own. So that plugin author don\u0027t bother (in obfuscated JS?) to redirect to screen \"foo\" as action outcome.",
+      "revId": "d26fe3850e9357ff61707e520d3dd6ec1c61c88d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

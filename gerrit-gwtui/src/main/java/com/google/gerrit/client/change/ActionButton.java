@@ -14,13 +14,13 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.ConfirmationCallback;
-import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.ErrorDialog;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,23 +56,6 @@ class ActionButton extends Button implements ClickHandler {
 
   @Override
   public void onClick(ClickEvent event) {
-    if (action.confirmation_message() != null
-        && !action.confirmation_message().isEmpty()) {
-      new ConfirmationDialog(
-        action.title(),
-        new SafeHtmlBuilder().append(action.confirmation_message()),
-        new ConfirmationCallback() {
-          @Override
-          public void onOk() {
-            send();
-          }
-        }).center();
-    } else {
-      send();
-    }
-  }
-
-  private void send() {
     setEnabled(false);
 
     AsyncCallback<NativeString> cb = new AsyncCallback<NativeString>() {
@@ -86,9 +69,10 @@ class ActionButton extends Button implements ClickHandler {
       public void onSuccess(NativeString msg) {
         setEnabled(true);
         if (msg != null && !msg.asString().isEmpty()) {
-          // TODO Support better UI on UiCommand results.
+          // TODO Support better UI on UiAction results.
           Window.alert(msg.asString());
         }
+        Gerrit.display(PageLinks.toChange2(changeId));
       }
     };
 

@@ -14,20 +14,20 @@
 
 package com.google.gerrit.extensions.webui;
 
-import com.google.gerrit.extensions.restapi.RestResource;
-import com.google.gerrit.extensions.restapi.RestView;
+/**
+ * Internal implementation helper for Gerrit Code Review server.
+ * <p>
+ * Extensions and plugins should not invoke this class.
+ */
+public class PrivateInternals_UiActionDescription {
+  public static void setMethod(UiAction.Description d, String method) {
+    d.setMethod(method);
+  }
 
-import java.util.Set;
+  public static void setId(UiAction.Description d, String id) {
+    d.setId(id);
+  }
 
-public interface UiCommand<R extends RestResource> extends RestView<R> {
-  public static enum Place {
-    PATCHSET_ACTION_PANEL;
-  };
-
-  Set<Place> getPlaces();
-  String getLabel(R resource);
-  String getTitle(R resource);
-  boolean isVisible(R resource);
-  boolean isEnabled(R resource);
-  String getConfirmationMessage(R resource);
+  private PrivateInternals_UiActionDescription() {
+  }
 }

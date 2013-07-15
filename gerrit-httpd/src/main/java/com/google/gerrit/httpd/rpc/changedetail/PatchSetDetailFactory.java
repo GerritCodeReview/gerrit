@@ -14,9 +14,13 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
-import com.google.gerrit.extensions.webui.UiCommand;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -32,7 +36,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Revisions;
-import com.google.gerrit.server.extensions.webui.UiCommands;
+import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -49,7 +53,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -173,10 +176,22 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       }
     }
 
-    detail.setCommands(UiCommands.sorted(UiCommands.plugins(UiCommands.from(
-      revisions,
-      new RevisionResource(new ChangeResource(control), patchSet),
-      EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL)))));
+    detail.setCommands(Lists.newArrayList(Iterables.transform(
+        UiActions.sorted(UiActions.plugins(UiActions.from(
+          revisions,
+          new RevisionResource(new ChangeResource(control), patchSet)))),
+        new Function<UiAction.Description, UiCommandDetail>() {
+          @Override
+          public UiCommandDetail apply(UiAction.Description in) {
+            UiCommandDetail r = new UiCommandDetail();
+            r.method = in.getMethod();
+            r.id = in.getId();
+            r.label = in.getLabel();
+            r.title = in.getTitle();
+            r.enabled = in.isEnabled();
+            return r;
+          }
+        })));
     return detail;
   }
 

@@ -46,11 +46,10 @@ import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.data.UiCommandDetail;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.extensions.webui.UiCommand;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -68,7 +67,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfo;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.extensions.webui.UiCommands;
+import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.LabelNormalizer;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -293,11 +292,10 @@ public class ChangeJson {
 
     if (has(CURRENT_ACTIONS) && user instanceof IdentifiedUser) {
       out.actions = Maps.newTreeMap();
-      for (UiCommandDetail c : UiCommands.from(
+      for (UiAction.Description d : UiActions.from(
           changes,
-          new ChangeResource(control(cd)),
-          EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL))) {
-        out.actions.put(c.id, new ActionInfo(c));
+          new ChangeResource(control(cd)))) {
+        out.actions.put(d.getId(), new ActionInfo(d));
       }
     }
     lastControl = null;
@@ -794,11 +792,10 @@ public class ChangeJson {
 
     if (out.isCurrent && has(CURRENT_ACTIONS) && user instanceof IdentifiedUser) {
       out.actions = Maps.newTreeMap();
-      for (UiCommandDetail c : UiCommands.from(
+      for (UiAction.Description d : UiActions.from(
           revisions,
-          new RevisionResource(new ChangeResource(control(cd)), in),
-          EnumSet.of(UiCommand.Place.PATCHSET_ACTION_PANEL))) {
-        out.actions.put(c.id, new ActionInfo(c));
+          new RevisionResource(new ChangeResource(control(cd)), in))) {
+        out.actions.put(d.getId(), new ActionInfo(d));
       }
     }
     return out;
@@ -983,14 +980,12 @@ public class ChangeJson {
     String label;
     String title;
     Boolean enabled;
-    String confirmationMessage;
 
-    ActionInfo(UiCommandDetail c) {
-      method = c.method;
-      label = c.label;
-      title = c.title;
-      enabled = c.enabled ? true : null;
-      confirmationMessage = c.confirmationMessage;
+    ActionInfo(UiAction.Description d) {
+      method = d.getMethod();
+      label = d.getLabel();
+      title = d.getTitle();
+      enabled = d.isEnabled() ? true : null;
     }
   }
 }

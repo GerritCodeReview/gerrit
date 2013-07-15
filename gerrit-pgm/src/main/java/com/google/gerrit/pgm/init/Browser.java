@@ -39,12 +39,15 @@ public class Browser {
   }
 
   public void open(final String link) throws Exception {
-    String url = cfg.getString("httpd", null, "listenUrl");
+    String url = cfg.getString("gerrit", null, "canonicalWebUrl");
     if (url == null) {
-      return;
-    }
-    if (url.startsWith("proxy-")) {
-      url = url.substring("proxy-".length());
+      url = cfg.getString("httpd", null, "listenUrl");
+      if (url == null) {
+        return;
+      }
+      if (url.startsWith("proxy-")) {
+        url = url.substring("proxy-".length());
+      }
     }
 
     final URI uri;

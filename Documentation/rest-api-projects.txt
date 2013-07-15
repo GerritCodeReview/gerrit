@@ -455,7 +455,14 @@ read access to `refs/meta/config`.
       "value": false,
       "configured_value": "FALSE",
       "inherited_value": true
-    }
+    },
+    "max_object_size_limit": {
+      "value": "15m",
+      "configured_value": "15m",
+      "inherited_value": "20m"
+    },
+    "submit_type": "MERGE_IF_NECESSARY",
+    "state": "ACTIVE",
     "commentlinks": {}
   }
 ----
@@ -1086,6 +1093,17 @@ link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether a
 valid link:user-changeid.html[Change-Id] footer in any commit uploaded
 for review is required. This does not apply to commits pushed directly
 to a branch or tag.
+|`max_object_size_limit`     ||
+The link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
+limit] of this project as a link:#max-object-size-limit-info[
+MaxObjectSizeLimitInfo] entity.
+|`submit_type`               ||
+The default submit type of the project, can be `MERGE_IF_NECESSARY`,
+`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
+`CHERRY_PICK`.
+|`state`                     |optional|
+The state of the project, can be `ACTIVE`, `READ_ONLY` or `HIDDEN`. +
+Not set if the project state is `ACTIVE`.
 |`commentlinks`              ||
 Map with the comment link configurations of the project. The name of
 the comment link configuration is mapped to the comment link
@@ -1195,6 +1213,29 @@ The configured value, can be `TRUE`, `FALSE` or `INHERITED`.
 The boolean value inherited from the parent. +
 Not set if there is no parent.
 |================================
+
+[[max-object-size-limit-info]]
+MaxObjectSizeLimitInfo
+~~~~~~~~~~~~~~~~~~~~~~
+The `MaxObjectSizeLimitInfo` entity contains information about the
+link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
+limit] of a project.
+
+[options="header",width="50%",cols="1,^2,4"]
+|===============================
+|Field Name        ||Description
+|`value`           |optional|
+The effective value of the max object size limit as a formatted string. +
+Not set if there is no limit for the object size.
+|`configured_value`|optional|
+The max object size limit that is configured on the project as a
+formatted string. +
+Not set if there is no limit for the object size configured on project
+level.
+|`inherited_value` |optional|
+The max object size limit that is inherited as a formatted string. +
+Not set if there is no global limit for the object size.
+|===============================
 
 [[project-description-input]]
 ProjectDescriptionInput

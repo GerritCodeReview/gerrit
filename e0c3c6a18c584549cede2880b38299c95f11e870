@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87989cf6_dcf18d1e",
+        "filename": "gerrit-gwtexpui/src/main/java/com/google/gwtexpui/clippy/client/CopyableLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-15T01:26:07Z",
+      "side": 1,
+      "message": "This should always be the case. We don\u0027t need to expose a setter method.",
+      "revId": "e0c3c6a18c584549cede2880b38299c95f11e870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

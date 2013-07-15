@@ -27,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -42,12 +43,15 @@ public class InitPlugins implements InitStep {
 
   private final ConsoleUI ui;
   private final SitePaths site;
-  private InitPluginStepsLoader pluginLoader;
+  private final InitFlags initFlags;
+  private final InitPluginStepsLoader pluginLoader;
 
   @Inject
-  InitPlugins(final ConsoleUI ui, final SitePaths site, InitPluginStepsLoader pluginLoader) {
+  InitPlugins(final ConsoleUI ui, final SitePaths site,
+      final InitFlags initFlags, InitPluginStepsLoader pluginLoader) {
     this.ui = ui;
     this.site = site;
+    this.initFlags = initFlags;
     this.pluginLoader = pluginLoader;
   }
 
@@ -111,8 +115,8 @@ public class InitPlugins implements InitStep {
         final File tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
         final String pluginVersion = getVersion(tmpPlugin);
 
-        if (!ui.yesno(false, "Install plugin %s version %s", pluginName,
-            pluginVersion)) {
+        if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(false,
+            "Install plugin %s version %s", pluginName, pluginVersion))) {
           tmpPlugin.delete();
           continue;
         }

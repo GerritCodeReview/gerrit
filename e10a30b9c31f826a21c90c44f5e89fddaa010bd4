@@ -16,6 +16,24 @@
       "revId": "e10a30b9c31f826a21c90c44f5e89fddaa010bd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "477b0460_029b8ab8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ScriptRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-15T11:54:32Z",
+      "side": 1,
+      "message": "i think it is not possible, we parse the index.sql-files in parse-method, line 77 and get a list of commands, exact one command in a string.",
+      "parentUuid": "e7bb1839_92241a89",
+      "revId": "e10a30b9c31f826a21c90c44f5e89fddaa010bd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,6 +21,8 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitFlags;
 import com.google.gerrit.pgm.init.InitModule;
+import com.google.gerrit.pgm.init.InitPlugins;
+import com.google.gerrit.pgm.init.InitPlugins.PluginData;
 import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.Die;
@@ -62,6 +64,9 @@ public class Init extends SiteProgram {
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
 
+  @Option(name = "--list-plugins", usage = "List available plugins")
+  private boolean listPlugins;
+
   public Init() {
   }
 
@@ -76,6 +81,20 @@ public class Init extends SiteProgram {
     ErrorLogFile.errorOnlyConsole();
 
     final SiteInit init = createSiteInit();
+    if (listPlugins) {
+      final ConsoleUI ui = ConsoleUI.getInstance();
+      final List<PluginData> plugins = InitPlugins.listPlugins(init.site);
+      if (!plugins.isEmpty()) {
+        ui.message("Available plugins:\n");
+        for (PluginData plugin : plugins) {
+          ui.message(" * %s version %s\n", plugin.name, plugin.version);
+        }
+      } else {
+        ui.message("No plugins found.\n");
+      }
+      return 0;
+    }
+
     init.flags.autoStart = !noAutoStart && init.site.isNew;
 
     final SiteRun run;

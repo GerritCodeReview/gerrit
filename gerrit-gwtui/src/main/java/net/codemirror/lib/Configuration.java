@@ -39,6 +39,8 @@ public class Configuration extends JavaScriptObject {
   public final native Configuration set(String name, JavaScriptObject val)
   /*-{ this[name] = val; return this; }-*/;
 
+  public static final native JavaScriptObject createInfinity() /*-{ return Infinity }-*/;
+
   protected Configuration() {
   }
 }

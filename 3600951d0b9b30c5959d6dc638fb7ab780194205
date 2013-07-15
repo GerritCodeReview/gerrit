@@ -16,6 +16,24 @@
       "revId": "3600951d0b9b30c5959d6dc638fb7ab780194205",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6712c80f_135aec01",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/UiCommandDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-15T15:27:18Z",
+      "side": 0,
+      "message": "My next change is probably going to be a new JavaScript based API for plugins to connect to the action flow.\n\nI\u0027m going to declare two hook points plugins can register their own JS code with.\n\nOne will be a \u0027pre-invoke\u0027 action, where the plugin can use their own JS to present UI before the RPC is started, gather input, and make the RPC themselves using an RPC helper we provide. If a plugin wants confirmation it should also include a JS snippet that registers a JS handler.\n\nThe other will be a \u0027post-invoke\u0027 that handles the result. This is useful for plugins that don\u0027t want to register a \u0027pre-invoke\u0027 handler. So the UI would run the RPC and then call the \u0027post-invoke\u0027 to let some JS snippet do something useful with whatever the result of the command is.\n\nIf no pre-invoke and post-invoke is registered the UI will just run the RPC and refresh the screen.",
+      "parentUuid": "477b0460_42b832fd",
+      "revId": "3600951d0b9b30c5959d6dc638fb7ab780194205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -29,10 +29,7 @@ interface CommentBoxResources extends ClientBundle {
     String close();
     String commentBox();
     String table();
-    String name();
-    String summary();
     String summaryText();
-    String date();
     String contentPanel();
     String message();
     String button();

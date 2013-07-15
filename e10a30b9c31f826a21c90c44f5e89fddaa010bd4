@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7bb1839_92241a89",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ScriptRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-15T11:24:13Z",
+      "side": 1,
+      "message": "Is it possible that command will consist of multiple commands separated by semicolons?\n\nIn that case won\u0027t this cause any commands after the first semicolon to not be executed?",
+      "revId": "e10a30b9c31f826a21c90c44f5e89fddaa010bd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

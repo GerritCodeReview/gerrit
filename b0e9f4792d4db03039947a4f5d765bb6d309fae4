@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6712c80f_7357e0d9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-15T15:39:03Z",
+      "side": 1,
+      "message": "I think using Iterables is working against readability here. It would be much shorter to say:\n\n  SortedSet\u003cPSA\u003e sorted \u003d Sets.newTreeSet(new Comparator...);\n  for (PSA psa : cd.currentApprovals(db)) {\n    short val \u003d psa.getValue();\n    if (type.matches(psa) \u0026\u0026 (val \u003d\u003d min || val \u003d\u003d max)) {\n      sorted.add(psa);\n    }\n  }",
+      "revId": "b0e9f4792d4db03039947a4f5d765bb6d309fae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

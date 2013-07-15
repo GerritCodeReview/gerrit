@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -29,12 +30,14 @@ public class TransferConfig {
   private final int timeout;
   private final PackConfig packConfig;
   private final long maxObjectSizeLimit;
+  private final String maxObjectSizeLimitFormatted;
 
   @Inject
   TransferConfig(@GerritServerConfig final Config cfg) {
     timeout = (int) ConfigUtil.getTimeUnit(cfg, "transfer", null, "timeout", //
         0, TimeUnit.SECONDS);
     maxObjectSizeLimit = cfg.getLong("receive", "maxObjectSizeLimit", 0);
+    maxObjectSizeLimitFormatted = cfg.getString("receive", null, "maxObjectSizeLimit");
 
     packConfig = new PackConfig();
     packConfig.setDeltaCompress(false);
@@ -53,5 +56,20 @@ public class TransferConfig {
 
   public long getMaxObjectSizeLimit() {
     return maxObjectSizeLimit;
+  }
+
+  public String getFormattedMaxObjectSizeLimit() {
+    return maxObjectSizeLimitFormatted;
+  }
+
+  public long getEffectiveMaxObjectSizeLimit(ProjectState p) {
+    long global = getMaxObjectSizeLimit();
+    long local = p.getMaxObjectSizeLimit();
+    if (global > 0 && local > 0) {
+      return Math.min(global, local);
+    } else {
+      // zero means "no limit", in this case the max is more limiting
+      return Math.max(global, local);
+    }
   }
 }

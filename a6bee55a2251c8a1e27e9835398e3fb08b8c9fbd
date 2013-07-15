@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "477b0460_429d92a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-15T12:40:12Z",
+      "side": 1,
+      "message": "s/fallowup/follow up",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "477b0460_62aa96c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-15T12:40:12Z",
+      "side": 1,
+      "message": "s/instalation/installation",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_a5c63e93",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-15T12:40:12Z",
+      "side": 1,
+      "message": "s/listPlugins/list-plugins",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "477b0460_82a79af5",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-15T12:40:12Z",
+      "side": 1,
+      "message": "Only print out this message if there are plugins found.\n\n[optional] s/Available plugins are:/Available plugins:",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "477b0460_a2749e97",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-15T12:40:12Z",
+      "side": 1,
+      "message": "Should we in addition to the plugin name also print out the plugin version (as it is done in InitPlugins during plugin installation)?",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

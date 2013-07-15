@@ -12,6 +12,7 @@ SYNOPSIS
 	-d <SITE_PATH>
 	[\--batch]
 	[\--no-auto-start]
+	[\--list-plugins]
 
 DESCRIPTION
 -----------
@@ -44,6 +45,9 @@ objects these SQL statements have to be executed manually.
 \--site-path::
 	Location of the gerrit.config file, and all other per-site
 	configuration data, supporting libraries and log files.
+
+\--list-plugins::
+	Print names of plugins that can be installed during init process.
 
 CONTEXT
 -------

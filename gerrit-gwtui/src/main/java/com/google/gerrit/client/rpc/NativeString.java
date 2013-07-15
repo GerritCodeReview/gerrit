@@ -19,11 +19,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Wraps a String that was returned from a JSON API. */
 public final class NativeString extends JavaScriptObject {
-  static NativeString wrap(String value) {
-    NativeString ns = (NativeString) createObject();
-    ns.set(value);
-    return ns;
-  }
+  static final native NativeString wrap(String s) /*-{
+    return new $wnd._NS(s);
+  }-*/;
 
   public final native String asString() /*-{ return this.s; }-*/;
   private final native void set(String v) /*-{ this.s = v; }-*/;
@@ -42,6 +40,18 @@ public final class NativeString extends JavaScriptObject {
       }
     };
   }
+
+  static {
+    init();
+  }
+
+  private static final native void init() /*-{
+    $wnd._NS = function(s){this.s=s}
+  }-*/;
+
+  public static final native boolean is(JavaScriptObject o) /*-{
+    return o instanceof $wnd._NS;
+  }-*/;
 
   protected NativeString() {
   }

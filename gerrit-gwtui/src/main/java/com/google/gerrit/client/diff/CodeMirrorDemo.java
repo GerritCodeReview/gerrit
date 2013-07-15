@@ -40,8 +40,9 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -184,6 +185,8 @@ public class CodeMirrorDemo extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
+
+
     if (cmA != null) {
       cmA.refresh();
     }
@@ -194,6 +197,17 @@ public class CodeMirrorDemo extends Screen {
     for (CommentBox box : initialBoxes) {
       box.resizePaddingWidget();
     }
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+      @Override
+      public void execute() {
+        if (cmA != null) {
+          cmA.setOption("viewportMargin", 10);
+        }
+        if (cmB != null) {
+          cmB.setOption("viewportMargin", 10);
+        }
+      }
+    });
     (cmB != null ? cmB : cmA).focus();
   }
 
@@ -227,26 +241,18 @@ public class CodeMirrorDemo extends Screen {
   private void registerCmEvents(CodeMirror cm) {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("scroll", doScroll(cm));
-    /**
-     * Trying to prevent right click from updating the cursor.
-     *
-     * TODO: Change to listen on "contextmenu" instead. Latest CM has
-     * provided a patch that will hopefully make this work.
-     */
-    cm.on("mousedown", ignoreRightClick());
+    // TODO: Prevent right click from updating the cursor.
     cm.addKeyMap(KeyMap.create().on("'u'", upToChange()));
     cm.addKeyMap(KeyMap.create().on("'o'", toggleOpenBox(cm)));
     cm.addKeyMap(KeyMap.create().on("Enter", toggleOpenBox(cm)));
+    CodeMirror.defineEx("up", "u", upToChange());
     if (Gerrit.isSignedIn()) {
       cm.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cm)));
     }
-    /**
-     * TODO: Maybe remove this after updating CM to HEAD. The latest VIM mode
-     * doesn't enter INSERT mode when document is read only.
-     */
-    for (String c : new String[]{"A", "C", "D", "I", "O", "P", "R", "S", "U",
-        "X", "Y", "~"}) {
-      CodeMirror.disableUnwantedKey("vim", c);
+    // TODO: Work on a better way for customizing keybindings.
+    for (String s : new String[]{"C", "O", "R", "U", "Ctrl-C", "Ctrl-F",
+        "Enter"}) {
+      CodeMirror.disableUnwantedKey("vim", s);
     }
   }
 
@@ -337,7 +343,13 @@ public class CodeMirrorDemo extends Screen {
       .set("styleSelectedText", true)
       .set("showTrailingSpace", true)
       .set("keyMap", "vim")
-      .set("value", contents);
+      .set("value", contents)
+      /**
+       * Without this, CM won't put line widgets too far down in the right spot,
+       * and padding widgets will be informed of wrong offset height. Reset to
+       * 10 (default) after initial rendering.
+       */
+      .setInfinity("viewportMargin");
     final CodeMirror cm = CodeMirror.create(ele, cfg);
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
     return cm;
@@ -662,9 +674,13 @@ public class CodeMirrorDemo extends Screen {
     final CodeMirror other = otherCm(cm);
     return new Runnable() {
       public void run() {
-        // Prevent feedback loop, Chrome seems fine but Firefox chokes.
+        /**
+         * Prevent feedback loop, Chrome seems fine but Firefox chokes.
+         * However on Chrome this may cause scrolling to be out of sync
+         * if scrolled too fast.
+         */
         double now = (double) System.currentTimeMillis();
-        if (cm.getScrollSetBy() == other && cm.getScrollSetAt() + 50 > now) {
+        if (cm.getScrollSetBy() == other && cm.getScrollSetAt() + 30 > now) {
           return;
         }
         other.scrollToY(cm.getScrollInfo().getTop());
@@ -746,16 +762,6 @@ public class CodeMirrorDemo extends Screen {
         Gerrit.display(PageLinks.toChange2(
           revision.getParentKey(),
           String.valueOf(revision.get())));
-      }
-    };
-  }
-
-  private CodeMirror.EventHandler ignoreRightClick() {
-    return new CodeMirror.EventHandler() {
-      public void handle(CodeMirror instance, NativeEvent event) {
-        if (event.getButton() == NativeEvent.BUTTON_RIGHT) {
-          event.preventDefault();
-        }
       }
     };
   }

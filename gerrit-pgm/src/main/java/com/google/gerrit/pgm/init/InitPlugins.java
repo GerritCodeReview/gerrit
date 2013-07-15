@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
@@ -22,10 +23,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -48,24 +49,21 @@ public class InitPlugins implements InitStep {
     this.pluginLoader = pluginLoader;
   }
 
-  @Override
-  public void run() throws Exception {
-    ui.header("Plugins");
+  public static class PluginData {
+    public final String name;
+    public final String version;
+    public final File pluginFile;
 
-    installPlugins();
-    initPlugins();
+    private PluginData(String name, String version, File pluginFile) {
+      this.name = name;
+      this.version = version;
+      this.pluginFile = pluginFile;
+    }
   }
 
-  private void installPlugins() throws IOException {
-    final File myWar;
-    try {
-      myWar = GerritLauncher.getDistributionArchive();
-    } catch (FileNotFoundException e) {
-      System.err.println("warn: Cannot find gerrit.war");
-      return;
-    }
-
-    boolean foundPlugin = false;
+  public static List<PluginData> listPlugins(SitePaths site) throws IOException {
+    final File myWar = GerritLauncher.getDistributionArchive();
+    final List<PluginData> result = Lists.newArrayList();
     try {
       final ZipFile zf = new ZipFile(myWar);
       try {
@@ -77,49 +75,13 @@ public class InitPlugins implements InitStep {
           }
 
           if (ze.getName().startsWith(PLUGIN_DIR) && ze.getName().endsWith(JAR)) {
-            if (!foundPlugin) {
-              if (!ui.yesno(false, "Prompt to install core plugins")) {
-                return;
-              }
-              foundPlugin = true;
-            }
-
             final String pluginJarName = new File(ze.getName()).getName();
             final String pluginName = pluginJarName.substring(0,  pluginJarName.length() - JAR.length());
-
             final InputStream in = zf.getInputStream(ze);
-            try {
-              final File tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
-              final String pluginVersion = getVersion(tmpPlugin);
+            final File tmpPlugin = PluginLoader.storeInTemp(pluginName, in, site);
+            final String pluginVersion = getVersion(tmpPlugin);
 
-              if (!ui.yesno(false, "Install plugin %s version %s", pluginName,
-                  pluginVersion)) {
-                tmpPlugin.delete();
-                continue;
-              }
-
-              final File plugin = new File(site.plugins_dir, pluginJarName);
-              if (plugin.exists()) {
-                final String installedPluginVersion = getVersion(plugin);
-                if (!ui.yesno(false,
-                    "version %s is already installed, overwrite it",
-                    installedPluginVersion)) {
-                  tmpPlugin.delete();
-                  continue;
-                }
-                if (!plugin.delete()) {
-                  throw new IOException("Failed to delete plugin " + pluginName
-                      + ": " + plugin.getAbsolutePath());
-                }
-              }
-              if (!tmpPlugin.renameTo(plugin)) {
-                throw new IOException("Failed to install plugin " + pluginName
-                    + ": " + tmpPlugin.getAbsolutePath() + " -> "
-                    + plugin.getAbsolutePath());
-              }
-            } finally {
-              in.close();
-            }
+            result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
           }
         }
       } finally {
@@ -128,8 +90,56 @@ public class InitPlugins implements InitStep {
     } catch (IOException e) {
       throw new IOException("Failure during plugin installation", e);
     }
+    return result;
+  }
 
-    if (!foundPlugin) {
+  @Override
+  public void run() throws Exception {
+    ui.header("Plugins");
+
+    installPlugins();
+    initPlugins();
+  }
+
+  private void installPlugins() throws IOException {
+    List<PluginData> plugins = listPlugins(site);
+    for (PluginData plugin : plugins) {
+      String pluginName = plugin.name;
+      try {
+        final File tmpPlugin = plugin.pluginFile;
+
+        if (!ui.yesno(false, "Install plugin %s version %s", pluginName,
+            plugin.version)) {
+          tmpPlugin.delete();
+          continue;
+        }
+
+        final File p = new File(site.plugins_dir, plugin.pluginFile.getName());
+        if (p.exists()) {
+          final String installedPluginVersion = getVersion(p);
+          if (!ui.yesno(false,
+              "version %s is already installed, overwrite it",
+              installedPluginVersion)) {
+            tmpPlugin.delete();
+            continue;
+          }
+          if (!p.delete()) {
+            throw new IOException("Failed to delete plugin " + pluginName
+                + ": " + p.getAbsolutePath());
+          }
+        }
+        if (!tmpPlugin.renameTo(p)) {
+          throw new IOException("Failed to install plugin " + pluginName
+              + ": " + tmpPlugin.getAbsolutePath() + " -> "
+              + p.getAbsolutePath());
+        }
+      } finally {
+        if (plugin.pluginFile.exists()) {
+          plugin.pluginFile.delete();
+        }
+      }
+    }
+    if (plugins.isEmpty()) {
       ui.message("No plugins found.");
     }
   }

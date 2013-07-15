@@ -29,10 +29,15 @@ public class RevisionResource implements RestResource {
 
   private final ChangeResource change;
   private final PatchSet ps;
+  private boolean cacheable = true;
 
   public RevisionResource(ChangeResource change, PatchSet ps) {
     this.change = change;
     this.ps = ps;
+  }
+
+  public boolean isCacheable() {
+    return cacheable;
   }
 
   public ChangeResource getChangeResource() {
@@ -57,5 +62,10 @@ public class RevisionResource implements RestResource {
 
   IdentifiedUser getUser() {
     return (IdentifiedUser) getControl().getCurrentUser();
+  }
+
+  RevisionResource doNotCache() {
+    cacheable = false;
+    return this;
   }
 }

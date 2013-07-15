@@ -35,7 +35,10 @@ public class GetCommit implements RestReadView<RevisionResource> {
   @Override
   public Response<CommitInfo> apply(RevisionResource resource)
       throws OrmException, PatchSetInfoNotAvailableException {
-    return Response.ok(json.toCommit(resource.getPatchSet()))
-        .caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+    Response<CommitInfo> r = Response.ok(json.toCommit(resource.getPatchSet()));
+    if (resource.isCacheable()) {
+      r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+    }
+    return r;
   }
 }

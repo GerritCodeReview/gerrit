@@ -152,7 +152,11 @@ public class GetDiff implements RestReadView<FileResource> {
       result.diffHeader = ps.getPatchHeader();
     }
     result.content = content.lines;
-    return Response.ok(result).caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+    Response<Result> r = Response.ok(result);
+    if (resource.isCacheable()) {
+      r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+    }
+    return r;
   }
 
   static class Result {

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.change.FileInfoJson.FileInfo;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -31,6 +32,7 @@ import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 class Files implements ChildCollection<RevisionResource, FileResource> {
@@ -77,11 +79,14 @@ class Files implements ChildCollection<RevisionResource, FileResource> {
             resource.getChangeResource(), IdString.fromDecoded(base));
         basePatchSet = baseResource.getPatchSet();
       }
-      return Response.ok(fileInfoJson.toFileInfoMap(
+      Response<Map<String, FileInfo>> r = Response.ok(fileInfoJson.toFileInfoMap(
           resource.getChange(),
           resource.getPatchSet(),
-          basePatchSet))
-        .caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+          basePatchSet));
+      if (resource.isCacheable()) {
+        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      }
+      return r;
     }
   }
 }

@@ -59,7 +59,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
       PatchSet.Id p = change.getChange().currentPatchSetId();
       PatchSet ps = p != null ? dbProvider.get().patchSets().get(p) : null;
       if (ps != null && visible(change, ps)) {
-        return new RevisionResource(change, ps);
+        return new RevisionResource(change, ps).doNotCache();
       }
       throw new ResourceNotFoundException(id);
     }

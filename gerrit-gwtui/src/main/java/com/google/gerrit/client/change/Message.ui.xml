@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:c='urn:import:com.google.gerrit.client'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style type='com.google.gerrit.client.change.Message.Style'>
+    .messageBox {
+      width: 1168px;
+      border-left: 1px solid #e3e9ff;
+      border-right: 1px solid #e3e9ff;
+      border-bottom: 1px solid #e3e9ff;
+      -webkit-border-bottom-left-radius: 8px;
+      -webkit-border-bottom-right-radius: 8px;
+    }
+
+    .avatar {
+      width: 26px;
+      height: 26px;
+    }
+    .closed .avatar {
+      width: 16px;
+      height: 16px;
+    }
+
+    .contents {
+      margin-left: 28px;
+      position: relative;
+    }
+
+    .contents p {
+      -webkit-margin-before: 0;
+      -webkit-margin-after: 0.3em;
+    }
+
+    .name {
+      white-space: nowrap;
+      font-weight: bold;
+    }
+    .closed .name {
+      width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: normal;
+    }
+
+    .summary {
+      color: #777;
+      position: absolute;
+      top: 0;
+      left: 120px;
+      width: 915px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .date {
+      white-space: nowrap;
+      position: absolute;
+      top: 0;
+      right: 5px;
+    }
+  </ui:style>
+
+  <g:HTMLPanel
+      styleName='{style.messageBox}'
+      addStyleNames='{style.closed}'>
+    <c:AvatarImage ui:field='avatar' styleName='{style.avatar}'/>
+    <div class='{style.contents}'>
+      <div class='{style.name}' ui:field='name'/>
+      <div ui:field='summary' class='{style.summary}'/>
+      <div class='{style.date}' ui:field='date'/>
+      <div ui:field='message'
+           aria-hidden='true'
+           style='display: NONE'/>
+    </div>
+  </g:HTMLPanel>
+</ui:UiBinder>

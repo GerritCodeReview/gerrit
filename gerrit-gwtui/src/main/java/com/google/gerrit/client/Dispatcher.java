@@ -60,6 +60,7 @@ import com.google.gerrit.client.admin.ProjectDashboardsScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.change.ChangeScreen2;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
@@ -189,6 +190,9 @@ public class Dispatcher {
 
     } else if (matchPrefix("/c/", token)) {
       change(token);
+
+    } else if (matchPrefix("/c2/", token)) {
+      change2(token);
 
     } else if (matchExact(MINE, token)) {
       Gerrit.display(token, mine(token));
@@ -502,6 +506,20 @@ public class Dispatcher {
         Gerrit.display(token, new NotFoundScreen());
       }
     }
+  }
+
+  private static void change2(final String token) {
+    String rest = skip(token);
+    Change.Id id;
+    int s = rest.indexOf('/');
+    if (0 <= s) {
+      id = Change.Id.parse(rest.substring(0, s));
+      rest = rest.substring(s + 1);
+    } else {
+      id = Change.Id.parse(rest);
+      rest = "";
+    }
+    Gerrit.display(token, new ChangeScreen2(id, rest));
   }
 
   private static void publish(final PatchSet.Id ps) {

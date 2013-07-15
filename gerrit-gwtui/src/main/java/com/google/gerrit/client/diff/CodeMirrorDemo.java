@@ -17,7 +17,6 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeApi;
 import com.google.gerrit.client.changes.ChangeInfo;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
@@ -744,7 +743,9 @@ public class CodeMirrorDemo extends Screen {
   private Runnable upToChange() {
     return new Runnable() {
       public void run() {
-        Gerrit.display(PageLinks.toChange(revision), new ChangeScreen(revision));
+        Gerrit.display(PageLinks.toChange2(
+          revision.getParentKey(),
+          String.valueOf(revision.get())));
       }
     };
   }

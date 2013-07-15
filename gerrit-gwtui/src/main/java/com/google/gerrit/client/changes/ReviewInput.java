@@ -17,6 +17,10 @@ package com.google.gerrit.client.changes;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class ReviewInput extends JavaScriptObject {
+  public static enum NotifyHandling {
+    NONE, OWNER, OWNER_REVIEWERS, ALL;
+  }
+
   public static ReviewInput create() {
     ReviewInput r = createObject().cast();
     r.init();
@@ -25,6 +29,11 @@ public class ReviewInput extends JavaScriptObject {
 
   public final native void message(String m) /*-{ if(m)this.message=m; }-*/;
   public final native void label(String n, short v) /*-{ this.labels[n]=v; }-*/;
+
+  public final void notify(NotifyHandling e) {
+    _notify(e.name());
+  }
+  private final native void _notify(String n) /*-{ this.notify=n; }-*/;
 
   private final native void init() /*-{
     this.labels = {};

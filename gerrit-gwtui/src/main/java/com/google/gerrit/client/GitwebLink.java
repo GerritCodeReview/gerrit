@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.common.data.GitWebType;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -45,17 +46,24 @@ public class GitwebLink {
     return !ps.isDraft() || type.getLinkDrafts();
   }
 
+  public boolean canLink(RevisionInfo revision) {
+    return revision.draft() || type.getLinkDrafts();
+  }
+
   public String getLinkName() {
     return "(" + type.getLinkName() + ")";
   }
 
-  public String toRevision(final Project.NameKey project, final PatchSet ps) {
+  public String toRevision(String  project, String commit) {
     ParameterizedString pattern = new ParameterizedString(type.getRevision());
-
-    final Map<String, String> p = new HashMap<String, String>();
-    p.put("project", encode(project.get()));
-    p.put("commit", encode(ps.getRevision().get()));
+    Map<String, String> p = new HashMap<String, String>();
+    p.put("project", encode(project));
+    p.put("commit", encode(commit));
     return baseUrl + pattern.replace(p);
+  }
+
+  public String toRevision(final Project.NameKey project, final PatchSet ps) {
+    return toRevision(project.get(), ps.getRevision().get());
   }
 
   public String toProject(final Project.NameKey project) {

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+    xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style>
+    #change_actions {
+      padding-top: 2px;
+      padding-bottom: 20px;
+    }
+
+    #change_actions button {
+      margin: 6px 3px 0 0;
+      border-color: rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-size: 11px;
+      font-weight: bold;
+      border: 1px solid;
+      cursor: pointer;
+      color: #444;
+      background-color: #f5f5f5;
+      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
+      -webkit-border-radius: 2px;
+      -webkit-box-sizing: content-box;
+    }
+    #change_actions button div {
+      color: #444; 
+      height: 10px;
+      min-width: 54px;
+      line-height: 10px;
+      white-space: nowrap;
+    }
+
+    #change_actions button {
+      color: #444;
+      background-color: #f5f5f5;
+      background-image: -webkit-linear-gradient(top, #f5f5f5, #f1f1f1);
+    }
+    #change_actions button div {color: #444;}
+
+    #change_actions button.red {
+      color: #d14836;
+      background-color: #d14836;
+      background-image: -webkit-linear-gradient(top, #d14836, #d14836);
+    }
+    #change_actions button.red div {color: #fff;}
+
+    #change_actions button.submit {
+      float: right;
+      color: white;
+      background-color: #4d90fe;
+      background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
+    }
+    #change_actions button.submit div {color: #fff;}
+  </ui:style>
+
+  <g:FlowPanel>
+    <g:Button ui:field='cherrypick' styleName=''>
+      <div><ui:msg>Cherry Pick</ui:msg></div>
+    </g:Button>
+    <g:Button ui:field='rebase' styleName=''>
+      <div><ui:msg>Rebase</ui:msg></div>
+    </g:Button>
+    <g:Button ui:field='revert' styleName=''>
+      <div><ui:msg>Revert</ui:msg></div>
+    </g:Button>
+
+    <g:Button ui:field='abandon' styleName='{style.red}'>
+      <div><ui:msg>Abandon</ui:msg></div>
+    </g:Button>
+    <g:Button ui:field='restore' styleName='{style.red}'>
+      <div><ui:msg>Restore</ui:msg></div>
+    </g:Button>
+
+    <g:Button ui:field='submit' styleName='{style.submit}'>
+      <div><ui:msg>Submit</ui:msg></div>
+    </g:Button>
+  </g:FlowPanel>
+</ui:UiBinder>

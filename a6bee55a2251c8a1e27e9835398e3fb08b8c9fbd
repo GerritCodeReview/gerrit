@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "477b0460_c279a28e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-15T12:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "477b0460_429d92a7",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "477b0460_62aa96c0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-15T12:40:12Z",
       "side": 1,
       "message": "s/instalation/installation",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7bb1839_d22ea264",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-15T12:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "477b0460_62aa96c0",
       "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "477b0460_e26ea6c5",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-15T12:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c680d7_a5c63e93",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "477b0460_82a79af5",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a7c680d7_65b56604",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-15T12:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "477b0460_82a79af5",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "477b0460_a2749e97",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2013-07-15T12:40:12Z",
       "side": 1,
       "message": "Should we in addition to the plugin name also print out the plugin version (as it is done in InitPlugins during plugin installation)?",
+      "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "477b0460_02746a92",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-15T12:52:09Z",
+      "side": 1,
+      "message": "Printing plugin version will complicate code a bit. First of all we need to extract jar file (and store it somewhere) from WAR to be able to extract plugin version from MANIFEST, IMO this will be to complicated to just print out additional information.",
+      "parentUuid": "477b0460_a2749e97",
       "revId": "a6bee55a2251c8a1e27e9835398e3fb08b8c9fbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -112,7 +112,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   protected void onOpenRow(final int row) {
     final ChangeInfo c = getRowItem(row);
     final Change.Id id = c.legacy_id();
-    Gerrit.display(PageLinks.toChange(id), new ChangeScreen(id));
+    Gerrit.display(PageLinks.toChange(id));
   }
 
   private void insertNoneRow(final int row) {

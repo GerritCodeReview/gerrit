@@ -195,6 +195,7 @@ public class CodeMirrorDemo extends Screen {
     for (CommentBox box : initialBoxes) {
       box.resizePaddingWidget();
     }
+    (cmB != null ? cmB : cmA).focus();
   }
 
   @Override

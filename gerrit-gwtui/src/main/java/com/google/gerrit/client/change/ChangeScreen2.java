@@ -382,6 +382,7 @@ public class ChangeScreen2 extends Screen {
     branchText.setInnerText(info.branch());
     idText.setText("Change-Id: " + info.change_id());
     idText.setPreviewText(info.change_id());
+    idText.setReadOnly(true);
     reload.set(info);
     topic.set(info);
 

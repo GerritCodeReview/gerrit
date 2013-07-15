@@ -70,6 +70,7 @@ public class CopyableLabel extends Composite implements HasText {
   private Label textLabel;
   private TextBox textBox;
   private Element swf;
+  private boolean readOnly;
 
   public CopyableLabel() {
     this("");
@@ -181,6 +182,7 @@ public class CopyableLabel extends Composite implements HasText {
       textBox = new TextBox();
       textBox.setText(getText());
       textBox.setVisibleLength(visibleLen);
+      textBox.setReadOnly(readOnly);
       textBox.addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
@@ -224,5 +226,9 @@ public class CopyableLabel extends Composite implements HasText {
       textBox = null;
     }
     textLabel.setVisible(true);
+  }
+
+  public void setReadOnly(boolean readOnly) {
+    this.readOnly = readOnly;
   }
 }

@@ -16,6 +16,7 @@ package net.codemirror.lib;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -128,13 +129,27 @@ public class CodeMirror extends JavaScriptObject {
   }-*/;
 
   public final native void on(String event, Runnable thunk) /*-{
-    this.on(event, function() {
-      $entry(thunk.@java.lang.Runnable::run()());
-    });
+    this.on(event, $entry(function() {
+      thunk.@java.lang.Runnable::run()();
+    }));
+  }-*/;
+
+  public final native void on(String event, EventHandler handler) /*-{
+    this.on(event, $entry(function(cm, e) {
+      handler.@net.codemirror.lib.CodeMirror.EventHandler::handle(Lnet/codemirror/lib/CodeMirror;Lcom/google/gwt/dom/client/NativeEvent;)(cm, e);
+    }));
+  }-*/;
+
+  public final native LineCharacter getCursor() /*-{
+    return this.getCursor();
   }-*/;
 
   public final native LineCharacter getCursor(String start) /*-{
     return this.getCursor(start);
+  }-*/;
+
+  public final native void setCursor(LineCharacter lineCh) /*-{
+    this.setCursor(lineCh);
   }-*/;
 
   public final native boolean somethingSelected() /*-{
@@ -155,6 +170,10 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void addKeyMap(KeyMap map) /*-{ this.addKeyMap(map); }-*/;
 
+  public final native void removeKeyMap(KeyMap map) /*-{ this.removeKeyMap(map); }-*/;
+
+  public final native void removeKeyMap(String name) /*-{ this.removeKeyMap(name); }-*/;
+
   public static final native LineCharacter pos(int line, int ch) /*-{
     return $wnd.CodeMirror.Pos(line, ch);
   }-*/;
@@ -167,8 +186,22 @@ public class CodeMirror extends JavaScriptObject {
     return this.getLineHandle(line);
   }-*/;
 
+  public final native LineHandle getLineHandleVisualStart(int line) /*-{
+    return this.getLineHandleVisualStart(line);
+  }-*/;
+
   public final native int getLineNumber(LineHandle handle) /*-{
     return this.getLineNumber(handle);
+  }-*/;
+
+  public final native void focus() /*-{
+    this.focus();
+  }-*/;
+
+  /** Hack into CodeMirror to disable unwanted keys */
+  public static final native void disableUnwantedKey(String category,
+      String name) /*-{
+    $wnd.CodeMirror.keyMap[category][name] = undefined;
   }-*/;
 
   protected CodeMirror() {
@@ -177,5 +210,9 @@ public class CodeMirror extends JavaScriptObject {
   public static class LineHandle extends JavaScriptObject {
     protected LineHandle(){
     }
+  }
+
+  public interface EventHandler {
+    public void handle(CodeMirror instance, NativeEvent event);
   }
 }

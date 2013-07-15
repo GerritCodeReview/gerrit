@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7c680d7_e5c03679",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-15T12:47:14Z",
+      "side": 1,
+      "message": "s/installPlugin/install-plugin",
+      "revId": "cd8447a718585af38d1d4b7ec96072af6b1c6194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_c5c53a87",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-15T12:47:14Z",
+      "side": 1,
+      "message": "Verify the plugin list only after checking for the listPlugins option?",
+      "revId": "cd8447a718585af38d1d4b7ec96072af6b1c6194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_25bb6efc",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-15T12:47:14Z",
+      "side": 1,
+      "message": "Use nullOrEmpty method from com.google.common.base.Strings instead of implementing this method on your own.",
+      "revId": "cd8447a718585af38d1d4b7ec96072af6b1c6194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

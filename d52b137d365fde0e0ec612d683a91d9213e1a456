@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "477b0460_62dc5664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-15T13:49:51Z",
+      "side": 1,
+      "message": "s/fallow/follow\n\nor just remove the whole sentence.",
+      "revId": "d52b137d365fde0e0ec612d683a91d9213e1a456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

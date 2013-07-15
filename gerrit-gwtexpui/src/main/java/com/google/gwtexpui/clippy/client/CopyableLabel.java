@@ -47,6 +47,7 @@ public class CopyableLabel extends Composite implements HasText {
   private static final int SWF_WIDTH = 110;
   private static final int SWF_HEIGHT = 14;
   private static boolean flashEnabled = true;
+  private boolean readOnly;
 
   static {
     ClippyResources.I.css().ensureInjected();
@@ -181,6 +182,7 @@ public class CopyableLabel extends Composite implements HasText {
       textBox = new TextBox();
       textBox.setText(getText());
       textBox.setVisibleLength(visibleLen);
+      textBox.setReadOnly(readOnly);
       textBox.addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
@@ -224,5 +226,9 @@ public class CopyableLabel extends Composite implements HasText {
       textBox = null;
     }
     textLabel.setVisible(true);
+  }
+
+  public void setReadOnly(boolean readOnly) {
+    this.readOnly = readOnly;
   }
 }

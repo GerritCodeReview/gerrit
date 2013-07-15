@@ -25,6 +25,7 @@ import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -40,12 +41,15 @@ public class InitPlugins implements InitStep {
 
   private final ConsoleUI ui;
   private final SitePaths site;
-  private InitPluginStepsLoader pluginLoader;
+  private final InitFlags initFlags;
+  private final InitPluginStepsLoader pluginLoader;
 
   @Inject
-  InitPlugins(final ConsoleUI ui, final SitePaths site, InitPluginStepsLoader pluginLoader) {
+  InitPlugins(final ConsoleUI ui, final SitePaths site,
+      final InitFlags initFlags, InitPluginStepsLoader pluginLoader) {
     this.ui = ui;
     this.site = site;
+    this.initFlags = initFlags;
     this.pluginLoader = pluginLoader;
   }
 
@@ -108,8 +112,8 @@ public class InitPlugins implements InitStep {
       try {
         final File tmpPlugin = plugin.pluginFile;
 
-        if (!ui.yesno(false, "Install plugin %s version %s", pluginName,
-            plugin.version)) {
+        if (!(initFlags.installPlugins.contains(pluginName) || ui.yesno(false,
+            "Install plugin %s version %s", pluginName, plugin.version))) {
           tmpPlugin.delete();
           continue;
         }

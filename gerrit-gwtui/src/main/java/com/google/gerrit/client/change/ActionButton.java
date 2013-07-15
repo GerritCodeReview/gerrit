@@ -14,32 +14,26 @@
 
 package com.google.gerrit.client.change;
 
-import com.google.gerrit.client.ErrorDialog;
-import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.api.ChangeGlue;
+import com.google.gerrit.client.api.RevisionGlue;
+import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ActionInfo;
-import com.google.gerrit.client.rpc.NativeString;
-import com.google.gerrit.client.rpc.RestApi;
-import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class ActionButton extends Button implements ClickHandler {
-  private final Change.Id changeId;
-  private final String revision;
+  private final ChangeInfo change;
+  private final RevisionInfo revision;
   private final ActionInfo action;
 
-  ActionButton(Change.Id changeId, ActionInfo action) {
-    this(changeId, null, action);
+  ActionButton(ChangeInfo change, ActionInfo action) {
+    this(change, null, action);
   }
 
-  ActionButton(Change.Id changeId, String revision, ActionInfo action) {
+  ActionButton(ChangeInfo change, RevisionInfo revision, ActionInfo action) {
     super(new SafeHtmlBuilder()
       .openDiv()
       .append(action.label())
@@ -49,44 +43,17 @@ class ActionButton extends Button implements ClickHandler {
     setEnabled(action.enabled());
     addClickHandler(this);
 
-    this.changeId = changeId;
+    this.change = change;
     this.revision = revision;
     this.action = action;
   }
 
   @Override
   public void onClick(ClickEvent event) {
-    setEnabled(false);
-
-    AsyncCallback<NativeString> cb = new AsyncCallback<NativeString>() {
-      @Override
-      public void onFailure(Throwable caught) {
-        setEnabled(true);
-        new ErrorDialog(caught).center();
-      }
-
-      @Override
-      public void onSuccess(NativeString msg) {
-        setEnabled(true);
-        if (msg != null && !msg.asString().isEmpty()) {
-          // TODO Support better UI on UiAction results.
-          Window.alert(msg.asString());
-        }
-        Gerrit.display(PageLinks.toChange2(changeId));
-      }
-    };
-
-    RestApi api = revision != null
-        ? ChangeApi.revision(changeId.get(), revision)
-        : ChangeApi.change(changeId.get());
-    api.view(action.id());
-
-    if ("PUT".equalsIgnoreCase(action.method())) {
-      api.put(JavaScriptObject.createObject(), cb);
-    } else if ("DELETE".equalsIgnoreCase(action.method())) {
-      api.delete(cb);
+    if (revision != null) {
+      RevisionGlue.onAction(change, revision, action, this);
     } else {
-      api.post(JavaScriptObject.createObject(), cb);
+      ChangeGlue.onAction(change, action, this);
     }
   }
 }

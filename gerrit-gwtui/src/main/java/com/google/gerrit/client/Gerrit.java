@@ -21,6 +21,7 @@ import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.account.AccountInfo;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
@@ -564,7 +565,8 @@ public class Gerrit implements EntryPoint {
   }
 
   private void loadPlugins(HostPageData hpd, final String token) {
-    if (hpd.plugins != null) {
+    if (hpd.plugins != null && !hpd.plugins.isEmpty()) {
+      ApiGlue.init();
       for (final String url : hpd.plugins) {
         ScriptInjector.fromUrl(url)
             .setWindow(ScriptInjector.TOP_WINDOW)

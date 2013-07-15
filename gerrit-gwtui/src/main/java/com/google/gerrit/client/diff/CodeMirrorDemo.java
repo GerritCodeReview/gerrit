@@ -40,6 +40,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
@@ -184,6 +186,8 @@ public class CodeMirrorDemo extends Screen {
   @Override
   public void onShowView() {
     super.onShowView();
+
+
     if (cmA != null) {
       cmA.refresh();
     }
@@ -194,6 +198,17 @@ public class CodeMirrorDemo extends Screen {
     for (CommentBox box : initialBoxes) {
       box.resizePaddingWidget();
     }
+    Scheduler.get().scheduleDeferred(new ScheduledCommand () {
+      @Override
+      public void execute() {
+        if (cmA != null) {
+          cmA.setOption("viewportMargin", 10);
+        }
+        if (cmB != null) {
+          cmB.setOption("viewportMargin", 10);
+        }
+      }
+    });
     (cmB != null ? cmB : cmA).focus();
   }
 
@@ -337,7 +352,13 @@ public class CodeMirrorDemo extends Screen {
       .set("styleSelectedText", true)
       .set("showTrailingSpace", true)
       .set("keyMap", "vim")
-      .set("value", contents);
+      .set("value", contents)
+      /**
+       * Without this, CM won't put line widgets too far down in the right spot,
+       * and padding widgets will be informed of wrong offset height. Reset to
+       * 10 (default) after initial rendering.
+       */
+      .setInfinity("viewportMargin");
     final CodeMirror cm = CodeMirror.create(ele, cfg);
     cm.setHeight(Window.getClientHeight() - HEADER_FOOTER);
     return cm;
@@ -662,9 +683,13 @@ public class CodeMirrorDemo extends Screen {
     final CodeMirror other = otherCm(cm);
     return new Runnable() {
       public void run() {
-        // Prevent feedback loop, Chrome seems fine but Firefox chokes.
+        /**
+         * Prevent feedback loop, Chrome seems fine but Firefox chokes.
+         * However on Chrome this may cause scrolling to be out of sync
+         * if scrolled too fast.
+         */
         double now = (double) System.currentTimeMillis();
-        if (cm.getScrollSetBy() == other && cm.getScrollSetAt() + 50 > now) {
+        if (cm.getScrollSetBy() == other && cm.getScrollSetAt() + 30 > now) {
           return;
         }
         other.scrollToY(cm.getScrollInfo().getTop());

@@ -38,6 +38,14 @@ public class CodeMirror extends JavaScriptObject {
     this.setOption(option, value);
   }-*/;
 
+  public final native void setOption(String option, double value) /*-{
+    this.setOption(option, value);
+  }-*/;
+
+  public final native void setOptionToInfinity(String option) /*-{
+    this.setOption(option, Infinity);
+  }-*/;
+
   public final native void setValue(String v) /*-{ this.setValue(v); }-*/;
 
   public final native void setWidth(int w) /*-{ this.setSize(w, null); }-*/;
@@ -219,6 +227,10 @@ public class CodeMirror extends JavaScriptObject {
   public static final native void disableUnwantedKey(String category,
       String name) /*-{
     $wnd.CodeMirror.keyMap[category][name] = undefined;
+  }-*/;
+
+  public final native Element getGutterElement() /*-{
+    return this.getGutterElement();
   }-*/;
 
   protected CodeMirror() {

@@ -16,6 +16,24 @@
       "revId": "505b3af6de3cf9fd41a0c10ca4d238c5c1dba966",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_e5e79631",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-15T05:53:16Z",
+      "side": 1,
+      "message": "My fist impression was also that this behavior is a bug, but look at commit 7e4cef393 and you will realize that it was intended.\n\nThis optimization in some cases can be treated as back door in repo access policy. Some time it would be needed to shorten initial repo import time.\n\nTo be honest, I\u0027m not sure what would be proper behavior here, from one hand we want the import process to be fast, but from the other we also want validate all incoming commits (no matter who push them).",
+      "parentUuid": "a7c680d7_252ece94",
+      "revId": "505b3af6de3cf9fd41a0c10ca4d238c5c1dba966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

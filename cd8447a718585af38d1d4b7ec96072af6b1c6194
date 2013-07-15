@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "477b0460_42867259",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-15T12:57:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7c680d7_e5c03679",
+      "revId": "cd8447a718585af38d1d4b7ec96072af6b1c6194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c680d7_c5c53a87",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "477b0460_c2e28224",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-15T12:57:38Z",
+      "side": 1,
+      "message": "verifyInstallPliginList will change listPlugins value to true when plugin name given by user would not be found in list of available plugins. This we can also inform user what plugin names are supported",
+      "parentUuid": "a7c680d7_c5c53a87",
+      "revId": "cd8447a718585af38d1d4b7ec96072af6b1c6194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7c680d7_25bb6efc",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2013-07-15T12:47:14Z",
       "side": 1,
       "message": "Use nullOrEmpty method from com.google.common.base.Strings instead of implementing this method on your own.",
+      "revId": "cd8447a718585af38d1d4b7ec96072af6b1c6194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a7c680d7_45b2ea1d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-15T12:57:38Z",
+      "side": 1,
+      "message": "my nullOrEmpty takes List\u003c?\u003e as parameter, not String therefore I can\u0027t use Strings.nullOrEmpty",
+      "parentUuid": "a7c680d7_25bb6efc",
       "revId": "cd8447a718585af38d1d4b7ec96072af6b1c6194",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

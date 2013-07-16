@@ -20,6 +20,7 @@ limitations under the License.
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:style type='com.google.gerrit.client.change.Message.Style'>
     .messageBox {
+      position: relative;
       width: 1168px;
       border-left: 1px solid #e3e9ff;
       border-right: 1px solid #e3e9ff;
@@ -29,10 +30,12 @@ limitations under the License.
     }
 
     .avatar {
+      position: absolute;
       width: 26px;
       height: 26px;
     }
     .closed .avatar {
+      position: absolute;
       width: 16px;
       height: 16px;
     }

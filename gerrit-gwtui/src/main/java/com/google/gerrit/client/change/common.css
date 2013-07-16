@@ -13,7 +13,21 @@
  * limitations under the License.
  */
 
-.button {
+@eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
+
+.popup {
+  background-color: trimColor;
+  min-width: 300px;
+  min-height: 90px;
+}
+
+.popupContent {
+  padding: 5px;
+}
+
+.button,
+.popup button,
+.popup input[type='button'] {
   margin: 0 3px 0 0;
   border-color: rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -28,7 +42,7 @@
   -webkit-box-sizing: content-box;
 }
 
-.button div {
+.button div, .popup button div {
   width: 54px;
   white-space: nowrap;
   color: #fff;

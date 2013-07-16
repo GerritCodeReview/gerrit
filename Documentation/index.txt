@@ -72,6 +72,7 @@ Index
 .. link:i18n-readme.html[i18n Support]
 .. Plugin development
 ... link:dev-plugins.html[Developing Plugins]
+... link:js-api.html[JavaScript Plugin API]
 ... link:config-validation.html[Commit Validation]
 . Maintainer
 .. link:dev-release.html[Developer Release]

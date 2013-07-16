@@ -89,7 +89,7 @@ class Actions extends Composite {
 
     if (hasUser) {
       for (String id : filterNonCore(actions)) {
-        add(new ActionButton(changeId, actions.get(id)));
+        add(new ActionButton(info, actions.get(id)));
       }
     }
   }
@@ -112,7 +112,7 @@ class Actions extends Composite {
 
     if (hasUser) {
       for (String id : filterNonCore(actions)) {
-        add(new ActionButton(changeId, revision, actions.get(id)));
+        add(new ActionButton(info, revInfo, actions.get(id)));
       }
     }
   }

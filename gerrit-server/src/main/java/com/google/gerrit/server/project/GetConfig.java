@@ -19,7 +19,6 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.server.git.GitRepositoryManager;
 
 import java.util.Map;
 
@@ -28,39 +27,35 @@ public class GetConfig implements RestReadView<ProjectResource> {
   @Override
   public ConfigInfo apply(ProjectResource resource) {
     ConfigInfo result = new ConfigInfo();
-    RefControl refConfig = resource.getControl()
-        .controlForRef(GitRepositoryManager.REF_CONFIG);
     ProjectState state = resource.getControl().getProjectState();
-    if (refConfig.isVisible()) {
-      InheritedBooleanInfo useContributorAgreements = new InheritedBooleanInfo();
-      InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
-      InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
-      InheritedBooleanInfo requireChangeId = new InheritedBooleanInfo();
+    InheritedBooleanInfo useContributorAgreements = new InheritedBooleanInfo();
+    InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
+    InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
+    InheritedBooleanInfo requireChangeId = new InheritedBooleanInfo();
 
-      useContributorAgreements.value = state.isUseContributorAgreements();
-      useSignedOffBy.value = state.isUseSignedOffBy();
-      useContentMerge.value = state.isUseContentMerge();
-      requireChangeId.value = state.isRequireChangeID();
+    useContributorAgreements.value = state.isUseContributorAgreements();
+    useSignedOffBy.value = state.isUseSignedOffBy();
+    useContentMerge.value = state.isUseContentMerge();
+    requireChangeId.value = state.isRequireChangeID();
 
-      Project p = state.getProject();
-      useContributorAgreements.configuredValue = p.getUseContributorAgreements();
-      useSignedOffBy.configuredValue = p.getUseSignedOffBy();
-      useContentMerge.configuredValue = p.getUseContentMerge();
-      requireChangeId.configuredValue = p.getRequireChangeID();
+    Project p = state.getProject();
+    useContributorAgreements.configuredValue = p.getUseContributorAgreements();
+    useSignedOffBy.configuredValue = p.getUseSignedOffBy();
+    useContentMerge.configuredValue = p.getUseContentMerge();
+    requireChangeId.configuredValue = p.getRequireChangeID();
 
-      ProjectState parentState = Iterables.getFirst(state.parents(), null);
-      if (parentState != null) {
-        useContributorAgreements.inheritedValue = parentState.isUseContributorAgreements();
-        useSignedOffBy.inheritedValue = parentState.isUseSignedOffBy();
-        useContentMerge.inheritedValue = parentState.isUseContentMerge();
-        requireChangeId.inheritedValue = parentState.isRequireChangeID();
-      }
-
-      result.useContributorAgreements = useContributorAgreements;
-      result.useSignedOffBy = useSignedOffBy;
-      result.useContentMerge = useContentMerge;
-      result.requireChangeId = requireChangeId;
+    ProjectState parentState = Iterables.getFirst(state.parents(), null);
+    if (parentState != null) {
+      useContributorAgreements.inheritedValue = parentState.isUseContributorAgreements();
+      useSignedOffBy.inheritedValue = parentState.isUseSignedOffBy();
+      useContentMerge.inheritedValue = parentState.isUseContentMerge();
+      requireChangeId.inheritedValue = parentState.isRequireChangeID();
     }
+
+    result.useContributorAgreements = useContributorAgreements;
+    result.useSignedOffBy = useSignedOffBy;
+    result.useContentMerge = useContentMerge;
+    result.requireChangeId = requireChangeId;
 
     // commentlinks are visible to anyone, as they are used for linkification
     // on the client side.

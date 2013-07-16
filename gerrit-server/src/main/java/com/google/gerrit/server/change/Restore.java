@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.webui.UiCommand;
+import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -42,11 +42,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Set;
 
 public class Restore implements RestModifyView<ChangeResource, Input>,
-    UiCommand<ChangeResource> {
+    UiAction<ChangeResource> {
   private static final Logger log = LoggerFactory.getLogger(Restore.class);
 
   private final ChangeHooks hooks;
@@ -94,8 +92,8 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus() == Change.Status.ABANDONED) {
-              change.setStatus(Change.Status.NEW);
+            if (change.getStatus() == Status.ABANDONED) {
+              change.setStatus(Status.NEW);
               ChangeUtil.updated(change);
               return change;
             }
@@ -132,34 +130,11 @@ public class Restore implements RestModifyView<ChangeResource, Input>,
   }
 
   @Override
-  public Set<Place> getPlaces() {
-    return EnumSet.of(Place.PATCHSET_ACTION_PANEL);
-  }
-
-  @Override
-  public String getLabel(ChangeResource resource) {
-    return "Restore";
-  }
-
-  @Override
-  public String getTitle(ChangeResource resource) {
-    return null;
-  }
-
-  @Override
-  public boolean isVisible(ChangeResource resource) {
-    return isEnabled(resource);
-  }
-
-  @Override
-  public boolean isEnabled(ChangeResource resource) {
-    return resource.getChange().getStatus() == Change.Status.ABANDONED
-        && resource.getControl().canRestore();
-  }
-
-  @Override
-  public String getConfirmationMessage(ChangeResource resource) {
-    return null;
+  public UiAction.Description getDescription(ChangeResource resource) {
+    return new UiAction.Description()
+      .setLabel("Restore")
+      .setVisible(resource.getChange().getStatus() == Status.ABANDONED
+          && resource.getControl().canRestore());
   }
 
   private ChangeMessage newMessage(Input input, IdentifiedUser caller,

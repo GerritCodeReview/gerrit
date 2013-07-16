@@ -243,7 +243,6 @@ public class ChangeInfo extends JavaScriptObject {
     public final native String label() /*-{ return this.label; }-*/;
     public final native String title() /*-{ return this.title; }-*/;
     public final native boolean enabled() /*-{ return this.enabled || false; }-*/;
-    public final native String confirmation_message() /*-{ return this.confirmation_message; }-*/;
 
     protected ActionInfo() {
     }

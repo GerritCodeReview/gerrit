@@ -2317,10 +2317,6 @@ the user hovers the mouse.
 If true the action is permitted at this time and the caller is
 likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
-|`confirmation_message` |optional|
-Warning message to display to the user at the client side after
-the user has selected to use this action, but before the action
-request is sent to the server.
 |====================================
 
 [[add-reviewer-result]]

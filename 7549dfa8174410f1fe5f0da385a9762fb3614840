@@ -16,6 +16,24 @@
       "revId": "7549dfa8174410f1fe5f0da385a9762fb3614840",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13f6b349_1ff62312",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-16T21:59:28Z",
+      "side": 1,
+      "message": "Yes, there are probably more places we need to scrub for index updates. But it\u0027s definitely not going into this change, which is on stable-2.7 and thus has no index code at all :)",
+      "parentUuid": "33f1f750_40f16e18",
+      "revId": "7549dfa8174410f1fe5f0da385a9762fb3614840",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -232,6 +232,8 @@ public class CodeMirrorDemo extends Screen {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("scroll", doScroll(cm));
     // TODO: Prevent right click from updating the cursor.
+    cm.addKeyMap(KeyMap.create().on("'j'", moveCursorDown(cm, 1)));
+    cm.addKeyMap(KeyMap.create().on("'k'", moveCursorDown(cm, -1)));
     cm.addKeyMap(KeyMap.create().on("'u'", upToChange()));
     cm.addKeyMap(KeyMap.create().on("'o'", toggleOpenBox(cm)));
     cm.addKeyMap(KeyMap.create().on("Enter", toggleOpenBox(cm)));
@@ -239,9 +241,12 @@ public class CodeMirrorDemo extends Screen {
     if (Gerrit.isSignedIn()) {
       cm.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cm)));
     }
-    // TODO: Work on a better way for customizing keybindings.
-    for (String s : new String[]{"C", "O", "R", "U", "Ctrl-C", "Ctrl-F",
-        "Enter"}) {
+    /**
+     * TODO: Work on a better way for customizing keybindings and remove
+     * temporary navigation hacks.
+     */
+    for (String s : new String[]{"C", "J", "K", "O", "R", "U", "Ctrl-C",
+        "Ctrl-F", "Enter"}) {
       CodeMirror.disableUnwantedKey("vim", s);
     }
   }
@@ -742,6 +747,14 @@ public class CodeMirrorDemo extends Screen {
         if (box != null) {
           box.setOpen(!box.isOpen());
         }
+      }
+    };
+  }
+
+  private Runnable moveCursorDown(final CodeMirror cm, final int numLines) {
+    return new Runnable() {
+      public void run() {
+        cm.moveCursorDown(numLines);
       }
     };
   }

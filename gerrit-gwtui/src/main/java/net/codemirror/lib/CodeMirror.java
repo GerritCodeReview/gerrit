@@ -233,10 +233,15 @@ public class CodeMirror extends JavaScriptObject {
     $wnd.CodeMirror.keyMap[category][name] = undefined;
   }-*/;
 
-  public static native void defineVimEx(String name, String prefix, Runnable thunk) /*-{
+  public static final native void defineVimEx(String name, String prefix,
+      Runnable thunk) /*-{
     $wnd.CodeMirror.Vim.defineEx(name, prefix, $entry(function() {
       thunk.@java.lang.Runnable::run()();
     }));
+  }-*/;
+
+  public final native void moveCursorDown(int numLines) /*-{
+    this.moveV(numLines, "line");
   }-*/;
 
   public final native Element getGutterElement() /*-{

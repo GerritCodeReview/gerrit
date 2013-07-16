@@ -19,8 +19,8 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 
-interface Resources extends ClientBundle {
-  static final Resources I = GWT.create(Resources.class);
+public interface Resources extends ClientBundle {
+  public static final Resources I = GWT.create(Resources.class);
 
   @Source("star_open.png") ImageResource star_open();
   @Source("star_filled.png") ImageResource star_filled();
@@ -28,7 +28,9 @@ interface Resources extends ClientBundle {
   @Source("reload_white.png") ImageResource reload_white();
   @Source("common.css") Style style();
 
-  interface Style extends CssResource {
+  public interface Style extends CssResource {
     String button();
+    String popup();
+    String popupContent();
   }
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "473224d4_2a223fb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-16T10:32:37Z",
+      "side": 1,
+      "message": "As mentioned in another change, JavaScript callback concept can only be an addition to native Java support (per screen) to reload and redirect action outcome. While it is handy to show an alert, it is not appropriate for solving real world problems, like deleting a project, or deleting a patch set. Consider a plugin that delete current patch set. On response change screen must be reloaded to reflect the deletion on the screen.\n\nIOW i fail to see, how your design address the problem abovee, that is solved in this change:\n\n https://gerrit-review.googlesource.com/#/c/46422/",
+      "revId": "d9989188efaacc258637e7d503d97ea4fc56b4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "473224d4_0a257bb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-16T10:32:37Z",
+      "side": 1,
+      "message": "These properties seems to be very change screen and patch set action panel specific. What about other places? Group Admin, Project Admin, Plugin Admin, Settings, Preferences, and what not.\n\nI think we should find a way to pass to ActionContext place specific info objects. Or to set up a hierarchy of place specific PlaceActionContext, like RevisionActionContext, ProjectActionContext?",
+      "revId": "d9989188efaacc258637e7d503d97ea4fc56b4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

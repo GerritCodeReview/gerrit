@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e76238bf_b715c84f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:46:38Z",
+      "side": 1,
+      "message": "s/usefull/useful",
+      "revId": "fbfd01c04df2d3ec93d9207bb3da5174d88bb7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76238bf_9710c460",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:46:38Z",
+      "side": 1,
+      "message": "Should be indented with tab same as other option descriptions.\n\nFull-stop is missing at the end of the sentence.",
+      "revId": "fbfd01c04df2d3ec93d9207bb3da5174d88bb7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76238bf_d70a3c2e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:46:38Z",
+      "side": 1,
+      "message": "s/--listPlugins/--list-plugins",
+      "revId": "fbfd01c04df2d3ec93d9207bb3da5174d88bb7f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

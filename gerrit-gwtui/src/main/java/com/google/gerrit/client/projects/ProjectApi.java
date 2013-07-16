@@ -70,8 +70,9 @@ public class ProjectApi {
     group.done();
   }
 
-  static RestApi config(Project.NameKey name) {
-    return new RestApi("/projects/").id(name.get()).view("config");
+  public static void getConfig(Project.NameKey name,
+      AsyncCallback<ConfigInfo> cb) {
+    new RestApi("/projects/").id(name.get()).view("config").get(cb);
   }
 
   private static class ProjectInput extends JavaScriptObject {

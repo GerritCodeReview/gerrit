@@ -34,6 +34,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -46,9 +47,12 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -70,15 +74,26 @@ import java.util.List;
 import java.util.Map;
 
 public class CodeMirrorDemo extends Screen {
-  private static final int HEADER_FOOTER = 60 + 15 * 2 + 38;
+  interface Binder extends UiBinder<HTMLPanel, CodeMirrorDemo> {}
+  private static Binder uiBinder = GWT.create(Binder.class);
+
+  private static final int HEADER_FOOTER = 60 + 15 * 2 + 38 + 30 * 2;
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
+
+  @UiField(provided=true)
+  ReviewedPanel reviewedTop;
+
+  @UiField(provided=true)
+  ReviewedPanel reviewedBottom;
+
+  @UiField(provided=true)
+  DiffTable diffTable;
 
   private final PatchSet.Id base;
   private final PatchSet.Id revision;
   private final String path;
 
-  private DiffTable diffTable;
   private CodeMirror cmA;
   private CodeMirror cmB;
   private HandlerRegistration resizeHandler;
@@ -105,19 +120,24 @@ public class CodeMirrorDemo extends Screen {
       PatchSet.Id base,
       PatchSet.Id revision,
       String path) {
+
     this.base = base;
     this.revision = revision;
     this.path = path;
     this.keyHandlers = new ArrayList<HandlerRegistration>(4);
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
+    reviewedTop = new ReviewedPanel(revision, path, false);
+    reviewedBottom = new ReviewedPanel(revision, path, true);
+    ReviewedPanel.link(reviewedTop, reviewedBottom);
+    add(diffTable = new DiffTable());
+    add(uiBinder.createAndBindUi(this));
   }
 
   @Override
   protected void onInitUI() {
     super.onInitUI();
     setHeaderVisible(false);
-    add(diffTable = new DiffTable());
   }
 
   @Override
@@ -238,6 +258,7 @@ public class CodeMirrorDemo extends Screen {
     cm.addKeyMap(KeyMap.create().on("'o'", toggleOpenBox(cm)));
     cm.addKeyMap(KeyMap.create().on("Enter", toggleOpenBox(cm)));
     CodeMirror.defineVimEx("up", "u", upToChange());
+    CodeMirror.defineVimEx("mark", "m", toggleReviewed());
     if (Gerrit.isSignedIn()) {
       cm.addKeyMap(KeyMap.create().on("'c'", insertNewDraft(cm)));
     }
@@ -262,6 +283,7 @@ public class CodeMirrorDemo extends Screen {
 
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysAction.add(new NoOpKeyCommand(0, 'o', PatchUtil.C.expandComment()));
+    keysAction.add(new NoOpKeyCommand(0, 'm', PatchUtil.C.toggleReviewed()));
 
     keysOpenByEnter = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysOpenByEnter.add(new NoOpKeyCommand(0, KeyCodes.KEY_ENTER,
@@ -287,8 +309,8 @@ public class CodeMirrorDemo extends Screen {
   }
 
   private void display(DiffInfo diffInfo) {
-    cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.getCmA());
-    cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.getCmB());
+    cmA = displaySide(diffInfo.meta_a(), diffInfo.text_a(), diffTable.cmA);
+    cmB = displaySide(diffInfo.meta_b(), diffInfo.text_b(), diffTable.cmB);
     skips = new ArrayList<SkippedLine>();
     render(diffInfo);
     initialBoxes = new ArrayList<CommentBox>();
@@ -533,6 +555,10 @@ public class CodeMirrorDemo extends Screen {
   }
 
   private void renderSkips() {
+    if (context == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+      skips.clear();
+      return;
+    }
     for (CommentBox box : initialBoxes) {
       List<SkippedLine> temp = new ArrayList<SkippedLine>();
       for (SkippedLine skip : skips) {
@@ -544,20 +570,20 @@ public class CodeMirrorDemo extends Screen {
         int deltaBefore = boxLine - startLine;
         int deltaAfter = startLine + skip.getSize() - boxLine;
         if (deltaBefore < -context || deltaAfter < -context) {
-          temp.add(skip);
+          checkAndAddSkip(temp, skip);
         } else if (deltaBefore > context && deltaAfter > context) {
           SkippedLine before = new SkippedLine(
               skip.getStartA(), skip.getStartB(),
               skip.getSize() - deltaAfter - context);
           skip.incrementStart(deltaBefore + context);
-          temp.add(before);
-          temp.add(skip);
+          checkAndAddSkip(temp, before);
+          checkAndAddSkip(temp, skip);
         } else if (deltaAfter > context) {
           skip.incrementStart(deltaBefore + context);
-          temp.add(skip);
+          checkAndAddSkip(temp, skip);
         } else if (deltaBefore > context) {
           skip.reduceSize(deltaAfter + context);
-          temp.add(skip);
+          checkAndAddSkip(temp, skip);
         }
       }
       skips = temp;
@@ -567,6 +593,14 @@ public class CodeMirrorDemo extends Screen {
       SkipBar barB = renderSkipHelper(cmB, skip);
       SkipBar.link(barA, barB);
     }
+  }
+
+  private List<SkippedLine> checkAndAddSkip(List<SkippedLine> list,
+      SkippedLine toAdd) {
+    if (toAdd.getSize() > 1) {
+      list.add(toAdd);
+    }
+    return list;
   }
 
   private SkipBar renderSkipHelper(CodeMirror cm, SkippedLine skip) {
@@ -766,6 +800,14 @@ public class CodeMirrorDemo extends Screen {
           revision.getParentKey(),
           String.valueOf(revision.get())));
       }
+    };
+  }
+
+  private Runnable toggleReviewed() {
+    return new Runnable() {
+     public void run() {
+       reviewedTop.setReviewed(!reviewedTop.isReviewed());
+     }
     };
   }
 

@@ -53,14 +53,6 @@ class DiffTable extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  Element getCmA() {
-    return cmA;
-  }
-
-  Element getCmB() {
-    return cmB;
-  }
-
   void add(Widget widget) {
     ((HTMLPanel) getWidget()).add(widget);
   }

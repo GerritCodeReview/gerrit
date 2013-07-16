@@ -356,7 +356,7 @@ public class ChangeScreen2 extends Screen {
     quickApprove.set(info, revision);
 
     boolean hasConflict = Gerrit.getConfig().testChangeMerge() && !info.mergeable();
-    setVisible(notMergeable, hasConflict);
+    setVisible(notMergeable, info.status().isOpen() && hasConflict);
 
     if (Gerrit.isSignedIn()) {
       replyAction = new ReplyAction(info, revision, style, reply);

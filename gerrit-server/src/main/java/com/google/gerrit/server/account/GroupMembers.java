@@ -20,8 +20,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
@@ -41,6 +44,7 @@ public class GroupMembers {
   private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountCache accountCache;
   private final ProjectControl.GenericFactory projectControl;
+//  private final ChangeControl.GenericFactory changeControl;
   private final CurrentUser currentUser;
 
   @Inject
@@ -48,11 +52,13 @@ public class GroupMembers {
       final GroupDetailFactory.Factory groupDetailFactory,
       final AccountCache accountCache,
       final ProjectControl.GenericFactory projectControl,
+//      final ChangeControl.GenericFactory changeControl,
       @Assisted final CurrentUser currentUser) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
     this.accountCache = accountCache;
     this.projectControl = projectControl;
+//    this.changeControl = changeControl;
     this.currentUser = currentUser;
   }
 

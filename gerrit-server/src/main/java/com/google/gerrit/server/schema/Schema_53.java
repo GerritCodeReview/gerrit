@@ -127,6 +127,9 @@ class Schema_53 extends SchemaVersion {
         g.setGroupUUID(AccountGroup.PROJECT_OWNERS);
         projectOwners = GroupReference.forGroup(g);
 
+      } else if (g.getId().equals(systemConfig.changeOwnerGroupId)) {
+        g.setGroupUUID(AccountGroup.CHANGE_OWNERS);
+
       } else if (g.getId().equals(systemConfig.anonymousGroupId)) {
         g.setGroupUUID(AccountGroup.ANONYMOUS_USERS);
 

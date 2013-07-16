@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "473224d4_2af95f01",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-16T06:19:57Z",
+      "side": 1,
+      "message": "Good question. I actually wasn\u0027t thinking much about this.\n\nYes, they are visible when the user does not have read access to refs/meta/config and I actually think the same should be true for the inherited boolean values above. I\u0027ve made a separate change to change this [1].\n\n[1] https://gerrit-review.googlesource.com/47890",
+      "parentUuid": "274e1057_97450c83",
+      "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "274e1057_7768a8f5",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-16T02:23:01Z",
       "side": 1,
       "message": "s/fromatted/formatted",
+      "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "473224d4_eaf66713",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-16T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "274e1057_7768a8f5",
       "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "473224d4_0afc9bf0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-16T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76238bf_17fcb4f0",
+      "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76238bf_37f9b801",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-16T02:23:01Z",
       "side": 1,
       "message": "s/fromatted/formatted",
+      "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7253491_46069230",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-16T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76238bf_37f9b801",
       "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

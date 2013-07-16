@@ -393,12 +393,38 @@ public class RefControl {
     return r;
   }
 
+  /** Value range of a label permission. */
+  public PermissionRange getLabelRange(String permission) {
+    PermissionRange r = null;
+    for (Map.Entry<String, List<PermissionRule>> e : relevant.getDeclaredPermissions()) {
+      if (Permission.isLabel(e.getKey())) {
+        int min = 0;
+        int max = 0;
+        if (e.getKey().equals(permission)) {
+          for (PermissionRule rule : e.getValue()) {
+            min = Math.min(min, rule.getMin());
+            max = Math.max(max, rule.getMax());
+          }
+        }
+        if (min != 0 || max != 0) {
+          r = new PermissionRange(permission, min, max);
+        }
+      }
+    }
+    return r;
+  }
+
   /** The range of permitted values associated with a label permission. */
   public PermissionRange getRange(String permission) {
     if (Permission.isLabel(permission)) {
       return toRange(permission, access(permission));
     }
     return null;
+  }
+
+  /** The list of rules for a label permission */
+  public List<PermissionRule> getRules(String permission) {
+    return relevant.getPermission(permission);
   }
 
   private static class AllowedRange {

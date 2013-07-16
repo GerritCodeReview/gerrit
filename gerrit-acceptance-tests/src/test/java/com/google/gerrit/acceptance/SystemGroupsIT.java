@@ -64,6 +64,7 @@ public class SystemGroupsIT extends AbstractDaemonTest {
     String result = session.exec("gerrit ls-groups");
     assertTrue(result.contains("Administrators"));
     assertTrue(result.contains("Anonymous Users"));
+    assertTrue(result.contains("Change Owners"));
     assertTrue(result.contains("Non-Interactive Users"));
     assertTrue(result.contains("Project Owners"));
     assertTrue(result.contains("Registered Users"));
@@ -80,6 +81,7 @@ public class SystemGroupsIT extends AbstractDaemonTest {
     Set<String> names = result.keySet();
     assertTrue(names.contains("Administrators"));
     assertTrue(names.contains("Anonymous Users"));
+    assertTrue(names.contains("Change Owners"));
     assertTrue(names.contains("Non-Interactive Users"));
     assertTrue(names.contains("Project Owners"));
     assertTrue(names.contains("Registered Users"));
@@ -95,6 +97,7 @@ public class SystemGroupsIT extends AbstractDaemonTest {
       }
       assertTrue(names.contains("Administrators"));
       assertTrue(names.contains("Anonymous Users"));
+      assertTrue(names.contains("Change Owners"));
       assertTrue(names.contains("Non-Interactive Users"));
       assertTrue(names.contains("Project Owners"));
       assertTrue(names.contains("Registered Users"));

@@ -16,9 +16,11 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -223,9 +225,25 @@ public class ChangeControl {
     return getRefControl().getLabelRanges();
   }
 
+  /** Check permission rules for an associated group */
+  private boolean rulesContainGroup(List<PermissionRule> rules,
+                                    AccountGroup.UUID group) {
+    for (PermissionRule rule : rules) {
+      if (rule.getGroup().getUUID().equals(group)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /** The range of permitted values associated with a label permission. */
   public PermissionRange getRange(String permission) {
-    return getRefControl().getRange(permission);
+    List<PermissionRule> rules = getRefControl().getRules(permission);
+    if (isOwner() && rulesContainGroup(rules, AccountGroup.CHANGE_OWNERS)) {
+      return getRefControl().getLabelRange(permission);
+    } else {
+      return getRefControl().getRange(permission);
+    }
   }
 
   /** Can this user add a patch set to this change? */

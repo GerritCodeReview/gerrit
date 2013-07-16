@@ -41,6 +41,10 @@ link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/config-mai
 footer template] that will be appended to the end of all outgoing emails after
 the 'ChangeFooter' and 'CommentFooter'.
 
+* New `topic-changed` hook and stream event is fired when a change's topic is
+edited from the Web UI or via a REST API.
+
+
 Web UI
 ~~~~~~
 
@@ -62,12 +66,23 @@ Change Screens
 If the user has more than one email address, the preferred email address will
 be used.
 
+* Default user's full name to git committer name if user has not configured a
+full name in their profile.
+
+* Include comment author attributes in comment panels.
++
+Comment author's email address and name are included as attributes in comment
+panels.  This makes it easier to filter out CI-based comments using user
+scripts.
+
 
 REST API
 ~~~~~~~~
 
-Several new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api.html[
+* Several new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api.html[
 REST API endpoints] are added.
+
+* REST views can determine how long their response should be cached.
 
 Access Rights
 ^^^^^^^^^^^^^
@@ -159,6 +174,9 @@ Get revision as a formatted patch]
 * link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-diff[
 Get diff of a file in a revision]
 
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.8/rest-api-changes.html#get-commit[
+Get parsed commit of a revision]
+
 
 Config
 ^^^^^^
@@ -215,6 +233,13 @@ Site administrators do not inherit this capability;  it must be granted
 explicitly.
 
 
+Emails
+~~~~~~
+
+* The `RebasedPatchSet` template is removed.  Email notifications for rebased
+changes are now sent with the `ReplacePatchSet` template.
+
+
 Plugins
 ~~~~~~~
 
@@ -224,6 +249,9 @@ Global
 
 
 * Plugins may now contribute buttons to various parts of the UI.
+
+* Plugins may now provide an 'About' section on their documentation index page.
+
 
 Commit Message Length Checker
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -270,6 +298,16 @@ non-interactive (batch) mode.
 Bug Fixes
 ---------
 
+
+Configuration
+~~~~~~~~~~~~~
+
+
+* Do not persist default project state in `project.config`.
+
+* Honor `gerrit.cannonicalWebUrl` when opening browser after init.
+
+* Fix 'query disabled' error when Query Limit is set.
 
 Web UI
 ~~~~~~
@@ -340,6 +378,13 @@ Provide more informative error messages when rejecting updates.
 +
 This allows consumers of the event stream to determine whether or not
 the event is related to a draft patch set.
+
+
+Emails
+~~~~~~
+
+* Email notifications are sent for new changes created via actions in the
+Web UI such as cherry-picking or reverting a change.
 
 
 Tools

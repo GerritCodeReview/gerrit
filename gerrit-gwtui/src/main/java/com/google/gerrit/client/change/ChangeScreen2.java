@@ -240,6 +240,7 @@ public class ChangeScreen2 extends Screen {
     CallbackGroup group = new CallbackGroup();
     loadDiff(rev, group);
     loadCommit(rev, group);
+    ConfigInfoCache.add(info);
     ConfigInfoCache.get(info.project_name_key(),
       group.add(new ScreenLoadCallback<ConfigInfoCache.Entry>(this) {
         @Override

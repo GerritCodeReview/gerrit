@@ -15,8 +15,6 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeApi;
-import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.CommentApi;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.DiffInfo.Region;
@@ -36,7 +34,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.Side;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
@@ -162,12 +159,8 @@ public class CodeMirrorDemo extends Screen {
     } else {
       drafts = JsArray.createArray().cast();
     }
-    ChangeApi.detail(revision.getParentKey().get(), new GerritCallback<ChangeInfo>() {
-      @Override
-      public void onSuccess(ChangeInfo result) {
-        Project.NameKey project = result.project_name_key();
-        ConfigInfoCache.get(project, group.addFinal(
-            new ScreenLoadCallback<ConfigInfoCache.Entry>(CodeMirrorDemo.this) {
+    ConfigInfoCache.get(revision.getParentKey(), group.addFinal(
+        new ScreenLoadCallback<ConfigInfoCache.Entry>(CodeMirrorDemo.this) {
           @Override
           protected void preDisplay(ConfigInfoCache.Entry result) {
             commentLinkProcessor = result.getCommentLinkProcessor();
@@ -178,8 +171,6 @@ public class CodeMirrorDemo extends Screen {
             display(diffInfo);
           }
         }));
-      }
-    });
   }
 
   @Override

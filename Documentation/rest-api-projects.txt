@@ -1090,9 +1090,11 @@ valid link:user-changeid.html[Change-Id] footer in any commit uploaded
 for review is required. This does not apply to commits pushed directly
 to a branch or tag.
 |`commentlinks`               ||
-Comment link configuration for the project. Has the same format as the
-link:config-gerrit.html#_a_id_commentlink_a_section_commentlink[commentlink section]
-of `gerrit.config`.
+Map with the comment link configurations of the project. The name of
+the comment link configuration is mapped to the comment link
+configuration, which has the same format as the
+link:config-gerrit.html#_a_id_commentlink_a_section_commentlink[
+commentlink section] of `gerrit.config`.
 |==========================================
 
 [[dashboard-info]]

@@ -15,14 +15,18 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.access.AccessMap;
+import com.google.gerrit.client.access.ProjectAccessInfo;
 import com.google.gerrit.client.download.DownloadPanel;
+import com.google.gerrit.client.projects.ConfigInfo;
+import com.google.gerrit.client.projects.ConfigInfo.InheritedBooleanInfo;
+import com.google.gerrit.client.projects.ProjectApi;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
@@ -39,9 +43,8 @@ import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class ProjectInfoScreen extends ProjectScreen {
-  private String projectName;
-  private Project project;
-  private ProjectDetail projectDetail;
+  private boolean isOwner;
+  private Project.NameKey parent;
 
   private LabeledWidgetsGrid grid;
 
@@ -63,7 +66,6 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   public ProjectInfoScreen(final Project.NameKey toShow) {
     super(toShow);
-    projectName = toShow.get();
   }
 
   @Override
@@ -78,7 +80,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     });
 
-    add(new ProjectDownloadPanel(projectName, true));
+    add(new ProjectDownloadPanel(getProjectKey().get(), true));
 
     initDescription();
     grid = new LabeledWidgetsGrid();
@@ -91,44 +93,49 @@ public class ProjectInfoScreen extends ProjectScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.PROJECT_SVC.projectDetail(getProjectKey(),
-        new ScreenLoadCallback<ProjectDetail>(this) {
-          public void preDisplay(final ProjectDetail result) {
-            enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType, result.canModifyState,
-                result.canModifyMaxObjectSizeLimit);
-            saveProject.setVisible(
-                result.canModifyAgreements ||
-                result.canModifyDescription ||
-                result.canModifyMergeType ||
-                result.canModifyState);
+
+    Project.NameKey project = getProjectKey();
+    CallbackGroup cbg = new CallbackGroup();
+    AccessMap.get(project,
+        cbg.add(new GerritCallback<ProjectAccessInfo>() {
+          @Override
+          public void onSuccess(ProjectAccessInfo result) {
+            isOwner = result.isOwner();
+            enableForm();
+            saveProject.setVisible(isOwner);
+          }
+        }));
+    ProjectApi.getParent(project,
+        cbg.add(new GerritCallback<Project.NameKey>() {
+          @Override
+          public void onSuccess(Project.NameKey result) {
+            parent = result;
+          }
+        }));
+    ProjectApi.getConfig(project,
+        cbg.addFinal(new ScreenLoadCallback<ConfigInfo>(this) {
+          @Override
+          public void preDisplay(ConfigInfo result) {
             display(result);
           }
-        });
+        }));
+
     savedPanel = INFO;
   }
 
   private void enableForm() {
-    if (projectDetail != null) {
-      enableForm(projectDetail.canModifyAgreements,
-          projectDetail.canModifyDescription,
-          projectDetail.canModifyMergeType,
-          projectDetail.canModifyState,
-          projectDetail.canModifyMaxObjectSizeLimit);
-    }
+    enableForm(isOwner);
   }
 
-  private void enableForm(final boolean canModifyAgreements,
-      final boolean canModifyDescription, final boolean canModifyMergeType,
-      final boolean canModifyState, final boolean canModifyMaxObjectSizeLimit) {
-    submitType.setEnabled(canModifyMergeType);
-    state.setEnabled(canModifyState);
-    contentMerge.setEnabled(canModifyMergeType);
-    descTxt.setEnabled(canModifyDescription);
-    contributorAgreements.setEnabled(canModifyAgreements);
-    signedOffBy.setEnabled(canModifyAgreements);
-    requireChangeID.setEnabled(canModifyMergeType);
-    maxObjectSizeLimit.setEnabled(canModifyMaxObjectSizeLimit);
+  private void enableForm(boolean isOwner) {
+    submitType.setEnabled(isOwner);
+    state.setEnabled(isOwner);
+    contentMerge.setEnabled(isOwner);
+    descTxt.setEnabled(isOwner);
+    contributorAgreements.setEnabled(isOwner);
+    signedOffBy.setEnabled(isOwner);
+    requireChangeID.setEnabled(isOwner);
+    maxObjectSizeLimit.setEnabled(isOwner);
   }
 
   private void initDescription() {
@@ -199,9 +206,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     if (SubmitType.FAST_FORWARD_ONLY.equals(Project.SubmitType
         .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
       contentMerge.setEnabled(false);
-      final InheritedBoolean inheritedBoolean = new InheritedBoolean();
-      inheritedBoolean.setValue(InheritableBoolean.FALSE);
-      setBool(contentMerge, inheritedBoolean);
+      InheritedBooleanInfo b = InheritedBooleanInfo.create();
+      b.setConfiguredValue(InheritableBoolean.FALSE);
+      setBool(contentMerge, b);
     } else {
       contentMerge.setEnabled(submitType.isEnabled());
     }
@@ -246,18 +253,18 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
   }
 
-  private void setBool(ListBox box, InheritedBoolean inheritedBoolean) {
+  private void setBool(ListBox box, InheritedBooleanInfo inheritedBoolean) {
     int inheritedIndex = -1;
     for (int i = 0; i < box.getItemCount(); i++) {
       if (box.getValue(i).startsWith(InheritableBoolean.INHERIT.name())) {
         inheritedIndex = i;
       }
-      if (box.getValue(i).startsWith(inheritedBoolean.value.name())) {
+      if (box.getValue(i).startsWith(inheritedBoolean.configured_value().name())) {
         box.setSelectedIndex(i);
       }
     }
     if (inheritedIndex >= 0) {
-      if (project.getParent(Gerrit.getConfig().getWildProject()) == null) {
+      if (parent.equals(Gerrit.getConfig().getWildProject())) {
         if (box.getSelectedIndex() == inheritedIndex) {
           for (int i = 0; i < box.getItemCount(); i++) {
             if (box.getValue(i).equals(InheritableBoolean.FALSE.name())) {
@@ -269,7 +276,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         box.removeItem(inheritedIndex);
       } else {
         box.setItemText(inheritedIndex, InheritableBoolean.INHERIT.name() + " ("
-            + inheritedBoolean.inheritedValue + ")");
+            + inheritedBoolean.inherited_value() + ")");
       }
     }
   }
@@ -286,53 +293,38 @@ public class ProjectInfoScreen extends ProjectScreen {
     return InheritableBoolean.INHERIT;
   }
 
-  void display(final ProjectDetail result) {
-    project = result.project;
-
-    descTxt.setText(project.getDescription());
-    setBool(contributorAgreements, result.useContributorAgreements);
-    setBool(signedOffBy, result.useSignedOffBy);
-    setBool(contentMerge, result.useContentMerge);
-    setBool(requireChangeID, result.requireChangeID);
-    setSubmitType(project.getSubmitType());
-    setState(project.getState());
-    maxObjectSizeLimit.setText(project.getMaxObjectSizeLimit());
+  void display(ConfigInfo result) {
+    descTxt.setText(result.description());
+    setBool(contributorAgreements, result.use_contributor_agreements());
+    setBool(signedOffBy, result.use_signed_off_by());
+    setBool(contentMerge, result.use_content_merge());
+    setBool(requireChangeID, result.require_change_id());
+    setSubmitType(result.submit_type());
+    setState(result.state());
+    maxObjectSizeLimit.setText(result.max_object_size_limit().configured_value());
 
     saveProject.setEnabled(false);
-
-    projectDetail = result;
   }
 
   private void doSave() {
-    project.setDescription(descTxt.getText().trim());
-    project.setUseContributorAgreements(getBool(contributorAgreements));
-    project.setUseSignedOffBy(getBool(signedOffBy));
-    project.setUseContentMerge(getBool(contentMerge));
-    project.setRequireChangeID(getBool(requireChangeID));
-    project.setMaxObjectSizeLimit(maxObjectSizeLimit.getText().trim());
-    if (submitType.getSelectedIndex() >= 0) {
-      project.setSubmitType(Project.SubmitType.valueOf(submitType
-          .getValue(submitType.getSelectedIndex())));
-    }
-    if (state.getSelectedIndex() >= 0) {
-      project.setState(Project.State.valueOf(state
-          .getValue(state.getSelectedIndex())));
-    }
-
-    enableForm(false, false, false, false, false);
-
-    Util.PROJECT_SVC.changeProjectSettings(project,
-        new GerritCallback<ProjectDetail>() {
-          public void onSuccess(final ProjectDetail result) {
-            enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType, result.canModifyState,
-                result.canModifyMaxObjectSizeLimit);
+    enableForm(false);
+    ProjectApi.setConfig(getProjectKey(), descTxt.getText().trim(),
+        getBool(contributorAgreements), getBool(contentMerge),
+        getBool(signedOffBy), getBool(requireChangeID),
+        maxObjectSizeLimit.getText().trim(),
+        Project.SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())),
+        Project.State.valueOf(state.getValue(state.getSelectedIndex())),
+        new GerritCallback<ConfigInfo>() {
+          @Override
+          public void onSuccess(ConfigInfo result) {
+            enableForm();
             display(result);
           }
+
           @Override
           public void onFailure(Throwable caught) {
-            super.onFailure(caught);
             enableForm();
+            super.onFailure(caught);
           }
         });
   }

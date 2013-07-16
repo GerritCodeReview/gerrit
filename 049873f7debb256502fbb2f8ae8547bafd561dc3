@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7253491_c60a822e",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.2.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-16T06:30:13Z",
+      "side": 1,
+      "message": "I\u0027m actually not convinced that the NullPointerException that was fixed has anything to do with the \u0027owner:self\u0027 query. I initially made this fix, because I was seeing this exception in the logs of our Gerrit instance, but on this instance the \u0027owner:self\u0027 query is just working fine. Also from the code where is the exception occurs it is unlikely to be related to \u0027owner:self\u0027.",
+      "revId": "049873f7debb256502fbb2f8ae8547bafd561dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

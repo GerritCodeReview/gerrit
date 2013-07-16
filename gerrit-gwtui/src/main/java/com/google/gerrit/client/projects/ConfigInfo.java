@@ -15,7 +15,9 @@
 package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwtexpui.safehtml.client.FindReplace;
@@ -26,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigInfo extends JavaScriptObject {
+  public final native String description()
+  /*-{ return this.description }-*/;
+
   public final native InheritedBooleanInfo require_change_id()
   /*-{ return this.require_change_id; }-*/;
 
@@ -37,6 +42,24 @@ public class ConfigInfo extends JavaScriptObject {
 
   public final native InheritedBooleanInfo use_signed_off_by()
   /*-{ return this.use_signed_off_by; }-*/;
+
+  public final SubmitType submit_type() {
+    return SubmitType.valueOf(submit_typeRaw());
+  }
+  private final native String submit_typeRaw()
+  /*-{ return this.submit_type }-*/;
+
+  public final Project.State state() {
+    if (stateRaw() == null) {
+      return Project.State.ACTIVE;
+    }
+    return Project.State.valueOf(stateRaw());
+  }
+  private final native String stateRaw()
+  /*-{ return this.state }-*/;
+
+  public final native MaxObjectSizeLimitInfo max_object_size_limit()
+  /*-{ return this.max_object_size_limit; }-*/;
 
   private final native NativeMap<CommentLinkInfo> commentlinks0()
   /*-{ return this.commentlinks; }-*/;
@@ -75,6 +98,10 @@ public class ConfigInfo extends JavaScriptObject {
   }
 
   public static class InheritedBooleanInfo extends JavaScriptObject {
+    public static InheritedBooleanInfo create() {
+      return (InheritedBooleanInfo) createObject();
+    }
+
     public final native boolean value()
     /*-{ return this.value ? true : false; }-*/;
 
@@ -87,7 +114,22 @@ public class ConfigInfo extends JavaScriptObject {
     private final native String configured_valueRaw()
     /*-{ return this.configured_value }-*/;
 
+    public final void setConfiguredValue(InheritableBoolean v) {
+      setConfiguredValueRaw(v.name());
+    }
+    public final native void setConfiguredValueRaw(String v)
+    /*-{ if(v)this.configured_value=v; }-*/;
+
     protected InheritedBooleanInfo() {
+    }
+  }
+
+  public static class MaxObjectSizeLimitInfo extends JavaScriptObject {
+    public final native String value() /*-{ return this.value; }-*/;
+    public final native String inherited_value() /*-{ return this.inherited_value; }-*/;
+    public final native String configured_value() /*-{ return this.configured_value }-*/;
+
+    protected MaxObjectSizeLimitInfo() {
     }
   }
 }

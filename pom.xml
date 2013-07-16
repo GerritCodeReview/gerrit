@@ -53,7 +53,7 @@ limitations under the License.
     <gwtVersion>2.5.0</gwtVersion>
     <bouncyCastleVersion>140</bouncyCastleVersion>
     <slf4jVersion>1.6.1</slf4jVersion>
-    <guiceVersion>3.0</guiceVersion>
+    <guiceVersion>3.1.0-SNAPSHOT</guiceVersion>
     <jettyVersion>8.1.7.v20120910</jettyVersion>
 
     <gwt.compileReport>false</gwt.compileReport>

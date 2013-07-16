@@ -1,0 +1,45 @@
+From 908cbd94302cd5ebe24f205ea09059172afe7e85 Mon Sep 17 00:00:00 2001
+From: David Ostrovsky <david@ostrovsky.org>
+Date: Tue, 16 Jul 2013 23:15:19 +0200
+Subject: [PATCH] adapt GuiceFilter to inject the right pipeline
+
+---
+ extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java b/extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java
+index a439dba..42b21d9 100644
+--- a/extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java
++++ b/extensions/servlet/src/com/google/inject/servlet/GuiceFilter.java
+@@ -19,6 +19,7 @@ package com.google.inject.servlet;
+ import com.google.common.base.Preconditions;
+ import com.google.common.base.Throwables;
+ import com.google.inject.Inject;
++import com.google.inject.Injector;
+ import com.google.inject.OutOfScopeException;
+ 
+ import java.io.IOException;
+@@ -67,7 +68,7 @@ public class GuiceFilter implements Filter {
+   /**
+    * We allow both the static and dynamic versions of the pipeline to exist.
+    */
+-  private final FilterPipeline injectedPipeline;
++  private FilterPipeline injectedPipeline;
+ 
+   /** Used to inject the servlets configured via {@link ServletModule} */
+   static volatile WeakReference<ServletContext> servletContext =
+@@ -217,6 +218,11 @@ public class GuiceFilter implements Filter {
+     // Store servlet context in a weakreference, for injection
+     GuiceFilter.servletContext = new WeakReference<ServletContext>(servletContext);
+ 
++    Injector injector = (Injector) servletContext.getAttribute(Injector.class.getName());
++    if (injector != null && injectedPipeline == null) {
++	injectedPipeline = injector.getInstance(FilterPipeline.class);
++    }
++
+     // In the default pipeline, this is a noop. However, if replaced
+     // by a managed pipeline, a lazy init will be triggered the first time
+     // dispatch occurs.
+-- 
+1.8.1.4
+

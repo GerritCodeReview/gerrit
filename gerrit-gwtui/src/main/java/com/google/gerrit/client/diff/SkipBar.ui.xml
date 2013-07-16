@@ -29,27 +29,24 @@ limitations under the License.
       font-style: italic;
       overflow: hidden;
     }
-    .isLineWidget .text {
-      padding-left: 31px;
-    }
     .anchor {
       color: inherit;
       text-decoration: none;
     }
-    .noExpand {
+    .noExpand .arrow {
       display: none;
     }
   </ui:style>
   <g:HTMLPanel addStyleNames='{style.skipBar}'>
   <div class='{style.text}'>
     <ui:msg>
-      <g:Anchor ui:field='upArrow' addStyleNames='{style.anchor}'>
+      <g:Anchor ui:field='upArrow' addStyleNames='{style.arrow} {style.anchor}'>
       </g:Anchor>
       <span><ui:msg>... skipped </ui:msg></span>
       <g:Anchor ui:field='skipNum' addStyleNames='{style.anchor}'>
       </g:Anchor>
       <span><ui:msg> common lines ...</ui:msg></span>
-      <g:Anchor ui:field='downArrow' addStyleNames='{style.anchor}'>
+      <g:Anchor ui:field='downArrow' addStyleNames=' {style.arrow} {style.anchor}'>
       </g:Anchor>
     </ui:msg>
   </div>

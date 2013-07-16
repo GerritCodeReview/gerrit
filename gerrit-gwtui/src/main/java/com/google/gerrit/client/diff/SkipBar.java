@@ -16,6 +16,9 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
@@ -45,7 +48,6 @@ class SkipBar extends Composite {
   private LineWidget widget;
 
   interface SkipBarStyle extends CssResource {
-    String isLineWidget();
     String noExpand();
   }
 
@@ -80,9 +82,15 @@ class SkipBar extends Composite {
     }, ClickEvent.getType());
   }
 
-  void setWidget(LineWidget widget) {
-    this.widget = widget;
-    addStyleName(style.isLineWidget());
+  void setWidget(LineWidget lineWidget) {
+    widget = lineWidget;
+    Scheduler.get().scheduleDeferred(new ScheduledCommand(){
+      @Override
+      public void execute() {
+        getElement().getStyle().setPaddingLeft(
+            cm.getGutterElement().getOffsetWidth(), Unit.PX);
+      }
+    });
   }
 
   void setMarker(TextMarker marker, int length) {
@@ -108,8 +116,7 @@ class SkipBar extends Composite {
 
   private boolean checkAndUpdateArrows() {
     if (numSkipLines <= UP_DOWN_THRESHOLD) {
-      upArrow.addStyleName(style.noExpand());
-      downArrow.addStyleName(style.noExpand());
+      addStyleName(style.noExpand());
       return false;
     }
     return true;

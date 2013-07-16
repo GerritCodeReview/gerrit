@@ -55,9 +55,6 @@ class DraftBox extends CommentBox {
   NpTextArea editArea;
 
   @UiField
-  DraftBoxStyle draftStyle;
-
-  @UiField
   Button edit;
 
   @UiField
@@ -68,6 +65,9 @@ class DraftBox extends CommentBox {
 
   @UiField
   Button discard;
+
+  @UiField
+  DraftBoxStyle draftStyle;
 
   private static final int INITIAL_COLS = 60;
   private static final int INITIAL_LINES = 5;
@@ -92,18 +92,18 @@ class DraftBox extends CommentBox {
     editArea.setCharacterWidth(INITIAL_COLS);
     editArea.setVisibleLines(INITIAL_LINES);
     editArea.setSpellCheck(true);
-    if (saveOnInit) {
-      onSave(null);
-    }
-    if (isNew) {
-      addStyleName(draftStyle.newDraft());
-    }
     expandTimer = new Timer() {
       @Override
       public void run() {
         expandText();
       }
     };
+    if (saveOnInit) {
+      onSave(null);
+    }
+    if (isNew) {
+      addStyleName(draftStyle.newDraft());
+    }
     addDomHandler(new MouseMoveHandler() {
       @Override
       public void onMouseMove(MouseMoveEvent event) {
@@ -132,10 +132,12 @@ class DraftBox extends CommentBox {
       addStyleName(draftStyle.edit());
       editArea.setText(getOriginal().message());
       expandText();
+      editArea.setReadOnly(false);
       editArea.setFocus(true);
       disableClickFocusHandler();
     } else {
       expandTimer.cancel();
+      editArea.setReadOnly(true);
       removeStyleName(draftStyle.edit());
       addStyleName(draftStyle.view());
       enableClickFocusHandler();
@@ -148,6 +150,7 @@ class DraftBox extends CommentBox {
   }
 
   private void removeUI() {
+    setEdit(false);
     expandTimer.cancel();
     if (replyToBox != null) {
       replyToBox.unregisterReplyBox();
@@ -181,13 +184,13 @@ class DraftBox extends CommentBox {
     CommentInfo original = getOriginal();
     CommentInput input = CommentInput.create(original);
     input.setMessage(message);
+    setEdit(false);
     GerritCallback<CommentInfo> cb = new GerritCallback<CommentInfo>() {
       @Override
       public void onSuccess(CommentInfo result) {
         updateOriginal(result);
         setMessageText(message);
         setDate(result.updated());
-        setEdit(false);
         if (isNew) {
           removeStyleName(draftStyle.newDraft());
           isNew = false;
@@ -213,6 +216,7 @@ class DraftBox extends CommentBox {
     if (isNew) {
       removeUI();
     } else {
+      setEdit(false);
       CommentApi.deleteDraft(getPatchSetId(), getOriginal().id(),
           new GerritCallback<JavaScriptObject>() {
         @Override

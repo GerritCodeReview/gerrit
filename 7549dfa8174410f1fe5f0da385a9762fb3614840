@@ -34,6 +34,24 @@
       "revId": "7549dfa8174410f1fe5f0da385a9762fb3614840",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7253491_664e2e77",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-16T22:03:18Z",
+      "side": 1,
+      "message": "I know. Just because the commit message said that the change state in the db should be updated, it came into my mind that we also need to update it in the index. I just didn\u0027t want to loose this thought, which is why I added this comment :-)",
+      "parentUuid": "13f6b349_1ff62312",
+      "revId": "7549dfa8174410f1fe5f0da385a9762fb3614840",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

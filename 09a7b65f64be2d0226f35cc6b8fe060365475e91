@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "274e1057_dacdf986",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CommentBoxHeader.ui.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-16T17:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "274e1057_1a0f81ed",
+      "revId": "09a7b65f64be2d0226f35cc6b8fe060365475e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76238bf_d7431c5a",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e76238bf_d75cfc31",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/CodeMirror.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-16T17:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76238bf_d7431c5a",
+      "revId": "09a7b65f64be2d0226f35cc6b8fe060365475e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e76238bf_b73ea8c3",
         "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Configuration.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2013-07-16T17:30:13Z",
       "side": 1,
       "message": "whitespace error",
+      "revId": "09a7b65f64be2d0226f35cc6b8fe060365475e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "274e1057_fad2bd23",
+        "filename": "gerrit-gwtui/src/main/java/net/codemirror/lib/Configuration.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-16T17:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e76238bf_b73ea8c3",
       "revId": "09a7b65f64be2d0226f35cc6b8fe060365475e91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

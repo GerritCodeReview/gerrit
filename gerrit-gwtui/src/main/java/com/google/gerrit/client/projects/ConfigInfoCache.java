@@ -73,7 +73,7 @@ public class ConfigInfoCache {
       cb.onSuccess(e);
       return;
     }
-    ProjectApi.config(name).get(new AsyncCallback<ConfigInfo>() {
+    ProjectApi.getConfig(name, new AsyncCallback<ConfigInfo>() {
       @Override
       public void onSuccess(ConfigInfo result) {
         Entry e = new Entry(result);

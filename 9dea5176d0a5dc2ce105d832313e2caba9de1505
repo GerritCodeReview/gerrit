@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "274e1057_97450c83",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:23:01Z",
+      "side": 1,
+      "message": "Are these visible when the user does not have read access to refs/meta/config?\n\nIf not, they should be suffixed with `*` like the settings above.",
+      "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "274e1057_7768a8f5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:23:01Z",
+      "side": 1,
+      "message": "s/fromatted/formatted",
+      "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76238bf_17fcb4f0",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:23:01Z",
+      "side": 1,
+      "message": "s/fromatted/formatted",
+      "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76238bf_37f9b801",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:23:01Z",
+      "side": 1,
+      "message": "s/fromatted/formatted",
+      "revId": "9dea5176d0a5dc2ce105d832313e2caba9de1505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

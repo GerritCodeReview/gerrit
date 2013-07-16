@@ -94,10 +94,12 @@ limitations under the License.
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
     <table class='{style.table}'>
+      <tr><td>Top Nav Area</td></tr>
       <tr>
         <td ui:field='cmA' class='{style.a}'></td>
         <td ui:field='cmB' class='{style.b}'></td>
       </tr>
+      <tr><td>Bottom Nav Area</td></tr>
     </table>
   </g:HTMLPanel>
 </ui:UiBinder>

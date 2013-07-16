@@ -132,9 +132,11 @@ class DraftBox extends CommentBox {
       addStyleName(draftStyle.edit());
       editArea.setText(getOriginal().message());
       expandText();
+      editArea.setReadOnly(false);
       editArea.setFocus(true);
       disableClickFocusHandler();
     } else {
+      editArea.setReadOnly(true);
       expandTimer.cancel();
       removeStyleName(draftStyle.edit());
       addStyleName(draftStyle.view());
@@ -178,6 +180,7 @@ class DraftBox extends CommentBox {
     if (message.equals("")) {
       return;
     }
+    setEdit(false);
     CommentInfo original = getOriginal();
     CommentInput input = CommentInput.create(original);
     input.setMessage(message);
@@ -187,7 +190,6 @@ class DraftBox extends CommentBox {
         updateOriginal(result);
         setMessageText(message);
         setDate(result.updated());
-        setEdit(false);
         if (isNew) {
           removeStyleName(draftStyle.newDraft());
           isNew = false;

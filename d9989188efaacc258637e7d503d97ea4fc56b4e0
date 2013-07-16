@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "274e1057_da141903",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-16T16:12:45Z",
+      "side": 1,
+      "message": "I think I missed somewhere the discussion about actions being completely server side and having no client component.\n\nThe default behavior if no JS is installed is to reload the current screen. So deleting a patch set would have the desired effect. This is also the default behavior of most core actions in ChangeScreen2, reload the entire screen.\n\nI meant to add a go() method on the context object that is passed in, allowing the JS to pass a URL and have the browser follow it. In the case of deleting a project you might then write:\n\n  c.delete(function() {\n    c.go(\"/admin/projects/\");\n  });\n\nI think there are simply too many permutations of how to handle return values to attempt to define them in a common protocol. It might be cleaner to require plugins wanting anything beyond reloading the current screen to supply the client side response handling logic.",
+      "parentUuid": "473224d4_2a223fb1",
+      "revId": "d9989188efaacc258637e7d503d97ea4fc56b4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "473224d4_0a257bb8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-16T10:32:37Z",
       "side": 1,
       "message": "These properties seems to be very change screen and patch set action panel specific. What about other places? Group Admin, Project Admin, Plugin Admin, Settings, Preferences, and what not.\n\nI think we should find a way to pass to ActionContext place specific info objects. Or to set up a hierarchy of place specific PlaceActionContext, like RevisionActionContext, ProjectActionContext?",
+      "revId": "d9989188efaacc258637e7d503d97ea4fc56b4e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76238bf_9739a4e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-16T16:12:45Z",
+      "side": 1,
+      "message": "Agreed these are change screen specific because the only two action locations supported by this commit are on the change screen. The actual ActionContext object only defines properties it is given, so it would be useable in other contexts too. In those places obviously the change/revision properties would not be present on the object.",
+      "parentUuid": "473224d4_0a257bb8",
       "revId": "d9989188efaacc258637e7d503d97ea4fc56b4e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

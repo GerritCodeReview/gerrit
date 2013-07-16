@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "274e1057_1abb01fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:48:17Z",
+      "side": 1,
+      "message": "Remove \"no\"",
+      "revId": "496d7cea7e596ead96b3b1150d16cc3088c2ad77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e76238bf_172594b8",
+        "filename": "Documentation/pgm-init.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:48:17Z",
+      "side": 1,
+      "message": "Indent with tab.",
+      "revId": "496d7cea7e596ead96b3b1150d16cc3088c2ad77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "274e1057_fac55d86",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-16T02:48:17Z",
+      "side": 1,
+      "message": "s/--installPlugin/--install-plugin",
+      "revId": "496d7cea7e596ead96b3b1150d16cc3088c2ad77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

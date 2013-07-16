@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33f1f750_40f16e18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-16T21:25:09Z",
+      "side": 1,
+      "message": "Unrelated to this change, but after updating the change status, shouldn\u0027t we trigger a reindex for the change?",
+      "revId": "7549dfa8174410f1fe5f0da385a9762fb3614840",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

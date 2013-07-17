@@ -278,7 +278,7 @@ class FileTable extends FlowPanel {
     private void columnDelta1(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTd().setStyleName(R.css().deltaColumn1());
       if (!Patch.COMMIT_MSG.equals(info.path()) && !info.binary()) {
-        sb.append(info.lines_inserted() - info.lines_deleted());
+        sb.append(info.lines_inserted() + info.lines_deleted());
       }
       sb.closeTd();
     }

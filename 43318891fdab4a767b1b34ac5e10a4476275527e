@@ -37,6 +37,57 @@
     },
     {
       "key": {
+        "uuid": "13923312_1f088337",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-17T13:58:32Z",
+      "side": 1,
+      "message": "Is the leading slash necessary or optional?\n\nThe URL is relative the the plugins URL space which already contains the trailing slash (line 82).",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b34b2773_e4219ab6",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-17T13:58:32Z",
+      "side": 1,
+      "message": "Leading slash necessary?",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b34b2773_6435aaef",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-17T13:58:32Z",
+      "side": 1,
+      "message": "s/second/first ?",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13923312_fff7df09",
         "filename": "Documentation/js-api.txt",
         "patchSetId": 5

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b34b2773_040dd647",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2013-07-17T09:28:13Z",
+      "side": 1,
+      "message": "\u0027More\u0027 JS way to \u0027bind\u0027 plugin is already there:\n\nhttps://gerrit-review.googlesource.com/#/c/39271/\n\nbut for now it only support single-js-file deploy. I\u0027ve plan to extend this to load JS plugins located in nested \u0027plugin/\u0027 directory.",
+      "parentUuid": "b34b2773_4413ce6f",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13923312_fff7df09",
         "filename": "Documentation/js-api.txt",
         "patchSetId": 5

@@ -20,9 +20,9 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.AllRequestFilter;
-import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.httpd.GerritUiOptions;
 import com.google.gerrit.httpd.GitOverHttpModule;
+import com.google.gerrit.httpd.H2CacheBasedWebSession;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.RequestContextFilter;
 import com.google.gerrit.httpd.WebModule;
@@ -407,7 +407,7 @@ public class Daemon extends SiteProgram {
     }
     modules.add(RequestContextFilter.module());
     modules.add(AllRequestFilter.module());
-    modules.add(CacheBasedWebSession.module());
+    modules.add(H2CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sysInjector.getInstance(WebModule.class));

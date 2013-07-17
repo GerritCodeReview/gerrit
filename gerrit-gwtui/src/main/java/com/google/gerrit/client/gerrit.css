@@ -1534,3 +1534,8 @@ a:hover.downloadLink {
 .projectFilterLabel {
   margin-right: 5px;
 }
+
+/** ProjectSettings */
+.maxObjectSizeLimitPanel td {
+  padding-right: 5px;
+}

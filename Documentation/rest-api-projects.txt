@@ -436,6 +436,7 @@ read access to `refs/meta/config`.
   )]}'
   {
     "kind": "gerritcodereview#project_config",
+    "description": "demo project",
     "use_contributor_agreements": {
       "value": true,
       "configured_value": "TRUE",
@@ -484,6 +485,7 @@ link:#config-input[ConfigInput] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
+    "description": "demo project",
     "use_contributor_agreements": "FALSE",
     "use_content_merge": "INHERIT",
     "use_signed_off_by": "INHERIT",
@@ -1144,6 +1146,8 @@ configuration.
 [options="header",width="50%",cols="1,^2,4"]
 |=========================================
 |Field Name                  ||Description
+|`description`               |optional|
+The description of the project.
 |`use_contributor_agreements`|optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 authors must complete a contributor agreement on the site before
@@ -1193,6 +1197,9 @@ The `ConfigInput` entity describes a new project configuration.
 [options="header",width="50%",cols="1,^2,4"]
 |=========================================
 |Field Name                  ||Description
+|`description`               |optional|
+The new description of the project. +
+If not set, the description is removed.
 |`use_contributor_agreements`|optional|
 Whether authors must complete a contributor agreement on the site
 before pushing any commits or changes to this project. +

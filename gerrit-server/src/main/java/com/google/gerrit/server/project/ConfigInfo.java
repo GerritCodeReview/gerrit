@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
@@ -26,6 +27,7 @@ import java.util.Map;
 public class ConfigInfo {
   public final String kind = "gerritcodereview#project_config";
 
+  public String description;
   public InheritedBooleanInfo useContributorAgreements;
   public InheritedBooleanInfo useContentMerge;
   public InheritedBooleanInfo useSignedOffBy;
@@ -39,6 +41,8 @@ public class ConfigInfo {
 
   public ConfigInfo(ProjectState state, TransferConfig config) {
     Project p = state.getProject();
+    this.description = Strings.emptyToNull(p.getDescription());
+
     InheritedBooleanInfo useContributorAgreements =
         new InheritedBooleanInfo();
     InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();

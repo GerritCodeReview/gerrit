@@ -1746,9 +1746,10 @@ public class ReceiveCommits {
             eq(newCommit.getFullMessage(), priorCommit.getFullMessage());
         final boolean parentsEq = parentsEqual(newCommit, priorCommit);
         final boolean authorEq = authorEqual(newCommit, priorCommit);
+        final boolean commitTimeEq = commitTimeEqual(newCommit, priorCommit);
         final ObjectReader reader = rp.getRevWalk().getObjectReader();
 
-        if (messageEq && parentsEq && authorEq && !autoClose) {
+        if (messageEq && parentsEq && authorEq && commitTimeEq && !autoClose) {
           addMessage(String.format(
               "(W) No changes between prior commit %s and new commit %s",
               reader.abbreviate(priorCommit).name(),
@@ -2007,6 +2008,10 @@ public class ReceiveCommits {
 
     return eq(aAuthor.getName(), bAuthor.getName())
         && eq(aAuthor.getEmailAddress(), bAuthor.getEmailAddress());
+  }
+
+  static boolean commitTimeEqual(RevCommit a, RevCommit b) {
+    return a.getCommitTime() == b.getCommitTime();
   }
 
   static boolean eq(String a, String b) {

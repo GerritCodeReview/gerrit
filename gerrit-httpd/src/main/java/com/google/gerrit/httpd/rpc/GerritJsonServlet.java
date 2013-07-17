@@ -21,6 +21,7 @@ import com.google.gerrit.audit.RpcAuditEvent;
 import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
@@ -32,7 +33,6 @@ import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.MethodHandle;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,13 +54,13 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       new ThreadLocal<GerritCall>();
   private static final ThreadLocal<MethodHandle> currentMethod =
       new ThreadLocal<MethodHandle>();
-  private final Provider<WebSession> session;
+  private final DynamicItem<WebSession> session;
   private final RemoteJsonService service;
   private final AuditService audit;
 
 
   @Inject
-  GerritJsonServlet(final Provider<WebSession> w, final RemoteJsonService s,
+  GerritJsonServlet(final DynamicItem<WebSession> w, final RemoteJsonService s,
       final AuditService a) {
     session = w;
     service = s;

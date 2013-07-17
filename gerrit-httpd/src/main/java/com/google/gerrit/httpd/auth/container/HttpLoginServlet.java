@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
@@ -25,7 +26,6 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -56,14 +56,14 @@ class HttpLoginServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(HttpLoginServlet.class);
 
-  private final Provider<WebSession> webSession;
+  private final DynamicItem<WebSession> webSession;
   private final CanonicalWebUrl urlProvider;
   private final AccountManager accountManager;
   private final HttpAuthFilter authFilter;
   private final AuthConfig authConfig;
 
   @Inject
-  HttpLoginServlet(final Provider<WebSession> webSession,
+  HttpLoginServlet(final DynamicItem<WebSession> webSession,
       final CanonicalWebUrl urlProvider,
       final AccountManager accountManager,
       final HttpAuthFilter authFilter,

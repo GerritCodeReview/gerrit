@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d325fba9_2d566d07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-17T21:11:02Z",
+      "side": 1,
+      "message": "This isn\u0027t quite true anymore since Verified isn\u0027t created by default. I would just say something simpler like \"as this is the actual label name described in config-labels.txt\".",
+      "revId": "c5bc9791f80ad38d1d3d525d268fe6bf4006a16f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d325fba9_4d61b9df",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-17T21:11:02Z",
+      "side": 1,
+      "message": "`Verified`",
+      "revId": "c5bc9791f80ad38d1d3d525d268fe6bf4006a16f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

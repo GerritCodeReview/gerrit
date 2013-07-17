@@ -82,13 +82,10 @@ public class SideBySide2 extends Screen {
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
-  @UiField(provided=true)
+  @UiField(provided = true)
   ReviewedPanel reviewedTop;
 
-  @UiField(provided=true)
-  ReviewedPanel reviewedBottom;
-
-  @UiField(provided=true)
+  @UiField(provided = true)
   DiffTable diffTable;
 
   private final PatchSet.Id base;
@@ -127,9 +124,7 @@ public class SideBySide2 extends Screen {
     this.keyHandlers = new ArrayList<HandlerRegistration>(4);
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
-    reviewedTop = new ReviewedPanel(revision, path, false);
-    reviewedBottom = new ReviewedPanel(revision, path, true);
-    ReviewedPanel.link(reviewedTop, reviewedBottom);
+    reviewedTop = new ReviewedPanel(revision, path);
     add(diffTable = new DiffTable());
     add(uiBinder.createAndBindUi(this));
   }

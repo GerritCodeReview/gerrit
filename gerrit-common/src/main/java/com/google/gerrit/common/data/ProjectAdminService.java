@@ -27,18 +27,8 @@ import java.util.List;
 
 @RpcImpl(version = Version.V2_0)
 public interface ProjectAdminService extends RemoteJsonService {
-  void visibleProjectDetails(AsyncCallback<List<ProjectDetail>> callback);
-
-  void projectDetail(Project.NameKey projectName,
-      AsyncCallback<ProjectDetail> callback);
-
   void projectAccess(Project.NameKey projectName,
       AsyncCallback<ProjectAccess> callback);
-
-  @Audit
-  @SignInRequired
-  void changeProjectSettings(Project update,
-      AsyncCallback<ProjectDetail> callback);
 
   @Audit
   @SignInRequired

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b34b2773_8418a686",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ActionButton.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-17T13:17:52Z",
+      "side": 1,
+      "message": "this was under documented, non compatible change, i. e. light weight UiActions, that don\u0027t need screen reload have to take measures, that the site not get reloaded.\n\ni\u0027ve started the UI dcoumentation, that we can adapt here:\n\n https://gerrit-review.googlesource.com/#/c/45970/10/Documentation/dev-plugins.txt",
+      "revId": "3d57549a1d25eaa76ceca86913acaaf95928723f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

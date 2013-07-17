@@ -603,6 +603,11 @@ public class MergeOp {
         try {
           if (rw.isMergedInto(commit, branchTip)) {
             commit.statusCode = CommitMergeStatus.ALREADY_MERGED;
+            try {
+              setMergedPatchSet(chg.getId(), ps.getId());
+            } catch (OrmException e) {
+              log.error("Cannot mark change " + chg.getId() + " merged", e);
+            }
             continue;
           }
         } catch (IOException err) {

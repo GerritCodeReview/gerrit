@@ -436,6 +436,7 @@ read access to `refs/meta/config`.
   )]}'
   {
     "kind": "gerritcodereview#project_config",
+    "description": "demo project",
     "use_contributor_agreements": {
       "value": true,
       "configured_value": "TRUE",
@@ -462,6 +463,77 @@ read access to `refs/meta/config`.
       "inherited_value": "20m"
     },
     "submit_type": "MERGE_IF_NECESSARY",
+    "state": "ACTIVE",
+    "commentlinks": {}
+  }
+----
+
+[[set-config]]
+Set Config
+~~~~~~~~~~
+[verse]
+'PUT /projects/link:#project-name[\{project-name\}]/config'
+
+Sets the configuration of a project.
+
+The new configuration must be provided in the request body as a
+link:#config-input[ConfigInput] entity.
+
+.Request
+----
+  PUT /projects/myproject/config HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+
+  {
+    "description": "demo project",
+    "use_contributor_agreements": "FALSE",
+    "use_content_merge": "INHERIT",
+    "use_signed_off_by": "INHERIT",
+    "require_change_id": "TRUE",
+    "max_object_size_limit": "10m",
+    "submit_type": "REBASE_IF_NECESSARY",
+    "state": "ACTIVE"
+  }
+----
+
+As response the new configuration is returned as a link:#config-info[
+ConfigInfo] entity.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#project_config",
+    "use_contributor_agreements": {
+      "value": false,
+      "configured_value": "FALSE",
+      "inherited_value": false
+    },
+    "use_content_merge": {
+      "value": true,
+      "configured_value": "INHERIT",
+      "inherited_value": true
+    },
+    "use_signed_off_by": {
+      "value": false,
+      "configured_value": "INHERIT",
+      "inherited_value": false
+    },
+    "require_change_id": {
+      "value": true,
+      "configured_value": "TRUE",
+      "inherited_value": true
+    },
+    "max_object_size_limit": {
+      "value": "10m",
+      "configured_value": "10m",
+      "inherited_value": "20m"
+    },
+    "submit_type": "REBASE_IF_NECESSARY",
     "state": "ACTIVE",
     "commentlinks": {}
   }
@@ -1074,6 +1146,8 @@ configuration.
 [options="header",width="50%",cols="1,^2,4"]
 |=========================================
 |Field Name                  ||Description
+|`description`               |optional|
+The description of the project.
 |`use_contributor_agreements`|optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 authors must complete a contributor agreement on the site before
@@ -1113,6 +1187,57 @@ commentlink section] of `gerrit.config`.
 |`theme`                     |optional|
 The theme that is configured for the project as a link:#theme-info[
 ThemeInfo] entity.
+|=========================================
+
+[[config-input]]
+ConfigInput
+~~~~~~~~~~~
+The `ConfigInput` entity describes a new project configuration.
+
+[options="header",width="50%",cols="1,^2,4"]
+|=========================================
+|Field Name                  ||Description
+|`description`               |optional|
+The new description of the project. +
+If not set, the description is removed.
+|`use_contributor_agreements`|optional|
+Whether authors must complete a contributor agreement on the site
+before pushing any commits or changes to this project. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`use_content_merge`         |optional|
+Whether Gerrit will try to perform a 3-way merge of text file content
+when a file has been modified by both the destination branch and the
+change being submitted. This option only takes effect if submit type is
+not FAST_FORWARD_ONLY. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`use_signed_off_by`         |optional|
+Whether each change must contain a Signed-off-by line from either the
+author or the uploader in the commit message. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`require_change_id`         |optional|
+Whether a valid link:user-changeid.html[Change-Id] footer in any commit
+uploaded for review is required. This does not apply to commits pushed
+directly to a branch or tag. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`max_object_size_limit`     |optional|
+The link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
+limit] of this project as a link:#max-object-size-limit-info[
+MaxObjectSizeLimitInfo] entity. +
+If set to `0`, the max object size limit is removed. +
+If not set, this setting is not updated.
+|`submit_type`               |optional|
+The default submit type of the project, can be `MERGE_IF_NECESSARY`,
+`FAST_FORWARD_ONLY`, `REBASE_IF_NECESSARY`, `MERGE_ALWAYS` or
+`CHERRY_PICK`. +
+If not set, the submit type is not updated.
+|`state`                     |optional|
+The state of the project, can be `ACTIVE`, `READ_ONLY` or `HIDDEN`. +
+Not set if the project state is `ACTIVE`. +
+If not set, the project state is not updated.
 |=========================================
 
 [[dashboard-info]]

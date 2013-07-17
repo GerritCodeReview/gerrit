@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "b34b2773_4413ce6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-17T09:22:10Z",
+      "side": 1,
+      "message": "Extra bonus points for very informative commit message. Even better would be to place it all in helloworld-plugin and merged it this time.\n\ni would add Missing features / TODO section here:\n\n* add support for Change-panel-foo, Change-panel-bar places for change specific actions\n* find a better way (more JS way) to bind JS plugins and not server side guice binding: \n\n DynamicSet.bind(binder(), WebUiPlugin.class)..toInstance(new JavaScriptPlugin(\"maybe.js\"));",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13923312_fff7df09",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-17T09:22:10Z",
+      "side": 1,
+      "message": "a/change/revision\n\nYou build always a revision and never a change",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b34b2773_a404c228",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-17T09:22:10Z",
+      "side": 1,
+      "message": "That\u0027s really cool",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13923312_9f049329",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-17T09:22:10Z",
+      "side": 1,
+      "message": "Does go() supports extern url? Or do we need here a new function?\n\nGerrit.go_extern(\u0027google.com\u0027)",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13923312_bf015718",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-17T09:22:10Z",
+      "side": 1,
+      "message": "Same as above: url_extern()?",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13923312_7fec2f42",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ActionContext.java",
         "patchSetId": 5
@@ -13,6 +98,40 @@
       "writtenOn": "2013-07-17T08:38:33Z",
       "side": 1,
       "message": "missing file header",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b34b2773_2408d237",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/ChangeGlue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-17T09:22:10Z",
+      "side": 1,
+      "message": "Actually we don\u0027t need this class, not yet. This make only sense if you extend UiAction Place-Enum to include Change-Detail-Table, Change-Panel-foo, Change-Panel-bar,... And correspondingly extend change screen 2 to consider the change specific action on thins new places.",
+      "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13923312_dffa1bf5",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/api/RevisionGlue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-17T09:22:10Z",
+      "side": 1,
+      "message": "i found it misleading why ChangeGlue.simple() is called from RevisionGlue. I guess you wanted only reuse the method there, because the both commands refresh to the same change2 screen. For that purpose the ChangeGlue.simple method is static.\n\nBut later we would want to extend it with new places, ProjectGlue, GroupGrlue, etc. So we should find a better approach to reuse the common BaseGlue.simple() call approach here and dispatch to specific refresh() foo method",
       "revId": "43318891fdab4a767b1b34ac5e10a4476275527e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

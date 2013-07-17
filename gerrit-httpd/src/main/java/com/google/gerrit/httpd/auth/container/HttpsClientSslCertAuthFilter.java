@@ -14,13 +14,13 @@
 
 package com.google.gerrit.httpd.auth.container;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -45,11 +45,11 @@ class HttpsClientSslCertAuthFilter implements Filter {
   private static final Logger log =
     LoggerFactory.getLogger(HttpsClientSslCertAuthFilter.class);
 
-  private final Provider<WebSession> webSession;
+  private final DynamicItem<WebSession> webSession;
   private final AccountManager accountManager;
 
   @Inject
-  HttpsClientSslCertAuthFilter(final Provider<WebSession> webSession,
+  HttpsClientSslCertAuthFilter(final DynamicItem<WebSession> webSession,
       final AccountManager accountManager) {
     this.webSession = webSession;
     this.accountManager = accountManager;

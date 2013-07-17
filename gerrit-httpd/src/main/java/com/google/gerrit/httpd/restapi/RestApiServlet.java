@@ -47,6 +47,7 @@ import com.google.common.net.HttpHeaders;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.audit.HttpAuditEvent;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
@@ -150,13 +151,13 @@ public class RestApiServlet extends HttpServlet {
 
   public static class Globals {
     final Provider<CurrentUser> currentUser;
-    final Provider<WebSession> webSession;
+    final DynamicItem<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
     final AuditService auditService;
 
     @Inject
     Globals(Provider<CurrentUser> currentUser,
-        Provider<WebSession> webSession,
+        DynamicItem<WebSession> webSession,
         Provider<ParameterParser> paramParser,
         AuditService auditService) {
       this.currentUser = currentUser;

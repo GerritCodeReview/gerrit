@@ -21,6 +21,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.binder.LinkedBindingBuilder;
+import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
 
@@ -59,7 +60,7 @@ public class DynamicItem<T> {
    * @param member type of entry to store.
    */
   public static <T> void itemOf(Binder binder, Class<T> member) {
-    itemOf(binder, TypeLiteral.get(member));
+    itemOf(binder, member, false);
   }
 
   /**
@@ -74,12 +75,61 @@ public class DynamicItem<T> {
    * @param member type of entry to store.
    */
   public static <T> void itemOf(Binder binder, TypeLiteral<T> member) {
+    itemOf(binder, member, false);
+  }
+
+  /**
+   * Declare a singleton {@code DynamicItem<T>} with a binder.
+   * <p>
+   * Items must be defined in a Guice module before they can be bound:
+   *
+   * <pre>
+   * DynamicSet.itemOf(binder(), new TypeLiteral&lt;Thing&lt;Foo&gt;&gt;() {});
+   * </pre>
+   *
+   * @param binder a new binder created in the module.
+   * @param member type of entry to store.
+   * @param replaceable whether a provided implementation can be replaced
+   */
+  public static <T> void itemOf(Binder binder, Class<T> member,
+      boolean replaceable) {
+    itemOf(binder, TypeLiteral.get(member), replaceable);
+  }
+
+  /**
+   * Declare a singleton {@code DynamicItem<T>} with a binder.
+   * <p>
+   * Items must be defined in a Guice module before they can be bound:
+   *
+   * <pre>
+   * DynamicSet.itemOf(binder(), new TypeLiteral&lt;Thing&lt;Foo&gt;&gt;() {});
+   * </pre>
+   *
+   * @param binder a new binder created in the module.
+   * @param member type of entry to store.
+   * @param replaceable whether a provided implementation can be replaced
+   */
+  public static <T> void itemOf(Binder binder, TypeLiteral<T> member,
+      boolean replaceable) {
     @SuppressWarnings("unchecked")
-    Key<DynamicItem<T>> key = (Key<DynamicItem<T>>) Key.get(
-        Types.newParameterizedType(DynamicItem.class, member.getType()));
+    Key<DynamicItem<T>> key =
+        (Key<DynamicItem<T>>) Key.get(Types.newParameterizedType(
+            DynamicItem.class, member.getType()));
     binder.bind(key)
-      .toProvider(new DynamicItemProvider<T>(member, key))
-      .in(Scopes.SINGLETON);
+        .toProvider(new DynamicItemProvider<T>(member, key, replaceable))
+        .in(Scopes.SINGLETON);
+  }
+
+  /**
+   * Bind one implementation as the item.
+   *
+   * @param binder a new binder created in the module.
+   * @param type type of entry to store.
+   * @return a binder to continue configuring the new item.
+   */
+  public static <T> LinkedBindingBuilder<T> bind(Binder binder,
+      Key<T> key) {
+    return binder.bind(key);
   }
 
   /**
@@ -94,7 +144,7 @@ public class DynamicItem<T> {
   }
 
   /**
-   * Bind one implementation as the item.
+   * Bind one implementation as the item using a unique annotation.
    *
    * @param binder a new binder created in the module.
    * @param type type of entry to store.
@@ -102,19 +152,22 @@ public class DynamicItem<T> {
    */
   public static <T> LinkedBindingBuilder<T> bind(Binder binder,
       TypeLiteral<T> type) {
-    return binder.bind(type);
+    return binder.bind(type).annotatedWith(UniqueAnnotations.create());
   }
 
   private final Key<DynamicItem<T>> key;
   private final AtomicReference<NamedProvider<T>> ref;
+  private final boolean replaceable;
 
-  DynamicItem(Key<DynamicItem<T>> key, Provider<T> provider, String pluginName) {
+  DynamicItem(Key<DynamicItem<T>> key, Provider<T> provider, String pluginName,
+      boolean replaceable) {
     NamedProvider<T> in = null;
     if (provider != null) {
       in = new NamedProvider<T>(provider, pluginName);
     }
     this.key = key;
     this.ref = new AtomicReference<NamedProvider<T>>(in);
+    this.replaceable = replaceable;
   }
 
   /**
@@ -148,19 +201,23 @@ public class DynamicItem<T> {
    * @return handle to remove the item at a later point in time.
    */
   public RegistrationHandle set(Provider<T> impl, String pluginName) {
+    final NamedProvider<T> old = ref.get();
     final NamedProvider<T> item = new NamedProvider<T>(impl, pluginName);
-    while (!ref.compareAndSet(null, item)) {
-      NamedProvider<T> old = ref.get();
-      if (old != null) {
-        throw new ProvisionException(String.format(
-            "%s already provided by %s, ignoring plugin %s",
-            key.getTypeLiteral(), old.pluginName, pluginName));
+    if (replaceable) {
+      ref.compareAndSet(old, item);
+    } else {
+      while (!ref.compareAndSet(null, item)) {
+        if (old != null) {
+          throw new ProvisionException(String.format(
+              "%s already provided by %s, ignoring plugin %s",
+              key.getTypeLiteral(), old.pluginName, pluginName));
+        }
       }
     }
     return new RegistrationHandle() {
       @Override
       public void remove() {
-        ref.compareAndSet(item, null);
+        ref.compareAndSet(item, old);
       }
     };
   }
@@ -177,25 +234,31 @@ public class DynamicItem<T> {
    */
   public ReloadableRegistrationHandle<T> set(Key<T> key, Provider<T> impl,
       String pluginName) {
+    NamedProvider<T> old = ref.get();
     final NamedProvider<T> item = new NamedProvider<T>(impl, pluginName);
-    while (!ref.compareAndSet(null, item)) {
-      NamedProvider<T> old = ref.get();
-      if (old != null) {
-        throw new ProvisionException(String.format(
-            "%s already provided by %s, ignoring plugin %s",
-            this.key.getTypeLiteral(), old.pluginName, pluginName));
+    if (replaceable) {
+      ref.compareAndSet(old, item);
+    } else {
+      while (!ref.compareAndSet(null, item)) {
+        if (old != null) {
+          throw new ProvisionException(String.format(
+              "%s already provided by %s, ignoring plugin %s",
+              this.key.getTypeLiteral(), old.pluginName, pluginName));
+        }
       }
     }
-    return new ReloadableHandle(key, item);
+    return new ReloadableHandle(key, item, old);
   }
 
   private class ReloadableHandle implements ReloadableRegistrationHandle<T> {
     private final Key<T> key;
     private final NamedProvider<T> item;
+    private final NamedProvider<T> old;
 
-    ReloadableHandle(Key<T> key, NamedProvider<T> item) {
+    ReloadableHandle(Key<T> key, NamedProvider<T> item, NamedProvider<T> old) {
       this.key = key;
       this.item = item;
+      this.old = old;
     }
 
     @Override
@@ -205,14 +268,14 @@ public class DynamicItem<T> {
 
     @Override
     public void remove() {
-      ref.compareAndSet(item, null);
+      ref.compareAndSet(item, old);
     }
 
     @Override
     public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
       NamedProvider<T> n = new NamedProvider<T>(newItem, item.pluginName);
       if (ref.compareAndSet(item, n)) {
-        return new ReloadableHandle(newKey, n);
+        return new ReloadableHandle(newKey, n, old);
       }
       return null;
     }

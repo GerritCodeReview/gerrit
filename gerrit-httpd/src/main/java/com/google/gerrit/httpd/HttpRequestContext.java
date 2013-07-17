@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
@@ -22,11 +23,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 class HttpRequestContext implements RequestContext {
-  private final WebSession session;
+  private final DynamicItem<WebSession> session;
   private final RequestScopedReviewDbProvider provider;
 
   @Inject
-  HttpRequestContext(WebSession session,
+  HttpRequestContext(DynamicItem<WebSession> session,
       RequestScopedReviewDbProvider provider) {
     this.session = session;
     this.provider = provider;
@@ -34,7 +35,7 @@ class HttpRequestContext implements RequestContext {
 
   @Override
   public CurrentUser getCurrentUser() {
-    return session.getCurrentUser();
+    return session.get().getCurrentUser();
   }
 
   @Override

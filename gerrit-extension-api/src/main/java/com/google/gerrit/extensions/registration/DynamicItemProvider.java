@@ -27,17 +27,20 @@ import java.util.List;
 class DynamicItemProvider<T> implements Provider<DynamicItem<T>> {
   private final TypeLiteral<T> type;
   private final Key<DynamicItem<T>> key;
+  private final boolean replaceable;
 
   @Inject
   private Injector injector;
 
-  DynamicItemProvider(TypeLiteral<T> type, Key<DynamicItem<T>> key) {
+  DynamicItemProvider(TypeLiteral<T> type, Key<DynamicItem<T>> key,
+      boolean replaceable) {
     this.type = type;
     this.key = key;
+    this.replaceable = replaceable;
   }
 
   public DynamicItem<T> get() {
-    return new DynamicItem<T>(key, find(injector, type), "gerrit");
+    return new DynamicItem<T>(key, find(injector, type), "gerrit", replaceable);
   }
 
   private static <T> Provider<T> find(Injector src, TypeLiteral<T> type) {

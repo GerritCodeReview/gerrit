@@ -17,12 +17,12 @@ package com.google.gerrit.httpd;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
@@ -54,12 +54,12 @@ import javax.servlet.http.HttpServletResponse;
 class ContainerAuthFilter implements Filter {
   public static final String REALM_NAME = "Gerrit Code Review";
 
-  private final Provider<WebSession> session;
+  private final DynamicItem<WebSession> session;
   private final AccountCache accountCache;
   private final Config config;
 
   @Inject
-  ContainerAuthFilter(Provider<WebSession> session, AccountCache accountCache,
+  ContainerAuthFilter(DynamicItem<WebSession> session, AccountCache accountCache,
       @GerritServerConfig Config config) {
     this.session = session;
     this.accountCache = accountCache;

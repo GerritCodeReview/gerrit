@@ -1539,3 +1539,8 @@ a:hover.downloadLink {
 .projectNameColumn {
   min-width: 300px;
 }
+
+/** ProjectSettings */
+.maxObjectSizeLimitPanel td {
+  padding-right: 5px;
+}

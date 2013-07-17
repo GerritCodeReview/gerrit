@@ -200,7 +200,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       table.setWidget(newRow, C_ARROW, pointer);
       final Element tr = DOM.getParent(fmt.getElement(newRow, C_ARROW));
       UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), true);
-      if (scroll) {
+      if (scroll && isAttached()) {
         scrollIntoView(tr);
       }
     } else if (clear) {

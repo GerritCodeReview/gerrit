@@ -65,5 +65,6 @@ public class Module extends RestApiModule {
     install(new FactoryModuleBuilder().build(CreateProject.Factory.class));
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
+    put(PROJECT_KIND, "config").to(PutConfig.class);
   }
 }

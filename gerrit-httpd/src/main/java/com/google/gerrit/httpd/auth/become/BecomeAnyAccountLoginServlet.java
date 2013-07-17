@@ -19,6 +19,7 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAM
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
@@ -34,7 +35,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.w3c.dom.Document;
@@ -59,12 +59,12 @@ class BecomeAnyAccountLoginServlet extends HttpServlet {
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
 
   private final SchemaFactory<ReviewDb> schema;
-  private final Provider<WebSession> webSession;
+  private final DynamicItem<WebSession> webSession;
   private final AccountManager accountManager;
   private final SiteHeaderFooter headers;
 
   @Inject
-  BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
+  BecomeAnyAccountLoginServlet(final DynamicItem<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
       final AccountManager am,
       final ServletContext servletContext,

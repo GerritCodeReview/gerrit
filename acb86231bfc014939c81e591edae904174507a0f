@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b34b2773_8401c618",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-17T09:08:58Z",
+      "side": 1,
+      "message": "s/\"no new changes\"/\"no changes made\"\n\nThis change should also update \u0027error-no-changes-made.txt\u0027.",
+      "revId": "acb86231bfc014939c81e591edae904174507a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

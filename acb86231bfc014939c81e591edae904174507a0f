@@ -16,6 +16,24 @@
       "revId": "acb86231bfc014939c81e591edae904174507a0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d325fba9_2df1cd19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-17T09:26:06Z",
+      "side": 1,
+      "message": "I\u0027ll fix tomorrow.  I just pushed this as I left the office because I wanted to get feedback on whether the changed behavior is wanted.",
+      "parentUuid": "b34b2773_8401c618",
+      "revId": "acb86231bfc014939c81e591edae904174507a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

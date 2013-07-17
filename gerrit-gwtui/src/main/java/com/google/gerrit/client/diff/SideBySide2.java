@@ -39,6 +39,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
@@ -77,7 +78,7 @@ public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<HTMLPanel, SideBySide2> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
-  private static final int HEADER_FOOTER = 60 + 15 * 2 + 38 + 26 * 2;
+  private static final int HEADER_FOOTER = 60 + 15 * 2 + 16 + 26 * 2;
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
@@ -705,18 +706,19 @@ public class SideBySide2 extends Screen {
     final CodeMirror other = otherCm(cm);
     return new Runnable() {
       public void run() {
-        /**
-         * Prevent feedback loop, Chrome seems fine but Firefox chokes.
-         * However on Chrome this may cause scrolling to be out of sync
-         * if scrolled too fast.
-         */
-        double now = (double) System.currentTimeMillis();
-        if (cm.getScrollSetBy() == other && cm.getScrollSetAt() + 30 > now) {
+        // Hack to prevent feedback loop, Chrome seems fine but Firefox chokes.
+        if (cm.isScrollSetByOther()) {
           return;
         }
         other.scrollToY(cm.getScrollInfo().getTop());
-        other.setScrollSetBy(cm);
-        other.setScrollSetAt(now);
+        other.setScrollSetByOther(true);
+        Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+          @Override
+          public boolean execute() {
+            other.setScrollSetByOther(false);
+            return false;
+          }
+        }, 0);
       }
     };
   }

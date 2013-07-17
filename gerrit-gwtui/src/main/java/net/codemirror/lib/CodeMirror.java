@@ -140,20 +140,12 @@ public class CodeMirror extends JavaScriptObject {
     return this.getScrollInfo();
   }-*/;
 
-  public final native CodeMirror getScrollSetBy() /*-{
-    return this.state.scrollSetBy;
+  public final native boolean isScrollSetByOther() /*-{
+    return this.state.scrollSetByOther == true;
   }-*/;
 
-  public final native void setScrollSetBy(CodeMirror cm) /*-{
-    this.state.scrollSetBy = cm;
-  }-*/;
-
-  public final native double getScrollSetAt() /*-{
-    return this.state.scrollSetAt;
-  }-*/;
-
-  public final native void setScrollSetAt(double when) /*-{
-    this.state.scrollSetAt = when;
+  public final native void setScrollSetByOther(boolean setByOther) /*-{
+    this.state.scrollSetByOther = setByOther;
   }-*/;
 
   public final native void on(String event, Runnable thunk) /*-{

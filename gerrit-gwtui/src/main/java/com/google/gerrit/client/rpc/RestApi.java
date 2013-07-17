@@ -93,6 +93,7 @@ public class RestApi {
       case 405: // Method Not Allowed
       case 409: // Conflict
       case 412: // Precondition Failed
+      case 422: // Unprocessable Entity
       case 429: // Too Many Requests (RFC 6585)
         return true;
 

@@ -78,17 +78,14 @@ public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<HTMLPanel, SideBySide2> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
-  private static final int HEADER_FOOTER = 60 + 15 * 2 + 16 + 26 * 2;
+  private static final int HEADER_FOOTER = 60 + 15 * 2 + 16 + 26;
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
-  @UiField(provided=true)
+  @UiField(provided = true)
   ReviewedPanel reviewedTop;
 
-  @UiField(provided=true)
-  ReviewedPanel reviewedBottom;
-
-  @UiField(provided=true)
+  @UiField(provided = true)
   DiffTable diffTable;
 
   private final PatchSet.Id base;
@@ -127,9 +124,7 @@ public class SideBySide2 extends Screen {
     this.keyHandlers = new ArrayList<HandlerRegistration>(4);
     // TODO: Re-implement necessary GlobalKey bindings.
     addDomHandler(GlobalKey.STOP_PROPAGATION, KeyPressEvent.getType());
-    reviewedTop = new ReviewedPanel(revision, path, false);
-    reviewedBottom = new ReviewedPanel(revision, path, true);
-    ReviewedPanel.link(reviewedTop, reviewedBottom);
+    reviewedTop = new ReviewedPanel(revision, path);
     add(diffTable = new DiffTable());
     add(uiBinder.createAndBindUi(this));
   }

@@ -32,7 +32,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.UIObject;
 
 class ReviewedPanel extends Composite {
   interface Binder extends UiBinder<HTMLPanel, ReviewedPanel> {}
@@ -50,44 +49,17 @@ class ReviewedPanel extends Composite {
 
   private PatchSet.Id patchId;
   private String fileId;
-  private ReviewedPanel other;
 
-  ReviewedPanel(PatchSet.Id id, String path, boolean bottom) {
+  ReviewedPanel(PatchSet.Id id, String path) {
     initWidget(uiBinder.createAndBindUi(this));
     patchId = id;
     fileId = path;
-    if (bottom) {
-      UIObject.setVisible(fileName, false);
-    } else {
-      fileName.setInnerText(path);
-    }
+    fileName.setInnerText(path);
     nextLink.setHTML(PatchUtil.C.next() + Util.C.nextPatchLinkIcon());
   }
 
-  static void link(ReviewedPanel top, ReviewedPanel bottom) {
-    top.other = bottom;
-    bottom.other = top;
-  }
-
   void setReviewed(boolean reviewed) {
-    RestApi api = ChangeApi.revision(patchId)
-      .view("files")
-      .id(fileId)
-      .view("reviewed");
-    if (reviewed) {
-      api.put(CallbackGroup.<ReviewInfo>emptyCallback());
-    } else {
-      api.delete(CallbackGroup.<ReviewInfo>emptyCallback());
-    }
-    toggleReviewedBox(reviewed);
-  }
-
-  private void toggleReviewedBox(boolean reviewed) {
-    checkBox.setValue(reviewed);
-    CheckBox otherBox = other.checkBox;
-    if (otherBox.getValue() != reviewed) {
-      otherBox.setValue(reviewed);
-    }
+    checkBox.setValue(true, true);
   }
 
   boolean isReviewed() {
@@ -96,7 +68,15 @@ class ReviewedPanel extends Composite {
 
   @UiHandler("checkBox")
   void onValueChange(ValueChangeEvent<Boolean> event) {
-    setReviewed(event.getValue());
+    RestApi api = ChangeApi.revision(patchId)
+        .view("files")
+        .id(fileId)
+        .view("reviewed");
+    if (event.getValue()) {
+      api.put(CallbackGroup.<ReviewInfo>emptyCallback());
+    } else {
+      api.delete(CallbackGroup.<ReviewInfo>emptyCallback());
+    }
   }
 
   // TODO: Implement this to go to the next file in the patchset.

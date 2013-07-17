@@ -20,6 +20,5 @@ limitations under the License.
   <g:HTMLPanel>
     <d:ReviewedPanel ui:field='reviewedTop'/>
     <d:DiffTable ui:field='diffTable' />
-    <d:ReviewedPanel ui:field='reviewedBottom' />
   </g:HTMLPanel>
 </ui:UiBinder>

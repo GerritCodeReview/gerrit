@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditEvent;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.AuthConfig;
@@ -37,14 +38,14 @@ import javax.servlet.http.HttpServletResponse;
 class HttpLogoutServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private final Provider<WebSession> webSession;
+  private final DynamicItem<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final String logoutUrl;
   private final AuditService audit;
 
   @Inject
   HttpLogoutServlet(final AuthConfig authConfig,
-      final Provider<WebSession> webSession,
+      final DynamicItem<WebSession> webSession,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final AccountManager accountManager,
       final AuditService audit) {

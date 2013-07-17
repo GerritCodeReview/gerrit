@@ -82,6 +82,7 @@ public class PluginGuiceEnvironment {
   private Provider<ModuleGenerator> httpGen;
 
   private Map<TypeLiteral<?>, DynamicItem<?>> sysItems;
+  private Map<TypeLiteral<?>, DynamicItem<?>> httpItems;
 
   private Map<TypeLiteral<?>, DynamicSet<?>> sysSets;
   private Map<TypeLiteral<?>, DynamicSet<?>> sshSets;
@@ -119,7 +120,8 @@ public class PluginGuiceEnvironment {
   }
 
   boolean hasDynamicItem(TypeLiteral<?> type) {
-    return sysItems.containsKey(type);
+    return sysItems.containsKey(type)
+        || (httpItems != null && httpItems.containsKey(type));
   }
 
   boolean hasDynamicSet(TypeLiteral<?> type) {
@@ -175,6 +177,7 @@ public class PluginGuiceEnvironment {
   public void setHttpInjector(Injector injector) {
     httpModule = copy(injector);
     httpGen = injector.getProvider(ModuleGenerator.class);
+    httpItems = dynamicItemsOf(injector);
     httpSets = dynamicSetsOf(injector);
     httpMaps = dynamicMapsOf(injector);
     onStart.addAll(listeners(injector, StartPluginListener.class));
@@ -209,6 +212,7 @@ public class PluginGuiceEnvironment {
     RequestContext oldContext = enter(plugin);
     try {
       attachItem(sysItems, plugin.getSysInjector(), plugin);
+      attachItem(httpItems, plugin.getHttpInjector(), plugin);
 
       attachSet(sysSets, plugin.getSysInjector(), plugin);
       attachSet(sshSets, plugin.getSshInjector(), plugin);
@@ -274,6 +278,7 @@ public class PluginGuiceEnvironment {
       reattachSet(old, httpSets, newPlugin.getHttpInjector(), newPlugin);
 
       reattachItem(old, sysItems, newPlugin.getSysInjector(), newPlugin);
+      reattachItem(old, httpItems, newPlugin.getHttpInjector(), newPlugin);
     } finally {
       exit(oldContext);
     }
@@ -524,19 +529,15 @@ public class PluginGuiceEnvironment {
     if (is("javax.servlet.ServletContext", type)) {
       return false;
     }
-    if (is("javax.servlet.ServletRequest", type)) {
+    if (is("javax.servlet.ServletRequest", type)
+        && !is("javax.servlet.http.HttpServletRequest", type)) {
       return false;
     }
-    if (is("javax.servlet.ServletResponse", type)) {
+    if (is("javax.servlet.ServletResponse", type)
+        && !is("javax.servlet.http.HttpServletResponse", type)) {
       return false;
     }
     if (is("javax.servlet.http.HttpServlet", type)) {
-      return false;
-    }
-    if (is("javax.servlet.http.HttpServletRequest", type)) {
-      return false;
-    }
-    if (is("javax.servlet.http.HttpServletResponse", type)) {
       return false;
     }
     if (is("javax.servlet.http.HttpSession", type)) {

@@ -21,6 +21,7 @@ import com.google.common.primitives.Bytes;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
@@ -71,7 +72,7 @@ public class HostPageServlet extends HttpServlet {
   private static final String HPD_ID = "gerrit_hostpagedata";
 
   private final Provider<CurrentUser> currentUser;
-  private final Provider<WebSession> session;
+  private final DynamicItem<WebSession> session;
   private final GerritConfig config;
   private final DynamicSet<WebUiPlugin> plugins;
   private final HostPageData.Theme signedOutTheme;
@@ -85,7 +86,7 @@ public class HostPageServlet extends HttpServlet {
   private volatile Page page;
 
   @Inject
-  HostPageServlet(final Provider<CurrentUser> cu, final Provider<WebSession> w,
+  HostPageServlet(final Provider<CurrentUser> cu, final DynamicItem<WebSession> w,
       final SitePaths sp, final ThemeFactory themeFactory,
       final GerritConfig gc, final ServletContext servletContext,
       final DynamicSet<WebUiPlugin> webUiPlugins,

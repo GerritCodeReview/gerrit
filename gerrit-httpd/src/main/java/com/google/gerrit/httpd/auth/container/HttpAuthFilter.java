@@ -19,6 +19,7 @@ import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.raw.HostPageServlet;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.util.Base64;
@@ -57,7 +57,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Singleton
 class HttpAuthFilter implements Filter {
-  private final Provider<WebSession> sessionProvider;
+  private final DynamicItem<WebSession> sessionProvider;
   private final byte[] signInRaw;
   private final byte[] signInGzip;
   private final String loginHeader;
@@ -65,7 +65,7 @@ class HttpAuthFilter implements Filter {
   private final String emailHeader;
 
   @Inject
-  HttpAuthFilter(final Provider<WebSession> webSession,
+  HttpAuthFilter(final DynamicItem<WebSession> webSession,
       final AuthConfig authConfig) throws IOException {
     this.sessionProvider = webSession;
 

@@ -21,6 +21,7 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -70,7 +71,7 @@ class ProjectDigestFilter implements Filter {
   private static final String AUTHORIZATION = "Authorization";
 
   private final Provider<String> urlProvider;
-  private final Provider<WebSession> session;
+  private final DynamicItem<WebSession> session;
   private final AccountCache accountCache;
   private final Config config;
   private final SignedToken tokens;
@@ -78,7 +79,7 @@ class ProjectDigestFilter implements Filter {
 
   @Inject
   ProjectDigestFilter(@CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      Provider<WebSession> session, AccountCache accountCache,
+      DynamicItem<WebSession> session, AccountCache accountCache,
       @GerritServerConfig Config config) throws XsrfException {
     this.urlProvider = urlProvider;
     this.session = session;

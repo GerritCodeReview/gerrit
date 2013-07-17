@@ -35,7 +35,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -50,9 +50,9 @@ import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
-class WebSessionManager {
+public class WebSessionManager {
   private static final Logger log = LoggerFactory.getLogger(WebSessionManager.class);
-  static final String CACHE_NAME = "web_sessions";
+  public static final String CACHE_NAME = "web_sessions";
 
   private final long sessionMaxAgeMillis;
   private final SecureRandom prng;
@@ -60,7 +60,7 @@ class WebSessionManager {
 
   @Inject
   WebSessionManager(@GerritServerConfig Config cfg,
-      @Named(CACHE_NAME) final Cache<String, Val> cache) {
+      @Assisted final Cache<String, Val> cache) {
     prng = new SecureRandom();
     self = cache;
 
@@ -180,7 +180,7 @@ class WebSessionManager {
     }
   }
 
-  static final class Val implements Serializable {
+  public static final class Val implements Serializable {
     static final long serialVersionUID = 2L;
 
     private transient Account.Id accountId;

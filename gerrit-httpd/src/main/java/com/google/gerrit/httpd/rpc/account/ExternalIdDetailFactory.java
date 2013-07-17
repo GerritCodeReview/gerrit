@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.account;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -36,11 +37,11 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final AuthConfig authConfig;
-  private final WebSession session;
+  private final DynamicItem<WebSession> session;
 
   @Inject
   ExternalIdDetailFactory(final ReviewDb db, final IdentifiedUser user,
-      final AuthConfig authConfig, final WebSession session) {
+      final AuthConfig authConfig, final DynamicItem<WebSession> session) {
     this.db = db;
     this.user = user;
     this.authConfig = authConfig;
@@ -49,7 +50,7 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
 
   @Override
   public List<AccountExternalId> call() throws OrmException {
-    final AccountExternalId.Key last = session.getLastLoginExternalId();
+    final AccountExternalId.Key last = session.get().getLastLoginExternalId();
     final List<AccountExternalId> ids =
         db.accountExternalIds().byAccount(user.getAccountId()).toList();
 

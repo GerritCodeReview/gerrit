@@ -307,7 +307,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sshInjector.getInstance(WebModule.class));
     modules.add(sshInjector.getInstance(WebSshGlueModule.class));
-    modules.add(CacheBasedWebSession.module());
+    modules.add(H2CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(new HttpPluginModule());
 

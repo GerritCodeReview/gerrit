@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 
@@ -56,12 +56,12 @@ class RunAsFilter implements Filter {
   }
 
   private final boolean enabled;
-  private final Provider<WebSession> session;
+  private final DynamicItem<WebSession> session;
   private final AccountResolver accountResolver;
 
   @Inject
   RunAsFilter(AuthConfig config,
-      Provider<WebSession> session,
+      DynamicItem<WebSession> session,
       AccountResolver accountResolver) {
     this.enabled = config.isRunAsEnabled();
     this.session = session;

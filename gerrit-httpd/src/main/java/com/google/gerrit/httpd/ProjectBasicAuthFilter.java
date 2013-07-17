@@ -18,6 +18,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.apache.commons.codec.binary.Base64;
@@ -67,13 +67,13 @@ class ProjectBasicAuthFilter implements Filter {
   private static final String AUTHORIZATION = "Authorization";
   private static final String LIT_BASIC = "Basic ";
 
-  private final Provider<WebSession> session;
+  private final DynamicItem<WebSession> session;
   private final AccountCache accountCache;
   private final AccountManager accountManager;
   private final AuthConfig authConfig;
 
   @Inject
-  ProjectBasicAuthFilter(Provider<WebSession> session,
+  ProjectBasicAuthFilter(DynamicItem<WebSession> session,
       AccountCache accountCache, AccountManager accountManager,
       AuthConfig authConfig) {
     this.session = session;

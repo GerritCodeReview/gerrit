@@ -332,7 +332,7 @@ public class WebAppInitializer extends GuiceServletContextListener
     } else {
       modules.add(new NoSshModule());
     }
-    modules.add(CacheBasedWebSession.module());
+    modules.add(H2CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(new HttpPluginModule());
 

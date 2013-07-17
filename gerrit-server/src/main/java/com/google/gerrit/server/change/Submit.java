@@ -311,7 +311,7 @@ public class Submit implements RestModifyView<RevisionResource, Input>,
     });
   }
 
-  private static String status(Change change) {
+  static String status(Change change) {
     return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 

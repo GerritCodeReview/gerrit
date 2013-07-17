@@ -63,6 +63,7 @@ public class Module extends RestApiModule {
     child(CHANGE_KIND, "revisions").to(Revisions.class);
     post(REVISION_KIND, "cherrypick").to(CherryPick.class);
     get(REVISION_KIND, "commit").to(GetCommit.class);
+    get(REVISION_KIND, "mergeable").to(Mergeable.class);
     get(REVISION_KIND, "review").to(GetReview.class);
     post(REVISION_KIND, "review").to(PostReview.class);
     post(REVISION_KIND, "submit").to(Submit.class);

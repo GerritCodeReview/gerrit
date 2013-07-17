@@ -260,4 +260,12 @@ public class ChangeInfo extends JavaScriptObject {
     protected MessageInfo() {
     }
   }
+
+  public static class MergeableInfo extends JavaScriptObject {
+    public final native String submit_type() /*-{ return this.submit_type }-*/;
+    public final native boolean mergeable() /*-{ return this.mergeable }-*/;
+
+    protected MergeableInfo() {
+    }
+  }
 }

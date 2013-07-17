@@ -47,7 +47,7 @@ class Labels extends Grid {
     this.statusText = statusText;
   }
 
-  boolean set(ChangeInfo info) {
+  boolean set(ChangeInfo info, boolean current) {
     List<String> names = new ArrayList<String>(info.labels());
     Collections.sort(names);
 
@@ -67,12 +67,16 @@ class Labels extends Grid {
       if (canSubmit && info.status() == Change.Status.NEW) {
         switch (label.status()) {
           case NEED:
-            statusText.setInnerText("Needs " + name);
+            if (current) {
+              statusText.setInnerText("Needs " + name);
+            }
             canSubmit = false;
             break;
           case REJECT:
           case IMPOSSIBLE:
-            statusText.setInnerText("Not " + name);
+            if (current) {
+              statusText.setInnerText("Not " + name);
+            }
             canSubmit = false;
             break;
           default:

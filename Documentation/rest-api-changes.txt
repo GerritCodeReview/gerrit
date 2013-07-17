@@ -1533,6 +1533,33 @@ The formatted patch is returned as text encoded inside base64:
   RnJvbSA3ZGFkY2MxNTNmZGVhMTdhYTg0ZmYzMmE2ZTI0NWRiYjY...
 ----
 
+[[get-mergeable]]
+Get Mergeable
+~~~~~~~~~~~~~
+[verse]
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/mergeable'
+
+Gets the method the server will use to submit (merge) the change and
+an indicator if the change is currently mergeable.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/mergeable HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    submit_type: "MERGE_IF_NECESSARY",
+    mergeable: true,
+  }
+----
+
 [[get-submit-type]]
 Get Submit Type
 ~~~~~~~~~~~~~~~

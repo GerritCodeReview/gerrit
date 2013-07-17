@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd;
 
 import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
@@ -26,10 +25,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.inject.Inject;
-import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
 
@@ -42,25 +38,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RequestScoped
-public final class CacheBasedWebSession implements WebSession {
+public abstract class CacheBasedWebSession implements WebSession {
   private static final String ACCOUNT_COOKIE = "GerritAccount";
-  static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
-
-  public static Module module() {
-    return new CacheModule() {
-      @Override
-      protected void configure() {
-        persist(WebSessionManager.CACHE_NAME, String.class, Val.class)
-            .maximumWeight(1024) // reasonable default for many sites
-            .expireAfterWrite(MAX_AGE_MINUTES, MINUTES) // expire sessions if they are inactive
-        ;
-        bind(WebSessionManager.class);
-        bind(WebSession.class)
-          .to(CacheBasedWebSession.class)
-          .in(RequestScoped.class);
-      }
-    };
-  }
+  protected static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
 
   private final HttpServletRequest request;
   private final HttpServletResponse response;
@@ -75,9 +55,9 @@ public final class CacheBasedWebSession implements WebSession {
   private Val val;
   private CurrentUser user;
 
-  @Inject
-  CacheBasedWebSession(final HttpServletRequest request,
-      final HttpServletResponse response, final WebSessionManager manager,
+  protected CacheBasedWebSession(final HttpServletRequest request,
+      final HttpServletResponse response,
+      final WebSessionManager manager,
       final AuthConfig authConfig,
       final Provider<AnonymousUser> anonymousProvider,
       final IdentifiedUser.RequestFactory identified) {

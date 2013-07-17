@@ -25,4 +25,7 @@ public interface AdminMessages extends Messages {
 
   String deletedReference(String name);
   String deletedSection(String name);
+
+  String effectiveMaxObjectSizeLimit(String effectiveMaxObjectSizeLimit);
+  String globalMaxObjectSizeLimit(String globalMaxObjectSizeLimit);
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -25,7 +26,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.project.GetConfig.ConfigInfo;
 import com.google.gerrit.server.project.PutConfig.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,6 +37,7 @@ import java.io.IOException;
 
 public class PutConfig implements RestModifyView<ProjectResource, Input> {
   public static class Input {
+    public String description;
     public InheritableBoolean useContributorAgreements;
     public InheritableBoolean useContentMerge;
     public InheritableBoolean useSignedOffBy;
@@ -89,6 +90,8 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
     try {
       ProjectConfig projectConfig = ProjectConfig.read(md);
       Project p = projectConfig.getProject();
+
+      p.setDescription(Strings.emptyToNull(input.description));
 
       if (input.useContributorAgreements != null) {
         p.setUseContributorAgreements(input.useContributorAgreements);

@@ -14,16 +14,9 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.inject.Inject;
-
-import java.util.Map;
 
 public class GetConfig implements RestReadView<ProjectResource> {
 
@@ -37,86 +30,5 @@ public class GetConfig implements RestReadView<ProjectResource> {
   @Override
   public ConfigInfo apply(ProjectResource resource) {
     return new ConfigInfo(resource.getControl().getProjectState(), config);
-  }
-
-  public static class ConfigInfo {
-    public final String kind = "gerritcodereview#project_config";
-
-    public InheritedBooleanInfo useContributorAgreements;
-    public InheritedBooleanInfo useContentMerge;
-    public InheritedBooleanInfo useSignedOffBy;
-    public InheritedBooleanInfo requireChangeId;
-    public MaxObjectSizeLimitInfo maxObjectSizeLimit;
-    public SubmitType submitType;
-    public Project.State state;
-
-    public Map<String, CommentLinkInfo> commentlinks;
-    public ThemeInfo theme;
-
-    public ConfigInfo(ProjectState state, TransferConfig config) {
-      Project p = state.getProject();
-      InheritedBooleanInfo useContributorAgreements =
-          new InheritedBooleanInfo();
-      InheritedBooleanInfo useSignedOffBy = new InheritedBooleanInfo();
-      InheritedBooleanInfo useContentMerge = new InheritedBooleanInfo();
-      InheritedBooleanInfo requireChangeId = new InheritedBooleanInfo();
-
-      useContributorAgreements.value = state.isUseContributorAgreements();
-      useSignedOffBy.value = state.isUseSignedOffBy();
-      useContentMerge.value = state.isUseContentMerge();
-      requireChangeId.value = state.isRequireChangeID();
-
-      useContributorAgreements.configuredValue =
-          p.getUseContributorAgreements();
-      useSignedOffBy.configuredValue = p.getUseSignedOffBy();
-      useContentMerge.configuredValue = p.getUseContentMerge();
-      requireChangeId.configuredValue = p.getRequireChangeID();
-
-      ProjectState parentState = Iterables.getFirst(state.parents(), null);
-      if (parentState != null) {
-        useContributorAgreements.inheritedValue =
-            parentState.isUseContributorAgreements();
-        useSignedOffBy.inheritedValue = parentState.isUseSignedOffBy();
-        useContentMerge.inheritedValue = parentState.isUseContentMerge();
-        requireChangeId.inheritedValue = parentState.isRequireChangeID();
-      }
-
-      this.useContributorAgreements = useContributorAgreements;
-      this.useSignedOffBy = useSignedOffBy;
-      this.useContentMerge = useContentMerge;
-      this.requireChangeId = requireChangeId;
-
-      MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
-      maxObjectSizeLimit.value =
-          config.getEffectiveMaxObjectSizeLimit(state) == config
-              .getMaxObjectSizeLimit() ? config
-              .getFormattedMaxObjectSizeLimit() : p.getMaxObjectSizeLimit();
-      maxObjectSizeLimit.configuredValue = p.getMaxObjectSizeLimit();
-      maxObjectSizeLimit.inheritedValue =
-          config.getFormattedMaxObjectSizeLimit();
-      this.maxObjectSizeLimit = maxObjectSizeLimit;
-
-      this.submitType = p.getSubmitType();
-      this.state = p.getState() != Project.State.ACTIVE ? p.getState() : null;
-
-      this.commentlinks = Maps.newLinkedHashMap();
-      for (CommentLinkInfo cl : state.getCommentLinks()) {
-        this.commentlinks.put(cl.name, cl);
-      }
-
-      this.theme = state.getTheme();
-    }
-  }
-
-  public static class InheritedBooleanInfo {
-    public Boolean value;
-    public InheritableBoolean configuredValue;
-    public Boolean inheritedValue;
-  }
-
-  public static class MaxObjectSizeLimitInfo {
-    public String value;
-    public String configuredValue;
-    public String inheritedValue;
   }
 }

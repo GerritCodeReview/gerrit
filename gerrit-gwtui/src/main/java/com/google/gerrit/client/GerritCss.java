@@ -140,7 +140,6 @@ public interface GerritCss extends CssResource {
   String infoBlock();
   String infoTable();
   String inputFieldTypeHint();
-  String keyhelp();
   String labelList();
   String leftMostCell();
   String lineHeader();
@@ -230,6 +229,5 @@ public interface GerritCss extends CssResource {
   String userInfoPopup();
   String useridentity();
   String usernameField();
-  String version();
   String watchedProjectFilter();
 }

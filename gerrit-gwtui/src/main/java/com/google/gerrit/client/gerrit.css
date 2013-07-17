@@ -61,12 +61,11 @@ a:hover {
   text-decoration: underline;
 }
 
-.version,
-.keyhelp {
+#gerrit_btmmenu {
+  clear: both;
   color: #a0adcc;
-  right: 0;
-  padding-right: 10px;
   text-align: right;
+  padding-right: 10px;
 }
 
 .version a,

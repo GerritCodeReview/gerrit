@@ -122,7 +122,12 @@ public class PutConfig implements RestModifyView<ProjectResource, Input> {
         (new PerRequestProjectControlCache(projectCache, self.get()))
             .evict(projectConfig.getProject());
       } catch (IOException e) {
-        throw new ResourceConflictException("Cannot update " + projectName);
+        if (e.getCause() instanceof ConfigInvalidException) {
+          throw new ResourceConflictException("Cannot update " + projectName
+              + ": " + e.getCause().getMessage());
+        } else {
+          throw new ResourceConflictException("Cannot update " + projectName);
+        }
       }
       return new ConfigInfo(projectStateFactory.create(projectConfig), config);
     } catch (ConfigInvalidException err) {

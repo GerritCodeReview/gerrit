@@ -15,15 +15,15 @@
 #gerrit_topmenu {
   left: 60px;
   margin-right: 60px;
-  padding-right: 10px;
   position: relative;
+  margin-bottom: 5px;
 }
 
 #diffy_logo {
   display: block !important;
   margin-bottom: -55px;
-  padding-left: 20px;
+  padding-left: 10px;
   position: relative;
-  top: -45px;
+  top: -55px;
   width: 60px;
 }

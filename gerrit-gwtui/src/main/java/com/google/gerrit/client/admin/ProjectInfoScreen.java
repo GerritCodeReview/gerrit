@@ -36,6 +36,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -54,6 +56,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox state;
   private ListBox contentMerge;
   private NpTextBox maxObjectSizeLimit;
+  private Label effectiveMaxObjectSizeLimit;
 
   // Section: Contributor Agreements
   private ListBox contributorAgreements;
@@ -185,7 +188,12 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     maxObjectSizeLimit = new NpTextBox();
     saveEnabler.listenTo(maxObjectSizeLimit);
-    grid.addHtml(Util.C.headingMaxObjectSizeLimit(), maxObjectSizeLimit);
+    effectiveMaxObjectSizeLimit = new Label();
+    HorizontalPanel p = new HorizontalPanel();
+    p.setStyleName(Gerrit.RESOURCES.css().maxObjectSizeLimitPanel());
+    p.add(maxObjectSizeLimit);
+    p.add(effectiveMaxObjectSizeLimit);
+    grid.addHtml(Util.C.headingMaxObjectSizeLimit(), p);
   }
 
   private static ListBox newInheritedBooleanBox() {
@@ -302,6 +310,15 @@ public class ProjectInfoScreen extends ProjectScreen {
     setSubmitType(result.submit_type());
     setState(result.state());
     maxObjectSizeLimit.setText(result.max_object_size_limit().configured_value());
+    if (result.max_object_size_limit().inherited_value() != null) {
+      effectiveMaxObjectSizeLimit.setVisible(true);
+      effectiveMaxObjectSizeLimit.setText(
+          Util.M.effectiveMaxObjectSizeLimit(result.max_object_size_limit().value()));
+      effectiveMaxObjectSizeLimit.setTitle(
+          Util.M.globalMaxObjectSizeLimit(result.max_object_size_limit().inherited_value()));
+    } else {
+      effectiveMaxObjectSizeLimit.setVisible(false);
+    }
 
     saveProject.setEnabled(false);
   }

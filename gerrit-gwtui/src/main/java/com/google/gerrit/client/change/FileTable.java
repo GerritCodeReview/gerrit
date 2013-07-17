@@ -127,6 +127,7 @@ class FileTable extends FlowPanel {
   private MyTable table;
   private boolean register;
   private JsArrayString reviewed;
+  private String scrollToPath;
 
   @Override
   protected void onLoad() {
@@ -176,16 +177,29 @@ class FileTable extends FlowPanel {
     }
   }
 
+  void scrollToPath(String path) {
+    if (table != null) {
+      table.scrollToPath(path);
+    } else {
+      scrollToPath = path;
+    }
+  }
+
   private void setTable(MyTable table) {
     clear();
     add(table);
     this.table = table;
+
     if (register) {
       table.setRegisterKeys(true);
     }
     if (reviewed != null) {
       table.markReviewed(reviewed);
       reviewed = null;
+    }
+    if (scrollToPath != null) {
+      table.scrollToPath(scrollToPath);
+      scrollToPath = null;
     }
   }
 
@@ -265,6 +279,13 @@ class FileTable extends FlowPanel {
       CellFormatter fmt = table.getCellFormatter();
       Element e = fmt.getElement(1 + info._row(), 1);
       return InputElement.as(e.getFirstChildElement());
+    }
+
+    void scrollToPath(String path) {
+      FileInfo info = map.get(path);
+      if (info != null) {
+        movePointerTo(1 + info._row(), true);
+      }
     }
 
     @Override

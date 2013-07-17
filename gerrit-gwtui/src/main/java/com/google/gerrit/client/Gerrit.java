@@ -115,6 +115,7 @@ public class Gerrit implements EntryPoint {
   private static ViewSite<Screen> body;
   private static PatchScreen patchScreen;
   private static String lastChangeListToken;
+  private static String lastViewToken;
 
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
@@ -141,6 +142,10 @@ public class Gerrit implements EntryPoint {
     } else {
       display(PageLinks.toChangeQuery("status:open"));
     }
+  }
+
+  public static String getPriorView() {
+    return lastViewToken;
   }
 
   /**
@@ -490,8 +495,9 @@ public class Gerrit implements EntryPoint {
     body = new ViewSite<Screen>() {
       @Override
       protected void onShowView(Screen view) {
-        final String token = view.getToken();
-        if (!token.equals(History.getToken())) {
+        lastViewToken = History.getToken();
+        String token = view.getToken();
+        if (!token.equals(lastViewToken)) {
           History.newItem(token, false);
           dispatchHistoryHooks(token);
         }

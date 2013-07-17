@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "33f1f750_002246ba",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ReviewInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Should I just use a wildcard instead?",
+      "parentUuid": "33f1f750_a0015a18",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33f1f750_c0045e2a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2013-07-17T00:13:41Z",
       "side": 1,
       "message": "nit: no new blank line here",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33f1f750_e01e4274",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f1f750_c0045e2a",
       "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "33f1f750_c01b3e82",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13f6b349_5f138b6f",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33f1f750_e0f7620a",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2013-07-17T00:13:41Z",
       "side": 1,
       "message": "This method can return void.",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13f6b349_df1e7b74",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/CodeMirrorDemo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f1f750_e0f7620a",
       "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "13f6b349_bf1bb782",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f1f750_40084e38",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33f1f750_200d4a48",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.java",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2013-07-17T00:13:41Z",
       "side": 1,
       "message": "If you use Element this is UIObject.setVisible(fileName, false);",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33f1f750_a0183a86",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f1f750_200d4a48",
       "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "33f1f750_803536f2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "931aa365_73e7a05f",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33f1f750_60135270",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
         "patchSetId": 5
@@ -132,6 +258,24 @@
       "writtenOn": "2013-07-17T00:13:41Z",
       "side": 1,
       "message": "Since the header does not scroll a 16pt header is massive here. I would prefer going with something smaller, maybe the same size as the CodeMirror text itself.",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13f6b349_7f352fef",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f1f750_60135270",
       "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "33f1f750_403f2ed0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33f1f750_800e5646",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13f6b349_3f08c737",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
         "patchSetId": 5
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "33f1f750_20442a52",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13f6b349_3f08c737",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13f6b349_1f0d0348",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
         "patchSetId": 5
@@ -183,6 +363,24 @@
       "writtenOn": "2013-07-17T00:13:41Z",
       "side": 1,
       "message": "Unless we care about the GWT default anchor style you can use styleName\u003d\u0027{style.anchor}\u0027",
+      "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33f1f750_603a32e2",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.ui.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012687
+      },
+      "writtenOn": "2013-07-17T00:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13f6b349_1f0d0348",
       "revId": "fbbc663b0844440fbfcf5072615ecb396cca7648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

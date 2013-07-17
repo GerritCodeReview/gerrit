@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
-
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -87,7 +86,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -197,61 +195,6 @@ public class MergeOp {
     toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
     commits = new HashMap<Change.Id, CodeReviewCommit>();
-  }
-
-  public void verifyMergeability(Change change) throws NoSuchProjectException {
-    try {
-      setDestProject();
-      openRepository();
-      final Ref destBranchRef = repo.getRef(destBranch.get());
-
-      // Test mergeability of the change if the last merged sha1
-      // in the branch is different from the last sha1
-      // the change was tested against.
-      if ((destBranchRef == null && change.getLastSha1MergeTested() == null)
-          || change.getLastSha1MergeTested() == null
-          || (destBranchRef != null && !destBranchRef.getObjectId().getName()
-              .equals(change.getLastSha1MergeTested().get()))) {
-        openSchema();
-        openBranch();
-        validateChangeList(Collections.singletonList(change));
-        if (!toMerge.isEmpty()) {
-          final Entry<SubmitType, CodeReviewCommit> e =
-              toMerge.entries().iterator().next();
-          final boolean isMergeable =
-              createStrategy(e.getKey()).dryRun(branchTip, e.getValue());
-
-          // update sha1 tested merge.
-          if (destBranchRef != null) {
-            change.setLastSha1MergeTested(new RevId(destBranchRef
-                .getObjectId().getName()));
-          } else {
-            change.setLastSha1MergeTested(new RevId(""));
-          }
-          change.setMergeable(isMergeable);
-          db.changes().update(Collections.singleton(change));
-        } else {
-          log.error("Test merge attempt for change: " + change.getId()
-              + " failed");
-        }
-      }
-    } catch (MergeException e) {
-      log.error("Test merge attempt for change: " + change.getId()
-          + " failed", e);
-    } catch (OrmException e) {
-      log.error("Test merge attempt for change: " + change.getId()
-          + " failed: Not able to query the database", e);
-    } catch (IOException e) {
-      log.error("Test merge attempt for change: " + change.getId()
-          + " failed", e);
-    } finally {
-      if (repo != null) {
-        repo.close();
-      }
-      if (db != null) {
-        db.close();
-      }
-    }
   }
 
   private void setDestProject() throws MergeException {

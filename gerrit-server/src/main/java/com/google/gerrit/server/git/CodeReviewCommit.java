@@ -24,7 +24,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import java.util.List;
 
 /** Extended commit entity with code review specific metadata. */
-class CodeReviewCommit extends RevCommit {
+public class CodeReviewCommit extends RevCommit {
   static CodeReviewCommit error(final CommitMergeStatus s) {
     final CodeReviewCommit r = new CodeReviewCommit(ObjectId.zeroId());
     r.statusCode = s;
@@ -59,7 +59,7 @@ class CodeReviewCommit extends RevCommit {
   /** Commits which are missing ancestors of this commit. */
   List<CodeReviewCommit> missing;
 
-  CodeReviewCommit(final AnyObjectId id) {
+  public CodeReviewCommit(final AnyObjectId id) {
     super(id);
   }
 

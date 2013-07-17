@@ -18,6 +18,9 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -27,15 +30,16 @@ import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.Mergeable;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -48,6 +52,8 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,6 +67,9 @@ import java.util.Set;
 
 /** Creates a {@link ChangeDetail} from a {@link Change}. */
 public class ChangeDetailFactory extends Handler<ChangeDetail> {
+  private static final Logger log = LoggerFactory
+      .getLogger(ChangeDetailFactory.class);
+
   public interface Factory {
     ChangeDetailFactory create(Change.Id id);
   }
@@ -78,7 +87,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private ChangeControl control;
   private Map<PatchSet.Id, PatchSet> patchsetsById;
 
-  private final MergeOp.Factory opFactory;
+  private final Mergeable mergeable;
   private boolean testMerge;
 
   private List<PatchSetAncestor> currentPatchSetAncestors;
@@ -92,7 +101,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final AnonymousUser anonymousUser,
-      final MergeOp.Factory opFactory,
+      final Mergeable mergeable,
       @GerritServerConfig final Config cfg,
       @Assisted final Change.Id id) {
     this.patchSetDetail = patchSetDetail;
@@ -102,7 +111,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     this.anonymousUser = anonymousUser;
     this.aic = accountInfoCacheFactory.create();
 
-    this.opFactory = opFactory;
+    this.mergeable = mergeable;
     this.testMerge = cfg.getBoolean("changeMerge", "test", false);
 
     this.changeId = id;
@@ -224,7 +233,21 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     final Change.Status status = detail.getChange().getStatus();
     if ((status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) &&
         testMerge) {
-      ChangeUtil.testMerge(opFactory, detail.getChange());
+      try {
+        detail.getChange().setMergeable(mergeable.apply(new RevisionResource(
+            new ChangeResource(control),
+            detail.getCurrentPatchSet())).mergeable);
+      } catch (RepositoryNotFoundException e) {
+        log.warn("Cannot check mergeable", e);
+      } catch (ResourceConflictException e) {
+        log.warn("Cannot check mergeable", e);
+      } catch (BadRequestException e) {
+        log.warn("Cannot check mergeable", e);
+      } catch (AuthException e) {
+        log.warn("Cannot check mergeable", e);
+      } catch (IOException e) {
+        log.warn("Cannot check mergeable", e);
+      }
     }
   }
 

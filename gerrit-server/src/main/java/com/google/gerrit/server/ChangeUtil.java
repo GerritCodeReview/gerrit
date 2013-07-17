@@ -31,7 +31,6 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
@@ -40,7 +39,6 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.MagicBranch;
@@ -175,11 +173,6 @@ public class ChangeUtil {
 
     db.trackingIds().insert(toInsert);
     db.trackingIds().delete(toDelete);
-  }
-
-  public static void testMerge(MergeOp.Factory opFactory, Change change)
-      throws NoSuchProjectException {
-    opFactory.create(change.getDest()).verifyMergeability(change);
   }
 
   public static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)

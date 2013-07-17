@@ -28,13 +28,13 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
@@ -49,9 +49,9 @@ import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
-class WebSessionManager {
+public class WebSessionManager {
   private static final Logger log = LoggerFactory.getLogger(WebSessionManager.class);
-  static final String CACHE_NAME = "web_sessions";
+  public static final String CACHE_NAME = "web_sessions";
 
   static long now() {
     return System.currentTimeMillis();
@@ -59,11 +59,11 @@ class WebSessionManager {
 
   private final long sessionMaxAgeMillis;
   private final SecureRandom prng;
-  private final Cache<String, Val> self;
+  private final DynamicItem<Cache<String, Val>> self;
 
   @Inject
   WebSessionManager(@GerritServerConfig Config cfg,
-      @Named(CACHE_NAME) final Cache<String, Val> cache) {
+      final DynamicItem<Cache<String, Val>> cache) {
     prng = new SecureRandom();
     self = cache;
 
@@ -128,7 +128,7 @@ class WebSessionManager {
     }
 
     Val val = new Val(who, refreshCookieAt, remember, lastLogin, expiresAt, sid, auth);
-    self.put(key.token, val);
+    self.get().put(key.token, val);
     return val;
   }
 
@@ -149,16 +149,16 @@ class WebSessionManager {
   }
 
   Val get(final Key key) {
-    Val val = self.getIfPresent(key.token);
+    Val val = self.get().getIfPresent(key.token);
     if (val != null && val.expiresAt <= now()) {
-      self.invalidate(key.token);
+      self.get().invalidate(key.token);
       return null;
     }
     return val;
   }
 
   void destroy(final Key key) {
-    self.invalidate(key.token);
+    self.get().invalidate(key.token);
   }
 
   static final class Key  {
@@ -183,7 +183,7 @@ class WebSessionManager {
     }
   }
 
-  static final class Val implements Serializable {
+  public static final class Val implements Serializable {
     static final long serialVersionUID = 2L;
 
     private transient Account.Id accountId;

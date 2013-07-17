@@ -17,6 +17,8 @@ package com.google.gerrit.httpd;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.common.cache.Cache;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.reviewdb.client.Account;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.RequestScoped;
 
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
@@ -50,7 +53,10 @@ public final class CacheBasedWebSession implements WebSession {
     return new CacheModule() {
       @Override
       protected void configure() {
-        persist(WebSessionManager.CACHE_NAME, String.class, Val.class)
+        DynamicItem.itemOf(binder(), new TypeLiteral<Cache<String, Val>>() {},
+            true);
+        persistDynamicItemCache(WebSessionManager.CACHE_NAME, String.class,
+            Val.class)
             .maximumWeight(1024) // reasonable default for many sites
             .expireAfterWrite(MAX_AGE_MINUTES, MINUTES) // expire sessions if they are inactive
         ;

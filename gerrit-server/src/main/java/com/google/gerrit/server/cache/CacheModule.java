@@ -19,11 +19,13 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
+import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Names;
 import com.google.inject.util.Types;
 
@@ -86,6 +88,32 @@ public abstract class CacheModule extends AbstractModule {
     CacheProvider<K, V> m =
         new CacheProvider<K, V>(this, name, keyType, valType);
     bind(key).toProvider(m).in(Scopes.SINGLETON);
+    bind(ANY_CACHE).annotatedWith(Exports.named(name)).to(key);
+    return m.maximumWeight(1024);
+  }
+
+  /**
+   * Declare a named in-memory cache as the type in a dynamicItem.
+   *
+   * @param <K> type of key used to lookup entries.
+   * @param <V> type of value stored by the cache.
+   * @return binding to describe the cache.
+   */
+  protected <K, V> CacheBinding<K, V> dynamicItemCache(
+      String name,
+      TypeLiteral<K> keyType,
+      TypeLiteral<V> valType) {
+    Type type =
+        Types.newParameterizedType(Cache.class, keyType.getType(),
+            valType.getType());
+
+    @SuppressWarnings("unchecked")
+    Key<Cache<K, V>> key =
+        (Key<Cache<K, V>>) Key.get(type, UniqueAnnotations.create());
+
+    CacheProvider<K, V> m =
+        new CacheProvider<K, V>(this, name, keyType, valType);
+    DynamicItem.bind(binder(), key).toProvider(m).in(Scopes.SINGLETON);
     bind(ANY_CACHE).annotatedWith(Exports.named(name)).to(key);
     return m.maximumWeight(1024);
   }
@@ -177,6 +205,53 @@ public abstract class CacheModule extends AbstractModule {
       TypeLiteral<K> keyType,
       TypeLiteral<V> valType) {
     return ((CacheProvider<K, V>) cache(name, keyType, valType))
+        .persist(true);
+  }
+
+  /**
+   * Declare a named in-memory/on-disk cache as the type in a dynamicItem.
+   *
+   * @param <K> type of key used to lookup entries.
+   * @param <V> type of value stored by the cache.
+   * @return binding to describe the cache.
+   */
+  protected <K extends Serializable, V extends Serializable>
+      CacheBinding<K, V> persistDynamicItemCache(
+      String name,
+      Class<K> keyType,
+      Class<V> valType) {
+    return persistDynamicItemCache(name, TypeLiteral.get(keyType),
+        TypeLiteral.get(valType));
+  }
+
+  /**
+   * Declare a named in-memory/on-disk cache as the type in a dynamicItem.
+   *
+   * @param <K> type of key used to lookup entries.
+   * @param <V> type of value stored by the cache.
+   * @return binding to describe the cache.
+   */
+  protected <K extends Serializable, V extends Serializable>
+      CacheBinding<K, V> persistDynamicItemCache(
+      String name,
+      Class<K> keyType,
+      TypeLiteral<V> valType) {
+    return persistDynamicItemCache(name, TypeLiteral.get(keyType), valType);
+  }
+
+  /**
+   * Declare a named in-memory/on-disk cache as the type in a dynamicItem.
+   *
+   * @param <K> type of key used to lookup entries.
+   * @param <V> type of value stored by the cache.
+   * @return binding to describe the cache.
+   */
+  protected <K extends Serializable, V extends Serializable>
+      CacheBinding<K, V> persistDynamicItemCache(
+      String name,
+      TypeLiteral<K> keyType,
+      TypeLiteral<V> valType) {
+    return ((CacheProvider<K, V>) dynamicItemCache(name, keyType, valType))
         .persist(true);
   }
 }

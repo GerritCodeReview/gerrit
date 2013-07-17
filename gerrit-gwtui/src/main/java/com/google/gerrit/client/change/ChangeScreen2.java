@@ -22,6 +22,7 @@ import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.client.changes.ChangeInfo.ApprovalInfo;
 import com.google.gerrit.client.changes.ChangeInfo.CommitInfo;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.changes.ChangeInfo.MergeableInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
 import com.google.gerrit.client.changes.StarredChanges;
@@ -48,8 +49,6 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayString;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -290,10 +289,6 @@ public class ChangeScreen2 extends Screen {
         }
       }));
     group.done();
-
-    if (info.status().isOpen() && rev.name().equals(info.current_revision())) {
-      loadSubmitAction(rev);
-    }
   }
 
   private void loadDiff(final RevisionInfo rev, CallbackGroup group) {
@@ -343,33 +338,50 @@ public class ChangeScreen2 extends Screen {
       }));
   }
 
-  private void loadSubmitAction(final RevisionInfo rev) {
-    // Submit action is less important than other data.
-    // Defer so browser can start other requests first.
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-        ChangeApi.revision(changeId.get(), rev.name())
-          .view("submit_type")
-          .get(new AsyncCallback<NativeString>() {
-            @Override
-            public void onSuccess(NativeString result) {
-              String action = result.asString();
-              try {
-                SubmitType type = Project.SubmitType.valueOf(action);
-                submitActionText.setInnerText(
-                    com.google.gerrit.client.admin.Util.toLongString(type));
-              } catch (IllegalArgumentException e) {
-                submitActionText.setInnerText(action);
-              }
+  private void loadMergeable(final boolean canSubmit) {
+    if (Gerrit.getConfig().testChangeMerge()) {
+      ChangeApi.revision(changeId.get(), revision)
+        .view("mergeable")
+        .get(new AsyncCallback<MergeableInfo>() {
+          @Override
+          public void onSuccess(MergeableInfo result) {
+            if (canSubmit) {
+              actions.setSubmitEnabled(result.mergeable());
+              statusText.setInnerText(result.mergeable()
+                  ? Util.C.readyToSubmit()
+                  : Util.C.mergeConflict());
             }
+            setVisible(notMergeable, !result.mergeable());
+            renderSubmitType(result.submit_type());
+          }
 
-            @Override
-            public void onFailure(Throwable caught) {
-            }
-          });
-      }
-    });
+          @Override
+          public void onFailure(Throwable caught) {
+            loadSubmitType(canSubmit);
+          }
+        });
+    } else {
+      loadSubmitType(canSubmit);
+    }
+  }
+
+  private void loadSubmitType(final boolean canSubmit) {
+    if (canSubmit) {
+      actions.setSubmitEnabled(true);
+      statusText.setInnerText(Util.C.readyToSubmit());
+    }
+    ChangeApi.revision(changeId.get(), revision)
+      .view("submit_type")
+      .get(new AsyncCallback<NativeString>() {
+        @Override
+        public void onSuccess(NativeString result) {
+          renderSubmitType(result.asString());
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      });
   }
 
   private RevisionInfo resolveRevisionToDisplay(ChangeInfo info) {
@@ -390,14 +402,16 @@ public class ChangeScreen2 extends Screen {
 
   private void renderChangeInfo(ChangeInfo info) {
     statusText.setInnerText(Util.toLongString(info.status()));
-    boolean canSubmit = labels.set(info);
+    boolean current = info.status().isOpen()
+        && revision.equals(info.current_revision());
+    boolean canSubmit = labels.set(info, current);
 
     renderOwner(info);
     renderReviewers(info);
     renderActionTextDate(info);
     renderRevisions(info);
     renderHistory(info);
-    actions.display(info, revision, canSubmit);
+    actions.display(info, revision);
 
     star.setValue(info.starred());
     permalink.setHref(ChangeLink.permalink(changeId));
@@ -411,9 +425,6 @@ public class ChangeScreen2 extends Screen {
     commit.set(commentLinkProcessor, info, revision);
     quickApprove.set(info, revision);
 
-    boolean hasConflict = Gerrit.getConfig().testChangeMerge() && !info.mergeable();
-    setVisible(notMergeable, info.status().isOpen() && hasConflict);
-
     if (Gerrit.isSignedIn()) {
       replyAction = new ReplyAction(info, revision, style, reply);
       if (topic.canEdit()) {
@@ -425,13 +436,10 @@ public class ChangeScreen2 extends Screen {
         });
       }
     }
-    reply.setVisible(replyAction != null);
-
-    if (canSubmit && !hasConflict && actions.isSubmitEnabled()) {
-      statusText.setInnerText(Util.C.readyToSubmit());
-    } else if (canSubmit && hasConflict) {
-      statusText.setInnerText(Util.C.mergeConflict());
+    if (current) {
+      loadMergeable(canSubmit);
     }
+    reply.setVisible(replyAction != null);
 
     StringBuilder sb = new StringBuilder();
     sb.append(Util.M.changeScreenTitleId(info.id_abbreviated()));
@@ -496,6 +504,16 @@ public class ChangeScreen2 extends Screen {
     ownerText.setInnerText(info.owner().name() != null
         ? info.owner().name()
         : Gerrit.getConfig().getAnonymousCowardName());
+  }
+
+  private void renderSubmitType(String action) {
+    try {
+      SubmitType type = Project.SubmitType.valueOf(action);
+      submitActionText.setInnerText(
+          com.google.gerrit.client.admin.Util.toLongString(type));
+    } catch (IllegalArgumentException e) {
+      submitActionText.setInnerText(action);
+    }
   }
 
   private void renderActionTextDate(ChangeInfo info) {

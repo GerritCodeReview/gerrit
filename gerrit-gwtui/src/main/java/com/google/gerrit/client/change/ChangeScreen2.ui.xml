@@ -243,7 +243,10 @@ limitations under the License.
               <th><ui:msg>Strategy</ui:msg></th>
               <td>
                 <span ui:field='submitActionText'/>
-                <div ui:field='notMergeable' class='{style.notMergeable}'>
+                <div ui:field='notMergeable'
+                     class='{style.notMergeable}'
+                     style='display: none'
+                     aria-hidden='true'>
                   <ui:msg>Cannot Merge</ui:msg>
                 </div>
               </td>

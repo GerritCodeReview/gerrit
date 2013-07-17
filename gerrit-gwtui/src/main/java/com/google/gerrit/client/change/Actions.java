@@ -56,13 +56,14 @@ class Actions extends Composite {
   private String project;
   private String subject;
   private String message;
+  private boolean canSubmit;
 
   Actions() {
     initWidget(uiBinder.createAndBindUi(this));
     getElement().setId("change_actions");
   }
 
-  void display(ChangeInfo info, String revision, boolean canSubmit) {
+  void display(ChangeInfo info, String revision) {
     this.revision = revision;
 
     boolean hasUser = Gerrit.isSignedIn();
@@ -74,7 +75,7 @@ class Actions extends Composite {
     message = commit.message();
 
     initChangeActions(info, hasUser);
-    initRevisionActions(info, revInfo, canSubmit, hasUser);
+    initRevisionActions(info, revInfo, hasUser);
   }
 
   private void initChangeActions(ChangeInfo info, boolean hasUser) {
@@ -95,10 +96,7 @@ class Actions extends Composite {
   }
 
   private void initRevisionActions(ChangeInfo info, RevisionInfo revInfo,
-      boolean canSubmit, boolean hasUser) {
-    boolean hasConflict = Gerrit.getConfig().testChangeMerge()
-        && !info.mergeable();
-
+      boolean hasUser) {
     NativeMap<ActionInfo> actions = revInfo.has_actions()
         ? revInfo.actions()
         : NativeMap.<ActionInfo> create();
@@ -106,9 +104,7 @@ class Actions extends Composite {
 
     cherrypick.setVisible(hasUser && actions.containsKey("cherrypick"));
     rebase.setVisible(hasUser && actions.containsKey("rebase"));
-    submit.setVisible(hasUser && !hasConflict
-        && canSubmit
-        && actions.containsKey("submit"));
+    canSubmit = hasUser && actions.containsKey("submit");
 
     if (hasUser) {
       for (String id : filterNonCore(actions)) {
@@ -127,6 +123,10 @@ class Actions extends Composite {
       ids.remove(id);
     }
     return ids;
+  }
+
+  void setSubmitEnabled(boolean ok) {
+    submit.setVisible(ok && canSubmit);
   }
 
   boolean isSubmitEnabled() {

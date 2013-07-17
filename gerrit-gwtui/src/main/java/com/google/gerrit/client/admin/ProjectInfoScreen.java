@@ -308,6 +308,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private void doSave() {
     enableForm(false);
+    saveProject.setEnabled(false);
     ProjectApi.setConfig(getProjectKey(), descTxt.getText().trim(),
         getBool(contributorAgreements), getBool(contentMerge),
         getBool(signedOffBy), getBool(requireChangeID),

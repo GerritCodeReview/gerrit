@@ -119,7 +119,7 @@ class FileTable extends FlowPanel {
       p.append(base.get()).append("..");
     }
     p.append(curr.get()).append('/').append(KeyUtil.encode(info.path()));
-    p.append(info.binary() ? ",unified" : "cm");
+    p.append(info.binary() ? ",unified" : ",cm");
     return p.toString();
   }
 

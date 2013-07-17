@@ -71,6 +71,7 @@ import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -209,6 +210,43 @@ public class ChangeScreen2 extends Screen {
     keys.add(GlobalKey.add(this, keysNavigation));
     keys.add(GlobalKey.add(this, keysAction));
     files.registerKeys();
+  }
+
+  @Override
+  public void onShowView() {
+    super.onShowView();
+
+    String prior = Gerrit.getPriorView();
+    if (prior != null && prior.startsWith("/c/")) {
+      scrollToPath(prior.substring(3));
+    }
+  }
+
+  private void scrollToPath(String token) {
+    int s = token.indexOf('/');
+    try {
+      if (s < 0 || !changeId.equals(Change.Id.parse(token.substring(0, s)))) {
+        return; // Unrelated URL, do not scroll.
+      }
+    } catch (IllegalArgumentException e) {
+      return;
+    }
+
+    s = token.indexOf('/', s + 1);
+    if (s < 0) {
+      return; // URL does not name a file.
+    }
+
+    int c = token.lastIndexOf(',');
+    if (0 <= c) {
+      token = token.substring(s + 1, c);
+    } else {
+      token = token.substring(s + 1);
+    }
+
+    if (!token.isEmpty()) {
+      files.scrollToPath(KeyUtil.decode(token));
+    }
   }
 
   @UiHandler("star")

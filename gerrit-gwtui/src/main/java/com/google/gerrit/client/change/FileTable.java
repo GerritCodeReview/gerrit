@@ -60,6 +60,7 @@ class FileTable extends FlowPanel {
   private PatchSet.Id curr;
   private MyTable table;
   private boolean register;
+  private String scrollToPath;
 
   @Override
   protected void onLoad() {
@@ -101,12 +102,25 @@ class FileTable extends FlowPanel {
     }
   }
 
+  void scrollToPath(String path) {
+    if (table != null) {
+      table.scrollToPath(path);
+    } else {
+      scrollToPath = path;
+    }
+  }
+
   private void setTable(MyTable table) {
     clear();
     add(table);
     this.table = table;
+
     if (register) {
       table.setRegisterKeys(true);
+    }
+    if (scrollToPath != null) {
+      table.scrollToPath(scrollToPath);
+      scrollToPath = null;
     }
   }
 
@@ -141,6 +155,13 @@ class FileTable extends FlowPanel {
       setSavePointerId(
           (base != null ? base.toString() + ".." : "")
           + curr.toString());
+    }
+
+    void scrollToPath(String path) {
+      FileInfo info = map.get(path);
+      if (info != null) {
+        movePointerTo(1 + info._row(), true);
+      }
     }
 
     @Override

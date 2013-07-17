@@ -72,7 +72,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
@@ -434,28 +433,23 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void populateBottomMenu(RootPanel btmmenu, HostPageData hpd) {
-    final Label keyHelp = new Label(C.keyHelp());
-    keyHelp.setStyleName(RESOURCES.css().keyhelp());
-    btmmenu.add(keyHelp);
-
     String vs = hpd.version;
     if (vs == null || vs.isEmpty()) {
       vs = "dev";
     }
 
-    FlowPanel poweredBy = new FlowPanel();
-    poweredBy.setStyleName(RESOURCES.css().version());
-    poweredBy.add(new InlineHTML(M.poweredBy(vs)));
+    btmmenu.add(new InlineLabel(C.keyHelp()));
+    btmmenu.add(new InlineLabel(" | "));
+    btmmenu.add(new InlineHTML(M.poweredBy(vs)));
     if (getConfig().getReportBugUrl() != null) {
-      poweredBy.add(new InlineLabel(" | "));
       Anchor a = new Anchor(
           C.reportBug(),
           getConfig().getReportBugUrl());
       a.setTarget("_blank");
       a.setStyleName("");
-      poweredBy.add(a);
+      btmmenu.add(new InlineLabel(" | "));
+      btmmenu.add(a);
     }
-    btmmenu.add(poweredBy);
   }
 
   private void onModuleLoad2(HostPageData hpd) {

@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
-import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -30,47 +29,21 @@ import java.util.List;
 class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ChangeProjectAccess.Factory changeProjectAccessFactory;
   private final ReviewProjectAccess.Factory reviewProjectAccessFactory;
-  private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
-  private final VisibleProjectDetails.Factory visibleProjectDetailsFactory;
   private final ProjectAccessFactory.Factory projectAccessFactory;
-  private final ProjectDetailFactory.Factory projectDetailFactory;
 
   @Inject
   ProjectAdminServiceImpl(final ChangeProjectAccess.Factory changeProjectAccessFactory,
       final ReviewProjectAccess.Factory reviewProjectAccessFactory,
-      final ChangeProjectSettings.Factory changeProjectSettingsFactory,
-      final VisibleProjectDetails.Factory visibleProjectDetailsFactory,
-      final ProjectAccessFactory.Factory projectAccessFactory,
-      final ProjectDetailFactory.Factory projectDetailFactory) {
+      final ProjectAccessFactory.Factory projectAccessFactory) {
     this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.reviewProjectAccessFactory = reviewProjectAccessFactory;
-    this.changeProjectSettingsFactory = changeProjectSettingsFactory;
-    this.visibleProjectDetailsFactory = visibleProjectDetailsFactory;
     this.projectAccessFactory = projectAccessFactory;
-    this.projectDetailFactory = projectDetailFactory;
-  }
-
-  @Override
-  public void visibleProjectDetails(final AsyncCallback<List<ProjectDetail>> callback) {
-    visibleProjectDetailsFactory.create().to(callback);
-  }
-
-  @Override
-  public void projectDetail(final Project.NameKey projectName,
-      final AsyncCallback<ProjectDetail> callback) {
-    projectDetailFactory.create(projectName).to(callback);
   }
 
   @Override
   public void projectAccess(final Project.NameKey projectName,
       final AsyncCallback<ProjectAccess> callback) {
     projectAccessFactory.create(projectName).to(callback);
-  }
-
-  @Override
-  public void changeProjectSettings(final Project update,
-      final AsyncCallback<ProjectDetail> callback) {
-    changeProjectSettingsFactory.create(update).to(callback);
   }
 
   private static ObjectId getBase(final String baseRevision) {

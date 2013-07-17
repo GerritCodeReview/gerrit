@@ -30,10 +30,7 @@ public class ProjectModule extends RpcServletModule {
       protected void configure() {
         factory(ChangeProjectAccess.Factory.class);
         factory(ReviewProjectAccess.Factory.class);
-        factory(ChangeProjectSettings.Factory.class);
-        factory(VisibleProjectDetails.Factory.class);
         factory(ProjectAccessFactory.Factory.class);
-        factory(ProjectDetailFactory.Factory.class);
       }
     });
     rpc(ProjectAdminServiceImpl.class);

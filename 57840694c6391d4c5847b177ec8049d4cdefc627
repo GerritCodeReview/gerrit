@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1344f355_af325900",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-17T18:09:55Z",
+      "side": 1,
+      "message": "This comment may be a bit out of place now?",
+      "revId": "57840694c6391d4c5847b177ec8049d4cdefc627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

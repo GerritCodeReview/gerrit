@@ -48,7 +48,7 @@ abstract class CommentBox extends Composite {
   private CommentInfo original;
   private PatchSet.Id patchSetId;
   private PaddingManager widgetManager;
-  private CodeMirrorDemo diffView;
+  private SideBySide2 diffView;
   private boolean draft;
   private LineWidget selfWidget;
   private CodeMirror cm;
@@ -65,7 +65,7 @@ abstract class CommentBox extends Composite {
   CommentBoxResources res;
 
   CommentBox(
-      CodeMirrorDemo host,
+      SideBySide2 host,
       CodeMirror cmInstance,
       UiBinder<? extends Widget, CommentBox> binder,
       PatchSet.Id id, CommentInfo info, CommentLinkProcessor linkProcessor,
@@ -133,7 +133,7 @@ abstract class CommentBox extends Composite {
     return getStyleName().contains(res.style().open());
   }
 
-  CodeMirrorDemo getDiffView() {
+  SideBySide2 getDiffView() {
     return diffView;
   }
 

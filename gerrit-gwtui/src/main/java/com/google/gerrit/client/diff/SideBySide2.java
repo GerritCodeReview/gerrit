@@ -73,8 +73,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CodeMirrorDemo extends Screen {
-  interface Binder extends UiBinder<HTMLPanel, CodeMirrorDemo> {}
+public class SideBySide2 extends Screen {
+  interface Binder extends UiBinder<HTMLPanel, SideBySide2> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
   private static final int HEADER_FOOTER = 60 + 15 * 2 + 38 + 26 * 2;
@@ -116,7 +116,7 @@ public class CodeMirrorDemo extends Screen {
   private KeyCommandSet keysOpenByEnter;
   private List<HandlerRegistration> keyHandlers;
 
-  public CodeMirrorDemo(
+  public SideBySide2(
       PatchSet.Id base,
       PatchSet.Id revision,
       String path) {
@@ -179,7 +179,7 @@ public class CodeMirrorDemo extends Screen {
       drafts = JsArray.createArray().cast();
     }
     ConfigInfoCache.get(revision.getParentKey(), group.addFinal(
-        new ScreenLoadCallback<ConfigInfoCache.Entry>(CodeMirrorDemo.this) {
+        new ScreenLoadCallback<ConfigInfoCache.Entry>(SideBySide2.this) {
           @Override
           protected void preDisplay(ConfigInfoCache.Entry result) {
             commentLinkProcessor = result.getCommentLinkProcessor();

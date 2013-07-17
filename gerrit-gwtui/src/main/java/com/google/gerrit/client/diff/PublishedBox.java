@@ -34,7 +34,7 @@ class PublishedBox extends CommentBox {
   private DraftBox replyBox;
 
   PublishedBox(
-      CodeMirrorDemo host,
+      SideBySide2 host,
       CodeMirror cm,
       PatchSet.Id id,
       CommentInfo info,

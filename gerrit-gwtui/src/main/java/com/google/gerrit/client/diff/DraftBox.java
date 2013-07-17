@@ -78,7 +78,7 @@ class DraftBox extends CommentBox {
   private Timer expandTimer;
 
   DraftBox(
-      CodeMirrorDemo host,
+      SideBySide2 host,
       CodeMirror cm,
       PatchSet.Id id,
       CommentInfo info,

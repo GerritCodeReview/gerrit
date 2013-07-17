@@ -70,7 +70,7 @@ import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
-import com.google.gerrit.client.diff.CodeMirrorDemo;
+import com.google.gerrit.client.diff.SideBySide2;
 import com.google.gerrit.client.groups.GroupApi;
 import com.google.gerrit.client.groups.GroupInfo;
 import com.google.gerrit.client.patches.PatchScreen;
@@ -591,8 +591,8 @@ public class Dispatcher {
                 top, //
                 baseId //
             );
-          } else if ("codemirror".equals(panel)) {
-            return new CodeMirrorDemo(baseId, id.getParentKey(), id.get());
+          } else if ("cm".equals(panel)) {
+            return new SideBySide2(baseId, id.getParentKey(), id.get());
           }
         }
 

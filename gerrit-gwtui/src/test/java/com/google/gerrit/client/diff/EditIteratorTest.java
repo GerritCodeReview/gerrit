@@ -16,7 +16,7 @@ package com.google.gerrit.client.diff;
 
 import static org.junit.Assert.assertEquals;
 
-import com.google.gerrit.client.diff.CodeMirrorDemo.EditIterator;
+import com.google.gerrit.client.diff.SideBySide2.EditIterator;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 

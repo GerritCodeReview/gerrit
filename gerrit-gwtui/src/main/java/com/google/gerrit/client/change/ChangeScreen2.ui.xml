@@ -168,16 +168,16 @@ limitations under the License.
       -webkit-box-sizing: content-box;
     }
     .headerButtons button div {
-      color: #444; 
+      color: #444;
       height: 10px;
       min-width: 54px;
       line-height: 10px;
       white-space: nowrap;
     }
     button.quickApprove {
-      color: #d14836;
-      background-color: #d14836;
-      background-image: -webkit-linear-gradient(top, #d14836, #d14836);
+      color: #fff;
+      background-color: #4d90fe;
+      background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
     }
     button.quickApprove div { color: #fff; }
 

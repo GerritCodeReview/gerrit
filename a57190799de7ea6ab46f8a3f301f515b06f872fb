@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b37967b7_94324401",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-07-18T13:36:16Z",
+      "side": 1,
+      "message": "getProjectKey is called 3 times in this block.  Maybe it would be better to store it in a local car?",
+      "revId": "a57190799de7ea6ab46f8a3f301f515b06f872fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13923312_dfc45b84",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 1

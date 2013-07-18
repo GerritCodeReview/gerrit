@@ -35,6 +35,7 @@ public class CacheControl {
   private final Type type;
   private final long age;
   private final TimeUnit unit;
+  private boolean mustRevalidate;
 
   private CacheControl(Type type, long age, TimeUnit unit) {
     this.type = type;
@@ -52,5 +53,14 @@ public class CacheControl {
 
   public TimeUnit getUnit() {
     return unit;
+  }
+
+  public boolean isMustRevalidate() {
+    return mustRevalidate;
+  }
+
+  public CacheControl setMustRevalidate() {
+    mustRevalidate = true;
+    return this;
   }
 }

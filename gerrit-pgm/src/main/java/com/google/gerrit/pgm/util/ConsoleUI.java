@@ -16,6 +16,8 @@ package com.google.gerrit.pgm.util;
 
 import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 
+import com.google.gerrit.common.Die;
+
 import java.io.Console;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;

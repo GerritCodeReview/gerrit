@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.util;
 
 
+import com.google.gerrit.common.Die;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlers;
 

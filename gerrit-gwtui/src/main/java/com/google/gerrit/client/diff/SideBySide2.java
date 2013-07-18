@@ -384,12 +384,12 @@ public class SideBySide2 extends Screen {
       if (current.ab() != null) { // Common
         int length = current.ab().length();
         mapper.appendCommon(length);
-        if (i == 0 && length > context) {
+        if (i == 0 && length > context + 1) {
           skips.add(new SkippedLine(0, 0, length - context));
-        } else if (i == regions.length() - 1 && length > context) {
+        } else if (i == regions.length() - 1 && length > context + 1) {
           skips.add(new SkippedLine(origLineA + context, origLineB + context,
               length - context));
-        } else if (length > 2 * context) {
+        } else if (length > 2 * context + 1) {
           skips.add(new SkippedLine(origLineA + context, origLineB + context,
               length - 2 * context));
         }
@@ -569,7 +569,7 @@ public class SideBySide2 extends Screen {
         int deltaBefore = boxLine - startLine;
         int deltaAfter = startLine + skip.getSize() - boxLine;
         if (deltaBefore < -context || deltaAfter < -context) {
-          checkAndAddSkip(temp, skip);
+          temp.add(skip); // Size guaranteed to be greater than 1
         } else if (deltaBefore > context && deltaAfter > context) {
           SkippedLine before = new SkippedLine(
               skip.getStartA(), skip.getStartB(),

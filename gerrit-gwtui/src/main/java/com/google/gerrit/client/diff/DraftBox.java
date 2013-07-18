@@ -235,12 +235,8 @@ class DraftBox extends CommentBox {
   }
 
   @UiHandler("message")
-  void onMessageClick(ClickEvent e) {
-    e.stopPropagation();
-  }
-
-  @UiHandler("message")
   void onMessageDoubleClick(DoubleClickEvent e) {
+    e.stopPropagation();
     setEdit(true);
   }
 

@@ -163,6 +163,7 @@ class DraftBox extends CommentBox {
     manager.remove(this);
     manager.resizePaddingWidget();
     getCm().focus();
+    getGutterWrapper().remove();
   }
 
   @UiHandler("contentPanelMessage")

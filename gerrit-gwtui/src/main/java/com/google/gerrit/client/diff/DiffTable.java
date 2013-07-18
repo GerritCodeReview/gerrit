@@ -47,6 +47,9 @@ class DiffTable extends Composite {
   Element cmB;
 
   @UiField
+  SidePanel sidePanel;
+
+  @UiField
   static LineStyle style;
 
   DiffTable() {

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.CommentInfo;
+import com.google.gerrit.client.diff.SidePanel.GutterWrapper;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
@@ -54,6 +55,7 @@ abstract class CommentBox extends Composite {
   private CodeMirror cm;
   private HandlerRegistration regClick;
   private ClickHandler clickFocusHandler;
+  private GutterWrapper gutterWrapper;
 
   @UiField(provided=true)
   CommentBoxHeader header;
@@ -163,6 +165,14 @@ abstract class CommentBox extends Composite {
 
   void setSelfWidget(LineWidget widget) {
     selfWidget = widget;
+  }
+
+  void setGutterWrapper(GutterWrapper wrapper) {
+    gutterWrapper = wrapper;
+  }
+
+  GutterWrapper getGutterWrapper() {
+    return gutterWrapper;
   }
 
   LineWidget getSelfWidget() {

@@ -150,8 +150,8 @@ limitations under the License.
     .label_user {white-space: nowrap;}
     .label_ok {color: #060;}
     .label_reject {color: #d14836;}
-    .label_need {color: rgb(189, 189, 67);}
-    .label_may {color: #fff;}
+    .label_need {color: #000;}
+    .label_may {color: #777;}
 
     .headerButtons button {
       margin: 6px 3px 0 0;

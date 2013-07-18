@@ -28,11 +28,14 @@ import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
+import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -45,6 +48,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.Message;
 
@@ -102,6 +106,7 @@ public class BaseInit extends SiteProgram {
 
     init.flags.autoStart = getAutoStart() && init.site.isNew;
     init.flags.skipPlugins = skipPlugins();
+    init.flags.secureStorePath = secureStorePath();
 
     final SiteRun run;
     try {
@@ -131,6 +136,10 @@ public class BaseInit extends SiteProgram {
 
   protected boolean skipPlugins() {
     return false;
+  }
+
+  protected String secureStorePath() {
+    return null;
   }
 
   protected boolean beforeInit(SiteInit init) throws Exception {
@@ -187,7 +196,7 @@ public class BaseInit extends SiteProgram {
     final File sitePath = getSitePath();
     final List<Module> m = new ArrayList<Module>();
 
-    m.add(new InitModule(standalone, initDb));
+    m.add(new InitModule(standalone, initDb, pluginsDistribution));
     m.add(new AbstractModule() {
       @Override
       protected void configure() {
@@ -198,8 +207,11 @@ public class BaseInit extends SiteProgram {
         bind(new TypeLiteral<List<String>>() {}).annotatedWith(
             InstallPlugins.class).toInstance(plugins);
         bind(PluginsDistribution.class).toInstance(pluginsDistribution);
+        bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(
+            Scopes.SINGLETON);
       }
     });
+    m.add(new GerritServerConfigModule());
 
     try {
       return Guice.createInjector(PRODUCTION, m).getInstance(SiteInit.class);

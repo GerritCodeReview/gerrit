@@ -14,6 +14,13 @@
  limitations under the License.
 -->
 <module>
+  <replace-with class="com.google.gerrit.client.api.PluginName.PluginNameMoz">
+    <when-type-is class="com.google.gerrit.client.api.PluginName" />
+    <when-property-is name="compiler.stackMode" value="native" />
+    <when-property-is name="user.agent" value="safari" />
+    <when-property-is name="user.agent" value="gecko1_8" />
+  </replace-with>
+
   <replace-with class="com.google.gerrit.client.ui.FancyFlexTableImplIE6">
     <when-type-is class="com.google.gerrit.client.ui.FancyFlexTableImpl" />
     <any>

@@ -1,0 +1,593 @@
+Gerrit Code Review - JavaScript API
+===================================
+
+Gerrit Code Review supports an API for JavaScript plugins to interact
+with the web UI and the server process.
+
+Entry Point
+-----------
+
+JavaScript is loaded using a standard `<script src='...'>` HTML tag.
+Plugins should protect the global namespace by defining their code
+within an anonymous function passed to `Gerrit.install()`. The plugin
+will be passed an object describing its registration with Gerrit:
+
+----
+Gerrit.install(function (self) {
+  // ... plugin JavaScript code here ...
+});
+----
+
+
+[[self]]
+Plugin Instance
+---------------
+
+The plugin instance is passed to the plugin's initialization function
+and provides a number of utility services to plugin authors.
+
+[[self.delete]]
+self.delete()
+~~~~~~~~~~~~~
+Issues a DELETE REST API request to the Gerrit server.
+
+.Signature
+----
+Gerrit.delete(url, callback)
+----
+
+* url: URL relative to the plugin's URL space. The JavaScript
+  library prefixes the supplied URL with `/plugins/{getPluginName}/`.
+
+* callback: JavaScript function to be invoked with the parsed
+  JSON result of the API call. DELETE methods often return
+  `204 No Content`, which is passed as null.
+
+[[self.get]]
+self.get()
+~~~~~~~~~~
+Issues a GET REST API request to the Gerrit server.
+
+.Signature
+----
+self.get(url, callback)
+----
+
+* url: URL relative to the plugin's URL space. The JavaScript
+  library prefixes the supplied URL with `/plugins/{getPluginName}/`.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+[[self.getPluginName]]
+self.getPluginName()
+~~~~~~~~~~~~~~~~~~~~
+Returns the name this plugin was installed as by the server
+administrator. The plugin name is required to access REST API
+views installed by the plugin, or to access resources.
+
+[[self.post]]
+self.post()
+~~~~~~~~~~~
+Issues a POST REST API request to the Gerrit server.
+
+.Signature
+----
+self.post(url, input, callback)
+----
+
+* url: URL relative to the plugin's URL space. The JavaScript
+  library prefixes the supplied URL with `/plugins/{getPluginName}/`.
+
+* input: JavaScript object to serialize as the request payload.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+----
+self.post(
+  '/my-servlet',
+  {start_build: true, platform_type: 'Linux'},
+  function (r) {});
+----
+
+[[self.put]]
+self.put()
+~~~~~~~~~~
+Issues a PUT REST API request to the Gerrit server.
+
+.Signature
+----
+self.put(url, input, callback)
+----
+
+* url: URL relative to the plugin's URL space. The JavaScript
+  library prefixes the supplied URL with `/plugins/{getPluginName}/`.
+
+* input: JavaScript object to serialize as the request payload.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+----
+self.put(
+  '/builds',
+  {start_build: true, platform_type: 'Linux'},
+  function (r) {});
+----
+
+[[self.onAction]]
+self.onAction()
+~~~~~~~~~~~~~~~
+Register a JavaScript callback to be invoked when the user clicks
+on a button associated with a server side `UiAction`.
+
+.Signature
+----
+Gerrit.onAction(type, view_name, callback);
+----
+
+* type: `'change'` or `'revision'`, indicating what sort of resource
+  the `UiAction` was bound to in the server.
+
+* view_name: string appearing in URLs to name the view. This is the
+  second argument of the `get()`, `post()`, `put()`, and `delete()`
+  binding methods in a `RestApiModule`.
+
+* callback: JavaScript function to invoke when the user clicks. The
+  function will be passed a link:#ActionContext[action context].
+
+[[self.url]]
+self.url()
+~~~~~~~~~~
+Returns a URL within the plugin's URL space. If invoked with no
+parameter the the URL of the plugin is returned. If passed a string
+the argument is appended to the plugin URL.
+
+----
+self.url();                    // "https://gerrit-review.googlesource.com/plugins/demo/"
+self.url('/static/icon.png');  // "https://gerrit-review.googlesource.com/plugins/demo/static/icon.png"
+----
+
+
+[[ActionContext]]
+Action Context
+--------------
+A new action context is passed to the `onAction` callback function
+each time the associated action button is clicked by the user. A
+context is initialized with sufficient state to issue the associated
+REST API RPC.
+
+[[context.action]]
+context.action
+~~~~~~~~~~~~~~
+A link:rest-api-changes.html#action-info[ActionInfo] object instance
+supplied by the server describing the UI button the user used to
+invoke the action.
+
+[[context.call]]
+context.call()
+~~~~~~~~~~~~~~
+Issues the REST API call associated with the action. The HTTP method
+used comes from `context.action.method`, hiding the JavaScript from
+needing to care.
+
+.Signature
+----
+context.call(input, callback)
+----
+
+* input: JavaScript object to serialize as the request payload. This
+  parameter is ignored for GET and DELETE methods.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+----
+context.call(
+  {message: "..."},
+  function (result) {
+    // ... use result here ...
+  });
+----
+
+[[context.change]]
+context.change
+~~~~~~~~~~~~~~
+When the action is invoked on a change a
+link:rest-api-changes.html#change-info[ChangeInfo] object instance
+describing the change. Available fields of the ChangeInfo may vary
+based on the options used by the UI when it loaded the change.
+
+[[context.delete]]
+context.delete()
+~~~~~~~~~~~~~~~~
+Issues a DELETE REST API call to the URL associated with the action.
+
+.Signature
+----
+context.delete(callback)
+----
+
+* callback: JavaScript function to be invoked with the parsed
+  JSON result of the API call. DELETE methods often return
+  `204 No Content`, which is passed as null.
+
+----
+context.delete(function () {});
+----
+
+[[context.get]]
+context.get()
+~~~~~~~~~~~~~
+Issues a GET REST API call to the URL associated with the action.
+
+.Signature
+----
+context.get(callback)
+----
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+----
+context.get(function (result) {
+  // ... use result here ...
+});
+----
+
+[[context.go]]
+context.go()
+~~~~~~~~~~~~
+Go to a page. Shorthand for link:#Gerrit.go[`Gerrit.go()`].
+
+[[context.hide]]
+context.hide()
+~~~~~~~~~~~~~~
+Hide the currently visible popup displayed by
+link:#context.popup[`context.popup()`].
+
+[[context.post]]
+context.post()
+~~~~~~~~~~~~~~
+Issues a POST REST API call to the URL associated with the action.
+
+.Signature
+----
+context.post(input, callback)
+----
+
+* input: JavaScript object to serialize as the request payload.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+----
+context.post(
+  {message: "..."},
+  function (result) {
+    // ... use result here ...
+  });
+----
+
+[[context.popup]]
+context.popup()
+~~~~~~~~~~~~~~~
+
+Displays a small popup near the activation button to gather
+additional input from the user before executing the REST API RPC.
+
+The caller is always responsible for closing the popup with
+link#context.hide[`context.hide()`]. Gerrit will handle closing a
+popup if the user presses `Escape` while keyboard focus is within
+the popup.
+
+.Signature
+----
+context.popup(element)
+----
+
+* element: an HTML DOM element to display as the body of the
+  popup. This is typically a `div` element but can be any valid HTML
+  element. CSS can be used to style the element beyond the defaults.
+
+A common usage is to gather more input:
+----
+self.onAction('revision', 'start-build', function (c) {
+  var l = c.checkbox();
+  var m = c.checkbox();
+  c.popup(c.div(
+    c.div(c.label(l, 'Linux')),
+    c.div(c.label(m, 'Mac OS X')),
+    c.button('Build', {onclick: function() {
+      c.call(
+        {
+          commit: c.revision.name,
+          linux: l.checked,
+          mac: m.checked,
+        },
+        function() { c.hide() });
+    });
+});
+----
+
+[[context.put]]
+context.put()
+~~~~~~~~~~~~~
+Issues a PUT REST API call to the URL associated with the action.
+
+.Signature
+----
+context.put(input, callback)
+----
+
+* input: JavaScript object to serialize as the request payload.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+----
+context.put(
+  {message: "..."},
+  function (result) {
+    // ... use result here ...
+  });
+----
+
+[[context.refresh]]
+context.refresh()
+~~~~~~~~~~~~~~~~~
+Refresh the current display. Shorthand for
+link:#Gerrit.refresh[`Gerrit.refresh()`].
+
+[[context.revision]]
+context.revision
+~~~~~~~~~~~~~~~~
+When the action is invoked on a specific revision of a change,
+a link:rest-api-changes.html#revision-info[RevisionInfo]
+object instance describing the revision. Available fields of the
+RevisionInfo may vary based on the options used by the UI when it
+loaded the change.
+
+
+Action Context HTML Helpers
+---------------------------
+The link:#ActionContext[action context] includes some HTML helper
+functions to make working with DOM based widgets less painful.
+
+* `br()`: new `<br>` element.
+
+* `button(label, options)`: new `<button>` with the string `label`
+  wrapped inside of a `div`. The optional `options` object may
+  define `onclick` as a function to be invoked upon clicking. This
+  calling pattern avoids circular references between the element
+  and the onclick handler.
+
+* `checkbox()`: new `<input type='checkbox'>` element.
+* `div(...)`: a new `<div>` wrapping the (optional) arguments.
+* `hr()`: new `<hr>` element.
+
+* `label(c, label)`: a new `<label>` element wrapping element `c`
+  and the string `label`. Used to wrap a checkbox with its label,
+  `label(checkbox(), 'Click Me')`.
+
+* `textarea(options)`: new `<textarea>` element. The options
+  object may optionally include `rows` and `cols`. The textarea
+  comes with an onkeypress handler installed to play nicely with
+  Gerrit's keyboard binding system.
+
+* `textfield()`: new `<input type='text'>` element.  The text field
+  comes with an onkeypress handler installed to play nicely with
+  Gerrit's keyboard binding system.
+
+* `span(...)`: a new `<span>` wrapping the (optional) arguments.
+
+[[Gerrit]]
+Gerrit
+------
+
+The `Gerrit` object is the only symbol provided into the global
+namespace by Gerrit Code Review. All top-level functions can be
+accessed through this name.
+
+[[Gerrit.delete]]
+Gerrit.delete()
+~~~~~~~~~~~~~~~
+Issues a DELETE REST API request to the Gerrit server. For plugin
+private REST API URLs see link:#self.delete[self.delete()].
+
+.Signature
+----
+Gerrit.delete(url, callback)
+----
+
+* url: URL relative to the Gerrit server. For example to access the
+  link:rest-api-changes.html[changes REST API] use `'/changes/'`.
+
+* callback: JavaScript function to be invoked with the parsed
+  JSON result of the API call. DELETE methods often return
+  `204 No Content`, which is passed as null.
+
+----
+Gerrit.delete(
+  '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
+  function () {});
+----
+
+[[Gerrit.get]]
+Gerrit.get()
+~~~~~~~~~~~~
+Issues a GET REST API request to the Gerrit server. For plugin
+private REST API URLs see link:#self.get[self.get()].
+
+.Signature
+----
+Gerrit.get(url, callback)
+----
+
+* url: URL relative to the Gerrit server. For example to access the
+  link:rest-api-changes.html[changes REST API] use `'/changes/'`.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+----
+Gerrit.get('/changes/?q=status:open', function (open) {
+  for (var i = 0; i < open.length; i++) {
+    console.log(open.get(i).change_id);
+  }
+});
+----
+
+[[Gerrit.getPluginName]]
+Gerrit.getPluginName()
+~~~~~~~~~~~~~~~~~~~~~~
+Returns the name this plugin was installed as by the server
+administrator. The plugin name is required to access REST API
+views installed by the plugin, or to access resources.
+
+Unlike link:#self.getPluginName[`self.getPluginName()`] this method
+must guess the name from the JavaScript call stack. Plugins are
+encouraged to use `self.getPluginName()` whenever possible.
+
+[[Gerrit.go]]
+Gerrit.go()
+~~~~~~~~~~~
+Updates the web UI to display the view identified by the supplied
+URL token. The URL token is the text after `#` in the browser URL.
+
+----
+Gerrit.go('/admin/projects/');
+----
+
+If the URL passed matches `http://...`, `https://...`, or `//...`
+the current browser window will navigate to the non-Gerrit URL.
+The user can return to Gerrit with the back button.
+
+[[Gerrit.install]]
+Gerrit.install()
+~~~~~~~~~~~~~~~~
+Registers a new plugin by invoking the supplied initialization
+function. The function is passed the link:#self[plugin instance].
+
+----
+Gerrit.install(function (self) {
+  // ... plugin JavaScript code here ...
+});
+----
+
+[[Gerrit.post]]
+Gerrit.post()
+~~~~~~~~~~~~~
+Issues a POST REST API request to the Gerrit server. For plugin
+private REST API URLs see link:#self.post[self.post()].
+
+.Signature
+----
+Gerrit.post(url, input, callback)
+----
+
+* url: URL relative to the Gerrit server. For example to access the
+  link:rest-api-changes.html[changes REST API] use `'/changes/'`.
+
+* input: JavaScript object to serialize as the request payload.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+----
+Gerrit.post(
+  '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
+  {topic: 'tests', message: 'Classify work as for testing.'},
+  function (r) {});
+----
+
+[[Gerrit.put]]
+Gerrit.put()
+~~~~~~~~~~~~
+Issues a PUT REST API request to the Gerrit server. For plugin
+private REST API URLs see link:#self.put[self.put()].
+
+.Signature
+----
+Gerrit.put(url, input, callback)
+----
+
+* url: URL relative to the Gerrit server. For example to access the
+  link:rest-api-changes.html[changes REST API] use `'/changes/'`.
+
+* input: JavaScript object to serialize as the request payload.
+
+* callback: JavaScript function to be invoked with the parsed JSON
+  result of the API call. If the API returns a string the result is
+  a string, otherwise the result is a JavaScript object or array,
+  as described in the relevant REST API documentation.
+
+----
+Gerrit.put(
+  '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
+  {topic: 'tests', message: 'Classify work as for testing.'},
+  function (r) {});
+----
+
+[[Gerrit.onAction]]
+Gerrit.onAction()
+~~~~~~~~~~~~~~~~~
+Register a JavaScript callback to be invoked when the user clicks
+on a button associated with a server side `UiAction`.
+
+.Signature
+----
+Gerrit.onAction(type, view_name, callback);
+----
+
+* type: `'change'` or `'revision'`, indicating what sort of resource
+  the `UiAction` was bound to in the server.
+
+* view_name: string appearing in URLs to name the view. This is the
+  second argument of the `get()`, `post()`, `put()`, and `delete()`
+  binding methods in a `RestApiModule`.
+
+* callback: JavaScript function to invoke when the user clicks. The
+  function will be passed a link:#ActionContext[ActionContext].
+
+[[Gerrit.refresh]]
+Gerrit.refresh()
+~~~~~~~~~~~~~~~~
+Redisplays the current web UI view, refreshing all information.
+
+[[Gerrit.url]]
+Gerrit.url()
+~~~~~~~~~~~~
+Returns the URL of the Gerrit Code Review server. If invoked with
+no parameter the URL of the site is returned. If passed a string
+the argument is appended to the site URL.
+
+----
+Gerrit.url();        // "https://gerrit-review.googlesource.com/"
+Gerrit.url('/123');  // "https://gerrit-review.googlesource.com/123"
+----
+
+For a plugin specific version see link:#self.url()[`self.url()`].
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

@@ -181,7 +181,7 @@ public class Plugin {
     return disabled;
   }
 
-  void start(PluginGuiceEnvironment env) throws Exception {
+  public void start(PluginGuiceEnvironment env) throws Exception {
     RequestContext oldContext = env.enter(this);
     try {
       startPlugin(env);

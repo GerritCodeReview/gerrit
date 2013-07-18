@@ -82,6 +82,29 @@ public class InitPlugins implements InitStep {
     return result;
   }
 
+  public static File installPlugin(File jarFile, ConsoleUI ui, SitePaths site)
+      throws IOException {
+    final String pluginName = getRealFilename(jarFile);
+    final File p = new File(site.plugins_dir, pluginName + JAR);
+    if (p.exists()) {
+      final String installedPluginVersion = getVersion(p);
+      if (!ui.yesno(false, "version %s is already installed, overwrite it",
+          installedPluginVersion)) {
+        jarFile.delete();
+        return p;
+      }
+      if (!p.delete()) {
+        throw new IOException("Failed to delete plugin " + pluginName + ": "
+            + p.getAbsolutePath());
+      }
+    }
+    if (!jarFile.renameTo(p)) {
+      throw new IOException("Failed to install plugin " + pluginName + ": "
+          + jarFile.getAbsolutePath() + " -> " + p.getAbsolutePath());
+    }
+    return p;
+  }
+
   private final ConsoleUI ui;
   private final SitePaths site;
   private final InitFlags initFlags;
@@ -117,25 +140,7 @@ public class InitPlugins implements InitStep {
           continue;
         }
 
-        final File p = new File(site.plugins_dir, plugin.pluginFile.getName());
-        if (p.exists()) {
-          final String installedPluginVersion = getVersion(p);
-          if (!ui.yesno(false,
-              "version %s is already installed, overwrite it",
-              installedPluginVersion)) {
-            tmpPlugin.delete();
-            continue;
-          }
-          if (!p.delete()) {
-            throw new IOException("Failed to delete plugin " + pluginName
-                + ": " + p.getAbsolutePath());
-          }
-        }
-        if (!tmpPlugin.renameTo(p)) {
-          throw new IOException("Failed to install plugin " + pluginName
-              + ": " + tmpPlugin.getAbsolutePath() + " -> "
-              + p.getAbsolutePath());
-        }
+        installPlugin(tmpPlugin, ui, site);
       } finally {
         if (plugin.pluginFile.exists()) {
           plugin.pluginFile.delete();
@@ -162,5 +167,14 @@ public class InitPlugins implements InitStep {
     } finally {
       jarFile.close();
     }
+  }
+
+  private static String getRealFilename(File p) {
+    String tmpFileName = p.getName().replaceFirst("^plugin_", "");
+    int thirdUnderscore = tmpFileName.length();
+    for (int i = 0; i < 3; i++) {
+      thirdUnderscore = tmpFileName.lastIndexOf("_", thirdUnderscore - 1);
+    }
+    return tmpFileName.substring(0, thirdUnderscore);
   }
 }

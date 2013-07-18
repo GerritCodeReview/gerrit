@@ -35,7 +35,6 @@ public class InitFlags {
   public boolean autoStart;
 
   public final FileBasedConfig cfg;
-  public final FileBasedConfig sec;
   public final List<String> installPlugins;
 
   @Inject
@@ -44,9 +43,7 @@ public class InitFlags {
       ConfigInvalidException {
     this.installPlugins = installPlugins;
     cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
-    sec = new FileBasedConfig(site.secure_config, FS.DETECTED);
 
     cfg.load();
-    sec.load();
   }
 }

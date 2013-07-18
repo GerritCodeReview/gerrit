@@ -22,6 +22,7 @@ java_library2(
     '//lib:gwtjsonrpc',
     '//lib:h2',
     '//lib:jsr305',
+    '//lib:ow2-asm',
     '//lib:servlet-api-3_0',
     '//lib/commons:dbcp',
     '//lib/guice:guice',

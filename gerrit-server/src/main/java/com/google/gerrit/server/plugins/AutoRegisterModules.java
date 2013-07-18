@@ -20,6 +20,7 @@ import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.secure.SecureStore;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
@@ -48,7 +49,7 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-class AutoRegisterModules {
+public class AutoRegisterModules {
   private static final int SKIP_ALL = ClassReader.SKIP_CODE
       | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private final String pluginName;
@@ -65,7 +66,7 @@ class AutoRegisterModules {
   Module sshModule;
   Module httpModule;
 
-  AutoRegisterModules(String pluginName,
+  public AutoRegisterModules(String pluginName,
       PluginGuiceEnvironment env,
       JarFile jarFile,
       ClassLoader classLoader) {
@@ -77,7 +78,7 @@ class AutoRegisterModules {
     this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : null;
   }
 
-  AutoRegisterModules discover() throws InvalidPluginException {
+  public AutoRegisterModules discover() throws InvalidPluginException {
     sysSingletons = Sets.newHashSet();
     sysListen = LinkedListMultimap.create();
 
@@ -181,6 +182,10 @@ class AutoRegisterModules {
       return;
     }
 
+    if (is(SecureStore.class.getName(), clazz)) {
+      // skip SecureStore's, since they are only used during boot
+      return;
+    }
     if (is("org.apache.sshd.server.Command", clazz)) {
       if (sshGen != null) {
         sshGen.export(export, clazz);

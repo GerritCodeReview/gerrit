@@ -19,7 +19,6 @@ import static com.google.gerrit.pgm.init.InitUtil.die;
 import static com.google.gerrit.pgm.init.InitUtil.extract;
 import static com.google.gerrit.pgm.init.InitUtil.mkdir;
 import static com.google.gerrit.pgm.init.InitUtil.savePublic;
-import static com.google.gerrit.pgm.init.InitUtil.saveSecure;
 import static com.google.gerrit.pgm.init.InitUtil.version;
 
 import com.google.gerrit.pgm.Init;
@@ -40,15 +39,15 @@ public class SitePathInitializer {
   private final ConsoleUI ui;
   private final InitFlags flags;
   private final SitePaths site;
-  private final List<InitStep> steps;
+  private final InitSecureStore initSecureStore;
 
   @Inject
-  public SitePathInitializer(final Injector injector, final ConsoleUI ui,
+  public SitePathInitializer(final InitSecureStore initSecureStore, final ConsoleUI ui,
       final InitFlags flags, final SitePaths site) {
     this.ui = ui;
     this.flags = flags;
     this.site = site;
-    this.steps = stepsOf(injector);
+    this.initSecureStore = initSecureStore;
   }
 
   public void run() throws Exception {
@@ -74,12 +73,13 @@ public class SitePathInitializer {
     mkdir(site.plugins_dir);
     mkdir(site.data_dir);
 
+    Injector inectorWithSecureStore = initSecureStore.init();
+    List<InitStep> steps = stepsOf(inectorWithSecureStore);
     for (InitStep step : steps) {
       step.run();
     }
 
     savePublic(flags.cfg);
-    saveSecure(flags.sec);
 
     extract(site.gerrit_sh, Init.class, "gerrit.sh");
     chmod(0755, site.gerrit_sh);
@@ -114,7 +114,7 @@ public class SitePathInitializer {
   private static List<InitStep> stepsOf(final Injector injector) {
     final ArrayList<InitStep> r = new ArrayList<InitStep>();
     for (Binding<InitStep> b : all(injector)) {
-      r.add(b.getProvider().get());
+       r.add(b.getProvider().get());
     }
     return r;
   }
@@ -123,3 +123,4 @@ public class SitePathInitializer {
     return injector.findBindingsByType(new TypeLiteral<InitStep>() {});
   }
 }
+

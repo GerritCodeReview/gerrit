@@ -19,6 +19,8 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.cache.Cache;
 import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.ChangeListener;
+import com.google.gerrit.common.secure.SecureStore;
+import com.google.gerrit.common.secure.SecureStorePrvider;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;

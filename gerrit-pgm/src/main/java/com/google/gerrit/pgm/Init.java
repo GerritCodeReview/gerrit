@@ -24,10 +24,8 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitFlags;
-import com.google.gerrit.pgm.init.InitModule;
 import com.google.gerrit.pgm.init.InitPlugins;
 import com.google.gerrit.pgm.init.InitPlugins.PluginData;
-import com.google.gerrit.pgm.init.InstallPlugins;
 import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.Die;
@@ -35,7 +33,6 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
@@ -52,7 +49,8 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.TypeLiteral;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.spi.Message;
 
 import org.kohsuke.args4j.Option;
@@ -150,18 +148,18 @@ public class Init extends SiteProgram {
   private SiteInit createSiteInit() {
     final ConsoleUI ui = ConsoleUI.getInstance(batchMode);
     final File sitePath = getSitePath();
-    final List<Module> m = new ArrayList<Module>();
-
-    m.add(new InitModule());
+    List<Module> m = Lists.newArrayList();
+    m.add(new SiteModule(ui, sitePath, installPlugins));
     m.add(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(ConsoleUI.class).toInstance(ui);
-        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
-        List<String> plugins =
-            Objects.firstNonNull(installPlugins, Lists.<String> newArrayList());
-        bind(new TypeLiteral<List<String>>() {}).annotatedWith(
-            InstallPlugins.class).toInstance(plugins);
+        bind(InitFlags.class);
+      }
+
+      @Provides
+      @Singleton
+      List<PluginData> getPlugins(SitePaths site) throws IOException {
+        return InitPlugins.listPlugins(site);
       }
     });
 

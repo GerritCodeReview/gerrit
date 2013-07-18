@@ -17,6 +17,8 @@ package com.google.gerrit.pgm.util;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
+import com.google.gerrit.common.secure.SecureStore;
+import com.google.gerrit.common.secure.SecureStorePrvider;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -96,6 +98,7 @@ public abstract class SiteProgram extends AbstractProgram {
           .toProvider(SiteLibraryBasedDataSourceProvider.class)
           .in(SINGLETON);
         listener().to(SiteLibraryBasedDataSourceProvider.class);
+        bind(SecureStore.class).toProvider(SecureStorePrvider.class);
       }
     });
     Module configModule = new GerritServerConfigModule();

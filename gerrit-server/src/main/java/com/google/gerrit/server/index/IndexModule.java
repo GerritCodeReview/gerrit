@@ -21,6 +21,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
+import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provides;
@@ -48,9 +49,16 @@ public class IndexModule extends LifecycleModule {
   }
 
   private final int threads;
+  private final ListeningScheduledExecutorService indexExecutor;
 
   public IndexModule(int threads) {
     this.threads = threads;
+    this.indexExecutor = null;
+  }
+
+  public IndexModule(ListeningScheduledExecutorService indexExecutor) {
+    this.threads = -1;
+    this.indexExecutor = indexExecutor;
   }
 
   @Override
@@ -62,25 +70,14 @@ public class IndexModule extends LifecycleModule {
     install(new FactoryModuleBuilder()
         .implement(ChangeIndexer.class, ChangeIndexerImpl.class)
         .build(ChangeIndexer.Factory.class));
-  }
 
-  @Provides
-  @Singleton
-  @IndexExecutor
-  ListeningScheduledExecutorService getIndexExecutor(
-      @GerritServerConfig Config config,
-      WorkQueue workQueue) {
-    int threads = this.threads;
-    if (threads <= 0) {
-      threads = config.getInt("index", null, "threads", 0);
-    }
-    Executor executor;
-    if (threads <= 0) {
-      executor = workQueue.getDefaultQueue();
+    if (indexExecutor != null) {
+      bind(ListeningScheduledExecutorService.class)
+          .annotatedWith(IndexExecutor.class)
+          .toInstance(indexExecutor);
     } else {
-      executor = workQueue.createQueue(threads, "index");
+      install(new IndexExecutorModule(threads));
     }
-    return MoreExecutors.listeningDecorator(executor);
   }
 
   @Provides
@@ -88,5 +85,36 @@ public class IndexModule extends LifecycleModule {
       ChangeIndexer.Factory factory,
       IndexCollection indexes) {
     return factory.create(indexes);
+  }
+
+  private static class IndexExecutorModule extends AbstractModule {
+    private final int threads;
+
+    private IndexExecutorModule(int threads) {
+      this.threads = threads;
+    }
+
+    @Override
+    public void configure() {
+    }
+
+    @Provides
+    @Singleton
+    @IndexExecutor
+    ListeningScheduledExecutorService getIndexExecutor(
+        @GerritServerConfig Config config,
+        WorkQueue workQueue) {
+      int threads = this.threads;
+      if (threads <= 0) {
+        threads = config.getInt("index", null, "threads", 0);
+      }
+      Executor executor;
+      if (threads <= 0) {
+        executor = workQueue.getDefaultQueue();
+      } else {
+        executor = workQueue.createQueue(threads, "index");
+      }
+      return MoreExecutors.listeningDecorator(executor);
+    }
   }
 }

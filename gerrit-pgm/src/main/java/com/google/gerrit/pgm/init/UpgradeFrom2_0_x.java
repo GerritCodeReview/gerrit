@@ -16,7 +16,6 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.InitUtil.die;
 import static com.google.gerrit.pgm.init.InitUtil.savePublic;
-import static com.google.gerrit.pgm.init.InitUtil.saveSecure;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
@@ -34,7 +33,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 
@@ -60,7 +58,6 @@ class UpgradeFrom2_0_x implements InitStep {
   private final ConsoleUI ui;
 
   private final FileBasedConfig cfg;
-  private final FileBasedConfig sec;
   private final File site_path;
   private final File etc_dir;
   private final Section.Factory sections;
@@ -72,7 +69,6 @@ class UpgradeFrom2_0_x implements InitStep {
     this.sections = sections;
 
     this.cfg = flags.cfg;
-    this.sec = flags.sec;
     this.site_path = site.site_path;
     this.etc_dir = site.etc_dir;
   }
@@ -113,7 +109,6 @@ class UpgradeFrom2_0_x implements InitStep {
     // believed to be empty) file.
     //
     cfg.load();
-    sec.load();
 
     final Properties oldprop = readGerritServerProperties();
     if (oldprop != null) {
@@ -136,21 +131,18 @@ class UpgradeFrom2_0_x implements InitStep {
 
       String password = oldprop.getProperty("password");
       if (password != null && !password.isEmpty()) {
-        sec.setString("database", null, "password", password);
+        database.setSecure("password", password);
       }
     }
 
-    String[] values;
-
-    values = cfg.getStringList("ldap", null, "password");
+    String password = cfg.getString("ldap", null, "password");
     cfg.unset("ldap", null, "password");
-    sec.setStringList("ldap", null, "password", Arrays.asList(values));
+    sections.get("ldap", null).setSecure("password", password);
 
-    values = cfg.getStringList("sendemail", null, "smtpPass");
+    password = cfg.getString("sendemail", null, "smtpPass");
     cfg.unset("sendemail", null, "smtpPass");
-    sec.setStringList("sendemail", null, "smtpPass", Arrays.asList(values));
+    sections.get("sendemail", null).setSecure("smtpPass", password);
 
-    saveSecure(sec);
     savePublic(cfg);
   }
 
@@ -247,7 +239,7 @@ class UpgradeFrom2_0_x implements InitStep {
       database.set("username", username);
     }
     if (password != null && !password.isEmpty()) {
-      sec.setString("database", null, "password", password);
+      database.setSecure("password", password);
     }
   }
 

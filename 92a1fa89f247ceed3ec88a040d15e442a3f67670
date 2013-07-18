@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b34b2773_e4963a94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-18T12:57:02Z",
+      "side": 1,
+      "message": "BUCK based plugin integration doesn\u0027t work for externe plugins atm. Only Maven does for now.",
+      "revId": "92a1fa89f247ceed3ec88a040d15e442a3f67670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

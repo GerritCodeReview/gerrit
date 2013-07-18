@@ -15,22 +15,38 @@
 package com.google.gerrit.client.change;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.ChangeApi;
+import com.google.gerrit.client.changes.ReviewInfo;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.FileInfo;
+import com.google.gerrit.client.patches.PatchUtil;
+import com.google.gerrit.client.rpc.CallbackGroup;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
@@ -49,6 +65,7 @@ class FileTable extends FlowPanel {
 
   interface FileTableCss extends CssResource {
     String pointer();
+    String reviewed();
     String pathColumn();
     String deltaColumn1();
     String deltaColumn2();
@@ -56,10 +73,60 @@ class FileTable extends FlowPanel {
     String deleted();
   }
 
+  private static final String REVIEWED;
+  private static final String OPEN;
+  private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
+
+  static {
+    REVIEWED = DOM.createUniqueId().replace('-', '_');
+    OPEN = DOM.createUniqueId().replace('-', '_');
+    init(REVIEWED, OPEN);
+  }
+
+  private static final native void init(String r, String o) /*-{
+    $wnd[r] = $entry(function(e,i) {
+      @com.google.gerrit.client.change.FileTable::onReviewed(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i)
+    });
+    $wnd[o] = $entry(function(e,i) {
+      return @com.google.gerrit.client.change.FileTable::onOpen(Lcom/google/gwt/dom/client/NativeEvent;I)(e,i);
+    });
+  }-*/;
+
+  private static void onReviewed(NativeEvent e, int idx) {
+    MyTable t = getMyTable(e);
+    if (t != null) {
+      t.onReviewed(InputElement.as(Element.as(e.getEventTarget())), idx);
+    }
+  }
+
+  private static boolean onOpen(NativeEvent e, int idx) {
+    if (link.handleAsClick(e.<Event> cast())) {
+      MyTable t = getMyTable(e);
+      if (t != null) {
+        t.onOpenRow(1 + idx);
+        e.preventDefault();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static MyTable getMyTable(NativeEvent event) {
+    com.google.gwt.user.client.Element e = event.getEventTarget().cast();
+    for (e = DOM.getParent(e); e != null; e = DOM.getParent(e)) {
+      EventListener l = DOM.getEventListener(e);
+      if (l instanceof MyTable) {
+        return (MyTable) l;
+      }
+    }
+    return null;
+  }
+
   private PatchSet.Id base;
   private PatchSet.Id curr;
   private MyTable table;
   private boolean register;
+  private JsArrayString reviewed;
 
   @Override
   protected void onLoad() {
@@ -93,6 +160,14 @@ class FileTable extends FlowPanel {
     }
   }
 
+  void markReviewed(JsArrayString reviewed) {
+    if (table != null) {
+      table.markReviewed(reviewed);
+    } else {
+      this.reviewed = reviewed;
+    }
+  }
+
   void registerKeys() {
     register = true;
 
@@ -107,6 +182,10 @@ class FileTable extends FlowPanel {
     this.table = table;
     if (register) {
       table.setRegisterKeys(true);
+    }
+    if (reviewed != null) {
+      table.markReviewed(reviewed);
+      reviewed = null;
     }
   }
 
@@ -138,9 +217,54 @@ class FileTable extends FlowPanel {
       keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
           Util.C.patchTableOpenDiff()));
 
+      keysNavigation.add(new KeyCommand(0, 'm', PatchUtil.C.toggleReviewed()) {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          int row = getCurrentRow();
+          if (1 <= row && row <= MyTable.this.list.length()) {
+            FileInfo info = MyTable.this.list.get(row - 1);
+            InputElement b = getReviewed(info);
+            boolean c = !b.isChecked();
+            setReviewed(info, c);
+            b.setChecked(c);
+          }
+        }
+      });
+
       setSavePointerId(
           (base != null ? base.toString() + ".." : "")
           + curr.toString());
+    }
+
+    void onReviewed(InputElement checkbox, int idx) {
+      setReviewed(list.get(idx), checkbox.isChecked());
+    }
+
+    private void setReviewed(FileInfo info, boolean r) {
+      RestApi api = ChangeApi.revision(curr)
+          .view("files")
+          .id(info.path())
+          .view("reviewed");
+      if (r) {
+        api.put(CallbackGroup.<ReviewInfo>emptyCallback());
+      } else {
+        api.delete(CallbackGroup.<ReviewInfo>emptyCallback());
+      }
+    }
+
+    void markReviewed(JsArrayString reviewed) {
+      for (int i = 0; i < reviewed.length(); i++) {
+        FileInfo info = map.get(reviewed.get(i));
+        if (info != null) {
+          getReviewed(info).setChecked(true);
+        }
+      }
+    }
+
+    private InputElement getReviewed(FileInfo info) {
+      CellFormatter fmt = table.getCellFormatter();
+      Element e = fmt.getElement(1 + info._row(), 1);
+      return InputElement.as(e.getFirstChildElement());
     }
 
     @Override
@@ -174,6 +298,7 @@ class FileTable extends FlowPanel {
     private final SafeHtmlBuilder sb = new SafeHtmlBuilder();
     private final MyTable table;
     private final JsArray<FileInfo> list;
+    private final boolean hasUser;
     private boolean attached;
     private int row;
     private double start;
@@ -185,6 +310,7 @@ class FileTable extends FlowPanel {
     private DisplayCommand(NativeMap<FileInfo> map, JsArray<FileInfo> list) {
       this.table = new MyTable(map, list);
       this.list = list;
+      this.hasUser = Gerrit.isSignedIn();
     }
 
     public boolean execute() {
@@ -254,7 +380,8 @@ class FileTable extends FlowPanel {
 
     private void header(SafeHtmlBuilder sb) {
       sb.openTr();
-      sb.openTh().setStyleName(Gerrit.RESOURCES.css().iconCell()).closeTh();
+      sb.openTh().setStyleName(R.css().pointer()).closeTh();
+      sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       sb.openTh().append(Util.C.patchTableColumnName()).closeTh();
       sb.openTh()
         .setAttribute("colspan", 2)
@@ -266,18 +393,30 @@ class FileTable extends FlowPanel {
     private void render(SafeHtmlBuilder sb, FileInfo info) {
       sb.openTr();
       sb.openTd().setStyleName(R.css().pointer()).closeTd();
+      columnReviewed(sb, info);
       columnPath(sb, info);
       columnDelta1(sb, info);
       columnDelta2(sb, info);
       sb.closeTr();
     }
 
+    private void columnReviewed(SafeHtmlBuilder sb, FileInfo info) {
+      sb.openTd().setStyleName(R.css().reviewed());
+      if (hasUser) {
+        sb.openElement("input")
+          .setAttribute("type", "checkbox")
+          .setAttribute("onclick", REVIEWED + "(event," + info._row() + ")")
+          .closeSelf();
+      }
+      sb.closeTd();
+    }
+
     private void columnPath(SafeHtmlBuilder sb, FileInfo info) {
-      // TODO(sop): Use JS to link, avoiding early URL update.
       sb.openTd()
         .setStyleName(R.css().pathColumn())
         .openAnchor()
         .setAttribute("href", "#" + url(info))
+        .setAttribute("onclick", OPEN + "(event," + info._row() + ")")
         .append(Patch.COMMIT_MSG.equals(info.path())
             ? Util.C.commitMessage()
             : info.path())
@@ -325,7 +464,8 @@ class FileTable extends FlowPanel {
 
     private void footer(SafeHtmlBuilder sb) {
       sb.openTr();
-      sb.openTd().setStyleName(Gerrit.RESOURCES.css().iconCell()).closeTd();
+      sb.openTh().setStyleName(R.css().pointer()).closeTh();
+      sb.openTh().setStyleName(R.css().reviewed()).closeTh();
       sb.openTd().closeTd(); // path
 
       // delta1

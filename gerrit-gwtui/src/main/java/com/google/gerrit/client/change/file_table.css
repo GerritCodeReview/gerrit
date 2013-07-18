@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-.pointer {
-  width: 1px;
+.pointer, .reviewed {
+  width: 12px;
   padding: 0px;
   vertical-align: top;
 }

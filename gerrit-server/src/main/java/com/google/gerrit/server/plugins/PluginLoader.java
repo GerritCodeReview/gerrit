@@ -92,6 +92,10 @@ public class PluginLoader implements LifecycleListener {
   private final Provider<String> urlProvider;
   private final boolean remoteAdmin;
 
+  public static String getPluginName(File srcFile) throws IOException {
+    return Objects.firstNonNull(getGerritPluginName(srcFile), nameOf(srcFile)).toLowerCase();
+  }
+
   @Inject
   public PluginLoader(SitePaths sitePaths,
       PluginGuiceEnvironment pe,
@@ -656,7 +660,7 @@ public class PluginLoader implements LifecycleListener {
   // If multiple plugin files provide the same plugin name, then only
   // the first plugin remains active and all other plugins with the same
   // name are disabled.
-  private static Multimap<String, File> prunePlugins(File pluginsDir) {
+  public static Multimap<String, File> prunePlugins(File pluginsDir) {
     List<File> jars = scanJarsInPluginsDirectory(pluginsDir);
     Multimap<String, File> map;
     try {
@@ -752,8 +756,7 @@ public class PluginLoader implements LifecycleListener {
       throws IOException {
     Multimap<String, File> map = LinkedHashMultimap.create();
     for (File srcFile : plugins) {
-      map.put(Objects.firstNonNull(getGerritPluginName(srcFile),
-          nameOf(srcFile)), srcFile);
+      map.put(getPluginName(srcFile), srcFile);
     }
     return map;
   }

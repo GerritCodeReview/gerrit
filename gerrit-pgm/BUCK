@@ -4,7 +4,6 @@ INIT_API_SRCS = [SRCS + n for n in [
   'init/AllProjectsConfig.java',
   'init/AllProjectsNameOnInitProvider.java',
   'util/ConsoleUI.java',
-  'util/Die.java',
   'init/InitFlags.java',
   'init/InitStep.java',
   'init/InitStep.java',
@@ -34,7 +33,7 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
+INIT_BASE_SRCS = [SRCS + 'BaseInit.java', SRCS + 'SiteModule.java'] + glob(
     [SRCS + n for n in [
       'init/**/*.java',
       'util/**/*.java',
@@ -112,6 +111,7 @@ java_library2(
     '//lib:gwtorm',
     '//lib:h2',
     '//lib:servlet-api-3_1',
+    '//lib:ow2-asm',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',
     '//lib/jetty:server',

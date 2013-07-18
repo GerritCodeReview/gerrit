@@ -1402,6 +1402,13 @@ Defaults to "Report Bug".
 Default change screen UI to direct users to. Valid values are
 `OLD_UI` and `CHANGE_SCREEN2`. Default is `CHANGE_SCREEN2`.
 
+[[gerrit.secureStore]]gerrit.secureStore::
++
+Name of custom secure store implementation provided by plugin.
+In the for: $pluginName/$secureStoreName
++
+Default value is `default`.
+
 [[gitweb]]
 === Section gitweb
 

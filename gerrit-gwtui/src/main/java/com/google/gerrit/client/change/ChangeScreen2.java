@@ -25,6 +25,7 @@ import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MergeableInfo;
 import com.google.gerrit.client.changes.ChangeInfo.MessageInfo;
 import com.google.gerrit.client.changes.ChangeInfo.RevisionInfo;
+import com.google.gerrit.client.changes.ChangeList;
 import com.google.gerrit.client.changes.StarredChanges;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.diff.DiffApi;
@@ -36,10 +37,12 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.Natives;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.client.ui.UserActivityMonitor;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.reviewdb.client.Change;
@@ -54,17 +57,21 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
@@ -73,6 +80,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -82,6 +90,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ChangeScreen2 extends Screen {
+  private static final int REFRESH_POLL_PERIOD = 5 * 1000;
+  private static final int REFRESH_MAX_PERIOD = 120 * 1000;
+  private static final int REFRESH_IDLE_PERIOD = 1 * 3600 * 1000;
+
   interface Binder extends UiBinder<HTMLPanel, ChangeScreen2> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
@@ -97,11 +109,15 @@ public class ChangeScreen2 extends Screen {
 
   private final Change.Id changeId;
   private String revision;
+  private ChangeInfo changeInfo;
   private CommentLinkProcessor commentLinkProcessor;
+  private Timestamp lastDisplayedUpdate;
+  private UpdatedBar availableUpdate;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
   private List<HandlerRegistration> keys = new ArrayList<HandlerRegistration>(2);
+  private Timer poller;
 
   @UiField Style style;
   @UiField ToggleButton star;
@@ -143,21 +159,36 @@ public class ChangeScreen2 extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    ChangeApi.detail(changeId.get(),
-      EnumSet.of(
-          ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.CURRENT_ACTIONS),
-      new GerritCallback<ChangeInfo>() {
-        @Override
-        public void onSuccess(ChangeInfo info) {
-          info.init();
-          loadConfigInfo(info);
-        }
-      });
+    loadChangeInfo(true, new GerritCallback<ChangeInfo>() {
+      @Override
+      public void onSuccess(ChangeInfo info) {
+        info.init();
+        loadConfigInfo(info);
+      }
+    });
+  }
+
+  private void loadChangeInfo(boolean fg, AsyncCallback<ChangeInfo> cb) {
+    RestApi call = ChangeApi.detail(changeId.get());
+    ChangeList.addOptions(call, EnumSet.of(
+        ListChangesOption.ALL_REVISIONS,
+        ListChangesOption.CURRENT_ACTIONS));
+    if (!fg) {
+      call.background();
+    }
+    call.get(cb);
   }
 
   @Override
   protected void onUnload() {
+    if (availableUpdate != null) {
+      availableUpdate.hide(true);
+      availableUpdate = null;
+    }
+    if (poller != null) {
+      poller.cancel();
+      poller = null;
+    }
     for (HandlerRegistration h : keys) {
       h.removeHandler();
     }
@@ -220,6 +251,7 @@ public class ChangeScreen2 extends Screen {
     if (prior != null && prior.startsWith("/c/")) {
       scrollToPath(prior.substring(3));
     }
+    startPoller();
   }
 
   private void scrollToPath(String token) {
@@ -401,6 +433,8 @@ public class ChangeScreen2 extends Screen {
   }
 
   private void renderChangeInfo(ChangeInfo info) {
+    changeInfo = info;
+    lastDisplayedUpdate = info.updated();
     statusText.setInnerText(Util.toLongString(info.status()));
     boolean current = info.status().isOpen()
         && revision.equals(info.current_revision());
@@ -534,5 +568,82 @@ public class ChangeScreen2 extends Screen {
         history.add(new Message(commentLinkProcessor, messages.get(i)));
       }
     }
+  }
+
+  private void showUpdates(ChangeInfo newInfo) {
+    JsArray<MessageInfo> om = changeInfo.messages();
+    JsArray<MessageInfo> nm = newInfo.messages();
+
+    if (om == null) {
+      om = JsArray.createArray().cast();
+    }
+    if (nm == null) {
+      nm = JsArray.createArray().cast();
+    }
+
+    if (availableUpdate == null) {
+      availableUpdate = new UpdatedBar() {
+        @Override
+        void onShow() {
+          reload.reload(); // TODO Avoid RPC and use newInfo.
+        }
+
+        void onIgnore(Timestamp newTime) {
+          lastDisplayedUpdate = newTime;
+        }
+      };
+      availableUpdate.addCloseHandler(new CloseHandler<PopupPanel>() {
+        @Override
+        public void onClose(CloseEvent<PopupPanel> event) {
+          availableUpdate = null;
+        }
+      });
+    }
+    availableUpdate.set(
+        Natives.asList(nm).subList(om.length(), nm.length()),
+        newInfo.updated());
+    if (!availableUpdate.isShowing()) {
+      availableUpdate.popup();
+    }
+  }
+
+  private void startPoller() {
+    poller = new Timer() {
+      private int delay = REFRESH_POLL_PERIOD;
+
+      @Override
+      public void run() {
+        if (!isAttached()) {
+          return; // onUnload() should have removed this.
+        } else if (!UserActivityMonitor.isActive()) {
+          cancel();
+          delay = REFRESH_IDLE_PERIOD;
+          scheduleRepeating(delay);
+        }
+
+        loadChangeInfo(false, new AsyncCallback<ChangeInfo>() {
+          @Override
+          public void onSuccess(ChangeInfo info) {
+            if (isAttached() && !info.updated().equals(lastDisplayedUpdate)) {
+              showUpdates(info);
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            // On failures increase the delay time and try again,
+            // but place an upper bound on the delay.
+            if (isAttached()) {
+              cancel();
+              delay = (int) Math.max(
+                  delay * (1.5 + Math.random()),
+                  REFRESH_MAX_PERIOD);
+              scheduleRepeating(delay);
+            }
+          }
+        });
+      }
+    };
+    poller.scheduleRepeating(REFRESH_POLL_PERIOD);
   }
 }

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3a0875b_9c1b4583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-18T09:41:13Z",
+      "side": 1,
+      "message": "s/-1/- 1",
+      "revId": "c0950f1983e15ae257f009c6281f2650e5c10ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b34b2773_64836a57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-18T09:41:13Z",
+      "side": 1,
+      "message": "s/repsository/repository",
+      "revId": "c0950f1983e15ae257f009c6281f2650e5c10ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13923312_7fbd0fff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-18T09:41:13Z",
+      "side": 1,
+      "message": "Should we also consider this case unreasonable when \u0027.git\u0027 name appears deeper in the tree?",
+      "revId": "c0950f1983e15ae257f009c6281f2650e5c10ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b34b2773_44886e71",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-18T09:41:13Z",
+      "side": 1,
+      "message": "optional:\n\n  if (Strings.isNullOrEmpty(prefix)) {",
+      "revId": "c0950f1983e15ae257f009c6281f2650e5c10ba2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

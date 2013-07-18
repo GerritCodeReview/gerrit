@@ -52,6 +52,24 @@
       "revId": "40d4ffaa997f0c35687d1eb2f4e92d0bcd05740e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b37967b7_f4f7f809",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-18T00:34:12Z",
+      "side": 0,
+      "message": "OK right so the keystroke should toggle the box and fire the RPC. While the onValueChange should only fire the RPC.\n\nYou can structure that by using:\n\n  checkbox.setValue(true, true);\n\nso the box fires the value change handler and that hits the RPC. Which means make the RPC function part of the onValueChange method instead of the setReviewed(boolean) method that is exposed to SideBySide2.",
+      "parentUuid": "b37967b7_d4fafcf4",
+      "revId": "40d4ffaa997f0c35687d1eb2f4e92d0bcd05740e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

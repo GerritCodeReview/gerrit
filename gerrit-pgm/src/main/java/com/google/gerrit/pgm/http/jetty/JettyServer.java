@@ -28,11 +28,13 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtexpui.linker.server.UserAgentRule;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
@@ -131,6 +133,7 @@ public class JettyServer {
 
   private final SitePaths site;
   private final Server httpd;
+  private final Provider<SecureStore> secureStorePrvider;
 
   private boolean reverseProxy;
 
@@ -139,9 +142,10 @@ public class JettyServer {
 
   @Inject
   JettyServer(@GerritServerConfig final Config cfg, final SitePaths site,
-      final JettyEnv env)
+      final JettyEnv env, final Provider<SecureStore> secureStorePrvider)
       throws MalformedURLException, IOException {
     this.site = site;
+    this.secureStorePrvider = secureStorePrvider;
 
     httpd = new Server(threadPool(cfg));
     httpd.setConnectors(listen(httpd, cfg));
@@ -193,7 +197,7 @@ public class JettyServer {
       } else if ("https".equals(u.getScheme())) {
         SslContextFactory ssl = new SslContextFactory();
         final File keystore = getFile(cfg, "sslkeystore", "etc/keystore");
-        String password = cfg.getString("httpd", null, "sslkeypassword");
+        String password = secureStorePrvider.get().get("httpd", null, "sslkeypassword");
         if (password == null) {
           password = "gerrit";
         }

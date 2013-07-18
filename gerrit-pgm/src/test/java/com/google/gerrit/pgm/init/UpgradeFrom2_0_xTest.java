@@ -26,8 +26,12 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
+import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -75,7 +79,8 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     Section.Factory sections = new Section.Factory() {
       @Override
       public Section get(String name, String subsection) {
-        return new Section(flags, site, ui, name, subsection);
+        Provider<SecureStore> provider = Providers.of(TEST_SECURE_STORE);
+        return new Section(flags, site, ui, provider, name, subsection);
       }
     };
 
@@ -111,4 +116,23 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
 
     u.run();
   }
+
+  private static final SecureStore TEST_SECURE_STORE = new SecureStore() {
+    private final Config store = new Config();
+
+    @Override
+    public String get(String section, String subsection, String name) {
+      return store.getString(section, null, name);
+    }
+
+    @Override
+    public void set(String section, String subsection, String name, String value) {
+      store.setString(section, subsection, name, value);
+    }
+
+    @Override
+    public void unset(String section, String subsection, String name) {
+      store.setString(section, null, name, null);
+    }
+  };
 }

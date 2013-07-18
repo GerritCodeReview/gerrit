@@ -358,6 +358,10 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     for (File f : ls) {
       String fileName = f.getName();
       if (FileKey.isGitRepository(f, FS.DETECTED)) {
+        if (fileName.equals(Constants.DOT_GIT)) {
+          // Skip repositories named only `.git`
+          continue;
+        }
         Project.NameKey nameKey = getProjectName(prefix, fileName);
         if (isUnreasonableName(nameKey)) {
           log.warn("Ignoring unreasonably named repository " + f.getAbsolutePath());
@@ -374,10 +378,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private Project.NameKey getProjectName(final String prefix,
       final String fileName) {
     final String projectName;
-    if (fileName.equals(Constants.DOT_GIT)) {
-      projectName = prefix.substring(0, prefix.length() - 1);
-
-    } else if (fileName.endsWith(Constants.DOT_GIT_EXT)) {
+    if (fileName.endsWith(Constants.DOT_GIT_EXT)) {
       int newLen = fileName.length() - Constants.DOT_GIT_EXT.length();
       projectName = prefix + fileName.substring(0, newLen);
 

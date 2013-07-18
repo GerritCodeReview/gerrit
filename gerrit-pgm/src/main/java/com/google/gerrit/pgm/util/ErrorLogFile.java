@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.util;
 
+import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.LogUtil;

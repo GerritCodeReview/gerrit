@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.PluginData;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
@@ -37,18 +38,6 @@ import java.util.zip.ZipFile;
 public class InitPlugins implements InitStep {
   private static final String PLUGIN_DIR = "WEB-INF/plugins/";
   private static final String JAR = ".jar";
-
-  public static class PluginData {
-    public final String name;
-    public final String version;
-    public final File pluginFile;
-
-    private PluginData(String name, String version, File pluginFile) {
-      this.name = name;
-      this.version = version;
-      this.pluginFile = pluginFile;
-    }
-  }
 
   public static List<PluginData> listPlugins(SitePaths site) throws IOException {
     return listPlugins(site, false);
@@ -81,7 +70,7 @@ public class InitPlugins implements InitStep {
               tmpPlugin.delete();
             }
 
-            result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
+            result.add(new PluginData(pluginName, pluginVersion, tmpPlugin) {});
           }
         }
       } finally {
@@ -91,6 +80,30 @@ public class InitPlugins implements InitStep {
       throw new IOException("Failure during plugin installation", e);
     }
     return result;
+  }
+
+  public static File installPlugin(PluginData plugin, ConsoleUI ui, SitePaths site)
+      throws IOException {
+    File pluginFile = plugin.pluginFile;
+    final String pluginName = plugin.name;
+    final File p = new File(site.plugins_dir, pluginName + JAR);
+    if (p.exists()) {
+      final String installedPluginVersion = getVersion(p);
+      if (!ui.yesno(false, "version %s is already installed, overwrite it",
+          installedPluginVersion)) {
+        pluginFile.delete();
+        return p;
+      }
+      if (!p.delete()) {
+        throw new IOException("Failed to delete plugin " + pluginName + ": "
+            + p.getAbsolutePath());
+      }
+    }
+    if (!pluginFile.renameTo(p)) {
+      throw new IOException("Failed to install plugin " + pluginName + ": "
+          + pluginFile.getAbsolutePath() + " -> " + p.getAbsolutePath());
+    }
+    return p;
   }
 
   private final ConsoleUI ui;
@@ -133,25 +146,7 @@ public class InitPlugins implements InitStep {
           continue;
         }
 
-        final File p = new File(site.plugins_dir, plugin.name + ".jar");
-        if (p.exists()) {
-          final String installedPluginVersion = getVersion(p);
-          if (!ui.yesno(false,
-              "version %s is already installed, overwrite it",
-              installedPluginVersion)) {
-            tmpPlugin.delete();
-            continue;
-          }
-          if (!p.delete()) {
-            throw new IOException("Failed to delete plugin " + pluginName
-                + ": " + p.getAbsolutePath());
-          }
-        }
-        if (!tmpPlugin.renameTo(p)) {
-          throw new IOException("Failed to install plugin " + pluginName
-              + ": " + tmpPlugin.getAbsolutePath() + " -> "
-              + p.getAbsolutePath());
-        }
+        installPlugin(plugin, ui, site);
       } finally {
         if (plugin.pluginFile.exists()) {
           plugin.pluginFile.delete();

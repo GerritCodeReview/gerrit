@@ -16,8 +16,8 @@ package com.google.gerrit.pgm.init;
 
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
+import com.google.gerrit.common.Die;
 import com.google.gerrit.pgm.util.ConsoleUI;
-import com.google.gerrit.pgm.util.Die;
 import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;

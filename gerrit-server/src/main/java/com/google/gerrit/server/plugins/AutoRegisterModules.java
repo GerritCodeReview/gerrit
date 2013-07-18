@@ -48,7 +48,7 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-class AutoRegisterModules {
+public class AutoRegisterModules {
   private static final int SKIP_ALL = ClassReader.SKIP_CODE
       | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private final String pluginName;
@@ -65,7 +65,7 @@ class AutoRegisterModules {
   Module sshModule;
   Module httpModule;
 
-  AutoRegisterModules(String pluginName,
+  public AutoRegisterModules(String pluginName,
       PluginGuiceEnvironment env,
       JarFile jarFile,
       ClassLoader classLoader) {
@@ -77,7 +77,7 @@ class AutoRegisterModules {
     this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : null;
   }
 
-  AutoRegisterModules discover() throws InvalidPluginException {
+  public AutoRegisterModules discover() throws InvalidPluginException {
     sysSingletons = Sets.newHashSet();
     sysListen = LinkedListMultimap.create();
 

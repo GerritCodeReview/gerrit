@@ -136,6 +136,13 @@ final class SetAccountCommand extends BaseCommand {
     boolean accountUpdated = false;
     boolean sshKeysUpdated = false;
 
+    ResultSet<AccountExternalId> ids = db.accountExternalIds().byAccount(id);
+    for (AccountExternalId extId : ids) {
+      if (extId.isScheme(AccountExternalId.SCHEME_USERNAME)) {
+        account.setUserName(extId.getSchemeRest());
+      }
+    }
+
     for (String email : addEmails) {
       link(id, email);
     }

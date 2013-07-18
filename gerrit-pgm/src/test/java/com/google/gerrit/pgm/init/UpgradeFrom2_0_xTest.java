@@ -24,10 +24,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -75,7 +78,8 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     Section.Factory sections = new Section.Factory() {
       @Override
       public Section get(String name, String subsection) {
-        return new Section(flags, site, ui, name, subsection);
+        DynamicItem<SecureStore> provider = DynamicItem.of(TEST_SECURE_STORE);
+        return new Section(flags, site, ui, provider, name, subsection);
       }
     };
 
@@ -97,18 +101,35 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     }
 
     FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
-    FileBasedConfig sec = new FileBasedConfig(site.secure_config, FS.DETECTED);
     cfg.load();
-    sec.load();
 
     assertEquals("email.user", cfg.getString("sendemail", null, "smtpUser"));
     assertNull(cfg.getString("sendemail", null, "smtpPass"));
-    assertEquals("email.s3kr3t", sec.getString("sendemail", null, "smtpPass"));
+    assertEquals("email.s3kr3t", TEST_SECURE_STORE.get("sendemail", null, "smtpPass"));
 
     assertEquals("ldap.user", cfg.getString("ldap", null, "username"));
     assertNull(cfg.getString("ldap", null, "password"));
-    assertEquals("ldap.s3kr3t", sec.getString("ldap", null, "password"));
+    assertEquals("ldap.s3kr3t", TEST_SECURE_STORE.get("ldap", null, "password"));
 
     u.run();
   }
+
+  private static final SecureStore TEST_SECURE_STORE = new SecureStore() {
+    private final Config store = new Config();
+
+    @Override
+    public String get(String section, String subsection, String name) {
+      return store.getString(section, null, name);
+    }
+
+    @Override
+    public void set(String section, String subsection, String name, String value) {
+      store.setString(section, subsection, name, value);
+    }
+
+    @Override
+    public void unset(String section, String subsection, String name) {
+      store.setString(section, null, name, null);
+    }
+  };
 }

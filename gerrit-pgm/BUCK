@@ -25,6 +25,7 @@ java_library(
     '//lib/guice:guice-assistedinject',
     '//lib/jgit:jgit',
   ],
+  exported_deps = ['//gerrit-extension-api:api'],
   visibility = ['PUBLIC'],
 )
 

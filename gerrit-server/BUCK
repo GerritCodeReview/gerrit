@@ -106,6 +106,7 @@ java_library(
     '//lib/log:log4j',
   ],
   exported_deps = [
+    '//gerrit-extension-api:api',
     '//lib:easymock',
     '//lib:powermock-api-easymock',
     '//lib:powermock-api-support',

@@ -53,16 +53,19 @@ public class InitSecureStore {
   private final SitePaths site;
   private final InitFlags flags;
   private final List<String> installPlugins;
+  private final PluginsDistribution pluginsDistribution;
 
   @Inject
   InitSecureStore(ConsoleUI ui,
       SitePaths site,
       InitFlags flags,
       List<PluginData> plugins,
+      PluginsDistribution pluginsDistribution,
       @InstallPlugins List<String> installPlugins) {
     this.ui = ui;
     this.site = site;
     this.flags = flags;
+    this.pluginsDistribution = pluginsDistribution;
     this.installPlugins = installPlugins;
   }
 
@@ -122,7 +125,7 @@ public class InitSecureStore {
   private Injector createInjectorWithCustomSecureStore(
       final Class<? extends SecureStore> storeClass) throws Exception {
     List<Module> m = Lists.newArrayList();
-    m.add(new InitModule(true, true));
+    m.add(new InitModule(true, true, pluginsDistribution));
     m.add(new SiteModule(ui, site.site_path, installPlugins));
     m.add(new AbstractModule() {
       @Override

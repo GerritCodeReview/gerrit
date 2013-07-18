@@ -20,6 +20,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.net.InetAddresses;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.DisabledChangeHooks;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.schema.Current;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -116,6 +118,9 @@ public class InMemoryModule extends FactoryModule {
       protected void configure() {
         bind(Config.class).annotatedWith(GerritServerConfig.class)
             .toInstance(cfg);
+
+        bind(new TypeLiteral<DynamicItem<SecureStore>>() {}).toInstance(
+            DynamicItem.<SecureStore> of(new InMemorySecureStore()));
       }
     });
     install(cfgInjector.getInstance(GerritGlobalModule.class));
@@ -148,6 +153,9 @@ public class InMemoryModule extends FactoryModule {
       .to(InMemoryH2Type.class);
     bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {})
         .to(InMemoryDatabase.class);
+
+    bind(new TypeLiteral<DynamicItem<SecureStore>>() {}).toInstance(
+        DynamicItem.<SecureStore> of(new InMemorySecureStore()));
 
     bind(ChangeHooks.class).to(DisabledChangeHooks.class);
     install(NoSshKeyCache.module());

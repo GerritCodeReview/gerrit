@@ -33,6 +33,9 @@ limitations under the License.
     .difftable .CodeMirror pre span {
       padding-bottom: 0.1em;
     }
+    .sidePanelCell {
+      width: 10px;
+    }
     .table {
       width: 100%;
       table-layout: fixed;
@@ -98,26 +101,33 @@ limitations under the License.
     }
   </ui:style>
   <g:HTMLPanel styleName='{style.difftable}'>
-    <table class='{style.table}'>
-      <tr ui:field='patchsetNavRow'>
-        <td ui:field='patchsetNavCellA' class='{style.padding}'>
-          <d:PatchSelectBox2 ui:field='patchSelectBoxA' />
-        </td>
-        <td ui:field='patchsetNavCellB' class='{style.padding}'>
-          <d:PatchSelectBox2 ui:field='patchSelectBoxB' />
-        </td>
-      </tr>
-      <tr ui:field='fileCommentRow'>
-        <td ui:field='fileCommentCellA' class='{style.padding}'>
-          <d:FileCommentPanel ui:field='fileCommentPanelA' />
-        </td>
-        <td ui:field='fileCommentCellB' class='{style.padding}'>
-          <d:FileCommentPanel ui:field='fileCommentPanelB' />
-        </td>
-      </tr>
+    <table>
       <tr>
-        <td ui:field='cmA' class='{style.a}'></td>
-        <td ui:field='cmB' class='{style.b}'></td>
+        <td>
+          <table class='{style.table}'>
+            <tr ui:field='patchsetNavRow'>
+              <td ui:field='patchsetNavCellA' class='{style.padding}'>
+                <d:PatchSelectBox2 ui:field='patchSelectBoxA' />
+              </td>
+              <td ui:field='patchsetNavCellB' class='{style.padding}'>
+                <d:PatchSelectBox2 ui:field='patchSelectBoxB' />
+              </td>
+            </tr>
+            <tr ui:field='fileCommentRow'>
+              <td ui:field='fileCommentCellA' class='{style.padding}'>
+                <d:FileCommentPanel ui:field='fileCommentPanelA' />
+              </td>
+              <td ui:field='fileCommentCellB' class='{style.padding}'>
+                <d:FileCommentPanel ui:field='fileCommentPanelB' />
+              </td>
+            </tr>
+            <tr>
+              <td ui:field='cmA' class='{style.a}'></td>
+              <td ui:field='cmB' class='{style.b}'></td>
+            </tr>
+          </table>
+        </td>
+        <td class='{style.sidePanelCell}'><d:SidePanel ui:field='sidePanel'/></td>
       </tr>
     </table>
   </g:HTMLPanel>

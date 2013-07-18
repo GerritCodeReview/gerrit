@@ -224,6 +224,7 @@ class DraftBox extends CommentBox {
     parent.removeDraft(this, side, comment.line() - 1);
     cm.focus();
     getSelfWidgetWrapper().getWidget().clear();
+    getGutterWrapper().remove();
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {

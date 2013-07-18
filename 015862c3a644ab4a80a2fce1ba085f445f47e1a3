@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d37c1ba6_fb3fe79a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/ChangeBatchIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-18T23:52:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure you need to care that much. A live server will have any accessed repository open forever. Unless you are indexing projects that are archived and not used, e.g. due to schema changes.\n\nIn which case doing that close might make sense. Maybe you can hint off the status being not active?",
+      "revId": "015862c3a644ab4a80a2fce1ba085f445f47e1a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

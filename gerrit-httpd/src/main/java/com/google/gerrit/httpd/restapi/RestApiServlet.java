@@ -23,6 +23,7 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
@@ -109,6 +110,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -279,6 +281,11 @@ public class RestApiServlet extends HttpServlet {
         checkAccessAnnotations(view.getClass());
       }
 
+      if (notModified(req, rsrc)) {
+        res.sendError(SC_NOT_MODIFIED);
+        return;
+      }
+
       Multimap<String, String> config = LinkedHashMultimap.create();
       ParameterParser.splitQueryString(req.getQueryString(), config, params);
       if (!globals.paramParser.get().parse(view, params, req, res)) {
@@ -302,7 +309,7 @@ public class RestApiServlet extends HttpServlet {
         @SuppressWarnings("rawtypes")
         Response<?> r = (Response) result;
         status = r.statusCode();
-        configureCaching(req, res, r.caching());
+        configureCaching(req, res, rsrc, r.caching());
       } else if (result instanceof Response.Redirect) {
         CacheHeaders.setNotCacheable(res);
         res.sendRedirect(((Response.Redirect) result).location());
@@ -353,8 +360,18 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  private boolean notModified(HttpServletRequest req, RestResource rsrc) {
+    if (rsrc instanceof RestResource.HasLastModified
+        && "GET".equals(req.getMethod())) {
+      Timestamp m = ((RestResource.HasLastModified) rsrc).getLastModified();
+      long d = req.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);
+      return d / 1000L == m.getTime() / 1000L;
+    }
+    return false;
+  }
+
   private static <T> void configureCaching(HttpServletRequest req,
-      HttpServletResponse res, CacheControl c) {
+      HttpServletResponse res, RestResource rsrc, CacheControl c) {
     if ("GET".equals(req.getMethod())) {
       switch (c.getType()) {
         case NONE:
@@ -362,14 +379,29 @@ public class RestApiServlet extends HttpServlet {
           CacheHeaders.setNotCacheable(res);
           break;
         case PRIVATE:
-          CacheHeaders.setCacheablePrivate(res, c.getAge(), c.getUnit());
+          addResourceStateHeaders(res, rsrc);
+          CacheHeaders.setCacheablePrivate(res,
+              c.getAge(), c.getUnit(),
+              c.isMustRevalidate());
           break;
         case PUBLIC:
-          CacheHeaders.setCacheable(req, res, c.getAge(), c.getUnit());
+          addResourceStateHeaders(res, rsrc);
+          CacheHeaders.setCacheable(req, res,
+              c.getAge(), c.getUnit(),
+              c.isMustRevalidate());
           break;
       }
     } else {
       CacheHeaders.setNotCacheable(res);
+    }
+  }
+
+  private static void addResourceStateHeaders(
+      HttpServletResponse res, RestResource rsrc) {
+    if (rsrc instanceof RestResource.HasLastModified) {
+      res.setDateHeader(
+          HttpHeaders.LAST_MODIFIED,
+          ((RestResource.HasLastModified) rsrc).getLastModified().getTime());
     }
   }
 
@@ -850,7 +882,7 @@ public class RestApiServlet extends HttpServlet {
       HttpServletResponse res, int statusCode, String msg,
       CacheControl c) throws IOException {
     res.setStatus(statusCode);
-    configureCaching(req, res, c);
+    configureCaching(req, res, null, c);
     replyText(null, res, msg);
   }
 

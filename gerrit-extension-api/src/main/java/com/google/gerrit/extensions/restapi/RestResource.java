@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import java.sql.Timestamp;
+
 /**
  * Generic resource handle defining arguments to views.
  * <p>
@@ -21,4 +23,9 @@ package com.google.gerrit.extensions.restapi;
  * {@link RestView} such as {@link RestReadView} or {@link RestModifyView}.
  */
 public interface RestResource {
+
+  /** A resource with a last modification date. */
+  public static interface HasLastModified {
+    public Timestamp getLastModified();
+  }
 }

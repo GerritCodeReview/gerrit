@@ -86,7 +86,7 @@ class FileTable extends FlowPanel {
       }
     });
 
-    DisplayCommand cmd = new DisplayCommand(list);
+    DisplayCommand cmd = new DisplayCommand(fileMap, list);
     if (cmd.execute()) {
       cmd.showProgressBar();
       Scheduler.get().scheduleIncremental(cmd);
@@ -124,9 +124,11 @@ class FileTable extends FlowPanel {
   }
 
   private final class MyTable extends NavigationTable<FileInfo> {
+    private final NativeMap<FileInfo> map;
     private final JsArray<FileInfo> list;
 
-    MyTable(JsArray<FileInfo> list) {
+    MyTable(NativeMap<FileInfo> map, JsArray<FileInfo> list) {
+      this.map = map;
       this.list = list;
       table.setWidth("");
 
@@ -144,6 +146,12 @@ class FileTable extends FlowPanel {
     @Override
     protected Object getRowItemKey(FileInfo item) {
       return item.path();
+    }
+
+    @Override
+    protected int findRow(Object id) {
+      FileInfo info = map.get((String) id);
+      return info != null ? 1 + info._row() : -1;
     }
 
     @Override
@@ -174,8 +182,8 @@ class FileTable extends FlowPanel {
     private int inserted;
     private int deleted;
 
-    private DisplayCommand(JsArray<FileInfo> list) {
-      this.table = new MyTable(list);
+    private DisplayCommand(NativeMap<FileInfo> map, JsArray<FileInfo> list) {
+      this.table = new MyTable(map, list);
       this.list = list;
     }
 
@@ -197,7 +205,9 @@ class FileTable extends FlowPanel {
         computeInsertedDeleted();
       }
       while (row < list.length()) {
-        render(sb, list.get(row));
+        FileInfo info = list.get(row);
+        info._row(row);
+        render(sb, info);
         if ((++row % 10) == 0 && longRunning()) {
           updateMeter();
           return true;

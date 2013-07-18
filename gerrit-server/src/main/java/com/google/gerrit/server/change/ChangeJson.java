@@ -348,12 +348,7 @@ public class ChangeJson {
 
     ChangeControl ctl = control(cd);
     if (ctl == null) {
-      return null;
-    }
-
-    PatchSet ps = cd.currentPatchSet(db);
-    if (ps == null) {
-      return null;
+      return Collections.emptyMap();
     }
 
     LabelTypes labelTypes = ctl.getLabelTypes();

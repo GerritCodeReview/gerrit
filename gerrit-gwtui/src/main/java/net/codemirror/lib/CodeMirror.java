@@ -124,8 +124,16 @@ public class CodeMirror extends JavaScriptObject {
     return this.lineAtHeight(height);
   }-*/;
 
+  public final native int lineAtHeight(double height, String mode) /*-{
+    return this.lineAtHeight(height, mode);
+  }-*/;
+
   public final native double heightAtLine(int line) /*-{
     return this.heightAtLine(line);
+  }-*/;
+
+  public final native double heightAtLine(int line, String mode) /*-{
+    return this.heightAtLine(line, mode);
   }-*/;
 
   public final native CodeMirrorDoc getDoc() /*-{
@@ -146,6 +154,14 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native Viewport getViewport() /*-{
     return this.getViewport();
+  }-*/;
+
+  public final native int getOldViewportSize() /*-{
+    return this.state.oldViewportSize || 0;
+  }-*/;
+
+  public final native void setOldViewportSize(int lines) /*-{
+    this.state.oldViewportSize = lines;
   }-*/;
 
   public final native double getScrollSetAt() /*-{
@@ -239,6 +255,10 @@ public class CodeMirror extends JavaScriptObject {
     this.focus();
   }-*/;
 
+  public final native int lineCount() /*-{
+    return this.lineCount();
+  }-*/;
+
   /** Hack into CodeMirror to disable unwanted keys */
   public static final native void disableUnwantedKey(String category,
       String name) /*-{
@@ -251,6 +271,18 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native Element getGutterElement() /*-{
     return this.getGutterElement();
+  }-*/;
+
+  public final native Element getScrollerElement() /*-{
+    return this.getScrollerElement();
+  }-*/;
+
+  public final native Element getSizer() /*-{
+    return this.display.sizer;
+  }-*/;
+
+  public final native Element getScrollbarV() /*-{
+    return this.display.scrollbarV;
   }-*/;
 
   protected CodeMirror() {

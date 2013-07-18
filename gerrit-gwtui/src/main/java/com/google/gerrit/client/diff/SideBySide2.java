@@ -260,6 +260,7 @@ public class SideBySide2 extends Screen {
       }
     };
     cm.on("renderLine", resizeLinePadding(getSideFromCm(cm)));
+    cm.on("viewportChange", adjustGutters(cm));
     // TODO: Prevent right click from updating the cursor.
     cm.addKeyMap(KeyMap.create()
         .on("'j'", moveCursorDown(cm, 1))
@@ -430,6 +431,13 @@ public class SideBySide2 extends Screen {
         }
         markEdit(cmA, currentA, current.edit_a(), origLineA);
         markEdit(cmB, currentB, current.edit_b(), origLineB);
+        if (aLength == 0 || bLength == 0) {
+          diffTable.sidePanel.addGutter(cmB, origLineB, aLength == 0
+              ? SidePanel.GutterType.INSERT
+              : SidePanel.GutterType.DELETE);
+        } else {
+          diffTable.sidePanel.addGutter(cmB, origLineB, SidePanel.GutterType.EDIT);
+        }
       }
     }
   }
@@ -454,10 +462,15 @@ public class SideBySide2 extends Screen {
 
   DraftBox addDraftBox(CommentInfo info) {
     CodeMirror cm = getCmFromSide(info.side());
-    DraftBox box = new DraftBox(this, cm, commentLinkProcessor, revision, info);
+    final DraftBox box = new DraftBox(this, cm, commentLinkProcessor, revision, info);
     if (info.id() == null) {
-      box.setOpen(true);
-      box.setEdit(true);
+      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+        @Override
+        public void execute() {
+          box.setOpen(true);
+          box.setEdit(true);
+        }
+      });
     }
     if (!info.has_line()) {
       return box;
@@ -511,6 +524,10 @@ public class SideBySide2 extends Screen {
     if (otherChunk == null) {
       box.setDiffChunkInfo(myChunk);
     }
+    box.setGutterWrapper(diffTable.sidePanel.addGutter(cm, info.line() - 1,
+        box instanceof DraftBox ?
+            SidePanel.GutterType.DRAFT
+          : SidePanel.GutterType.COMMENT));
     return box;
   }
 
@@ -803,6 +820,21 @@ public class SideBySide2 extends Screen {
     }
   }
 
+  private Runnable adjustGutters(final CodeMirror cm) {
+    return new Runnable() {
+      @Override
+      public void run() {
+        Viewport fromTo = cm.getViewport();
+        int size = fromTo.getTo() - fromTo.getFrom() + 1;
+        if (cm.getOldViewportSize() == size) {
+          return;
+        }
+        cm.setOldViewportSize(size);
+        diffTable.sidePanel.adjustGutters(cmB);
+      }
+    };
+  }
+
   private Runnable updateActiveLine(final CodeMirror cm) {
     final CodeMirror other = otherCm(cm);
     return new Runnable() {
@@ -830,9 +862,8 @@ public class SideBySide2 extends Screen {
         cm.addLineClass(handle, LineClassWhere.BACKGROUND, DiffTable.style.activeLineBg());
         LineOnOtherInfo info =
             mapper.lineOnOther(getSideFromCm(cm), cm.getLineNumber(handle));
-        int oLine = info.getLine();
-        LineHandle oLineHandle = other.getLineHandle(oLine);
         if (info.isAligned()) {
+          LineHandle oLineHandle = other.getLineHandle(info.getLine());
           other.setActiveLine(oLineHandle);
           other.addLineClass(oLineHandle, LineClassWhere.WRAP,
               DiffTable.style.activeLine());
@@ -1003,6 +1034,7 @@ public class SideBySide2 extends Screen {
     cmA.refresh();
     cmB.setHeight(Window.getClientHeight() - h);
     cmB.refresh();
+    diffTable.sidePanel.adjustGutters(cmB);
   }
 
   static void setHeightInPx(Element ele, double height) {
@@ -1013,6 +1045,14 @@ public class SideBySide2 extends Screen {
     return meta != null && meta.content_type() != null
         ? ModeInjector.getContentType(meta.content_type())
         : null;
+  }
+
+  CodeMirror getCmA() {
+    return cmA;
+  }
+
+  CodeMirror getCmB() {
+    return cmB;
   }
 
   static class EditIterator {

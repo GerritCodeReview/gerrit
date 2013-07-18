@@ -17,6 +17,7 @@ package com.google.gerrit.client.diff;
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.PaddingManager.PaddingWidgetWrapper;
 import com.google.gerrit.client.diff.SideBySide2.DiffChunkInfo;
+import com.google.gerrit.client.diff.SidePanel.GutterWrapper;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Composite;
@@ -31,6 +32,7 @@ abstract class CommentBox extends Composite {
   private PaddingWidgetWrapper selfWidgetWrapper;
   private SideBySide2 parent;
   private DiffChunkInfo diffChunkInfo;
+  private GutterWrapper gutterWrapper;
 
   @Override
   protected void onLoad() {
@@ -86,5 +88,13 @@ abstract class CommentBox extends Composite {
 
   void setParent(SideBySide2 parent) {
     this.parent = parent;
+  }
+
+  void setGutterWrapper(GutterWrapper wrapper) {
+    gutterWrapper = wrapper;
+  }
+
+  GutterWrapper getGutterWrapper() {
+    return gutterWrapper;
   }
 }

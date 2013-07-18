@@ -6,6 +6,11 @@ ANNOTATIONS = [
   SRC + 'common/auth/SignInRequired.java',
 ]
 
+EXCLUDES = [
+  SRC + 'common/PluginData.java',
+  SRC + 'common/FileUtil.java',
+]
+
 java_library(
   name = 'annotations',
   srcs = ANNOTATIONS,
@@ -14,7 +19,7 @@ java_library(
 
 gwt_module(
   name = 'client',
-  srcs = glob([SRC + 'common/**/*.java']),
+  srcs = glob([SRC + 'common/**/*.java'], excludes = EXCLUDES),
   gwtxml = SRC + 'Common.gwt.xml',
   deps = [
     '//gerrit-patch-jgit:client',

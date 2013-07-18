@@ -14,10 +14,10 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.gerrit.pgm.util.Die;
+import com.google.gerrit.common.Die;
+import com.google.gerrit.common.FileUtil;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -33,7 +33,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 /** Utility functions to help initialize a site. */
 class InitUtil {
@@ -46,65 +45,8 @@ class InitUtil {
   }
 
   static void savePublic(final FileBasedConfig sec) throws IOException {
-    if (modified(sec)) {
+    if (FileUtil.modified(sec)) {
       sec.save();
-    }
-  }
-
-  static void saveSecure(final FileBasedConfig sec) throws IOException {
-    if (modified(sec)) {
-      final byte[] out = Constants.encode(sec.toText());
-      final File path = sec.getFile();
-      final LockFile lf = new LockFile(path, FS.DETECTED);
-      if (!lf.lock()) {
-        throw new IOException("Cannot lock " + path);
-      }
-      try {
-        chmod(0600, new File(path.getParentFile(), path.getName() + ".lock"));
-        lf.write(out);
-        if (!lf.commit()) {
-          throw new IOException("Cannot commit write to " + path);
-        }
-      } finally {
-        lf.unlock();
-      }
-    }
-  }
-
-  private static boolean modified(FileBasedConfig cfg) throws IOException {
-    byte[] curVers;
-    try {
-      curVers = IO.readFully(cfg.getFile());
-    } catch (FileNotFoundException notFound) {
-      return true;
-    }
-
-    byte[] newVers = Constants.encode(cfg.toText());
-    return !Arrays.equals(curVers, newVers);
-  }
-
-  static void mkdir(final File path) {
-    if (!path.isDirectory() && !path.mkdir()) {
-      throw die("Cannot make directory " + path);
-    }
-  }
-
-  static void chmod(final int mode, final File path) {
-    path.setReadable(false, false /* all */);
-    path.setWritable(false, false /* all */);
-    path.setExecutable(false, false /* all */);
-
-    path.setReadable((mode & 0400) == 0400, true /* owner only */);
-    path.setWritable((mode & 0200) == 0200, true /* owner only */);
-    if (path.isDirectory() || (mode & 0100) == 0100) {
-      path.setExecutable(true, true /* owner only */);
-    }
-
-    if ((mode & 0044) == 0044) {
-      path.setReadable(true, false /* all */);
-    }
-    if ((mode & 0011) == 0011) {
-      path.setExecutable(true, false /* all */);
     }
   }
 

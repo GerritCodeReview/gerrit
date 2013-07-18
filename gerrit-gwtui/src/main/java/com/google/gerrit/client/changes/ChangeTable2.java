@@ -19,6 +19,7 @@ import static com.google.gerrit.client.FormatUtil.shortFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
+import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.ui.AccountLinkPanel;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
@@ -223,11 +224,16 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     boolean displayName = Gerrit.isSignedIn() && Gerrit.getUserAccount()
         .getGeneralPreferences().isShowUsernameInReviewCategory();
 
+    NativeMap<LabelInfo> labels = c.all_labels();
     CellFormatter fmt = table.getCellFormatter();
     for (int idx = 0; idx < labelNames.size(); idx++) {
-      String name = labelNames.get(idx);
       int col = BASE_COLUMNS + idx;
+      if (labels == null) {
+        table.clearCell(row, col);
+        continue;
+      }
 
+      String name = labelNames.get(idx);
       LabelInfo label = c.label(name);
       if (label == null) {
         table.clearCell(row, col);

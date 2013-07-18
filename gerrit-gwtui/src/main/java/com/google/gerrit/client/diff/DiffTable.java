@@ -49,6 +49,9 @@ class DiffTable extends Composite {
   Element cmB;
 
   @UiField
+  SidePanel sidePanel;
+
+  @UiField
   Element patchsetNavCellA;
 
   @UiField

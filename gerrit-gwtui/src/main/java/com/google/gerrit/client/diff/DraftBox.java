@@ -94,12 +94,13 @@ class DraftBox extends CommentBox {
     expandTimer = new Timer() {
       @Override
       public void run() {
-        if (isNew()) {
+        if (!isNew()) {
           cancel.setVisible(isDirty());
         }
         expandText();
       }
     };
+    cancel.setVisible(false);
     set(info);
 
     addDomHandler(new ClickHandler() {
@@ -226,6 +227,7 @@ class DraftBox extends CommentBox {
     parent.removeDraft(this, side, comment.line() - 1);
     cm.focus();
     getSelfWidgetWrapper().getWidget().clear();
+    getGutterWrapper().remove();
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
@@ -235,12 +237,8 @@ class DraftBox extends CommentBox {
   }
 
   @UiHandler("message")
-  void onMessageClick(ClickEvent e) {
-    e.stopPropagation();
-  }
-
-  @UiHandler("message")
   void onMessageDoubleClick(DoubleClickEvent e) {
+    e.stopPropagation();
     setEdit(true);
   }
 

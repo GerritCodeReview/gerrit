@@ -69,6 +69,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+import java.util.regex.Pattern;
 
 @Singleton
 public class PluginLoader implements LifecycleListener {
@@ -193,6 +194,7 @@ public class PluginLoader implements LifecycleListener {
   private static File asTemp(InputStream in,
       String prefix, String suffix,
       File dir) throws IOException {
+    dir.mkdirs();
     File tmp = File.createTempFile(prefix, suffix, dir);
     boolean keep = false;
     try {
@@ -561,6 +563,11 @@ public class PluginLoader implements LifecycleListener {
   private static String tempNameFor(String name) {
     SimpleDateFormat fmt = new SimpleDateFormat("yyMMdd_HHmm");
     return PLUGIN_TMP_PREFIX + name + "_" + fmt.format(new Date()) + "_";
+  }
+
+  public static String removeTempNamePart(String name) {
+    Pattern.compile(PLUGIN_TMP_PREFIX + "(.*)_[0-9]{6}_[0-9]{4}_");
+    return "";
   }
 
   private static Class<? extends Module> load(String name, ClassLoader pluginLoader)

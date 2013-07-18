@@ -51,26 +51,6 @@ class InitUtil {
     }
   }
 
-  static void saveSecure(final FileBasedConfig sec) throws IOException {
-    if (modified(sec)) {
-      final byte[] out = Constants.encode(sec.toText());
-      final File path = sec.getFile();
-      final LockFile lf = new LockFile(path, FS.DETECTED);
-      if (!lf.lock()) {
-        throw new IOException("Cannot lock " + path);
-      }
-      try {
-        chmod(0600, new File(path.getParentFile(), path.getName() + ".lock"));
-        lf.write(out);
-        if (!lf.commit()) {
-          throw new IOException("Cannot commit write to " + path);
-        }
-      } finally {
-        lf.unlock();
-      }
-    }
-  }
-
   private static boolean modified(FileBasedConfig cfg) throws IOException {
     byte[] curVers;
     try {

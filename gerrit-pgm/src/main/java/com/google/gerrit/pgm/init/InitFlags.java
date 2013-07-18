@@ -37,10 +37,10 @@ public class InitFlags {
   /** Skip plugins */
   public boolean skipPlugins;
 
-  public final FileBasedConfig cfg;
-  public final FileBasedConfig sec;
-  public final List<String> installPlugins;
+  public String secureStorePath;
 
+  public final FileBasedConfig cfg;
+  public final List<String> installPlugins;
 
   @Inject
   InitFlags(final SitePaths site,
@@ -48,9 +48,7 @@ public class InitFlags {
       ConfigInvalidException {
     this.installPlugins = installPlugins;
     cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
-    sec = new FileBasedConfig(site.secure_config, FS.DETECTED);
 
     cfg.load();
-    sec.load();
   }
 }

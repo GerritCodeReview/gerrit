@@ -18,26 +18,30 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.PluginData;
 import com.google.gerrit.pgm.init.Browser;
+import com.google.gerrit.pgm.init.InitFlags;
 import com.google.gerrit.pgm.init.InitPlugins;
-import com.google.gerrit.pgm.init.InitPlugins.PluginData;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /** Initialize a new Gerrit installation. */
 public class Init extends BaseInit {
@@ -55,6 +59,9 @@ public class Init extends BaseInit {
 
   @Option(name = "--install-plugin", usage = "Install given plugin without asking")
   private List<String> installPlugins;
+
+  @Option(name = "--with-secure-store-plugin", usage = "Absolute path to SecureStore plugin")
+  private String secureStorePath;
 
   @Inject
   Browser browser;
@@ -96,11 +103,19 @@ public class Init extends BaseInit {
   @Override
   protected void afterInit(SiteRun run) throws Exception {
     List<Module> modules = Lists.newArrayList();
+    modules.add(new SiteModule(getConsoleUI(), getSitePath(), getInstallPlugins()));
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
         bind(File.class).annotatedWith(SitePath.class).toInstance(getSitePath());
         bind(Browser.class);
+        bind(InitFlags.class);
+      }
+
+      @Provides
+      @Singleton
+      List<PluginData> getPlugins(SitePaths site) throws IOException {
+        return InitPlugins.listPlugins(site, pluginsDistribution);
       }
     });
     modules.add(new GerritServerConfigModule());
@@ -126,6 +141,11 @@ public class Init extends BaseInit {
   @Override
   protected boolean skipPlugins() {
     return skipPlugins;
+  }
+
+  @Override
+  protected String secureStorePath() {
+    return secureStorePath;
   }
 
   void start(SiteRun run) throws Exception {

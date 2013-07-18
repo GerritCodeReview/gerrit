@@ -231,9 +231,12 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
         }
       });
     } else {
-      tr.scrollIntoView();
+      scrollIntoView0(tr);
     }
   }
+
+  private static final native void scrollIntoView0(Element e)
+  /*-{ if (e.scrollIntoView) e.scrollIntoView() }-*/;
 
   protected void movePointerTo(final Object oldId) {
     final int row = findRow(oldId);

@@ -52,9 +52,9 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native void setValue(String v) /*-{ this.setValue(v); }-*/;
 
-  public final native void setWidth(int w) /*-{ this.setSize(w, null); }-*/;
+  public final native void setWidth(double w) /*-{ this.setSize(w, null); }-*/;
   public final native void setWidth(String w) /*-{ this.setSize(w, null); }-*/;
-  public final native void setHeight(int h) /*-{ this.setSize(null, h); }-*/;
+  public final native void setHeight(double h) /*-{ this.setSize(null, h); }-*/;
   public final native void setHeight(String h) /*-{ this.setSize(null, h); }-*/;
 
   public final native void refresh() /*-{ this.refresh(); }-*/;
@@ -120,19 +120,31 @@ public class CodeMirror extends JavaScriptObject {
     return this.addLineWidget(line, node, options);
   }-*/;
 
-  public final native int lineAtHeight(int height) /*-{
+  public final native int lineAtHeight(double height) /*-{
     return this.lineAtHeight(height);
+  }-*/;
+
+  public final native int lineAtHeight(double height, String mode) /*-{
+    return this.lineAtHeight(height, mode);
+  }-*/;
+
+  public final native double heightAtLine(int line) /*-{
+    return this.heightAtLine(line);
+  }-*/;
+
+  public final native double heightAtLine(int line, String mode) /*-{
+    return this.heightAtLine(line, mode);
   }-*/;
 
   public final native CodeMirrorDoc getDoc() /*-{
     return this.getDoc();
   }-*/;
 
-  public final native void scrollTo(int x, int y) /*-{
+  public final native void scrollTo(double x, double y) /*-{
     this.scrollTo(x, y);
   }-*/;
 
-  public final native void scrollToY(int y) /*-{
+  public final native void scrollToY(double y) /*-{
     this.scrollTo(null, y);
   }-*/;
 
@@ -225,6 +237,10 @@ public class CodeMirror extends JavaScriptObject {
     this.focus();
   }-*/;
 
+  public final native int lineCount() /*-{
+    return this.lineCount();
+  }-*/;
+
   /** Hack into CodeMirror to disable unwanted keys */
   public static final native void disableUnwantedKey(String category,
       String name) /*-{
@@ -244,6 +260,18 @@ public class CodeMirror extends JavaScriptObject {
 
   public final native Element getGutterElement() /*-{
     return this.getGutterElement();
+  }-*/;
+
+  public final native Element getScrollerElement() /*-{
+    return this.getScrollerElement();
+  }-*/;
+
+  public final native Element getSizer() /*-{
+    return this.display.sizer;
+  }-*/;
+
+  public final native Element getScrollbarV() /*-{
+    return this.display.scrollbarV;
   }-*/;
 
   protected CodeMirror() {

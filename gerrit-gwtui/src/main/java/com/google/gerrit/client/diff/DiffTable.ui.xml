@@ -31,7 +31,10 @@ limitations under the License.
       padding-bottom: 0.1em;
     }
     .table {
-      width: 100%;
+      width: calc(100%-10px);
+      width: -webkit-calc(100%-10px);
+      width: -moz-calc(100%-10px);
+      width: -o-calc(100%-10px);
       table-layout: fixed;
     }
     .a, .b {
@@ -111,6 +114,7 @@ limitations under the License.
       <tr>
         <td ui:field='cmA' class='{style.a}'></td>
         <td ui:field='cmB' class='{style.b}'></td>
+        <td><d:SidePanel ui:field='sidePanel' /></td>
       </tr>
     </table>
   </g:HTMLPanel>

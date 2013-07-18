@@ -80,7 +80,9 @@ public class SideBySide2 extends Screen {
   interface Binder extends UiBinder<HTMLPanel, SideBySide2> {}
   private static Binder uiBinder = GWT.create(Binder.class);
 
-  private static final int HEADER_FOOTER = 60 + 15 * 2 + 16 + 26;
+  static final int HEADER = 60 + 15 + 26;
+  private static final int FOOTER = 15 + 16 + 26;
+  private static final int HEADER_FOOTER = HEADER + FOOTER;
   private static final JsArrayString EMPTY =
       JavaScriptObject.createArray().cast();
 
@@ -256,6 +258,11 @@ public class SideBySide2 extends Screen {
     cm.on("cursorActivity", updateActiveLine(cm));
     cm.on("scroll", doScroll(cm));
     cm.on("renderLine", resizeEmptyLine(getSideFromCm(cm)));
+    cm.on("update", new Runnable() {
+      public void run() {
+        diffTable.sidePanel.adjustGutters();
+      }
+    });
     // TODO: Prevent right click from updating the cursor.
     cm.addKeyMap(KeyMap.create().on("'j'", moveCursorDown(cm, 1)));
     cm.addKeyMap(KeyMap.create().on("'k'", moveCursorDown(cm, -1)));
@@ -443,6 +450,13 @@ public class SideBySide2 extends Screen {
         insertEmptyLines(cmB, mapper.getLineB(), origLineA, commonCnt, true);
         markEdit(cmA, currentA, current.edit_a(), origLineA);
         markEdit(cmB, currentB, current.edit_b(), origLineB);
+        if (aLength == 0 || bLength == 0) {
+          diffTable.sidePanel.addGutter(cmB, origLineB, aLength == 0
+              ? SidePanel.GutterType.INSERT
+              : SidePanel.GutterType.DELETE);
+        } else {
+          diffTable.sidePanel.addGutter(cmB, origLineB, SidePanel.GutterType.EDIT);
+        }
       }
     }
   }
@@ -486,7 +500,7 @@ public class SideBySide2 extends Screen {
     return box;
   }
 
-  CommentBox addCommentBox(CommentInfo info, CommentBox box) {
+  CommentBox addCommentBox(CommentInfo info, final CommentBox box) {
     diffTable.add(box);
     Side mySide = info.side();
     CodeMirror cm = mySide == Side.PARENT ? cmA : cmB;
@@ -521,6 +535,10 @@ public class SideBySide2 extends Screen {
     box.setPaddingManager(manager);
     box.setSelfWidget(boxWidget);
     allBoxes.add(box);
+    box.setGutterWrapper(diffTable.sidePanel.addGutter(cm, info.line() - 1,
+        box.isDraft() ?
+            SidePanel.GutterType.DRAFT
+          : SidePanel.GutterType.COMMENT));
     return box;
   }
 

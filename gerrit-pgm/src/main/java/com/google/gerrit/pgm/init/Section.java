@@ -18,7 +18,9 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.io.File;
@@ -38,16 +40,19 @@ public class Section {
   private final ConsoleUI ui;
   private final String section;
   private final String subsection;
+  private final Provider<SecureStore> secureStoreProvider;
 
   @Inject
   public Section(final InitFlags flags, final SitePaths site,
-      final ConsoleUI ui, @Assisted("section") final String section,
+      final ConsoleUI ui, Provider<SecureStore> secureStoreProvider,
+      @Assisted("section") final String section,
       @Assisted("subsection") @Nullable final String subsection) {
     this.flags = flags;
     this.site = site;
     this.ui = ui;
     this.section = section;
     this.subsection = subsection;
+    this.secureStoreProvider = secureStoreProvider;
   }
 
   String get(String name) {
@@ -144,13 +149,13 @@ public class Section {
   public String password(final String username, final String password) {
     final String ov = getSecure(password);
 
-    String user = flags.sec.getString(section, subsection, username);
+    String user = flags.cfg.getString(section, subsection, username);
     if (user == null) {
       user = get(username);
     }
 
     if (user == null) {
-      flags.sec.unset(section, subsection, password);
+      secureStoreProvider.get().unset(section, subsection, password);
       return null;
     }
 
@@ -171,15 +176,11 @@ public class Section {
   }
 
   public String getSecure(String name) {
-    return flags.sec.getString(section, subsection, name);
+    return secureStoreProvider.get().get(section, subsection, name);
   }
 
   public void setSecure(String name, String value) {
-    if (value != null) {
-      flags.sec.setString(section, subsection, name, value);
-    } else {
-      flags.sec.unset(section, subsection, name);
-    }
+    secureStoreProvider.get().set(section, subsection, name, value);
   }
 
   String getName() {

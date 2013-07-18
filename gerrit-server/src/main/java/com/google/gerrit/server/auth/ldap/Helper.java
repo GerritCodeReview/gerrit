@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -71,11 +72,12 @@ import javax.security.auth.login.LoginException;
   @Inject
   Helper(@GerritServerConfig final Config config,
       @Named(LdapModule.GROUPS_BYINCLUDE_CACHE)
-      Cache<String, ImmutableSet<String>> groupsByInclude) {
+      Cache<String, ImmutableSet<String>> groupsByInclude,
+      SecureStoreProvider secureStoreProvider) {
     this.config = config;
     this.server = LdapRealm.optional(config, "server");
     this.username = LdapRealm.optional(config, "username");
-    this.password = LdapRealm.optional(config, "password");
+    this.password = secureStoreProvider.get().get("ldap", null, "password");
     this.referral = LdapRealm.optional(config, "referral");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
     this.authentication = LdapRealm.optional(config, "authentication");

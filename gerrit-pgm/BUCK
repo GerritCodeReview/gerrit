@@ -29,7 +29,7 @@ java_sources(
   visibility = ['PUBLIC'],
 )
 
-INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
+INIT_BASE_SRCS = [SRCS + 'BaseInit.java', SRCS + 'SiteModule.java'] + glob(
     [SRCS + n for n in [
       'init/**/*.java',
       'util/**/*.java',
@@ -101,6 +101,8 @@ java_library2(
     '//lib:guava',
     '//lib:gwtorm',
     '//lib:h2',
+    '//lib:jsr305',
+    '//lib:ow2-asm',
     '//lib:servlet-api-3_0',
     '//lib/guice:guice',
     '//lib/guice:guice-servlet',

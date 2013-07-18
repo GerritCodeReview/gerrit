@@ -24,8 +24,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.collect.Maps;
+import com.google.gerrit.common.secure.SecureStore;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -38,6 +45,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collections;
+import java.util.Map;
 
 
 public class UpgradeFrom2_0_xTest extends InitTestCase {
@@ -75,7 +83,8 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     Section.Factory sections = new Section.Factory() {
       @Override
       public Section get(String name, String subsection) {
-        return new Section(flags, site, ui, name, subsection);
+        Provider<SecureStore> provider = Providers.of(TEST_SECURE_STORE);
+        return new Section(flags, site, ui, provider, name, subsection);
       }
     };
 
@@ -111,4 +120,28 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
 
     u.run();
   }
+
+  private static final SecureStore TEST_SECURE_STORE = new SecureStore() {
+    private final Cache<String, Map<String, String>> store = CacheBuilder
+        .newBuilder().build(new CacheLoader<String, Map<String, String>>() {
+          public Map<String, String> load(String key) throws Exception {
+            return Maps.newHashMap();
+          };
+        });
+
+    @Override
+    public String get(String section, String subsection, String name) {
+      return store.getIfPresent(section).get(name);
+    }
+
+    @Override
+    public void set(String section, String subsection, String name, String value) {
+      store.getIfPresent(section).put(name, value);
+    }
+
+    @Override
+    public void unset(String section, String subsection, String name) {
+      store.getIfPresent(section).put(name, null);
+    }
+  };
 }

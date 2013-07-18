@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.secure.SecureStore;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -45,17 +46,20 @@ public class DataSourceProvider implements Provider<DataSource>,
   private final Config cfg;
   private final Context ctx;
   private final DataSourceType dst;
+  private final SecureStore secureStore;
   private DataSource ds;
 
   @Inject
   protected DataSourceProvider(SitePaths site,
       @GerritServerConfig Config cfg,
+      SecureStore secureStore,
       Context ctx,
       DataSourceType dst) {
     this.site = site;
     this.cfg = cfg;
     this.ctx = ctx;
     this.dst = dst;
+    this.secureStore = secureStore;
   }
 
   @Override
@@ -99,7 +103,7 @@ public class DataSourceProvider implements Provider<DataSource>,
     }
 
     String username = dbs.optional("username");
-    String password = dbs.optional("password");
+    String password = secureStore.get("database", null, "password");
 
     boolean usePool;
     if (context == Context.SINGLE_USER) {

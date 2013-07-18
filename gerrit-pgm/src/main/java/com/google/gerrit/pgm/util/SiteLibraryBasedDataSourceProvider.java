@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.util;
 
 import com.google.common.primitives.Longs;
+import com.google.gerrit.common.secure.SecureStore;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.schema.DataSourceProvider;
@@ -41,8 +42,9 @@ public class SiteLibraryBasedDataSourceProvider extends DataSourceProvider {
   SiteLibraryBasedDataSourceProvider(SitePaths site,
       @GerritServerConfig Config cfg,
       DataSourceProvider.Context ctx,
+      SecureStore secureStore,
       DataSourceType dst) {
-    super(site, cfg, ctx, dst);
+    super(site, cfg, secureStore, ctx, dst);
     libdir = site.lib_dir;
   }
 

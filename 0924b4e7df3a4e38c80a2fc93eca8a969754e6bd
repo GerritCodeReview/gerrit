@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13923312_3fb7871f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2013-07-18T09:52:40Z",
+      "side": 1,
+      "message": "Isn\u0027t it the \"no changes made\" error?",
+      "revId": "0924b4e7df3a4e38c80a2fc93eca8a969754e6bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

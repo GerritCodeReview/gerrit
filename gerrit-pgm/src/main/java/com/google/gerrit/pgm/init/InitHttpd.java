@@ -22,8 +22,10 @@ import static com.google.gerrit.pgm.init.InitUtil.toURI;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.File;
@@ -36,18 +38,19 @@ import java.net.URISyntaxException;
 class InitHttpd implements InitStep {
   private final ConsoleUI ui;
   private final SitePaths site;
-  private final InitFlags flags;
   private final Section httpd;
   private final Section gerrit;
+  private final Provider<SecureStore> secureStoreProvider;
 
   @Inject
-  InitHttpd(final ConsoleUI ui, final SitePaths site, final InitFlags flags,
-      final Section.Factory sections) {
+  InitHttpd(final ConsoleUI ui, final SitePaths site,
+      final Section.Factory sections,
+      final Provider<SecureStore> secureStoreProvider) {
     this.ui = ui;
     this.site = site;
-    this.flags = flags;
     this.httpd = sections.get("httpd", null);
     this.gerrit = sections.get("gerrit", null);
+    this.secureStoreProvider = secureStoreProvider;
   }
 
   public void run() throws IOException, InterruptedException {
@@ -150,10 +153,10 @@ class InitHttpd implements InitStep {
       return;
     }
 
-    String ssl_pass = flags.sec.getString("http", null, "sslKeyPassword");
+    String ssl_pass = secureStoreProvider.get().get("http", null, "sslKeyPassword");
     if (ssl_pass == null || ssl_pass.isEmpty()) {
       ssl_pass = SignedToken.generateRandomKey();
-      flags.sec.setString("httpd", null, "sslKeyPassword", ssl_pass);
+      secureStoreProvider.get().set("httpd", null, "sslKeyPassword", ssl_pass);
     }
 
     hostname = ui.readString(hostname, "Certificate server name");

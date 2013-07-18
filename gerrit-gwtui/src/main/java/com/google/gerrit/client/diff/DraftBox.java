@@ -233,16 +233,13 @@ class DraftBox extends CommentBox {
     PaddingManager manager = getPaddingManager();
     manager.remove(this);
     manager.resizePaddingWidget();
+    getGutterWrapper().remove();
     cm.focus();
   }
 
   @UiHandler("message")
-  void onMessageClick(ClickEvent e) {
-    e.stopPropagation();
-  }
-
-  @UiHandler("message")
   void onMessageDoubleClick(DoubleClickEvent e) {
+    e.stopPropagation();
     setEdit(true);
   }
 

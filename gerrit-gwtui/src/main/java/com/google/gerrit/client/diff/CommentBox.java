@@ -16,6 +16,7 @@ package com.google.gerrit.client.diff;
 
 import com.google.gerrit.client.changes.CommentInfo;
 import com.google.gerrit.client.diff.PaddingManager.PaddingWidgetWrapper;
+import com.google.gerrit.client.diff.SidePanel.GutterWrapper;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Composite;
@@ -28,6 +29,7 @@ abstract class CommentBox extends Composite {
 
   private PaddingManager widgetManager;
   private PaddingWidgetWrapper selfWidgetWrapper;
+  private GutterWrapper gutterWrapper;
 
   void resizePaddingWidget() {
     if (!getCommentInfo().has_line()) {
@@ -65,5 +67,13 @@ abstract class CommentBox extends Composite {
 
   PaddingWidgetWrapper getSelfWidgetWrapper() {
     return selfWidgetWrapper;
+  }
+
+  void setGutterWrapper(GutterWrapper wrapper) {
+    gutterWrapper = wrapper;
+  }
+
+  GutterWrapper getGutterWrapper() {
+    return gutterWrapper;
   }
 }

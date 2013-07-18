@@ -30,7 +30,6 @@ public class ScrollInfo extends JavaScriptObject {
   public final native double getClientWidth() /*-{ return this.clientWidth; }-*/;
   public final native double getClientHeight() /*-{ return this.clientHeight; }-*/;
 
-
   protected ScrollInfo() {
   }
 }

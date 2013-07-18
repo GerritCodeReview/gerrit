@@ -89,7 +89,7 @@ class Message extends Composite {
     }
   }
 
-  private static String authorName(MessageInfo info) {
+  static String authorName(MessageInfo info) {
     if (info.author() != null) {
       if (info.author().name() != null) {
         return info.author().name();

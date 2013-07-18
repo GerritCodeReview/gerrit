@@ -105,9 +105,11 @@ public class RestApi {
 
   private static class HttpCallback<T extends JavaScriptObject>
       implements RequestCallback {
+    private final boolean background;
     private final AsyncCallback<T> cb;
 
-    HttpCallback(AsyncCallback<T> cb) {
+    HttpCallback(boolean bg, AsyncCallback<T> cb) {
+      this.background = bg;
       this.cb = cb;
     }
 
@@ -116,11 +118,15 @@ public class RestApi {
       int status = res.getStatusCode();
       if (status == Response.SC_NO_CONTENT) {
         cb.onSuccess(null);
-        RpcStatus.INSTANCE.onRpcComplete();
+        if (!background) {
+          RpcStatus.INSTANCE.onRpcComplete();
+        }
 
       } else if (200 <= status && status < 300) {
         if (!isJsonBody(res)) {
-          RpcStatus.INSTANCE.onRpcComplete();
+          if (!background) {
+            RpcStatus.INSTANCE.onRpcComplete();
+          }
           cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE, "Expected "
               + JSON_TYPE + "; received Content-Type: "
               + res.getHeader("Content-Type")));
@@ -132,14 +138,18 @@ public class RestApi {
           // javac generics bug
           data = RestApi.<T>cast(parseJson(res));
         } catch (JSONException e) {
-          RpcStatus.INSTANCE.onRpcComplete();
+          if (!background) {
+            RpcStatus.INSTANCE.onRpcComplete();
+          }
           cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE,
               "Invalid JSON: " + e.getMessage()));
           return;
         }
 
         cb.onSuccess(data);
-        RpcStatus.INSTANCE.onRpcComplete();
+        if (!background) {
+          RpcStatus.INSTANCE.onRpcComplete();
+        }
 
       } else {
         String msg;
@@ -161,14 +171,18 @@ public class RestApi {
           msg = res.getStatusText();
         }
 
-        RpcStatus.INSTANCE.onRpcComplete();
+        if (!background) {
+          RpcStatus.INSTANCE.onRpcComplete();
+        }
         cb.onFailure(new StatusCodeException(status, msg));
       }
     }
 
     @Override
     public void onError(Request req, Throwable err) {
-      RpcStatus.INSTANCE.onRpcComplete();
+      if (!background) {
+        RpcStatus.INSTANCE.onRpcComplete();
+      }
       if (err.getMessage().contains("XmlHttpRequest.status")) {
         cb.onFailure(new StatusCodeException(
             SC_UNAVAILABLE,
@@ -181,6 +195,7 @@ public class RestApi {
 
   private StringBuilder url;
   private boolean hasQueryParams;
+  private boolean background;
   private String ifNoneMatch;
 
   /**
@@ -275,6 +290,11 @@ public class RestApi {
     return this;
   }
 
+  public RestApi background() {
+    background = true;
+    return this;
+  }
+
   public String url() {
     return url.toString();
   }
@@ -289,9 +309,11 @@ public class RestApi {
 
   private <T extends JavaScriptObject> void send(
       Method method, AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<T>(cb);
+    HttpCallback<T> httpCallback = new HttpCallback<T>(background, cb);
     try {
-      RpcStatus.INSTANCE.onRpcStart();
+      if (!background) {
+        RpcStatus.INSTANCE.onRpcStart();
+      }
       request(method).sendRequest(null, httpCallback);
     } catch (RequestException e) {
       httpCallback.onError(null, e);
@@ -322,9 +344,11 @@ public class RestApi {
   private <T extends JavaScriptObject> void sendJSON(
       Method method, JavaScriptObject content,
       AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<T>(cb);
+    HttpCallback<T> httpCallback = new HttpCallback<T>(background, cb);
     try {
-      RpcStatus.INSTANCE.onRpcStart();
+      if (!background) {
+        RpcStatus.INSTANCE.onRpcStart();
+      }
       String body = new JSONObject(content).toString();
       RequestBuilder req = request(method);
       req.setHeader("Content-Type", JSON_UTF8);
@@ -336,9 +360,11 @@ public class RestApi {
 
   private <T extends JavaScriptObject> void sendRaw(Method method, String body,
       AsyncCallback<T> cb) {
-    HttpCallback<T> httpCallback = new HttpCallback<T>(cb);
+    HttpCallback<T> httpCallback = new HttpCallback<T>(background, cb);
     try {
-      RpcStatus.INSTANCE.onRpcStart();
+      if (!background) {
+        RpcStatus.INSTANCE.onRpcStart();
+      }
       RequestBuilder req = request(method);
       req.setHeader("Content-Type", TEXT_TYPE);
       req.sendRequest(body, httpCallback);

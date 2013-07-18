@@ -175,9 +175,9 @@ limitations under the License.
       white-space: nowrap;
     }
     button.quickApprove {
-      color: #d14836;
-      background-color: #d14836;
-      background-image: -webkit-linear-gradient(top, #d14836, #d14836);
+      color: #fff;
+      background-color: #4d90fe;
+      background-image: -webkit-linear-gradient(top, #4d90fe, #4d90fe);
     }
     button.quickApprove div { color: #fff; }
 

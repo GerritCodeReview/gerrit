@@ -18,6 +18,7 @@ import static com.google.gerrit.common.FileUtil.chmod;
 import static com.google.gerrit.common.FileUtil.modified;
 
 import com.google.gerrit.common.Die;
+import com.google.gerrit.common.FileUtil;
 
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Constants;
@@ -48,7 +49,7 @@ class InitUtil {
   }
 
   static void savePublic(final FileBasedConfig sec) throws IOException {
-    if (modified(sec)) {
+    if (FileUtil.modified(sec)) {
       sec.save();
     }
   }

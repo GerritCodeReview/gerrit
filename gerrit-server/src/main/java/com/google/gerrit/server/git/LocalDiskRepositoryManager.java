@@ -306,6 +306,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private boolean isUnreasonableName(final Project.NameKey nameKey) {
+    if (nameKey == null) return true;
+
     final String name = nameKey.get();
 
     if (name.length() == 0) return true; // no empty paths
@@ -375,6 +377,10 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       final String fileName) {
     final String projectName;
     if (fileName.equals(Constants.DOT_GIT)) {
+      if (prefix.length() < 1) {
+        // Repository named ".git" in the root folder
+        return null;
+      }
       projectName = prefix.substring(0, prefix.length() - 1);
 
     } else if (fileName.endsWith(Constants.DOT_GIT_EXT)) {

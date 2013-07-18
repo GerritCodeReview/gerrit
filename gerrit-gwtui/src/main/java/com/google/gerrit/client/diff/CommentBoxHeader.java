@@ -23,6 +23,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -76,9 +78,13 @@ class CommentBoxHeader extends Composite implements HasClickHandlers {
       avatar = new AvatarImage();
     }
     initWidget(uiBinder.createAndBindUi(this));
-    if (author == null) {
-      UIObject.setVisible(avatarCell, false);
-    }
+    UIObject.setVisible(avatarCell, false);
+    avatar.addLoadHandler(new LoadHandler() {
+      @Override
+      public void onLoad(LoadEvent event) {
+        UIObject.setVisible(avatarCell, true);
+      }
+    });
     draft = isDraft;
     if (when != null) {
       setDate(when);

@@ -19,7 +19,6 @@ import static com.google.gerrit.pgm.init.InitUtil.die;
 import static com.google.gerrit.pgm.init.InitUtil.extract;
 import static com.google.gerrit.pgm.init.InitUtil.mkdir;
 import static com.google.gerrit.pgm.init.InitUtil.savePublic;
-import static com.google.gerrit.pgm.init.InitUtil.saveSecure;
 import static com.google.gerrit.pgm.init.InitUtil.version;
 
 import com.google.gerrit.pgm.BaseInit;
@@ -40,15 +39,18 @@ public class SitePathInitializer {
   private final ConsoleUI ui;
   private final InitFlags flags;
   private final SitePaths site;
-  private final List<InitStep> steps;
+  private final InitSecureStore initSecureStore;
+
+  private List<InitStep> steps;
 
   @Inject
-  public SitePathInitializer(final Injector injector, final ConsoleUI ui,
+  public SitePathInitializer(final Injector injector,
+      final InitSecureStore initSecureStore, final ConsoleUI ui,
       final InitFlags flags, final SitePaths site) {
     this.ui = ui;
     this.flags = flags;
     this.site = site;
-    this.steps = stepsOf(injector);
+    this.initSecureStore = initSecureStore;
   }
 
   public void run() throws Exception {
@@ -74,6 +76,8 @@ public class SitePathInitializer {
     mkdir(site.plugins_dir);
     mkdir(site.data_dir);
 
+    Injector withSecureStore = initSecureStore.init();
+    steps = stepsOf(withSecureStore);
     for (InitStep step : steps) {
       if (step instanceof InitPlugins
           && flags.skipPlugins) {
@@ -83,7 +87,6 @@ public class SitePathInitializer {
     }
 
     savePublic(flags.cfg);
-    saveSecure(flags.sec);
 
     extract(site.gerrit_sh, BaseInit.class, "gerrit.sh");
     chmod(0755, site.gerrit_sh);

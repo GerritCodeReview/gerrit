@@ -20,14 +20,16 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.common.PluginData;
 import com.google.gerrit.pgm.init.InitFlags;
-import com.google.gerrit.pgm.init.InitModule;
+import com.google.gerrit.pgm.init.InitPlugins;
 import com.google.gerrit.pgm.init.InstallPlugins;
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -45,6 +47,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.Message;
 
@@ -53,6 +57,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -102,6 +107,7 @@ public class BaseInit extends SiteProgram {
 
     init.flags.autoStart = getAutoStart() && init.site.isNew;
     init.flags.skipPlugins = skipPlugins();
+    init.flags.secureStorePath = secureStorePath();
 
     final SiteRun run;
     try {
@@ -131,6 +137,10 @@ public class BaseInit extends SiteProgram {
 
   protected boolean skipPlugins() {
     return false;
+  }
+
+  protected String secureStorePath() {
+    return null;
   }
 
   protected boolean beforeInit(SiteInit init) throws Exception {
@@ -187,7 +197,6 @@ public class BaseInit extends SiteProgram {
     final File sitePath = getSitePath();
     final List<Module> m = new ArrayList<>();
 
-    m.add(new InitModule(standalone, initDb));
     m.add(new AbstractModule() {
       @Override
       protected void configure() {
@@ -199,7 +208,14 @@ public class BaseInit extends SiteProgram {
             InstallPlugins.class).toInstance(plugins);
         bind(PluginsDistribution.class).toInstance(pluginsDistribution);
       }
+
+      @Provides
+      @Singleton
+      List<PluginData> getPlugins(SitePaths site) throws IOException {
+        return InitPlugins.listPlugins(site, pluginsDistribution);
+      }
     });
+    m.add(new GerritServerConfigModule());
 
     try {
       return Guice.createInjector(PRODUCTION, m).getInstance(SiteInit.class);

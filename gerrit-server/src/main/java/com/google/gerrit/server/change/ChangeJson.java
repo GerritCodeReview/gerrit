@@ -351,11 +351,6 @@ public class ChangeJson {
       return null;
     }
 
-    PatchSet ps = cd.currentPatchSet(db);
-    if (ps == null) {
-      return null;
-    }
-
     LabelTypes labelTypes = ctl.getLabelTypes();
     if (cd.getChange().getStatus().isOpen()) {
       return labelsForOpenChange(cd, labelTypes, standard, detailed);

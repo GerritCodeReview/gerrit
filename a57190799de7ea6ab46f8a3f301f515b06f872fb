@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13923312_dfc45b84",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-07-18T05:51:23Z",
+      "side": 1,
+      "message": "why that extra statement?\n\ninstead use:\n\n ProjectApi.getConfig(getProjectKey(), cbg.addFinal(...",
+      "revId": "a57190799de7ea6ab46f8a3f301f515b06f872fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

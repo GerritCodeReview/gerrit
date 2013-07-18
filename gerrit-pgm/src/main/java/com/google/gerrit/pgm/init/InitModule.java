@@ -14,12 +14,17 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.common.PluginData;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 /** Injection configuration for the site initialization process. */
 public class InitModule extends FactoryModule {
@@ -35,7 +40,6 @@ public class InitModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(SitePaths.class);
-    bind(InitFlags.class);
     bind(Libraries.class);
     bind(LibraryDownloader.class);
     factory(Section.Factory.class);
@@ -64,5 +68,12 @@ public class InitModule extends FactoryModule {
   protected LinkedBindingBuilder<InitStep> step() {
     final Annotation id = UniqueAnnotations.create();
     return bind(InitStep.class).annotatedWith(id);
+  }
+
+  @Provides
+  @Singleton
+  List<PluginData> getPlugins(SitePaths site,
+      PluginsDistribution pluginsDistribution) throws IOException {
+    return InitPlugins.listPlugins(site, pluginsDistribution);
   }
 }

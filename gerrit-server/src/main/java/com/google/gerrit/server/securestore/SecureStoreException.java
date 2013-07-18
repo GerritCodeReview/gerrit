@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.util;
+package com.google.gerrit.server.securestore;
 
-public class Die extends RuntimeException {
-  private static final long serialVersionUID = 1L;
+public class SecureStoreException extends RuntimeException {
+  private static final long serialVersionUID = 5581700510568485065L;
 
-  public Die(final String why) {
-    super(why);
+  SecureStoreException(String msg) {
+    super(msg);
   }
 
-  public Die(final String why, final Throwable cause) {
-    super(why, cause);
+  SecureStoreException(String msg, Exception e) {
+    super(msg, e);
   }
 }

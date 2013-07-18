@@ -15,7 +15,6 @@ java_library(
   name = 'init-api',
   srcs = INIT_API_SRCS,
   deps = [
-    '//gerrit-extension-api:api',
     '//gerrit-common:annotations',
     '//gerrit-common:server',
     '//gerrit-reviewdb:server',
@@ -25,6 +24,7 @@ java_library(
     '//lib/guice:guice-assistedinject',
     '//lib/jgit:jgit',
   ],
+  exported_deps = ['//gerrit-extension-api:api'],
   visibility = ['PUBLIC'],
 )
 

@@ -14,30 +14,40 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.common.PluginData;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 /** Injection configuration for the site initialization process. */
 public class InitModule extends FactoryModule {
 
   private final boolean standalone;
   private final boolean initDb;
+  private final PluginsDistribution pluginsDistribution;
 
-  public InitModule(boolean standalone, boolean initDb) {
+  public InitModule(boolean standalone, boolean initDb,
+      PluginsDistribution pluginsDistribution) {
     this.standalone = standalone;
     this.initDb = initDb;
+    this.pluginsDistribution = pluginsDistribution;
   }
 
   @Override
   protected void configure() {
+    install(new GerritServerConfigModule());
     bind(SitePaths.class);
-    bind(InitFlags.class);
     bind(Libraries.class);
     bind(LibraryDownloader.class);
+    bind(PluginsDistribution.class).toInstance(pluginsDistribution);
     factory(Section.Factory.class);
 
     // Steps are executed in the order listed here.

@@ -47,6 +47,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.AnchorElement;
@@ -271,6 +272,22 @@ public class ChangeScreen2 extends Screen {
         public void onFailure(Throwable caught) {
         }
       }));
+
+    if (Gerrit.isSignedIn()) {
+      ChangeApi.revision(changeId.get(), rev.name())
+        .view("files")
+        .addParameterTrue("reviewed")
+        .get(group.add(new AsyncCallback<JsArrayString>() {
+            @Override
+            public void onSuccess(JsArrayString result) {
+              files.markReviewed(result);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+          }));
+    }
   }
 
   private void loadCommit(final RevisionInfo rev, CallbackGroup group) {

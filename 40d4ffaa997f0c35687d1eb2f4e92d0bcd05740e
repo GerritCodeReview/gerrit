@@ -16,6 +16,24 @@
       "revId": "40d4ffaa997f0c35687d1eb2f4e92d0bcd05740e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b37967b7_34f6d012",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/diff/ReviewedPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-18T00:22:54Z",
+      "side": 0,
+      "message": "If setReviewed is only invoked by the onValueChange handler, no. The checkbox will update its own UI state when the value is modified.\n\nIf you are calling this elsewhere then yes you would need to update the checkbox. But why would another location be firing the RPC and updating the checkbox state?",
+      "parentUuid": "1344f355_af493962",
+      "revId": "40d4ffaa997f0c35687d1eb2f4e92d0bcd05740e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

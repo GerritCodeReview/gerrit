@@ -153,12 +153,22 @@ class SkipBar extends Composite {
 
   private void expandAfter() {
     FromTo fromTo = marker.find();
+    int start = fromTo.getFrom().getLine();
     int oldEnd = fromTo.getTo().getLine();
     int newEnd = oldEnd - NUM_ROWS_TO_EXPAND;
     marker.clear();
-    marker = cm.markText(CodeMirror.pos(fromTo.getFrom().getLine()),
-        CodeMirror.pos(newEnd),
-        COLLAPSED);
+    if (widget == null) { // First line workaround
+      marker = cm.markText(CodeMirror.pos(-1),
+          CodeMirror.pos(newEnd),
+          Configuration.create()
+            .set("inclusiveLeft", true)
+            .set("inclusiveRight", true)
+            .set("replacedWith", getElement()));
+    } else {
+      marker = cm.markText(CodeMirror.pos(start),
+          CodeMirror.pos(newEnd),
+          COLLAPSED);
+    }
     updateSkipNum();
     cm.focus();
   }

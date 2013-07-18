@@ -418,6 +418,8 @@ public class ChangeScreen2 extends Screen {
     for (Integer i : r.keySet()) {
       cc.remove(i);
     }
+    r.remove(info.owner()._account_id());
+    cc.remove(info.owner()._account_id());
     reviewersText.setInnerSafeHtml(labels.formatUserList(r.values()));
     ccText.setInnerSafeHtml(labels.formatUserList(cc.values()));
   }

@@ -25,7 +25,6 @@ java_library2(
     '//gerrit-antlr:query_parser',
     '//gerrit-common:annotations',
     '//gerrit-common:server',
-    '//gerrit-extension-api:api',
     '//gerrit-patch-commonsnet:commons-net',
     '//gerrit-patch-jgit:server',
     '//gerrit-prettify:server',
@@ -106,6 +105,7 @@ java_library(
     '//lib/log:log4j',
   ],
   exported_deps = [
+    '//gerrit-extension-api:api',
     '//lib:easymock',
     '//lib:powermock-api-easymock',
     '//lib:powermock-api-support',

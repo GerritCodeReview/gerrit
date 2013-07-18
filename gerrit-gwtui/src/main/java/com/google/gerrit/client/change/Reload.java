@@ -18,16 +18,20 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 
 class Reload extends Image implements ClickHandler,
     MouseOverHandler, MouseOutHandler {
+  private static final HyperlinkImpl link = GWT.create(HyperlinkImpl.class);
   private Change.Id changeId;
   private boolean in;
 
@@ -64,7 +68,10 @@ class Reload extends Image implements ClickHandler,
 
   @Override
   public void onClick(ClickEvent e) {
-    e.preventDefault();
-    e.stopPropagation();
+    if (link.handleAsClick(e.getNativeEvent().<Event> cast())) {
+      e.preventDefault();
+      e.stopPropagation();
+      reload();
+    }
   }
 }

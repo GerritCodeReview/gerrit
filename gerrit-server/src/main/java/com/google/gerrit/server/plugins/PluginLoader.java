@@ -91,6 +91,10 @@ public class PluginLoader implements LifecycleListener {
   private final PluginScannerThread scanner;
   private final Provider<String> urlProvider;
 
+  public static String getPluginName(File srcFile) throws IOException {
+    return Objects.firstNonNull(getGerritPluginName(srcFile), nameOf(srcFile));
+  }
+
   @Inject
   public PluginLoader(SitePaths sitePaths,
       PluginGuiceEnvironment pe,
@@ -730,8 +734,7 @@ public class PluginLoader implements LifecycleListener {
       throws IOException {
     Multimap<String, File> map = LinkedHashMultimap.create();
     for (File srcFile : plugins) {
-      map.put(Objects.firstNonNull(getGerritPluginName(srcFile),
-          nameOf(srcFile)), srcFile);
+      map.put(getPluginName(srcFile), srcFile);
     }
     return map;
   }

@@ -38,10 +38,12 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
@@ -77,6 +79,15 @@ public class JarScanner {
     public String getClassName() {
       return className;
     }
+  }
+
+  public static Iterable<ExtensionMetaData> scan(File file, String pluginName,
+      Class<? extends Annotation> annotation) throws InvalidPluginException,
+      IOException {
+    Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> result =
+        scan(new JarFile(file), pluginName,
+            Arrays.<Class<? extends Annotation>> asList(annotation));
+    return result.get(annotation);
   }
 
   public static Map<Class<? extends Annotation>, Iterable<ExtensionMetaData>> scan(

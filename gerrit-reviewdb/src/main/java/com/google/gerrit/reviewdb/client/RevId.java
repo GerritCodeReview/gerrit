@@ -54,4 +54,17 @@ public final class RevId {
     revEnd.append('z');
     return new RevId(revEnd.toString());
   }
+
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof RevId) {
+      return id.equals(((RevId) o).id);
+    }
+    return false;
+  }
 }

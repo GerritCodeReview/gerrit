@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b37967b7_74bd28ff",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/restapi/RestResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-19T16:30:16Z",
+      "side": 1,
+      "message": "Is static necessary here?",
+      "revId": "b08d4a5803ecad1088ab5214970fabdb22ada5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f36bdffb_f6324001",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2013-07-19T16:30:16Z",
+      "side": 1,
+      "message": "Why is this rounding necessary? Just a guess, clock skew?",
+      "revId": "b08d4a5803ecad1088ab5214970fabdb22ada5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

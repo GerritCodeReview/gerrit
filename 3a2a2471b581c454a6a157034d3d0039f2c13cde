@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d37c1ba6_bb608fa7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T16:03:11Z",
+      "side": 1,
+      "message": "Since MergeOp never calls getLastSha1MergeTested I fail to see why it cares that this information is now stale.\n\nSince MergeOp never calls setLastSha1MergeTested I fail to see why it cares that this information is stale.\n\nIts true that when this merge tested feature was added it never handled the project submit type being changed, admins would have to kill these records by hand in the database to force them to recompute.  Things got worse with the new rules selecting per change.\n\nOne way to fix this is to add a new database column that caches the SHA-1 from the project\u0027s refs/meta/config. If either SHA-1 is incorrect then we know the test is stale. Unfortunately this does not account for inheritance. Caching is hard.\n\nI don\u0027t know how slow this merge test is in practice. If its fast enough maybe we can try to avoid caching the data. ChangeScreen2 loads it in the background after the UI is visible, but it must finish loading in order to enable the Submit button.",
+      "parentUuid": "3352d751_78f10119",
+      "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3352d751_18ec4541",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b37967b7_b4cbc08f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T16:03:11Z",
+      "side": 1,
+      "message": "If you read the rest of the change you would see I deleted verifyMergeability(). I can\u0027t use MergeOp from a REST API. The Guice dependency stack is a nightmare to run in this global scope with no request present. I struggled with fixing it for a few hours and gave up. My solution was to rip the code out of MergeOp and hoist it into the REST API, then use the REST API in the existing old RPC location, which is the only caller of verifyMergeability().\n\nSo the code is still only in one location, but its here instead of MergeOp. Unless it was already duplicated in MergeOp, in which case we still have the same number of copies.",
+      "parentUuid": "3352d751_18ec4541",
+      "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f36bdffb_56f69412",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2013-07-19T06:41:09Z",
       "side": 1,
       "message": "I know, in MergeOp we also use the submit type from the project to verify the mergeability, but actually we should use the submit type for that change, which could be different from the default submit type set on the project. If this ever gets fixed, we now need to fix it in two places.",
+      "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d37c1ba6_9b6353b4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-07-19T16:03:11Z",
+      "side": 1,
+      "message": "Apparently misread this code. I use the submit_type REST API to get the submit type based on project rules. This is an existing public API that runs project rules to acquire the correct type for the change.\n\nThe submit_type API is implemented in TestSubmitType.Get. MergeOp should probably switch to using the REST API so there is only one implementation executing the project rules. But we are running the rules, and we are using the external API that clients depend upon. I would argue its MergeOp that is now broken by not using that same implementation.",
+      "parentUuid": "f36bdffb_56f69412",
       "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

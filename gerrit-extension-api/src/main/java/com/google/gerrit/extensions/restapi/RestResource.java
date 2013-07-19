@@ -28,4 +28,9 @@ public interface RestResource {
   public interface HasLastModified {
     public Timestamp getLastModified();
   }
+
+  /** A resource with an ETag. */
+  public interface HasETag {
+    public String getETag();
+  }
 }

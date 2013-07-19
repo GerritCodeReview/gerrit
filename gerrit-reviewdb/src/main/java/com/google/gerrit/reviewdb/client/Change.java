@@ -431,6 +431,10 @@ public final class Change {
     lastUpdatedOn = now;
   }
 
+  public int getRowVersion() {
+    return rowVersion;
+  }
+
   public void resetLastUpdatedOn() {
     lastUpdatedOn = new Timestamp(System.currentTimeMillis());
   }

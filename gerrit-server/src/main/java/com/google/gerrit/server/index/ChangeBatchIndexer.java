@@ -17,8 +17,8 @@ package com.google.gerrit.server.index;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.AsyncFunction;
 import com.google.common.util.concurrent.Futures;
@@ -39,8 +39,10 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -137,7 +139,7 @@ public class ChangeBatchIndexer {
     final AtomicBoolean ok = new AtomicBoolean(true);
 
     for (final Project.NameKey project : projects) {
-      final ListenableFuture<?> future = executor.submit(new ReindexProject(
+      final ListenableFuture<?> future = executor.submit(reindexProject(
           indexerFactory.create(index), project, doneTask, failedTask,
           verboseWriter));
       futures.add(future);
@@ -192,53 +194,68 @@ public class ChangeBatchIndexer {
     return new Result(sw, ok.get(), doneTask.getCount(), failedTask.getCount());
   }
 
-  private class ReindexProject implements Callable<Void> {
+  private Callable<Void> reindexProject(final ChangeIndexer indexer,
+      final Project.NameKey project, final Task done, final Task failed,
+      final PrintWriter verboseWriter) {
+    return new Callable<Void>() {
+      @Override
+      public Void call() throws Exception {
+        Multimap<ObjectId, ChangeData> byId = ArrayListMultimap.create();
+        ReviewDb db = schemaFactory.open();
+        try {
+          Repository repo = repoManager.openRepository(project);
+          try {
+            Map<String, Ref> refs = repo.getAllRefs();
+            for (Change c : db.changes().byProject(project)) {
+              Ref r = refs.get(c.currentPatchSetId().toRefName());
+              if (r != null) {
+                byId.put(r.getObjectId(), new ChangeData(c));
+              }
+            }
+            new ProjectIndexer(indexer, byId, repo, done, failed, verboseWriter)
+                .call();
+          } finally {
+            repo.close();
+            // TODO(dborowitz): Opening all repositories in a live server may be
+            // wasteful; see if we can determine which ones it is safe to close
+            // with RepositoryCache.close(repo).
+          }
+        } finally {
+          db.close();
+        }
+        return null;
+      }
+    };
+  }
+
+  public static class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
-    private final Project.NameKey project;
-    private final ListMultimap<ObjectId, ChangeData> byId;
-    private final Task done;
-    private final Task failed;
+    private final Multimap<ObjectId, ChangeData> byId;
+    private final ProgressMonitor done;
+    private final ProgressMonitor failed;
     private final PrintWriter verboseWriter;
-    private Repository repo;
+    private final Repository repo;
     private RevWalk walk;
 
-    private ReindexProject(ChangeIndexer indexer, Project.NameKey project,
-        Task done, Task failed, PrintWriter verboseWriter) {
+    public ProjectIndexer(ChangeIndexer indexer,
+        Multimap<ObjectId, ChangeData> changesByCommitId, Repository repo) {
+      this(indexer, changesByCommitId, repo,
+          NullProgressMonitor.INSTANCE, NullProgressMonitor.INSTANCE, null);
+    }
+
+    ProjectIndexer(ChangeIndexer indexer,
+        Multimap<ObjectId, ChangeData> changesByCommitId, Repository repo,
+        ProgressMonitor done, ProgressMonitor failed, PrintWriter verboseWriter) {
       this.indexer = indexer;
-      this.project = project;
-      this.byId = ArrayListMultimap.create();
+      this.byId = changesByCommitId;
+      this.repo = repo;
       this.done = done;
-      this.verboseWriter = verboseWriter;
       this.failed = failed;
+      this.verboseWriter = verboseWriter;
     }
 
     @Override
     public Void call() throws Exception {
-      ReviewDb db = schemaFactory.open();
-      try {
-        repo = repoManager.openRepository(project);
-        try {
-          Map<String, Ref> refs = repo.getAllRefs();
-          for (Change c : db.changes().byProject(project)) {
-            Ref r = refs.get(c.currentPatchSetId().toRefName());
-            if (r != null) {
-              byId.put(r.getObjectId(), new ChangeData(c));
-            }
-          }
-          walk();
-        } finally {
-          repo.close();
-        // TODO(dborowitz): Opening all repositories in a live server may be
-        // wasteful; see if we can determine which ones it is safe to close with
-        // RepositoryCache.close(repo).
-        }
-      } finally {
-        db.close();
-      }
-      return null;
-    }
-
-    private void walk() throws Exception {
       walk = new RevWalk(repo);
       try {
         // Walk only refs first to cover as many changes as we can without having
@@ -264,6 +281,7 @@ public class ChangeBatchIndexer {
       } finally {
         walk.release();
       }
+      return null;
     }
 
     private void getPathsAndIndex(RevCommit bCommit) throws Exception {

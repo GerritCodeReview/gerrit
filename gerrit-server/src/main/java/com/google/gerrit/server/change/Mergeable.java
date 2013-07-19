@@ -48,6 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -166,6 +167,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
         CodeReviewCommit tip = parse(rw, ref.getObjectId());
         Set<RevCommit> accepted = alreadyAccepted(rw, refs.values());
         accepted.add(tip);
+        accepted.addAll(Arrays.asList(rev.getParents()));
         mergeable = submitStrategyFactory.create(
             type,
             db.get(),

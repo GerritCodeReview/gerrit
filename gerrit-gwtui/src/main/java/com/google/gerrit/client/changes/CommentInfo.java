@@ -22,12 +22,18 @@ import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 import java.sql.Timestamp;
 
 public class CommentInfo extends JavaScriptObject {
-  public static CommentInfo create(String path, Side side, int line,
+  public static CommentInfo createLine(String path, Side side, int line,
+      String in_reply_to, String message) {
+    CommentInfo info = createFile(path, side, in_reply_to, message);
+    info.setLine(line);
+    return info;
+  }
+
+  public static CommentInfo createFile(String path, Side side,
       String in_reply_to, String message) {
     CommentInfo info = createObject().cast();
     info.setPath(path);
     info.setSide(side);
-    info.setLine(line);
     info.setInReplyTo(in_reply_to);
     info.setMessage(message);
     return info;

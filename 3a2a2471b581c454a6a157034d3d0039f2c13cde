@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3352d751_d8cbed8e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-19T16:34:43Z",
+      "side": 1,
+      "message": "When I said MergeOp, I\u0027ve meant the MergeOp.verifyMergability(...) method. I now see that this method was removed...\n\nIf performance is good enough removing the caching would be good. Alternatively we could also cache the submit type for which the mergable flag was computed and recompute it if we have another submit type when checking the mergeability.",
+      "parentUuid": "d37c1ba6_bb608fa7",
+      "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3352d751_18ec4541",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 3
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "f36bdffb_b628c893",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-19T16:34:43Z",
+      "side": 1,
+      "message": "I indeed missed that the you\u0027ve removed MergeOp.verifyMergeability() in this change. Then I don\u0027t see any issue, having the one implementation here looks good to me.",
+      "parentUuid": "b37967b7_b4cbc08f",
+      "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f36bdffb_56f69412",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
         "patchSetId": 3
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "Apparently misread this code. I use the submit_type REST API to get the submit type based on project rules. This is an existing public API that runs project rules to acquire the correct type for the change.\n\nThe submit_type API is implemented in TestSubmitType.Get. MergeOp should probably switch to using the REST API so there is only one implementation executing the project rules. But we are running the rules, and we are using the external API that clients depend upon. I would argue its MergeOp that is now broken by not using that same implementation.",
       "parentUuid": "f36bdffb_56f69412",
+      "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f36bdffb_9625ccbb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2013-07-19T16:34:43Z",
+      "side": 1,
+      "message": "Yep, I misread this code. MergeOp uses the correct submitType for merging, I thought that for computing the mergeable flag in verifyMergeability() it was always using the default submit type of the project (actually not sure anymore), but since this method was removed, it\u0027s all good now.",
+      "parentUuid": "d37c1ba6_9b6353b4",
       "revId": "3a2a2471b581c454a6a157034d3d0039f2c13cde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

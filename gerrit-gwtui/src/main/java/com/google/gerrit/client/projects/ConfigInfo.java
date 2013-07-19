@@ -15,6 +15,7 @@
 package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwtexpui.safehtml.client.FindReplace;
@@ -25,24 +26,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigInfo extends JavaScriptObject {
-  public final native JavaScriptObject has_require_change_id()
-  /*-{ return this.hasOwnProperty('require_change_id'); }-*/;
-  public final native boolean require_change_id()
+  public final native InheritedBooleanInfo require_change_id()
   /*-{ return this.require_change_id; }-*/;
 
-  public final native JavaScriptObject has_use_content_merge()
-  /*-{ return this.hasOwnProperty('use_content_merge'); }-*/;
-  public final native boolean use_content_merge()
+  public final native InheritedBooleanInfo use_content_merge()
   /*-{ return this.use_content_merge; }-*/;
 
-  public final native JavaScriptObject has_use_contributor_agreements()
-  /*-{ return this.hasOwnProperty('use_contributor_agreements'); }-*/;
-  public final native boolean use_contributor_agreements()
+  public final native InheritedBooleanInfo use_contributor_agreements()
   /*-{ return this.use_contributor_agreements; }-*/;
 
-  public final native JavaScriptObject has_use_signed_off_by()
-  /*-{ return this.hasOwnProperty('use_signed_off_by'); }-*/;
-  public final native boolean use_signed_off_by()
+  public final native InheritedBooleanInfo use_signed_off_by()
   /*-{ return this.use_signed_off_by; }-*/;
 
   private final native NativeMap<CommentLinkInfo> commentlinks0()
@@ -78,6 +71,23 @@ public class ConfigInfo extends JavaScriptObject {
     }-*/;
 
     protected CommentLinkInfo() {
+    }
+  }
+
+  public static class InheritedBooleanInfo extends JavaScriptObject {
+    public final native boolean value()
+    /*-{ return this.value ? true : false; }-*/;
+
+    public final native boolean inherited_value()
+    /*-{ return this.inherited_value ? true : false; }-*/;
+
+    public final InheritableBoolean configured_value() {
+      return InheritableBoolean.valueOf(configured_valueRaw());
+    }
+    private final native String configured_valueRaw()
+    /*-{ return this.configured_value }-*/;
+
+    protected InheritedBooleanInfo() {
     }
   }
 }

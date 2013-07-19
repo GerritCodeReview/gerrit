@@ -161,6 +161,12 @@ public class CodeMirror extends JavaScriptObject {
     }));
   }-*/;
 
+  public final native void on(String event, RenderLineHandler handler) /*-{
+    this.on(event, $entry(function(cm, h, ele) {
+      handler.@net.codemirror.lib.CodeMirror.RenderLineHandler::handle(Lnet/codemirror/lib/CodeMirror;Lnet/codemirror/lib/CodeMirror$LineHandle;Lcom/google/gwt/dom/client/Element;)(cm, h, ele);
+    }));
+  }-*/;
+
   public final native LineCharacter getCursor() /*-{
     return this.getCursor();
   }-*/;
@@ -250,5 +256,9 @@ public class CodeMirror extends JavaScriptObject {
 
   public interface EventHandler {
     public void handle(CodeMirror instance, NativeEvent event);
+  }
+
+  public interface RenderLineHandler {
+    public void handle(CodeMirror instance, LineHandle handle, Element element);
   }
 }
